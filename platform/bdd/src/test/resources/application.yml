@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: city.smartb.registry.infra.postgresql.AvPostgresDialect
+    hibernate:
+      ddl-auto: update
+
+i2:
+  issuers:
+    -
+      name: alveole-test
+      authUrl: https://dev.app.alveoleplus.fr/auth/
+      realm: alveole-test
+      web:
+        clientId: alveole-web
+      im:
+        clientId: alveole-api
+        clientSecret: 9d9fb7aa-9c31-4c1a-b312-71a93dce0d68
+
+fs:
+  url: http://localhost:8090
+
+im:
+  organization:
+    insee:
+      token: c6ef3de5-3ef1-330a-8917-21f6750dcb09
+      sirene-api: https://api.insee.fr/entreprises/sirene/V3
+
+platform:
+  organization:
+    rna-api: https://entreprise.data.gouv.fr/api/rna/v1
+  sendinblue:
+    token: fake
+    from: no-reply@alveoleplus.fr
+    contact-list: 2
+    sandbox: true
+  web:
+    baseUrl: https://app.alveoleplus.fr
+    routerPath: redirect

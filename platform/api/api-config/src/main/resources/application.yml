@@ -1,0 +1,67 @@
+server:
+  port: 8070
+
+spring:
+  codec:
+    max-in-memory-size: 10MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  webflux:
+    base-path: /api
+
+im:
+  organization:
+    insee:
+      token: c6ef3de5-3ef1-330a-8917-21f6750dcb09
+      sirene-api: https://api.insee.fr/entreprises/sirene/V3
+
+i2:
+  issuers:
+    -
+      name: program-dev
+      authUrl: https://auth.smart-b.io/auth/
+      realm: program-dev
+      web:
+        clientId: program-web
+      im:
+        clientId: program-api
+        clientSecret: b263334b-21bc-4cc1-894b-eecec5a3af0c
+
+platform:
+  web:
+    baseUrl: https://app.alveoleplus.fr
+    routerPath: redirect
+
+---
+spring:
+  config:
+    activate:
+      on-profile: init
+
+server:
+  port: 8000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+i2:
+  issuers:
+    -
+      name: local
+      authUrl: http://localhost:8080/auth/
+      realm: alveole
+      web:
+        clientId: alveole-web
+      im:
+        clientId: alveole-api
+        clientSecret: 41a03e55-93c1-488d-9696-8df23e86a2a5
+
+platform:
+  web:
+    baseUrl: http://localhost:3000
+
