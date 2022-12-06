@@ -3,7 +3,7 @@ package city.smartb.registry.program.bdd.assertion
 import city.smartb.registry.program.api.commons.auth.UserId
 import city.smartb.registry.program.s2.project.api.entity.project.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.project.ProjectRepository
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import org.assertj.core.api.Assertions
 

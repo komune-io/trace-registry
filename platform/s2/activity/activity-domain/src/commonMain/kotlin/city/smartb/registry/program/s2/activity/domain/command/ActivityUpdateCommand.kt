@@ -4,9 +4,9 @@ import city.smartb.im.organization.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityCommand
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityEvent
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
-import city.smartb.registry.program.s2.activity.domain.model.Activity
 import city.smartb.registry.program.s2.activity.domain.model.ActivityDTO
 import city.smartb.registry.program.s2.activity.domain.model.ActivityId
+import city.smartb.registry.program.s2.activity.domain.model.ActivityRef
 import city.smartb.registry.program.s2.activity.domain.model.DateTime
 import city.smartb.registry.program.s2.activity.domain.model.ProjectRef
 import city.smartb.registry.program.s2.activity.domain.model.ProtocolRef
@@ -36,7 +36,7 @@ data class ActivityUpdateCommand(
     override val protocol: ProtocolRef,
     override val slug: String,
     override val status: ActivityState,
-    override val subActivityOf: Activity,
+    override val subActivityOf: ActivityRef,
     override val validator: OrganizationRef,
     override val validationDate: DateTime,
     override val verifiable: Boolean,

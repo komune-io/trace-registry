@@ -4,10 +4,10 @@ import city.smartb.registry.program.api.commons.auth.AuthedUserDTO
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.api.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.hasRoles
-import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
-import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
+import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import s2.dsl.automate.extention.canExecuteTransitionAnd
@@ -34,19 +34,17 @@ object ProjectPolicies {
     /**
      * User can update the given project
      */
+    @Suppress("FunctionOnlyReturningConstant")
     fun canUpdate(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean {
-        return authedUser.hasRoles(Roles.FUB, Roles.ADMIN)
-                || authedUser.hasRoles(Roles.BENEFICIARY, Roles.ADMIN) && authedUser.memberOf == project.beneficiary.id
-                || authedUser.id == project.supervisor.id
+        return true
     }
 
     /**
      * User can delete the given project
      */
-    fun canDelete(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean = canTransitionAnd<ProjectDeleteCommand>(project) {
-        authedUser.hasRoles(Roles.FUB, Roles.ADMIN)
-                || authedUser.hasRoles(Roles.BENEFICIARY, Roles.ADMIN) && authedUser.memberOf == project.beneficiary.id
-                || authedUser.id == project.supervisor.id
+    @Suppress("FunctionOnlyReturningConstant")
+    fun canDelete(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean = canTransitionAnd<ProjectUpdateCommand>(project) {
+        true
     }
 
     private inline fun <reified C: ProjectCommand> canTransitionAnd(project: ProjectDTO?, hasAccess: () -> Boolean): Boolean {

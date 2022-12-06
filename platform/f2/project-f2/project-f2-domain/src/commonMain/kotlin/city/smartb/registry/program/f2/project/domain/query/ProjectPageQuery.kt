@@ -2,9 +2,9 @@ package city.smartb.registry.program.f2.project.domain.query
 
 import city.smartb.registry.program.api.commons.auth.OrganizationId
 import city.smartb.registry.program.api.commons.auth.UserId
+import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
-import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

@@ -2,7 +2,7 @@ package city.smartb.registry.program.bdd.data
 
 import city.smartb.registry.program.api.commons.auth.AuthedUser
 import f2.dsl.cqrs.Event
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.task.domain.model.TaskId
 import org.springframework.stereotype.Component
 

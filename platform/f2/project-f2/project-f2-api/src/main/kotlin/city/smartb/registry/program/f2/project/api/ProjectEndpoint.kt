@@ -59,18 +59,15 @@ class ProjectEndpoint(
     override fun projectCreate(): ProjectCreateFunction = f2Function { command ->
         logger.info("projectCreate: $command")
         projectPoliciesEnforcer.checkCreate()
-        command.copy(
-            supervisorId = projectPoliciesEnforcer.enforceProjectSupervisor(command.supervisorId)
-        ).let { projectF2AggregateService.create(it) }
+        projectF2AggregateService.create(command)
     }
+
 
     @Bean
     override fun projectUpdateDetails(): ProjectUpdateDetailsFunction = f2Function { command ->
         logger.info("projectUpdateDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
-        command.copy(
-            supervisorId = projectPoliciesEnforcer.enforceProjectSupervisor(command.supervisorId)
-        ).let { projectF2AggregateService.updateDetails(it) }
+        projectF2AggregateService.updateDetails(command)
     }
 
     @Bean

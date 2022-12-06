@@ -6,6 +6,7 @@ import com.redis.om.spring.annotations.Searchable
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
 import city.smartb.registry.program.s2.activity.domain.model.Activity
 import city.smartb.registry.program.s2.activity.domain.model.ActivityId
+import city.smartb.registry.program.s2.activity.domain.model.ActivityRef
 import city.smartb.registry.program.s2.activity.domain.model.DateTime
 import city.smartb.registry.program.s2.activity.domain.model.ProjectRef
 import city.smartb.registry.program.s2.activity.domain.model.ProtocolRef
@@ -38,15 +39,15 @@ open class ActivityEntity: WithS2Id<ActivityId>, WithS2State<ActivityState>  {
     var project: ProjectRef? = null
     var protocol: ProtocolRef? = null
     var slug: String? = null
-    var subActivityOf: Activity? = null
+    var subActivityOf: ActivityRef? = null
     var validator: OrganizationRef? = null
     var validationDate: DateTime? = null
     var verifiable: Boolean? = null
     var verifier: OrganizationRef? = null
     var verificationDate: DateTime? = null
-    var creator: UserRef? = null
-    var creationDate: DateTime? = null
-    var lastModificationDate: DateTime? = null
+    lateinit var creator: UserRef
+    var creationDate: DateTime = System.currentTimeMillis()
+    var lastModificationDate: DateTime = System.currentTimeMillis()
 
 
     lateinit var status: ActivityState

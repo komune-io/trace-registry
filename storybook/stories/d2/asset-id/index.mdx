@@ -1,0 +1,18 @@
+import AssetIdDesc from './desc.md'
+import AssetIdVisualJson from './visualJson.json'
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+
+<DescriptedCode
+  leftElement={<AssetIdDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={AssetIdVisualJson}
+      language={"json"}
+      title={"AssetId"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+---

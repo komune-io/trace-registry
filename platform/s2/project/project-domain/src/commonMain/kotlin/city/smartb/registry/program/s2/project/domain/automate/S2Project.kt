@@ -1,8 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
-import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateDetailsCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable
@@ -14,20 +13,18 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
 
-typealias ProjectId = String
-
 val s2Project = s2 {
 	name = "Project"
-	init<ProjectCreateCommand> {
+	init<ProjectUpdateCommand> {
 		to = ProjectState.DRAFT
 		role = ProjectRole.User
 	}
-	transaction<ProjectDeleteCommand> {
+	transaction<ProjectUpdateCommand> {
 		from = ProjectState.DRAFT
 		to = ProjectState.DELETED
 		role = ProjectRole.User
 	}
-	selfTransaction<ProjectUpdateDetailsCommand> {
+	selfTransaction<ProjectUpdateCommand> {
 		states += ProjectState.DRAFT
 		role = ProjectRole.User
 	}

@@ -1,10 +1,10 @@
 package city.smartb.registry.program.s2.activity.api.config
 
-import city.smartb.registry.program.s2.activity.api.entity.activity.ActivityEntity
-import city.smartb.registry.program.s2.activity.api.entity.activity.ActivityRepository
-import city.smartb.registry.program.s2.activity.domain.automate.ActivityId
+import city.smartb.registry.program.s2.activity.api.entity.ActivityEntity
+import city.smartb.registry.program.s2.activity.api.entity.ActivityRepository
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
 import city.smartb.registry.program.s2.activity.domain.automate.s2Activity
+import city.smartb.registry.program.s2.activity.domain.model.ActivityId
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.data.S2SpringDataConfigurerAdapter

@@ -1,0 +1,23 @@
+{
+  "id" : "1669154596778x977338172286597000",
+  "status" : [ "Issued", "Assigned", "Retired" ],
+  "issuanceDate" : 1670255851,
+  "vintageStart" : 1670255851,
+  "vintageEnd" : 1670255851,
+  "totalVintageQuantity" : 1670255851,
+  "creditStatus" : "Issued",
+  "creditsIssuedToBufferPool" : "10",
+  "quantityIssued" : 69502,
+  "serialNumber" : "13557-513004457-513073958-VCS-VCU-1289-VER-TZ-1-2366-16042021-15102021-0",
+  "retirementDate" : 1670255851,
+  "retirementDetails" : "The details",
+  "retirementReason" : "The reason",
+  "exPostUnitPrice" : 100,
+  "exAnteUnitPrice" : 10,
+  "slug" : "/app/projectDetail/VCS/2366",
+  "additionalCertifications" : "Additional certification",
+  "arbEligible" : "true",
+  "eligibleForCORSIA" : "true",
+  "retiredForCORSIA" : "true",
+  "aeroplaneOperatorName" : "aeroplaneOperatorName"
+}

@@ -9,14 +9,12 @@ import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.api.commons.auth.hasRoles
 import city.smartb.registry.program.f2.project.domain.policy.ProjectPolicies
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateDetailsCommand
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import org.springframework.stereotype.Service
 
 @Service
 class ProjectPoliciesEnforcer(
     private val projectF2FinderService: ProjectF2FinderService,
-//    private val userFinderService: UserFinderService
 ): PolicyEnforcer() {
     suspend fun checkList() = check("list the projects") { authedUser ->
         ProjectPolicies.canList(authedUser)
@@ -34,14 +32,6 @@ class ProjectPoliciesEnforcer(
     suspend fun checkDelete(projectId: ProjectId) = check("delete the project [$projectId]") { authedUser ->
         val project = projectF2FinderService.get(projectId)
         ProjectPolicies.canDelete(authedUser, project)
-    }
-
-    suspend fun enforceProjectSupervisor(wantedSupervisorId: UserId?): UserId {
-        val authedUser = AuthenticationProvider.getAuthedUser()
-
-
-        return wantedSupervisorId
-            ?: authedUser.id
     }
 
     suspend fun enforceFilters(query: ProjectPageQuery) = query.copy(

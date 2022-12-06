@@ -3,8 +3,8 @@ package city.smartb.registry.program.s2.activity.api.query
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import city.smartb.registry.program.api.commons.model.Match
-import city.smartb.registry.program.s2.activity.api.entity.activity.ActivityEntity
-import city.smartb.registry.program.s2.activity.domain.automate.ActivityId
+import city.smartb.registry.program.s2.activity.api.entity.ActivityEntity
+import city.smartb.registry.program.s2.activity.domain.model.ActivityId
 import org.springframework.stereotype.Repository
 
 @Repository

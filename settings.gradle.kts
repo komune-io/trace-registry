@@ -8,7 +8,7 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "av-platform"
+rootProject.name = "registry-program"
 
 include(
 	"debug:db-verification",

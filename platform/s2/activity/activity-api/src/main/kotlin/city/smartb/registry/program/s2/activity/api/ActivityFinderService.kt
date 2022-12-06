@@ -6,8 +6,8 @@ import city.smartb.registry.program.s2.activity.api.entity.ActivityEntity
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import city.smartb.registry.program.s2.activity.api.entity.activity.ActivityRepository
-import city.smartb.registry.program.s2.activity.api.entity.activity.toActivity
+import city.smartb.registry.program.s2.activity.api.entity.ActivityRepository
+import city.smartb.registry.program.s2.activity.api.entity.toActivity
 import city.smartb.registry.program.s2.activity.api.query.ActivityPageQueryDB
 import city.smartb.registry.program.s2.activity.domain.ActivityFinder
 import city.smartb.registry.program.s2.activity.domain.model.Activity

@@ -1,0 +1,18 @@
+import ActivityIdDesc from './desc.md'
+import ActivityIdVisualJson from './visualJson.json'
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+
+<DescriptedCode
+  leftElement={<ActivityIdDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityIdVisualJson}
+      language={"json"}
+      title={"ActivityId"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+---

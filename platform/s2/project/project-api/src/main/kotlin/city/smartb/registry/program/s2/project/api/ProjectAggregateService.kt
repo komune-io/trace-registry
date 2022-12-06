@@ -2,14 +2,12 @@ package city.smartb.registry.program.s2.project.api
 
 import city.smartb.registry.program.s2.project.api.config.ProjectAutomateExecutor
 import city.smartb.registry.program.s2.project.api.entity.project.ProjectEntity
+import city.smartb.registry.program.s2.project.api.entity.project.applyCmd
+import city.smartb.registry.program.s2.project.api.entity.project.toProject
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
-import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateDetailsCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedDetailsEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import java.util.UUID
 import org.springframework.stereotype.Service
 
@@ -18,32 +16,25 @@ class ProjectAggregateService(
 	private val automate: ProjectAutomateExecutor,
 ): ProjectAggregate {
 
-	override suspend fun create(command: ProjectCreateCommand): ProjectCreatedEvent = automate.createWithEvent(command) {
-		val entity = ProjectEntity().apply {
-			id = UUID.randomUUID().toString()
-			status = ProjectState.DRAFT
-			name = command.name
-			beneficiaryId = command.beneficiaryId
-			supervisorId = command.supervisorId
-		}
-		entity to ProjectCreatedEvent(
+	override suspend fun create(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.createWithEvent(cmd) {
+		val entity = cmd.toProject()
+		entity to ProjectUpdatedEvent(
 			id = entity.id,
-			createdBy = command.createdBy
 		)
 	}
 
-	override suspend fun delete(command: ProjectDeleteCommand) = automate.doTransition(command) {
+	override suspend fun delete(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.doTransition(cmd) {
+		applyCmd(cmd)
 		status = ProjectState.DELETED
-		this to ProjectDeletedEvent(
+		this to ProjectUpdatedEvent(
 			id = id,
-			deletedBy = command.deletedBy
 		)
 	}
 
-	override suspend fun updateDetails(command: ProjectUpdateDetailsCommand) = automate.doTransition(command) {
-		friendlyId = UUID.randomUUID().toString()
-		name = command.name
-		supervisorId = command.supervisorId
-		this to ProjectUpdatedDetailsEvent(id)
+	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.doTransition(cmd) {
+		applyCmd(cmd)
+		this to ProjectUpdatedEvent(
+			id = id,
+		)
 	}
 }

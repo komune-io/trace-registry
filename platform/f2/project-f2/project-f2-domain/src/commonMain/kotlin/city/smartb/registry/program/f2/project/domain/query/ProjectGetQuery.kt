@@ -1,9 +1,9 @@
 package city.smartb.registry.program.f2.project.domain.query
 
+import city.smartb.registry.program.s2.project.domain.model.Project
+import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import f2.dsl.fnc.F2Function
-import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
-import city.smartb.registry.program.f2.project.domain.model.ProjectDTOBase
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -38,5 +38,5 @@ interface ProjectGetResultDTO {
 }
 
 data class ProjectGetResult(
-    override val item: ProjectDTOBase?
+    override val item: Project?
 ): ProjectGetResultDTO

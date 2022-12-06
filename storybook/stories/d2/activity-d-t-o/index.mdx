@@ -1,0 +1,18 @@
+import ActivityDTODesc from './desc.md'
+import ActivityDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+
+<DescriptedCode
+  leftElement={<ActivityDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityDTOVisualJson}
+      language={"json"}
+      title={"Activity"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+---

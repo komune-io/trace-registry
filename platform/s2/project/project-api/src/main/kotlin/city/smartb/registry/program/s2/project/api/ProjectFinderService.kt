@@ -10,7 +10,7 @@ import city.smartb.registry.program.s2.project.api.entity.project.ProjectReposit
 import city.smartb.registry.program.s2.project.api.entity.project.toProject
 import city.smartb.registry.program.s2.project.api.query.ProjectPageQueryDB
 import city.smartb.registry.program.s2.project.domain.ProjectFinder
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.Project
 import org.springframework.stereotype.Service
 

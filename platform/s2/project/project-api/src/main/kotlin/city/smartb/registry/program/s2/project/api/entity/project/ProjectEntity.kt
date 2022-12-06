@@ -1,16 +1,13 @@
 package city.smartb.registry.program.s2.project.api.entity.project
 
-import city.smartb.registry.program.api.commons.auth.OrganizationId
-import city.smartb.registry.program.api.commons.auth.UserId
 import com.redis.om.spring.annotations.Document
-import com.redis.om.spring.annotations.Searchable
-import city.smartb.registry.program.s2.project.domain.automate.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import java.util.Date
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.annotation.Reference
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -18,16 +15,24 @@ import s2.dsl.automate.model.WithS2State
 open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Id
     open lateinit var id: ProjectId
-    open lateinit var friendlyId: String
-    open lateinit var beneficiaryId: OrganizationId
-    open lateinit var supervisorId: UserId
-
-    @Searchable
-    open lateinit var name: String
     open lateinit var status: ProjectState
 
-//    @Reference
-//    private val roles: Set<Role>? = null
+    var name: String? = null
+    var country: String? = null
+    var creditingPeriodStartDate: String? = null
+    var creditingPeriodEndDate: String? = null
+    var description: String? = null
+    var dueDate: String? = null
+    var estimatedReduction: String? = null
+    var localization: String? = null
+    var proponentAccount: OrganizationRef? = null
+    var proponent: String? = null
+    var projectType: String? = null
+    var publicId: String? = null
+    var referenceYear: String? = null
+    var registrationDate: String? = null
+    var vintage: Double? = null
+    var slug: Double? = null
 
     @CreatedDate
     private val createdDate: Date? = null
