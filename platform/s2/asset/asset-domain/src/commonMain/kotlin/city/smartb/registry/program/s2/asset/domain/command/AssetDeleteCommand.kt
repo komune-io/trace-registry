@@ -13,16 +13,11 @@ data class AssetDeleteCommand(
     val deletedBy: UserId
 ): AssetCommand
 
-/**
- * @d2 event
- * @parent [AssetDeleteFunction]
- */
+
 @JsExport
 @JsName("AssetDeletedEventDTO")
 interface AssetDeletedEventDTO: AssetEvent {
-    /**
-     * Identifier of the deleted asset.
-     */
+
     override val id: AssetId
 }
 

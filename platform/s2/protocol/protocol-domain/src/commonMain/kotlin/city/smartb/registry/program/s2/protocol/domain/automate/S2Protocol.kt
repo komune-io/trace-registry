@@ -1,8 +1,7 @@
 package city.smartb.registry.program.s2.protocol.domain.automate
 
-import city.smartb.registry.program.s2.protocol.domain.command.ProtocolCreateCommand
-import city.smartb.registry.program.s2.protocol.domain.command.ProtocolDeleteCommand
-import city.smartb.registry.program.s2.protocol.domain.command.ProtocolUpdateDetailsCommand
+import city.smartb.registry.program.s2.protocol.domain.model.Protocol
+import city.smartb.registry.program.s2.protocol.domain.model.ProtocolId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable
@@ -14,33 +13,60 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
 
-typealias ProtocolId = String
-
 val s2Protocol = s2 {
 	name = "Protocol"
-	init<ProtocolCreateCommand> {
-		to = ProtocolState.DRAFT
-		role = ProtocolRole.User
+	init<Protocol> {
+		to = ProtocolState.UNDER_VALIDATION
+		role = ProtocolRole.ProgramManager
 	}
-	transaction<ProtocolDeleteCommand> {
-		from = ProtocolState.DRAFT
-		to = ProtocolState.DELETED
-		role = ProtocolRole.User
+	transaction<Protocol> {
+		from = ProtocolState.UNDER_VALIDATION
+		to = ProtocolState.VALIDATION_REQUESTED
+		role = ProtocolRole.Expert
 	}
-	selfTransaction<ProtocolUpdateDetailsCommand> {
-		states += ProtocolState.DRAFT
-		role = ProtocolRole.User
+	transaction<Protocol> {
+		from = ProtocolState.VALIDATION_REQUESTED
+		to = ProtocolState.REPORT_PUBLISHED
+		role = ProtocolRole.Verifier
+	}
+	transaction<Protocol> {
+		from = ProtocolState.VALIDATION_REQUESTED
+		to = ProtocolState.REPORT_PUBLISHED
+		role = ProtocolRole.Verifier
+	}
+	transaction<Protocol> {
+		from = ProtocolState.REPORT_PUBLISHED
+		to = ProtocolState.ASSESSMENT_REQUESTED
+		role = ProtocolRole.ProjectDeveloper
+	}
+	transaction<Protocol> {
+		from = ProtocolState.ASSESSMENT_REQUESTED
+		to = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
+		role = ProtocolRole.VVB
+	}
+	transaction<Protocol> {
+		from = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
+		to = ProtocolState.VERIFIED
+		role = ProtocolRole.ProgramManager
 	}
 }
 
 @Serializable
 enum class ProtocolState(override val position: Int): S2State {
-	DRAFT(0),
-	DELETED(1),
+	UNDER_VALIDATION(0),
+	VALIDATION_REQUESTED(1),
+	REPORT_PUBLISHED(2),
+	ASSESSMENT_REQUESTED(3),
+	VERIFICATION_DOCUMENTATION_PROVIDED(4),
+	VERIFIED(5)
 }
 
 enum class ProtocolRole(val value: String): S2Role {
-	User("user");
+	ProjectDeveloper("project_developer"),
+	ProgramManager("Program_manager"),
+	Expert("expert"),
+	Verifier("verifier"),
+	VVB("vvb");
 	override fun toString() = value
 }
 

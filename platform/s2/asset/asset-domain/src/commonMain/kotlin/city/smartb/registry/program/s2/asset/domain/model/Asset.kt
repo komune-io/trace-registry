@@ -10,7 +10,6 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetState
  */
 typealias AssetId = String
 
-
 /**
  * A unit issued by and held in the SmartB Registry representing the right of an account holder
  * in whose account the unit is recorded to claim the achievement of an impact. <br/>
@@ -19,7 +18,7 @@ typealias AssetId = String
  * of the holder at the SmartB Registry is prima facie evidence of that holder’s entitlement to that asset.
  *
  *
- * @title Activity
+ * @title Asset
  * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetSectionModel]
  * @d2 model
  */
@@ -170,6 +169,18 @@ interface AssetDTO {
      * @example "aeroplaneOperatorName"
      */
     val aeroplaneOperatorName: String?
+
+    /**
+     * Date of creation.
+     * @example "1670255859"
+     */
+    val creationDate: DateTime
+
+    /**
+     * Date of last modification of the asset.
+     * @example "1670255859"
+     */
+    val lastModificationDate: DateTime
 }
 
 /**
@@ -202,6 +213,9 @@ data class Asset(
     override val eligibleForCORSIA: Boolean?,
     override val retiredForCORSIA: Boolean?,
     override val aeroplaneOperatorName: String?,
+
+    override val creationDate: DateTime,
+    override val lastModificationDate: DateTime
 ) : AssetDTO
 
 typealias DateTime = Long

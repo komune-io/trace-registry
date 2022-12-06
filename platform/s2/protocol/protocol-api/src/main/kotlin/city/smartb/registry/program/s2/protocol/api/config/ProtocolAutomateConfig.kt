@@ -1,8 +1,8 @@
 package city.smartb.registry.program.s2.protocol.api.config
 
-import city.smartb.registry.program.s2.protocol.api.entity.protocol.ProtocolEntity
-import city.smartb.registry.program.s2.protocol.api.entity.protocol.ProtocolRepository
-import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolId
+import city.smartb.registry.program.s2.protocol.api.entity.ProtocolEntity
+import city.smartb.registry.program.s2.protocol.api.entity.ProtocolRepository
+import city.smartb.registry.program.s2.protocol.domain.model.ProtocolId
 import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolState
 import city.smartb.registry.program.s2.protocol.domain.automate.s2Protocol
 import org.springframework.context.annotation.Configuration

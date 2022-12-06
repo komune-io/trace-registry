@@ -3,6 +3,7 @@ package city.smartb.registry.program.s2.project.api.entity.project
 import com.redis.om.spring.annotations.Document
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import java.util.Date
 import org.springframework.data.annotation.CreatedDate
@@ -19,10 +20,10 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var name: String? = null
     var country: String? = null
-    var creditingPeriodStartDate: String? = null
-    var creditingPeriodEndDate: String? = null
+    var creditingPeriodStartDate: DateTime? = null
+    var creditingPeriodEndDate: DateTime? = null
     var description: String? = null
-    var dueDate: String? = null
+    var dueDate: DateTime? = null
     var estimatedReduction: String? = null
     var localization: String? = null
     var proponentAccount: OrganizationRef? = null
@@ -30,15 +31,15 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var projectType: String? = null
     var publicId: String? = null
     var referenceYear: String? = null
-    var registrationDate: String? = null
+    var registrationDate: DateTime? = null
     var vintage: Double? = null
     var slug: Double? = null
 
     @CreatedDate
-    private val createdDate: Date? = null
+    val createdDate: Date? = null
 
     @LastModifiedDate
-    private val lastModifiedDate: Date? = null
+    val lastModifiedDate: Date? = null
     override fun s2Id() = id
     override fun s2State() = status
 }

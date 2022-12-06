@@ -19,5 +19,7 @@
   "arbEligible" : "true",
   "eligibleForCORSIA" : "true",
   "retiredForCORSIA" : "true",
-  "aeroplaneOperatorName" : "aeroplaneOperatorName"
+  "aeroplaneOperatorName" : "aeroplaneOperatorName",
+  "creationDate" : "1670255859",
+  "lastModificationDate" : "1670255859"
 }

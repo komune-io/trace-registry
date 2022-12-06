@@ -5,8 +5,10 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEven
 import f2.dsl.fnc.F2Function
 
 /**
- * TODO
+ * Create Project
  * @d2 function
- * @parent
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand]
+ * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEventDTO]
  */
 typealias ProjectCreateFunction = F2Function<ProjectUpdateCommand, ProjectUpdatedEvent>

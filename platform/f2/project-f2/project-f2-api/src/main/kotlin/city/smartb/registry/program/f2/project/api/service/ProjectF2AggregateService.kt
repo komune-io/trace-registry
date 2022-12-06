@@ -23,8 +23,8 @@ class ProjectF2AggregateService(
         return projectAggregateService.update(command)
     }
 
-    suspend fun delete(command: ProjectUpdateCommand): ProjectUpdatedEvent {
-        return projectAggregateService.delete(command)
-    }
+//    suspend fun delete(command: ProjectUpdateCommand): ProjectUpdatedEvent {
+//        return projectAggregateService.delete(command)
+//    }
 
 }

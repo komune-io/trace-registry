@@ -8,8 +8,7 @@ import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforc
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
 import city.smartb.registry.program.f2.project.domain.ProjectQueryApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
-import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
-import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateDetailsFunction
+import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
@@ -19,10 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
-/**
- * TODO
- * @d2 service
- */
 @RestController
 @RequestMapping
 @Configuration
@@ -45,14 +40,12 @@ class ProjectEndpoint(
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
 
-        projectPoliciesEnforcer.enforceFilters(query).let { enforcedQuery ->
-            projectF2FinderService.page(
-                offset = OffsetPagination(
-                    offset = enforcedQuery.page * enforcedQuery.size,
-                    limit = enforcedQuery.size
-                )
+        projectF2FinderService.page(
+            offset = OffsetPagination(
+                offset = query.page * query.size,
+                limit = query.size
             )
-        }
+        )
     }
 
     @Bean
@@ -64,17 +57,17 @@ class ProjectEndpoint(
 
 
     @Bean
-    override fun projectUpdateDetails(): ProjectUpdateDetailsFunction = f2Function { command ->
+    override fun projectUpdate(): ProjectUpdateFunction = f2Function { command ->
         logger.info("projectUpdateDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
         projectF2AggregateService.updateDetails(command)
     }
 
-    @Bean
-    override fun projectDelete(): ProjectDeleteFunction = f2Function { command ->
-        logger.info("projectDelete: $command")
-        projectPoliciesEnforcer.checkDelete(command.id)
-        projectF2AggregateService.delete(command)
-    }
+//    @Bean
+//    override fun projectDelete(): ProjectDeleteFunction = f2Function { command ->
+//        logger.info("projectDelete: $command")
+//        projectPoliciesEnforcer.checkDelete(command.id)
+//        projectF2AggregateService.delete(command)
+//    }
 
 }

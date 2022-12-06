@@ -1,7 +1,5 @@
 package city.smartb.registry.program.f2.project.domain.query
 
-import city.smartb.registry.program.api.commons.auth.OrganizationId
-import city.smartb.registry.program.api.commons.auth.UserId
 import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
@@ -9,8 +7,12 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * TODO
+ * Get page of project
+ *
  * @d2 function
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @child [ProjectPageQueryDTO]
+ * @child [ProjectPageResultDTO]
  */
 typealias ProjectPageFunction = F2Function<ProjectPageQuery, ProjectPageResult>
 
@@ -20,19 +22,16 @@ typealias ProjectPageFunction = F2Function<ProjectPageQuery, ProjectPageResult>
 @JsExport
 @JsName("ProjectPageQueryDTO")
 interface ProjectPageQueryDTO {
-    val friendlyId: String?
     val name: String?
-    val beneficiaryId: OrganizationId?
-    val supervisorId: UserId?
     val size: Int
     val page: Int
 }
 
+/**
+ * @d2 inherit
+ */
 data class ProjectPageQuery(
-    override val friendlyId: String?,
     override val name: String?,
-    override val beneficiaryId: OrganizationId?,
-    override val supervisorId: UserId?,
     override val size: Int,
     override val page: Int,
 ): ProjectPageQueryDTO
@@ -45,6 +44,9 @@ data class ProjectPageQuery(
 @JsName("ProjectPageResultDTO")
 interface ProjectPageResultDTO: PageDTO<ProjectDTO>
 
+/**
+ * @d2 inherit
+ */
 data class ProjectPageResult(
     override val items: List<ProjectDTO>,
     override val total: Int

@@ -1,9 +1,9 @@
 
 
-## Project Get
+### Project Get
 
 Type: `ProjectGetFunction`
 
-Get a project by id.
+Get Project By id
 
 

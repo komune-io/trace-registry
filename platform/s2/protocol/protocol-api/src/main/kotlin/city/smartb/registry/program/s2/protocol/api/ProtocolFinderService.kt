@@ -2,15 +2,15 @@ package city.smartb.registry.program.s2.protocol.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.api.commons.model.Match
+import city.smartb.registry.program.s2.protocol.api.entity.ProtocolEntity
+import city.smartb.registry.program.s2.protocol.api.entity.ProtocolRepository
+import city.smartb.registry.program.s2.protocol.api.entity.toProtocol
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import city.smartb.registry.program.s2.protocol.api.entity.protocol.ProtocolEntity
-import city.smartb.registry.program.s2.protocol.api.entity.protocol.ProtocolRepository
-import city.smartb.registry.program.s2.protocol.api.entity.protocol.toProtocol
 import city.smartb.registry.program.s2.protocol.api.query.ProtocolPageQueryDB
 import city.smartb.registry.program.s2.protocol.domain.ProtocolFinder
-import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolId
+import city.smartb.registry.program.s2.protocol.domain.model.ProtocolId
 import city.smartb.registry.program.s2.protocol.domain.model.Protocol
 import org.springframework.stereotype.Service
 

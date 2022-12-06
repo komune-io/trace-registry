@@ -1,9 +1,9 @@
 
 
-## Project Page
+### Project Page
 
 Type: `ProjectPageFunction`
 
-TODO
+Get page of project
 
 

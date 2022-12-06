@@ -29,10 +29,10 @@ include(
 	"platform:f2:project-f2:project-f2-domain",
 )
 
-include(
-	"platform:f2:task-f2:task-f2-api",
-	"platform:f2:task-f2:task-f2-domain",
-)
+//include(
+//	"platform:f2:task-f2:task-f2-api",
+//	"platform:f2:task-f2:task-f2-domain",
+//)
 
 
 include(
@@ -56,15 +56,15 @@ include(
 )
 
 
-include(
-	"platform:s2:notification:notification-api",
-	"platform:s2:notification:notification-domain",
-	"platform:s2:notification:notification-tasks",
-)
+//include(
+//	"platform:s2:notification:notification-api",
+//	"platform:s2:notification:notification-domain",
+//	"platform:s2:notification:notification-tasks",
+//)
 
 
-include(
-	"platform:s2:task:task-api",
-	"platform:s2:task:task-domain",
-	"platform:s2:task:task-tasks",
-)
+//include(
+//	"platform:s2:task:task-api",
+//	"platform:s2:task:task-domain",
+//	"platform:s2:task:task-tasks",
+//)

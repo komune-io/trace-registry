@@ -63,6 +63,8 @@ fun AssetEntity.toAsset(): Asset = let { entity ->
         eligibleForCORSIA = entity.eligibleForCORSIA,
         retiredForCORSIA = entity.retiredForCORSIA,
         aeroplaneOperatorName = entity.aeroplaneOperatorName,
-        status = entity.status
+        status = entity.status,
+        creationDate = entity.createdDate!!.time,
+        lastModificationDate = entity.lastModifiedDate!!.time
     )
 }

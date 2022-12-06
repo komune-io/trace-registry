@@ -6,7 +6,7 @@ import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
 /**
  * Unique id of the activity.
  * @visual json "1669154596778x977338172286597000"
- * @parent [D2DslSectionModel]
+ * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityModelSection]
  * @d2 model
  */
 typealias ActivityId = String
@@ -19,7 +19,7 @@ typealias ActivityId = String
  * and which result in GHG emission reductions or removals.
  *
  * @title Activity
- * @parent [D2DslSectionModel]
+ * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityModelSection]
  * @d2 model
  */
 interface ActivityDTO {

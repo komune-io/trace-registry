@@ -1,11 +1,15 @@
 
 
-# Event
+#### Event
 
-Type: `ProjectUpdatedEventDTO`  
+Type: `ProjectUpdatedEventDTO`
+
+Update project response
+
+  
 <article>
 
-***id*** [`ProjectId`](/docs/project--page#projectid) 
+***id*** [`ProjectId`](#projectid) 
 
 Identifier of the updated project.
 

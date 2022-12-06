@@ -50,10 +50,10 @@ open class AssetEntity: WithS2Id<AssetId>, WithS2State<AssetState>  {
 
 
     @CreatedDate
-    private val createdDate: Date? = null
+    val createdDate: Date? = null
 
     @LastModifiedDate
-    private val lastModifiedDate: Date? = null
+    val lastModifiedDate: Date? = null
     override fun s2Id() = id
     override fun s2State() = status
 }

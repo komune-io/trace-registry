@@ -1,6 +1,6 @@
 
 
-### Activity
+### Asset
 
 Type: `AssetDTO`
 
@@ -33,6 +33,13 @@ Aeroplane Operator Name
 ***arbEligible*** `Boolean?` 
 
 Air Ressource Board compatibility
+
+</article>
+<article>
+
+***creationDate*** `DateTime` 
+
+Date of creation.
 
 </article>
 <article>
@@ -80,6 +87,13 @@ Unit price of the asset when retired
 ***issuanceDate*** `DateTime?` 
 
 Date of asset issuance
+
+</article>
+<article>
+
+***lastModificationDate*** `DateTime` 
+
+Date of last modification of the asset.
 
 </article>
 <article>

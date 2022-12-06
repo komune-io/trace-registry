@@ -8,8 +8,11 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Get a project by id.
+ * Get Project By id
  * @d2 function
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @child [ProjectGetQuery]
+ * @child [ProjectGetResult]
  */
 typealias ProjectGetFunction = F2Function<ProjectGetQuery, ProjectGetResult>
 
@@ -23,10 +26,6 @@ interface ProjectGetQueryDTO {
     val id: ProjectId
 }
 
-data class ProjectGetQuery(
-    override val id: ProjectId
-): ProjectGetQueryDTO
-
 /**
  * @d2 event
  * @parent [ProjectGetFunction]
@@ -37,6 +36,16 @@ interface ProjectGetResultDTO {
     val item: ProjectDTO?
 }
 
+/**
+ * @d2 inherit
+ */
+data class ProjectGetQuery(
+    override val id: ProjectId
+): ProjectGetQueryDTO
+
+/**
+ * @d2 inherit
+ */
 data class ProjectGetResult(
     override val item: Project?
 ): ProjectGetResultDTO

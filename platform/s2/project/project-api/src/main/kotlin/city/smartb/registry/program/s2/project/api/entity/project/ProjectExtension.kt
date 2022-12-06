@@ -22,6 +22,8 @@ fun ProjectEntity.toProject() = Project(
     registrationDate = this.registrationDate,
     vintage = this.vintage,
     slug = this.slug,
+    creationDate = this.createdDate!!.time,
+    lastModificationDate = this.lastModifiedDate!!.time
 )
 
 fun ProjectUpdateCommand.toProject() = ProjectEntity().applyCmd(this)

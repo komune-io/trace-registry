@@ -23,14 +23,6 @@ class ProjectAggregateService(
 		)
 	}
 
-	override suspend fun delete(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.doTransition(cmd) {
-		applyCmd(cmd)
-		status = ProjectState.DELETED
-		this to ProjectUpdatedEvent(
-			id = id,
-		)
-	}
-
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.doTransition(cmd) {
 		applyCmd(cmd)
 		this to ProjectUpdatedEvent(

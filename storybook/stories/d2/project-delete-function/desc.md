@@ -1,6 +1,6 @@
 
 
-## Project Delete
+### Project Delete
 
 Type: `ProjectDeleteFunction`
 

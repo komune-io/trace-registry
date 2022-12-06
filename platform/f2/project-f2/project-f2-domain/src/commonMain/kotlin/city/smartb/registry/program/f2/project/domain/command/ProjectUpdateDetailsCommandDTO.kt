@@ -5,8 +5,10 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateComma
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 
 /**
- * Update basic details of the project.
+ * Update the project.
  * @d2 function
- * @parent
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand]
+ * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent]
  */
-typealias ProjectUpdateDetailsFunction = F2Function<ProjectUpdateCommand, ProjectUpdatedEvent>
+typealias ProjectUpdateFunction = F2Function<ProjectUpdateCommand, ProjectUpdatedEvent>

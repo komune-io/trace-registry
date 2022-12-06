@@ -43,16 +43,10 @@ data class AssetUpdateCommand(
 
 ): AssetCommand, AssetInitCommand
 
-/**
- * @d2 event
- * @parent [AssetUpdateFunction]
- */
 @JsExport
 @JsName("AssetUpdatedEventDTO")
 interface AssetUpdatedEventDTO: AssetEvent {
-    /**
-     * Identifier of the updated asset.
-     */
+
     override val id: AssetId
 }
 

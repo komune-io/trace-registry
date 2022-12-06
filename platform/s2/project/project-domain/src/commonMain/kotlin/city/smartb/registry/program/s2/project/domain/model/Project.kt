@@ -121,9 +121,18 @@ interface ProjectDTO: WithS2State<S2State> {
      * @example "/app/projectDetail/VCS/2366"
      */
     val slug: Double?
-//    val creatorUser: Double
-//    val createdDate: Double
-//    val modifiedDate: Double
+
+    /**
+     * Date of creation.
+     * @example "1670255859"
+     */
+    val creationDate: DateTime
+
+    /**
+     * Date of last modification of the asset.
+     * @example "1670255859"
+     */
+    val lastModificationDate: DateTime
 }
 
 /**
@@ -144,19 +153,19 @@ data class Project(
     override val projectType: String?,
     override val publicId: String?,
     override val referenceYear: String?,
-    override val registrationDate: String?,
+    override val registrationDate: DateTime?,
 
     override val status: ProjectState,
     override val vintage: Double?,
     override val slug: Double?,
-//    override val creatorUser: Double,
-//    override val createdDate: Double,
-//    override val modifiedDate: Double,
+
+    override val creationDate: DateTime,
+    override val lastModificationDate: DateTime,
 ): ProjectDTO {
     override fun s2State() = status
 }
 
-typealias DateTime = String
+typealias DateTime = Long
 
 interface OrganizationRef {
     val id: String

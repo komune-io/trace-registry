@@ -47,16 +47,10 @@ data class ActivityUpdateCommand(
     override val lastModificationDate: DateTime,
 ): S2InitCommand, ActivityCommand, ActivityDTO
 
-/**
- * @d2 event
- * @parent [ActivityUpdateDetailsFunction]
- */
+
 @JsExport
 @JsName("ActivityUpdatedDetailsEventDTO")
 interface ActivityUpdatedDetailsEventDTO: ActivityEvent {
-    /**
-     * Identifier of the updated activity.
-     */
     override val id: ActivityId
 }
 

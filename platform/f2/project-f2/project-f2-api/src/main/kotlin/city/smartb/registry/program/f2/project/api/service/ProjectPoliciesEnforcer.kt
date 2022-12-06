@@ -34,30 +34,4 @@ class ProjectPoliciesEnforcer(
         ProjectPolicies.canDelete(authedUser, project)
     }
 
-    suspend fun enforceFilters(query: ProjectPageQuery) = query.copy(
-        beneficiaryId = enforceBeneficiaryFilter(query.beneficiaryId),
-        supervisorId = enforceSupervisorFilter(query.supervisorId)
-    )
-
-    suspend fun enforceSupervisorFilter(wantedSupervisorId: UserId?): UserId? {
-        val authedUser = AuthenticationProvider.getAuthedUser()
-
-        if (authedUser.hasRoles(Roles.FUB, Roles.ADMIN)) {
-            return wantedSupervisorId
-        }
-
-        if (authedUser.hasRoles(Roles.BENEFICIARY, Roles.USER)) {
-            return authedUser.id
-        }
-
-        return wantedSupervisorId
-    }
-
-    suspend fun enforceBeneficiaryFilter(wantedBeneficiaryId: OrganizationId?): OrganizationId? = enforce { authedUser ->
-        if (authedUser.hasRoles(Roles.FUB, Roles.ADMIN)) {
-            wantedBeneficiaryId
-        } else {
-            authedUser.memberOf
-        }
-    }
 }

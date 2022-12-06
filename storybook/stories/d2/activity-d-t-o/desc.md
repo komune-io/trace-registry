@@ -1,6 +1,6 @@
 
 
-# Activity
+### Activity
 
 Type: `ActivityDTO`
 
@@ -72,7 +72,7 @@ Value charged by the executor to execute the task.
 </article>
 <article>
 
-***id*** [`ActivityId`](/docs/activityid--page#activityid) 
+***id*** [`ActivityId`](#activityid) 
 
 </article>
 <article>

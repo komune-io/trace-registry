@@ -12,6 +12,13 @@ Country of the projets
 </article>
 <article>
 
+***creationDate*** `DateTime` 
+
+Date of creation.
+
+</article>
+<article>
+
 ***creditingPeriodEndDate*** `DateTime?` 
 
 Date of the end of the crediting period
@@ -48,6 +55,13 @@ Quantity expected to be issued
 <article>
 
 ***id*** [`ProjectId`](/docs/project--page#projectid) 
+
+</article>
+<article>
+
+***lastModificationDate*** `DateTime` 
+
+Date of last modification of the asset.
 
 </article>
 <article>
