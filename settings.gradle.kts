@@ -8,7 +8,7 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "registry-program"
+rootProject.name = "registry-program-ver"
 
 include(
 	"debug:db-verification",
@@ -36,11 +36,15 @@ include(
 
 
 include(
+	"platform:f2:activity-f2:activity-f2-api",
+	"platform:f2:activity-f2:activity-f2-domain",
 	"platform:s2:activity:activity-api",
 	"platform:s2:activity:activity-domain",
 )
 
 include(
+	"platform:f2:asset-f2:asset-f2-api",
+	"platform:f2:asset-f2:asset-f2-domain",
 	"platform:s2:asset:asset-api",
 	"platform:s2:asset:asset-domain",
 )
@@ -51,6 +55,8 @@ include(
 )
 
 include(
+	"platform:f2:protocol-f2:protocol-f2-api",
+	"platform:f2:protocol-f2:protocol-f2-domain",
 	"platform:s2:protocol:protocol-api",
 	"platform:s2:protocol:protocol-domain",
 )

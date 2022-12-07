@@ -2,6 +2,7 @@ package city.smartb.registry.program.s2.activity.domain.model
 
 import city.smartb.im.organization.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
+import s2.dsl.automate.model.WithS2State
 
 /**
  * Unique id of the activity.
@@ -22,7 +23,7 @@ typealias ActivityId = String
  * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityModelSection]
  * @d2 model
  */
-interface ActivityDTO {
+interface ActivityDTO: WithS2State<ActivityState> {
     val id: ActivityId
 
     /**
@@ -161,6 +162,8 @@ interface ActivityDTO {
      * @example "1670255859"
      */
     val lastModificationDate: DateTime
+
+    override fun s2State() = status
 }
 
 /**

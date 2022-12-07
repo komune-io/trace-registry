@@ -1,0 +1,9 @@
+
+
+### Activity Page
+
+Type: `ActivityPageFunction`
+
+Get page of activity
+
+

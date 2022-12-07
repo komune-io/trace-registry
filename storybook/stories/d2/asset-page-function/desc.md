@@ -1,0 +1,9 @@
+
+
+### Asset Page
+
+Type: `AssetPageFunction`
+
+Get page of asset
+
+

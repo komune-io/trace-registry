@@ -1,0 +1,16 @@
+import AssetPageQueryDTODesc from './desc.md'
+import AssetPageQueryDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+
+<DescriptedCode
+  leftElement={<AssetPageQueryDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={AssetPageQueryDTOVisualJson}
+      language={"json"}
+      title={"Query"}
+    />
+  }
+  rightContainerProps={{}}
+/>

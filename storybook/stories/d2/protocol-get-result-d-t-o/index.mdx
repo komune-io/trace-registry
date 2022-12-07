@@ -1,0 +1,16 @@
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+import ProtocolGetResultDTODesc from './desc.md'
+import ProtocolGetResultDTOVisualJson from './visualJson.json'
+
+<DescriptedCode
+  leftElement={<ProtocolGetResultDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ProtocolGetResultDTOVisualJson}
+      language={"json"}
+      title={"Event"}
+    />
+  }
+  rightContainerProps={{}}
+/>

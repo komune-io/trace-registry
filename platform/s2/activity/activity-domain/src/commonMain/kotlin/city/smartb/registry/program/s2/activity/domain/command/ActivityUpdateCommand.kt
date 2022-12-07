@@ -15,9 +15,9 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 import s2.dsl.automate.S2InitCommand
 
-
 /**
- * @d2 inherit
+ * Activity payload
+ * @d2 command
  */
 data class ActivityUpdateCommand(
     override val id: ActivityId,
@@ -49,11 +49,11 @@ data class ActivityUpdateCommand(
 
 
 @JsExport
-@JsName("ActivityUpdatedDetailsEventDTO")
-interface ActivityUpdatedDetailsEventDTO: ActivityEvent {
+@JsName("ActivityUpdatedEventDTO")
+interface ActivityUpdatedEventDTO: ActivityEvent {
     override val id: ActivityId
 }
 
-data class ActivityUpdatedDetailsEvent(
+data class ActivityUpdatedEvent(
     override val id: ActivityId,
-): ActivityUpdatedDetailsEventDTO
+): ActivityUpdatedEventDTO

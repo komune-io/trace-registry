@@ -5,8 +5,9 @@ plugins {
 }
 
 dependencies {
-    api("city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}")
     implementation(project(":platform:api:api-commons"))
     implementation("city.smartb.im:api-config:${Versions.im}")
+    Dependencies.Jvm.i2Keycloack(::api)
     Dependencies.Jvm.fs(::implementation)
+    Dependencies.Jvm.f2OpenApi(::implementation)
 }

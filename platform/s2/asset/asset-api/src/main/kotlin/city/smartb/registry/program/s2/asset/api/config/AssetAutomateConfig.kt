@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.asset.api.config
 
-import city.smartb.registry.program.s2.asset.api.entity.asset.AssetEntity
-import city.smartb.registry.program.s2.asset.api.entity.asset.AssetRepository
+import city.smartb.registry.program.s2.asset.api.entity.AssetEntity
+import city.smartb.registry.program.s2.asset.api.entity.AssetRepository
 import city.smartb.registry.program.s2.asset.domain.automate.AssetState
 import city.smartb.registry.program.s2.asset.domain.automate.s2Asset
 import city.smartb.registry.program.s2.asset.domain.model.AssetId

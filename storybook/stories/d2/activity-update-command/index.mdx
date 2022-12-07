@@ -1,0 +1,16 @@
+import ActivityUpdateCommandDesc from './desc.md'
+import ActivityUpdateCommandVisualJson from './visualJson.json'
+import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+
+<DescriptedCode
+  leftElement={<ActivityUpdateCommandDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityUpdateCommandVisualJson}
+      language={"json"}
+      title={"Command"}
+    />
+  }
+  rightContainerProps={{}}
+/>

@@ -2,6 +2,9 @@ package city.smartb.registry.program.s2.protocol.domain.model
 
 import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolCommand
 import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolInitCommand
+import city.smartb.registry.program.s2.protocol.domain.automate.ProtocolState
+import city.smartb.registry.program.s2.protocol.domain.command.ProtocolUpdateCommandDTO
+import s2.dsl.automate.model.WithS2State
 
 /**
  * Unique id of the protocol.
@@ -24,8 +27,10 @@ typealias ProtocolId = String
  * @parent [city.smartb.registry.program.s2.protocol.domain.D2ProtocolSectionModel]
  * @d2 model
  */
-interface ProtocolDTO: ProtocolCommand, ProtocolInitCommand {
+interface ProtocolDTO: ProtocolCommand, ProtocolInitCommand, WithS2State<ProtocolState> {
     override val id: ProtocolId
+
+    val status: ProtocolState
 
     /**
      * Description important hypothesis of the baseline senario
@@ -122,6 +127,8 @@ interface ProtocolDTO: ProtocolCommand, ProtocolInitCommand {
      * @example "1670255859"
      */
     val lastModificationDate: DateTime?
+
+    override fun s2State() = status
 }
 
 /**
@@ -129,6 +136,7 @@ interface ProtocolDTO: ProtocolCommand, ProtocolInitCommand {
  */
 data class Protocol(
     override val id: ProtocolId,
+    override val status: ProtocolState,
     override val baseScenario: String?,
     override val context: String?,
     override val expectedValue: Double?,

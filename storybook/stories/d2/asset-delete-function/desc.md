@@ -1,0 +1,9 @@
+
+
+### Asset Delete
+
+Type: `AssetDeleteFunction`
+
+Delete a asset by id.
+
+

@@ -1,9 +1,11 @@
 package city.smartb.registry.program.s2.protocol.api.entity
 
+import city.smartb.registry.program.s2.protocol.domain.command.ProtocolUpdateCommand
 import city.smartb.registry.program.s2.protocol.domain.model.Protocol
 
 fun ProtocolEntity.toProtocol() = Protocol(
     id = this.id,
+    status = this.status,
     name = this.name,
     baseScenario = this.baseScenario,
     context = this.context,
@@ -24,8 +26,8 @@ fun ProtocolEntity.toProtocol() = Protocol(
     lastModificationDate = this.lastModificationDate?.toInstant()?.epochSecond
 )
 
-fun Protocol.toProtocol() = ProtocolEntity().applyCmd(this)
-fun ProtocolEntity.applyCmd(cmd: Protocol): ProtocolEntity = apply {
+fun ProtocolUpdateCommand.toProtocol() = ProtocolEntity().applyCmd(this)
+fun ProtocolEntity.applyCmd(cmd: ProtocolUpdateCommand): ProtocolEntity = apply {
     this.id = cmd.id
     this.name = cmd.name
     this.baseScenario = cmd.baseScenario

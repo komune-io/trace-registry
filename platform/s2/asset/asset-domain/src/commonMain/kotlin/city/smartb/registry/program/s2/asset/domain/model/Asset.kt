@@ -1,6 +1,7 @@
 package city.smartb.registry.program.s2.asset.domain.model
 
 import city.smartb.registry.program.s2.asset.domain.automate.AssetState
+import s2.dsl.automate.model.WithS2State
 
 /**
  * Unique id of the asset.
@@ -22,7 +23,7 @@ typealias AssetId = String
  * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetSectionModel]
  * @d2 model
  */
-interface AssetDTO {
+interface AssetDTO: WithS2State<AssetState> {
     val id: AssetId
 
     /**
@@ -181,6 +182,8 @@ interface AssetDTO {
      * @example "1670255859"
      */
     val lastModificationDate: DateTime
+
+    override fun s2State() = status
 }
 
 /**

@@ -13,6 +13,10 @@ import city.smartb.registry.program.s2.asset.domain.model.UserRef
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+/**
+ * Asset payload
+ * @d2 command
+ */
 data class AssetUpdateCommand(
     override val id: AssetId,
     val status: AssetState,
@@ -43,6 +47,10 @@ data class AssetUpdateCommand(
 
 ): AssetCommand, AssetInitCommand
 
+/**
+ * Asset Event
+ * @d2 command
+*/
 @JsExport
 @JsName("AssetUpdatedEventDTO")
 interface AssetUpdatedEventDTO: AssetEvent {

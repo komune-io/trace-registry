@@ -5,9 +5,9 @@ import city.smartb.registry.program.api.commons.model.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import city.smartb.registry.program.s2.asset.api.entity.asset.AssetEntity
-import city.smartb.registry.program.s2.asset.api.entity.asset.AssetRepository
-import city.smartb.registry.program.s2.asset.api.entity.asset.toAsset
+import city.smartb.registry.program.s2.asset.api.entity.AssetEntity
+import city.smartb.registry.program.s2.asset.api.entity.AssetRepository
+import city.smartb.registry.program.s2.asset.api.entity.toAsset
 import city.smartb.registry.program.s2.asset.api.query.AssetPageQueryDB
 import city.smartb.registry.program.s2.asset.domain.AssetFinder
 import city.smartb.registry.program.s2.asset.domain.model.Asset

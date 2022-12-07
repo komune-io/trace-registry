@@ -1,6 +1,5 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
-import city.smartb.registry.program.s2.asset.domain.command.AssetCreateCommand
 import city.smartb.registry.program.s2.asset.domain.command.AssetDeleteCommand
 import city.smartb.registry.program.s2.asset.domain.command.AssetUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.model.AssetId
@@ -17,7 +16,7 @@ import s2.dsl.automate.builder.s2
 
 val s2Asset = s2 {
 	name = "Asset"
-	init<AssetCreateCommand> {
+	init<AssetUpdateCommand> {
 		to = AssetState.ISSUED
 		role = AssetRole.Issuer
 	}

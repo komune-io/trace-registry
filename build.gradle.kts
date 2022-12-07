@@ -26,7 +26,7 @@ allprojects {
 
 fixers {
 	bundle {
-		id = "registry-program"
+		id = "registry-program-ver"
 		name = "Voluntary Emissions Reductions"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environnemental assets registries of the market."
 		url = "https://gitlab.smartb.city/framwork/registry/program"

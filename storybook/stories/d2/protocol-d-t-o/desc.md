@@ -140,4 +140,9 @@ Link to SDG list
 Unique short text to access via protocol’s url
 
 </article>
+<article>
+
+***status*** `ProtocolState` 
+
+</article>
 

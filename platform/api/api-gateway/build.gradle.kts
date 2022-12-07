@@ -9,11 +9,9 @@ dependencies {
     Dependencies.Jvm.redisOm(::implementation)
 
     implementation(project(":platform:f2:project-f2:project-f2-api"))
-//    implementation(project(":platform:f2:task-f2:task-f2-api"))
-
-//    implementation(project(":platform:s2:notification:notification-tasks"))
-//    implementation(project(":platform:s2:project:project-tasks"))
-//    implementation(project(":platform:s2:task:task-tasks"))
+    implementation(project(":platform:f2:activity-f2:activity-f2-api"))
+    implementation(project(":platform:f2:asset-f2:asset-f2-api"))
+    implementation(project(":platform:f2:protocol-f2:protocol-f2-api"))
 
     implementation(project(":platform:api:api-config"))
 

@@ -46,9 +46,15 @@ object Dependencies {
 		)
 
 		fun f2(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}"
+			"city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
+		)
+		fun f2OpenApi(scope: Scope) = scope.add(
+			"city.smartb.f2:f2-spring-boot-openapi:${Versions.f2}"
 		)
 
+		fun i2Keycloack(scope: Scope) = scope.add(
+			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
+		)
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:file-client:${Versions.fs}"
 		)
