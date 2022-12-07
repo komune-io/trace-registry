@@ -12,3 +12,10 @@ interface D2AssetPage
  * @parent [D2AssetPage]
  */
 interface D2AssetSectionModel
+
+/**
+ * @d2 section
+ * @title Api
+ * @parent [D2AssetPage]
+ */
+interface D2AssetSectionApi

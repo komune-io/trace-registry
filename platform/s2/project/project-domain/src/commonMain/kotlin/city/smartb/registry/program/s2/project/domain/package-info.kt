@@ -15,7 +15,7 @@ interface D2ProjectSectionModel
 
 /**
  * @d2 section
- * @title Model
+ * @title Project Api
  * @parent [D2ProjectPage]
  */
-interface D2ApiSectionModel
+interface D2ProjectSectionApi

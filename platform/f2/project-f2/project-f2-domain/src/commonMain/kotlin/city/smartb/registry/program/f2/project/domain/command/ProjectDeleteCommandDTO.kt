@@ -7,7 +7,7 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEven
 /**
  * Delete a project by id.
  * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand]
  * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent]
  */

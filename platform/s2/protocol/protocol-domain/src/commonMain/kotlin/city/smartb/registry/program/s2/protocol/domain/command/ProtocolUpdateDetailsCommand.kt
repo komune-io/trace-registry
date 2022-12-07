@@ -8,7 +8,7 @@ import kotlin.js.JsName
 
 /**
  * @d2 event
- * @parent [city.smartb.registry.program.s2.protocol.domain.D2ApiSectionModel]
+ * @parent [city.smartb.registry.program.s2.protocol.domain.D2ProtocolApiSection]
  */
 @JsExport
 @JsName("ProtocolUpdatedDetailsEventDTO")

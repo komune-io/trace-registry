@@ -18,4 +18,4 @@ interface D2ProtocolSectionModel
  * @title Api
  * @parent [D2ProtocolPage]
  */
-interface D2ApiSectionModel
+interface D2ProtocolApiSection

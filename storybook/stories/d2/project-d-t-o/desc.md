@@ -1,6 +1,6 @@
 
 
-# Project
+### Project
 
 Type: `ProjectDTO`  
 <article>
@@ -54,7 +54,7 @@ Quantity expected to be issued
 </article>
 <article>
 
-***id*** [`ProjectId`](/docs/project--page#projectid) 
+***id*** [`ProjectId`](#projectid) 
 
 </article>
 <article>

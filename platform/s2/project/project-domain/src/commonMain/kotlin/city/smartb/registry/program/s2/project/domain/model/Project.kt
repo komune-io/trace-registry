@@ -18,7 +18,7 @@ typealias ProjectId = String
  *
  *
  * @title Project
- * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetSectionModel]
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionModel]
  * @d2 model
  */
 interface ProjectDTO: WithS2State<S2State> {

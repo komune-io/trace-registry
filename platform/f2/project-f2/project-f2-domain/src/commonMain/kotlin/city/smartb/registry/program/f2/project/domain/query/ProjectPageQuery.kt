@@ -10,7 +10,7 @@ import kotlin.js.JsName
  * Get page of project
  *
  * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @child [ProjectPageQueryDTO]
  * @child [ProjectPageResultDTO]
  */

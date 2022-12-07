@@ -9,7 +9,7 @@ Result of the query to get a page of projects.
   
 <article>
 
-***items*** [`List<ProjectDTO>`](/docs/project--page#project) 
+***items*** [`List<ProjectDTO>`](#project) 
 
 </article>
 <article>

@@ -10,7 +10,7 @@ import kotlin.js.JsName
 /**
  * Get Project By id
  * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ApiSectionModel]
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @child [ProjectGetQuery]
  * @child [ProjectGetResult]
  */
