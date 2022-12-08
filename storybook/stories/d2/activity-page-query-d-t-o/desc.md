@@ -5,6 +5,11 @@
 Type: `ActivityPageQueryDTO`  
 <article>
 
+***limit*** `Int?` 
+
+</article>
+<article>
+
 ***name*** `String?` 
 
 Name of the activity
@@ -12,12 +17,7 @@ Name of the activity
 </article>
 <article>
 
-***page*** `Int` 
-
-</article>
-<article>
-
-***size*** `Int` 
+***offset*** `Int?` 
 
 </article>
 

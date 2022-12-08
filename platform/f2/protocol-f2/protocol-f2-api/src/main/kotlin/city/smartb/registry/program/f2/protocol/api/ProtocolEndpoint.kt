@@ -2,7 +2,6 @@ package city.smartb.registry.program.f2.protocol.api
 
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import city.smartb.registry.program.f2.protocol.api.service.ProtocolF2FinderService
 import city.smartb.registry.program.f2.protocol.api.service.ProtocolPoliciesEnforcer
 import city.smartb.registry.program.f2.protocol.domain.ProtocolCommandApi
 import city.smartb.registry.program.f2.protocol.domain.ProtocolQueryApi
@@ -11,7 +10,9 @@ import city.smartb.registry.program.f2.protocol.domain.command.ProtocolUpdateFun
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolGetFunction
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolGetResult
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolPageFunction
+import city.smartb.registry.program.f2.protocol.domain.query.ProtocolPageResult
 import city.smartb.registry.program.s2.protocol.api.ProtocolAggregateService
+import city.smartb.registry.program.s2.protocol.api.ProtocolFinderService
 import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,37 +24,43 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 @Configuration
 class ProtocolEndpoint(
-    private val protocolF2FinderService: ProtocolF2FinderService,
+    private val protocolFinderService: ProtocolFinderService,
     private val protocolAggregateService: ProtocolAggregateService,
     private val protocolPoliciesEnforcer: ProtocolPoliciesEnforcer
 ): ProtocolQueryApi, ProtocolCommandApi {
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun protocolGet(): ProtocolGetFunction = f2Function { query ->
         logger.info("protocolGet: $query")
-        protocolF2FinderService.getOrNull(query.id).let(::ProtocolGetResult)
+        protocolFinderService.getOrNull(query.id).let(::ProtocolGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun protocolPage(): ProtocolPageFunction = f2Function { query ->
         logger.info("protocolPage: $query")
         protocolPoliciesEnforcer.checkList()
-
-        protocolF2FinderService.page(
+        protocolFinderService.page(
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             )
-        )
+        ).let { page ->
+            ProtocolPageResult(
+                items = page.items,
+                total = page.total
+            )
+        }
     }
 
     @PermitAll
     @Bean
     override fun protocolCreate(): ProtocolCreateFunction = f2Function { command ->
         logger.info("protocolCreate: $command")
-//        protocolPoliciesEnforcer.checkCreate()
+        protocolPoliciesEnforcer.checkCreate()
         protocolAggregateService.create(command)
     }
 
@@ -62,7 +69,7 @@ class ProtocolEndpoint(
     @Bean
     override fun protocolUpdate(): ProtocolUpdateFunction = f2Function { command ->
         logger.info("protocolUpdateDetails: $command")
-//        protocolPoliciesEnforcer.checkUpdate(command.id)
+        protocolPoliciesEnforcer.checkUpdate(command.id)
         protocolAggregateService.update(command)
     }
 

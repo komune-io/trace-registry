@@ -170,7 +170,7 @@ Link to the asset in the root registry
 
 ***status*** `AssetState` 
 
-Status of the asset
+Status of the asset. All status are "ISSUED", "ASSIGNED", "RETIRED"
 
 </article>
 <article>

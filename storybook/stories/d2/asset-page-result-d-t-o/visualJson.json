@@ -1,7 +1,7 @@
 {
   "items" : [ {
     "id" : "1669154596778x977338172286597000",
-    "status" : [ "Issued", "Assigned", "Retired" ],
+    "status" : "ISSUED",
     "issuanceDate" : 1670255851,
     "vintageStart" : 1670255851,
     "vintageEnd" : 1670255851,

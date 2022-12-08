@@ -5,17 +5,17 @@
 Type: `AssetPageQueryDTO`  
 <article>
 
+***limit*** `Int?` 
+
+</article>
+<article>
+
 ***name*** `String?` 
 
 </article>
 <article>
 
-***page*** `Int` 
-
-</article>
-<article>
-
-***size*** `Int` 
+***offset*** `Int?` 
 
 </article>
 
