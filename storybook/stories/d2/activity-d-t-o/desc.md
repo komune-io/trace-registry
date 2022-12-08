@@ -1,6 +1,6 @@
 
 
-### Activity
+### Attributes
 
 Type: `ActivityDTO`
 
@@ -16,7 +16,7 @@ Date of creation.
 </article>
 <article>
 
-***creator*** `UserRef` 
+***creator*** `UserRef?` 
 
 User that created the record
 

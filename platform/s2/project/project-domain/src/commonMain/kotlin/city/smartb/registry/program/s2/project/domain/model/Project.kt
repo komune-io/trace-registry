@@ -126,13 +126,13 @@ interface ProjectDTO: WithS2State<S2State> {
      * Date of creation.
      * @example "1670255859"
      */
-    val creationDate: DateTime
+    val creationDate: DateTime?
 
     /**
      * Date of last modification of the asset.
      * @example "1670255859"
      */
-    val lastModificationDate: DateTime
+    val lastModificationDate: DateTime?
 }
 
 /**
@@ -159,8 +159,8 @@ data class Project(
     override val vintage: Double?,
     override val slug: Double?,
 
-    override val creationDate: DateTime,
-    override val lastModificationDate: DateTime,
+    override val creationDate: DateTime?,
+    override val lastModificationDate: DateTime?,
 ): ProjectDTO {
     override fun s2State() = status
 }

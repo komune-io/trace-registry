@@ -2,7 +2,6 @@ package city.smartb.registry.program.f2.protocol.api
 
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import city.smartb.registry.program.f2.protocol.api.service.ProtocolF2AggregateService
 import city.smartb.registry.program.f2.protocol.api.service.ProtocolF2FinderService
 import city.smartb.registry.program.f2.protocol.api.service.ProtocolPoliciesEnforcer
 import city.smartb.registry.program.f2.protocol.domain.ProtocolCommandApi
@@ -12,6 +11,8 @@ import city.smartb.registry.program.f2.protocol.domain.command.ProtocolUpdateFun
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolGetFunction
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolGetResult
 import city.smartb.registry.program.f2.protocol.domain.query.ProtocolPageFunction
+import city.smartb.registry.program.s2.protocol.api.ProtocolAggregateService
+import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,7 +24,7 @@ import s2.spring.utils.logger.Logger
 @Configuration
 class ProtocolEndpoint(
     private val protocolF2FinderService: ProtocolF2FinderService,
-    private val protocolF2AggregateService: ProtocolF2AggregateService,
+    private val protocolAggregateService: ProtocolAggregateService,
     private val protocolPoliciesEnforcer: ProtocolPoliciesEnforcer
 ): ProtocolQueryApi, ProtocolCommandApi {
 
@@ -48,19 +49,21 @@ class ProtocolEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun protocolCreate(): ProtocolCreateFunction = f2Function { command ->
         logger.info("protocolCreate: $command")
-        protocolPoliciesEnforcer.checkCreate()
-        protocolF2AggregateService.create(command)
+//        protocolPoliciesEnforcer.checkCreate()
+        protocolAggregateService.create(command)
     }
 
 
+    @PermitAll
     @Bean
     override fun protocolUpdate(): ProtocolUpdateFunction = f2Function { command ->
         logger.info("protocolUpdateDetails: $command")
-        protocolPoliciesEnforcer.checkUpdate(command.id)
-        protocolF2AggregateService.update(command)
+//        protocolPoliciesEnforcer.checkUpdate(command.id)
+        protocolAggregateService.update(command)
     }
 
 //    @Bean

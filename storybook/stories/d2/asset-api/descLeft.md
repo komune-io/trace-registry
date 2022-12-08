@@ -5,14 +5,14 @@
   
 <article>
 
-**assetGet** ( query: [`AssetGetQueryDTO`](#asset-get) ) : [`AssetGetResultDTO`](#asset-get) <br/> 
+**POST** **/assetGet** <br/> Body:  [`AssetGetQueryDTO`](#asset-get) Result: [`AssetGetResultDTO`](#asset-get) <br/> 
 
 Get a asset by Id
 
 </article>
 <article>
 
-**assetPage** ( query: [`AssetPageQueryDTO`](#asset-page) ) : [`AssetPageResultDTO`](#asset-page) <br/> 
+**POST** **/assetPage** <br/> Body:  [`AssetPageQueryDTO`](#asset-page) Result: [`AssetPageResultDTO`](#asset-page) <br/> 
 
 Get a page of asset
 

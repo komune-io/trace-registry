@@ -1,11 +1,11 @@
 
 
-#### Event
+#### Result
 
 Type: `ActivityGetResultDTO`  
 <article>
 
-***item*** [`ActivityDTO?`](#activity) 
+***item*** [`ActivityDTO?`](#attributes) 
 
 </article>
 

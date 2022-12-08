@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.protocol.domain.automate
 
+import city.smartb.registry.program.s2.protocol.domain.command.ProtocolUpdateCommand
 import city.smartb.registry.program.s2.protocol.domain.model.Protocol
 import city.smartb.registry.program.s2.protocol.domain.model.ProtocolId
 import kotlin.js.JsExport
@@ -15,36 +16,36 @@ import s2.dsl.automate.builder.s2
 
 val s2Protocol = s2 {
 	name = "Protocol"
-	init<Protocol> {
+	init<ProtocolUpdateCommand> {
 		to = ProtocolState.UNDER_VALIDATION
 		role = ProtocolRole.ProgramManager
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.UNDER_VALIDATION
 		to = ProtocolState.VALIDATION_REQUESTED
 		role = ProtocolRole.Expert
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.VALIDATION_REQUESTED
 		to = ProtocolState.REPORT_PUBLISHED
 		role = ProtocolRole.Verifier
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.VALIDATION_REQUESTED
 		to = ProtocolState.REPORT_PUBLISHED
 		role = ProtocolRole.Verifier
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.REPORT_PUBLISHED
 		to = ProtocolState.ASSESSMENT_REQUESTED
 		role = ProtocolRole.ProjectDeveloper
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.ASSESSMENT_REQUESTED
 		to = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
 		role = ProtocolRole.VVB
 	}
-	transaction<Protocol> {
+	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
 		to = ProtocolState.VERIFIED
 		role = ProtocolRole.ProgramManager

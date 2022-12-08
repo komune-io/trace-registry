@@ -45,19 +45,11 @@ open class ActivityEntity: WithS2Id<ActivityId>, WithS2State<ActivityState>  {
     var verifiable: Boolean? = null
     var verifier: OrganizationRef? = null
     var verificationDate: DateTime? = null
-    lateinit var creator: UserRef
+    var creator: UserRef? = null
     var creationDate: DateTime = System.currentTimeMillis()
     var lastModificationDate: DateTime = System.currentTimeMillis()
 
-
     lateinit var status: ActivityState
-
-
-    @CreatedDate
-    private val createdDate: Date? = null
-
-    @LastModifiedDate
-    private val lastModifiedDate: Date? = null
 
     override fun s2Id() = id
     override fun s2State() = status

@@ -5,10 +5,7 @@ import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
-import java.util.Date
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedDate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -35,11 +32,11 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var vintage: Double? = null
     var slug: Double? = null
 
-    @CreatedDate
-    val createdDate: Date? = null
-
-    @LastModifiedDate
-    val lastModifiedDate: Date? = null
+//    @CreatedDate
+//    val createdDate: Date? = null
+//
+//    @LastModifiedDate
+//    val lastModifiedDate: Date? = null
     override fun s2Id() = id
     override fun s2State() = status
 }

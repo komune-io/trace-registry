@@ -11,14 +11,13 @@ import kotlin.js.JsName
  * Get Activity By id
  * @d2 function
  * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivitySectionApi]
- * @child [ActivityGetQuery]
- * @child [ActivityGetResult]
+ * @child [ActivityGetQueryDTO]
+ * @child [ActivityGetResultDTO]
  */
 typealias ActivityGetFunction = F2Function<ActivityGetQuery, ActivityGetResult>
 
 /**
  * @d2 query
- * @parent [ActivityGetFunction]
  */
 @JsExport
 @JsName("ActivityGetQueryDTO")
@@ -27,8 +26,7 @@ interface ActivityGetQueryDTO {
 }
 
 /**
- * @d2 event
- * @parent [ActivityGetFunction]
+ * @d2 result
  */
 @JsExport
 @JsName("ActivityGetResultDTO")

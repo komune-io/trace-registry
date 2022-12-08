@@ -37,7 +37,7 @@ Air Ressource Board compatibility
 </article>
 <article>
 
-***creationDate*** `DateTime` 
+***creationDate*** `DateTime?` 
 
 Date of creation.
 
@@ -91,7 +91,7 @@ Date of asset issuance
 </article>
 <article>
 
-***lastModificationDate*** `DateTime` 
+***lastModificationDate*** `DateTime?` 
 
 Date of last modification of the asset.
 

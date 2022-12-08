@@ -5,14 +5,14 @@
   
 <article>
 
-**assetCreate** ( cmd: [`AssetUpdateCommand`](#asset-update) ) : `AssetUpdatedEvent` <br/> 
+**POST** **/assetCreate** <br/> Body:  [`AssetUpdateCommand`](#asset-update) Result: `AssetUpdatedEvent` <br/> 
 
 Create Asset
 
 </article>
 <article>
 
-**assetUpdate** ( cmd: [`AssetUpdateCommand`](#asset-update) ) : `AssetUpdatedEvent` <br/> 
+**POST** **/assetUpdate** <br/> Body:  [`AssetUpdateCommand`](#asset-update) Result: `AssetUpdatedEvent` <br/> 
 
 Update Asset
 

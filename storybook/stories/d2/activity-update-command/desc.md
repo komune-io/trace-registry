@@ -1,71 +1,57 @@
 
 
-#### Command
+### Command
 
 Type: `ActivityUpdateCommand`
 
-Activity payload
+Activity Payload
 
   
 <article>
 
-***creationDate*** `DateTime` 
-
-Date of creation.
-
-</article>
-<article>
-
-***creator*** `UserRef` 
-
-User that created the record
-
-</article>
-<article>
-
-***description*** `String` 
+***description*** `String?` 
 
 Description of the activity
 
 </article>
 <article>
 
-***endDate*** `DateTime` 
+***endDate*** `DateTime?` 
 
 End of activity date
 
 </article>
 <article>
 
-***estimatedEndDate*** `DateTime` 
+***estimatedEndDate*** `DateTime?` 
 
 Estimated date of the end of the activity
 
 </article>
 <article>
 
-***executor*** `OrganizationRef` 
+***executor*** `OrganizationRef?` 
 
 Organization in charge of executing the task
 
 </article>
 <article>
 
-***expectedValue*** `Double` 
+***expectedValue*** `Double?` 
 
 Numeric value expected by the activity.
 
 </article>
 <article>
 
-***expectedValueUnit*** `Double` 
+***expectedValueUnit*** `Double?` 
 
 Unit of the expected value ca be used to store non-numeric expected value.
 
 </article>
 <article>
 
-***fee*** `Double` 
+***fee*** `Double?` 
 
 Value charged by the executor to execute the task.
 
@@ -77,23 +63,16 @@ Value charged by the executor to execute the task.
 </article>
 <article>
 
-***isPublic*** `Boolean` 
+***isPublic*** `Boolean?` 
 
 Used to define non-public activities.
 
 </article>
 <article>
 
-***issuable*** `Boolean` 
+***issuable*** `Boolean?` 
 
 Used to define activities validating issuance of credits. Expected value is then the amount of asset to issue.
-
-</article>
-<article>
-
-***lastModificationDate*** `DateTime` 
-
-Date of last modification of the asset.
 
 </article>
 <article>
@@ -105,28 +84,28 @@ Name of the activity
 </article>
 <article>
 
-***project*** `ProjectRef` 
+***project*** `ProjectRef?` 
 
 Project unique ID Key.
 
 </article>
 <article>
 
-***protocol*** `ProtocolRef` 
+***protocol*** `ProtocolRef?` 
 
 Reference to protocol ID Key.
 
 </article>
 <article>
 
-***slug*** `String` 
+***slug*** `String?` 
 
 Short unique text to axess to the activity
 
 </article>
 <article>
 
-***startDate*** `DateTime` 
+***startDate*** `DateTime?` 
 
 Start of activity date
 
@@ -140,42 +119,42 @@ Used to trigger record state on the network. List : {NotStarted, Doing, Paused, 
 </article>
 <article>
 
-***subActivityOf*** `ActivityRef` 
+***subActivityOf*** `ActivityRef?` 
 
 Link of the parent activity. Void when root activity.
 
 </article>
 <article>
 
-***validationDate*** `DateTime` 
+***validationDate*** `DateTime?` 
 
 Date of validation by validator.
 
 </article>
 <article>
 
-***validator*** `OrganizationRef` 
+***validator*** `OrganizationRef?` 
 
 Organisation in charge of activity validation.
 
 </article>
 <article>
 
-***verifiable*** `Boolean` 
+***verifiable*** `Boolean?` 
 
 Allow to define if an activity do not need verification. (Default : yes).
 
 </article>
 <article>
 
-***verificationDate*** `DateTime` 
+***verificationDate*** `DateTime?` 
 
 Date of verification.
 
 </article>
 <article>
 
-***verifier*** `OrganizationRef` 
+***verifier*** `OrganizationRef?` 
 
 Organization in charge of verification for this activity.
 

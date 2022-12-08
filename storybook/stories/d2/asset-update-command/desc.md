@@ -9,47 +9,47 @@ Asset payload
   
 <article>
 
-***activity*** `ActivityRef` 
+***activity*** `ActivityRef?` 
 
 </article>
 <article>
 
-***additionalCertifications*** `String` 
+***additionalCertifications*** `String?` 
 
 </article>
 <article>
 
-***aeroplaneOperatorName*** `String` 
+***aeroplaneOperatorName*** `String?` 
 
 </article>
 <article>
 
-***arbEligible*** `Boolean` 
+***arbEligible*** `Boolean?` 
 
 </article>
 <article>
 
-***creditsIssuedToBufferPool*** `Double` 
+***creditsIssuedToBufferPool*** `Double?` 
 
 </article>
 <article>
 
-***creditStatus*** `String` 
+***creditStatus*** `String?` 
 
 </article>
 <article>
 
-***eligibleForCORSIA*** `Boolean` 
+***eligibleForCORSIA*** `Boolean?` 
 
 </article>
 <article>
 
-***exAnteUnitPrice*** `Double` 
+***exAnteUnitPrice*** `Double?` 
 
 </article>
 <article>
 
-***exPostUnitPrice*** `Double` 
+***exPostUnitPrice*** `Double?` 
 
 </article>
 <article>
@@ -59,57 +59,57 @@ Asset payload
 </article>
 <article>
 
-***issuanceDate*** `DateTime` 
+***issuanceDate*** `DateTime?` 
 
 </article>
 <article>
 
-***project*** `ProjectRef` 
+***project*** `ProjectRef?` 
 
 </article>
 <article>
 
-***protocol*** `ProtocolRef` 
+***protocol*** `ProtocolRef?` 
 
 </article>
 <article>
 
-***quantityIssued*** `Double` 
+***quantityIssued*** `Double?` 
 
 </article>
 <article>
 
-***retiredForCORSIA*** `Boolean` 
+***retiredForCORSIA*** `Boolean?` 
 
 </article>
 <article>
 
-***retirementBeneficiary*** `UserRef` 
+***retirementBeneficiary*** `UserRef?` 
 
 </article>
 <article>
 
-***retirementDate*** `DateTime` 
+***retirementDate*** `DateTime?` 
 
 </article>
 <article>
 
-***retirementDetails*** `String` 
+***retirementDetails*** `String?` 
 
 </article>
 <article>
 
-***retirementReason*** `String` 
+***retirementReason*** `String?` 
 
 </article>
 <article>
 
-***serialNumber*** `String` 
+***serialNumber*** `String?` 
 
 </article>
 <article>
 
-***slug*** `String` 
+***slug*** `String?` 
 
 </article>
 <article>
@@ -119,22 +119,22 @@ Asset payload
 </article>
 <article>
 
-***totalVintageQuantity*** `Double` 
+***totalVintageQuantity*** `Double?` 
 
 </article>
 <article>
 
-***verifiedRemoval*** `String` 
+***verifiedRemoval*** `String?` 
 
 </article>
 <article>
 
-***vintageEnd*** `DateTime` 
+***vintageEnd*** `DateTime?` 
 
 </article>
 <article>
 
-***vintageStart*** `DateTime` 
+***vintageStart*** `DateTime?` 
 
 </article>
 

@@ -5,14 +5,12 @@
   
 <article>
 
-**activityGet** ( query: [`ActivityGetQueryDTO`](#activity-get) ) : [`ActivityGetResultDTO`](#activity-get) <br/> 
-
-Get a activity by Id
+**POST** **/activityGet** <br/> Body:  [`ActivityGetQueryDTO`](#activity-get) Result: [`ActivityGetResultDTO`](#activity-get) <br/> 
 
 </article>
 <article>
 
-**activityPage** ( query: [`ActivityPageQueryDTO`](#activity-page) ) : [`ActivityPageResultDTO`](#activity-page) <br/> 
+**POST** **/activityPage** <br/> Body:  [`ActivityPageQueryDTO`](#activity-page) Result: [`ActivityPageResultDTO`](#activity-page) <br/> 
 
 Get a page of activity
 

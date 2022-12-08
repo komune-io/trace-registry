@@ -1,5 +1,5 @@
 
 
-## Model
+## The Activity Object
 
 

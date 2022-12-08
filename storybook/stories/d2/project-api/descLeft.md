@@ -5,14 +5,14 @@
   
 <article>
 
-**projectGet** ( query: [`ProjectGetQueryDTO`](#project-get) ) : [`ProjectGetResultDTO`](#project-get) <br/> 
+**POST** **/projectGet** <br/> Body:  [`ProjectGetQueryDTO`](#project-get) Result: [`ProjectGetResultDTO`](#project-get) <br/> 
 
 Get a project by Id
 
 </article>
 <article>
 
-**projectPage** ( query: [`ProjectPageQueryDTO`](#project-page) ) : [`ProjectPageResultDTO`](#project-page) <br/> 
+**POST** **/projectPage** <br/> Body:  [`ProjectPageQueryDTO`](#project-page) Result: [`ProjectPageResultDTO`](#project-page) <br/> 
 
 Get a page of project
 

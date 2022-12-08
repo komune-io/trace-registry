@@ -1,1 +1,135 @@
+### version
 GET http://localhost:8070/api/version
+
+### about
+GET http://localhost:8070/api/about
+
+### Activity
+###############################
+### activityCreate
+POST http://localhost:8070/api/activityCreate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "1",
+    "status": "NOT_STARTED"
+  }
+]
+
+### activityUpdate
+POST http://localhost:8070/api/activityUpdate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "11",
+    "status": "NOT_STARTED"
+  }
+]
+
+### ASSET
+##############################
+
+### assetCreate
+POST http://localhost:8070/api/assetCreate
+Content-Type: application/json
+
+[
+  {
+    "id": "11",
+    "name": "1",
+    "description": "1",
+    "status": "ISSUED"
+  }
+]
+
+### assetUpdate
+POST http://localhost:8070/api/assetUpdate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "11",
+    "status": "ASSIGNED"
+  }
+]
+
+### assetUpdate
+POST http://localhost:8070/api/assetUpdate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "11",
+    "status": "RETIRED"
+  }
+]
+
+### PROJECT
+### REGISTRATION_REQUESTED, UNDER_REVIEW, UNDER_DEVELOPMENT, UNDER_VALIDATION, VERIFIED, REJECTED
+##############################
+
+### projectCreate
+POST http://localhost:8070/api/projectCreate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "1",
+    "status": "REGISTRATION_REQUESTED"
+  }
+]
+
+### projectUpdate
+POST http://localhost:8070/api/projectUpdate
+Content-Type: application/json
+
+[
+  {
+    "id": "1",
+    "name": "1",
+    "description": "11",
+    "status": "UNDER_REVIEW"
+  }
+]
+
+### PROTOCOL
+##############################
+### UNDER_VALIDATION, VALIDATION_REQUESTED, REPORT_PUBLISHED, ASSESSMENT_REQUESTED,	VERIFICATION_DOCUMENTATION_PROVIDED, VERIFIED
+
+### protocolCreate
+POST http://localhost:8070/api/protocolCreate
+Content-Type: application/json
+
+[
+  {
+    "id": "2",
+    "name": "1",
+    "description": "1",
+    "status": "UNDER_VALIDATION"
+  }
+]
+
+### protocolUpdate
+POST http://localhost:8070/api/protocolUpdate
+Content-Type: application/json
+
+[
+  {
+    "id": "2",
+    "name": "1",
+    "description": "11",
+    "status": "VALIDATION_REQUESTED"
+  }
+]

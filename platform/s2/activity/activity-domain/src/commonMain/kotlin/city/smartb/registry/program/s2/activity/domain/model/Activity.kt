@@ -19,7 +19,7 @@ typealias ActivityId = String
  * that alter the conditions identified in the baseline scenario
  * and which result in GHG emission reductions or removals.
  *
- * @title Activity
+ * @title Attributes
  * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityModelSection]
  * @d2 model
  */
@@ -149,7 +149,7 @@ interface ActivityDTO: WithS2State<ActivityState> {
     /**
      * User that created the record
      */
-    val creator: UserRef
+    val creator: UserRef?
 
     /**
      * Date of creation.
@@ -192,7 +192,7 @@ data class Activity(
     override val verifiable: Boolean?,
     override val verifier: OrganizationRef?,
     override val verificationDate: DateTime?,
-    override val creator: UserRef,
+    override val creator: UserRef?,
     override val creationDate: DateTime,
     override val lastModificationDate: DateTime,
 ): ActivityDTO

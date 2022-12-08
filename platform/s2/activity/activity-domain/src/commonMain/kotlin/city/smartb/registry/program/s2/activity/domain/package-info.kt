@@ -8,7 +8,7 @@ interface D2ActivityPage
 
 /**
  * @d2 section
- * @title Model
+ * @title The Activity Object
  * @parent [D2ActivityPage]
  * @order 2
  */

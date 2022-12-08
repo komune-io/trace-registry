@@ -12,7 +12,7 @@ Country of the projets
 </article>
 <article>
 
-***creationDate*** `DateTime` 
+***creationDate*** `DateTime?` 
 
 Date of creation.
 
@@ -59,7 +59,7 @@ Quantity expected to be issued
 </article>
 <article>
 
-***lastModificationDate*** `DateTime` 
+***lastModificationDate*** `DateTime?` 
 
 Date of last modification of the asset.
 

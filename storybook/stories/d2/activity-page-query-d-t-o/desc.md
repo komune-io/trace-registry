@@ -7,6 +7,8 @@ Type: `ActivityPageQueryDTO`
 
 ***name*** `String?` 
 
+Name of the activity
+
 </article>
 <article>
 

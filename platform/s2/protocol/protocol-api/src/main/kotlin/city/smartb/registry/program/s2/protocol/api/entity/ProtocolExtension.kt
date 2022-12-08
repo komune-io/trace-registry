@@ -22,13 +22,16 @@ fun ProtocolEntity.toProtocol() = Protocol(
     protocolType = this.protocolType,
     sdg = this.sdg,
     slug = this.slug,
-    creationDate = this.creationDate?.toInstant()?.epochSecond,
-    lastModificationDate = this.lastModificationDate?.toInstant()?.epochSecond
+    creationDate = null,
+    lastModificationDate = null
+//    creationDate = this.creationDate?.toInstant()?.epochSecond,
+//    lastModificationDate = this.lastModificationDate?.toInstant()?.epochSecond
 )
 
 fun ProtocolUpdateCommand.toProtocol() = ProtocolEntity().applyCmd(this)
 fun ProtocolEntity.applyCmd(cmd: ProtocolUpdateCommand): ProtocolEntity = apply {
     this.id = cmd.id
+    this.status = cmd.status
     this.name = cmd.name
     this.baseScenario = cmd.baseScenario
     this.context = cmd.context

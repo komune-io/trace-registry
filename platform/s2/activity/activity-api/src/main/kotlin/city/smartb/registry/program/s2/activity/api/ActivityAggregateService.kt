@@ -18,7 +18,7 @@ class ActivityAggregateService(
 		command.toEntity() to ActivityUpdatedEvent(command.id)
 	}
 
-	override suspend fun modify(command: ActivityUpdateCommand): ActivityUpdatedEvent
+	override suspend fun update(command: ActivityUpdateCommand): ActivityUpdatedEvent
 	= automate.doTransition(command) {
 		command.applyToEntity(this) to ActivityUpdatedEvent(command.id)
 	}

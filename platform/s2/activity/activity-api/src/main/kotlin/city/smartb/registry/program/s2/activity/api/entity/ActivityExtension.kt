@@ -29,9 +29,9 @@ fun ActivityUpdateCommand.applyToEntity(entity: ActivityEntity): ActivityEntity 
     entity.verifiable = this.verifiable
     entity.verifier = this.verifier
     entity.verificationDate = this.verificationDate
-    entity.creator = this.creator
-    entity.creationDate = this.creationDate
-    entity.lastModificationDate = this.lastModificationDate
+    entity.creator = null
+    entity.creationDate = System.currentTimeMillis()
+    entity.lastModificationDate = System.currentTimeMillis()
     entity
 }
 

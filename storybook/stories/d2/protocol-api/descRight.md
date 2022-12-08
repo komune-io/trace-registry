@@ -5,14 +5,14 @@
   
 <article>
 
-**protocolCreate** ( cmd: [`ProtocolUpdateCommandDTO`](#api) ) : [`ProtocolUpdatedEventDTO`](#api) <br/> 
+**POST** **/protocolCreate** <br/> Body:  [`ProtocolUpdateCommandDTO`](#api) Result: [`ProtocolUpdatedEventDTO`](#api) <br/> 
 
 Create Protocol
 
 </article>
 <article>
 
-**protocolUpdate** ( cmd: [`ProtocolUpdateCommandDTO`](#api) ) : [`ProtocolUpdatedEventDTO`](#api) <br/> 
+**POST** **/protocolUpdate** <br/> Body:  [`ProtocolUpdateCommandDTO`](#api) Result: [`ProtocolUpdatedEventDTO`](#api) <br/> 
 
 Update Protocol
 

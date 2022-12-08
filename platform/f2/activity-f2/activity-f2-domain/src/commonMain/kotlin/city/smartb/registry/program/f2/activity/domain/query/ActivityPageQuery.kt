@@ -22,6 +22,9 @@ typealias ActivityPageFunction = F2Function<ActivityPageQuery, ActivityPageResul
 @JsExport
 @JsName("ActivityPageQueryDTO")
 interface ActivityPageQueryDTO {
+    /**
+     * Name of the activity
+     */
     val name: String?
     val size: Int
     val page: Int
@@ -37,7 +40,7 @@ data class ActivityPageQuery(
 ): ActivityPageQueryDTO
 
 /**
- * Result of the query to get a page of activitys.
+ * Result of the query to get a page of activities.
  * @d2 event
  */
 @JsExport

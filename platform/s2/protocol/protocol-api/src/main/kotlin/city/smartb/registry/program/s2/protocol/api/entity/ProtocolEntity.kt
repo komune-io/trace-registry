@@ -42,11 +42,11 @@ open class ProtocolEntity: WithS2Id<ProtocolId>, WithS2State<ProtocolState>  {
 
     open lateinit var status: ProtocolState
 
-    @CreatedDate
-    val creationDate: Date? = null
-
-    @LastModifiedDate
-    val lastModificationDate: Date? = null
+//    @CreatedDate
+//    val creationDate: Date? = null
+//
+//    @LastModifiedDate
+//    val lastModificationDate: Date? = null
     override fun s2Id() = id
     override fun s2State() = status
 }

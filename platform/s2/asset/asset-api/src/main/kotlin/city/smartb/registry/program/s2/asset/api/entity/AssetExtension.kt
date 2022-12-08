@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.asset.domain.model.Asset
 fun AssetUpdateCommand.toEntity() = applyToEntity(AssetEntity())
 fun AssetUpdateCommand.applyToEntity(entity: AssetEntity): AssetEntity = let {
     entity.id = this.id
+    entity.status = this.status
 
     entity.activity = this.activity
     entity.protocol = this.protocol
@@ -64,7 +65,9 @@ fun AssetEntity.toAsset(): Asset = let { entity ->
         retiredForCORSIA = entity.retiredForCORSIA,
         aeroplaneOperatorName = entity.aeroplaneOperatorName,
         status = entity.status,
-        creationDate = entity.createdDate!!.time,
-        lastModificationDate = entity.lastModifiedDate!!.time
+        creationDate = null,
+        lastModificationDate = null
+//        creationDate = entity.createdDate!!.time,
+//        lastModificationDate = entity.lastModifiedDate!!.time
     )
 }

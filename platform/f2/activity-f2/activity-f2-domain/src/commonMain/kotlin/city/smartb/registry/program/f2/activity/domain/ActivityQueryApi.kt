@@ -5,7 +5,7 @@ import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunctio
 
 interface ActivityQueryApi {
     /**
-     * Get a activity by Id
+     * @title Get an activity by Id
      */
     fun activityGet(): ActivityGetFunction
     /**

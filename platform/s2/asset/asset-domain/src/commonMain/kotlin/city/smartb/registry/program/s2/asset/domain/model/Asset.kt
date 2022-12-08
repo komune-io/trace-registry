@@ -175,13 +175,13 @@ interface AssetDTO: WithS2State<AssetState> {
      * Date of creation.
      * @example "1670255859"
      */
-    val creationDate: DateTime
+    val creationDate: DateTime?
 
     /**
      * Date of last modification of the asset.
      * @example "1670255859"
      */
-    val lastModificationDate: DateTime
+    val lastModificationDate: DateTime?
 
     override fun s2State() = status
 }
@@ -217,8 +217,8 @@ data class Asset(
     override val retiredForCORSIA: Boolean?,
     override val aeroplaneOperatorName: String?,
 
-    override val creationDate: DateTime,
-    override val lastModificationDate: DateTime
+    override val creationDate: DateTime?,
+    override val lastModificationDate: DateTime?
 ) : AssetDTO
 
 typealias DateTime = Long

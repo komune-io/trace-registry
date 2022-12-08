@@ -5,14 +5,14 @@
   
 <article>
 
-**activityCreate** ( cmd: [`ActivityUpdateCommand`](#activity-update) ) : `ActivityUpdatedEvent` <br/> 
+**POST** **/activityCreate** <br/> Body:  [`ActivityUpdateCommand`](#api) Result: [`ActivityUpdatedEventDTO`](#api) <br/> 
 
 Create Activity
 
 </article>
 <article>
 
-**activityUpdate** ( cmd: [`ActivityUpdateCommand`](#activity-update) ) : `ActivityUpdatedEvent` <br/> 
+**POST** **/activityUpdate** <br/> Body:  [`ActivityUpdateCommand`](#api) Result: [`ActivityUpdatedEventDTO`](#api) <br/> 
 
 Update Activity
 

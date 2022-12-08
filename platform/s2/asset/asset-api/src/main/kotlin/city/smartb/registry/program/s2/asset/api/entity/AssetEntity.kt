@@ -8,10 +8,7 @@ import city.smartb.registry.program.s2.asset.domain.model.ProtocolRef
 import city.smartb.registry.program.s2.asset.domain.model.UserRef
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Searchable
-import java.util.Date
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedDate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -20,7 +17,6 @@ open class AssetEntity: WithS2Id<AssetId>, WithS2State<AssetState>  {
     @Id
     open lateinit var id: AssetId
     open lateinit var status: AssetState
-
 
     var activity: ActivityRef? = null
     var protocol: ProtocolRef? = null
@@ -49,11 +45,11 @@ open class AssetEntity: WithS2Id<AssetId>, WithS2State<AssetState>  {
     var aeroplaneOperatorName: String? = null
 
 
-    @CreatedDate
-    val createdDate: Date? = null
-
-    @LastModifiedDate
-    val lastModifiedDate: Date? = null
+//    @CreatedDate
+//    val createdDate: Date? = null
+//
+//    @LastModifiedDate
+//    val lastModifiedDate: Date? = null
     override fun s2Id() = id
     override fun s2State() = status
 }
