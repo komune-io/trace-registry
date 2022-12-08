@@ -23,8 +23,8 @@ typealias ProjectPageFunction = F2Function<ProjectPageQuery, ProjectPageResult>
 @JsName("ProjectPageQueryDTO")
 interface ProjectPageQueryDTO {
     val name: String?
-    val size: Int
-    val page: Int
+    val offset: Int?
+    val limit: Int?
 }
 
 /**
@@ -32,8 +32,8 @@ interface ProjectPageQueryDTO {
  */
 data class ProjectPageQuery(
     override val name: String?,
-    override val size: Int,
-    override val page: Int,
+    override val offset: Int?,
+    override val limit: Int?,
 ): ProjectPageQueryDTO
 
 /**

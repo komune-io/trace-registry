@@ -1,4 +1,4 @@
-package city.smartb.registry.program.s2.project.api.entity.project
+package city.smartb.registry.program.s2.project.api.entity
 
 import com.redis.om.spring.annotations.Document
 import city.smartb.registry.program.s2.project.domain.model.ProjectId

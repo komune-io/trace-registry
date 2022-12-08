@@ -23,8 +23,8 @@ typealias ProtocolPageFunction = F2Function<ProtocolPageQuery, ProtocolPageResul
 @JsName("ProtocolPageQueryDTO")
 interface ProtocolPageQueryDTO {
     val name: String?
-    val size: Int
-    val page: Int
+    val offset: Int?
+    val limit: Int?
 }
 
 /**
@@ -32,8 +32,8 @@ interface ProtocolPageQueryDTO {
  */
 data class ProtocolPageQuery(
     override val name: String?,
-    override val size: Int,
-    override val page: Int,
+    override val offset: Int?,
+    override val limit: Int?,
 ): ProtocolPageQueryDTO
 
 /**

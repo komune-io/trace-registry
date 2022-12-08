@@ -46,8 +46,8 @@ class AssetEndpoint(
         assetPoliciesEnforcer.checkList()
         assetFinderService.page(
             offset = OffsetPagination(
-                offset = query.page * query.size,
-                limit = query.size
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
             )
         ).let { page ->
             AssetPageResult(
@@ -68,7 +68,7 @@ class AssetEndpoint(
     @PermitAll
     @Bean
     override fun assetUpdate(): AssetUpdateFunction = f2Function { command ->
-        logger.info("assetUpdateDetails: $command")
+        logger.info("assetUpdate: $command")
         assetPoliciesEnforcer.checkUpdate(command.id)
         assetAggregateService.update(command)
     }

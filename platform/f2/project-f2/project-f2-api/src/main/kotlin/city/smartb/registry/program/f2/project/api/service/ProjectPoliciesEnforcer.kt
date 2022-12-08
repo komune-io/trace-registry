@@ -18,20 +18,24 @@ class ProjectPoliciesEnforcer(
 ): PolicyEnforcer() {
     suspend fun checkList() = check("list the projects") { authedUser ->
         ProjectPolicies.canList(authedUser)
+        true
     }
 
     suspend fun checkCreate() = check("create a project") { authedUser ->
         ProjectPolicies.canCreate(authedUser)
+        true
     }
 
     suspend fun checkUpdate(projectId: ProjectId) = check("update the project [$projectId]") { authedUser ->
         val project = projectF2FinderService.get(projectId)
         ProjectPolicies.canUpdate(authedUser, project)
+        true
     }
 
     suspend fun checkDelete(projectId: ProjectId) = check("delete the project [$projectId]") { authedUser ->
         val project = projectF2FinderService.get(projectId)
         ProjectPolicies.canDelete(authedUser, project)
+        true
     }
 
 }

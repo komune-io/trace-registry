@@ -13,6 +13,8 @@ dependencies {
 
     jvmApi("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
     jvmImplementation("city.smartb.i2:i2-spring-boot-starter-auth:${Versions.i2}")
+    Dependencies.Jvm.s2StoringData(::jvmImplementation)
+    jvmImplementation("org.springframework.data:spring-data-commons:${Versions.springData}")
 
     jvmImplementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
 

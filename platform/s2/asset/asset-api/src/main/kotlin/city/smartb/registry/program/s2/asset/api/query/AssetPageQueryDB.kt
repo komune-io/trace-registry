@@ -1,16 +1,29 @@
 package city.smartb.registry.program.s2.asset.api.query
 
+import city.smartb.registry.program.api.commons.extention.toPage
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import city.smartb.registry.program.api.commons.model.Match
 import  city.smartb.registry.program.s2.asset.domain.model.AssetId
 import city.smartb.registry.program.s2.asset.api.entity.AssetEntity
+import city.smartb.registry.program.s2.asset.api.entity.AssetRepository
+import f2.dsl.cqrs.page.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 
 @Repository
-class AssetPageQueryDB {
+class AssetPageQueryDB(
+    val repository: AssetRepository
+) {
     fun execute(
         id: Match<AssetId>? = null,
         offset: OffsetPagination? = null
-    ): PageDTO<AssetEntity> = TODO()
+    ): PageDTO<AssetEntity> {
+        val page = offset.toPage()
+        val items = repository.findAll(page)
+        return Page(
+            total = items.totalElements.toInt(),
+            items =  items.toList()
+        )
+    }
 }

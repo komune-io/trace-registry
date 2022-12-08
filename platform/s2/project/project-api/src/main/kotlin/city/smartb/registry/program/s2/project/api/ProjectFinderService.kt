@@ -2,12 +2,12 @@ package city.smartb.registry.program.s2.project.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.api.commons.model.Match
+import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
+import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
+import city.smartb.registry.program.s2.project.api.entity.toProject
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import city.smartb.registry.program.s2.project.api.entity.project.ProjectEntity
-import city.smartb.registry.program.s2.project.api.entity.project.ProjectRepository
-import city.smartb.registry.program.s2.project.api.entity.project.toProject
 import city.smartb.registry.program.s2.project.api.query.ProjectPageQueryDB
 import city.smartb.registry.program.s2.project.domain.ProjectFinder
 import city.smartb.registry.program.s2.project.domain.model.ProjectId

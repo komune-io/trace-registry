@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.api.config
 
-import city.smartb.registry.program.s2.project.api.entity.project.ProjectEntity
-import city.smartb.registry.program.s2.project.api.entity.project.ProjectRepository
+import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
+import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project

@@ -43,8 +43,8 @@ class ProtocolEndpoint(
 
         protocolF2FinderService.page(
             offset = OffsetPagination(
-                offset = query.page * query.size,
-                limit = query.size
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
             )
         )
     }

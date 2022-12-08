@@ -23,8 +23,8 @@ typealias AssetPageFunction = F2Function<AssetPageQuery, AssetPageResult>
 @JsName("AssetPageQueryDTO")
 interface AssetPageQueryDTO {
     val name: String?
-    val size: Int
-    val page: Int
+    val offset: Int?
+    val limit: Int?
 }
 
 /**
@@ -32,8 +32,8 @@ interface AssetPageQueryDTO {
  */
 data class AssetPageQuery(
     override val name: String?,
-    override val size: Int,
-    override val page: Int,
+    override val offset: Int?,
+    override val limit: Int?,
 ): AssetPageQueryDTO
 
 /**

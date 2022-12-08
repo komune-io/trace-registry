@@ -12,6 +12,7 @@ object PluginVersions {
 
 object Versions {
 	const val springBoot = PluginVersions.springBoot
+	const val springData = FixersVersions.Spring.data
 	val f2 = PluginVersions.fixers
 	val s2 = PluginVersions.fixers
 	val i2 = PluginVersions.fixers

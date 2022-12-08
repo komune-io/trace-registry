@@ -45,8 +45,8 @@ class ProjectEndpoint(
 
         projectF2FinderService.page(
             offset = OffsetPagination(
-                offset = query.page * query.size,
-                limit = query.size
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
             )
         )
     }
@@ -55,7 +55,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectCreate(): ProjectCreateFunction = f2Function { command ->
         logger.info("projectCreate: $command")
-//        projectPoliciesEnforcer.checkCreate()
+        projectPoliciesEnforcer.checkCreate()
         projectAggregateService.create(command)
     }
 
@@ -63,7 +63,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectUpdate(): ProjectUpdateFunction = f2Function { command ->
         logger.info("projectUpdateDetails: $command")
-//        projectPoliciesEnforcer.checkUpdate(command.id)
+        projectPoliciesEnforcer.checkUpdate(command.id)
         projectAggregateService.update(command)
     }
 
