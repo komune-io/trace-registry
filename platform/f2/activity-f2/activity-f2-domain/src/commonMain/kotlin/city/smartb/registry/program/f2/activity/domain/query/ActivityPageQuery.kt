@@ -26,8 +26,8 @@ interface ActivityPageQueryDTO {
      * Name of the activity
      */
     val name: String?
-    val size: Int
-    val page: Int
+    val offset: Int?
+    val limit: Int?
 }
 
 /**
@@ -35,8 +35,8 @@ interface ActivityPageQueryDTO {
  */
 data class ActivityPageQuery(
     override val name: String?,
-    override val size: Int,
-    override val page: Int,
+    override val offset: Int?,
+    override val limit: Int?,
 ): ActivityPageQueryDTO
 
 /**

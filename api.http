@@ -6,6 +6,7 @@ GET http://localhost:8070/api/about
 
 ### Activity
 ###############################
+
 ### activityCreate
 POST http://localhost:8070/api/activityCreate
 Content-Type: application/json
@@ -32,7 +33,25 @@ Content-Type: application/json
   }
 ]
 
-### ASSET
+### activityGet
+POST http://localhost:8070/api/activityGet
+Content-Type: application/json
+
+[
+  {
+    "id": "1"
+  }
+]
+
+### activityPage
+POST http://localhost:8070/api/activityPage
+Content-Type: application/json
+
+[
+  {}
+]
+
+### Asset
 ##############################
 
 ### assetCreate
@@ -41,7 +60,7 @@ Content-Type: application/json
 
 [
   {
-    "id": "11",
+    "id": "1",
     "name": "1",
     "description": "1",
     "status": "ISSUED"
@@ -72,6 +91,23 @@ Content-Type: application/json
     "description": "11",
     "status": "RETIRED"
   }
+]
+
+### assetGet
+POST http://localhost:8070/api/assetGet
+Content-Type: application/json
+
+[
+  {
+    "id": "1"
+  }
+]
+
+### assetPage
+POST http://localhost:8070/api/assetPage
+Content-Type: application/json
+
+[
 ]
 
 ### PROJECT
@@ -114,7 +150,7 @@ Content-Type: application/json
 
 [
   {
-    "id": "2",
+    "id": "1",
     "name": "1",
     "description": "1",
     "status": "UNDER_VALIDATION"

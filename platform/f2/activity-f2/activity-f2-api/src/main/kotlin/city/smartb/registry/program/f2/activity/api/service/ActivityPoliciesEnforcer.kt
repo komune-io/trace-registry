@@ -11,20 +11,24 @@ class ActivityPoliciesEnforcer(
 ): PolicyEnforcer() {
     suspend fun checkList() = check("list the activitys") { authedUser ->
         ActivityPolicies.canList(authedUser)
+        true
     }
 
     suspend fun checkCreate() = check("create a activity") { authedUser ->
         ActivityPolicies.canCreate(authedUser)
+        true
     }
 
     suspend fun checkUpdate(activityId: ActivityId) = check("update the activity [$activityId]") { authedUser ->
         val activity = activityF2FinderService.get(activityId)
         ActivityPolicies.canUpdate(authedUser, activity)
+        true
     }
 
     suspend fun checkDelete(activityId: ActivityId) = check("delete the activity [$activityId]") { authedUser ->
         val activity = activityF2FinderService.get(activityId)
         ActivityPolicies.canDelete(authedUser, activity)
+        true
     }
 
 }

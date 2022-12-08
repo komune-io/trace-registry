@@ -14,6 +14,10 @@ class AssetPoliciesEnforcer(
         AssetPolicies.canList(authedUser)
     }
 
+    suspend fun checkGet() = check("list the assets") { authedUser ->
+        AssetPolicies.canList(authedUser)
+    }
+
     suspend fun checkCreate() = check("create a asset") { authedUser ->
         AssetPolicies.canCreate(authedUser)
     }

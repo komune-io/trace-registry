@@ -30,6 +30,7 @@ class ActivityEndpoint(
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun activityGet(): ActivityGetFunction = f2Function { query ->
         logger.info("activityGet: $query")
@@ -44,8 +45,8 @@ class ActivityEndpoint(
 
         activityF2FinderService.page(
             offset = OffsetPagination(
-                offset = query.page * query.size,
-                limit = query.size
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
             )
         )
     }

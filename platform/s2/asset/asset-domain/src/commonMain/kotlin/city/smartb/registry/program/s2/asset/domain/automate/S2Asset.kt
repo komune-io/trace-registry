@@ -20,7 +20,7 @@ val s2Asset = s2 {
 		to = AssetState.ISSUED
 		role = AssetRole.Issuer
 	}
-	transaction<AssetDeleteCommand> {
+	transaction<AssetUpdateCommand> {
 		from = AssetState.ISSUED
 		to = AssetState.ASSIGNED
 		role = AssetRole.Issuer
@@ -29,7 +29,7 @@ val s2Asset = s2 {
 		states += AssetState.ASSIGNED
 		role = AssetRole.Issuer
 	}
-	selfTransaction<AssetDeleteCommand> {
+	selfTransaction<AssetUpdateCommand> {
 		states += AssetState.RETIRED
 		role = AssetRole.Issuer
 	}

@@ -56,6 +56,13 @@ val s2Activity = s2 {
 	}
 }
 
+/**
+ *
+ *
+ * @title status
+ * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityModelSection]
+ * @d2 model
+ */
 @Serializable
 enum class ActivityState(override val position: Int): S2State {
 	NOT_STARTED(0),

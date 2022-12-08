@@ -25,10 +25,9 @@ typealias AssetId = String
  */
 interface AssetDTO: WithS2State<AssetState> {
     val id: AssetId
-
     /**
-     * Status of the asset
-     * @example [["Issued", "Assigned", "Retired"]]
+     * Status of the asset. All status are ["ISSUED", "ASSIGNED", "RETIRED"]
+     * @example ["ISSUED"]
      */
     val status: AssetState
 

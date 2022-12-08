@@ -35,6 +35,7 @@ class AssetEndpoint(
     @Bean
     override fun assetGet(): AssetGetFunction = f2Function { query ->
         logger.info("assetGet: $query")
+        assetPoliciesEnforcer.checkGet()
         assetFinderService.getOrNull(query.id).let(::AssetGetResult)
     }
 
@@ -60,7 +61,7 @@ class AssetEndpoint(
     @Bean
     override fun assetCreate(): AssetCreateFunction = f2Function { command ->
         logger.info("assetCreate: $command")
-//        assetPoliciesEnforcer.checkCreate()
+        assetPoliciesEnforcer.checkCreate()
         assetAggregateService.create(command)
     }
 
@@ -68,7 +69,7 @@ class AssetEndpoint(
     @Bean
     override fun assetUpdate(): AssetUpdateFunction = f2Function { command ->
         logger.info("assetUpdateDetails: $command")
-//        assetPoliciesEnforcer.checkUpdate(command.id)
+        assetPoliciesEnforcer.checkUpdate(command.id)
         assetAggregateService.update(command)
     }
 
