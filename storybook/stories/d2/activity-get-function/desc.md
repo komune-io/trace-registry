@@ -1,9 +1,5 @@
 
 
-### Get an activity
+### Get an activity by Id
 
 Type: `ActivityGetFunction`
-
-Get Activity By id
-
-

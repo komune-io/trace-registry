@@ -8,9 +8,9 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Get Activity By id
+ *
  * @d2 function
- * @title Get an activity
+ * @title Get an activity by Id
  * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivitySectionApi]
  * @child [ActivityGetQueryDTO]
  * @child [ActivityGetResultDTO]

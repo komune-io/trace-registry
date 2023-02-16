@@ -5,7 +5,7 @@
   
 <article>
 
-**POST** **/activityGet** <br/> Body:  [`ActivityGetQueryDTO`](#get-an-activity) Result: [`ActivityGetResultDTO`](#get-an-activity) <br/> 
+**POST** **/activityGet** <br/> Body:  [`ActivityGetQueryDTO`](#get-an-activity-by-id) Result: [`ActivityGetResultDTO`](#get-an-activity-by-id) <br/> 
 
 </article>
 <article>
