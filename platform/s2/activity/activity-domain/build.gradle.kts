@@ -5,4 +5,5 @@ plugins {
 
 dependencies {
 	Dependencies.Mpp.im(::commonMainApi)
+	Dependencies.Mpp.test(::commonTestApi)
 }

@@ -17,12 +17,29 @@ allprojects {
 	repositories {
 		mavenLocal()
 		mavenCentral()
-		maven { url = uri("https://oss.sonatype.org/service/local/repositories/releases/content") }
 		Repo.snapshot.forEach {
 			maven { url = uri(it) }
 		}
 	}
+
+
 }
+
+subprojects {
+	tasks {
+		register("documenter", Copy::class) {
+			from("build/smartb-d2-documenter") {
+				include("**/*.json")
+			}
+
+			logger.info("///////////////////////////////")
+			logger.info("${rootDir}/storybook/stories/asset")
+			logger.info("///////////////////////////////")
+			into("${rootDir}/storybook/stories/asset")
+		}
+	}
+}
+
 
 fixers {
 	bundle {
@@ -32,3 +49,4 @@ fixers {
 		url = "https://gitlab.smartb.city/framwork/registry/program"
 	}
 }
+

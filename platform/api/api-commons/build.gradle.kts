@@ -5,18 +5,17 @@ plugins {
 }
 
 dependencies {
-    Dependencies.Jvm.f2(::jvmImplementation)
-    Dependencies.Jvm.fs(::jvmImplementation)
-    Dependencies.Jvm.jackson(::jvmApi)
+    Dependencies.Jvm.f2(::jvmMainImplementation)
+    Dependencies.Jvm.fs(::jvmMainImplementation)
+    Dependencies.Jvm.jackson(::jvmMainApi)
     Dependencies.Mpp.im(::commonMainApi)
     Dependencies.Mpp.s2(::commonMainApi)
 
-    jvmApi("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
-    jvmImplementation("city.smartb.i2:i2-spring-boot-starter-auth:${Versions.i2}")
-    Dependencies.Jvm.s2StoringData(::jvmImplementation)
-    jvmImplementation("org.springframework.data:spring-data-commons:${Versions.springData}")
+    jvmMainImplementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
+    jvmMainImplementation("city.smartb.i2:i2-spring-boot-starter-auth:${Versions.i2}")
+    Dependencies.Jvm.s2StoringData(::jvmMainImplementation)
 
-    jvmImplementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
-
-    jvmApi("org.apache.commons:commons-csv:${Versions.apacheCsv}")
+    jvmMainImplementation("org.springframework.data:spring-data-commons:${Versions.springData}")
+    jvmMainImplementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
+    jvmMainApi("org.apache.commons:commons-csv:${Versions.apacheCsv}")
 }

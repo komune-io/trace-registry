@@ -1,6 +1,6 @@
 
 
-### Activity Get
+### Get an activity
 
 Type: `ActivityGetFunction`
 

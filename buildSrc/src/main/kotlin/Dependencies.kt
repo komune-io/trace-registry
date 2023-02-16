@@ -29,7 +29,10 @@ object Versions {
 
 object Repo {
 	val snapshot: List<String> = listOf(
+		// For redis-om-spring staging
+		"https://s01.oss.sonatype.org/content/repositories/snapshots",
 		// For fixers
+		"https://oss.sonatype.org/service/local/repositories/releases/content",
 		"https://oss.sonatype.org/content/repositories/snapshots",
 		//For pdfbox
 		"https://jitpack.io"
@@ -41,6 +44,8 @@ object Dependencies {
 		fun springTest(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope).add(
 			"org.springframework.boot:spring-boot-starter-test:${Versions.springBoot}",
 		)
+
+		fun junit(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope)
 
 		fun cucumber(scope: Scope) = FixersDependencies.Jvm.Test.cucumber(scope).add(
 			"io.cucumber:cucumber-spring:${FixersVersions.Test.cucumber}"
@@ -65,7 +70,7 @@ object Dependencies {
 		)
 
 		fun redisOm(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
-			"com.redis.om:redis-om-spring:0.6.3"
+			"com.redis.om:redis-om-spring:0.8.0-SNAPSHOT"
 		)
 
 		fun postgres(scope: Scope, runtimeOnly: Scope) = scope.add(
@@ -103,7 +108,11 @@ object Dependencies {
 
 		fun s2(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-automate-dsl:${Versions.s2}",
-			"city.smartb.s2:s2-sourcing-dsl:${Versions.s2}"
+			"city.smartb.s2:s2-event-sourcing-dsl:${Versions.s2}"
+		)
+
+		fun test(scope: Scope) = scope.add(
+			"org.jetbrains.kotlin:kotlin-test-common:${PluginVersions.kotlin}",
 		)
 	}
 }
