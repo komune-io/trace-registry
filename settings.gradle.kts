@@ -28,6 +28,9 @@ include(
 	"platform:f2:project-f2:project-f2-api",
 	"platform:f2:project-f2:project-f2-domain",
 )
+include(
+	"platform:cccev:cccev-init"
+)
 
 //include(
 //	"platform:f2:task-f2:task-f2-api",

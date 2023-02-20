@@ -16,6 +16,4 @@ dependencies {
     Dependencies.Jvm.s2StoringData(::jvmMainImplementation)
 
     jvmMainImplementation("org.springframework.data:spring-data-commons:${Versions.springData}")
-    jvmMainImplementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
-    jvmMainApi("org.apache.commons:commons-csv:${Versions.apacheCsv}")
 }

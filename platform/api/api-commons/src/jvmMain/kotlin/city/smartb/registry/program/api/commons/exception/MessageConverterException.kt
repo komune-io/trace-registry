@@ -3,11 +3,15 @@ package city.smartb.registry.program.api.commons.exception
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
+import f2.dsl.cqrs.error.F2Error
+import f2.dsl.cqrs.exception.F2Exception
 import org.springframework.http.HttpStatus
 
 class MessageConverterException(cause: JsonMappingException): F2Exception(
-    status = HttpStatus.BAD_REQUEST,
-    message = computeMessage(cause),
+    error = F2Error(
+        code = HttpStatus.BAD_REQUEST.value(),
+        message = computeMessage(cause),
+    ),
     cause = cause
 ) {
     companion object {

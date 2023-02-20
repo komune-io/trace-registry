@@ -18,13 +18,9 @@ object Versions {
 	val i2 = PluginVersions.fixers
 	val fs = PluginVersions.fixers
 	val im = PluginVersions.fixers
+	val cccev = PluginVersions.fixers
 
-	const val apacheCsv = "1.8"
-	const val flyway = "9.2.2"
-	const val html2pdf = "4.0.3"
 	const val jackson = FixersVersions.Json.jacksonKotlin
-	const val jaxb = "2.3.2"
-	const val postgresql = "42.4.0"
 }
 
 object Repo {
@@ -34,8 +30,6 @@ object Repo {
 		// For fixers
 		"https://oss.sonatype.org/service/local/repositories/releases/content",
 		"https://oss.sonatype.org/content/repositories/snapshots",
-		//For pdfbox
-		"https://jitpack.io"
 	)
 }
 
@@ -61,6 +55,10 @@ object Dependencies {
 		fun i2Keycloack(scope: Scope) = scope.add(
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
 		)
+		fun cccev(scope: Scope) = scope.add(
+			"city.smartb.cccev:cccev-core-dsl:${Versions.cccev}",
+			"city.smartb.cccev:requirement-f2-client:${Versions.cccev}"
+		)
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:file-client:${Versions.fs}"
 		)
@@ -72,12 +70,6 @@ object Dependencies {
 		fun redisOm(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
 			"com.redis.om:redis-om-spring:0.8.0-SNAPSHOT"
 		)
-
-		fun postgres(scope: Scope, runtimeOnly: Scope) = scope.add(
-			"org.springframework.boot:spring-boot-starter-data-jpa:${Versions.springBoot}",
-			"jakarta.xml.bind:jakarta.xml.bind-api:${Versions.jaxb}",
-			"com.sun.xml.bind:jaxb-impl:${Versions.jaxb}"
-		).also { runtimeOnly.add("org.postgresql:postgresql:${Versions.postgresql}") }
 
 		fun s2StoringData(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",

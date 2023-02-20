@@ -1,3 +1,5 @@
+package city.smartb.registry.program.s2.activity.domain
+
 import city.smartb.registry.program.s2.activity.domain.automate.s2Activity
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -7,7 +9,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import s2.dsl.automate.S2Automate
 import s2.dsl.automate.ssm.toSsm
 

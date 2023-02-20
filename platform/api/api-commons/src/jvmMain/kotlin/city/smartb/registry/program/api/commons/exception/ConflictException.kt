@@ -1,13 +1,17 @@
 package city.smartb.registry.program.api.commons.exception
 
+import f2.dsl.cqrs.error.F2Error
+import f2.dsl.cqrs.exception.F2Exception
 import org.springframework.http.HttpStatus
 
 class ConflictException(
-    val entity: String,
-    val property: String,
-    val value: String
+    entity: String,
+    property: String,
+    value: String
 ): F2Exception(
-    status = HttpStatus.CONFLICT,
-    message = "$entity with $property [$value] already exists",
+    F2Error(
+        code = HttpStatus.CONFLICT.value(),
+        message = "$entity with $property [$value] already exists",
+    ),
     cause = null
 )
