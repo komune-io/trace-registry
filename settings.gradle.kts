@@ -8,7 +8,7 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "registry-program-ver"
+rootProject.name = "verified-emission-reduction-registry"
 
 include(
 	"debug:db-verification",

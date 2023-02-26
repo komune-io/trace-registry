@@ -1,9 +1,0 @@
-
-
-### Protocol Update
-
-Type: `ProtocolUpdateFunction`
-
-Update the protocol.
-
-

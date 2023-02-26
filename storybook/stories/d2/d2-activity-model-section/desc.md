@@ -1,5 +1,0 @@
-
-
-## The Activity Object
-
-

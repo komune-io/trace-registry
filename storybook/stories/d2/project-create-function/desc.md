@@ -1,9 +1,0 @@
-
-
-### Project Create
-
-Type: `ProjectCreateFunction`
-
-Create Project
-
-

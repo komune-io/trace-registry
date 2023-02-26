@@ -1,0 +1,109 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetGet
+
+
+
+Get a asset by Id
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetGetQueryDTO`](#asset-get)  
+Result: [`AssetGetResultDTO`](#asset-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetPage
+
+
+
+Get a page of asset
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetPageQueryDTO`](#asset-page)  
+Result: [`AssetPageResultDTO`](#asset-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetCreate
+
+
+
+Create Asset
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetUpdateCommand`](#asset-update)  
+Result: `AssetUpdatedEvent`
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetUpdate
+
+
+
+Update Asset
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetUpdateCommand`](#asset-update)  
+Result: `AssetUpdatedEvent`
+  </div>
+</DocsTable>

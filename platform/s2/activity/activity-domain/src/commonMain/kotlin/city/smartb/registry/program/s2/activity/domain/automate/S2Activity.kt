@@ -13,6 +13,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
 
+
 val s2Activity = s2 {
 	name = "Activity"
 	init<ActivityUpdateCommand> {
@@ -56,14 +57,41 @@ val s2Activity = s2 {
 	}
 }
 
+/**
+ * The state of a... well... huh never mind.
+ * @d2 model
+ * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityPage]
+ * @visual automate ./platform/s2/activity/activity-domain/build/smartb-d2-documenter/Activity.json
+ */
 @Serializable
 enum class ActivityState(override val position: Int): S2State {
+	/**
+	 * The activity has not yet been initiated or started by the person or team responsible for completing it.
+	 */
 	NOT_STARTED(0),
+	/**
+	 * The activity is currently in progress, and the person or team responsible for completing it is actively working on it.
+	 */
 	DOING(1),
+	/**
+	 * The person or team responsible for completing the activity has completed all the necessary work and the activity itself is complete.
+	 */
 	FINISHED(2),
+	/**
+	 * the completion of the activity has been verified, typically by a supervisor or manager, to ensure that it was completed satisfactorily and meets any applicable requirements.
+	 */
 	DONE(3),
+	/**
+	 * The completion of the activity has been verified, typically by a supervisor or manager, to ensure that it was completed satisfactorily and meets any applicable requirements.
+	 */
 	VERIFIED(4),
+	/**
+	 *  The activity has been cancelled, either by the person or team responsible for completing it or by someone with the authority to cancel it.
+	 */
 	CANCELLED(5),
+	/**
+	 *  The activity has been temporarily stopped or put on hold for some reason, and work on it will resume at a later time.
+	 */
 	PAUSED(6),
 }
 

@@ -1,8 +1,8 @@
-import AssetDTODesc from './desc.md'
+import AssetDTODesc from './desc.mdx'
 import AssetDTOVisualJson from './visualJson.json'
-import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
 
-<DescriptedCode
+<SegmentedContainer
   leftElement={<AssetDTODesc />}
   leftContainerProps={{}}
   rightElement={
@@ -15,4 +15,8 @@ import { CodeHighlighter, DescriptedCode } from '@smartb/g2-documentation'
   rightContainerProps={{}}
 />
 
----
+<div
+  class={"spacer"}
+/>
+
+

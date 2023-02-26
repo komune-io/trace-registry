@@ -11,7 +11,10 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import org.junit.jupiter.api.Test
 import s2.dsl.automate.S2Automate
+import s2.dsl.automate.S2Transition
 import s2.dsl.automate.ssm.toSsm
+import ssm.chaincode.dsl.model.Ssm
+import ssm.chaincode.dsl.model.SsmTransition
 
 class S2ActivityTest {
 
@@ -48,13 +51,19 @@ fun getDefaultOutputDirectory(): String {
 
 
 fun Documenter.writeS2Automate(s2: S2Automate): Documenter {
-    val ssm = s2.toSsm()
+    val json = s2.toJson()
     val file: Path = recreateFile("${s2.name}.json", outputFolder )
     try {
-        FileWriter(file.toFile()).use { writer -> writer.write(objectMapper.writeValueAsString(ssm)) }
+        FileWriter(file.toFile()).use { writer -> writer.write(json) }
     } catch (o : IOException) {
         throw RuntimeException(o)
     }
     return this
 }
 
+
+fun S2Automate.toJson(): String {
+    val json = jacksonObjectMapper().writeValueAsString(this)
+    println(json)
+    return json
+}

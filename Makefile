@@ -6,7 +6,7 @@ STORYBOOK_DOCKERFILE	:= infra/docker/storybook/Dockerfile
 STORYBOOK_NAME	   	 	:= smartbcity/registry-program-ver-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 
-package: package-gateway
+docker: package-gateway
 docs: package-storybook
 
 package-gateway:

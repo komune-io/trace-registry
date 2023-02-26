@@ -1,9 +1,0 @@
-
-
-### Project Get
-
-Type: `ProjectGetFunction`
-
-Get Project By id
-
-

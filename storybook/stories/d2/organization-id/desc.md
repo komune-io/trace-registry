@@ -1,9 +1,0 @@
-
-
-### OrganizationId
-
-
-
-Identifier of an organization
-
-

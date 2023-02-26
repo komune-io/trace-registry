@@ -1,5 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
+import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
@@ -16,61 +18,29 @@ import s2.dsl.automate.builder.s2
 val s2Project = s2 {
 	name = "Project"
 	init<ProjectUpdateCommand> {
-		to = ProjectState.REGISTRATION_REQUESTED
+		to = ProjectState.CREATED
 		role = ProjectRole.ProjectDeveloper
 	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.REGISTRATION_REQUESTED
-		to = ProjectState.UNDER_REVIEW
-		role = ProjectRole.ProgramManager
-	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.UNDER_REVIEW
-		to = ProjectState.UNDER_DEVELOPMENT
-		role = ProjectRole.ProgramManager
-	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.UNDER_DEVELOPMENT
-		to = ProjectState.UNDER_VALIDATION
+	selfTransaction<ProjectUpdateCommand> {
 		role = ProjectRole.ProjectDeveloper
+		states += ProjectState.CREATED
 	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.UNDER_VALIDATION
-		to = ProjectState.VERIFIED
-		role = ProjectRole.ProgramManager
-	}
-
-
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.REGISTRATION_REQUESTED
-		to = ProjectState.REJECTED
-		role = ProjectRole.ProgramManager
-	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.UNDER_REVIEW
-		to = ProjectState.REJECTED
-		role = ProjectRole.ProgramManager
-	}
-	transaction<ProjectUpdateCommand> {
-		from = ProjectState.UNDER_DEVELOPMENT
-		to = ProjectState.REJECTED
-		role = ProjectRole.ProgramManager
+	transaction<ProjectDeleteCommand> {
+		from = ProjectState.CREATED
+		to = ProjectState.DELETED
+		role = ProjectRole.ProjectDeveloper
 	}
 }
 
 @Serializable
 enum class ProjectState(override val position: Int): S2State {
-	REGISTRATION_REQUESTED(0),
-	UNDER_REVIEW(1),
-	UNDER_DEVELOPMENT(2),
-	UNDER_VALIDATION(3),
-	VERIFIED(4),
-	REJECTED(5)
+	CREATED(0),
+	DELETED(1)
 }
 
 enum class ProjectRole(val value: String): S2Role {
-	ProjectDeveloper("project_developer"),
-	ProgramManager("Program_manager");
+	ProjectDeveloper("project_developer");
+
 	override fun toString() = value
 }
 

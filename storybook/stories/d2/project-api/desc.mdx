@@ -1,0 +1,109 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectGet
+
+
+
+Get a project by Id
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectGetQueryDTO`](#project-get)  
+Result: [`ProjectGetResultDTO`](#project-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectPage
+
+
+
+Get a page of project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectPageQueryDTO`](#project-page)  
+Result: [`ProjectPageResultDTO`](#project-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectCreate
+
+
+
+Create Project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectUpdateCommand`](#project-update)  
+Result: [`ProjectUpdatedEventDTO`](#project-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectUpdate
+
+
+
+Update Project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectUpdateCommand`](#project-update)  
+Result: [`ProjectUpdatedEventDTO`](#project-create)
+  </div>
+</DocsTable>

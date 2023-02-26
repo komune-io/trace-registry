@@ -2,15 +2,16 @@
   "name": "components",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "Plateform documentation",
+  "description": "Platform documentation",
   "main": "src/index.ts",
   "source": "src/index.ts",
   "types": "src/index.ts",
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@smartb/g2-documentation": "^1.0.0-alpha.38",
-    "@smartb/g2-storybook-documentation": "^1.0.0-alpha.127",
-    "@smartb/g2-themes": "^1.0.0-alpha.38",
+    "@smartb/g2-documentation": "^1.0.0-alpha.132",
+    "@smartb/g2-s2": "1.0.0-alpha.132",
+    "@smartb/g2-storybook-documentation": "^1.0.0-alpha.132",
+    "@smartb/g2-themes": "^1.0.0-alpha.132",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-docs": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
@@ -21,7 +22,8 @@
     "react-dom": "^17.0.2",
     "react-i18next": "^11.8.13",
     "@mui/material": "^5.2.7",
-    "@emotion/react": "^11.7.1"
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.7.1"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",

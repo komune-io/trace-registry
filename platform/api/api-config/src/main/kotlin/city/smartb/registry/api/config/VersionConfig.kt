@@ -1,6 +1,7 @@
 package city.smartb.registry.api.config
 
 import f2.dsl.fnc.F2Supplier
+import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
@@ -11,7 +12,7 @@ class VersionConfig {
 
     @Bean
     @PermitAll
-    fun version(): F2Supplier<String> = f2SupplierSingle {
+    fun version(): F2SupplierSingle<String> = f2SupplierSingle {
         VersionConfig::class.java.`package`.implementationVersion ?: "dev"
     }
 
@@ -26,7 +27,7 @@ class VersionConfig {
 
     @Bean
     @PermitAll
-    fun about(data: Api): F2Supplier<Api> = f2SupplierSingle {
+    fun about(data: Api): F2SupplierSingle<Api> = f2SupplierSingle {
         data
     }
 }

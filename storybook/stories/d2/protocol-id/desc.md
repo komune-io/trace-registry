@@ -1,9 +1,0 @@
-
-
-### ProtocolId
-
-
-
-Unique id of the protocol.
-
-

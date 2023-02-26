@@ -1,0 +1,105 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /activityGet
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityGetQueryDTO`](#get-an-activity-by-id)  
+Result: [`ActivityGetResultDTO`](#get-an-activity-by-id)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityPage
+
+
+
+Get a page of activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityPageQueryDTO`](#activity-page)  
+Result: [`ActivityPageResultDTO`](#activity-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+### Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /activityCreate
+
+
+
+Create Activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityUpdateCommand`](#api)  
+Result: [`ActivityUpdatedEventDTO`](#api)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityUpdate
+
+
+
+Update Activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityUpdateCommand`](#api)  
+Result: [`ActivityUpdatedEventDTO`](#api)
+  </div>
+</DocsTable>

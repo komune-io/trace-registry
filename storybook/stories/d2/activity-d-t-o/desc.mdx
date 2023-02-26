@@ -1,0 +1,206 @@
+
+
+
+### Attributes
+
+Type: `ActivityDTO`
+
+The specific set of technologies, measures and/or outcomes, specified in a methodology applied to the project, that alter the conditions identified in the baseline scenario and which result in GHG emission reductions or removals.
+
+
+
+---
+
+***id*** [`ActivityId`](#activityid)
+
+---
+
+***name*** `String?`
+
+Name of the activity
+
+
+
+---
+
+***description*** `String?`
+
+Description of the activity
+
+
+
+---
+
+***startDate*** `Long?`
+
+Start of activity date
+
+
+
+---
+
+***endDate*** `Long?`
+
+End of activity date
+
+
+
+---
+
+***estimatedEndDate*** `Long?`
+
+Estimated date of the end of the activity
+
+
+
+---
+
+***executor*** `OrganizationRef?`
+
+Organization in charge of executing the task
+
+
+
+---
+
+***expectedValue*** `Double?`
+
+Numeric value expected by the activity.
+
+
+
+---
+
+***expectedValueUnit*** `Double?`
+
+Unit of the expected value ca be used to store non-numeric expected value.
+
+
+
+---
+
+***fee*** `Double?`
+
+Value charged by the executor to execute the task.
+
+
+
+---
+
+***isPublic*** `Boolean?`
+
+Used to define non-public activities.
+
+
+
+---
+
+***issuable*** `Boolean?`
+
+Used to define activities validating issuance of credits. Expected value is then the amount of asset to issue.
+
+
+
+---
+
+***project*** `ProjectRef?`
+
+Project unique ID Key.
+
+
+
+---
+
+***protocol*** `ProtocolRef?`
+
+Reference to protocol ID Key.
+
+
+
+---
+
+***slug*** `String?`
+
+Short unique text to axess to the activity
+
+
+
+---
+
+***status*** [`ActivityState`](#activitystate)
+
+Used to trigger record state on the network. List : {NotStarted, Doing, Paused, Done, Pending, Finished, Verified, Cancelled}
+
+
+
+---
+
+***subActivityOf*** `ActivityRef?`
+
+Link of the parent activity. Void when root activity.
+
+
+
+---
+
+***validator*** `OrganizationRef?`
+
+Organisation in charge of activity validation.
+
+
+
+---
+
+***validationDate*** `Long?`
+
+Date of validation by validator.
+
+
+
+---
+
+***verifiable*** `Boolean?`
+
+Allow to define if an activity do not need verification. (Default : yes).
+
+
+
+---
+
+***verifier*** `OrganizationRef?`
+
+Organization in charge of verification for this activity.
+
+
+
+---
+
+***verificationDate*** `Long?`
+
+Date of verification.
+
+
+
+---
+
+***creator*** `UserRef?`
+
+User that created the record
+
+
+
+---
+
+***creationDate*** `Long`
+
+Date of creation.
+
+
+
+---
+
+***lastModificationDate*** `Long`
+
+Date of last modification of the asset.
+
+
