@@ -2,8 +2,10 @@ package city.smartb.registry.api.config
 
 import f2.dsl.fnc.F2Supplier
 import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2Supplier
 import f2.dsl.fnc.f2SupplierSingle
 import javax.annotation.security.PermitAll
+import kotlinx.coroutines.flow.flowOf
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -27,8 +29,8 @@ class VersionConfig {
 
     @Bean
     @PermitAll
-    fun about(data: Api): F2SupplierSingle<Api> = f2SupplierSingle {
-        data
+    fun about(data: Api): F2Supplier<Api> = f2Supplier {
+        flowOf(data)
     }
 }
 

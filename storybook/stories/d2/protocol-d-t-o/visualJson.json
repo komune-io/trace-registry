@@ -1,5 +1,6 @@
 {
   "id" : "1669154596778x977338172286597000",
+  "status" : "UNDER_VALIDATION",
   "baseScenario" : "The base scenario is",
   "context" : "The context is",
   "expectedValue" : 10.0,

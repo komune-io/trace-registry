@@ -58,10 +58,9 @@ val s2Activity = s2 {
 }
 
 /**
- * The state of a... well... huh never mind.
  * @d2 model
  * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivityPage]
- * @visual automate ./platform/s2/activity/activity-domain/build/smartb-d2-documenter/Activity.json
+ * @visual automate ./platform/s2/activity/activity-domain/build/s2-documenter/Activity.json
  */
 @Serializable
 enum class ActivityState(override val position: Int): S2State {

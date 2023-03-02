@@ -32,6 +32,11 @@ val s2Project = s2 {
 	}
 }
 
+/**
+ * @d2 model
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
+ * @visual automate ./platform/s2/project/project-domain/build/s2-documenter/Project.json
+ */
 @Serializable
 enum class ProjectState(override val position: Int): S2State {
 	CREATED(0),

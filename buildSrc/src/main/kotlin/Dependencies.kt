@@ -102,6 +102,10 @@ object Dependencies {
 			"city.smartb.s2:s2-event-sourcing-dsl:${Versions.s2}"
 		)
 
+		fun documenter(scope: Scope) = scope.add(
+			"city.smartb.s2:s2-automate-documenter:${Versions.s2}",
+		)
+
 		fun test(scope: Scope) = scope.add(
 			"org.jetbrains.kotlin:kotlin-test-common:${PluginVersions.kotlin}",
 		)

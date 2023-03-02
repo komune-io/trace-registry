@@ -7,6 +7,7 @@ import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforc
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
 import city.smartb.registry.program.f2.project.domain.ProjectQueryApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
+import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetResult
@@ -65,6 +66,11 @@ class ProjectEndpoint(
         logger.info("projectUpdateDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
         projectAggregateService.update(command)
+    }
+
+    override fun projectDelete(): ProjectDeleteFunction = f2Function { command ->
+        projectPoliciesEnforcer.checkDelete(command.id)
+        projectAggregateService.delete(command)
     }
 
 }

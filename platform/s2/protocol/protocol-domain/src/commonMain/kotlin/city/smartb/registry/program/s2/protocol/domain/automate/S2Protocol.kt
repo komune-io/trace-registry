@@ -25,40 +25,50 @@ val s2Protocol = s2 {
 		to = ProtocolState.VALIDATION_REQUESTED
 		role = ProtocolRole.Expert
 	}
+//	transaction<ProtocolUpdateCommand> {
+//		from = ProtocolState.VALIDATION_REQUESTED
+//		to = ProtocolState.REPORT_PUBLISHED
+//		role = ProtocolRole.Verifier
+//	}
+//	transaction<ProtocolUpdateCommand> {
+//		from = ProtocolState.VALIDATION_REQUESTED
+//		to = ProtocolState.REPORT_PUBLISHED
+//		role = ProtocolRole.Verifier
+//	}
+//	transaction<ProtocolUpdateCommand> {
+//		from = ProtocolState.REPORT_PUBLISHED
+//		to = ProtocolState.ASSESSMENT_REQUESTED
+//		role = ProtocolRole.ProjectDeveloper
+//	}
+//	transaction<ProtocolUpdateCommand> {
+//		from = ProtocolState.ASSESSMENT_REQUESTED
+//		to = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
+//		role = ProtocolRole.VVB
+//	}
+//	transaction<ProtocolUpdateCommand> {
+//		from = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
+//		to = ProtocolState.VERIFIED
+//		role = ProtocolRole.ProgramManager
+//	}
 	transaction<ProtocolUpdateCommand> {
 		from = ProtocolState.VALIDATION_REQUESTED
-		to = ProtocolState.REPORT_PUBLISHED
-		role = ProtocolRole.Verifier
-	}
-	transaction<ProtocolUpdateCommand> {
-		from = ProtocolState.VALIDATION_REQUESTED
-		to = ProtocolState.REPORT_PUBLISHED
-		role = ProtocolRole.Verifier
-	}
-	transaction<ProtocolUpdateCommand> {
-		from = ProtocolState.REPORT_PUBLISHED
-		to = ProtocolState.ASSESSMENT_REQUESTED
-		role = ProtocolRole.ProjectDeveloper
-	}
-	transaction<ProtocolUpdateCommand> {
-		from = ProtocolState.ASSESSMENT_REQUESTED
-		to = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
-		role = ProtocolRole.VVB
-	}
-	transaction<ProtocolUpdateCommand> {
-		from = ProtocolState.VERIFICATION_DOCUMENTATION_PROVIDED
 		to = ProtocolState.VERIFIED
-		role = ProtocolRole.ProgramManager
+		role = ProtocolRole.Verifier
 	}
 }
 
+/**
+ * @d2 model
+ * @parent [city.smartb.registry.program.s2.protocol.domain.D2ProtocolPage]
+ * @visual automate ./platform/s2/protocol/protocol-domain/build/s2-documenter/Protocol.json
+ */
 @Serializable
 enum class ProtocolState(override val position: Int): S2State {
 	UNDER_VALIDATION(0),
 	VALIDATION_REQUESTED(1),
-	REPORT_PUBLISHED(2),
-	ASSESSMENT_REQUESTED(3),
-	VERIFICATION_DOCUMENTATION_PROVIDED(4),
+//	REPORT_PUBLISHED(2),
+//	ASSESSMENT_REQUESTED(3),
+//	VERIFICATION_DOCUMENTATION_PROVIDED(4),
 	VERIFIED(5)
 }
 

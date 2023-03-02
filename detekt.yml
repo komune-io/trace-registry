@@ -533,7 +533,7 @@ style:
   MandatoryBracesLoops:
     active: true
   MaxLineLength:
-    active: true
+    active: false
     maxLineLength: 140
     excludePackageStatements: true
     excludeImportStatements: true
