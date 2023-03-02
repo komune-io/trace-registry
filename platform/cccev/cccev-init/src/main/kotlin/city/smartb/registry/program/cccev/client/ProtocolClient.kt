@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 
 fun main(): Unit = runBlocking {
-//    val client = CCCEVClient("http://localhost:8083")
-    val client = CCCEVClient("https://api.registry.smartb.network/cccev")
+    val url = "http://localhost:8083"
+//    val url = "https://api.registry.smartb.network/cccev"
+    val client = CCCEVClient(url)
     client.requirementCreate(
         buildList<Requirement> {
             addAll(EligibilityRequirements)
@@ -24,6 +25,4 @@ fun main(): Unit = runBlocking {
             addAll(VerraVcsProtocol)
         }.asFlow()
     ).collect()
-
-//    client.
 }

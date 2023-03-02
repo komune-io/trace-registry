@@ -1,11 +1,32 @@
-### version
-GET https://api.registry.smartb.network/ver/about
 
-### about
-GET http://localhost:8070/api/about
+### version
+GET {{urlbase}}/about
+
+
+
+### activityGet
+POST {{urlbase}}/activityGet
+Content-Type: application/json
+
+[
+  {
+    "id": "1"
+  }
+]
+
+### activityPage
+POST {{urlbase}}/activityPage
+Content-Type: application/json
+
+[
+  {
+    "offset": 0,
+    "limit": 10
+  }
+]
 
 ### activityCreate
-POST http://localhost:8070/api/activityCreate
+POST {{urlbase}}/activityCreate
 Content-Type: application/json
 
 [
@@ -36,7 +57,7 @@ Content-Type: application/json
 ]
 
 ### activityUpdate
-POST http://localhost:8070/api/activityUpdate
+POST {{urlbase}}/activityUpdate
 Content-Type: application/json
 
 [
@@ -48,29 +69,8 @@ Content-Type: application/json
   }
 ]
 
-### activityGet
-POST http://localhost:8070/api/activityGet
-Content-Type: application/json
-
-[
-  {
-    "id": "1"
-  }
-]
-
-### activityPage
-POST http://localhost:8070/api/activityPage
-Content-Type: application/json
-
-[
-  {
-    "offset": 0,
-    "limit": 10
-  }
-]
-
 ### assetCreate
-POST http://localhost:8070/api/assetCreate
+POST {{urlbase}}/assetCreate
 Content-Type: application/json
 
 [
@@ -83,7 +83,7 @@ Content-Type: application/json
 ]
 
 ### assetUpdate
-POST http://localhost:8070/api/assetUpdate
+POST {{urlbase}}/assetUpdate
 Content-Type: application/json
 
 [
@@ -96,7 +96,7 @@ Content-Type: application/json
 ]
 
 ### assetUpdate
-POST http://localhost:8070/api/assetUpdate
+POST {{urlbase}}/assetUpdate
 Content-Type: application/json
 
 [
@@ -109,7 +109,7 @@ Content-Type: application/json
 ]
 
 ### assetGet
-POST http://localhost:8070/api/assetGet
+POST {{urlbase}}/assetGet
 Content-Type: application/json
 
 [
@@ -119,7 +119,7 @@ Content-Type: application/json
 ]
 
 ### assetPage
-POST http://localhost:8070/api/assetPage
+POST {{urlbase}}/assetPage
 Content-Type: application/json
 
 [
@@ -131,7 +131,7 @@ Content-Type: application/json
 
 
 ### projectCreate
-POST http://localhost:8070/api/projectCreate
+POST {{urlbase}}/projectCreate
 Content-Type: application/json
 
 [
@@ -144,7 +144,7 @@ Content-Type: application/json
 ]
 
 ### projectUpdate
-POST http://localhost:8070/api/projectUpdate
+POST {{urlbase}}/projectUpdate
 Content-Type: application/json
 
 [
@@ -157,7 +157,7 @@ Content-Type: application/json
 ]
 
 ### projectGet
-POST http://localhost:8070/api/projectGet
+POST {{urlbase}}/projectGet
 Content-Type: application/json
 
 [
@@ -167,7 +167,7 @@ Content-Type: application/json
 ]
 
 ### projectPage
-POST http://localhost:8070/api/projectPage
+POST {{urlbase}}/projectPage
 Content-Type: application/json
 
 [
@@ -178,7 +178,7 @@ Content-Type: application/json
 ]
 
 ### protocolCreate
-POST http://localhost:8070/api/protocolCreate
+POST {{urlbase}}/protocolCreate
 Content-Type: application/json
 
 [
@@ -191,7 +191,7 @@ Content-Type: application/json
 ]
 
 ### protocolUpdate
-POST http://localhost:8070/api/protocolUpdate
+POST {{urlbase}}/protocolUpdate
 Content-Type: application/json
 
 [
@@ -204,7 +204,7 @@ Content-Type: application/json
 ]
 
 ### protocolGet
-POST http://localhost:8070/api/protocolGet
+POST {{urlbase}}/protocolGet
 Content-Type: application/json
 
 [
@@ -214,7 +214,7 @@ Content-Type: application/json
 ]
 
 ### protocolPage
-POST http://localhost:8070/api/protocolPage
+POST {{urlbase}}/protocolPage
 Content-Type: application/json
 
 [

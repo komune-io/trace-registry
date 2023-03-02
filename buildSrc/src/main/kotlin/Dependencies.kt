@@ -20,7 +20,7 @@ object Versions {
 	val im = PluginVersions.fixers
 	val cccev = PluginVersions.fixers
 
-	const val jackson = FixersVersions.Json.jacksonKotlin
+	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 }
 
 object Repo {
@@ -63,11 +63,11 @@ object Dependencies {
 		)
 
 		fun jackson(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
-			"com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${Versions.jackson}"
+			"com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${Versions.jacksonKotlin}"
 		)
 
 		fun redisOm(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
-			"com.redis.om:redis-om-spring:0.8.0-SNAPSHOT"
+			"com.redis.om:redis-om-spring:0.8.0"
 		)
 
 		fun s2StoringData(scope: Scope) = scope.add(
