@@ -143,9 +143,6 @@ val Validation = eligibilityStep {
     description = "A formal process of verifying that the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
 }
 
-
-
-
 val EligibilityRequirements = buildList {
     add(LOI)
     add(SurveyOfEligibility)

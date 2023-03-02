@@ -16,15 +16,15 @@ im:
 
 i2:
   issuers:
-    -
-      name: program-dev
-      authUrl: https://auth.smart-b.io/auth/
-      realm: program-dev
-      web:
-        clientId: program-web
-      im:
-        clientId: program-api
-        clientSecret: b263334b-21bc-4cc1-894b-eecec5a3af0c
+#    -
+#      name: program-dev
+#      authUrl: https://auth.smart-b.io/auth/
+#      realm: program-dev
+#      web:
+#        clientId: program-web
+#      im:
+#        clientId: program-api
+#        clientSecret:
 
 platform:
   web:
