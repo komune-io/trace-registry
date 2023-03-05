@@ -1,55 +1,36 @@
 package city.smartb.registry.program.cccev
 
 import cccev.dsl.model.builder.InformationRequirementBuilder
+import cccev.dsl.model.builder.RequirementsLinkedBuilder
 import city.smartb.registry.program.cccev.ver.Activities
+import city.smartb.registry.program.cccev.ver.ReferenceFramework
 import city.smartb.registry.program.cccev.ver.Type
-
-
-
-// TODO find Methodology and ReferenceFramework
-
-fun loiStep(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Activities.LOI
-//            +Methodology.FicherLocalConsultationName
-        }
-        isDerivedFrom {
-//            +VERReferenceFramework.LocalConsultation
-        }
-        type = Type.Steps
-    }.apply(init).build()
 
 fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.Eligibility
-//            +Methodology.FicherLocalConsultationName
         }
         isDerivedFrom {
-//            +VERReferenceFramework.LocalConsultation
+            +ReferenceFramework.AxessImpact
         }
         type = Type.Activities
     }.apply(init).build()
 
-fun eligibilityStep(init: InformationRequirementBuilder.() -> Unit) =
+private fun eligibilityStepSingle(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.Eligibility
-//            +Methodology.FicherLocalConsultationName
         }
         isDerivedFrom {
-//            +VERReferenceFramework.LocalConsultation
+            +ReferenceFramework.AxessImpact
         }
         type = Type.Steps
     }.apply(init).build()
 
+fun eligibilityStep(init: InformationRequirementBuilder.() -> Unit) = eligibilityStepSingle(init)
+fun RequirementsLinkedBuilder.eligibilityStep(init: InformationRequirementBuilder.() -> Unit) = +eligibilityStepSingle(init)
 
-val LOI = loiStep {
-    identifier = "A100"
-    name = "Letter of Intent (LOI)"
-    description = "A preliminary document indicating the intention of the project developers to participate in a VERs project and comply with its requirements."
-}
 
 val SurveyOfEligibility = eligibilityStep {
     identifier = "B100"
@@ -65,32 +46,32 @@ val IdentificationOfProject = eligibilityActivity {
     description = "This activity involves identifying the project and its location."
     hasRequirement {
         eligibilityStep {
-            identifier = "ProjectName"
+            identifier = "B101"
             name = "Project name"
             description = "Provide a name for the project."
         }
         eligibilityStep {
-            identifier = "MapNumbering"
+            identifier = "B102"
             name = "Map numbering"
             description = "Assign a number to the project location on the map."
         }
         eligibilityStep {
-            identifier = "CFCNumber"
+            identifier = "B103"
             name = "CFC number"
             description = "Assign a unique number to the project from the Cadastre Forestier."
         }
         eligibilityStep {
-            identifier = "CCCNumber"
+            identifier = "B104"
             name = "CCC number"
             description = "Assign a unique number to the project from the Cadastre des Concessions de Chasse."
         }
         eligibilityStep {
-            identifier = "Province"
+            identifier = "B105"
             name = "Province"
             description = "Identify the province where the project is located."
         }
         eligibilityStep {
-            identifier = "LocationOnMap"
+            identifier = "B106"
             name = "Location on map"
             description = "Provide a visual representation of the project location on the map."
         }
@@ -103,22 +84,22 @@ val FirstDocumentation = eligibilityActivity {
     description = "Obtaining the necessary legal and administrative documents for the project."
     hasRequirement {
         eligibilityStep {
-            identifier = "NotarialDeeds"
+            identifier = "B200"
             name = "Notarial Deeds"
             description = "Obtaining notarized documents such as articles of incorporation or bylaws."
         }
         eligibilityStep {
-            identifier = "RCCM"
+            identifier = "B201"
             name = "RCCM"
             description = "Obtaining the Registre de Commerce et du Crédit Mobilier (RCCM) registration number for the project."
         }
         eligibilityStep {
-            identifier = "TaxNumber"
+            identifier = "B202"
             name = "Tax Number"
             description = "Obtaining the project's tax identification number."
         }
         eligibilityStep {
-            identifier = "ForestConservationConcessionContract"
+            identifier = "B203"
             name = "Forest Conservation Concession Contract"
             description = "Obtaining the contract for the forest conservation concession."
         }
@@ -144,7 +125,6 @@ val Validation = eligibilityStep {
 }
 
 val EligibilityRequirements = buildList {
-    add(LOI)
     add(SurveyOfEligibility)
     add(IdentificationOfProject)
     add(FirstDocumentation)

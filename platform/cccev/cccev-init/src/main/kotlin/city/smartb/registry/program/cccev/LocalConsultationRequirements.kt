@@ -1,36 +1,52 @@
 package city.smartb.registry.program.cccev
 
 import  cccev.dsl.model.builder.InformationRequirementBuilder
+import cccev.dsl.model.builder.RequirementsLinkedBuilder
+import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.cccev.ver.Type
 
-fun localConsultationProtocolPreparation(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
+fun RequirementsLinkedBuilder.localConsultationProtocolPreparation(init: InformationRequirementBuilder.() -> Unit) =
+    +InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolPreparation
-            +Methodology.FicherLocalConsultationName
+            +Methodology.VM0011
         }
         isDerivedFrom {
-            +ReferenceFramework.LocalConsultation
+            +ReferenceFramework.REDDPlus
         }
+        type = Type.Steps
     }.apply(init).build()
-fun localConsultationProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
+fun RequirementsLinkedBuilder.localConsultationProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
+    +InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolValidation
-            +Methodology.FicherLocalConsultationName
+            +Methodology.VM0011
         }
         isDerivedFrom {
-            +ReferenceFramework.LocalConsultation
+            +ReferenceFramework.REDDPlus
         }
+        type = Type.Steps
     }.apply(init).build()
 
 
-val LocalConsultationProtocolPreparationRequirements = localConsultationProtocolPreparation {
-    identifier = "FicherLocalConsultationName"
-    name = "FicherLocalConsultationName"
-    description = ""
+val LocalConsultation = informationRequirement {
+    identifier = "LocalConsultation"
+    name = "Local consultation"
+    description = """
+            Local consultation is a process that involves engaging and consulting with local communities 
+            and stakeholders in decision-making processes related to REDD+ initiatives. 
+            The purpose of local consultation is to ensure that the voices, needs, and interests of local communities 
+            and stakeholders are taken into account in the design and implementation of REDD+ projects.
+            """
+    isRequirementOf {
+        +Methodology.VM0011
+    }
+    isDerivedFrom {
+        +ReferenceFramework.REDDPlus
+    }
     hasRequirement {
         localConsultationProtocolPreparation {
             identifier = "D100"
@@ -114,6 +130,6 @@ val LocalConsultationProtocolPreparationRequirements = localConsultationProtocol
     }
 }
 
-val LocalConsultation = buildList {
-    add(LocalConsultationProtocolPreparationRequirements)
+val LocalConsultationRequirements = buildList {
+    add(LocalConsultation)
 }

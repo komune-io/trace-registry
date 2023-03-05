@@ -1,87 +1,64 @@
 package city.smartb.registry.program.cccev
 
-import cccev.dsl.model.informationRequirement
+import cccev.dsl.model.builder.InformationRequirementBuilder
+import city.smartb.registry.program.cccev.ver.Activities
+import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.cccev.ver.Type
+
+fun implementationStep(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.Implementation
+        }
+        isDerivedFrom {
+            +ReferenceFramework.AxessImpact
+        }
+        type = Type.Steps
+
+    }.apply(init).build()
 
 
-//hasRequirement {
-//    informationRequirement {
-//        identifier = "ProtocolDefinition"
-//        name = "Protocol definition"
-//        description =
-//            "Defining the procedures and guidelines for the project's implementation, including the scope of the project, the methods for measuring emissions, and the requirements for data collection and reporting."
-//    }
-//    informationRequirement {
-//        identifier = "DataCollection"
-//        name = "Data collection"
-//        description =
-//            "Collecting data on the project's activities and emissions in accordance with the project protocol."
-//    }
-//    informationRequirement {
-//        identifier = "ProjectInterface"
-//        name = "Project interface"
-//        description = "Establishing a project interface to manage the project's activities and emissions data."
-//    }
-//    informationRequirement {
-//        identifier = "BlockchainOrganization"
-//        name = "Blockchain organization"
-//        description =
-//            "Implementing a blockchain-based system to securely and transparently record project activities and emissions data."
-//    }
-//    informationRequirement {
-//        identifier = "AllocationOfValidationKeys"
-//        name = "Allocation of validation keys"
-//        description =
-//            "Allocating validation keys or smart protocols to ensure the integrity of project data and emissions reductions."
-//    }
-//    informationRequirement {
-//        identifier = "MonitoringProcess"
-//        name = "Monitoring process"
-//        description =
-//            "Establishing a monitoring process to ensure that the project is being implemented according to the project protocol."
-//    }
-//    informationRequirement {
-//        identifier = "SelectionOfStandard"
-//        name = "Selection of standard"
-//        description = "Selecting a standard, such as VCS, for measuring and reporting emissions reductions."
-//    }
-//    informationRequirement {
-//        identifier = "PreliminaryStudy"
-//        name = "Preliminary study"
-//        description =
-//            "Conducting a preliminary study to assess the feasibility and potential emissions reductions of the project."
-//    }
-//}
-
-val ProtocolDefinition = informationRequirement {
+val ProtocolDefinition = implementationStep {
     identifier = "C100"
     name = "Protocol definition"
-    description = "Defining the procedures and guidelines for the project's implementation, including the scope of the project, the methods for measuring emissions, and the requirements for data collection and reporting."
+    description = """
+        Defining the procedures and guidelines for the project's implementation, including the scope of the project, 
+        the methods for measuring emissions, and the requirements for data collection and reporting.
+    """.trimIndent()
+
 }
 
-val DataCollection = informationRequirement {
+val DataCollection = implementationStep {
     identifier = "C200"
     name = "Data collection"
     description = "Collecting data on emissions sources and activities related to the project."
 }
-val ProjectInterface = informationRequirement {
+val ProjectInterface = implementationStep {
     identifier = "C300"
     name = "Project interface"
-    description = "Establishing a communication and information-sharing system between project developers and third-party verifiers."
+    description = """
+        Establishing a communication and information-sharing system between project developers and third-party verifiers.
+    """.trimIndent()
 }
-val BlockchainOrganization = informationRequirement {
+val BlockchainOrganization = implementationStep {
     identifier = "C400"
     name = "Blockchain organization"
     description = "Implementing a blockchain-based system for storing and verifying emissions data."
 }
-val AllocationOfValidationKeys = informationRequirement {
+val AllocationOfValidationKeys = implementationStep {
     identifier = "C500"
     name = "Allocation of validation keys"
-    description = "Using smart protocols to allocate validation keys to project participants based on their level of compliance with project requirements."
+    description = """
+        Using smart protocols to allocate validation keys to project participants based on their level of compliance 
+        with project requirements.
+    """.trimIndent()
 }
-val MonitoringProcess = informationRequirement {
+val MonitoringProcess = implementationStep {
     identifier = "C600"
     name = "Monitoring process"
-    description = "Establishing a system for monitoring project activities and emissions reductions over time."
+    description = """
+        Establishing a system for monitoring project activities and emissions reductions over time.
+    """.trimIndent()
 }
 
 val ImplementationRequirements = buildList {

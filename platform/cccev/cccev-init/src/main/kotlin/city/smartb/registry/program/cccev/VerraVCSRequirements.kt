@@ -1,14 +1,15 @@
 package city.smartb.registry.program.cccev
 
 import  cccev.dsl.model.builder.InformationRequirementBuilder
+import cccev.dsl.model.builder.RequirementsLinkedBuilder
 import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
 import city.smartb.registry.program.cccev.ver.Type
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
 
-fun verraVcsProtocolPreparation(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
+fun RequirementsLinkedBuilder.verraVcsProtocolPreparation(init: InformationRequirementBuilder.() -> Unit) =
+    +InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolPreparation
             +Methodology.VM0011
@@ -19,8 +20,8 @@ fun verraVcsProtocolPreparation(init: InformationRequirementBuilder.() -> Unit) 
         type = Type.Steps
     }.apply(init).build()
 
-fun verraVcsProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
+fun RequirementsLinkedBuilder.verraVcsProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
+    +InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolValidation
             +Methodology.VM0011
@@ -32,8 +33,8 @@ fun verraVcsProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
         type = Type.Steps
     }.apply(init).build()
 
-fun verraVcsProtocolCertification(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
+fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationRequirementBuilder.() -> Unit) =
+    +InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.Certification
             +Methodology.VM0011
@@ -170,7 +171,7 @@ val VerraVcsProtocolCertificationRequirements = informationRequirement {
     }
 }
 
-val VerraVcsProtocol = buildList {
+val VerraVcsRequirement = buildList {
     add(DraftPDDVCSCCB)
     add(EntreeApipelineVerra)
     add(ValidationPDDVCSCCB)

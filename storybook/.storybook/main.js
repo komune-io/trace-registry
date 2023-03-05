@@ -1,3 +1,5 @@
+const baseUrl = "https://api.registry.smartb.network/cccev/docs"
+
 module.exports = {
   stories: [
     "../**/*.stories.mdx",
@@ -15,6 +17,12 @@ module.exports = {
     "@storybook/addon-essentials",
     "storybook-react-i18next",
   ],
+  // "refs": {
+  //   "s2": {
+  //     "title": "CCCEV",
+  //     "url": `${baseUrl}`
+  //   },
+  // },
   features: {
     emotionAlias: false,
     // buildStoriesJson: true

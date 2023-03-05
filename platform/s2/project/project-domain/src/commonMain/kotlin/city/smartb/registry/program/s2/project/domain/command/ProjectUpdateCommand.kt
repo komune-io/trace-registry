@@ -12,6 +12,7 @@ import kotlin.js.JsName
 
 /**
  * Update project payload
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 command
  */
 data class ProjectUpdateCommand(
@@ -37,6 +38,7 @@ data class ProjectUpdateCommand(
 
 /**
  * Update project response
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 event
  */
 @JsExport

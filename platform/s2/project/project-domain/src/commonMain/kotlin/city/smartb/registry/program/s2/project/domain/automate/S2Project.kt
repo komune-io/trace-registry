@@ -1,7 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
@@ -18,16 +17,16 @@ import s2.dsl.automate.builder.s2
 val s2Project = s2 {
 	name = "Project"
 	init<ProjectUpdateCommand> {
-		to = ProjectState.CREATED
+		to = ProjectState.STAMPED
 		role = ProjectRole.ProjectDeveloper
 	}
 	selfTransaction<ProjectUpdateCommand> {
 		role = ProjectRole.ProjectDeveloper
-		states += ProjectState.CREATED
+		states += ProjectState.STAMPED
 	}
 	transaction<ProjectDeleteCommand> {
-		from = ProjectState.CREATED
-		to = ProjectState.DELETED
+		from = ProjectState.STAMPED
+		to = ProjectState.WITHDRAWN
 		role = ProjectRole.ProjectDeveloper
 	}
 }
@@ -39,12 +38,19 @@ val s2Project = s2 {
  */
 @Serializable
 enum class ProjectState(override val position: Int): S2State {
-	CREATED(0),
-	DELETED(1)
+	/**
+	 * Project that has been recorded and timestamped on the registry.
+	 */
+	STAMPED(0),
+	/**
+	 * Project has been removed or cancelled and is no longer listed or recorded in the registry.
+	 */
+	WITHDRAWN(1)
 }
 
 enum class ProjectRole(val value: String): S2Role {
-	ProjectDeveloper("project_developer");
+	ProjectDeveloper("project_developer"),
+	Admin("admin");
 
 	override fun toString() = value
 }
