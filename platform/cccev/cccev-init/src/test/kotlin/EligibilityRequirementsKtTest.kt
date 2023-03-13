@@ -1,6 +1,12 @@
 import cccev.dsl.model.InformationRequirement
 import cccev.dsl.model.informationRequirement
+import cee.baten101.BAT_EN_101
+import cee.indba116.IND_BA_116
 import city.smartb.registry.program.cccev.eligibilityStep
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

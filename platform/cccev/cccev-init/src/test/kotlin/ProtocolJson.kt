@@ -1,5 +1,3 @@
-package city.smartb.registry.program.cccev.client
-
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.EligibilityRequirements

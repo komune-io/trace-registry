@@ -41,7 +41,7 @@ val SurveyOfEligibility = eligibilityStep {
 
 
 val IdentificationOfProject = eligibilityActivity {
-    identifier = "IdentificationOfProject"
+    identifier = "B10X"
     name = "Identification of the project"
     description = "This activity involves identifying the project and its location."
     hasRequirement {
@@ -79,7 +79,7 @@ val IdentificationOfProject = eligibilityActivity {
 }
 
 val FirstDocumentation = eligibilityActivity {
-    identifier = "FirstDocumentation"
+    identifier = "B20X"
     name = "First Documentation"
     description = "Obtaining the necessary legal and administrative documents for the project."
     hasRequirement {

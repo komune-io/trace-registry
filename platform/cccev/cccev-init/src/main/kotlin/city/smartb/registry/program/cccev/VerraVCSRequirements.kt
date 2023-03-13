@@ -46,7 +46,7 @@ fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationReq
     }.apply(init).build()
 
 val DraftPDDVCSCCB = informationRequirement {
-    identifier = "DPVCS+CCB"
+    identifier = "H10X"
     name = "Draft PDD VCS+CCB"
     description = "This activity involves the preparation and revision of the Project Design Document (PDD) for the VCS+CCB certification process."
     hasRequirement {
@@ -74,7 +74,7 @@ val DraftPDDVCSCCB = informationRequirement {
 }
 
 val EntreeApipelineVerra = informationRequirement {
-    identifier = "EntréeAuPipelineVerra"
+    identifier = "E20X"
     name = "Entrée au pipeline Verra"
     description = "This activity involves submitting the project for validation and verification by the Verra registry."
     hasRequirement {
@@ -105,7 +105,7 @@ val EntreeApipelineVerra = informationRequirement {
 
 
 val ValidationPDDVCSCCB = informationRequirement {
-    identifier = "ValidationPDDVCS_CCB"
+    identifier = "H30X"
     name = "Validation PDD VCS+CCB"
     description = "This activity involves the validation process of the Project Design Document (PDD) under the Verified Carbon Standard (VCS) and the Climate, Community and Biodiversity (CCB) Standards."
     hasRequirement {
@@ -144,27 +144,27 @@ val ValidationPDDVCSCCB = informationRequirement {
 
 
 val VerraVcsProtocolCertificationRequirements = informationRequirement {
-    identifier = "VerificationPDDVCS+CCB"
+    identifier = "H40X"
     name = "Verification PDD VCS+CCB"
     description = "This activity involves verifying the emissions reductions claimed in the PDD according to the VCS+CCB standards."
     hasRequirement {
         verraVcsProtocolCertification {
-            identifier = "ChoiceOfProvider"
+            identifier = "H400"
             name = "Choice of provider"
             description = "Select a third-party verification provider to conduct the verification."
         }
         verraVcsProtocolCertification {
-            identifier = "Monitoring"
+            identifier = "H401"
             name = "Monitoring"
             description = "Monitor the project's emissions and ensure that they are being accurately measured and reported."
         }
         verraVcsProtocolCertification {
-            identifier = "Verification"
+            identifier = "H402"
             name = "Verification"
             description = "Conduct an independent third-party verification of the emissions reductions claimed in the PDD."
         }
         verraVcsProtocolCertification {
-            identifier = "Certificate"
+            identifier = "H403"
             name = "Certificate"
             description = "Issue a certificate confirming the verified emissions reductions."
         }

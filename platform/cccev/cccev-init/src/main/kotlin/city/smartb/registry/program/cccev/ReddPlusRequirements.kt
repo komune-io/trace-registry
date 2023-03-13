@@ -46,7 +46,7 @@ fun RequirementsLinkedBuilder.reddPlusProtocolCertificationSteps(init: Informati
 
 
 val RedactionDuPIN = informationRequirement {
-    identifier = ""
+    identifier = "E10X"
     name = "RedactionDuPIN"
     description = ""
     hasRequirement {
@@ -132,7 +132,7 @@ val RedactionDuPIN = informationRequirement {
 
 
 val DepotDuPINAuMinistere = informationRequirement {
-    identifier = "PINSubmission"
+    identifier = "E20X"
     name = "Submission of the Project Idea Note (PIN) to the Ministry"
     description = "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
     hasRequirement {

@@ -33,7 +33,7 @@ fun RequirementsLinkedBuilder.localConsultationProtocolValidation(init: Informat
 
 
 val LocalConsultation = informationRequirement {
-    identifier = "LocalConsultation"
+    identifier = "D10X"
     name = "Local consultation"
     description = """
             Local consultation is a process that involves engaging and consulting with local communities 
