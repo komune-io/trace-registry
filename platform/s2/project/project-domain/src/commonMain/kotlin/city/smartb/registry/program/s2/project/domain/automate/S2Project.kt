@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
+import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -16,7 +17,7 @@ import s2.dsl.automate.builder.s2
 
 val s2Project = s2 {
 	name = "Project"
-	init<ProjectUpdateCommand> {
+	init<ProjectCreateCommand> {
 		to = ProjectState.STAMPED
 		role = ProjectRole.ProjectDeveloper
 	}

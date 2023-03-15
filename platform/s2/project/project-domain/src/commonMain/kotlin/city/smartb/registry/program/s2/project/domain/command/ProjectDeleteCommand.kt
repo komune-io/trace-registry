@@ -41,4 +41,4 @@ interface ProjectDeletedEventDTO: ProjectEvent {
  */
 data class ProjectDeletedEvent(
     override val id: ProjectId,
-): ProjectUpdatedEventDTO
+): ProjectDeletedEventDTO

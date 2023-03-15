@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.command
 
-import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
+import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
@@ -14,7 +14,43 @@ import kotlin.js.JsName
  * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 command
  */
-data class ProjectUpdateCommand(
+data class ProjectCreateCommand(
+    override var identifier: String,
+    override var name: String,
+    override var country: String?,
+    override var creditingPeriodStartDate: DateTime?,
+    override var creditingPeriodEndDate: DateTime?,
+    override var description: String?,
+    override var dueDate: DateTime?,
+    override var estimatedReduction: String?,
+    override var localization: String?,
+    override var proponentAccount: OrganizationRef?,
+    override var proponent: String?,
+    override var projectType: String?,
+    override var referenceYear: String?,
+    override var registrationDate: DateTime?,
+    override var status: ProjectState,
+    override var slug: Double?,
+): ProjectInitCommand, ProjectAbstractMsg
+
+/**
+ * Update project response
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
+ * @d2 event
+ */
+@JsExport
+@JsName("ProjectCreatedEventDTO")
+interface ProjectCreatedEventDTO: ProjectEvent, ProjectAbstractMsg  {
+    /**
+     * Identifier of the updated project.
+     */
+    override val id: ProjectId
+}
+
+/**
+ * @d2 inherit
+ */
+data class ProjectCreatedEvent(
     override val id: ProjectId,
     override var identifier: String,
     override var name: String,
@@ -32,41 +68,4 @@ data class ProjectUpdateCommand(
     override var registrationDate: DateTime?,
     override var status: ProjectState,
     override var slug: Double?,
-): ProjectCommand, ProjectAbstractMsg
-
-/**
- * Update project response
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
- * @d2 event
- */
-@JsExport
-@JsName("ProjectUpdatedEventDTO")
-interface ProjectUpdatedEventDTO: ProjectEvent, ProjectAbstractMsg {
-    /**
-     * Identifier of the updated project.
-     */
-    override val id: ProjectId
-}
-
-/**
- * @d2 inherit
- */
-data class ProjectUpdatedEvent(
-    override val id: ProjectId,
-    override var identifier: String,
-    override var name: String,
-    override var status: ProjectState,
-    override var country: String? = null,
-    override var creditingPeriodStartDate: DateTime? = null,
-    override var creditingPeriodEndDate: DateTime? = null,
-    override var description: String? = null,
-    override var dueDate: DateTime? = null,
-    override var estimatedReduction: String? = null,
-    override var localization: String? = null,
-    override var proponentAccount: OrganizationRef? = null,
-    override var proponent: String? = null,
-    override var projectType: String? = null,
-    override var referenceYear: String? = null,
-    override var registrationDate: DateTime? = null,
-    override var slug: Double? = null,
-): ProjectUpdatedEventDTO
+): ProjectCreatedEventDTO
