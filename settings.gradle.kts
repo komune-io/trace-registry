@@ -32,11 +32,6 @@ include(
 	"platform:cccev:cccev-init"
 )
 
-//include(
-//	"platform:f2:task-f2:task-f2-api",
-//	"platform:f2:task-f2:task-f2-domain",
-//)
-
 
 include(
 	"platform:f2:activity-f2:activity-f2-api",
@@ -56,24 +51,3 @@ include(
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
 )
-
-include(
-	"platform:f2:protocol-f2:protocol-f2-api",
-	"platform:f2:protocol-f2:protocol-f2-domain",
-	"platform:s2:protocol:protocol-api",
-	"platform:s2:protocol:protocol-domain",
-)
-
-
-//include(
-//	"platform:s2:notification:notification-api",
-//	"platform:s2:notification:notification-domain",
-//	"platform:s2:notification:notification-tasks",
-//)
-
-
-//include(
-//	"platform:s2:task:task-api",
-//	"platform:s2:task:task-domain",
-//	"platform:s2:task:task-tasks",
-//)

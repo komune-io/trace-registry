@@ -11,7 +11,6 @@ dependencies {
     implementation(project(":platform:f2:project-f2:project-f2-api"))
     implementation(project(":platform:f2:activity-f2:activity-f2-api"))
     implementation(project(":platform:f2:asset-f2:asset-f2-api"))
-    implementation(project(":platform:f2:protocol-f2:protocol-f2-api"))
 
     implementation(project(":platform:api:api-config"))
 
