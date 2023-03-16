@@ -16,15 +16,22 @@ im:
 
 i2:
   issuers:
-#    -
-#      name: program-dev
-#      authUrl: https://auth.smart-b.io/auth/
-#      realm: program-dev
-#      web:
-#        clientId: program-web
-#      im:
-#        clientId: program-api
-#        clientSecret:
+
+ssm:
+  signer:
+    user:
+      name: ssm-admin
+      key: user/ssm-admin
+    admin:
+      name: ssm-admin
+      key: user/ssm-admin
+  couchdb:
+    url: http://localhost:5984
+    username: couchdb
+    password: couchdb
+    serviceName: s2-sample-did
+  chaincode:
+    url: http://localhost:9090
 
 platform:
   web:
@@ -61,4 +68,3 @@ i2:
 platform:
   web:
     baseUrl: http://localhost:3000
-

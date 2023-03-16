@@ -14,6 +14,7 @@ import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
+import s2.dsl.automate.model.WithS2Id
 
 val s2Project = s2 {
 	name = "Project"
@@ -66,4 +67,4 @@ interface ProjectCommand: S2Command<ProjectId>
 
 @JsExport
 @JsName("ProjectEvent")
-interface ProjectEvent: Evt, WithId<ProjectId>
+interface ProjectEvent: Evt, WithId<ProjectId>, WithS2Id<ProjectId>

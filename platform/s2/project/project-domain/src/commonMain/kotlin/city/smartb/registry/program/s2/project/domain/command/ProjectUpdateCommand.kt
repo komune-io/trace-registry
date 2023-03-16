@@ -8,6 +8,7 @@ import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Update project payload
@@ -16,7 +17,7 @@ import kotlin.js.JsName
  */
 data class ProjectUpdateCommand(
     override val id: ProjectId,
-    override var identifier: String,
+    override var identifier: String?,
     override var name: String,
     override var country: String?,
     override var creditingPeriodStartDate: DateTime?,
@@ -27,11 +28,11 @@ data class ProjectUpdateCommand(
     override var localization: String?,
     override var proponentAccount: OrganizationRef?,
     override var proponent: String?,
-    override var projectType: String?,
+    override var type: String?,
     override var referenceYear: String?,
     override var registrationDate: DateTime?,
-    override var status: ProjectState,
     override var slug: Double?,
+    override val vintage: Double?,
 ): ProjectCommand, ProjectAbstractMsg
 
 /**
@@ -51,11 +52,12 @@ interface ProjectUpdatedEventDTO: ProjectEvent, ProjectAbstractMsg {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ProjectUpdatedEvent(
     override val id: ProjectId,
-    override var identifier: String,
     override var name: String,
-    override var status: ProjectState,
+    var status: ProjectState,
+    override var identifier: String?,
     override var country: String? = null,
     override var creditingPeriodStartDate: DateTime? = null,
     override var creditingPeriodEndDate: DateTime? = null,
@@ -65,8 +67,11 @@ data class ProjectUpdatedEvent(
     override var localization: String? = null,
     override var proponentAccount: OrganizationRef? = null,
     override var proponent: String? = null,
-    override var projectType: String? = null,
+    override var type: String? = null,
     override var referenceYear: String? = null,
     override var registrationDate: DateTime? = null,
     override var slug: Double? = null,
-): ProjectUpdatedEventDTO
+    override val vintage: Double? = null,
+): ProjectUpdatedEventDTO {
+    override fun s2Id() = id
+}

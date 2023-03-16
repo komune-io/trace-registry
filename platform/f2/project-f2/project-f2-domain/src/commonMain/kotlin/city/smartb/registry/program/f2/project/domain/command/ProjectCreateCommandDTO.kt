@@ -1,8 +1,7 @@
 package city.smartb.registry.program.f2.project.domain.command
 
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import f2.dsl.fnc.F2Function
 
 /**
@@ -12,4 +11,4 @@ import f2.dsl.fnc.F2Function
  * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand]
  * @child [city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEventDTO]
  */
-typealias ProjectCreateFunction = F2Function<ProjectCreateCommand, ProjectUpdatedEvent>
+typealias ProjectCreateFunction = F2Function<ProjectCreateCommand, ProjectCreatedEvent>

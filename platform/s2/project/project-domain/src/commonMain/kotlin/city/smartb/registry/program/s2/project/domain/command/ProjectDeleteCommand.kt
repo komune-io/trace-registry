@@ -9,6 +9,7 @@ import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 
 interface ProjectDeleteCommandDTO: ProjectCommand {
@@ -39,6 +40,9 @@ interface ProjectDeletedEventDTO: ProjectEvent {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ProjectDeletedEvent(
     override val id: ProjectId,
-): ProjectDeletedEventDTO
+): ProjectDeletedEventDTO {
+    override fun s2Id() = id
+}

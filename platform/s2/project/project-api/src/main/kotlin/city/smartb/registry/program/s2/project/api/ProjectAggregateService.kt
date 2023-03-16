@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.project.api.entity.applyCmd
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
@@ -18,20 +19,16 @@ class ProjectAggregateService(
 	private val automate: ProjectAutomateExecutor,
 ): ProjectAggregate {
 
-	override suspend fun create(cmd: ProjectCreateCommand): ProjectUpdatedEvent = automate.createWithEvent(cmd) {
-		val entity = ProjectEntity().applyCmd(cmd)
-		val event = ProjectUpdatedEvent(
+	override suspend fun create(cmd: ProjectCreateCommand): ProjectCreatedEvent = automate.init(cmd) {
+		ProjectCreatedEvent(
 			id = UUID.randomUUID().toString(),
-			status = ProjectState.STAMPED,
 			identifier = cmd.identifier,
-			name = cmd.name,
+			name = cmd.name
 		).applyCmd(cmd)
-		entity to event
 	}
 
-	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.doTransition(cmd) {
-		applyCmd(cmd)
-		this to ProjectUpdatedEvent(
+	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
+		ProjectUpdatedEvent(
 			id = UUID.randomUUID().toString(),
 			status = ProjectState.STAMPED,
 			identifier = cmd.identifier,
@@ -39,9 +36,9 @@ class ProjectAggregateService(
 		).applyCmd(cmd)
 	}
 
-	override suspend fun delete(cmd: ProjectDeleteCommand): ProjectDeletedEvent = automate.doTransition(cmd) {
-		this to ProjectDeletedEvent(
-			id = id,
+	override suspend fun delete(cmd: ProjectDeleteCommand): ProjectDeletedEvent = automate.transition(cmd) {
+		ProjectDeletedEvent(
+			id = it.id,
 		)
 	}
 }

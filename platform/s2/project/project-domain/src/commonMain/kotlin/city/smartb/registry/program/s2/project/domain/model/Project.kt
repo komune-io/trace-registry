@@ -2,6 +2,7 @@ package city.smartb.registry.program.s2.project.domain.model
 
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import s2.dsl.automate.S2State
+import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 
@@ -21,7 +22,7 @@ typealias ProjectId = String
  * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionModel]
  * @d2 model
  */
-interface ProjectDTO: WithS2State<S2State> {
+interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val id: ProjectId
 
     /**
@@ -87,13 +88,7 @@ interface ProjectDTO: WithS2State<S2State> {
      * List of project types
      * @example "type1,type2,type3"
      */
-    val projectType: String?
-
-    /**
-     * Public ID of the project in others registries
-     * @example "1234567890"
-     */
-    val publicId: String?
+    val type: String?
 
     /**
      * The reference year of the project
@@ -150,8 +145,7 @@ data class Project(
     override val name: String?,
     override val proponentAccount: OrganizationRef?,
     override val proponent: String?,
-    override val projectType: String?,
-    override val publicId: String?,
+    override val type: String?,
     override val referenceYear: String?,
     override val registrationDate: DateTime?,
 
@@ -163,6 +157,7 @@ data class Project(
     override val lastModificationDate: DateTime?,
 ): ProjectDTO {
     override fun s2State() = status
+    override fun s2Id() = id
 }
 
 typealias DateTime = Long

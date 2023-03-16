@@ -74,10 +74,6 @@ object Dependencies {
 			"city.smartb.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",
 		)
 
-		fun s2SourcingData(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-spring-boot-starter-sourcing-data:${Versions.s2}",
-		)
-
 		fun s2SourcingSsm(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
 		)

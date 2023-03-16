@@ -8,5 +8,5 @@ dependencies {
 	api(project(":platform:s2:project:project-domain"))
 
 	Dependencies.Jvm.redisOm(::implementation)
-	Dependencies.Jvm.s2StoringData(::implementation)
+	Dependencies.Jvm.s2SourcingSsm(::implementation)
 }

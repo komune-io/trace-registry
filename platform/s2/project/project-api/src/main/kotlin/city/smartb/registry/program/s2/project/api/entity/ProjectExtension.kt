@@ -1,10 +1,8 @@
 package city.smartb.registry.program.s2.project.api.entity
 
+import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg
-import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.model.Project
-import java.util.UUID
 
 fun ProjectEntity.toProject() = Project(
     id = this.id,
@@ -19,8 +17,7 @@ fun ProjectEntity.toProject() = Project(
     localization = this.localization,
     proponentAccount = this.proponentAccount,
     proponent = this.proponent,
-    projectType = this.projectType,
-    publicId = this.publicId,
+    type = this.type,
     referenceYear = this.referenceYear,
     registrationDate = this.registrationDate,
     vintage = this.vintage,
@@ -30,44 +27,41 @@ fun ProjectEntity.toProject() = Project(
 //    creationDate = this.createdDate!!.time,
 //    lastModificationDate = this.lastModifiedDate!!.time
 )
-
-fun ProjectCreateCommand.toProject() = ProjectEntity().apply { id = UUID.randomUUID().toString() }.applyCmd(this)
-fun ProjectUpdateCommand.toProject() = ProjectEntity().apply { id = this@toProject.id }.applyCmd(this)
-
-fun ProjectEntity.applyCmd(cmd: ProjectAbstractMsg): ProjectEntity = let { entity ->
-    entity.status = cmd.status
-    entity.name = cmd.name
-    entity.country = cmd.country
-    entity.creditingPeriodStartDate = cmd.creditingPeriodStartDate
-    entity.creditingPeriodEndDate = cmd.creditingPeriodEndDate
-    entity.description = cmd.description
-    entity.dueDate = cmd.dueDate
-    entity.estimatedReduction = cmd.estimatedReduction
-    entity.localization = cmd.localization
-    entity.proponentAccount = cmd.proponentAccount
-    entity.proponent = cmd.proponent
-    entity.projectType = cmd.projectType
-    entity.referenceYear = cmd.referenceYear
-    entity.registrationDate = cmd.registrationDate
-    entity.slug = cmd.slug
+fun Project.toEntity() = ProjectEntity().let { entity ->
+    entity.id = this.id
+    entity.status = status
+    entity.name = this.name
+    entity.country = this.country
+    entity.creditingPeriodStartDate = this.creditingPeriodStartDate
+    entity.creditingPeriodEndDate = this.creditingPeriodEndDate
+    entity.description = this.description
+    entity.dueDate = this.dueDate
+    entity.estimatedReduction = this.estimatedReduction
+    entity.localization = this.localization
+    entity.proponentAccount = this.proponentAccount
+    entity.proponent = this.proponent
+    entity.type = this.type
+    entity.referenceYear = this.referenceYear
+    entity.registrationDate = this.registrationDate
+    entity.vintage = this.vintage
+    entity.slug = this.slug
     entity
 }
 
-fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = let { entity ->
-    entity.status = msg.status
-    entity.name = msg.name
-    entity.country = msg.country
-    entity.creditingPeriodStartDate = msg.creditingPeriodStartDate
-    entity.creditingPeriodEndDate = msg.creditingPeriodEndDate
-    entity.description = msg.description
-    entity.dueDate = msg.dueDate
-    entity.estimatedReduction = msg.estimatedReduction
-    entity.localization = msg.localization
-    entity.proponentAccount = msg.proponentAccount
-    entity.proponent = msg.proponent
-    entity.projectType = msg.projectType
-    entity.referenceYear = msg.referenceYear
-    entity.registrationDate = msg.registrationDate
-    entity.slug = msg.slug
-    entity
+fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = let { ele ->
+    ele.name = msg.name
+    ele.country = msg.country
+    ele.creditingPeriodStartDate = msg.creditingPeriodStartDate
+    ele.creditingPeriodEndDate = msg.creditingPeriodEndDate
+    ele.description = msg.description
+    ele.dueDate = msg.dueDate
+    ele.estimatedReduction = msg.estimatedReduction
+    ele.localization = msg.localization
+    ele.proponentAccount = msg.proponentAccount
+    ele.proponent = msg.proponent
+    ele.type = msg.type
+    ele.referenceYear = msg.referenceYear
+    ele.registrationDate = msg.registrationDate
+    ele.slug = msg.slug
+    ele
 }

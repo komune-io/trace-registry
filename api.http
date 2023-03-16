@@ -136,10 +136,9 @@ Content-Type: application/json
 
 [
   {
-    "id": "1",
-    "name": "1",
-    "description": "1",
-    "status": "REGISTRATION_REQUESTED"
+    "identifier": "2",
+    "name": "2",
+    "description": "2"
   }
 ]
 
@@ -162,7 +161,7 @@ Content-Type: application/json
 
 [
   {
-    "id": "1"
+    "identifier": "1"
   }
 ]
 
