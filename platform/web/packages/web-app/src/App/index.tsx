@@ -3,6 +3,7 @@
 // import logo from '../assets/smartb.png'
 // import { useMemo } from "react";
 // import { useTranslation } from "react-i18next";
+import { CssBaseline } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
 export const App = () => {
@@ -12,7 +13,20 @@ export const App = () => {
   // const user = useMemo(() => service.getUser(), [service.getUser])
   // const {loggedMenu, notLoggedMenu} = useUserMenu(keycloak.logout, keycloak.login, t)
 
-  return <Outlet />
+  return (
+    <>
+    <CssBaseline />
+      <main
+        style={{
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto'
+        }}
+      >
+        <Outlet />
+      </main>
+    </>
+  )
 
 //   return (
 //       <AppLayout 

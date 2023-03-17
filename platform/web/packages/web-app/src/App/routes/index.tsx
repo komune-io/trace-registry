@@ -2,8 +2,9 @@ import { NoMatchPage, Router } from "@smartb/g2";
 import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
+import { registryPages } from "App/pages/Registry/router";
 // import {OrganizationListPage, OrganizationProfilePage, UserListPage, UserProfilePage, } from "im"
-// import {useMemo} from "react"
+import {useMemo} from "react"
 
 
 // const imPages: PageRoute[] = [{
@@ -44,15 +45,14 @@ import { App } from "App";
 //   element: <UserProfilePage myProfil readonly={false} />
 // }]
 
-// const allPages: PageRoute[] = [...imPages]
+const allPages: PageRoute[] = [...registryPages]
 
 export const AppRouter = () => {
-  // const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
+  const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
   return (
     <Router>
       <Route path="/" element={<App />} >
-        <Route path="" element={"home"} />
-        {/* pages */}
+        {pages}
       </Route >
     </Router>
   );
