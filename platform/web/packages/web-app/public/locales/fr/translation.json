@@ -1,0 +1,17 @@
+{
+  "dashboard": "Tableau de bord",
+  "organizations": "Organisations",
+  "users": "Utilisateurs",
+  "profil": "Mon profile",
+  "logout": "Déconnexion",
+  "login": "Connexion",
+  "roles": {
+    "super_admin": "Administrateur global",
+    "admin": "Admin",
+    "user": "Utilisateur"
+  },
+  "organizationRoles": {
+    "support": "Support",
+    "fub": "Fub"
+  }
+}
