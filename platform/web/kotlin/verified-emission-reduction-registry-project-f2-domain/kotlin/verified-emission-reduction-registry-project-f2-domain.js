@@ -622,6 +622,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectDeleteCommand, 'ProjectDeleteCommand', classMeta, undefined, [ProjectCommand], undefined, undefined, []);
   setMetadataFor(ProjectUpdatedEventDTO, 'ProjectUpdatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectUpdateCommand, 'ProjectUpdateCommand', classMeta, undefined, [ProjectCommand], undefined, undefined, []);
+  setMetadataFor(ProjectDTO, 'ProjectDTO', interfaceMeta, undefined, [WithS2State, WithS2Id], undefined, undefined, []);
   setMetadataFor(ProjectPolicies, 'ProjectPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectGetQueryDTO, 'ProjectGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectGetResultDTO, 'ProjectGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -16917,6 +16918,8 @@ if (typeof Math.imul === 'undefined') {
       return this.qp();
     }
   });
+  function ProjectDTO() {
+  }
   function ProjectPolicies() {
     ProjectPolicies_instance = this;
   }
@@ -18043,6 +18046,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

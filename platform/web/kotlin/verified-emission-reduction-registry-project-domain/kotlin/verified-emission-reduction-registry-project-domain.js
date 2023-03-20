@@ -608,6 +608,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectDeletedEventDTO, 'ProjectDeletedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectUpdatedEventDTO, 'ProjectUpdatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
+  setMetadataFor(ProjectDTO, 'ProjectDTO', interfaceMeta, undefined, [WithS2State, WithS2Id], undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -16185,6 +16186,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectUpdatedEventDTO() {
   }
+  function ProjectDTO() {
+  }
   //region block: post-declaration
   CombinedContext.prototype.t2 = plus;
   AbstractCoroutineContextElement.prototype.m2 = get;
@@ -17249,6 +17252,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
   }
   $jsExportAll$(_);
   //endregion

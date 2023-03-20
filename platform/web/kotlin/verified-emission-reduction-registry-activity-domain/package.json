@@ -1,6 +1,6 @@
 {
   "name": "verified-emission-reduction-registry-activity-domain",
-  "version": "0.0.0-latest",
+  "version": "0.0.0-experimental",
   "main": "kotlin/verified-emission-reduction-registry-activity-domain.js",
   "devDependencies": {},
   "dependencies": {

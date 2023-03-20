@@ -1,6 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.model
 
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import kotlin.js.JsExport
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -22,6 +23,7 @@ typealias ProjectId = String
  * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionModel]
  * @d2 model
  */
+@JsExport
 interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val id: ProjectId
 

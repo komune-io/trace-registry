@@ -1753,4 +1753,30 @@ export namespace city.smartb.registry.program.s2.project.domain.command {
 
     }
 }
+export namespace city.smartb.registry.program.s2.project.domain.model {
+    interface ProjectDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */>, s2.dsl.automate.model.WithS2Id<string> {
+        readonly id: string;
+        readonly name?: string;
+        readonly country?: string;
+        readonly creditingPeriodStartDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly creditingPeriodEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly description?: string;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly estimatedReduction?: string;
+        readonly localization?: string;
+        readonly proponentAccount: Nullable<any>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly proponent?: string;
+        readonly type?: string;
+        readonly referenceYear?: string;
+        readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
+        readonly vintage?: number;
+        readonly slug?: number;
+        readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
+        s2Id(): string;
+
+    }
+}
 export as namespace verified_emission_reduction_registry_project_domain;
