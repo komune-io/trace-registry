@@ -612,14 +612,16 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(SortDTO, 'SortDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectInitCommand, 'ProjectInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(ProjectCommand, 'ProjectCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
-  setMetadataFor(ProjectEvent, 'ProjectEvent', interfaceMeta, undefined, [Event, WithId], undefined, undefined, []);
+  setMetadataFor(ProjectEvent, 'ProjectEvent', interfaceMeta, undefined, [Event, WithId, WithS2Id], undefined, undefined, []);
   setMetadataFor(Companion_26, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectState, 'ProjectState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_26}, []);
   setMetadataFor(ProjectRole, 'ProjectRole', classMeta, Enum, [Enum, S2Role], undefined, undefined, []);
+  setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
+  setMetadataFor(ProjectCreateCommand, 'ProjectCreateCommand', classMeta, undefined, [ProjectInitCommand], undefined, undefined, []);
   setMetadataFor(ProjectDeletedEventDTO, 'ProjectDeletedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectDeleteCommand, 'ProjectDeleteCommand', classMeta, undefined, [ProjectCommand], undefined, undefined, []);
   setMetadataFor(ProjectUpdatedEventDTO, 'ProjectUpdatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
-  setMetadataFor(ProjectUpdateCommand, 'ProjectUpdateCommand', classMeta, undefined, [ProjectCommand, ProjectInitCommand], undefined, undefined, []);
+  setMetadataFor(ProjectUpdateCommand, 'ProjectUpdateCommand', classMeta, undefined, [ProjectCommand], undefined, undefined, []);
   setMetadataFor(ProjectPolicies, 'ProjectPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectGetQueryDTO, 'ProjectGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectGetResultDTO, 'ProjectGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -16596,7 +16598,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.let' call
     var tmp1_to = toValue_0(builder.vy());
     var tmp2_role = toValue_1(builder.pt());
-    var tmp3_action = toValue(getKClass(ProjectUpdateCommand));
+    var tmp3_action = toValue(getKClass(ProjectCreateCommand));
     var tmp0_safe_receiver = builder.j12_1;
     var tmp4_result = tmp0_safe_receiver == null ? null : toValue(tmp0_safe_receiver);
     var tmp0_let = new S2Transition(null, tmp1_to, tmp2_role, tmp3_action, tmp4_result);
@@ -16708,19 +16710,101 @@ if (typeof Math.imul === 'undefined') {
       s2Project = s2(s2Project$lambda);
     }
   }
+  function ProjectCreatedEventDTO() {
+  }
+  function ProjectCreateCommand(name, identifier, country, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponentAccount, proponent, type, referenceYear, registrationDate, slug, vintage) {
+    this.p14_1 = name;
+    this.q14_1 = identifier;
+    this.r14_1 = country;
+    this.s14_1 = creditingPeriodStartDate;
+    this.t14_1 = creditingPeriodEndDate;
+    this.u14_1 = description;
+    this.v14_1 = dueDate;
+    this.w14_1 = estimatedReduction;
+    this.x14_1 = localization;
+    this.y14_1 = proponentAccount;
+    this.z14_1 = proponent;
+    this.a15_1 = type;
+    this.b15_1 = referenceYear;
+    this.c15_1 = registrationDate;
+    this.d15_1 = slug;
+    this.e15_1 = vintage;
+  }
+  ProjectCreateCommand.prototype.toString = function () {
+    return 'ProjectCreateCommand(name=' + this.p14_1 + ', identifier=' + this.q14_1 + ', country=' + this.r14_1 + ', creditingPeriodStartDate=' + toString_1(this.s14_1) + ', creditingPeriodEndDate=' + toString_1(this.t14_1) + ', description=' + this.u14_1 + ', dueDate=' + toString_1(this.v14_1) + ', estimatedReduction=' + this.w14_1 + ', localization=' + this.x14_1 + ', proponentAccount=' + this.y14_1 + ', proponent=' + this.z14_1 + ', type=' + this.a15_1 + ', referenceYear=' + this.b15_1 + ', registrationDate=' + toString_1(this.c15_1) + ', slug=' + this.d15_1 + ', vintage=' + this.e15_1 + ')';
+  };
+  ProjectCreateCommand.prototype.hashCode = function () {
+    var result = getStringHashCode(this.p14_1);
+    result = imul(result, 31) + (this.q14_1 == null ? 0 : getStringHashCode(this.q14_1)) | 0;
+    result = imul(result, 31) + (this.r14_1 == null ? 0 : getStringHashCode(this.r14_1)) | 0;
+    result = imul(result, 31) + (this.s14_1 == null ? 0 : this.s14_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.t14_1 == null ? 0 : this.t14_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u14_1 == null ? 0 : getStringHashCode(this.u14_1)) | 0;
+    result = imul(result, 31) + (this.v14_1 == null ? 0 : this.v14_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.w14_1 == null ? 0 : getStringHashCode(this.w14_1)) | 0;
+    result = imul(result, 31) + (this.x14_1 == null ? 0 : getStringHashCode(this.x14_1)) | 0;
+    result = imul(result, 31) + (this.y14_1 == null ? 0 : hashCode(this.y14_1)) | 0;
+    result = imul(result, 31) + (this.z14_1 == null ? 0 : getStringHashCode(this.z14_1)) | 0;
+    result = imul(result, 31) + (this.a15_1 == null ? 0 : getStringHashCode(this.a15_1)) | 0;
+    result = imul(result, 31) + (this.b15_1 == null ? 0 : getStringHashCode(this.b15_1)) | 0;
+    result = imul(result, 31) + (this.c15_1 == null ? 0 : this.c15_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.d15_1 == null ? 0 : getNumberHashCode(this.d15_1)) | 0;
+    result = imul(result, 31) + (this.e15_1 == null ? 0 : getNumberHashCode(this.e15_1)) | 0;
+    return result;
+  };
+  ProjectCreateCommand.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ProjectCreateCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof ProjectCreateCommand ? other : THROW_CCE();
+    if (!(this.p14_1 === tmp0_other_with_cast.p14_1))
+      return false;
+    if (!(this.q14_1 == tmp0_other_with_cast.q14_1))
+      return false;
+    if (!(this.r14_1 == tmp0_other_with_cast.r14_1))
+      return false;
+    if (!equals_0(this.s14_1, tmp0_other_with_cast.s14_1))
+      return false;
+    if (!equals_0(this.t14_1, tmp0_other_with_cast.t14_1))
+      return false;
+    if (!(this.u14_1 == tmp0_other_with_cast.u14_1))
+      return false;
+    if (!equals_0(this.v14_1, tmp0_other_with_cast.v14_1))
+      return false;
+    if (!(this.w14_1 == tmp0_other_with_cast.w14_1))
+      return false;
+    if (!(this.x14_1 == tmp0_other_with_cast.x14_1))
+      return false;
+    if (!equals_0(this.y14_1, tmp0_other_with_cast.y14_1))
+      return false;
+    if (!(this.z14_1 == tmp0_other_with_cast.z14_1))
+      return false;
+    if (!(this.a15_1 == tmp0_other_with_cast.a15_1))
+      return false;
+    if (!(this.b15_1 == tmp0_other_with_cast.b15_1))
+      return false;
+    if (!equals_0(this.c15_1, tmp0_other_with_cast.c15_1))
+      return false;
+    if (!equals_0(this.d15_1, tmp0_other_with_cast.d15_1))
+      return false;
+    if (!equals_0(this.e15_1, tmp0_other_with_cast.e15_1))
+      return false;
+    return true;
+  };
   function ProjectDeletedEventDTO() {
   }
   function ProjectDeleteCommand(id) {
-    this.n13_1 = id;
+    this.f15_1 = id;
   }
   ProjectDeleteCommand.prototype.qp = function () {
-    return this.n13_1;
+    return this.f15_1;
   };
   ProjectDeleteCommand.prototype.toString = function () {
-    return 'ProjectDeleteCommand(id=' + this.n13_1 + ')';
+    return 'ProjectDeleteCommand(id=' + this.f15_1 + ')';
   };
   ProjectDeleteCommand.prototype.hashCode = function () {
-    return getStringHashCode(this.n13_1);
+    return getStringHashCode(this.f15_1);
   };
   ProjectDeleteCommand.prototype.equals = function (other) {
     if (this === other)
@@ -16728,7 +16812,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectDeleteCommand ? other : THROW_CCE();
-    if (!(this.n13_1 === tmp0_other_with_cast.n13_1))
+    if (!(this.f15_1 === tmp0_other_with_cast.f15_1))
       return false;
     return true;
   };
@@ -16740,51 +16824,49 @@ if (typeof Math.imul === 'undefined') {
   });
   function ProjectUpdatedEventDTO() {
   }
-  function ProjectUpdateCommand(id, name, country, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponentAccount, proponent, projectType, publicId, referenceYear, registrationDate, status, vintage, slug) {
-    this.o13_1 = id;
-    this.p13_1 = name;
-    this.q13_1 = country;
-    this.r13_1 = creditingPeriodStartDate;
-    this.s13_1 = creditingPeriodEndDate;
-    this.t13_1 = description;
-    this.u13_1 = dueDate;
-    this.v13_1 = estimatedReduction;
-    this.w13_1 = localization;
-    this.x13_1 = proponentAccount;
-    this.y13_1 = proponent;
-    this.z13_1 = projectType;
-    this.a14_1 = publicId;
-    this.b14_1 = referenceYear;
-    this.c14_1 = registrationDate;
-    this.d14_1 = status;
-    this.e14_1 = vintage;
-    this.f14_1 = slug;
+  function ProjectUpdateCommand(id, identifier, name, country, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponentAccount, proponent, type, referenceYear, registrationDate, slug, vintage) {
+    this.g15_1 = id;
+    this.h15_1 = identifier;
+    this.i15_1 = name;
+    this.j15_1 = country;
+    this.k15_1 = creditingPeriodStartDate;
+    this.l15_1 = creditingPeriodEndDate;
+    this.m15_1 = description;
+    this.n15_1 = dueDate;
+    this.o15_1 = estimatedReduction;
+    this.p15_1 = localization;
+    this.q15_1 = proponentAccount;
+    this.r15_1 = proponent;
+    this.s15_1 = type;
+    this.t15_1 = referenceYear;
+    this.u15_1 = registrationDate;
+    this.v15_1 = slug;
+    this.w15_1 = vintage;
   }
   ProjectUpdateCommand.prototype.qp = function () {
-    return this.o13_1;
+    return this.g15_1;
   };
   ProjectUpdateCommand.prototype.toString = function () {
-    return 'ProjectUpdateCommand(id=' + this.o13_1 + ', name=' + this.p13_1 + ', country=' + this.q13_1 + ', creditingPeriodStartDate=' + toString_1(this.r13_1) + ', creditingPeriodEndDate=' + toString_1(this.s13_1) + ', description=' + this.t13_1 + ', dueDate=' + toString_1(this.u13_1) + ', estimatedReduction=' + this.v13_1 + ', localization=' + this.w13_1 + ', proponentAccount=' + this.x13_1 + ', proponent=' + this.y13_1 + ', projectType=' + this.z13_1 + ', publicId=' + this.a14_1 + ', referenceYear=' + this.b14_1 + ', registrationDate=' + toString_1(this.c14_1) + ', status=' + this.d14_1 + ', vintage=' + this.e14_1 + ', slug=' + this.f14_1 + ')';
+    return 'ProjectUpdateCommand(id=' + this.g15_1 + ', identifier=' + this.h15_1 + ', name=' + this.i15_1 + ', country=' + this.j15_1 + ', creditingPeriodStartDate=' + toString_1(this.k15_1) + ', creditingPeriodEndDate=' + toString_1(this.l15_1) + ', description=' + this.m15_1 + ', dueDate=' + toString_1(this.n15_1) + ', estimatedReduction=' + this.o15_1 + ', localization=' + this.p15_1 + ', proponentAccount=' + this.q15_1 + ', proponent=' + this.r15_1 + ', type=' + this.s15_1 + ', referenceYear=' + this.t15_1 + ', registrationDate=' + toString_1(this.u15_1) + ', slug=' + this.v15_1 + ', vintage=' + this.w15_1 + ')';
   };
   ProjectUpdateCommand.prototype.hashCode = function () {
-    var result = getStringHashCode(this.o13_1);
-    result = imul(result, 31) + getStringHashCode(this.p13_1) | 0;
-    result = imul(result, 31) + (this.q13_1 == null ? 0 : getStringHashCode(this.q13_1)) | 0;
-    result = imul(result, 31) + (this.r13_1 == null ? 0 : this.r13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s13_1 == null ? 0 : this.s13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.t13_1 == null ? 0 : getStringHashCode(this.t13_1)) | 0;
-    result = imul(result, 31) + (this.u13_1 == null ? 0 : this.u13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.v13_1 == null ? 0 : getStringHashCode(this.v13_1)) | 0;
-    result = imul(result, 31) + (this.w13_1 == null ? 0 : getStringHashCode(this.w13_1)) | 0;
-    result = imul(result, 31) + (this.x13_1 == null ? 0 : hashCode(this.x13_1)) | 0;
-    result = imul(result, 31) + (this.y13_1 == null ? 0 : getStringHashCode(this.y13_1)) | 0;
-    result = imul(result, 31) + (this.z13_1 == null ? 0 : getStringHashCode(this.z13_1)) | 0;
-    result = imul(result, 31) + (this.a14_1 == null ? 0 : getStringHashCode(this.a14_1)) | 0;
-    result = imul(result, 31) + (this.b14_1 == null ? 0 : getStringHashCode(this.b14_1)) | 0;
-    result = imul(result, 31) + (this.c14_1 == null ? 0 : this.c14_1.hashCode()) | 0;
-    result = imul(result, 31) + this.d14_1.hashCode() | 0;
-    result = imul(result, 31) + (this.e14_1 == null ? 0 : getNumberHashCode(this.e14_1)) | 0;
-    result = imul(result, 31) + (this.f14_1 == null ? 0 : getNumberHashCode(this.f14_1)) | 0;
+    var result = getStringHashCode(this.g15_1);
+    result = imul(result, 31) + (this.h15_1 == null ? 0 : getStringHashCode(this.h15_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.i15_1) | 0;
+    result = imul(result, 31) + (this.j15_1 == null ? 0 : getStringHashCode(this.j15_1)) | 0;
+    result = imul(result, 31) + (this.k15_1 == null ? 0 : this.k15_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.l15_1 == null ? 0 : this.l15_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.m15_1 == null ? 0 : getStringHashCode(this.m15_1)) | 0;
+    result = imul(result, 31) + (this.n15_1 == null ? 0 : this.n15_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.o15_1 == null ? 0 : getStringHashCode(this.o15_1)) | 0;
+    result = imul(result, 31) + (this.p15_1 == null ? 0 : getStringHashCode(this.p15_1)) | 0;
+    result = imul(result, 31) + (this.q15_1 == null ? 0 : hashCode(this.q15_1)) | 0;
+    result = imul(result, 31) + (this.r15_1 == null ? 0 : getStringHashCode(this.r15_1)) | 0;
+    result = imul(result, 31) + (this.s15_1 == null ? 0 : getStringHashCode(this.s15_1)) | 0;
+    result = imul(result, 31) + (this.t15_1 == null ? 0 : getStringHashCode(this.t15_1)) | 0;
+    result = imul(result, 31) + (this.u15_1 == null ? 0 : this.u15_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.v15_1 == null ? 0 : getNumberHashCode(this.v15_1)) | 0;
+    result = imul(result, 31) + (this.w15_1 == null ? 0 : getNumberHashCode(this.w15_1)) | 0;
     return result;
   };
   ProjectUpdateCommand.prototype.equals = function (other) {
@@ -16793,41 +16875,39 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectUpdateCommand ? other : THROW_CCE();
-    if (!(this.o13_1 === tmp0_other_with_cast.o13_1))
+    if (!(this.g15_1 === tmp0_other_with_cast.g15_1))
       return false;
-    if (!(this.p13_1 === tmp0_other_with_cast.p13_1))
+    if (!(this.h15_1 == tmp0_other_with_cast.h15_1))
       return false;
-    if (!(this.q13_1 == tmp0_other_with_cast.q13_1))
+    if (!(this.i15_1 === tmp0_other_with_cast.i15_1))
       return false;
-    if (!equals_0(this.r13_1, tmp0_other_with_cast.r13_1))
+    if (!(this.j15_1 == tmp0_other_with_cast.j15_1))
       return false;
-    if (!equals_0(this.s13_1, tmp0_other_with_cast.s13_1))
+    if (!equals_0(this.k15_1, tmp0_other_with_cast.k15_1))
       return false;
-    if (!(this.t13_1 == tmp0_other_with_cast.t13_1))
+    if (!equals_0(this.l15_1, tmp0_other_with_cast.l15_1))
       return false;
-    if (!equals_0(this.u13_1, tmp0_other_with_cast.u13_1))
+    if (!(this.m15_1 == tmp0_other_with_cast.m15_1))
       return false;
-    if (!(this.v13_1 == tmp0_other_with_cast.v13_1))
+    if (!equals_0(this.n15_1, tmp0_other_with_cast.n15_1))
       return false;
-    if (!(this.w13_1 == tmp0_other_with_cast.w13_1))
+    if (!(this.o15_1 == tmp0_other_with_cast.o15_1))
       return false;
-    if (!equals_0(this.x13_1, tmp0_other_with_cast.x13_1))
+    if (!(this.p15_1 == tmp0_other_with_cast.p15_1))
       return false;
-    if (!(this.y13_1 == tmp0_other_with_cast.y13_1))
+    if (!equals_0(this.q15_1, tmp0_other_with_cast.q15_1))
       return false;
-    if (!(this.z13_1 == tmp0_other_with_cast.z13_1))
+    if (!(this.r15_1 == tmp0_other_with_cast.r15_1))
       return false;
-    if (!(this.a14_1 == tmp0_other_with_cast.a14_1))
+    if (!(this.s15_1 == tmp0_other_with_cast.s15_1))
       return false;
-    if (!(this.b14_1 == tmp0_other_with_cast.b14_1))
+    if (!(this.t15_1 == tmp0_other_with_cast.t15_1))
       return false;
-    if (!equals_0(this.c14_1, tmp0_other_with_cast.c14_1))
+    if (!equals_0(this.u15_1, tmp0_other_with_cast.u15_1))
       return false;
-    if (!this.d14_1.equals(tmp0_other_with_cast.d14_1))
+    if (!equals_0(this.v15_1, tmp0_other_with_cast.v15_1))
       return false;
-    if (!equals_0(this.e14_1, tmp0_other_with_cast.e14_1))
-      return false;
-    if (!equals_0(this.f14_1, tmp0_other_with_cast.f14_1))
+    if (!equals_0(this.w15_1, tmp0_other_with_cast.w15_1))
       return false;
     return true;
   };
@@ -17939,6 +18019,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$automate = $city$smartb$registry$program$s2$project$domain.automate || ($city$smartb$registry$program$s2$project$domain.automate = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

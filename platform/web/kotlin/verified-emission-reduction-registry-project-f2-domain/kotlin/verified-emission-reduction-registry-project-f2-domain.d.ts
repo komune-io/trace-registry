@@ -1726,20 +1726,30 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
         readonly id: string;
 
     }
-    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string> {
+    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string> {
         readonly id: string;
+        s2Id(): string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectCreatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
+        readonly id: string;
+        s2Id(): string;
 
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
     interface ProjectDeletedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
-    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
+    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
@@ -1747,8 +1757,8 @@ export namespace city.smartb.registry.program.f2.project.domain.policy {
     const ProjectPolicies: {
         canList(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State>/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */): boolean;
-        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State>/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */): boolean;
+        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: (s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */> & s2.dsl.automate.model.WithS2Id<string>)/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */): boolean;
+        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: (s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */> & s2.dsl.automate.model.WithS2Id<string>)/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */): boolean;
     };
 }
 export namespace city.smartb.registry.program.f2.project.domain.query {
@@ -1757,7 +1767,7 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
 
     }
     interface ProjectGetResultDTO {
-        readonly item: Nullable<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State>>/* Nullable<city.smartb.registry.program.s2.project.domain.model.ProjectDTO> */;
+        readonly item: Nullable<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */> & s2.dsl.automate.model.WithS2Id<string>>/* Nullable<city.smartb.registry.program.s2.project.domain.model.ProjectDTO> */;
 
     }
 }
@@ -1768,7 +1778,7 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
         readonly limit?: number;
 
     }
-    interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageDTO<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State>/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */> {
+    interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageDTO<(s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */> & s2.dsl.automate.model.WithS2Id<string>)/* city.smartb.registry.program.s2.project.domain.model.ProjectDTO */> {
         readonly total: number;
         readonly items: kotlin.collections.List<city.smartb.registry.program.s2.project.domain.model.ProjectDTO>;
 

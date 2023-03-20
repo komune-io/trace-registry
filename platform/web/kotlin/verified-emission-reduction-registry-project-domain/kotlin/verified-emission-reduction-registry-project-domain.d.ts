@@ -1726,20 +1726,30 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
         readonly id: string;
 
     }
-    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string> {
+    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string> {
         readonly id: string;
+        s2Id(): string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectCreatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
+        readonly id: string;
+        s2Id(): string;
 
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
     interface ProjectDeletedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
-    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
+    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
