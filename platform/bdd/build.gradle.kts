@@ -2,6 +2,7 @@ plugins {
 	id("city.smartb.fixers.gradle.kotlin.jvm")
 	kotlin("plugin.spring")
 	kotlin("plugin.serialization")
+	kotlin("kapt")
 }
 
 dependencies {
@@ -25,7 +26,7 @@ dependencies {
 	Dependencies.Jvm.cucumber(::implementation)
 	Dependencies.Jvm.s2StoringData(::implementation)
 	Dependencies.Jvm.springTest(::api)
-	Dependencies.Jvm.redisOm(::implementation)
+	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	city.smartb.gradle.dependencies.FixersDependencies.Jvm.Test.junit(::implementation)

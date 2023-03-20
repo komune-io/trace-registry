@@ -5,7 +5,6 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.Project
-import java.util.UUID
 import kotlinx.datetime.Clock
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -20,7 +19,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 	}
 
 	private suspend fun create(event: ProjectCreatedEvent) = Project(
-		id = UUID.randomUUID().toString(),
+		id = event.id,
 		status = ProjectState.STAMPED,
 		name = event.name,
 		country = event.country,
@@ -62,4 +61,3 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 	)
 
 }
-

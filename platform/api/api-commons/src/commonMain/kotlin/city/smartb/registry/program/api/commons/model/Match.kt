@@ -111,17 +111,57 @@ enum class StringMatchCondition {
     EXACT, STARTS_WITH, ENDS_WITH, CONTAINS
 }
 
+data class ComparableMatch<T>(
+    val value: T,
+    val condition: ComparableMatchCondition,
+    override val negative: Boolean = false
+): Match<T> {
+    override fun <R> map(transform: (value: T) -> R): Match<R> = ComparableMatch(
+        value = transform(value),
+        condition = condition,
+        negative = negative
+    )
+
+    override fun not(): Match<T> = copy(negative = !negative)
+}
+
+enum class ComparableMatchCondition {
+    EQ, GT, GTE, LT, LTE
+}
+
 fun <T> collectionMatchOf(vararg values: T) = CollectionMatch(
     values = values.toSet()
+)
+
+fun collectionMatchOfNullable(values: Collection<String>) = CollectionMatch(
+    values = values.map { value -> value.takeUnless { it.equals("null", true) } }
 )
 
 fun <T> andMatchOf(vararg matches: Match<T>) = AndMatch(
     matches = matches.toList()
 )
 
+fun <T> andMatchOfNotNull(vararg matches: Match<T>?): Match<T>? {
+    val actualMatches = matches.filterNotNull()
+    return when (actualMatches.size) {
+        0 -> null
+        1 -> actualMatches.first()
+        else -> AndMatch(actualMatches)
+    }
+}
+
 fun <T> orMatchOf(vararg matches: Match<T>) = OrMatch(
     matches = matches.toList()
 )
+
+fun <T> orMatchOfNotNull(vararg matches: Match<T>?): Match<T>? {
+    val actualMatches = matches.filterNotNull()
+    return when (actualMatches.size) {
+        0 -> null
+        1 -> actualMatches.first()
+        else -> OrMatch(actualMatches)
+    }
+}
 
 fun nullableExactMatchOf(value: String) = ExactMatch(
     value = value.takeUnless { it.equals("null", true) }

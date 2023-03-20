@@ -1,8 +1,8 @@
 package city.smartb.registry.program.s2.asset.api.entity
 
-import  city.smartb.registry.program.s2.asset.domain.model.AssetId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetState
 import city.smartb.registry.program.s2.asset.domain.model.ActivityRef
+import city.smartb.registry.program.s2.asset.domain.model.AssetId
 import city.smartb.registry.program.s2.asset.domain.model.ProjectRef
 import city.smartb.registry.program.s2.asset.domain.model.ProtocolRef
 import city.smartb.registry.program.s2.asset.domain.model.UserRef
@@ -44,6 +44,9 @@ open class AssetEntity: WithS2Id<AssetId>, WithS2State<AssetState>  {
     var retiredForCORSIA: Boolean? = null
     var aeroplaneOperatorName: String? = null
 
+    // standard JavaBean getters for redis-om metamodel generation
+    fun getEligibleForCorsia() = eligibleForCORSIA
+    fun getRetiredForCorsia() = retiredForCORSIA
 
 //    @CreatedDate
 //    val createdDate: Date? = null

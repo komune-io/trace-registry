@@ -3,6 +3,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 .env
 storybook-static
+data
 
 ### STS ###
 .apt_generated
