@@ -2,11 +2,15 @@ version: "3.7"
 services:
   redis:
     image: redis/redis-stack:6.2.6-v0
+    container_name: verr-redis
     ports:
-      - "6379:6379"
-      - "8011:8001"
+      - 6379:6379
+      - 8011:8001
+    volumes:
+      - ~/DockerVolumes/redis/verr/data:/data
   redisinsight:
     image: redislabs/redisinsight:latest
+    container_name: verr-redisinsight
     ports:
       - '8001:8001'
 
@@ -14,4 +18,3 @@ networks:
   bclannet-it:
     name: bclannet-it
     external: true
-

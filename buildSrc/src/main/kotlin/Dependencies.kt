@@ -21,6 +21,7 @@ object Versions {
 	val cccev = PluginVersions.fixers
 
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
+	const val redisOm = "0.8.0"
 }
 
 object Repo {
@@ -66,9 +67,11 @@ object Dependencies {
 			"com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${Versions.jacksonKotlin}"
 		)
 
-		fun redisOm(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
-			"com.redis.om:redis-om-spring:0.8.0"
-		)
+		fun redisOm(scope: Scope, kapt: Scope) = FixersDependencies.Jvm.Json.jackson(scope).also {
+			val redisOm = "com.redis.om:redis-om-spring:${Versions.redisOm}"
+			scope.add(redisOm)
+			kapt.add(redisOm)
+		}
 
 		fun s2StoringData(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",

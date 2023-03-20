@@ -33,11 +33,6 @@ ssm:
   chaincode:
     url: http://localhost:9090
 
-platform:
-  web:
-    baseUrl: https://app.alveoleplus.fr
-    routerPath: redirect
-
 ---
 spring:
   config:
@@ -53,18 +48,14 @@ spring:
     activate:
       on-profile: local
 
-i2:
-  issuers:
-    -
-      name: local
-      authUrl: http://localhost:8080/auth/
-      realm: alveole
-      web:
-        clientId: alveole-web
-      im:
-        clientId: alveole-api
-        clientSecret: 41a03e55-93c1-488d-9696-8df23e86a2a5
-
-platform:
-  web:
-    baseUrl: http://localhost:3000
+#i2:
+#  issuers:
+#    -
+#      name: local
+#      authUrl: http://localhost:8080/auth/
+#      realm: alveole
+#      web:
+#        clientId: alveole-web
+#      im:
+#        clientId: alveole-api
+#        clientSecret: 41a03e55-93c1-488d-9696-8df23e86a2a5

@@ -1,7 +1,7 @@
 package city.smartb.registry.program.f2.project.api
 
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
+import city.smartb.registry.program.api.commons.model.StringMatch
+import city.smartb.registry.program.api.commons.model.StringMatchCondition
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
@@ -12,13 +12,16 @@ import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunct
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
+import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
-import javax.annotation.security.PermitAll
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
+import javax.annotation.security.PermitAll
 
 @RestController
 @RequestMapping
@@ -45,11 +48,17 @@ class ProjectEndpoint(
         projectPoliciesEnforcer.checkList()
 
         projectF2FinderService.page(
+            name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             )
-        )
+        ).let { page ->
+            ProjectPageResult(
+                items = page.items,
+                total = page.total
+            )
+        }
     }
 
     @PermitAll

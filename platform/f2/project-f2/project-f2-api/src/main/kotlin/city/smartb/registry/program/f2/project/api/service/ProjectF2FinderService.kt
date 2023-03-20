@@ -1,10 +1,11 @@
 package city.smartb.registry.program.f2.project.api.service
 
-import f2.dsl.cqrs.page.OffsetPagination
-import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
+import city.smartb.registry.program.api.commons.model.Match
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,16 +21,15 @@ class ProjectF2FinderService(
     }
 
     suspend fun page(
+        id: Match<ProjectId>? = null,
+        name: Match<String>? = null,
         offset: OffsetPagination? = null
-    ): ProjectPageResult {
+    ): PageDTO<Project> {
         return projectFinderService.page(
+            id = id,
+            name = name,
             offset = offset
-        ).let { page ->
-            ProjectPageResult(
-                items = page.items,
-                total = page.total
-            )
-        }
+        )
     }
 
 }

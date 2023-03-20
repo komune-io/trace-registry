@@ -1,20 +1,16 @@
 package city.smartb.registry.program.s2.activity.api.entity
 
 import city.smartb.im.organization.domain.model.OrganizationRef
-import com.redis.om.spring.annotations.Document
-import com.redis.om.spring.annotations.Searchable
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
-import city.smartb.registry.program.s2.activity.domain.model.Activity
 import city.smartb.registry.program.s2.activity.domain.model.ActivityId
 import city.smartb.registry.program.s2.activity.domain.model.ActivityRef
 import city.smartb.registry.program.s2.activity.domain.model.DateTime
 import city.smartb.registry.program.s2.activity.domain.model.ProjectRef
 import city.smartb.registry.program.s2.activity.domain.model.ProtocolRef
 import city.smartb.registry.program.s2.activity.domain.model.UserRef
-import java.util.Date
-import org.springframework.data.annotation.CreatedDate
+import com.redis.om.spring.annotations.Document
+import com.redis.om.spring.annotations.Searchable
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedDate
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -50,6 +46,9 @@ open class ActivityEntity: WithS2Id<ActivityId>, WithS2State<ActivityState>  {
     var lastModificationDate: DateTime = System.currentTimeMillis()
 
     lateinit var status: ActivityState
+
+    // standard JavaBean getters for redis-om metamodel generation
+    fun isIsPublic() = isPublic
 
     override fun s2Id() = id
     override fun s2State() = status
