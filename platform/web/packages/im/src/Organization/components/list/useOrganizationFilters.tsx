@@ -13,7 +13,7 @@ export const useOrganizationFilters = () => {
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
-                placeholder: t("nameFilter") as string, 
+                placeholder: t("name") as string, 
                 style: { minWidth: "220px" } },
             mandatory: true
         },

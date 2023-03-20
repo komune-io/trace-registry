@@ -1,1 +1,1 @@
-export * from "./Registry"
+export * from "./RegistryList/RegistryList"

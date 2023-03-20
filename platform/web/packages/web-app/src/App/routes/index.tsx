@@ -67,9 +67,10 @@ export const GenerateRoute = (props: PageRoute) => {
   const { element, path } = props
   return (
     <Route key={path} path={path} element={
-      <PrivateElement route={path}>
-        {element}
-      </PrivateElement>
+      // <PrivateElement route={path}>
+      //   {element}
+      // </PrivateElement>
+      element
     } />
   )
 }

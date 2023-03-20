@@ -22,7 +22,7 @@ export const OrganizationUserList = (props: OrganizationUserListProps) => {
     const { t } = useTranslation()
     const actions = useMemo((): Action[] => organizationId ? [ {
         key: "addAUser",
-        label: t("addAUser"),
+        label: t("userList.create"),
         component: Link,
         componentProps: { to: usersAdd(organizationId) },
         sx: { flexShrink: 0 }

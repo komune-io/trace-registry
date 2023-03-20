@@ -2,7 +2,7 @@ import { getOrgRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDef
 import { Stack, Typography } from '@mui/material'
 import { Action, Page, Section, LinkButton } from '@smartb/g2'
 import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride, Organization } from '@smartb/g2-i2-v2'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { OrganizationDomainDetails } from './OrganizationDomainDetails'
@@ -97,14 +97,6 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     }] : []),
     ], [t, userListFilters.organizationId, service.executeAuthFunction])
 
-    useEffect(() => {
-        if (leftSectionTabs.find((tab) => tab.key === "description")) setCurrentTab('description');
-    }, [formState.values.roles])
-
-    useEffect(() => {
-        if (!leftSectionTabs.find((tab) => tab.key === currentTab)) setCurrentTab(leftSectionTabs[0].key);
-    }, [leftSectionTabs, currentTab])
-
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         setCurrentTab(value)
     }, [])
@@ -150,20 +142,20 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                     flexShrink: 0
                 }}>
                     {!myOrganization ? <AutomatedOrganizationFactory
-                            readonly={readonly}
-                            multipleRoles={false}
-                            formState={formState}
-                            organization={organization}
-                            isLoading={isLoading}
-                            fieldsOverride={fieldsOverride}
-                        /> : <MyOrganization
-                            readonly={readonly}
-                            formState={formState}
-                            organization={organization}
-                            isLoading={isLoading}
-                            fieldsOverride={fieldsOverride}
-                            multipleRoles={false}
-                            noOrganizationMessage={t("organizationProfil.noOrganizationMessage")} />
+                        readonly={readonly}
+                        multipleRoles={false}
+                        formState={formState}
+                        organization={organization}
+                        isLoading={isLoading}
+                        fieldsOverride={fieldsOverride}
+                    /> : <MyOrganization
+                        readonly={readonly}
+                        formState={formState}
+                        organization={organization}
+                        isLoading={isLoading}
+                        fieldsOverride={fieldsOverride}
+                        multipleRoles={false}
+                    />
                     }
 
                 </Section>
@@ -178,7 +170,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                         onTabChange: onTabChange
                     }}
                 >
-                    <OrganizationDomainDetails registerSubmitter={generateRegisterSubmitter("details")}  hidden={currentTab !== "details"} isLoading={isLoading} onSubmit={onSubmitAdditionnalAttributs} />
+                    <OrganizationDomainDetails registerSubmitter={generateRegisterSubmitter("details")} hidden={currentTab !== "details"} isLoading={isLoading} onSubmit={onSubmitAdditionnalAttributs} />
                     {currentTab === "members" && <OrganizationUserList organizationId={orgId} userListFilters={userListFilters} />}
                 </Section>
             </Stack>

@@ -41,7 +41,7 @@ export const OrganizationListPage = (props: OrganizationListPageProps) => {
         },
         {
           key: "addUser",
-          label: t("addUser"),
+          label: t("userList.create"),
           icon: <PersonAddAltRounded />,
           component: Link,
           componentProps: {

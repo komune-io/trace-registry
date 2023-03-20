@@ -1,9 +1,7 @@
 import React from "react";
 import {
   AppProvider,
-  KeycloakProvider,
-  G2ConfigBuilder,
-  g2Config
+  G2ConfigBuilder
 } from "@smartb/g2-providers";
 import { ThemeContextProvider } from "@smartb/g2-themes";
 import { Typography } from "@mui/material";
@@ -31,11 +29,6 @@ const root = createRoot(container)
 
 root.render(
   <ThemeContextProvider theme={theme}>
-    <KeycloakProvider
-      config={g2Config().keycloak}// to complete
-      initOptions={{ onLoad: "login-required" }}
-      loadingComponent={<Typography>Loading...</Typography>}
-    >
       <React.StrictMode //react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider
       >
         <AppProvider
@@ -46,7 +39,6 @@ root.render(
           <AppRouter />
         </AppProvider>
       </React.StrictMode>
-    </KeycloakProvider>
   </ThemeContextProvider>
 );
 
