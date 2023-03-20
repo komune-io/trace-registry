@@ -1,9 +1,9 @@
 import { PageRoute } from "App/routes";
-import { RegistryList } from "./RegistryList/RegistryList";
+import { ProjectList } from "./ProjectList/ProjectList";
 
 
 export const registryPages: PageRoute[] = [{
   path: "",
-  element: <RegistryList />
+  element: <ProjectList />
 }
 ]

@@ -20,5 +20,5 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src"]
+  "include": ["src", "../domain/src/Project/components/ProjectTable/useProjectFilters.tsx"]
 }

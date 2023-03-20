@@ -3,7 +3,7 @@ import { FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const useRegistryFilters = () => {
+export const useProjectFilters = () => {
     const {t} = useTranslation()
 
     const filters = useMemo((): FilterComposableField[] => [
