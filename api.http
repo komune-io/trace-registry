@@ -137,7 +137,7 @@ Content-Type: application/json
 [
   {
     "identifier": "2",
-    "name": "2",
+    "name": "33333",
     "description": "2"
   }
 ]
@@ -161,7 +161,7 @@ Content-Type: application/json
 
 [
   {
-    "identifier": "1"
+    "id": "42f905f8-42ec-4458-84e5-3a536f25b2fa"
   }
 ]
 
@@ -172,54 +172,8 @@ Content-Type: application/json
 [
   {
     "offset": 0,
-    "limit": 10
-  }
-]
-
-### protocolCreate
-POST {{urlbase}}/protocolCreate
-Content-Type: application/json
-
-[
-  {
-    "id": "2",
-    "name": "1",
-    "description": "1",
-    "status": "UNDER_VALIDATION"
-  }
-]
-
-### protocolUpdate
-POST {{urlbase}}/protocolUpdate
-Content-Type: application/json
-
-[
-  {
-    "id": "2",
-    "name": "1",
-    "description": "11",
-    "status": "VALIDATION_REQUESTED"
-  }
-]
-
-### protocolGet
-POST {{urlbase}}/protocolGet
-Content-Type: application/json
-
-[
-  {
-    "id": "1"
-  }
-]
-
-### protocolPage
-POST {{urlbase}}/protocolPage
-Content-Type: application/json
-
-[
-  {
-    "offset": 0,
-    "limit": 10
+    "limit": 10,
+    "name": "333"
   }
 ]
 

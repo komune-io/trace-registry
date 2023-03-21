@@ -2,7 +2,7 @@ package city.smartb.registry.program.s2.activity.api.query
 
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
-import city.smartb.registry.program.api.commons.model.Match
+import f2.dsl.cqrs.filter.Match
 import city.smartb.registry.program.s2.activity.api.entity.ActivityEntity
 import city.smartb.registry.program.s2.activity.api.entity.ActivityRepository
 import city.smartb.registry.program.s2.activity.domain.model.ActivityId

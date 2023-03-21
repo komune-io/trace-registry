@@ -15,6 +15,8 @@ import s2.dsl.automate.model.WithS2State
 open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Id
     open lateinit var id: ProjectId
+
+    @Searchable
     open lateinit var status: ProjectState
 
     @Indexed
@@ -28,15 +30,20 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     @Searchable
     var description: String? = null
-
+    @Indexed
     var dueDate: DateTime? = null
+    @Indexed
     var estimatedReduction: String? = null
     var localization: String? = null
     var proponentAccount: OrganizationRef? = null
+    @Indexed
     var proponent: String? = null
+    @Indexed
     var type: String? = null
+    @Indexed
     var referenceYear: String? = null
     var registrationDate: DateTime? = null
+    @Indexed
     var vintage: Double? = null
     var slug: Double? = null
 

@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.activity.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
-import city.smartb.registry.program.api.commons.model.Match
+import f2.dsl.cqrs.filter.Match
 import city.smartb.registry.program.s2.activity.api.entity.ActivityEntity
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO

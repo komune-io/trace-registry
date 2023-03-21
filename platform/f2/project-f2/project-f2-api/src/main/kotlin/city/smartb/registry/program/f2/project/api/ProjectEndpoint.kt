@@ -1,7 +1,8 @@
 package city.smartb.registry.program.f2.project.api
 
-import city.smartb.registry.program.api.commons.model.StringMatch
-import city.smartb.registry.program.api.commons.model.StringMatchCondition
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
@@ -14,6 +15,7 @@ import city.smartb.registry.program.f2.project.domain.query.ProjectGetResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
+import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
@@ -48,10 +50,17 @@ class ProjectEndpoint(
         projectPoliciesEnforcer.checkList()
 
         projectF2FinderService.page(
+            id = query.id?.let { ExactMatch(it) },
             name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            dueDate = query.dueDate?.let { ExactMatch(it) },
+            estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
+            type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
-                limit = query.limit ?: 1000
+                limit = query.limit ?: 1000,
             )
         ).let { page ->
             ProjectPageResult(
