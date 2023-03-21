@@ -5,6 +5,6 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
     primary: "#EDBA27",
     secondary: "#353945",
-    background: "#ffffff"
+    background: "#FEFCF4"
   },
 };

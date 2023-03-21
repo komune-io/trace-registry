@@ -1,7 +1,6 @@
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import { Roles } from "./roles"
 import { insertObjectIdsInsideRoutes, RecordCamelCase } from "utils"
-import { useExtendedAuth } from "./auth"
 
 const IMRoutesAuthorizations = {
     "organizations": "open",
@@ -20,6 +19,8 @@ const IMRoutesAuthorizations = {
 
 const strictRoutesAuthorizations = {
     "": "open",
+    "projects": "open",
+    "projects/:projectId/view": "open",
     ...IMRoutesAuthorizations,
 } as const
 
@@ -42,51 +43,51 @@ for (let route in strictRoutesAuthorizations) {
 }
 
 export const useRoutesDefinition = (): RoutesDefinitions => {
-    const { service } = useExtendedAuth()
+    // const { service } = useExtendedAuth()
 
-    const user = useMemo(() => service.getUser(), [service.getUser])
+    // const user = useMemo(() => service.getUser(), [service.getUser])
 
-    const getOrganizationsView = useCallback(
-        (organizationId?: string) => {
-            return organizationId === user?.memberOf ? "/myOrganization" : `/organizations/${organizationId}/view`
-        },
-        [user?.memberOf],
-    )
+    // const getOrganizationsView = useCallback(
+    //     (organizationId?: string) => {
+    //         return organizationId === user?.memberOf ? "/myOrganization" : `/organizations/${organizationId}/view`
+    //     },
+    //     [user?.memberOf],
+    // )
 
-    const getOrganizationsEdit = useCallback(
-        (organizationId?: string) => {
-            return organizationId === user?.memberOf ? "/myOrganization/edit" : `/organizations/${organizationId}/edit`
-        },
-        [user?.memberOf],
-    )
+    // const getOrganizationsEdit = useCallback(
+    //     (organizationId?: string) => {
+    //         return organizationId === user?.memberOf ? "/myOrganization/edit" : `/organizations/${organizationId}/edit`
+    //     },
+    //     [user?.memberOf],
+    // )
 
-    const getUsersView = useCallback(
-        (userId?: string) => {
-            return userId === user?.id ? "/myProfil" : `/users/${userId}/view`
-        },
-        [user?.id],
-    )
+    // const getUsersView = useCallback(
+    //     (userId?: string) => {
+    //         return userId === user?.id ? "/myProfil" : `/users/${userId}/view`
+    //     },
+    //     [user?.id],
+    // )
 
-    const getUsersAdd = useCallback(
-        (organizationId?: string) => {
-            return organizationId ? `/users/add?organizationId=${organizationId}` : "/users/add"
-        },
-        [],
-    )
+    // const getUsersAdd = useCallback(
+    //     (organizationId?: string) => {
+    //         return organizationId ? `/users/add?organizationId=${organizationId}` : "/users/add"
+    //     },
+    //     [],
+    // )
 
-    const getUsersEdit = useCallback(
-        (userId?: string) => {
-            return userId === user?.id ? "/myProfil/edit" : `/users/${userId}/edit`
-        },
-        [user?.id],
-    )
+    // const getUsersEdit = useCallback(
+    //     (userId?: string) => {
+    //         return userId === user?.id ? "/myProfil/edit" : `/users/${userId}/edit`
+    //     },
+    //     [user?.id],
+    // )
 
     return useMemo(() => ({
         ...routesDefinitions,
-        organizationsOrganizationIdView: getOrganizationsView,
-        organizationsOrganizationIdEdit: getOrganizationsEdit,
-        usersUserIdView: getUsersView,
-        usersAdd: getUsersAdd,
-        usersUserIdEdit: getUsersEdit
-    }), [user])
+        // organizationsOrganizationIdView: getOrganizationsView,
+        // organizationsOrganizationIdEdit: getOrganizationsEdit,
+        // usersUserIdView: getUsersView,
+        // usersAdd: getUsersAdd,
+        // usersUserIdEdit: getUsersEdit
+    }), [/* user */])
 }

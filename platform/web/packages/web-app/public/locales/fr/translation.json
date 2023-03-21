@@ -32,5 +32,43 @@
   "organizationList": {
     "create": "Créer une organisation",
     "noOrganization": "Aucune organisation n'a été trouvée"
+  },
+  "sdg": {
+    "1": "Sdg n°1: No poverty",
+    "2": "Sdg n°2: Zero hunger",
+    "3": "Sdg n°3: Good health and well-being",
+    "4": "Sdg n°4: Quality education",
+    "5": "Sdg n°5: Gender equality",
+    "6": "Sdg n°6: Clean water and sanitation",
+    "7": "Sdg n°7: Affordable and clean energy",
+    "8": "Sdg n°8: Decent work and economic growth",
+    "9": "Sdg n°9: Industry, innovation and insfrastructure",
+    "10": "Sdg n°10: Reduced inequalities",
+    "11": "Sdg n°11: Sustainable cities and communities",
+    "12": "Sdg n°12: Responsable consumption and production",
+    "13": "Sdg n°13: Climate action",
+    "14": "Sdg n°14: Life below water",
+    "15": "Sdg n°15: Life and land",
+    "16": "Sdg n°16: Peace justice and strong institutions",
+    "17": "Sdg n°17: Partnership for the goal"
+  },
+  "sdgGoals": {
+    "1": "End poverty in all its forms everywhere",
+    "2": "End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+    "3": "Ensure healthy lives and promote well-being for all at all ages",
+    "4": "Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all",
+    "5": "Achieve gender equality and empower all women and girls",
+    "6": "Ensure availability and sustainable management of water and sanitation for all",
+    "7": "Ensure access to affordable, reliable, sustainable and modern energy for all",
+    "8": "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all",
+    "9": "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation",
+    "10": "Reduce inequality within and among countries",
+    "11": "Make cities and human settlements inclusive, safe, resilient and sustainable",
+    "12": "Ensure sustainable consumption and production patterns",
+    "13": "Take urgent action to combat climate change and its impacts",
+    "14": "Conserve and sustainably use the oceans, seas and marine resources for sustainable development",
+    "15": "Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss",
+    "16": "Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels",
+    "17": "Strengthen the means of implementation and revitalize the global partnership for sustainable development"
   }
 }

@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material'
 import { TableV2, ColumnFactory, useTable, StatusTag } from '@smartb/g2'
+import { Row } from '@tanstack/react-table';
 import { Project } from '../../model'
-import {useMemo} from "react"
+import {useCallback, useMemo} from "react"
+import { useRoutesDefinition } from 'components'
 
 export interface ProjectTableProps {
     projects?: Project[]
@@ -13,6 +15,7 @@ export interface ProjectTableProps {
 
 export const ProjectTable = (props: ProjectTableProps) => {
     const {isLoading, page, projects, setPage, totalPages} = props
+    const {projectsProjectIdView } = useRoutesDefinition()
 
     const columns = useMemo(() => ColumnFactory<Project>({
         generateColumns: (generators) => ({
@@ -100,7 +103,15 @@ export const ProjectTable = (props: ProjectTableProps) => {
         columns: columns,
     })
 
-    if (!projects) return (<Typography align="center">Aucun projet n'a été trouvé</Typography>)
+    const getRowLink = useCallback(
+      (row: Row<Project>) => ({
+        to: projectsProjectIdView(row.original.id)
+      }),
+      [projectsProjectIdView],
+    )
+    
+
+    if (!projects && !isLoading) return (<Typography align="center">Aucun projet n'a été trouvé</Typography>)
     return (
         <TableV2<Project>
             sx={{
@@ -108,7 +119,8 @@ export const ProjectTable = (props: ProjectTableProps) => {
                     maxWidth: "180px"
                 },
                 "& .AruiTable-tableHead": {
-                    top: "70px"
+                    top: "70px",
+                    background: (theme) => theme.palette.background.default + "99"
                 }
             }}
             tableState={tableState}
@@ -116,6 +128,7 @@ export const ProjectTable = (props: ProjectTableProps) => {
             onPageChange={setPage}
             isLoading={isLoading}
             totalPages={totalPages}
+            getRowLink={getRowLink}
         />
     )
 }
