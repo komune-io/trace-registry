@@ -2,6 +2,7 @@ package city.smartb.registry.program.s2.project.domain.model
 
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -110,14 +111,14 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val status: ProjectState
     /**
      * Link to the project in the root registry
-     * @example 203
+     * @example 2023
      */
     val vintage: Double?
     /**
      * Link to the project in the root registry
      * @example "/app/projectDetail/VCS/2366"
      */
-    val slug: Double?
+    val slug: String?
 
     /**
      * Date of creation.
@@ -135,6 +136,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
 /**
  * @d2 inherit
  */
+@Serializable
 data class Project(
     override val id: ProjectId,
     override val country: String?,
@@ -153,7 +155,7 @@ data class Project(
 
     override val status: ProjectState,
     override val vintage: Double?,
-    override val slug: Double?,
+    override val slug: String?,
 
     override val creationDate: DateTime?,
     override val lastModificationDate: DateTime?,
@@ -164,6 +166,14 @@ data class Project(
 
 typealias DateTime = Long
 
-interface OrganizationRef {
+@JsExport
+interface OrganizationRefDTO {
     val id: String
+    val name: String
 }
+
+@Serializable
+class OrganizationRef(
+    override val id: String,
+    override val name: String
+): OrganizationRefDTO

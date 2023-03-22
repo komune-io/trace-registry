@@ -45,7 +45,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var registrationDate: DateTime? = null
     @Indexed
     var vintage: Double? = null
-    var slug: Double? = null
+    var slug: String? = null
 
 //    @CreatedDate
 //    val createdDate: Date? = null

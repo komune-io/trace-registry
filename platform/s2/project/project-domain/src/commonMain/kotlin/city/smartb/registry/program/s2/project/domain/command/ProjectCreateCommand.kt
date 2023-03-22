@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
  * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 command
  */
+@Serializable
 data class ProjectCreateCommand(
     override var name: String,
     override var identifier: String?,
@@ -30,7 +31,7 @@ data class ProjectCreateCommand(
     override var type: String?,
     override var referenceYear: String?,
     override var registrationDate: DateTime?,
-    override var slug: Double?,
+    override var slug: String?,
     override val vintage: Double?,
 ): ProjectInitCommand, ProjectAbstractMsg
 
@@ -68,7 +69,7 @@ data class ProjectCreatedEvent(
     override var type: String? = null,
     override var referenceYear: String? = null,
     override var registrationDate: DateTime? = null,
-    override var slug: Double? = null,
+    override var slug: String? = null,
     override val vintage: Double? = null,
 ): ProjectCreatedEventDTO {
     override fun s2Id() = id
