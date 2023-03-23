@@ -1,32 +1,22 @@
 import { Divider, Stack, Typography } from '@mui/material'
-import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
+import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../model'
+import { ProjectStatus } from '../ProjectTable/ProjectStatus'
 
 export interface ProjectDetailsProps {
-    project?: Project
-    isLoading?: boolean
-    readonly?: boolean
+    formState: FormComposableState
 }
 
 export const ProjectDetails = (props: ProjectDetailsProps) => {
-    const { isLoading, project, readonly } = props
+    const { formState } = props
 
-    const {t} = useTranslation()
-
-    const formState = useFormComposable({
-        onSubmit: () => {},
-        isLoading,
-        readonly,
-        formikConfig: {
-            initialValues: project
-        }
-    })
+    const { t } = useTranslation()
 
     const fields = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "country",
-        label: t("country"),
+        label: t("origin"),
         type: "select",
         params: {
             orientation: "horizontal",
@@ -38,7 +28,7 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
         params: {
             orientation: "horizontal",
         }
-    },{
+    }, {
         //@ts-ignore
         name: "vvb",
         label: t("vvb"),
@@ -46,7 +36,7 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
         params: {
             orientation: "horizontal",
         }
-    },{
+    }, {
         //@ts-ignore
         name: "assesssor",
         label: t("assesssor"),
@@ -54,21 +44,21 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
         params: {
             orientation: "horizontal",
         }
-    },{
+    }, {
         name: "name",
         label: t("project"),
         type: "textField",
         params: {
             orientation: "horizontal",
         }
-    },{
+    }, {
         name: "status",
-        label: t("project"),
+        label: t("status"),
         type: "textField",
         params: {
             orientation: "horizontal",
-            readonlyType: "chip",
-            getReadonlyChipColor: () => "#038538"
+            readonlyType: "customElement",
+            readonlyElement: ProjectStatus
         }
     }], [t])
 
@@ -84,11 +74,27 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
 
     return (
         <Stack
-        gap={2}
-        divider={<Divider flexItem />}
+            gap={2}
+            divider={<Divider flexItem />}
+            sx={{
+                flexGrow: 1,
+                flexBasis: 0
+            }}
         >
             <Typography variant="h6">{t("details")}</Typography>
-            <FormComposable formState={formState} fields={fields} />
+            <FormComposable
+                sx={{
+                    "& .AruiForm-field": {
+                        justifyContent: "flex-start"
+                    },
+                    "& .AruiForm-field > *": {
+                        flexGrow: 1,
+                        flexBasis: 0
+                    }
+                }}
+                formState={formState}
+                fields={fields}
+            />
             <FormComposable formState={formState} fields={description} />
         </Stack>
     )

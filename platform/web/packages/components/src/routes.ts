@@ -21,6 +21,7 @@ const strictRoutesAuthorizations = {
     "": "open",
     "projects": "open",
     "projects/:projectId/view": "open",
+    "projects/:projectId/edit": "open",
     ...IMRoutesAuthorizations,
 } as const
 
@@ -39,7 +40,7 @@ let routesDefinitions: RoutesDefinitions = {}
 
 for (let route in strictRoutesAuthorizations) {
     //@ts-ignore
-    routesDefinitions[route.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())] = (...objectIds: string[]) => insertObjectIdsInsideRoutes(route, ...objectIds)
+    routesDefinitions[route.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
 }
 
 export const useRoutesDefinition = (): RoutesDefinitions => {

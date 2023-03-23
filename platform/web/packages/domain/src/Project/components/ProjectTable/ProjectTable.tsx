@@ -13,6 +13,7 @@ export interface ProjectTableProps {
     isLoading?: boolean
 }
 
+
 export const ProjectTable = (props: ProjectTableProps) => {
     const {isLoading, page, projects, setPage, totalPages} = props
     const {projectsProjectIdView } = useRoutesDefinition()
@@ -90,8 +91,8 @@ export const ProjectTable = (props: ProjectTableProps) => {
 
             status: {
                 header: "Status",
-                cell: () => (
-                    <StatusTag customColor='#038538' label='Registration and Verification Approval Requested' />
+                cell: ({row}) => (
+                    <StatusTag  label={row.original.status} />
                 ),
                 className: "statusColumn"
             }
@@ -104,9 +105,11 @@ export const ProjectTable = (props: ProjectTableProps) => {
     })
 
     const getRowLink = useCallback(
-      (row: Row<Project>) => ({
-        to: projectsProjectIdView(row.original.id)
-      }),
+      (row: Row<Project>) => {
+        return {
+            to: projectsProjectIdView(row.original.id)
+          }
+      },
       [projectsProjectIdView],
     )
     

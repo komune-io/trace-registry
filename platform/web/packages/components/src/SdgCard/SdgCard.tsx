@@ -55,6 +55,7 @@ export const SdgCard = (props: SdgCardProps) => {
       table.push({
         key: i,
         label: t(`sdg.${i}`) as string,
+        
       });
     }
     return table;

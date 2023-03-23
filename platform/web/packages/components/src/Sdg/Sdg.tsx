@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "@smartb/g2-notifications";
 import { styled } from '@mui/material/styles';
 import React from "react";
+import { TFunction } from "i18next";
+import { Option } from "@smartb/g2";
 
 export type Size = "small" | "medium" | "large" | "extraLarge";
 
@@ -47,3 +49,9 @@ const SdgSvg = React.forwardRef((props: Props, ref: React.Ref<SVGSVGElement>) =>
 });
 
 const StyledSdg = styled(SdgSvg)({});
+
+export const getSdgsOptions = (t: TFunction) => sdgIcons.map((_, index): Option => ({
+  key: index + 1,
+  label: t(`sdg.${index + 1}`),
+  icon: <Sdg sdgId={index + 1} size="small" />
+}))
