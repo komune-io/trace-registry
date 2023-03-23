@@ -13,11 +13,11 @@ let config = {
 
 // entry
 config.entry = {
-    main: ["/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/build/js/packages/verified-emission-reduction-registry-project-f2-domain/kotlin/verified-emission-reduction-registry-project-f2-domain.js"]
+    main: ["/Users/luc/Bazar/registry/verified-emission-reduction-registry/build/js/packages/verified-emission-reduction-registry-project-f2-domain/kotlin/verified-emission-reduction-registry-project-f2-domain.js"]
 };
 
 config.output = {
-    path: "/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/platform/f2/project-f2/project-f2-domain/build/distributions",
+    path: "/Users/luc/Bazar/registry/verified-emission-reduction-registry/platform/f2/project-f2/project-f2-domain/build/distributions",
     filename: (chunkData) => {
         return chunkData.chunk.name === 'main'
             ? "project-f2-domain.js"
@@ -44,7 +44,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const handler = (percentage, message, ...args) => {
         const p = percentage * 100;
         let msg = `${Math.trunc(p / 10)}${Math.trunc(p % 10)}% ${message} ${args.join(' ')}`;
-        msg = msg.replace("/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/build/js", '');;
+        msg = msg.replace("/Users/luc/Bazar/registry/verified-emission-reduction-registry/build/js", '');;
         console.log(msg);
     };
 
@@ -66,7 +66,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const util = require('util');
     const fs = require('fs');
     const evaluatedConfig = util.inspect(config, {showHidden: false, depth: null, compact: false});
-    fs.writeFile("/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/platform/f2/project-f2/project-f2-domain/build/reports/webpack/verified-emission-reduction-registry-project-f2-domain/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
+    fs.writeFile("/Users/luc/Bazar/registry/verified-emission-reduction-registry/platform/f2/project-f2/project-f2-domain/build/reports/webpack/verified-emission-reduction-registry-project-f2-domain/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
 })(config);
 
 module.exports = config

@@ -133,6 +133,9 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -1720,6 +1723,13 @@ export namespace city.smartb.registry.program.api.commons.exception {
     };
 }
 export namespace city.smartb.registry.program.api.commons.model {
+    interface GeoLocationDTO {
+        readonly lat: number;
+        readonly lon: number;
+
+    }
+}
+export namespace city.smartb.registry.program.api.commons.model {
     const RedirectableRoutes: {
         quotations(): string;
         projects(): string;
@@ -1776,9 +1786,12 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly type?: string;
         readonly referenceYear?: string;
         readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
-        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         readonly vintage?: number;
         readonly slug?: string;
+        readonly vvb: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly assessor?: string;
+        readonly location?: city.smartb.registry.program.api.commons.model.GeoLocationDTO;
+        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;

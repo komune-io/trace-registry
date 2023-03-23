@@ -133,6 +133,9 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -1718,6 +1721,13 @@ export namespace city.smartb.registry.program.api.commons.exception {
         userSupervisesQuotation(): number;
         userSupervisesTask(): number;
     };
+}
+export namespace city.smartb.registry.program.api.commons.model {
+    interface GeoLocationDTO {
+        readonly lat: number;
+        readonly lon: number;
+
+    }
 }
 export namespace city.smartb.registry.program.api.commons.model {
     const RedirectableRoutes: {
