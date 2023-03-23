@@ -1,14 +1,15 @@
 package city.smartb.registry.program.s2.project.domain.command
 
+import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Update project payload
@@ -33,6 +34,9 @@ data class ProjectUpdateCommand(
     override var registrationDate: DateTime?,
     override var slug: String?,
     override val vintage: Double?,
+    override var vvb: OrganizationRef?,
+    override var assessor: String?,
+    override var location: GeoLocation?,
 ): ProjectCommand, ProjectAbstractMsg
 
 /**
@@ -72,6 +76,9 @@ data class ProjectUpdatedEvent(
     override var registrationDate: DateTime? = null,
     override var slug: String? = null,
     override val vintage: Double? = null,
+    override var vvb: OrganizationRef? = null,
+    override var assessor: String? = null,
+    override var location: GeoLocation? = null,
 ): ProjectUpdatedEventDTO {
     override fun s2Id() = id
 }

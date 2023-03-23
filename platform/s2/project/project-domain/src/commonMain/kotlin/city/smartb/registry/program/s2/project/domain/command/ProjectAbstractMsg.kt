@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.command
 
+import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 
@@ -20,4 +21,7 @@ interface ProjectAbstractMsg {
     var registrationDate: DateTime?
     var slug: String?
     val vintage: Double?
+    var vvb: OrganizationRef?
+    var assessor: String?
+    var location: GeoLocation?
 }

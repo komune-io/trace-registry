@@ -1,12 +1,12 @@
 package city.smartb.registry.program.s2.project.domain.model
 
+import city.smartb.registry.program.api.commons.model.GeoLocation
+import city.smartb.registry.program.api.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
-import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-
+import kotlin.js.JsExport
 
 
 /**
@@ -98,6 +98,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * @example "2022"
      */
     val referenceYear: String?
+
     /**
      * Date of the end of the crediting period
      * @example "1670255851"
@@ -105,20 +106,37 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val registrationDate: DateTime?
 
     /**
-     * Status of the project
-     * @example "REGISTERED"
-     */
-    val status: ProjectState
-    /**
      * Link to the project in the root registry
      * @example 2023
      */
     val vintage: Double?
+
     /**
      * Link to the project in the root registry
      * @example "/app/projectDetail/VCS/2366"
      */
     val slug: String?
+
+    /**
+     * TODO
+     */
+    val vvb: OrganizationRef?
+
+    /**
+     * TODO
+     */
+    val assessor: String?
+
+    /**
+     * GPS location of the project.
+     */
+    val location: GeoLocationDTO?
+
+    /**
+     * Status of the project
+     * @example "REGISTERED"
+     */
+    val status: ProjectState
 
     /**
      * Date of creation.
@@ -152,13 +170,14 @@ data class Project(
     override val type: String?,
     override val referenceYear: String?,
     override val registrationDate: DateTime?,
-
-    override val status: ProjectState,
     override val vintage: Double?,
     override val slug: String?,
-
+    override val vvb: OrganizationRef?,
+    override val assessor: String?,
+    override val location: GeoLocation?,
     override val creationDate: DateTime?,
     override val lastModificationDate: DateTime?,
+    override val status: ProjectState,
 ): ProjectDTO {
     override fun s2State() = status
     override fun s2Id() = id

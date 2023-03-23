@@ -36,6 +36,9 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		registrationDate = event.registrationDate,
 		vintage = event.vintage,
 		slug = event.slug,
+		vvb = event.vvb,
+		assessor = event.assessor,
+		location = event.location,
 		creationDate = Clock.System.now().epochSeconds,
 		lastModificationDate = Clock.System.now().epochSeconds,
 	)
@@ -56,6 +59,9 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		registrationDate = event.registrationDate,
 		vintage = event.vintage,
 		slug = event.slug,
+		vvb = event.vvb,
+		assessor = event.assessor,
+		location = event.location,
 		creationDate = Clock.System.now().epochSeconds,
 		lastModificationDate = Clock.System.now().epochSeconds,
 	)

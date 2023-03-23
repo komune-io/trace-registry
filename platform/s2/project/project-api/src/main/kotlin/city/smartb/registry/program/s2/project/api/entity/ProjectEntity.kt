@@ -8,6 +8,7 @@ import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import org.springframework.data.annotation.Id
+import org.springframework.data.redis.domain.geo.GeoLocation
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
@@ -26,26 +27,43 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var country: String? = null
 
     var creditingPeriodStartDate: DateTime? = null
+
     var creditingPeriodEndDate: DateTime? = null
 
     @Searchable
     var description: String? = null
+
     @Indexed
     var dueDate: DateTime? = null
+
     @Indexed
     var estimatedReduction: String? = null
+
     var localization: String? = null
+
     var proponentAccount: OrganizationRef? = null
+
     @Indexed
     var proponent: String? = null
+
     @Indexed
     var type: String? = null
+
     @Indexed
     var referenceYear: String? = null
+
     var registrationDate: DateTime? = null
+
     @Indexed
     var vintage: Double? = null
+
     var slug: String? = null
+
+    var vvb: OrganizationRef? = null
+
+    var assessor: String? = null
+
+    var location: GeoLocation<String>? = null
 
 //    @CreatedDate
 //    val createdDate: Date? = null
