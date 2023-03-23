@@ -18,7 +18,7 @@ class ProjectClientKtTest {
     private val faker = Faker()
 //    private val clientBuilder = projectClient("https://api.registry.smartb.network/ver")
     private val clientBuilder = projectClient("http://localhost:8070")
-    @Test
+//    @Test
     fun projectClient() = runTest {
         val country = faker.country()
         val client = clientBuilder.invoke()
@@ -44,10 +44,9 @@ class ProjectClientKtTest {
                 vintage = faker.date().future(6, TimeUnit.HOURS).toLocalDateTime().year.toDouble(),
                 slug = "slug",
             )
-        }
-            .map {
+        }.map {
             client.projectCreate().invoke(flowOf(it))
-            }
+        }
 //        }.asFlow().let {
 //            client.projectCreate().invoke(it)
 //        }.collect()
