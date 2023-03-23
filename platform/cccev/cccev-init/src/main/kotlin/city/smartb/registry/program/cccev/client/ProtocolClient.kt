@@ -22,5 +22,7 @@ fun main(): Unit = runBlocking {
             addAll(ReddPlusRequirement)
             addAll(VerraVcsRequirement)
         }.asFlow()
-    ).collect()
+    ).onEach {
+        println("Created requirement: ${it.identifier}")
+    }.collect()
 }
