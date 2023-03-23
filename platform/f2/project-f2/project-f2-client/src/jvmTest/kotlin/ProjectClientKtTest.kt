@@ -1,18 +1,12 @@
 package city.smartb.registry.program.f2.project.client
 
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
-import city.smartb.registry.program.s2.project.domain.model.Project
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.datafaker.Faker
-import org.junit.jupiter.api.Test
 
 class ProjectClientKtTest {
     private val faker = Faker()

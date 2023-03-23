@@ -36,12 +36,12 @@ class ProjectAutomateConfig(
 	evolver,
 	projectSnapRepository
 ) {
-	override fun afterPropertiesSet() {
-		super.afterPropertiesSet()
-		if (repository.count() == 0L) {
-			runBlocking { executor.replayHistory() }
-		}
-	}
+//	override fun afterPropertiesSet() {
+//		super.afterPropertiesSet()
+//		if (repository.count() == 0L) {
+//			runBlocking { executor.replayHistory() }
+//		}
+//	}
 
 	override fun automate() = s2Project
 

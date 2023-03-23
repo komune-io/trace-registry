@@ -21,7 +21,6 @@ const strictRoutesAuthorizations = {
     "": "open",
     "projects": "open",
     "projects/:projectId/view": "open",
-    "projects/:projectId/edit": "open",
     ...IMRoutesAuthorizations,
 } as const
 

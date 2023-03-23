@@ -1,4 +1,4 @@
-import { Page, Section, useFormComposable, LinkButton, Action } from '@smartb/g2'
+import { Page, Section, useFormComposable, Action } from '@smartb/g2'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ProjectBanner, ProjectDetails, ProjectProtocolesLocation, useProjectGetQuery } from 'domain-components'
@@ -13,7 +13,7 @@ export interface ProjectViewProps {
 export const ProjectView = (props: ProjectViewProps) => {
     const {readonly} = props
     const { projectId } = useParams()
-    const {projectsProjectIdEdit, projectsProjectIdView} = useRoutesDefinition()
+    const { projectsProjectIdView } = useRoutesDefinition()
     const { t } = useTranslation()
     const [currentTab, setCurrentTab] = useState("info")
 
@@ -66,17 +66,13 @@ export const ProjectView = (props: ProjectViewProps) => {
                     leftPart: [
                         <Typography key="projectTitle" variant="h5">{project?.name ?? t("project")}</Typography>
                     ],
-                    rightPart: [
-                        readonly ? <LinkButton to={projectsProjectIdEdit(projectId!)} >{t("edit")}</LinkButton> : undefined
-                    ]
                 }]
             }}
             bottomActionsProps={{
                 actions: !readonly ? editActions : undefined
             }}
         >
-            <Section
-            headerProps={{
+            <Section headerProps={{
                 currentTab,
                 tabs,
                 onTabChange,
@@ -85,14 +81,9 @@ export const ProjectView = (props: ProjectViewProps) => {
                         justifyContent: "center"
                     }
                 }
-            }}
-            flexContent
-            >
+            }} flexContent>
                 <ProjectBanner formState={formState} />
-                <Stack
-                direction="row"
-                gap={7}
-                >
+                <Stack direction="row" gap={7}>
                     <ProjectDetails formState={formState} />
                     <ProjectProtocolesLocation formState={formState} />
                 </Stack>
