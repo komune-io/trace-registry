@@ -10,7 +10,6 @@ export interface ProjectBannerProps {
 }
 
 const SdgElement = ({ valueKey }: { valueKey: number }) => {
-    console.log(valueKey)
     return (
         <Sdg sdgId={Number(valueKey)} size="extraLarge" />
     )
@@ -53,7 +52,7 @@ export const ProjectBanner = (props: ProjectBannerProps) => {
                 "& .AruiForm-field": {
                     flexGrow: 1,
                     flexBasis: 0,
-                    maxWdith: "50%"
+                    maxWidth: "50%"
                 }
             }}
         >

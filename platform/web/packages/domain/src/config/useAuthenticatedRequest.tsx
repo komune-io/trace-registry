@@ -1,20 +1,18 @@
 import { useExtendedAuth } from "components";
-import { RequestProps } from "utils";
+import { RequestProps } from "@smartb/g2-utils";
 import { useMemo } from "react";
 import { config } from "./index";
 
-export const useNoAuthenticatedRequest = (path: string): RequestProps => {
+export const useNoAuthenticatedRequest = (): RequestProps => {
   return useMemo(() => ({
-    path: path,
     url: config().platform.url
-  }), [path])
+  }), [])
 }
 
-export const useAuthenticatedRequest = (path: string): RequestProps => {
+export const useAuthenticatedRequest = (): RequestProps => {
   const auth = useExtendedAuth()
   return useMemo(() => ({
-    path: path,
     url: config().platform.url,
     jwt: auth.keycloak.token
-  }), [path, auth.keycloak.token])
+  }), [auth.keycloak.token])
 }

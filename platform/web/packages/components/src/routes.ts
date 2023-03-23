@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { Roles } from "./roles"
-import { insertObjectIdsInsideRoutes, RecordCamelCase } from "utils"
+import { insertObjectIdsInsideRoutes, RecordCamelCase } from "@smartb/g2-utils"
 
 const IMRoutesAuthorizations = {
     "organizations": "open",
@@ -21,6 +21,7 @@ const strictRoutesAuthorizations = {
     "": "open",
     "projects": "open",
     "projects/:projectId/view": "open",
+    // "projects/:projectId/edit": "open",
     ...IMRoutesAuthorizations,
 } as const
 

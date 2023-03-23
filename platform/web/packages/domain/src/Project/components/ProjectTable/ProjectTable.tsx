@@ -45,7 +45,7 @@ function useProductColumn() {
             origin: generators.text({
                 header: 'Origin',
                 getCellProps: (registry) => ({
-                    value: registry.localization
+                    value: registry.country
                 })
             }),
 

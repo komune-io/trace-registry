@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material'
 import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
+import { addMapBaseProps } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../model'
@@ -13,17 +14,16 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
     const { t } = useTranslation()
 
     const map = useMemo((): FormComposableField<keyof Project>[] => [{
-        //@ts-ignore
-        name: "gps",
+        name: "location",
         type: "map",
-        params: {
+        params: addMapBaseProps(t, {
             draggableMarkerPlugin: {
                 enable: true
             },
             style: {
                 height: "400px"
             }
-        },
+        }),
     }], [t])
 
     return (
@@ -34,6 +34,23 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
                 flexBasis: 0
             }}
         >
+            {/* <Typography variant="h6">{t("protocoles")}</Typography>
+            <Box
+                sx={{
+                    height: "100px",
+                    width: "100%",
+                    background: (theme) => theme.palette.background.default,
+                    borderRadius: (theme) => theme.shape.borderRadius + "px",
+                }}
+            />
+            <Box
+                sx={{
+                    height: "100px",
+                    width: "100%",
+                    background: (theme) => theme.palette.background.default,
+                    borderRadius: (theme) => theme.shape.borderRadius + "px",
+                }}
+            /> */}
             <FormComposable fields={map} formState={formState} />
         </Stack>
     )

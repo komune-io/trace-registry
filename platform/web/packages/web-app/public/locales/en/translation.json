@@ -27,6 +27,10 @@
   "assets": "Assets",
   "protocoles": "Protocoles",
   "lastChanged": "last changed: {{date}}",
+  "openFullScreen": "Open in full screen",
+  "addMarker": "Add a marker",
+  "canDrag": "You can drag this point",
+  "useMyPosition": "Use my position",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
