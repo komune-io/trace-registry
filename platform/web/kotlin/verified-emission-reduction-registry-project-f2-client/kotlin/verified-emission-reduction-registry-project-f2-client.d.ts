@@ -1725,60 +1725,166 @@ export namespace city.smartb.registry.program.api.commons.model {
         projects(): string;
     };
 }
-export namespace city.smartb.registry.program.s2.asset.domain.automate {
-    interface AssetInitCommand extends s2.dsl.automate.S2InitCommand {
+export namespace city.smartb.registry.program.s2.project.domain.automate {
+    interface ProjectInitCommand extends s2.dsl.automate.S2InitCommand {
 
     }
-    interface AssetCommand extends s2.dsl.automate.S2Command<string> {
+    interface ProjectCommand extends s2.dsl.automate.S2Command<string> {
         readonly id: string;
 
     }
-    interface AssetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string> {
+    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string> {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.s2.asset.domain.command {
-    interface AssetDeletedEventDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetEvent {
+export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectCreatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.s2.asset.domain.command {
-    interface AssetUpdatedEventDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetEvent {
+export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectDeletedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
         readonly id: string;
+        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.f2.asset.domain.policy {
-    const AssetPolicies: {
+export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent/*, city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
+        readonly id: string;
+        s2Id(): string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.project.domain.model {
+    interface ProjectDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */>, s2.dsl.automate.model.WithS2Id<string> {
+        readonly id: string;
+        readonly name?: string;
+        readonly country?: string;
+        readonly creditingPeriodStartDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly creditingPeriodEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly description?: string;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly estimatedReduction?: string;
+        readonly localization?: string;
+        readonly proponentAccount: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly proponent?: string;
+        readonly type?: string;
+        readonly referenceYear?: string;
+        readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
+        readonly vintage?: number;
+        readonly slug?: string;
+        readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
+        s2Id(): string;
+
+    }
+    interface OrganizationRefDTO {
+        readonly id: string;
+        readonly name: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.project.domain.policy {
+    const ProjectPolicies: {
         canList(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, asset: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetState */>/* city.smartb.registry.program.s2.asset.domain.model.AssetDTO */): boolean;
-        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, asset: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetState */>/* city.smartb.registry.program.s2.asset.domain.model.AssetDTO */): boolean;
+        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
     };
 }
-export namespace city.smartb.registry.program.f2.asset.domain.query {
-    interface AssetGetQueryDTO {
+export namespace city.smartb.registry.program.f2.project.domain.query {
+    interface ProjectGetQueryDTO {
         readonly id: string;
 
     }
-    interface AssetGetResultDTO {
-        readonly item: Nullable<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetState */>>/* Nullable<city.smartb.registry.program.s2.asset.domain.model.AssetDTO> */;
+    interface ProjectGetResultDTO {
+        readonly item?: city.smartb.registry.program.s2.project.domain.model.ProjectDTO;
 
     }
 }
-export namespace city.smartb.registry.program.f2.asset.domain.query {
-    interface AssetPageQueryDTO {
+export namespace city.smartb.registry.program.f2.project.domain.query {
+    interface ProjectPageQueryDTO extends city.smartb.registry.program.f2.project.domain.query.ProjectPageQueryFilterDTO, f2.dsl.cqrs.page.OffsetPaginationDTO {
+        readonly id?: string;
         readonly name?: string;
-        readonly offset?: number;
-        readonly limit?: number;
+        readonly proponent?: string;
+        readonly type?: string;
+        readonly estimatedReductions?: string;
+        readonly referenceYear?: string;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly status?: string;
+        readonly offset: number;
+        readonly limit: number;
 
     }
-    interface AssetPageResultDTO extends f2.dsl.cqrs.page.PageDTO<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetState */>/* city.smartb.registry.program.s2.asset.domain.model.AssetDTO */> {
+    interface ProjectPageQueryFilterDTO {
+        readonly id?: string;
+        readonly name?: string;
+        readonly proponent?: string;
+        readonly type?: string;
+        readonly estimatedReductions?: string;
+        readonly referenceYear?: string;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly status?: string;
+
+    }
+    interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<city.smartb.registry.program.s2.project.domain.model.ProjectDTO> {
         readonly total: number;
-        readonly items: kotlin.collections.List<city.smartb.registry.program.s2.asset.domain.model.AssetDTO>;
+        readonly items: kotlin.collections.List<city.smartb.registry.program.s2.project.domain.model.ProjectDTO>;
+        readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
 
     }
 }
-export as namespace verified_emission_reduction_registry_asset_f2_domain;
+export namespace f2.client {
+    interface F2Client {
+        supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+        readonly type: f2.client.F2ClientType;
+    }
+}
+export namespace f2.client.ktor.http {
+    class HttpClientBuilder {
+        constructor(json?: kotlinx.serialization.json.Json);
+        build(urlBase: string): Promise<f2.client.F2Client>;
+    }
+}
+export namespace f2.client.ktor.rsocket {
+    class RSocketF2Client implements f2.client.F2Client {
+        constructor(rSocketClient: f2.client.ktor.rsocket.RSocketClient);
+        get type(): f2.client.F2ClientType;
+        supplier<RESPONSE>(route: string, typeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+    }
+}
+export namespace f2.client.ktor {
+    abstract class Protocol {
+        protected constructor();
+    }
+    const HTTP: {
+    } & f2.client.ktor.Protocol;
+    const HTTPS: {
+    } & f2.client.ktor.Protocol;
+    const WS: {
+    } & f2.client.ktor.Protocol;
+    const WSS: {
+    } & f2.client.ktor.Protocol;
+    const TCP: {
+    } & f2.client.ktor.Protocol;
+}
+export namespace city.smartb.registry.program.f2.project.client {
+    class ProjectClient /* implements city.smartb.registry.program.f2.project.domain.ProjectApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace city.smartb.registry.program.f2.project.client {
+    function projectClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<city.smartb.registry.program.f2.project.client.ProjectClient>;
+}
+export as namespace verified_emission_reduction_registry_project_f2_client;

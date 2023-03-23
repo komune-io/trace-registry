@@ -48,24 +48,25 @@ class ProjectEndpoint(
     override fun projectPage(): ProjectPageFunction = f2Function { query ->
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
-
+        val pagination = OffsetPagination(
+            offset = query?.offset ?: 0,
+            limit = query.limit ?: 10,
+        )
         projectF2FinderService.page(
             id = query.id?.let { ExactMatch(it) },
-            name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             dueDate = query.dueDate?.let { ExactMatch(it) },
             estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
             proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
             referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
             status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
             type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
-            offset = OffsetPagination(
-                offset = query.offset ?: 0,
-                limit = query.limit ?: 1000,
-            )
+            offset = pagination
         ).let { page ->
             ProjectPageResult(
                 items = page.items,
-                total = page.total
+                total = page.total,
+                pagination = pagination
             )
         }
     }

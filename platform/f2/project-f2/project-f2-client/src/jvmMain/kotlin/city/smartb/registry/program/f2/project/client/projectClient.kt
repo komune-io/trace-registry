@@ -16,8 +16,8 @@ actual fun projectClient(
 ): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
     ProjectClient(
         F2ClientBuilder.get(urlBase) {
-            it.install(HttpTimeout) {
-                requestTimeoutMillis = 10000
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60000
             }
         }
     )

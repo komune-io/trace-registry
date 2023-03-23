@@ -1,6 +1,7 @@
 import { FilterComposableField, useFiltersComposable, Action, Option, FiltersComposable } from '@smartb/g2'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import {OffsetPagination, Offset} from "../OffsetTable";
 
 export interface useCustomFiltersParams {
     filters: FilterComposableField[]
@@ -16,26 +17,28 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     const { t } = useTranslation()
     const onSubmit = useCallback(
         (values: any, submittedFilters: any) => {
-            const page = withPage ? 0 : undefined
-            if (values.page === submittedFilters.page) return { ...values, page: page }
+            const pagination = withPage ? Offset.default: undefined
+            if (values.offset === submittedFilters.offset) return { ...values, ...pagination }
         },
         [],
     )
-    const { filtersCount, formState, submittedFilters, setAdditionnalFilter } = useFiltersComposable<T & { page: number }>({
+    const { filtersCount, formState, submittedFilters, setAdditionnalFilter } = useFiltersComposable<T & OffsetPagination>({
         onSubmit: onSubmit,
         formikConfig: {
             initialValues: {
                 ...(withPage ? {
-                    page: 0
+                    offset: 0,
+                    limit: 10
                 } : undefined),
                 ...initialValues
             }
         }
     })
 
-    const setPage = useCallback(
-        (newPage: number) => {
-            setAdditionnalFilter("page", newPage - 1)
+    const setOffset = useCallback(
+        (newPage: OffsetPagination) => {
+            setAdditionnalFilter("offset", newPage.offset)
+            setAdditionnalFilter("limit", newPage.limit)
         },
         [setAdditionnalFilter],
     )
@@ -58,6 +61,6 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     return {
         component: component,
         submittedFilters,
-        setPage
+        setOffset
     }
 }
