@@ -2,7 +2,7 @@ package city.smartb.registry.program.s2.asset.api.query
 
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
-import city.smartb.registry.program.api.commons.model.Match
+import f2.dsl.cqrs.filter.Match
 import  city.smartb.registry.program.s2.asset.domain.model.AssetId
 import city.smartb.registry.program.s2.asset.api.entity.AssetEntity
 import city.smartb.registry.program.s2.asset.api.entity.AssetRepository

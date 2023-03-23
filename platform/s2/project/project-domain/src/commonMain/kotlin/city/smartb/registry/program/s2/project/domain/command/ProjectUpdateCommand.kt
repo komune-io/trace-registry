@@ -31,7 +31,7 @@ data class ProjectUpdateCommand(
     override var type: String?,
     override var referenceYear: String?,
     override var registrationDate: DateTime?,
-    override var slug: Double?,
+    override var slug: String?,
     override val vintage: Double?,
 ): ProjectCommand, ProjectAbstractMsg
 
@@ -70,7 +70,7 @@ data class ProjectUpdatedEvent(
     override var type: String? = null,
     override var referenceYear: String? = null,
     override var registrationDate: DateTime? = null,
-    override var slug: Double? = null,
+    override var slug: String? = null,
     override val vintage: Double? = null,
 ): ProjectUpdatedEventDTO {
     override fun s2Id() = id

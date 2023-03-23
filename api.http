@@ -137,9 +137,41 @@ Content-Type: application/json
 [
   {
     "identifier": "2",
-    "name": "2",
+    "name": "33333",
     "description": "2"
   }
+]
+
+### projectCreate2
+POST {{urlbase}}/projectCreate
+Content-Type: application/json
+
+[
+  {
+    "identifier": "56e421ca-621d-4e84-bd6d-93cb9dd25d53",
+    "country": "Senegal",
+    "creditingPeriodStartDate": 1679431411848,
+    "creditingPeriodEndDate": 1679435486544,
+    "description": "Descrption of the project Denali",
+    "dueDate": 1679454287464,
+    "estimatedReduction": "729747128",
+    "localization": "Ulaanbaatar",
+    "name": "Pumari Chhish",
+    "proponentAccount": {
+      "id": "632-97-5471",
+      "name": "Kozey-Kirlin"
+    },
+    "proponent": "Description about the proponent",
+    "type": "Type of the project",
+    "referenceYear": "2023",
+    "registrationDate": 1679429501984,
+    "status": "STAMPED",
+    "vintage": 2023.0,
+    "slug": "slug",
+    "creationDate": 1679429838,
+    "lastModificationDate": 1679413438
+  }
+
 ]
 
 ### projectUpdate
@@ -161,7 +193,7 @@ Content-Type: application/json
 
 [
   {
-    "identifier": "1"
+    "id": "42f905f8-42ec-4458-84e5-3a536f25b2fa"
   }
 ]
 
@@ -172,54 +204,8 @@ Content-Type: application/json
 [
   {
     "offset": 0,
-    "limit": 10
-  }
-]
-
-### protocolCreate
-POST {{urlbase}}/protocolCreate
-Content-Type: application/json
-
-[
-  {
-    "id": "2",
-    "name": "1",
-    "description": "1",
-    "status": "UNDER_VALIDATION"
-  }
-]
-
-### protocolUpdate
-POST {{urlbase}}/protocolUpdate
-Content-Type: application/json
-
-[
-  {
-    "id": "2",
-    "name": "1",
-    "description": "11",
-    "status": "VALIDATION_REQUESTED"
-  }
-]
-
-### protocolGet
-POST {{urlbase}}/protocolGet
-Content-Type: application/json
-
-[
-  {
-    "id": "1"
-  }
-]
-
-### protocolPage
-POST {{urlbase}}/protocolPage
-Content-Type: application/json
-
-[
-  {
-    "offset": 0,
-    "limit": 10
+    "limit": 10,
+    "name": "333"
   }
 ]
 

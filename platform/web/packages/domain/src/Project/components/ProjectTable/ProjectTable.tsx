@@ -1,24 +1,12 @@
-import { Typography } from '@mui/material'
-import { TableV2, ColumnFactory, useTable, StatusTag } from '@smartb/g2'
-import { Row } from '@tanstack/react-table';
-import { Project } from '../../model'
+import {Typography} from '@mui/material'
+import {ColumnFactory, useTable, StatusTag} from '@smartb/g2'
+import {Row} from '@tanstack/react-table';
+import {Project} from '../../model'
 import {useCallback, useMemo} from "react"
-import { useRoutesDefinition } from 'components'
+import {OffsetPagination, PageQueryResult, OffsetTable, useRoutesDefinition} from 'components'
 
-export interface ProjectTableProps {
-    projects?: Project[]
-    totalPages?: number
-    page?: number
-    setPage?: (newPage: number) => void
-    isLoading?: boolean
-}
-
-
-export const ProjectTable = (props: ProjectTableProps) => {
-    const {isLoading, page, projects, setPage, totalPages} = props
-    const {projectsProjectIdView } = useRoutesDefinition()
-
-    const columns = useMemo(() => ColumnFactory<Project>({
+function useProductColumn() {
+    return useMemo(() => ColumnFactory<Project>({
         generateColumns: (generators) => ({
             id: generators.text({
                 header: 'ID',
@@ -97,10 +85,23 @@ export const ProjectTable = (props: ProjectTableProps) => {
                 className: "statusColumn"
             }
         })
-    }), [])
+    }), []);
+}
+
+export interface ProjectTableProps {
+    onOffsetChange?: (newOffset: OffsetPagination) => void
+    page?: PageQueryResult<Project>
+    isLoading?: boolean
+}
+
+export const ProjectTable = (props: ProjectTableProps) => {
+    const {isLoading, page, onOffsetChange} = props
+    const {projectsProjectIdView } = useRoutesDefinition()
+
+    const columns = useProductColumn()
 
     const tableState = useTable({
-        data: projects ?? [],
+        data: page?.items ?? [],
         columns: columns,
     })
 
@@ -114,9 +115,9 @@ export const ProjectTable = (props: ProjectTableProps) => {
     )
     
 
-    if (!projects && !isLoading) return (<Typography align="center">Aucun projet n'a été trouvé</Typography>)
+    if (!page?.items && !isLoading) return (<Typography align="center">Aucun projet n'a été trouvé</Typography>)
     return (
-        <TableV2<Project>
+        <OffsetTable<Project>
             sx={{
                 "& .statusColumn": {
                     maxWidth: "180px"
@@ -128,9 +129,8 @@ export const ProjectTable = (props: ProjectTableProps) => {
             }}
             tableState={tableState}
             page={page}
-            onPageChange={setPage}
+            onOffsetChange={onOffsetChange}
             isLoading={isLoading}
-            totalPages={totalPages}
             getRowLink={getRowLink}
         />
     )

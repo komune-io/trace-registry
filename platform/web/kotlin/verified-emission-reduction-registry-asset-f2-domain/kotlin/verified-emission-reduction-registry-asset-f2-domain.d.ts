@@ -52,6 +52,24 @@ export namespace f2.dsl.cqrs.exception {
         };
     }
 }
+export namespace f2.dsl.cqrs.filter {
+    interface Match<T> {
+        readonly negative: boolean;
+        map<R>(transform: (p0: T) => R): f2.dsl.cqrs.filter.Match<R>;
+        not(): f2.dsl.cqrs.filter.Match<T>;
+        and(match: f2.dsl.cqrs.filter.Match<T>): f2.dsl.cqrs.filter.Match<T>;
+        or(match: f2.dsl.cqrs.filter.Match<T>): f2.dsl.cqrs.filter.Match<T>;
+
+    }
+}
+export namespace f2.dsl.cqrs.filter {
+    interface SortDTO {
+        readonly property: string;
+        readonly ascending: boolean;
+        readonly nullsFirst?: boolean;
+
+    }
+}
 export namespace f2.dsl.cqrs.page {
     interface PageDTO<OBJECT> {
         readonly total: number;
@@ -115,9 +133,6 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
-        static get Companion(): {
-            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
-        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -1709,14 +1724,6 @@ export namespace city.smartb.registry.program.api.commons.model {
         quotations(): string;
         projects(): string;
     };
-}
-export namespace city.smartb.registry.program.api.commons.model {
-    interface SortDTO {
-        readonly property: string;
-        readonly ascending: boolean;
-        readonly nullsFirst?: boolean;
-
-    }
 }
 export namespace city.smartb.registry.program.s2.asset.domain.automate {
     interface AssetInitCommand extends s2.dsl.automate.S2InitCommand {

@@ -22,6 +22,7 @@ object Versions {
 
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val redisOm = "0.8.0"
+	const val datafaker = "1.8.1"
 }
 
 object Repo {
@@ -80,11 +81,20 @@ object Dependencies {
 		fun s2SourcingSsm(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
 		)
+		object Test {
+			fun dataFaker(scope: Scope) = scope.add(
+				"net.datafaker:datafaker:${Versions.datafaker}",
+			)
+		}
 	}
 
 	object Mpp {
 		fun f2(scope: Scope) = scope.add(
 			"city.smartb.f2:f2-dsl-function:${Versions.f2}"
+		)
+
+		fun f2Client(scope: Scope) = scope.add(
+			"city.smartb.f2:f2-client-ktor:${Versions.f2}"
 		)
 
 		fun fs(scope: Scope) = scope.add(

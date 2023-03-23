@@ -1,14 +1,14 @@
 package city.smartb.registry.program.infra.redis
 
-import city.smartb.registry.program.api.commons.model.AndMatch
-import city.smartb.registry.program.api.commons.model.CollectionMatch
-import city.smartb.registry.program.api.commons.model.ComparableMatch
-import city.smartb.registry.program.api.commons.model.ComparableMatchCondition
-import city.smartb.registry.program.api.commons.model.ExactMatch
-import city.smartb.registry.program.api.commons.model.Match
-import city.smartb.registry.program.api.commons.model.OrMatch
-import city.smartb.registry.program.api.commons.model.StringMatch
-import city.smartb.registry.program.api.commons.model.StringMatchCondition
+import f2.dsl.cqrs.filter.AndMatch
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ComparableMatch
+import f2.dsl.cqrs.filter.ComparableMatchCondition
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.OrMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
 import com.redis.om.spring.metamodel.MetamodelField
 import com.redis.om.spring.metamodel.indexed.BooleanField
 import com.redis.om.spring.metamodel.indexed.NumericField
@@ -40,7 +40,7 @@ fun <E, T: String?> SearchStream<E>.match(x: TextTagField<E, T>, matcher: Match<
         ?: this
 }
 
-private fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
+fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
     return when {
         matcher == null -> null
         matcher.negative -> not(match(x, matcher.not()))
@@ -51,6 +51,7 @@ private fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate
             is ComparableMatch -> match(x, matcher)
             is AndMatch -> match(x, matcher)
             is OrMatch -> match(x, matcher)
+            else -> TODO()
         }
     }
 }

@@ -1,12 +1,13 @@
 package city.smartb.registry.program.s2.project.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
-import city.smartb.registry.program.api.commons.model.Match
+import f2.dsl.cqrs.filter.Match
 import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.api.entity.toProject
 import city.smartb.registry.program.s2.project.api.query.ProjectPageQueryDB
 import city.smartb.registry.program.s2.project.domain.ProjectFinder
+import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.cqrs.page.OffsetPagination
@@ -30,7 +31,13 @@ class ProjectFinderService(
 	override suspend fun page(
 		id: Match<ProjectId>?,
 		name: Match<String>?,
-		offset: OffsetPagination?
+		proponent: Match<String>?,
+		type: Match<String>?,
+		estimatedReductions: Match<String>?,
+		referenceYear: Match<String>?,
+		dueDate: Match<Long>?,
+		status: Match<ProjectState>?,
+		offset: OffsetPagination?,
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
 			id = id,

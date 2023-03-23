@@ -1,6 +1,5 @@
 package city.smartb.registry.program.s2.project.domain.command
 
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 
@@ -19,6 +18,6 @@ interface ProjectAbstractMsg {
     var type: String?
     var referenceYear: String?
     var registrationDate: DateTime?
-    var slug: Double?
+    var slug: String?
     val vintage: Double?
 }
