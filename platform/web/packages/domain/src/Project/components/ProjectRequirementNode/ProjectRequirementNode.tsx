@@ -19,7 +19,19 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
         const el = data.all.find(el => el.id === id)
         if (!el) return undefined
         return (
-            <Typography variant="body2" color="text.secondary" sx={{ textDecoration: "underline" }} >
+            <Typography
+                variant="body2"
+                sx={{
+                    color: "#697077",
+                    textDecoration: "underline",
+                    textDecorationColor: "#69707766",
+                    cursor: "pointer",
+                    "&:hover": {
+                        textDecorationColor: "inherit"
+                    }
+                }} 
+                onClick={() => data.selectRequirement(id)}
+                >
                 {el.name}
             </Typography>
         )

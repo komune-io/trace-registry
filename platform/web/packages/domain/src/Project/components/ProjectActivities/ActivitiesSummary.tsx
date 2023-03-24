@@ -35,7 +35,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
                         variant='text'
                     />
                     :
-                    <Typography sx={{ color: "#666560" }} >Activities description. Consectetur excepturi delectus. Ducimus iste fugiat. Molestias repudiandae inventore corrupti magnam atque. Laborum libero est voluptatem.</Typography>
+                    <Typography color="text.secondary" >Activities description. Consectetur excepturi delectus. Ducimus iste fugiat. Molestias repudiandae inventore corrupti magnam atque. Laborum libero est voluptatem.</Typography>
             }
         </Stack>
     )

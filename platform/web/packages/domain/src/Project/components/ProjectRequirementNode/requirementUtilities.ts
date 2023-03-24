@@ -15,10 +15,11 @@ export type Requirement = {
 
 export type RequirementData = {
     all: Requirement[],
-    current: Requirement
+    current: Requirement,
+    selectRequirement: (id: string) => void
 }
 
-export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node[] => {
+export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node[] => {
     const nodes: Node[] = []
 
     const xGap = 250
@@ -35,7 +36,8 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
         id: obj.id,
         data: {
             all: requirements,
-            current: obj
+            current: obj,
+            selectRequirement
         },
         position: {
             x: currentX,
@@ -49,7 +51,7 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
         obj.hasQualifiedRelation.forEach((id, index) => {
             const targetedRequirement = requirements.find(el => el.id === id)
             if (targetedRequirement) {
-                nodes.push(...requirementsToNodes(requirements, targetedRequirement, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
+                nodes.push(...requirementsToNodes(requirements, targetedRequirement, selectRequirement, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
             }
         });
     }

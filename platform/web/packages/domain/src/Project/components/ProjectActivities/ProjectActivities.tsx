@@ -4,6 +4,7 @@ import { useNodesState, useEdgesState, ReactFlow, Background } from "reactflow"
 import 'reactflow/dist/style.css';
 import { ProjectRequirementNode, Requirement, requirementsToEdges, requirementsToNodes } from '../ProjectRequirementNode';
 import { ActivitiesSummary } from './ActivitiesSummary';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface ProjectActivitiesProps {
     project?: Project
@@ -16,8 +17,24 @@ const nodeTypes = {
 
 export const ProjectActivities = (props: ProjectActivitiesProps) => {
     const { isLoading, project} = props
-    const [nodes, _, onNodesChange] = useNodesState(requirementsToNodes(requirements, requirements[0]));
-    const [edges, , onEdgesChange] = useEdgesState(requirementsToEdges(requirements, requirements[0]));
+    const [baseRequirement, setBaseRequirement] = useState(requirements[0])
+
+    const selectRequirement = useCallback(
+      (id: string) => {
+        const requirement = requirements.find((el) => el.id === id)
+        if (requirement) setBaseRequirement(requirement)
+      },
+      [],
+    )
+    
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    useEffect(() => {
+        setNodes(requirementsToNodes(requirements, baseRequirement, selectRequirement))
+        setEdges(requirementsToEdges(requirements, baseRequirement))
+    }, [baseRequirement, selectRequirement])
+    
     return (
         <Stack
             direction="row"
