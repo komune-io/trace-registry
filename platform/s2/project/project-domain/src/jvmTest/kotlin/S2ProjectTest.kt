@@ -59,7 +59,8 @@ class S2ProjectTest {
             vvb =  OrganizationRef(
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
-            )
+            ),
+            activities = emptyList()
         )
 
         println(json.encodeToString(project))

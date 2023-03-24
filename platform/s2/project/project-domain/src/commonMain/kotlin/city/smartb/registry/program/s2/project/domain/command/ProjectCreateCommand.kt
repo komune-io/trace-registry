@@ -3,6 +3,7 @@ package city.smartb.registry.program.s2.project.domain.command
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
+import city.smartb.registry.program.s2.project.domain.model.ActivityId
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -36,6 +37,7 @@ data class ProjectCreateCommand(
     override var vvb: OrganizationRef?,
     override var assessor: String?,
     override var location: GeoLocation?,
+    override val activities: List<ActivityId>?
 ): ProjectInitCommand, ProjectAbstractMsg
 
 /**
@@ -77,6 +79,8 @@ data class ProjectCreatedEvent(
     override var vvb: OrganizationRef? = null,
     override var assessor: String? = null,
     override var location: GeoLocation? = null,
+    override val activities: List<ActivityId>?
+
 ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }

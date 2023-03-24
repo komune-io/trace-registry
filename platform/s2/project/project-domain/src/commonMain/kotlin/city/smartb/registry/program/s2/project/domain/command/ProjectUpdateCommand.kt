@@ -4,6 +4,7 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.model.ActivityId
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -37,6 +38,7 @@ data class ProjectUpdateCommand(
     override var vvb: OrganizationRef?,
     override var assessor: String?,
     override var location: GeoLocation?,
+    override val activities: List<ActivityId>?,
 ): ProjectCommand, ProjectAbstractMsg
 
 /**
@@ -79,6 +81,7 @@ data class ProjectUpdatedEvent(
     override var vvb: OrganizationRef? = null,
     override var assessor: String? = null,
     override var location: GeoLocation? = null,
+    override val activities: List<ActivityId>?,
 ): ProjectUpdatedEventDTO {
     override fun s2Id() = id
 }

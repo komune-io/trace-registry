@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
 	Dependencies.Mpp.im(::commonMainApi)
+	Dependencies.Jvm.Cccev.client(::commonMainImplementation)
 	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)
 	Dependencies.Mpp.documenter(::jvmTestImplementation)
 }

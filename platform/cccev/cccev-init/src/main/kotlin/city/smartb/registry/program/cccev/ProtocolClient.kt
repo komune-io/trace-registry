@@ -1,14 +1,15 @@
-package city.smartb.registry.program.cccev.client
+package city.smartb.registry.program.cccev
 
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.Requirement
-import city.smartb.registry.program.cccev.EligibilityRequirements
-import city.smartb.registry.program.cccev.ImplementationRequirements
-import city.smartb.registry.program.cccev.LocalConsultationRequirements
-import city.smartb.registry.program.cccev.ReddPlusRequirement
-import city.smartb.registry.program.cccev.VerraVcsRequirement
+import city.smartb.registry.program.cccev.requirement.EligibilityRequirements
+import city.smartb.registry.program.cccev.requirement.ImplementationRequirements
+import city.smartb.registry.program.cccev.requirement.LocalConsultationRequirements
+import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
+import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 
 fun main(): Unit = runBlocking {

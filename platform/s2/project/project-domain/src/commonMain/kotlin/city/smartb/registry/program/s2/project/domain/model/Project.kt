@@ -16,6 +16,7 @@ import kotlin.js.JsExport
  * @d2 model
  */
 typealias ProjectId = String
+typealias ActivityId = String
 
 /**
  *
@@ -133,6 +134,11 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val location: GeoLocationDTO?
 
     /**
+     * List of activities linked to
+     */
+    val activities: List<ActivityId>?
+
+    /**
      * Status of the project
      * @example "REGISTERED"
      */
@@ -178,6 +184,7 @@ data class Project(
     override val creationDate: DateTime?,
     override val lastModificationDate: DateTime?,
     override val status: ProjectState,
+    override val activities: List<ActivityId>?,
 ): ProjectDTO {
     override fun s2State() = status
     override fun s2Id() = id

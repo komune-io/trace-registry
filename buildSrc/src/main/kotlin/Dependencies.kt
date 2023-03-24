@@ -57,9 +57,16 @@ object Dependencies {
 		fun i2Keycloack(scope: Scope) = scope.add(
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
 		)
-		fun cccev(scope: Scope) = scope.add(
-			"city.smartb.cccev:dsl-client:${Versions.cccev}",
-		)
+
+		object Cccev {
+			fun client(scope: Scope) = scope.add(
+				"city.smartb.cccev:dsl-client:${Versions.cccev}",
+			)
+			fun domain(scope: Scope) = scope.add(
+				"city.smartb.cccev:dsl-model:${Versions.cccev}",
+			)
+		}
+
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:file-client:${Versions.fs}"
 		)

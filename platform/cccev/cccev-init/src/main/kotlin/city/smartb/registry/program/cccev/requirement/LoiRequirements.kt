@@ -1,4 +1,4 @@
-package city.smartb.registry.program.cccev
+package city.smartb.registry.program.cccev.requirement
 
 import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities

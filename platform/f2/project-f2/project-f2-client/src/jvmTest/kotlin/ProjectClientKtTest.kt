@@ -46,7 +46,8 @@ class ProjectClientKtTest {
                 vvb =  OrganizationRef(
                     id = faker.idNumber().valid(),
                     name = faker.company().name()
-                )
+                ),
+                activities = emptyList()
             )
         }.map {
             client.projectCreate().invoke(flowOf(it))

@@ -27,7 +27,8 @@ fun ProjectEntity.toProject() = Project(
     assessor = assessor,
     location = location?.toGeoLocation(),
     creationDate = null,
-    lastModificationDate = null
+    lastModificationDate = null,
+    activities = activities
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )
@@ -52,6 +53,7 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.vvb = vvb
     entity.assessor = assessor
     entity.location = location?.toRedisGeoLocation(id)
+    entity.activities = activities
     entity
 }
 
