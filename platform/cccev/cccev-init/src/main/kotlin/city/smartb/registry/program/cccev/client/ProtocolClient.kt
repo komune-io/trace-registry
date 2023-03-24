@@ -14,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 fun main(): Unit = runBlocking {
     val url = "https://api.registry.smartb.network/cccev"
     val client = CCCEVClient(url)
-    client.requirementCreate(
+    client.createGraph(
         buildList<Requirement> {
             addAll(EligibilityRequirements)
             addAll(ImplementationRequirements)
@@ -22,5 +22,7 @@ fun main(): Unit = runBlocking {
             addAll(ReddPlusRequirement)
             addAll(VerraVcsRequirement)
         }.asFlow()
-    ).collect()
+    ).onEach {
+        println("Created requirement: ${it.identifier}")
+    }.collect()
 }

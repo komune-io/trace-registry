@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.activity.domain
 
+import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
@@ -50,6 +51,15 @@ class S2ProjectTest {
 
             creationDate = faker.date().past(6, TimeUnit.HOURS).toInstant().epochSecond,
             lastModificationDate = faker.date().past(6, TimeUnit.HOURS).toInstant().epochSecond,
+            assessor = "assessor",
+            location = GeoLocation(
+                lon = faker.address().longitude().toDouble(),
+                lat = faker.address().latitude().toDouble()
+            ),
+            vvb =  OrganizationRef(
+                id = faker.idNumber().valid(),
+                name = faker.company().name()
+            )
         )
 
         println(json.encodeToString(project))

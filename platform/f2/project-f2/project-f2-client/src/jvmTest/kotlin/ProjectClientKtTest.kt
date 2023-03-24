@@ -1,5 +1,6 @@
 package city.smartb.registry.program.f2.project.client
 
+import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import java.util.UUID
@@ -37,6 +38,15 @@ class ProjectClientKtTest {
                 registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
                 vintage = faker.date().future(6, TimeUnit.HOURS).toLocalDateTime().year.toDouble(),
                 slug = "slug",
+                assessor = "assessor",
+                location = GeoLocation(
+                    lon = faker.address().longitude().toDouble(),
+                    lat = faker.address().latitude().toDouble()
+                ),
+                vvb =  OrganizationRef(
+                    id = faker.idNumber().valid(),
+                    name = faker.company().name()
+                )
             )
         }.map {
             client.projectCreate().invoke(flowOf(it))

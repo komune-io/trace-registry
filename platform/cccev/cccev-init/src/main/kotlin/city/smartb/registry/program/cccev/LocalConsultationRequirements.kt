@@ -121,7 +121,7 @@ val LocalConsultation = informationRequirement {
                 "Obtain the location coordinates and area shapefile for the REDD+ investment to ensure accurate mapping and spatial analysis."
         }
 
-        localConsultationProtocolValidation {
+        localConsultationProtocolPreparation {
             identifier = "D112"
             name = "CLIP"
             description =
