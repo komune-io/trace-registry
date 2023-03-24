@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
 import { addMapBaseProps } from 'components'
 import { useMemo } from 'react'
@@ -25,6 +25,15 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
             }
         }),
     }], [t])
+    const vcus = useMemo((): FormComposableField<keyof Project>[] => [{
+        name: "estimatedReduction",
+        label: t("projects.estimatedReduction"),
+        type: "textField",
+        params: {
+            orientation: "horizontal",
+
+        }
+    }], [t])
 
     return (
         <Stack
@@ -34,23 +43,33 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
                 flexBasis: 0
             }}
         >
-            {/* <Typography variant="h6">{t("protocoles")}</Typography>
-            <Box
-                sx={{
-                    height: "100px",
-                    width: "100%",
-                    background: (theme) => theme.palette.background.default,
-                    borderRadius: (theme) => theme.shape.borderRadius + "px",
-                }}
-            />
-            <Box
-                sx={{
-                    height: "100px",
-                    width: "100%",
-                    background: (theme) => theme.palette.background.default,
-                    borderRadius: (theme) => theme.shape.borderRadius + "px",
-                }}
-            /> */}
+            {
+                <>
+                    <Typography variant="h6">{t("protocoles")}</Typography>
+                    <Box
+                        sx={{
+                            height: "100px",
+                            width: "100%",
+                            padding: 2,
+                            background: (theme) => theme.palette.background.default,
+                            borderRadius: (theme) => theme.shape.borderRadius + "px",
+                        }}
+                    >
+                        <Typography sx={{paddingBottom: 2}}variant="body2">{t("BIODIV")}</Typography>
+                        <FormComposable
+                          sx={{
+                              "& .AruiForm-field": {
+                                  justifyContent: "flex-start"
+                              },
+                              "& .AruiForm-field > *": {
+                                  flexGrow: 1,
+                                  flexBasis: 0
+                              }
+                          }}
+                          formState={formState} fields={vcus} />
+                    </Box>
+                </>
+            }
             <FormComposable fields={map} formState={formState} />
         </Stack>
     )

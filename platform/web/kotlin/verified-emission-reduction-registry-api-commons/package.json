@@ -1,6 +1,6 @@
 {
   "name": "verified-emission-reduction-registry-api-commons",
-  "version": "0.0.0-latest",
+  "version": "0.0.0-experimental-SNAPSHOT",
   "main": "kotlin/verified-emission-reduction-registry-api-commons.js",
   "devDependencies": {},
   "dependencies": {

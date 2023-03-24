@@ -7,7 +7,6 @@ import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.Project
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.datafaker.Faker
@@ -37,12 +36,11 @@ class S2ProjectTest {
             dueDate = faker.date().future(6, TimeUnit.HOURS).time,
             estimatedReduction = faker.number().positive().toString(),
             localization = country.capital(),
-            proponentAccount = OrganizationRef(
+            proponent = OrganizationRef(
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
             ),
-            proponent = "Description about the proponent",
-            type = "Type of the project",
+            type = "Solar",
             referenceYear = faker.date().future(1, TimeUnit.HOURS).toLocalDateTime().year.toString(),
             registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
             status = if(faker.random().nextBoolean()) ProjectState.STAMPED else ProjectState.STAMPED,
@@ -51,7 +49,10 @@ class S2ProjectTest {
 
             creationDate = faker.date().past(6, TimeUnit.HOURS).toInstant().epochSecond,
             lastModificationDate = faker.date().past(6, TimeUnit.HOURS).toInstant().epochSecond,
-            assessor = "assessor",
+            assessor = OrganizationRef(
+                id = faker.idNumber().valid(),
+                name = faker.company().name()
+            ),
             location = GeoLocation(
                 lon = faker.address().longitude().toDouble(),
                 lat = faker.address().latitude().toDouble()

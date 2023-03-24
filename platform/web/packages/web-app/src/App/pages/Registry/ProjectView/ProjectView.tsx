@@ -66,10 +66,7 @@ export const ProjectView = (props: ProjectViewProps) => {
                 content: [{
                     leftPart: [
                         <Typography key="projectTitle" variant="h5">{project?.name ?? t("project")}</Typography>
-                    ],
-                    // rightPart: [
-                    //     readonly ? <LinkButton to={projectsProjectIdEdit(projectId!)} >{t("edit")}</LinkButton> : undefined
-                    // ]
+                    ]
                 }]
             }}
             bottomActionsProps={{

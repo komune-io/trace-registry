@@ -15,15 +15,14 @@ interface ProjectAbstractMsg {
     var dueDate: DateTime?
     var estimatedReduction: String?
     var localization: String?
-    var proponentAccount: OrganizationRef?
-    var proponent: String?
+    var proponent: OrganizationRef?
     var type: String?
     var referenceYear: String?
     var registrationDate: DateTime?
     var slug: String?
     val vintage: Double?
     var vvb: OrganizationRef?
-    var assessor: String?
+    var assessor: OrganizationRef?
     var location: GeoLocation?
     val activities: List<ActivityId>?
 }

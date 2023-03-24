@@ -42,10 +42,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var localization: String? = null
 
-    var proponentAccount: OrganizationRef? = null
-
-    @Indexed
-    var proponent: String? = null
+    var proponent: OrganizationRef? = null
 
     @Indexed
     var type: String? = null
@@ -62,7 +59,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var vvb: OrganizationRef? = null
 
-    var assessor: String? = null
+    var assessor: OrganizationRef? = null
 
     var location: GeoLocation<String>? = null
     var activities: List<ActivityId>? = null

@@ -78,15 +78,10 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val localization: String?
 
     /**
-     * Date of the end of the crediting period
+     * A project proponent refers to an individual, organization, or entity
+     * that develops and implements a project that reduces or removes greenhouse gas emissions.
      */
-    val proponentAccount: OrganizationRef?
-
-    /**
-     * Public proponent informations
-     * @example "Public proponent informations"
-     */
-    val proponent: String?
+    val proponent: OrganizationRef?
 
     /**
      * List of project types
@@ -119,14 +114,16 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val slug: String?
 
     /**
-     * TODO
+     * VVB stands for Voluntary Carbon Unit Validation Body, an independent
+     * organization accredited by the relevant carbon registry.
      */
     val vvb: OrganizationRef?
 
     /**
-     * TODO
+     * An Assessor is a third-party individual or organization that assesses the validity
+     * of a carbon offset project's emissions reduction claims.
      */
-    val assessor: String?
+    val assessor: OrganizationRef?
 
     /**
      * GPS location of the project.
@@ -171,15 +168,14 @@ data class Project(
     override val estimatedReduction: String?,
     override val localization: String?,
     override val name: String?,
-    override val proponentAccount: OrganizationRef?,
-    override val proponent: String?,
+    override val proponent: OrganizationRef?,
     override val type: String?,
     override val referenceYear: String?,
     override val registrationDate: DateTime?,
     override val vintage: Double?,
     override val slug: String?,
     override val vvb: OrganizationRef?,
-    override val assessor: String?,
+    override val assessor: OrganizationRef?,
     override val location: GeoLocation?,
     override val creationDate: DateTime?,
     override val lastModificationDate: DateTime?,

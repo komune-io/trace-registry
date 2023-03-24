@@ -64,8 +64,9 @@ export const useProjectFilters = () => {
         {
             name: 'dueDate',
             type: 'datePicker',
+            label: "Due Date",
             params: {
-                // placeholder: "Due Date",
+                label: "Due Date",
                 style: { width: "170px" }
             }
         },
@@ -82,7 +83,7 @@ export const useProjectFilters = () => {
             name: 'status',
             type: 'select',
             params: {
-                placeholder: "Status",
+                label: "Status",
                 style: { width: "170px" },
             }
         }

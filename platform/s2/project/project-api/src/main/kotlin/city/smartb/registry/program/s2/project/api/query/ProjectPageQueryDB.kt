@@ -32,7 +32,6 @@ class ProjectPageQueryDB(
     ): PageDTO<ProjectEntity> = doQuery(offset) {
         match(`ProjectEntity$`.ID, id)
         match(`ProjectEntity$`.NAME, name)
-        match(`ProjectEntity$`.PROPONENT, proponent)
         match(`ProjectEntity$`.TYPE, type)
         match(`ProjectEntity$`.ESTIMATED_REDUCTION, estimatedReductions)
         match(`ProjectEntity$`.REFERENCE_YEAR, referenceYear)

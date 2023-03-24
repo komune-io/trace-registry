@@ -1,4 +1,5 @@
 {
+  "BIODIV": "BIODIV",
   "dashboard": "Dashboard",
   "organizations": "Organizations",
   "users": "Users",
@@ -18,7 +19,7 @@
   "origin": "Origin",
   "proponent": "Proponent",
   "vvb": "VVB",
-  "assesssor": "Assesssor",
+  "assessor": "assessor",
   "project": "Project",
   "status": "Status",
   "sdgsImpact": "SDGs impacts",
@@ -92,6 +93,7 @@
   "projects": {
     "details": "Project details",
     "type": "Project type",
-    "activities": "Project activities"
+    "activities": "Project activities",
+    "estimatedReduction": "Quantity planned"
   }
 }

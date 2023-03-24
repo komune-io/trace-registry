@@ -14,7 +14,7 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
 
     const { t } = useTranslation()
 
-    const fields = useMemo((): FormComposableField<keyof Project | "vvb.name">[] => [{
+    const fields = useMemo((): FormComposableField<keyof Project | "vvb.name" | "proponent.name" | "assessor.name">[] => [{
         name: "country",
         label: t("origin"),
         type: "select",
@@ -22,7 +22,7 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
             orientation: "horizontal",
         }
     }, {
-        name: "proponent",
+        name: "proponent.name",
         label: t("proponent"),
         type: "textField",
         params: {
@@ -36,8 +36,8 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
             orientation: "horizontal",
         }
     }, {
-        name: "assessor",
-        label: t("assesssor"),
+        name: "assessor.name",
+        label: t("assessor"),
         type: "textField",
         params: {
             orientation: "horizontal",

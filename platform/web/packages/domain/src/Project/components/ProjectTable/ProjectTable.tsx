@@ -31,7 +31,7 @@ function useProductColumn() {
             proponent: generators.text({
                 header: 'Proponent',
                 getCellProps: (registry) => ({
-                    value: registry.proponent
+                    value: registry.proponent?.name
                 })
             }),
 
