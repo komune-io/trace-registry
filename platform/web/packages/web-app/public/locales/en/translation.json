@@ -31,6 +31,7 @@
   "addMarker": "Add a marker",
   "canDrag": "You can drag this point",
   "useMyPosition": "Use my position",
+  "progress": "Progress",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -89,6 +90,7 @@
   },
   "projects": {
     "details": "Project details",
-    "type": "Project Type"
+    "type": "Project type",
+    "activities": "Project activities"
   }
 }

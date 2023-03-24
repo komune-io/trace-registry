@@ -1,7 +1,7 @@
 import { Page, Section, useFormComposable, Action } from '@smartb/g2'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { ProjectBanner, ProjectDetails, ProjectProtocolesLocation, useProjectGetQuery } from 'domain-components'
+import { ProjectActivities, ProjectBanner, ProjectDetails, ProjectProtocolesLocation, useProjectGetQuery } from 'domain-components'
 import { Link, useParams } from 'react-router-dom'
 import { useCallback, useMemo, useState } from 'react'
 import { useRoutesDefinition } from 'components'
@@ -11,7 +11,7 @@ export interface ProjectViewProps {
 }
 
 export const ProjectView = (props: ProjectViewProps) => {
-    const {readonly} = props
+    const { readonly } = props
     const { projectId } = useParams()
     const { projectsProjectIdView } = useRoutesDefinition()
     const { t } = useTranslation()
@@ -25,7 +25,7 @@ export const ProjectView = (props: ProjectViewProps) => {
         isLoading: projectQuery.isLoading,
         readonly,
         formikConfig: {
-            initialValues: {...project, location: project?.location ? {position: {lat: project?.location?.lat, lng: project?.location?.lon} } : undefined, sdgs: [2, 6, 8, 13]}
+            initialValues: { ...project, location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined, sdgs: [2, 6, 8, 13] }
         }
     })
 
@@ -37,10 +37,10 @@ export const ProjectView = (props: ProjectViewProps) => {
         key: 'activities',
         label: t('activities')
     },
-    // {
-    //     key: 'assets',
-    //     label: t('assets')
-    // },
+        // {
+        //     key: 'assets',
+        //     label: t('assets')
+        // },
     ], [t])
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -52,7 +52,7 @@ export const ProjectView = (props: ProjectViewProps) => {
         label: t("cancel"),
         variant: "text",
         component: Link,
-        componentProps: {to: projectsProjectIdView(projectId!)}
+        componentProps: { to: projectsProjectIdView(projectId!) }
     }, {
         key: "submit",
         label: t("save"),
@@ -84,14 +84,32 @@ export const ProjectView = (props: ProjectViewProps) => {
                         justifyContent: "center"
                     }
                 }
-            }} flexContent>
-                <ProjectBanner formState={formState} />
-                <Stack direction="row" gap={7}>
-                    <ProjectDetails formState={formState} />
-                    <ProjectProtocolesLocation formState={formState} />
-                </Stack>
+            }} 
+            flexContent
+            sx={{
+                "& .AruiSection-contentContainer": {
+                    padding: currentTab === "activities" ? "unset" : undefined
+                }
+            }}
+            >
+                {currentTab === "info" &&
+                    <>
+                        <ProjectBanner formState={formState} />
+                        <Stack direction="row" gap={7}>
+                            <ProjectDetails formState={formState} />
+                            <ProjectProtocolesLocation formState={formState} />
+                        </Stack>
+                    </>
+                }
+
+                {currentTab === "activities" &&
+                    <ProjectActivities
+                        isLoading={projectQuery.isLoading}
+                        project={project}
+                    />
+                }
             </Section>
-            {readonly && <Typography align='right' sx={{marginTop: (theme) =>theme.spacing(3), color: "#9E9E9E"}} >{t("lastChanged", {date: new Date(project?.lastModificationDate).toLocaleDateString()})}</Typography>}
+            {readonly && currentTab === "info" && <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >{t("lastChanged", { date: new Date(project?.lastModificationDate).toLocaleDateString() })}</Typography>}
         </Page>
     )
 }
