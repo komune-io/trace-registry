@@ -17,18 +17,23 @@ export type RequirementData = {
     all: Requirement[],
     current: Requirement,
     selectRequirement: (id: string) => void,
-    hasSource: boolean
-    hasTarget: boolean
+    hasSource?: boolean
+    hasTarget?: boolean
+    isAncestor?: boolean
 }
 
-export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node[] => {
+export type GroupData = {
+    children: Node<RequirementData>[]
+}
+
+export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node<RequirementData>[] => {
     const nodes: Node<RequirementData>[] = []
 
-    const xGap = 250
-    const yGap = 200
+    const xGap = 260
+    const yGap = 150
 
     let currentX = 0
-    if (siblingNumber) {   
+    if (siblingNumber) {
         currentX = parentX + (((index) - siblingNumber / 2) * xGap)
     } else {
         currentX = parentX
@@ -47,7 +52,7 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
             x: currentX,
             y: level * yGap
         },
-        type: "custom",
+        type: "requirement",
         sourcePosition: !!obj.hasQualifiedRelation ? Position.Bottom : undefined,
         targetPosition: level !== 0 ? Position.Top : undefined,
     })
@@ -60,6 +65,67 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
         });
     }
     return nodes
+}
+
+export const getNodesAnEdgesOfRequirements = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void) => {
+    const nodes: Node<RequirementData>[] = requirementsToNodes(requirements, obj, selectRequirement)
+    const edges = requirementsToEdges(requirements, obj)
+    const ancestor = requirements.find((el) => el.hasRequirement?.find((id) => obj.id === id))
+    console.log(ancestor)
+    if (ancestor) {
+        // nodes.forEach((el, index) => {
+        //     nodes[index] = {
+        //         ...el,
+        //         parentNode: "requirementGroup"
+        //     }
+        // })
+        // nodes.push({
+        //     id: "requirementGroup",
+        //     data: {
+        //         //@ts-ignore
+        //         children: nodes,
+        //     },
+        //     position: {
+        //         x: - 100,
+        //         y: - 100
+        //     },
+        //     type: "group",
+        //     sourcePosition: Position.Left,
+        // } as Node<GroupData>)
+        nodes.push({
+            id: ancestor.id,
+            data: {
+                all: requirements,
+                current: ancestor,
+                selectRequirement,
+                hasSource: true,
+                isAncestor: true
+            },
+            position: {
+                x: -300,
+                y: (nodes.length / 2) * 120
+            },
+            type: "requirement",
+            sourcePosition: Position.Right,
+        })
+        nodes[0] = {
+            ...nodes[0],
+            data: {
+                ...nodes[0].data,
+                hasTarget: true
+            },
+            targetPosition: Position.Left
+        }
+        edges.push({
+            id: `${ancestor.id}-to-${nodes[0].id}`,
+            source: ancestor.id,
+            target: nodes[0].id,
+        })
+    }
+    return  {
+        nodes,
+        edges
+    }
 }
 
 export const requirementsToEdges = (requirements: Requirement[], obj: Requirement, parentId?: string): Edge[] => {

@@ -2,7 +2,7 @@ import { Box, Stack } from '@mui/material'
 import { Project } from '../../model'
 import { useNodesState, useEdgesState, ReactFlow, Background } from "reactflow"
 import 'reactflow/dist/style.css';
-import { ProjectRequirementNode, Requirement, requirementsToEdges, requirementsToNodes } from '../ProjectRequirementNode';
+import { ProjectRequirementNode, Requirement, getNodesAnEdgesOfRequirements } from '../ProjectRequirementNode';
 import { ActivitiesSummary } from './ActivitiesSummary';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -12,7 +12,7 @@ export interface ProjectActivitiesProps {
 }
 
 const nodeTypes = {
-    custom: ProjectRequirementNode,
+    requirement: ProjectRequirementNode
 };
 
 export const ProjectActivities = (props: ProjectActivitiesProps) => {
@@ -31,8 +31,9 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
     useEffect(() => {
-        setNodes(requirementsToNodes(requirements, baseRequirement, selectRequirement))
-        setEdges(requirementsToEdges(requirements, baseRequirement))
+        const res = getNodesAnEdgesOfRequirements(requirements, baseRequirement, selectRequirement)
+        setNodes(res.nodes)
+        setEdges(res.edges)
     }, [baseRequirement, selectRequirement])
     
     return (

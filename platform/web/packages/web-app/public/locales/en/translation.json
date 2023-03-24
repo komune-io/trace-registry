@@ -32,6 +32,7 @@
   "canDrag": "You can drag this point",
   "useMyPosition": "Use my position",
   "progress": "Progress",
+  "projectList": "Project list",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

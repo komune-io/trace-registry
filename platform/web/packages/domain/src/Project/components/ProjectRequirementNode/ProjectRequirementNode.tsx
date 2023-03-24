@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, Typography, Collapse, CardActions, LinearProgress, Stack } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { Handle, NodeProps } from "reactflow"
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useEffect } from 'react'
 import { RequirementData } from './requirementUtilities'
 import { useTranslation } from 'react-i18next'
 
 export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
-    const { data, isConnectable, targetPosition, sourcePosition, } = props
-    const [expanded, setExpanded] = React.useState(false);
+    const { data, isConnectable, targetPosition, sourcePosition, selected } = props
+    const [expanded, setExpanded] = React.useState(data.isAncestor ?? false);
     const { t } = useTranslation()
     const requirement = data.current
 
@@ -15,11 +15,18 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
         setExpanded(!expanded);
     };
 
+    useEffect(() => {
+      if (data.isAncestor) setExpanded(true)
+      else setExpanded(false)
+    }, [data.isAncestor])
+    
+
     const groupedChildren = useMemo(() => requirement.hasRequirement?.map(id => {
         const el = data.all.find(el => el.id === id)
         if (!el) return undefined
         return (
             <Typography
+                key={id}
                 variant="body2"
                 sx={{
                     color: "#697077",
@@ -29,33 +36,52 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                     "&:hover": {
                         textDecorationColor: "inherit"
                     }
-                }} 
+                }}
                 onClick={() => data.selectRequirement(id)}
-                >
+            >
                 {el.name}
             </Typography>
         )
     }), [data])
 
+    const onClickAncestor = useCallback(
+        () => {
+            if (data.isAncestor) data.selectRequirement(data.current.id)
+        },
+        [data],
+    )
+
     return (
-        <Card sx={{ maxWidth: 300, border: "1px solid #EEEEEE", boxShadow: "unset" }}>
+        <Card
+            sx={{
+                maxWidth: 300,
+                border: selected ? "2px solid #EDBA27" : "2px solid #F0EDE6",
+                boxShadow: selected ? "0px 4px 28px rgba(237, 186, 39, 0.18)" : "unset",
+                borderRadius: "12px",
+                width: "250px",
+                opacity: data.isAncestor ? '0.3' : ''
+            }}
+            onClick={onClickAncestor}
+        >
             <CardHeader
                 sx={{
                     borderBottom: "1px solid #EEEEEE",
                     cursor: requirement.hasRequirement ? "pointer" : "",
                     "& .MuiCardHeader-action": {
                         alignSelf: "center",
-                        paddingLeft: "10px"
+                        paddingLeft: "10px",
+                        display: "flex",
+                        alignItems: "center"
                     },
-                    padding: "12px"
+                    padding: "10px 12px"
                 }}
                 onClick={requirement.hasRequirement ? handleExpandClick : undefined}
                 title={requirement.name}
                 titleTypographyProps={{
-                    variant: "subtitle1"
+                    variant: "subtitle2"
                 }}
                 subheaderTypographyProps={{
-                    variant: "subtitle2"
+                    variant: "body2"
                 }}
                 subheader={requirement.type?.identifier}
                 action={requirement.hasRequirement &&
@@ -86,7 +112,7 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                 borderTop: expanded ? "1px solid #EEEEEE" : "unset",
                 padding: "8px 12px"
             }} disableSpacing>
-                <Typography variant="caption" >
+                <Typography variant="body2" >
                     {t("progress")}
                 </Typography>
                 <LinearProgress sx={{
