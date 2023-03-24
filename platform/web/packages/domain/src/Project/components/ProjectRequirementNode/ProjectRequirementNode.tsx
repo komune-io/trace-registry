@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Typography, Collapse, CardActions, LinearProgress, Stack } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
-import { Handle, NodeProps, Position } from "reactflow"
+import { Handle, NodeProps } from "reactflow"
 import React, { useMemo } from 'react'
 import { RequirementData } from './requirementUtilities'
 import { useTranslation } from 'react-i18next'
@@ -94,8 +94,8 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                     width: "50px"
                 }} variant="determinate" value={50} />
             </CardActions>
-            {sourcePosition === Position.Bottom && <Handle type="source" position={sourcePosition} isConnectable={isConnectable} />}
-            {targetPosition === Position.Top && <Handle type="target" position={targetPosition} isConnectable={isConnectable} />}
+            {data.hasSource && <Handle type="source" position={sourcePosition!} isConnectable={isConnectable} />}
+            {data.hasTarget && <Handle type="target" position={targetPosition!} isConnectable={isConnectable} />}
         </Card>
     )
 }

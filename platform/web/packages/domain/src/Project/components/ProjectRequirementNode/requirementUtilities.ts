@@ -16,11 +16,13 @@ export type Requirement = {
 export type RequirementData = {
     all: Requirement[],
     current: Requirement,
-    selectRequirement: (id: string) => void
+    selectRequirement: (id: string) => void,
+    hasSource: boolean
+    hasTarget: boolean
 }
 
 export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node[] => {
-    const nodes: Node[] = []
+    const nodes: Node<RequirementData>[] = []
 
     const xGap = 250
     const yGap = 200
@@ -37,7 +39,9 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
         data: {
             all: requirements,
             current: obj,
-            selectRequirement
+            selectRequirement,
+            hasSource: !!obj.hasQualifiedRelation,
+            hasTarget: level !== 0
         },
         position: {
             x: currentX,
