@@ -49,6 +49,10 @@ val DraftPDDVCSCCB = informationRequirement {
     identifier = "H10X"
     name = "Draft PDD VCS+CCB"
     description = "This activity involves the preparation and revision of the Project Design Document (PDD) for the VCS+CCB certification process."
+    isRequirementOf {
+        +Activities.ProtocolPreparation
+        +Methodology.VM0011
+    }
     hasRequirement {
         verraVcsProtocolPreparation {
             identifier = "H100"
@@ -77,6 +81,10 @@ val EntreeApipelineVerra = informationRequirement {
     identifier = "E20X"
     name = "Entrée au pipeline Verra"
     description = "This activity involves submitting the project for validation and verification by the Verra registry."
+    isRequirementOf {
+        +Activities.ProtocolPreparation
+        +Methodology.VM0011
+    }
     hasRequirement {
         verraVcsProtocolPreparation {
             identifier = "E200"
@@ -108,6 +116,10 @@ val ValidationPDDVCSCCB = informationRequirement {
     identifier = "H30X"
     name = "Validation PDD VCS+CCB"
     description = "This activity involves the validation process of the Project Design Document (PDD) under the Verified Carbon Standard (VCS) and the Climate, Community and Biodiversity (CCB) Standards."
+    isRequirementOf {
+        +Activities.ProtocolValidation
+        +Methodology.VM0011
+    }
     hasRequirement {
         verraVcsProtocolValidation {
             identifier = "H300"
@@ -147,6 +159,10 @@ val VerraVcsProtocolCertificationRequirements = informationRequirement {
     identifier = "H40X"
     name = "Verification PDD VCS+CCB"
     description = "This activity involves verifying the emissions reductions claimed in the PDD according to the VCS+CCB standards."
+    isRequirementOf {
+        +Activities.Certification
+        +Methodology.VM0011
+    }
     hasRequirement {
         verraVcsProtocolCertification {
             identifier = "H400"

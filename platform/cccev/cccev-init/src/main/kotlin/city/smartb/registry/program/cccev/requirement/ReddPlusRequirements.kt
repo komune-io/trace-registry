@@ -47,8 +47,12 @@ fun RequirementsLinkedBuilder.reddPlusProtocolCertificationSteps(init: Informati
 
 val RedactionDuPIN = informationRequirement {
     identifier = "E10X"
-    name = "RedactionDuPIN"
+    name = "Redaction Du PIN"
     description = ""
+    isRequirementOf {
+        +Activities.ProtocolPreparation
+        +Methodology.VM0011
+    }
     hasRequirement {
         reddPlusProtocolPreparationStep {
             identifier = "E100"
@@ -131,15 +135,21 @@ val RedactionDuPIN = informationRequirement {
 }
 
 
-val DepotDuPINAuMinistere = informationRequirement {
+val RedactionDuPINAuMinistere = informationRequirement {
     identifier = "E20X"
-    name = "Submission of the Project Idea Note (PIN) to the Ministry"
-    description = "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
+    name = "Redaction of the Project Idea Note (PIN) to the Ministry"
+    description =
+        "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
+    isRequirementOf {
+        +Activities.ProtocolValidation
+        +Methodology.VM0011
+    }
     hasRequirement {
         reddPlusProtocolValidationSteps {
             identifier = "E200"
             name = "Submission of the Project Idea Note (PIN) to the Ministry"
-            description = "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
+            description =
+                "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
         }
         reddPlusProtocolValidationSteps {
             identifier = "E201"
@@ -156,6 +166,18 @@ val DepotDuPINAuMinistere = informationRequirement {
             name = "Approval letter"
             description = "Receive a letter from the Ministry indicating approval of the PIN."
         }
+    }
+}
+val DepotDuPINAuMinistere = cccev.dsl.model.informationRequirement {
+    identifier = "E30X"
+    name = "Submission of the Project Idea Note (PIN) to the Ministry"
+    description =
+        "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
+    isRequirementOf {
+        +Activities.Certification
+        +Methodology.VM0011
+    }
+    hasRequirement {
         reddPlusProtocolCertificationSteps {
             identifier = "E300"
             name = "Certification"
@@ -167,5 +189,6 @@ val DepotDuPINAuMinistere = informationRequirement {
 
 val ReddPlusRequirement = buildList {
     add(RedactionDuPIN)
+    add(RedactionDuPINAuMinistere)
     add(DepotDuPINAuMinistere)
 }

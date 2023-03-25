@@ -42,6 +42,7 @@ val LocalConsultation = informationRequirement {
             and stakeholders are taken into account in the design and implementation of REDD+ projects.
             """
     isRequirementOf {
+        +Activities.ProtocolPreparation
         +Methodology.VM0011
     }
     isDerivedFrom {

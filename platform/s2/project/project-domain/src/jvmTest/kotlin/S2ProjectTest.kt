@@ -61,7 +61,7 @@ class S2ProjectTest {
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
             ),
-            activities = emptyList()
+            activities = listOf("P1", "P2", "P3", "P4", "P5")
         )
 
         println(json.encodeToString(project))

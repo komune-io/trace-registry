@@ -624,6 +624,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ActivityRole, 'ActivityRole', classMeta, Enum, [Enum, S2Role], undefined, undefined, []);
   setMetadataFor(ActivityUpdatedEventDTO, 'ActivityUpdatedEventDTO', interfaceMeta, undefined, [ActivityEvent], undefined, undefined, []);
   setMetadataFor(ActivityUpdateCommand, 'ActivityUpdateCommand', classMeta, undefined, [S2InitCommand, ActivityCommand], undefined, undefined, []);
+  setMetadataFor(RequirementRef, 'RequirementRef', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPolicies, 'ActivityPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityGetQueryDTO, 'ActivityGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityGetResultDTO, 'ActivityGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -16808,59 +16809,27 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityUpdatedEventDTO() {
   }
-  function ActivityUpdateCommand(id, name, description, startDate, endDate, estimatedEndDate, executor, expectedValue, expectedValueUnit, fee, isPublic, issuable, project, protocol, slug, status, subActivityOf, validator, validationDate, verifiable, verifier, verificationDate) {
+  function ActivityUpdateCommand(id, requirement, project, status, creationDate, lastModificationDate) {
     this.m13_1 = id;
-    this.n13_1 = name;
-    this.o13_1 = description;
-    this.p13_1 = startDate;
-    this.q13_1 = endDate;
-    this.r13_1 = estimatedEndDate;
-    this.s13_1 = executor;
-    this.t13_1 = expectedValue;
-    this.u13_1 = expectedValueUnit;
-    this.v13_1 = fee;
-    this.w13_1 = isPublic;
-    this.x13_1 = issuable;
-    this.y13_1 = project;
-    this.z13_1 = protocol;
-    this.a14_1 = slug;
-    this.b14_1 = status;
-    this.c14_1 = subActivityOf;
-    this.d14_1 = validator;
-    this.e14_1 = validationDate;
-    this.f14_1 = verifiable;
-    this.g14_1 = verifier;
-    this.h14_1 = verificationDate;
+    this.n13_1 = requirement;
+    this.o13_1 = project;
+    this.p13_1 = status;
+    this.q13_1 = creationDate;
+    this.r13_1 = lastModificationDate;
   }
   ActivityUpdateCommand.prototype.ip = function () {
     return this.m13_1;
   };
   ActivityUpdateCommand.prototype.toString = function () {
-    return 'ActivityUpdateCommand(id=' + this.m13_1 + ', name=' + this.n13_1 + ', description=' + this.o13_1 + ', startDate=' + toString_1(this.p13_1) + ', endDate=' + toString_1(this.q13_1) + ', estimatedEndDate=' + toString_1(this.r13_1) + ', executor=' + this.s13_1 + ', expectedValue=' + this.t13_1 + ', expectedValueUnit=' + this.u13_1 + ', fee=' + this.v13_1 + ', isPublic=' + this.w13_1 + ', issuable=' + this.x13_1 + ', project=' + this.y13_1 + ', protocol=' + this.z13_1 + ', slug=' + this.a14_1 + ', status=' + this.b14_1 + ', subActivityOf=' + this.c14_1 + ', validator=' + this.d14_1 + ', validationDate=' + toString_1(this.e14_1) + ', verifiable=' + this.f14_1 + ', verifier=' + this.g14_1 + ', verificationDate=' + toString_1(this.h14_1) + ')';
+    return 'ActivityUpdateCommand(id=' + this.m13_1 + ', requirement=' + this.n13_1 + ', project=' + this.o13_1 + ', status=' + this.p13_1 + ', creationDate=' + toString_2(this.q13_1) + ', lastModificationDate=' + toString_2(this.r13_1) + ')';
   };
   ActivityUpdateCommand.prototype.hashCode = function () {
     var result = getStringHashCode(this.m13_1);
-    result = imul(result, 31) + getStringHashCode(this.n13_1) | 0;
-    result = imul(result, 31) + (this.o13_1 == null ? 0 : getStringHashCode(this.o13_1)) | 0;
-    result = imul(result, 31) + (this.p13_1 == null ? 0 : this.p13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.q13_1 == null ? 0 : this.q13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.r13_1 == null ? 0 : this.r13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s13_1 == null ? 0 : this.s13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.t13_1 == null ? 0 : getNumberHashCode(this.t13_1)) | 0;
-    result = imul(result, 31) + (this.u13_1 == null ? 0 : getNumberHashCode(this.u13_1)) | 0;
-    result = imul(result, 31) + (this.v13_1 == null ? 0 : getNumberHashCode(this.v13_1)) | 0;
-    result = imul(result, 31) + (this.w13_1 == null ? 0 : this.w13_1 | 0) | 0;
-    result = imul(result, 31) + (this.x13_1 == null ? 0 : this.x13_1 | 0) | 0;
-    result = imul(result, 31) + (this.y13_1 == null ? 0 : this.y13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.z13_1 == null ? 0 : this.z13_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.a14_1 == null ? 0 : getStringHashCode(this.a14_1)) | 0;
-    result = imul(result, 31) + this.b14_1.hashCode() | 0;
-    result = imul(result, 31) + (this.c14_1 == null ? 0 : this.c14_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.d14_1 == null ? 0 : this.d14_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.e14_1 == null ? 0 : this.e14_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.f14_1 == null ? 0 : this.f14_1 | 0) | 0;
-    result = imul(result, 31) + (this.g14_1 == null ? 0 : this.g14_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.h14_1 == null ? 0 : this.h14_1.hashCode()) | 0;
+    result = imul(result, 31) + this.n13_1.hashCode() | 0;
+    result = imul(result, 31) + (this.o13_1 == null ? 0 : this.o13_1.hashCode()) | 0;
+    result = imul(result, 31) + this.p13_1.hashCode() | 0;
+    result = imul(result, 31) + this.q13_1.hashCode() | 0;
+    result = imul(result, 31) + this.r13_1.hashCode() | 0;
     return result;
   };
   ActivityUpdateCommand.prototype.equals = function (other) {
@@ -16871,47 +16840,15 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_other_with_cast = other instanceof ActivityUpdateCommand ? other : THROW_CCE();
     if (!(this.m13_1 === tmp0_other_with_cast.m13_1))
       return false;
-    if (!(this.n13_1 === tmp0_other_with_cast.n13_1))
+    if (!this.n13_1.equals(tmp0_other_with_cast.n13_1))
       return false;
-    if (!(this.o13_1 == tmp0_other_with_cast.o13_1))
+    if (!equals_0(this.o13_1, tmp0_other_with_cast.o13_1))
       return false;
-    if (!equals_0(this.p13_1, tmp0_other_with_cast.p13_1))
+    if (!this.p13_1.equals(tmp0_other_with_cast.p13_1))
       return false;
-    if (!equals_0(this.q13_1, tmp0_other_with_cast.q13_1))
+    if (!this.q13_1.equals(tmp0_other_with_cast.q13_1))
       return false;
-    if (!equals_0(this.r13_1, tmp0_other_with_cast.r13_1))
-      return false;
-    if (!equals_0(this.s13_1, tmp0_other_with_cast.s13_1))
-      return false;
-    if (!equals_0(this.t13_1, tmp0_other_with_cast.t13_1))
-      return false;
-    if (!equals_0(this.u13_1, tmp0_other_with_cast.u13_1))
-      return false;
-    if (!equals_0(this.v13_1, tmp0_other_with_cast.v13_1))
-      return false;
-    if (!(this.w13_1 == tmp0_other_with_cast.w13_1))
-      return false;
-    if (!(this.x13_1 == tmp0_other_with_cast.x13_1))
-      return false;
-    if (!equals_0(this.y13_1, tmp0_other_with_cast.y13_1))
-      return false;
-    if (!equals_0(this.z13_1, tmp0_other_with_cast.z13_1))
-      return false;
-    if (!(this.a14_1 == tmp0_other_with_cast.a14_1))
-      return false;
-    if (!this.b14_1.equals(tmp0_other_with_cast.b14_1))
-      return false;
-    if (!equals_0(this.c14_1, tmp0_other_with_cast.c14_1))
-      return false;
-    if (!equals_0(this.d14_1, tmp0_other_with_cast.d14_1))
-      return false;
-    if (!equals_0(this.e14_1, tmp0_other_with_cast.e14_1))
-      return false;
-    if (!(this.f14_1 == tmp0_other_with_cast.f14_1))
-      return false;
-    if (!equals_0(this.g14_1, tmp0_other_with_cast.g14_1))
-      return false;
-    if (!equals_0(this.h14_1, tmp0_other_with_cast.h14_1))
+    if (!this.r13_1.equals(tmp0_other_with_cast.r13_1))
       return false;
     return true;
   };
@@ -16921,6 +16858,34 @@ if (typeof Math.imul === 'undefined') {
       return this.ip();
     }
   });
+  function RequirementRef() {
+  }
+  RequirementRef.prototype.hashCode = function () {
+    var result = getStringHashCode(this.s13_1);
+    result = imul(result, 31) + getStringHashCode(this.t13_1) | 0;
+    result = imul(result, 31) + (this.u13_1 == null ? 0 : getStringHashCode(this.u13_1)) | 0;
+    result = imul(result, 31) + hashCode(this.v13_1) | 0;
+    result = imul(result, 31) + hashCode(this.w13_1) | 0;
+    return result;
+  };
+  RequirementRef.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof RequirementRef))
+      return false;
+    var tmp0_other_with_cast = other instanceof RequirementRef ? other : THROW_CCE();
+    if (!(this.s13_1 === tmp0_other_with_cast.s13_1))
+      return false;
+    if (!(this.t13_1 === tmp0_other_with_cast.t13_1))
+      return false;
+    if (!(this.u13_1 == tmp0_other_with_cast.u13_1))
+      return false;
+    if (!equals_0(this.v13_1, tmp0_other_with_cast.v13_1))
+      return false;
+    if (!equals_0(this.w13_1, tmp0_other_with_cast.w13_1))
+      return false;
+    return true;
+  };
   function ActivityPolicies() {
     ActivityPolicies_instance = this;
   }

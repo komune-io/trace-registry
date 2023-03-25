@@ -14,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 
 fun main(): Unit = runBlocking {
     val url = "https://api.registry.smartb.network/cccev"
+//    val url = "http://localhost:8083"
     val client = CCCEVClient(url)
     client.createGraph(
         buildList<Requirement> {

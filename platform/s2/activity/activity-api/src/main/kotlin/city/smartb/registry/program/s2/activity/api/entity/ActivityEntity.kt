@@ -3,11 +3,8 @@ package city.smartb.registry.program.s2.activity.api.entity
 import city.smartb.im.organization.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.activity.domain.automate.ActivityState
 import city.smartb.registry.program.s2.activity.domain.model.ActivityId
-import city.smartb.registry.program.s2.activity.domain.model.ActivityRef
 import city.smartb.registry.program.s2.activity.domain.model.DateTime
 import city.smartb.registry.program.s2.activity.domain.model.ProjectRef
-import city.smartb.registry.program.s2.activity.domain.model.ProtocolRef
-import city.smartb.registry.program.s2.activity.domain.model.UserRef
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Searchable
 import org.springframework.data.annotation.Id
@@ -22,34 +19,15 @@ open class ActivityEntity: WithS2Id<ActivityId>, WithS2State<ActivityState>  {
     @Searchable
     lateinit var name: String
 
+    @Searchable
     var description: String? = null
-    var startDate: DateTime? = null
-    var endDate: DateTime? = null
-    var estimatedEndDate: DateTime? = null
-    var executor: OrganizationRef? = null
-    var expectedValue: Double? = null
-    var expectedValueUnit: Double? = null
-    var fee: Double? = null
-    var isPublic: Boolean? = null
-    var issuable: Boolean? = null
-    var project: ProjectRef? = null
-    var protocol: ProtocolRef? = null
-    var slug: String? = null
-    var subActivityOf: ActivityRef? = null
-    var validator: OrganizationRef? = null
-    var validationDate: DateTime? = null
-    var verifiable: Boolean? = null
-    var verifier: OrganizationRef? = null
-    var verificationDate: DateTime? = null
-    var creator: UserRef? = null
+
     var creationDate: DateTime = System.currentTimeMillis()
     var lastModificationDate: DateTime = System.currentTimeMillis()
 
     lateinit var status: ActivityState
 
     // standard JavaBean getters for redis-om metamodel generation
-    fun isIsPublic() = isPublic
-
     override fun s2Id() = id
     override fun s2State() = status
 }
