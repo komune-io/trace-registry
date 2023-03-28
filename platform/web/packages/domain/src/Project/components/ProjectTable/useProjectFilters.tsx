@@ -8,7 +8,7 @@ export const useProjectFilters = () => {
     const {t} = useTranslation()
     const filters = useMemo((): FilterComposableField[] => [
         {
-            name: 'id',
+            name: 'identifier',
             type: 'textField',
             params: { 
                 textFieldType: 'search', 

@@ -20,13 +20,13 @@ import org.junit.jupiter.api.Test
 
 class ProjectClientKtTest {
     private val faker = Faker()
-    private val clientBuilder = projectClient("https://api.registry.smartb.network/ver")
-//    private val clientBuilder = projectClient("http://localhost:8070")
+//    private val clientBuilder = projectClient("https://api.registry.smartb.network/ver")
+    private val clientBuilder = projectClient("http://localhost:8070")
     @Test
     fun projectClient() = runTest {
         val client = clientBuilder.invoke()
         val address =  faker.address()
-        (1..2).map {
+        (1..10).map {
             ProjectCreateCommand(
                 identifier = faker.idNumber().valid(),
                 name = faker.mountain().name(),
@@ -41,7 +41,7 @@ class ProjectClientKtTest {
                     id = faker.idNumber().valid(),
                     name = faker.company().name()
                 ),
-                type = "Solar",
+                type = listOf("Solar", "Wind power", "Biogaz", "AFLU").random(),
                 referenceYear = faker.date().future(1, TimeUnit.HOURS).toLocalDateTime().year.toString(),
                 registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
                 vintage = faker.date().future(6, TimeUnit.HOURS).toLocalDateTime().year.toDouble(),
@@ -61,16 +61,16 @@ class ProjectClientKtTest {
                 activities = listOf("P1", "P2", "P3", "P4", "P5")
             )
         }
-            .asFlow().map {
-            client.projectCreate().invoke(flowOf(it))
-        }.collect()
-//            .asFlow().buffer(8).map {
-//                async {
-//                    println("&&&&&&&&&&&&&&"+it.identifier)
-//                    client.projectCreate().invoke(flowOf(it))
-//                    println("$$$$$$$$$$$$$$"+it.identifier)
-//                }
-//
-//            }.toList().awaitAll()
+//            .asFlow().map {
+//            client.projectCreate().invoke(flowOf(it))
+//        }.collect()
+            .asFlow().buffer(8).map {
+                async {
+                    println("&&&&&&&&&&&&&&"+it.identifier)
+                    client.projectCreate().invoke(flowOf(it))
+                    println("$$$$$$$$$$$$$$"+it.identifier)
+                }
+
+            }.toList().awaitAll()
     }
 }

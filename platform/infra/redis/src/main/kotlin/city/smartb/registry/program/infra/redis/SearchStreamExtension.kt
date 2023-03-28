@@ -15,7 +15,9 @@ import com.redis.om.spring.metamodel.indexed.NumericField
 import com.redis.om.spring.metamodel.indexed.TagField
 import com.redis.om.spring.metamodel.indexed.TextField
 import com.redis.om.spring.metamodel.indexed.TextTagField
+import com.redis.om.spring.repository.query.QueryUtils
 import com.redis.om.spring.search.stream.SearchStream
+import com.redis.om.spring.search.stream.predicates.SearchFieldPredicate
 import java.util.function.Predicate
 import java.util.function.Predicate.not
 
@@ -89,17 +91,22 @@ private fun <E, T> match(x: MetamodelField<E, T>, matcher: ExactMatch<T>): Predi
     }
 }
 
+private val TAG_ESCAPE_CHARS = QueryUtils.TAG_ESCAPE_CHARS.map { it.toString() }.toMutableList().apply {
+    add(" ")
+    add("_")
+}.toTypedArray()
+
 private fun <E> match(x: MetamodelField<E, String>, matcher: StringMatch): Predicate<String> {
     return when {
-        // TODO check case sensitivity in redis
-//         !matcher.caseSensitive -> ilike(x, matcher.toString())
-        matcher.condition == StringMatchCondition.EXACT -> x.eq(matcher.value)
         else -> when (x) {
             is TextField<E, String> -> when (matcher.condition) {
                 StringMatchCondition.EXACT -> x.eq(matcher.value)
                 StringMatchCondition.STARTS_WITH -> x.startsWith(matcher.value)
                 StringMatchCondition.ENDS_WITH -> x.endsWith(matcher.value)
-                StringMatchCondition.CONTAINS -> x.containing(matcher.value)
+                StringMatchCondition.CONTAINS -> matcher.value
+                    .split(*TAG_ESCAPE_CHARS)
+                    .map { s -> x.startsWith(s) as Predicate<String> }
+                    .reduce { acc, predicate -> acc.and(predicate)  }
             }
             is TextTagField<E, String> -> when (matcher.condition) {
                 StringMatchCondition.EXACT -> x.eq(matcher.value)

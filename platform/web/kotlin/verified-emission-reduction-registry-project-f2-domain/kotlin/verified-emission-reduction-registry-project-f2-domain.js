@@ -43,6 +43,12 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
+  }});
+}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -52,12 +58,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
-  }});
-}
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -85226,14 +85226,14 @@ if (typeof Math.imul === 'undefined') {
     result = imul(result, 31) + (this.t72_1 == null ? 0 : this.t72_1.hashCode()) | 0;
     result = imul(result, 31) + (this.u72_1 == null ? 0 : getStringHashCode(this.u72_1)) | 0;
     result = imul(result, 31) + (this.v72_1 == null ? 0 : getStringHashCode(this.v72_1)) | 0;
-    result = imul(result, 31) + (this.w72_1 == null ? 0 : hashCode(this.w72_1)) | 0;
+    result = imul(result, 31) + (this.w72_1 == null ? 0 : this.w72_1.hashCode()) | 0;
     result = imul(result, 31) + (this.x72_1 == null ? 0 : getStringHashCode(this.x72_1)) | 0;
     result = imul(result, 31) + (this.y72_1 == null ? 0 : getStringHashCode(this.y72_1)) | 0;
     result = imul(result, 31) + (this.z72_1 == null ? 0 : this.z72_1.hashCode()) | 0;
     result = imul(result, 31) + (this.a73_1 == null ? 0 : getStringHashCode(this.a73_1)) | 0;
     result = imul(result, 31) + (this.b73_1 == null ? 0 : getNumberHashCode(this.b73_1)) | 0;
-    result = imul(result, 31) + (this.c73_1 == null ? 0 : hashCode(this.c73_1)) | 0;
-    result = imul(result, 31) + (this.d73_1 == null ? 0 : hashCode(this.d73_1)) | 0;
+    result = imul(result, 31) + (this.c73_1 == null ? 0 : this.c73_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.d73_1 == null ? 0 : this.d73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.e73_1 == null ? 0 : this.e73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.f73_1 == null ? 0 : hashCode(this.f73_1)) | 0;
     return result;
@@ -85355,14 +85355,14 @@ if (typeof Math.imul === 'undefined') {
     result = imul(result, 31) + (this.o73_1 == null ? 0 : this.o73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p73_1 == null ? 0 : getStringHashCode(this.p73_1)) | 0;
     result = imul(result, 31) + (this.q73_1 == null ? 0 : getStringHashCode(this.q73_1)) | 0;
-    result = imul(result, 31) + (this.r73_1 == null ? 0 : hashCode(this.r73_1)) | 0;
+    result = imul(result, 31) + (this.r73_1 == null ? 0 : this.r73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.s73_1 == null ? 0 : getStringHashCode(this.s73_1)) | 0;
     result = imul(result, 31) + (this.t73_1 == null ? 0 : getStringHashCode(this.t73_1)) | 0;
     result = imul(result, 31) + (this.u73_1 == null ? 0 : this.u73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.v73_1 == null ? 0 : getStringHashCode(this.v73_1)) | 0;
     result = imul(result, 31) + (this.w73_1 == null ? 0 : getNumberHashCode(this.w73_1)) | 0;
-    result = imul(result, 31) + (this.x73_1 == null ? 0 : hashCode(this.x73_1)) | 0;
-    result = imul(result, 31) + (this.y73_1 == null ? 0 : hashCode(this.y73_1)) | 0;
+    result = imul(result, 31) + (this.x73_1 == null ? 0 : this.x73_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.y73_1 == null ? 0 : this.y73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.z73_1 == null ? 0 : this.z73_1.hashCode()) | 0;
     result = imul(result, 31) + (this.a74_1 == null ? 0 : hashCode(this.a74_1)) | 0;
     return result;
@@ -85430,10 +85430,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.model.OrganizationRef', this, 2);
     tmp0_serialDesc.s48('id', false);
     tmp0_serialDesc.s48('name', false);
-    this.c74_1 = tmp0_serialDesc;
+    this.d74_1 = tmp0_serialDesc;
   }
   $serializer_41.prototype.o3y = function () {
-    return this.c74_1;
+    return this.d74_1;
   };
   $serializer_41.prototype.h49 = function () {
     var tmp$ret$2;
@@ -85449,7 +85449,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_41.prototype.q3y = function (decoder) {
-    var tmp0_desc = this.c74_1;
+    var tmp0_desc = this.d74_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -85483,15 +85483,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.s41(tmp0_desc);
     return OrganizationRef_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_41.prototype.d74 = function (encoder, value) {
-    var tmp0_desc = this.c74_1;
+  $serializer_41.prototype.e74 = function (encoder, value) {
+    var tmp0_desc = this.d74_1;
     var tmp1_output = encoder.r41(tmp0_desc);
-    tmp1_output.f43(tmp0_desc, 0, value.e74_1);
-    tmp1_output.f43(tmp0_desc, 1, value.f74_1);
+    tmp1_output.f43(tmp0_desc, 0, value.f74_1);
+    tmp1_output.f43(tmp0_desc, 1, value.g74_1);
     tmp1_output.s41(tmp0_desc);
   };
   $serializer_41.prototype.p3y = function (encoder, value) {
-    return this.d74(encoder, value instanceof OrganizationRef ? value : THROW_CCE());
+    return this.e74(encoder, value instanceof OrganizationRef ? value : THROW_CCE());
   };
   var $serializer_instance_39;
   function $serializer_getInstance_39() {
@@ -85501,10 +85501,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrganizationRef_init_$Init$(seen1, id, name, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_39().c74_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_39().d74_1);
     }
-    $this.e74_1 = id;
-    $this.f74_1 = name;
+    $this.f74_1 = id;
+    $this.g74_1 = name;
     return $this;
   }
   function OrganizationRef_init_$Create$(seen1, id, name, serializationConstructorMarker) {
@@ -85513,10 +85513,30 @@ if (typeof Math.imul === 'undefined') {
   function OrganizationRef() {
   }
   OrganizationRef.prototype.a4s = function () {
-    return this.e74_1;
+    return this.f74_1;
   };
   OrganizationRef.prototype.gf = function () {
-    return this.f74_1;
+    return this.g74_1;
+  };
+  OrganizationRef.prototype.toString = function () {
+    return 'OrganizationRef(id=' + this.f74_1 + ', name=' + this.g74_1 + ')';
+  };
+  OrganizationRef.prototype.hashCode = function () {
+    var result = getStringHashCode(this.f74_1);
+    result = imul(result, 31) + getStringHashCode(this.g74_1) | 0;
+    return result;
+  };
+  OrganizationRef.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrganizationRef))
+      return false;
+    var tmp0_other_with_cast = other instanceof OrganizationRef ? other : THROW_CCE();
+    if (!(this.f74_1 === tmp0_other_with_cast.f74_1))
+      return false;
+    if (!(this.g74_1 === tmp0_other_with_cast.g74_1))
+      return false;
+    return true;
   };
   Object.defineProperty(OrganizationRef.prototype, 'id', {
     configurable: true,

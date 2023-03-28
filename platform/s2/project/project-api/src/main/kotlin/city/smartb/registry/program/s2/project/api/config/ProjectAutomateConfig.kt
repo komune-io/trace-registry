@@ -24,6 +24,7 @@ import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
 import kotlin.reflect.KClass
+import org.slf4j.LoggerFactory
 
 @Configuration
 class ProjectAutomateConfig(
@@ -36,12 +37,23 @@ class ProjectAutomateConfig(
 	evolver,
 	projectSnapRepository
 ) {
-//	override fun afterPropertiesSet() {
-//		super.afterPropertiesSet()
-//		if (repository.count() == 0L) {
-//			runBlocking { executor.replayHistory() }
-//		}
-//	}
+
+	private val logger = LoggerFactory.getLogger(ProjectAutomateConfig::class.java)
+	override fun afterPropertiesSet() {
+		super.afterPropertiesSet()
+		if (repository.count() == 0L) {
+			try {
+				runBlocking {
+					logger.info("/////////////////////////")
+					logger.info("Replay history")
+					executor.replayHistory()
+					logger.info("/////////////////////////")
+				}
+			} catch (e: Exception) {
+				logger.error("Replay history error", e)
+			}
+		}
+	}
 
 	override fun automate() = s2Project
 

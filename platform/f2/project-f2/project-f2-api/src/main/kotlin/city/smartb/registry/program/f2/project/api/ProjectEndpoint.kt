@@ -49,18 +49,18 @@ class ProjectEndpoint(
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
         val pagination = OffsetPagination(
-            offset = query?.offset ?: 0,
+            offset = query.offset ?: 0,
             limit = query.limit ?: 10,
         )
         projectF2FinderService.page(
-            id = query.id?.let { ExactMatch(it) },
+            identifier = query.identifier?.let { ExactMatch(it) },
             name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             dueDate = query.dueDate?.let { ExactMatch(it) },
-            estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
-            proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
-            referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
-            type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination
         ).let { page ->
             ProjectPageResult(

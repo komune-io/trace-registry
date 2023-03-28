@@ -20,7 +20,7 @@ class ProjectPageQueryDB(
     override val entityStream: EntityStream,
 ): PageQueryDB() {
     fun execute(
-        id: Match<ProjectId>? = null,
+        identifier: Match<ProjectId>? = null,
         name: Match<String>? = null,
         proponent: Match<String>? = null,
         type: Match<String>? = null,
@@ -30,13 +30,13 @@ class ProjectPageQueryDB(
         status: Match<ProjectState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<ProjectEntity> = doQuery(offset) {
-        match(`ProjectEntity$`.ID, id)
+        match(`ProjectEntity$`.IDENTIFIER, identifier)
         match(`ProjectEntity$`.NAME, name)
         match(`ProjectEntity$`.TYPE, type)
         match(`ProjectEntity$`.ESTIMATED_REDUCTION, estimatedReductions)
         match(`ProjectEntity$`.REFERENCE_YEAR, referenceYear)
         match(`ProjectEntity$`.DUE_DATE, dueDate)
-        match(`ProjectEntity$`.STATUS, status)
+//        match(`ProjectEntity$`.STATUS, status)
     }
 }
 

@@ -29,19 +29,25 @@ class ProjectFinderService(
 	}
 
 	override suspend fun page(
-		id: Match<ProjectId>?,
-		name: Match<String>?,
-		proponent: Match<String>?,
-		type: Match<String>?,
-		estimatedReductions: Match<String>?,
-		referenceYear: Match<String>?,
-		dueDate: Match<Long>?,
-		status: Match<ProjectState>?,
-		offset: OffsetPagination?,
+        identifier: Match<ProjectId>?,
+        name: Match<String>?,
+        proponent: Match<String>?,
+        type: Match<String>?,
+        estimatedReductions: Match<String>?,
+        referenceYear: Match<String>?,
+        dueDate: Match<Long>?,
+        status: Match<ProjectState>?,
+        offset: OffsetPagination?,
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
-			id = id,
+			identifier = identifier,
 			name = name,
+			proponent = proponent,
+			type = type,
+			estimatedReductions = estimatedReductions,
+			referenceYear = referenceYear,
+			dueDate = dueDate,
+			status = status,
 			offset = offset
 		).map(ProjectEntity::toProject)
 	}

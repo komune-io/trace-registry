@@ -16,6 +16,7 @@ import kotlin.js.JsExport
  * @d2 model
  */
 typealias ProjectId = String
+typealias ProjectIdentifier = String
 typealias ActivityId = String
 
 /**
@@ -28,6 +29,12 @@ typealias ActivityId = String
 @JsExport
 interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val id: ProjectId
+
+    /**
+     * Project identifier
+     * @example "AX-P0"
+     */
+    val identifier: ProjectIdentifier?
 
     /**
      * Project name
@@ -69,7 +76,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * Quantity expected to be issued
      * @example 69502
      */
-    val estimatedReduction: String?
+    val estimatedReductions: String?
 
     /**
      * Place where tu project is developped and impact effective
@@ -160,12 +167,13 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
 @Serializable
 data class Project(
     override val id: ProjectId,
+    override val identifier: ProjectIdentifier?,
     override val country: String?,
     override val creditingPeriodStartDate: DateTime?,
     override val creditingPeriodEndDate: DateTime?,
     override val description: String?,
     override val dueDate: DateTime?,
-    override val estimatedReduction: String?,
+    override val estimatedReductions: String?,
     override val localization: String?,
     override val name: String?,
     override val proponent: OrganizationRef?,
@@ -195,7 +203,7 @@ interface OrganizationRefDTO {
 }
 
 @Serializable
-class OrganizationRef(
+data class OrganizationRef(
     override val id: String,
     override val name: String
 ): OrganizationRefDTO

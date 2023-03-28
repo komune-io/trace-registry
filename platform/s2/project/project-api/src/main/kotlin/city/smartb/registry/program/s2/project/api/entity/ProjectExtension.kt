@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.project.domain.model.Project
 
 fun ProjectEntity.toProject() = Project(
     id = id,
+    identifier = identifier,
     status = status,
     name = name,
     country = country,
@@ -14,7 +15,7 @@ fun ProjectEntity.toProject() = Project(
     creditingPeriodEndDate = creditingPeriodEndDate,
     description = description,
     dueDate = dueDate,
-    estimatedReduction = estimatedReduction,
+    estimatedReductions = estimatedReduction,
     localization = localization,
     proponent = proponent,
     type = type,
@@ -33,6 +34,7 @@ fun ProjectEntity.toProject() = Project(
 )
 fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.id = id
+    entity.identifier = identifier
     entity.status = status
     entity.name = name
     entity.country = country
@@ -40,7 +42,7 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.creditingPeriodEndDate = creditingPeriodEndDate
     entity.description = description
     entity.dueDate = dueDate
-    entity.estimatedReduction = estimatedReduction
+    entity.estimatedReduction = estimatedReductions
     entity.localization = localization
     entity.proponent = proponent
     entity.type = type
@@ -57,6 +59,7 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
 
 fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
     name = msg.name
+    identifier = msg.identifier
     country = msg.country
     creditingPeriodStartDate = msg.creditingPeriodStartDate
     creditingPeriodEndDate = msg.creditingPeriodEndDate

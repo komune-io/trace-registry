@@ -20,6 +20,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 
 	private suspend fun create(event: ProjectCreatedEvent) = Project(
 		id = event.id,
+		identifier = event.identifier,
 		status = ProjectState.STAMPED,
 		name = event.name,
 		country = event.country,
@@ -27,7 +28,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		creditingPeriodEndDate = event.creditingPeriodEndDate,
 		description = event.description,
 		dueDate = event.dueDate,
-		estimatedReduction = event.estimatedReduction,
+		estimatedReductions = event.estimatedReduction,
 		localization = event.localization,
 		proponent = event.proponent,
 		type = event.type,
@@ -50,7 +51,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		creditingPeriodEndDate = event.creditingPeriodEndDate,
 		description = event.description,
 		dueDate = event.dueDate,
-		estimatedReduction = event.estimatedReduction,
+		estimatedReductions = event.estimatedReduction,
 		localization = event.localization,
 		proponent = event.proponent,
 		type = event.type,

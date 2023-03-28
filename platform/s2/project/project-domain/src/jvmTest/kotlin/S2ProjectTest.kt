@@ -34,7 +34,7 @@ class S2ProjectTest {
             creditingPeriodEndDate = faker.date().future(3, TimeUnit.HOURS).time,
             description = "Descrption of the project ${faker.mountain().name()}",
             dueDate = faker.date().future(6, TimeUnit.HOURS).time,
-            estimatedReduction = faker.number().positive().toString(),
+            estimatedReductions = faker.number().positive().toString(),
             localization = country.capital(),
             proponent = OrganizationRef(
                 id = faker.idNumber().valid(),
@@ -61,6 +61,7 @@ class S2ProjectTest {
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
             ),
+            identifier = "SB-${faker.idNumber().valid()}",
             activities = listOf("P1", "P2", "P3", "P4", "P5")
         )
 

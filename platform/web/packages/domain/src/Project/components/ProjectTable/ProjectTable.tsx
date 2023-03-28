@@ -11,7 +11,7 @@ function useProductColumn() {
             id: generators.text({
                 header: 'ID',
                 getCellProps: (registry) => ({
-                    value: registry.id
+                    value: registry.identifier
                 })
             }),
 
@@ -52,7 +52,7 @@ function useProductColumn() {
             avgReductions: generators.number({
                 header: 'AVG. reductions',
                 getCellProps: (registry) => ({
-                    value: Number(registry.estimatedReduction)
+                    value: Number(registry.estimatedReductions)
                 })
             }),
 

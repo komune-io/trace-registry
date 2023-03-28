@@ -24,6 +24,9 @@ include(
 include(
 	"platform:cccev:cccev-init"
 )
+include(
+	"platform:ver-test"
+)
 
 include(
 	"platform:f2:activity-f2:activity-f2-api",

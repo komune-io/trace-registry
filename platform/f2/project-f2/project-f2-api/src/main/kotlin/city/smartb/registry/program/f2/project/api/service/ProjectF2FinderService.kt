@@ -22,7 +22,7 @@ class ProjectF2FinderService(
     }
 
     suspend fun page(
-        id: Match<ProjectId>? = null,
+        identifier: Match<ProjectId>? = null,
         name: Match<String>? = null,
         proponent: Match<String>?,
         type: Match<String>?,
@@ -33,7 +33,7 @@ class ProjectF2FinderService(
         offset: OffsetPagination?,
     ): PageDTO<Project> {
         return projectFinderService.page(
-            id = id,
+            identifier = identifier,
             name = name,
             proponent = proponent,
             type = type,

@@ -2691,13 +2691,14 @@ export namespace city.smartb.registry.program.s2.project.domain.command {
 export namespace city.smartb.registry.program.s2.project.domain.model {
     interface ProjectDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */>, s2.dsl.automate.model.WithS2Id<string> {
         readonly id: string;
+        readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
         readonly creditingPeriodStartDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly creditingPeriodEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly description?: string;
         readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
-        readonly estimatedReduction?: string;
+        readonly estimatedReductions?: string;
         readonly localization?: string;
         readonly proponent: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
         readonly type?: string;
@@ -2744,7 +2745,7 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
     interface ProjectPageQueryDTO {
         readonly limit?: number;
         readonly offset?: number;
-        readonly id?: string;
+        readonly identifier?: string;
         readonly name?: string;
         readonly proponent?: string;
         readonly type?: string;

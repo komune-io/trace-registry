@@ -26,7 +26,7 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
         }),
     }], [t])
     const vcus = useMemo((): FormComposableField<keyof Project>[] => [{
-        name: "estimatedReduction",
+        name: "estimatedReductions",
         label: t("projects.estimatedReduction"),
         type: "textField",
         params: {

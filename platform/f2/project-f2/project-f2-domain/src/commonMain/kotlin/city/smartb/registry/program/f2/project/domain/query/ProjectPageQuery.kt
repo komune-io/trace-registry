@@ -1,10 +1,7 @@
 package city.smartb.registry.program.f2.project.domain.query
 
 import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
-import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.OffsetPaginationDTO
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.PageQueryDTO
 import f2.dsl.cqrs.page.PageQueryResultDTO
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -29,7 +26,7 @@ typealias ProjectPageFunction = F2Function<ProjectPageQuery, ProjectPageResult>
 interface ProjectPageQueryDTO {
     val limit: Int?
     val offset: Int?
-    val id: String?
+    val identifier: String?
     val name: String?
     val proponent: String?
     val type: String?
@@ -45,7 +42,7 @@ interface ProjectPageQueryDTO {
 data class ProjectPageQuery(
     override val limit: Int?,
     override val offset: Int?,
-    override val id: String?,
+    override val identifier: String?,
     override val name: String?,
     override val proponent: String?,
     override val type: String?,
