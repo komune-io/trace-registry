@@ -33,11 +33,12 @@ data class ProjectUpdateCommand(
     override var referenceYear: String?,
     override var registrationDate: DateTime?,
     override var slug: String?,
-    override val vintage: Double?,
+    override var vintage: String?,
     override var vvb: OrganizationRef?,
     override var assessor: OrganizationRef?,
     override var location: GeoLocation?,
-    override val activities: List<ActivityId>?,
+    override var activities: List<ActivityId>?,
+    override var subContinent: String?,
 ): ProjectCommand, ProjectAbstractMsg
 
 /**
@@ -75,11 +76,12 @@ data class ProjectUpdatedEvent(
     override var referenceYear: String? = null,
     override var registrationDate: DateTime? = null,
     override var slug: String? = null,
-    override val vintage: Double? = null,
+    override var vintage: String? = null,
     override var vvb: OrganizationRef? = null,
     override var assessor: OrganizationRef? = null,
     override var location: GeoLocation? = null,
-    override val activities: List<ActivityId>?,
+    override var activities: List<ActivityId>? = null,
+    override var subContinent: String? = null,
 ): ProjectUpdatedEventDTO {
     override fun s2Id() = id
 }

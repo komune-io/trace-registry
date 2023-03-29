@@ -4,5 +4,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:activity:activity-domain"))
+	Dependencies.Mpp.f2 { commonMainApi(it) }
+	commonMainApi(project(":platform:api:api-commons"))
+//	commonMainApi(project(":platform:s2:activity:activity-domain"))
 }

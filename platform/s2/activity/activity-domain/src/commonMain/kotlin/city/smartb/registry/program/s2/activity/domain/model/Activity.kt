@@ -11,6 +11,7 @@ import s2.dsl.automate.model.WithS2State
  */
 typealias ActivityId = String
 typealias RequirementId = String
+typealias RequirementIdentifier = String
 
 
 //[

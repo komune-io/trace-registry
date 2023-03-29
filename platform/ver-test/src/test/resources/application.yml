@@ -8,6 +8,9 @@ spring:
 fs:
   url: http://localhost:8090
 
+cccev:
+  url: http://localhost:8083
+
 ssm:
   signer:
     user:

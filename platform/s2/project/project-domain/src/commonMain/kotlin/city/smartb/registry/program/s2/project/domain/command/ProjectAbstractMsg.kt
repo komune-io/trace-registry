@@ -8,6 +8,7 @@ import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 interface ProjectAbstractMsg {
     var name: String
     var country: String?
+    var subContinent: String?
     var identifier: String?
     var creditingPeriodStartDate: DateTime?
     var creditingPeriodEndDate: DateTime?
@@ -20,9 +21,9 @@ interface ProjectAbstractMsg {
     var referenceYear: String?
     var registrationDate: DateTime?
     var slug: String?
-    val vintage: Double?
+    var vintage: String?
     var vvb: OrganizationRef?
     var assessor: OrganizationRef?
     var location: GeoLocation?
-    val activities: List<ActivityId>?
+    var activities: List<ActivityId>?
 }

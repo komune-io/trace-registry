@@ -32,6 +32,8 @@ interface ProjectPageQueryDTO {
     val type: String?
     val estimatedReductions: String?
     val referenceYear: String?
+    val vintage: String?
+    val origin: String?
     val dueDate: Long?
     val status: String?
 }
@@ -46,6 +48,8 @@ data class ProjectPageQuery(
     override val name: String?,
     override val proponent: String?,
     override val type: String?,
+    override val vintage: String?,
+    override val origin: String?,
     override val estimatedReductions: String?,
     override val referenceYear: String?,
     override val dueDate: Long?,

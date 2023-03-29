@@ -6,6 +6,9 @@ plugins {
 
 dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}")
+	implementation(project(":platform:f2:project-f2:project-f2-client"))
+
 	Dependencies.Jvm.Cccev.client(::implementation)
+	Dependencies.Jvm.Test.dataFaker(::implementation)
 	Dependencies.Jvm.junit(::testImplementation)
 }

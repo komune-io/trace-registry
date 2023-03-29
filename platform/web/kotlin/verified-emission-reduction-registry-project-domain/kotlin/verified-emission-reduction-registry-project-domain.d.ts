@@ -1792,11 +1792,11 @@ export namespace cccev.dsl.model {
     interface InformationConcept {
         readonly identifier: string;
         readonly name: string;
-        readonly unit: cccev.dsl.model.CUnitDTO;
-        readonly type: cccev.dsl.model.Code;
-        readonly description: string;
+        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly type?: cccev.dsl.model.Code;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -1810,12 +1810,12 @@ export namespace cccev.dsl.model {
     }
 }
 export namespace cccev.dsl.model {
-    interface CUnitDTO {
+    interface DataUnitDTO {
         readonly identifier: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
-        readonly type: cccev.dsl.model.CUnitType;
+        readonly type: cccev.dsl.model.DataUnitType;
 
     }
 }
@@ -1861,20 +1861,20 @@ export namespace cccev.s2.concept.domain.command {
     interface InformationConceptCreateCommandDTO extends cccev.s2.concept.domain.InformationConceptInitCommand {
         readonly identifier?: string;
         readonly name: string;
-        readonly hasUnit: string;
-        readonly description: string;
+        readonly hasUnit?: string;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
-        readonly hasUnit: string;
-        readonly description: string;
+        readonly hasUnit?: string;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -2246,20 +2246,20 @@ export namespace cccev.f2.concept.domain.command {
     interface InformationConceptCreateCommandDTO extends cccev.s2.concept.domain.command.InformationConceptCreateCommandDTO {
         readonly identifier?: string;
         readonly name: string;
-        readonly hasUnit: string;
-        readonly description: string;
+        readonly hasUnit?: string;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptCreatedEventDTO {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
-        readonly hasUnit: string;
-        readonly description: string;
+        readonly hasUnit?: string;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -2269,10 +2269,10 @@ export namespace cccev.f2.concept.domain.model {
     interface InformationConceptDTO {
         readonly id: string;
         readonly name: string;
-        readonly unit: cccev.f2.unit.domain.model.DataUnitDTO;
-        readonly description: string;
+        readonly unit?: cccev.f2.unit.domain.model.DataUnitDTO;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -2282,11 +2282,11 @@ export namespace cccev.f2.concept.domain.model {
         readonly supportedValue: cccev.dsl.model.SupportedValueDTO;
         readonly identifier: string;
         readonly name: string;
-        readonly unit: cccev.dsl.model.CUnitDTO;
-        readonly type: cccev.dsl.model.Code;
-        readonly description: string;
+        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly type?: cccev.dsl.model.Code;
+        readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn: kotlin.collections.List<string>;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -2619,12 +2619,12 @@ export namespace cccev.f2.requirement.domain.query {
     }
 }
 export namespace cccev.f2.requirement.domain.query {
-    interface RequirementListByIdsAndTypeQueryDTO {
-        readonly ids: kotlin.collections.List<string>;
+    interface RequirementListChildrenByTypeQueryDTO {
+        readonly identifiers: kotlin.collections.List<string>;
         readonly type: string;
 
     }
-    interface RequirementListByIdsAndTypeResultDTO {
+    interface RequirementListChildrenByTypeResultDTO {
         readonly items: Nullable<any>/* Nullable<kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>> */;
 
     }
@@ -2704,7 +2704,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly type?: string;
         readonly referenceYear?: string;
         readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
-        readonly vintage?: number;
+        readonly vintage?: string;
         readonly slug?: string;
         readonly vvb: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
         readonly assessor: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;

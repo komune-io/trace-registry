@@ -3,7 +3,7 @@ package city.smartb.registry.program.s2.project.api.entity
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.ActivityId
 import city.smartb.registry.program.s2.project.domain.model.DateTime
-import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import com.redis.om.spring.annotations.Document
@@ -20,7 +20,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Id
     open lateinit var id: ProjectId
 
-    @Indexed
+    @Searchable(nostem=true)
     open lateinit var status: ProjectState
 
     @Searchable(nostem=true)
@@ -31,6 +31,9 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     @Searchable(nostem=true)
     var country: String? = null
+
+    @Searchable(nostem=true)
+    var subContinent: String? = null
 
     var creditingPeriodStartDate: DateTime? = null
 
@@ -47,7 +50,8 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Searchable(nostem=true)
     var localization: String? = null
 
-    var proponent: OrganizationRef? = null
+    @Indexed
+    var proponent: OrganizationRefEntity? = null
 
     @Searchable(nostem=true)
     var type: String? = null
@@ -57,14 +61,17 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var registrationDate: DateTime? = null
 
-    var vintage: Double? = null
+    @Searchable(nostem=true)
+    var vintage: String? = null
 
     @Searchable(nostem=true)
     var slug: String? = null
 
-    var vvb: OrganizationRef? = null
+    @Indexed
+    var vvb: OrganizationRefEntity? = null
 
-    var assessor: OrganizationRef? = null
+    @Indexed
+    var assessor: OrganizationRefEntity? = null
 
     var location: GeoLocation<String>? = null
     var activities: List<ActivityId>? = null
@@ -77,3 +84,11 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     override fun s2Id() = id
     override fun s2State() = status
 }
+
+
+data class OrganizationRefEntity(
+    @Indexed
+    override val id: String,
+    @Searchable(nostem=true)
+    override val name: String
+): OrganizationRefDTO

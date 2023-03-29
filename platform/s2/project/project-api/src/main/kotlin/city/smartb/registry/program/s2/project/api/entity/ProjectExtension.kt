@@ -3,6 +3,7 @@ package city.smartb.registry.program.s2.project.api.entity
 import city.smartb.registry.program.infra.redis.toGeoLocation
 import city.smartb.registry.program.infra.redis.toRedisGeoLocation
 import city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg
+import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.Project
 
 fun ProjectEntity.toProject() = Project(
@@ -17,14 +18,14 @@ fun ProjectEntity.toProject() = Project(
     dueDate = dueDate,
     estimatedReductions = estimatedReduction,
     localization = localization,
-    proponent = proponent,
+    proponent = proponent?.toModel(),
     type = type,
     referenceYear = referenceYear,
     registrationDate = registrationDate,
     vintage = vintage,
     slug = slug,
-    vvb = vvb,
-    assessor = assessor,
+    vvb = vvb?.toModel(),
+    assessor = assessor?.toModel(),
     location = location?.toGeoLocation(),
     creationDate = null,
     lastModificationDate = null,
@@ -44,14 +45,14 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.dueDate = dueDate
     entity.estimatedReduction = estimatedReductions
     entity.localization = localization
-    entity.proponent = proponent
+    entity.proponent = proponent?.toEntity()
     entity.type = type
     entity.referenceYear = referenceYear
     entity.registrationDate = registrationDate
     entity.vintage = vintage
     entity.slug = slug
-    entity.vvb = vvb
-    entity.assessor = assessor
+    entity.vvb = vvb?.toEntity()
+    entity.assessor = assessor?.toEntity()
     entity.location = location?.toRedisGeoLocation(id)
     entity.activities = activities
     entity
@@ -61,6 +62,7 @@ fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
     name = msg.name
     identifier = msg.identifier
     country = msg.country
+    subContinent = msg.subContinent
     creditingPeriodStartDate = msg.creditingPeriodStartDate
     creditingPeriodEndDate = msg.creditingPeriodEndDate
     description = msg.description
@@ -68,6 +70,7 @@ fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
     estimatedReduction = msg.estimatedReduction
     localization = msg.localization
     proponent = msg.proponent
+    vintage = msg.vintage
     type = msg.type
     referenceYear = msg.referenceYear
     registrationDate = msg.registrationDate
@@ -75,4 +78,16 @@ fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
     vvb = msg.vvb
     assessor = msg.assessor
     location = msg.location
+
+    activities = msg.activities
 }
+
+fun OrganizationRefEntity.toModel() = OrganizationRef(
+    id = id,
+    name = name,
+)
+
+fun OrganizationRef.toEntity() = OrganizationRefEntity(
+    id = id,
+    name = name,
+)

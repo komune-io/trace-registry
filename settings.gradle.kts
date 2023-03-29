@@ -42,6 +42,7 @@ include(
 )
 
 include(
+	"platform:infra:cccev",
 	"platform:infra:redis"
 )
 

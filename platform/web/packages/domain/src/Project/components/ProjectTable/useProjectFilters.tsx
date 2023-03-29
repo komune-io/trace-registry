@@ -44,6 +44,15 @@ export const useProjectFilters = () => {
             }
         },
         {
+            name: 'origin',
+            type: 'textField',
+            params: {
+                textFieldType: 'search',
+                placeholder: "Origin",
+                style: { width: "170px" }
+            }
+        },
+        {
             name: 'estimatedReductions',
             type: 'textField',
             params: {

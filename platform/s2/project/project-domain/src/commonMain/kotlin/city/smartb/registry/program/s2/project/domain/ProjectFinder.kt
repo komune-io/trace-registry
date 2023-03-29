@@ -18,6 +18,8 @@ interface ProjectFinder {
         estimatedReductions: Match<String>?,
         referenceYear: Match<String>?,
         dueDate: Match<Long>?,
+        vintage: Match<String>?,
+        origin: Match<String>?,
         status: Match<ProjectState>?,
         offset: OffsetPagination? = null
     ): PageDTO<Project>

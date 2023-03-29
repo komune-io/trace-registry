@@ -36,6 +36,8 @@ class ProjectFinderService(
         estimatedReductions: Match<String>?,
         referenceYear: Match<String>?,
         dueDate: Match<Long>?,
+		vintage: Match<String>?,
+		origin: Match<String>?,
         status: Match<ProjectState>?,
         offset: OffsetPagination?,
 	): PageDTO<Project> {
@@ -46,7 +48,9 @@ class ProjectFinderService(
 			type = type,
 			estimatedReductions = estimatedReductions,
 			referenceYear = referenceYear,
+			vintage = vintage,
 			dueDate = dueDate,
+			origin = origin,
 			status = status,
 			offset = offset
 		).map(ProjectEntity::toProject)

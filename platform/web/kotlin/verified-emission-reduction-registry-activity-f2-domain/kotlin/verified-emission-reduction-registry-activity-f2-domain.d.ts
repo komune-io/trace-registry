@@ -1732,53 +1732,81 @@ export namespace city.smartb.registry.program.api.commons.model {
         projects(): string;
     };
 }
-export namespace city.smartb.registry.program.s2.activity.domain.automate {
-    interface ActivityInitCommand extends s2.dsl.automate.S2InitCommand {
+export namespace city.smartb.registry.program.f2.activity.domain.model {
+    interface ActivityDTO {
+        readonly identifier: string;
+        readonly name?: string;
+        readonly description?: string;
+        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
-    interface ActivityCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface ActivityEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string> {
-        readonly id: string;
-
-    }
-}
-export namespace city.smartb.registry.program.s2.activity.domain.command {
-    interface ActivityUpdatedEventDTO extends city.smartb.registry.program.s2.activity.domain.automate.ActivityEvent {
-        readonly id: string;
-
-    }
-}
-export namespace city.smartb.registry.program.f2.activity.domain.policy {
-    const ActivityPolicies: {
-        canList(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, activity: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.activity.domain.automate.ActivityState */>/* city.smartb.registry.program.s2.activity.domain.model.ActivityDTO */): boolean;
-        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, activity: s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.activity.domain.automate.ActivityState */>/* city.smartb.registry.program.s2.activity.domain.model.ActivityDTO */): boolean;
-    };
-}
-export namespace city.smartb.registry.program.f2.activity.domain.query {
-    interface ActivityGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface ActivityGetResultDTO {
-        readonly item: Nullable<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.activity.domain.automate.ActivityState */>>/* Nullable<city.smartb.registry.program.s2.activity.domain.model.ActivityDTO> */;
-
+    class Activity implements city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {
+        constructor(identifier: string, name?: string, description?: string, hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */);
+        get identifier(): string;
+        get name(): Nullable<string>;
+        get description(): Nullable<string>;
+        get hasQualifiedRelation(): Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        get hasRequirement(): Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        static Activity_init_$Create$(seen1: number, identifier?: string, name?: string, description?: string, hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.Activity>;
+        };
+        static get $serializer(): {
+        } & kotlinx.serialization.internal.GeneratedSerializer<city.smartb.registry.program.f2.activity.domain.model.Activity>;
     }
 }
+export namespace city.smartb.registry.program.f2.activity.domain.model {
+    interface ActivityStepDTO {
+        readonly identifier: string;
+        readonly name?: string;
+        readonly description?: string;
+        readonly value?: string;
+        readonly file?: string;
+
+    }
+    class ActivityStep implements city.smartb.registry.program.f2.activity.domain.model.ActivityStepDTO {
+        constructor(identifier: string, name?: string, description?: string, value?: string, file?: string);
+        get identifier(): string;
+        get name(): Nullable<string>;
+        get description(): Nullable<string>;
+        get value(): Nullable<string>;
+        get file(): Nullable<string>;
+        static ActivityStep_init_$Create$(seen1: number, identifier?: string, name?: string, description?: string, value?: string, file?: string, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.ActivityStep;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.ActivityStep>;
+        };
+        static get $serializer(): {
+        } & kotlinx.serialization.internal.GeneratedSerializer<city.smartb.registry.program.f2.activity.domain.model.ActivityStep>;
+    }
+}
+export const ActivityPolicies: {
+    canPage(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
+    canPageSteps(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
+};
 export namespace city.smartb.registry.program.f2.activity.domain.query {
     interface ActivityPageQueryDTO {
-        readonly name?: string;
+        readonly projectId: string;
         readonly offset?: number;
         readonly limit?: number;
 
     }
-    interface ActivityPageResultDTO extends f2.dsl.cqrs.page.PageDTO<s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.activity.domain.automate.ActivityState */>/* city.smartb.registry.program.s2.activity.domain.model.ActivityDTO */> {
+    interface ActivityPageResultDTO extends f2.dsl.cqrs.page.PageDTO<city.smartb.registry.program.f2.activity.domain.model.ActivityDTO> {
         readonly total: number;
-        readonly items: kotlin.collections.List<city.smartb.registry.program.s2.activity.domain.model.ActivityDTO>;
+        readonly items: kotlin.collections.List<city.smartb.registry.program.f2.activity.domain.model.ActivityDTO>;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.activity.domain.query {
+    interface ActivityStepPageQueryDTO {
+        readonly activityId?: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface ActivityStepPageResultDTO extends f2.dsl.cqrs.page.PageDTO<city.smartb.registry.program.f2.activity.domain.model.ActivityStepDTO> {
+        readonly total: number;
+        readonly items: kotlin.collections.List<city.smartb.registry.program.f2.activity.domain.model.ActivityStepDTO>;
 
     }
 }

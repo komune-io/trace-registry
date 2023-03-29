@@ -37,9 +37,13 @@ object Repo {
 
 object Dependencies {
 	object Jvm {
-		fun springTest(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope).add(
-			"org.springframework.boot:spring-boot-starter-test:${Versions.springBoot}",
-		)
+		object Spring {
+			fun test(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope).add(
+				"org.springframework.boot:spring-boot-starter-test:${Versions.springBoot}",
+			)
+			fun autoConfigure(scope: Scope, ksp: Scope)
+				= FixersDependencies.Jvm.Spring.autoConfigure(scope, ksp)
+		}
 
 		fun junit(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope)
 
@@ -103,7 +107,8 @@ object Dependencies {
 
 	object Mpp {
 		fun f2(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-dsl-function:${Versions.f2}"
+			"city.smartb.f2:f2-dsl-function:${Versions.f2}",
+			"city.smartb.f2:f2-dsl-cqrs:${Versions.f2}"
 		)
 
 		fun f2Client(scope: Scope) = scope.add(

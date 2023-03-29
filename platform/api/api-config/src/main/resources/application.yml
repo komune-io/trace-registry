@@ -8,6 +8,10 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+cccev:
+  url: http://localhost:8083
+
 im:
   organization:
     insee:

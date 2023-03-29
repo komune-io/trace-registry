@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.query
 
-import city.smartb.registry.program.s2.activity.domain.model.ActivityDTO
+import city.smartb.registry.program.f2.activity.domain.model.ActivityDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -23,9 +23,9 @@ typealias ActivityPageFunction = F2Function<ActivityPageQuery, ActivityPageResul
 @JsName("ActivityPageQueryDTO")
 interface ActivityPageQueryDTO {
     /**
-     * Name of the activity
+     * id of the project
      */
-    val name: String?
+    val projectId: String
     val offset: Int?
     val limit: Int?
 }
@@ -34,7 +34,7 @@ interface ActivityPageQueryDTO {
  * @d2 inherit
  */
 data class ActivityPageQuery(
-    override val name: String?,
+    override val projectId: String,
     override val offset: Int?,
     override val limit: Int?,
 ): ActivityPageQueryDTO

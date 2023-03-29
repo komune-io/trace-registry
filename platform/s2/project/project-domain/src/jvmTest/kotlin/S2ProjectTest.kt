@@ -44,7 +44,7 @@ class S2ProjectTest {
             referenceYear = faker.date().future(1, TimeUnit.HOURS).toLocalDateTime().year.toString(),
             registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
             status = if(faker.random().nextBoolean()) ProjectState.STAMPED else ProjectState.STAMPED,
-            vintage = faker.date().future(6, TimeUnit.HOURS).toLocalDateTime().year.toDouble(),
+            vintage = faker.date().future(6, TimeUnit.HOURS).toLocalDateTime().year.toString(),
             slug = "slug",
 
             creationDate = faker.date().past(6, TimeUnit.HOURS).toInstant().epochSecond,

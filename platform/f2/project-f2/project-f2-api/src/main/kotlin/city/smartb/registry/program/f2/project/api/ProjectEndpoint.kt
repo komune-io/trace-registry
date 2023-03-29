@@ -61,6 +61,8 @@ class ProjectEndpoint(
             referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
             type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination
         ).let { page ->
             ProjectPageResult(

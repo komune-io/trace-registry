@@ -112,7 +112,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * Link to the project in the root registry
      * @example 2023
      */
-    val vintage: Double?
+    val vintage: String?
 
     /**
      * Link to the project in the root registry
@@ -180,7 +180,7 @@ data class Project(
     override val type: String?,
     override val referenceYear: String?,
     override val registrationDate: DateTime?,
-    override val vintage: Double?,
+    override val vintage: String?,
     override val slug: String?,
     override val vvb: OrganizationRef?,
     override val assessor: OrganizationRef?,

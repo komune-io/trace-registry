@@ -120,6 +120,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             assessor = params.assessor,
             location = params.location,
             activities = params.activities,
+            subContinent = params.subContinent
         )
         projectAggregateService.create(command).id
     }
@@ -140,11 +141,12 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             referenceYear = entry?.get("referenceYear").orRandom(),
             registrationDate = entry?.get("registrationDate")?.toLong(),
             slug = entry?.get("slug").orRandom(),
-            vintage = entry?.get("vintage")?.toDouble(),
+            vintage = entry?.get("vintage")?.orRandom(),
             vvb = entry?.get("vvb")?.toOrganizationRef(),
             assessor = entry?.get("assessor")?.toOrganizationRef(),
             location = entry?.get("location")?.toGeoLocation(),
-            activities = entry?.extractList("activities").orEmpty()
+            activities = entry?.extractList("activities").orEmpty(),
+            subContinent = entry?.get("subContinent")?.orRandom(),
         )
 
     private data class ProjectCreateParams(
@@ -163,11 +165,12 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
         var referenceYear: String?,
         var registrationDate: DateTime?,
         var slug: String?,
-        val vintage: Double?,
+        val vintage: String?,
         var vvb: OrganizationRef?,
         var assessor: OrganizationRef?,
         var location: GeoLocation?,
         val activities: List<TestContextKey>?,
+        var subContinent: String?
     )
 
     private suspend fun createProjects(params: List<ProjectCreateParams>) = coroutineScope {

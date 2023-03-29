@@ -23,8 +23,7 @@ class ProjectAggregateService(
 		ProjectCreatedEvent(
 			id = UUID.randomUUID().toString(),
 			identifier = cmd.identifier,
-			name = cmd.name,
-			activities = cmd.activities,
+			name = cmd.name
 		).applyCmd(cmd)
 	}
 
@@ -34,7 +33,6 @@ class ProjectAggregateService(
 			status = ProjectState.STAMPED,
 			identifier = cmd.identifier,
 			name = cmd.name,
-			activities = cmd.activities,
 		).applyCmd(cmd)
 	}
 

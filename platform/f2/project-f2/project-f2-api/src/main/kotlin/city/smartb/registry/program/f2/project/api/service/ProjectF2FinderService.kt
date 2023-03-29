@@ -28,8 +28,10 @@ class ProjectF2FinderService(
         type: Match<String>?,
         estimatedReductions: Match<String>?,
         referenceYear: Match<String>?,
+        vintage: Match<String>?,
         dueDate: Match<Long>?,
         status: Match<ProjectState>?,
+        origin: Match<String>?,
         offset: OffsetPagination?,
     ): PageDTO<Project> {
         return projectFinderService.page(
@@ -39,7 +41,9 @@ class ProjectF2FinderService(
             type = type,
             estimatedReductions = estimatedReductions,
             referenceYear = referenceYear,
+            vintage = vintage,
             dueDate = dueDate,
+            origin = origin,
             status = status,
             offset = offset
         )

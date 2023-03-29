@@ -1,6 +1,5 @@
 package city.smartb.registry.api.config
 
-import f2.dsl.fnc.F2Supplier
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
@@ -17,6 +16,6 @@ class OpenapiConfig {
             .components(Components())
             .info(
                 Info().title(api.title ?: "").version(api.version)
-                    .license(License().name("Apache 2.0").url("http://smartb.city")));
+                    .license(License().name("Apache 2.0").url("https://smartb.city")));
     }
 }

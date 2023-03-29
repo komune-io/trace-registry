@@ -68,7 +68,8 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
             referenceYear = params.referenceYear,
             dueDate = params.dueDate,
             status = params.status,
-
+            vintage = params.vintage,
+            origin = params.origin,
         ).invokeWith(projectEndpoint.projectPage()).items
     }
 
@@ -107,6 +108,8 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         referenceYear = entry["referenceYear"],
         dueDate = entry["dueDate"]?.toLong(),
         status = entry["status"],
+        vintage = entry["vintage"],
+        origin = entry["origin"],
     )
 
     private fun projectAssertParams(entry: Map<String, String>) = ProjectPageAssertParams(
@@ -133,7 +136,9 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         val estimatedReductions: String?,
         val referenceYear: String?,
         val dueDate: Long?,
-        val status: String?
+        val status: String?,
+        val vintage: String?,
+        val origin: String?,
     )
 
     private data class ProjectPageAssertParams(
