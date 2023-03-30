@@ -1,1 +1,1 @@
-export * from "./ProjectinformationSection"
+export * from "./ProjectInformationSection"

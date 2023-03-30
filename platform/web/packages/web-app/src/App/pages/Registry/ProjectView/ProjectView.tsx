@@ -2,7 +2,7 @@ import { Page, LinkButton } from '@smartb/g2'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {
-    ProjectActivities, ProjectinformationSection,
+    ProjectActivities, ProjectInformationSection,
     useProjectGetQuery,
 } from 'domain-components'
 import { useParams } from 'react-router-dom'
@@ -30,7 +30,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     const tabs: Tab[] = useMemo(() => [{
         key: 'info',
         label: t('informations'),
-        component: (<ProjectinformationSection project={project} isLoading={projectQuery.isLoading} />)
+        component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading} />)
     }, {
         key: 'activities',
         label: t('activities'),

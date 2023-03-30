@@ -7,12 +7,12 @@ import {
     ProjectProtocolesLocation,
 } from 'domain-components'
 
-export interface ProjectinformationSectionProps {
+export interface ProjectInformationSectionProps {
     project?: Project
     isLoading: boolean
 }
 
-export const ProjectinformationSection = (props: ProjectinformationSectionProps) => {
+export const ProjectInformationSection = (props: ProjectInformationSectionProps) => {
     const { isLoading, project } = props
 
     const formState = useFormComposable({
