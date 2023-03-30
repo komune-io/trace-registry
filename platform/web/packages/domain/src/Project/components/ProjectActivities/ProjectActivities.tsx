@@ -19,20 +19,17 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
         offset: undefined,
       }
     })
-    // const activities = activitiesExample
     const activities = activityPageQuery.data?.items ?? []
     const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
 
     const activityStepPageQuery = useActivityStepPageQuery({
       query: {
-        activityId: project.id,
+        activityId: selectedNode.identifier,
         limit: undefined,
         offset: undefined,
       }
     })
-
-  console.log(activityPageQuery.data?.items)
-  console.log(activityStepPageQuery.data?.items)
+  const steps = activityStepPageQuery.data?.items ?? []
 
   return (
       <Stack
@@ -43,7 +40,7 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
           }}
       >
           <ActivitiesGraph activities={activities} selectedActivity={selectedNode} onActivitySelect={setSelectedNode}/>
-          <ActivitiesSummary isLoading={isLoading} activity={selectedNode} steps={[]}/>
+          <ActivitiesSummary isLoading={isLoading} activity={selectedNode} steps={steps}/>
       </Stack>
   )
 }

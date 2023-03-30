@@ -1739,7 +1739,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly type?: string;
         readonly description?: string;
         readonly hasQualifiedRelation: Array<string>;
-        readonly hasRequirement: Array<string>;
+        readonly hasRequirement: Array<ActivityDTO>;
 
     }
     class Activity implements city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {

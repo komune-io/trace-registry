@@ -21,12 +21,12 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
     }, [data.isAncestor])
     
 
-    const groupedChildren = useMemo(() => requirement.hasRequirement?.map(id => {
-        const el = data.all.find(el => el.identifier === id)
-        if (!el) return undefined
+    const groupedChildren = useMemo(() => requirement.hasRequirement?.map(el => {
+        // const el = data.all.find(el => el.identifier === id.identifier)
+        // if (!el) return undefined
         return (
             <Typography
-                key={id}
+                key={el.identifier}
                 variant="body2"
                 sx={{
                     color: "#697077",
@@ -37,7 +37,7 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
                         textDecorationColor: "inherit"
                     }
                 }}
-                onClick={() => data.select(id)}
+                onClick={() => data.select(el.identifier)}
             >
                 {el.name}
             </Typography>

@@ -29,15 +29,8 @@ class ActivityF2FinderService(
             ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
         }
 
-        val activities = requirements?.items?.flatten()?.map { requirement ->
-            Activity(
-                identifier = requirement.identifier!!,
-                name = requirement.name,
-                description = requirement.description,
-                type = requirement.type,
-                hasQualifiedRelation = emptyArray(),
-                hasRequirement = requirement.hasRequirement.mapNotNull { it.identifier }.toTypedArray(),
-            )
+        val activities = requirements?.items?.mapNotNull { requirement ->
+            requirement.mapActivities()
         } ?: emptyList()
 
         return ActivityPageResult(
@@ -46,8 +39,19 @@ class ActivityF2FinderService(
         )
     }
 
-    fun List<RequirementDTOBase>.flatten(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): List<RequirementDTOBase> {
-        return flatMap { it.flatten(visited) }
+    fun RequirementDTOBase.mapActivities(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): Activity? {
+        if (visited.contains(this)) {
+            return null
+        }
+        visited.add(this)
+        return Activity(
+            identifier = identifier!!,
+            name = name,
+            description = description,
+            type = type,
+            hasQualifiedRelation = emptyArray(),
+            hasRequirement = hasRequirement.mapNotNull { it.mapActivities() }.toTypedArray(),
+        )
     }
 
     fun RequirementDTOBase.flatten(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): List<RequirementDTOBase> {
@@ -56,12 +60,6 @@ class ActivityF2FinderService(
         }
         visited.add(this)
         return listOf(this) + hasRequirement.flatMap { it.flatten(visited) }
-    }
-    fun RequirementDTOBase.flatten(): List<RequirementDTOBase> {
-        val flattened = mutableListOf(this)
-        hasRequirement.forEach { flattened.addAll(it.flatten()) }
-//        hasQualifiedRelation.forEach { flattened.addAll(it.flatten()) }
-        return flattened
     }
 
     suspend fun stepPage(

@@ -14,7 +14,6 @@ export type ActivityDataNode = Node<ActivityData>
 
 export const activitiesToNodes = (
   activities: Activity[],
-  obj: Activity,
   select: (id: string) => void,
   level: number = 0,
   parentX: number = 0,
@@ -32,7 +31,7 @@ export const activitiesToNodes = (
     } else {
         currentX = parentX
     }
-
+    activities.forEach((obj, index) => {
     nodes.push({
         id: obj.identifier,
         data: {
@@ -44,7 +43,7 @@ export const activitiesToNodes = (
         },
         position: {
             x: currentX,
-            y: level * yGap
+            y: (level + 1) * yGap * (index + 1)
         },
         type: obj.type || "requirement",
         sourcePosition: !!obj.hasQualifiedRelation ? Position.Bottom : undefined,
@@ -54,10 +53,11 @@ export const activitiesToNodes = (
         obj.hasQualifiedRelation.forEach((id, index) => {
             const targetedActivity = activities.find(el => el.identifier === id)
             if (targetedActivity) {
-                nodes.push(...activitiesToNodes(activities, targetedActivity, select, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
+                nodes.push(...activitiesToNodes(activities, select, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
             }
         });
     }
+    })
     return nodes
 }
 
@@ -73,9 +73,9 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activit
             edges: []
         }
     }
-    const nodes: Node<ActivityData>[] = activitiesToNodes(activities, obj, select)
+    const nodes: Node<ActivityData>[] = activitiesToNodes(activities, select)
     const edges = toEdges(activities, obj)
-    const ancestor = activities.find((el) => el.hasRequirement?.find((id) => obj.identifier === id))
+    const ancestor = activities.find((el) => el.hasRequirement?.find((id) => obj.identifier === id.identifier))
     console.log(ancestor)
     if (ancestor) {
         // nodes.forEach((el, index) => {
@@ -110,7 +110,7 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activit
                 x: -300,
                 y: (nodes.length / 2) * 120
             },
-            type: "requirement",
+            type: "Activities",
             sourcePosition: Position.Right,
         })
         nodes[0] = {

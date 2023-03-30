@@ -13,7 +13,7 @@ export interface ActivitiesGraphProps {
 }
 
 const nodeTypes = {
-    requirement: ActivityGraphNode
+    Activities: ActivityGraphNode
 };
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
@@ -26,7 +26,7 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         const requirement = activities.find((el) => el.identifier === id)
         if (requirement) setBaseRequirement(requirement)
       },
-      [],
+      [activities],
     )
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -35,7 +35,7 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         const res = getNodesAnEdgesOfActivities(activities, baseRequirement, selectRequirement)
         setNodes(res.nodes)
         setEdges(res.edges)
-    }, [baseRequirement, selectRequirement])
+    }, [activities, baseRequirement, selectRequirement])
     const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
       if(node.data.current.identifier !== selectedActivity?.identifier) {
         onActivitySelect(node.data.current);
