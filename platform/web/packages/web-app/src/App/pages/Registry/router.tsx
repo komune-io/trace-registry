@@ -14,10 +14,10 @@ export const registryPages: PageRoute[] = [
   },
   {
     path: "projects/:projectId/view",
-    element: <ProjectView readonly />
+    element: <ProjectView />
   },
   {
     path: "projects/:projectId/view/:tab",
-    element: <ProjectView readonly />
+    element: <ProjectView />
   }
 ]

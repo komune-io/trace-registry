@@ -1,6 +1,8 @@
 import { Section } from '@smartb/g2'
 import {ReactNode, useMemo} from 'react'
 import {HeaderTab} from "@smartb/g2-layout/dist/Header/Header";
+import {SxProps} from "@mui/system";
+import {Theme} from "@mui/material/styles";
 
 export interface Tab {
     key: string,
@@ -13,10 +15,11 @@ export interface SectionTabProps {
     currentTab: string
     goBackLink: JSX.Element
     onTabChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void
+    sx?: SxProps<Theme>;
 }
 
 export const SectionTab = (props: SectionTabProps) => {
-    const { tabs, currentTab, onTabChange, goBackLink } = props
+    const { tabs, currentTab, onTabChange, goBackLink, sx } = props
 
     const headerTabs: HeaderTab[] = useMemo(() => tabs.map(tag => ({
         key: tag.key,
@@ -47,6 +50,7 @@ export const SectionTab = (props: SectionTabProps) => {
           }
       }}
        flexContent
+       sx={sx}
       >
         {tabContent}
       </Section>
