@@ -1,7 +1,13 @@
 import { Page, Section, useFormComposable, Action, LinkButton } from '@smartb/g2'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { ProjectActivities, ProjectBanner, ProjectDetails, ProjectProtocolesLocation, useProjectGetQuery } from 'domain-components'
+import {
+    ProjectActivities,
+    ProjectBanner,
+    ProjectDetails,
+    ProjectProtocolesLocation,
+    useProjectGetQuery,
+} from 'domain-components'
 import { Link, useParams } from 'react-router-dom'
 import { useCallback, useMemo, useState } from 'react'
 import { useRoutesDefinition } from 'components'
@@ -111,7 +117,7 @@ export const ProjectView = (props: ProjectViewProps) => {
                     </>
                 }
 
-                {currentTab === "activities" &&
+                {currentTab === "activities" && project &&
                     <ProjectActivities
                         isLoading={projectQuery.isLoading}
                         project={project}

@@ -25,3 +25,47 @@ package-web:
 package-storybook:
 	@docker build --no-cache=true -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
 	@docker push ${STORYBOOK_IMG}
+
+
+## DEV ENVIRONEMENT
+dev: dev-bclan dev-redis dev-cccev
+
+dev-down: dev-bclan-down dev-redis-down dev-cccev-down
+
+dev-up: dev-bclan-up dev-redis-up dev-cccev-up
+
+## DEV bclan
+dev-bclan: dev-bclan-down dev-bclan-up
+
+dev-bclan-up:
+	@docker compose --env-file .env_dev -f docker-compose-bclan.yml up -d
+
+dev-bclan-down:
+	@docker compose --env-file .env_dev -f docker-compose-bclan.yml down -v;
+
+dev-bclan-log:
+	@docker compose --env-file .env_dev -f docker-compose-bclan.yml logs -f
+
+## DEV redis
+dev-redis: dev-redis-down dev-redis-up
+
+dev-redis-up:
+	@docker compose --env-file .env_dev -f docker-compose-redis.yml up -d
+
+dev-redis-down:
+	@docker compose --env-file .env_dev -f docker-compose-redis.yml down -v;
+
+dev-redis-log:
+	@docker compose --env-file .env_dev -f docker-compose-redis.yml logs -f
+
+## DEV cccev
+dev-cccev: dev-cccev-down dev-cccev-up
+
+dev-cccev-up:
+	@docker compose --env-file .env_dev -f docker-compose-cccev.yml up -d
+
+dev-cccev-down:
+	@docker compose --env-file .env_dev -f docker-compose-cccev.yml down -v;
+
+dev-cccev-log:
+	@docker compose --env-file .env_dev -f docker-compose-cccev.yml logs -f

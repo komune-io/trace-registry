@@ -11,10 +11,6 @@ pluginManagement {
 rootProject.name = "verified-emission-reduction-registry"
 
 include(
-	"debug:db-verification",
-)
-
-include(
 	"platform:api:api-commons",
 	"platform:api:api-config",
 	"platform:api:api-gateway",

@@ -8,8 +8,8 @@ services:
       - 8011:8001
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
-    volumes:
-      - ~/DockerVolumes/redis/verr/data:/data
+  #    volumes:
+  #      - ~/DockerVolumes/redis/verr/data:/data
   redisinsight:
     image: redislabs/redisinsight:latest
     container_name: verr-redisinsight

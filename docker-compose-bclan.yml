@@ -2,13 +2,13 @@ version: '3.7'
 
 services:
   ca.bc-coop.bclan:
-    container_name: verr-ca-bclan-network-it
+    container_name: verr-ca-bclan
     image: smartbcity/commune-sandbox-ca:2.3.3-0.8.2-2
     networks:
       - bclannet-it
 
   orderer.bclan:
-    container_name: verr-orderer-network-it
+    container_name: verr-orderer
     image: smartbcity/commune-sandbox-orderer:2.3.3-0.8.2-2
     networks:
       - bclannet-it
@@ -17,8 +17,8 @@ services:
     container_name: verr-couchdb
     image: couchdb:3.1.2
     environment:
-      - COUCHDB_USER=couchdb
-      - COUCHDB_PASSWORD=couchdb
+      - COUCHDB_USER=${BCLAN_COUCH_USER}
+      - COUCHDB_PASSWORD=${BCLAN_COUCH_PASS}
     ports:
       - "5984:5984"
     networks:
@@ -27,22 +27,22 @@ services:
       - orderer.bclan
 
   peer0.bc-coop.bclan:
-    container_name: verr-peer0-bclan-network-it
+    container_name: verr-peer0-bclan
     image: smartbcity/commune-sandbox-peer:2.3.3-0.8.2-2
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=bclannet-it
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=verr-couchdb:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=couchdb
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=couchdb
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=${BCLAN_COUCH_ADDRESS}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${BCLAN_COUCH_USER}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${BCLAN_COUCH_PASS}
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
     networks:
       - bclannet-it
 
   coop-rest-java:
-    container_name: verr-coop-rest-bclan-network-it
+    container_name: verr-coop-rest-bclan
     image: smartbcity/commune-sandbox-ssm-rest:2.3.3-0.8.2-2
     environment:
       - i2_jwt-issuer-uri=
@@ -54,13 +54,14 @@ services:
       - bclannet-it
 
   cli-init.bc-coop.bclan:
-    container_name: verr-cli-init-bclan-network-it
+    container_name: verr-cli-init-bclan
     image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2-2
     command: /opt/commune-sandbox/util/init.sh
     depends_on:
       - peer0.bc-coop.bclan
     networks:
       - bclannet-it
+
 
 networks:
   bclannet-it:

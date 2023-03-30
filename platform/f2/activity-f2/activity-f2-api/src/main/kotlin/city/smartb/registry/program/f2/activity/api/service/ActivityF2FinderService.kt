@@ -33,8 +33,9 @@ class ActivityF2FinderService(
                 identifier = requirement.identifier!!,
                 name = requirement.name,
                 description = requirement.description,
-                hasQualifiedRelation = emptyList(),
-                hasRequirement = requirement.hasRequirement.mapNotNull { it.identifier },
+                type = requirement.type,
+                hasQualifiedRelation = emptyArray(),
+                hasRequirement = requirement.hasRequirement.mapNotNull { it.identifier }.toTypedArray(),
             )
         } ?: emptyList()
 

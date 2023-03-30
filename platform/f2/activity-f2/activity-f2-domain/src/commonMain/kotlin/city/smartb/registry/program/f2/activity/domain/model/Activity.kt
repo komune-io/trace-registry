@@ -34,9 +34,10 @@ typealias RequirementIdentifier = String
 interface ActivityDTO {
     val identifier: RequirementIdentifier
     val name: String?
+    val type: String?
     val description: String?
-    val hasQualifiedRelation: List<RequirementIdentifier>?
-    val hasRequirement: List<RequirementIdentifier>?
+    val hasQualifiedRelation: Array<RequirementIdentifier>
+    val hasRequirement: Array<RequirementIdentifier>
 }
 
 @JsExport
@@ -44,7 +45,8 @@ interface ActivityDTO {
 class Activity(
     override val identifier: RequirementIdentifier,
     override val name: String?,
+    override val type: String?,
     override val description: String?,
-    override val hasQualifiedRelation: List<RequirementIdentifier>?,
-    override val hasRequirement: List<RequirementIdentifier>?
+    override val hasQualifiedRelation: Array<RequirementIdentifier>,
+    override val hasRequirement: Array<RequirementIdentifier>
 ): ActivityDTO

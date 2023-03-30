@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, Typography, Collapse, CardActions, LinearProgress, Stack } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { Handle, NodeProps } from "reactflow"
-import React, { useCallback, useMemo, useEffect } from 'react'
-import { RequirementData } from './requirementUtilities'
+import React, {useCallback, useMemo, useEffect} from 'react'
 import { useTranslation } from 'react-i18next'
+import {ActivityData} from "../../graph";
 
-export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
+export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
     const { data, isConnectable, targetPosition, sourcePosition, selected } = props
     const [expanded, setExpanded] = React.useState(data.isAncestor ?? false);
     const { t } = useTranslation()
@@ -22,7 +22,7 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
     
 
     const groupedChildren = useMemo(() => requirement.hasRequirement?.map(id => {
-        const el = data.all.find(el => el.id === id)
+        const el = data.all.find(el => el.identifier === id)
         if (!el) return undefined
         return (
             <Typography
@@ -37,7 +37,7 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                         textDecorationColor: "inherit"
                     }
                 }}
-                onClick={() => data.selectRequirement(id)}
+                onClick={() => data.select(id)}
             >
                 {el.name}
             </Typography>
@@ -46,10 +46,11 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
 
     const onClickAncestor = useCallback(
         () => {
-            if (data.isAncestor) data.selectRequirement(data.current.id)
+            if (data.isAncestor) data.select(data.current.identifier)
         },
         [data],
     )
+    const hasRequirement = useMemo( () => requirement.hasRequirement.length > 0, [requirement.hasRequirement.length])
 
     return (
         <Card
@@ -66,7 +67,7 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
             <CardHeader
                 sx={{
                     borderBottom: "1px solid #EEEEEE",
-                    cursor: requirement.hasRequirement ? "pointer" : "",
+                    cursor: hasRequirement ? "pointer" : "",
                     "& .MuiCardHeader-action": {
                         alignSelf: "center",
                         paddingLeft: "10px",
@@ -75,7 +76,7 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                     },
                     padding: "10px 12px"
                 }}
-                onClick={requirement.hasRequirement ? handleExpandClick : undefined}
+                onClick={hasRequirement ? handleExpandClick : undefined}
                 title={requirement.name}
                 titleTypographyProps={{
                     variant: "subtitle2"
@@ -83,8 +84,8 @@ export const ProjectRequirementNode = (props: NodeProps<RequirementData>) => {
                 subheaderTypographyProps={{
                     variant: "body2"
                 }}
-                subheader={requirement.type?.identifier}
-                action={requirement.hasRequirement &&
+                subheader={requirement.type}
+                action={hasRequirement &&
                     <ExpandMoreRounded
                         sx={{
                             transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)',

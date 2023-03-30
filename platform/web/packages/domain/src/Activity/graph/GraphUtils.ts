@@ -1,33 +1,27 @@
 import { Node, Position, Edge } from "reactflow"
+import {Activity} from "../model";
 
-export type Requirement = {
-    id: string
-    identifier?: string
-    name: string
-    description?: string
-    type?: {
-        identifier: string
-    }
-    group?: boolean
-    hasQualifiedRelation?: string[]
-    hasRequirement?: string[]
-}
-
-export type RequirementData = {
-    all: Requirement[],
-    current: Requirement,
-    selectRequirement: (id: string) => void,
+export type ActivityData = {
+    all: Activity[],
+    current: Activity,
+    select: (id: string) => void,
     hasSource?: boolean
     hasTarget?: boolean
     isAncestor?: boolean
 }
 
-export type GroupData = {
-    children: Node<RequirementData>[]
-}
+export type ActivityDataNode = Node<ActivityData>
 
-export const requirementsToNodes = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void, level: number = 0, parentX: number = 0, index: number = 0, siblingNumber?: number): Node<RequirementData>[] => {
-    const nodes: Node<RequirementData>[] = []
+export const activitiesToNodes = (
+  activities: Activity[],
+  obj: Activity,
+  select: (id: string) => void,
+  level: number = 0,
+  parentX: number = 0,
+  index: number = 0,
+  siblingNumber?: number
+): Node<ActivityData>[] => {
+    const nodes: Node<ActivityData>[] = []
 
     const xGap = 260
     const yGap = 150
@@ -40,11 +34,11 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
     }
 
     nodes.push({
-        id: obj.id,
+        id: obj.identifier,
         data: {
-            all: requirements,
+            all: activities,
             current: obj,
-            selectRequirement,
+            select: select,
             hasSource: !!obj.hasQualifiedRelation,
             hasTarget: level !== 0
         },
@@ -52,25 +46,25 @@ export const requirementsToNodes = (requirements: Requirement[], obj: Requiremen
             x: currentX,
             y: level * yGap
         },
-        type: "requirement",
+        type: obj.type || "requirement",
         sourcePosition: !!obj.hasQualifiedRelation ? Position.Bottom : undefined,
         targetPosition: level !== 0 ? Position.Top : undefined,
     })
     if (obj.hasQualifiedRelation) {
         obj.hasQualifiedRelation.forEach((id, index) => {
-            const targetedRequirement = requirements.find(el => el.id === id)
-            if (targetedRequirement) {
-                nodes.push(...requirementsToNodes(requirements, targetedRequirement, selectRequirement, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
+            const targetedActivity = activities.find(el => el.identifier === id)
+            if (targetedActivity) {
+                nodes.push(...activitiesToNodes(activities, targetedActivity, select, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
             }
         });
     }
     return nodes
 }
 
-export const getNodesAnEdgesOfRequirements = (requirements: Requirement[], obj: Requirement, selectRequirement: (id: string) => void) => {
-    const nodes: Node<RequirementData>[] = requirementsToNodes(requirements, obj, selectRequirement)
-    const edges = requirementsToEdges(requirements, obj)
-    const ancestor = requirements.find((el) => el.hasRequirement?.find((id) => obj.id === id))
+export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activity, select: (id: string) => void) => {
+    const nodes: Node<ActivityData>[] = activitiesToNodes(activities, obj, select)
+    const edges = toEdges(activities, obj)
+    const ancestor = activities.find((el) => el.hasRequirement?.find((id) => obj.identifier === id))
     console.log(ancestor)
     if (ancestor) {
         // nodes.forEach((el, index) => {
@@ -93,11 +87,11 @@ export const getNodesAnEdgesOfRequirements = (requirements: Requirement[], obj: 
         //     sourcePosition: Position.Left,
         // } as Node<GroupData>)
         nodes.push({
-            id: ancestor.id,
+            id: ancestor.identifier,
             data: {
-                all: requirements,
+                all: activities,
                 current: ancestor,
-                selectRequirement,
+                select: select,
                 hasSource: true,
                 isAncestor: true
             },
@@ -117,8 +111,8 @@ export const getNodesAnEdgesOfRequirements = (requirements: Requirement[], obj: 
             targetPosition: Position.Left
         }
         edges.push({
-            id: `${ancestor.id}-to-${nodes[0].id}`,
-            source: ancestor.id,
+            id: `${ancestor.identifier}-to-${nodes[0].id}`,
+            source: ancestor.identifier,
             target: nodes[0].id,
         })
     }
@@ -128,20 +122,20 @@ export const getNodesAnEdgesOfRequirements = (requirements: Requirement[], obj: 
     }
 }
 
-export const requirementsToEdges = (requirements: Requirement[], obj: Requirement, parentId?: string): Edge[] => {
+export const toEdges = (activities: Activity[], obj: Activity, parentId?: string): Edge[] => {
     const edges: Edge[] = []
     if (parentId) {
         edges.push({
-            id: `${parentId}-to-${obj.id}`,
+            id: `${parentId}-to-${obj.identifier}`,
             source: parentId,
-            target: obj.id,
+            target: obj.identifier,
         })
     }
     if (obj.hasQualifiedRelation) {
         obj.hasQualifiedRelation.forEach((id) => {
-            const targetedRequirement = requirements.find(el => el.id === id)
-            if (targetedRequirement) {
-                edges.push(...requirementsToEdges(requirements, targetedRequirement, obj.id))
+            const targetedActivity = activities.find(el => el.identifier === id)
+            if (targetedActivity) {
+                edges.push(...toEdges(activities, targetedActivity, obj.identifier))
             }
         });
     }

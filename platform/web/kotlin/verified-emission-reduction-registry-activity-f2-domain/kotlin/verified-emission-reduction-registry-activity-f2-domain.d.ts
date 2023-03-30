@@ -1736,19 +1736,21 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
     interface ActivityDTO {
         readonly identifier: string;
         readonly name?: string;
+        readonly type?: string;
         readonly description?: string;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
-        readonly hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: Array<string>;
+        readonly hasRequirement: Array<string>;
 
     }
     class Activity implements city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {
-        constructor(identifier: string, name?: string, description?: string, hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */);
+        constructor(identifier: string, name?: string, type?: string, description?: string, hasQualifiedRelation: Array<string>, hasRequirement: Array<string>);
         get identifier(): string;
         get name(): Nullable<string>;
+        get type(): Nullable<string>;
         get description(): Nullable<string>;
-        get hasQualifiedRelation(): Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
-        get hasRequirement(): Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
-        static Activity_init_$Create$(seen1: number, identifier?: string, name?: string, description?: string, hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, hasRequirement: Nullable<any>/* Nullable<kotlin.collections.List<string>> */, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
+        get hasQualifiedRelation(): Array<string>;
+        get hasRequirement(): Array<string>;
+        static Activity_init_$Create$(seen1: number, identifier?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<string>, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
         static get Companion(): {
             serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.Activity>;
         };

@@ -16086,9 +16086,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_10() {
     $serializer_instance_8 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.model.Activity', this, 5);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.model.Activity', this, 6);
     tmp0_serialDesc.gm('identifier', false);
     tmp0_serialDesc.gm('name', false);
+    tmp0_serialDesc.gm('type', false);
     tmp0_serialDesc.gm('description', false);
     tmp0_serialDesc.gm('hasQualifiedRelation', false);
     tmp0_serialDesc.gm('hasRequirement', false);
@@ -16100,7 +16101,7 @@ if (typeof Math.imul === 'undefined') {
   $serializer_10.prototype.dm = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(new ArrayListSerializer(StringSerializer_getInstance()))];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance())];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -16120,51 +16121,58 @@ if (typeof Math.imul === 'undefined') {
     var tmp6_local2 = null;
     var tmp7_local3 = null;
     var tmp8_local4 = null;
-    var tmp9_input = decoder.wo(tmp0_desc);
-    if (tmp9_input.pk()) {
-      tmp4_local0 = tmp9_input.sk(tmp0_desc, 0);
+    var tmp9_local5 = null;
+    var tmp10_input = decoder.wo(tmp0_desc);
+    if (tmp10_input.pk()) {
+      tmp4_local0 = tmp10_input.sk(tmp0_desc, 0);
       tmp3_bitMask0 = tmp3_bitMask0 | 1;
-      tmp5_local1 = tmp9_input.uk(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
+      tmp5_local1 = tmp10_input.uk(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
       tmp3_bitMask0 = tmp3_bitMask0 | 2;
-      tmp6_local2 = tmp9_input.uk(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+      tmp6_local2 = tmp10_input.uk(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
       tmp3_bitMask0 = tmp3_bitMask0 | 4;
-      tmp7_local3 = tmp9_input.uk(tmp0_desc, 3, new ArrayListSerializer(StringSerializer_getInstance()), tmp7_local3);
+      tmp7_local3 = tmp10_input.uk(tmp0_desc, 3, StringSerializer_getInstance(), tmp7_local3);
       tmp3_bitMask0 = tmp3_bitMask0 | 8;
-      tmp8_local4 = tmp9_input.uk(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), tmp8_local4);
+      tmp8_local4 = tmp10_input.tk(tmp0_desc, 4, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), tmp8_local4);
       tmp3_bitMask0 = tmp3_bitMask0 | 16;
+      tmp9_local5 = tmp10_input.tk(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), tmp9_local5);
+      tmp3_bitMask0 = tmp3_bitMask0 | 32;
     } else
       while (tmp1_flag) {
-        tmp2_index = tmp9_input.qk(tmp0_desc);
+        tmp2_index = tmp10_input.qk(tmp0_desc);
         switch (tmp2_index) {
           case -1:
             tmp1_flag = false;
             break;
           case 0:
-            tmp4_local0 = tmp9_input.sk(tmp0_desc, 0);
+            tmp4_local0 = tmp10_input.sk(tmp0_desc, 0);
             tmp3_bitMask0 = tmp3_bitMask0 | 1;
             break;
           case 1:
-            tmp5_local1 = tmp9_input.uk(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
+            tmp5_local1 = tmp10_input.uk(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
             tmp3_bitMask0 = tmp3_bitMask0 | 2;
             break;
           case 2:
-            tmp6_local2 = tmp9_input.uk(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+            tmp6_local2 = tmp10_input.uk(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
             tmp3_bitMask0 = tmp3_bitMask0 | 4;
             break;
           case 3:
-            tmp7_local3 = tmp9_input.uk(tmp0_desc, 3, new ArrayListSerializer(StringSerializer_getInstance()), tmp7_local3);
+            tmp7_local3 = tmp10_input.uk(tmp0_desc, 3, StringSerializer_getInstance(), tmp7_local3);
             tmp3_bitMask0 = tmp3_bitMask0 | 8;
             break;
           case 4:
-            tmp8_local4 = tmp9_input.uk(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), tmp8_local4);
+            tmp8_local4 = tmp10_input.tk(tmp0_desc, 4, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), tmp8_local4);
             tmp3_bitMask0 = tmp3_bitMask0 | 16;
+            break;
+          case 5:
+            tmp9_local5 = tmp10_input.tk(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), tmp9_local5);
+            tmp3_bitMask0 = tmp3_bitMask0 | 32;
             break;
           default:
             throw UnknownFieldException_init_$Create$(tmp2_index);
         }
       }
-    tmp9_input.ok(tmp0_desc);
-    return Activity_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
+    tmp10_input.ok(tmp0_desc);
+    return Activity_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, null);
   };
   $serializer_10.prototype.j12 = function (encoder, value) {
     var tmp0_desc = this.i12_1;
@@ -16172,8 +16180,9 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc, 0, value.k12_1);
     tmp1_output.zk(tmp0_desc, 1, StringSerializer_getInstance(), value.l12_1);
     tmp1_output.zk(tmp0_desc, 2, StringSerializer_getInstance(), value.m12_1);
-    tmp1_output.zk(tmp0_desc, 3, new ArrayListSerializer(StringSerializer_getInstance()), value.n12_1);
-    tmp1_output.zk(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), value.o12_1);
+    tmp1_output.zk(tmp0_desc, 3, StringSerializer_getInstance(), value.n12_1);
+    tmp1_output.yk(tmp0_desc, 4, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), value.o12_1);
+    tmp1_output.yk(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().t7(), StringSerializer_getInstance()), value.p12_1);
     tmp1_output.ok(tmp0_desc);
   };
   $serializer_10.prototype.yo = function (encoder, value) {
@@ -16185,27 +16194,29 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_10();
     return $serializer_instance_8;
   }
-  function Activity_init_$Init$(seen1, identifier, name, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker, $this) {
-    if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_8().i12_1);
+  function Activity_init_$Init$(seen1, identifier, name, type, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker, $this) {
+    if (!(63 === (63 & seen1))) {
+      throwMissingFieldException(seen1, 63, $serializer_getInstance_8().i12_1);
     }
     $this.k12_1 = identifier;
     $this.l12_1 = name;
-    $this.m12_1 = description;
-    $this.n12_1 = hasQualifiedRelation;
-    $this.o12_1 = hasRequirement;
+    $this.m12_1 = type;
+    $this.n12_1 = description;
+    $this.o12_1 = hasQualifiedRelation;
+    $this.p12_1 = hasRequirement;
     return $this;
   }
-  function Activity_init_$Create$(seen1, identifier, name, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker) {
-    return Activity_init_$Init$(seen1, identifier, name, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker, Object.create(Activity.prototype));
+  function Activity_init_$Create$(seen1, identifier, name, type, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker) {
+    return Activity_init_$Init$(seen1, identifier, name, type, description, hasQualifiedRelation, hasRequirement, serializationConstructorMarker, Object.create(Activity.prototype));
   }
-  function Activity(identifier, name, description, hasQualifiedRelation, hasRequirement) {
+  function Activity(identifier, name, type, description, hasQualifiedRelation, hasRequirement) {
     Companion_getInstance_25();
     this.k12_1 = identifier;
     this.l12_1 = name;
-    this.m12_1 = description;
-    this.n12_1 = hasQualifiedRelation;
-    this.o12_1 = hasRequirement;
+    this.m12_1 = type;
+    this.n12_1 = description;
+    this.o12_1 = hasQualifiedRelation;
+    this.p12_1 = hasRequirement;
   }
   Activity.prototype.f12 = function () {
     return this.k12_1;
@@ -16213,14 +16224,17 @@ if (typeof Math.imul === 'undefined') {
   Activity.prototype.s8 = function () {
     return this.l12_1;
   };
-  Activity.prototype.sr = function () {
+  Activity.prototype.qv = function () {
     return this.m12_1;
   };
-  Activity.prototype.g12 = function () {
+  Activity.prototype.sr = function () {
     return this.n12_1;
   };
-  Activity.prototype.h12 = function () {
+  Activity.prototype.g12 = function () {
     return this.o12_1;
+  };
+  Activity.prototype.h12 = function () {
+    return this.p12_1;
   };
   Object.defineProperty(Activity.prototype, 'identifier', {
     configurable: true,
@@ -16232,6 +16246,12 @@ if (typeof Math.imul === 'undefined') {
     configurable: true,
     get: function () {
       return this.s8();
+    }
+  });
+  Object.defineProperty(Activity.prototype, 'type', {
+    configurable: true,
+    get: function () {
+      return this.qv();
     }
   });
   Object.defineProperty(Activity.prototype, 'description', {
@@ -16274,10 +16294,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.gm('description', false);
     tmp0_serialDesc.gm('value', false);
     tmp0_serialDesc.gm('file', false);
-    this.q12_1 = tmp0_serialDesc;
+    this.r12_1 = tmp0_serialDesc;
   }
   $serializer_11.prototype.aj = function () {
-    return this.q12_1;
+    return this.r12_1;
   };
   $serializer_11.prototype.dm = function () {
     var tmp$ret$2;
@@ -16293,7 +16313,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_11.prototype.vo = function (decoder) {
-    var tmp0_desc = this.q12_1;
+    var tmp0_desc = this.r12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16348,18 +16368,18 @@ if (typeof Math.imul === 'undefined') {
     tmp9_input.ok(tmp0_desc);
     return ActivityStep_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
   };
-  $serializer_11.prototype.r12 = function (encoder, value) {
-    var tmp0_desc = this.q12_1;
+  $serializer_11.prototype.s12 = function (encoder, value) {
+    var tmp0_desc = this.r12_1;
     var tmp1_output = encoder.wo(tmp0_desc);
-    tmp1_output.xk(tmp0_desc, 0, value.s12_1);
-    tmp1_output.zk(tmp0_desc, 1, StringSerializer_getInstance(), value.t12_1);
-    tmp1_output.zk(tmp0_desc, 2, StringSerializer_getInstance(), value.u12_1);
-    tmp1_output.zk(tmp0_desc, 3, StringSerializer_getInstance(), value.v12_1);
-    tmp1_output.zk(tmp0_desc, 4, StringSerializer_getInstance(), value.w12_1);
+    tmp1_output.xk(tmp0_desc, 0, value.t12_1);
+    tmp1_output.zk(tmp0_desc, 1, StringSerializer_getInstance(), value.u12_1);
+    tmp1_output.zk(tmp0_desc, 2, StringSerializer_getInstance(), value.v12_1);
+    tmp1_output.zk(tmp0_desc, 3, StringSerializer_getInstance(), value.w12_1);
+    tmp1_output.zk(tmp0_desc, 4, StringSerializer_getInstance(), value.x12_1);
     tmp1_output.ok(tmp0_desc);
   };
   $serializer_11.prototype.yo = function (encoder, value) {
-    return this.r12(encoder, value instanceof ActivityStep ? value : THROW_CCE());
+    return this.s12(encoder, value instanceof ActivityStep ? value : THROW_CCE());
   };
   var $serializer_instance_9;
   function $serializer_getInstance_9() {
@@ -16369,13 +16389,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityStep_init_$Init$(seen1, identifier, name, description, value, file, serializationConstructorMarker, $this) {
     if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_9().q12_1);
+      throwMissingFieldException(seen1, 31, $serializer_getInstance_9().r12_1);
     }
-    $this.s12_1 = identifier;
-    $this.t12_1 = name;
-    $this.u12_1 = description;
-    $this.v12_1 = value;
-    $this.w12_1 = file;
+    $this.t12_1 = identifier;
+    $this.u12_1 = name;
+    $this.v12_1 = description;
+    $this.w12_1 = value;
+    $this.x12_1 = file;
     return $this;
   }
   function ActivityStep_init_$Create$(seen1, identifier, name, description, value, file, serializationConstructorMarker) {
@@ -16383,26 +16403,26 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityStep(identifier, name, description, value, file) {
     Companion_getInstance_26();
-    this.s12_1 = identifier;
-    this.t12_1 = name;
-    this.u12_1 = description;
-    this.v12_1 = value;
-    this.w12_1 = file;
+    this.t12_1 = identifier;
+    this.u12_1 = name;
+    this.v12_1 = description;
+    this.w12_1 = value;
+    this.x12_1 = file;
   }
   ActivityStep.prototype.f12 = function () {
-    return this.s12_1;
-  };
-  ActivityStep.prototype.s8 = function () {
     return this.t12_1;
   };
-  ActivityStep.prototype.sr = function () {
+  ActivityStep.prototype.s8 = function () {
     return this.u12_1;
   };
-  ActivityStep.prototype.a1 = function () {
+  ActivityStep.prototype.sr = function () {
     return this.v12_1;
   };
-  ActivityStep.prototype.p12 = function () {
+  ActivityStep.prototype.a1 = function () {
     return this.w12_1;
+  };
+  ActivityStep.prototype.q12 = function () {
+    return this.x12_1;
   };
   Object.defineProperty(ActivityStep.prototype, 'identifier', {
     configurable: true,
@@ -16431,7 +16451,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(ActivityStep.prototype, 'file', {
     configurable: true,
     get: function () {
-      return this.p12();
+      return this.q12();
     }
   });
   function ActivityPolicies() {

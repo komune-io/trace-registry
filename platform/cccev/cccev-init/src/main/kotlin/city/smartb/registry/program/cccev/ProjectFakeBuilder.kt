@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 
-class ProjectClientHelper {
+class ProjectFakeBuilder {
     val faker = Faker()
 //    val clientBuilder = projectClient("https://api.registry.smartb.network/ver")
     val clientBuilder = projectClient("http://localhost:8070")
@@ -39,7 +39,7 @@ class ProjectClientHelper {
 }
 
 fun main(): Unit = runBlocking {
-    val helper = ProjectClientHelper()
+    val helper = ProjectFakeBuilder()
     val clientBuilder = helper.clientBuilder
     val faker = helper.faker
     val subContinents = helper.subContinents
