@@ -7,9 +7,8 @@ import {ActivityGraphNode} from "../ActivityGraphNode";
 import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
 
 export interface ActivitiesGraphProps {
-    isLoading?: boolean,
     activities: Activity[],
-    selectedActivity: Activity | undefined,
+    selectedActivity?: Activity,
     onActivitySelect: (node: Activity) => void
 }
 

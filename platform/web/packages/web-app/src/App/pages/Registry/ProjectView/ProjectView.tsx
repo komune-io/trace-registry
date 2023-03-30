@@ -9,9 +9,10 @@ import {
     useProjectGetQuery,
 } from 'domain-components'
 import { Link, useParams } from 'react-router-dom'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useRoutesDefinition } from 'components'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
+import { useNavigate } from "react-router-dom";
 
 export interface ProjectViewProps {
     readonly: boolean
@@ -19,11 +20,11 @@ export interface ProjectViewProps {
 
 export const ProjectView = (props: ProjectViewProps) => {
     const { readonly } = props
-    const { projectId } = useParams()
-    const { projectsProjectIdView, projects } = useRoutesDefinition()
+    const { projectId, tab } = useParams()
+    const { projectsProjectIdViewTab, projects } = useRoutesDefinition()
+    const navigate = useNavigate();
     const { t } = useTranslation()
-    const [currentTab, setCurrentTab] = useState("info")
-
+    const currentTab = useMemo(() => tab ?? "info", [tab])
     const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
     const project = projectQuery.data?.item
 
@@ -51,7 +52,7 @@ export const ProjectView = (props: ProjectViewProps) => {
     ], [t])
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
-        setCurrentTab(value)
+        navigate(projectsProjectIdViewTab(projectId || "", value))
     }, [])
 
     const editActions = useMemo((): Action[] => [{
@@ -59,7 +60,7 @@ export const ProjectView = (props: ProjectViewProps) => {
         label: t("cancel"),
         variant: "text",
         component: Link,
-        componentProps: { to: projectsProjectIdView(projectId!) }
+        componentProps: { to: projectsProjectIdViewTab(projectId!, ) }
     }, {
         key: "submit",
         label: t("save"),

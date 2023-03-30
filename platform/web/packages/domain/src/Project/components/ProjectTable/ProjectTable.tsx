@@ -96,7 +96,7 @@ export interface ProjectTableProps {
 
 export const ProjectTable = (props: ProjectTableProps) => {
     const {isLoading, page, onOffsetChange} = props
-    const {projectsProjectIdView } = useRoutesDefinition()
+    const { projectsProjectIdView } = useRoutesDefinition()
 
     const columns = useProductColumn()
 

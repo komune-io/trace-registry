@@ -61,7 +61,18 @@ export const activitiesToNodes = (
     return nodes
 }
 
-export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activity, select: (id: string) => void) => {
+interface NodesAnEdgesOfActivities {
+    nodes: Node<ActivityData>[]
+    edges: Edge[]
+}
+
+export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activity | undefined, select: (id: string) => void): NodesAnEdgesOfActivities => {
+    if(obj === undefined) {
+        return {
+            nodes: [],
+            edges: []
+        }
+    }
     const nodes: Node<ActivityData>[] = activitiesToNodes(activities, obj, select)
     const edges = toEdges(activities, obj)
     const ancestor = activities.find((el) => el.hasRequirement?.find((id) => obj.identifier === id))

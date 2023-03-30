@@ -16,8 +16,8 @@ export const registryPages: PageRoute[] = [
     path: "projects/:projectId/view",
     element: <ProjectView readonly />
   },
-  // {
-  //   path: "projects/:projectId/edit",
-  //   element: <ProjectView readonly={false} />
-  // }
+  {
+    path: "projects/:projectId/view/:tab",
+    element: <ProjectView readonly />
+  }
 ]
