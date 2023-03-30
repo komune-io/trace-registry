@@ -1,4 +1,4 @@
-import { Page, Section, useFormComposable, Action, LinkButton } from '@smartb/g2'
+import { Page, useFormComposable, Action, LinkButton } from '@smartb/g2'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {
@@ -10,7 +10,7 @@ import {
 } from 'domain-components'
 import { Link, useParams } from 'react-router-dom'
 import { useCallback, useMemo } from 'react'
-import { useRoutesDefinition } from 'components'
+import {SectionTab, Tab, useRoutesDefinition} from 'components'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 
@@ -37,20 +37,6 @@ export const ProjectView = (props: ProjectViewProps) => {
         }
     })
 
-    const tabs = useMemo(() => [{
-        key: 'info',
-        label: t('informations')
-    },
-    {
-        key: 'activities',
-        label: t('activities')
-    },
-        // {
-        //     key: 'assets',
-        //     label: t('assets')
-        // },
-    ], [t])
-
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         navigate(projectsProjectIdViewTab(projectId || "", value))
     }, [])
@@ -67,6 +53,23 @@ export const ProjectView = (props: ProjectViewProps) => {
         onClick: formState.submitForm
     }], [t, projectId, formState.submitForm])
 
+
+    const tabs: Tab[] = useMemo(() => [{
+        key: 'info',
+        label: t('informations'),
+        component: (<>
+            <ProjectBanner formState={formState} />
+            <Stack direction="row" gap={7}>
+                <ProjectDetails formState={formState} />
+                <ProjectProtocolesLocation formState={formState} />
+            </Stack>
+        </>)
+    }, {
+        key: 'activities',
+        label: t('activities'),
+        component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project} /> : <></>)
+    }], [project, projectQuery.isLoading, formState, t])
+
     return (
         <Page
             headerProps={{
@@ -80,51 +83,12 @@ export const ProjectView = (props: ProjectViewProps) => {
                 actions: !readonly ? editActions : undefined
             }}
         >
-            <Section headerProps={{
-                content: [{
-                    leftPart: [
-                        <LinkButton sx={{zIndex: 5}} to={projects()} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />}>{t("projectList")}</LinkButton>
-                    ],
-                }],
-                currentTab,
-                tabs,
-                onTabChange,
-                sx: {
-                    "& .MuiTabs-flexContainer": {
-                        justifyContent: "center"
-                    },
-                    "& .AruiHeader-contentContainer": {
-                        gap: "0"
-                    },
-                    "& .AruiHeader-leftPartContainer": {
-                        marginBottom: "-30px"
-                    }
-                }
-            }}
-                flexContent
-                sx={{
-                    "& .AruiSection-contentContainer": {
-                        padding: currentTab === "activities" ? "unset" : undefined
-                    }
-                }}
-            >
-                {currentTab === "info" &&
-                    <>
-                        <ProjectBanner formState={formState} />
-                        <Stack direction="row" gap={7}>
-                            <ProjectDetails formState={formState} />
-                            <ProjectProtocolesLocation formState={formState} />
-                        </Stack>
-                    </>
-                }
-
-                {currentTab === "activities" && project &&
-                    <ProjectActivities
-                        isLoading={projectQuery.isLoading}
-                        project={project}
-                    />
-                }
-            </Section>
+            <SectionTab
+              tabs={tabs}
+              currentTab={currentTab}
+              goBackLink={(<LinkButton sx={{zIndex: 5}} to={projects()} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />}>{t("projectList")}</LinkButton>)}
+              onTabChange={onTabChange}
+            />
             {readonly && currentTab === "info" && <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >{t("lastChanged", { date: new Date(project?.lastModificationDate).toLocaleDateString() })}</Typography>}
         </Page>
     )
