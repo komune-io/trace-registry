@@ -1,17 +1,16 @@
 import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
 
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
-import {ActivityStep} from "../../model";
-import {ActivityDataNode} from "../../graph";
+import {Activity, ActivityStep} from "../../model";
 
 export interface ActivitiesSummaryProps {
-    node?: ActivityDataNode
+    activity?: Activity
     steps?: ActivityStep[]
     isLoading?: boolean
 }
 
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
-  const { isLoading, steps, node } = props
+  const { isLoading, steps, activity } = props
 
   const fields: FormComposableField[] = steps?.map(it => ({
       name: it.identifier,
@@ -46,7 +45,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
             gap={2}
         >
             <Box>
-                <Typography variant="h5" >{node?.data?.current?.name}</Typography>
+                <Typography variant="h5" >{activity?.name}</Typography>
                 <Divider sx={{ marginTop: "8px" }} />
             </Box>
             {
@@ -62,7 +61,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
                     />
                     :
                     <>
-                      <Typography color="text.secondary" >{node?.data?.current?.description}</Typography>
+                      <Typography color="text.secondary" >{activity?.description}</Typography>
                       <FormComposable fields={fields} formState={formState} />
                     </>
             }

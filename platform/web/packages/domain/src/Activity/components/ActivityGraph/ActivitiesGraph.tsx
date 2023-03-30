@@ -8,7 +8,9 @@ import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
 
 export interface ActivitiesGraphProps {
     isLoading?: boolean,
-    activities: Activity[]
+    activities: Activity[],
+    selectedActivity: Activity | undefined,
+    onActivitySelect: (node: Activity) => void
 }
 
 const nodeTypes = {
@@ -16,9 +18,9 @@ const nodeTypes = {
 };
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
-    const {activities} = props
+    const {activities, selectedActivity, onActivitySelect} = props
     const [baseRequirement, setBaseRequirement] = useState(activities[0])
-    const [selectedNode, setSelectedNode] = useState<ActivityDataNode | undefined>(undefined);
+    // const [selectedNode, setSelectedNode] = useState<ActivityDataNode | undefined>(undefined);
 
     const selectRequirement = useCallback(
       (id: string) => {
@@ -36,8 +38,8 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         setEdges(res.edges)
     }, [baseRequirement, selectRequirement])
     const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
-      if(node.id !== selectedNode?.id) {
-        setSelectedNode(node);
+      if(node.data.current.identifier !== selectedActivity?.identifier) {
+        onActivitySelect(node.data.current);
       }
     };
     return (

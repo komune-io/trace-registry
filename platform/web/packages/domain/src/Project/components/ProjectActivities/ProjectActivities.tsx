@@ -2,8 +2,8 @@ import { Stack } from '@mui/material'
 import { Project } from '../../model'
 import 'reactflow/dist/style.css';
 import {useState} from 'react';
-import {activitiesExample, useActivityPageQuery, useActivityStepPageQuery} from "../../../Activity";
-import {ActivitiesSummary, ActivitiesGraph, ActivityDataNode} from "../../../Activity";
+import {activitiesExample, Activity, useActivityPageQuery, useActivityStepPageQuery} from "../../../Activity";
+import {ActivitiesSummary, ActivitiesGraph} from "../../../Activity";
 
 export interface ProjectActivitiesProps {
     project: Project
@@ -11,9 +11,9 @@ export interface ProjectActivitiesProps {
 }
 
 export const ProjectActivities = (props: ProjectActivitiesProps) => {
-    const { isLoading, project} = props
+    const {isLoading, project} = props
     const activities = activitiesExample
-    const [selectedNode, setSelectedNode] = useState<ActivityDataNode | undefined>(undefined);
+    const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
     console.log(setSelectedNode)
     const activityPageQuery = useActivityPageQuery({
       query: {
@@ -42,8 +42,8 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
               minHeight: "fit-content"
           }}
       >
-          <ActivitiesGraph activities={activities} />
-          <ActivitiesSummary isLoading={isLoading} node={selectedNode} steps={[]}/>
+          <ActivitiesGraph activities={activities} selectedActivity={selectedNode} onActivitySelect={setSelectedNode}/>
+          <ActivitiesSummary isLoading={isLoading} activity={selectedNode} steps={[]}/>
       </Stack>
   )
 }
