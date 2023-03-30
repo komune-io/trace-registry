@@ -7,7 +7,7 @@ import city.smartb.registry.program.cccev.requirement.ImplementationRequirements
 import city.smartb.registry.program.cccev.requirement.LocalConsultationRequirements
 import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
 import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
-import io.ktor.client.plugins.logging.*
+import city.smartb.registry.program.cccev.ver.ActivitiesAxess
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -19,6 +19,7 @@ fun main(): Unit = runBlocking {
     val client = CCCEVClient(url)
     client.createGraph(
         buildList<Requirement> {
+            add(ActivitiesAxess)
             addAll(EligibilityRequirements)
             addAll(ImplementationRequirements)
             addAll(LocalConsultationRequirements)

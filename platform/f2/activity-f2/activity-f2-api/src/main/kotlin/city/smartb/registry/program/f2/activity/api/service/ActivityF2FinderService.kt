@@ -1,6 +1,7 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeResultDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.Activity
@@ -28,7 +29,7 @@ class ActivityF2FinderService(
             ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
         }
 
-        val activities = requirements?.items?.map { requirement ->
+        val activities = requirements?.items?.flatten()?.map { requirement ->
             Activity(
                 identifier = requirement.identifier!!,
                 name = requirement.name,
@@ -43,6 +44,24 @@ class ActivityF2FinderService(
             items = activities,
             total = requirements?.items?.size ?: 0
         )
+    }
+
+    fun List<RequirementDTOBase>.flatten(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): List<RequirementDTOBase> {
+        return flatMap { it.flatten(visited) }
+    }
+
+    fun RequirementDTOBase.flatten(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): List<RequirementDTOBase> {
+        if (visited.contains(this)) {
+            return emptyList()
+        }
+        visited.add(this)
+        return listOf(this) + hasRequirement.flatMap { it.flatten(visited) }
+    }
+    fun RequirementDTOBase.flatten(): List<RequirementDTOBase> {
+        val flattened = mutableListOf(this)
+        hasRequirement.forEach { flattened.addAll(it.flatten()) }
+//        hasQualifiedRelation.forEach { flattened.addAll(it.flatten()) }
+        return flattened
     }
 
     suspend fun stepPage(
