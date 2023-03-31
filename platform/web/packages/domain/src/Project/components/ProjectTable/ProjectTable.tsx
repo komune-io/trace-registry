@@ -3,7 +3,8 @@ import {ColumnFactory, useTable, StatusTag} from '@smartb/g2'
 import {Row} from '@tanstack/react-table';
 import {Project} from '../../model'
 import {useCallback, useMemo} from "react"
-import {OffsetPagination, PageQueryResult, OffsetTable, useRoutesDefinition} from 'components'
+import {useRoutesDefinition} from 'components'
+import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
 
 function useProductColumn() {
     return useMemo(() => ColumnFactory<Project>({

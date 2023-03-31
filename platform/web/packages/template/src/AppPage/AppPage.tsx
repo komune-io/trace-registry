@@ -1,6 +1,6 @@
 import { Page } from '@smartb/g2'
-import { AppBar } from "components";
 import { ReactNode } from "react";
+import {AppBar} from "../AppBar";
 
 export interface AppPageProps {
   title?: string

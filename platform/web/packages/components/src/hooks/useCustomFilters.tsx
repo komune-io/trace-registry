@@ -1,7 +1,7 @@
 import { FilterComposableField, useFiltersComposable, Action, Option, FiltersComposable } from '@smartb/g2'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {OffsetPagination, Offset} from "../OffsetTable";
+import {OffsetPagination, Offset} from "template";
 
 export interface useCustomFiltersParams {
     filters: FilterComposableField[]

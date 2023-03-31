@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { Header } from '@smartb/g2'
 import {useProjectPageQuery, useProjectFilters, ProjectTable} from 'domain-components'
 import { Fragment } from "react"
-import {AppPage} from "components";
+import { AppPage } from "template";
 export const ProjectList = () => {
     const { component, setOffset, submittedFilters } = useProjectFilters()
     const projects = useProjectPageQuery({

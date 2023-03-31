@@ -7,7 +7,8 @@ import {
 } from 'domain-components'
 import { useParams } from 'react-router-dom'
 import { useCallback, useMemo } from 'react'
-import {AppPage, SectionTab, Tab, useRoutesDefinition} from 'components'
+import { useRoutesDefinition } from 'components'
+import { AppPage, SectionTab, Tab } from 'template'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import { MenuItem, Chip } from "@smartb/g2-components";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { LinkProps } from "react-router-dom";
 import { EditRounded, Visibility } from "@mui/icons-material";
 import { Link } from "react-router-dom";
