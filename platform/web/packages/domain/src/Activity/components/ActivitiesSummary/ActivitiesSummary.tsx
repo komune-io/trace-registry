@@ -30,8 +30,8 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const formState = useFormComposable({
     onSubmit: () => { },
     isLoading: isLoading,
-    // TODO This Hides All fields when there are empty
-    readonly: false,
+    readonly: true,
+    emptyValueInReadonly: "-",
     formikConfig: {
       initialValues: values
     }
@@ -43,6 +43,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
                 height: "100%",
                 width: "550px",
                 padding: "24px 32px",
+                overflowY: "auto"
             }}
             gap={2}
         >

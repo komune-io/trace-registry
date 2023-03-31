@@ -19,9 +19,6 @@ fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =
 
 private fun eligibilityStepSingle(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Activities.Eligibility
-        }
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -37,6 +34,9 @@ val SurveyOfEligibility = eligibilityStep {
     name = "Survey of eligibility"
     description =
         "Conduct an initial assessment of the project to determine if it meets the eligibility criteria."
+    isRequirementOf {
+        +Activities.Eligibility
+    }
 }
 
 
@@ -110,18 +110,27 @@ val FirstEstimate = eligibilityStep {
     identifier = "B300"
     name = "First emissions estimate"
     description = "An initial estimation of the baseline emissions of the project, used as a reference for measuring emissions reductions."
+    isRequirementOf {
+        +Activities.Eligibility
+    }
 }
 
 val ThirdPartyAudit = eligibilityStep {
     identifier = "B400"
     name = "Third-party audit"
     description = "An independent review of the project's emissions data and reduction claims by a third-party organization to ensure accuracy and credibility."
+    isRequirementOf {
+        +Activities.Eligibility
+    }
 }
 
 val Validation = eligibilityStep {
     identifier = "B500"
     name = "Validation"
     description = "A formal process of verifying that the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
+    isRequirementOf {
+        +Activities.Eligibility
+    }
 }
 
 val EligibilityRequirements = buildList {

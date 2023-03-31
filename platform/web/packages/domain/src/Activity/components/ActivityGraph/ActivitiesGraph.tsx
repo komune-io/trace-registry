@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
-import {ReactFlow, Background} from "reactflow"
+import {ReactFlow, Background, useEdgesState, useNodesState, Controls} from "reactflow"
 import 'reactflow/dist/style.css';
-import {MouseEvent as ReactMouseEvent, useCallback, useMemo, useState} from 'react';
+import {MouseEvent as ReactMouseEvent, useCallback, useEffect, useState} from 'react';
 import {Activity, ActivityId} from "../../model";
 import {ActivityGraphNode} from "../ActivityGraphNode";
 import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
@@ -28,10 +28,14 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
       },
       [activities],
     )
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    const {nodes, edges} = useMemo(() => {
+    useEffect(() => {
       const currentActivities = baseRequirement ? baseRequirement.hasRequirement : activities
-        return getNodesAnEdgesOfActivities(currentActivities, baseRequirement, selectRequirement)
+      const {nodes, edges} = getNodesAnEdgesOfActivities(currentActivities, baseRequirement, selectRequirement)
+      setNodes(nodes)
+      setEdges(edges)
     }, [baseRequirement, selectRequirement])
 
     const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
@@ -50,6 +54,8 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
           nodeTypes={nodeTypes}
           onNodeClick={onSelectionChange}
           fitView
@@ -59,6 +65,7 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
           }}
         >
           <Background color={"#9E9E9E"} />
+          <Controls />
         </ReactFlow>
       </Box>
     )

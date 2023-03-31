@@ -11,7 +11,6 @@ import city.smartb.registry.program.cccev.ver.ReferenceFramework
 fun RequirementsLinkedBuilder.reddPlusProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
         isRequirementOf {
-            +Activities.ProtocolPreparation
             +Methodology.VM0011
         }
         isDerivedFrom {
@@ -23,7 +22,6 @@ fun RequirementsLinkedBuilder.reddPlusProtocolPreparationStep(init: InformationR
 fun RequirementsLinkedBuilder.reddPlusProtocolValidationSteps(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
         isRequirementOf {
-            +Activities.ProtocolValidation
             +Methodology.VM0011
         }
         isDerivedFrom {
@@ -31,6 +29,7 @@ fun RequirementsLinkedBuilder.reddPlusProtocolValidationSteps(init: InformationR
         }
         type = Type.Steps
     }.apply(init).build()
+
 
 fun RequirementsLinkedBuilder.reddPlusProtocolCertificationSteps(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
@@ -44,16 +43,23 @@ fun RequirementsLinkedBuilder.reddPlusProtocolCertificationSteps(init: Informati
         type = Type.Steps
     }.apply(init).build()
 
+fun reddPlusProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.ProtocolPreparation
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.REDDPlus
+        }
+        type = Type.Activities
+    }.apply(init).build()
 
-val RedactionDuPIN = informationRequirement {
+
+val RedactionDuPIN = reddPlusProtocolActivity {
     identifier = "E10X"
     name = "Redaction Du PIN"
     description = ""
-    isRequirementOf {
-        +Activities.ProtocolPreparation
-        +Methodology.VM0011
-    }
-    type = Type.Activities
     hasRequirement {
         reddPlusProtocolPreparationStep {
             identifier = "E100"
@@ -136,16 +142,11 @@ val RedactionDuPIN = informationRequirement {
 }
 
 
-val RedactionDuPINAuMinistere = informationRequirement {
+val RedactionDuPINAuMinistere = reddPlusProtocolActivity {
     identifier = "E20X"
     name = "Redaction of the Project Idea Note (PIN) to the Ministry"
     description =
         "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
-    isRequirementOf {
-        +Activities.ProtocolValidation
-        +Methodology.VM0011
-    }
-    type = Type.Activities
     hasRequirement {
         reddPlusProtocolValidationSteps {
             identifier = "E200"
@@ -170,16 +171,11 @@ val RedactionDuPINAuMinistere = informationRequirement {
         }
     }
 }
-val DepotDuPINAuMinistere = cccev.dsl.model.informationRequirement {
+val DepotDuPINAuMinistere = reddPlusProtocolActivity {
     identifier = "E30X"
     name = "Submission of the Project Idea Note (PIN) to the Ministry"
     description =
         "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
-    isRequirementOf {
-        +Activities.Certification
-        +Methodology.VM0011
-    }
-    type = Type.Activities
     hasRequirement {
         reddPlusProtocolCertificationSteps {
             identifier = "E300"
