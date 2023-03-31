@@ -43,8 +43,6 @@ include(
 )
 
 include(
-	"platform:s2:activity:activity-api",
-	"platform:s2:activity:activity-domain",
 	"platform:s2:asset:asset-api",
 	"platform:s2:asset:asset-domain",
 	"platform:s2:project:project-api",
