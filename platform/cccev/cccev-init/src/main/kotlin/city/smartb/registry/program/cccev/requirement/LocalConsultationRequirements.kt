@@ -10,9 +10,9 @@ import city.smartb.registry.program.cccev.ver.Type
 
 fun RequirementsLinkedBuilder.localConsultationProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
@@ -21,9 +21,9 @@ fun RequirementsLinkedBuilder.localConsultationProtocolPreparationStep(init: Inf
 
 fun RequirementsLinkedBuilder.localConsultationProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
@@ -34,6 +34,17 @@ fun localConsultationProtocolActivity(init: InformationRequirementBuilder.() -> 
     InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolPreparation
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.REDDPlus
+        }
+        type = Type.Activities
+    }.apply(init).build()
+fun localConsultationProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.ProtocolValidation
             +Methodology.VM0011
         }
         isDerivedFrom {
@@ -135,7 +146,7 @@ val LocalConsultationPreparation = localConsultationProtocolActivity {
     }
 }
 
-val LocalConsultationValidation = localConsultationProtocolActivity {
+val LocalConsultationValidation = localConsultationProtocolValidationActivity {
     identifier = "D20X"
     name = "Local consultation"
     description = """
@@ -144,14 +155,6 @@ val LocalConsultationValidation = localConsultationProtocolActivity {
     The purpose of local consultation is to ensure that the voices, needs, and interests of local communities 
     and stakeholders are taken into account in the design and implementation of REDD+ projects.
     """
-    isRequirementOf {
-        +Activities.ProtocolValidation
-        +Methodology.VM0011
-    }
-    isDerivedFrom {
-        +ReferenceFramework.REDDPlus
-    }
-    type = Type.Activities
     hasRequirement {
         localConsultationProtocolValidationStep {
             identifier = "D200"

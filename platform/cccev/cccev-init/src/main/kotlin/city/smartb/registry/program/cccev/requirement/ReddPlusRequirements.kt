@@ -2,7 +2,6 @@ package city.smartb.registry.program.cccev.requirement
 
 import cccev.dsl.model.builder.InformationRequirementBuilder
 import cccev.dsl.model.builder.RequirementsLinkedBuilder
-import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
 import city.smartb.registry.program.cccev.ver.Type
@@ -10,20 +9,20 @@ import city.smartb.registry.program.cccev.ver.ReferenceFramework
 
 fun RequirementsLinkedBuilder.reddPlusProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
         type = Type.Steps
     }.apply(init).build()
 
-fun RequirementsLinkedBuilder.reddPlusProtocolValidationSteps(init: InformationRequirementBuilder.() -> Unit) =
+fun RequirementsLinkedBuilder.reddPlusProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
@@ -31,19 +30,19 @@ fun RequirementsLinkedBuilder.reddPlusProtocolValidationSteps(init: InformationR
     }.apply(init).build()
 
 
-fun RequirementsLinkedBuilder.reddPlusProtocolCertificationSteps(init: InformationRequirementBuilder.() -> Unit) =
+fun RequirementsLinkedBuilder.reddPlusProtocolCertificationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Activities.Certification
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Activities.Certification
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
         type = Type.Steps
     }.apply(init).build()
 
-fun reddPlusProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
+fun reddPlusProtocolPreparationActivity(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolPreparation
@@ -55,8 +54,32 @@ fun reddPlusProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
         type = Type.Activities
     }.apply(init).build()
 
+fun reddPlusProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.ProtocolValidation
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.REDDPlus
+        }
+        type = Type.Activities
+    }.apply(init).build()
 
-val RedactionDuPIN = reddPlusProtocolActivity {
+fun reddPlusProtocolCertificationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.Certification
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.REDDPlus
+        }
+        type = Type.Activities
+    }.apply(init).build()
+
+
+val RedactionDuPIN = reddPlusProtocolPreparationActivity {
     identifier = "E10X"
     name = "Redaction Du PIN"
     description = ""
@@ -142,42 +165,42 @@ val RedactionDuPIN = reddPlusProtocolActivity {
 }
 
 
-val RedactionDuPINAuMinistere = reddPlusProtocolActivity {
+val RedactionDuPINAuMinistere = reddPlusProtocolValidationActivity {
     identifier = "E20X"
     name = "Redaction of the Project Idea Note (PIN) to the Ministry"
     description =
         "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
     hasRequirement {
-        reddPlusProtocolValidationSteps {
+        reddPlusProtocolValidationStep {
             identifier = "E200"
             name = "Submission of the Project Idea Note (PIN) to the Ministry"
             description =
                 "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
         }
-        reddPlusProtocolValidationSteps {
+        reddPlusProtocolValidationStep {
             identifier = "E201"
             name = "Proof of payment"
             description = "Provide evidence of payment of any applicable fees related to the submission of the PIN."
         }
-        reddPlusProtocolValidationSteps {
+        reddPlusProtocolValidationStep {
             identifier = "E202"
             name = "Receipt of PIN"
             description = "Obtain an acknowledgment of receipt of the PIN from the Ministry."
         }
-        reddPlusProtocolValidationSteps {
+        reddPlusProtocolValidationStep {
             identifier = "E203"
             name = "Approval letter"
             description = "Receive a letter from the Ministry indicating approval of the PIN."
         }
     }
 }
-val DepotDuPINAuMinistere = reddPlusProtocolActivity {
+val DepotDuPINAuMinistere = reddPlusProtocolCertificationActivity {
     identifier = "E30X"
     name = "Submission of the Project Idea Note (PIN) to the Ministry"
     description =
         "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification."
     hasRequirement {
-        reddPlusProtocolCertificationSteps {
+        reddPlusProtocolCertificationStep {
             identifier = "E300"
             name = "Certification"
             description = "Obtain a certificate of approval or homologation from the Ministry."

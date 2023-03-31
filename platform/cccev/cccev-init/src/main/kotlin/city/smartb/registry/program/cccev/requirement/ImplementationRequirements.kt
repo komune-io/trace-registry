@@ -11,7 +11,6 @@ fun implementationStep(init: InformationRequirementBuilder.() -> Unit) =
             +ReferenceFramework.AxessImpact
         }
         type = Type.Steps
-
     }.apply(init).build()
 
 fun implementationActivityStep(init: InformationRequirementBuilder.() -> Unit) =
@@ -91,9 +90,9 @@ val SelectionOfStandard = implementationActivityStep {
 
 
 val PreliminaryStudy = implementationActivity {
-    identifier = "B10X"
-    name = "Identification of the project"
-    description = "This activity involves identifying the project and its location."
+    identifier = "C80X"
+    name = "Preliminary study"
+    description = "Provide a preliminary study for the project."
     hasRequirement {
         implementationStep {
             identifier = "C801"

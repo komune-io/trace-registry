@@ -9,9 +9,9 @@ import city.smartb.registry.program.cccev.ver.ReferenceFramework
 
 fun RequirementsLinkedBuilder.verraVcsProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
@@ -20,21 +20,20 @@ fun RequirementsLinkedBuilder.verraVcsProtocolPreparationStep(init: InformationR
 
 fun RequirementsLinkedBuilder.verraVcsProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
-        isRequirementOf {
-            +Methodology.VM0011
-        }
+//        isRequirementOf {
+//            +Methodology.VM0011
+//        }
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-
         type = Type.Steps
     }.apply(init).build()
 
 fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
         isRequirementOf {
-            +Activities.Certification
-            +Methodology.VM0011
+//            +Activities.Certification
+//            +Methodology.VM0011
         }
         isDerivedFrom {
             +ReferenceFramework.Verra
@@ -42,7 +41,7 @@ fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationReq
         type = Type.Steps
     }.apply(init).build()
 
-fun verraVcsProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
+fun verraVcsProtocolPreparationActivity(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
         isRequirementOf {
             +Activities.ProtocolPreparation
@@ -54,8 +53,32 @@ fun verraVcsProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
         type = Type.Activities
     }.apply(init).build()
 
+fun verraVcsProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.ProtocolValidation
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.Verra
+        }
+        type = Type.Activities
+    }.apply(init).build()
 
-val DraftPDDVCSCCB = verraVcsProtocolActivity {
+fun verraVcsProtocolCertificationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.Certification
+            +Methodology.VM0011
+        }
+        isDerivedFrom {
+            +ReferenceFramework.Verra
+        }
+        type = Type.Activities
+    }.apply(init).build()
+
+
+val DraftPDDVCSCCB = verraVcsProtocolPreparationActivity {
     identifier = "H10X"
     name = "Draft PDD VCS+CCB"
     description = "This activity involves the preparation and revision of the Project Design Document (PDD) for the VCS+CCB certification process."
@@ -83,7 +106,7 @@ val DraftPDDVCSCCB = verraVcsProtocolActivity {
     }
 }
 
-val EntreeApipelineVerra = verraVcsProtocolActivity {
+val EntreeApipelineVerra = verraVcsProtocolPreparationActivity {
     identifier = "E20X"
     name = "Entrée au pipeline Verra"
     description = "This activity involves submitting the project for validation and verification by the Verra registry."
@@ -114,7 +137,7 @@ val EntreeApipelineVerra = verraVcsProtocolActivity {
 
 
 
-val ValidationPDDVCSCCB = verraVcsProtocolActivity {
+val ValidationPDDVCSCCB = verraVcsProtocolValidationActivity {
     identifier = "H30X"
     name = "Validation PDD VCS+CCB"
     description = "This activity involves the validation process of the Project Design Document (PDD) under the Verified Carbon Standard (VCS) and the Climate, Community and Biodiversity (CCB) Standards."
@@ -153,7 +176,7 @@ val ValidationPDDVCSCCB = verraVcsProtocolActivity {
 }
 
 
-val VerraVcsProtocolCertificationRequirements = verraVcsProtocolActivity {
+val VerraVcsProtocolCertificationRequirements = verraVcsProtocolCertificationActivity {
     identifier = "H40X"
     name = "Verification PDD VCS+CCB"
     description = "This activity involves verifying the emissions reductions claimed in the PDD according to the VCS+CCB standards."
