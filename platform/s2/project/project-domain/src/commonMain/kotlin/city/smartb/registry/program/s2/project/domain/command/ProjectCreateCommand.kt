@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.project.domain.model.ActivityId
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -37,7 +38,8 @@ data class ProjectCreateCommand(
     override var assessor: OrganizationRef?,
     override var location: GeoLocation?,
     override var activities: List<ActivityId>?,
-    override var subContinent: String?
+    override var subContinent: String?,
+    override var sdgs: List<SdgNumber>?
 ): ProjectInitCommand, ProjectAbstractMsg
 
 /**
@@ -79,8 +81,9 @@ data class ProjectCreatedEvent(
     override var assessor: OrganizationRef? = null,
     override var location: GeoLocation? = null,
     override var activities: List<ActivityId>? = null,
-    override var subContinent: String? = null
+    override var subContinent: String? = null,
+    override var sdgs: List<SdgNumber>? = null,
 
-): ProjectCreatedEventDTO {
+    ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }

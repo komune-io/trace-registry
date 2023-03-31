@@ -80,7 +80,8 @@ fun main(): Unit = runBlocking {
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
             ),
-            activities = listOf("P0", "P1", "P2", "P3", "P4", "P5")
+            activities = listOf("P0", "P1", "P2", "P3", "P4", "P5"),
+            sdgs = (1..15).shuffled().take((1..15).random())
         )
     }
 //            .asFlow().map {

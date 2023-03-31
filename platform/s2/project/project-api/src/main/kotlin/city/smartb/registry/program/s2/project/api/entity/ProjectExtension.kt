@@ -3,8 +3,11 @@ package city.smartb.registry.program.s2.project.api.entity
 import city.smartb.registry.program.infra.redis.toGeoLocation
 import city.smartb.registry.program.infra.redis.toRedisGeoLocation
 import city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg
+import city.smartb.registry.program.s2.project.domain.error.IllegalSdgError
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.Project
+import f2.dsl.cqrs.error.asException
+import f2.dsl.cqrs.exception.F2Exception
 
 fun ProjectEntity.toProject() = Project(
     id = id,
@@ -29,7 +32,8 @@ fun ProjectEntity.toProject() = Project(
     location = location?.toGeoLocation(),
     creationDate = null,
     lastModificationDate = null,
-    activities = activities
+    activities = activities,
+    sdgs = sdgs
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )
@@ -55,10 +59,16 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.assessor = assessor?.toEntity()
     entity.location = location?.toRedisGeoLocation(id)
     entity.activities = activities
+    entity.sdgs = sdgs?.sorted()
     entity
 }
 
 fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
+    msg.sdgs?.forEach { sdg ->
+        if( sdg > 15 ) {
+            throw IllegalSdgError(sdg).asException()
+        }
+    }
     name = msg.name
     identifier = msg.identifier
     country = msg.country
@@ -78,7 +88,7 @@ fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {
     vvb = msg.vvb
     assessor = msg.assessor
     location = msg.location
-
+    sdgs = msg.sdgs
     activities = msg.activities
 }
 

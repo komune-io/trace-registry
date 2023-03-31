@@ -4,6 +4,7 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.model.ActivityId
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 
 interface ProjectAbstractMsg {
     var name: String
@@ -25,5 +26,6 @@ interface ProjectAbstractMsg {
     var vvb: OrganizationRef?
     var assessor: OrganizationRef?
     var location: GeoLocation?
+    var sdgs: List<SdgNumber>?
     var activities: List<ActivityId>?
 }

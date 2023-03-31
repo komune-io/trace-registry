@@ -51,6 +51,7 @@ class ActivityF2FinderService(
             type = type,
             hasQualifiedRelation = emptyArray(),
             hasRequirement = hasRequirement.mapNotNull { it.mapActivities() }.toTypedArray(),
+            progression = (0..100).random().toDouble()
         )
     }
 
@@ -68,7 +69,8 @@ class ActivityF2FinderService(
                 name = it.name,
                 description = it.description,
                 value = null,
-                file = null
+                file = null,
+                completed = listOf(false, true).random()
             )
         } ?: emptyList()
         return ActivityStepPageResult(

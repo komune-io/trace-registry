@@ -20,7 +20,10 @@ export const ProjectInformationSection = (props: ProjectInformationSectionProps)
         isLoading: isLoading,
         readonly: true,
         formikConfig: {
-            initialValues: { ...project, location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined, sdgs: [2, 6, 8, 13] }
+            initialValues: {
+                ...project,
+                location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined
+            }
         }
     })
 

@@ -2587,28 +2587,6 @@ export namespace cccev.f2.requirement.domain.model {
     }
 }
 export namespace cccev.f2.requirement.domain.query {
-    interface GetRequirementListQueryDTO {
-        readonly parentId?: string;
-        readonly conceptId?: string;
-        readonly evidenceTypeId?: string;
-
-    }
-    interface GetRequirementListQueryResultDTO {
-        readonly requirements: kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>;
-
-    }
-}
-export namespace cccev.f2.requirement.domain.query {
-    interface GetRequirementQueryDTO {
-        readonly requirementId: string;
-
-    }
-    interface GetRequirementQueryResultDTO {
-        readonly requirement: Nullable<any>/* Nullable<cccev.dsl.model.Requirement> */;
-
-    }
-}
-export namespace cccev.f2.requirement.domain.query {
     interface RequirementGetQueryDTO {
         readonly id: string;
 
@@ -2626,6 +2604,18 @@ export namespace cccev.f2.requirement.domain.query {
     }
     interface RequirementListChildrenByTypeResultDTO {
         readonly items: Nullable<any>/* Nullable<kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>> */;
+
+    }
+}
+export namespace cccev.f2.requirement.domain.query {
+    interface RequirementListQueryDTO {
+        readonly parentId?: string;
+        readonly conceptId?: string;
+        readonly evidenceTypeId?: string;
+
+    }
+    interface RequirementListResultDTO {
+        readonly requirements: kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>;
 
     }
 }
@@ -2713,6 +2703,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly sdgs: Nullable<any>/* Nullable<kotlin.collections.List<number>> */;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         s2Id(): string;
 

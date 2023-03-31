@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import city.smartb.registry.program.ver.test.s2.requirement.data.project
 import city.smartb.registry.program.ver.test.s2.requirement.data.toGeoLocation
 import city.smartb.registry.program.ver.test.s2.requirement.data.toOrganizationRef
@@ -120,7 +121,8 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             assessor = params.assessor,
             location = params.location,
             activities = params.activities,
-            subContinent = params.subContinent
+            subContinent = params.subContinent,
+            sdgs =  params.sdgs,
         )
         projectAggregateService.create(command).id
     }
@@ -147,6 +149,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             location = entry?.get("location")?.toGeoLocation(),
             activities = entry?.extractList("activities").orEmpty(),
             subContinent = entry?.get("subContinent")?.orRandom(),
+            sdgs = entry?.extractList("sdgs")?.map { it.toInt() }.orEmpty(),
         )
 
     private data class ProjectCreateParams(
@@ -170,7 +173,8 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
         var assessor: OrganizationRef?,
         var location: GeoLocation?,
         val activities: List<TestContextKey>?,
-        var subContinent: String?
+        var subContinent: String?,
+        var sdgs: List<SdgNumber>?
     )
 
     private suspend fun createProjects(params: List<ProjectCreateParams>) = coroutineScope {

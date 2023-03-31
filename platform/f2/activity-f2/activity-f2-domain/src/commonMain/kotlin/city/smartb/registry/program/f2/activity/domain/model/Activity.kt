@@ -38,6 +38,7 @@ interface ActivityDTO {
     val description: String?
     val hasQualifiedRelation: Array<RequirementIdentifier>
     val hasRequirement: Array<out ActivityDTO>
+    val progression: Double
 }
 
 @JsExport
@@ -48,5 +49,7 @@ class Activity(
     override val type: String?,
     override val description: String?,
     override val hasQualifiedRelation: Array<RequirementIdentifier>,
-    override val hasRequirement: Array<Activity>
-): ActivityDTO
+    override val hasRequirement: Array<Activity>,
+    override val progression: Double,
+
+    ): ActivityDTO

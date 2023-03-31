@@ -10,6 +10,7 @@ interface ActivityStepDTO {
     val description: String?
     val value: String?
     val file: String?
+    val completed: Boolean
 }
 
 @JsExport
@@ -20,4 +21,5 @@ class ActivityStep(
     override val description: String?,
     override val value: String?,
     override val file: String?,
+    override val completed: Boolean,
 ): ActivityStepDTO

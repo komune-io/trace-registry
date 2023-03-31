@@ -117,7 +117,7 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
                 <LinearProgress sx={{
                     borderRadius: 10,
                     width: "50px"
-                }} variant="determinate" value={50} />
+                }} variant="determinate" value={requirement.progression} />
             </CardActions>
             {data.hasSource && <Handle type="source" position={sourcePosition!} isConnectable={isConnectable} />}
             {data.hasTarget && <Handle type="target" position={targetPosition!} isConnectable={isConnectable} />}

@@ -1739,18 +1739,20 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly type?: string;
         readonly description?: string;
         readonly hasQualifiedRelation: Array<string>;
-        readonly hasRequirement: Array<ActivityDTO>;
+        readonly hasRequirement: Array<city.smartb.registry.program.f2.activity.domain.model.ActivityDTO>;
+        readonly progression: number;
 
     }
     class Activity implements city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {
-        constructor(identifier: string, name?: string, type?: string, description?: string, hasQualifiedRelation: Array<string>, hasRequirement: Array<string>);
+        constructor(identifier: string, name?: string, type?: string, description?: string, hasQualifiedRelation: Array<string>, hasRequirement: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number);
         get identifier(): string;
         get name(): Nullable<string>;
         get type(): Nullable<string>;
         get description(): Nullable<string>;
         get hasQualifiedRelation(): Array<string>;
-        get hasRequirement(): Array<string>;
-        static Activity_init_$Create$(seen1: number, identifier?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<string>, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
+        get hasRequirement(): Array<city.smartb.registry.program.f2.activity.domain.model.Activity>;
+        get progression(): number;
+        static Activity_init_$Create$(seen1: number, identifier?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
         static get Companion(): {
             serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.Activity>;
         };
@@ -1765,16 +1767,18 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly description?: string;
         readonly value?: string;
         readonly file?: string;
+        readonly completed: boolean;
 
     }
     class ActivityStep implements city.smartb.registry.program.f2.activity.domain.model.ActivityStepDTO {
-        constructor(identifier: string, name?: string, description?: string, value?: string, file?: string);
+        constructor(identifier: string, name?: string, description?: string, value?: string, file?: string, completed: boolean);
         get identifier(): string;
         get name(): Nullable<string>;
         get description(): Nullable<string>;
         get value(): Nullable<string>;
         get file(): Nullable<string>;
-        static ActivityStep_init_$Create$(seen1: number, identifier?: string, name?: string, description?: string, value?: string, file?: string, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.ActivityStep;
+        get completed(): boolean;
+        static ActivityStep_init_$Create$(seen1: number, identifier?: string, name?: string, description?: string, value?: string, file?: string, completed: boolean, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.ActivityStep;
         static get Companion(): {
             serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.ActivityStep>;
         };

@@ -62,7 +62,8 @@ class S2ProjectTest {
                 name = faker.company().name()
             ),
             identifier = "SB-${faker.idNumber().valid()}",
-            activities = listOf("P1", "P2", "P3", "P4", "P5")
+            activities = listOf("P1", "P2", "P3", "P4", "P5"),
+            sdgs = (1..15).shuffled().take((1..15).random())
         )
 
         println(json.encodeToString(project))

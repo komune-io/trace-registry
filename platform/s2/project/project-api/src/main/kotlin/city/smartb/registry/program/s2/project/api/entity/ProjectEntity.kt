@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
+import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
@@ -75,6 +76,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var location: GeoLocation<String>? = null
     var activities: List<ActivityId>? = null
+    var sdgs: List<SdgNumber>? = null
 
 //    @CreatedDate
 //    val createdDate: Date? = null

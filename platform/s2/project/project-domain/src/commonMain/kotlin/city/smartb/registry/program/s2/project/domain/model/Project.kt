@@ -18,6 +18,7 @@ import kotlin.js.JsExport
 typealias ProjectId = String
 typealias ProjectIdentifier = String
 typealias ActivityId = String
+typealias SdgNumber = Int
 
 /**
  *
@@ -159,6 +160,11 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * @example "1670255859"
      */
     val lastModificationDate: DateTime?
+
+    /**
+     * List of SDGs linked to
+     */
+    val sdgs: List<SdgNumber>?
 }
 
 /**
@@ -189,6 +195,8 @@ data class Project(
     override val lastModificationDate: DateTime?,
     override val status: ProjectState,
     override val activities: List<ActivityId>?,
+    override var sdgs: List<SdgNumber>?
+
 ): ProjectDTO {
     override fun s2State() = status
     override fun s2Id() = id
