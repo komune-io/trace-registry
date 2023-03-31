@@ -29,8 +29,8 @@ const root = createRoot(container)
 
 root.render(
   <ThemeContextProvider theme={theme}>
-      <React.StrictMode //react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider
-      >
+      {/*react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider*/}
+      <React.StrictMode>
         <AppProvider
           languages={languages}
           queryClient={queryClient}

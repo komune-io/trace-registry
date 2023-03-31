@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material'
-import { Page, Header } from '@smartb/g2'
+import { Header } from '@smartb/g2'
 import {useProjectPageQuery, useProjectFilters, ProjectTable} from 'domain-components'
 import { Fragment } from "react"
+import {AppPage} from "components";
 export const ProjectList = () => {
     const { component, setOffset, submittedFilters } = useProjectFilters()
     const projects = useProjectPageQuery({
@@ -9,9 +10,9 @@ export const ProjectList = () => {
     })
 
     return (
-        <Page flexContent>
+        <AppPage flexContent>
             <Box alignSelf="center">
-                <Typography sx={{ marginTop: "40px", marginBottom: "5px" }} align="center" variant="h4">Registry of trusted projects</Typography>
+                <Typography sx={{ marginBottom: "5px" }} align="center" variant="h4">Registry of trusted projects</Typography>
                 <Typography sx={{ marginBottom: "40px" }} align="center" variant="body1">Follow and track activities on verified and trusted projects.</Typography>
             </Box>
             <Box>
@@ -30,6 +31,6 @@ export const ProjectList = () => {
                     onOffsetChange={setOffset}
                 />
             </Box>
-        </Page>
+        </AppPage>
     )
 }

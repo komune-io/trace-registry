@@ -1,4 +1,4 @@
-import { Page, LinkButton } from '@smartb/g2'
+import { LinkButton } from '@smartb/g2'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {
@@ -7,7 +7,7 @@ import {
 } from 'domain-components'
 import { useParams } from 'react-router-dom'
 import { useCallback, useMemo } from 'react'
-import { SectionTab, Tab, useRoutesDefinition } from 'components'
+import {AppPage, SectionTab, Tab, useRoutesDefinition} from 'components'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 
@@ -38,15 +38,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     }], [project, projectQuery.isLoading, t])
 
     return (
-        <Page
-            headerProps={{
-                content: [{
-                    leftPart: [
-                        <Typography key="projectTitle" variant="h5">{project?.name ?? t("project")}</Typography>
-                    ]
-                }]
-            }}
-        >
+        <AppPage title={project?.name ?? t("project")} >
             <SectionTab
               tabs={tabs}
               currentTab={currentTab}
@@ -59,6 +51,6 @@ export const ProjectView = (_: ProjectViewProps) => {
               }}
             />
             {currentTab === "info" && <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >{t("lastChanged", { date: new Date(project?.lastModificationDate).toLocaleDateString() })}</Typography>}
-        </Page>
+        </AppPage>
     )
 }
