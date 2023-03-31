@@ -53,6 +53,7 @@ val DraftPDDVCSCCB = informationRequirement {
         +Activities.ProtocolPreparation
         +Methodology.VM0011
     }
+    type = Type.Activities
     hasRequirement {
         verraVcsProtocolPreparation {
             identifier = "H100"
@@ -85,6 +86,7 @@ val EntreeApipelineVerra = informationRequirement {
         +Activities.ProtocolPreparation
         +Methodology.VM0011
     }
+    type= Type.Activities
     hasRequirement {
         verraVcsProtocolPreparation {
             identifier = "E200"
@@ -120,6 +122,7 @@ val ValidationPDDVCSCCB = informationRequirement {
         +Activities.ProtocolValidation
         +Methodology.VM0011
     }
+    type = Type.Activities
     hasRequirement {
         verraVcsProtocolValidation {
             identifier = "H300"
@@ -159,6 +162,7 @@ val VerraVcsProtocolCertificationRequirements = informationRequirement {
     identifier = "H40X"
     name = "Verification PDD VCS+CCB"
     description = "This activity involves verifying the emissions reductions claimed in the PDD according to the VCS+CCB standards."
+    type = Type.Activities
     isRequirementOf {
         +Activities.Certification
         +Methodology.VM0011

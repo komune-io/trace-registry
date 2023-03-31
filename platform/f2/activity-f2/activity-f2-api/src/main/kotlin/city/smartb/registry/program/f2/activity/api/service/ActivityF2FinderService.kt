@@ -54,14 +54,6 @@ class ActivityF2FinderService(
         )
     }
 
-    fun RequirementDTOBase.flatten(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): List<RequirementDTOBase> {
-        if (visited.contains(this)) {
-            return emptyList()
-        }
-        visited.add(this)
-        return listOf(this) + hasRequirement.flatMap { it.flatten(visited) }
-    }
-
     suspend fun stepPage(
         offset: OffsetPagination? = null,
         activityId: String
@@ -70,7 +62,7 @@ class ActivityF2FinderService(
             identifiers = listOf(activityId),
             type = "Steps"
         ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
-        val steps = requirements.items?.map {
+        val steps = requirements.items?.firstOrNull()?.hasRequirement?.map {
             ActivityStep(
                 identifier = it.identifier!!,
                 name = it.name,

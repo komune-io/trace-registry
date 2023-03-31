@@ -53,6 +53,7 @@ val RedactionDuPIN = informationRequirement {
         +Activities.ProtocolPreparation
         +Methodology.VM0011
     }
+    type = Type.Activities
     hasRequirement {
         reddPlusProtocolPreparationStep {
             identifier = "E100"
@@ -144,6 +145,7 @@ val RedactionDuPINAuMinistere = informationRequirement {
         +Activities.ProtocolValidation
         +Methodology.VM0011
     }
+    type = Type.Activities
     hasRequirement {
         reddPlusProtocolValidationSteps {
             identifier = "E200"
@@ -177,6 +179,7 @@ val DepotDuPINAuMinistere = cccev.dsl.model.informationRequirement {
         +Activities.Certification
         +Methodology.VM0011
     }
+    type = Type.Activities
     hasRequirement {
         reddPlusProtocolCertificationSteps {
             identifier = "E300"

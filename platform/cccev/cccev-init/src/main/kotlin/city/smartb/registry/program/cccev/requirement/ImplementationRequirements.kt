@@ -17,6 +17,17 @@ fun implementationStep(init: InformationRequirementBuilder.() -> Unit) =
 
     }.apply(init).build()
 
+fun implementationActivity(init: InformationRequirementBuilder.() -> Unit) =
+    InformationRequirementBuilder().apply {
+        isRequirementOf {
+            +Activities.Implementation
+        }
+        isDerivedFrom {
+            +ReferenceFramework.AxessImpact
+        }
+        type = Type.Activities
+    }.apply(init).build()
+
 
 val ProtocolDefinition = implementationStep {
     identifier = "C100"

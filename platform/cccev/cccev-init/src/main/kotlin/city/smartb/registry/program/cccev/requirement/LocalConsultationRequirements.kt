@@ -19,6 +19,7 @@ fun RequirementsLinkedBuilder.localConsultationProtocolPreparation(init: Informa
         }
         type = Type.Steps
     }.apply(init).build()
+
 fun RequirementsLinkedBuilder.localConsultationProtocolValidation(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
         isRequirementOf {
@@ -32,7 +33,7 @@ fun RequirementsLinkedBuilder.localConsultationProtocolValidation(init: Informat
     }.apply(init).build()
 
 
-val LocalConsultation = informationRequirement {
+val LocalConsultationPreparation = informationRequirement {
     identifier = "D10X"
     name = "Local consultation"
     description = """
@@ -48,6 +49,7 @@ val LocalConsultation = informationRequirement {
     isDerivedFrom {
         +ReferenceFramework.REDDPlus
     }
+    type = Type.Activities
     hasRequirement {
         localConsultationProtocolPreparation {
             identifier = "D100"
@@ -121,9 +123,29 @@ val LocalConsultation = informationRequirement {
             description =
                 "Obtain the location coordinates and area shapefile for the REDD+ investment to ensure accurate mapping and spatial analysis."
         }
+    }
+}
 
+val LocalConsultationValidation = cccev.dsl.model.informationRequirement {
+    identifier = "D20X"
+    name = "Local consultation"
+    description = """
+    Local consultation is a process that involves engaging and consulting with local communities 
+    and stakeholders in decision-making processes related to REDD+ initiatives. 
+    The purpose of local consultation is to ensure that the voices, needs, and interests of local communities 
+    and stakeholders are taken into account in the design and implementation of REDD+ projects.
+    """
+    isRequirementOf {
+        +Activities.ProtocolValidation
+        +Methodology.VM0011
+    }
+    isDerivedFrom {
+        +ReferenceFramework.REDDPlus
+    }
+    type = Type.Activities
+    hasRequirement {
         localConsultationProtocolPreparation {
-            identifier = "D112"
+            identifier = "D200"
             name = "CLIP"
             description =
                 "Develop a Community Land Information Platform (CLIP) to ensure effective land use planning and management within the concession."
@@ -131,6 +153,8 @@ val LocalConsultation = informationRequirement {
     }
 }
 
+
 val LocalConsultationRequirements = buildList {
-    add(LocalConsultation)
+    add(LocalConsultationPreparation)
+    add(LocalConsultationValidation)
 }
