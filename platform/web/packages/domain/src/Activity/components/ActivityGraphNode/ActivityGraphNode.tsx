@@ -22,12 +22,10 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
     
 
     const groupedChildren = useMemo(() => requirement.hasRequirement?.map(el => {
-        // const el = data.all.find(el => el.identifier === id.identifier)
-        // if (!el) return undefined
         return (
             <Typography
                 key={el.identifier}
-                variant="body2"
+                  variant="body2"
                 sx={{
                     color: "#697077",
                     textDecoration: "underline",
@@ -37,18 +35,19 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
                         textDecorationColor: "inherit"
                     }
                 }}
-                onClick={() => data.select(el.identifier)}
+                onClick={() => data.select(el.identifier, requirement.identifier)}
             >
                 {el.name}
             </Typography>
         )
-    }), [data])
+    }), [requirement, data])
 
     const onClickAncestor = useCallback(
         () => {
+
             if (data.isAncestor) data.select(data.current.identifier)
         },
-        [data],
+        [requirement, data],
     )
     const hasRequirement = useMemo( () => requirement.hasRequirement.length > 0, [requirement.hasRequirement.length])
 
@@ -77,14 +76,13 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
                     padding: "10px 12px"
                 }}
                 onClick={hasRequirement ? handleExpandClick : undefined}
-                title={requirement.name}
+                title={`${requirement.identifier} - ${requirement.name}`}
                 titleTypographyProps={{
                     variant: "subtitle2"
                 }}
                 subheaderTypographyProps={{
                     variant: "body2"
                 }}
-                subheader={requirement.type}
                 action={hasRequirement &&
                     <ExpandMoreRounded
                         sx={{

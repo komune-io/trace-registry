@@ -1,8 +1,8 @@
 import { Box } from '@mui/material'
-import {useNodesState, useEdgesState, ReactFlow, Background} from "reactflow"
+import {ReactFlow, Background} from "reactflow"
 import 'reactflow/dist/style.css';
-import {MouseEvent as ReactMouseEvent, useCallback, useEffect, useState} from 'react';
-import {Activity} from "../../model";
+import {MouseEvent as ReactMouseEvent, useCallback, useMemo, useState} from 'react';
+import {Activity, ActivityId} from "../../model";
 import {ActivityGraphNode} from "../ActivityGraphNode";
 import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
 
@@ -18,24 +18,22 @@ const nodeTypes = {
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
     const {activities, selectedActivity, onActivitySelect} = props
-    const [baseRequirement, setBaseRequirement] = useState(activities[0])
-    // const [selectedNode, setSelectedNode] = useState<ActivityDataNode | undefined>(undefined);
+    const [baseRequirement, setBaseRequirement] = useState<Activity | undefined>(undefined)
 
     const selectRequirement = useCallback(
-      (id: string) => {
-        const requirement = activities.find((el) => el.identifier === id)
-        if (requirement) setBaseRequirement(requirement)
+      (selected: ActivityId, parent?: ActivityId) => {
+        const base = parent ? activities.find((el) => el.identifier === parent) : undefined
+        setBaseRequirement(base)
+        console.log(selected)
       },
       [activities],
     )
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    useEffect(() => {
-        const res = getNodesAnEdgesOfActivities(activities, baseRequirement, selectRequirement)
-        setNodes(res.nodes)
-        setEdges(res.edges)
-    }, [activities, baseRequirement, selectRequirement])
+    const {nodes, edges} = useMemo(() => {
+      const currentActivities = baseRequirement ? baseRequirement.hasRequirement : activities
+        return getNodesAnEdgesOfActivities(currentActivities, baseRequirement, selectRequirement)
+    }, [baseRequirement, selectRequirement])
+
     const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
       if(node.data.current.identifier !== selectedActivity?.identifier) {
         onActivitySelect(node.data.current);
@@ -52,8 +50,6 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
           nodeTypes={nodeTypes}
           onNodeClick={onSelectionChange}
           fitView

@@ -1,10 +1,13 @@
 import { Node, Position, Edge } from "reactflow"
-import {Activity} from "../model";
+import {Activity, ActivityId} from "../model";
+
+
+
+type SubActivitySelection = (selected: ActivityId, parent?: ActivityId,) => void
 
 export type ActivityData = {
-    all: Activity[],
     current: Activity,
-    select: (id: string) => void,
+    select: SubActivitySelection,
     hasSource?: boolean
     hasTarget?: boolean
     isAncestor?: boolean
@@ -12,9 +15,42 @@ export type ActivityData = {
 
 export type ActivityDataNode = Node<ActivityData>
 
-export const activitiesToNodes = (
+interface NodesAnEdgesOfActivities {
+    nodes: Node<ActivityData>[]
+    edges: Edge[]
+}
+
+
+export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Activity | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
+    const nodes: Node<ActivityData>[] = toNodes(activities, ancestor, select)
+    const edges = toEdges(activities, ancestor)
+    if (ancestor) {
+        nodes.push({
+            id: ancestor.identifier,
+            data: {
+                current: ancestor,
+                select: select,
+                hasSource: true,
+                isAncestor: true
+            },
+            position: {
+                x: -300,
+                y: (nodes.length / 2) * 120
+            },
+            type: "Activities",
+            sourcePosition: Position.Right,
+        })
+    }
+    return  {
+        nodes,
+        edges
+    }
+}
+
+export const toNodes = (
   activities: Activity[],
-  select: (id: string) => void,
+  ancestor: Activity | undefined,
+  select: SubActivitySelection,
   level: number = 0,
   parentX: number = 0,
   index: number = 0,
@@ -35,25 +71,24 @@ export const activitiesToNodes = (
     nodes.push({
         id: obj.identifier,
         data: {
-            all: activities,
             current: obj,
             select: select,
             hasSource: !!obj.hasQualifiedRelation,
-            hasTarget: level !== 0
+            hasTarget: level !== 0 || !!ancestor,
         },
         position: {
             x: currentX,
             y: (level + 1) * yGap * (index + 1)
         },
-        type: obj.type || "requirement",
+        type: obj.type || "Activity",
         sourcePosition: !!obj.hasQualifiedRelation ? Position.Bottom : undefined,
-        targetPosition: level !== 0 ? Position.Top : undefined,
+        targetPosition: level !== 0 ? Position.Top : (ancestor ? Position.Left : undefined),
     })
     if (obj.hasQualifiedRelation) {
         obj.hasQualifiedRelation.forEach((id, index) => {
             const targetedActivity = activities.find(el => el.identifier === id)
             if (targetedActivity) {
-                nodes.push(...activitiesToNodes(activities, select, level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
+                nodes.push(...toNodes(activities, undefined, select,level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
             }
         });
     }
@@ -61,88 +96,23 @@ export const activitiesToNodes = (
     return nodes
 }
 
-interface NodesAnEdgesOfActivities {
-    nodes: Node<ActivityData>[]
-    edges: Edge[]
-}
-
-export const getNodesAnEdgesOfActivities = (activities: Activity[], obj: Activity | undefined, select: (id: string) => void): NodesAnEdgesOfActivities => {
-    if(obj === undefined) {
-        return {
-            nodes: [],
-            edges: []
-        }
-    }
-    const nodes: Node<ActivityData>[] = activitiesToNodes(activities, select)
-    const edges = toEdges(activities, obj)
-    const ancestor = activities.find((el) => el.hasRequirement?.find((id) => obj.identifier === id.identifier))
-    console.log(ancestor)
-    if (ancestor) {
-        // nodes.forEach((el, index) => {
-        //     nodes[index] = {
-        //         ...el,
-        //         parentNode: "requirementGroup"
-        //     }
-        // })
-        // nodes.push({
-        //     id: "requirementGroup",
-        //     data: {
-        //         //@ts-ignore
-        //         children: nodes,
-        //     },
-        //     position: {
-        //         x: - 100,
-        //         y: - 100
-        //     },
-        //     type: "group",
-        //     sourcePosition: Position.Left,
-        // } as Node<GroupData>)
-        nodes.push({
-            id: ancestor.identifier,
-            data: {
-                all: activities,
-                current: ancestor,
-                select: select,
-                hasSource: true,
-                isAncestor: true
-            },
-            position: {
-                x: -300,
-                y: (nodes.length / 2) * 120
-            },
-            type: "Activities",
-            sourcePosition: Position.Right,
-        })
-        nodes[0] = {
-            ...nodes[0],
-            data: {
-                ...nodes[0].data,
-                hasTarget: true
-            },
-            targetPosition: Position.Left
-        }
-        edges.push({
-            id: `${ancestor.identifier}-to-${nodes[0].id}`,
-            source: ancestor.identifier,
-            target: nodes[0].id,
-        })
-    }
-    return  {
-        nodes,
-        edges
-    }
-}
-
-export const toEdges = (activities: Activity[], obj: Activity, parentId?: string): Edge[] => {
+export const toEdges = (activities: Activity[], obj?: Activity, parentId?: string): Edge[] => {
     const edges: Edge[] = []
-    if (parentId) {
+    obj?.hasRequirement?.forEach((activity) => {
+        edges.push({
+            id: `${obj.identifier}-to-${activity.identifier}`,
+            source: obj.identifier,
+            target: activity.identifier,
+        })
+    })
+    if (parentId && obj) {
         edges.push({
             id: `${parentId}-to-${obj.identifier}`,
             source: parentId,
             target: obj.identifier,
         })
     }
-    if (obj.hasQualifiedRelation) {
+    if (obj && obj.hasQualifiedRelation) {
         obj.hasQualifiedRelation.forEach((id) => {
             const targetedActivity = activities.find(el => el.identifier === id)
             if (targetedActivity) {
