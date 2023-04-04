@@ -4,7 +4,7 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.model.ActivityId
+import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -38,7 +38,7 @@ data class ProjectUpdateCommand(
     override var vvb: OrganizationRef?,
     override var assessor: OrganizationRef?,
     override var location: GeoLocation?,
-    override var activities: List<ActivityId>?,
+    override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?,
 ): ProjectCommand, ProjectAbstractMsg
@@ -82,7 +82,7 @@ data class ProjectUpdatedEvent(
     override var vvb: OrganizationRef? = null,
     override var assessor: OrganizationRef? = null,
     override var location: GeoLocation? = null,
-    override var activities: List<ActivityId>? = null,
+    override var activities: List<ActivityIdentifier>? = null,
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
 ): ProjectUpdatedEventDTO {

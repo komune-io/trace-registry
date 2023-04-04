@@ -6,5 +6,5 @@ plugins {
 dependencies {
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	commonMainApi(project(":platform:api:api-commons"))
-//	commonMainApi(project(":platform:s2:activity:activity-domain"))
+	Dependencies.Jvm.Cccev.dsl(::commonMainImplementation)
 }

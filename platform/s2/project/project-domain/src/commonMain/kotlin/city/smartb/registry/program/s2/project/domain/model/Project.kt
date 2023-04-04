@@ -17,7 +17,7 @@ import kotlin.js.JsExport
  */
 typealias ProjectId = String
 typealias ProjectIdentifier = String
-typealias ActivityId = String
+typealias ActivityIdentifier = String
 typealias SdgNumber = Int
 
 /**
@@ -141,7 +141,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     /**
      * List of activities linked to
      */
-    val activities: List<ActivityId>?
+    val activities: List<ActivityIdentifier>?
 
     /**
      * Status of the project
@@ -194,7 +194,7 @@ data class Project(
     override val creationDate: DateTime?,
     override val lastModificationDate: DateTime?,
     override val status: ProjectState,
-    override val activities: List<ActivityId>?,
+    override val activities: List<ActivityIdentifier>?,
     override var sdgs: List<SdgNumber>?
 
 ): ProjectDTO {

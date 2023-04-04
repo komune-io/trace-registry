@@ -3,7 +3,7 @@ package city.smartb.registry.program.s2.project.domain.command
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
-import city.smartb.registry.program.s2.project.domain.model.ActivityId
+import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -37,7 +37,7 @@ data class ProjectCreateCommand(
     override var vvb: OrganizationRef?,
     override var assessor: OrganizationRef?,
     override var location: GeoLocation?,
-    override var activities: List<ActivityId>?,
+    override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?
 ): ProjectInitCommand, ProjectAbstractMsg
@@ -80,7 +80,7 @@ data class ProjectCreatedEvent(
     override var vvb: OrganizationRef? = null,
     override var assessor: OrganizationRef? = null,
     override var location: GeoLocation? = null,
-    override var activities: List<ActivityId>? = null,
+    override var activities: List<ActivityIdentifier>? = null,
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
 

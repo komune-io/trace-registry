@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.command
 
 import city.smartb.registry.program.api.commons.model.GeoLocation
-import city.smartb.registry.program.s2.project.domain.model.ActivityId
+import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
@@ -27,5 +27,5 @@ interface ProjectAbstractMsg {
     var assessor: OrganizationRef?
     var location: GeoLocation?
     var sdgs: List<SdgNumber>?
-    var activities: List<ActivityId>?
+    var activities: List<ActivityIdentifier>?
 }

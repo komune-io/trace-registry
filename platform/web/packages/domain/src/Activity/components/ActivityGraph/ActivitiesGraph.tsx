@@ -2,9 +2,7 @@ import { Box } from '@mui/material'
 import {ReactFlow, Background, useEdgesState, useNodesState, Controls, ReactFlowInstance} from "reactflow"
 import 'reactflow/dist/style.css';
 import {
-  AnimationEventHandler,
   MouseEvent as ReactMouseEvent,
-  TransitionEventHandler,
   useCallback,
   useEffect,
   useState

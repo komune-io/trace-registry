@@ -4,16 +4,24 @@ import city.smartb.registry.program.api.commons.auth.PolicyEnforcer
 import org.springframework.stereotype.Service
 
 @Service
-class ActivityPoliciesEnforcer(
-    private val activityF2FinderService: ActivityF2FinderService,
-): PolicyEnforcer() {
+class ActivityPoliciesEnforcer: PolicyEnforcer() {
     suspend fun checkPage() = check("page activities") { authedUser ->
         ActivityPolicies.canPage(authedUser)
-        true
     }
     suspend fun checkPageStep() = check("page step activities") { authedUser ->
         ActivityPolicies.canPage(authedUser)
-        true
+    }
+
+    suspend fun checkCreation() = check("create activity") { authedUser ->
+        ActivityPolicies.canCreate(authedUser)
+    }
+
+    suspend fun checkStepCreation() = check("create activity") { authedUser ->
+        ActivityPolicies.canCreateStep(authedUser)
+    }
+
+    suspend fun checkCanFulfillTask() = check("create activity") { authedUser ->
+        ActivityPolicies.canFulfillTask(authedUser)
     }
 
 }

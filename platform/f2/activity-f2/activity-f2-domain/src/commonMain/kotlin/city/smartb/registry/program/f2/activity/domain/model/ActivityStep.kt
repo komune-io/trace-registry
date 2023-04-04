@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @JsExport
 interface ActivityStepDTO {
-    val identifier: RequirementIdentifier
+    val identifier: ActivityIdentifier
     val name: String?
     val description: String?
     val value: String?
@@ -16,7 +16,7 @@ interface ActivityStepDTO {
 @JsExport
 @Serializable
 class ActivityStep(
-    override val identifier: RequirementIdentifier,
+    override val identifier: ActivityIdentifier,
     override val name: String?,
     override val description: String?,
     override val value: String?,

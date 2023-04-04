@@ -72,7 +72,7 @@ object Dependencies {
 			fun client(scope: Scope) = scope.add(
 				"city.smartb.cccev:dsl-client:${Versions.cccev}",
 			)
-			fun domain(scope: Scope) = scope.add(
+			fun dsl(scope: Scope) = scope.add(
 				"city.smartb.cccev:dsl-model:${Versions.cccev}",
 			)
 		}
