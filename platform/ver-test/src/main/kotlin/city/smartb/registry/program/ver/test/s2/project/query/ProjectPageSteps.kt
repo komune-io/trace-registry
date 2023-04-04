@@ -1,4 +1,4 @@
-package city.smartb.registry.program.ver.test.s2.requirement.query
+package city.smartb.registry.program.ver.test.s2.project.query
 
 import city.smartb.registry.program.f2.project.api.ProjectEndpoint
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery

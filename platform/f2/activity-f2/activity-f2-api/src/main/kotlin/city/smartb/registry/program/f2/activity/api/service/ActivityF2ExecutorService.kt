@@ -5,10 +5,11 @@ import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommand
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
-import city.smartb.registry.program.f2.activity.domain.model.ActivityType
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import org.springframework.stereotype.Service
 
@@ -19,7 +20,7 @@ class ActivityF2ExecutorService(
     suspend fun createActivity(cmd: ActivityCreateCommand): ActivityIdentifier = coroutineScope {
         buildList {
             add(
-                async { createActivity(cmd.identifier, cmd.name, cmd.description, ActivityType.ACTIVITY) }
+                async { createActivity(cmd.identifier, cmd.name, cmd.description, RequirementType.Activity) }
             )
             cmd.hasActivity?.forEach {
                 add(
@@ -35,14 +36,14 @@ class ActivityF2ExecutorService(
         cmd.identifier
     }
     suspend fun createActivity(cmd: ActivityStepCreateCommand): ActivityIdentifier = coroutineScope {
-        createActivity(cmd.identifier, cmd.name, cmd.description, ActivityType.ACTIVITY)
+        createActivity(cmd.identifier, cmd.name, cmd.description, RequirementType.Activity)
     }
 
     private suspend fun createActivity(
         identifier: ActivityIdentifier,
         name: String,
         description: String?,
-        type: ActivityType,
+        type: RequirementType,
     ): ActivityIdentifier {
         val requirement = informationRequirement {
             this.identifier = identifier
@@ -50,7 +51,7 @@ class ActivityF2ExecutorService(
             this.description =   description
             this.type = type
         }
-        cccevClient.createGraph(flowOf(requirement) )
+        cccevClient.createGraph( flowOf(requirement) ).collect()
         return identifier
     }
 }

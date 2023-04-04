@@ -4,8 +4,8 @@ import cccev.dsl.model.builder.InformationRequirementBuilder
 import cccev.dsl.model.builder.RequirementsLinkedBuilder
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
-import city.smartb.registry.program.cccev.ver.Type
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 fun RequirementsLinkedBuilder.reddPlusProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
@@ -15,7 +15,7 @@ fun RequirementsLinkedBuilder.reddPlusProtocolPreparationStep(init: InformationR
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun RequirementsLinkedBuilder.reddPlusProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
@@ -26,7 +26,7 @@ fun RequirementsLinkedBuilder.reddPlusProtocolValidationStep(init: InformationRe
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 
@@ -39,7 +39,7 @@ fun RequirementsLinkedBuilder.reddPlusProtocolCertificationStep(init: Informatio
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun reddPlusProtocolPreparationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -51,7 +51,7 @@ fun reddPlusProtocolPreparationActivity(init: InformationRequirementBuilder.() -
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 fun reddPlusProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -63,7 +63,7 @@ fun reddPlusProtocolValidationActivity(init: InformationRequirementBuilder.() ->
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 fun reddPlusProtocolCertificationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -75,7 +75,7 @@ fun reddPlusProtocolCertificationActivity(init: InformationRequirementBuilder.()
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 

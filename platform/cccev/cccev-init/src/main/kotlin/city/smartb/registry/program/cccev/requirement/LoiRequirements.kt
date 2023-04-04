@@ -3,7 +3,7 @@ package city.smartb.registry.program.cccev.requirement
 import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
-import city.smartb.registry.program.cccev.ver.Type
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 val loiStep = informationRequirement {
     identifier = "A100"
@@ -15,7 +15,7 @@ val loiStep = informationRequirement {
     isDerivedFrom {
         +ReferenceFramework.AxessImpact
     }
-    type = Type.Steps
+    type = RequirementType.Step
 }
 
 val LOIRequirements = buildList {

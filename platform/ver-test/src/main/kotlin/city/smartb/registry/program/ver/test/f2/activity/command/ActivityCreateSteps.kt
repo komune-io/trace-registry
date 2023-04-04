@@ -3,6 +3,7 @@ package city.smartb.registry.program.ver.test.f2.activity.command
 import city.smartb.registry.program.f2.activity.api.ActivityEndpoint
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 import city.smartb.registry.program.ver.test.f2.activity.data.activity
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
@@ -35,13 +36,13 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
         DataTableType(::activityCreateParams)
         DataTableType(::activityAssertParams)
 
-        When("I create a activity") {
+        When("I create an activity") {
             step {
                 createActivity(activityCreateParams(null))
             }
         }
 
-        When("I create a activity:") { params: ActivityCreateSteps.ActivityCreateParams ->
+        When("I create an activity:") { params: ActivityCreateParams ->
             step {
                 createActivity(params)
             }
@@ -72,7 +73,7 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
                 AssertionBdd.activity(activityF2FinderService).assertThatId(activityId).hasFields(
                     name = command.name,
                     description = command.description,
-                    type = "ActivityType.ACTIVITY.value"
+                    type = RequirementType.Activity.identifier
                 )
             }
         }
@@ -92,13 +93,14 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
     }
 
     private suspend fun createActivity(params: ActivityCreateParams) = context.activityIds.register(params.identifier) {
-        ActivityCreateCommand(
+       command = ActivityCreateCommand(
             identifier = "${params.identifier}_${UUID.randomUUID()}",
             name = params.name,
             description = params.description,
             hasActivity = emptyArray(),
             hasStep = emptyArray()
-        ).invokeWith(activityAggregateService.activityCreate()).identifier
+        )
+        command.invokeWith(activityAggregateService.activityCreate()).identifier
     }
 
     private fun activityCreateParams(entry: Map<String, String>?) =
@@ -115,7 +117,7 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
         val description: String,
     )
 
-    private suspend fun createActivitys(params: List<ActivityCreateParams>) = coroutineScope {
+    private suspend fun createActivities(params: List<ActivityCreateParams>) = coroutineScope {
         params.asFlow().map {
             async {
                 createActivity(it)

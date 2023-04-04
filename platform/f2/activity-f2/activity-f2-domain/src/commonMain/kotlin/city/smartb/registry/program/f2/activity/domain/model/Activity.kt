@@ -43,7 +43,7 @@ interface ActivityDTO {
 
 @JsExport
 @Serializable
-class Activity(
+data class Activity(
     override val identifier: ActivityIdentifier,
     override val name: String?,
     override val type: String?,
@@ -53,8 +53,7 @@ class Activity(
     override val progression: Double,
 ): ActivityDTO
 
-enum class ActivityType(
-    val value: String
-): Code {
-    ACTIVITY("activity"), STEP("step")
+sealed class RequirementType(val identifier: String): Code {
+    object Activity: RequirementType("activity")
+    object Step: RequirementType("step")
 }
