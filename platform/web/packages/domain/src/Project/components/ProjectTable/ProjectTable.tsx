@@ -5,6 +5,7 @@ import {Project} from '../../model'
 import {useCallback, useMemo} from "react"
 import {useRoutesDefinition} from 'components'
 import {OffsetPagination, OffsetTable, PageQueryResult} from "template";
+import { useTranslation } from 'react-i18next';
 
 function useProductColumn() {
     return useMemo(() => ColumnFactory<Project>({
@@ -98,6 +99,7 @@ export interface ProjectTableProps {
 export const ProjectTable = (props: ProjectTableProps) => {
     const {isLoading, page, onOffsetChange} = props
     const { projectsProjectIdView } = useRoutesDefinition()
+    const {t} = useTranslation()
 
     const columns = useProductColumn()
 
@@ -116,7 +118,7 @@ export const ProjectTable = (props: ProjectTableProps) => {
     )
     
 
-    if (!page?.items && !isLoading) return (<Typography align="center">Aucun projet n'a été trouvé</Typography>)
+    if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
     return (
         <OffsetTable<Project>
             sx={{

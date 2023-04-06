@@ -1,5 +1,5 @@
 window._env_ = {
   platform: {
-    url: "http://localhost:8070" //"http://localhost:8070" //"https://api.registry.smartb.network/ver"
+    url: "https://api.registry.smartb.network/ver" //"http://localhost:8070"
   },
 };

@@ -40,6 +40,7 @@
   "refYear": "Ref year",
   "dueDate": "Due date",
   "vintage": "Vintage",
+  "totalItem": "{{start}}-{{end}} of {{total}}",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -102,6 +103,7 @@
     "activities": "Project activities",
     "estimatedReduction": "Quantity planned",
     "registry": "Registry of trusted projects",
-    "followAndTrack": "Follow and track activities on verified and trusted projects."
+    "followAndTrack": "Follow and track activities on verified and trusted projects.",
+    "noData": "No project were found"
   }
 }
