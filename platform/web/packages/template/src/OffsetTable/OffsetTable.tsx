@@ -1,13 +1,15 @@
-import { Stack, Typography } from "@mui/material";
+import { Skeleton, Stack, Typography } from "@mui/material";
 import { MergeMuiElementProps, Pagination, TableV2, TableV2Props } from "@smartb/g2";
 import { TraceIcon } from "components";
+import { useRef } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Offset, OffsetPagination, PageQueryResult } from "./model";
+import { OffsetPagination, PageQueryResult } from "./model";
 
 export type OffsetTableBasicProps<DATA extends {}> = {
   page?: PageQueryResult<DATA>
+  pagination: OffsetPagination
   onOffsetChange?: (newPage: OffsetPagination) => void
 }
 
@@ -17,16 +19,21 @@ export type OffsetTableProps<DATA extends {}> = MergeMuiElementProps<
 >
 
 export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
-  const { page, onOffsetChange, isLoading, ...other } = props
+  const { pagination, page, onOffsetChange, isLoading, ...other } = props
   const { t } = useTranslation()
+  const totalItems = useRef<number | undefined>(undefined)
 
-  const pagination = useMemo(() => page?.pagination ?? Offset.default, [page?.pagination])
+  
   const currentPage: number = useMemo(() => {
     return (pagination?.offset / pagination.limit) + 1
   }, [pagination])
 
-  const totalPage: number = useMemo(() => {
-    return page ? Math.floor((page.total - 1) / pagination.limit) + 1 : 0
+  const total = useMemo(() => {
+    if (page?.total && totalItems.current !== page.total) totalItems.current = page.total
+    return {
+      page: totalItems.current ? Math.floor((totalItems.current - 1) / pagination.limit) + 1 : undefined,
+      items: totalItems.current
+    }
   }, [page?.total, pagination.limit])
 
   const handlePageChange = useCallback((pageNumber: number) => {
@@ -43,8 +50,8 @@ export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
       />
       <Stack
         direction="row"
-        justifyContent="space-between"
         alignItems="center"
+        alignContent="center"
         sx={{
           background: (theme) => theme.palette.background.default + "99",
           backdropFilter: 'blur(15px)',
@@ -66,20 +73,34 @@ export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
           direction="row"
           gap={2}
           alignItems="center"
-          alignSelf="flex-end"
           justifyContent="flex-end"
           sx={{
             flexGrow: 1,
             flexBasis: 0
           }}
         >
-          {page?.total && <Typography color="text.secondary" variant="caption">{t("totalItem", { start: pagination.offset + 1, end: pagination.offset + pagination.limit, total: page?.total })}</Typography>}
-          <Pagination
-            onPageChange={handlePageChange}
-            page={currentPage}
-            totalPage={totalPage}
-            siblingCount={1}
-          />
+          {isLoading && !total.page && (
+            <Skeleton
+              sx={{
+                width: '200px',
+                height: '100%',
+                transform: 'none'
+              }}
+              animation='wave'
+              variant='text'
+            />
+          )}
+          {total.page && (
+            <>
+              <Typography color="text.secondary" variant="caption">{t("totalItem", { start: pagination.offset + 1, end: pagination.offset + pagination.limit, total: total.items })}</Typography>
+              <Pagination
+                onPageChange={handlePageChange}
+                page={currentPage}
+                totalPage={total.page}
+                siblingCount={1}
+              />
+            </>
+          )}
         </Stack>
       </Stack>
     </>

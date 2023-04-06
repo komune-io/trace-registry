@@ -12,8 +12,7 @@ export const useProjectFilters = () => {
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
-                placeholder: t("id"), 
-                style: { width: "120px" }
+                placeholder: t("id")
             }
         },
         {
@@ -23,15 +22,15 @@ export const useProjectFilters = () => {
                 textFieldType: 'search', 
                 placeholder: t("name"), 
                 style: { width: "170px" }
-            }
+            },
+            mandatory: true
         },
         {
             name: 'proponent',
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
-                placeholder: t("proponent"), 
-                style: { width: "170px" }
+                placeholder: t("proponent")
             }
         },
         {
@@ -41,24 +40,24 @@ export const useProjectFilters = () => {
                 textFieldType: 'search',
                 placeholder: t("type"),
                 style: { width: "120px" }
-            }
+            },
+            mandatory: true
         },
         {
             name: 'origin',
             type: 'textField',
             params: {
                 textFieldType: 'search',
-                placeholder: t("origin"),
-                style: { width: "170px" }
-            }
+                placeholder: t("origin")
+            },
+            mandatory: true
         },
         {
             name: 'estimatedReductions',
             type: 'textField',
             params: {
                 textFieldType: 'search',
-                placeholder: t("avgReductions"),
-                style: { width: "170px" }
+                placeholder: t("avgReductions")
             }
         },
         {
@@ -66,16 +65,14 @@ export const useProjectFilters = () => {
             type: 'textField',
             params: {
                 textFieldType: 'search',
-                placeholder: t("refYear"),
-                style: { width: "170px" }
+                placeholder: t("refYear")
             }
         },
         {
             name: 'dueDate',
             type: 'datePicker',
             params: {
-                label: t("dueDate"),
-                style: { width: "170px" }
+                label: t("dueDate")
             }
         },
         {
@@ -83,16 +80,14 @@ export const useProjectFilters = () => {
             type: 'textField',
             params: {
                 textFieldType: 'search',
-                placeholder: t("vintage"),
-                style: { width: "170px" }
+                placeholder: t("vintage")
             }
         },
         {
             name: 'status',
             type: 'select',
             params: {
-                label: t("status"),
-                style: { width: "170px" },
+                label: t("status")
             }
         }
     ], [t])

@@ -40,7 +40,11 @@
   "refYear": "Ref year",
   "dueDate": "Due date",
   "vintage": "Vintage",
-  "totalItem": "{{start}}-{{end}} of {{total}}",
+  "totalItem": "{{start}} - {{end}} of {{total}}",
+  "toFilter": "Filter",
+  "toFilterCount": "Filter ({{count}})",
+  "apply": "Apply",
+  "clearFilters": "Clear filters",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

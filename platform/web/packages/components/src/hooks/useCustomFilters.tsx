@@ -46,10 +46,13 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     const component = useMemo(() => (
         <FiltersComposable
             formState={formState}
-            filterButtonProps={{ children: t("toFilterCount", { count: withPage ? filtersCount - 1 : filtersCount }) }}
+            filterButtonProps={{ children: t("toFilterCount", { count: withPage ? filtersCount - 2 : filtersCount }) }}
             fields={filters}
             actions={actions}
             filterStyleProps={{ color: "default", variant: "outlined" }}
+            style={{
+                width: "100%"
+            }}
             responsiveFiltersProps={{
                 drawerTitle: t("toFilter") as string,
                 applyString: t("apply") as string,
