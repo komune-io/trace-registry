@@ -77,9 +77,14 @@ object Dependencies {
 			)
 		}
 
-		fun fs(scope: Scope) = scope.add(
-			"city.smartb.fs:file-client:${Versions.fs}"
-		)
+		object Fs {
+			fun client(scope: Scope) = scope.add(
+				"city.smartb.fs:file-client:${Versions.fs}"
+			)
+			fun springUtils(scope: Scope) = scope.add(
+				"city.smartb.fs:file-client:${Versions.fs}"
+			)
+		}
 
 		fun jackson(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
 			"com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${Versions.jacksonKotlin}"

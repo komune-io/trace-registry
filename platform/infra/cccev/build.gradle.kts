@@ -8,5 +8,4 @@ plugins {
 dependencies {
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
 	Dependencies.Jvm.Cccev.client(::api)
-	Dependencies.Jvm.fs(::implementation)
 }

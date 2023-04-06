@@ -7,6 +7,5 @@ plugins {
 dependencies {
     implementation(project(":platform:api:api-commons"))
     Dependencies.Jvm.i2Keycloack(::api)
-    Dependencies.Jvm.fs(::implementation)
     Dependencies.Jvm.f2OpenApi(::implementation)
 }
