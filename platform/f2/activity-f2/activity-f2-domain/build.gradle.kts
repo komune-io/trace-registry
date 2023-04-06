@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
 	Dependencies.Mpp.f2 { commonMainApi(it) }
+	Dependencies.Mpp.fs { commonMainApi(it) }
 	commonMainApi(project(":platform:api:api-commons"))
 	Dependencies.Jvm.Cccev.dsl(::commonMainApi)
 }

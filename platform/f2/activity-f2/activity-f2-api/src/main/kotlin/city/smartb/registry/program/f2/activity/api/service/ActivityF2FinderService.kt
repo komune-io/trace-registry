@@ -80,7 +80,8 @@ class ActivityF2FinderService(
                 description = it.description,
                 value = null,
                 file = null,
-                completed = listOf(false, true).random()
+                completed = listOf(false, true).random(),
+                hasConcept = null
             )
         } ?: emptyList()
         return ActivityStepPageResult(
