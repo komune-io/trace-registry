@@ -1,6 +1,7 @@
 import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
 
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
+import { useMemo } from 'react';
 import {Activity, ActivityStep} from "../../model";
 
 export interface ActivitiesSummaryProps {
@@ -12,23 +13,23 @@ export interface ActivitiesSummaryProps {
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const { isLoading, steps, activity } = props
 
-  const fields: FormComposableField[] = steps?.map(it => ({
-      name: it.identifier,
-      label: it.name,
-      params: {
-        orientation: "horizontal"
-      },
-      type: "select",
-    }
-  )) ?? []
-  const values = steps?.reduce((a: any, v: ActivityStep) => ({
-      ...a,
-      [v.identifier]: v.value
-    }
-  ), {})
+  const fields: FormComposableField[] = useMemo(() => steps?.map(it => ({
+    name: it.identifier,
+    label: it.name,
+    params: {
+      orientation: "horizontal"
+    },
+    type: "textField",
+  }
+)) ?? [], [steps])
+
+  const values = useMemo(() => steps?.reduce((a: any, v: ActivityStep) => ({
+    ...a,
+    [v.identifier]: v.value
+  }
+), {}), [steps])
 
   const formState = useFormComposable({
-    onSubmit: () => { },
     isLoading: isLoading,
     readonly: true,
     emptyValueInReadonly: "-",

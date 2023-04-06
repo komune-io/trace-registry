@@ -45,7 +45,7 @@ export const SectionTab = (props: SectionTabProps) => {
                   gap: "0"
               },
               "& .AruiHeader-leftPartContainer": {
-                  marginBottom: "-30px"
+                  marginBottom: "-25px"
               }
           }
       }}

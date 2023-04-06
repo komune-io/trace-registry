@@ -25,6 +25,22 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Ac
     const nodes: Node<ActivityData>[] = toNodes(activities, ancestor, select)
     const edges = toEdges(activities, ancestor)
     if (ancestor) {
+        // nodes.forEach((el, index) => {
+        //     nodes[index] = {
+        //         ...el,
+        //         parentNode: "group"
+        //     }
+        // })
+        // //@ts-ignore
+        // nodes.push({
+        //     id: "group",
+        //     position: {
+        //         x: 0,
+        //         y: 100
+        //     },
+        //     type: "group",
+            
+        // })
         nodes.push({
             id: ancestor.identifier,
             data: {

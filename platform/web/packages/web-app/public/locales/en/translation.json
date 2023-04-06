@@ -13,8 +13,8 @@
   "edit": "Edit",
   "view": "View",
   "details": "Details",
-  "members": "Membres",
-  "name": "Nom",
+  "members": "Members",
+  "name": "Name",
   "role": "Rôle",
   "origin": "Origin",
   "proponent": "Proponent",
@@ -34,6 +34,12 @@
   "useMyPosition": "Use my position",
   "progress": "Progress",
   "projectList": "Project list",
+  "id": "ID",
+  "type": "Type",
+  "avgReductions": "AVG Reductions",
+  "refYear": "Ref year",
+  "dueDate": "Due date",
+  "vintage": "Vintage",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -94,6 +100,8 @@
     "details": "Project details",
     "type": "Project type",
     "activities": "Project activities",
-    "estimatedReduction": "Quantity planned"
+    "estimatedReduction": "Quantity planned",
+    "registry": "Registry of trusted projects",
+    "followAndTrack": "Follow and track activities on verified and trusted projects."
   }
 }

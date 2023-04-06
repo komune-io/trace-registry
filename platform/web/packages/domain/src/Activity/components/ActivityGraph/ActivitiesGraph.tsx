@@ -13,7 +13,8 @@ export interface ActivitiesGraphProps {
 }
 
 const nodeTypes = {
-    Activities: ActivityGraphNode
+    Activities: ActivityGraphNode,
+    // group: ActivityGraphGroupNode
 };
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
