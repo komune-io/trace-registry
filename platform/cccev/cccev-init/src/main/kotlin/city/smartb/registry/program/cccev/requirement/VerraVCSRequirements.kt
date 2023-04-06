@@ -4,8 +4,8 @@ import  cccev.dsl.model.builder.InformationRequirementBuilder
 import cccev.dsl.model.builder.RequirementsLinkedBuilder
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
-import city.smartb.registry.program.cccev.ver.Type
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 fun RequirementsLinkedBuilder.verraVcsProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
@@ -15,7 +15,7 @@ fun RequirementsLinkedBuilder.verraVcsProtocolPreparationStep(init: InformationR
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun RequirementsLinkedBuilder.verraVcsProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
@@ -26,7 +26,7 @@ fun RequirementsLinkedBuilder.verraVcsProtocolValidationStep(init: InformationRe
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationRequirementBuilder.() -> Unit) =
@@ -38,7 +38,7 @@ fun RequirementsLinkedBuilder.verraVcsProtocolCertification(init: InformationReq
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun verraVcsProtocolPreparationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -50,7 +50,7 @@ fun verraVcsProtocolPreparationActivity(init: InformationRequirementBuilder.() -
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 fun verraVcsProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -62,7 +62,7 @@ fun verraVcsProtocolValidationActivity(init: InformationRequirementBuilder.() ->
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 fun verraVcsProtocolCertificationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -74,7 +74,7 @@ fun verraVcsProtocolCertificationActivity(init: InformationRequirementBuilder.()
         isDerivedFrom {
             +ReferenceFramework.Verra
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 

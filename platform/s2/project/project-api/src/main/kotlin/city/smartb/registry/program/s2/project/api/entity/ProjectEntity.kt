@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.api.entity
 
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.model.ActivityId
+import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -75,7 +75,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var assessor: OrganizationRefEntity? = null
 
     var location: GeoLocation<String>? = null
-    var activities: List<ActivityId>? = null
+    var activities: List<ActivityIdentifier>? = null
     var sdgs: List<SdgNumber>? = null
 
 //    @CreatedDate

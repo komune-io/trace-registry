@@ -1,4 +1,4 @@
-package city.smartb.registry.program.ver.test.s2.requirement.command
+package city.smartb.registry.program.ver.test.s2.project.command
 
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
@@ -8,9 +8,9 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectCreateComma
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
-import city.smartb.registry.program.ver.test.s2.requirement.data.project
-import city.smartb.registry.program.ver.test.s2.requirement.data.toGeoLocation
-import city.smartb.registry.program.ver.test.s2.requirement.data.toOrganizationRef
+import city.smartb.registry.program.ver.test.s2.project.data.project
+import city.smartb.registry.program.ver.test.s2.project.data.toGeoLocation
+import city.smartb.registry.program.ver.test.s2.project.data.toOrganizationRef
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import org.assertj.core.api.Assertions
@@ -47,7 +47,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             }
         }
 
-        When("I create a project:") { params: city.smartb.registry.program.ver.test.s2.requirement.command.ProjectCreateSteps.ProjectCreateParams ->
+        When("I create a project:") { params: ProjectCreateParams ->
             step {
                 createProject(params)
             }

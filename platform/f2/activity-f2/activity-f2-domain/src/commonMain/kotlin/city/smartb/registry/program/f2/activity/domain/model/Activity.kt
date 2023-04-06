@@ -1,4 +1,5 @@
 package city.smartb.registry.program.f2.activity.domain.model
+import cccev.dsl.model.Code
 
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
@@ -28,28 +29,31 @@ import kotlinx.serialization.Serializable
  * 		"hasRequirement": ["R1"]
  * 	}]
  */
-
-typealias RequirementIdentifier = String
+typealias ActivityIdentifier = String
 @JsExport
 interface ActivityDTO {
-    val identifier: RequirementIdentifier
+    val identifier: ActivityIdentifier
     val name: String?
     val type: String?
     val description: String?
-    val hasQualifiedRelation: Array<RequirementIdentifier>
+    val hasQualifiedRelation: Array<ActivityIdentifier>
     val hasRequirement: Array<out ActivityDTO>
     val progression: Double
 }
 
 @JsExport
 @Serializable
-class Activity(
-    override val identifier: RequirementIdentifier,
+data class Activity(
+    override val identifier: ActivityIdentifier,
     override val name: String?,
     override val type: String?,
     override val description: String?,
-    override val hasQualifiedRelation: Array<RequirementIdentifier>,
+    override val hasQualifiedRelation: Array<ActivityIdentifier>,
     override val hasRequirement: Array<Activity>,
     override val progression: Double,
+): ActivityDTO
 
-    ): ActivityDTO
+sealed class RequirementType(val identifier: String): Code {
+    object Activity: RequirementType("activity")
+    object Step: RequirementType("step")
+}

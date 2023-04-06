@@ -1,7 +1,12 @@
 import { Box } from '@mui/material'
-import {ReactFlow, Background, useEdgesState, useNodesState, Controls} from "reactflow"
+import {ReactFlow, Background, useEdgesState, useNodesState, Controls, ReactFlowInstance} from "reactflow"
 import 'reactflow/dist/style.css';
-import {MouseEvent as ReactMouseEvent, useCallback, useEffect, useState} from 'react';
+import {
+  MouseEvent as ReactMouseEvent,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import {Activity, ActivityId} from "../../model";
 import {ActivityGraphNode} from "../ActivityGraphNode";
 import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
@@ -20,6 +25,8 @@ const nodeTypes = {
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
     const {activities, selectedActivity, onActivitySelect} = props
     const [baseRequirement, setBaseRequirement] = useState<Activity | undefined>(undefined)
+    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | undefined>(undefined)
+    const onInit = useCallback( (reactFlowInstance: ReactFlowInstance) => setReactFlowInstance(reactFlowInstance), [])
 
     const selectRequirement = useCallback(
       (selected: ActivityId, parent?: ActivityId) => {
@@ -29,14 +36,18 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
       },
       [activities],
     )
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
     useEffect(() => {
       const currentActivities = baseRequirement ? baseRequirement.hasRequirement : activities
       const {nodes, edges} = getNodesAnEdgesOfActivities(currentActivities, baseRequirement, selectRequirement)
       setNodes(nodes)
       setEdges(edges)
+      // TODO Find a better way to auto fit the view after the graph is rendered
+      setTimeout(() => {
+        reactFlowInstance && reactFlowInstance.fitView()
+      }, 500)
     }, [baseRequirement, selectRequirement])
 
     const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
@@ -44,6 +55,7 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         onActivitySelect(node.data.current);
       }
     };
+
     return (
       <Box
         sx={{
@@ -55,6 +67,7 @@ export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          onInit={onInit}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           nodeTypes={nodeTypes}

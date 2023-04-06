@@ -1,10 +1,15 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.requirement.domain.model.RequirementDTO
 import cccev.f2.requirement.domain.model.RequirementDTOBase
+import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
+import cccev.f2.requirement.domain.query.RequirementGetQueryDTO
+import cccev.f2.requirement.domain.query.RequirementGetQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeResultDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.Activity
+import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
 import f2.dsl.cqrs.page.OffsetPagination
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageResult
@@ -38,8 +43,13 @@ class ActivityF2FinderService(
             total = requirements?.items?.size ?: 0
         )
     }
+    suspend fun activityGet(
+        activityIdentifier: ActivityIdentifier
+    ): Activity? {
+        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapActivities()
+    }
 
-    fun RequirementDTOBase.mapActivities(visited: MutableSet<RequirementDTOBase> = mutableSetOf()): Activity? {
+    fun RequirementDTO.mapActivities(visited: MutableSet<RequirementDTO> = mutableSetOf()): Activity? {
         if (visited.contains(this)) {
             return null
         }

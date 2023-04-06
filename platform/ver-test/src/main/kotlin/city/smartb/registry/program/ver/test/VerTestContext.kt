@@ -12,6 +12,7 @@ class VerTestContext(
 ): BddContext by testContext {
 
     val projectIds = testContext.testEntities<TestContextKey, ProjectId>("Project")
+    val activityIds = testContext.testEntities<TestContextKey, ProjectId>("Activity")
 
     final var fetched = FetchContext()
         private set

@@ -14,4 +14,5 @@ abstract class PolicyEnforcer {
     protected suspend fun <R> enforce(block: suspend (AuthedUser) -> R): R {
         return block(AuthenticationProvider.getAuthedUser())
     }
+    
 }

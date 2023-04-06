@@ -3,14 +3,14 @@ package city.smartb.registry.program.cccev.requirement
 import cccev.dsl.model.builder.InformationRequirementBuilder
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
-import city.smartb.registry.program.cccev.ver.Type
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 fun implementationStep(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun implementationActivityStep(init: InformationRequirementBuilder.() -> Unit) =
@@ -21,7 +21,7 @@ fun implementationActivityStep(init: InformationRequirementBuilder.() -> Unit) =
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
-        type = Type.Steps
+        type = RequirementType.Step
 
     }.apply(init).build()
 
@@ -33,7 +33,7 @@ fun implementationActivity(init: InformationRequirementBuilder.() -> Unit) =
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 

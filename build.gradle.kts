@@ -8,7 +8,7 @@ plugins {
 
 	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
 	id("city.smartb.fixers.gradle.sonar") version PluginVersions.fixers
-//	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
+	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
 }
 
 allprojects {
@@ -47,5 +47,8 @@ fixers {
 		name = "Voluntary Emissions Reductions"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environnemental assets registries of the market."
 		url = "https://gitlab.smartb.city/framwork/registry/program"
+	}
+	d2 {
+		outputDirectory = file("storybook/stories/d2/")
 	}
 }

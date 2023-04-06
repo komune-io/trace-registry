@@ -2,11 +2,10 @@ package city.smartb.registry.program.cccev.requirement
 
 import  cccev.dsl.model.builder.InformationRequirementBuilder
 import cccev.dsl.model.builder.RequirementsLinkedBuilder
-import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
-import city.smartb.registry.program.cccev.ver.Type
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 fun RequirementsLinkedBuilder.localConsultationProtocolPreparationStep(init: InformationRequirementBuilder.() -> Unit) =
     +InformationRequirementBuilder().apply {
@@ -16,7 +15,7 @@ fun RequirementsLinkedBuilder.localConsultationProtocolPreparationStep(init: Inf
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun RequirementsLinkedBuilder.localConsultationProtocolValidationStep(init: InformationRequirementBuilder.() -> Unit) =
@@ -27,7 +26,7 @@ fun RequirementsLinkedBuilder.localConsultationProtocolValidationStep(init: Info
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Steps
+        type = RequirementType.Step
     }.apply(init).build()
 
 fun localConsultationProtocolActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -39,7 +38,7 @@ fun localConsultationProtocolActivity(init: InformationRequirementBuilder.() -> 
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 fun localConsultationProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
@@ -50,7 +49,7 @@ fun localConsultationProtocolValidationActivity(init: InformationRequirementBuil
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = Type.Activities
+        type = RequirementType.Activity
     }.apply(init).build()
 
 val LocalConsultationPreparation = localConsultationProtocolActivity {
@@ -69,7 +68,7 @@ val LocalConsultationPreparation = localConsultationProtocolActivity {
     isDerivedFrom {
         +ReferenceFramework.REDDPlus
     }
-    type = Type.Activities
+    type = RequirementType.Activity
     hasRequirement {
         localConsultationProtocolPreparationStep {
             identifier = "D100"

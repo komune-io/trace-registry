@@ -1,6 +1,7 @@
 package city.smartb.registry.program.cccev.ver
 
 import cccev.dsl.model.informationRequirement
+import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 object Activities {
     val LOI = informationRequirement {
@@ -8,7 +9,7 @@ object Activities {
         name = "LOI"
         description =
             "Stands for Letter of Intent. This activity involves the submission of a letter expressing the intention to develop and implement a VERs project."
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -19,7 +20,7 @@ object Activities {
         name = "Eligibility"
         description =
             "This activity involves assessing whether the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -29,7 +30,7 @@ object Activities {
         name = "Implementation"
         description =
             "This activity involves the actual implementation of the project according to the project protocol."
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -38,7 +39,7 @@ object Activities {
         identifier = "P3"
         name = "Protocol preparation"
         description = ""
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -47,7 +48,7 @@ object Activities {
         identifier = "P4"
         name = "Protocol validation"
         description = ""
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
@@ -56,7 +57,7 @@ object Activities {
         identifier = "P5"
         name = "Certification"
         description = ""
-        type = Type.Activities
+        type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }

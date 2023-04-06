@@ -6,8 +6,6 @@ plugins {
 
 dependencies {
     Dependencies.Jvm.f2(::implementation)
-    Dependencies.Jvm.fs(::implementation)
-
     implementation(project(":platform:api:api-config"))
 
     implementation(project(":platform:s2:project:project-api"))
