@@ -1,10 +1,7 @@
 package city.smartb.registry.program.f2.activity.api
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.request.client.requestAddEvidence
-import cccev.f2.request.domain.command.RequestAddEvidenceCommandDTOBase
 import cccev.s2.request.domain.command.RequestAddValuesCommand
-import city.smartb.fs.spring.utils.contentByteArray
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
