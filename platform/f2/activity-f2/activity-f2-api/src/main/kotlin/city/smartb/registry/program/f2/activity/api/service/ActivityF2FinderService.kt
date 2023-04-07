@@ -1,11 +1,9 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.requirement.domain.model.RequirementDTO
-import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
-import cccev.f2.requirement.domain.query.RequirementGetQueryDTO
-import cccev.f2.requirement.domain.query.RequirementGetQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeResultDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.Activity
@@ -34,9 +32,7 @@ class ActivityF2FinderService(
             ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
         }
 
-        val activities = requirements?.items?.mapNotNull { requirement ->
-            requirement.mapActivities()
-        } ?: emptyList()
+        val activities = requirements?.items?.mapActivities() ?: emptyList()
 
         return ActivityPageResult(
             items = activities,
@@ -46,10 +42,16 @@ class ActivityF2FinderService(
     suspend fun activityGet(
         activityIdentifier: ActivityIdentifier
     ): Activity? {
-        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapActivities()
+        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapActivity()
+    }
+    suspend fun stepGet(
+        activityIdentifier: ActivityIdentifier
+    ): ActivityStep? {
+        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapStep()
     }
 
-    fun RequirementDTO.mapActivities(visited: MutableSet<RequirementDTO> = mutableSetOf()): Activity? {
+    fun List<RequirementDTO>.mapActivities(): List<Activity> = mapNotNull  { it.mapActivity() }
+    fun RequirementDTO.mapActivity(visited: MutableSet<RequirementDTO> = mutableSetOf()): Activity? {
         if (visited.contains(this)) {
             return null
         }
@@ -60,8 +62,20 @@ class ActivityF2FinderService(
             description = description,
             type = type,
             hasQualifiedRelation = emptyArray(),
-            hasRequirement = hasRequirement.mapNotNull { it.mapActivities() }.toTypedArray(),
-            progression = (0..100).random().toDouble()
+            hasRequirement = hasRequirement.mapActivities().toTypedArray(),
+            progression = (0..100).random().toDouble(),
+        )
+    }
+    fun RequirementDTO.mapStep(): ActivityStep {
+        return ActivityStep(
+            id = id,
+            identifier = identifier!!,
+            name = name,
+            description = description,
+            value = null,
+            file = null,
+            completed = listOf(false, true).random(),
+            hasConcept = hasConcept.firstOrNull() as InformationConceptDTOBase
         )
     }
 
@@ -74,15 +88,7 @@ class ActivityF2FinderService(
             type = "Steps"
         ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
         val steps = requirements.items?.firstOrNull()?.hasRequirement?.map {
-            ActivityStep(
-                identifier = it.identifier!!,
-                name = it.name,
-                description = it.description,
-                value = null,
-                file = null,
-                completed = listOf(false, true).random(),
-                hasConcept = null
-            )
+            it.mapStep()
         } ?: emptyList()
         return ActivityStepPageResult(
             items = steps,

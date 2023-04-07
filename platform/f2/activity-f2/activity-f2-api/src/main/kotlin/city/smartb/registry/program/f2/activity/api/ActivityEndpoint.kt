@@ -108,27 +108,30 @@ class ActivityEndpoint(
         @RequestPart("file") file: FilePart?
     ): ActivityStepFulfilledEvent {
         activityPoliciesEnforcer.checkCanFulfillTask()
-        val evidenceEvent = file?.let {
-            val addEvidenceCmd = RequestAddEvidenceCommandDTOBase(
+        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
+
+//        val evidenceEvent = file?.let {
+//            val addEvidenceCmd = RequestAddEvidenceCommandDTOBase(
+//                id = cmd.requestId,
+//                name = file.name(),
+//                url = "cmd.description",
+//                isConformantTo = emptyList()
+//            )
+//            (addEvidenceCmd to file.contentByteArray()).invokeWith( cccevClient.request.requestAddEvidence())
+//        }
+
+        step.hasConcept?.let { concept ->
+            RequestAddValuesCommand(
                 id = cmd.requestId,
-                name = file.name(),
-                url = "cmd.description",
-                isConformantTo = emptyList()
-            )
-            (addEvidenceCmd to file.contentByteArray()).invokeWith( cccevClient.request.requestAddEvidence())
+                values = mapOf(
+                    concept.id to cmd.value,
+                )
+            ).invokeWith(cccevClient.requestClient.requestAddValues())
         }
-
-        val values = RequestAddValuesCommand(
-            id = cmd.requestId,
-            values = mapOf(
-                "informationConceptId" to cmd.value,
-            )
-        ).invokeWith(cccevClient.request.requestAddValues())
-
         return ActivityStepFulfilledEvent(
             identifier = cmd.identifier,
-            value = values.values["informationConceptId"],
-            file = evidenceEvent?.file,
+            value = cmd.value,
+            file = null
         )
     }
 }
