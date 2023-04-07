@@ -110,16 +110,6 @@ class ActivityEndpoint(
         activityPoliciesEnforcer.checkCanFulfillTask()
         val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
 
-//        val evidenceEvent = file?.let {
-//            val addEvidenceCmd = RequestAddEvidenceCommandDTOBase(
-//                id = cmd.requestId,
-//                name = file.name(),
-//                url = "cmd.description",
-//                isConformantTo = emptyList()
-//            )
-//            (addEvidenceCmd to file.contentByteArray()).invokeWith( cccevClient.request.requestAddEvidence())
-//        }
-
         step.hasConcept?.let { concept ->
             RequestAddValuesCommand(
                 id = cmd.requestId,

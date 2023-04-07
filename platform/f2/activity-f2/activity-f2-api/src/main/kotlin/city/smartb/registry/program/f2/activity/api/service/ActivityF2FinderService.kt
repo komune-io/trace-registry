@@ -29,7 +29,7 @@ class ActivityF2FinderService(
             RequirementListChildrenByTypeQueryDTOBase(
                 identifiers = identifiers,
                 type = "Activities"
-            ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
+            ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         }
 
         val activities = requirements?.items?.mapActivities() ?: emptyList()
@@ -42,12 +42,14 @@ class ActivityF2FinderService(
     suspend fun activityGet(
         activityIdentifier: ActivityIdentifier
     ): Activity? {
-        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapActivity()
+        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
+            .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier()).item?.mapActivity()
     }
     suspend fun stepGet(
         activityIdentifier: ActivityIdentifier
     ): ActivityStep? {
-        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier).invokeWith(cccevClient.requirement.requirementGetByIdentifier()).item?.mapStep()
+        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
+            .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier()).item?.mapStep()
     }
 
     fun List<RequirementDTO>.mapActivities(): List<Activity> = mapNotNull  { it.mapActivity() }
@@ -86,7 +88,7 @@ class ActivityF2FinderService(
         val requirements = RequirementListChildrenByTypeQueryDTOBase(
             identifiers = listOf(activityId),
             type = "Steps"
-        ).invokeWith(cccevClient.requirement.requirementListChildrenByType())
+        ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         val steps = requirements.items?.firstOrNull()?.hasRequirement?.map {
             it.mapStep()
         } ?: emptyList()
