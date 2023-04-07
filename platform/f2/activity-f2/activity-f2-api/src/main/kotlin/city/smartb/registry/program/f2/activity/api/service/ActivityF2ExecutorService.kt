@@ -1,16 +1,20 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
+import cccev.dsl.model.RequirementId
 import cccev.dsl.model.informationRequirement
+import cccev.s2.request.domain.command.RequestCreateCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommand
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
+import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 
 @Service
@@ -48,10 +52,17 @@ class ActivityF2ExecutorService(
         val requirement = informationRequirement {
             this.identifier = identifier
             this.name = name
-            this.description =   description
+            this.description = description
             this.type = type
         }
-        cccevClient.createGraph( flowOf(requirement) ).collect()
+        val result = cccevClient.createGraph( flowOf(requirement) ).toList().first()
+
+        RequestCreateCommand(
+            name = name,
+            description = null,
+            requirements = listOf(result.id)
+        ).invokeWith(cccevClient.requestClient.requestCreate())
+
         return identifier
     }
 }

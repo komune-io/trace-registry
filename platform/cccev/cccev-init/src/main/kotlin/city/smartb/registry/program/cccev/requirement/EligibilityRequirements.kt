@@ -1,7 +1,10 @@
 package city.smartb.registry.program.cccev.requirement
 
+import cccev.dsl.model.builder.InformationConceptBuilder
+import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
 import cccev.dsl.model.builder.RequirementsLinkedBuilder
+import cccev.dsl.model.builder.informationConcept
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
@@ -17,34 +20,37 @@ fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =
         type = RequirementType.Activity
     }.apply(init).build()
 
-private fun eligibilityStepSingle(init: InformationRequirementBuilder.() -> Unit) =
-    InformationRequirementBuilder().apply {
-        isDerivedFrom {
-            +ReferenceFramework.AxessImpact
-        }
+private fun eligibilityStepSingle(init: InformationConceptBuilder.() -> Unit) =
+    InformationConceptBuilder().apply {
         type = RequirementType.Step
     }.apply(init).build()
 
-fun eligibilityStep(init: InformationRequirementBuilder.() -> Unit) = eligibilityStepSingle(init)
-fun RequirementsLinkedBuilder.eligibilityStep(init: InformationRequirementBuilder.() -> Unit) = +eligibilityStepSingle(init)
+fun InformationConceptListBuilder.eligibilityStep(init: InformationConceptBuilder.() -> Unit) = +eligibilityStepSingle(init)
 
 
-val SurveyOfEligibility = eligibilityStep {
-    identifier = "B100"
+val SurveyOfEligibility = eligibilityActivity {
+    identifier = "B10"
     name = "Survey of eligibility"
     description =
         "Conduct an initial assessment of the project to determine if it meets the eligibility criteria."
     isRequirementOf {
         +Activities.Eligibility
     }
+    hasConcept {
+        eligibilityStep {
+            identifier = "B100"
+            name = "Project name"
+            description = "Provide a name for the project."
+        }
+    }
 }
 
 
 val IdentificationOfProject = eligibilityActivity {
-    identifier = "B10X"
+    identifier = "B11"
     name = "Identification of the project"
     description = "This activity involves identifying the project and its location."
-    hasRequirement {
+    hasConcept {
         eligibilityStep {
             identifier = "B101"
             name = "Project name"
@@ -79,10 +85,10 @@ val IdentificationOfProject = eligibilityActivity {
 }
 
 val FirstDocumentation = eligibilityActivity {
-    identifier = "B20X"
+    identifier = "B20"
     name = "First Documentation"
     description = "Obtaining the necessary legal and administrative documents for the project."
-    hasRequirement {
+    hasConcept {
         eligibilityStep {
             identifier = "B200"
             name = "Notarial Deeds"
@@ -106,30 +112,48 @@ val FirstDocumentation = eligibilityActivity {
     }
 }
 
-val FirstEstimate = eligibilityStep {
-    identifier = "B300"
+val FirstEstimate = eligibilityActivity {
+    identifier = "B30"
     name = "First emissions estimate"
     description = "An initial estimation of the baseline emissions of the project, used as a reference for measuring emissions reductions."
     isRequirementOf {
         +Activities.Eligibility
     }
+    hasConcept {
+        eligibilityStep {
+            identifier = "B300"
+            name = "First emissions estimate"
+        }
+    }
 }
 
-val ThirdPartyAudit = eligibilityStep {
-    identifier = "B400"
+val ThirdPartyAudit = eligibilityActivity {
+    identifier = "B40"
     name = "Third-party audit"
     description = "An independent review of the project's emissions data and reduction claims by a third-party organization to ensure accuracy and credibility."
     isRequirementOf {
         +Activities.Eligibility
     }
+    hasConcept {
+        eligibilityStep {
+            identifier = "B400"
+            name = "First emissions estimate"
+        }
+    }
 }
 
-val Validation = eligibilityStep {
-    identifier = "B500"
+val Validation = eligibilityActivity {
+    identifier = "B50"
     name = "Validation"
     description = "A formal process of verifying that the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
     isRequirementOf {
         +Activities.Eligibility
+    }
+    hasConcept {
+        eligibilityStep {
+            identifier = "B500"
+            name = "Validation"
+        }
     }
 }
 

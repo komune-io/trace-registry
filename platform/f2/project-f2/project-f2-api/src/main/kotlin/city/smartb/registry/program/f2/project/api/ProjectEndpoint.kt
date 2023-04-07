@@ -16,14 +16,24 @@ import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import f2.dsl.fnc.invokeWith
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 import javax.annotation.security.PermitAll
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.toList
 
 @RestController
 @RequestMapping
@@ -80,6 +90,8 @@ class ProjectEndpoint(
         projectPoliciesEnforcer.checkCreate()
         projectAggregateService.create(command)
     }
+
+
 
     @PermitAll
     @Bean

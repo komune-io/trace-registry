@@ -33,7 +33,8 @@ fun ProjectEntity.toProject() = Project(
     creationDate = null,
     lastModificationDate = null,
     activities = activities,
-    sdgs = sdgs
+    sdgs = sdgs,
+    request = request
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )
