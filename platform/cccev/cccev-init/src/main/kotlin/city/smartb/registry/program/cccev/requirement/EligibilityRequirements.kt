@@ -26,7 +26,6 @@ private fun eligibilityStepSingle(init: InformationConceptBuilder.() -> Unit) =
     }.apply(init).build()
 
 fun InformationConceptListBuilder.eligibilityStep(init: InformationConceptBuilder.() -> Unit) = +eligibilityStepSingle(init)
-//fun InformationConceptListBuilder.eligibilityStep(init: InformationConceptBuilder.() -> Unit) = +eligibilityStepSingle(init)
 
 
 val SurveyOfEligibility = eligibilityActivity {
