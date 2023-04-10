@@ -65,7 +65,7 @@ class ActivityEndpoint(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
-            activityId = query.activityId
+            activityIdentifier = query.activityIdentifier
         )
     }
 

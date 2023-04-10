@@ -31,6 +31,7 @@ import kotlinx.serialization.Serializable
  */
 typealias ActivityId = String
 typealias ActivityIdentifier = String
+typealias ActivityStepIdentifier = String
 @JsExport
 interface ActivityDTO {
     val identifier: ActivityIdentifier

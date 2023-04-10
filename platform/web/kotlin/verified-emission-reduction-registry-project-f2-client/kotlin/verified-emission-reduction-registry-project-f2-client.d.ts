@@ -133,6 +133,9 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -1994,8 +1997,9 @@ export namespace cccev.s2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly hasRequirement: kotlin.collections.List<string>;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
@@ -2268,6 +2272,7 @@ export namespace cccev.f2.concept.domain.command {
 export namespace cccev.f2.concept.domain.model {
     interface InformationConceptDTO {
         readonly id: string;
+        readonly identifier?: string;
         readonly name: string;
         readonly unit?: cccev.f2.unit.domain.model.DataUnitDTO;
         readonly description?: string;
@@ -2299,6 +2304,16 @@ export namespace cccev.f2.concept.domain.query {
     }
     interface GetInformationConceptsQueryResultDTO {
         readonly informationConcepts: kotlin.collections.List<cccev.f2.concept.domain.model.RequestInformationConceptDTO>;
+
+    }
+}
+export namespace cccev.f2.concept.domain.query {
+    interface InformationConceptGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface InformationConceptGetByIdentifierResultDTO {
+        readonly item?: cccev.f2.concept.domain.model.InformationConceptDTO;
 
     }
 }
@@ -2357,6 +2372,151 @@ export namespace cccev.f2.concept.client {
 }
 export namespace cccev.f2.concept.client {
     function informationConceptClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.concept.client.InformationConceptClient>;
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestAddEvidenceCommandDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly url?: string;
+        readonly isConformantTo: kotlin.collections.List<string>;
+
+    }
+    interface RequestAddedEvidenceEventDTO extends cccev.s2.request.domain.command.RequestAddedEvidenceEventDTO {
+        readonly id: string;
+        readonly evidenceId: string;
+        readonly name: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly url?: string;
+        readonly isConformantTo: kotlin.collections.List<string>;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestAddRequirementsCommandDTO extends cccev.s2.request.domain.command.RequestAddRequirementsCommandDTO {
+        readonly id: string;
+        readonly requirementIds: kotlin.collections.List<string>;
+
+    }
+    interface RequestAddedRequirementsEventDTO extends cccev.s2.request.domain.command.RequestAddedRequirementsEventDTO {
+        readonly id: string;
+        readonly requirementIds: kotlin.collections.List<string>;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestAddValuesCommandDTO extends cccev.s2.request.domain.command.RequestAddValuesCommandDTO {
+        readonly id: string;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
+
+    }
+    interface RequestAddedValuesEventDTO extends cccev.s2.request.domain.command.RequestAddedValuesEventDTO {
+        readonly id: string;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestCreateCommandDTO extends cccev.s2.request.domain.command.RequestCreateCommandDTO {
+        readonly name: string;
+        readonly description?: string;
+        readonly requirements: kotlin.collections.List<string>;
+
+    }
+    interface RequestCreatedEventDTO extends cccev.s2.request.domain.command.RequestCreatedEventDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly requirements: kotlin.collections.List<string>;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.request.domain.command.RequestRemoveEvidenceCommandDTO {
+        readonly id: string;
+        readonly evidenceId: string;
+
+    }
+    interface RequestRemovedEvidenceEventDTO extends cccev.s2.request.domain.command.RequestRemovedEvidenceEventDTO {
+        readonly id: string;
+        readonly evidenceId: string;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.command {
+    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.request.domain.command.RequestRemoveRequirementsCommandDTO {
+        readonly id: string;
+        readonly requirementIds: kotlin.collections.List<string>;
+
+    }
+    interface RequestRemovedRequirementsEventDTO extends cccev.s2.request.domain.command.RequestRemovedRequirementsEventDTO {
+        readonly id: string;
+        readonly requirementIds: kotlin.collections.List<string>;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.request.domain.model {
+    interface EvidenceDTO extends cccev.s2.request.domain.model.EvidenceDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly url?: string;
+        readonly isConformantTo: kotlin.collections.List<string>;
+
+    }
+}
+export namespace cccev.f2.request.domain.model {
+    interface RequestDTO extends cccev.s2.request.domain.model.RequestDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly startDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly endDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly estimatedEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly creator?: string;
+        readonly executor?: string;
+        readonly validator?: string;
+        readonly isPublic: boolean;
+        readonly issuable: boolean;
+        readonly verifiable: boolean;
+        readonly verifier?: string;
+        readonly verificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly requirements: kotlin.collections.List<string>;
+        readonly evidences: kotlin.collections.List<cccev.s2.request.domain.model.EvidenceDTO>;
+        readonly supportedValues: kotlin.collections.Map<string, Nullable<string>>;
+
+    }
+}
+export namespace cccev.f2.request.domain.query {
+    interface RequestDownloadEvidenceQueryDTO {
+        readonly id: string;
+        readonly evidenceId: string;
+
+    }
+}
+export namespace cccev.f2.request.domain.query {
+    interface RequestGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface RequestGetResultDTO {
+        readonly item?: cccev.s2.request.domain.model.RequestDTO;
+
+    }
+}
+export namespace cccev.f2.request.client {
+    class RequestClient /* implements cccev.f2.request.domain.RequestApi */ {
+        constructor(client: f2.client.F2Client);
+        get client(): f2.client.F2Client;
+    }
+}
+export namespace cccev.f2.request.client {
+    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.request.client.RequestClient>;
 }
 export namespace cccev.f2.evidence.type.domain.command.list {
     interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreateCommandDTO {
@@ -2428,6 +2588,74 @@ export namespace cccev.f2.evidence.type.domain.model {
 
     }
 }
+export namespace cccev.s2.framework.domain {
+    interface FrameworkInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface FrameworkCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface FrameworkEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string>, s2.dsl.automate.WithId<string> {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace cccev.s2.framework.domain.command {
+    interface FrameworkCreateCommandDTO extends cccev.s2.framework.domain.FrameworkInitCommand {
+        readonly identifier?: string;
+        readonly name: string;
+
+    }
+    interface FrameworkCreatedEventDTO extends cccev.s2.framework.domain.FrameworkEvent {
+        readonly id: string;
+        readonly identifier?: string;
+        readonly name: string;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.s2.framework.domain.model {
+    interface FrameworkDTO {
+        readonly id: string;
+        readonly identifier?: string;
+        readonly name: string;
+
+    }
+}
+export namespace cccev.f2.framework.domain.command {
+    interface FrameworkCreateCommandDTO extends cccev.s2.framework.domain.command.FrameworkCreateCommandDTO {
+        readonly identifier?: string;
+        readonly name: string;
+
+    }
+    interface FrameworkCreatedEventDTO extends cccev.s2.framework.domain.command.FrameworkCreatedEventDTO {
+        readonly id: string;
+        readonly identifier?: string;
+        readonly name: string;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.framework.domain.model {
+    interface FrameworkDTO extends cccev.s2.framework.domain.model.FrameworkDTO {
+        readonly id: string;
+        readonly identifier?: string;
+        readonly name: string;
+
+    }
+}
+export namespace cccev.f2.framework.domain.query {
+    interface FrameworkGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface FrameworkGetResultDTO {
+        readonly item?: cccev.s2.framework.domain.model.FrameworkDTO;
+
+    }
+}
 export namespace cccev.f2.requirement.domain.command {
     interface ConstraintCreateCommandDTO extends cccev.f2.requirement.domain.command.RequirementCreateCommandDTO {
         readonly identifier?: string;
@@ -2435,10 +2663,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: kotlin.collections.List<string>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly hasRequirement: kotlin.collections.List<string>;
-        hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface ConstraintCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2448,8 +2677,9 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly hasRequirement: kotlin.collections.List<string>;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
@@ -2464,10 +2694,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: kotlin.collections.List<string>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly hasRequirement: kotlin.collections.List<string>;
-        hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface CriterionCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2477,8 +2708,9 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly hasRequirement: kotlin.collections.List<string>;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
@@ -2493,10 +2725,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: kotlin.collections.List<string>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly hasRequirement: kotlin.collections.List<string>;
-        hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface InformationRequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2506,8 +2739,9 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly hasRequirement: kotlin.collections.List<string>;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
@@ -2535,10 +2769,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: kotlin.collections.List<string>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly hasRequirement: kotlin.collections.List<string>;
-        hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface RequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2548,8 +2783,9 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly hasRequirement: kotlin.collections.List<string>;
-        readonly hasQualifiedRelation: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
         readonly hasConcept: kotlin.collections.List<string>;
         readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
@@ -2583,6 +2819,16 @@ export namespace cccev.f2.requirement.domain.model {
         readonly hasRequirement: kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>;
         readonly hasConcept: kotlin.collections.List<cccev.f2.concept.domain.model.InformationConceptDTO>;
         readonly hasEvidenceTypeList: kotlin.collections.List<cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO>;
+
+    }
+}
+export namespace cccev.f2.requirement.domain.query {
+    interface RequirementGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface RequirementGetByIdentifierResultDTO {
+        readonly item?: cccev.f2.requirement.domain.model.RequirementDTO;
 
     }
 }
@@ -2634,6 +2880,14 @@ export namespace cccev.f2.evidence.type.client {
 }
 export namespace cccev.f2.evidence.type.client {
     function evidenceTypeClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.evidence.type.client.EvidenceTypeClient>;
+}
+export namespace cccev.f2.framework.client {
+    class FrameworkClient /* implements cccev.f2.framework.domain.FrameworkApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace cccev.f2.framework.client {
+    function frameworkClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.framework.client.FrameworkClient>;
 }
 export namespace cccev.f2.unit.client {
     class DataUnitClient /* implements cccev.f2.unit.domain.DataUnitApi */ {
@@ -2700,6 +2954,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly assessor: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
         readonly location?: city.smartb.registry.program.api.commons.model.GeoLocationDTO;
         readonly activities: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly request: Nullable<any>/* Nullable<city.smartb.registry.program.s2.project.domain.command.RequestRef> */;
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;

@@ -53,7 +53,7 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Ac
                 x: -300,
                 y: (nodes.length / 2) * 120
             },
-            type: "Activities",
+            type: "Activity",
             sourcePosition: Position.Right,
         })
     }

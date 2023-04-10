@@ -7,6 +7,7 @@ import city.smartb.registry.program.cccev.requirement.ImplementationRequirements
 import city.smartb.registry.program.cccev.requirement.LocalConsultationRequirements
 import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
 import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
+import city.smartb.registry.program.cccev.ver.ActivitiesAxess
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -19,7 +20,7 @@ fun main(): Unit = runBlocking {
     client.createGraph(
         buildList<Requirement> {
             // FIXME cccev return an error on EligibilityRequirements if the next line is uncommented
-//            add(ActivitiesAxess)
+            add(ActivitiesAxess)
             addAll(EligibilityRequirements)
             addAll(ImplementationRequirements)
             addAll(LocalConsultationRequirements)
