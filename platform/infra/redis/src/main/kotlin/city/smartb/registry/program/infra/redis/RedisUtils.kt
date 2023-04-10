@@ -1,8 +1,8 @@
 package city.smartb.registry.program.infra.redis
 
+import org.springframework.data.redis.domain.geo.GeoLocation as RedisGeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import org.springframework.data.geo.Point
-import org.springframework.data.redis.domain.geo.GeoLocation as RedisGeoLocation
 
 fun RedisGeoLocation<*>.toGeoLocation() = GeoLocation(
     lon = point.x,

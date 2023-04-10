@@ -2,8 +2,7 @@ package city.smartb.registry.program.cccev.requirement
 
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
-import  cccev.dsl.model.builder.InformationRequirementBuilder
-import cccev.dsl.model.builder.RequirementsLinkedBuilder
+import cccev.dsl.model.builder.InformationRequirementBuilder
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.Methodology
 import city.smartb.registry.program.cccev.ver.ReferenceFramework

@@ -4,10 +4,10 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.RequestRef
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsExport
 
 
 /**

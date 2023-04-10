@@ -8,10 +8,6 @@ import city.smartb.registry.program.ver.test.f2.activity.data.activity
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import org.springframework.beans.factory.annotation.Autowired
-import s2.bdd.assertion.AssertionBdd
-import s2.bdd.data.TestContextKey
-import s2.bdd.data.parser.extractList
 import java.util.UUID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -19,6 +15,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import org.springframework.beans.factory.annotation.Autowired
+import s2.bdd.assertion.AssertionBdd
+import s2.bdd.data.TestContextKey
+import s2.bdd.data.parser.extractList
 
 class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberStepsDefinition() {
 

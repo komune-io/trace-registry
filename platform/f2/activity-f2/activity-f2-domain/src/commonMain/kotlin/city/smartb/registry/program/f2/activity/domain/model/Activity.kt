@@ -1,10 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.model
 
 import cccev.dsl.model.Code
-import cccev.dsl.model.InformationConcept
-import cccev.f2.concept.domain.model.InformationConceptDTO
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

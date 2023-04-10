@@ -11,10 +11,12 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEven
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
@@ -23,8 +25,6 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
-import kotlin.reflect.KClass
-import org.slf4j.LoggerFactory
 
 @Configuration
 class ProjectAutomateConfig(

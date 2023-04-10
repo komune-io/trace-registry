@@ -2,8 +2,8 @@ package city.smartb.registry.program.f2.asset.domain.query
 
 import city.smartb.registry.program.s2.asset.domain.model.Asset
 import city.smartb.registry.program.s2.asset.domain.model.AssetDTO
-import f2.dsl.fnc.F2Function
 import city.smartb.registry.program.s2.asset.domain.model.AssetId
+import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

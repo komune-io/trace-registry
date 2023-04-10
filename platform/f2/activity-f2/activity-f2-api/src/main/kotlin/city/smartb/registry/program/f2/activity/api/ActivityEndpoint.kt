@@ -3,8 +3,6 @@ package city.smartb.registry.program.f2.activity.api
 import cccev.dsl.client.CCCEVClient
 import cccev.s2.request.domain.command.RequestAddValuesCommand
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.program.f2.activity.api.service.ActivityPoliciesEnforcer
 import city.smartb.registry.program.f2.activity.domain.ActivityApi
@@ -17,6 +15,8 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfi
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEvent
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFunction
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
 import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean

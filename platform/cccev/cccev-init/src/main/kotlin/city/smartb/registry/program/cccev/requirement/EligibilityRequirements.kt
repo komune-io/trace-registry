@@ -3,8 +3,6 @@ package city.smartb.registry.program.cccev.requirement
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
-import cccev.dsl.model.builder.RequirementsLinkedBuilder
-import cccev.dsl.model.builder.informationConcept
 import city.smartb.registry.program.cccev.ver.Activities
 import city.smartb.registry.program.cccev.ver.ReferenceFramework
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType

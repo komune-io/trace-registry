@@ -1,8 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.command
 
-import city.smartb.registry.program.f2.activity.domain.model.Activity
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
-import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport

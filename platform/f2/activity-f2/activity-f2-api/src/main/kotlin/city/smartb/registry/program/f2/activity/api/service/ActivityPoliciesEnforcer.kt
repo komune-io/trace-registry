@@ -1,6 +1,7 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import city.smartb.registry.program.api.commons.auth.PolicyEnforcer
+import city.smartb.registry.program.f2.activity.domain.policy.ActivityPolicies
 import org.springframework.stereotype.Service
 
 @Service

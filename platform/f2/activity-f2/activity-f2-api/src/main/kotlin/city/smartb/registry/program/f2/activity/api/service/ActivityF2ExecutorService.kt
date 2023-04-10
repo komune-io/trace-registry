@@ -1,7 +1,6 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.dsl.model.RequirementId
 import cccev.dsl.model.informationRequirement
 import cccev.s2.request.domain.command.RequestCreateCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
@@ -12,7 +11,6 @@ import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service

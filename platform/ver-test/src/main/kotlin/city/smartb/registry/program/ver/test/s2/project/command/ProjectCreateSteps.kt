@@ -13,11 +13,6 @@ import city.smartb.registry.program.ver.test.s2.project.data.toGeoLocation
 import city.smartb.registry.program.ver.test.s2.project.data.toOrganizationRef
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import org.assertj.core.api.Assertions
-import org.springframework.beans.factory.annotation.Autowired
-import s2.bdd.assertion.AssertionBdd
-import s2.bdd.data.TestContextKey
-import s2.bdd.data.parser.extractList
 import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 import kotlinx.coroutines.async
@@ -26,6 +21,11 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import org.assertj.core.api.Assertions
+import org.springframework.beans.factory.annotation.Autowired
+import s2.bdd.assertion.AssertionBdd
+import s2.bdd.data.TestContextKey
+import s2.bdd.data.parser.extractList
 
 class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberStepsDefinition() {
 

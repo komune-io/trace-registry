@@ -1,6 +1,5 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
-import city.smartb.registry.program.s2.asset.domain.command.AssetDeleteCommand
 import city.smartb.registry.program.s2.asset.domain.command.AssetUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.model.AssetId
 import kotlin.js.JsExport
