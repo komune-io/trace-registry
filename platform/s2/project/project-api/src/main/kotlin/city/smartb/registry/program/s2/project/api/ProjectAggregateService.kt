@@ -7,7 +7,6 @@ import cccev.s2.request.domain.command.RequestCreateCommand
 import cccev.s2.request.domain.command.RequestCreatedEventDTO
 import cccev.s2.requirement.domain.model.RequirementIdentifier
 import city.smartb.registry.program.s2.project.api.config.ProjectAutomateExecutor
-import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.applyCmd
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
@@ -20,14 +19,7 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEven
 import city.smartb.registry.program.s2.project.domain.command.RequestRef
 import f2.dsl.fnc.invokeWith
 import java.util.UUID
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
@@ -55,8 +47,8 @@ class ProjectAggregateService(
 	}
 	private suspend fun ProjectCreatedEvent.createCCCEVRequest(): RequestCreatedEventDTO? {
 		return activities?.asFlow()
-			?.flatMapMerge { findId(it) }
-			?.toList()
+			?.map { findId(it) }
+			?.toList()?.filterNotNull()
 			?.takeIf { it.isNotEmpty() }
 			?.let { activitiesId ->
 				RequestCreateCommand(
@@ -67,12 +59,10 @@ class ProjectAggregateService(
 			}
 	}
 
-	suspend fun findId(identifier: RequirementIdentifier): Flow<RequirementId> = flow {
-		RequirementGetByIdentifierQueryDTOBase(
-			identifier = identifier,
-		).invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-			.item?.id?.let { emit(it) }
-	}
+	suspend fun findId(identifier: RequirementIdentifier): RequirementId? = RequirementGetByIdentifierQueryDTOBase(
+		identifier = identifier,
+	).invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
+		.item?.id
 
 
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
