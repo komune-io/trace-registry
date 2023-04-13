@@ -26,7 +26,11 @@ include(
 
 include(
 	"platform:f2:activity-f2:activity-f2-api",
-	"platform:f2:activity-f2:activity-f2-domain",
+	"platform:f2:activity-f2:activity-f2-client",
+	"platform:f2:activity-f2:activity-f2-domain"
+)
+
+include(
 	"platform:f2:asset-f2:asset-f2-api",
 	"platform:f2:asset-f2:asset-f2-domain",
 )

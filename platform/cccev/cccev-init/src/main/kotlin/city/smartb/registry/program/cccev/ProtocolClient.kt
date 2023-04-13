@@ -19,7 +19,6 @@ fun main(): Unit = runBlocking {
     val client = CCCEVClient(url)
     client.createGraph(
         buildList<Requirement> {
-            // FIXME cccev return an error on EligibilityRequirements if the next line is uncommented
             add(ActivitiesAxess)
             addAll(EligibilityRequirements)
             addAll(ImplementationRequirements)

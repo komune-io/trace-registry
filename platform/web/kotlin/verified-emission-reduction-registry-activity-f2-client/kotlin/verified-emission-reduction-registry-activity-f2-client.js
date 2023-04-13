@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -73,9 +73,9 @@ if (typeof Math.imul === 'undefined') {
     factory(module.exports, require('@js-joda/core'));
   else {
     if (typeof this['@js-joda/core'] === 'undefined') {
-      throw new Error("Error loading module 'verified-emission-reduction-registry-activity-f2-domain'. Its dependency '@js-joda/core' was not found. Please, check whether '@js-joda/core' is loaded prior to 'verified-emission-reduction-registry-activity-f2-domain'.");
+      throw new Error("Error loading module 'verified-emission-reduction-registry-activity-f2-client'. Its dependency '@js-joda/core' was not found. Please, check whether '@js-joda/core' is loaded prior to 'verified-emission-reduction-registry-activity-f2-client'.");
     }
-    root['verified-emission-reduction-registry-activity-f2-domain'] = factory(typeof this['verified-emission-reduction-registry-activity-f2-domain'] === 'undefined' ? {} : this['verified-emission-reduction-registry-activity-f2-domain'], this['@js-joda/core']);
+    root['verified-emission-reduction-registry-activity-f2-client'] = factory(typeof this['verified-emission-reduction-registry-activity-f2-client'] === 'undefined' ? {} : this['verified-emission-reduction-registry-activity-f2-client'], this['@js-joda/core']);
   }
 }(this, function (_, $module$_js_joda_core_gcv2k) {
   'use strict';
@@ -2121,20 +2121,40 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(dataUnitClient$slambda, 'dataUnitClient$slambda', classMeta, CoroutineImpl, undefined, undefined, undefined, [0]);
   setMetadataFor(ActivityCreateCommandDTO, 'ActivityCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityCreatedEventDTO, 'ActivityCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(ActivityStepCreateCommandDTO, 'ActivityStepCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(ActivityStepCreatedEventDTO, 'ActivityStepCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(ActivityStepFulfillCommandDTO, 'ActivityStepFulfillCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(ActivityStepFulfilledEventDTO, 'ActivityStepFulfilledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(ActivityDTO, 'ActivityDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(Companion_126, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_62, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(Activity, 'Activity', classMeta, undefined, [ActivityDTO], undefined, {0: $serializer_getInstance_60}, []);
+  setMetadataFor(ActivityCreateCommand, 'ActivityCreateCommand', classMeta, undefined, [ActivityCreateCommandDTO], undefined, {0: $serializer_getInstance_60}, []);
+  setMetadataFor(ActivityCreatedEvent, 'ActivityCreatedEvent', classMeta, undefined, [ActivityCreatedEventDTO], undefined, undefined, []);
+  setMetadataFor(ActivityStepCreateCommandDTO, 'ActivityStepCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ActivityStepCreatedEventDTO, 'ActivityStepCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(Companion_127, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_63, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ActivityStepCreateCommand, 'ActivityStepCreateCommand', classMeta, undefined, [ActivityStepCreateCommandDTO], undefined, {0: $serializer_getInstance_61}, []);
+  setMetadataFor(ActivityStepCreatedEvent, 'ActivityStepCreatedEvent', classMeta, undefined, [ActivityStepCreatedEventDTO], undefined, undefined, []);
+  setMetadataFor(ActivityStepFulfillCommandDTO, 'ActivityStepFulfillCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ActivityStepFulfilledEventDTO, 'ActivityStepFulfilledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(Companion_128, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_64, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ActivityStepFulfillCommand, 'ActivityStepFulfillCommand', classMeta, undefined, [ActivityStepFulfillCommandDTO], undefined, {0: $serializer_getInstance_62}, []);
+  setMetadataFor(Companion_129, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_65, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ActivityStepFulfilledEvent, 'ActivityStepFulfilledEvent', classMeta, undefined, [ActivityStepFulfilledEventDTO], undefined, {0: $serializer_getInstance_63}, []);
+  setMetadataFor(ActivityDTO, 'ActivityDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(Companion_130, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_66, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(Activity, 'Activity', classMeta, undefined, [ActivityDTO], undefined, {0: $serializer_getInstance_64}, []);
   setMetadataFor(ActivityStepDTO, 'ActivityStepDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPolicies, 'ActivityPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPageQueryDTO, 'ActivityPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPageResultDTO, 'ActivityPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(ActivityPageQuery, 'ActivityPageQuery', classMeta, undefined, [ActivityPageQueryDTO], undefined, undefined, []);
+  setMetadataFor(ActivityPageResult, 'ActivityPageResult', classMeta, undefined, [ActivityPageResultDTO], undefined, undefined, []);
   setMetadataFor(ActivityStepPageQueryDTO, 'ActivityStepPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityStepPageResultDTO, 'ActivityStepPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(ActivityStepPageQuery, 'ActivityStepPageQuery', classMeta, undefined, [ActivityStepPageQueryDTO], undefined, undefined, []);
+  setMetadataFor(ActivityStepPageResult, 'ActivityStepPageResult', classMeta, undefined, [ActivityStepPageResultDTO], undefined, undefined, []);
+  setMetadataFor(ActivityClient, 'ActivityClient', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(activityClient$slambda, 'activityClient$slambda', classMeta, CoroutineImpl, undefined, undefined, undefined, [0]);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -90149,22 +90169,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityCreatedEventDTO() {
   }
-  function ActivityStepCreateCommandDTO() {
-  }
-  function ActivityStepCreatedEventDTO() {
-  }
-  function ActivityStepFulfillCommandDTO() {
-  }
-  function ActivityStepFulfilledEventDTO() {
-  }
-  function ActivityDTO() {
-  }
   function Companion_126() {
     Companion_instance_126 = this;
   }
-  Companion_126.prototype.serializer = function () {
-    return $serializer_getInstance_60();
-  };
   var Companion_instance_126;
   function Companion_getInstance_126() {
     if (Companion_instance_126 == null)
@@ -90173,24 +90180,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_62() {
     $serializer_instance_60 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.model.Activity', this, 8);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand', this, 5);
     tmp0_serialDesc.c49('identifier', false);
-    tmp0_serialDesc.c49('requestId', false);
     tmp0_serialDesc.c49('name', false);
-    tmp0_serialDesc.c49('type', false);
     tmp0_serialDesc.c49('description', false);
-    tmp0_serialDesc.c49('hasQualifiedRelation', false);
-    tmp0_serialDesc.c49('hasRequirement', false);
-    tmp0_serialDesc.c49('progression', false);
-    this.e77_1 = tmp0_serialDesc;
+    tmp0_serialDesc.c49('hasActivity', false);
+    tmp0_serialDesc.c49('hasStep', false);
+    this.d77_1 = tmp0_serialDesc;
   }
   $serializer_62.prototype.p3y = function () {
-    return this.e77_1;
+    return this.d77_1;
   };
   $serializer_62.prototype.r49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), new ReferenceArraySerializer(PrimitiveClasses_getInstance().yd(), StringSerializer_getInstance()), new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_60()), DoubleSerializer_getInstance()];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(new ReferenceArraySerializer(getKClass(ActivityCreateCommand), $serializer_getInstance_60())), get_nullable(new ReferenceArraySerializer(getKClass(ActivityStepCreateCommand), $serializer_getInstance_61()))];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -90201,7 +90205,823 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_62.prototype.r3y = function (decoder) {
-    var tmp0_desc = this.e77_1;
+    var tmp0_desc = this.d77_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_local1 = null;
+    var tmp6_local2 = null;
+    var tmp7_local3 = null;
+    var tmp8_local4 = null;
+    var tmp9_input = decoder.b42(tmp0_desc);
+    if (tmp9_input.q42()) {
+      tmp4_local0 = tmp9_input.l42(tmp0_desc, 0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+      tmp5_local1 = tmp9_input.l42(tmp0_desc, 1);
+      tmp3_bitMask0 = tmp3_bitMask0 | 2;
+      tmp6_local2 = tmp9_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+      tmp3_bitMask0 = tmp3_bitMask0 | 4;
+      tmp7_local3 = tmp9_input.p42(tmp0_desc, 3, new ReferenceArraySerializer(getKClass(ActivityCreateCommand), $serializer_getInstance_60()), tmp7_local3);
+      tmp3_bitMask0 = tmp3_bitMask0 | 8;
+      tmp8_local4 = tmp9_input.p42(tmp0_desc, 4, new ReferenceArraySerializer(getKClass(ActivityStepCreateCommand), $serializer_getInstance_61()), tmp8_local4);
+      tmp3_bitMask0 = tmp3_bitMask0 | 16;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp9_input.r42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp9_input.l42(tmp0_desc, 0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          case 1:
+            tmp5_local1 = tmp9_input.l42(tmp0_desc, 1);
+            tmp3_bitMask0 = tmp3_bitMask0 | 2;
+            break;
+          case 2:
+            tmp6_local2 = tmp9_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+            tmp3_bitMask0 = tmp3_bitMask0 | 4;
+            break;
+          case 3:
+            tmp7_local3 = tmp9_input.p42(tmp0_desc, 3, new ReferenceArraySerializer(getKClass(ActivityCreateCommand), $serializer_getInstance_60()), tmp7_local3);
+            tmp3_bitMask0 = tmp3_bitMask0 | 8;
+            break;
+          case 4:
+            tmp8_local4 = tmp9_input.p42(tmp0_desc, 4, new ReferenceArraySerializer(getKClass(ActivityStepCreateCommand), $serializer_getInstance_61()), tmp8_local4);
+            tmp3_bitMask0 = tmp3_bitMask0 | 16;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp9_input.c42(tmp0_desc);
+    return ActivityCreateCommand_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
+  };
+  $serializer_62.prototype.e77 = function (encoder, value) {
+    var tmp0_desc = this.d77_1;
+    var tmp1_output = encoder.b42(tmp0_desc);
+    tmp1_output.p43(tmp0_desc, 0, value.f77_1);
+    tmp1_output.p43(tmp0_desc, 1, value.g77_1);
+    tmp1_output.t43(tmp0_desc, 2, StringSerializer_getInstance(), value.h77_1);
+    tmp1_output.t43(tmp0_desc, 3, new ReferenceArraySerializer(getKClass(ActivityCreateCommand), $serializer_getInstance_60()), value.i77_1);
+    tmp1_output.t43(tmp0_desc, 4, new ReferenceArraySerializer(getKClass(ActivityStepCreateCommand), $serializer_getInstance_61()), value.j77_1);
+    tmp1_output.c42(tmp0_desc);
+  };
+  $serializer_62.prototype.q3y = function (encoder, value) {
+    return this.e77(encoder, value instanceof ActivityCreateCommand ? value : THROW_CCE());
+  };
+  var $serializer_instance_60;
+  function $serializer_getInstance_60() {
+    if ($serializer_instance_60 == null)
+      new $serializer_62();
+    return $serializer_instance_60;
+  }
+  function ActivityCreateCommand_init_$Init$(seen1, identifier, name, description, hasActivity, hasStep, serializationConstructorMarker, $this) {
+    if (!(31 === (31 & seen1))) {
+      throwMissingFieldException(seen1, 31, $serializer_getInstance_60().d77_1);
+    }
+    $this.f77_1 = identifier;
+    $this.g77_1 = name;
+    $this.h77_1 = description;
+    $this.i77_1 = hasActivity;
+    $this.j77_1 = hasStep;
+    return $this;
+  }
+  function ActivityCreateCommand_init_$Create$(seen1, identifier, name, description, hasActivity, hasStep, serializationConstructorMarker) {
+    return ActivityCreateCommand_init_$Init$(seen1, identifier, name, description, hasActivity, hasStep, serializationConstructorMarker, Object.create(ActivityCreateCommand.prototype));
+  }
+  function ActivityCreateCommand(identifier, name, description, hasActivity, hasStep) {
+    Companion_getInstance_126();
+    this.f77_1 = identifier;
+    this.g77_1 = name;
+    this.h77_1 = description;
+    this.i77_1 = hasActivity;
+    this.j77_1 = hasStep;
+  }
+  ActivityCreateCommand.prototype.n55 = function () {
+    return this.f77_1;
+  };
+  ActivityCreateCommand.prototype.gf = function () {
+    return this.g77_1;
+  };
+  ActivityCreateCommand.prototype.h4v = function () {
+    return this.h77_1;
+  };
+  ActivityCreateCommand.prototype.b77 = function () {
+    return this.i77_1;
+  };
+  ActivityCreateCommand.prototype.c77 = function () {
+    return this.j77_1;
+  };
+  ActivityCreateCommand.prototype.toString = function () {
+    return 'ActivityCreateCommand(identifier=' + this.f77_1 + ', name=' + this.g77_1 + ', description=' + this.h77_1 + ', hasActivity=' + toString_3(this.i77_1) + ', hasStep=' + toString_3(this.j77_1) + ')';
+  };
+  ActivityCreateCommand.prototype.hashCode = function () {
+    var result = getStringHashCode(this.f77_1);
+    result = imul(result, 31) + getStringHashCode(this.g77_1) | 0;
+    result = imul(result, 31) + (this.h77_1 == null ? 0 : getStringHashCode(this.h77_1)) | 0;
+    result = imul(result, 31) + (this.i77_1 == null ? 0 : hashCode(this.i77_1)) | 0;
+    result = imul(result, 31) + (this.j77_1 == null ? 0 : hashCode(this.j77_1)) | 0;
+    return result;
+  };
+  ActivityCreateCommand.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityCreateCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityCreateCommand ? other : THROW_CCE();
+    if (!(this.f77_1 === tmp0_other_with_cast.f77_1))
+      return false;
+    if (!(this.g77_1 === tmp0_other_with_cast.g77_1))
+      return false;
+    if (!(this.h77_1 == tmp0_other_with_cast.h77_1))
+      return false;
+    if (!equals_1(this.i77_1, tmp0_other_with_cast.i77_1))
+      return false;
+    if (!equals_1(this.j77_1, tmp0_other_with_cast.j77_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityCreateCommand.prototype, 'identifier', {
+    configurable: true,
+    get: function () {
+      return this.n55();
+    }
+  });
+  Object.defineProperty(ActivityCreateCommand.prototype, 'name', {
+    configurable: true,
+    get: function () {
+      return this.gf();
+    }
+  });
+  Object.defineProperty(ActivityCreateCommand.prototype, 'description', {
+    configurable: true,
+    get: function () {
+      return this.h4v();
+    }
+  });
+  Object.defineProperty(ActivityCreateCommand.prototype, 'hasActivity', {
+    configurable: true,
+    get: function () {
+      return this.b77();
+    }
+  });
+  Object.defineProperty(ActivityCreateCommand.prototype, 'hasStep', {
+    configurable: true,
+    get: function () {
+      return this.c77();
+    }
+  });
+  function ActivityCreatedEvent(identifier) {
+    this.k77_1 = identifier;
+  }
+  ActivityCreatedEvent.prototype.n55 = function () {
+    return this.k77_1;
+  };
+  ActivityCreatedEvent.prototype.toString = function () {
+    return 'ActivityCreatedEvent(identifier=' + this.k77_1 + ')';
+  };
+  ActivityCreatedEvent.prototype.hashCode = function () {
+    return getStringHashCode(this.k77_1);
+  };
+  ActivityCreatedEvent.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityCreatedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityCreatedEvent ? other : THROW_CCE();
+    if (!(this.k77_1 === tmp0_other_with_cast.k77_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityCreatedEvent.prototype, 'identifier', {
+    configurable: true,
+    get: function () {
+      return this.n55();
+    }
+  });
+  function ActivityStepCreateCommandDTO() {
+  }
+  function ActivityStepCreatedEventDTO() {
+  }
+  function Companion_127() {
+    Companion_instance_127 = this;
+  }
+  var Companion_instance_127;
+  function Companion_getInstance_127() {
+    if (Companion_instance_127 == null)
+      new Companion_127();
+    return Companion_instance_127;
+  }
+  function $serializer_63() {
+    $serializer_instance_61 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommand', this, 4);
+    tmp0_serialDesc.c49('identifier', false);
+    tmp0_serialDesc.c49('name', false);
+    tmp0_serialDesc.c49('description', false);
+    tmp0_serialDesc.c49('hasConcept', false);
+    this.l77_1 = tmp0_serialDesc;
+  }
+  $serializer_63.prototype.p3y = function () {
+    return this.l77_1;
+  };
+  $serializer_63.prototype.r49 = function () {
+    var tmp$ret$5;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp = StringSerializer_getInstance();
+    var tmp_0 = StringSerializer_getInstance();
+    var tmp_1 = get_nullable(StringSerializer_getInstance());
+    var tmp_2 = getKClass(InformationConcept);
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = [];
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    var tmp0_arrayOf = [tmp, tmp_0, tmp_1, get_nullable(PolymorphicSerializer_init_$Create$(tmp_2, tmp$ret$2))];
+    var tmp$ret$4;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$3;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$3 = tmp0_arrayOf;
+    tmp$ret$4 = tmp$ret$3;
+    tmp$ret$5 = tmp$ret$4;
+    return tmp$ret$5;
+  };
+  $serializer_63.prototype.r3y = function (decoder) {
+    var tmp0_desc = this.l77_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_local1 = null;
+    var tmp6_local2 = null;
+    var tmp7_local3 = null;
+    var tmp8_input = decoder.b42(tmp0_desc);
+    if (tmp8_input.q42()) {
+      tmp4_local0 = tmp8_input.l42(tmp0_desc, 0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+      tmp5_local1 = tmp8_input.l42(tmp0_desc, 1);
+      tmp3_bitMask0 = tmp3_bitMask0 | 2;
+      tmp6_local2 = tmp8_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+      tmp3_bitMask0 = tmp3_bitMask0 | 4;
+      var tmp = getKClass(InformationConcept);
+      var tmp$ret$2;
+      // Inline function 'kotlin.arrayOf' call
+      var tmp$ret$1;
+      // Inline function 'kotlin.js.unsafeCast' call
+      var tmp$ret$0;
+      // Inline function 'kotlin.js.asDynamic' call
+      tmp$ret$0 = [];
+      tmp$ret$1 = tmp$ret$0;
+      tmp$ret$2 = tmp$ret$1;
+      tmp7_local3 = tmp8_input.p42(tmp0_desc, 3, PolymorphicSerializer_init_$Create$(tmp, tmp$ret$2), tmp7_local3);
+      tmp3_bitMask0 = tmp3_bitMask0 | 8;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp8_input.r42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp8_input.l42(tmp0_desc, 0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          case 1:
+            tmp5_local1 = tmp8_input.l42(tmp0_desc, 1);
+            tmp3_bitMask0 = tmp3_bitMask0 | 2;
+            break;
+          case 2:
+            tmp6_local2 = tmp8_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+            tmp3_bitMask0 = tmp3_bitMask0 | 4;
+            break;
+          case 3:
+            var tmp_0 = getKClass(InformationConcept);
+            var tmp$ret$5;
+            // Inline function 'kotlin.arrayOf' call
+            var tmp$ret$4;
+            // Inline function 'kotlin.js.unsafeCast' call
+            var tmp$ret$3;
+            // Inline function 'kotlin.js.asDynamic' call
+            tmp$ret$3 = [];
+            tmp$ret$4 = tmp$ret$3;
+            tmp$ret$5 = tmp$ret$4;
+
+            tmp7_local3 = tmp8_input.p42(tmp0_desc, 3, PolymorphicSerializer_init_$Create$(tmp_0, tmp$ret$5), tmp7_local3);
+            tmp3_bitMask0 = tmp3_bitMask0 | 8;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp8_input.c42(tmp0_desc);
+    return ActivityStepCreateCommand_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, null);
+  };
+  $serializer_63.prototype.m77 = function (encoder, value) {
+    var tmp0_desc = this.l77_1;
+    var tmp1_output = encoder.b42(tmp0_desc);
+    tmp1_output.p43(tmp0_desc, 0, value.n77_1);
+    tmp1_output.p43(tmp0_desc, 1, value.o77_1);
+    tmp1_output.t43(tmp0_desc, 2, StringSerializer_getInstance(), value.p77_1);
+    var tmp = getKClass(InformationConcept);
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = [];
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    tmp1_output.t43(tmp0_desc, 3, PolymorphicSerializer_init_$Create$(tmp, tmp$ret$2), value.q77_1);
+    tmp1_output.c42(tmp0_desc);
+  };
+  $serializer_63.prototype.q3y = function (encoder, value) {
+    return this.m77(encoder, value instanceof ActivityStepCreateCommand ? value : THROW_CCE());
+  };
+  var $serializer_instance_61;
+  function $serializer_getInstance_61() {
+    if ($serializer_instance_61 == null)
+      new $serializer_63();
+    return $serializer_instance_61;
+  }
+  function ActivityStepCreateCommand_init_$Init$(seen1, identifier, name, description, hasConcept, serializationConstructorMarker, $this) {
+    if (!(15 === (15 & seen1))) {
+      throwMissingFieldException(seen1, 15, $serializer_getInstance_61().l77_1);
+    }
+    $this.n77_1 = identifier;
+    $this.o77_1 = name;
+    $this.p77_1 = description;
+    $this.q77_1 = hasConcept;
+    return $this;
+  }
+  function ActivityStepCreateCommand_init_$Create$(seen1, identifier, name, description, hasConcept, serializationConstructorMarker) {
+    return ActivityStepCreateCommand_init_$Init$(seen1, identifier, name, description, hasConcept, serializationConstructorMarker, Object.create(ActivityStepCreateCommand.prototype));
+  }
+  function ActivityStepCreateCommand(identifier, name, description, hasConcept) {
+    Companion_getInstance_127();
+    this.n77_1 = identifier;
+    this.o77_1 = name;
+    this.p77_1 = description;
+    this.q77_1 = hasConcept;
+  }
+  ActivityStepCreateCommand.prototype.n55 = function () {
+    return this.n77_1;
+  };
+  ActivityStepCreateCommand.prototype.gf = function () {
+    return this.o77_1;
+  };
+  ActivityStepCreateCommand.prototype.h4v = function () {
+    return this.p77_1;
+  };
+  ActivityStepCreateCommand.prototype.y59 = function () {
+    return this.q77_1;
+  };
+  ActivityStepCreateCommand.prototype.toString = function () {
+    return 'ActivityStepCreateCommand(identifier=' + this.n77_1 + ', name=' + this.o77_1 + ', description=' + this.p77_1 + ', hasConcept=' + this.q77_1 + ')';
+  };
+  ActivityStepCreateCommand.prototype.hashCode = function () {
+    var result = getStringHashCode(this.n77_1);
+    result = imul(result, 31) + getStringHashCode(this.o77_1) | 0;
+    result = imul(result, 31) + (this.p77_1 == null ? 0 : getStringHashCode(this.p77_1)) | 0;
+    result = imul(result, 31) + (this.q77_1 == null ? 0 : hashCode(this.q77_1)) | 0;
+    return result;
+  };
+  ActivityStepCreateCommand.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepCreateCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepCreateCommand ? other : THROW_CCE();
+    if (!(this.n77_1 === tmp0_other_with_cast.n77_1))
+      return false;
+    if (!(this.o77_1 === tmp0_other_with_cast.o77_1))
+      return false;
+    if (!(this.p77_1 == tmp0_other_with_cast.p77_1))
+      return false;
+    if (!equals_1(this.q77_1, tmp0_other_with_cast.q77_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityStepCreateCommand.prototype, 'identifier', {
+    configurable: true,
+    get: function () {
+      return this.n55();
+    }
+  });
+  Object.defineProperty(ActivityStepCreateCommand.prototype, 'name', {
+    configurable: true,
+    get: function () {
+      return this.gf();
+    }
+  });
+  Object.defineProperty(ActivityStepCreateCommand.prototype, 'description', {
+    configurable: true,
+    get: function () {
+      return this.h4v();
+    }
+  });
+  Object.defineProperty(ActivityStepCreateCommand.prototype, 'hasConcept', {
+    configurable: true,
+    get: function () {
+      return this.y59();
+    }
+  });
+  function ActivityStepCreatedEvent(identifier) {
+    this.r77_1 = identifier;
+  }
+  ActivityStepCreatedEvent.prototype.toString = function () {
+    return 'ActivityStepCreatedEvent(identifier=' + this.r77_1 + ')';
+  };
+  ActivityStepCreatedEvent.prototype.hashCode = function () {
+    return getStringHashCode(this.r77_1);
+  };
+  ActivityStepCreatedEvent.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepCreatedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepCreatedEvent ? other : THROW_CCE();
+    if (!(this.r77_1 === tmp0_other_with_cast.r77_1))
+      return false;
+    return true;
+  };
+  function ActivityStepFulfillCommandDTO() {
+  }
+  function ActivityStepFulfilledEventDTO() {
+  }
+  function Companion_128() {
+    Companion_instance_128 = this;
+  }
+  var Companion_instance_128;
+  function Companion_getInstance_128() {
+    if (Companion_instance_128 == null)
+      new Companion_128();
+    return Companion_instance_128;
+  }
+  function $serializer_64() {
+    $serializer_instance_62 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommand', this, 3);
+    tmp0_serialDesc.c49('requestId', false);
+    tmp0_serialDesc.c49('identifier', false);
+    tmp0_serialDesc.c49('value', false);
+    this.s77_1 = tmp0_serialDesc;
+  }
+  $serializer_64.prototype.p3y = function () {
+    return this.s77_1;
+  };
+  $serializer_64.prototype.r49 = function () {
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance())];
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = tmp0_arrayOf;
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    return tmp$ret$2;
+  };
+  $serializer_64.prototype.r3y = function (decoder) {
+    var tmp0_desc = this.s77_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_local1 = null;
+    var tmp6_local2 = null;
+    var tmp7_input = decoder.b42(tmp0_desc);
+    if (tmp7_input.q42()) {
+      tmp4_local0 = tmp7_input.l42(tmp0_desc, 0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+      tmp5_local1 = tmp7_input.l42(tmp0_desc, 1);
+      tmp3_bitMask0 = tmp3_bitMask0 | 2;
+      tmp6_local2 = tmp7_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+      tmp3_bitMask0 = tmp3_bitMask0 | 4;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp7_input.r42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp7_input.l42(tmp0_desc, 0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          case 1:
+            tmp5_local1 = tmp7_input.l42(tmp0_desc, 1);
+            tmp3_bitMask0 = tmp3_bitMask0 | 2;
+            break;
+          case 2:
+            tmp6_local2 = tmp7_input.p42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+            tmp3_bitMask0 = tmp3_bitMask0 | 4;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp7_input.c42(tmp0_desc);
+    return ActivityStepFulfillCommand_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
+  };
+  $serializer_64.prototype.t77 = function (encoder, value) {
+    var tmp0_desc = this.s77_1;
+    var tmp1_output = encoder.b42(tmp0_desc);
+    tmp1_output.p43(tmp0_desc, 0, value.u77_1);
+    tmp1_output.p43(tmp0_desc, 1, value.v77_1);
+    tmp1_output.t43(tmp0_desc, 2, StringSerializer_getInstance(), value.w77_1);
+    tmp1_output.c42(tmp0_desc);
+  };
+  $serializer_64.prototype.q3y = function (encoder, value) {
+    return this.t77(encoder, value instanceof ActivityStepFulfillCommand ? value : THROW_CCE());
+  };
+  var $serializer_instance_62;
+  function $serializer_getInstance_62() {
+    if ($serializer_instance_62 == null)
+      new $serializer_64();
+    return $serializer_instance_62;
+  }
+  function ActivityStepFulfillCommand_init_$Init$(seen1, requestId, identifier, value, serializationConstructorMarker, $this) {
+    if (!(7 === (7 & seen1))) {
+      throwMissingFieldException(seen1, 7, $serializer_getInstance_62().s77_1);
+    }
+    $this.u77_1 = requestId;
+    $this.v77_1 = identifier;
+    $this.w77_1 = value;
+    return $this;
+  }
+  function ActivityStepFulfillCommand_init_$Create$(seen1, requestId, identifier, value, serializationConstructorMarker) {
+    return ActivityStepFulfillCommand_init_$Init$(seen1, requestId, identifier, value, serializationConstructorMarker, Object.create(ActivityStepFulfillCommand.prototype));
+  }
+  function ActivityStepFulfillCommand(requestId, identifier, value) {
+    Companion_getInstance_128();
+    this.u77_1 = requestId;
+    this.v77_1 = identifier;
+    this.w77_1 = value;
+  }
+  ActivityStepFulfillCommand.prototype.n4s = function () {
+    return this.u77_1;
+  };
+  ActivityStepFulfillCommand.prototype.n55 = function () {
+    return this.v77_1;
+  };
+  ActivityStepFulfillCommand.prototype.p = function () {
+    return this.w77_1;
+  };
+  ActivityStepFulfillCommand.prototype.toString = function () {
+    return 'ActivityStepFulfillCommand(requestId=' + this.u77_1 + ', identifier=' + this.v77_1 + ', value=' + this.w77_1 + ')';
+  };
+  ActivityStepFulfillCommand.prototype.hashCode = function () {
+    var result = getStringHashCode(this.u77_1);
+    result = imul(result, 31) + getStringHashCode(this.v77_1) | 0;
+    result = imul(result, 31) + (this.w77_1 == null ? 0 : getStringHashCode(this.w77_1)) | 0;
+    return result;
+  };
+  ActivityStepFulfillCommand.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepFulfillCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepFulfillCommand ? other : THROW_CCE();
+    if (!(this.u77_1 === tmp0_other_with_cast.u77_1))
+      return false;
+    if (!(this.v77_1 === tmp0_other_with_cast.v77_1))
+      return false;
+    if (!(this.w77_1 == tmp0_other_with_cast.w77_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityStepFulfillCommand.prototype, 'requestId', {
+    configurable: true,
+    get: function () {
+      return this.n4s();
+    }
+  });
+  Object.defineProperty(ActivityStepFulfillCommand.prototype, 'identifier', {
+    configurable: true,
+    get: function () {
+      return this.n55();
+    }
+  });
+  Object.defineProperty(ActivityStepFulfillCommand.prototype, 'value', {
+    configurable: true,
+    get: function () {
+      return this.p();
+    }
+  });
+  function Companion_129() {
+    Companion_instance_129 = this;
+  }
+  var Companion_instance_129;
+  function Companion_getInstance_129() {
+    if (Companion_instance_129 == null)
+      new Companion_129();
+    return Companion_instance_129;
+  }
+  function $serializer_65() {
+    $serializer_instance_63 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEvent', this, 3);
+    tmp0_serialDesc.c49('identifier', false);
+    tmp0_serialDesc.c49('value', false);
+    tmp0_serialDesc.c49('file', false);
+    this.x77_1 = tmp0_serialDesc;
+  }
+  $serializer_65.prototype.p3y = function () {
+    return this.x77_1;
+  };
+  $serializer_65.prototype.r49 = function () {
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_24())];
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = tmp0_arrayOf;
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    return tmp$ret$2;
+  };
+  $serializer_65.prototype.r3y = function (decoder) {
+    var tmp0_desc = this.x77_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_local1 = null;
+    var tmp6_local2 = null;
+    var tmp7_input = decoder.b42(tmp0_desc);
+    if (tmp7_input.q42()) {
+      tmp4_local0 = tmp7_input.l42(tmp0_desc, 0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+      tmp5_local1 = tmp7_input.p42(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
+      tmp3_bitMask0 = tmp3_bitMask0 | 2;
+      tmp6_local2 = tmp7_input.p42(tmp0_desc, 2, $serializer_getInstance_24(), tmp6_local2);
+      tmp3_bitMask0 = tmp3_bitMask0 | 4;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp7_input.r42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp7_input.l42(tmp0_desc, 0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          case 1:
+            tmp5_local1 = tmp7_input.p42(tmp0_desc, 1, StringSerializer_getInstance(), tmp5_local1);
+            tmp3_bitMask0 = tmp3_bitMask0 | 2;
+            break;
+          case 2:
+            tmp6_local2 = tmp7_input.p42(tmp0_desc, 2, $serializer_getInstance_24(), tmp6_local2);
+            tmp3_bitMask0 = tmp3_bitMask0 | 4;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp7_input.c42(tmp0_desc);
+    return ActivityStepFulfilledEvent_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
+  };
+  $serializer_65.prototype.y77 = function (encoder, value) {
+    var tmp0_desc = this.x77_1;
+    var tmp1_output = encoder.b42(tmp0_desc);
+    tmp1_output.p43(tmp0_desc, 0, value.z77_1);
+    tmp1_output.t43(tmp0_desc, 1, StringSerializer_getInstance(), value.a78_1);
+    tmp1_output.t43(tmp0_desc, 2, $serializer_getInstance_24(), value.b78_1);
+    tmp1_output.c42(tmp0_desc);
+  };
+  $serializer_65.prototype.q3y = function (encoder, value) {
+    return this.y77(encoder, value instanceof ActivityStepFulfilledEvent ? value : THROW_CCE());
+  };
+  var $serializer_instance_63;
+  function $serializer_getInstance_63() {
+    if ($serializer_instance_63 == null)
+      new $serializer_65();
+    return $serializer_instance_63;
+  }
+  function ActivityStepFulfilledEvent_init_$Init$(seen1, identifier, value, file, serializationConstructorMarker, $this) {
+    if (!(7 === (7 & seen1))) {
+      throwMissingFieldException(seen1, 7, $serializer_getInstance_63().x77_1);
+    }
+    $this.z77_1 = identifier;
+    $this.a78_1 = value;
+    $this.b78_1 = file;
+    return $this;
+  }
+  function ActivityStepFulfilledEvent_init_$Create$(seen1, identifier, value, file, serializationConstructorMarker) {
+    return ActivityStepFulfilledEvent_init_$Init$(seen1, identifier, value, file, serializationConstructorMarker, Object.create(ActivityStepFulfilledEvent.prototype));
+  }
+  function ActivityStepFulfilledEvent(identifier, value, file) {
+    Companion_getInstance_129();
+    this.z77_1 = identifier;
+    this.a78_1 = value;
+    this.b78_1 = file;
+  }
+  ActivityStepFulfilledEvent.prototype.n55 = function () {
+    return this.z77_1;
+  };
+  ActivityStepFulfilledEvent.prototype.p = function () {
+    return this.a78_1;
+  };
+  ActivityStepFulfilledEvent.prototype.t55 = function () {
+    return this.b78_1;
+  };
+  ActivityStepFulfilledEvent.prototype.toString = function () {
+    return 'ActivityStepFulfilledEvent(identifier=' + this.z77_1 + ', value=' + this.a78_1 + ', file=' + this.b78_1 + ')';
+  };
+  ActivityStepFulfilledEvent.prototype.hashCode = function () {
+    var result = getStringHashCode(this.z77_1);
+    result = imul(result, 31) + (this.a78_1 == null ? 0 : getStringHashCode(this.a78_1)) | 0;
+    result = imul(result, 31) + (this.b78_1 == null ? 0 : this.b78_1.hashCode()) | 0;
+    return result;
+  };
+  ActivityStepFulfilledEvent.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepFulfilledEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepFulfilledEvent ? other : THROW_CCE();
+    if (!(this.z77_1 === tmp0_other_with_cast.z77_1))
+      return false;
+    if (!(this.a78_1 == tmp0_other_with_cast.a78_1))
+      return false;
+    if (!equals_1(this.b78_1, tmp0_other_with_cast.b78_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityStepFulfilledEvent.prototype, 'identifier', {
+    configurable: true,
+    get: function () {
+      return this.n55();
+    }
+  });
+  Object.defineProperty(ActivityStepFulfilledEvent.prototype, 'value', {
+    configurable: true,
+    get: function () {
+      return this.p();
+    }
+  });
+  Object.defineProperty(ActivityStepFulfilledEvent.prototype, 'file', {
+    configurable: true,
+    get: function () {
+      return this.t55();
+    }
+  });
+  function ActivityDTO() {
+  }
+  function Companion_130() {
+    Companion_instance_130 = this;
+  }
+  Companion_130.prototype.serializer = function () {
+    return $serializer_getInstance_64();
+  };
+  var Companion_instance_130;
+  function Companion_getInstance_130() {
+    if (Companion_instance_130 == null)
+      new Companion_130();
+    return Companion_instance_130;
+  }
+  function $serializer_66() {
+    $serializer_instance_64 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.activity.domain.model.Activity', this, 8);
+    tmp0_serialDesc.c49('identifier', false);
+    tmp0_serialDesc.c49('requestId', false);
+    tmp0_serialDesc.c49('name', false);
+    tmp0_serialDesc.c49('type', false);
+    tmp0_serialDesc.c49('description', false);
+    tmp0_serialDesc.c49('hasQualifiedRelation', false);
+    tmp0_serialDesc.c49('hasRequirement', false);
+    tmp0_serialDesc.c49('progression', false);
+    this.d78_1 = tmp0_serialDesc;
+  }
+  $serializer_66.prototype.p3y = function () {
+    return this.d78_1;
+  };
+  $serializer_66.prototype.r49 = function () {
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), new ReferenceArraySerializer(PrimitiveClasses_getInstance().yd(), StringSerializer_getInstance()), new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_64()), DoubleSerializer_getInstance()];
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = tmp0_arrayOf;
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    return tmp$ret$2;
+  };
+  $serializer_66.prototype.r3y = function (decoder) {
+    var tmp0_desc = this.d78_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -90227,7 +91047,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 16;
       tmp9_local5 = tmp12_input.n42(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().yd(), StringSerializer_getInstance()), tmp9_local5);
       tmp3_bitMask0 = tmp3_bitMask0 | 32;
-      tmp10_local6 = tmp12_input.n42(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_60()), tmp10_local6);
+      tmp10_local6 = tmp12_input.n42(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_64()), tmp10_local6);
       tmp3_bitMask0 = tmp3_bitMask0 | 64;
       tmp11_local7 = tmp12_input.j42(tmp0_desc, 7);
       tmp3_bitMask0 = tmp3_bitMask0 | 128;
@@ -90263,7 +91083,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 32;
             break;
           case 6:
-            tmp10_local6 = tmp12_input.n42(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_60()), tmp10_local6);
+            tmp10_local6 = tmp12_input.n42(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_64()), tmp10_local6);
             tmp3_bitMask0 = tmp3_bitMask0 | 64;
             break;
           case 7:
@@ -90277,141 +91097,141 @@ if (typeof Math.imul === 'undefined') {
     tmp12_input.c42(tmp0_desc);
     return Activity_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, null);
   };
-  $serializer_62.prototype.f77 = function (encoder, value) {
-    var tmp0_desc = this.e77_1;
+  $serializer_66.prototype.e78 = function (encoder, value) {
+    var tmp0_desc = this.d78_1;
     var tmp1_output = encoder.b42(tmp0_desc);
-    tmp1_output.p43(tmp0_desc, 0, value.g77_1);
-    tmp1_output.t43(tmp0_desc, 1, StringSerializer_getInstance(), value.h77_1);
-    tmp1_output.t43(tmp0_desc, 2, StringSerializer_getInstance(), value.i77_1);
-    tmp1_output.t43(tmp0_desc, 3, StringSerializer_getInstance(), value.j77_1);
-    tmp1_output.t43(tmp0_desc, 4, StringSerializer_getInstance(), value.k77_1);
-    tmp1_output.r43(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().yd(), StringSerializer_getInstance()), value.l77_1);
-    tmp1_output.r43(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_60()), value.m77_1);
-    tmp1_output.n43(tmp0_desc, 7, value.n77_1);
+    tmp1_output.p43(tmp0_desc, 0, value.f78_1);
+    tmp1_output.t43(tmp0_desc, 1, StringSerializer_getInstance(), value.g78_1);
+    tmp1_output.t43(tmp0_desc, 2, StringSerializer_getInstance(), value.h78_1);
+    tmp1_output.t43(tmp0_desc, 3, StringSerializer_getInstance(), value.i78_1);
+    tmp1_output.t43(tmp0_desc, 4, StringSerializer_getInstance(), value.j78_1);
+    tmp1_output.r43(tmp0_desc, 5, new ReferenceArraySerializer(PrimitiveClasses_getInstance().yd(), StringSerializer_getInstance()), value.k78_1);
+    tmp1_output.r43(tmp0_desc, 6, new ReferenceArraySerializer(getKClass(Activity), $serializer_getInstance_64()), value.l78_1);
+    tmp1_output.n43(tmp0_desc, 7, value.m78_1);
     tmp1_output.c42(tmp0_desc);
   };
-  $serializer_62.prototype.q3y = function (encoder, value) {
-    return this.f77(encoder, value instanceof Activity ? value : THROW_CCE());
+  $serializer_66.prototype.q3y = function (encoder, value) {
+    return this.e78(encoder, value instanceof Activity ? value : THROW_CCE());
   };
-  var $serializer_instance_60;
-  function $serializer_getInstance_60() {
-    if ($serializer_instance_60 == null)
-      new $serializer_62();
-    return $serializer_instance_60;
+  var $serializer_instance_64;
+  function $serializer_getInstance_64() {
+    if ($serializer_instance_64 == null)
+      new $serializer_66();
+    return $serializer_instance_64;
   }
   function Activity_init_$Init$(seen1, identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression, serializationConstructorMarker, $this) {
     if (!(255 === (255 & seen1))) {
-      throwMissingFieldException(seen1, 255, $serializer_getInstance_60().e77_1);
+      throwMissingFieldException(seen1, 255, $serializer_getInstance_64().d78_1);
     }
-    $this.g77_1 = identifier;
-    $this.h77_1 = requestId;
-    $this.i77_1 = name;
-    $this.j77_1 = type;
-    $this.k77_1 = description;
-    $this.l77_1 = hasQualifiedRelation;
-    $this.m77_1 = hasRequirement;
-    $this.n77_1 = progression;
+    $this.f78_1 = identifier;
+    $this.g78_1 = requestId;
+    $this.h78_1 = name;
+    $this.i78_1 = type;
+    $this.j78_1 = description;
+    $this.k78_1 = hasQualifiedRelation;
+    $this.l78_1 = hasRequirement;
+    $this.m78_1 = progression;
     return $this;
   }
   function Activity_init_$Create$(seen1, identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression, serializationConstructorMarker) {
     return Activity_init_$Init$(seen1, identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression, serializationConstructorMarker, Object.create(Activity.prototype));
   }
   function Activity(identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression) {
-    Companion_getInstance_126();
-    this.g77_1 = identifier;
-    this.h77_1 = requestId;
-    this.i77_1 = name;
-    this.j77_1 = type;
-    this.k77_1 = description;
-    this.l77_1 = hasQualifiedRelation;
-    this.m77_1 = hasRequirement;
-    this.n77_1 = progression;
+    Companion_getInstance_130();
+    this.f78_1 = identifier;
+    this.g78_1 = requestId;
+    this.h78_1 = name;
+    this.i78_1 = type;
+    this.j78_1 = description;
+    this.k78_1 = hasQualifiedRelation;
+    this.l78_1 = hasRequirement;
+    this.m78_1 = progression;
   }
   Activity.prototype.n55 = function () {
-    return this.g77_1;
+    return this.f78_1;
   };
   Activity.prototype.n4s = function () {
-    return this.h77_1;
+    return this.g78_1;
   };
   Activity.prototype.gf = function () {
-    return this.i77_1;
+    return this.h78_1;
   };
   Activity.prototype.c4z = function () {
-    return this.j77_1;
+    return this.i78_1;
   };
   Activity.prototype.h4v = function () {
-    return this.k77_1;
+    return this.j78_1;
   };
   Activity.prototype.x59 = function () {
-    return this.l77_1;
+    return this.k78_1;
   };
   Activity.prototype.w59 = function () {
-    return this.m77_1;
+    return this.l78_1;
   };
-  Activity.prototype.d77 = function () {
-    return this.n77_1;
+  Activity.prototype.c78 = function () {
+    return this.m78_1;
   };
   Activity.prototype.component1 = function () {
-    return this.g77_1;
+    return this.f78_1;
   };
   Activity.prototype.component2 = function () {
-    return this.h77_1;
+    return this.g78_1;
   };
   Activity.prototype.component3 = function () {
-    return this.i77_1;
+    return this.h78_1;
   };
   Activity.prototype.component4 = function () {
-    return this.j77_1;
+    return this.i78_1;
   };
   Activity.prototype.component5 = function () {
-    return this.k77_1;
+    return this.j78_1;
   };
   Activity.prototype.component6 = function () {
-    return this.l77_1;
+    return this.k78_1;
   };
   Activity.prototype.component7 = function () {
-    return this.m77_1;
+    return this.l78_1;
   };
   Activity.prototype.component8 = function () {
-    return this.n77_1;
+    return this.m78_1;
   };
   Activity.prototype.copy = function (identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression) {
-    return this.o77(identifier === void 1 ? this.g77_1 : identifier, requestId === void 1 ? this.h77_1 : requestId, name === void 1 ? this.i77_1 : name, type === void 1 ? this.j77_1 : type, description === void 1 ? this.k77_1 : description, hasQualifiedRelation === void 1 ? this.l77_1 : hasQualifiedRelation, hasRequirement === void 1 ? this.m77_1 : hasRequirement, progression === void 1 ? this.n77_1 : progression);
+    return this.n78(identifier === void 1 ? this.f78_1 : identifier, requestId === void 1 ? this.g78_1 : requestId, name === void 1 ? this.h78_1 : name, type === void 1 ? this.i78_1 : type, description === void 1 ? this.j78_1 : description, hasQualifiedRelation === void 1 ? this.k78_1 : hasQualifiedRelation, hasRequirement === void 1 ? this.l78_1 : hasRequirement, progression === void 1 ? this.m78_1 : progression);
   };
-  Activity.prototype.o77 = function (identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression) {
+  Activity.prototype.n78 = function (identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression) {
     return new Activity(identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression);
   };
-  Activity.prototype.p77 = function (identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression, $mask0, $handler) {
+  Activity.prototype.o78 = function (identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      identifier = this.g77_1;
+      identifier = this.f78_1;
     if (!(($mask0 & 2) === 0))
-      requestId = this.h77_1;
+      requestId = this.g78_1;
     if (!(($mask0 & 4) === 0))
-      name = this.i77_1;
+      name = this.h78_1;
     if (!(($mask0 & 8) === 0))
-      type = this.j77_1;
+      type = this.i78_1;
     if (!(($mask0 & 16) === 0))
-      description = this.k77_1;
+      description = this.j78_1;
     if (!(($mask0 & 32) === 0))
-      hasQualifiedRelation = this.l77_1;
+      hasQualifiedRelation = this.k78_1;
     if (!(($mask0 & 64) === 0))
-      hasRequirement = this.m77_1;
+      hasRequirement = this.l78_1;
     if (!(($mask0 & 128) === 0))
-      progression = this.n77_1;
-    return this.o77(identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression);
+      progression = this.m78_1;
+    return this.n78(identifier, requestId, name, type, description, hasQualifiedRelation, hasRequirement, progression);
   };
   Activity.prototype.toString = function () {
-    return 'Activity(identifier=' + this.g77_1 + ', requestId=' + this.h77_1 + ', name=' + this.i77_1 + ', type=' + this.j77_1 + ', description=' + this.k77_1 + ', hasQualifiedRelation=' + toString_3(this.l77_1) + ', hasRequirement=' + toString_3(this.m77_1) + ', progression=' + this.n77_1 + ')';
+    return 'Activity(identifier=' + this.f78_1 + ', requestId=' + this.g78_1 + ', name=' + this.h78_1 + ', type=' + this.i78_1 + ', description=' + this.j78_1 + ', hasQualifiedRelation=' + toString_3(this.k78_1) + ', hasRequirement=' + toString_3(this.l78_1) + ', progression=' + this.m78_1 + ')';
   };
   Activity.prototype.hashCode = function () {
-    var result = getStringHashCode(this.g77_1);
-    result = imul(result, 31) + (this.h77_1 == null ? 0 : getStringHashCode(this.h77_1)) | 0;
-    result = imul(result, 31) + (this.i77_1 == null ? 0 : getStringHashCode(this.i77_1)) | 0;
-    result = imul(result, 31) + (this.j77_1 == null ? 0 : getStringHashCode(this.j77_1)) | 0;
-    result = imul(result, 31) + (this.k77_1 == null ? 0 : getStringHashCode(this.k77_1)) | 0;
-    result = imul(result, 31) + hashCode(this.l77_1) | 0;
-    result = imul(result, 31) + hashCode(this.m77_1) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.n77_1) | 0;
+    var result = getStringHashCode(this.f78_1);
+    result = imul(result, 31) + (this.g78_1 == null ? 0 : getStringHashCode(this.g78_1)) | 0;
+    result = imul(result, 31) + (this.h78_1 == null ? 0 : getStringHashCode(this.h78_1)) | 0;
+    result = imul(result, 31) + (this.i78_1 == null ? 0 : getStringHashCode(this.i78_1)) | 0;
+    result = imul(result, 31) + (this.j78_1 == null ? 0 : getStringHashCode(this.j78_1)) | 0;
+    result = imul(result, 31) + hashCode(this.k78_1) | 0;
+    result = imul(result, 31) + hashCode(this.l78_1) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.m78_1) | 0;
     return result;
   };
   Activity.prototype.equals = function (other) {
@@ -90420,21 +91240,21 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Activity))
       return false;
     var tmp0_other_with_cast = other instanceof Activity ? other : THROW_CCE();
-    if (!(this.g77_1 === tmp0_other_with_cast.g77_1))
+    if (!(this.f78_1 === tmp0_other_with_cast.f78_1))
       return false;
-    if (!(this.h77_1 == tmp0_other_with_cast.h77_1))
+    if (!(this.g78_1 == tmp0_other_with_cast.g78_1))
       return false;
-    if (!(this.i77_1 == tmp0_other_with_cast.i77_1))
+    if (!(this.h78_1 == tmp0_other_with_cast.h78_1))
       return false;
-    if (!(this.j77_1 == tmp0_other_with_cast.j77_1))
+    if (!(this.i78_1 == tmp0_other_with_cast.i78_1))
       return false;
-    if (!(this.k77_1 == tmp0_other_with_cast.k77_1))
+    if (!(this.j78_1 == tmp0_other_with_cast.j78_1))
       return false;
-    if (!equals_1(this.l77_1, tmp0_other_with_cast.l77_1))
+    if (!equals_1(this.k78_1, tmp0_other_with_cast.k78_1))
       return false;
-    if (!equals_1(this.m77_1, tmp0_other_with_cast.m77_1))
+    if (!equals_1(this.l78_1, tmp0_other_with_cast.l78_1))
       return false;
-    if (!equals_1(this.n77_1, tmp0_other_with_cast.n77_1))
+    if (!equals_1(this.m78_1, tmp0_other_with_cast.m78_1))
       return false;
     return true;
   };
@@ -90483,7 +91303,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Activity.prototype, 'progression', {
     configurable: true,
     get: function () {
-      return this.d77();
+      return this.c78();
     }
   });
   function ActivityStepDTO() {
@@ -90492,7 +91312,7 @@ if (typeof Math.imul === 'undefined') {
     ActivityPolicies_instance = this;
     this.VALID = true;
   }
-  ActivityPolicies.prototype.r77 = function () {
+  ActivityPolicies.prototype.q78 = function () {
     return this.VALID;
   };
   ActivityPolicies.prototype.canPage = function (authedUser) {
@@ -90520,9 +91340,853 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityPageResultDTO() {
   }
+  function ActivityPageQuery(projectId, offset, limit) {
+    this.s78_1 = projectId;
+    this.t78_1 = offset;
+    this.u78_1 = limit;
+  }
+  ActivityPageQuery.prototype.r78 = function () {
+    return this.s78_1;
+  };
+  ActivityPageQuery.prototype.b4u = function () {
+    return this.t78_1;
+  };
+  ActivityPageQuery.prototype.c4u = function () {
+    return this.u78_1;
+  };
+  ActivityPageQuery.prototype.toString = function () {
+    return 'ActivityPageQuery(projectId=' + this.s78_1 + ', offset=' + this.t78_1 + ', limit=' + this.u78_1 + ')';
+  };
+  ActivityPageQuery.prototype.hashCode = function () {
+    var result = getStringHashCode(this.s78_1);
+    result = imul(result, 31) + (this.t78_1 == null ? 0 : this.t78_1) | 0;
+    result = imul(result, 31) + (this.u78_1 == null ? 0 : this.u78_1) | 0;
+    return result;
+  };
+  ActivityPageQuery.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityPageQuery))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityPageQuery ? other : THROW_CCE();
+    if (!(this.s78_1 === tmp0_other_with_cast.s78_1))
+      return false;
+    if (!(this.t78_1 == tmp0_other_with_cast.t78_1))
+      return false;
+    if (!(this.u78_1 == tmp0_other_with_cast.u78_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityPageQuery.prototype, 'projectId', {
+    configurable: true,
+    get: function () {
+      return this.r78();
+    }
+  });
+  Object.defineProperty(ActivityPageQuery.prototype, 'offset', {
+    configurable: true,
+    get: function () {
+      return this.b4u();
+    }
+  });
+  Object.defineProperty(ActivityPageQuery.prototype, 'limit', {
+    configurable: true,
+    get: function () {
+      return this.c4u();
+    }
+  });
+  function ActivityPageResult(items, total) {
+    this.v78_1 = items;
+    this.w78_1 = total;
+  }
+  ActivityPageResult.prototype.j4t = function () {
+    return this.v78_1;
+  };
+  ActivityPageResult.prototype.i4t = function () {
+    return this.w78_1;
+  };
+  ActivityPageResult.prototype.toString = function () {
+    return 'ActivityPageResult(items=' + this.v78_1 + ', total=' + this.w78_1 + ')';
+  };
+  ActivityPageResult.prototype.hashCode = function () {
+    var result = hashCode(this.v78_1);
+    result = imul(result, 31) + this.w78_1 | 0;
+    return result;
+  };
+  ActivityPageResult.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityPageResult))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityPageResult ? other : THROW_CCE();
+    if (!equals_1(this.v78_1, tmp0_other_with_cast.v78_1))
+      return false;
+    if (!(this.w78_1 === tmp0_other_with_cast.w78_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityPageResult.prototype, 'items', {
+    configurable: true,
+    get: function () {
+      return this.j4t();
+    }
+  });
+  Object.defineProperty(ActivityPageResult.prototype, 'total', {
+    configurable: true,
+    get: function () {
+      return this.i4t();
+    }
+  });
   function ActivityStepPageQueryDTO() {
   }
   function ActivityStepPageResultDTO() {
+  }
+  function ActivityStepPageQuery(activityIdentifier, requestId, offset, limit) {
+    this.y78_1 = activityIdentifier;
+    this.z78_1 = requestId;
+    this.a79_1 = offset;
+    this.b79_1 = limit;
+  }
+  ActivityStepPageQuery.prototype.x78 = function () {
+    return this.y78_1;
+  };
+  ActivityStepPageQuery.prototype.n4s = function () {
+    return this.z78_1;
+  };
+  ActivityStepPageQuery.prototype.b4u = function () {
+    return this.a79_1;
+  };
+  ActivityStepPageQuery.prototype.c4u = function () {
+    return this.b79_1;
+  };
+  ActivityStepPageQuery.prototype.toString = function () {
+    return 'ActivityStepPageQuery(activityIdentifier=' + this.y78_1 + ', requestId=' + this.z78_1 + ', offset=' + this.a79_1 + ', limit=' + this.b79_1 + ')';
+  };
+  ActivityStepPageQuery.prototype.hashCode = function () {
+    var result = getStringHashCode(this.y78_1);
+    result = imul(result, 31) + getStringHashCode(this.z78_1) | 0;
+    result = imul(result, 31) + (this.a79_1 == null ? 0 : this.a79_1) | 0;
+    result = imul(result, 31) + (this.b79_1 == null ? 0 : this.b79_1) | 0;
+    return result;
+  };
+  ActivityStepPageQuery.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepPageQuery))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepPageQuery ? other : THROW_CCE();
+    if (!(this.y78_1 === tmp0_other_with_cast.y78_1))
+      return false;
+    if (!(this.z78_1 === tmp0_other_with_cast.z78_1))
+      return false;
+    if (!(this.a79_1 == tmp0_other_with_cast.a79_1))
+      return false;
+    if (!(this.b79_1 == tmp0_other_with_cast.b79_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityStepPageQuery.prototype, 'activityIdentifier', {
+    configurable: true,
+    get: function () {
+      return this.x78();
+    }
+  });
+  Object.defineProperty(ActivityStepPageQuery.prototype, 'requestId', {
+    configurable: true,
+    get: function () {
+      return this.n4s();
+    }
+  });
+  Object.defineProperty(ActivityStepPageQuery.prototype, 'offset', {
+    configurable: true,
+    get: function () {
+      return this.b4u();
+    }
+  });
+  Object.defineProperty(ActivityStepPageQuery.prototype, 'limit', {
+    configurable: true,
+    get: function () {
+      return this.c4u();
+    }
+  });
+  function ActivityStepPageResult(items, total) {
+    this.c79_1 = items;
+    this.d79_1 = total;
+  }
+  ActivityStepPageResult.prototype.j4t = function () {
+    return this.c79_1;
+  };
+  ActivityStepPageResult.prototype.i4t = function () {
+    return this.d79_1;
+  };
+  ActivityStepPageResult.prototype.toString = function () {
+    return 'ActivityStepPageResult(items=' + this.c79_1 + ', total=' + this.d79_1 + ')';
+  };
+  ActivityStepPageResult.prototype.hashCode = function () {
+    var result = hashCode(this.c79_1);
+    result = imul(result, 31) + this.d79_1 | 0;
+    return result;
+  };
+  ActivityStepPageResult.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ActivityStepPageResult))
+      return false;
+    var tmp0_other_with_cast = other instanceof ActivityStepPageResult ? other : THROW_CCE();
+    if (!equals_1(this.c79_1, tmp0_other_with_cast.c79_1))
+      return false;
+    if (!(this.d79_1 === tmp0_other_with_cast.d79_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ActivityStepPageResult.prototype, 'items', {
+    configurable: true,
+    get: function () {
+      return this.j4t();
+    }
+  });
+  Object.defineProperty(ActivityStepPageResult.prototype, 'total', {
+    configurable: true,
+    get: function () {
+      return this.i4t();
+    }
+  });
+  function ActivityClient$activityCreate$ref($boundThis) {
+    var l = function () {
+      return $boundThis.f79();
+    };
+    l.callableName = 'activityCreate';
+    return l;
+  }
+  function ActivityClient$activityStepCreate$ref($boundThis) {
+    var l = function () {
+      return $boundThis.g79();
+    };
+    l.callableName = 'activityStepCreate';
+    return l;
+  }
+  function ActivityClient$activityFulfillTask$ref($boundThis) {
+    var l = function () {
+      return $boundThis.h79();
+    };
+    l.callableName = 'activityFulfillTask';
+    return l;
+  }
+  function ActivityClient$activityPage$ref($boundThis) {
+    var l = function () {
+      return $boundThis.i79();
+    };
+    l.callableName = 'activityPage';
+    return l;
+  }
+  function ActivityClient$activityStepPage$ref($boundThis) {
+    var l = function () {
+      return $boundThis.j79();
+    };
+    l.callableName = 'activityStepPage';
+    return l;
+  }
+  function ActivityClient(client) {
+    this.e79_1 = client;
+  }
+  ActivityClient.prototype.f79 = function () {
+    var tmp$ret$10;
+    // Inline function 'f2.client.function' call
+    var tmp0_function = this.e79_1;
+    var tmp1_function = ActivityClient$activityCreate$ref(this).callableName;
+    var tmp$ret$4;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$1;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_0 = JsType_getInstance();
+      var tmp_1 = getKClass(List);
+      var tmp$ret$0;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_2;
+      try {
+        tmp_2 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityCreateCommand), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_3;
+        if ($p instanceof Error) {
+          tmp_3 = null;
+        } else {
+          throw $p;
+        }
+        tmp_2 = tmp_3;
+      }
+      tmp$ret$0 = tmp_2;
+      tmp$ret$1 = typeInfoImpl(tmp_0, tmp_1, tmp$ret$0);
+      tmp = tmp$ret$1;
+    } else {
+      var tmp$ret$3;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_4 = JsType_getInstance();
+      var tmp_5 = getKClass(ActivityCreateCommand);
+      var tmp$ret$2;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_6;
+      try {
+        tmp_6 = createKType(getKClass(ActivityCreateCommand), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_7;
+        if ($p instanceof Error) {
+          tmp_7 = null;
+        } else {
+          throw $p;
+        }
+        tmp_6 = tmp_7;
+      }
+      tmp$ret$2 = tmp_6;
+      tmp$ret$3 = typeInfoImpl(tmp_4, tmp_5, tmp$ret$2);
+      tmp = tmp$ret$3;
+    }
+    tmp$ret$4 = tmp;
+    var queryTypeInfo = tmp$ret$4;
+    var tmp$ret$9;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp_8;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$6;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_9 = JsType_getInstance();
+      var tmp_10 = getKClass(List);
+      var tmp$ret$5;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_11;
+      try {
+        tmp_11 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityCreatedEvent), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_12;
+        if ($p instanceof Error) {
+          tmp_12 = null;
+        } else {
+          throw $p;
+        }
+        tmp_11 = tmp_12;
+      }
+      tmp$ret$5 = tmp_11;
+      tmp$ret$6 = typeInfoImpl(tmp_9, tmp_10, tmp$ret$5);
+      tmp_8 = tmp$ret$6;
+    } else {
+      var tmp$ret$8;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_13 = JsType_getInstance();
+      var tmp_14 = getKClass(ActivityCreatedEvent);
+      var tmp$ret$7;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_15;
+      try {
+        tmp_15 = createKType(getKClass(ActivityCreatedEvent), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_16;
+        if ($p instanceof Error) {
+          tmp_16 = null;
+        } else {
+          throw $p;
+        }
+        tmp_15 = tmp_16;
+      }
+      tmp$ret$7 = tmp_15;
+      tmp$ret$8 = typeInfoImpl(tmp_13, tmp_14, tmp$ret$7);
+      tmp_8 = tmp$ret$8;
+    }
+    tmp$ret$9 = tmp_8;
+    var responseTypeInfo = tmp$ret$9;
+    tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
+    return tmp$ret$10;
+  };
+  ActivityClient.prototype.g79 = function () {
+    var tmp$ret$10;
+    // Inline function 'f2.client.function' call
+    var tmp0_function = this.e79_1;
+    var tmp1_function = ActivityClient$activityStepCreate$ref(this).callableName;
+    var tmp$ret$4;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$1;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_0 = JsType_getInstance();
+      var tmp_1 = getKClass(List);
+      var tmp$ret$0;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_2;
+      try {
+        tmp_2 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepCreateCommand), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_3;
+        if ($p instanceof Error) {
+          tmp_3 = null;
+        } else {
+          throw $p;
+        }
+        tmp_2 = tmp_3;
+      }
+      tmp$ret$0 = tmp_2;
+      tmp$ret$1 = typeInfoImpl(tmp_0, tmp_1, tmp$ret$0);
+      tmp = tmp$ret$1;
+    } else {
+      var tmp$ret$3;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_4 = JsType_getInstance();
+      var tmp_5 = getKClass(ActivityStepCreateCommand);
+      var tmp$ret$2;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_6;
+      try {
+        tmp_6 = createKType(getKClass(ActivityStepCreateCommand), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_7;
+        if ($p instanceof Error) {
+          tmp_7 = null;
+        } else {
+          throw $p;
+        }
+        tmp_6 = tmp_7;
+      }
+      tmp$ret$2 = tmp_6;
+      tmp$ret$3 = typeInfoImpl(tmp_4, tmp_5, tmp$ret$2);
+      tmp = tmp$ret$3;
+    }
+    tmp$ret$4 = tmp;
+    var queryTypeInfo = tmp$ret$4;
+    var tmp$ret$9;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp_8;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$6;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_9 = JsType_getInstance();
+      var tmp_10 = getKClass(List);
+      var tmp$ret$5;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_11;
+      try {
+        tmp_11 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepCreatedEvent), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_12;
+        if ($p instanceof Error) {
+          tmp_12 = null;
+        } else {
+          throw $p;
+        }
+        tmp_11 = tmp_12;
+      }
+      tmp$ret$5 = tmp_11;
+      tmp$ret$6 = typeInfoImpl(tmp_9, tmp_10, tmp$ret$5);
+      tmp_8 = tmp$ret$6;
+    } else {
+      var tmp$ret$8;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_13 = JsType_getInstance();
+      var tmp_14 = getKClass(ActivityStepCreatedEvent);
+      var tmp$ret$7;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_15;
+      try {
+        tmp_15 = createKType(getKClass(ActivityStepCreatedEvent), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_16;
+        if ($p instanceof Error) {
+          tmp_16 = null;
+        } else {
+          throw $p;
+        }
+        tmp_15 = tmp_16;
+      }
+      tmp$ret$7 = tmp_15;
+      tmp$ret$8 = typeInfoImpl(tmp_13, tmp_14, tmp$ret$7);
+      tmp_8 = tmp$ret$8;
+    }
+    tmp$ret$9 = tmp_8;
+    var responseTypeInfo = tmp$ret$9;
+    tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
+    return tmp$ret$10;
+  };
+  ActivityClient.prototype.h79 = function () {
+    var tmp$ret$10;
+    // Inline function 'f2.client.function' call
+    var tmp0_function = this.e79_1;
+    var tmp1_function = ActivityClient$activityFulfillTask$ref(this).callableName;
+    var tmp$ret$4;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$1;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_0 = JsType_getInstance();
+      var tmp_1 = getKClass(List);
+      var tmp$ret$0;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_2;
+      try {
+        tmp_2 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepFulfillCommand), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_3;
+        if ($p instanceof Error) {
+          tmp_3 = null;
+        } else {
+          throw $p;
+        }
+        tmp_2 = tmp_3;
+      }
+      tmp$ret$0 = tmp_2;
+      tmp$ret$1 = typeInfoImpl(tmp_0, tmp_1, tmp$ret$0);
+      tmp = tmp$ret$1;
+    } else {
+      var tmp$ret$3;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_4 = JsType_getInstance();
+      var tmp_5 = getKClass(ActivityStepFulfillCommand);
+      var tmp$ret$2;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_6;
+      try {
+        tmp_6 = createKType(getKClass(ActivityStepFulfillCommand), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_7;
+        if ($p instanceof Error) {
+          tmp_7 = null;
+        } else {
+          throw $p;
+        }
+        tmp_6 = tmp_7;
+      }
+      tmp$ret$2 = tmp_6;
+      tmp$ret$3 = typeInfoImpl(tmp_4, tmp_5, tmp$ret$2);
+      tmp = tmp$ret$3;
+    }
+    tmp$ret$4 = tmp;
+    var queryTypeInfo = tmp$ret$4;
+    var tmp$ret$9;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp_8;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$6;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_9 = JsType_getInstance();
+      var tmp_10 = getKClass(List);
+      var tmp$ret$5;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_11;
+      try {
+        tmp_11 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepFulfilledEvent), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_12;
+        if ($p instanceof Error) {
+          tmp_12 = null;
+        } else {
+          throw $p;
+        }
+        tmp_11 = tmp_12;
+      }
+      tmp$ret$5 = tmp_11;
+      tmp$ret$6 = typeInfoImpl(tmp_9, tmp_10, tmp$ret$5);
+      tmp_8 = tmp$ret$6;
+    } else {
+      var tmp$ret$8;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_13 = JsType_getInstance();
+      var tmp_14 = getKClass(ActivityStepFulfilledEvent);
+      var tmp$ret$7;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_15;
+      try {
+        tmp_15 = createKType(getKClass(ActivityStepFulfilledEvent), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_16;
+        if ($p instanceof Error) {
+          tmp_16 = null;
+        } else {
+          throw $p;
+        }
+        tmp_15 = tmp_16;
+      }
+      tmp$ret$7 = tmp_15;
+      tmp$ret$8 = typeInfoImpl(tmp_13, tmp_14, tmp$ret$7);
+      tmp_8 = tmp$ret$8;
+    }
+    tmp$ret$9 = tmp_8;
+    var responseTypeInfo = tmp$ret$9;
+    tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
+    return tmp$ret$10;
+  };
+  ActivityClient.prototype.i79 = function () {
+    var tmp$ret$10;
+    // Inline function 'f2.client.function' call
+    var tmp0_function = this.e79_1;
+    var tmp1_function = ActivityClient$activityPage$ref(this).callableName;
+    var tmp$ret$4;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$1;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_0 = JsType_getInstance();
+      var tmp_1 = getKClass(List);
+      var tmp$ret$0;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_2;
+      try {
+        tmp_2 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityPageQuery), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_3;
+        if ($p instanceof Error) {
+          tmp_3 = null;
+        } else {
+          throw $p;
+        }
+        tmp_2 = tmp_3;
+      }
+      tmp$ret$0 = tmp_2;
+      tmp$ret$1 = typeInfoImpl(tmp_0, tmp_1, tmp$ret$0);
+      tmp = tmp$ret$1;
+    } else {
+      var tmp$ret$3;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_4 = JsType_getInstance();
+      var tmp_5 = getKClass(ActivityPageQuery);
+      var tmp$ret$2;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_6;
+      try {
+        tmp_6 = createKType(getKClass(ActivityPageQuery), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_7;
+        if ($p instanceof Error) {
+          tmp_7 = null;
+        } else {
+          throw $p;
+        }
+        tmp_6 = tmp_7;
+      }
+      tmp$ret$2 = tmp_6;
+      tmp$ret$3 = typeInfoImpl(tmp_4, tmp_5, tmp$ret$2);
+      tmp = tmp$ret$3;
+    }
+    tmp$ret$4 = tmp;
+    var queryTypeInfo = tmp$ret$4;
+    var tmp$ret$9;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp_8;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$6;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_9 = JsType_getInstance();
+      var tmp_10 = getKClass(List);
+      var tmp$ret$5;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_11;
+      try {
+        tmp_11 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityPageResult), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_12;
+        if ($p instanceof Error) {
+          tmp_12 = null;
+        } else {
+          throw $p;
+        }
+        tmp_11 = tmp_12;
+      }
+      tmp$ret$5 = tmp_11;
+      tmp$ret$6 = typeInfoImpl(tmp_9, tmp_10, tmp$ret$5);
+      tmp_8 = tmp$ret$6;
+    } else {
+      var tmp$ret$8;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_13 = JsType_getInstance();
+      var tmp_14 = getKClass(ActivityPageResult);
+      var tmp$ret$7;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_15;
+      try {
+        tmp_15 = createKType(getKClass(ActivityPageResult), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_16;
+        if ($p instanceof Error) {
+          tmp_16 = null;
+        } else {
+          throw $p;
+        }
+        tmp_15 = tmp_16;
+      }
+      tmp$ret$7 = tmp_15;
+      tmp$ret$8 = typeInfoImpl(tmp_13, tmp_14, tmp$ret$7);
+      tmp_8 = tmp$ret$8;
+    }
+    tmp$ret$9 = tmp_8;
+    var responseTypeInfo = tmp$ret$9;
+    tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
+    return tmp$ret$10;
+  };
+  ActivityClient.prototype.j79 = function () {
+    var tmp$ret$10;
+    // Inline function 'f2.client.function' call
+    var tmp0_function = this.e79_1;
+    var tmp1_function = ActivityClient$activityStepPage$ref(this).callableName;
+    var tmp$ret$4;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$1;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_0 = JsType_getInstance();
+      var tmp_1 = getKClass(List);
+      var tmp$ret$0;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_2;
+      try {
+        tmp_2 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepPageQuery), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_3;
+        if ($p instanceof Error) {
+          tmp_3 = null;
+        } else {
+          throw $p;
+        }
+        tmp_2 = tmp_3;
+      }
+      tmp$ret$0 = tmp_2;
+      tmp$ret$1 = typeInfoImpl(tmp_0, tmp_1, tmp$ret$0);
+      tmp = tmp$ret$1;
+    } else {
+      var tmp$ret$3;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_4 = JsType_getInstance();
+      var tmp_5 = getKClass(ActivityStepPageQuery);
+      var tmp$ret$2;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_6;
+      try {
+        tmp_6 = createKType(getKClass(ActivityStepPageQuery), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_7;
+        if ($p instanceof Error) {
+          tmp_7 = null;
+        } else {
+          throw $p;
+        }
+        tmp_6 = tmp_7;
+      }
+      tmp$ret$2 = tmp_6;
+      tmp$ret$3 = typeInfoImpl(tmp_4, tmp_5, tmp$ret$2);
+      tmp = tmp$ret$3;
+    }
+    tmp$ret$4 = tmp;
+    var queryTypeInfo = tmp$ret$4;
+    var tmp$ret$9;
+    // Inline function 'f2.client.getTypeInfo' call
+    var tmp_8;
+    if (tmp0_function.type.equals(F2ClientType_HTTP_getInstance())) {
+      var tmp$ret$6;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_9 = JsType_getInstance();
+      var tmp_10 = getKClass(List);
+      var tmp$ret$5;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_11;
+      try {
+        tmp_11 = createKType(getKClass(List), arrayOf([createInvariantKTypeProjection(createKType(getKClass(ActivityStepPageResult), arrayOf([]), false))]), false);
+      } catch ($p) {
+        var tmp_12;
+        if ($p instanceof Error) {
+          tmp_12 = null;
+        } else {
+          throw $p;
+        }
+        tmp_11 = tmp_12;
+      }
+      tmp$ret$5 = tmp_11;
+      tmp$ret$6 = typeInfoImpl(tmp_9, tmp_10, tmp$ret$5);
+      tmp_8 = tmp$ret$6;
+    } else {
+      var tmp$ret$8;
+      // Inline function 'io.ktor.util.reflect.typeInfo' call
+      var tmp_13 = JsType_getInstance();
+      var tmp_14 = getKClass(ActivityStepPageResult);
+      var tmp$ret$7;
+      // Inline function 'io.ktor.util.reflect.tryGetType' call
+      var tmp_15;
+      try {
+        tmp_15 = createKType(getKClass(ActivityStepPageResult), arrayOf([]), false);
+      } catch ($p) {
+        var tmp_16;
+        if ($p instanceof Error) {
+          tmp_16 = null;
+        } else {
+          throw $p;
+        }
+        tmp_15 = tmp_16;
+      }
+      tmp$ret$7 = tmp_15;
+      tmp$ret$8 = typeInfoImpl(tmp_13, tmp_14, tmp$ret$7);
+      tmp_8 = tmp$ret$8;
+    }
+    tmp$ret$9 = tmp_8;
+    var responseTypeInfo = tmp$ret$9;
+    tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
+    return tmp$ret$10;
+  };
+  function activityClient(urlBase) {
+    return f2SupplierSingle(activityClient$slambda_0(urlBase, null));
+  }
+  function activityClient$slambda($urlBase, resultContinuation) {
+    this.s79_1 = $urlBase;
+    CoroutineImpl.call(this, resultContinuation);
+  }
+  activityClient$slambda.prototype.t79 = function ($cont) {
+    var tmp = this.yg($cont);
+    tmp.gg_1 = Unit_getInstance();
+    tmp.hg_1 = null;
+    return tmp.xg();
+  };
+  activityClient$slambda.prototype.n5r = function ($cont) {
+    return this.t79($cont);
+  };
+  activityClient$slambda.prototype.xg = function () {
+    var suspendResult = this.gg_1;
+    $sm: do
+      try {
+        var tmp = this.eg_1;
+        switch (tmp) {
+          case 0:
+            this.fg_1 = 2;
+            this.eg_1 = 1;
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.s79_1), this);
+            if (suspendResult === get_COROUTINE_SUSPENDED()) {
+              return suspendResult;
+            }
+
+            continue $sm;
+          case 1:
+            var tmp0_let = suspendResult;
+            return new ActivityClient(tmp0_let);
+          case 2:
+            throw this.hg_1;
+        }
+      } catch ($p) {
+        if (this.fg_1 === 2) {
+          throw $p;
+        } else {
+          this.eg_1 = this.fg_1;
+          this.hg_1 = $p;
+        }
+      }
+     while (true);
+  };
+  activityClient$slambda.prototype.yg = function (completion) {
+    var i = new activityClient$slambda(this.s79_1, completion);
+    return i;
+  };
+  function activityClient$slambda_0($urlBase, resultContinuation) {
+    var i = new activityClient$slambda($urlBase, resultContinuation);
+    var l = function ($cont) {
+      return i.t79($cont);
+    };
+    l.$arity = 0;
+    return l;
   }
   //region block: post-declaration
   CombinedContext.prototype.s3 = plus;
@@ -90899,6 +92563,10 @@ if (typeof Math.imul === 'undefined') {
   $serializer_60.prototype.s49 = typeParametersSerializers;
   $serializer_61.prototype.s49 = typeParametersSerializers;
   $serializer_62.prototype.s49 = typeParametersSerializers;
+  $serializer_63.prototype.s49 = typeParametersSerializers;
+  $serializer_64.prototype.s49 = typeParametersSerializers;
+  $serializer_65.prototype.s49 = typeParametersSerializers;
+  $serializer_66.prototype.s49 = typeParametersSerializers;
   //endregion
   //region block: init
   _stableSortingIsSupported = null;
@@ -92417,11 +94085,11 @@ if (typeof Math.imul === 'undefined') {
     $city$smartb$registry$program$f2$activity$domain$model.Activity.Activity_init_$Create$ = Activity_init_$Create$;
     Object.defineProperty($city$smartb$registry$program$f2$activity$domain$model.Activity, 'Companion', {
       configurable: true,
-      get: Companion_getInstance_126
+      get: Companion_getInstance_130
     });
     Object.defineProperty($city$smartb$registry$program$f2$activity$domain$model.Activity, '$serializer', {
       configurable: true,
-      get: $serializer_getInstance_60
+      get: $serializer_getInstance_64
     });
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
@@ -92459,10 +94127,26 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$f2$activity = $city$smartb$registry$program$f2.activity || ($city$smartb$registry$program$f2.activity = {});
     var $city$smartb$registry$program$f2$activity$domain = $city$smartb$registry$program$f2$activity.domain || ($city$smartb$registry$program$f2$activity.domain = {});
     var $city$smartb$registry$program$f2$activity$domain$query = $city$smartb$registry$program$f2$activity$domain.query || ($city$smartb$registry$program$f2$activity$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$activity = $city$smartb$registry$program$f2.activity || ($city$smartb$registry$program$f2.activity = {});
+    var $city$smartb$registry$program$f2$activity$client = $city$smartb$registry$program$f2$activity.client || ($city$smartb$registry$program$f2$activity.client = {});
+    $city$smartb$registry$program$f2$activity$client.ActivityClient = ActivityClient;
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$activity = $city$smartb$registry$program$f2.activity || ($city$smartb$registry$program$f2.activity = {});
+    var $city$smartb$registry$program$f2$activity$client = $city$smartb$registry$program$f2$activity.client || ($city$smartb$registry$program$f2$activity.client = {});
+    $city$smartb$registry$program$f2$activity$client.activityClient = activityClient;
   }
   $jsExportAll$(_);
   //endregion
   return _;
 }));
 
-//# sourceMappingURL=verified-emission-reduction-registry-activity-f2-domain.js.map
+//# sourceMappingURL=verified-emission-reduction-registry-activity-f2-client.js.map

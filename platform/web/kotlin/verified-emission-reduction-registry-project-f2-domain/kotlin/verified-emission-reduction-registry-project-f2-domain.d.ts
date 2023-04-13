@@ -132,7 +132,6 @@ export namespace f2.dsl.cqrs.page {
 }
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
-
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
