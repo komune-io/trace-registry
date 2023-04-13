@@ -21,7 +21,7 @@ interface NodesAnEdgesOfActivities {
 }
 
 
-export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Activity | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
+export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Activity[] | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
     const nodes: Node<ActivityData>[] = toNodes(activities, ancestor, select)
     const edges = toEdges(activities, ancestor)
     if (ancestor) {

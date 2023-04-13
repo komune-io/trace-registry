@@ -43,7 +43,7 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
               minHeight: "fit-content"
           }}
       >
-          <ActivitiesGraph activities={activities} selectedActivity={selectedNode} onActivitySelect={setSelectedNode}/>
+          <ActivitiesGraph activities={activities} onActivitySelect={setSelectedNode}/>
           <ActivitiesSummary isLoading={isLoading} activity={selectedNode} steps={steps}/>
       </Stack>
   )

@@ -22,7 +22,8 @@ export const ProjectInformationSection = (props: ProjectInformationSectionProps)
         formikConfig: {
             initialValues: {
                 ...project,
-                location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined
+                location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined,
+                type: 15
             }
         }
     })
