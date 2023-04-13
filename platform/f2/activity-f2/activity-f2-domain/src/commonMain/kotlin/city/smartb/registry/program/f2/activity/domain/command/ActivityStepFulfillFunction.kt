@@ -9,6 +9,7 @@ import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 
 typealias ActivityStepFulfillFunction = F2Function<ActivityStepFulfillCommand, ActivityStepFulfilledEvent>
@@ -27,6 +28,7 @@ interface ActivityStepFulfillCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ActivityStepFulfillCommand(
     override val requestId: RequestId,
     override val identifier: ActivityStepIdentifier,
@@ -48,6 +50,7 @@ interface ActivityStepFulfilledEventDTO: Event {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ActivityStepFulfilledEvent(
     override val identifier: ActivityIdentifier,
     override val value: String?,

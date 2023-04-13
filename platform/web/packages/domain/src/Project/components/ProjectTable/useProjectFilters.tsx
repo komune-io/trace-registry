@@ -68,13 +68,13 @@ export const useProjectFilters = () => {
                 placeholder: t("refYear")
             }
         },
-        {
-            name: 'dueDate',
-            type: 'datePicker',
-            params: {
-                label: t("dueDate")
-            }
-        },
+        // {
+        //     name: 'dueDate',
+        //     type: 'datePicker',
+        //     params: {
+        //         label: t("dueDate")
+        //     }
+        // },
         {
             name: 'vintage',
             type: 'textField',

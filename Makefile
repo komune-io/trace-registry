@@ -61,6 +61,9 @@ dev-redis-log:
 ## DEV cccev
 dev-cccev: dev-cccev-down dev-cccev-up
 
+dev-cccev-pull:
+	@docker compose --env-file .env_dev -f docker-compose-cccev.yml pull
+
 dev-cccev-up:
 	@docker compose --env-file .env_dev -f docker-compose-cccev.yml pull
 	@docker compose --env-file .env_dev -f docker-compose-cccev.yml up -d

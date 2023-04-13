@@ -65,7 +65,8 @@ class ActivityEndpoint(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
-            activityIdentifier = query.activityIdentifier
+            activityIdentifier = query.activityIdentifier,
+            requestId = query.requestId
         )
     }
 
@@ -88,37 +89,50 @@ class ActivityEndpoint(
     }
 
 
+    @Bean
     override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkCanFulfillTask()
+        val step = activityF2FinderService.stepGet(cmd.identifier, cmd.requestId) ?: throw IllegalArgumentException("Step not found")
+
+        val value = step.hasConcept?.let { concept ->
+            val result = RequestAddValuesCommand(
+                id = cmd.requestId,
+                values = mapOf(
+                    concept.id to cmd.value,
+                )
+            ).invokeWith(cccevClient.requestClient.requestAddValues())
+            result.values[concept.id]
+        }
+
         ActivityStepFulfilledEvent(
             identifier = cmd.identifier,
-            value = cmd.value,
+            value = value,
             file = null,
 //            evidence = null,
         )
     }
 
 
-    @PostMapping("/activityFulfillTask")
-    suspend fun activityFulfillTask(
-        @RequestPart("command") cmd: ActivityStepFulfillCommand,
-        @RequestPart("file") file: FilePart?
-    ): ActivityStepFulfilledEvent {
-        activityPoliciesEnforcer.checkCanFulfillTask()
-        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
-
-        step.hasConcept?.let { concept ->
-            RequestAddValuesCommand(
-                id = cmd.requestId,
-                values = mapOf(
-                    concept.id to cmd.value,
-                )
-            ).invokeWith(cccevClient.requestClient.requestAddValues())
-        }
-        return ActivityStepFulfilledEvent(
-            identifier = cmd.identifier,
-            value = cmd.value,
-            file = null
-        )
-    }
+//    @PostMapping("/activityFulfillTask")
+//    suspend fun activityFulfillTask(
+//        @RequestPart("command") cmd: ActivityStepFulfillCommand,
+//        @RequestPart("file") file: FilePart?
+//    ): ActivityStepFulfilledEvent {
+//        activityPoliciesEnforcer.checkCanFulfillTask()
+//        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
+//
+//        step.hasConcept?.let { concept ->
+//            RequestAddValuesCommand(
+//                id = cmd.requestId,
+//                values = mapOf(
+//                    concept.id to cmd.value,
+//                )
+//            ).invokeWith(cccevClient.requestClient.requestAddValues())
+//        }
+//        return ActivityStepFulfilledEvent(
+//            identifier = cmd.identifier,
+//            value = cmd.value,
+//            file = null
+//        )
+//    }
 }

@@ -25,7 +25,11 @@ interface ActivityStepPageQueryDTO {
     /**
      * Name of the activity
      */
-    val activityIdentifier: String?
+    val activityIdentifier: String
+    /**
+     * Name of the activity
+     */
+    val requestId: String
     val offset: Int?
     val limit: Int?
 }
@@ -35,6 +39,7 @@ interface ActivityStepPageQueryDTO {
  */
 data class ActivityStepPageQuery(
     override val activityIdentifier: String,
+    override val requestId: String,
     override val offset: Int?,
     override val limit: Int?,
 ): ActivityStepPageQueryDTO

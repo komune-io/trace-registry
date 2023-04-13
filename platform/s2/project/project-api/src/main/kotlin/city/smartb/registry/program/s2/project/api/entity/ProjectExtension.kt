@@ -60,6 +60,7 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.location = location?.toRedisGeoLocation(id)
     entity.activities = activities
     entity.sdgs = sdgs?.sorted()
+    entity.request = request
     entity
 }
 

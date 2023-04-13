@@ -3029,4 +3029,12 @@ export namespace city.smartb.registry.program.f2.activity.domain.query {
 
     }
 }
-export as namespace verified_emission_reduction_registry_activity_f2_domain;
+export namespace city.smartb.registry.program.f2.activity.client {
+    class ActivityClient /* implements city.smartb.registry.program.f2.activity.domain.ActivityApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace city.smartb.registry.program.f2.activity.client {
+    function activityClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<city.smartb.registry.program.f2.activity.client.ActivityClient>;
+}
+export as namespace verified_emission_reduction_registry_activity_f2_client;
