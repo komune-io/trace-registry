@@ -1,3 +1,5 @@
+package city.smartb.registry.program.f2.activity.domain.policy
+
 import city.smartb.registry.program.api.commons.auth.AuthedUser
 import city.smartb.registry.program.api.commons.auth.AuthedUserDTO
 import kotlin.js.JsExport

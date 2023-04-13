@@ -3,10 +3,11 @@ package city.smartb.registry.program.s2.project.domain.model
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.command.RequestRef
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsExport
 
 
 /**
@@ -142,6 +143,10 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * List of activities linked to
      */
     val activities: List<ActivityIdentifier>?
+    /**
+     * Link to a cccev request.
+     */
+    val request: RequestRef?
 
     /**
      * Status of the project
@@ -195,7 +200,8 @@ data class Project(
     override val lastModificationDate: DateTime?,
     override val status: ProjectState,
     override val activities: List<ActivityIdentifier>?,
-    override var sdgs: List<SdgNumber>?
+    override var sdgs: List<SdgNumber>?,
+    override val request: RequestRef?
 
 ): ProjectDTO {
     override fun s2State() = status

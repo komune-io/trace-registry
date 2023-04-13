@@ -1,5 +1,13 @@
 package city.smartb.registry.program.infra.redis
 
+import com.redis.om.spring.metamodel.MetamodelField
+import com.redis.om.spring.metamodel.indexed.BooleanField
+import com.redis.om.spring.metamodel.indexed.NumericField
+import com.redis.om.spring.metamodel.indexed.TagField
+import com.redis.om.spring.metamodel.indexed.TextField
+import com.redis.om.spring.metamodel.indexed.TextTagField
+import com.redis.om.spring.repository.query.QueryUtils
+import com.redis.om.spring.search.stream.SearchStream
 import f2.dsl.cqrs.filter.AndMatch
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ComparableMatch
@@ -9,15 +17,6 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.OrMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
-import com.redis.om.spring.metamodel.MetamodelField
-import com.redis.om.spring.metamodel.indexed.BooleanField
-import com.redis.om.spring.metamodel.indexed.NumericField
-import com.redis.om.spring.metamodel.indexed.TagField
-import com.redis.om.spring.metamodel.indexed.TextField
-import com.redis.om.spring.metamodel.indexed.TextTagField
-import com.redis.om.spring.repository.query.QueryUtils
-import com.redis.om.spring.search.stream.SearchStream
-import com.redis.om.spring.search.stream.predicates.SearchFieldPredicate
 import java.util.function.Predicate
 import java.util.function.Predicate.not
 

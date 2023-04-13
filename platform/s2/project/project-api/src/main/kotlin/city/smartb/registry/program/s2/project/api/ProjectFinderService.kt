@@ -1,7 +1,6 @@
 package city.smartb.registry.program.s2.project.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
-import f2.dsl.cqrs.filter.Match
 import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.api.entity.toProject
@@ -10,6 +9,7 @@ import city.smartb.registry.program.s2.project.domain.ProjectFinder
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map

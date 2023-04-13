@@ -1,6 +1,5 @@
 package city.smartb.registry.program.f2.activity.api.service
 
-import kotlinx.serialization.Serializable
 interface ExternalFileDTO {
     val name: String
     val url: String

@@ -7,7 +7,6 @@ import city.smartb.registry.program.s2.project.domain.error.IllegalSdgError
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.Project
 import f2.dsl.cqrs.error.asException
-import f2.dsl.cqrs.exception.F2Exception
 
 fun ProjectEntity.toProject() = Project(
     id = id,
@@ -33,7 +32,8 @@ fun ProjectEntity.toProject() = Project(
     creationDate = null,
     lastModificationDate = null,
     activities = activities,
-    sdgs = sdgs
+    sdgs = sdgs,
+    request = request
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )

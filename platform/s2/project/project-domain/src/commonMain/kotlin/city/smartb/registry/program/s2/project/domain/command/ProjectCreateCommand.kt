@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.command
 
+import cccev.s2.request.domain.model.RequestId
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
@@ -8,9 +9,9 @@ import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Update project payload
@@ -83,7 +84,13 @@ data class ProjectCreatedEvent(
     override var activities: List<ActivityIdentifier>? = null,
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
+    var request: RequestRef? = null,
 
     ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }
+
+@Serializable
+data class RequestRef(
+    val id: RequestId,
+)

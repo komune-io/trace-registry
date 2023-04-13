@@ -1,5 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.command
 
+import cccev.dsl.model.InformationConcept
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
@@ -20,6 +21,7 @@ interface ActivityStepCreateCommandDTO {
     val identifier: ActivityIdentifier
     val name: String
     val description: String?
+    val hasConcept: InformationConcept?
 }
 
 /**
@@ -29,7 +31,8 @@ interface ActivityStepCreateCommandDTO {
 data class ActivityStepCreateCommand(
     override val identifier: ActivityIdentifier,
     override val name: String,
-    override val description: String?
+    override val description: String?,
+    override val hasConcept: InformationConcept?
 ): ActivityStepCreateCommandDTO
 
 /**

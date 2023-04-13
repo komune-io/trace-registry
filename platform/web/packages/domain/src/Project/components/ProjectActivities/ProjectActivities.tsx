@@ -24,7 +24,7 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
 
     const activityStepPageQuery = useActivityStepPageQuery({
       query: {
-        activityId: selectedNode?.identifier ?? "",
+        activityIdentifier: selectedNode?.identifier ?? "",
         limit: undefined,
         offset: undefined,
       },

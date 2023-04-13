@@ -1,8 +1,8 @@
 package city.smartb.registry.program.api.commons.model
 
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 model

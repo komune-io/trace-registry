@@ -1,8 +1,8 @@
 package city.smartb.registry.program.f2.asset.domain.command
 
-import f2.dsl.fnc.F2Function
 import city.smartb.registry.program.s2.asset.domain.command.AssetUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.command.AssetUpdatedEvent
+import f2.dsl.fnc.F2Function
 
 /**
  * Update the asset.

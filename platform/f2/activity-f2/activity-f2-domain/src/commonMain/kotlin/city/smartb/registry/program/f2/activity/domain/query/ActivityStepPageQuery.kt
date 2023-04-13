@@ -25,7 +25,7 @@ interface ActivityStepPageQueryDTO {
     /**
      * Name of the activity
      */
-    val activityId: String?
+    val activityIdentifier: String?
     val offset: Int?
     val limit: Int?
 }
@@ -34,7 +34,7 @@ interface ActivityStepPageQueryDTO {
  * @d2 inherit
  */
 data class ActivityStepPageQuery(
-    override val activityId: String,
+    override val activityIdentifier: String,
     override val offset: Int?,
     override val limit: Int?,
 ): ActivityStepPageQueryDTO

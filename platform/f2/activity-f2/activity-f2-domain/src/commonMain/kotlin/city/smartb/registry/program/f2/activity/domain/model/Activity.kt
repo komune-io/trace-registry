@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.model
-import cccev.dsl.model.Code
 
+import cccev.dsl.model.Code
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
@@ -29,7 +29,9 @@ import kotlinx.serialization.Serializable
  * 		"hasRequirement": ["R1"]
  * 	}]
  */
+typealias ActivityId = String
 typealias ActivityIdentifier = String
+typealias ActivityStepIdentifier = String
 @JsExport
 interface ActivityDTO {
     val identifier: ActivityIdentifier

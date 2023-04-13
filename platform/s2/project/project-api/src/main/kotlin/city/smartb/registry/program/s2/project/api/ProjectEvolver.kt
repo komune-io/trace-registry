@@ -42,6 +42,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		creationDate = Clock.System.now().epochSeconds,
 		lastModificationDate = Clock.System.now().epochSeconds,
 		activities = event.activities,
+		request = event.request,
 		sdgs = event.sdgs
 	)
 	private fun Project.update(event: ProjectUpdatedEvent) = copy(

@@ -2,10 +2,6 @@ package city.smartb.registry.program.s2.project.domain.command
 
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
-import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.model.DateTime
-import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlin.js.JsExport
 import kotlin.js.JsName

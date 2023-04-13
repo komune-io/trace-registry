@@ -1,7 +1,5 @@
 package city.smartb.registry.program.f2.asset.api
 
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
@@ -13,6 +11,8 @@ import city.smartb.registry.program.f2.asset.domain.query.AssetPageFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetPageResult
 import city.smartb.registry.program.s2.asset.api.AssetAggregateService
 import city.smartb.registry.program.s2.asset.api.AssetFinderService
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

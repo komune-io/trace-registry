@@ -1,8 +1,8 @@
 package city.smartb.registry.program.f2.activity.api
 
+import cccev.dsl.client.CCCEVClient
+import cccev.s2.request.domain.command.RequestAddValuesCommand
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.program.f2.activity.api.service.ActivityPoliciesEnforcer
 import city.smartb.registry.program.f2.activity.domain.ActivityApi
@@ -10,13 +10,21 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFun
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEvent
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreatedEvent
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEvent
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFunction
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
+import f2.dsl.fnc.invokeWith
 import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.codec.multipart.FilePart
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
@@ -24,6 +32,7 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 @Configuration
 class ActivityEndpoint(
+    private val cccevClient: CCCEVClient,
     private val activityExecutorService: ActivityF2ExecutorService,
     private val activityF2FinderService: ActivityF2FinderService,
     private val activityPoliciesEnforcer: ActivityPoliciesEnforcer,
@@ -56,7 +65,7 @@ class ActivityEndpoint(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
-            activityId = query.activityId
+            activityIdentifier = query.activityIdentifier
         )
     }
 
@@ -78,30 +87,38 @@ class ActivityEndpoint(
         }
     }
 
-//    @PermitAll
-//    @Bean
-    override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { query ->
+
+    override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkCanFulfillTask()
-        TODO("Not yet implemented")
+        ActivityStepFulfilledEvent(
+            identifier = cmd.identifier,
+            value = cmd.value,
+            file = null,
+//            evidence = null,
+        )
     }
 
 
-//    @PostMapping("/activityFulfillTask")
-//    suspend fun activityFulfillTask(
-//        @RequestPart("command") cmd: ActivityStepFulfillCommand,
-//        @RequestPart("file") file: FilePart
-//    ): ActivityStepFulfilledEvent {
-//        activityPoliciesEnforcer.checkCanFulfillTask()
-//        val evidenceId = cmd.evidenceId ?: UUID.randomUUID().toString()
-//        val fileByteArray = file.contentByteArray()
-//        val uploadedFile = fsService.uploadFile(
-//            FileUploadCommand(
-//            path = toFilePath(cmd.id, evidenceId, file.filename()),
-//            metadata = cmd.toMetadata(evidenceId, file.filename()),
-//        ), fileByteArray)
-//        return ActivityStepFulfilledEvent(
-//            ide = cmd.id,
-//            evidence = uploadedFile.fromMetadata(),
-//        )
-//    }
+    @PostMapping("/activityFulfillTask")
+    suspend fun activityFulfillTask(
+        @RequestPart("command") cmd: ActivityStepFulfillCommand,
+        @RequestPart("file") file: FilePart?
+    ): ActivityStepFulfilledEvent {
+        activityPoliciesEnforcer.checkCanFulfillTask()
+        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
+
+        step.hasConcept?.let { concept ->
+            RequestAddValuesCommand(
+                id = cmd.requestId,
+                values = mapOf(
+                    concept.id to cmd.value,
+                )
+            ).invokeWith(cccevClient.requestClient.requestAddValues())
+        }
+        return ActivityStepFulfilledEvent(
+            identifier = cmd.identifier,
+            value = cmd.value,
+            file = null
+        )
+    }
 }

@@ -3,8 +3,6 @@ package city.smartb.registry.program.f2.project.domain.command
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import f2.dsl.fnc.F2Function
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
-import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 
 /**
  * Delete a project by id.
