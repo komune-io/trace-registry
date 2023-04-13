@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
-import { getSdgsOptions, Sdg } from 'components'
+import { getSdgsOptions, Sdg, ProjectType, getProjectTypesOptions } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../model'
@@ -15,16 +15,27 @@ const SdgElement = ({ valueKey }: { valueKey: number }) => {
     )
 }
 
+
+const TypeElement = ({ valueKey }: { valueKey: number }) => {
+    return (
+        <ProjectType projectType={valueKey} labelProps={{variant: "h6", sx: {color: "#666560"}}} size="large" />
+    )
+}
+
 export const ProjectBanner = (props: ProjectBannerProps) => {
     const { formState } = props
 
     const { t } = useTranslation()
     const fields = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "type",
-        type: "textField",
+        type: "select",
         label: t("projects.type"),
+        params: {
+            readonlyType: "customElement",
+            readonlyElement: TypeElement,
+            options: getProjectTypesOptions(t)
+        }
     }, {
-        //@ts-ignore
         name: "sdgs",
         type: "select",
         label: t("sdgsImpact"),

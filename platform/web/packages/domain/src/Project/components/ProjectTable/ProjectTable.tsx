@@ -3,7 +3,7 @@ import { ColumnFactory, useTable, StatusTag } from '@smartb/g2'
 import { Row } from '@tanstack/react-table';
 import { Project } from '../../model'
 import { useCallback, useMemo } from "react"
-import { useRoutesDefinition } from 'components'
+import { ProjectType, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 
@@ -37,12 +37,14 @@ function useProductColumn() {
                 })
             }),
 
-            type: generators.text({
-                header: 'Type',
-                getCellProps: (registry) => ({
-                    value: registry.type
-                })
-            }),
+            type: {
+                header: "Type",
+                cell: ({ row }) => (
+                    //@ts-ignore
+                    <ProjectType projectType={row.original.type} />
+                ),
+                className: "typeColumn"
+            },
 
             origin: generators.text({
                 header: 'Origin',
@@ -127,6 +129,9 @@ export const ProjectTable = (props: ProjectTableProps) => {
                 overflow: "unset",
                 "& .statusColumn": {
                     maxWidth: "180px"
+                },
+                "& .typeColumn": {
+                    maxWidth: "150px"
                 },
                 "& .AruiTable-tableHead": {
                     top: "70px",

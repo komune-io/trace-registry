@@ -39,21 +39,21 @@ export const ProjectList = () => {
 
                     <ProjectTable
                         header={
-                        <Header
-                            content={[
-                                {
-                                    leftPart: [
-                                        <Fragment key="filters" >{component}</Fragment>
-                                    ]
-                                }
-                            ]}
-                            sx={{
-                                "& .AruiHeader-leftPartContainer": {
-                                    width: "100%"
-                                },
-                            }}
-                        />
-                    }
+                            <Header
+                                content={[
+                                    {
+                                        leftPart: [
+                                            <Fragment key="filters" >{component}</Fragment>
+                                        ]
+                                    }
+                                ]}
+                                sx={{
+                                    "& .AruiHeader-leftPartContainer": {
+                                        width: "100%"
+                                    },
+                                }}
+                            />
+                        }
                         page={projects.data}
                         pagination={pagination}
                         isLoading={projects.isLoading}
