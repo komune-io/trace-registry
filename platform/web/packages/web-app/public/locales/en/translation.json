@@ -108,6 +108,33 @@
     "estimatedReduction": "Quantity planned",
     "registry": "Registry of trusted projects",
     "followAndTrack": "Follow and track activities on verified and trusted projects.",
-    "noData": "No project were found"
+    "noData": "No project were found",
+    "types": {
+      "1": "Agriculture Forestry and Other Land Use",
+      "2": "Waste handling and disposal",
+      "3": "Energy demand",
+      "4": "Energy industries (renewable/non-renewable sources)",
+      "5": "Manufacturing industries",
+      "6": "Transport",
+      "7": "Livestock, enteric fermentation, and manure management",
+      "8": "Construction",
+      "9": "Fugitive emissions from fuels (solid, oil and gas)",
+      "10": "Energy distribution",
+      "11": "Mining/mineral production",
+      "12": "Chemical industry",
+      "13": "Metal production",
+      "14": "Energy Efficiency - Domestic",
+      "15": "Wind",
+      "16": "Biogas - Heat",
+      "17": "Solar Thermal - Electricity",
+      "18": "Biogas - Cogeneration",
+      "19": "Biomass, or Liquid Biofuel - Electricity",
+      "20": "Biogas - Electricity",
+      "21": "Solar Thermal - Heat",
+      "22": "Biomass, or Liquid Biofuel - Heat",
+      "23": "Small, Low - Impact Hydro",
+      "24": "Other",
+      "25": "Energy Efficiency - Industrial"
+    }
   }
 }
