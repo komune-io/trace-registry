@@ -103,7 +103,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         offset = entry["offset"]?.toInt(),
         name = entry["name"],
         proponent = entry["proponent"],
-        type = entry["type"],
+        type = entry["type"]?.toInt(),
         estimatedReductions = entry["estimatedReductions"],
         referenceYear = entry["referenceYear"],
         dueDate = entry["dueDate"]?.toLong(),
@@ -113,13 +113,12 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
     )
 
     private fun projectAssertParams(entry: Map<String, String>) = ProjectPageAssertParams(
-        //id = entry.safeExtract("id"),
         identifier = entry.safeExtract("identifier"),
         limit = entry["limit"]?.toInt(),
         offset = entry["offset"]?.toInt(),
         name = entry["name"],
         proponent = entry["proponent"],
-        type = entry["type"],
+        type = entry["type"]?.toInt(),
         estimatedReductions = entry["estimatedReductions"],
         referenceYear = entry["referenceYear"],
         dueDate = entry["dueDate"]?.toLong(),
@@ -132,7 +131,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         val offset: Int?,
         val name: String?,
         val proponent: String?,
-        val type: String?,
+        val type: Int?,
         val estimatedReductions: String?,
         val referenceYear: String?,
         val dueDate: Long?,
@@ -142,13 +141,12 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
     )
 
     private data class ProjectPageAssertParams(
-        //val id: TestContextKey,
         val identifier: TestContextKey,
         val limit: Int?,
         val offset: Int?,
         val name: String?,
         val proponent: String?,
-        val type: String?,
+        val type: Int?,
         val estimatedReductions: String?,
         val referenceYear: String?,
         val dueDate: Long?,
