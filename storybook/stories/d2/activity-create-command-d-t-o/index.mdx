@@ -1,0 +1,16 @@
+import ActivityCreateCommandDTODesc from './desc.mdx'
+import ActivityCreateCommandDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<ActivityCreateCommandDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityCreateCommandDTOVisualJson}
+      language={"json"}
+      title={"Query"}
+    />
+  }
+  rightContainerProps={{}}
+/>

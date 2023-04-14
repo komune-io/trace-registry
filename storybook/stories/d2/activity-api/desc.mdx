@@ -1,0 +1,122 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+# Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /activityCreate
+
+
+
+Create an Activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityCreateCommandDTO`](/docs/query--page#query)  
+Result: [`ActivityCreatedEventDTO`](/docs/event--page#event)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityStepCreate
+
+
+
+Create an Activity task
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityStepCreateCommandDTO`](/docs/query--page#query)  
+Result: [`ActivityStepCreatedEventDTO`](/docs/event--page#event)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityFulfillTask
+
+
+
+Update Activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityStepFulfillCommandDTO`](/docs/query--page#query)  
+Result: [`ActivityStepFulfilledEventDTO`](/docs/event--page#event)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityPage
+
+
+
+Get a page of activity
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityPageQueryDTO`](/docs/activity-page--page#activity-page)  
+Result: [`ActivityPageResultDTO`](/docs/activity-page--page#activity-page)
+  </div>
+
+  <div>
+
+  
+
+#### POST /activityStepPage
+
+
+
+Get a page of activity step
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ActivityStepPageQueryDTO`](/docs/activity-step-page--page#activity-step-page)  
+Result: [`ActivityStepPageResultDTO`](/docs/activity-step-page--page#activity-step-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+

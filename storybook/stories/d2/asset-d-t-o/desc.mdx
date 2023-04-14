@@ -1,0 +1,230 @@
+
+
+
+### Asset
+
+Type: `AssetDTO`
+
+A unit issued by and held in the SmartB Registry representing the right of an account holder in whose account the unit is recorded to claim the achievement of an impact. <br/> For CO2, it is the amount of one (1) metric tonne of CO2 equivalent that has been verified by a validation/verification body in accordance with a protocol rules. Recordation of an asset in the account of the holder at the SmartB Registry is prima facie evidence of that holder’s entitlement to that asset.
+
+
+
+---
+
+***id*** [`AssetId`](#assetid)
+
+---
+
+***status*** `AssetState`
+
+Status of the asset. All status are "ISSUED", "ASSIGNED", "RETIRED"
+
+
+
+---
+
+***activity*** `ActivityRef?`
+
+Link to the activity that issued the asset.
+
+
+
+---
+
+***protocol*** `ProtocolRef?`
+
+Protocol of the project the asset is issued from.
+
+
+
+---
+
+***project*** `ProjectRef?`
+
+Link to the project the asset is issued from
+
+
+
+---
+
+***issuanceDate*** `Long?`
+
+Date of asset issuance
+
+
+
+---
+
+***vintageStart*** `Long?`
+
+Start date of the asset vintage
+
+
+
+---
+
+***vintageEnd*** `Long?`
+
+End date of the asset vintage
+
+
+
+---
+
+***totalVintageQuantity*** `Double?`
+
+Total amont of Assets issued for the same vintage
+
+
+
+---
+
+***creditStatus*** `String?`
+
+Credits status : Issued, Assigned, Retired
+
+
+
+---
+
+***creditsIssuedToBufferPool*** `Double?`
+
+The number of credits that projects and programs must contribute to the AFOLU buffer pool, which is a reserve of non-tradable credits that functions as a shared insurance pool for all VCS AFOLU and JNR projects in case of reversals.
+
+
+
+---
+
+***quantityIssued*** `Double?`
+
+Quantity issued
+
+
+
+---
+
+***serialNumber*** `String?`
+
+Public unique serial number of the asset
+
+
+
+---
+
+***verifiedRemoval*** `String?`
+
+Description
+
+
+
+---
+
+***retirementDate*** `Long?`
+
+Date of the permanent removal of an Asset from circulation in the SmartB Registry system which represents an offset of one metric tonne of CO2 equivalent (retirement) or for an other reason (cancellation).
+
+
+
+---
+
+***retirementBeneficiary*** `UserRef?`
+
+Date of the permanent removal of an Asset from circulation in the SmartB Registry system which represents an offset of one metric tonne of CO2 equivalent (retirement) or for an other reason (cancellation)
+
+
+
+---
+
+***retirementDetails*** `String?`
+
+Details of the retirement if any
+
+
+
+---
+
+***retirementReason*** `String?`
+
+Details of the retirement if any
+
+
+
+---
+
+***exPostUnitPrice*** `Double?`
+
+Unit price of the asset when retired
+
+
+
+---
+
+***exAnteUnitPrice*** `Double?`
+
+Unit price of the asset when issued ex-ante
+
+
+
+---
+
+***slug*** `String?`
+
+Link to the asset in the root registry
+
+
+
+---
+
+***additionalCertifications*** `String?`
+
+Additional certification that add value to asset
+
+
+
+---
+
+***arbEligible*** `Boolean?`
+
+Air Ressource Board compatibility
+
+
+
+---
+
+***eligibleForCORSIA*** `Boolean?`
+
+Eligible for CORSIA
+
+
+
+---
+
+***retiredForCORSIA*** `Boolean?`
+
+Retired for CORSIA
+
+
+
+---
+
+***aeroplaneOperatorName*** `String?`
+
+Aeroplane Operator Name
+
+
+
+---
+
+***creationDate*** `Long?`
+
+Date of creation.
+
+
+
+---
+
+***lastModificationDate*** `Long?`
+
+Date of last modification of the asset.
+
+

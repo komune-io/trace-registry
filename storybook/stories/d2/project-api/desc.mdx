@@ -1,0 +1,129 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectGet
+
+
+
+Get a project by id
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectGetQueryDTO`](#project-get)  
+Result: [`ProjectGetResultDTO`](#project-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectPage
+
+
+
+Get a page of projects
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectPageQueryDTO`](#project-page)  
+Result: [`ProjectPageResultDTO`](/docs/event--page#event)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectCreate
+
+
+
+Create a project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectCreateCommandDTO`](#project-create)  
+Result: [`ProjectCreatedEventDTO`](#project-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectUpdate
+
+
+
+Update a project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectUpdateCommandDTO`](#project-update)  
+Result: [`ProjectUpdatedEventDTO`](/docs/core-project--page#d2-project-update)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectDelete
+
+
+
+Delete a project
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectDeleteCommandDTO`](#project-delete)  
+Result: [`ProjectDeletedEventDTO`](#project-delete)
+  </div>
+</DocsTable>
