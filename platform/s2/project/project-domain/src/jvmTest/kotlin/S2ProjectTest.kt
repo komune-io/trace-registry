@@ -40,7 +40,7 @@ class S2ProjectTest {
                 id = faker.idNumber().valid(),
                 name = faker.company().name()
             ),
-            type = 4,
+            type = (1..15).random(),
             referenceYear = faker.date().future(1, TimeUnit.HOURS).toLocalDateTime().year.toString(),
             registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
             status = if(faker.random().nextBoolean()) ProjectState.STAMPED else ProjectState.STAMPED,
