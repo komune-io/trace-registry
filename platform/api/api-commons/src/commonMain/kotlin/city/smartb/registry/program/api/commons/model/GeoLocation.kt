@@ -5,7 +5,7 @@ import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 
 /**
- * @d2 model
+ *
  */
 @JsExport
 @JsName("GeoLocationDTO")

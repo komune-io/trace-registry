@@ -8,7 +8,7 @@ dependencies {
     Dependencies.Jvm.f2(::implementation)
     implementation(project(":platform:api:api-config"))
 
-    implementation(project(":platform:s2:asset:asset-api"))
+//    implementation(project(":platform:s2:asset:asset-api"))
     implementation(project(":platform:s2:project:project-api"))
 
     implementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")

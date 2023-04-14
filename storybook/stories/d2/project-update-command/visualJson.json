@@ -1,0 +1,18 @@
+{
+  "id" : "1669154596778x977338172286597000",
+  "identifier" : "AX-P0",
+  "name" : "ProjectName",
+  "country" : "ProjectName",
+  "creditingPeriodStartDate" : "1670255851",
+  "creditingPeriodEndDate" : "1670255851",
+  "description" : "description",
+  "dueDate" : "1670255851",
+  "estimatedReduction" : 69502,
+  "localization" : "2 rue du pavillon 34000 Montpellier",
+  "type" : 4,
+  "referenceYear" : "2022",
+  "registrationDate" : "1670255851",
+  "slug" : "/app/projectDetail/VCS/2366",
+  "vintage" : 2023,
+  "sdgs" : [ 2, 5, 6 ]
+}

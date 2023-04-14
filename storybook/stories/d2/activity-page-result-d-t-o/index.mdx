@@ -1,0 +1,16 @@
+import ActivityPageResultDTODesc from './desc.mdx'
+import ActivityPageResultDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<ActivityPageResultDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityPageResultDTOVisualJson}
+      language={"json"}
+      title={"Event"}
+    />
+  }
+  rightContainerProps={{}}
+/>

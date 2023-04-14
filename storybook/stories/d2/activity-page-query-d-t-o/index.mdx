@@ -1,0 +1,16 @@
+import ActivityPageQueryDTODesc from './desc.mdx'
+import ActivityPageQueryDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<ActivityPageQueryDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityPageQueryDTOVisualJson}
+      language={"json"}
+      title={"Query"}
+    />
+  }
+  rightContainerProps={{}}
+/>

@@ -23,7 +23,6 @@ export const ProjectInformationSection = (props: ProjectInformationSectionProps)
             initialValues: {
                 ...project,
                 location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined,
-                type: 15
             }
         }
     })
