@@ -2945,7 +2945,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly estimatedReductions?: string;
         readonly localization?: string;
         readonly proponent: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
-        readonly type?: string;
+        readonly type?: number;
         readonly referenceYear?: string;
         readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly vintage?: string;

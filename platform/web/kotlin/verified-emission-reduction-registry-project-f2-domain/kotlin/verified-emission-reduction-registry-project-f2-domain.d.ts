@@ -132,6 +132,10 @@ export namespace f2.dsl.cqrs.page {
 }
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
+
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -2941,7 +2945,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly estimatedReductions?: string;
         readonly localization?: string;
         readonly proponent: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
-        readonly type?: string;
+        readonly type?: number;
         readonly referenceYear?: string;
         readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly vintage?: string;
@@ -2990,7 +2994,7 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
         readonly identifier?: string;
         readonly name?: string;
         readonly proponent?: string;
-        readonly type?: string;
+        readonly type?: number;
         readonly estimatedReductions?: string;
         readonly referenceYear?: string;
         readonly vintage?: string;
