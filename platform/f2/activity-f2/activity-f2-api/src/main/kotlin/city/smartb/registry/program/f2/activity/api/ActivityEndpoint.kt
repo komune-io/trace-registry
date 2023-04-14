@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.activity.api
 
 import cccev.dsl.client.CCCEVClient
 import cccev.s2.request.domain.command.RequestAddValuesCommand
+import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.program.f2.activity.api.service.ActivityPoliciesEnforcer
@@ -10,7 +11,6 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFun
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEvent
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreatedEvent
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEvent
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
@@ -18,15 +18,12 @@ import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFun
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
-import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.codec.multipart.FilePart
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
+import javax.annotation.security.PermitAll
 
 @RestController
 @RequestMapping
@@ -46,7 +43,7 @@ class ActivityEndpoint(
         logger.info("activityPage: $query")
         activityPoliciesEnforcer.checkPage()
 
-        activityF2FinderService.activityPage(
+        activityF2FinderService.page(
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -60,7 +57,7 @@ class ActivityEndpoint(
     override fun activityStepPage(): ActivityStepPageFunction = f2Function { query ->
         logger.info("activityPage: $query")
         activityPoliciesEnforcer.checkPageStep()
-        activityF2FinderService.stepPage(
+        activityF2FinderService.pageSteps(
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -92,7 +89,8 @@ class ActivityEndpoint(
     @Bean
     override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkCanFulfillTask()
-        val step = activityF2FinderService.stepGet(cmd.identifier, cmd.requestId) ?: throw IllegalArgumentException("Step not found")
+        val step = activityF2FinderService.getStep(cmd.identifier, cmd.requestId)
+            ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
         val value = step.hasConcept?.let { concept ->
             val result = RequestAddValuesCommand(

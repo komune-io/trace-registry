@@ -1,4 +1,4 @@
-package city.smartb.registry.program.f2.activity.api.service
+package city.smartb.registry.program.f2.activity.api.model
 
 interface ExternalFileDTO {
     val name: String

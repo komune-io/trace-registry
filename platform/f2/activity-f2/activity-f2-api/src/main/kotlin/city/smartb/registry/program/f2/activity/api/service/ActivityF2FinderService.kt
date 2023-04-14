@@ -4,12 +4,14 @@ import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
 import cccev.f2.request.domain.query.RequestGetQueryDTOBase
-import cccev.f2.requirement.domain.model.RequirementDTO
+import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
-import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeResultDTOBase
-import cccev.s2.concept.domain.InformationConceptId
+import cccev.s2.request.domain.model.Request
 import cccev.s2.request.domain.model.RequestId
+import city.smartb.registry.program.f2.activity.api.model.toActivities
+import city.smartb.registry.program.f2.activity.api.model.toActivity
+import city.smartb.registry.program.f2.activity.api.model.toStep
 import city.smartb.registry.program.f2.activity.domain.model.Activity
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
@@ -27,80 +29,53 @@ class ActivityF2FinderService(
     private val cccevClient: CCCEVClient,
     private val projectFinderService: ProjectFinderService
 ) {
-    suspend fun activityPage(
-        offset: OffsetPagination? = null,
-        projectId: String
+    suspend fun get(
+        identifier: ActivityIdentifier,
+        requestId: RequestId?,
+    ): Activity? {
+        return RequirementGetByIdentifierQueryDTOBase(identifier)
+            .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
+            .item
+            ?.toActivity(requestId)
+    }
+
+    suspend fun page(
+        projectId: String,
+        offset: OffsetPagination? = null
     ): ActivityPageResult {
         val project = projectFinderService.get(projectId)
-        val requirements: RequirementListChildrenByTypeResultDTOBase? = project.activities?.let { identifiers ->
+        val requirements = project.activities?.let { identifiers ->
             RequirementListChildrenByTypeQueryDTOBase(
                 identifiers = identifiers,
                 type = "Activity"
             ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
-        }
+        }?.items
 
-        val activities = requirements?.items?.mapActivities(project.request!!.id) ?: emptyList()
+        val activities = requirements?.toActivities(project.request!!.id) ?: emptyList()
 
         return ActivityPageResult(
             items = activities,
-            total = requirements?.items?.size ?: 0
+            total = requirements?.size ?: 0
         )
     }
-    suspend fun activityGet(
-        activityIdentifier: ActivityIdentifier,
-        requestId: RequestId?,
-    ): Activity? {
-        return RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
-            .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier()).item?.mapActivity(requestId = requestId)
-    }
-    suspend fun stepGet(
-        activityStepIdentifier: ActivityStepIdentifier,
+
+    suspend fun getStep(
+        identifier: ActivityStepIdentifier,
         requestId: RequestId,
     ): ActivityStep? {
-        val value = getSupportedValues(requestId)[activityStepIdentifier]
-
-        return InformationConceptGetByIdentifierQueryDTOBase(activityStepIdentifier)
-            .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier()).item?.mapStep(value)
+        return InformationConceptGetByIdentifierQueryDTOBase(identifier)
+            .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
+            .item
+            ?.toStep(requestId)
     }
 
-    private suspend fun getSupportedValues(
-        requestId: RequestId,
-    ): Map<InformationConceptId, String?> {
-        val request = cccevClient.requestClient.requestGet().invoke(RequestGetQueryDTOBase(requestId))
-        return request.item?.supportedValues ?: emptyMap()
+    private suspend fun getRequest(id: RequestId): Request? {
+        return cccevClient.requestClient.requestGet()
+            .invoke(RequestGetQueryDTOBase(id))
+            .item
     }
 
-    fun List<RequirementDTO>.mapActivities(requestId: RequestId?): List<Activity> = mapNotNull  { it.mapActivity(requestId = requestId) }
-    fun RequirementDTO.mapActivity(visited: MutableSet<RequirementDTO> = mutableSetOf(), requestId: RequestId?): Activity? {
-        if (visited.contains(this)) {
-            return null
-        }
-        visited.add(this)
-        return Activity(
-            identifier = identifier ?: "",
-            requestId = requestId,
-            name = name,
-            description = description,
-            type = type,
-            hasQualifiedRelation = emptyArray(),
-            hasRequirement = hasRequirement.mapActivities(requestId).toTypedArray(),
-            progression = (0..100).random().toDouble(),
-        )
-    }
-    fun InformationConceptDTOBase.mapStep(value: String?): ActivityStep {
-        return ActivityStep(
-            id = id,
-            identifier = identifier ?: "",
-            name = name,
-            description = description,
-            value = value,
-            file = null,
-            completed = listOf(false, true).random(),
-            hasConcept = this
-        )
-    }
-
-    suspend fun stepPage(
+    suspend fun pageSteps(
         offset: OffsetPagination? = null,
         requestId: RequestId,
         activityIdentifier: ActivityIdentifier
@@ -108,11 +83,7 @@ class ActivityF2FinderService(
         val requirement = RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
 
-        val values = getSupportedValues(requestId)
-
-        val steps = requirement.item?.hasConcept?.map {
-            it.mapStep(values[it.id])
-        } ?: emptyList()
+        val steps = requirement.item?.hasConcept?.toSteps(requestId) ?: emptyList()
 
         return ActivityStepPageResult(
             items = steps,
@@ -120,4 +91,22 @@ class ActivityF2FinderService(
         )
     }
 
+    private suspend fun Collection<RequirementDTOBase>.toActivities(requestId: RequestId?): List<Activity> {
+        val request = requestId?.let { getRequest(it) }
+        return toActivities(request)
+    }
+    private suspend fun RequirementDTOBase.toActivity(requestId: RequestId?): Activity {
+        val request = requestId?.let { getRequest(it) }
+        return toActivity(request)
+    }
+
+    private suspend fun Collection<InformationConceptDTOBase>.toSteps(requestId: RequestId): List<ActivityStep> {
+        val values = getRequest(requestId)?.supportedValues
+        return map { concept -> concept.toStep(values?.get(concept.id)) }
+    }
+
+    private suspend fun InformationConceptDTOBase.toStepInRequest(requestId: RequestId): ActivityStep {
+        val value = getRequest(requestId)?.supportedValues?.get(id)
+        return toStep(value)
+    }
 }
