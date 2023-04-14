@@ -8,16 +8,15 @@ import kotlin.js.JsName
 
 /**
  * Get page of activity
- *
  * @d2 function
- * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivitySectionApi]
- * @child [ActivityStepPageQueryDTO]
- * @child [ActivityStepPageResultDTO]
+ * @parent [city.smartb.registry.program.f2.activity.domain.D2ActivityF2Page]
+ * @order 100
  */
 typealias ActivityStepPageFunction = F2Function<ActivityStepPageQuery, ActivityStepPageResult>
 
 /**
  * @d2 query
+ * @parent [ActivityStepPageFunction]
  */
 @JsExport
 @JsName("ActivityStepPageQueryDTO")
@@ -45,8 +44,8 @@ data class ActivityStepPageQuery(
 ): ActivityStepPageQueryDTO
 
 /**
- * Result of the query to get a page of activities.
  * @d2 event
+ * @parent [ActivityStepPageFunction]
  */
 @JsExport
 @JsName("ActivityStepPageResultDTO")

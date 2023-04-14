@@ -7,8 +7,10 @@ import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunct
 interface ProjectCommandApi {
     /** Create a project */
     fun projectCreate(): ProjectCreateFunction
+
     /** Update a project */
     fun projectUpdate(): ProjectUpdateFunction
+
     /** Delete a project */
     fun projectDelete(): ProjectDeleteFunction
 }

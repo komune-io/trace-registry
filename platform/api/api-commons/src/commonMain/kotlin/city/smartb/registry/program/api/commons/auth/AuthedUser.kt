@@ -4,18 +4,14 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Identifier of an organization
- * @d2 model
+ * @d2 hidden
  * @visual json "c790642c-4ed2-4cfc-bc45-905a39006e99"
- * @parent [city.smartb.registry.program.api.commons.D2SectionModel]
  */
 typealias OrganizationId = city.smartb.im.organization.domain.model.OrganizationId
 
 /**
- * Identifier of a user
- * @d2 model
+ * @d2 hidden
  * @visual json "ad4adcc1-2633-4f2b-8b66-aaca39f45146"
- * @parent [city.smartb.registry.program.api.commons.D2SectionModel]
  */
 typealias UserId = city.smartb.im.user.domain.model.UserId
 

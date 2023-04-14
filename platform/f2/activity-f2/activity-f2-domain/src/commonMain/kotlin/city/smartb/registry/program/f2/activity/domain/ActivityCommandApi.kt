@@ -1,20 +1,14 @@
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
+
 interface ActivityCommandApi {
-    /**
-     * Create an Activity
-     */
+    /** Create an activity */
     fun activityCreate(): ActivityCreateFunction
 
-    /**
-     * Create an Activity task
-     */
+    /** Create an activity step */
     fun activityStepCreate(): ActivityStepCreateFunction
 
-    /**
-     * Update Activity
-     */
+    /** Fulfill an activity step */
     fun activityFulfillTask(): ActivityStepFulfillFunction
-////    fun activityDelete(): ActivityDeleteFunction
 }

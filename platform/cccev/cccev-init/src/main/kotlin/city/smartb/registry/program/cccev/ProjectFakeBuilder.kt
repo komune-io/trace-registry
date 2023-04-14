@@ -2,7 +2,7 @@ package city.smartb.registry.program.cccev
 
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.f2.activity.client.activityClient
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommand
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
 import city.smartb.registry.program.f2.project.client.projectClient
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
@@ -67,7 +67,7 @@ fun createYahuma(url: String): Unit = runBlocking {
     println(project.request?.id)
     println("////////////////////////////////////")
     project.request?.let { request ->
-        val fulfilledEvent = ActivityStepFulfillCommand(
+        val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
             requestId = request.id,
             identifier = "B101",
             value = "Yahuma Sud"
@@ -97,7 +97,7 @@ fun createRandom(url: String, countRange: IntRange): Unit = runBlocking {
 
     projects.forEach { project ->
         project.request?.let { request ->
-            val fulfilledEvent = ActivityStepFulfillCommand(
+            val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
                 requestId = request.id,
                 identifier = "B101",
                 value = "Yahuma Sud"

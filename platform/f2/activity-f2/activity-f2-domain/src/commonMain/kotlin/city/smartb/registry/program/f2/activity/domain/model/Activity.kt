@@ -2,37 +2,27 @@ package city.smartb.registry.program.f2.activity.domain.model
 
 import cccev.dsl.model.Code
 import cccev.s2.request.domain.model.RequestId
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
-
+import kotlin.js.JsExport
 
 /**
- * [{
- * 		"identifier": "P0",
- * 		"name": "P0 - LOI",
- * 		"hasQualifiedRelation": ["P1"]
- * 	},
- * 	{
- * 		"identifier": "P1",
- * 		"name": "P1 - Eligibility",
- * 		"hasRequirement": ["R1", "R2"]
- * 	},
- * 	{
- * 		"identifier": "R1",
- * 		"name": "Survey of eligibility",
- * 		"hasQualifiedRelation": ["R1"]
- * 	},
- * 	{
- * 		"identifier": "R2",
- * 		"name": "Identification"
- * 	}, {
- * 		"identifier": "P2",
- * 		"hasRequirement": ["R1"]
- * 	}]
+ * @d2 hidden
+ * @visual json "145f687e-8791-4595-a0f8-7a0824d39190"
  */
 typealias ActivityId = String
+
+/**
+ * @d2 hidden
+ * @visual json "A666"
+ */
 typealias ActivityIdentifier = String
-typealias ActivityStepIdentifier = String
+
+/**
+ * TODO describe all properties with examples
+ * @d2 model
+ * @parent [city.smartb.registry.program.f2.activity.domain.D2ActivityF2Page]
+ * @order 10
+ */
 @JsExport
 interface ActivityDTO {
     val identifier: ActivityIdentifier
@@ -41,6 +31,10 @@ interface ActivityDTO {
     val type: String?
     val description: String?
     val hasQualifiedRelation: Array<ActivityIdentifier>
+
+    /**
+     * @example [[]]
+     */
     val hasRequirement: Array<out ActivityDTO>
     val progression: Double
 }

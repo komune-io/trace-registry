@@ -2,7 +2,7 @@ package city.smartb.registry.program.ver.test.f2.activity.command
 
 import city.smartb.registry.program.f2.activity.api.ActivityEndpoint
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
-import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
+import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommandDTOBase
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -27,7 +27,7 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
 //    @Autowired
 //    private lateinit var activityRepository: ActivityRepository
 
-    private lateinit var command: ActivityCreateCommand
+    private lateinit var command: ActivityCreateCommandDTOBase
 
     init {
         DataTableType(::activityCreateParams)
@@ -90,7 +90,7 @@ class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumber
     }
 
     private suspend fun createActivity(params: ActivityCreateParams) = context.activityIds.register(params.identifier) {
-       command = ActivityCreateCommand(
+       command = ActivityCreateCommandDTOBase(
             identifier = "${params.identifier}_${UUID.randomUUID()}",
             name = params.name,
             description = params.description,

@@ -4,6 +4,6 @@ import ActivityCommandApi
 
 /**
  * @d2 api
- * @parent [city.smartb.registry.program.s2.activity.domain.D2ActivitySectionApi]
+ * @parent [D2ActivityF2Page]
  */
 interface ActivityApi: ActivityCommandApi, ActivityQueryApi

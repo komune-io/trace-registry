@@ -8,11 +8,11 @@ import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderServ
 import city.smartb.registry.program.f2.activity.api.service.ActivityPoliciesEnforcer
 import city.smartb.registry.program.f2.activity.domain.ActivityApi
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFunction
-import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEvent
+import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateFunction
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreatedEvent
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreatedEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEvent
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFunction
 import f2.dsl.cqrs.page.OffsetPagination
@@ -72,7 +72,7 @@ class ActivityEndpoint(
     override fun activityCreate(): ActivityCreateFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkCreation()
         activityExecutorService.createActivity(cmd).let { identifier ->
-            ActivityCreatedEvent(identifier = identifier)
+            ActivityCreatedEventDTOBase(identifier = identifier)
         }
     }
 
@@ -81,7 +81,7 @@ class ActivityEndpoint(
     override fun activityStepCreate(): ActivityStepCreateFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkStepCreation()
         activityExecutorService.createActivity(cmd).let { identifier ->
-            ActivityStepCreatedEvent(identifier = identifier)
+            ActivityStepCreatedEventDTOBase(identifier = identifier)
         }
     }
 
@@ -102,7 +102,7 @@ class ActivityEndpoint(
             result.values[concept.id]
         }
 
-        ActivityStepFulfilledEvent(
+        ActivityStepFulfilledEventDTOBase(
             identifier = cmd.identifier,
             value = value,
             file = null,

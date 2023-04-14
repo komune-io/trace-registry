@@ -4,14 +4,9 @@ import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunctio
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFunction
 
 interface ActivityQueryApi {
-
-    /**
-     * Get a page of activity
-     */
+    /** Get a page of activity */
     fun activityPage(): ActivityPageFunction
 
-    /**
-     * Get a page of activity step
-     */
+    /** Get a page of activity step */
     fun activityStepPage(): ActivityStepPageFunction
 }

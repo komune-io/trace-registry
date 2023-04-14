@@ -3,8 +3,8 @@ package city.smartb.registry.program.f2.activity.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.informationRequirement
 import cccev.s2.request.domain.command.RequestCreateCommand
-import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommand
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommand
+import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommandDTOBase
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 import f2.dsl.fnc.invokeWith
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service
 class ActivityF2ExecutorService(
     private val cccevClient: CCCEVClient
 ) {
-    suspend fun createActivity(cmd: ActivityCreateCommand): ActivityIdentifier = coroutineScope {
+    suspend fun createActivity(cmd: ActivityCreateCommandDTOBase): ActivityIdentifier = coroutineScope {
         buildList {
             add(
                 async { createActivity(cmd.identifier, cmd.name, cmd.description, RequirementType.Activity) }
@@ -37,7 +37,7 @@ class ActivityF2ExecutorService(
         }.awaitAll()
         cmd.identifier
     }
-    suspend fun createActivity(cmd: ActivityStepCreateCommand): ActivityIdentifier = coroutineScope {
+    suspend fun createActivity(cmd: ActivityStepCreateCommandDTOBase): ActivityIdentifier = coroutineScope {
         createActivity(cmd.identifier, cmd.name, cmd.description, RequirementType.Activity)
     }
 

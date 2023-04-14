@@ -81,8 +81,6 @@ class ProjectEndpoint(
         projectAggregateService.create(command)
     }
 
-
-
     @PermitAll
     @Bean
     override fun projectUpdate(): ProjectUpdateFunction = f2Function { command ->
@@ -95,5 +93,4 @@ class ProjectEndpoint(
         projectPoliciesEnforcer.checkDelete(command.id)
         projectAggregateService.delete(command)
     }
-
 }

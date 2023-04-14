@@ -7,21 +7,39 @@ import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
-
-
-typealias ActivityStepFulfillFunction = F2Function<ActivityStepFulfillCommand, ActivityStepFulfilledEvent>
 
 /**
- * @d2 query
+ * Fulfill an activity step by providing a value.
+ * @d2 function
+ * @parent [city.smartb.registry.program.f2.activity.domain.D2ActivityF2Page]
+ * @order 110
+ */
+typealias ActivityStepFulfillFunction = F2Function<ActivityStepFulfillCommandDTOBase, ActivityStepFulfilledEventDTOBase>
+
+/**
+ * @d2 command
+ * @parent [ActivityStepFulfillFunction]
  */
 @JsExport
 @JsName("ActivityStepFulfillCommandDTO")
 interface ActivityStepFulfillCommandDTO {
-    val requestId: String
-    val identifier: ActivityIdentifier
+    /**
+     * Id of the request containing the activities to fulfill.
+     */
+    val requestId: RequestId
+
+    /**
+     * Identifier of the activity step to fulfill.
+     */
+    val identifier: ActivityStepIdentifier
+
+    /**
+     * Value provided for the activity step.
+     * @example "blblbl"
+     */
     val value: String?
 }
 
@@ -29,21 +47,34 @@ interface ActivityStepFulfillCommandDTO {
  * @d2 inherit
  */
 @Serializable
-data class ActivityStepFulfillCommand(
+data class ActivityStepFulfillCommandDTOBase(
     override val requestId: RequestId,
     override val identifier: ActivityStepIdentifier,
     override val value: String?,
 ): ActivityStepFulfillCommandDTO
 
 /**
- * Result of the query to get a page of activities.
  * @d2 event
+ * @parent [ActivityStepFulfillFunction]
  */
 @JsExport
 @JsName("ActivityStepFulfilledEventDTO")
 interface ActivityStepFulfilledEventDTO: Event {
-    val identifier: ActivityIdentifier
+    /**
+     * Identifier of the fulfilled activity step.
+     */
+    val identifier: ActivityStepIdentifier
+
+    /**
+     * Value provided for the activity step.
+     * @example [ActivityStepFulfillCommandDTO.value]
+     */
     val value: String?
+
+    /**
+     * Path to the file provided as evidence to support the given value.
+     * @example null
+     */
     val file: FilePathDTO?
 }
 
@@ -51,7 +82,7 @@ interface ActivityStepFulfilledEventDTO: Event {
  * @d2 inherit
  */
 @Serializable
-data class ActivityStepFulfilledEvent(
+data class ActivityStepFulfilledEventDTOBase(
     override val identifier: ActivityIdentifier,
     override val value: String?,
     override val file: FilePath?

@@ -58,8 +58,8 @@ data class ProjectPageQuery(
 ): ProjectPageQueryDTO
 
 /**
- * Result of the query to get a page of projects.
  * @d2 event
+ * @parent [ProjectPageFunction]
  */
 @JsExport
 @JsName("ProjectPageResultDTO")
