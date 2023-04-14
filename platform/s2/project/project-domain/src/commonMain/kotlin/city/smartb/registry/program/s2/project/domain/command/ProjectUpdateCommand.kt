@@ -9,9 +9,9 @@ import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Update project payload
@@ -30,7 +30,7 @@ data class ProjectUpdateCommand(
     override var estimatedReduction: String?,
     override var localization: String?,
     override var proponent: OrganizationRef?,
-    override var type: String?,
+    override var type: Int?,
     override var referenceYear: String?,
     override var registrationDate: DateTime?,
     override var slug: String?,
@@ -74,7 +74,7 @@ data class ProjectUpdatedEvent(
     override var estimatedReduction: String? = null,
     override var localization: String? = null,
     override var proponent: OrganizationRef? = null,
-    override var type: String? = null,
+    override var type: Int? = null,
     override var referenceYear: String? = null,
     override var registrationDate: DateTime? = null,
     override var slug: String? = null,

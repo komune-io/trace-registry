@@ -24,7 +24,7 @@ class ProjectPageQueryDB(
         identifier: Match<ProjectId>? = null,
         name: Match<String>? = null,
         proponent: Match<String>? = null,
-        type: Match<String>? = null,
+        type: Match<Int>? = null,
         origin: Match<String>? = null,
         estimatedReductions: Match<String>? = null,
         referenceYear: Match<String>? = null,

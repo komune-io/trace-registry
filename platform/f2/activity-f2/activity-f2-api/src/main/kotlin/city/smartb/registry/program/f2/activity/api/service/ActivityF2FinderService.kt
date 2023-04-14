@@ -110,7 +110,7 @@ class ActivityF2FinderService(
 
         val values = getSupportedValues(requestId)
 
-        val steps =  requirement.item?.hasConcept?.map {
+        val steps = requirement.item?.hasConcept?.map {
             it.mapStep(values[it.id])
         } ?: emptyList()
 

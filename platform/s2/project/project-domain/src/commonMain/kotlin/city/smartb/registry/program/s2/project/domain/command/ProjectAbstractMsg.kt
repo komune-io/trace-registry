@@ -18,7 +18,7 @@ interface ProjectAbstractMsg {
     var estimatedReduction: String?
     var localization: String?
     var proponent: OrganizationRef?
-    var type: String?
+    var type: Int?
     var referenceYear: String?
     var registrationDate: DateTime?
     var slug: String?

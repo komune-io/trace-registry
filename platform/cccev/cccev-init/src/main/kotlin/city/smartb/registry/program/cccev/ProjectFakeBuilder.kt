@@ -8,14 +8,6 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectCreateComma
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import f2.dsl.fnc.invokeWith
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneOffset
-import java.time.chrono.IsoChronology
-import java.time.format.DateTimeFormatter
-import java.time.format.DecimalStyle
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.asFlow
@@ -27,6 +19,13 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 import net.datafaker.providers.base.Address
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
+import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.util.concurrent.TimeUnit
 
 class ProjectFakeBuilder(url: String) {
     val faker = Faker()
@@ -129,7 +128,7 @@ private fun randomProject(
         id = faker.idNumber().valid(),
         name = faker.company().name()
     ),
-    type = types.random(),
+    type = (1..25).random(),
     referenceYear = years.random().toString(),
     registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
     vintage = years.random().let { listOf(it, it + 1) }.joinToString(", "),
@@ -178,7 +177,7 @@ private fun yahuma(): ProjectCreateCommand {
             id = "",
             name = "Certi Congo"
         ),
-        type = "Agriculture Forestry and Other Land Use",
+        type = 1,
         referenceYear = null,
         registrationDate = null,
         vintage = null,

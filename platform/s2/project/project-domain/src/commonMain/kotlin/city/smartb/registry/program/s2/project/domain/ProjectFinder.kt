@@ -14,7 +14,7 @@ interface ProjectFinder {
         id: Match<ProjectId>? = null,
         name: Match<String>? = null,
         proponent: Match<String>?,
-        type: Match<String>?,
+        type: Match<Int>?,
         estimatedReductions: Match<String>?,
         referenceYear: Match<String>?,
         dueDate: Match<Long>?,

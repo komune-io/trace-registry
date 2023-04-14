@@ -55,8 +55,8 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Indexed
     var proponent: OrganizationRefEntity? = null
 
-    @Searchable(nostem=true)
-    var type: String? = null
+    @Indexed
+    var type: Int? = null
 
     @Searchable(nostem=true)
     var referenceYear: String? = null

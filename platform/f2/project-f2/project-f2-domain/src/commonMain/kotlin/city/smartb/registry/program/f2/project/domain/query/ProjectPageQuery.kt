@@ -4,9 +4,9 @@ import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.OffsetPaginationDTO
 import f2.dsl.cqrs.page.PageQueryResultDTO
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get page of project
@@ -29,7 +29,7 @@ interface ProjectPageQueryDTO {
     val identifier: String?
     val name: String?
     val proponent: String?
-    val type: String?
+    val type: Int?
     val estimatedReductions: String?
     val referenceYear: String?
     val vintage: String?
@@ -47,7 +47,7 @@ data class ProjectPageQuery(
     override val identifier: String?,
     override val name: String?,
     override val proponent: String?,
-    override val type: String?,
+    override val type: Int?,
     override val vintage: String?,
     override val origin: String?,
     override val estimatedReductions: String?,

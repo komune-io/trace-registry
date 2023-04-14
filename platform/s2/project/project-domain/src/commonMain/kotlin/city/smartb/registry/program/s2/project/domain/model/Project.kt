@@ -4,10 +4,10 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.RequestRef
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import kotlin.js.JsExport
 
 
 /**
@@ -93,10 +93,10 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val proponent: OrganizationRef?
 
     /**
-     * List of project types
-     * @example "type1,type2,type3"
+     * Identifier of the type of the project
+     * @example 4
      */
-    val type: String?
+    val type: Int?
 
     /**
      * The reference year of the project
@@ -188,7 +188,7 @@ data class Project(
     override val localization: String?,
     override val name: String?,
     override val proponent: OrganizationRef?,
-    override val type: String?,
+    override val type: Int?,
     override val referenceYear: String?,
     override val registrationDate: DateTime?,
     override val vintage: String?,

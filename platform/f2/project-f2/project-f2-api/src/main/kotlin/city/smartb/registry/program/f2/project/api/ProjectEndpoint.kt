@@ -18,12 +18,12 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import javax.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
+import javax.annotation.security.PermitAll
 
 @RestController
 @RequestMapping
@@ -60,7 +60,7 @@ class ProjectEndpoint(
             proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
-            type = query.type?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            type = query.type?.let(::ExactMatch),
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination
