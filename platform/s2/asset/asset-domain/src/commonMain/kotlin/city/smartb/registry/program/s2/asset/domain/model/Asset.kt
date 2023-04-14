@@ -4,10 +4,8 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetState
 import s2.dsl.automate.model.WithS2State
 
 /**
- * Unique id of the asset.
+ * @d2 hidden
  * @visual json "1669154596778x977338172286597000"
- * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetSectionModel]
- * @d2 model
  */
 typealias AssetId = String
 
@@ -17,11 +15,10 @@ typealias AssetId = String
  * For CO2, it is the amount of one (1) metric tonne of CO2 equivalent that has been verified
  * by a validation/verification body in accordance with a protocol rules. Recordation of an asset in the account
  * of the holder at the SmartB Registry is prima facie evidence of that holder’s entitlement to that asset.
- *
- *
- * @title Asset
- * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetSectionModel]
  * @d2 model
+ * @title Asset
+ * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetPage]
+ * @order 10
  */
 interface AssetDTO: WithS2State<AssetState> {
     val id: AssetId

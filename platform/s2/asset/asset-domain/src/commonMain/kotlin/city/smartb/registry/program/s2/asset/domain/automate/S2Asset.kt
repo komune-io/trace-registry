@@ -2,8 +2,6 @@ package city.smartb.registry.program.s2.asset.domain.automate
 
 import city.smartb.registry.program.s2.asset.domain.command.AssetUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.model.AssetId
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
@@ -12,6 +10,8 @@ import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 val s2Asset = s2 {
 	name = "Asset"
@@ -34,6 +34,14 @@ val s2Asset = s2 {
 	}
 }
 
+/**
+ * TODO doc each states
+ * @d2 model
+ * @parent [city.smartb.registry.program.s2.asset.domain.D2AssetPage]
+ * @visual automate platform/api/api-init/build/s2-documenter/Asset.json
+ * @order 1
+ * @title States
+ */
 @Serializable
 enum class AssetState(override val position: Int): S2State {
 	ISSUED(0),
