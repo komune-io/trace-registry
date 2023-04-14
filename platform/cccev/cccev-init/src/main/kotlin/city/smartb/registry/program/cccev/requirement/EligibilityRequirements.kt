@@ -1,5 +1,6 @@
 package city.smartb.registry.program.cccev.requirement
 
+import cccev.dsl.model.XSDString
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
@@ -21,6 +22,7 @@ fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =
 private fun eligibilityStepSingle(init: InformationConceptBuilder.() -> Unit) =
     InformationConceptBuilder().apply {
         type = RequirementType.Step
+        unit = XSDString
     }.apply(init).build()
 
 fun InformationConceptListBuilder.eligibilityStep(init: InformationConceptBuilder.() -> Unit) = +eligibilityStepSingle(init)

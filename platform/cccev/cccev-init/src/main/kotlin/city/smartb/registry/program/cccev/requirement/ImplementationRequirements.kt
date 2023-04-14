@@ -1,5 +1,6 @@
 package city.smartb.registry.program.cccev.requirement
 
+import cccev.dsl.model.XSDString
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
@@ -10,6 +11,7 @@ import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 fun InformationConceptListBuilder.implementationStep(init: InformationConceptBuilder.() -> Unit) =
     +InformationConceptBuilder().apply {
         type = RequirementType.Step
+        unit = XSDString
     }.apply(init).build()
 
 fun implementationActivity(init: InformationRequirementBuilder.() -> Unit) =
