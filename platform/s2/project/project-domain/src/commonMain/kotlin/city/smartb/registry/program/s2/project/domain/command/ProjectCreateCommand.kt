@@ -14,9 +14,24 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Update project payload
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
+ * Create a project
+ * @d2 function
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
+ * @order 10
+ * @visual none
+ */
+interface D2ProjectCreateFunction
+
+/**
  * @d2 command
+ */
+@JsExport
+@JsName("ProjectCreateCommandDTO")
+interface ProjectCreateCommandDTO: ProjectAbstractMsg
+
+/**
+ * @d2 command
+ * @parent [D2ProjectCreateFunction]
  */
 @Serializable
 data class ProjectCreateCommand(
@@ -41,24 +56,23 @@ data class ProjectCreateCommand(
     override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?
-): ProjectInitCommand, ProjectAbstractMsg
+): ProjectInitCommand, ProjectCreateCommandDTO
 
 /**
- * Update project response
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 event
  */
 @JsExport
 @JsName("ProjectCreatedEventDTO")
 interface ProjectCreatedEventDTO: ProjectEvent, ProjectAbstractMsg  {
     /**
-     * Identifier of the updated project.
+     * Identifier of the created project.
      */
     override val id: ProjectId
 }
 
 /**
- * @d2 inherit
+ * @d2 event
+ * @parent [D2ProjectCreateFunction]
  */
 @Serializable
 data class ProjectCreatedEvent(
@@ -85,8 +99,7 @@ data class ProjectCreatedEvent(
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
     var request: RequestRef? = null,
-
-    ): ProjectCreatedEventDTO {
+): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }
 

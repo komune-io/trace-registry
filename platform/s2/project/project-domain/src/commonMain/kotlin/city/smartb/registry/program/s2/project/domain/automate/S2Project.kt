@@ -7,8 +7,6 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEven
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
@@ -18,6 +16,8 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2Sourcing
 import s2.dsl.automate.model.WithS2Id
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 val s2Project = s2Sourcing {
 	name = "ProjectS2"
@@ -39,7 +39,9 @@ val s2Project = s2Sourcing {
 /**
  * @d2 model
  * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
- * @visual automate ./platform/s2/project/project-domain/build/s2-documenter/Project.json
+ * @visual automate platform/s2/project/project-domain/build/s2-documenter/ProjectS2.json
+ * @order 1
+ * @title States
  */
 @Serializable
 enum class ProjectState(override val position: Int): S2State {

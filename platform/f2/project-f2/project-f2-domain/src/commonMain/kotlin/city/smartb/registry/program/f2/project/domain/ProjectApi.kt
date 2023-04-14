@@ -2,6 +2,6 @@ package city.smartb.registry.program.f2.project.domain
 
 /**
  * @d2 api
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
+ * @parent [D2ProjectF2Page]
  */
 interface ProjectApi: ProjectCommandApi, ProjectQueryApi

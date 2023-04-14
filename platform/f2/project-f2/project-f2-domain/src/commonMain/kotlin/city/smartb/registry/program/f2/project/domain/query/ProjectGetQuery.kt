@@ -8,11 +8,10 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Get Project By id
+ * Get project by id
  * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
- * @child [ProjectGetQuery]
- * @child [ProjectGetResult]
+ * @parent [city.smartb.registry.program.f2.project.domain.D2ProjectF2Page]
+ * @order 10
  */
 typealias ProjectGetFunction = F2Function<ProjectGetQuery, ProjectGetResult>
 
@@ -23,17 +22,10 @@ typealias ProjectGetFunction = F2Function<ProjectGetQuery, ProjectGetResult>
 @JsExport
 @JsName("ProjectGetQueryDTO")
 interface ProjectGetQueryDTO {
+    /**
+     * Id of the project to get.
+     */
     val id: ProjectId
-}
-
-/**
- * @d2 event
- * @parent [ProjectGetFunction]
- */
-@JsExport
-@JsName("ProjectGetResultDTO")
-interface ProjectGetResultDTO {
-    val item: ProjectDTO?
 }
 
 /**
@@ -42,6 +34,19 @@ interface ProjectGetResultDTO {
 data class ProjectGetQuery(
     override val id: ProjectId
 ): ProjectGetQueryDTO
+
+/**
+ * @d2 event
+ * @parent [ProjectGetFunction]
+ */
+@JsExport
+@JsName("ProjectGetResultDTO")
+interface ProjectGetResultDTO {
+    /**
+     * Project retrieved from the given id, or null if it doesn't exist.
+     */
+    val item: ProjectDTO?
+}
 
 /**
  * @d2 inherit

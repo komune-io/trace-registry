@@ -14,9 +14,24 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Update project payload
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
+ * Update a project
+ * @d2 function
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
+ * @order 20
+ * @visual none
+ */
+interface D2ProjectUpdateFunction
+
+/**
  * @d2 command
+ */
+@JsExport
+@JsName("ProjectUpdateCommandDTO")
+interface ProjectUpdateCommandDTO: ProjectAbstractMsg
+
+/**
+ * @d2 command
+ * @parent [D2ProjectUpdateFunction]
  */
 data class ProjectUpdateCommand(
     override val id: ProjectId,
@@ -41,12 +56,11 @@ data class ProjectUpdateCommand(
     override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?,
-): ProjectCommand, ProjectAbstractMsg
+): ProjectCommand, ProjectUpdateCommandDTO
 
 /**
- * Update project response
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
  * @d2 event
+ * @parent [D2ProjectUpdateFunction]
  */
 @JsExport
 @JsName("ProjectUpdatedEventDTO")

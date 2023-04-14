@@ -9,17 +9,16 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Get page of project
- *
+ * Get page of projects
  * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionApi]
- * @child [ProjectPageQueryDTO]
- * @child [ProjectPageResultDTO]
+ * @parent [city.smartb.registry.program.f2.project.domain.D2ProjectF2Page]
+ * @order 20
  */
 typealias ProjectPageFunction = F2Function<ProjectPageQuery, ProjectPageResult>
 
 /**
  * @d2 query
+ * @parent [ProjectPageFunction]
  */
 @JsExport
 @JsName("ProjectPageQueryDTO")
@@ -40,6 +39,7 @@ interface ProjectPageQueryDTO {
 
 /**
  * @d2 inherit
+ * @parent [ProjectPageFunction]
  */
 data class ProjectPageQuery(
     override val limit: Int?,

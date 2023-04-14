@@ -8,28 +8,25 @@ import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsExport
+import kotlin.js.JsName
 
 
 /**
- * Unique id of the project.
+ * Unique id of a project.
+ * @d2 hidden
  * @visual json "1669154596778x977338172286597000"
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionModel]
- * @d2 model
  */
 typealias ProjectId = String
 typealias ProjectIdentifier = String
 typealias ActivityIdentifier = String
 typealias SdgNumber = Int
 
-/**
- *
- *
- * @title Project
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectSectionModel]
- * @d2 model
- */
 @JsExport
+@JsName("ProjectDTO")
 interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
+    /**
+     * Unique id of the project.
+     */
     val id: ProjectId
 
     /**
@@ -167,13 +164,15 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val lastModificationDate: DateTime?
 
     /**
-     * List of SDGs linked to
+     * List of SDGs the project is linked to.
+     * @example [[2, 5, 6]]
      */
     val sdgs: List<SdgNumber>?
 }
 
 /**
- * @d2 inherit
+ * @d2 model
+ * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
  */
 @Serializable
 data class Project(
