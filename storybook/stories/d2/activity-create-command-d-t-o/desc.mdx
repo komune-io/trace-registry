@@ -1,13 +1,17 @@
 
 
 
-# Query
+### Command
 
 Type: `ActivityCreateCommandDTO`
 
 ---
 
 ***identifier*** `String`
+
+Custom identifier of the new activity.
+
+
 
 ---
 
@@ -19,8 +23,16 @@ Type: `ActivityCreateCommandDTO`
 
 ---
 
-***hasActivity*** [`Array<out ActivityCreateCommandDTO>?`](#query)
+***hasActivity*** [`Array<out ActivityCreateCommandDTO>?`](#command)
+
+Sub-activities of the activity.
+
+
 
 ---
 
-***hasStep*** [`Array<out ActivityStepCreateCommandDTO>?`](/docs/query--page#query)
+***hasStep*** [`Array<out ActivityStepCreateCommandDTO>?`](#command)
+
+Steps to fulfill in order for the activity to be completed.
+
+

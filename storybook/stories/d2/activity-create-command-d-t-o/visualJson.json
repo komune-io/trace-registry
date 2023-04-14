@@ -1,4 +1,7 @@
 {
+  "identifier" : "A666",
   "hasActivity" : [ [ ] ],
-  "hasStep" : [ { } ]
+  "hasStep" : [ {
+    "identifier" : "S42"
+  } ]
 }

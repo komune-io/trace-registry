@@ -1,0 +1,22 @@
+import ActivityStepDTODesc from './desc.mdx'
+import ActivityStepDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<ActivityStepDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ActivityStepDTOVisualJson}
+      language={"json"}
+      title={"ActivityStepDTO"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+
