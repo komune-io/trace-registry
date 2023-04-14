@@ -20,11 +20,35 @@ interface NodesAnEdgesOfActivities {
     edges: Edge[]
 }
 
+export const getActivitiesOfDinasty = (activities: Activity[], dinasty?: string[]) => {
+    if (!dinasty || dinasty.length === 0) return {
+        ancestors: undefined,
+        activities,
+        fixedDynasty: undefined
+    }
+    let ancestors: Activity[] = []
+    for (let i = 0; i < dinasty.length; i++) {
+        const activity = activities.find((el) => el.identifier === dinasty[i])
+        if (!activity) {
+            return {
+                ancestors,
+                activities: ancestors[ancestors.length - 1]?.hasRequirement ?? activities,
+                fixedDynasty: dinasty.slice(0, i)
+            }
+        }
+        ancestors.push(activity)
+    }
+    return {
+        ancestors,
+        activities: ancestors[ancestors.length - 1]?.hasRequirement ?? activities,
+        fixedDynasty: undefined
+    }
+}
 
-export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Activity[] | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
-    const nodes: Node<ActivityData>[] = toNodes(activities, ancestor, select)
-    const edges = toEdges(activities, ancestor)
-    if (ancestor) {
+export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestors: Activity[] | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
+    const nodes: Node<ActivityData>[] = toNodes(activities, ancestors ? ancestors[ancestors?.length - 1] : undefined, select)
+    const edges = toEdges(activities, ancestors)
+    if (ancestors && ancestors.length > 0) {
         // nodes.forEach((el, index) => {
         //     nodes[index] = {
         //         ...el,
@@ -41,21 +65,26 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestor: Ac
         //     type: "group",
             
         // })
-        nodes.push({
-            id: ancestor.identifier,
-            data: {
-                current: ancestor,
-                select: select,
-                hasSource: true,
-                isAncestor: true
-            },
-            position: {
-                x: -300,
-                y: (nodes.length / 2) * 120
-            },
-            type: "Activity",
-            sourcePosition: Position.Right,
+        ancestors.forEach((ancestor, index) => {
+            nodes.push({
+                id: ancestor.identifier,
+                data: {
+                    current: ancestor,
+                    select: select,
+                    hasSource: true,
+                    hasTarget: index === ancestors.length - 1,
+                    isAncestor: true
+                },
+                position: {
+                    x: -300 * (index - (ancestors.length - 2)),
+                    y: (nodes.length / 2) * 150
+                },
+                type: "Activity",
+                sourcePosition: Position.Right,
+                selectable: false
+            })
         })
+        
     }
     return  {
         nodes,
@@ -89,7 +118,7 @@ export const toNodes = (
         data: {
             current: obj,
             select: select,
-            hasSource: !!obj.hasQualifiedRelation,
+            hasSource: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0,
             hasTarget: level !== 0 || !!ancestor,
         },
         position: {
@@ -97,7 +126,7 @@ export const toNodes = (
             y: (level + 1) * yGap * (index + 1)
         },
         type: obj.type || "Activity",
-        sourcePosition: !!obj.hasQualifiedRelation ? Position.Bottom : undefined,
+        sourcePosition: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0 ? Position.Bottom : undefined,
         targetPosition: level !== 0 ? Position.Top : (ancestor ? Position.Left : undefined),
     })
     if (obj.hasQualifiedRelation) {
@@ -112,29 +141,35 @@ export const toNodes = (
     return nodes
 }
 
-export const toEdges = (activities: Activity[], obj?: Activity, parentId?: string): Edge[] => {
+export const toEdges = (activities: Activity[], ancestors?: Activity[]): Edge[] => {
     const edges: Edge[] = []
-    obj?.hasRequirement?.forEach((activity) => {
-        edges.push({
-            id: `${obj.identifier}-to-${activity.identifier}`,
-            source: obj.identifier,
-            target: activity.identifier,
+    const ancestor = ancestors ? ancestors[ancestors?.length - 1] : undefined
+    const currentActivities = ancestor ? ancestor.hasRequirement : activities
+    currentActivities.forEach((activity) => {
+        if (ancestor) {
+            edges.push({
+                id: `${ancestor.identifier}-to-${activity.identifier}`,
+                source: ancestor.identifier,
+                target: activity.identifier,
+            })
+        }
+        activity.hasQualifiedRelation.forEach((id) => {
+            edges.push({
+                id: `${activity.identifier}-to-${id}`,
+                source: activity.identifier,
+                target: id,
+            })
         })
     })
-    if (parentId && obj) {
-        edges.push({
-            id: `${parentId}-to-${obj.identifier}`,
-            source: parentId,
-            target: obj.identifier,
-        })
+    if (ancestors && ancestors.length > 1) {
+        for (let i = ancestors.length - 1; i > 0; i --) {
+            edges.push({
+                id: `${ancestors[i].identifier}-to-${ancestors[i + 1].identifier}`,
+                source: ancestors[i].identifier,
+                target: ancestors[i + 1].identifier,
+            })
+        }
     }
-    if (obj && obj.hasQualifiedRelation) {
-        obj.hasQualifiedRelation.forEach((id) => {
-            const targetedActivity = activities.find(el => el.identifier === id)
-            if (targetedActivity) {
-                edges.push(...toEdges(activities, targetedActivity, obj.identifier))
-            }
-        });
-    }
+    
     return edges
 }
