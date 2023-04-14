@@ -38,7 +38,6 @@ val s2Project = s2Sourcing {
 
 /**
  * @d2 model
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
  * @visual automate platform/s2/project/project-domain/build/s2-documenter/ProjectS2.json
  * @order 1
  * @title States

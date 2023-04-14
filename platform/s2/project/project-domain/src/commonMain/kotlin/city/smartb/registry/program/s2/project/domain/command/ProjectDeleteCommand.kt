@@ -9,8 +9,6 @@ import kotlin.js.JsName
 
 /**
  * Delete a project
- * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
  * @order 30
  * @visual none
  */

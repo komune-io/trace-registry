@@ -172,7 +172,6 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
 
 /**
  * @d2 model
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
  */
 @Serializable
 data class Project(

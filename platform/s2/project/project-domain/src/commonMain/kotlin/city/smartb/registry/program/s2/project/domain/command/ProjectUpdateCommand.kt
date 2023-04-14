@@ -15,8 +15,6 @@ import kotlin.js.JsName
 
 /**
  * Update a project
- * @d2 function
- * @parent [city.smartb.registry.program.s2.project.domain.D2ProjectPage]
  * @order 20
  * @visual none
  */

@@ -6,5 +6,8 @@ package city.smartb.registry.program.f2.project.domain
  * VERs projects can be implemented in various sectors, including energy, transportation, agriculture, forestry, and waste management. Examples of VERs projects include renewable energy projects, energy efficiency upgrades, and reforestation efforts. The reductions from a VERs project are verified, monitored, and verified to ensure that they are real, additional, and permanent, and are then sold as offsets to organizations looking to offset their own emissions. VERs projects can provide companies and individuals with a means of reducing their carbon footprint, while also supporting low-carbon and sustainable development initiatives.
  * @d2 page
  * @title API/Project
+ * @child [city.smartb.registry.program.s2.project.domain.automate.ProjectState]
+ * @child [city.smartb.registry.program.f2.project.domain.ProjectApi]
+ * @child [city.smartb.registry.program.s2.project.domain.model.Project]
  */
 interface D2ProjectF2Page
