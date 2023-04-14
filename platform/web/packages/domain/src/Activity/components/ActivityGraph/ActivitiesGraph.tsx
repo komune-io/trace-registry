@@ -1,87 +1,101 @@
 import { Box } from '@mui/material'
-import {ReactFlow, Background, useEdgesState, useNodesState, Controls, ReactFlowInstance} from "reactflow"
+import { ReactFlow, Background, useEdgesState, useNodesState, Controls, useReactFlow } from "reactflow"
 import 'reactflow/dist/style.css';
 import {
-  MouseEvent as ReactMouseEvent,
   useCallback,
   useEffect,
-  useState
+  useMemo
 } from 'react';
-import {Activity, ActivityId} from "../../model";
-import {ActivityGraphNode} from "../ActivityGraphNode";
-import {ActivityDataNode, getNodesAnEdgesOfActivities} from "../../graph";
+import { Activity, ActivityId } from "../../model";
+import { ActivityGraphNode } from "../ActivityGraphNode";
+import { getActivitiesOfDinasty, getNodesAnEdgesOfActivities } from "../../graph";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRoutesDefinition } from 'components';
 
 export interface ActivitiesGraphProps {
-    activities: Activity[],
-    selectedActivity?: Activity,
-    onActivitySelect: (node: Activity) => void
+  activities: Activity[],
 }
 
 const nodeTypes = {
-    Activity: ActivityGraphNode,
-    // group: ActivityGraphGroupNode
+  Activity: ActivityGraphNode,
 };
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {
-    const {activities, selectedActivity, onActivitySelect} = props
-    const [baseRequirement, setBaseRequirement] = useState<Activity | undefined>(undefined)
-    const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | undefined>(undefined)
-    const onInit = useCallback( (reactFlowInstance: ReactFlowInstance) => setReactFlowInstance(reactFlowInstance), [])
+  const { activities } = props
+  const { projectsProjectIdViewTabAll } = useRoutesDefinition()
+  const navigate = useNavigate()
+  let { "*": splat, projectId } = useParams();
+  const activityDinasty = useMemo(() => !!splat ? splat.split("/") : undefined, [splat])
+  const reactFlowInstance = useReactFlow();
 
-    const selectRequirement = useCallback(
-      (selected: ActivityId, parent?: ActivityId) => {
-        const base = parent ? activities.find((el) => el.identifier === parent) : undefined
-        setBaseRequirement(base)
-        console.log(selected)
-      },
-      [activities],
-    )
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const navigateActivities = useCallback(
+    (ids?: string[], selectedId?: string) => {
+      navigate(projectsProjectIdViewTabAll(projectId!, "activities", ...(ids ?? [])) + (selectedId ? "?selectedActivity=" + selectedId : ""))
+    },
+    [projectId],
+  )
 
-    useEffect(() => {
-      const currentActivities = baseRequirement ? baseRequirement.hasRequirement : activities
-      const {nodes, edges} = getNodesAnEdgesOfActivities(currentActivities, baseRequirement, selectRequirement)
-      setNodes(nodes)
-      setEdges(edges)
-      // TODO Find a better way to auto fit the view after the graph is rendered
-      setTimeout(() => {
-        reactFlowInstance && reactFlowInstance.fitView()
-      }, 500)
-    }, [baseRequirement, selectRequirement])
-
-    const onSelectionChange = (_: ReactMouseEvent, node: ActivityDataNode) => {
-      if(node.data.current.identifier !== selectedActivity?.identifier) {
-        onActivitySelect(node.data.current);
+  const selectRequirement = useCallback(
+    (targetId: ActivityId, parent?: ActivityId) => {
+      const base = parent ? activities.find((el) => el.identifier === parent) : undefined
+      if (base && activityDinasty){
+        const parentIndexOnDynasty = activityDinasty?.findIndex((el) => el === base.identifier )
+        if (parentIndexOnDynasty) {
+          navigateActivities(activityDinasty.slice(0, parentIndexOnDynasty), targetId)
+        } else {
+          navigateActivities([...activityDinasty, base.identifier], targetId)
+        }
+      } else if (base) {
+        navigateActivities([base.identifier], targetId)
+      } else {
+        navigateActivities()
       }
-    };
+    },
+    [activities, projectId, activityDinasty, navigateActivities],
+  )
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    return (
-      <Box
-        sx={{
-          flexGrow: 1,
-          flexBasis: 0,
-          height: "100%"
+  useEffect(() => {
+    if (activities.length === 0) return 
+    const current = getActivitiesOfDinasty(activities, activityDinasty)
+    if (current.fixedDynasty != undefined) {
+      navigateActivities(current.fixedDynasty)
+      return 
+    }
+    const { nodes, edges } = getNodesAnEdgesOfActivities(current.activities, current.ancestors, selectRequirement)
+    setNodes(nodes)
+    setEdges(edges)
+    setTimeout(() => {
+      reactFlowInstance.fitView({nodes: nodes.filter((node) => !node.data.isAncestor)})
+    }, 300);
+  }, [activityDinasty, selectRequirement, activities, navigateActivities])
+  
+
+  return (
+    <Box
+      sx={{
+        flexGrow: 1,
+        flexBasis: 0,
+        height: "100%"
+      }}
+    >
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        nodeTypes={nodeTypes}
+        fitView
+        attributionPosition="bottom-right"
+        style={{
+          background: "#F0EDE6"
         }}
       >
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onInit={onInit}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          nodeTypes={nodeTypes}
-          onNodeClick={onSelectionChange}
-          fitView
-          attributionPosition="bottom-left"
-          style={{
-            background: "#F0EDE6"
-          }}
-        >
-          <Background color={"#9E9E9E"} />
-          <Controls />
-        </ReactFlow>
-      </Box>
-    )
+        <Background color={"#9E9E9E"} />
+        <Controls />
+      </ReactFlow>
+    </Box>
+  )
 }
 

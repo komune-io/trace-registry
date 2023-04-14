@@ -17,7 +17,7 @@ export interface ProjectViewProps {
 
 export const ProjectView = (_: ProjectViewProps) => {
     const { projectId, tab } = useParams()
-    const { projectsProjectIdViewTab, projects } = useRoutesDefinition()
+    const { projectsProjectIdViewTabAll, projects } = useRoutesDefinition()
     const navigate = useNavigate();
     const { t } = useTranslation()
     const currentTab = useMemo(() => tab ?? "info", [tab])
@@ -25,7 +25,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     const project = projectQuery.data?.item
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
-        navigate(projectsProjectIdViewTab(projectId || "", value))
+        navigate(projectsProjectIdViewTabAll(projectId || "", value))
     }, [])
 
     const tabs: Tab[] = useMemo(() => [{

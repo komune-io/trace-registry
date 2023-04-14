@@ -101,7 +101,7 @@ export interface ProjectTableProps extends Partial<OffsetTableProps<Project>> {
 
 export const ProjectTable = (props: ProjectTableProps) => {
     const { isLoading, page, onOffsetChange, pagination, sx, ...other } = props
-    const { projectsProjectIdView } = useRoutesDefinition()
+    const { projectsProjectIdViewTabAll } = useRoutesDefinition()
     const { t } = useTranslation()
 
     const columns = useProductColumn()
@@ -114,10 +114,10 @@ export const ProjectTable = (props: ProjectTableProps) => {
     const getRowLink = useCallback(
         (row: Row<Project>) => {
             return {
-                to: projectsProjectIdView(row.original.id)
+                to: projectsProjectIdViewTabAll(row.original.id)
             }
         },
-        [projectsProjectIdView],
+        [projectsProjectIdViewTabAll],
     )
 
 

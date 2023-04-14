@@ -40,14 +40,13 @@ export const ActivityGraphNode =  (props: NodeProps<ActivityData>) => {
                 {el.name}
             </Typography>
         )
-    }), [requirement, data])
+    }), [requirement, data.select])
 
     const onClickAncestor = useCallback(
         () => {
-
             if (data.isAncestor) data.select(data.current.identifier)
         },
-        [requirement, data],
+        [requirement, data.isAncestor, data.select],
     )
     const hasRequirement = useMemo( () => requirement.hasRequirement.length > 0, [requirement.hasRequirement.length])
 

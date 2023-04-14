@@ -13,11 +13,7 @@ export const registryPages: PageRoute[] = [
     element: <ProjectList />
   },
   {
-    path: "projects/:projectId/view",
-    element: <ProjectView />
-  },
-  {
-    path: "projects/:projectId/view/:tab",
+    path: "projects/:projectId/view/:tab?/*",
     element: <ProjectView />
   }
 ]

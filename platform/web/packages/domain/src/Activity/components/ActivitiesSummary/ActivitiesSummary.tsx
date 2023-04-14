@@ -1,74 +1,68 @@
-import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
-
-import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
-import { useMemo } from 'react';
-import {Activity, ActivityStep} from "../../model";
+import { useCallback, useState, useEffect } from 'react';
+import { Activity } from "../../model";
+import { useOnSelectionChange, OnSelectionChangeFunc, useStoreApi, useNodes } from 'reactflow';
+import { ActivitiesSummaryForm } from './ActivitiesSummaryForm';
+import { useActivityStepPageQuery } from '../../api';
+import { useSearchParams } from 'react-router-dom';
 
 export interface ActivitiesSummaryProps {
-    activity?: Activity
-    steps?: ActivityStep[]
-    isLoading?: boolean
+  activities: Activity[]
+  isLoading?: boolean
 }
 
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
-  const { isLoading, steps, activity } = props
+  const { isLoading, activities } = props
+  const reactFlowStore = useStoreApi();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const selectedActivity = searchParams.get("selectedActivity")
+  const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
+  const nodes = useNodes();
 
-  const fields: FormComposableField[] = useMemo(() => steps?.map(it => ({
-    name: it.identifier,
-    label: it.name,
-    params: {
-      orientation: "horizontal"
+  useEffect(() => {
+    if (selectedActivity && selectedNode?.identifier !== selectedActivity && nodes.length !== 0) {
+      const { addSelectedNodes } = reactFlowStore.getState()
+      addSelectedNodes([selectedActivity])
+    }
+  }, [selectedActivity, nodes])
+  
+  const onSelectionChange: OnSelectionChangeFunc = useCallback(
+    (params) => {
+      const selectedNodes = params.nodes
+      console.log(selectedNodes)
+      const {getNodes} = reactFlowStore.getState()
+      const nodes = getNodes()
+      if (nodes.length > 0) {
+        const isNodeInTheGraph = nodes.find((el) => el.id === selectedNodes[0]?.id && !selectedNodes[0]?.data?.isAncestor)
+        if (isNodeInTheGraph || !selectedNodes[0]) {
+          setSelectedNode(selectedNodes[0]?.data?.current);
+          if (selectedActivity !== selectedNodes[0]?.data?.current.identifier) {
+            setSearchParams(selectedNodes[0] ? { selectedActivity: selectedNodes[0]?.data?.current.identifier } : undefined, {replace: true})
+          }
+        }
+      }
     },
-    type: "textField",
-  }
-)) ?? [], [steps])
+    [selectedActivity, setSearchParams],
+  )
 
-  const values = useMemo(() => steps?.reduce((a: any, v: ActivityStep) => ({
-    ...a,
-    [v.identifier]: v.value
-  }
-), {}), [steps])
+  useOnSelectionChange({
+    onChange: onSelectionChange,
+  });
 
-  const formState = useFormComposable({
-    isLoading: isLoading,
-    readonly: true,
-    emptyValueInReadonly: "-",
-    formikConfig: {
-      initialValues: values
+  const activityStepPageQuery = useActivityStepPageQuery({
+    query: {
+      requestId: selectedNode?.requestId ?? "",
+      activityIdentifier: selectedNode?.identifier ?? "",
+      limit: undefined,
+      offset: undefined,
+    },
+    options: {
+      enabled: !!selectedNode?.identifier
     }
   })
+  const steps = activityStepPageQuery.data?.items ?? []
 
   return (
-        <Stack
-            sx={{
-                height: "100%",
-                width: "550px",
-                padding: "24px 32px",
-                overflowY: "auto"
-            }}
-            gap={2}
-        >
-            <Box>
-                <Typography variant="h5" >{activity?.name}</Typography>
-                <Divider sx={{ marginTop: "8px" }} />
-            </Box>
-            {
-                isLoading ?
-                    <Skeleton
-                        sx={{
-                            width: '100%',
-                            height: '200px',
-                            transform: 'none'
-                        }}
-                        animation='wave'
-                        variant='text'
-                    />
-                    :
-                    <>
-                      <Typography color="text.secondary" >{activity?.description}</Typography>
-                      <FormComposable fields={fields} formState={formState} />
-                    </>
-            }
-        </Stack>
-    )
+    <ActivitiesSummaryForm activity={selectedNode} isLoading={isLoading || activityStepPageQuery.isLoading} steps={steps} />
+  )
+
 }

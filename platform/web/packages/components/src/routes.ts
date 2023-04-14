@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { Roles } from "./roles"
-import { insertObjectIdsInsideRoutes, RecordCamelCase } from "@smartb/g2-utils"
+import { RecordRouteCamelCase, insertObjectIdsInsideRoutes } from "./types"
 
 const IMRoutesAuthorizations = {
     "organizations": "open",
@@ -20,8 +20,7 @@ const IMRoutesAuthorizations = {
 const strictRoutesAuthorizations = {
     "": "open",
     "projects": "open",
-    "projects/:projectId/view": "open",
-    "projects/:projectId/view/:tab": "open",
+    "projects/:projectId/view/:tab?/*": "open",
     ...IMRoutesAuthorizations,
 } as const
 
@@ -33,14 +32,18 @@ export type RoutesAuthorizations = { [route: string]: RoutesRoles[] | RoutesRole
 export const routesAuthorizations: RoutesAuthorizations = { ...strictRoutesAuthorizations }
 
 
-type RoutesDefinitions = RecordCamelCase<Routes, (...objectIds: string[]) => string>
+type RoutesDefinitions = RecordRouteCamelCase<Routes, (...objectIds: string[]) => string>
 
 //@ts-ignore
 let routesDefinitions: RoutesDefinitions = {}
 
 for (let route in strictRoutesAuthorizations) {
+    const camelCasedRoute = route
+    .replaceAll("?", "")
+    .replaceAll("*", "All")
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
     //@ts-ignore
-    routesDefinitions[route.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
+    routesDefinitions[camelCasedRoute] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
 }
 
 export const useRoutesDefinition = (): RoutesDefinitions => {
