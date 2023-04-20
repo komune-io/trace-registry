@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "start": "vite",
+    "type": "tsc --noEmit --watch",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [

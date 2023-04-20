@@ -20,5 +20,6 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src", "../domain/src/Project/components/ProjectTable/useProjectFilters.tsx"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.vite.json" }]
 }
