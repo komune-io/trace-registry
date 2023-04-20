@@ -1,6 +1,6 @@
 import { Node, Position, Edge } from "reactflow"
-import {Activity, ActivityId} from "../model";
-
+import { Activity, ActivityId } from "../model";
+import { tree, stratify } from "d3-hierarchy"
 
 
 type SubActivitySelection = (selected: ActivityId, parent?: ActivityId,) => void
@@ -46,25 +46,12 @@ export const getActivitiesOfDinasty = (activities: Activity[], dinasty?: string[
 }
 
 export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestors: Activity[] | undefined, select: SubActivitySelection): NodesAnEdgesOfActivities => {
+
     const nodes: Node<ActivityData>[] = toNodes(activities, ancestors ? ancestors[ancestors?.length - 1] : undefined, select)
+    const nodesLeveled = nodes.map((node) => ({ name: node.id, parent: ancestors ? ancestors[ancestors.length - 1].identifier : "invisibleParent"}))
+    if (!ancestors) nodesLeveled.push({name: "invisibleParent", parent: ""})
     const edges = toEdges(activities, ancestors)
     if (ancestors && ancestors.length > 0) {
-        // nodes.forEach((el, index) => {
-        //     nodes[index] = {
-        //         ...el,
-        //         parentNode: "group"
-        //     }
-        // })
-        // //@ts-ignore
-        // nodes.push({
-        //     id: "group",
-        //     position: {
-        //         x: 0,
-        //         y: 100
-        //     },
-        //     type: "group",
-            
-        // })
         ancestors.forEach((ancestor, index) => {
             nodes.push({
                 id: ancestor.identifier,
@@ -72,71 +59,75 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestors: A
                     current: ancestor,
                     select: select,
                     hasSource: true,
-                    hasTarget: index === ancestors.length - 1,
+                    hasTarget: index !== ancestors.length - 1,
                     isAncestor: true
                 },
                 position: {
-                    x: -300 * (index - (ancestors.length - 2)),
-                    y: (nodes.length / 2) * 150
+                    x: 0,
+                    y: 0
                 },
                 type: "Activity",
                 sourcePosition: Position.Right,
+                targetPosition: Position.Left,
                 selectable: false
             })
+            nodesLeveled.push({ name: ancestor.identifier, parent: index > 0 ? ancestors[index - 1].identifier : "" })
         })
-        
+
     }
-    return  {
+    const root = stratify<{name: string; parent: string}>()
+    .id(function(d) { return d.name; })
+    .parentId(function(d) { return d.parent; })
+    (nodesLeveled)
+    const treeLayout = tree().nodeSize([150, 350])
+    //@ts-ignore
+    treeLayout(root)
+    root.descendants().map((layoutNode) => {
+        const index = nodes.findIndex((node) => node.id === layoutNode.id)
+        if (index !== -1) {
+            //@ts-ignore
+            nodes[index] = {...nodes[index], position:{x: layoutNode.y, y: layoutNode.x }}
+        }
+      })
+    return {
         nodes,
         edges
     }
 }
 
 export const toNodes = (
-  activities: Activity[],
-  ancestor: Activity | undefined,
-  select: SubActivitySelection,
-  level: number = 0,
-  parentX: number = 0,
-  index: number = 0,
-  siblingNumber?: number
+    activities: Activity[],
+    ancestor: Activity | undefined,
+    select: SubActivitySelection,
+    level: number = 0,
 ): Node<ActivityData>[] => {
     const nodes: Node<ActivityData>[] = []
 
-    const xGap = 260
-    const yGap = 150
-
-    let currentX = 0
-    if (siblingNumber) {
-        currentX = parentX + (((index) - siblingNumber / 2) * xGap)
-    } else {
-        currentX = parentX
-    }
-    activities.forEach((obj, index) => {
-    nodes.push({
-        id: obj.identifier,
-        data: {
-            current: obj,
-            select: select,
-            hasSource: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0,
-            hasTarget: level !== 0 || !!ancestor,
-        },
-        position: {
-            x: currentX,
-            y: (level + 1) * yGap * (index + 1)
-        },
-        type: obj.type || "Activity",
-        sourcePosition: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0 ? Position.Bottom : undefined,
-        targetPosition: level !== 0 ? Position.Top : (ancestor ? Position.Left : undefined),
-    })
-    if (obj.hasQualifiedRelation) {
-        obj.hasQualifiedRelation.forEach((id, index) => {
-            const targetedActivity = activities.find(el => el.identifier === id)
-            if (targetedActivity) {
-                nodes.push(...toNodes(activities, undefined, select,level + 1, currentX, index, obj.hasQualifiedRelation?.length! - 1))
-            }
-        });
-    }
+    activities.forEach((obj) => {
+        nodes.push({
+            id: obj.identifier,
+            data: {
+                current: obj,
+                select: select,
+                hasSource: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0,
+                hasTarget: level !== 0 || !!ancestor,
+            },
+            position: {
+                x: 0,
+                y: 0
+            },
+            type: obj.type || "Activity",
+            sourcePosition: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0 ? Position.Bottom : undefined,
+            targetPosition: level !== 0 ? Position.Top : (ancestor ? Position.Left : undefined),
+        })
+        if (obj.hasQualifiedRelation) {
+            obj.hasQualifiedRelation.forEach((id) => {
+                const targetedActivity = activities.find(el => el.identifier === id)
+                if (targetedActivity) {
+                    nodes.push(...toNodes(activities, undefined, select, level + 1))
+                }
+            });
+        }
     })
     return nodes
 }
@@ -162,7 +153,7 @@ export const toEdges = (activities: Activity[], ancestors?: Activity[]): Edge[] 
         })
     })
     if (ancestors && ancestors.length > 1) {
-        for (let i = ancestors.length - 1; i > 0; i --) {
+        for (let i = ancestors.length - 1; i > 0; i--) {
             edges.push({
                 id: `${ancestors[i].identifier}-to-${ancestors[i + 1].identifier}`,
                 source: ancestors[i].identifier,
@@ -170,6 +161,6 @@ export const toEdges = (activities: Activity[], ancestors?: Activity[]): Edge[] 
             })
         }
     }
-    
+
     return edges
 }

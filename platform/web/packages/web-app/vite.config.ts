@@ -2,7 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgr from 'vite-plugin-svgr'
-const fs = require('fs');
+//@ts-ignore
+import checker from 'vite-plugin-checker';
+import fs from 'fs'
 
 const kotlinDir = '../../kotlin';
 let kotlinPackages = []
@@ -26,6 +28,9 @@ export default defineConfig({
     react({
       //exclude stories and kotlin files
       exclude: [/\.stories\.(t|j)sx?$/, /(?=.*kotlin)(?=.*js).*/],
+    }),
+    checker({
+      typescript: true
     }),
     tsconfigPaths(),
     svgr()

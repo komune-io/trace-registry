@@ -133,7 +133,7 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
-        static get Companion(): {
+        get Companion(): {
             serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
         } & kotlinx.serialization.internal.SerializerFactory;
     }
