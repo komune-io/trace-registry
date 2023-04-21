@@ -64,11 +64,11 @@ fun createYahuma(url: String): Unit = runBlocking {
 
     println("////////////////////////////////////")
     println(project.id)
-    println(project.request?.id)
+    println(project.certification?.id)
     println("////////////////////////////////////")
-    project.request?.let { request ->
+    project.certification?.let { certification ->
         val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
-            requestId = request.id,
+            certificationIdentifier = certification.identifier,
             identifier = "B101",
             value = "Yahuma Sud"
         ).invokeWith(activityClient.activityFulfillTask())
@@ -96,9 +96,9 @@ fun createRandom(url: String, countRange: IntRange): Unit = runBlocking {
     }.toList().awaitAll()
 
     projects.forEach { project ->
-        project.request?.let { request ->
+        project.certification?.let { certification ->
             val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
-                requestId = request.id,
+                certificationIdentifier = certification.identifier,
                 identifier = "B101",
                 value = "Yahuma Sud"
             ).invokeWith(activityClient.activityFulfillTask())

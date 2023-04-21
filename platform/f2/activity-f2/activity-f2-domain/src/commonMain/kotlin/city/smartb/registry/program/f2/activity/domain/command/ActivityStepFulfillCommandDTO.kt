@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.activity.domain.command
 
-import cccev.s2.request.domain.model.RequestId
+import cccev.s2.certification.domain.model.CertificationIdentifier
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
@@ -27,9 +27,9 @@ typealias ActivityStepFulfillFunction = F2Function<ActivityStepFulfillCommandDTO
 @JsName("ActivityStepFulfillCommandDTO")
 interface ActivityStepFulfillCommandDTO {
     /**
-     * Id of the request containing the activities to fulfill.
+     * Identifier of the certification containing the activities to fulfill.
      */
-    val requestId: RequestId
+    val certificationIdentifier: CertificationIdentifier
 
     /**
      * Identifier of the activity step to fulfill.
@@ -48,7 +48,7 @@ interface ActivityStepFulfillCommandDTO {
  */
 @Serializable
 data class ActivityStepFulfillCommandDTOBase(
-    override val requestId: RequestId,
+    override val certificationIdentifier: CertificationIdentifier,
     override val identifier: ActivityStepIdentifier,
     override val value: String?,
 ): ActivityStepFulfillCommandDTO

@@ -1,6 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.command
 
-import cccev.s2.request.domain.model.RequestId
+import cccev.s2.certification.domain.model.CertificationId
+import cccev.s2.certification.domain.model.CertificationIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
@@ -96,12 +97,13 @@ data class ProjectCreatedEvent(
     override var activities: List<ActivityIdentifier>? = null,
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
-    var request: RequestRef? = null,
+    var certification: CertificationRef? = null,
 ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }
 
 @Serializable
-data class RequestRef(
-    val id: RequestId,
+data class CertificationRef(
+    val id: CertificationId,
+    val identifier: CertificationIdentifier,
 )

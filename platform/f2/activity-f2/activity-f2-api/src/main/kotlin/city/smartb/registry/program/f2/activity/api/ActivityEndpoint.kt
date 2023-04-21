@@ -1,7 +1,8 @@
 package city.smartb.registry.program.f2.activity.api
 
 import cccev.dsl.client.CCCEVClient
-import cccev.s2.request.domain.command.RequestAddValuesCommand
+import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
+import cccev.s2.certification.domain.command.CertificationAddValuesCommand
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
@@ -63,7 +64,7 @@ class ActivityEndpoint(
                 limit = query.limit ?: 1000
             ),
             activityIdentifier = query.activityIdentifier,
-            requestId = query.requestId
+            certificationIdentifier = query.certificationIdentifier
         )
     }
 
@@ -89,16 +90,22 @@ class ActivityEndpoint(
     @Bean
     override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { cmd ->
         activityPoliciesEnforcer.checkCanFulfillTask()
-        val step = activityF2FinderService.getStep(cmd.identifier, cmd.requestId)
+
+        val certification = CertificationGetByIdentifierQueryDTOBase(
+            identifier = cmd.certificationIdentifier
+        ).invokeWith(cccevClient.certificationClient.certificationGetByIdentifier()).item
+            ?: throw NotFoundException("Certification with identifier", cmd.certificationIdentifier)
+
+        val step = activityF2FinderService.getStep(cmd.identifier, certification.identifier)
             ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
         val value = step.hasConcept?.let { concept ->
-            val result = RequestAddValuesCommand(
-                id = cmd.requestId,
+            val result = CertificationAddValuesCommand(
+                id = certification.id,
                 values = mapOf(
                     concept.id to cmd.value,
                 )
-            ).invokeWith(cccevClient.requestClient.requestAddValues())
+            ).invokeWith(cccevClient.certificationClient.certificationAddValues())
             result.values[concept.id]
         }
 
@@ -120,12 +127,12 @@ class ActivityEndpoint(
 //        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
 //
 //        step.hasConcept?.let { concept ->
-//            RequestAddValuesCommand(
-//                id = cmd.requestId,
+//            CertificationAddValuesCommand(
+//                id = cmd.certificationId,
 //                values = mapOf(
 //                    concept.id to cmd.value,
 //                )
-//            ).invokeWith(cccevClient.requestClient.requestAddValues())
+//            ).invokeWith(cccevClient.certificationClient.certificationAddValues())
 //        }
 //        return ActivityStepFulfilledEvent(
 //            identifier = cmd.identifier,

@@ -2,7 +2,7 @@ package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.informationRequirement
-import cccev.s2.request.domain.command.RequestCreateCommand
+import cccev.s2.certification.domain.command.CertificationCreateCommand
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
@@ -55,11 +55,12 @@ class ActivityF2ExecutorService(
         }
         val result = cccevClient.createGraph( flowOf(requirement) ).toList().first()
 
-        RequestCreateCommand(
+        CertificationCreateCommand(
+            identifier = identifier,
             name = name,
             description = null,
             requirements = listOf(result.id)
-        ).invokeWith(cccevClient.requestClient.requestCreate())
+        ).invokeWith(cccevClient.certificationClient.certificationCreate())
 
         return identifier
     }

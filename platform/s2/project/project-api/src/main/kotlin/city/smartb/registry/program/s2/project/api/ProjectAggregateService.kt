@@ -3,26 +3,26 @@ package city.smartb.registry.program.s2.project.api
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.RequirementId
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
-import cccev.s2.request.domain.command.RequestCreateCommand
-import cccev.s2.request.domain.command.RequestCreatedEventDTO
+import cccev.s2.certification.domain.command.CertificationCreateCommand
+import cccev.s2.certification.domain.command.CertificationCreatedEvent
 import cccev.s2.requirement.domain.model.RequirementIdentifier
 import city.smartb.registry.program.s2.project.api.config.ProjectAutomateExecutor
 import city.smartb.registry.program.s2.project.api.entity.applyCmd
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.command.CertificationRef
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
-import city.smartb.registry.program.s2.project.domain.command.RequestRef
 import f2.dsl.fnc.invokeWith
-import java.util.UUID
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class ProjectAggregateService(
@@ -36,26 +36,27 @@ class ProjectAggregateService(
 			identifier = cmd.identifier,
 			name = cmd.name
 		).applyCmd(cmd)
-		.applyCCCEVRequest()
+		.applyCCCEVCertification()
 	}
 
-	private suspend fun ProjectCreatedEvent.applyCCCEVRequest(): ProjectCreatedEvent {
-		val requestCreated = createCCCEVRequest()
-		return requestCreated?.id?.let { requestId ->
-			copy(request = RequestRef(requestId))
+	private suspend fun ProjectCreatedEvent.applyCCCEVCertification(): ProjectCreatedEvent {
+		val requestCreated = createCCCEVCertification()
+		return requestCreated?.let { event ->
+			copy(certification = CertificationRef(id = event.id, identifier = event.identifier))
 		} ?: this
 	}
-	private suspend fun ProjectCreatedEvent.createCCCEVRequest(): RequestCreatedEventDTO? {
+	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
 		return activities?.asFlow()
 			?.map { findId(it) }
 			?.toList()?.filterNotNull()
 			?.takeIf { it.isNotEmpty() }
 			?.let { activitiesId ->
-				RequestCreateCommand(
+				CertificationCreateCommand(
+					identifier = identifier.orEmpty(),
 					name = name,
 					description = description,
 					requirements = activitiesId
-				).invokeWith(cccevClient.requestClient.requestCreate())
+				).invokeWith(cccevClient.certificationClient.certificationCreate())
 			}
 	}
 

@@ -1,21 +1,21 @@
 package city.smartb.registry.program.f2.activity.api.model
 
 import cccev.f2.requirement.domain.model.RequirementDTO
-import cccev.s2.request.domain.model.Request
+import cccev.s2.certification.domain.model.Certification
 import city.smartb.registry.program.f2.activity.domain.model.Activity
 
-fun Collection<RequirementDTO>.toActivities(request: Request?): List<Activity> {
+fun Collection<RequirementDTO>.toActivities(certification: Certification?): List<Activity> {
     return distinctBy(RequirementDTO::id)
-        .map  { it.toActivity(request) }
+        .map  { it.toActivity(certification) }
 }
 
-fun RequirementDTO.toActivity(request: Request?) = Activity(
+fun RequirementDTO.toActivity(certification: Certification?) = Activity(
     identifier = identifier ?: "",
-    requestId = request?.id,
+    certificationId = certification?.id,
     name = name,
     description = description,
     type = type,
     hasQualifiedRelation = emptyArray(),
-    hasRequirement = hasRequirement.toActivities(request).toTypedArray(),
-    progression = request?.requirementStats?.get(id)?.completion ?: 0.0
+    hasRequirement = hasRequirement.toActivities(certification).toTypedArray(),
+    progression = certification?.requirementStats?.get(id)?.completion ?: 0.0
 )

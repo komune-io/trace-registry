@@ -1,14 +1,14 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import cccev.f2.request.domain.query.RequestGetQueryDTOBase
 import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
-import cccev.s2.request.domain.model.Request
-import cccev.s2.request.domain.model.RequestId
+import cccev.s2.certification.domain.model.Certification
+import cccev.s2.certification.domain.model.CertificationIdentifier
 import city.smartb.registry.program.f2.activity.api.model.toActivities
 import city.smartb.registry.program.f2.activity.api.model.toActivity
 import city.smartb.registry.program.f2.activity.api.model.toStep
@@ -31,12 +31,12 @@ class ActivityF2FinderService(
 ) {
     suspend fun get(
         identifier: ActivityIdentifier,
-        requestId: RequestId?,
+        certificationIdentifier: CertificationIdentifier?,
     ): Activity? {
         return RequirementGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
             .item
-            ?.toActivity(requestId)
+            ?.toActivity(certificationIdentifier)
     }
 
     suspend fun page(
@@ -51,7 +51,7 @@ class ActivityF2FinderService(
             ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         }?.items
 
-        val activities = requirements?.toActivities(project.request!!.id) ?: emptyList()
+        val activities = requirements?.toActivities(project.certification!!.identifier) ?: emptyList()
 
         return ActivityPageResult(
             items = activities,
@@ -61,29 +61,29 @@ class ActivityF2FinderService(
 
     suspend fun getStep(
         identifier: ActivityStepIdentifier,
-        requestId: RequestId,
+        certificationIdentifier: CertificationIdentifier,
     ): ActivityStep? {
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item
-            ?.toStep(requestId)
+            ?.toStep(certificationIdentifier)
     }
 
-    private suspend fun getRequest(id: RequestId): Request? {
-        return cccevClient.requestClient.requestGet()
-            .invoke(RequestGetQueryDTOBase(id))
+    private suspend fun getCertificationByIdentifier(identifier: CertificationIdentifier): Certification? {
+        return cccevClient.certificationClient.certificationGetByIdentifier()
+            .invoke(CertificationGetByIdentifierQueryDTOBase(identifier))
             .item
     }
 
     suspend fun pageSteps(
         offset: OffsetPagination? = null,
-        requestId: RequestId,
+        certificationIdentifier: CertificationIdentifier,
         activityIdentifier: ActivityIdentifier
     ): ActivityStepPageResult {
         val requirement = RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
 
-        val steps = requirement.item?.hasConcept?.toSteps(requestId) ?: emptyList()
+        val steps = requirement.item?.hasConcept?.toSteps(certificationIdentifier) ?: emptyList()
 
         return ActivityStepPageResult(
             items = steps,
@@ -91,22 +91,24 @@ class ActivityF2FinderService(
         )
     }
 
-    private suspend fun Collection<RequirementDTOBase>.toActivities(requestId: RequestId?): List<Activity> {
-        val request = requestId?.let { getRequest(it) }
-        return toActivities(request)
+    private suspend fun Collection<RequirementDTOBase>.toActivities(certificationIdentifier: CertificationIdentifier?): List<Activity> {
+        val certification = certificationIdentifier?.let { getCertificationByIdentifier(it) }
+        return toActivities(certification)
     }
-    private suspend fun RequirementDTOBase.toActivity(requestId: RequestId?): Activity {
-        val request = requestId?.let { getRequest(it) }
-        return toActivity(request)
+    private suspend fun RequirementDTOBase.toActivity(certificationIdentifier: CertificationIdentifier?): Activity {
+        val certification = certificationIdentifier?.let { getCertificationByIdentifier(it) }
+        return toActivity(certification)
     }
 
-    private suspend fun Collection<InformationConceptDTOBase>.toSteps(requestId: RequestId): List<ActivityStep> {
-        val values = getRequest(requestId)?.supportedValues
+    private suspend fun Collection<InformationConceptDTOBase>.toSteps(
+        certificationIdentifier: CertificationIdentifier
+    ): List<ActivityStep> {
+        val values = getCertificationByIdentifier(certificationIdentifier)?.supportedValues
         return map { concept -> concept.toStep(values?.get(concept.id)) }
     }
 
-    private suspend fun InformationConceptDTOBase.toStepInRequest(requestId: RequestId): ActivityStep {
-        val value = getRequest(requestId)?.supportedValues?.get(id)
+    private suspend fun InformationConceptDTOBase.toStepInCertification(certificationIdentifier: CertificationIdentifier): ActivityStep {
+        val value = getCertificationByIdentifier(certificationIdentifier)?.supportedValues?.get(id)
         return toStep(value)
     }
 }

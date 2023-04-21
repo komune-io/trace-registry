@@ -1,5 +1,7 @@
 package city.smartb.registry.program.f2.activity.domain.query
 
+import cccev.s2.certification.domain.model.CertificationIdentifier
+import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStepDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
@@ -28,7 +30,7 @@ interface ActivityStepPageQueryDTO {
     /**
      * Name of the activity
      */
-    val requestId: String
+    val certificationIdentifier: String
     val offset: Int?
     val limit: Int?
 }
@@ -37,8 +39,8 @@ interface ActivityStepPageQueryDTO {
  * @d2 inherit
  */
 data class ActivityStepPageQuery(
-    override val activityIdentifier: String,
-    override val requestId: String,
+    override val activityIdentifier: ActivityIdentifier,
+    override val certificationIdentifier: CertificationIdentifier,
     override val offset: Int?,
     override val limit: Int?,
 ): ActivityStepPageQueryDTO

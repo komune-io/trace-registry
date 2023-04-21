@@ -33,7 +33,7 @@ fun ProjectEntity.toProject() = Project(
     lastModificationDate = null,
     activities = activities,
     sdgs = sdgs,
-    request = request
+    certification = request
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )
@@ -60,7 +60,7 @@ fun Project.toEntity() = ProjectEntity().let { entity ->
     entity.location = location?.toRedisGeoLocation(id)
     entity.activities = activities
     entity.sdgs = sdgs?.sorted()
-    entity.request = request
+    entity.request = certification
     entity
 }
 
