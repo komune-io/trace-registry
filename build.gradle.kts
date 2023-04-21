@@ -45,10 +45,17 @@ fixers {
 	bundle {
 		id = "registry-program-ver"
 		name = "Voluntary Emissions Reductions"
-		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environnemental assets registries of the market."
+		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environmental assets registries of the market."
 		url = "https://gitlab.smartb.city/framwork/registry/program"
 	}
 	d2 {
 		outputDirectory = file("storybook/stories/d2/")
 	}
+//	kt2Ts {
+//		additionalCleaning = mapOf(
+//			".d.ts" to listOf(
+//          		Regex("""string""") to "String"
+//		 	)
+//		)
+//	}
 }

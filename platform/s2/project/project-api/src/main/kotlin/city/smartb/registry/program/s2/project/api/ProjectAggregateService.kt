@@ -47,9 +47,9 @@ class ProjectAggregateService(
 	}
 	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
 		return activities?.asFlow()
-			?.map { findId(it) }
-			?.toList()?.filterNotNull()
-			?.takeIf { it.isNotEmpty() }
+			?.mapNotNull { findId(it) }
+			?.toList()
+			?.ifEmpty { null }
 			?.let { activitiesId ->
 				CertificationCreateCommand(
 					identifier = identifier.orEmpty(),
