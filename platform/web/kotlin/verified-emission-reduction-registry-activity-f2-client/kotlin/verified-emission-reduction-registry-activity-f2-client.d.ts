@@ -2031,22 +2031,22 @@ export namespace city.smartb.fs.s2.file.domain.model {
 
     }
 }
-export namespace cccev.s2.request.domain {
-    interface RequestInitCommand extends s2.dsl.automate.S2InitCommand {
+export namespace cccev.s2.certification.domain {
+    interface CertificationInitCommand extends s2.dsl.automate.S2InitCommand {
 
     }
-    interface RequestCommand extends s2.dsl.automate.S2Command<string> {
+    interface CertificationCommand extends s2.dsl.automate.S2Command<string> {
         readonly id: string;
 
     }
-    interface RequestEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string>, s2.dsl.automate.WithId<string> {
+    interface CertificationEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string>, s2.dsl.automate.WithId<string> {
         s2Id(): string;
         readonly id: string;
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestAddedEvidenceEventDTO extends cccev.s2.request.domain.RequestEvent {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
         readonly evidenceId: string;
         readonly name: string;
@@ -2057,41 +2057,43 @@ export namespace cccev.s2.request.domain.command {
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestAddRequirementsCommandDTO extends cccev.s2.request.domain.RequestCommand {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
 
     }
-    interface RequestAddedRequirementsEventDTO extends cccev.s2.request.domain.RequestEvent {
+    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestAddValuesCommandDTO extends cccev.s2.request.domain.RequestCommand {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
         readonly values: kotlin.collections.Map<string, Nullable<string>>;
 
     }
-    interface RequestAddedValuesEventDTO extends cccev.s2.request.domain.RequestEvent {
+    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
         readonly values: kotlin.collections.Map<string, Nullable<string>>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestCreateCommandDTO extends cccev.s2.request.domain.RequestInitCommand {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationCreateCommandDTO extends cccev.s2.certification.domain.CertificationInitCommand {
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly requirements: kotlin.collections.List<string>;
 
     }
-    interface RequestCreatedEventDTO extends cccev.s2.request.domain.RequestEvent {
+    interface CertificationCreatedEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly requirements: kotlin.collections.List<string>;
@@ -2099,45 +2101,36 @@ export namespace cccev.s2.request.domain.command {
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.request.domain.RequestCommand {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
         readonly evidenceId: string;
 
     }
-    interface RequestRemovedEvidenceEventDTO extends cccev.s2.request.domain.RequestEvent {
+    interface CertificationRemovedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
         readonly evidenceId: string;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.request.domain.command {
-    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.request.domain.RequestCommand {
+export namespace cccev.s2.certification.domain.command {
+    interface CertificationRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
 
     }
-    interface RequestRemovedRequirementsEventDTO extends cccev.s2.request.domain.RequestEvent {
+    interface CertificationRemovedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.request.domain.model {
-    interface EvidenceDTO {
+export namespace cccev.s2.certification.domain.model {
+    interface CertificationDTO {
         readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: kotlin.collections.List<string>;
-
-    }
-}
-export namespace cccev.s2.request.domain.model {
-    interface RequestDTO {
-        readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly startDate: Nullable<any>/* Nullable<kotlin.Long> */;
@@ -2152,8 +2145,19 @@ export namespace cccev.s2.request.domain.model {
         readonly verifier?: string;
         readonly verificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly requirements: kotlin.collections.List<string>;
-        readonly evidences: kotlin.collections.List<cccev.s2.request.domain.model.EvidenceDTO>;
+        readonly evidences: kotlin.collections.List<cccev.s2.certification.domain.model.EvidenceDTO>;
         readonly supportedValues: kotlin.collections.Map<string, Nullable<string>>;
+        readonly requirementStats: kotlin.collections.Map<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
+
+    }
+}
+export namespace cccev.s2.certification.domain.model {
+    interface EvidenceDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly url?: string;
+        readonly isConformantTo: kotlin.collections.List<string>;
 
     }
 }
@@ -2527,15 +2531,15 @@ export namespace cccev.f2.framework.client {
 export namespace cccev.f2.framework.client {
     function frameworkClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.framework.client.FrameworkClient>;
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestAddEvidenceCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: kotlin.collections.List<string>;
 
     }
-    interface RequestAddedEvidenceEventDTO extends cccev.s2.request.domain.command.RequestAddedEvidenceEventDTO {
+    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
         readonly id: string;
         readonly evidenceId: string;
         readonly name: string;
@@ -2546,41 +2550,43 @@ export namespace cccev.f2.request.domain.command {
 
     }
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestAddRequirementsCommandDTO extends cccev.s2.request.domain.command.RequestAddRequirementsCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationAddRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
 
     }
-    interface RequestAddedRequirementsEventDTO extends cccev.s2.request.domain.command.RequestAddedRequirementsEventDTO {
+    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationAddedRequirementsEventDTO {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestAddValuesCommandDTO extends cccev.s2.request.domain.command.RequestAddValuesCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.command.CertificationAddValuesCommandDTO {
         readonly id: string;
         readonly values: kotlin.collections.Map<string, Nullable<string>>;
 
     }
-    interface RequestAddedValuesEventDTO extends cccev.s2.request.domain.command.RequestAddedValuesEventDTO {
+    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.command.CertificationAddedValuesEventDTO {
         readonly id: string;
         readonly values: kotlin.collections.Map<string, Nullable<string>>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestCreateCommandDTO extends cccev.s2.request.domain.command.RequestCreateCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface RequestCreateCommandDTO extends cccev.s2.certification.domain.command.CertificationCreateCommandDTO {
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly requirements: kotlin.collections.List<string>;
 
     }
-    interface RequestCreatedEventDTO extends cccev.s2.request.domain.command.RequestCreatedEventDTO {
+    interface RequestCreatedEventDTO extends cccev.s2.certification.domain.command.CertificationCreatedEventDTO {
         readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly requirements: kotlin.collections.List<string>;
@@ -2588,45 +2594,36 @@ export namespace cccev.f2.request.domain.command {
 
     }
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.request.domain.command.RequestRemoveEvidenceCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveEvidenceCommandDTO {
         readonly id: string;
         readonly evidenceId: string;
 
     }
-    interface RequestRemovedEvidenceEventDTO extends cccev.s2.request.domain.command.RequestRemovedEvidenceEventDTO {
+    interface RequestRemovedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedEvidenceEventDTO {
         readonly id: string;
         readonly evidenceId: string;
         s2Id(): string;
 
     }
 }
-export namespace cccev.f2.request.domain.command {
-    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.request.domain.command.RequestRemoveRequirementsCommandDTO {
+export namespace cccev.f2.certification.domain.command {
+    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
 
     }
-    interface RequestRemovedRequirementsEventDTO extends cccev.s2.request.domain.command.RequestRemovedRequirementsEventDTO {
+    interface RequestRemovedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedRequirementsEventDTO {
         readonly id: string;
         readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
 }
-export namespace cccev.f2.request.domain.model {
-    interface EvidenceDTO extends cccev.s2.request.domain.model.EvidenceDTO {
+export namespace cccev.f2.certification.domain.model {
+    interface CertificationDTO extends cccev.s2.certification.domain.model.CertificationDTO {
         readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: kotlin.collections.List<string>;
-
-    }
-}
-export namespace cccev.f2.request.domain.model {
-    interface RequestDTO extends cccev.s2.request.domain.model.RequestDTO {
-        readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description?: string;
         readonly startDate: Nullable<any>/* Nullable<kotlin.Long> */;
@@ -2641,36 +2638,57 @@ export namespace cccev.f2.request.domain.model {
         readonly verifier?: string;
         readonly verificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly requirements: kotlin.collections.List<string>;
-        readonly evidences: kotlin.collections.List<cccev.s2.request.domain.model.EvidenceDTO>;
+        readonly evidences: kotlin.collections.List<cccev.s2.certification.domain.model.EvidenceDTO>;
         readonly supportedValues: kotlin.collections.Map<string, Nullable<string>>;
+        readonly requirementStats: kotlin.collections.Map<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
     }
 }
-export namespace cccev.f2.request.domain.query {
-    interface RequestDownloadEvidenceQueryDTO {
+export namespace cccev.f2.certification.domain.model {
+    interface EvidenceDTO extends cccev.s2.certification.domain.model.EvidenceDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly url?: string;
+        readonly isConformantTo: kotlin.collections.List<string>;
+
+    }
+}
+export namespace cccev.f2.certification.domain.query {
+    interface CertificationDownloadEvidenceQueryDTO {
         readonly id: string;
         readonly evidenceId: string;
 
     }
 }
-export namespace cccev.f2.request.domain.query {
-    interface RequestGetQueryDTO {
-        readonly id: string;
+export namespace cccev.f2.certification.domain.query {
+    interface CertificationGetByIdentifierQueryDTO {
+        readonly identifier: string;
 
     }
-    interface RequestGetResultDTO {
-        readonly item?: cccev.s2.request.domain.model.RequestDTO;
+    interface CertificationGetByIdentifierResultDTO {
+        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
 
     }
 }
-export namespace cccev.f2.request.client {
-    class RequestClient /* implements cccev.f2.request.domain.RequestApi */ {
+export namespace cccev.f2.certification.domain.query {
+    interface CertificationGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface CertificationGetResultDTO {
+        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
+
+    }
+}
+export namespace cccev.f2.certification.client {
+    class CertificationClient /* implements cccev.f2.certification.domain.CertificationApi */ {
         constructor(client: f2.client.F2Client);
         get client(): f2.client.F2Client;
     }
 }
-export namespace cccev.f2.request.client {
-    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.request.client.RequestClient>;
+export namespace cccev.f2.certification.client {
+    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
 }
 export namespace cccev.f2.requirement.domain.command {
     interface ConstraintCreateCommandDTO extends cccev.f2.requirement.domain.command.RequirementCreateCommandDTO {
@@ -2920,12 +2938,13 @@ export namespace city.smartb.registry.program.f2.activity.domain.command {
 
     }
     interface ActivityStepCreatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly identifier: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.activity.domain.command {
     interface ActivityStepFulfillCommandDTO {
-        readonly requestId: string;
+        readonly certificationIdentifier: string;
         readonly identifier: string;
         readonly value?: string;
 
@@ -2940,7 +2959,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.command {
 export namespace city.smartb.registry.program.f2.activity.domain.model {
     interface ActivityDTO {
         readonly identifier: string;
-        readonly requestId?: string;
+        readonly certificationId?: string;
         readonly name?: string;
         readonly type?: string;
         readonly description?: string;
@@ -2950,9 +2969,9 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
 
     }
     class Activity implements city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {
-        constructor(identifier: string, requestId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation: Array<string>, hasRequirement: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number);
+        constructor(identifier: string, certificationId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation: Array<string>, hasRequirement: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number);
         get identifier(): string;
-        get requestId(): Nullable<string>;
+        get certificationId(): Nullable<string>;
         get name(): Nullable<string>;
         get type(): Nullable<string>;
         get description(): Nullable<string>;
@@ -2967,11 +2986,11 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         component6(): Array<string>;
         component7(): Array<city.smartb.registry.program.f2.activity.domain.model.Activity>;
         component8(): number;
-        copy(identifier?: string, requestId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression?: number): city.smartb.registry.program.f2.activity.domain.model.Activity;
+        copy(identifier?: string, certificationId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression?: number): city.smartb.registry.program.f2.activity.domain.model.Activity;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
-        static Activity_init_$Create$(seen1: number, identifier?: string, requestId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
+        static Activity_init_$Create$(seen1: number, identifier?: string, certificationId?: string, name?: string, type?: string, description?: string, hasQualifiedRelation?: Array<string>, hasRequirement?: Array<city.smartb.registry.program.f2.activity.domain.model.Activity>, progression: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): city.smartb.registry.program.f2.activity.domain.model.Activity;
         static get Companion(): {
             serializer(): kotlinx.serialization.KSerializer<city.smartb.registry.program.f2.activity.domain.model.Activity>;
         };
@@ -3018,7 +3037,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.query {
 export namespace city.smartb.registry.program.f2.activity.domain.query {
     interface ActivityStepPageQueryDTO {
         readonly activityIdentifier: string;
-        readonly requestId: string;
+        readonly certificationIdentifier: string;
         readonly offset?: number;
         readonly limit?: number;
 
