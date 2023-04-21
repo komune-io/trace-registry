@@ -124,7 +124,7 @@ export const toNodes = (
             obj.hasQualifiedRelation.forEach((id) => {
                 const targetedActivity = activities.find(el => el.identifier === id)
                 if (targetedActivity) {
-                    nodes.push(...toNodes(activities, undefined, select, level + 1))
+                    nodes.push(...toNodes([targetedActivity], undefined, select, level + 1))
                 }
             });
         }
