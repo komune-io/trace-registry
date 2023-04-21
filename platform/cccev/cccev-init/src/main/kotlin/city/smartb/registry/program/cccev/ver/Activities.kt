@@ -3,15 +3,56 @@ package city.smartb.registry.program.cccev.ver
 import cccev.dsl.model.informationRequirement
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
+const val QUALIFIED_RELATION = "IS_RELATED_TO"
+
 object Activities {
-    val LOI = informationRequirement {
-        identifier = "P0"
-        name = "LOI"
-        description =
-            "Stands for Letter of Intent. This activity involves the submission of a letter expressing the intention to develop and implement a VERs project."
+    val Certification = informationRequirement {
+        identifier = "P5"
+        name = "Certification"
+        description = ""
         type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
+        }
+    }
+
+    val ProtocolValidation = informationRequirement {
+        identifier = "P4"
+        name = "Protocol validation"
+        description = ""
+        type = RequirementType.Activity
+        isDerivedFrom {
+            +ReferenceFramework.AxessImpact
+        }
+        hasQualifiedRelation(QUALIFIED_RELATION) {
+            +Certification
+        }
+    }
+
+    val ProtocolPreparation = informationRequirement {
+        identifier = "P3"
+        name = "Protocol preparation"
+        description = ""
+        type = RequirementType.Activity
+        isDerivedFrom {
+            +ReferenceFramework.AxessImpact
+        }
+        hasQualifiedRelation(QUALIFIED_RELATION) {
+            +ProtocolValidation
+        }
+    }
+
+    val Implementation = informationRequirement {
+        identifier = "P2"
+        name = "Implementation"
+        description =
+            "This activity involves the actual implementation of the project according to the project protocol."
+        type = RequirementType.Activity
+        isDerivedFrom {
+            +ReferenceFramework.AxessImpact
+        }
+        hasQualifiedRelation(QUALIFIED_RELATION) {
+            +ProtocolPreparation
         }
     }
 
@@ -24,42 +65,22 @@ object Activities {
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
+        hasQualifiedRelation(QUALIFIED_RELATION) {
+            +Implementation
+        }
     }
-    val Implementation = informationRequirement {
-        identifier = "P2"
-        name = "Implementation"
+
+    val LOI = informationRequirement {
+        identifier = "P0"
+        name = "LOI"
         description =
-            "This activity involves the actual implementation of the project according to the project protocol."
+            "Stands for Letter of Intent. This activity involves the submission of a letter expressing the intention to develop and implement a VERs project."
         type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
-    }
-    val ProtocolPreparation = informationRequirement {
-        identifier = "P3"
-        name = "Protocol preparation"
-        description = ""
-        type = RequirementType.Activity
-        isDerivedFrom {
-            +ReferenceFramework.AxessImpact
-        }
-    }
-    val ProtocolValidation = informationRequirement {
-        identifier = "P4"
-        name = "Protocol validation"
-        description = ""
-        type = RequirementType.Activity
-        isDerivedFrom {
-            +ReferenceFramework.AxessImpact
-        }
-    }
-    val Certification = informationRequirement {
-        identifier = "P5"
-        name = "Certification"
-        description = ""
-        type = RequirementType.Activity
-        isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+        hasQualifiedRelation(QUALIFIED_RELATION) {
+            +Eligibility
         }
     }
 }
