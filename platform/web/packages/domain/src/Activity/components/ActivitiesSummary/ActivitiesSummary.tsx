@@ -53,7 +53,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
 
   const activityStepPageQuery = useActivityStepPageQuery({
     query: {
-      requestId: selectedNode?.requestId ?? "",
+      certificationIdentifier: selectedNode?.certification?.identifier ?? "",
       activityIdentifier: selectedNode?.identifier ?? "",
       limit: undefined,
       offset: undefined,

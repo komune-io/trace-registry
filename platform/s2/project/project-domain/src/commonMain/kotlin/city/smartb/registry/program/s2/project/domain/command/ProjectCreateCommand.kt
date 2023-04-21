@@ -1,11 +1,10 @@
 package city.smartb.registry.program.s2.project.domain.command
 
-import cccev.s2.certification.domain.model.CertificationId
-import cccev.s2.certification.domain.model.CertificationIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
 import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
+import city.smartb.registry.program.s2.project.domain.model.CertificationRef
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -101,9 +100,3 @@ data class ProjectCreatedEvent(
 ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }
-
-@Serializable
-data class CertificationRef(
-    val id: CertificationId,
-    val identifier: CertificationIdentifier,
-)

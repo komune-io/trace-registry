@@ -3,7 +3,6 @@ package city.smartb.registry.program.s2.project.domain.model
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.command.CertificationRef
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -143,7 +142,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     /**
      * Link to a cccev request.
      */
-    val certification: CertificationRef?
+    val certification: CertificationRefDTO?
 
     /**
      * Status of the project
