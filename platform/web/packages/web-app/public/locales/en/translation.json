@@ -135,6 +135,18 @@
       "23": "Small, Low - Impact Hydro",
       "24": "Other",
       "25": "Energy Efficiency - Industrial"
+    },
+    "assets": {
+      "titles": {
+        "balance": "Project balance",
+        "transactions": "Transactions history"
+      },
+      "availableQuantity" : "Available quantity",
+      "financedQuantity" : "Retired quantity",
+      "retiredQuantity" : "Financed quantity",
+      "tons" :  "Tons",
+      "serial": "Serial #"
+
     }
   }
 }
