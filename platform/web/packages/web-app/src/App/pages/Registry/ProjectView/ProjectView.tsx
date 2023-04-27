@@ -2,11 +2,11 @@ import { LinkButton } from '@smartb/g2'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {
-    ProjectActivities, ProjectInformationSection,
-    useProjectGetQuery,
+    ProjectActivities, ProjectInformationSection, ProjectAssets,
+    useProjectGetQuery
 } from 'domain-components'
 import { useParams } from 'react-router-dom'
-import { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useRoutesDefinition } from 'components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
@@ -36,6 +36,10 @@ export const ProjectView = (_: ProjectViewProps) => {
         key: 'activities',
         label: t('activities'),
         component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project} /> : <></>)
+    }, {
+        key: 'assets',
+        label: t('assets'),
+        component: (project ? <ProjectAssets isLoading={projectQuery.isLoading} project={project} /> : <></>)
     }], [project, projectQuery.isLoading, t])
 
     return (
