@@ -1,4 +1,4 @@
-import {Header, useFormComposable} from '@smartb/g2'
+import {FormComposable, Header, useFormComposable} from '@smartb/g2'
 import { useTranslation } from 'react-i18next';
 import {Box, Divider, Typography} from '@mui/material'
 import {
@@ -140,12 +140,18 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
 
                 }}>
                 <Box>
-                    <Typography variant="h5" >{t("projects.assets.titles.balance")}</Typography>
-                    <Divider sx={{ marginTop: "8px" }} />
+                    <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
+                    <Divider sx={{ margin: "8px 0" }} />
+
+                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { count: 6 })}</Typography>
+                    <FormComposable fields={} formState={formState} readonly/>
+
                 </Box>
                 <Box>
-                    <Typography variant="h5" >{t("projects.assets.titles.transactions")}</Typography>
-                    <Divider sx={{ marginTop: "8px" }} />
+                    <Typography variant="h5" >{t("projects.assets.history")}</Typography>
+                    <Divider sx={{ margin: "8px 0" }} />
+                    <FormComposable fields={} formState={formState} />
+
                 </Box>
 
             </Box>
