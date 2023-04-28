@@ -64,33 +64,61 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                                 }
                             ]}
                             sx={{
+                                backgroundColor: "none",
                                 "& .AruiHeader-leftPartContainer": {
                                     width: "100%"
-                                },
+                                }
                             }}
                         />
                     }
                     page={{
-                        items: [/*{
+                        items: [{
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            date: "6/30/22",
+                            vintage: 2023,
+                            quantity: "1 000 000 tons",
+                            to: "0xe2f2c31bd29a8dc820ef14969abe89461",
+                            type: "Purchase",
+                            for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
+                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320"
+                        },{
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            date: "6/30/22",
+                            vintage: 2023,
+                            quantity: "1 000 000 tons",
+                            to: "0xe2f2c31bd29a8dc820ef14969abe89461",
+                            type: "Purchase",
+                            for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
+                            from: "0xe2f2c31bd29a8c820ef14969abe479841320"
+                        },{
                             serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
                             date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
-                            type: "Issued",
+                            type: "Purchase",
                             for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
-                        },*/
-                            {
-                            serial: "idTropLong",
-                            date: "12/10/2003",
+                        },{
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
-                            to: "adresseTropLongue",
-                            type: "Issued",
-                            for: "adresseTropLongue",
-                            from: "adresseTropLongue"
-                        }],
+                            to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
+                            type: "Purchase",
+                            for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
+                            from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
+                        },{
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            date: "6/30/22",
+                            vintage: 2023,
+                            quantity: "1 000 000 tons",
+                            to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
+                            type: "Purchase",
+                            for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
+                            from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
+                        }
+                            ],
                         total: 10
                     }}
                     pagination={pagination}

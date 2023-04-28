@@ -8,6 +8,7 @@ import { useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 
+
 export interface Transaction {
     serial: string,
     date: string,
@@ -16,7 +17,8 @@ export interface Transaction {
     from: string,
     to: string,
     for: string,
-    type: string
+    type: any;
+
 }
 
 function useProductColumn() {
@@ -26,7 +28,8 @@ function useProductColumn() {
                 header: 'Transaction #',
                 getCellProps: (registry) => ({
                     value: registry.serial
-                })
+                }),
+                className: "serialColumn"
             }),
 
             name: generators.text({
@@ -54,30 +57,41 @@ function useProductColumn() {
             from: generators.text({
                 header: 'From',
                 getCellProps: (registry) => ({
-                    value: registry.from
-                })
+                    value: registry.from,
+                    /*componentProps: {
+                        sx: {
+                            "&:hover":{
+                                fontWeight: "400"
+                            }
+                        }
+                    }*/
+                }),
+                className: "adressColumn"
             }),
 
             to: generators.text({
                 header: 'To',
                 getCellProps: (registry) => ({
                     value: registry.to
-                })
+                }),
+                className: "adressColumn"
             }),
 
             for: generators.text({
                 header: 'For',
                 getCellProps: (registry) => ({
                     value: registry.for
-                })
+                }),
+                className: "adressColumn"
             }),
 
-            type: generators.text({
-                header: 'Type',
-                getCellProps: (registry) => ({
-                    value: registry.type
-                })
-            })
+            type: {
+                header: "Type",
+                cell: ({ row }) => (
+                    <StatusTag label={row.original.type}/>
+                ),
+                className: "typesColumn"
+            }
 
 
         })
@@ -110,7 +124,7 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
             }
         },
         [projectsProjectIdViewTabAll],
-    )
+    ) // changer pour transactions
 
 
     if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
@@ -119,15 +133,12 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
             {...other}
             sx={{
                 overflow: "unset",
-                "& .statusColumn": {
+                "& .adressColumn": {
                     maxWidth: "180px"
-                },
-                "& .typeColumn": {
-                    maxWidth: "150px"
-                },
-                "& .AruiTable-tableHead": {
-                    top: "70px",
-                    background: (theme) => theme.palette.background.default + "99"
+                },"& .typesColumn": {
+                    maxWidth: "180px",
+                },"& .serialColumn": {
+                    maxWidth: "200px",
                 },
                 ...sx
             }}
