@@ -145,7 +145,10 @@
       "financedQuantity" : "Retired quantity",
       "retiredQuantity" : "Financed quantity",
       "tons" :  "Tons",
-      "serial": "Serial #"
+      "serial": "Serial #",
+      "transactionInformations":  "Transaction informations",
+      "history": "History",
+      "transaction": "Transaction # : {{count}}"
 
     }
   }
