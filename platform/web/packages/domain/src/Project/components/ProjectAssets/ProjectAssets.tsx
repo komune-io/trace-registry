@@ -126,6 +126,29 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                     onOffsetChange={setOffset}
                 />
             </Box>
+            <Box
+                sx={{
+                    position: "absolute",
+                    overflow: "unset",
+                    zIndex: "99999",
+                    right: "0",
+                    width: "35%",
+                    height: "100%",
+                    backgroundColor: "white",
+                    border: "10px solid black",
+                    padding: "20px 30px"
+
+                }}>
+                <Box>
+                    <Typography variant="h5" >{t("projects.assets.titles.balance")}</Typography>
+                    <Divider sx={{ marginTop: "8px" }} />
+                </Box>
+                <Box>
+                    <Typography variant="h5" >{t("projects.assets.titles.transactions")}</Typography>
+                    <Divider sx={{ marginTop: "8px" }} />
+                </Box>
+
+            </Box>
         </>
     )
 }
