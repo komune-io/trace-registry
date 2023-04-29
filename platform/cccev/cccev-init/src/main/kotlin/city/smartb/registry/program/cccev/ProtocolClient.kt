@@ -9,6 +9,7 @@ import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
 import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
 import city.smartb.registry.program.cccev.ver.ActivitiesAxess
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.logging.Logging
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -25,6 +26,7 @@ suspend fun initRequirement(url: String) {
         install(HttpTimeout) {
             requestTimeoutMillis = 60000
         }
+        install(Logging)
     }
     client.createGraph(
         buildList<Requirement> {

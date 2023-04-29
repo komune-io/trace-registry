@@ -20,6 +20,7 @@ object Versions {
 	val im = PluginVersions.fixers
 	val cccev = PluginVersions.fixers
 
+	const val ktor = FixersVersions.Kotlin.ktor
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val redisOm = "0.8.0"
 	const val datafaker = "1.8.1"
