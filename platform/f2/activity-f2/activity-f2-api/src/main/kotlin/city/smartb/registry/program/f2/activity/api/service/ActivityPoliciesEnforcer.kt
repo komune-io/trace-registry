@@ -21,7 +21,11 @@ class ActivityPoliciesEnforcer: PolicyEnforcer() {
         ActivityPolicies.canCreateStep(authedUser)
     }
 
-    suspend fun checkCanFulfillTask() = check("create activity") { authedUser ->
+    suspend fun checkCanFulfillStep() = check("create activity") { authedUser ->
+        ActivityPolicies.canFulfillTask(authedUser)
+    }
+
+    suspend fun checkCanFulfillEvidenceStep() = check("create activity") { authedUser ->
         ActivityPolicies.canFulfillTask(authedUser)
     }
 

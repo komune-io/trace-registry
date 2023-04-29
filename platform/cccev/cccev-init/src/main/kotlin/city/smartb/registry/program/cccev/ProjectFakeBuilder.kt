@@ -71,7 +71,7 @@ fun createYahuma(url: String): Unit = runBlocking {
             certificationIdentifier = certification.identifier,
             identifier = "B101",
             value = "Yahuma Sud"
-        ).invokeWith(activityClient.activityFulfillTask())
+        ).invokeWith(activityClient.activityStepFulfill())
         println(fulfilledEvent)
     }
 }
@@ -101,7 +101,7 @@ fun createRandom(url: String, countRange: IntRange): Unit = runBlocking {
                 certificationIdentifier = certification.identifier,
                 identifier = "B101",
                 value = "Yahuma Sud"
-            ).invokeWith(activityClient.activityFulfillTask())
+            ).invokeWith(activityClient.activityStepFulfill())
             println(fulfilledEvent)
         }
     }
@@ -188,9 +188,7 @@ private fun yahuma(): ProjectCreateCommand {
             lat = 0.783000
         ),
         vvb = null,
-        activities = listOf(
-            "P0", "P1", "P2", "P3", "P4", "P5"
-        ),
+        activities = listOf("P0", "P1", "P2", "P3", "P4", "P5"),
         sdgs = emptyList()
     )
 }
