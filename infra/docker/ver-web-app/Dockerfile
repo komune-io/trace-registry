@@ -15,7 +15,7 @@ RUN yarn workspace web-app build
 
 FROM nginx:1.23.3-alpine
 
-COPY --from=build /app/packages/web-app/build /var/www
+COPY --from=build /app/packages/web-app/dist /var/www
 COPY infra/docker/ver-web-app/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
