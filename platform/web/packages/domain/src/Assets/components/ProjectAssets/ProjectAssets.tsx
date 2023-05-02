@@ -1,15 +1,19 @@
-import {FormComposable, Header, useFormComposable} from '@smartb/g2'
+import {Header, useFormComposable} from '@smartb/g2'
 import { useTranslation } from 'react-i18next';
-import {Box, Divider, Typography} from '@mui/material'
+import {Box, Divider, Stack, Typography} from '@mui/material'
 import {
     Project,
-    ProjectBalanceBanner,
-    ProjectTransactionsTable,
-    useTransactionsFilters,
     useProjectTransactionPageQuery
-} from 'domain-components'
+} from '../../../Project'
 import {Fragment, useMemo} from "react";
 import {Offset, OffsetPagination} from "template";
+import {
+    ProjectTransactionsTable,
+    ProjectBalanceBanner,
+    useTransactionsFilters,
+    ProjectTransactionInformations,
+    ProjectTransactionHistory
+} from "../";
 
 export interface ProjectAssetsProps {
     project?: Project
@@ -36,7 +40,28 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
         }
     })
 
-    return (<>
+
+
+
+
+    // fieldStackProps
+
+    return (
+        <Stack
+            direction="row"
+            sx={{
+                height: "calc(100vh - 200px)",
+                minHeight: "fit-content"
+            }}
+        >
+            <Stack
+                direction="column"
+                sx={{
+                    padding: "24px"
+                }}
+                gap={3}
+
+            >
             <Box>
                 <Typography variant="h5" >{t("projects.assets.titles.balance")}</Typography>
                 <Divider sx={{ marginTop: "8px" }} />
@@ -47,11 +72,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                 <Divider sx={{ marginTop: "8px" }} />
             </Box>
 
-            <Box
-                sx={{
-                    paddingBottom: "70px",
-                }}
-            >
+            <Box>
 
                 <ProjectTransactionsTable
                     header={
@@ -126,35 +147,22 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                     onOffsetChange={setOffset}
                 />
             </Box>
-            <Box
+            </Stack>
+            <Stack
                 sx={{
-                    position: "absolute",
-                    overflow: "unset",
-                    zIndex: "99999",
-                    right: "0",
-                    width: "35%",
-                    height: "100%",
                     backgroundColor: "white",
-                    border: "10px solid black",
-                    padding: "20px 30px"
+                    height: "100%",
+                    width: "550px",
+                    padding: "24px 32px",
+                    overflowY: "auto",
+                    border: "1px solid black"
+                }}
+                gap={2}
+            >
+                <ProjectTransactionInformations isLoading={isLoading}  />
+                <ProjectTransactionHistory isLoading={isLoading} project={project} />
+            </Stack>
 
-                }}>
-                <Box>
-                    <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
-                    <Divider sx={{ margin: "8px 0" }} />
-
-                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { count: 6 })}</Typography>
-                    <FormComposable fields={} formState={formState} readonly/>
-
-                </Box>
-                <Box>
-                    <Typography variant="h5" >{t("projects.assets.history")}</Typography>
-                    <Divider sx={{ margin: "8px 0" }} />
-                    <FormComposable fields={} formState={formState} />
-
-                </Box>
-
-            </Box>
-        </>
+        </Stack>
     )
 }
