@@ -3,8 +3,7 @@ import { ColumnFactory, useTable } from '@smartb/g2'
 import {StatusTag} from "@smartb/g2";
 
 import { Row } from '@tanstack/react-table';
-import { useCallback, useMemo } from "react"
-import { useRoutesDefinition } from 'components'
+import { useMemo } from "react"
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 
@@ -103,11 +102,11 @@ export interface ProjectTransactionsTableProps extends Partial<OffsetTableProps<
     page?: PageQueryResult<Transaction>
     pagination: OffsetPagination
     isLoading?: boolean
+    onTransactionClick: (Transaction: Row<Transaction>) => void
 }
 
 export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, ...other } = props
-    const { projectsProjectIdViewTabAll } = useRoutesDefinition()
+    const { isLoading, page, onOffsetChange, pagination, onTransactionClick, sx, ...other } = props
     const { t } = useTranslation()
 
     const columns = useProductColumn()
@@ -116,15 +115,6 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
         data: page?.items ?? [],
         columns: columns,
     })
-
-    const getRowLink = useCallback(
-        (row: Row<Transaction>) => {
-            return {
-                to: projectsProjectIdViewTabAll(row.original.serial)
-            }
-        },
-        [projectsProjectIdViewTabAll],
-    ) // changer pour transactions
 
 
     if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
@@ -147,7 +137,7 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
             pagination={pagination}
             onOffsetChange={onOffsetChange}
             isLoading={isLoading}
-            getRowLink={getRowLink}
+            onRowClicked={onTransactionClick}
         />
     )
 }
