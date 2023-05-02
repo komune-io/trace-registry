@@ -4,7 +4,4 @@ export * from "./ProjectDetails"
 export * from "./ProjectInformationSection"
 export * from "./ProjectProtocolesLocation"
 export * from "./ProjectActivities"
-export * from "./ProjectAssets"
-export * from "./ProjectTransactionsTable"
-export * from "./ProjectBalanceBanner"
-export * from "./ProjectTransactionInformations"
+

@@ -1,8 +1,8 @@
 import {Box, Stack, Typography} from '@mui/material'
-import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
+import {FormComposable, FormComposableField, FormComposableState} from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Project } from '../../model'
+import { Project } from '../../../Project'
 
 export interface ProjectBalanceBannerProps {
     formState: FormComposableState
@@ -17,8 +17,8 @@ const TypeElement = () => {
 
 export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
     const { formState } = props
-
     const { t } = useTranslation()
+
     const fieldsAvailable = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "type",
         type: "select",

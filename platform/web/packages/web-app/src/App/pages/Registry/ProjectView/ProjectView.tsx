@@ -51,7 +51,7 @@ export const ProjectView = (_: ProjectViewProps) => {
               onTabChange={onTabChange}
               sx={{
                   "& .AruiSection-contentContainer": {
-                      padding: currentTab === "activities" ? "unset" : undefined
+                      padding: currentTab === "activities" || currentTab ==="assets" ? "unset" : undefined
                   }
               }}
             />

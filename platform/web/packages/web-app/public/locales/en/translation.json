@@ -148,7 +148,12 @@
       "serial": "Serial #",
       "transactionInformations":  "Transaction informations",
       "history": "History",
-      "transaction": "Transaction # : {{count}}"
+      "transaction": "Transaction # : {{count}}",
+      "issuanceDate": "Issuance date",
+      "retirementDate": "Retirement date",
+      "sellTo": "Sell to {{name}}",
+      "dataTons":  "{{count}} tons",
+      "history1": "Issued to {{name}} from {{name}} in {{country}}"
 
     }
   }
