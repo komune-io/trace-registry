@@ -2,13 +2,15 @@ import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2
 import {Box, Divider, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
+import {Transaction} from "../ProjectTransactionsTable";
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
+    transaction?: Transaction
 }
 
 export const ProjectTransactionInformations = (props: ProjectTransactionInformationsProps) => {
-    const { isLoading } = props
+    const { isLoading, transaction } = props
 
     const { t } = useTranslation()
 
@@ -46,7 +48,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             params: {
                 orientation: "horizontal"
             }
-        }], [])
+        }], [transaction])
 
 
     return (

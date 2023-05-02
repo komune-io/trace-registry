@@ -3,6 +3,7 @@ import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
 import {Project} from "../../../Project";
+import {Transaction} from "../ProjectTransactionsTable";
 
 
 
@@ -10,10 +11,11 @@ import {Project} from "../../../Project";
 export interface ProjectTransactionHistoryProps {
     isLoading: boolean
     project?: Project
+    transaction?: Transaction
 }
 
 export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps) => {
-    const { isLoading, project } = props
+    const { isLoading, project, transaction } = props
 
     const { t } = useTranslation()
 
@@ -27,12 +29,9 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
         name: "dataTons1",
         type: "textField",
         label: t('projects.assets.dataTons', { count: 1000000 }),
-        defaultValue : t('projects.assets.history1', {name: project?.name, country: project?.country}),
+        defaultValue : t('projects.assets.history1', {resultName: "Odilon", name: project?.name, country: project?.country}),
         params: {
-            orientation: "horizontal",
-            sx:{
-                textAlign: "right"
-            }
+            orientation: "horizontal"
         }
     },{
         name: "dataTons2",
@@ -42,7 +41,15 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
         params: {
             orientation: "horizontal"
         }
-    }], [])
+    },{
+        name: "dataTons3",
+        type: "textField",
+        label: t('projects.assets.dataTons', { count: 100 }),
+        defaultValue : t('projects.assets.retired', {name: "0x....3232"}),
+        params: {
+            orientation: "horizontal"
+        }
+    }], [transaction])
 
 
     return (

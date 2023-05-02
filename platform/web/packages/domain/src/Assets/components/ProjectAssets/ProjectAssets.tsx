@@ -1,18 +1,20 @@
 import {Header, useFormComposable} from '@smartb/g2'
+import { Row } from '@tanstack/react-table';
+
 import { useTranslation } from 'react-i18next';
 import {Box, Divider, Stack, Typography} from '@mui/material'
 import {
     Project,
     useProjectTransactionPageQuery
 } from '../../../Project'
-import {Fragment, useMemo} from "react";
+import {Fragment, useCallback, useMemo, useState} from "react";
 import {Offset, OffsetPagination} from "template";
 import {
     ProjectTransactionsTable,
     ProjectBalanceBanner,
     useTransactionsFilters,
     ProjectTransactionInformations,
-    ProjectTransactionHistory
+    ProjectTransactionHistory, Transaction
 } from "../";
 
 export interface ProjectAssetsProps {
@@ -25,7 +27,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
     const { component, setOffset, submittedFilters } = useTransactionsFilters()
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
     const { t } = useTranslation()
-    const projects = useProjectTransactionPageQuery({
+    const transactions = useProjectTransactionPageQuery({
         query: submittedFilters
     })
     const formState = useFormComposable({
@@ -39,11 +41,15 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
             }
         }
     })
+    const [selectedTransaction, setTransaction] = useState<Transaction | undefined>(undefined)
 
-
-
-
-
+    const transactionClicked = useCallback(
+        (row: Row<Transaction>) => {
+            setTransaction(row.original)
+        },
+        [],
+    )
+    // projectDetails projectStatusTag
     // fieldStackProps
 
     return (
@@ -51,13 +57,16 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
             direction="row"
             sx={{
                 height: "calc(100vh - 200px)",
-                minHeight: "fit-content"
+                minHeight: "fit-content",
+                width: "100%"
             }}
         >
             <Stack
                 direction="column"
                 sx={{
-                    padding: "24px"
+                    padding: "24px",
+                    width: "100%"
+
                 }}
                 gap={3}
 
@@ -73,7 +82,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
             </Box>
 
             <Box>
-
                 <ProjectTransactionsTable
                     header={
                         <Header
@@ -143,25 +151,32 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                         total: 10
                     }}
                     pagination={pagination}
-                    isLoading={projects.isLoading}
+                    isLoading={transactions.isLoading}
                     onOffsetChange={setOffset}
+                    onTransactionClick={transactionClicked}
                 />
             </Box>
             </Stack>
-            <Stack
-                sx={{
-                    backgroundColor: "white",
-                    height: "100%",
-                    width: "550px",
-                    padding: "24px 32px",
-                    overflowY: "auto",
-                    border: "1px solid black"
-                }}
-                gap={2}
-            >
-                <ProjectTransactionInformations isLoading={isLoading}  />
-                <ProjectTransactionHistory isLoading={isLoading} project={project} />
-            </Stack>
+            {
+                selectedTransaction ?
+                    <Stack
+                        sx={{
+                            backgroundColor: "white",
+                            height: "100%",
+                            width: "550px",
+                            padding: "24px 32px",
+                            overflowY: "auto",
+                            border: "1px solid black"
+                        }}
+                        gap={2}
+                    >
+
+                        <ProjectTransactionInformations isLoading={isLoading} transaction={selectedTransaction}  />
+                        <ProjectTransactionHistory isLoading={isLoading} project={project} transaction={selectedTransaction}/>
+                    </Stack>
+                    : ""
+
+            }
 
         </Stack>
     )
