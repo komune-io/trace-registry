@@ -4,7 +4,7 @@ import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {Transaction} from "../ProjectTransactionsTable";
 import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
-import {CloseIcon} from "components";
+import {CloseRounded} from "@mui/icons-material";
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
@@ -63,7 +63,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                         justifyContent="space-between">
                         <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
                         <IconButton aria-label="close" onClick={onBack} >
-                            <CloseIcon />
+                            <CloseRounded />
                         </IconButton>
                     </Stack>
                     <Divider sx={{ margin: "8px 0" }} />

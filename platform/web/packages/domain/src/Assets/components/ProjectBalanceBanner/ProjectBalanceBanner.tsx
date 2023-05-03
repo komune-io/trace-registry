@@ -3,7 +3,7 @@ import {FormComposable, FormComposableField, FormComposableState} from '@smartb/
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../../Project'
-import {AvailableIcon, CompareIcon, RetireIcon} from "components";
+import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/icons-material";
 
 
 export interface ProjectBalanceBannerProps {
@@ -82,7 +82,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                         }
                     }}
                 >
-                    <AvailableIcon />
+                    <ArrowUpwardRounded sx={{ color: "#159D50" }}/>
                     <FormComposable formState={formState} fields={fieldsAvailable} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
                 </Stack>
                 <Stack
@@ -101,7 +101,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                         }
                     }}
                 >
-                    <RetireIcon />
+                    <DownloadRounded sx={{ color: "#F36D25" }}/>
                     <FormComposable formState={formState} fields={fieldsFinanced} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
                 </Stack>
                 <Stack
@@ -120,7 +120,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                         }
                     }}
                 >
-                    <CompareIcon />
+                    <CompareArrowsRounded sx={{ color: "#284FDB" }}/>
                     <FormComposable formState={formState} fields={fieldsRetired} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
                 </Stack>
             </Stack>
