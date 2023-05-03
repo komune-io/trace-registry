@@ -1,39 +1,24 @@
 import { QueryParams, useQueryRequest } from "@smartb/g2-utils"
-import { city } from "verified-emission-reduction-registry-project-f2-domain"
+import { city } from "verified-emission-reduction-registry-asset-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 
+export interface AssetPageQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageQueryDTO { }
+export interface AssetPageResult extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTO { }
 
-
-// A adapter pour Assets
-
-export interface ProjectPageQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectPageQueryDTO { }
-export interface ProjectPageResult extends city.smartb.registry.program.f2.project.domain.query.ProjectPageResultDTO { }
-
-export const useProjectPageQuery = (params: QueryParams<ProjectPageQuery, ProjectPageResult>) => {
+export const useAssetPageQuery = (params: QueryParams<AssetPageQuery, AssetPageResult>) => {
     const requestProps = useNoAuthenticatedRequest()
-    return useQueryRequest<ProjectPageQuery, ProjectPageResult>(
-        "projectPage", requestProps, params
+    return useQueryRequest<AssetPageQuery, AssetPageResult>(
+        "assetTransactionPage", requestProps, params
     )
 }
 
 
-export interface ProjectGetQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectGetQueryDTO { }
-export interface ProjectGetResult extends city.smartb.registry.program.f2.project.domain.query.ProjectGetResultDTO { }
+export interface AssetGetQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetGetStatsQueryDTO { }
+export interface AssetGetResult extends city.smartb.registry.program.f2.asset.domain.query.AssetGetStatsResultDTO { }
 
-export const useProjectGetQuery = (params: QueryParams<ProjectGetQuery, ProjectGetResult>) => {
+export const useAssetGetQuery = (params: QueryParams<AssetGetQuery, AssetGetResult>) => {
     const requestProps = useNoAuthenticatedRequest()
-    return useQueryRequest<ProjectGetQuery, ProjectGetResult>(
-        "projectGet", requestProps, params
-    )
-}
-
-
-export interface ProjectTransactionPageQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectPageQueryDTO { }
-export interface ProjectTransactionPageResult extends city.smartb.registry.program.f2.project.domain.query.ProjectPageResultDTO { }
-
-export const useProjectTransactionPageQuery = (params: QueryParams<ProjectTransactionPageQuery, ProjectTransactionPageResult>) => {
-    const requestProps = useNoAuthenticatedRequest()
-    return useQueryRequest<ProjectTransactionPageQuery, ProjectTransactionPageResult>(
-        "projectPage", requestProps, params
+    return useQueryRequest<AssetGetQuery, AssetGetResult>(
+        "assetGetStats", requestProps, params
     )
 }
