@@ -42,16 +42,29 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
 
     const transactionClicked = useCallback(
         (row: Row<Transaction>) => {
-            setTransaction(row.original)
+            setTransaction(old => old?.serial === row.original.serial ? undefined : row.original)
         },
         [],
     )
+    const onBack= useCallback( () => {
+        setTransaction(undefined)
+        },[]
+    )
+
+    const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.serial]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
+
+    const getRowId = useCallback(
+        (row: Transaction) => row.serial,
+        [],
+    )
+
     // projectDetails projectStatusTag
     // fieldStackProps
 
     return (
         <Stack
             direction="row"
+            position="relative"
             sx={{
                 height: "calc(100vh - 200px)",
                 minHeight: "fit-content",
@@ -81,6 +94,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             ]}
                             sx={{
                                 backgroundColor: "none",
+                                zIndex: 0,
                                 "& .AruiHeader-leftPartContainer": {
                                     width: "100%"
                                 }
@@ -98,7 +112,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2018",
                             date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
@@ -107,7 +121,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8c820ef14969abe479841320"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2019",
                             date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
@@ -116,7 +130,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2020",
                             date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
@@ -125,7 +139,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2021",
                             date: "6/30/22",
                             vintage: 2023,
                             quantity: "1 000 000 tons",
@@ -141,11 +155,19 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                     isLoading={transactions.isLoading}
                     onOffsetChange={setOffset}
                     onTransactionClick={transactionClicked}
+                    sx={{
+                        "& .selectedRow": {
+                            bgcolor: (theme) => theme.palette.primary.main + "33"
+                        }
+                    }}
+                    additionnalRowsProps={additionnalRowsProps}
+                    getRowId={getRowId}
+                    onRowClicked={transactionClicked}
                 />
             </Stack>
             {
                 selectedTransaction ?
-                    <ProjectTransactionPage isLoading={isLoading} project={project} transaction={selectedTransaction} />
+                    <ProjectTransactionPage isLoading={isLoading} project={project} transaction={selectedTransaction} onBack={onBack}/>
                     : ""
             }
         </Stack>

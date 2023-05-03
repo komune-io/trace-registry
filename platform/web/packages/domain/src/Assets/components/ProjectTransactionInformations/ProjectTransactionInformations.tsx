@@ -1,16 +1,19 @@
 import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
-import {Box, Divider, Typography} from '@mui/material'
+import {Box, Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {Transaction} from "../ProjectTransactionsTable";
+import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
+import {CloseIcon} from "components";
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
     transaction?: Transaction
+    onBack: () => void
 }
 
 export const ProjectTransactionInformations = (props: ProjectTransactionInformationsProps) => {
-    const { isLoading, transaction } = props
+    let { isLoading, transaction, onBack } = props
 
     const { t } = useTranslation()
 
@@ -28,7 +31,8 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
         defaultValue : "Withdraw",
         params: {
             orientation: "horizontal",
-            readonlyType: 'chip'
+            readonlyType: "customElement",
+            readonlyElement: ProjectTransactionStatus
         }
     },
         {
@@ -48,12 +52,20 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             params: {
                 orientation: "horizontal"
             }
-        }], [transaction])
+        }], [transaction, t])
 
 
     return (
                 <Box>
-                    <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between">
+                        <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
+                        <IconButton aria-label="close" onClick={onBack} >
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
                     <Divider sx={{ margin: "8px 0" }} />
 
                     <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { count: 6 })}</Typography>
