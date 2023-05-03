@@ -72230,9 +72230,9 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.s2.certification.domain.model.Evidence', this, 5);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('name', false);
-    tmp0_serialDesc.f49('file', false);
-    tmp0_serialDesc.f49('url', false);
-    tmp0_serialDesc.f49('isConformantTo', false);
+    tmp0_serialDesc.f49('file', true);
+    tmp0_serialDesc.f49('url', true);
+    tmp0_serialDesc.f49('isConformantTo', true);
     this.g5f_1 = tmp0_serialDesc;
   }
   $serializer_36.prototype.q3y = function () {
@@ -72312,9 +72312,15 @@ if (typeof Math.imul === 'undefined') {
     var tmp1_output = encoder.c42(tmp0_desc);
     tmp1_output.q43(tmp0_desc, 0, value.i5f_1);
     tmp1_output.q43(tmp0_desc, 1, value.j5f_1);
-    tmp1_output.u43(tmp0_desc, 2, $serializer_getInstance_25(), value.k5f_1);
-    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.l5f_1);
-    tmp1_output.s43(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), value.m5f_1);
+    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.k5f_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 2, $serializer_getInstance_25(), value.k5f_1);
+    }
+    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.l5f_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.l5f_1);
+    }
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !equals_1(value.m5f_1, emptyList())) {
+      tmp1_output.s43(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), value.m5f_1);
+    }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_36.prototype.r3y = function (encoder, value) {
@@ -72327,14 +72333,23 @@ if (typeof Math.imul === 'undefined') {
     return $serializer_instance_34;
   }
   function Evidence_init_$Init$(seen1, id, name, file, url, isConformantTo, serializationConstructorMarker, $this) {
-    if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_34().g5f_1);
+    if (!(3 === (3 & seen1))) {
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_34().g5f_1);
     }
     $this.i5f_1 = id;
     $this.j5f_1 = name;
-    $this.k5f_1 = file;
-    $this.l5f_1 = url;
-    $this.m5f_1 = isConformantTo;
+    if (0 === (seen1 & 4))
+      $this.k5f_1 = null;
+    else
+      $this.k5f_1 = file;
+    if (0 === (seen1 & 8))
+      $this.l5f_1 = null;
+    else
+      $this.l5f_1 = url;
+    if (0 === (seen1 & 16))
+      $this.m5f_1 = emptyList();
+    else
+      $this.m5f_1 = isConformantTo;
     return $this;
   }
   function Evidence_init_$Create$(seen1, id, name, file, url, isConformantTo, serializationConstructorMarker) {

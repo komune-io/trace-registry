@@ -30,7 +30,7 @@ export const ActivitiesSummaryForm = (props: ActivitiesSummaryFormProps) => {
 
     const fields: FormComposableField[] = useMemo(() => steps?.map(it => ({
         name: it.identifier,
-        label: it.name,
+        label: `${it.identifier} - ${it.name}`,
         params: {
             orientation: "horizontal"
         },
@@ -49,7 +49,7 @@ export const ActivitiesSummaryForm = (props: ActivitiesSummaryFormProps) => {
             gap={2}
         >
             <Box>
-                <Typography variant="h5" >{activity?.name}</Typography>
+                <Typography variant="h5">{activity?.name}</Typography>
                 <Divider sx={{ marginTop: "8px" }} />
             </Box>
             {

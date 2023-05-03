@@ -20,7 +20,7 @@ expect fun activityClient(urlBase: String): F2SupplierSingle<ActivityClient>
 open class ActivityClient constructor(private val client: F2Client) : ActivityApi {
     override fun activityCreate(): ActivityCreateFunction = client.function(this::activityCreate.name)
     override fun activityStepCreate(): ActivityStepCreateFunction = client.function(this::activityStepCreate.name)
-    override fun activityFulfillTask(): ActivityStepFulfillFunction = client.function(this::activityFulfillTask.name)
+    override fun activityStepFulfill(): ActivityStepFulfillFunction = client.function(this::activityStepFulfill.name)
     override fun activityPage(): ActivityPageFunction = client.function(this::activityPage.name)
     override fun activityStepPage(): ActivityStepPageFunction = client.function(this::activityStepPage.name)
 }

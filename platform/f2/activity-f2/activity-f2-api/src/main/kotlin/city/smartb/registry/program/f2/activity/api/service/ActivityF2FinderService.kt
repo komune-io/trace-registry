@@ -55,6 +55,7 @@ class ActivityF2FinderService(
                 type = "Activity"
             ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         }?.items
+            ?.sortedBy { it.identifier }
             ?.onEach { requirement ->
                 cache.requirements.register(requirement.id, requirement)
                 requirement.hasRequirement.forEach {
@@ -97,7 +98,10 @@ class ActivityF2FinderService(
         val requirement = RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
 
-        val steps = requirement.item?.hasConcept?.toSteps(certificationIdentifier) ?: emptyList()
+        val steps = requirement.item
+            ?.hasConcept
+            ?.sortedBy { it.identifier }
+            ?.toSteps(certificationIdentifier) ?: emptyList()
 
         return ActivityStepPageResult(
             items = steps,

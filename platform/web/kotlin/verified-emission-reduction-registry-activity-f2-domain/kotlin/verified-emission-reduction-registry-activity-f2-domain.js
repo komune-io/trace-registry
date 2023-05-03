@@ -2151,6 +2151,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ActivityStepCreatedEventDTO, 'ActivityStepCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(ActivityStepFulfillCommandDTO, 'ActivityStepFulfillCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityStepFulfilledEventDTO, 'ActivityStepFulfilledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ActivityStepEvidenceFulfillCommandDTO, 'ActivityStepEvidenceFulfillCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ActivityStepEvidenceFulfilledEventDTO, 'ActivityStepEvidenceFulfilledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(ActivityDTO, 'ActivityDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityStepDTO, 'ActivityStepDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPolicies, 'ActivityPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
@@ -71951,9 +71953,9 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.s2.certification.domain.model.Evidence', this, 5);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('name', false);
-    tmp0_serialDesc.f49('file', false);
-    tmp0_serialDesc.f49('url', false);
-    tmp0_serialDesc.f49('isConformantTo', false);
+    tmp0_serialDesc.f49('file', true);
+    tmp0_serialDesc.f49('url', true);
+    tmp0_serialDesc.f49('isConformantTo', true);
     this.r5e_1 = tmp0_serialDesc;
   }
   $serializer_35.prototype.q3y = function () {
@@ -72033,9 +72035,15 @@ if (typeof Math.imul === 'undefined') {
     var tmp1_output = encoder.c42(tmp0_desc);
     tmp1_output.q43(tmp0_desc, 0, value.t5e_1);
     tmp1_output.q43(tmp0_desc, 1, value.u5e_1);
-    tmp1_output.u43(tmp0_desc, 2, $serializer_getInstance_24(), value.v5e_1);
-    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.w5e_1);
-    tmp1_output.s43(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), value.x5e_1);
+    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.v5e_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 2, $serializer_getInstance_24(), value.v5e_1);
+    }
+    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.w5e_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.w5e_1);
+    }
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !equals_1(value.x5e_1, emptyList())) {
+      tmp1_output.s43(tmp0_desc, 4, new ArrayListSerializer(StringSerializer_getInstance()), value.x5e_1);
+    }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_35.prototype.r3y = function (encoder, value) {
@@ -72048,14 +72056,23 @@ if (typeof Math.imul === 'undefined') {
     return $serializer_instance_33;
   }
   function Evidence_init_$Init$(seen1, id, name, file, url, isConformantTo, serializationConstructorMarker, $this) {
-    if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_33().r5e_1);
+    if (!(3 === (3 & seen1))) {
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_33().r5e_1);
     }
     $this.t5e_1 = id;
     $this.u5e_1 = name;
-    $this.v5e_1 = file;
-    $this.w5e_1 = url;
-    $this.x5e_1 = isConformantTo;
+    if (0 === (seen1 & 4))
+      $this.v5e_1 = null;
+    else
+      $this.v5e_1 = file;
+    if (0 === (seen1 & 8))
+      $this.w5e_1 = null;
+    else
+      $this.w5e_1 = url;
+    if (0 === (seen1 & 16))
+      $this.x5e_1 = emptyList();
+    else
+      $this.x5e_1 = isConformantTo;
     return $this;
   }
   function Evidence_init_$Create$(seen1, id, name, file, url, isConformantTo, serializationConstructorMarker) {
@@ -91156,6 +91173,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ActivityStepFulfilledEventDTO() {
   }
+  function ActivityStepEvidenceFulfillCommandDTO() {
+  }
+  function ActivityStepEvidenceFulfilledEventDTO() {
+  }
   function ActivityDTO() {
   }
   function ActivityStepDTO() {
@@ -93111,6 +93132,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$activity = $city$smartb$registry$program$f2.activity || ($city$smartb$registry$program$f2.activity = {});
+    var $city$smartb$registry$program$f2$activity$domain = $city$smartb$registry$program$f2$activity.domain || ($city$smartb$registry$program$f2$activity.domain = {});
+    var $city$smartb$registry$program$f2$activity$domain$command = $city$smartb$registry$program$f2$activity$domain.command || ($city$smartb$registry$program$f2$activity$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

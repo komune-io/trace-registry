@@ -10,5 +10,5 @@ interface ActivityCommandApi {
     fun activityStepCreate(): ActivityStepCreateFunction
 
     /** Fulfill an activity step */
-    fun activityFulfillTask(): ActivityStepFulfillFunction
+    fun activityStepFulfill(): ActivityStepFulfillFunction
 }

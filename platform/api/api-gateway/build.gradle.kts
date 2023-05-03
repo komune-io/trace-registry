@@ -11,7 +11,6 @@ dependencies {
 
     implementation(project(":platform:f2:project-f2:project-f2-api"))
     implementation(project(":platform:f2:activity-f2:activity-f2-api"))
-//    implementation(project(":platform:f2:asset-f2:asset-f2-api"))
 
     implementation(project(":platform:api:api-config"))
 
@@ -19,4 +18,7 @@ dependencies {
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
     imageName.set("${System.getenv("IMAGE_NAME")}:${this.project.version}")
+//    environment.set(mapOf(
+//        "BPE_APPEND_JAVA_TOOL_OPTIONS" to " -XX:MaxDirectMemorySize=35M"
+//    ))
 }

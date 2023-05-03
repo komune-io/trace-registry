@@ -1,8 +1,11 @@
 package city.smartb.registry.program.f2.activity.api
 
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.certification.client.certificationAddEvidence
+import cccev.f2.certification.domain.command.CertificationAddEvidenceCommandDTOBase
 import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
 import cccev.s2.certification.domain.command.CertificationAddValuesCommand
+import city.smartb.fs.spring.utils.contentByteArray
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
@@ -12,6 +15,8 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFun
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepCreatedEventDTOBase
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfilledEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
@@ -25,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 import javax.annotation.security.PermitAll
+import org.springframework.http.codec.multipart.FilePart
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestPart
 
 @RestController
 @RequestMapping
@@ -71,6 +79,7 @@ class ActivityEndpoint(
     @PermitAll
     @Bean
     override fun activityCreate(): ActivityCreateFunction = f2Function { cmd ->
+        logger.info("activityPage: $cmd")
         activityPoliciesEnforcer.checkCreation()
         activityExecutorService.createActivity(cmd).let { identifier ->
             ActivityCreatedEventDTOBase(identifier = identifier)
@@ -80,16 +89,17 @@ class ActivityEndpoint(
     @PermitAll
     @Bean
     override fun activityStepCreate(): ActivityStepCreateFunction = f2Function { cmd ->
+        logger.info("activityStepCreate: $cmd")
         activityPoliciesEnforcer.checkStepCreation()
         activityExecutorService.createActivity(cmd).let { identifier ->
             ActivityStepCreatedEventDTOBase(identifier = identifier)
         }
     }
 
-
     @Bean
-    override fun activityFulfillTask(): ActivityStepFulfillFunction = f2Function { cmd ->
-        activityPoliciesEnforcer.checkCanFulfillTask()
+    override fun activityStepFulfill(): ActivityStepFulfillFunction = f2Function { cmd ->
+        logger.info("activityFulfillStep: $cmd")
+        activityPoliciesEnforcer.checkCanFulfillStep()
 
         val certification = CertificationGetByIdentifierQueryDTOBase(
             identifier = cmd.certificationIdentifier
@@ -117,27 +127,32 @@ class ActivityEndpoint(
         )
     }
 
+    @PostMapping("/activityStepEvidenceFulfill")
+    suspend fun activityStepEvidenceFulfill(
+        @RequestPart("command") cmd: ActivityStepEvidenceFulfillCommandDTOBase,
+        @RequestPart("file") file: FilePart?
+    ): ActivityStepEvidenceFulfilledEventDTOBase {
+        logger.info("activityFulfillTaskFile: $cmd")
+        activityPoliciesEnforcer.checkCanFulfillEvidenceStep()
 
-//    @PostMapping("/activityFulfillTask")
-//    suspend fun activityFulfillTask(
-//        @RequestPart("command") cmd: ActivityStepFulfillCommand,
-//        @RequestPart("file") file: FilePart?
-//    ): ActivityStepFulfilledEvent {
-//        activityPoliciesEnforcer.checkCanFulfillTask()
-//        val step = activityF2FinderService.stepGet(cmd.identifier) ?: throw IllegalArgumentException("Step not found")
-//
-//        step.hasConcept?.let { concept ->
-//            CertificationAddValuesCommand(
-//                id = cmd.certificationId,
-//                values = mapOf(
-//                    concept.id to cmd.value,
-//                )
-//            ).invokeWith(cccevClient.certificationClient.certificationAddValues())
-//        }
-//        return ActivityStepFulfilledEvent(
-//            identifier = cmd.identifier,
-//            value = cmd.value,
-//            file = null
-//        )
-//    }
+        val certification = CertificationGetByIdentifierQueryDTOBase(
+            identifier = cmd.certificationIdentifier
+        ).invokeWith(cccevClient.certificationClient.certificationGetByIdentifier()).item
+            ?: throw NotFoundException("Certification with identifier", cmd.certificationIdentifier)
+
+        val part = file?.let {
+            (CertificationAddEvidenceCommandDTOBase(
+                id = certification.id,
+                name = file.name(),
+                url = null,
+                isConformantTo = emptyList()
+            ) to file.contentByteArray()).invokeWith(
+                cccevClient.certificationClient.certificationAddEvidence()
+            )
+        }
+        return ActivityStepEvidenceFulfilledEventDTOBase(
+            file = part?.file,
+            identifier = cmd.identifier,
+        )
+    }
 }
