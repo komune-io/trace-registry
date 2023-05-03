@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import {Box, Divider, Typography} from '@mui/material'
 import { ColumnFactory, useTable } from '@smartb/g2'
 import {StatusTag} from "@smartb/g2";
 
@@ -119,25 +119,32 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
 
     if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
     return (
-        <OffsetTable<Transaction>
-            {...other}
-            sx={{
-                overflow: "unset",
-                "& .adressColumn": {
-                    maxWidth: "180px"
-                },"& .typesColumn": {
-                    maxWidth: "180px",
-                },"& .serialColumn": {
-                    maxWidth: "200px",
-                },
-                ...sx
-            }}
-            tableState={tableState}
-            page={page}
-            pagination={pagination}
-            onOffsetChange={onOffsetChange}
-            isLoading={isLoading}
-            onRowClicked={onTransactionClick}
-        />
+        <>
+            <Box>
+                <Typography variant="h5" >{t("projects.assets.titles.transactions")}</Typography>
+                <Divider sx={{ marginTop: "8px" }} />
+            </Box>
+
+            <OffsetTable<Transaction>
+                {...other}
+                sx={{
+                    overflow: "unset",
+                    "& .adressColumn": {
+                        maxWidth: "180px"
+                    },"& .typesColumn": {
+                        maxWidth: "180px",
+                    },"& .serialColumn": {
+                        maxWidth: "200px",
+                    },
+                    ...sx
+                }}
+                tableState={tableState}
+                page={page}
+                pagination={pagination}
+                onOffsetChange={onOffsetChange}
+                isLoading={isLoading}
+                onRowClicked={onTransactionClick}
+            />
+        </>
     )
 }

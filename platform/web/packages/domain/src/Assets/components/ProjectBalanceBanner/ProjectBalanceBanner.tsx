@@ -1,4 +1,4 @@
-import {Box, Stack, Typography} from '@mui/material'
+import {Box, Divider, Stack, Typography} from '@mui/material'
 import {FormComposable, FormComposableField, FormComposableState} from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -52,61 +52,67 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
     }], [t])
 
     return (
-        <Stack
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-            spacing={8}
-            height="150px"
-            >
-            <Box
-                sx={{
-                    padding: "24px 32px",
-                    background: (theme) => theme.palette.background.default,
-                    borderRadius: (theme) => theme.shape.borderRadius + "px",
-                    "& .MuiFormLabel-root": {
-                        fontSize: "1.25rem",
-                        fontWeight: 500
-                    },
-                    "& .MuiStack-root": {
-                        gap: (theme) => theme.spacing(1.5)
-                    }
-                }}
-            >
-                <FormComposable formState={formState} fields={fieldsAvailable} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
+        <>
+            <Box>
+                <Typography variant="h5" >{t("projects.assets.titles.balance")}</Typography>
+                <Divider sx={{ marginTop: "8px" }} />
             </Box>
-            <Box
-                sx={{
-                    padding: "24px 32px",
-                    background: (theme) => theme.palette.background.default,
-                    borderRadius: (theme) => theme.shape.borderRadius + "px",
-                    "& .MuiFormLabel-root": {
-                        fontSize: "1.25rem",
-                        fontWeight: 500
-                    },
-                    "& .MuiStack-root": {
-                        gap: (theme) => theme.spacing(1.5)
-                    }
-                }}
-            >
-                <FormComposable formState={formState} fields={fieldsRetired} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
-            </Box>
-            <Box
-                sx={{
-                    padding: "24px 32px",
-                    background: (theme) => theme.palette.background.default,
-                    borderRadius: (theme) => theme.shape.borderRadius + "px",
-                    "& .MuiFormLabel-root": {
-                        fontSize: "1.25rem",
-                        fontWeight: 500
-                    },
-                    "& .MuiStack-root": {
-                        gap: (theme) => theme.spacing(1.5)
-                    }
-                }}
-            >
-                <FormComposable formState={formState} fields={fieldsFinanced} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
-            </Box>
-        </Stack>
+            <Stack
+                direction="row"
+                justifyContent="space-evenly"
+                alignItems="center"
+                spacing={8}
+                height="150px"
+                >
+                <Box
+                    sx={{
+                        padding: "24px 32px",
+                        background: (theme) => theme.palette.background.default,
+                        borderRadius: (theme) => theme.shape.borderRadius + "px",
+                        "& .MuiFormLabel-root": {
+                            fontSize: "1.25rem",
+                            fontWeight: 500
+                        },
+                        "& .MuiStack-root": {
+                            gap: (theme) => theme.spacing(1.5)
+                        }
+                    }}
+                >
+                    <FormComposable formState={formState} fields={fieldsAvailable} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
+                </Box>
+                <Box
+                    sx={{
+                        padding: "24px 32px",
+                        background: (theme) => theme.palette.background.default,
+                        borderRadius: (theme) => theme.shape.borderRadius + "px",
+                        "& .MuiFormLabel-root": {
+                            fontSize: "1.25rem",
+                            fontWeight: 500
+                        },
+                        "& .MuiStack-root": {
+                            gap: (theme) => theme.spacing(1.5)
+                        }
+                    }}
+                >
+                    <FormComposable formState={formState} fields={fieldsRetired} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
+                </Box>
+                <Box
+                    sx={{
+                        padding: "24px 32px",
+                        background: (theme) => theme.palette.background.default,
+                        borderRadius: (theme) => theme.shape.borderRadius + "px",
+                        "& .MuiFormLabel-root": {
+                            fontSize: "1.25rem",
+                            fontWeight: 500
+                        },
+                        "& .MuiStack-root": {
+                            gap: (theme) => theme.spacing(1.5)
+                        }
+                    }}
+                >
+                    <FormComposable formState={formState} fields={fieldsFinanced} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
+                </Box>
+            </Stack>
+        </>
     )
 }
