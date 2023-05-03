@@ -56,14 +56,7 @@ function useProductColumn() {
             from: generators.text({
                 header: 'From',
                 getCellProps: (registry) => ({
-                    value: registry.from,
-                    /*componentProps: {
-                        sx: {
-                            "&:hover":{
-                                fontWeight: "400"
-                            }
-                        }
-                    }*/
+                    value: registry.from
                 }),
                 className: "adressColumn"
             }),
@@ -130,6 +123,15 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
                 sx={{
                     overflow: "unset",
                     "& .adressColumn": {
+                        "&:hover p": {
+                            lineClamp: "3",
+                            WebkitLineClamp: "3"
+                        },
+                        "& p": {
+                            lineClamp: "1",
+                            WebkitLineClamp: "1"
+                        },
+                        lineBreak: "anywhere",
                         maxWidth: "180px"
                     },"& .typesColumn": {
                         maxWidth: "180px",
