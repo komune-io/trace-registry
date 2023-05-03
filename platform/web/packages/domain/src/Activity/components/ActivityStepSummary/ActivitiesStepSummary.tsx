@@ -10,7 +10,7 @@ export interface ActivitiesSummaryFormProps {
 }
 
 
-export const ActivitiesSummaryForm = (props: ActivitiesSummaryFormProps) => {
+export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
     const { activity, isLoading, steps } = props
 
     const values = useMemo(() => steps?.reduce((a: any, v: ActivityStep) => ({

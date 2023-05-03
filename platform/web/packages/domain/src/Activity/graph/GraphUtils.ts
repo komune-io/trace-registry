@@ -163,3 +163,11 @@ export const toEdges = (activities: Activity[], ancestors?: Activity[]): Edge[] 
 
     return edges
 }
+
+export const isDynastyInGraph = (nodes: Node<ActivityData>[], activityDinasty: string[] = []) => {
+    for (let i = 0; i < activityDinasty.length; i++) {
+        const node = nodes.find((el) => el.data.current.identifier === activityDinasty[i])
+        if (!node || !node.data.isAncestor) return false
+    }
+    return true
+}

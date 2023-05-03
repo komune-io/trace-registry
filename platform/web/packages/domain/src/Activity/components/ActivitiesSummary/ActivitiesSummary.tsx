@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { Activity } from "../../model";
-import { useOnSelectionChange, OnSelectionChangeFunc, useStoreApi, useNodes, Node } from 'reactflow';
-import { ActivitiesSummaryForm } from './ActivitiesSummaryForm';
+import { useOnSelectionChange, OnSelectionChangeFunc, useStoreApi, useNodes } from 'reactflow';
 import { useActivityStepPageQuery } from '../../api';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { ActivityData } from '../../graph';
+import {isDynastyInGraph} from "../../graph";
+import {ActivitiesStepSummary} from "../ActivityStepSummary/ActivitiesStepSummary";
 
 export interface ActivitiesSummaryProps {
   activities: Activity[]
@@ -14,8 +14,8 @@ export interface ActivitiesSummaryProps {
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const { isLoading, activities } = props
   const reactFlowStore = useStoreApi();
-  let [searchParams, setSearchParams] = useSearchParams();
-  let { "*": splat } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { "*": splat } = useParams();
   const activityDinasty = useMemo(() => !!splat ? splat.split("/") : undefined, [splat])
   const selectedActivity = searchParams.get("selectedActivity")
   const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
@@ -65,16 +65,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const steps = activityStepPageQuery.data?.items ?? []
 
   return (
-    <ActivitiesSummaryForm activity={selectedNode} isLoading={isLoading || activityStepPageQuery.isLoading} steps={steps} />
+    <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || activityStepPageQuery.isLoading} steps={steps} />
   )
 
-}
-
-
-const isDynastyInGraph = (nodes: Node<ActivityData>[], activityDinasty: string[] = []) => {
-  for (let i = 0; i < activityDinasty.length; i++) {
-    const node = nodes.find((el) => el.data.current.identifier === activityDinasty[i])
-    if (!node || !node.data.isAncestor) return false
-  }
-  return true
 }
