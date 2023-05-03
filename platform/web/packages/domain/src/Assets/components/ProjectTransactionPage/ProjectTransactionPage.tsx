@@ -1,9 +1,9 @@
-import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
-import {Box, Divider, Typography} from '@mui/material'
-import {useMemo} from "react";
-import {useTranslation} from "react-i18next";
+
+import {Stack} from '@mui/material'
 import {Transaction} from "../ProjectTransactionsTable";
 import {Project} from "../../../Project";
+import {ProjectTransactionInformations} from "../ProjectTransactionInformations";
+import {ProjectTransactionHistory} from "../ProjectTransactionHistory";
 
 export interface ProjectTransactionPageProps {
     isLoading: boolean
@@ -14,16 +14,22 @@ export interface ProjectTransactionPageProps {
 export const ProjectTransactionPage = (props: ProjectTransactionPageProps) => {
     const { isLoading, project, transaction } = props
 
-    const { t } = useTranslation()
-
     return (
-        <Box>
-            <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
-            <Divider sx={{ margin: "8px 0" }} />
+            <Stack
+                sx={{
+                    backgroundColor: "white",
+                    height: "100%",
+                    width: "550px",
+                    padding: "24px 32px",
+                    overflowY: "auto",
+                    border: "1px solid black"
+                }}
+                gap={2}
+            >
 
-            <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { count: 6 })}</Typography>
-            <FormComposable fields={fields} formState={formStatebis} sx={{ margin: "40px 0" }}/>
+                <ProjectTransactionInformations isLoading={isLoading} transaction={transaction}  />
+                <ProjectTransactionHistory isLoading={isLoading} project={project} transaction={transaction}/>
+            </Stack>
 
-        </Box>
     )
 }

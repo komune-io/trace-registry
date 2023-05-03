@@ -1,8 +1,6 @@
 import {Header, useFormComposable} from '@smartb/g2'
 import { Row } from '@tanstack/react-table';
-
-import { useTranslation } from 'react-i18next';
-import {Box, Divider, Stack, Typography} from '@mui/material'
+import {Stack} from '@mui/material'
 import {
     Project,
     useProjectTransactionPageQuery
@@ -13,8 +11,8 @@ import {
     ProjectTransactionsTable,
     ProjectBalanceBanner,
     useTransactionsFilters,
-    ProjectTransactionInformations,
-    ProjectTransactionHistory, Transaction
+    ProjectTransactionPage,
+    Transaction
 } from "../";
 
 export interface ProjectAssetsProps {
@@ -26,7 +24,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
     const { isLoading, project } = props
     const { component, setOffset, submittedFilters } = useTransactionsFilters()
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
-    const { t } = useTranslation()
     const transactions = useProjectTransactionPageQuery({
         query: submittedFilters
     })
@@ -71,17 +68,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                 gap={3}
 
             >
-            <Box>
-                <Typography variant="h5" >{t("projects.assets.titles.balance")}</Typography>
-                <Divider sx={{ marginTop: "8px" }} />
-            </Box>
-            <ProjectBalanceBanner formState={formState} />
-            <Box>
-                <Typography variant="h5" >{t("projects.assets.titles.transactions")}</Typography>
-                <Divider sx={{ marginTop: "8px" }} />
-            </Box>
-
-            <Box>
+                <ProjectBalanceBanner formState={formState} />
                 <ProjectTransactionsTable
                     header={
                         <Header
@@ -155,29 +142,12 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                     onOffsetChange={setOffset}
                     onTransactionClick={transactionClicked}
                 />
-            </Box>
             </Stack>
             {
                 selectedTransaction ?
-                    <Stack
-                        sx={{
-                            backgroundColor: "white",
-                            height: "100%",
-                            width: "550px",
-                            padding: "24px 32px",
-                            overflowY: "auto",
-                            border: "1px solid black"
-                        }}
-                        gap={2}
-                    >
-
-                        <ProjectTransactionInformations isLoading={isLoading} transaction={selectedTransaction}  />
-                        <ProjectTransactionHistory isLoading={isLoading} project={project} transaction={selectedTransaction}/>
-                    </Stack>
+                    <ProjectTransactionPage isLoading={isLoading} project={project} transaction={selectedTransaction} />
                     : ""
-
             }
-
         </Stack>
     )
 }
