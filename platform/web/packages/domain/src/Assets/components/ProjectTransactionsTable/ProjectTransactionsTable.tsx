@@ -15,7 +15,6 @@ export interface Transaction {
     quantity: string,
     from: string,
     to: string,
-    for: string,
     type: any;
 
 }
@@ -65,14 +64,6 @@ function useProductColumn() {
                 header: 'To',
                 getCellProps: (registry) => ({
                     value: registry.to
-                }),
-                className: "adressColumn"
-            }),
-
-            for: generators.text({
-                header: 'For',
-                getCellProps: (registry) => ({
-                    value: registry.for
                 }),
                 className: "adressColumn"
             }),

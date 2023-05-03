@@ -109,7 +109,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320"
                         },{
                             serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2018",
@@ -118,7 +117,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            for: "0xe2f2c31bd29a8dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8c820ef14969abe479841320"
                         },{
                             serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2019",
@@ -127,7 +125,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
                             type: "Purchase",
-                            for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
                         },{
                             serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2020",
@@ -136,7 +133,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
                             type: "Purchase",
-                            for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
                         },{
                             serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2021",
@@ -145,7 +141,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             quantity: "1 000 000 tons",
                             to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
                             type: "Purchase",
-                            for: "0xe2f2c31bd29a8...dc820ef14969abe03213654",
                             from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
                         }
                             ],
