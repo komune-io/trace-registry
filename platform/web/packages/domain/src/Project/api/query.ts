@@ -22,14 +22,3 @@ export const useProjectGetQuery = (params: QueryParams<ProjectGetQuery, ProjectG
     "projectGet", requestProps, params
   )
 }
-
-
-export interface ProjectTransactionPageQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectPageQueryDTO { }
-export interface ProjectTransactionPageResult extends city.smartb.registry.program.f2.project.domain.query.ProjectPageResultDTO { }
-
-export const useProjectTransactionPageQuery = (params: QueryParams<ProjectTransactionPageQuery, ProjectTransactionPageResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
-  return useQueryRequest<ProjectTransactionPageQuery, ProjectTransactionPageResult>(
-      "projectPage", requestProps, params
-  )
-}
