@@ -2015,7 +2015,7 @@ export namespace cccev.s2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
+        readonly isConformantTo?: any/* Nullable<string>[] */;
         s2Id(): string;
 
     }
@@ -2508,7 +2508,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
+        readonly isConformantTo?: any/* Nullable<string>[] */;
         s2Id(): string;
 
     }
@@ -3005,6 +3005,20 @@ export namespace city.smartb.registry.program.f2.activity.domain.command {
     interface ActivityStepFulfilledEventDTO extends f2.dsl.cqrs.Event {
         readonly identifier: string;
         readonly value?: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.activity.domain.command {
+    interface ActivityStepEvidenceFulfillCommandDTO {
+        readonly certificationIdentifier: string;
+        readonly identifier: string;
+        readonly url?: string;
+        readonly private?: boolean;
+
+    }
+    interface ActivityStepEvidenceFulfilledEventDTO extends f2.dsl.cqrs.Event {
+        readonly identifier: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
 
     }
