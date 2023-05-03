@@ -56,7 +56,11 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
         <Box>
             <Typography variant="h5" >{t("projects.assets.history")}</Typography>
             <Divider sx={{ margin: "8px 0" }} />
-            <FormComposable fields={fields} formState={formStatebis} />
+            <FormComposable sx={{
+                "& .AruiInputForm-readonlyText" : {
+                    textAlign: "right"
+                }
+            }} fields={fields} formState={formStatebis} />
 
         </Box>
     )

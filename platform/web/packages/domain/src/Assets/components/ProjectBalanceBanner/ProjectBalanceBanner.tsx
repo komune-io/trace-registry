@@ -3,6 +3,8 @@ import {FormComposable, FormComposableField, FormComposableState} from '@smartb/
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../../Project'
+import {AvailableIcon, CompareIcon, RetireIcon} from "components";
+
 
 export interface ProjectBalanceBannerProps {
     formState: FormComposableState
@@ -64,7 +66,9 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                 spacing={8}
                 height="150px"
                 >
-                <Box
+                <Stack
+                    direction="row"
+                    gap={1}
                     sx={{
                         padding: "24px 32px",
                         background: (theme) => theme.palette.background.default,
@@ -78,9 +82,12 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                         }
                     }}
                 >
+                    <AvailableIcon />
                     <FormComposable formState={formState} fields={fieldsAvailable} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
-                </Box>
-                <Box
+                </Stack>
+                <Stack
+                    direction="row"
+                    gap={1}
                     sx={{
                         padding: "24px 32px",
                         background: (theme) => theme.palette.background.default,
@@ -94,24 +101,28 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                         }
                     }}
                 >
-                    <FormComposable formState={formState} fields={fieldsRetired} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
-                </Box>
-                <Box
-                    sx={{
-                        padding: "24px 32px",
-                        background: (theme) => theme.palette.background.default,
-                        borderRadius: (theme) => theme.shape.borderRadius + "px",
-                        "& .MuiFormLabel-root": {
-                            fontSize: "1.25rem",
-                            fontWeight: 500
-                        },
-                        "& .MuiStack-root": {
-                            gap: (theme) => theme.spacing(1.5)
-                        }
-                    }}
-                >
+                    <RetireIcon />
                     <FormComposable formState={formState} fields={fieldsFinanced} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
-                </Box>
+                </Stack>
+                <Stack
+                    direction="row"
+                    gap={1}
+                    sx={{
+                        padding: "24px 32px",
+                        background: (theme) => theme.palette.background.default,
+                        borderRadius: (theme) => theme.shape.borderRadius + "px",
+                        "& .MuiFormLabel-root": {
+                            fontSize: "1.25rem",
+                            fontWeight: 500
+                        },
+                        "& .MuiStack-root": {
+                            gap: (theme) => theme.spacing(1.5)
+                        }
+                    }}
+                >
+                    <CompareIcon />
+                    <FormComposable formState={formState} fields={fieldsRetired} fieldsStackProps={{ flexDirection: "row", justifyContent: "space-between" }} />
+                </Stack>
             </Stack>
         </>
     )
