@@ -2820,6 +2820,24 @@ export namespace city.smartb.registry.program.s2.asset.domain.automate {
 
     }
 }
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolCloseCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolHoldCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolResumeCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
 export namespace f2.client {
     interface F2Client {
         supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
@@ -2965,6 +2983,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
+        readonly indicator: string;
         readonly creditingPeriodStartDate?: any/* Nullable<number> */;
         readonly creditingPeriodEndDate?: any/* Nullable<number> */;
         readonly description?: string;
@@ -2993,17 +3012,6 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
     interface OrganizationRefDTO {
         readonly id: string;
         readonly name: string;
-
-    }
-}
-export namespace city.smartb.registry.program.f2.asset.domain.model {
-    interface AssetPoolDTO {
-        readonly id: string;
-        readonly status: string;
-        readonly vintage: string;
-        readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
-        readonly granularity: number;
-        readonly wallets: Record<string, number>;
 
     }
 }
@@ -3047,13 +3055,6 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
         readonly items: city.smartb.registry.program.f2.asset.domain.model.TransactionDTO[];
 
     }
-}
-export namespace city.smartb.registry.program.f2.asset.domain.utils {
-    const AssetPoolStatusValues: {
-        active(): string;
-        onHold(): string;
-        closed(): string;
-    };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const TransactionTypeValues: {
