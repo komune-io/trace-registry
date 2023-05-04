@@ -2,10 +2,8 @@ import {Box, Divider, Stack, Typography} from "@mui/material";
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
-import {Project} from "../../../Project";
-import {Transaction} from "../ProjectTransactionsTable";
+import {Project, Transaction} from "domain-components";
 import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/icons-material";
-
 
 
 

@@ -1,9 +1,5 @@
-
 import {Stack} from '@mui/material'
-import {Transaction} from "../ProjectTransactionsTable";
-import {Project} from "../../../Project";
-import {ProjectTransactionInformations,
-        ProjectTransactionHistory} from "../";
+import {ProjectTransactionInformations, ProjectTransactionHistory, Project, Transaction} from "domain-components";
 
 export interface ProjectTransactionPageProps {
     isLoading: boolean
