@@ -2,7 +2,7 @@ import { useCustomFilters } from 'components'
 import { FilterComposableField } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ProjectPageQuery } from "../../../Project/api";
+import { AssetPageQuery } from "domain-components";
 
 export const useTransactionsFilters = () => {
     const {t} = useTranslation()
@@ -23,5 +23,5 @@ export const useTransactionsFilters = () => {
             }
         }
     ], [t])
-    return useCustomFilters<ProjectPageQuery>({filters: filters})
+    return useCustomFilters<AssetPageQuery>({filters: filters})
 }

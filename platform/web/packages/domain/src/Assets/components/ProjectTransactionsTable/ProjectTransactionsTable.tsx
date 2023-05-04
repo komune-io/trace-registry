@@ -1,23 +1,11 @@
 import {Box, Divider, Typography} from '@mui/material'
 import { ColumnFactory, useTable } from '@smartb/g2'
 import {StatusTag} from "@smartb/g2";
-
 import { Row } from '@tanstack/react-table';
 import { useMemo } from "react"
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
-
-
-export interface Transaction {
-    serial: string,
-    date: string,
-    vintage: number,
-    quantity: string,
-    from: string,
-    to: string,
-    type: any;
-
-}
+import { Transaction } from 'domain-components';
 
 function useProductColumn() {
     return useMemo(() => ColumnFactory<Transaction>({
@@ -25,22 +13,22 @@ function useProductColumn() {
             id: generators.text({
                 header: 'Transaction #',
                 getCellProps: (registry) => ({
-                    value: registry.serial
+                    value: registry.id
                 }),
                 className: "serialColumn"
             }),
 
-            name: generators.text({
+            date: generators.date({
                 header: 'Transaction date',
                 getCellProps: (registry) => ({
-                    value: registry.date,
+                    date: registry.date
                 })
             }),
 
             vintage: generators.text({
                 header: 'Vintage',
                 getCellProps: (registry) => ({
-                    value: registry.vintage?.toString()
+                    value: registry.vintage
                 })
             }),
 
@@ -48,7 +36,7 @@ function useProductColumn() {
             quantity: generators.text({
                 header: 'Quantity',
                 getCellProps: (registry) => ({
-                    value: registry.quantity
+                    value: registry.quantity?.toString() + ' tons'
                 })
             }),
 

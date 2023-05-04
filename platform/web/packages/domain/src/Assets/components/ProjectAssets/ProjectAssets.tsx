@@ -1,19 +1,17 @@
-import {Header, useFormComposable} from '@smartb/g2'
-import { Row } from '@tanstack/react-table';
 import {Stack} from '@mui/material'
-import {
-    Project,
-    useProjectTransactionPageQuery
-} from '../../../Project'
+import {Header, useFormComposable} from '@smartb/g2'
 import {Fragment, useCallback, useMemo, useState} from "react";
+import { Row } from '@tanstack/react-table';
 import {Offset, OffsetPagination} from "template";
 import {
     ProjectTransactionsTable,
     ProjectBalanceBanner,
     useTransactionsFilters,
     ProjectTransactionPage,
-    Transaction
-} from "../";
+    useAssetPageQuery,
+    Transaction,
+    Project
+} from "domain-components";
 
 export interface ProjectAssetsProps {
     project?: Project
@@ -24,7 +22,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
     const { isLoading, project } = props
     const { component, setOffset, submittedFilters } = useTransactionsFilters()
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
-    const transactions = useProjectTransactionPageQuery({
+    const transactions = useAssetPageQuery({
         query: submittedFilters
     })
     const formState = useFormComposable({
@@ -42,7 +40,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
 
     const transactionClicked = useCallback(
         (row: Row<Transaction>) => {
-            setTransaction(old => old?.serial === row.original.serial ? undefined : row.original)
+            setTransaction(old => old?.id === row.original.id ? undefined : row.original)
         },
         [],
     )
@@ -51,15 +49,14 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
         },[]
     )
 
-    const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.serial]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
+    const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.id]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
 
     const getRowId = useCallback(
-        (row: Transaction) => row.serial,
+        (row: Transaction) => row.id,
         [],
     )
+    console.log(transactions.data)
 
-    // projectDetails projectStatusTag
-    // fieldStackProps
 
     return (
         <Stack
@@ -101,47 +98,47 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             }}
                         />
                     }
-                    page={{
+                    page={transactions.data ? transactions.data : {
                         items: [{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
-                            date: "6/30/22",
-                            vintage: 2023,
-                            quantity: "1 000 000 tons",
+                            id: "SB1-1-KE-SB5801-4-2022-23924-1840-2017",
+                            date: 1683187352,
+                            vintage: "2023",
+                            quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320"
+                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
+                            unit: "boubou",
+                            poolId: "lala"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2018",
-                            date: "6/30/22",
-                            vintage: 2023,
-                            quantity: "1 000 000 tons",
+                            id: "SB1-1-KE-SB5801-4-2022-23924-1840-2018",
+                            date: 1683187352,
+                            vintage: "2023",
+                            quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            from: "0xe2f2c31bd29a8c820ef14969abe479841320"
+                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
+                            unit: "boubou",
+                            poolId: "lala"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2019",
-                            date: "6/30/22",
-                            vintage: 2023,
-                            quantity: "1 000 000 tons",
-                            to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
+                            id: "SB1-1-KE-SB5801-4-2022-23924-1840-2019",
+                            date: 1683187352,
+                            vintage: "2023",
+                            quantity: 1000000,
+                            to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
+                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
+                            unit: "boubou",
+                            poolId: "lala"
                         },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2020",
-                            date: "6/30/22",
-                            vintage: 2023,
-                            quantity: "1 000 000 tons",
-                            to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
+                            id: "SB1-1-KE-SB5801-4-2022-23924-1840-2020",
+                            date: 1683187352,
+                            vintage: "2023",
+                            quantity: 1000000,
+                            to: "0xe2f2c31bd29a8dc820ef14969abe89461",
                             type: "Purchase",
-                            from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
-                        },{
-                            serial: "SB1-1-KE-SB5801-4-2022-23924-1840-2021",
-                            date: "6/30/22",
-                            vintage: 2023,
-                            quantity: "1 000 000 tons",
-                            to: "0xe2f2c31bd29a8...dc820ef14969abe89461",
-                            type: "Purchase",
-                            from: "0xe2f2c31bd29a8...dc820ef14969abe479841320"
+                            from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
+                            unit: "boubou",
+                            poolId: "lala"
                         }
                             ],
                         total: 10

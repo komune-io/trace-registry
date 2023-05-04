@@ -2,9 +2,9 @@ import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2
 import {Box, Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {Transaction} from "../ProjectTransactionsTable";
 import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
+import { Transaction } from 'domain-components';
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
@@ -22,7 +22,6 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
         readonly: true,
         emptyValueInReadonly: "empty",
     })
-
 
     const fields = useMemo((): FormComposableField[] => [{
         name: "status",
@@ -54,7 +53,6 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             }
         }], [transaction, t])
 
-
     return (
                 <Box>
                     <Stack
@@ -68,7 +66,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                     </Stack>
                     <Divider sx={{ margin: "8px 0" }} />
 
-                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { count: 6 })}</Typography>
+                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { id: transaction?.id })}</Typography>
                     <FormComposable fields={fields} formState={formStatebis} sx={{ margin: "40px 0" }}/>
 
                 </Box>
