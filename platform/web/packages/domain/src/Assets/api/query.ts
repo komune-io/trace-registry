@@ -22,3 +22,4 @@ export const useAssetGetQuery = (params: QueryParams<AssetGetQuery, AssetGetResu
         "assetGetStats", requestProps, params
     )
 }
+
