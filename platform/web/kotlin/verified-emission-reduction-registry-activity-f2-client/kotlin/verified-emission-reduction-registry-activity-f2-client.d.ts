@@ -2937,6 +2937,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
+        readonly indicator: string;
         readonly creditingPeriodStartDate?: any/* Nullable<number> */;
         readonly creditingPeriodEndDate?: any/* Nullable<number> */;
         readonly description?: string;
