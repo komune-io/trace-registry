@@ -776,6 +776,9 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(TransactionInitCommand, 'TransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(TransactionCommand, 'TransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   setMetadataFor(TransactionEvent, 'TransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(AssetPoolCloseCommandDTO, 'AssetPoolCloseCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
+  setMetadataFor(AssetPoolHoldCommandDTO, 'AssetPoolHoldCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
+  setMetadataFor(AssetPoolResumeCommandDTO, 'AssetPoolResumeCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -17041,6 +17044,12 @@ if (typeof Math.imul === 'undefined') {
   }
   function TransactionEvent() {
   }
+  function AssetPoolCloseCommandDTO() {
+  }
+  function AssetPoolHoldCommandDTO() {
+  }
+  function AssetPoolResumeCommandDTO() {
+  }
   //region block: post-declaration
   CombinedContext.prototype.u2 = plus;
   AbstractCoroutineContextElement.prototype.n2 = get;
@@ -18499,6 +18508,33 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$asset = $city$smartb$registry$program$s2.asset || ($city$smartb$registry$program$s2.asset = {});
     var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
     var $city$smartb$registry$program$s2$asset$domain$automate = $city$smartb$registry$program$s2$asset$domain.automate || ($city$smartb$registry$program$s2$asset$domain.automate = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$asset = $city$smartb$registry$program$s2.asset || ($city$smartb$registry$program$s2.asset = {});
+    var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
+    var $city$smartb$registry$program$s2$asset$domain$command = $city$smartb$registry$program$s2$asset$domain.command || ($city$smartb$registry$program$s2$asset$domain.command = {});
+    var $city$smartb$registry$program$s2$asset$domain$command$pool = $city$smartb$registry$program$s2$asset$domain$command.pool || ($city$smartb$registry$program$s2$asset$domain$command.pool = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$asset = $city$smartb$registry$program$s2.asset || ($city$smartb$registry$program$s2.asset = {});
+    var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
+    var $city$smartb$registry$program$s2$asset$domain$command = $city$smartb$registry$program$s2$asset$domain.command || ($city$smartb$registry$program$s2$asset$domain.command = {});
+    var $city$smartb$registry$program$s2$asset$domain$command$pool = $city$smartb$registry$program$s2$asset$domain$command.pool || ($city$smartb$registry$program$s2$asset$domain$command.pool = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$asset = $city$smartb$registry$program$s2.asset || ($city$smartb$registry$program$s2.asset = {});
+    var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
+    var $city$smartb$registry$program$s2$asset$domain$command = $city$smartb$registry$program$s2$asset$domain.command || ($city$smartb$registry$program$s2$asset$domain.command = {});
+    var $city$smartb$registry$program$s2$asset$domain$command$pool = $city$smartb$registry$program$s2$asset$domain$command.pool || ($city$smartb$registry$program$s2$asset$domain$command.pool = {});
   }
   $jsExportAll$(_);
   //endregion
