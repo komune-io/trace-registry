@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -2158,6 +2158,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ActivityPolicies, 'ActivityPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPageQueryDTO, 'ActivityPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityPageResultDTO, 'ActivityPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(ActivityStepEvidenceDownloadQueryDTO, 'ActivityStepEvidenceDownloadQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityStepPageQueryDTO, 'ActivityStepPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ActivityStepPageResultDTO, 'ActivityStepPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
   //endregion
@@ -91185,7 +91186,7 @@ if (typeof Math.imul === 'undefined') {
     ActivityPolicies_instance = this;
     this.VALID = true;
   }
-  ActivityPolicies.prototype.o7a = function () {
+  ActivityPolicies.prototype.n7a = function () {
     return this.VALID;
   };
   ActivityPolicies.prototype.canPage = function (authedUser) {
@@ -91212,6 +91213,8 @@ if (typeof Math.imul === 'undefined') {
   function ActivityPageQueryDTO() {
   }
   function ActivityPageResultDTO() {
+  }
+  function ActivityStepEvidenceDownloadQueryDTO() {
   }
   function ActivityStepPageQueryDTO() {
   }
@@ -93192,6 +93195,14 @@ if (typeof Math.imul === 'undefined') {
       configurable: true,
       get: ActivityPolicies_getInstance
     });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$activity = $city$smartb$registry$program$f2.activity || ($city$smartb$registry$program$f2.activity = {});
+    var $city$smartb$registry$program$f2$activity$domain = $city$smartb$registry$program$f2$activity.domain || ($city$smartb$registry$program$f2$activity.domain = {});
+    var $city$smartb$registry$program$f2$activity$domain$query = $city$smartb$registry$program$f2$activity$domain.query || ($city$smartb$registry$program$f2$activity$domain.query = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

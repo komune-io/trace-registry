@@ -35,8 +35,10 @@ export namespace f2.dsl.cqrs.error {
         get code(): number;
         get requestId(): Nullable<string>;
         toString(): string;
-        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.error.F2Error;
-        
+        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.error.F2Error;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.error.F2Error>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.error.F2Error>;
     }
@@ -45,7 +47,9 @@ export namespace f2.dsl.cqrs.exception {
     class F2Exception /* extends kotlin.RuntimeException */ {
         constructor(error: f2.dsl.cqrs.error.F2ErrorDTO, cause?: Error);
         get error(): f2.dsl.cqrs.error.F2ErrorDTO;
-        
+        static get Companion(): {
+            invoke(message: string, id?: string, requestId?: string, code?: number, cause?: Error): f2.dsl.cqrs.exception.F2Exception;
+        };
     }
 }
 export namespace f2.dsl.cqrs.filter {
@@ -69,15 +73,17 @@ export namespace f2.dsl.cqrs.filter {
 export namespace f2.dsl.cqrs.page {
     interface PageDTO<OBJECT> {
         readonly total: number;
-        readonly items: OBJECT[];
+        readonly items: kotlin.collections.List<OBJECT>;
 
     }
     class Page<OBJECT> implements f2.dsl.cqrs.page.PageDTO<OBJECT> {
-        constructor(total: number, items: OBJECT[]);
+        constructor(total: number, items: kotlin.collections.List<OBJECT>);
         get total(): number;
-        get items(): OBJECT[];
-        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.Page<OBJECT>;
-        
+        get items(): kotlin.collections.List<OBJECT>;
+        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items: Nullable<any>/* Nullable<kotlin.collections.List<OBJECT>> */, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.Page<OBJECT>;
+        static get Companion(): {
+            serializer<T0>(typeSerial0: kotlinx.serialization.KSerializer<T0>): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Page<T0>>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     namespace Page {
         class $serializer<OBJECT> /* implements kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.Page<OBJECT>> */ {
@@ -93,25 +99,29 @@ export namespace f2.dsl.cqrs.page {
     }
     interface PageQueryResultDTO<OBJECT> extends f2.dsl.cqrs.Event, f2.dsl.cqrs.page.PageDTO<OBJECT> {
         readonly total: number;
-        readonly items: OBJECT[];
+        readonly items: kotlin.collections.List<OBJECT>;
         readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
 
     }
     class PageQuery implements f2.dsl.cqrs.page.PageQueryDTO {
         constructor(pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO);
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPaginationDTO>;
-        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQuery;
-        
+        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQuery;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.PageQuery>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PageQuery>;
     }
     class PageQueryResult<OBJECT> implements f2.dsl.cqrs.page.PageQueryResultDTO<OBJECT> {
-        constructor(pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items: OBJECT[]);
+        constructor(pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items: kotlin.collections.List<OBJECT>);
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPagination>;
         get total(): number;
-        get items(): OBJECT[];
-        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
-        
+        get items(): kotlin.collections.List<OBJECT>;
+        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items: Nullable<any>/* Nullable<kotlin.collections.List<OBJECT>> */, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
+        static get Companion(): {
+            serializer<T0>(typeSerial0: kotlinx.serialization.KSerializer<T0>): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.PageQueryResult<T0>>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     namespace PageQueryResult {
         class $serializer<OBJECT> /* implements kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PageQueryResult<OBJECT>> */ {
@@ -123,7 +133,9 @@ export namespace f2.dsl.cqrs.page {
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
 
-        
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
+        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -139,8 +151,10 @@ export namespace f2.dsl.cqrs.page {
         constructor(offset: number, limit: number);
         get offset(): number;
         get limit(): number;
-        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.OffsetPagination;
-        
+        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.OffsetPagination;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.OffsetPagination>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.OffsetPagination>;
     }
@@ -148,8 +162,10 @@ export namespace f2.dsl.cqrs.page {
         constructor(page?: number, size?: number);
         get page(): Nullable<number>;
         get size(): Nullable<number>;
-        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PagePagination;
-        
+        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PagePagination;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.PagePagination>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PagePagination>;
     }
@@ -218,14 +234,14 @@ export namespace i2.keycloak.f2.role.domain {
 }
 export namespace i2.keycloak.f2.role.domain {
     class RoleCompositesModel {
-        constructor(assignedRole: string, effectiveRoles: string[]);
+        constructor(assignedRole: string, effectiveRoles: kotlin.collections.List<string>);
         get assignedRole(): string;
-        get effectiveRoles(): string[];
+        get effectiveRoles(): kotlin.collections.List<string>;
     }
     class RolesCompositeModel {
-        constructor(assignedRoles: string[], effectiveRoles: string[]);
-        get assignedRoles(): string[];
-        get effectiveRoles(): string[];
+        constructor(assignedRoles: kotlin.collections.List<string>, effectiveRoles: kotlin.collections.List<string>);
+        get assignedRoles(): kotlin.collections.List<string>;
+        get effectiveRoles(): kotlin.collections.List<string>;
     }
 }
 export namespace i2.keycloak.f2.role.domain.features.query {
@@ -294,9 +310,9 @@ export namespace i2.keycloak.f2.role.domain.features.query {
 }
 export namespace i2.keycloak.f2.role.domain.features.command {
     class RoleAddCompositesCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(roleName: string, composites: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
+        constructor(roleName: string, composites: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
         get roleName(): string;
-        get composites(): string[];
+        get composites(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -307,11 +323,11 @@ export namespace i2.keycloak.f2.role.domain.features.command {
 }
 export namespace i2.keycloak.f2.role.domain.features.command {
     class RoleCreateCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(name: string, description?: string, isClientRole: boolean, composites: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
+        constructor(name: string, description?: string, isClientRole: boolean, composites: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
         get name(): string;
         get description(): Nullable<string>;
         get isClientRole(): boolean;
-        get composites(): string[];
+        get composites(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -322,11 +338,11 @@ export namespace i2.keycloak.f2.role.domain.features.command {
 }
 export namespace i2.keycloak.f2.role.domain.features.command {
     class RoleUpdateCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(name: string, description?: string, isClientRole: boolean, composites: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
+        constructor(name: string, description?: string, isClientRole: boolean, composites: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
         get name(): string;
         get description(): Nullable<string>;
         get isClientRole(): boolean;
-        get composites(): string[];
+        get composites(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -337,10 +353,10 @@ export namespace i2.keycloak.f2.role.domain.features.command {
 }
 export namespace i2.keycloak.f2.group.domain.features.command {
     class GroupCreateCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(name: string, attributes: Record<string, string>, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId: string, parentGroupId?: string);
+        constructor(name: string, attributes: kotlin.collections.Map<string, string>, roles: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId: string, parentGroupId?: string);
         get name(): string;
-        get attributes(): Record<string, string>;
-        get roles(): string[];
+        get attributes(): kotlin.collections.Map<string, string>;
+        get roles(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
         get parentGroupId(): Nullable<string>;
@@ -364,9 +380,9 @@ export namespace i2.keycloak.f2.group.domain.features.command {
 }
 export namespace i2.keycloak.f2.group.domain.features.command {
     class GroupSetAttributesCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, attributes: Record<string, Nullable<string>>, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(id: string, attributes: kotlin.collections.Map<string, Nullable<string>>, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get id(): string;
-        get attributes(): Record<string, Nullable<string>>;
+        get attributes(): kotlin.collections.Map<string, Nullable<string>>;
         get realmId(): string;
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
@@ -377,11 +393,11 @@ export namespace i2.keycloak.f2.group.domain.features.command {
 }
 export namespace i2.keycloak.f2.group.domain.features.command {
     class GroupUpdateCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, name: string, attributes: Record<string, string>, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
+        constructor(id: string, name: string, attributes: kotlin.collections.Map<string, string>, roles: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId: string);
         get id(): string;
         get name(): string;
-        get attributes(): Record<string, string>;
-        get roles(): string[];
+        get attributes(): kotlin.collections.Map<string, string>;
+        get roles(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -397,9 +413,9 @@ export namespace city.smartb.im.organization.domain.features.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
+        readonly roles: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly parentOrganizationId?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface OrganizationCreatedEventDTO extends f2.dsl.cqrs.Event {
@@ -423,13 +439,13 @@ export namespace city.smartb.im.organization.domain.features.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-        readonly userAttributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
+        readonly userAttributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface OrganizationDisabledEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
-        readonly userIds: string[];
+        readonly userIds: kotlin.collections.List<string>;
 
     }
 }
@@ -440,8 +456,8 @@ export namespace city.smartb.im.organization.domain.features.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly roles: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface OrganizationUpdatedResultDTO extends f2.dsl.cqrs.Event {
@@ -484,7 +500,7 @@ export namespace city.smartb.im.organization.domain.features.query {
     interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
         readonly search?: string;
         readonly role?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly withDisabled?: boolean;
         readonly page?: number;
         readonly size?: number;
@@ -492,7 +508,7 @@ export namespace city.smartb.im.organization.domain.features.query {
     }
     interface OrganizationPageResultDTO<MODEL extends city.smartb.im.organization.domain.model.OrganizationDTO> extends f2.dsl.cqrs.page.PageDTO<MODEL> {
         readonly total: number;
-        readonly items: MODEL[];
+        readonly items: kotlin.collections.List<MODEL>;
 
     }
 }
@@ -502,7 +518,7 @@ export namespace city.smartb.im.organization.domain.features.query {
 
     }
     interface OrganizationRefListResultDTO extends f2.dsl.cqrs.Event {
-        readonly items: city.smartb.im.organization.domain.model.OrganizationRefDTO[];
+        readonly items: kotlin.collections.List<city.smartb.im.organization.domain.model.OrganizationRefDTO>;
 
     }
 }
@@ -514,13 +530,13 @@ export namespace city.smartb.im.organization.domain.model {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly attributes: Record<string, string>;
-        readonly roles: string[];
+        readonly attributes: kotlin.collections.Map<string, string>;
+        readonly roles: kotlin.collections.List<string>;
         readonly rolesComposites: i2.keycloak.f2.role.domain.RolesCompositeModel;
         readonly enabled: boolean;
         readonly disabledBy?: string;
-        readonly creationDate: number;
-        readonly disabledDate?: any/* Nullable<number> */;
+        readonly creationDate: kotlin.Long;
+        readonly disabledDate: Nullable<any>/* Nullable<kotlin.Long> */;
 
     }
 }
@@ -528,7 +544,7 @@ export namespace city.smartb.im.organization.domain.model {
     interface OrganizationRefDTO {
         readonly id: string;
         readonly name: string;
-        readonly roles: string[];
+        readonly roles: kotlin.collections.List<string>;
 
     }
 }
@@ -545,7 +561,7 @@ export namespace city.smartb.im.organization.domain.policies {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserCreateCommand implements f2.dsl.cqrs.Command {
-        constructor(realmId: string, username: string, firstname?: string, lastname?: string, email: string, isEnable: boolean, isEmailVerified: boolean, attributes: Record<string, string>, auth: i2.keycloak.master.domain.AuthRealm, password?: string, isPasswordTemporary?: boolean);
+        constructor(realmId: string, username: string, firstname?: string, lastname?: string, email: string, isEnable: boolean, isEmailVerified: boolean, attributes: kotlin.collections.Map<string, string>, auth: i2.keycloak.master.domain.AuthRealm, password?: string, isPasswordTemporary?: boolean);
         get realmId(): string;
         get username(): string;
         get firstname(): Nullable<string>;
@@ -553,7 +569,7 @@ export namespace i2.keycloak.f2.user.domain.features.command {
         get email(): string;
         get isEnable(): boolean;
         get isEmailVerified(): boolean;
-        get attributes(): Record<string, string>;
+        get attributes(): kotlin.collections.Map<string, string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get password(): Nullable<string>;
         get isPasswordTemporary(): boolean;
@@ -589,11 +605,11 @@ export namespace i2.keycloak.f2.user.domain.features.command {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserEmailSendActionsCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(userId: string, clientId?: string, redirectUri?: string, actions: string[], realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(userId: string, clientId?: string, redirectUri?: string, actions: kotlin.collections.List<string>, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get userId(): string;
         get clientId(): Nullable<string>;
         get redirectUri(): Nullable<string>;
-        get actions(): string[];
+        get actions(): kotlin.collections.List<string>;
         get realmId(): string;
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
@@ -612,17 +628,17 @@ export namespace i2.keycloak.f2.user.domain.features.command {
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
     class UserJoinedGroupEvent implements i2.keycloak.f2.commons.domain.KeycloakF2Result {
-        constructor(id: string, groupId: string, groupsLeft: string[]);
+        constructor(id: string, groupId: string, groupsLeft: kotlin.collections.List<string>);
         get id(): string;
         get groupId(): string;
-        get groupsLeft(): string[];
+        get groupsLeft(): kotlin.collections.List<string>;
     }
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserRolesGrantCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId?: string, clientId?: string);
+        constructor(id: string, roles: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId?: string, clientId?: string);
         get id(): string;
-        get roles(): string[];
+        get roles(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
         get clientId(): Nullable<string>;
@@ -634,9 +650,9 @@ export namespace i2.keycloak.f2.user.domain.features.command {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserRolesRevokeCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
+        constructor(id: string, roles: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
         get id(): string;
-        get roles(): string[];
+        get roles(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -647,9 +663,9 @@ export namespace i2.keycloak.f2.user.domain.features.command {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserRolesSetCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
+        constructor(id: string, roles: kotlin.collections.List<string>, auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
         get id(): string;
-        get roles(): string[];
+        get roles(): kotlin.collections.List<string>;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get realmId(): string;
     }
@@ -660,9 +676,9 @@ export namespace i2.keycloak.f2.user.domain.features.command {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserSetAttributesCommand implements i2.keycloak.f2.commons.domain.KeycloakF2Command {
-        constructor(id: string, attributes: Record<string, Nullable<string>>, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(id: string, attributes: kotlin.collections.Map<string, Nullable<string>>, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get id(): string;
-        get attributes(): Record<string, Nullable<string>>;
+        get attributes(): kotlin.collections.Map<string, Nullable<string>>;
         get realmId(): string;
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
@@ -689,13 +705,13 @@ export namespace i2.keycloak.f2.user.domain.features.command {
 }
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserUpdateCommand implements f2.dsl.cqrs.Command {
-        constructor(userId: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm, firstname?: string, lastname?: string, attributes: Record<string, string>);
+        constructor(userId: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm, firstname?: string, lastname?: string, attributes: kotlin.collections.Map<string, string>);
         get userId(): string;
         get realmId(): string;
         get auth(): i2.keycloak.master.domain.AuthRealm;
         get firstname(): Nullable<string>;
         get lastname(): Nullable<string>;
-        get attributes(): Record<string, string>;
+        get attributes(): kotlin.collections.Map<string, string>;
     }
     class UserUpdatedEvent implements f2.dsl.cqrs.Event {
         constructor(id: string);
@@ -759,8 +775,8 @@ export namespace i2.keycloak.f2.user.domain.features.query {
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
     class UserGetGroupsResult implements f2.dsl.cqrs.Event {
-        constructor(items: i2.keycloak.f2.user.domain.model.UserGroup[]);
-        get items(): i2.keycloak.f2.user.domain.model.UserGroup[];
+        constructor(items: kotlin.collections.List<i2.keycloak.f2.user.domain.model.UserGroup>);
+        get items(): kotlin.collections.List<i2.keycloak.f2.user.domain.model.UserGroup>;
     }
 }
 export namespace i2.keycloak.f2.user.domain.features.query {
@@ -777,11 +793,11 @@ export namespace i2.keycloak.f2.user.domain.features.query {
 }
 export namespace i2.keycloak.f2.user.domain.features.query {
     class UserPageQuery implements i2.keycloak.f2.commons.domain.KeycloakF2Query {
-        constructor(groupId?: string, search?: string, role?: string, attributes?: Record<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(groupId?: string, search?: string, role?: string, attributes?: kotlin.collections.Map<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get groupId(): Nullable<string>;
         get search(): Nullable<string>;
         get role(): Nullable<string>;
-        get attributes(): Record<string, string>;
+        get attributes(): kotlin.collections.Map<string, string>;
         get withDisabled(): boolean;
         get page(): f2.dsl.cqrs.page.PagePagination;
         get realmId(): string;
@@ -794,23 +810,23 @@ export namespace i2.keycloak.f2.user.domain.features.query {
 }
 export namespace i2.keycloak.f2.user.domain.model {
     class UserGroup {
-        constructor(id: string, name: string, roles: string[]);
+        constructor(id: string, name: string, roles: kotlin.collections.List<string>);
         get id(): string;
         get name(): string;
-        get roles(): string[];
+        get roles(): kotlin.collections.List<string>;
     }
 }
 export namespace i2.keycloak.f2.user.domain.model {
     class UserModel {
-        constructor(id: string, email?: string, firstName?: string, lastName?: string, roles: i2.keycloak.f2.role.domain.RolesCompositeModel, attributes: Record<string, string>, enabled: boolean, creationDate: number);
+        constructor(id: string, email?: string, firstName?: string, lastName?: string, roles: i2.keycloak.f2.role.domain.RolesCompositeModel, attributes: kotlin.collections.Map<string, string>, enabled: boolean, creationDate: kotlin.Long);
         get id(): string;
         get email(): Nullable<string>;
         get firstName(): Nullable<string>;
         get lastName(): Nullable<string>;
         get roles(): i2.keycloak.f2.role.domain.RolesCompositeModel;
-        get attributes(): Record<string, string>;
+        get attributes(): kotlin.collections.Map<string, string>;
         get enabled(): boolean;
-        get creationDate(): number;
+        get creationDate(): kotlin.Long;
     }
 }
 export namespace city.smartb.im.user.domain.features.command {
@@ -819,11 +835,11 @@ export namespace city.smartb.im.user.domain.features.command {
         readonly password?: string;
         readonly givenName: string;
         readonly familyName: string;
-        readonly address?: city.smartb.im.commons.model.AddressDTO/* Nullable<city.smartb.im.commons.model.Address> */;
+        readonly address: Nullable<city.smartb.im.commons.model.AddressDTO>/* Nullable<city.smartb.im.commons.model.Address> */;
         readonly phone?: string;
-        readonly roles: string[];
+        readonly roles: kotlin.collections.List<string>;
         readonly memberOf?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly isEmailVerified: boolean;
         readonly isPasswordTemporary: boolean;
         readonly sendResetPassword: boolean;
@@ -850,7 +866,7 @@ export namespace city.smartb.im.user.domain.features.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface UserDisabledEventDTO extends f2.dsl.cqrs.Event {
@@ -885,11 +901,11 @@ export namespace city.smartb.im.user.domain.features.command {
         readonly id: string;
         readonly givenName: string;
         readonly familyName: string;
-        readonly address?: city.smartb.im.commons.model.AddressDTO/* Nullable<city.smartb.im.commons.model.Address> */;
+        readonly address: Nullable<city.smartb.im.commons.model.AddressDTO>/* Nullable<city.smartb.im.commons.model.Address> */;
         readonly phone?: string;
         readonly memberOf?: string;
-        readonly roles: string[];
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly roles: kotlin.collections.List<string>;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface UserUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -954,14 +970,14 @@ export namespace city.smartb.im.user.domain.features.query {
         readonly organizationId?: string;
         readonly search?: string;
         readonly role?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly withDisabled: boolean;
         readonly page?: number;
         readonly size?: number;
 
     }
     interface UserPageResultDTO extends f2.dsl.cqrs.Event {
-        readonly items: city.smartb.im.user.domain.model.UserDTO[];
+        readonly items: kotlin.collections.List<city.smartb.im.user.domain.model.UserDTO>;
         readonly total: number;
 
     }
@@ -975,13 +991,13 @@ export namespace city.smartb.im.user.domain.model {
         readonly familyName: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly phone?: string;
-        readonly roles: string[];
+        readonly roles: kotlin.collections.List<string>;
         readonly rolesComposites: i2.keycloak.f2.role.domain.RolesCompositeModel;
-        readonly attributes: Record<string, string>;
+        readonly attributes: kotlin.collections.Map<string, string>;
         readonly enabled: boolean;
         readonly disabledBy?: string;
-        readonly creationDate: number;
-        readonly disabledDate?: any/* Nullable<number> */;
+        readonly creationDate: kotlin.Long;
+        readonly disabledDate: Nullable<any>/* Nullable<kotlin.Long> */;
 
     }
 }
@@ -1030,15 +1046,15 @@ export namespace ssm.chaincode.dsl.blockchain {
         readonly blockId: string;
         readonly previousHash: Int8Array;
         readonly dataHash: Int8Array;
-        readonly transactions: ssm.chaincode.dsl.blockchain.TransactionDTO[];
+        readonly transactions: kotlin.collections.List<ssm.chaincode.dsl.blockchain.TransactionDTO>;
 
     }
     class Block implements ssm.chaincode.dsl.blockchain.BlockDTO {
-        constructor(blockId: string, previousHash: Int8Array, dataHash: Int8Array, transactions: ssm.chaincode.dsl.blockchain.Transaction[]);
+        constructor(blockId: string, previousHash: Int8Array, dataHash: Int8Array, transactions: kotlin.collections.List<ssm.chaincode.dsl.blockchain.Transaction>);
         get blockId(): string;
         get previousHash(): Int8Array;
         get dataHash(): Int8Array;
-        get transactions(): ssm.chaincode.dsl.blockchain.Transaction[];
+        get transactions(): kotlin.collections.List<ssm.chaincode.dsl.blockchain.Transaction>;
     }
 }
 export namespace ssm.chaincode.dsl.blockchain {
@@ -1074,7 +1090,7 @@ export namespace ssm.chaincode.dsl.blockchain {
     interface TransactionDTO {
         readonly transactionId: string;
         readonly blockId: string;
-        readonly timestamp: number;
+        readonly timestamp: kotlin.Long;
         readonly isValid: boolean;
         readonly channelId: string;
         readonly creator: ssm.chaincode.dsl.blockchain.IdentitiesInfoDTO;
@@ -1084,10 +1100,10 @@ export namespace ssm.chaincode.dsl.blockchain {
 
     }
     class Transaction implements ssm.chaincode.dsl.blockchain.TransactionDTO {
-        constructor(transactionId: string, blockId: string, timestamp: number, isValid: boolean, channelId: string, creator: ssm.chaincode.dsl.blockchain.IdentitiesInfo, nonce: Int8Array, type: ssm.chaincode.dsl.blockchain.EnvelopeType, validationCode: number);
+        constructor(transactionId: string, blockId: string, timestamp: kotlin.Long, isValid: boolean, channelId: string, creator: ssm.chaincode.dsl.blockchain.IdentitiesInfo, nonce: Int8Array, type: ssm.chaincode.dsl.blockchain.EnvelopeType, validationCode: number);
         get transactionId(): string;
         get blockId(): string;
-        get timestamp(): number;
+        get timestamp(): kotlin.Long;
         get isValid(): boolean;
         get channelId(): string;
         get creator(): ssm.chaincode.dsl.blockchain.IdentitiesInfo;
@@ -1122,7 +1138,8 @@ export namespace ssm.chaincode.dsl.model {
         component2(): Int8Array;
         copy(name?: string, pub?: Int8Array): ssm.chaincode.dsl.model.Agent;
         toString(): string;
-        
+        static get Companion(): {
+        };
     }
 }
 export namespace ssm.chaincode.dsl.model {
@@ -1146,16 +1163,16 @@ export namespace ssm.chaincode.dsl.model {
 export namespace ssm.chaincode.dsl.model {
     interface SsmDTO {
         readonly name: string;
-        readonly transitions: ssm.chaincode.dsl.model.SsmTransitionDTO[];
+        readonly transitions: kotlin.collections.List<ssm.chaincode.dsl.model.SsmTransitionDTO>;
 
     }
     class Ssm implements ssm.chaincode.dsl.model.SsmDTO {
-        constructor(name: string, transitions: ssm.chaincode.dsl.model.SsmTransition[]);
+        constructor(name: string, transitions: kotlin.collections.List<ssm.chaincode.dsl.model.SsmTransition>);
         get name(): string;
-        get transitions(): ssm.chaincode.dsl.model.SsmTransition[];
+        get transitions(): kotlin.collections.List<ssm.chaincode.dsl.model.SsmTransition>;
         component1(): string;
-        component2(): ssm.chaincode.dsl.model.SsmTransition[];
-        copy(name?: string, transitions?: ssm.chaincode.dsl.model.SsmTransition[]): ssm.chaincode.dsl.model.Ssm;
+        component2(): kotlin.collections.List<ssm.chaincode.dsl.model.SsmTransition>;
+        copy(name?: string, transitions?: kotlin.collections.List<ssm.chaincode.dsl.model.SsmTransition>): ssm.chaincode.dsl.model.Ssm;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1166,20 +1183,20 @@ export namespace ssm.chaincode.dsl.model {
         readonly session: string;
         readonly public: string;
         readonly iteration: number;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     class SsmContext implements ssm.chaincode.dsl.model.SsmContextDTO {
-        constructor(session: string, _public: string, iteration: number, _private?: any/* Nullable<Record<string, string>> */);
+        constructor(session: string, _public: string, iteration: number, _private?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */);
         get session(): string;
         get public(): string;
         get iteration(): number;
-        get private(): Nullable<any>/* Nullable<Record<string, string>> */;
+        get private(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         component1(): string;
         component2(): string;
         component3(): number;
-        component4(): Nullable<any>/* Nullable<Record<string, string>> */;
-        copy(session?: string, _public?: string, iteration?: number, _private?: any/* Nullable<Record<string, string>> */): ssm.chaincode.dsl.model.SsmContext;
+        component4(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
+        copy(session?: string, _public?: string, iteration?: number, _private?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */): ssm.chaincode.dsl.model.SsmContext;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1189,18 +1206,18 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmGrantDTO {
         readonly user: string;
         readonly iteration: number;
-        readonly credits: Record<string, ssm.chaincode.dsl.model.CreditDTO>;
+        readonly credits: kotlin.collections.Map<string, ssm.chaincode.dsl.model.CreditDTO>;
 
     }
     class SsmGrant {
-        constructor(user: string, iteration: number, credits: Record<string, ssm.chaincode.dsl.model.Credit>);
+        constructor(user: string, iteration: number, credits: kotlin.collections.Map<string, ssm.chaincode.dsl.model.Credit>);
         get user(): string;
         get iteration(): number;
-        get credits(): Record<string, ssm.chaincode.dsl.model.Credit>;
+        get credits(): kotlin.collections.Map<string, ssm.chaincode.dsl.model.Credit>;
         component1(): string;
         component2(): number;
-        component3(): Record<string, ssm.chaincode.dsl.model.Credit>;
-        copy(user?: string, iteration?: number, credits?: Record<string, ssm.chaincode.dsl.model.Credit>): ssm.chaincode.dsl.model.SsmGrant;
+        component3(): kotlin.collections.Map<string, ssm.chaincode.dsl.model.Credit>;
+        copy(user?: string, iteration?: number, credits?: kotlin.collections.Map<string, ssm.chaincode.dsl.model.Credit>): ssm.chaincode.dsl.model.SsmGrant;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1223,51 +1240,51 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmSessionDTO extends ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: any/* Nullable<Record<string, string>> */;
+        readonly roles: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly public?: any;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     class SsmSession implements ssm.chaincode.dsl.model.SsmSessionDTO {
-        constructor(ssm: string, session: string, roles: Record<string, string>, _public: string, _private?: any/* Nullable<Record<string, string>> */);
+        constructor(ssm: string, session: string, roles: kotlin.collections.Map<string, string>, _public: string, _private?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */);
         get ssm(): string;
         get session(): string;
-        get roles(): Record<string, string>;
+        get roles(): kotlin.collections.Map<string, string>;
         get public(): string;
-        get private(): Nullable<any>/* Nullable<Record<string, string>> */;
+        get private(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
     }
 }
 export namespace ssm.chaincode.dsl.model {
     interface SsmSessionStateDTO extends ssm.chaincode.dsl.model.SsmSessionDTO, ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: any/* Nullable<Record<string, string>> */;
+        readonly roles: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly public?: any;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         readonly origin?: ssm.chaincode.dsl.model.SsmTransitionDTO;
         readonly current: number;
         readonly iteration: number;
 
     }
     class SsmSessionState implements ssm.chaincode.dsl.model.SsmSessionStateDTO {
-        constructor(ssm?: string, session: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
+        constructor(ssm?: string, session: string, roles: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */, _public?: any, _private?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
         get ssm(): Nullable<string>;
         get session(): string;
-        get roles(): Nullable<any>/* Nullable<Record<string, string>> */;
+        get roles(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         get public(): Nullable<any>;
-        get private(): Nullable<any>/* Nullable<Record<string, string>> */;
+        get private(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         get origin(): Nullable<ssm.chaincode.dsl.model.SsmTransition>;
         get current(): number;
         get iteration(): number;
         component1(): Nullable<string>;
         component2(): string;
-        component3(): Nullable<any>/* Nullable<Record<string, string>> */;
+        component3(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         component4(): Nullable<any>;
-        component5(): Nullable<any>/* Nullable<Record<string, string>> */;
+        component5(): Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
         component6(): Nullable<ssm.chaincode.dsl.model.SsmTransition>;
         component7(): number;
         component8(): number;
-        copy(ssm?: string, session?: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
+        copy(ssm?: string, session?: string, roles?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */, _public?: any, _private?: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1317,7 +1334,7 @@ export namespace ssm.chaincode.dsl.model {
 }
 export namespace ssm.chaincode.dsl.model {
     interface WithPrivate {
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
 }
@@ -1331,7 +1348,10 @@ export namespace ssm.chaincode.dsl.model.uri {
         get uri(): string;
         get channelId(): string;
         get chaincodeId(): string;
-        
+        static get Companion(): {
+            get PARTS(): number;
+            get PREFIX(): string;
+        };
     }
 }
 export namespace ssm.chaincode.dsl.model.uri {
@@ -1352,7 +1372,10 @@ export namespace ssm.chaincode.dsl.model.uri {
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
-        
+        static get Companion(): {
+            get PARTS(): number;
+            get PREFIX(): string;
+        };
     }
 }
 export namespace ssm.chaincode.dsl.query {
@@ -1385,14 +1408,14 @@ export namespace ssm.chaincode.dsl.query {
         get sessionName(): string;
     }
     class SsmGetSessionLogsQueryResult {
-        constructor(ssmName: string, sessionName: string, logs: ssm.chaincode.dsl.model.SsmSessionStateLog[]);
+        constructor(ssmName: string, sessionName: string, logs: kotlin.collections.List<ssm.chaincode.dsl.model.SsmSessionStateLog>);
         get ssmName(): string;
         get sessionName(): string;
-        get logs(): ssm.chaincode.dsl.model.SsmSessionStateLog[];
+        get logs(): kotlin.collections.List<ssm.chaincode.dsl.model.SsmSessionStateLog>;
         component1(): string;
         component2(): string;
-        component3(): ssm.chaincode.dsl.model.SsmSessionStateLog[];
-        copy(ssmName?: string, sessionName?: string, logs?: ssm.chaincode.dsl.model.SsmSessionStateLog[]): ssm.chaincode.dsl.query.SsmGetSessionLogsQueryResult;
+        component3(): kotlin.collections.List<ssm.chaincode.dsl.model.SsmSessionStateLog>;
+        copy(ssmName?: string, sessionName?: string, logs?: kotlin.collections.List<ssm.chaincode.dsl.model.SsmSessionStateLog>): ssm.chaincode.dsl.query.SsmGetSessionLogsQueryResult;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1498,8 +1521,10 @@ export namespace s2.dsl.automate {
         isAvailableInitTransition(command: f2.dsl.cqrs.Message): boolean;
         isFinalState(state: s2.dsl.automate.S2State): boolean;
         isSameState(from?: s2.dsl.automate.S2State, to: s2.dsl.automate.S2State): boolean;
-        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Automate;
-        
+        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Automate;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<s2.dsl.automate.S2Automate>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Automate>;
     }
@@ -1518,15 +1543,15 @@ export namespace s2.dsl.automate {
         readonly type: string;
         readonly description: string;
         readonly date: string;
-        readonly payload: Record<string, string>;
+        readonly payload: kotlin.collections.Map<string, string>;
 
     }
     class S2ErrorBase implements s2.dsl.automate.S2Error {
-        constructor(type: string, description: string, date: string, payload: Record<string, string>);
+        constructor(type: string, description: string, date: string, payload: kotlin.collections.Map<string, string>);
         get type(): string;
         get description(): string;
         get date(): string;
-        get payload(): Record<string, string>;
+        get payload(): kotlin.collections.Map<string, string>;
         toString(): string;
     }
 }
@@ -1565,10 +1590,10 @@ export namespace s2.dsl.automate {
 }
 export namespace s2.dsl.automate {
     class S2SubMachine {
-        constructor(automate: s2.dsl.automate.S2Automate, startsOn?: kotlin.reflect.KClass<f2.dsl.cqrs.Message>[], endsOn?: kotlin.reflect.KClass<f2.dsl.cqrs.Message>[], autostart?: boolean, blocking?: boolean, singleton?: boolean);
+        constructor(automate: s2.dsl.automate.S2Automate, startsOn?: kotlin.collections.List<kotlin.reflect.KClass<f2.dsl.cqrs.Message>>, endsOn?: kotlin.collections.List<kotlin.reflect.KClass<f2.dsl.cqrs.Message>>, autostart?: boolean, blocking?: boolean, singleton?: boolean);
         get automate(): s2.dsl.automate.S2Automate;
-        get startsOn(): kotlin.reflect.KClass<f2.dsl.cqrs.Message>[];
-        get endsOn(): kotlin.reflect.KClass<f2.dsl.cqrs.Message>[];
+        get startsOn(): kotlin.collections.List<kotlin.reflect.KClass<f2.dsl.cqrs.Message>>;
+        get endsOn(): kotlin.collections.List<kotlin.reflect.KClass<f2.dsl.cqrs.Message>>;
         get autostart(): boolean;
         get blocking(): boolean;
         get singleton(): boolean;
@@ -1588,24 +1613,30 @@ export namespace s2.dsl.automate {
         get role(): s2.dsl.automate.S2RoleValue;
         get action(): s2.dsl.automate.S2TransitionValue;
         get result(): Nullable<s2.dsl.automate.S2TransitionValue>;
-        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Transition;
-        
+        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Transition;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<s2.dsl.automate.S2Transition>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Transition>;
     }
     class S2TransitionValue {
         constructor(name: string);
         get name(): string;
-        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2TransitionValue;
-        
+        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2TransitionValue;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<s2.dsl.automate.S2TransitionValue>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2TransitionValue>;
     }
     class S2RoleValue {
         constructor(name: string);
         get name(): string;
-        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2RoleValue;
-        
+        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2RoleValue;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<s2.dsl.automate.S2RoleValue>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2RoleValue>;
     }
@@ -1613,8 +1644,10 @@ export namespace s2.dsl.automate {
         constructor(name: string, position: number);
         get name(): string;
         get position(): number;
-        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2StateValue;
-        
+        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2StateValue;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<s2.dsl.automate.S2StateValue>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2StateValue>;
     }
@@ -1710,10 +1743,10 @@ export namespace cccev.dsl.model {
 export namespace cccev.dsl.model {
     interface EvidenceDTO {
         readonly identifier: string;
-        readonly isConformantTo: string[];
-        readonly supportsValue: string[];
-        readonly supportsConcept: string[];
-        readonly supportsRequirement: string[];
+        readonly isConformantTo: kotlin.collections.List<string>;
+        readonly supportsValue: kotlin.collections.List<string>;
+        readonly supportsConcept: kotlin.collections.List<string>;
+        readonly supportsRequirement: kotlin.collections.List<string>;
         readonly validityPeriod?: cccev.dsl.model.PeriodOfTime;
         readonly name: string;
         readonly file?: string;
@@ -1725,7 +1758,7 @@ export namespace cccev.dsl.model {
         readonly description: string;
         readonly identifier: string;
         readonly name: string;
-        readonly specifiesEvidenceType: cccev.dsl.model.EvidenceType[];
+        readonly specifiesEvidenceType: kotlin.collections.List<cccev.dsl.model.EvidenceType>;
 
     }
     interface EvidenceType {
@@ -1738,8 +1771,10 @@ export namespace cccev.dsl.model {
     }
     class CoreLocationLocation {
         constructor();
-        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.CoreLocationLocation;
-        
+        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.CoreLocationLocation;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<cccev.dsl.model.CoreLocationLocation>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.CoreLocationLocation>;
     }
@@ -1748,8 +1783,10 @@ export namespace cccev.dsl.model {
         get duration(): Nullable<string>;
         get endTime(): Nullable<number>;
         get startTime(): Nullable<number>;
-        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.PeriodOfTime;
-        
+        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker: Nullable<any>/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.PeriodOfTime;
+        static get Companion(): {
+            serializer(): kotlinx.serialization.KSerializer<cccev.dsl.model.PeriodOfTime>;
+        };
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.PeriodOfTime>;
     }
@@ -1762,7 +1799,7 @@ export namespace cccev.dsl.model {
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -1830,7 +1867,7 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
@@ -1840,7 +1877,7 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -1878,7 +1915,7 @@ export namespace cccev.s2.evidence.domain.command.list {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
 
     }
     interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeListEvent {
@@ -1886,7 +1923,7 @@ export namespace cccev.s2.evidence.domain.command.list {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeListState */;
         s2Id(): string;
 
@@ -1897,7 +1934,7 @@ export namespace cccev.s2.evidence.domain.command.list {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
 
     }
     interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeListEvent {
@@ -1911,7 +1948,7 @@ export namespace cccev.s2.evidence.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint: Nullable<any>/* Nullable<kotlin.Long> */;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeEvent {
@@ -1919,7 +1956,7 @@ export namespace cccev.s2.evidence.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -1942,12 +1979,12 @@ export namespace cccev.s2.requirement.domain {
 export namespace cccev.s2.requirement.domain.command {
     interface RequirementAddRequirementsCommandDTO extends cccev.s2.requirement.domain.RequirementCommand {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface RequirementAddedRequirementsEventDTO extends cccev.s2.requirement.domain.RequirementEvent {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -1960,11 +1997,11 @@ export namespace cccev.s2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
-        readonly hasRequirement: string[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2015,7 +2052,7 @@ export namespace cccev.s2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         s2Id(): string;
 
     }
@@ -2023,12 +2060,12 @@ export namespace cccev.s2.certification.domain.command {
 export namespace cccev.s2.certification.domain.command {
     interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2036,12 +2073,12 @@ export namespace cccev.s2.certification.domain.command {
 export namespace cccev.s2.certification.domain.command {
     interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
 
     }
     interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
         s2Id(): string;
 
     }
@@ -2051,7 +2088,7 @@ export namespace cccev.s2.certification.domain.command {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly requirements: string[];
+        readonly requirements: kotlin.collections.List<string>;
 
     }
     interface CertificationCreatedEventDTO extends cccev.s2.certification.domain.CertificationEvent {
@@ -2059,7 +2096,7 @@ export namespace cccev.s2.certification.domain.command {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly requirements: string[];
+        readonly requirements: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2080,12 +2117,12 @@ export namespace cccev.s2.certification.domain.command {
 export namespace cccev.s2.certification.domain.command {
     interface CertificationRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface CertificationRemovedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2096,9 +2133,9 @@ export namespace cccev.s2.certification.domain.model {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly startDate?: any/* Nullable<number> */;
-        readonly endDate?: any/* Nullable<number> */;
-        readonly estimatedEndDate?: any/* Nullable<number> */;
+        readonly startDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly endDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly estimatedEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly creator?: string;
         readonly executor?: string;
         readonly validator?: string;
@@ -2106,11 +2143,11 @@ export namespace cccev.s2.certification.domain.model {
         readonly issuable: boolean;
         readonly verifiable: boolean;
         readonly verifier?: string;
-        readonly verificationDate?: any/* Nullable<number> */;
-        readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
+        readonly verificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly requirements: kotlin.collections.List<string>;
+        readonly evidences: kotlin.collections.List<cccev.s2.certification.domain.model.EvidenceDTO>;
+        readonly supportedValues: kotlin.collections.Map<string, Nullable<string>>;
+        readonly requirementStats: kotlin.collections.Map<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
     }
 }
@@ -2120,7 +2157,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
+        readonly isConformantTo: kotlin.collections.List<string>;
 
     }
 }
@@ -2133,9 +2170,9 @@ export namespace cccev.f2.evidence.domain.features.query {
 
     }
     interface GetEvidenceTypeListsQueryResultDTO {
-        readonly evidenceTypeListMap: Record<string, cccev.f2.evidence.domain.model.EvidenceTypeListDTO>;
-        readonly evidenceTypeListsOfEvidenceTypes: Record<string, string>[];
-        readonly evidenceTypeLists: cccev.f2.evidence.domain.model.EvidenceTypeListChoicesDTO[];
+        readonly evidenceTypeListMap: kotlin.collections.Map<string, cccev.f2.evidence.domain.model.EvidenceTypeListDTO>;
+        readonly evidenceTypeListsOfEvidenceTypes: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly evidenceTypeLists: kotlin.collections.List<cccev.f2.evidence.domain.model.EvidenceTypeListChoicesDTO>;
 
     }
 }
@@ -2152,14 +2189,14 @@ export namespace cccev.f2.evidence.domain.model {
 }
 export namespace cccev.f2.evidence.domain.model {
     interface EvidenceTypeListChoicesDTO {
-        readonly evidenceTypeLists: string[];
+        readonly evidenceTypeLists: kotlin.collections.List<string>;
         readonly isFilled: boolean;
 
     }
 }
 export namespace cccev.f2.evidence.domain.model {
     interface EvidenceTypeListDTO extends cccev.dsl.model.EvidenceTypeList {
-        readonly specifiesEvidenceType: cccev.f2.evidence.domain.model.EvidenceTypeDTO[];
+        readonly specifiesEvidenceType: kotlin.collections.List<cccev.f2.evidence.domain.model.EvidenceTypeDTO>;
         readonly description: string;
         readonly identifier: string;
         readonly name: string;
@@ -2220,7 +2257,7 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptCreatedEventDTO {
@@ -2230,7 +2267,7 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -2244,7 +2281,7 @@ export namespace cccev.f2.concept.domain.model {
         readonly unit?: cccev.f2.unit.domain.model.DataUnitDTO;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -2258,7 +2295,7 @@ export namespace cccev.f2.concept.domain.model {
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
 
     }
 }
@@ -2270,7 +2307,7 @@ export namespace cccev.f2.concept.domain.query {
 
     }
     interface GetInformationConceptsQueryResultDTO {
-        readonly informationConcepts: cccev.f2.concept.domain.model.RequestInformationConceptDTO[];
+        readonly informationConcepts: kotlin.collections.List<cccev.f2.concept.domain.model.RequestInformationConceptDTO>;
 
     }
 }
@@ -2345,7 +2382,7 @@ export namespace cccev.f2.evidence.type.domain.command.list {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
 
     }
     interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreatedEventDTO {
@@ -2353,7 +2390,7 @@ export namespace cccev.f2.evidence.type.domain.command.list {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeListState */;
         s2Id(): string;
 
@@ -2364,7 +2401,7 @@ export namespace cccev.f2.evidence.type.domain.command.list {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: string[];
+        readonly specifiesEvidenceType: kotlin.collections.List<string>;
 
     }
     interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListUpdatedEventDTO {
@@ -2378,7 +2415,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint: Nullable<any>/* Nullable<kotlin.Long> */;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.domain.command.type.EvidenceTypeCreatedEventDTO {
@@ -2386,7 +2423,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -2397,7 +2434,7 @@ export namespace cccev.f2.evidence.type.domain.model {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint: Nullable<any>/* Nullable<kotlin.Long> */;
 
     }
 }
@@ -2406,7 +2443,7 @@ export namespace cccev.f2.evidence.type.domain.model {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly specifiesEvidenceType: cccev.f2.evidence.type.domain.model.EvidenceTypeDTO[];
+        readonly specifiesEvidenceType: kotlin.collections.List<cccev.f2.evidence.type.domain.model.EvidenceTypeDTO>;
 
     }
 }
@@ -2499,7 +2536,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly id: string;
         readonly name: string;
         readonly url?: string;
-        readonly isConformantTo: string[];
+        readonly isConformantTo: kotlin.collections.List<string>;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -2508,7 +2545,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         s2Id(): string;
 
     }
@@ -2516,12 +2553,12 @@ export namespace cccev.f2.certification.domain.command {
 export namespace cccev.f2.certification.domain.command {
     interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationAddRequirementsCommandDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationAddedRequirementsEventDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2529,12 +2566,12 @@ export namespace cccev.f2.certification.domain.command {
 export namespace cccev.f2.certification.domain.command {
     interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.command.CertificationAddValuesCommandDTO {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
 
     }
     interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.command.CertificationAddedValuesEventDTO {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
+        readonly values: kotlin.collections.Map<string, Nullable<string>>;
         s2Id(): string;
 
     }
@@ -2544,7 +2581,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly requirements: string[];
+        readonly requirements: kotlin.collections.List<string>;
 
     }
     interface RequestCreatedEventDTO extends cccev.s2.certification.domain.command.CertificationCreatedEventDTO {
@@ -2552,7 +2589,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly requirements: string[];
+        readonly requirements: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2573,12 +2610,12 @@ export namespace cccev.f2.certification.domain.command {
 export namespace cccev.f2.certification.domain.command {
     interface RequestRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveRequirementsCommandDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface RequestRemovedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedRequirementsEventDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2589,9 +2626,9 @@ export namespace cccev.f2.certification.domain.model {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly startDate?: any/* Nullable<number> */;
-        readonly endDate?: any/* Nullable<number> */;
-        readonly estimatedEndDate?: any/* Nullable<number> */;
+        readonly startDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly endDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly estimatedEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly creator?: string;
         readonly executor?: string;
         readonly validator?: string;
@@ -2599,11 +2636,11 @@ export namespace cccev.f2.certification.domain.model {
         readonly issuable: boolean;
         readonly verifiable: boolean;
         readonly verifier?: string;
-        readonly verificationDate?: any/* Nullable<number> */;
-        readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
+        readonly verificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly requirements: kotlin.collections.List<string>;
+        readonly evidences: kotlin.collections.List<cccev.s2.certification.domain.model.EvidenceDTO>;
+        readonly supportedValues: kotlin.collections.Map<string, Nullable<string>>;
+        readonly requirementStats: kotlin.collections.Map<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
     }
 }
@@ -2613,7 +2650,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
+        readonly isConformantTo: kotlin.collections.List<string>;
 
     }
 }
@@ -2660,11 +2697,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom: string[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
-        readonly hasRequirement: string[];
-        hasQualifiedRelation: Record<string, string>[];
+        readonly isDerivedFrom: kotlin.collections.List<string>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface ConstraintCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2674,11 +2711,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
-        readonly hasRequirement: string[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2691,11 +2728,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom: string[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
-        readonly hasRequirement: string[];
-        hasQualifiedRelation: Record<string, string>[];
+        readonly isDerivedFrom: kotlin.collections.List<string>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface CriterionCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2705,11 +2742,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
-        readonly hasRequirement: string[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2722,11 +2759,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom: string[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
-        readonly hasRequirement: string[];
-        hasQualifiedRelation: Record<string, string>[];
+        readonly isDerivedFrom: kotlin.collections.List<string>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface InformationRequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2736,11 +2773,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
-        readonly hasRequirement: string[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2749,12 +2786,12 @@ export namespace cccev.f2.requirement.domain.command {
 export namespace cccev.f2.requirement.domain.command {
     interface RequirementAddRequirementsCommandDTO extends cccev.s2.requirement.domain.command.RequirementAddRequirementsCommandDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
 
     }
     interface RequirementAddedRequirementsEventDTO extends cccev.s2.requirement.domain.command.RequirementAddedRequirementsEventDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly requirementIds: kotlin.collections.List<string>;
         s2Id(): string;
 
     }
@@ -2766,11 +2803,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom: string[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
-        readonly hasRequirement: string[];
-        hasQualifiedRelation: Record<string, string>[];
+        readonly isDerivedFrom: kotlin.collections.List<string>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
 
     }
     interface RequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2780,11 +2817,11 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
-        readonly hasRequirement: string[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: string[];
-        readonly hasEvidenceTypeList: string[];
+        readonly isDerivedFrom: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
+        readonly hasRequirement: kotlin.collections.List<string>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<string>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2813,10 +2850,10 @@ export namespace cccev.f2.requirement.domain.model {
         readonly description?: string;
         readonly type?: string;
         readonly name?: string;
-        readonly hasRequirement: cccev.f2.requirement.domain.model.RequirementDTO[];
-        readonly hasQualifiedRelation: Record<string, string>[];
-        readonly hasConcept: cccev.f2.concept.domain.model.InformationConceptDTO[];
-        readonly hasEvidenceTypeList: cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO[];
+        readonly hasRequirement: kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>;
+        readonly hasQualifiedRelation: kotlin.collections.Map<string, kotlin.collections.List<string>>;
+        readonly hasConcept: kotlin.collections.List<cccev.f2.concept.domain.model.InformationConceptDTO>;
+        readonly hasEvidenceTypeList: kotlin.collections.List<cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO>;
 
     }
 }
@@ -2842,12 +2879,12 @@ export namespace cccev.f2.requirement.domain.query {
 }
 export namespace cccev.f2.requirement.domain.query {
     interface RequirementListChildrenByTypeQueryDTO {
-        readonly identifiers: string[];
+        readonly identifiers: kotlin.collections.List<string>;
         readonly type: string;
 
     }
     interface RequirementListChildrenByTypeResultDTO {
-        readonly items?: any/* Nullable<cccev.f2.requirement.domain.model.RequirementDTO>[] */;
+        readonly items: Nullable<any>/* Nullable<kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>> */;
 
     }
 }
@@ -2859,7 +2896,7 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
     interface RequirementListResultDTO {
-        readonly requirements: cccev.f2.requirement.domain.model.RequirementDTO[];
+        readonly requirements: kotlin.collections.List<cccev.f2.requirement.domain.model.RequirementDTO>;
 
     }
 }
@@ -2937,28 +2974,27 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
-        readonly indicator: string;
-        readonly creditingPeriodStartDate?: any/* Nullable<number> */;
-        readonly creditingPeriodEndDate?: any/* Nullable<number> */;
+        readonly creditingPeriodStartDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly creditingPeriodEndDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly description?: string;
-        readonly dueDate?: any/* Nullable<number> */;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly estimatedReductions?: string;
         readonly localization?: string;
-        readonly proponent?: city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly proponent: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
         readonly type?: number;
         readonly referenceYear?: string;
-        readonly registrationDate?: any/* Nullable<number> */;
+        readonly registrationDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly vintage?: string;
         readonly slug?: string;
-        readonly vvb?: city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
-        readonly assessor?: city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly vvb: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
+        readonly assessor: Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRefDTO>/* Nullable<city.smartb.registry.program.s2.project.domain.model.OrganizationRef> */;
         readonly location?: city.smartb.registry.program.api.commons.model.GeoLocationDTO;
-        readonly activities?: any/* Nullable<string>[] */;
+        readonly activities: Nullable<any>/* Nullable<kotlin.collections.List<string>> */;
         readonly certification?: city.smartb.registry.program.s2.project.domain.model.CertificationRefDTO;
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
-        readonly creationDate?: any/* Nullable<number> */;
-        readonly lastModificationDate?: any/* Nullable<number> */;
-        readonly sdgs?: any/* Nullable<number>[] */;
+        readonly creationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly lastModificationDate: Nullable<any>/* Nullable<kotlin.Long> */;
+        readonly sdgs: Nullable<any>/* Nullable<kotlin.collections.List<number>> */;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         s2Id(): string;
 
@@ -3030,13 +3066,13 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
         readonly referenceYear?: string;
         readonly vintage?: string;
         readonly origin?: string;
-        readonly dueDate?: any/* Nullable<number> */;
+        readonly dueDate: Nullable<any>/* Nullable<kotlin.Long> */;
         readonly status?: string;
 
     }
     interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<city.smartb.registry.program.s2.project.domain.model.ProjectDTO> {
         readonly total: number;
-        readonly items: city.smartb.registry.program.s2.project.domain.model.ProjectDTO[];
+        readonly items: kotlin.collections.List<city.smartb.registry.program.s2.project.domain.model.ProjectDTO>;
         readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
 
     }
