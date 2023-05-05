@@ -53,6 +53,7 @@ interface ProjectDeletedEventDTO: ProjectEvent {
 @Serializable
 data class ProjectDeletedEvent(
     override val id: ProjectId,
+    override val date: Long
 ): ProjectDeletedEventDTO {
     override fun s2Id() = id
 }

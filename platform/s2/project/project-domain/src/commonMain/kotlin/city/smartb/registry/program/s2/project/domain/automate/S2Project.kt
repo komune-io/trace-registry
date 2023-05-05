@@ -1,5 +1,8 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
+import city.smartb.registry.program.api.commons.model.S2SourcingEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
@@ -8,14 +11,11 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateComma
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import kotlinx.serialization.Serializable
-import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
-import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2Sourcing
-import s2.dsl.automate.model.WithS2Id
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -26,8 +26,12 @@ val s2Project = s2Sourcing {
 		role = ProjectRole.ProjectDeveloper
 	}
 	selfTransaction<ProjectUpdateCommand, ProjectUpdatedEvent> {
-		role = ProjectRole.ProjectDeveloper
 		states += ProjectState.STAMPED
+		role = ProjectRole.ProjectDeveloper
+	}
+	selfTransaction<ProjectAddAssetPoolCommand, ProjectAddedAssetPoolEvent> {
+		states += ProjectState.STAMPED
+		role = ProjectRole.ProjectDeveloper
 	}
 	transaction<ProjectDeleteCommand, ProjectDeletedEvent> {
 		from = ProjectState.STAMPED
@@ -71,4 +75,4 @@ interface ProjectCommand: S2Command<ProjectId>
 
 @JsExport
 @JsName("ProjectEvent")
-interface ProjectEvent: Evt, WithId<ProjectId>, WithS2Id<ProjectId>
+interface ProjectEvent: S2SourcingEvent<ProjectId>

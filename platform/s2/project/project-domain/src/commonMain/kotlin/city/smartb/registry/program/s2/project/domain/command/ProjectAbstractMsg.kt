@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.command
 
+import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.DateTime
@@ -26,6 +27,11 @@ interface ProjectAbstractMsg {
      * @ref [city.smartb.registry.program.s2.project.domain.model.Project.identifier]
      */
     var identifier: String?
+
+    /**
+     * @ref [city.smartb.registry.program.s2.project.domain.model.Project.indicator]
+     */
+    var indicator: InformationConceptIdentifier
 
     /**
      * @ref [city.smartb.registry.program.s2.project.domain.model.Project.creditingPeriodStartDate]

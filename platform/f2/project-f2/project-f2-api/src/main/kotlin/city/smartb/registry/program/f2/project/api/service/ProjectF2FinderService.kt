@@ -4,6 +4,7 @@ import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -22,7 +23,7 @@ class ProjectF2FinderService(
     }
 
     suspend fun page(
-        identifier: Match<ProjectId>? = null,
+        identifier: Match<ProjectIdentifier>? = null,
         name: Match<String>? = null,
         proponent: Match<String>?,
         type: Match<Int>?,
