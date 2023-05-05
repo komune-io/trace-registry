@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectCreateComma
 import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
+import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import kotlinx.coroutines.async
@@ -22,7 +23,7 @@ import s2.bdd.data.parser.extractList
 import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 
-class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberStepsDefinition() {
+class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
 
     @Autowired
     private lateinit var projectAggregateService: ProjectAggregateService
@@ -102,7 +103,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             description = params.description,
             type = params.type,
             country = params.country,
-            indicator = TODO(),
+            indicator = params.indicator,
             creditingPeriodStartDate = params.creditingPeriodStartDate,
             creditingPeriodEndDate = params.creditingPeriodEndDate,
             dueDate = params.dueDate,
@@ -130,6 +131,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             description = entry?.get("description").orRandom(),
             type = entry?.get("type")?.toInt() ?: 4,
             country = entry?.get("country").orRandom(),
+            indicator = entry?.get("indicator").orRandom(),
             creditingPeriodStartDate = entry?.get("creditingPeriodStartDate")?.toLong(),
             creditingPeriodEndDate = entry?.get("creditingPeriodEndDate")?.toLong(),
             dueDate = entry?.get("dueDate")?.toLong(),
@@ -154,6 +156,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
         val description: String,
         val type: Int,
         var country: String?,
+        var indicator: String,
         var creditingPeriodStartDate: DateTime?,
         var creditingPeriodEndDate: DateTime?,
         var dueDate: DateTime?,
