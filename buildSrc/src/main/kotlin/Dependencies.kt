@@ -142,5 +142,15 @@ object Dependencies {
 		fun test(scope: Scope) = scope.add(
 			"org.jetbrains.kotlin:kotlin-test-common:${PluginVersions.kotlin}",
 		)
+
+		fun cccevDomain(scope: Scope) = scope.add(
+			"city.smartb.cccev:certification-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:concept-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:evidence-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:evidence-type-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:framework-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:requirement-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:unit-f2-domain:${Versions.cccev}"
+		)
 	}
 }

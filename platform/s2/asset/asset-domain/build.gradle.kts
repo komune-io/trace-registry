@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
+	Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
 }

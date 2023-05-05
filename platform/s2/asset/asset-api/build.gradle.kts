@@ -8,6 +8,8 @@ plugins {
 dependencies {
 	api(project(":platform:s2:asset:asset-domain"))
 
+	implementation(project((":platform:infra:redis")))
+
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
-	Dependencies.Jvm.s2StoringData(::implementation)
+	Dependencies.Jvm.s2SourcingSsm(::implementation)
 }
