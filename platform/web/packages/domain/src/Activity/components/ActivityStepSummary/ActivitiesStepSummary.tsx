@@ -28,15 +28,18 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
         }
     })
 
-    const fields: FormComposableField[] = useMemo(() => steps?.map(it => ({
-        name: it.identifier,
-        label: `${it.identifier} - ${it.name}`,
-        params: {
-            orientation: "horizontal"
-        },
-        type: "textField",
-    }
-    )) ?? [], [steps])
+    console.log("steps", steps)
+
+    const fields: FormComposableField[] = useMemo(() => steps?.map((it: ActivityStep) => {
+        return ({
+            name: it.identifier,
+            label: `${it.identifier} - ${it.name}`,
+            params: {
+                orientation: "horizontal"
+            },
+            type: "textField",
+        })
+    }) ?? [], [steps])
 
     return (
         <Stack
