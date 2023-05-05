@@ -1,17 +1,17 @@
 package city.smartb.registry.program.s2.project.api.config
 
 import city.smartb.registry.program.s2.project.api.ProjectEvolver
+import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.api.entity.ProjectSnapRepository
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
-import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
-import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -25,6 +25,7 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
+import kotlin.reflect.KClass
 
 @Configuration
 class ProjectAutomateConfig(
@@ -32,7 +33,7 @@ class ProjectAutomateConfig(
 	evolver: ProjectEvolver,
 	projectSnapRepository: ProjectSnapRepository,
 	private val repository: ProjectRepository
-): S2SourcingSsmAdapter<Project, ProjectState, ProjectEvent, ProjectId, ProjectAutomateExecutor>(
+): S2SourcingSsmAdapter<ProjectEntity, ProjectState, ProjectEvent, ProjectId, ProjectAutomateExecutor>(
 	aggregate,
 	evolver,
 	projectSnapRepository
@@ -45,7 +46,7 @@ class ProjectAutomateConfig(
 			try {
 				runBlocking {
 					logger.info("/////////////////////////")
-					logger.info("Replay history")
+					logger.info("Replay Project history")
 					executor.replayHistory()
 					logger.info("/////////////////////////")
 				}
@@ -64,6 +65,7 @@ class ProjectAutomateConfig(
 				subclass(ProjectCreatedEvent::class, ProjectCreatedEvent.serializer())
 				subclass(ProjectUpdatedEvent::class, ProjectUpdatedEvent.serializer())
 				subclass(ProjectDeletedEvent::class, ProjectDeletedEvent.serializer())
+				subclass(ProjectAddedAssetPoolEvent::class, ProjectAddedAssetPoolEvent.serializer())
 			}
 		}
 	}
@@ -82,4 +84,4 @@ class ProjectAutomateConfig(
 }
 
 @Service
-class ProjectAutomateExecutor: S2AutomateDeciderSpring<Project, ProjectState, ProjectEvent, ProjectId>()
+class ProjectAutomateExecutor: S2AutomateDeciderSpring<ProjectEntity, ProjectState, ProjectEvent, ProjectId>()

@@ -102,6 +102,7 @@ class ProjectCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberS
             description = params.description,
             type = params.type,
             country = params.country,
+            indicator = TODO(),
             creditingPeriodStartDate = params.creditingPeriodStartDate,
             creditingPeriodEndDate = params.creditingPeriodEndDate,
             dueDate = params.dueDate,

@@ -10,6 +10,8 @@ import city.smartb.registry.program.s2.project.api.config.ProjectAutomateExecuto
 import city.smartb.registry.program.s2.project.api.entity.applyCmd
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
@@ -26,15 +28,17 @@ import java.util.UUID
 
 @Service
 class ProjectAggregateService(
-	private val cccevClient: CCCEVClient,
 	private val automate: ProjectAutomateExecutor,
+	private val cccevClient: CCCEVClient,
 ): ProjectAggregate {
 
 	override suspend fun create(cmd: ProjectCreateCommand): ProjectCreatedEvent = automate.init(cmd) {
 		ProjectCreatedEvent(
 			id = UUID.randomUUID().toString(),
+			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
-			name = cmd.name
+			name = cmd.name,
+			indicator = cmd.indicator
 		).applyCmd(cmd)
 		.applyCCCEVCertification()
 	}
@@ -45,6 +49,7 @@ class ProjectAggregateService(
 			copy(certification = CertificationRef(id = event.id, identifier = event.identifier))
 		} ?: this
 	}
+
 	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
 		return activities?.asFlow()
 			?.mapNotNull { findId(it) }
@@ -69,15 +74,26 @@ class ProjectAggregateService(
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
 		ProjectUpdatedEvent(
 			id = UUID.randomUUID().toString(),
+			date = System.currentTimeMillis(),
 			status = ProjectState.STAMPED,
 			identifier = cmd.identifier,
 			name = cmd.name,
+			indicator = cmd.indicator
 		).applyCmd(cmd)
 	}
 
 	override suspend fun delete(cmd: ProjectDeleteCommand): ProjectDeletedEvent = automate.transition(cmd) {
 		ProjectDeletedEvent(
 			id = it.id,
+			date = System.currentTimeMillis(),
+		)
+	}
+
+	override suspend fun addAssetPool(command: ProjectAddAssetPoolCommand) = automate.transition(command) {
+		ProjectAddedAssetPoolEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			poolId = command.poolId
 		)
 	}
 }
