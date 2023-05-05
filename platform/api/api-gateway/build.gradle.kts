@@ -9,8 +9,10 @@ dependencies {
     Dependencies.Jvm.f2(::implementation)
     Dependencies.Jvm.redisOm(::implementation, ::kapt)
 
-    implementation(project(":platform:f2:project-f2:project-f2-api"))
     implementation(project(":platform:f2:activity-f2:activity-f2-api"))
+    implementation(project(":platform:f2:asset-f2:asset-f2-api"))
+    implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-api"))
+    implementation(project(":platform:f2:project-f2:project-f2-api"))
 
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
