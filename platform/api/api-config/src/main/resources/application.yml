@@ -10,6 +10,9 @@ server:
 cccev:
   url: http://localhost:8083
 
+fs:
+  url: http://localhost:8090
+
 im:
   organization:
     insee:

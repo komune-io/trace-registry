@@ -1,14 +1,12 @@
 package city.smartb.registry.program.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
-import cccev.s2.certification.domain.model.Certification
 import cccev.s2.certification.domain.model.CertificationIdentifier
 import cccev.s2.requirement.domain.RequirementId
 import city.smartb.registry.program.api.commons.model.SimpleCache
@@ -23,15 +21,16 @@ import city.smartb.registry.program.f2.activity.domain.query.ActivityPageResult
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageResult
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.invoke
 import f2.dsl.fnc.invokeWith
 import org.springframework.stereotype.Service
 
 @Service
 class ActivityF2FinderService(
+    private val certificateService: CertificateService,
     private val cccevClient: CCCEVClient,
     private val projectFinderService: ProjectFinderService
 ) {
+
     suspend fun get(
         identifier: ActivityIdentifier,
         certificationIdentifier: CertificationIdentifier?,
@@ -84,11 +83,6 @@ class ActivityF2FinderService(
             ?.toStep(certificationIdentifier)
     }
 
-    private suspend fun getCertificationByIdentifier(identifier: CertificationIdentifier): Certification? {
-        return cccevClient.certificationClient.certificationGetByIdentifier()
-            .invoke(CertificationGetByIdentifierQueryDTOBase(identifier))
-            .item
-    }
 
     suspend fun pageSteps(
         offset: OffsetPagination? = null,
@@ -97,7 +91,6 @@ class ActivityF2FinderService(
     ): ActivityStepPageResult {
         val requirement = RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-
         val steps = requirement.item
             ?.hasConcept
             ?.sortedBy { it.identifier }
@@ -113,7 +106,7 @@ class ActivityF2FinderService(
         certificationIdentifier: CertificationIdentifier?,
         cache: Cache = Cache()
     ): List<Activity> {
-        val certification = certificationIdentifier?.let { getCertificationByIdentifier(it) }
+        val certification = certificateService.getCertification(certificationIdentifier)
         return toActivities(
             certification = certification,
             getRequirement = cache.requirements::get
@@ -123,7 +116,7 @@ class ActivityF2FinderService(
         certificationIdentifier: CertificationIdentifier?,
         cache: Cache = Cache()
     ): Activity {
-        val certification = certificationIdentifier?.let { getCertificationByIdentifier(it) }
+        val certification = certificateService.getCertification(certificationIdentifier)
         return toActivity(
             certification = certification,
             getRequirement = cache.requirements::get
@@ -133,14 +126,12 @@ class ActivityF2FinderService(
     private suspend fun Collection<InformationConceptDTOBase>.toSteps(
         certificationIdentifier: CertificationIdentifier
     ): List<ActivityStep> {
-        val values = getCertificationByIdentifier(certificationIdentifier)?.supportedValues
-        return map { concept -> concept.toStep(values?.get(concept.id)) }
+        val values = certificateService.getCertification(certificationIdentifier)
+        return map { concept ->
+            concept.toStep(values?.supportedValues?.get(concept.id))
+        }
     }
 
-    private suspend fun InformationConceptDTOBase.toStepInCertification(certificationIdentifier: CertificationIdentifier): ActivityStep {
-        val value = getCertificationByIdentifier(certificationIdentifier)?.supportedValues?.get(id)
-        return toStep(value)
-    }
 
     private inner class Cache {
         val requirements = SimpleCache<RequirementId, RequirementDTOBase> { requirementId ->

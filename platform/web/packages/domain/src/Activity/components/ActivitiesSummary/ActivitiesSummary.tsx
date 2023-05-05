@@ -63,9 +63,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
     }
   })
   const steps = activityStepPageQuery.data?.items ?? []
-
   return (
     <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || activityStepPageQuery.isLoading} steps={steps} />
   )
-
 }

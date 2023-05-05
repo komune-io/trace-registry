@@ -160,7 +160,6 @@ export const toEdges = (activities: Activity[], ancestors?: Activity[]): Edge[] 
             })
         }
     }
-
     return edges
 }
 

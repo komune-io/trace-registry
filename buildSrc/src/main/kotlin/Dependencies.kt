@@ -83,7 +83,7 @@ object Dependencies {
 				"city.smartb.fs:file-client:${Versions.fs}"
 			)
 			fun springUtils(scope: Scope) = scope.add(
-				"city.smartb.fs:file-client:${Versions.fs}"
+				"city.smartb.fs:fs-spring-utils:${Versions.fs}"
 			)
 		}
 

@@ -10,6 +10,7 @@ import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.program.f2.activity.api.service.ActivityPoliciesEnforcer
+import city.smartb.registry.program.f2.activity.api.service.CertificateService
 import city.smartb.registry.program.f2.activity.domain.ActivityApi
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityCreatedEventDTOBase
@@ -20,7 +21,10 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvide
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillFunction
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfilledEventDTOBase
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageFunction
+import city.smartb.registry.program.f2.activity.domain.query.ActivityStepEvidenceDownloadQuery
+import city.smartb.registry.program.f2.activity.domain.query.ActivityStepEvidenceDownloadResult
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageFunction
+import city.smartb.registry.program.infra.fs.FsService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
@@ -31,7 +35,9 @@ import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 import javax.annotation.security.PermitAll
 import org.springframework.http.codec.multipart.FilePart
+import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 
 @RestController
@@ -39,9 +45,11 @@ import org.springframework.web.bind.annotation.RequestPart
 @Configuration
 class ActivityEndpoint(
     private val cccevClient: CCCEVClient,
+    private val certificateService: CertificateService,
     private val activityExecutorService: ActivityF2ExecutorService,
     private val activityF2FinderService: ActivityF2FinderService,
     private val activityPoliciesEnforcer: ActivityPoliciesEnforcer,
+    private val fsService: FsService,
 ): ActivityApi {
 
     private val logger by Logger()
@@ -64,7 +72,7 @@ class ActivityEndpoint(
     @PermitAll
     @Bean
     override fun activityStepPage(): ActivityStepPageFunction = f2Function { query ->
-        logger.info("activityPage: $query")
+        logger.info("activityStepPage: $query")
         activityPoliciesEnforcer.checkPageStep()
         activityF2FinderService.pageSteps(
             offset = OffsetPagination(
@@ -79,7 +87,7 @@ class ActivityEndpoint(
     @PermitAll
     @Bean
     override fun activityCreate(): ActivityCreateFunction = f2Function { cmd ->
-        logger.info("activityPage: $cmd")
+        logger.info("activityCreate: $cmd")
         activityPoliciesEnforcer.checkCreation()
         activityExecutorService.createActivity(cmd).let { identifier ->
             ActivityCreatedEventDTOBase(identifier = identifier)
@@ -98,7 +106,7 @@ class ActivityEndpoint(
 
     @Bean
     override fun activityStepFulfill(): ActivityStepFulfillFunction = f2Function { cmd ->
-        logger.info("activityFulfillStep: $cmd")
+        logger.info("activityStepFulfill: $cmd")
         activityPoliciesEnforcer.checkCanFulfillStep()
 
         val certification = CertificationGetByIdentifierQueryDTOBase(
@@ -123,7 +131,6 @@ class ActivityEndpoint(
             identifier = cmd.identifier,
             value = value,
             file = null,
-//            evidence = null,
         )
     }
 
@@ -132,13 +139,10 @@ class ActivityEndpoint(
         @RequestPart("command") cmd: ActivityStepEvidenceFulfillCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): ActivityStepEvidenceFulfilledEventDTOBase {
-        logger.info("activityFulfillTaskFile: $cmd")
+        logger.info("activityStepEvidenceFulfill: $cmd")
         activityPoliciesEnforcer.checkCanFulfillEvidenceStep()
 
-        val certification = CertificationGetByIdentifierQueryDTOBase(
-            identifier = cmd.certificationIdentifier
-        ).invokeWith(cccevClient.certificationClient.certificationGetByIdentifier()).item
-            ?: throw NotFoundException("Certification with identifier", cmd.certificationIdentifier)
+        val certification = certificateService.getNotNullCertification(cmd.certificationIdentifier)
 
         val part = file?.let {
             (CertificationAddEvidenceCommandDTOBase(
@@ -155,4 +159,19 @@ class ActivityEndpoint(
             identifier = cmd.identifier,
         )
     }
+
+    @PostMapping("/activityStepEvidenceDownload")
+    suspend fun activityStepEvidenceDownload(
+        @RequestBody query: ActivityStepEvidenceDownloadQuery,
+        response: ServerHttpResponse
+    ): ActivityStepEvidenceDownloadResult? {
+        logger.info("activityStepEvidenceDownload: $query")
+        return fsService.downloadFile(response) {
+            certificateService.getCertification(query.certificationIdentifier)
+                ?.evidences
+                ?.first { it.id == query.evidenceId }
+                ?.file
+        }
+    }
+    
 }
