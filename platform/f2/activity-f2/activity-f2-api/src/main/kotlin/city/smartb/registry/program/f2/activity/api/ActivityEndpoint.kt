@@ -30,15 +30,15 @@ import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import s2.spring.utils.logger.Logger
-import javax.annotation.security.PermitAll
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.bind.annotation.RestController
+import s2.spring.utils.logger.Logger
+import javax.annotation.security.PermitAll
 
 @RestController
 @RequestMapping
@@ -173,5 +173,5 @@ class ActivityEndpoint(
                 ?.file
         }
     }
-    
+
 }

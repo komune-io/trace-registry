@@ -65,7 +65,7 @@ object Dependencies {
 			"city.smartb.f2:f2-spring-boot-openapi:${Versions.f2}"
 		)
 
-		fun i2Keycloack(scope: Scope) = scope.add(
+		fun i2Keycloak(scope: Scope) = scope.add(
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
 		)
 
