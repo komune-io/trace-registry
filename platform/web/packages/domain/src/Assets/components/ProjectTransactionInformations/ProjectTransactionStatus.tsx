@@ -1,5 +1,6 @@
 import { StatusTag } from '@smartb/g2'
 import {transactionTypeValues} from "../../model";
+import {useTranslation} from "react-i18next";
 
 export interface ProjectTransactionStatusProps {
     value: string
@@ -20,7 +21,8 @@ export const transactionTypeValuestoColor={
 }
 export const ProjectTransactionStatus = (props: ProjectTransactionStatusProps) => {
     const { value } = props
+    const {t} = useTranslation()
     return (
-        <StatusTag label={value} />
+        <StatusTag label={t(`projects.assets.${value}`)} customColor={transactionTypeValuestoColor[value]} />
     )
 }

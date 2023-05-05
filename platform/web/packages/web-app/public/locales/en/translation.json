@@ -36,6 +36,7 @@
   "projectList": "Project list",
   "id": "ID",
   "type": "Type",
+  "types": "Types",
   "avgReductions": "AVG Reductions",
   "refYear": "Ref year",
   "dueDate": "Due date",
@@ -154,7 +155,12 @@
       "sellTo": "Sell to {{name}}",
       "dataTons":  "{{count}} tons",
       "history1": "Issued to {{resultName}} from {{name}} in {{country}}",
-      "retired": "Retired {{name}}"
+      "retired": "Retired {{name}}",
+      "issue": "Issue",
+      "transfer": "Transfered",
+      "withdraw": "Withdrawn",
+      "offset": "Offset"
+
 
     }
   }
