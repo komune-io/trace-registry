@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import TransactionDTODesc from './desc.mdx'
+import TransactionDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<TransactionDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={TransactionDTOVisualJson}
+      language={"json"}
+      title={"TransactionDTO"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

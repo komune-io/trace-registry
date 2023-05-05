@@ -17,5 +17,6 @@
   "creationDate" : "1670255859",
   "lastModificationDate" : "1670255859",
   "status" : "REGISTERED",
-  "sdgs" : [ 2, 5, 6 ]
+  "sdgs" : [ 2, 5, 6 ],
+  "assetPools" : [ "2ac68753-eb5e-4148-8dc2-40b741a350d4" ]
 }
