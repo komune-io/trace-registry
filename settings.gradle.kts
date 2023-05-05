@@ -47,12 +47,9 @@ include(
 	"platform:infra:redis"
 )
 
-//include(
-//	"platform:s2:asset:asset-api",
-//	"platform:s2:asset:asset-domain",
-//)
-
 include(
+	"platform:s2:asset:asset-api",
+	"platform:s2:asset:asset-domain",
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
 )

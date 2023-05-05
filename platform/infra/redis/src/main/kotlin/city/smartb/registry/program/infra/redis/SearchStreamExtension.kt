@@ -30,18 +30,32 @@ fun <E, T: Number?> SearchStream<E>.match(x: NumericField<E, T>, matcher: Match<
         ?.let(::filter)
         ?: this
 }
+@JvmName("matchString")
 fun <E, T: String?> SearchStream<E>.match(x: TextField<E, T>, matcher: Match<T>?): SearchStream<E> {
     return match(x as MetamodelField<E, T>, matcher)
         ?.let(::filter)
         ?: this
 }
+@JvmName("matchString")
 fun <E, T: String?> SearchStream<E>.match(x: TextTagField<E, T>, matcher: Match<T>?): SearchStream<E> {
     return match(x as MetamodelField<E, T>, matcher)
         ?.let(::filter)
         ?: this
 }
+@JvmName("matchEnum")
+fun <E, T: Enum<T>?> SearchStream<E>.match(x: TextField<E, T>, matcher: Match<T>?): SearchStream<E> {
+    return match(x as MetamodelField<E, T>, matcher)
+        ?.let(::filter)
+        ?: this
+}
+@JvmName("matchEnum")
+fun <E, T: Enum<T>?> SearchStream<E>.match(x: TextTagField<E, T>, matcher: Match<T>?): SearchStream<E> {
+    return match(x as MetamodelField<E, T>, matcher)
+        ?.let(::filter)
+        ?: this
+}
 
-fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
+private fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
     return when {
         matcher == null -> null
         matcher.negative -> not(match(x, matcher.not()))
