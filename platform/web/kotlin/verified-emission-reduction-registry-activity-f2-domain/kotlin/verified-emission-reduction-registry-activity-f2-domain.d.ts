@@ -3081,7 +3081,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly description?: string;
         readonly hasConcept?: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly value?: string;
-        readonly files?: EvidenceDTO[]/* Nullable<kotlin.collections.List<cccev.dsl.model.EvidenceDTO>> */;
+        readonly files?: cccev.s2.certification.domain.model.EvidenceDTO[]/* Nullable<kotlin.collections.List<cccev.dsl.model.EvidenceDTO>> */;
         readonly completed: boolean;
 
     }
