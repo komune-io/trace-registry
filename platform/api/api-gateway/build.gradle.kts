@@ -13,6 +13,8 @@ dependencies {
     implementation(project(":platform:f2:activity-f2:activity-f2-api"))
 
     implementation(project(":platform:api:api-config"))
+    implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
+
 
 }
 
