@@ -1,0 +1,22 @@
+import AssetPoolDTODesc from './desc.mdx'
+import AssetPoolDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<AssetPoolDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={AssetPoolDTOVisualJson}
+      language={"json"}
+      title={"AssetPoolDTO"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+
