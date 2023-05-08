@@ -4,8 +4,14 @@ import city.smartb.gradle.dependencies.FixersVersions
 import city.smartb.gradle.dependencies.Scope
 import city.smartb.gradle.dependencies.add
 
-object PluginVersions {
+object Framework {
 	val fixers = FixersPluginVersions.fixers
+	val connect =  "experimental-SNAPSHOT"
+}
+
+
+object PluginVersions {
+	val fixers = Framework.fixers
 	const val kotlin = FixersPluginVersions.kotlin
 	const val springBoot = FixersPluginVersions.springBoot
 }
@@ -13,12 +19,12 @@ object PluginVersions {
 object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
-	val f2 = PluginVersions.fixers
-	val s2 = PluginVersions.fixers
-	val i2 = PluginVersions.fixers
-	val fs = PluginVersions.fixers
-	val im = PluginVersions.fixers
-	val cccev = PluginVersions.fixers
+	val f2 = Framework.fixers
+	val s2 = Framework.fixers
+	val i2 = Framework.fixers
+	val fs = Framework.connect
+	val im = Framework.connect
+	val cccev = Framework.connect
 
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
