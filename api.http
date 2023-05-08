@@ -230,7 +230,7 @@ Content-Type: application/json
 {
     "certificationIdentifier": "yahumasud",
     "identifier": "B102",
-    "private": true
+    "isPublic": true
 }
 
 --your_boundary

@@ -44,7 +44,7 @@ interface ActivityStepEvidenceFulfillCommandDTO {
      * Evidence is private.
      * @example ""
      */
-    val private: Boolean?
+    val isPublic: Boolean?
 }
 
 /**
@@ -55,7 +55,7 @@ data class ActivityStepEvidenceFulfillCommandDTOBase(
     override val certificationIdentifier: CertificationIdentifier,
     override val identifier: ActivityStepIdentifier,
     override val url: String? = null,
-    override val private: Boolean = true,
+    override val isPublic: Boolean? = false,
 ): ActivityStepEvidenceFulfillCommandDTO
 
 /**

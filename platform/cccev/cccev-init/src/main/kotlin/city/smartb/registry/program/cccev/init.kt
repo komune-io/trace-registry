@@ -7,5 +7,4 @@ fun main() = runBlocking {
     initRequirement(urlCCCEV)
     val urlVer = "http://localhost:8070"
     createYahuma(urlVer)
-
 }

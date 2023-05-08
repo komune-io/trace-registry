@@ -77,10 +77,11 @@ class ActivityF2FinderService(
         identifier: ActivityStepIdentifier,
         certificationIdentifier: CertificationIdentifier,
     ): ActivityStep? {
+        val certification = certificateService.getCertification(certificationIdentifier)
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item
-            ?.toStep(certificationIdentifier)
+            ?.toStep(certification)
     }
 
 
@@ -126,9 +127,9 @@ class ActivityF2FinderService(
     private suspend fun Collection<InformationConceptDTOBase>.toSteps(
         certificationIdentifier: CertificationIdentifier
     ): List<ActivityStep> {
-        val values = certificateService.getCertification(certificationIdentifier)
+        val certification = certificateService.getCertification(certificationIdentifier)
         return map { concept ->
-            concept.toStep(values?.supportedValues?.get(concept.id))
+            concept.toStep(certification)
         }
     }
 

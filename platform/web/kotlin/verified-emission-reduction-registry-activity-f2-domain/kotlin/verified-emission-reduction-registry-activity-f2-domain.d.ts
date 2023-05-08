@@ -132,10 +132,6 @@ export namespace f2.dsl.cqrs.page {
 }
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
-
-        static get Companion(): {
-            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
-        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -2537,6 +2533,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: kotlin.collections.List<string>;
+        readonly metadata: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -3051,7 +3048,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.command {
         readonly certificationIdentifier: string;
         readonly identifier: string;
         readonly url?: string;
-        readonly private?: boolean;
+        readonly isPublic?: boolean;
 
     }
     interface ActivityStepEvidenceFulfilledEventDTO extends f2.dsl.cqrs.Event {
@@ -3081,7 +3078,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly description?: string;
         readonly hasConcept?: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly value?: string;
-        readonly files?: cccev.s2.certification.domain.model.EvidenceDTO[]/* Nullable<kotlin.collections.List<cccev.dsl.model.EvidenceDTO>> */;
+        readonly evidences?: Array<cccev.s2.certification.domain.model.EvidenceDTO>;
         readonly completed: boolean;
 
     }

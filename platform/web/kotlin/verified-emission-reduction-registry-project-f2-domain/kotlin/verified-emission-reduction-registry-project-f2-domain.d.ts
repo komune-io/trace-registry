@@ -132,10 +132,6 @@ export namespace f2.dsl.cqrs.page {
 }
 export namespace f2.dsl.cqrs.page {
     interface Pagination {
-
-        static get Companion(): {
-            serializer(): kotlinx.serialization.KSerializer<f2.dsl.cqrs.page.Pagination>;
-        } & kotlinx.serialization.internal.SerializerFactory;
     }
     interface OffsetPaginationDTO extends f2.dsl.cqrs.page.Pagination {
         readonly offset: number;
@@ -2537,6 +2533,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: kotlin.collections.List<string>;
+        readonly metadata: Nullable<any>/* Nullable<kotlin.collections.Map<string, string>> */;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
