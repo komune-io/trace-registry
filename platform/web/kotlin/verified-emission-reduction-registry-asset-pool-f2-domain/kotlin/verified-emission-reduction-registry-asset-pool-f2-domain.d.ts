@@ -3017,4 +3017,74 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
 
     }
 }
-export as namespace verified_emission_reduction_registry_project_domain;
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolCloseCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolClosedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolCreateCommandDTO {
+        readonly projectId: string;
+        readonly vintage: string;
+        readonly granularity: number;
+
+    }
+    interface AssetPoolCreatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolHoldCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolHeldEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolResumeCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolResumedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.model {
+    interface AssetPoolDTO {
+        readonly id: string;
+        readonly status: string;
+        readonly vintage: string;
+        readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
+        readonly granularity: number;
+        readonly wallets: Record<string, number>;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.query {
+    interface AssetPoolGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolGetResultDTO {
+        readonly item?: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.utils {
+    const AssetPoolStatusValues: {
+        active(): string;
+        onHold(): string;
+        closed(): string;
+    };
+}
+export as namespace verified_emission_reduction_registry_asset_pool_f2_domain;
