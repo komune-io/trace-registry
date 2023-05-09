@@ -8,7 +8,7 @@ import city.smartb.registry.program.cccev.requirement.LocalConsultationRequireme
 import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
 import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
 import city.smartb.registry.program.cccev.ver.ActivitiesAxess
-import city.smartb.registry.program.cccev.ver.IndicatorsAxess
+import city.smartb.registry.program.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.Logging
 import kotlinx.coroutines.flow.asFlow
@@ -37,7 +37,7 @@ suspend fun initRequirement(url: String) {
             addAll(LocalConsultationRequirements)
             addAll(ReddPlusRequirement)
             addAll(VerraVcsRequirement)
-            add(IndicatorsAxess)
+            add(IndicatorsCarbon)
         }.asFlow()
     ).onEach {
         println("Created requirement: ${it.identifier}")
