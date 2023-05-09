@@ -174,7 +174,7 @@ class ActivityEndpoint(
             val isPublic = filePath?.let {
                 fsService.getFile(filePath)
             }?.let { file ->
-                file.metadata[ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name] == "true"
+                file.metadata[ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name]?.lowercase() == "true"
             } ?: true
 
             if(isPublic) {
