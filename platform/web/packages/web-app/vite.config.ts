@@ -43,5 +43,13 @@ export default defineConfig(async () => {
     optimizeDeps: {
       include: kotlinPackages,
     },
+    build: {
+      commonjsOptions: {
+        include: [
+          /node_modules/,
+          /kotlin/,
+        ]
+      }
+    }
   }
 })
