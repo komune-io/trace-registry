@@ -1,9 +1,10 @@
-import {Box, Divider, Stack, Typography} from "@mui/material";
+import {Box, Divider, Typography} from "@mui/material";
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
 import {Project, Transaction} from "domain-components";
 import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/icons-material";
+import {TransactionDataHistory} from "./TransactionDataHistory";
 
 
 
@@ -18,24 +19,22 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
 
     const { t } = useTranslation()
 
-    const formStatebis = useFormComposable({
+    const formState = useFormComposable({
         isLoading: isLoading,
         readonly: true,
-        emptyValueInReadonly: "empty",
+        emptyValueInReadonly: "-",
+        formikConfig:{
+            initialValues:{
+                ...transaction // Pour l'instant inutile car je ne peux pas récupérer du back les différentes infos et il n'y a pas de paramètres aux noms correspondants dans TransactionDTO
+            }
+        }
     })
 
     const fields = useMemo((): FormComposableField[] => [{
         name: "dataTons1",
         type: "textField",
         //@ts-ignore
-        label:
-            <Stack direction="row"
-            alignItems="center"
-            gap={1}
-            >
-                {t('projects.assets.dataTons', { count: 1000000 })}
-                <ArrowUpwardRounded sx={{color: "#0000008A"}}/>
-            </Stack> ,
+        label: <TransactionDataHistory icon={<ArrowUpwardRounded sx={{color: "#0000008A"}}/>} count={1000000} />,
         defaultValue : t('projects.assets.history1', {resultName: "Odilon", name: project?.name, country: project?.country}),
         params: {
             orientation: "horizontal"
@@ -44,14 +43,7 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
         name: "dataTons2",
         type: "textField",
         //@ts-ignore
-        label:
-            <Stack direction="row"
-                   alignItems="center"
-                   gap={1}
-            >
-                {t('projects.assets.dataTons', { count: 100 })}
-                <CompareArrowsRounded sx={{color: "#0000008A"}}/>
-            </Stack> ,
+        label: <TransactionDataHistory icon={<CompareArrowsRounded sx={{color: "#0000008A"}}/>} count={1000} />,
         defaultValue : t('projects.assets.sellTo', {name: "Phease"}),
         params: {
             orientation: "horizontal"
@@ -60,19 +52,12 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
         name: "dataTons3",
         type: "textField",
         //@ts-ignore
-        label:
-            <Stack direction="row"
-                   alignItems="center"
-                   gap={1}
-            >
-                {t('projects.assets.dataTons', { count: 10 })}
-                <DownloadRounded sx={{color: "#0000008A"}} />
-            </Stack> ,
+        label: <TransactionDataHistory icon={<DownloadRounded sx={{color: "#0000008A"}} />} count={10} />,
         defaultValue : t('projects.assets.retired', {name: "0x....3232"}),
         params: {
             orientation: "horizontal"
         }
-    }], [transaction])
+    }], [transaction, t])
 
 
     return (
@@ -84,7 +69,7 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
                 "& .AruiInputForm-readonlyText" : {
                     textAlign: "right"
                 }
-            }} fields={fields} formState={formStatebis} />
+            }} fields={fields} formState={formState} />
 
         </Box>
     )
