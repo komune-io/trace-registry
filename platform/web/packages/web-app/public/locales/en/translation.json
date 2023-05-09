@@ -36,6 +36,7 @@
   "projectList": "Project list",
   "id": "ID",
   "type": "Type",
+  "types": "Types",
   "avgReductions": "AVG Reductions",
   "refYear": "Ref year",
   "dueDate": "Due date",
@@ -135,6 +136,32 @@
       "23": "Small, Low - Impact Hydro",
       "24": "Other",
       "25": "Energy Efficiency - Industrial"
+    },
+    "assets": {
+      "titles": {
+        "balance": "Project balance",
+        "transactions": "Transactions history"
+      },
+      "availableQuantity" : "Available quantity",
+      "retiredQuantity" : "Retired quantity",
+      "tradedQuantity" : "Traded quantity",
+      "tons" :  "Tons",
+      "serial": "Serial #",
+      "transactionInformations":  "Transaction informations",
+      "history": "History",
+      "transaction": "Transaction # : {{id}}",
+      "issuanceDate": "Issuance date",
+      "retirementDate": "Retirement date",
+      "sellTo": "Sell to {{name}}",
+      "dataTons":  "{{count}} tons",
+      "history1": "Issued to {{resultName}} from {{name}} in {{country}}",
+      "retired": "Retired {{name}}",
+      "issue": "Issue",
+      "transfer": "Transfered",
+      "withdraw": "Withdrawn",
+      "offset": "Offset"
+
+
     }
   }
 }
