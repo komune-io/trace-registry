@@ -8,17 +8,18 @@ import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from
 import { useTranslation } from 'react-i18next';
 
 function useProductColumn() {
+    const { t } = useTranslation();
     return useMemo(() => ColumnFactory<Project>({
         generateColumns: (generators) => ({
             id: generators.text({
-                header: 'ID',
+                header: t("id"),
                 getCellProps: (registry) => ({
                     value: registry.identifier
                 })
             }),
 
             name: generators.text({
-                header: 'Name',
+                header: t("name"),
                 getCellProps: (registry) => ({
                     value: registry.name,
                     componentProps: {
@@ -31,7 +32,7 @@ function useProductColumn() {
             }),
 
             proponent: generators.text({
-                header: 'Proponent',
+                header: t("proponent"),
                 getCellProps: (registry) => ({
                     value: registry.proponent?.name
                 })
@@ -47,49 +48,49 @@ function useProductColumn() {
             },
 
             origin: generators.text({
-                header: 'Origin',
+                header: t("origin"),
                 getCellProps: (registry) => ({
                     value: registry.country
                 })
             }),
 
             avgReductions: generators.number({
-                header: 'AVG. reductions',
+                header: t("avgReductions"),
                 getCellProps: (registry) => ({
                     value: Number(registry.estimatedReductions)
                 })
             }),
 
             yearReference: generators.text({
-                header: 'Ref. year',
+                header: t("refYear"),
                 getCellProps: (registry) => ({
                     value: registry.referenceYear
                 })
             }),
 
             endDate: generators.date({
-                header: 'End date',
+                header: t("endDate"),
                 getCellProps: (registry) => ({
                     date: registry.creditingPeriodEndDate
                 })
             }),
 
             vintage: generators.text({
-                header: 'Vintage',
+                header: t("vintage"),
                 getCellProps: (registry) => ({
                     value: registry.vintage?.toString()
                 })
             }),
 
             status: {
-                header: "Status",
+                header: t("status"),
                 cell: ({ row }) => (
                     <StatusTag label={row.original.status} />
                 ),
                 className: "statusColumn"
             }
         })
-    }), []);
+    }), [t]);
 }
 
 export interface ProjectTableProps extends Partial<OffsetTableProps<Project>> {

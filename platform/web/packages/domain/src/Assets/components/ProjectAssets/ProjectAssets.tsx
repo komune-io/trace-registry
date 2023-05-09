@@ -49,12 +49,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
         },[]
     )
 
-    const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.id]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
 
-    const getRowId = useCallback(
-        (row: Transaction) => row.id,
-        [],
-    )
 
     return (
         <Stack
@@ -133,7 +128,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             vintage: "2023",
                             quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
-                            type: "Purchase",
+                            type: "withdraw",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
                             unit: "boubou",
                             poolId: "lala"
@@ -145,13 +140,12 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                     isLoading={transactions.isLoading}
                     onOffsetChange={setOffset}
                     onTransactionClick={transactionClicked}
+                    selectedTransaction={selectedTransaction}
                     sx={{
                         "& .selectedRow": {
                             bgcolor: (theme) => theme.palette.primary.main + "33"
                         }
                     }}
-                    additionnalRowsProps={additionnalRowsProps}
-                    getRowId={getRowId}
                     onRowClicked={transactionClicked}
                 />
             </Stack>

@@ -4,7 +4,7 @@ import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
-import { Transaction } from 'domain-components';
+import {Transaction} from 'domain-components';
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
@@ -17,17 +17,21 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
 
     const { t } = useTranslation()
 
-    const formStatebis = useFormComposable({
+    const formState = useFormComposable({
         isLoading: isLoading,
         readonly: true,
-        emptyValueInReadonly: "empty",
+        emptyValueInReadonly: "-",
+        formikConfig:{
+            initialValues:{
+                ...transaction
+            }
+        }
     })
 
-    const fields = useMemo((): FormComposableField[] => [{
-        name: "status",
+    const fields = useMemo((): FormComposableField<keyof Transaction>[] => [{
+        name: "type",
         type: "textField",
         label: t('status'),
-        defaultValue : "withdraw",
         params: {
             orientation: "horizontal",
             readonlyType: "customElement",
@@ -35,19 +39,17 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
         }
     },
         {
-            name: "issuanceDate",
+            name: "date",
             type: "textField",
-            label: t('projects.assets.issuanceDate'),
-            defaultValue : "6/02/2023",
+            label: t('issuanceDate'),
             params: {
                 orientation: "horizontal"
             }
         },
         {
-            name: "retirementDate",
+            name: "date",
             type: "textField",
-            label: t('projects.assets.retirementDate'),
-            defaultValue : "7/10/2023",
+            label: t('retirementDate'),
             params: {
                 orientation: "horizontal"
             }
@@ -58,7 +60,8 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                     <Stack
                         direction="row"
                         alignItems="center"
-                        justifyContent="space-between">
+                        justifyContent="space-between"
+                    >
                         <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
                         <IconButton aria-label="close" onClick={onBack} >
                             <CloseRounded />
@@ -66,8 +69,8 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                     </Stack>
                     <Divider sx={{ margin: "8px 0" }} />
 
-                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transaction", { id: transaction?.id })}</Typography>
-                    <FormComposable fields={fields} formState={formStatebis} sx={{ margin: "40px 0" }}/>
+                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transactionId", { id: transaction?.id })}</Typography>
+                    <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
 
                 </Box>
     )
