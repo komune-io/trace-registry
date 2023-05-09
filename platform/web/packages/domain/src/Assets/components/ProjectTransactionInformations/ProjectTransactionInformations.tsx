@@ -27,7 +27,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
         name: "status",
         type: "textField",
         label: t('status'),
-        defaultValue : "Withdraw",
+        defaultValue : "withdraw",
         params: {
             orientation: "horizontal",
             readonlyType: "customElement",
