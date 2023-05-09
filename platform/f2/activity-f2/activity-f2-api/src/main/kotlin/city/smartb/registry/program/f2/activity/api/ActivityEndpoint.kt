@@ -143,13 +143,13 @@ class ActivityEndpoint(
         activityPoliciesEnforcer.checkCanFulfillEvidenceStep()
 
         val certification = certificateService.getNotNullCertification(cmd.certificationIdentifier)
-
         val part = file?.let {
             (CertificationAddEvidenceCommandDTOBase(
                 id = certification.id,
                 name = file.name(),
                 url = null,
-                isConformantTo = emptyList()
+                isConformantTo = emptyList(),
+                metadata = mapOf("isPublic" to cmd.isPublic.toString())
             ) to file.contentByteArray()).invokeWith(
                 cccevClient.certificationClient.certificationAddEvidence()
             )
@@ -167,10 +167,21 @@ class ActivityEndpoint(
     ): ActivityStepEvidenceDownloadResult? {
         logger.info("activityStepEvidenceDownload: $query")
         return fsService.downloadFile(response) {
-            certificateService.getCertification(query.certificationIdentifier)
+            val filePath = certificateService.getCertification(query.certificationIdentifier)
                 ?.evidences
                 ?.first { it.id == query.evidenceId }
                 ?.file
+            val isPublic = filePath?.let {
+                fsService.getFile(filePath)
+            }?.let { file ->
+                file.metadata[ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name]?.lowercase() == "true"
+            } ?: true
+
+            if(isPublic) {
+                filePath
+            } else {
+                null
+            }
         }
     }
 

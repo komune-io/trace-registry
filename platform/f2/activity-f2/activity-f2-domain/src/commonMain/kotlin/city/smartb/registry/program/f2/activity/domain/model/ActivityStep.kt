@@ -1,9 +1,9 @@
 package city.smartb.registry.program.f2.activity.domain.model
 
-import cccev.dsl.model.Evidence
-import cccev.dsl.model.EvidenceDTO
 import cccev.f2.concept.domain.model.InformationConceptDTO
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
+import cccev.s2.certification.domain.model.Evidence
+import cccev.s2.certification.domain.model.EvidenceDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -27,7 +27,7 @@ interface ActivityStepDTO {
     val description: String?
     val hasConcept: InformationConceptDTO?
     val value: String?
-    val files: List<EvidenceDTO>?
+    val evidences: Array<out EvidenceDTO>?
     val completed: Boolean
 }
 
@@ -39,6 +39,6 @@ class ActivityStep(
     override val description: String?,
     override val hasConcept: InformationConceptDTOBase?,
     override val value: String?,
-    override val files: List<Evidence>?,
+    override val evidences: Array<Evidence>?,
     override val completed: Boolean,
 ): ActivityStepDTO
