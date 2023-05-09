@@ -55,8 +55,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
         (row: Transaction) => row.id,
         [],
     )
-    console.log(transactions.data)
-
 
     return (
         <Stack

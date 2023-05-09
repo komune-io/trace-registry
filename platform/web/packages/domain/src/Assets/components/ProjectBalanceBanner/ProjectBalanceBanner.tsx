@@ -23,18 +23,18 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
     const withdrawn = assetQuery.data?.withdrawn
     const traded = assetQuery.data?.traded
 
-    const fieldsAvailable = useMemo((): FormComposableField<keyof Project>[] => [{
+    const fieldsAvailable = useMemo((): FormComposableField[] => [{
         name: "type",
         type: "select",
         label: t("projects.assets.availableQuantity"),
         params: {
             readonlyType: "customElement",
-            readonlyElement: (() => { return <Typography>{available ||  "1200 tons"}</Typography>})
+            readonlyElement: (() => { return <Typography>{available ||  "1200 tons"}</Typography>}) // format number g2 utils
             }
         },
-    ], [t, available, assetQuery.isLoading])
+    ], [t])
 
-    const fieldsRetired = useMemo((): FormComposableField<keyof Project>[] => [{
+    const fieldsRetired = useMemo((): FormComposableField[] => [{
         name: "type",
         type: "select",
         label: t("projects.assets.retiredQuantity"),
@@ -43,7 +43,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
             readonlyElement: (() => { return <Typography>{withdrawn ||  "1200 tons"}</Typography>})
         }
     }
-    ], [t, withdrawn, assetQuery.isLoading])
+    ], [t])
 
     const fieldsTraded = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "type",
@@ -54,7 +54,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
             readonlyElement: (() => { return <Typography>{traded ||  "1200 tons"}</Typography>})
         }
     }
-    ], [t, traded, assetQuery.isLoading])
+    ], [t])
 
 
     return (
