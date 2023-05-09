@@ -19,7 +19,7 @@ object Indicators {
     }
 }
 
-val IndicatorsAxess = informationRequirement {
+val IndicatorsCarbon = informationRequirement {
     identifier = "indicators"
     name = "indicators"
     description = "tmp"

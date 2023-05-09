@@ -52,7 +52,7 @@ fun main() {
 //     val url = "https://api.registry.smartb.network/ver"
     val url = "http://localhost:8070"
     createYahuma(url)
-//    createRandom(url, 1..1)
+//    createRandomProject(url, 1..1)
 }
 
 fun createYahuma(url: String): Unit = runBlocking {
@@ -75,7 +75,7 @@ fun createYahuma(url: String): Unit = runBlocking {
         println(fulfilledEvent)
     }
 }
-fun createRandom(url: String, countRange: IntRange): Unit = runBlocking {
+fun createRandomProject(url: String, countRange: IntRange = 1..10): Unit = runBlocking {
     val helper = ProjectFakeBuilder(url)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
