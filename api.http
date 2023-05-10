@@ -2,8 +2,6 @@
 ### version
 GET {{urlbase}}/about
 
-
-
 ### activityGet
 POST {{urlbase}}/activityGet
 Content-Type: application/json
