@@ -95,9 +95,6 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
     )
     const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.id]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
 
-
-
-
     if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
     return (
         <>
@@ -136,8 +133,6 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
                 onRowClicked={onTransactionClick}
                 getRowId={getRowId}
                 additionnalRowsProps={additionnalRowsProps}
-
-
             />
         </>
     )
