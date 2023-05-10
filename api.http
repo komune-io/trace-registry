@@ -249,3 +249,41 @@ Content-Type: application/json
     "value": "test"
 }
 
+###
+
+POST {{urlbase}}/assetTransactionPage
+Content-Type: application/json
+
+{
+  "projectId": "e53f091c-bb37-4840-ad82-b16c65224f44"
+}
+
+###
+
+POST {{urlbase}}/assetPoolCreate
+Content-Type: application/json
+
+{
+  "projectId": "e53f091c-bb37-4840-ad82-b16c65224f44",
+  "vintage": "2023",
+  "granularity": 0.1
+}
+
+### projectGet
+POST {{urlbase}}/projectGet
+Content-Type: application/json
+
+{
+  "id": "e53f091c-bb37-4840-ad82-b16c65224f44"
+}
+
+### assetIssue
+//4519f147-5a27-4474-9950-234c4aed87b6 poolId
+POST {{urlbase}}/projectGet
+Content-Type: application/json
+
+{
+  "poolId": "2ac68753-eb5e-4148-8dc2-40b741a350d4",
+  "receiver": "SmartB",
+  "quantity": 100
+}
