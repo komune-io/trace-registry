@@ -54,7 +54,6 @@ class ActivityF2FinderService(
                 type = "Activity"
             ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         }?.items
-            ?.sortedBy { it.identifier }
             ?.onEach { requirement ->
                 cache.requirements.register(requirement.id, requirement)
                 requirement.hasRequirement.forEach {
@@ -94,8 +93,8 @@ class ActivityF2FinderService(
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
         val steps = requirement.item
             ?.hasConcept
-            ?.sortedBy { it.identifier }
-            ?.toSteps(certificationIdentifier) ?: emptyList()
+            ?.toSteps(certificationIdentifier)
+            ?: emptyList()
 
         return ActivityStepPageResult(
             items = steps,
@@ -130,7 +129,7 @@ class ActivityF2FinderService(
         val certification = certificateService.getCertification(certificationIdentifier)
         return map { concept ->
             concept.toStep(certification)
-        }
+        }.sortedBy { it.identifier }
     }
 
 

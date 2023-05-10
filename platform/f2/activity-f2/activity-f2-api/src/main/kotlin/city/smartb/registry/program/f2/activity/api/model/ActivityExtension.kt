@@ -13,6 +13,7 @@ suspend fun Collection<RequirementDTO>.toActivities(
 ): List<Activity> {
     return distinctBy(RequirementDTO::id)
         .map  { it.toActivity(certification, getRequirement) }
+        .sortedBy { it.identifier }
 }
 
 suspend fun RequirementDTO.toActivity(
