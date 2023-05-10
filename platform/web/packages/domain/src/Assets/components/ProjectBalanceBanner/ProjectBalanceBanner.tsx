@@ -22,7 +22,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
         readonly: true,
         formikConfig: {
             initialValues: {
-                withdrawn: assetQuery.data?.withdrawn ?? 1200, // Le "|| 1200" est temporaire le temps d'avoir les données
+                withdrawn: assetQuery.data?.withdrawn ?? 0,
                 available: assetQuery.data?.available ?? 0,
                 traded: assetQuery.data?.traded ?? 0
             }
