@@ -47,7 +47,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             }
         },
         {
-            name: "date",
+            name: "date", // même name en attendant le back
             type: "textField",
             label: t('retirementDate'),
             params: {
