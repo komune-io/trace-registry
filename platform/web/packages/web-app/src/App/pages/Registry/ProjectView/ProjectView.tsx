@@ -39,7 +39,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     }, {
         key: 'assets',
         label: t('assets'),
-        component: (project ? <ProjectAssets isLoading={projectQuery.isLoading} project={project} /> : <></>)
+        component: (project ? <ProjectAssets isLoading={projectQuery.isLoading}/> : <></>)
     }], [project, projectQuery.isLoading, t])
 
     return (
