@@ -1,5 +1,5 @@
 import {Stack} from '@mui/material'
-import {Header, useFormComposable} from '@smartb/g2'
+import {Header} from '@smartb/g2'
 import {Fragment, useCallback, useMemo, useState} from "react";
 import { Row } from '@tanstack/react-table';
 import {Offset, OffsetPagination} from "template";
@@ -25,17 +25,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
     const transactions = useAssetPageQuery({
         query: submittedFilters
     })
-    const formState = useFormComposable({
-        onSubmit: () => { },
-        isLoading: isLoading,
-        readonly: true,
-        formikConfig: {
-            initialValues: {
-                ...project,
-                location: project?.location ? { position: { lat: project?.location?.lat, lng: project?.location?.lon } } : undefined,
-            }
-        }
-    })
+
     const [selectedTransaction, setTransaction] = useState<Transaction | undefined>(undefined)
 
     const transactionClicked = useCallback(
@@ -71,7 +61,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                 gap={3}
 
             >
-                <ProjectBalanceBanner formState={formState} />
+                <ProjectBalanceBanner />
                 <ProjectTransactionsTable
                     header={
                         <Header

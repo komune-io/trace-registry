@@ -17,7 +17,7 @@ export const TransactionDataHistory = (props: TransactionDataHistoryProps) => {
                alignItems="center"
                gap={1}
         >
-            {t('projects.assets.dataTons', { count: count })}
+            {t('dataTons', { count: count })}
             {icon}
         </Stack>
     )
