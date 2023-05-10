@@ -50,9 +50,12 @@
   "transaction": "Transaction #",
   "dataTons":  "{{count}} $t(tons)",
   "tons":  "tons",
-  "available": "available",
-  "withdrawn": "withdrawn",
-  "traded": "traded",
+  "available": "Available",
+  "issued": "Issued",
+  "transferred": "Transferred",
+  "offset": "Offset",
+  "withdrawn": "Withdrawn",
+  "traded": "Traded",
   "vintage": "Vintage",
   "totalItem": "{{start}} - {{end}} of {{total}}",
   "toFilter": "Filter",
@@ -165,13 +168,7 @@
       "transactionId": "$t(transaction) : {{id}}",
       "sellTo": "Sell to {{name}}",
       "history1": "Issued to {{resultName}} from {{name}} in {{country}}",
-      "retired": "Retired {{name}}",
-      "issue": "Issue",
-      "transfer": "Transfered",
-      "withdraw": "Withdrawn",
-      "offset": "Offset"
-
-
+      "retired": "Retired {{name}}"
     }
   }
 }

@@ -39,8 +39,6 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
         },[]
     )
 
-
-
     return (
         <Stack
             direction="row"
@@ -88,7 +86,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             vintage: "2023",
                             quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
-                            type: "Purchase",
+                            type: "Transferred",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
                             unit: "boubou",
                             poolId: "lala"
@@ -98,7 +96,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             vintage: "2023",
                             quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
-                            type: "Purchase",
+                            type: "Issued",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
                             unit: "boubou",
                             poolId: "lala"
@@ -108,7 +106,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             vintage: "2023",
                             quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
-                            type: "Purchase",
+                            type: "Available",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
                             unit: "boubou",
                             poolId: "lala"
@@ -118,7 +116,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             vintage: "2023",
                             quantity: 1000000,
                             to: "0xe2f2c31bd29a8dc820ef14969abe89461",
-                            type: "withdraw",
+                            type: "Offset",
                             from: "0xe2f2c31bd29a8dc820ef14969abe479841320",
                             unit: "boubou",
                             poolId: "lala"
