@@ -234,10 +234,10 @@ Content-Type: application/json
 }
 
 --your_boundary
-Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Disposition: form-data; name="file"; filename="HelloWorld.pdf"
 Content-Type: application/pdf
 
-< ./asset/HelloWorld.pdf
+< ./infra/asset/HelloWorld.pdf
 --your_boundary--
 
 ###

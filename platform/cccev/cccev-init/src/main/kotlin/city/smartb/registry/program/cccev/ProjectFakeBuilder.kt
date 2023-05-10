@@ -1,12 +1,16 @@
 package city.smartb.registry.program.cccev
 
 import city.smartb.registry.program.api.commons.model.GeoLocation
+import city.smartb.registry.program.f2.activity.client.ActivityClient
 import city.smartb.registry.program.f2.activity.client.activityClient
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
+import city.smartb.registry.program.f2.project.client.ProjectClient
 import city.smartb.registry.program.f2.project.client.projectClient
+import city.smartb.registry.program.f2.project.domain.query.ProjectGetQuery
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -62,6 +66,16 @@ fun createYahuma(url: String): Unit = runBlocking {
     val created = projectClient.projectCreate().invoke(flowOf(yahuma())).toList()
     val project = created.first()
 
+    fullFillProject(project.id, projectClient, activityClient)
+}
+
+private suspend fun fullFillProject(
+    projectId: ProjectIdentifier,
+    projectClient: ProjectClient,
+    activityClient: ActivityClient,
+) {
+    val project = ProjectGetQuery(projectId).invokeWith(projectClient.projectGet()).item!!
+
     println("////////////////////////////////////")
     println(project.id)
     println(project.certification?.id)
@@ -75,6 +89,7 @@ fun createYahuma(url: String): Unit = runBlocking {
         println(fulfilledEvent)
     }
 }
+
 fun createRandom(url: String, countRange: IntRange): Unit = runBlocking {
     val helper = ProjectFakeBuilder(url)
     val projectClient = helper.projectClient.invoke()
