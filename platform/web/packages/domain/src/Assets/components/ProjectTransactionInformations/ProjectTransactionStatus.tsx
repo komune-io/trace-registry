@@ -22,8 +22,7 @@ export const transactionTypeValuestoColor={
 export const ProjectTransactionStatus = (props: ProjectTransactionStatusProps) => {
     const { value } = props
     const {t} = useTranslation()
-    console.log(value)
-    console.log(transactionTypeValuestoColor[value])
+
     return (
         <StatusTag label={t(value)} customColor={transactionTypeValuestoColor[value]} />
     )
