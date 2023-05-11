@@ -5,7 +5,6 @@ import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.s2.certification.domain.model.Certification
 import cccev.s2.requirement.domain.RequirementId
 import city.smartb.registry.program.f2.activity.domain.model.Activity
-import city.smartb.registry.program.s2.project.domain.model.CertificationRef
 
 suspend fun Collection<RequirementDTO>.toActivities(
     certification: Certification?,
@@ -28,9 +27,4 @@ suspend fun RequirementDTO.toActivity(
     hasQualifiedRelation = hasQualifiedRelation.values.flatten().mapNotNull { getRequirement(it).identifier },
     hasRequirement = hasRequirement.toActivities(certification, getRequirement),
     progression = certification?.requirementStats?.get(id)?.completion ?: 0.0
-)
-
-fun Certification.toRef() = CertificationRef(
-    id = id,
-    identifier = identifier
 )
