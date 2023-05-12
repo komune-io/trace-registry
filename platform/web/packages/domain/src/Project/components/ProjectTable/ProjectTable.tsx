@@ -121,9 +121,7 @@ export const ProjectTable = (props: ProjectTableProps) => {
         [projectsProjectIdViewTabAll],
     )
 
-
-    // if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
-    return (
+     return (
         <>
         { (!page?.items && !isLoading) ?
             <>

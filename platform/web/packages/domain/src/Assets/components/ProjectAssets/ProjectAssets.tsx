@@ -42,17 +42,16 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
             direction="row"
             position="relative"
             sx={{
-                height: "calc(100vh - 200px)",
-                minHeight: "fit-content",
-                width: "100%"
+                paddingBottom: "40px"
             }}
+
+
         >
             <Stack
                 direction="column"
                 sx={{
                     padding: "24px",
-                    width: "100%"
-
+                    width: "100%",
                 }}
                 gap={3}
 
