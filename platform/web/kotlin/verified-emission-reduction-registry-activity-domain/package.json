@@ -1,7 +1,7 @@
 {
-  "name": "verified-emission-reduction-registry-asset-domain",
+  "name": "verified-emission-reduction-registry-activity-domain",
   "version": "0.0.0-latest",
-  "main": "kotlin/verified-emission-reduction-registry-asset-domain.js",
+  "main": "kotlin/verified-emission-reduction-registry-activity-domain.js",
   "devDependencies": {},
   "dependencies": {
     "@js-joda/core": "3.2.0",

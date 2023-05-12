@@ -16277,23 +16277,14 @@ if (typeof Math.imul === 'undefined') {
   function ExceptionCodes() {
     ExceptionCodes_instance = this;
   }
-  ExceptionCodes.prototype.notEligible = function () {
+  ExceptionCodes.prototype.negativeTransaction = function () {
     return 1000;
   };
-  ExceptionCodes.prototype.unacceptedTerms = function () {
+  ExceptionCodes.prototype.notEnoughAssets = function () {
     return 1001;
   };
-  ExceptionCodes.prototype.quotationMissingFile = function () {
-    return 2000;
-  };
-  ExceptionCodes.prototype.userSupervisesProject = function () {
-    return 3000;
-  };
-  ExceptionCodes.prototype.userSupervisesQuotation = function () {
-    return 3001;
-  };
-  ExceptionCodes.prototype.userSupervisesTask = function () {
-    return 3002;
+  ExceptionCodes.prototype.granularityTooSmall = function () {
+    return 1002;
   };
   var ExceptionCodes_instance;
   function ExceptionCodes_getInstance() {
