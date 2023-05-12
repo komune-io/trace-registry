@@ -23,13 +23,12 @@ export const useTransactionsFilters = () => {
 
     const filters = useMemo((): FilterComposableField[] => [
         {
-            name: 'identifier',
+            name: 'id',
             type: 'textField',
             params: {
                 textFieldType: 'search',
                 placeholder: t("projects.assets.serial")
             }
-
         },
         {
             name: 'type',

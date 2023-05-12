@@ -158,6 +158,7 @@
         "balance": "Project balance",
         "transactions": "Transactions history"
       },
+      "noData": "No asset was found",
       "availableQuantity" : "Available quantity",
       "retiredQuantity" : "Retired quantity",
       "tradedQuantity" : "Traded quantity",

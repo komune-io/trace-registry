@@ -1,7 +1,7 @@
 import {Box, Divider, Typography} from '@mui/material'
 import { ColumnFactory, useTable } from '@smartb/g2'
 import { Row } from '@tanstack/react-table';
-import {useCallback, useMemo} from "react"
+import { useCallback, useMemo} from "react"
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { Transaction } from 'domain-components';
@@ -80,7 +80,7 @@ export interface ProjectTransactionsTableProps extends Partial<OffsetTableProps<
 }
 
 export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, onTransactionClick, selectedTransaction, sx, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, onTransactionClick, selectedTransaction, sx, header, ...other } = props
     const { t } = useTranslation()
 
     const columns = useTransactionColumn()
@@ -95,45 +95,52 @@ export const ProjectTransactionsTable = (props: ProjectTransactionsTableProps) =
     )
     const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.id]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
 
-    if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
     return (
         <>
             <Box>
                 <Typography variant="h5" >{t("projects.assets.titles.transactions")}</Typography>
                 <Divider sx={{ marginTop: "8px" }} />
             </Box>
+            { (!page?.items && !isLoading) ?
+                <>
+                    {header}
+                    <Typography align="center">{t("projects.assets.noData")}</Typography>
+                </>
+                :
+                <OffsetTable<Transaction>
+                    {...other}
+                    sx={{
+                        overflow: "unset",
+                        "& .adressColumn": {
+                            "&:hover p": {
+                                lineClamp: "3",
+                                WebkitLineClamp: "3"
+                            },
+                            "& p": {
+                                lineClamp: "1",
+                                WebkitLineClamp: "1"
+                            },
+                            lineBreak: "anywhere",
+                            maxWidth: "180px"
+                        },"& .typesColumn": {
+                            maxWidth: "180px",
+                        },"& .serialColumn": {
+                            maxWidth: "200px",
+                        },
+                        ...sx
+                    }}
+                    header={header}
+                    tableState={tableState}
+                    page={page}
+                    pagination={pagination}
+                    onOffsetChange={onOffsetChange}
+                    isLoading={isLoading}
+                    onRowClicked={onTransactionClick}
+                    getRowId={getRowId}
+                    additionnalRowsProps={additionnalRowsProps}
+                />
+            }
 
-            <OffsetTable<Transaction>
-                {...other}
-                sx={{
-                    overflow: "unset",
-                    "& .adressColumn": {
-                        "&:hover p": {
-                            lineClamp: "3",
-                            WebkitLineClamp: "3"
-                        },
-                        "& p": {
-                            lineClamp: "1",
-                            WebkitLineClamp: "1"
-                        },
-                        lineBreak: "anywhere",
-                        maxWidth: "180px"
-                    },"& .typesColumn": {
-                        maxWidth: "180px",
-                    },"& .serialColumn": {
-                        maxWidth: "200px",
-                    },
-                    ...sx
-                }}
-                tableState={tableState}
-                page={page}
-                pagination={pagination}
-                onOffsetChange={onOffsetChange}
-                isLoading={isLoading}
-                onRowClicked={onTransactionClick}
-                getRowId={getRowId}
-                additionnalRowsProps={additionnalRowsProps}
-            />
         </>
     )
 }

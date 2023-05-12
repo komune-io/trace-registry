@@ -77,6 +77,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
                             }}
                         />
                     }
+
                     page={transactions.data}
                     pagination={pagination}
                     isLoading={transactions.isLoading}
