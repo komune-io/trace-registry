@@ -31,6 +31,9 @@ class TransactionEntity: WithS2Id<TransactionId>, WithS2State<TransactionState> 
     @Indexed
     var to: String? = null
 
+    @Indexed
+    lateinit var by: String
+
     var quantity: BigDecimalAsString = BigDecimal.ZERO
 
     @Indexed(schemaFieldType = SchemaFieldType.TAG)

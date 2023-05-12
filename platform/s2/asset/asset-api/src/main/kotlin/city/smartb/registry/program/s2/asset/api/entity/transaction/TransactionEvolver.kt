@@ -19,6 +19,7 @@ class TransactionEvolver: View<TransactionEvent, TransactionEntity> {
         poolId = event.poolId
         from = event.from
         to = event.to
+        by = event.by
         quantity = event.quantity
         type = event.type
         date = event.date

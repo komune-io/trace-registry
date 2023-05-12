@@ -18,6 +18,7 @@ interface TransactionDTO {
     val type: String
     val from: String?
     val to: String?
+    val by: String
     val quantity: BigDecimalAsNumber
     val unit: String
     val vintage: String
@@ -31,6 +32,7 @@ data class TransactionDTOBase(
     override val poolId: AssetPoolId,
     override val from: String?,
     override val to: String?,
+    override val by: String,
     override val quantity: BigDecimalAsNumber,
     override val type: String,
     override val date: Long,

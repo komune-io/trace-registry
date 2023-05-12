@@ -9,6 +9,7 @@ data class Transaction(
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
+    val by: String,
     val quantity: BigDecimalAsString,
     val type: TransactionType,
     val date: Long

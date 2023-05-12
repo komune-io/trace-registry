@@ -1,5 +1,7 @@
 package city.smartb.registry.program.f2.asset.api.service
 
+import city.smartb.i2.spring.boot.auth.AuthenticationProvider
+import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
@@ -30,10 +32,11 @@ class AssetF2AggregateService(
         return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 
-    private fun AbstractAssetTransactionCommand.toEmitTransactionCommand() = AssetPoolEmitTransactionCommand(
+    private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand() = AssetPoolEmitTransactionCommand(
         id = poolId,
         from = from,
         to = to,
+        by = AuthenticationProvider.getAuthedUser().id,
         quantity = quantity,
         type = type
     )

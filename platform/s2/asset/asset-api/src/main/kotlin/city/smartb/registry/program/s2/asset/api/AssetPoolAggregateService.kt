@@ -82,6 +82,7 @@ class AssetPoolAggregateService(
 			poolId = command.id,
 			from = command.from,
 			to = command.to,
+			by = command.by,
 			quantity = command.quantity,
 			type = command.type,
 		).let { emitTransaction(it) }
@@ -100,6 +101,7 @@ class AssetPoolAggregateService(
 			poolId = command.poolId,
 			from = command.from,
 			to = command.to,
+			by = command.by,
 			quantity = command.quantity,
 			type = command.type
 		)

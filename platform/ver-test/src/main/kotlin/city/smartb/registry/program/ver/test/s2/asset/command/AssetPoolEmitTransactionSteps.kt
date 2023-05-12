@@ -76,6 +76,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
                     poolId = command.id,
                     from = command.from,
                     to = command.to,
+                    by = command.by,
                     quantity = command.quantity,
                     type = command.type,
                 )
@@ -92,6 +93,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
                     poolId = context.assetPoolIds.safeGet(params.pool),
                     from = params.from.parseNullableOrDefault(transaction.from),
                     to = params.to.parseNullableOrDefault(transaction.to),
+                    by = params.by ?: transaction.by,
                     quantity = params.quantity ?: transaction.quantity,
                     type = params.type ?: transaction.type,
                 )
@@ -118,6 +120,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
             id = context.assetPoolIds[params.pool] ?: params.pool,
             from = params.from,
             to = params.to,
+            by = params.by,
             quantity = params.quantity,
             type = params.type
         )
@@ -129,6 +132,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         pool = entry?.get("pool") ?: context.assetPoolIds.lastUsedKey,
         from = entry?.get("from"),
         to = entry?.get("to"),
+        by = entry?.get("by").orRandom(),
         quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
         type = entry?.extractTransactionType("type") ?: TransactionType.ISSUE,
     )
@@ -138,6 +142,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val pool: TestContextKey,
         val from: String?,
         val to: String?,
+        val by: String,
         val quantity: BigDecimal,
         val type: TransactionType
     )
@@ -147,6 +152,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         pool = entry["pool"] ?: context.assetPoolIds.lastUsedKey,
         from = entry["from"],
         to = entry["to"],
+        by = entry["by"],
         quantity = entry["quantity"]?.toDouble()?.toBigDecimal(),
         type = entry.extractTransactionType("type"),
     )
@@ -156,6 +162,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val pool: TestContextKey,
         val from: String?,
         val to: String?,
+        val by: String?,
         val quantity: BigDecimal?,
         val type: TransactionType?
     )

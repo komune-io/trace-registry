@@ -12,6 +12,7 @@ data class AssetPoolEmitTransactionCommand(
     override val id: AssetPoolId,
     val from: String?,
     val to: String?,
+    val by: String,
     val quantity: BigDecimalAsString,
     val type: TransactionType
 ): AssetPoolCommand

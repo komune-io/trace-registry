@@ -7,6 +7,7 @@ fun TransactionEntity.toTransaction() = Transaction(
     poolId = poolId,
     from = from,
     to = to,
+    by = by,
     quantity = quantity,
     type = type,
     date = date

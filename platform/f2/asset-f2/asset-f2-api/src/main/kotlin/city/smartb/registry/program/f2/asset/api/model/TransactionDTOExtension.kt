@@ -14,6 +14,7 @@ suspend fun Transaction.toDTO(
         poolId = poolId,
         from = from,
         to = to,
+        by = by,
         quantity = quantity,
         type = type.name,
         date = date,

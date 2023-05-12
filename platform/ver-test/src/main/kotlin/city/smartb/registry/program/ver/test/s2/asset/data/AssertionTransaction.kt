@@ -26,6 +26,7 @@ class AssertionTransaction(
             poolId: AssetPoolId = transaction.poolId,
             from: String? = transaction.from,
             to: String? = transaction.to,
+            by: String = transaction.by,
             quantity: BigDecimal = transaction.quantity,
             type: TransactionType = transaction.type
         ) = also {
