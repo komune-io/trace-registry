@@ -3,6 +3,8 @@ package city.smartb.registry.program.ver.test.f2.asset.command
 import city.smartb.registry.program.f2.asset.api.AssetEndpoint
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -58,13 +60,13 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
         identifier = entry?.get("identifier").orRandom(),
         pool = entry?.get("pool") ?: context.assetPoolIds.lastUsedKey,
         receiver = entry?.get("receiver") ?: "Inc. Inpark",
-        quantity = entry?.get("quantity")?.toDouble() ?: 100.0
+        quantity = (entry?.get("quantity")?.toDouble() ?: 100.0).toBigDecimal()
     )
 
     private data class AssetIssueParams(
         val identifier: TestContextKey,
         val pool: TestContextKey,
         val receiver: String,
-        val quantity: Double
+        val quantity: BigDecimal
     )
 }

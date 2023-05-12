@@ -27,10 +27,11 @@ object Versions {
 	val im = Framework.connect
 	val cccev = Framework.connect
 
-	const val ktor = FixersVersions.Kotlin.ktor
-	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
-	const val redisOm = "0.8.0"
+	const val bignum = "0.3.8"
 	const val datafaker = "1.8.1"
+	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
+	const val ktor = FixersVersions.Kotlin.ktor
+	const val redisOm = "0.8.0"
 }
 
 object Repo {

@@ -51,11 +51,11 @@ fixers {
 	d2 {
 		outputDirectory = file("storybook/stories/d2/")
 	}
-//	kt2Ts {
-//		additionalCleaning = mapOf(
-//			".d.ts" to listOf(
-//          		Regex("""string""") to "String"
-//		 	)
-//		)
-//	}
+	kt2Ts {
+		additionalCleaning = mapOf(
+			".d.ts" to listOf(
+          		Regex("""com\.ionspin\.kotlin\.bignum\.decimal\.BigDecimal""") to "number"
+		 	)
+		)
+	}
 }

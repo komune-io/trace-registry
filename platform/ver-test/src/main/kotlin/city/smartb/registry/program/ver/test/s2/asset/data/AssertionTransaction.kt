@@ -5,6 +5,7 @@ import city.smartb.registry.program.s2.asset.api.entity.transaction.TransactionR
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionBlockingCrudEntity
@@ -25,7 +26,7 @@ class AssertionTransaction(
             poolId: AssetPoolId = transaction.poolId,
             from: String? = transaction.from,
             to: String? = transaction.to,
-            quantity: Double = transaction.quantity,
+            quantity: BigDecimal = transaction.quantity,
             type: TransactionType = transaction.type
         ) = also {
             Assertions.assertThat(transaction.id).isEqualTo(id)

@@ -8,6 +8,7 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreate
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 
@@ -47,13 +48,12 @@ class AssetPoolEvolver(
 
     private suspend fun AssetPoolEntity.emitTransaction(event: AssetPoolEmittedTransactionEvent) = apply {
         val transaction = transactionRepository.findById(event.transactionId).get()
-        transaction.from?.let { sender ->
-            val senderWallet = wallets.getOrDefault(sender, 0.0)
-            wallets[sender] = senderWallet - transaction.quantity
-        }
-        transaction.to?.let { receiver ->
-            val receiverWallet = wallets.getOrDefault(receiver, 0.0)
-            wallets[receiver] = receiverWallet + transaction.quantity
-        }
+        transaction.from?.let { updateWallet(it, -transaction.quantity) }
+        transaction.to?.let { updateWallet(it, transaction.quantity) }
+    }
+
+    private suspend fun AssetPoolEntity.updateWallet(owner: String, quantity: BigDecimal) {
+        val wallet = wallets.getOrDefault(owner, BigDecimal.ZERO)
+        wallets[owner] = wallet + quantity
     }
 }

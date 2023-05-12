@@ -1,9 +1,11 @@
 package city.smartb.registry.program.s2.asset.api.entity.transaction
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.SchemaFieldType
@@ -29,7 +31,7 @@ class TransactionEntity: WithS2Id<TransactionId>, WithS2State<TransactionState> 
     @Indexed
     var to: String? = null
 
-    var quantity: Double = 0.0
+    var quantity: BigDecimalAsString = BigDecimal.ZERO
 
     @Indexed(schemaFieldType = SchemaFieldType.TAG)
     lateinit var type: TransactionType

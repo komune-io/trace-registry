@@ -1,5 +1,6 @@
 package city.smartb.registry.program.f2.asset.domain.model
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import kotlin.js.JsExport
@@ -17,7 +18,7 @@ interface TransactionDTO {
     val type: String
     val from: String?
     val to: String?
-    val quantity: Double
+    val quantity: BigDecimalAsNumber
     val unit: String
     val vintage: String
 }
@@ -30,7 +31,7 @@ data class TransactionDTOBase(
     override val poolId: AssetPoolId,
     override val from: String?,
     override val to: String?,
-    override val quantity: Double,
+    override val quantity: BigDecimalAsNumber,
     override val type: String,
     override val date: Long,
     override val unit: String,

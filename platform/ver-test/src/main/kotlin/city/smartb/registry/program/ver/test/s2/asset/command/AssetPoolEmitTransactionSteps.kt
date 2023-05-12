@@ -9,6 +9,8 @@ import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import city.smartb.registry.program.ver.test.s2.asset.data.assetPool
 import city.smartb.registry.program.ver.test.s2.asset.data.extractTransactionType
 import city.smartb.registry.program.ver.test.s2.asset.data.transaction
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import org.assertj.core.api.Assertions
@@ -127,7 +129,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         pool = entry?.get("pool") ?: context.assetPoolIds.lastUsedKey,
         from = entry?.get("from"),
         to = entry?.get("to"),
-        quantity = entry?.get("quantity")?.toDouble() ?: 666.0,
+        quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
         type = entry?.extractTransactionType("type") ?: TransactionType.ISSUE,
     )
 
@@ -136,7 +138,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val pool: TestContextKey,
         val from: String?,
         val to: String?,
-        val quantity: Double,
+        val quantity: BigDecimal,
         val type: TransactionType
     )
 
@@ -145,7 +147,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         pool = entry["pool"] ?: context.assetPoolIds.lastUsedKey,
         from = entry["from"],
         to = entry["to"],
-        quantity = entry["quantity"]?.toDouble(),
+        quantity = entry["quantity"]?.toDouble()?.toBigDecimal(),
         type = entry.extractTransactionType("type"),
     )
 
@@ -154,19 +156,19 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val pool: TestContextKey,
         val from: String?,
         val to: String?,
-        val quantity: Double?,
+        val quantity: BigDecimal?,
         val type: TransactionType?
     )
 
     private fun walletAssertParams(entry: Map<String, String>) = WalletAssertParams(
         identifier = entry["identifier"] ?: context.assetPoolIds.lastUsedKey,
         owner = entry.safeExtract("owner"),
-        value = entry.safeExtract("value").toDouble()
+        value = entry.safeExtract("value").toDouble().toBigDecimal()
     )
 
     private data class WalletAssertParams(
         val identifier: TestContextKey,
         val owner: String,
-        val value: Double
+        val value: BigDecimal
     )
 }

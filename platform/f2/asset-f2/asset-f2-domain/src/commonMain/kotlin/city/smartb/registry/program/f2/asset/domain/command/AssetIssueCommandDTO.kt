@@ -34,7 +34,7 @@ interface AssetIssueCommandDTO {
      * Quantity of issued asset
      * @example 100.0
      */
-    val quantity: Double
+    val quantity: BigDecimalAsNumber
 }
 
 /**

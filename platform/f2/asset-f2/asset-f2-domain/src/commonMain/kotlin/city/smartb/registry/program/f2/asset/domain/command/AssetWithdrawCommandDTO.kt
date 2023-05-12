@@ -1,5 +1,6 @@
 package city.smartb.registry.program.f2.asset.domain.command
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import f2.dsl.fnc.F2Function
@@ -34,7 +35,7 @@ interface AssetWithdrawCommandDTO {
      * Quantity of withdrawn assets
      * @example 20.0
      */
-    val quantity: Double
+    val quantity: BigDecimalAsNumber
 }
 
 /**

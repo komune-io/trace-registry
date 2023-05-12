@@ -5,6 +5,7 @@ import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolEntity
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolRepository
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionBlockingCrudEntity
@@ -26,7 +27,7 @@ class AssertionAssetPool(
             vintage: String = pool.vintage,
             indicator: InformationConceptIdentifier = pool.indicator,
             granularity: Double = pool.granularity,
-            wallets: MutableMap<String, Double> = pool.wallets,
+            wallets: MutableMap<String, BigDecimal> = pool.wallets,
         ) = also {
             Assertions.assertThat(pool.id).isEqualTo(id)
             Assertions.assertThat(pool.status).isEqualTo(status)
@@ -36,7 +37,7 @@ class AssertionAssetPool(
             Assertions.assertThat(pool.wallets).containsExactlyInAnyOrderEntriesOf(wallets)
         }
 
-        fun hasWallet(owner: String, value: Double) {
+        fun hasWallet(owner: String, value: BigDecimal) {
             Assertions.assertThat(pool.wallets[owner]).isEqualTo(value)
         }
     }

@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.asset.domain.command.transaction
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
@@ -11,7 +12,7 @@ data class TransactionEmitCommand(
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
-    val quantity: Double,
+    val quantity: BigDecimalAsString,
     val type: TransactionType
 ): TransactionInitCommand
 
@@ -22,6 +23,6 @@ data class TransactionEmittedEvent(
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
-    val quantity: Double,
+    val quantity: BigDecimalAsString,
     val type: TransactionType
 ): TransactionEvent
