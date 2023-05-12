@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { Activity, ActivityStep } from '../../model'
+import {Activity, ActivityStep, Evidence} from '../../model'
 import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
 import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
-import { cccev } from 'verified-emission-reduction-registry-activity-f2-domain'
+
 export interface ActivitiesSummaryFormProps {
     activity?: Activity
     steps?: ActivityStep[]
@@ -15,12 +15,11 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
     const values = useMemo(() => steps?.reduce((a: any, v: ActivityStep) => ({
         ...a,
         [v.identifier]: v.value,
-        ...(v.evidences?.reduce((a: any, e: cccev.s2.certification.domain.model.EvidenceDTO) =>({
+        ...(v.evidences?.reduce((a: any, e: Evidence) =>({
             ...a,
             [e.id]: e.name + "Uploaded"
-        })))
-    }
-    ), {}), [steps])
+        }), {}))
+    }), {}), [steps])
 
     const formState = useFormComposable({
         isLoading: isLoading,
@@ -33,8 +32,7 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
 
     const filesFields = useMemo((): FormComposableField[] => {
         return steps?.flatMap((it: ActivityStep) => {
-            console.log(it.evidences)
-            return (it.evidences ?? []).map((file: cccev.s2.certification.domain.model.EvidenceDTO) =>
+            return (it.evidences ?? []).map((file: Evidence) =>
                 ({
                 name: file.id,
                 type: 'documentHandler',
