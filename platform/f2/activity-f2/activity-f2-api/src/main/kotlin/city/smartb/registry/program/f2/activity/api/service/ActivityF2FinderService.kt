@@ -54,7 +54,6 @@ class ActivityF2FinderService(
                 type = "Activity"
             ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
         }?.items
-            ?.sortedBy { it.identifier }
             ?.onEach { requirement ->
                 cache.requirements.register(requirement.id, requirement)
                 requirement.hasRequirement.forEach {
@@ -77,7 +76,7 @@ class ActivityF2FinderService(
         identifier: ActivityStepIdentifier,
         certificationIdentifier: CertificationIdentifier,
     ): ActivityStep? {
-        val certification = certificateService.getCertification(certificationIdentifier)
+        val certification = certificateService.getOrNull(certificationIdentifier)
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item
@@ -94,8 +93,8 @@ class ActivityF2FinderService(
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
         val steps = requirement.item
             ?.hasConcept
-            ?.sortedBy { it.identifier }
-            ?.toSteps(certificationIdentifier) ?: emptyList()
+            ?.toSteps(certificationIdentifier)
+            .orEmpty()
 
         return ActivityStepPageResult(
             items = steps,
@@ -107,7 +106,7 @@ class ActivityF2FinderService(
         certificationIdentifier: CertificationIdentifier?,
         cache: Cache = Cache()
     ): List<Activity> {
-        val certification = certificateService.getCertification(certificationIdentifier)
+        val certification = certificateService.getOrNull(certificationIdentifier)
         return toActivities(
             certification = certification,
             getRequirement = cache.requirements::get
@@ -117,7 +116,7 @@ class ActivityF2FinderService(
         certificationIdentifier: CertificationIdentifier?,
         cache: Cache = Cache()
     ): Activity {
-        val certification = certificateService.getCertification(certificationIdentifier)
+        val certification = certificateService.getOrNull(certificationIdentifier)
         return toActivity(
             certification = certification,
             getRequirement = cache.requirements::get
@@ -127,10 +126,10 @@ class ActivityF2FinderService(
     private suspend fun Collection<InformationConceptDTOBase>.toSteps(
         certificationIdentifier: CertificationIdentifier
     ): List<ActivityStep> {
-        val certification = certificateService.getCertification(certificationIdentifier)
+        val certification = certificateService.getOrNull(certificationIdentifier)
         return map { concept ->
             concept.toStep(certification)
-        }
+        }.sortedBy { it.identifier }
     }
 
 

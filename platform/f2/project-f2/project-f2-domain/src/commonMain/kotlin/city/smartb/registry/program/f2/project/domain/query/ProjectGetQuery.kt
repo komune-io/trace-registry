@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Get project by id
@@ -31,6 +32,7 @@ interface ProjectGetQueryDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ProjectGetQuery(
     override val id: ProjectId
 ): ProjectGetQueryDTO
@@ -51,6 +53,7 @@ interface ProjectGetResultDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class ProjectGetResult(
     override val item: Project?
 ): ProjectGetResultDTO

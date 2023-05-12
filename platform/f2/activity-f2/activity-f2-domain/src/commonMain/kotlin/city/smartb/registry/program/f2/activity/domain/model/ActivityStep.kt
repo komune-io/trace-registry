@@ -27,7 +27,7 @@ interface ActivityStepDTO {
     val description: String?
     val hasConcept: InformationConceptDTO?
     val value: String?
-    val evidences: Array<out EvidenceDTO>?
+    val evidences: List<EvidenceDTO>
     val completed: Boolean
 }
 
@@ -39,6 +39,6 @@ class ActivityStep(
     override val description: String?,
     override val hasConcept: InformationConceptDTOBase?,
     override val value: String?,
-    override val evidences: Array<Evidence>?,
+    override val evidences: List<Evidence>,
     override val completed: Boolean,
 ): ActivityStepDTO

@@ -2,11 +2,12 @@ version: "3.7"
 services:
   fs-gateway:
     container_name: fs-gateway
-    image: smartbcity/fs-gateway:experimental
+    image: smartbcity/fs-gateway:0.14.0
     environment:
       - fs_s3_internal-url=http://minio:9000
       - fs_s3_external-url=http://localhost:9000
       - fs_s3_bucket=certification
+      - fs_init_buckets=certification
       - debug=true
     ports:
       - "8090:8090"
