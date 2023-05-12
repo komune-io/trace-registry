@@ -101,7 +101,7 @@ export interface ProjectTableProps extends Partial<OffsetTableProps<Project>> {
 }
 
 export const ProjectTable = (props: ProjectTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, sx, header, ...other } = props
     const { projectsProjectIdViewTabAll } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -122,31 +122,41 @@ export const ProjectTable = (props: ProjectTableProps) => {
     )
 
 
-    if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
+    // if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
     return (
-        <OffsetTable<Project>
-            {...other}
-            sx={{
-                overflow: "unset",
-                "& .statusColumn": {
-                    maxWidth: "180px"
-                },
-                "& .typeColumn": {
-                    maxWidth: "150px"
-                },
-                "& .AruiTable-tableHead": {
-                    top: "70px",
-                    background: (theme) => theme.palette.background.default + "99"
-                },
-                ...sx
-            }}
-            tableState={tableState}
-            page={page}
-            pagination={pagination}
-            onOffsetChange={onOffsetChange}
-            isLoading={isLoading}
-            getRowLink={getRowLink}
+        <>
+        { (!page?.items && !isLoading) ?
+            <>
+                {header}
+                <Typography align="center" sx={{ marginTop: "32px" }}>{t("projects.noData")}</Typography>
+            </>
+            :
+                <OffsetTable<Project>
+                    {...other}
+                    sx={{
+                        overflow: "unset",
+                        "& .statusColumn": {
+                            maxWidth: "180px"
+                        },
+                        "& .typeColumn": {
+                            maxWidth: "150px"
+                        },
+                        "& .AruiTable-tableHead": {
+                            top: "70px",
+                            background: (theme) => theme.palette.background.default + "99"
+                        },
+                        ...sx
+                    }}
+                    header={header}
+                    tableState={tableState}
+                    page={page}
+                    pagination={pagination}
+                    onOffsetChange={onOffsetChange}
+                    isLoading={isLoading}
+                    getRowLink={getRowLink}
 
-        />
+                />
+        }
+        </>
     )
 }
