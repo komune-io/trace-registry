@@ -1,7 +1,11 @@
 package city.smartb.registry.program.s2.asset.api
 
+import city.smartb.registry.program.api.commons.model.respectsGranularity
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolAutomateExecutor
 import city.smartb.registry.program.s2.asset.api.entity.transaction.TransactionAutomateExecutor
+import city.smartb.registry.program.s2.asset.api.exception.GranularityTooSmallException
+import city.smartb.registry.program.s2.asset.api.exception.NegativeTransactionException
+import city.smartb.registry.program.s2.asset.api.exception.NotEnoughAssetsException
 import city.smartb.registry.program.s2.asset.domain.AssetPoolAggregate
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
@@ -16,6 +20,8 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResume
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -56,8 +62,21 @@ class AssetPoolAggregateService(
 		)
 	}
 
-	override suspend fun emitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) {
-		// TODO check transaction doable
+	override suspend fun emitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
+		if (command.quantity < 0) {
+			throw NegativeTransactionException(command.quantity)
+		}
+
+		if (command.from != null) {
+			val wallet = pool.wallets.getOrDefault(command.from, BigDecimal.ZERO)
+			if (wallet < command.quantity) {
+				throw NotEnoughAssetsException(transaction = command.quantity, wallet = wallet)
+			}
+		}
+
+		if (!command.quantity.respectsGranularity(pool.granularity.toBigDecimal())) {
+			throw GranularityTooSmallException(transaction = command.quantity, granularity = pool.granularity)
+		}
 
 		val transactionEvent = TransactionEmitCommand(
 			poolId = command.id,
