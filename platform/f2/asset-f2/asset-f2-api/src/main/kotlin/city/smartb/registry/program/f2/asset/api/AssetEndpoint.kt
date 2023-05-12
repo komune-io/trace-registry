@@ -3,6 +3,7 @@ package city.smartb.registry.program.f2.asset.api
 import city.smartb.registry.program.api.commons.utils.anyNotNull
 import city.smartb.registry.program.f2.asset.api.service.AssetF2AggregateService
 import city.smartb.registry.program.f2.asset.api.service.AssetF2FinderService
+import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
@@ -28,7 +29,8 @@ import s2.spring.utils.logger.Logger
 @Configuration
 class AssetEndpoint(
     private val assetF2AggregateService: AssetF2AggregateService,
-    private val assetF2FinderService: AssetF2FinderService
+    private val assetF2FinderService: AssetF2FinderService,
+    private val assetPoliciesEnforcer: AssetPoliciesEnforcer
 ): AssetQueryApi, AssetCommandApi {
     private val logger by Logger()
 
@@ -56,6 +58,7 @@ class AssetEndpoint(
     @Bean
     override fun assetIssue(): AssetIssueFunction = f2Function { command ->
         logger.info("assetIssue: $command")
+        assetPoliciesEnforcer.checkIssue(command.poolId)
         assetF2AggregateService.issue(command)
             .let { AssetIssuedEventDTOBase(it.transactionId) }
     }
@@ -63,6 +66,7 @@ class AssetEndpoint(
     @Bean
     override fun assetTransfer(): AssetTransferFunction = f2Function { command ->
         logger.info("assetTransfer: $command")
+        assetPoliciesEnforcer.checkTransfer(command.poolId)
         assetF2AggregateService.transfer(command)
             .let { AssetTransferredEventDTOBase(it.transactionId) }
     }
@@ -70,6 +74,7 @@ class AssetEndpoint(
     @Bean
     override fun assetOffset(): AssetOffsetFunction = f2Function { command ->
         logger.info("assetOffset: $command")
+        assetPoliciesEnforcer.checkOffset(command.poolId)
         assetF2AggregateService.offset(command)
             .let { AssetOffsettedEventDTOBase(it.transactionId) }
     }
@@ -77,6 +82,7 @@ class AssetEndpoint(
     @Bean
     override fun assetWithdraw(): AssetWithdrawFunction = f2Function { command ->
         logger.info("assetWithdraw: $command")
+        assetPoliciesEnforcer.checkWithdraw(command.poolId)
         assetF2AggregateService.withdraw(command)
             .let { AssetWithdrawnEventDTOBase(it.transactionId) }
     }

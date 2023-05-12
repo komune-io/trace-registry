@@ -1,6 +1,7 @@
 package city.smartb.registry.program.api.commons.auth
 
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
+import city.smartb.im.commons.auth.AuthedUser
 import f2.spring.exception.ForbiddenAccessException
 
 abstract class PolicyEnforcer {
