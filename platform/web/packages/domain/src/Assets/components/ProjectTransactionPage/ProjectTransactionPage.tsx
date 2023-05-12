@@ -1,9 +1,8 @@
 import {Stack} from '@mui/material'
-import {ProjectTransactionInformations, Project, Transaction} from "domain-components";
+import {ProjectTransactionInformations, Transaction} from "domain-components";
 
 export interface ProjectTransactionPageProps {
     isLoading: boolean
-    project?: Project
     transaction?: Transaction
     onBack: () => void
 }

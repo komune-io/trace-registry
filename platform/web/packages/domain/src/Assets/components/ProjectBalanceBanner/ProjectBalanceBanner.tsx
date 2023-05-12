@@ -8,7 +8,6 @@ import {useParams} from "react-router-dom";
 
 
 export interface ProjectBalanceBannerProps {
-
 }
 
 export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {

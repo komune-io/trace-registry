@@ -1,11 +1,11 @@
 import {Box, Divider, Typography} from '@mui/material'
 import { ColumnFactory, useTable } from '@smartb/g2'
-import {StatusTag} from "@smartb/g2";
 import { Row } from '@tanstack/react-table';
 import {useCallback, useMemo} from "react"
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { Transaction } from 'domain-components';
+import {ProjectTransactionStatus} from "../ProjectTransactionInformations/ProjectTransactionStatus";
 
 function useTransactionColumn() {
     const { t } = useTranslation();
@@ -60,7 +60,7 @@ function useTransactionColumn() {
             type: {
                 header: t("type"),
                 cell: ({ row }) => (
-                    <StatusTag label={row.original.type}/>
+                    <ProjectTransactionStatus value={row.original.type} />
                 ),
                 className: "typesColumn"
             }

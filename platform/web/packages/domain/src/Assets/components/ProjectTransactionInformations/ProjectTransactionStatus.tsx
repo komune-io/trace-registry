@@ -7,15 +7,15 @@ export interface ProjectTransactionStatusProps {
 }
 
 
-const yellow = "#CCB43D"
-const blue = "#147494"
-const red = "#E44258"
+const yellow = "#EDBA27"
+const blue = "#3C78D8"
+const red = "#D33147"
 const green = "#159D50"
 
 
 export const transactionTypeValuestoColor={
-    [transactionTypeValues.issue()]: blue,
-    [transactionTypeValues.transfer()]: green,
+    [transactionTypeValues.issue()]: green,
+    [transactionTypeValues.transfer()]: blue,
     [transactionTypeValues.withdraw()]: red,
     [transactionTypeValues.offset()]: yellow,
 }

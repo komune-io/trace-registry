@@ -14,7 +14,7 @@ export const useTransactionsFilters = () => {
                     for (let key in transactionTypeValues) {
                             types.push({
                                 key: key,
-                                label: t(`projects.assets.${key}`),
+                                label: t(key),
                                 color: transactionTypeValuestoColor[key]
                             })
 
@@ -29,9 +29,10 @@ export const useTransactionsFilters = () => {
                 textFieldType: 'search',
                 placeholder: t("projects.assets.serial")
             }
+
         },
         {
-            name: 'status',
+            name: 'type',
             label: t("types"),
             type: 'select',
             params: {
