@@ -8,6 +8,6 @@ import org.junit.platform.suite.api.Suite
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("city")
-@ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "city.smartb.registry.program.ver")
+@SelectClasspathResource("city.smartb.registry.program.ver.test")
+@ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "city.smartb.registry.program.ver.test")
 class RunCucumberTest

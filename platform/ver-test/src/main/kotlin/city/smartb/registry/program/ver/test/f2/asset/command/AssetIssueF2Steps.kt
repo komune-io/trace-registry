@@ -50,7 +50,7 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
     private suspend fun issueAssets(params: AssetIssueParams) = context.transactionIds.register(params.identifier) {
         command = AssetIssueCommandDTOBase(
             poolId = context.assetPoolIds[params.pool] ?: params.pool,
-            receiver = params.receiver,
+            to = params.receiver,
             quantity = params.quantity
         )
         command.invokeWith(assetEndpoint.assetIssue()).transactionId

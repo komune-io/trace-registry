@@ -3,6 +3,7 @@ package city.smartb.registry.program.f2.asset.domain.command
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
@@ -27,9 +28,15 @@ interface AssetOffsetCommandDTO {
 
     /**
      * Owner of the assets to offset.
-     * @example "SmartB"
+     * @example "SmartBetter"
      */
-    val owner: String
+    val from: String
+
+    /**
+     * Receiver of the certificate generated from the offsetted assets.
+     * @example "Monsstrai Company"
+     */
+    val to: String
 
     /**
      * Quantity of offsetted assets
@@ -43,9 +50,12 @@ interface AssetOffsetCommandDTO {
  */
 data class AssetOffsetCommandDTOBase(
     override val poolId: AssetPoolId,
-    override val owner: String,
-    override val quantity: Double
-): AssetOffsetCommandDTO
+    override val from: String,
+    override val to: String,
+    override val quantity: BigDecimalAsNumber
+): AssetOffsetCommandDTO, AbstractAssetTransactionCommand() {
+    override val type: TransactionType = TransactionType.OFFSET
+}
 
 /**
  * @d2 event

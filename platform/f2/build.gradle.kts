@@ -1,5 +1,4 @@
 subprojects {
-
 	plugins.withType(JavaPlugin::class.java).whenPluginAdded {
 		dependencies {
 			val implementation by configurations

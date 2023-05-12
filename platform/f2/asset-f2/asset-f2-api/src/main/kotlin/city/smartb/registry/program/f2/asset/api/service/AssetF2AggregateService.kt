@@ -1,5 +1,6 @@
 package city.smartb.registry.program.f2.asset.api.service
 
+import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
@@ -7,7 +8,6 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetWithdrawCommand
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,42 +15,26 @@ class AssetF2AggregateService(
     private val assetPoolAggregateService: AssetPoolAggregateService
 ) {
     suspend fun issue(command: AssetIssueCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(AssetPoolEmitTransactionCommand(
-            id = command.poolId,
-            from = null,
-            to = command.receiver,
-            quantity = command.quantity,
-            type = TransactionType.ISSUE
-        ))
+        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 
     suspend fun transfer(command: AssetTransferCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(AssetPoolEmitTransactionCommand(
-            id = command.poolId,
-            from = command.sender,
-            to = command.receiver,
-            quantity = command.quantity,
-            type = TransactionType.TRANSFER
-        ))
+        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(AssetPoolEmitTransactionCommand(
-            id = command.poolId,
-            from = command.owner,
-            to = null,
-            quantity = command.quantity,
-            type = TransactionType.OFFSET
-        ))
+        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 
     suspend fun withdraw(command: AssetWithdrawCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(AssetPoolEmitTransactionCommand(
-            id = command.poolId,
-            from = command.owner,
-            to = null,
-            quantity = command.quantity,
-            type = TransactionType.WITHDRAW
-        ))
+        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
+
+    private fun AbstractAssetTransactionCommand.toEmitTransactionCommand() = AssetPoolEmitTransactionCommand(
+        id = poolId,
+        from = from,
+        to = to,
+        quantity = quantity,
+        type = type
+    )
 }

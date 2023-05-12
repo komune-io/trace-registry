@@ -3,6 +3,7 @@ package city.smartb.registry.program.f2.asset.domain.command
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
@@ -29,13 +30,13 @@ interface AssetTransferCommandDTO {
      * Previous owner of the transferred assets
      * @example "SmartB"
      */
-    val sender: String
+    val from: String
 
     /**
      * New owner of the transferred assets.
      * @example "SmartBetter"
      */
-    val receiver: String
+    val to: String
 
     /**
      * Quantity of transferred assets
@@ -49,10 +50,12 @@ interface AssetTransferCommandDTO {
  */
 data class AssetTransferCommandDTOBase(
     override val poolId: AssetPoolId,
-    override val sender: String,
-    override val receiver: String,
-    override val quantity: Double
-): AssetTransferCommandDTO
+    override val from: String,
+    override val to: String,
+    override val quantity: BigDecimalAsNumber
+): AssetTransferCommandDTO, AbstractAssetTransactionCommand() {
+    override val type: TransactionType = TransactionType.TRANSFER
+}
 
 /**
  * @d2 event

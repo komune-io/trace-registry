@@ -4,6 +4,7 @@ import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTOBase
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
@@ -47,6 +48,7 @@ interface AssetPoolGetResultDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetPoolGetResultDTOBase(
     override val item: AssetPoolDTOBase?
 ): AssetPoolGetResultDTO

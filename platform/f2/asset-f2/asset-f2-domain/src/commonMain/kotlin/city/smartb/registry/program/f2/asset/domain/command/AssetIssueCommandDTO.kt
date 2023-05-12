@@ -1,8 +1,11 @@
 package city.smartb.registry.program.f2.asset.domain.command
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
@@ -28,7 +31,7 @@ interface AssetIssueCommandDTO {
      * New owner of the issued assets.
      * @example "SmartB"
      */
-    val receiver: String
+    val to: String
 
     /**
      * Quantity of issued asset
@@ -40,11 +43,15 @@ interface AssetIssueCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetIssueCommandDTOBase(
     override val poolId: AssetPoolId,
-    override val receiver: String,
-    override val quantity: Double
-): AssetIssueCommandDTO
+    override val to: String,
+    override val quantity: BigDecimalAsNumber
+): AssetIssueCommandDTO, AbstractAssetTransactionCommand() {
+    override val from: String? = null
+    override val type: TransactionType = TransactionType.ISSUE
+}
 
 /**
  * @d2 event

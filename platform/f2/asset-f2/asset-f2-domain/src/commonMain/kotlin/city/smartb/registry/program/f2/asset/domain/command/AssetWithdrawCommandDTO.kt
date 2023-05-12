@@ -3,6 +3,7 @@ package city.smartb.registry.program.f2.asset.domain.command
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
@@ -29,7 +30,7 @@ interface AssetWithdrawCommandDTO {
      * Owner of the assets to withdraw.
      * @example "SmartB"
      */
-    val owner: String
+    val from: String
 
     /**
      * Quantity of withdrawn assets
@@ -43,9 +44,12 @@ interface AssetWithdrawCommandDTO {
  */
 data class AssetWithdrawCommandDTOBase(
     override val poolId: AssetPoolId,
-    override val owner: String,
-    override val quantity: Double
-): AssetWithdrawCommandDTO
+    override val from: String,
+    override val quantity: BigDecimalAsNumber
+): AssetWithdrawCommandDTO, AbstractAssetTransactionCommand() {
+    override val to: String? = null
+    override val type: TransactionType = TransactionType.WITHDRAW
+}
 
 /**
  * @d2 event
