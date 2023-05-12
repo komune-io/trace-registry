@@ -1657,26 +1657,10 @@ export namespace s2.sourcing.dsl {
     }
 }
 export namespace city.smartb.registry.program.api.commons.auth {
-    interface AuthedUserDTO {
-        readonly id: string;
-        readonly memberOf?: string;
-        readonly roles: Array<string>;
-
-    }
-}
-export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ADMIN(): string;
-        get USER(): string;
-        get ONBOARDING_USER(): string;
-        get FUB(): string;
-        get SUPPORT(): string;
-        get BENEFICIARY(): string;
-        get PROVIDER_COUNSELING(): string;
-        get PROVIDER_EQUIPMENT(): string;
-        get PROVIDER_TRAINING(): string;
-        get ONBOARDING(): string;
-        get UNCHARTED(): string;
+        get ORCHESTRATOR(): string;
+        get PROJECT_MANAGER(): string;
+        get PROJECT_STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {

@@ -1657,26 +1657,10 @@ export namespace s2.sourcing.dsl {
     }
 }
 export namespace city.smartb.registry.program.api.commons.auth {
-    interface AuthedUserDTO {
-        readonly id: string;
-        readonly memberOf?: string;
-        readonly roles: Array<string>;
-
-    }
-}
-export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ADMIN(): string;
-        get USER(): string;
-        get ONBOARDING_USER(): string;
-        get FUB(): string;
-        get SUPPORT(): string;
-        get BENEFICIARY(): string;
-        get PROVIDER_COUNSELING(): string;
-        get PROVIDER_EQUIPMENT(): string;
-        get PROVIDER_TRAINING(): string;
-        get ONBOARDING(): string;
-        get UNCHARTED(): string;
+        get ORCHESTRATOR(): string;
+        get PROJECT_MANAGER(): string;
+        get PROJECT_STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
@@ -3050,14 +3034,6 @@ export namespace city.smartb.registry.program.f2.project.domain.command {
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.policy {
-    const ProjectPolicies: {
-        canList(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
-        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
-    };
-}
 export namespace city.smartb.registry.program.f2.project.domain.query {
     interface ProjectGetQueryDTO {
         readonly id: string;
@@ -3090,6 +3066,14 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
         readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
 
     }
+}
+export namespace city.smartb.registry.program.f2.project.domain.utils {
+    const ProjectPolicies: {
+        canList(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canUpdate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+        canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+    };
 }
 export namespace city.smartb.registry.program.f2.project.client {
     class ProjectClient /* implements city.smartb.registry.program.f2.project.domain.ProjectApi */ {
