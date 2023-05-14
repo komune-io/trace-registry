@@ -13,12 +13,14 @@ import city.smartb.registry.program.api.commons.model.SimpleCache
 import city.smartb.registry.program.f2.activity.api.model.toActivities
 import city.smartb.registry.program.f2.activity.api.model.toActivity
 import city.smartb.registry.program.f2.activity.api.model.toStep
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.Activity
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStepIdentifier
 import city.smartb.registry.program.f2.activity.domain.query.ActivityPageResult
 import city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageResult
+import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.invokeWith
@@ -28,7 +30,8 @@ import org.springframework.stereotype.Service
 class ActivityF2FinderService(
     private val certificateService: CertificateService,
     private val cccevClient: CCCEVClient,
-    private val projectFinderService: ProjectFinderService
+    private val projectFinderService: ProjectFinderService,
+    private val fsService: FsService,
 ) {
 
     suspend fun get(
@@ -80,7 +83,7 @@ class ActivityF2FinderService(
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item
-            ?.toStep(certification)
+            ?.toStep(certification, fsService)
     }
 
 
@@ -128,7 +131,8 @@ class ActivityF2FinderService(
     ): List<ActivityStep> {
         val certification = certificateService.getOrNull(certificationIdentifier)
         return map { concept ->
-            concept.toStep(certification)
+
+            concept.toStep(certification, fsService)
         }.sortedBy { it.identifier }
     }
 

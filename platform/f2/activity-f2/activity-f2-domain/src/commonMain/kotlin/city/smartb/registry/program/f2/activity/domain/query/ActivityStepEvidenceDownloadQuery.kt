@@ -13,19 +13,13 @@ typealias ActivityStepEvidenceDownloadFunction = F2Function<ActivityStepEvidence
 @JsExport
 @JsName("ActivityStepEvidenceDownloadQueryDTO")
 interface ActivityStepEvidenceDownloadQueryDTO {
-	val identifier: ActivityStepIdentifier
-//	val activityIdentifier: ActivityIdentifier
 	val certificationIdentifier: CertificationIdentifier
 	val evidenceId: EvidenceId
-	val fileName: String
 }
 
 data class ActivityStepEvidenceDownloadQuery(
-//	override val activityIdentifier: ActivityIdentifier,
-	override val identifier: ActivityStepIdentifier,
-	override val certificationIdentifier: CertificationIdentifier,
 	override val evidenceId: EvidenceId,
-	override val fileName: String,
+	override val certificationIdentifier: CertificationIdentifier,
 ): ActivityStepEvidenceDownloadQueryDTO
 
 typealias ActivityStepEvidenceDownloadResult = ByteArray

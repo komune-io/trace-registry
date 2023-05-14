@@ -2015,7 +2015,8 @@ export namespace cccev.s2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         s2Id(): string;
 
     }
@@ -2108,7 +2109,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
+        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2121,6 +2122,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
 
     }
 }
@@ -2346,6 +2348,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
 
     }
@@ -2355,7 +2358,8 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         s2Id(): string;
 
     }
@@ -2448,7 +2452,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
+        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2461,6 +2465,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
 
     }
 }
@@ -3045,7 +3050,7 @@ export namespace city.smartb.registry.program.f2.activity.domain.model {
         readonly description?: string;
         readonly hasConcept?: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly value?: string;
-        readonly evidences?: Array<cccev.s2.certification.domain.model.EvidenceDTO>;
+        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
         readonly completed: boolean;
 
     }
@@ -3075,10 +3080,8 @@ export namespace city.smartb.registry.program.f2.activity.domain.query {
 }
 export namespace city.smartb.registry.program.f2.activity.domain.query {
     interface ActivityStepEvidenceDownloadQueryDTO {
-        readonly identifier: string;
         readonly certificationIdentifier: string;
         readonly evidenceId: string;
-        readonly fileName: string;
 
     }
 }

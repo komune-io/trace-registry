@@ -2015,8 +2015,7 @@ export namespace cccev.s2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
+        readonly isConformantTo?: any/* Nullable<string>[] */;
         s2Id(): string;
 
     }
@@ -2109,7 +2108,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
+        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2122,7 +2121,6 @@ export namespace cccev.s2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
 
     }
 }
@@ -2296,59 +2294,12 @@ export namespace cccev.f2.concept.domain.query {
 
     }
 }
-export namespace f2.client {
-    interface F2Client {
-        supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
-        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
-        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
-        readonly type: f2.client.F2ClientType;
-    }
-}
-export namespace f2.client.ktor.http {
-    class HttpClientBuilder {
-        constructor(json?: kotlinx.serialization.json.Json);
-        build(urlBase: string): Promise<f2.client.F2Client>;
-    }
-}
-export namespace f2.client.ktor.rsocket {
-    class RSocketF2Client implements f2.client.F2Client {
-        constructor(rSocketClient: f2.client.ktor.rsocket.RSocketClient);
-        get type(): f2.client.F2ClientType;
-        supplier<RESPONSE>(route: string, typeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
-        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
-        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
-    }
-}
-export namespace f2.client.ktor {
-    abstract class Protocol {
-        protected constructor();
-    }
-    const HTTP: {
-    } & f2.client.ktor.Protocol;
-    const HTTPS: {
-    } & f2.client.ktor.Protocol;
-    const WS: {
-    } & f2.client.ktor.Protocol;
-    const WSS: {
-    } & f2.client.ktor.Protocol;
-    const TCP: {
-    } & f2.client.ktor.Protocol;
-}
-export namespace cccev.f2.concept.client {
-    class InformationConceptClient /* implements cccev.f2.concept.domain.InformationConceptApi */ {
-        constructor(client: f2.client.F2Client);
-    }
-}
-export namespace cccev.f2.concept.client {
-    function informationConceptClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.concept.client.InformationConceptClient>;
-}
 export namespace cccev.f2.certification.domain.command {
     interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
 
     }
@@ -2358,8 +2309,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
+        readonly isConformantTo?: any/* Nullable<string>[] */;
         s2Id(): string;
 
     }
@@ -2452,7 +2402,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
+        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2465,7 +2415,6 @@ export namespace cccev.f2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
 
     }
 }
@@ -2495,15 +2444,6 @@ export namespace cccev.f2.certification.domain.query {
         readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
 
     }
-}
-export namespace cccev.f2.certification.client {
-    class CertificationClient /* implements cccev.f2.certification.domain.CertificationApi */ {
-        constructor(client: f2.client.F2Client);
-        get client(): f2.client.F2Client;
-    }
-}
-export namespace cccev.f2.certification.client {
-    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
 }
 export namespace cccev.f2.evidence.type.domain.command.list {
     interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreateCommandDTO {
@@ -2853,6 +2793,99 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.program.s2.asset.domain.automate {
+    interface AssetPoolInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface AssetPoolCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface AssetPoolEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.automate {
+    interface TransactionInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface TransactionCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface TransactionEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolCloseCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolHoldCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolResumeCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace f2.client {
+    interface F2Client {
+        supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+        readonly type: f2.client.F2ClientType;
+    }
+}
+export namespace f2.client.ktor.http {
+    class HttpClientBuilder {
+        constructor(json?: kotlinx.serialization.json.Json);
+        build(urlBase: string): Promise<f2.client.F2Client>;
+    }
+}
+export namespace f2.client.ktor.rsocket {
+    class RSocketF2Client implements f2.client.F2Client {
+        constructor(rSocketClient: f2.client.ktor.rsocket.RSocketClient);
+        get type(): f2.client.F2ClientType;
+        supplier<RESPONSE>(route: string, typeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+    }
+}
+export namespace f2.client.ktor {
+    abstract class Protocol {
+        protected constructor();
+    }
+    const HTTP: {
+    } & f2.client.ktor.Protocol;
+    const HTTPS: {
+    } & f2.client.ktor.Protocol;
+    const WS: {
+    } & f2.client.ktor.Protocol;
+    const WSS: {
+    } & f2.client.ktor.Protocol;
+    const TCP: {
+    } & f2.client.ktor.Protocol;
+}
+export namespace cccev.f2.certification.client {
+    class CertificationClient /* implements cccev.f2.certification.domain.CertificationApi */ {
+        constructor(client: f2.client.F2Client);
+        get client(): f2.client.F2Client;
+    }
+}
+export namespace cccev.f2.certification.client {
+    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
+}
 export namespace cccev.s2.requirement.client {
     class RequirementClient /* implements cccev.f2.requirement.domain.RequirementApi */ {
         constructor(client: f2.client.F2Client);
@@ -2860,6 +2893,14 @@ export namespace cccev.s2.requirement.client {
 }
 export namespace cccev.s2.requirement.client {
     function requirementClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.s2.requirement.client.RequirementClient>;
+}
+export namespace cccev.f2.concept.client {
+    class InformationConceptClient /* implements cccev.f2.concept.domain.InformationConceptApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace cccev.f2.concept.client {
+    function informationConceptClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.concept.client.InformationConceptClient>;
 }
 export namespace cccev.f2.evidence.type.client {
     class EvidenceTypeClient /* implements cccev.f2.evidence.type.domain.EvidenceTypeApi */ {
@@ -2893,9 +2934,9 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
         readonly id: string;
 
     }
-    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string> {
-        readonly id: string;
+    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
+        readonly id: string;
 
     }
 }
@@ -2943,6 +2984,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
+        readonly indicator: string;
         readonly creditingPeriodStartDate?: any/* Nullable<number> */;
         readonly creditingPeriodEndDate?: any/* Nullable<number> */;
         readonly description?: string;
@@ -2964,6 +3006,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly creationDate?: any/* Nullable<number> */;
         readonly lastModificationDate?: any/* Nullable<number> */;
         readonly sdgs?: any/* Nullable<number>[] */;
+        readonly assetPools: string[];
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         s2Id(): string;
 
@@ -2974,76 +3017,172 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.command {
-    interface ProjectCreateCommandDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommandDTO {
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolCloseCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommandDTO {
+        readonly id: string;
 
     }
-    interface ProjectCreatedEventDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEventDTO {
+    interface AssetPoolClosedEventDTO {
         readonly id: string;
-        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.command {
-    interface ProjectDeleteCommandDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommandDTO {
-        readonly id: string;
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolCreateCommandDTO {
+        readonly projectId: string;
+        readonly vintage: string;
+        readonly granularity: number;
 
     }
-    interface ProjectDeletedEventDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEventDTO {
+    interface AssetPoolCreatedEventDTO {
         readonly id: string;
-        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.command {
-    interface ProjectUpdateCommandDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommandDTO {
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolHoldCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommandDTO {
+        readonly id: string;
 
     }
-    interface ProjectUpdatedEventDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEventDTO {
+    interface AssetPoolHeldEventDTO {
         readonly id: string;
-        s2Id(): string;
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.policy {
-    const ProjectPolicies: {
-        canList(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
-        canDelete(authedUser: city.smartb.registry.program.api.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+export namespace city.smartb.registry.program.f2.pool.domain.command {
+    interface AssetPoolResumeCommandDTO extends city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolResumedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.model {
+    interface AssetPoolDTO {
+        readonly id: string;
+        readonly status: string;
+        readonly vintage: string;
+        readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
+        readonly granularity: number;
+        readonly wallets: Record<string, number>;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.query {
+    interface AssetPoolGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface AssetPoolGetResultDTO {
+        readonly item?: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.pool.domain.utils {
+    const AssetPoolStatusValues: {
+        active(): string;
+        onHold(): string;
+        closed(): string;
     };
 }
-export namespace city.smartb.registry.program.f2.project.domain.query {
-    interface ProjectGetQueryDTO {
-        readonly id: string;
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetIssueCommandDTO {
+        readonly poolId: string;
+        readonly receiver: string;
+        readonly quantity: number;
 
     }
-    interface ProjectGetResultDTO {
-        readonly item?: city.smartb.registry.program.s2.project.domain.model.ProjectDTO;
+    interface AssetIssuedEventDTO {
+        readonly transactionId: string;
 
     }
 }
-export namespace city.smartb.registry.program.f2.project.domain.query {
-    interface ProjectPageQueryDTO {
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOffsetCommandDTO {
+        readonly poolId: string;
+        readonly owner: string;
+        readonly quantity: number;
+
+    }
+    interface AssetOffsettedEventDTO {
+        readonly transactionId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetTransferCommandDTO {
+        readonly poolId: string;
+        readonly sender: string;
+        readonly receiver: string;
+        readonly quantity: number;
+
+    }
+    interface AssetTransferredEventDTO {
+        readonly transactionId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetWithdrawCommandDTO {
+        readonly poolId: string;
+        readonly owner: string;
+        readonly quantity: number;
+
+    }
+    interface AssetWithdrawnEventDTO {
+        readonly transactionId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.model {
+    interface TransactionDTO {
+        readonly id: string;
+        readonly date: number;
+        readonly poolId: string;
+        readonly type: string;
+        readonly from?: string;
+        readonly to?: string;
+        readonly quantity: number;
+        readonly unit: string;
+        readonly vintage: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.query {
+    interface AssetGetStatsQueryDTO {
+        readonly projectId: string;
+
+    }
+    interface AssetGetStatsResultDTO {
+        readonly available: number;
+        readonly withdrawn: number;
+        readonly traded: number;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.query {
+    interface AssetTransactionPageQueryDTO {
         readonly limit?: number;
         readonly offset?: number;
-        readonly identifier?: string;
-        readonly name?: string;
-        readonly proponent?: string;
-        readonly type?: number;
-        readonly estimatedReductions?: string;
-        readonly referenceYear?: string;
-        readonly vintage?: string;
-        readonly origin?: string;
-        readonly dueDate?: any/* Nullable<number> */;
-        readonly status?: string;
+        readonly projectId?: string;
+        readonly transactionId?: string;
+        readonly type?: string;
 
     }
-    interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<city.smartb.registry.program.s2.project.domain.model.ProjectDTO> {
+    interface AssetTransactionPageResultDTO extends f2.dsl.cqrs.page.PageDTO<city.smartb.registry.program.f2.asset.domain.model.TransactionDTO> {
         readonly total: number;
-        readonly items: city.smartb.registry.program.s2.project.domain.model.ProjectDTO[];
-        readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
+        readonly items: city.smartb.registry.program.f2.asset.domain.model.TransactionDTO[];
 
     }
 }
-export as namespace verified_emission_reduction_registry_project_f2_domain;
+export namespace city.smartb.registry.program.f2.asset.domain.utils {
+    const TransactionTypeValues: {
+        issue(): string;
+        transfer(): string;
+        withdraw(): string;
+        offset(): string;
+    };
+}
+export as namespace verified_emission_reduction_registry_asset_f2_domain;

@@ -2,9 +2,18 @@ package city.smartb.registry.program.f2.activity.api.model
 
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.s2.certification.domain.model.Certification
+import cccev.s2.certification.domain.model.Evidence
+import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
+import city.smartb.registry.program.infra.fs.FsService
 
-fun InformationConceptDTOBase.toStep(certification: Certification?): ActivityStep {
+suspend fun InformationConceptDTOBase.toStep(certification: Certification?, fsService: FsService): ActivityStep {
+    val evidences = certification?.evidences?.get(id).orEmpty().mapNotNull { evidence ->
+        val file = evidence.file?.let {fsService.getFile(it)}
+        evidence.takeIf {
+            file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
+        }
+    }
     val value = certification?.supportedValues?.get(id)
     return ActivityStep(
         id = id,
@@ -12,7 +21,7 @@ fun InformationConceptDTOBase.toStep(certification: Certification?): ActivitySte
         name = name,
         description = description,
         value = value,
-        evidences = certification?.evidences?.get(id).orEmpty(),
+        evidences = evidences,
         completed = value != null,
         hasConcept = this
     )

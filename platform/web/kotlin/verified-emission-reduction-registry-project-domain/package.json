@@ -1,6 +1,6 @@
 {
   "name": "verified-emission-reduction-registry-project-domain",
-  "version": "0.0.0-experimental-SNAPSHOT",
+  "version": "0.0.0-latest",
   "main": "kotlin/verified-emission-reduction-registry-project-domain.js",
   "devDependencies": {},
   "dependencies": {

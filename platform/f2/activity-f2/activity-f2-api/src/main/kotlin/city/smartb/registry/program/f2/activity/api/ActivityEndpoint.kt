@@ -178,7 +178,7 @@ class ActivityEndpoint(
                 ?.file
                 ?.takeIf { path ->
                     val file = fsService.getFile(path)
-                    file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name).toBoolean()
+                    file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
                 }
         }
     }
