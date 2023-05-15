@@ -31,6 +31,7 @@ object Versions {
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.0"
+	const val html2pdf = "5.0.0"
 }
 
 object Repo {
