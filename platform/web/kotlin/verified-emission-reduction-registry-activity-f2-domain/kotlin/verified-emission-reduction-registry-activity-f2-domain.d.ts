@@ -3108,10 +3108,8 @@ export namespace city.smartb.registry.program.f2.activity.domain.query {
 }
 export namespace city.smartb.registry.program.f2.activity.domain.query {
     interface ActivityStepEvidenceDownloadQueryDTO {
-        readonly identifier: string;
         readonly certificationIdentifier: string;
         readonly evidenceId: string;
-        readonly fileName: string;
 
     }
 }

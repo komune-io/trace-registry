@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
-import { Activity, ActivityStep } from '../../model'
+import {useMemo} from 'react'
+import {Activity, ActivityStep, Evidence} from '../../model'
 import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
 import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
-import { cccev } from 'verified-emission-reduction-registry-activity-f2-domain'
+import {useProductEvidenceDownloadQuery} from "../../api";
+
 export interface ActivitiesSummaryFormProps {
     activity?: Activity
     steps?: ActivityStep[]
@@ -11,16 +12,14 @@ export interface ActivitiesSummaryFormProps {
 
 export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
     const { activity, isLoading, steps } = props
-
     const values = useMemo(() => steps?.reduce((a: any, v: ActivityStep) => ({
         ...a,
         [v.identifier]: v.value,
-        ...(v.evidences?.reduce((a: any, e: cccev.s2.certification.domain.model.EvidenceDTO) =>({
+        ...(v.evidences?.reduce((a: any, e: Evidence) =>({
             ...a,
             [e.id]: e.name + "Uploaded"
-        })))
-    }
-    ), {}), [steps])
+        }), {}))
+    }), {}), [steps])
 
     const formState = useFormComposable({
         isLoading: isLoading,
@@ -30,36 +29,40 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
             initialValues: values
         }
     })
-
-    const filesFields = useMemo((): FormComposableField[] => {
-        return steps?.flatMap((it: ActivityStep) => {
-            console.log(it.evidences)
-            return (it.evidences ?? []).map((file: cccev.s2.certification.domain.model.EvidenceDTO) =>
-                ({
-                name: file.id,
-                type: 'documentHandler',
-                fullRow: true,
-                label: file.name,
-                // params: {
-                //     fileTypesAllowed: ["pdf", "jpeg", "png"],
-                // }
-            }));
-        }) ?? [];
-    }, [steps]);
+    const productEvidenceDownloadQuery = useProductEvidenceDownloadQuery()
 
     const fields = useMemo((): FormComposableField[] => {
-        return ([
-        ...(steps?.map((it: ActivityStep): FormComposableField => ({
-                name: it.identifier,
-                    label: `${it.identifier} - ${it.name}`,
+        return steps?.flatMap((it: ActivityStep) => {
+            const evidences = (it.evidences ?? []).map((evidence: Evidence) => {
+                const productEvidenceDownloadUrl = async () => {
+                    return await productEvidenceDownloadQuery({
+                        evidenceId: evidence.id,
+                        certificationIdentifier: activity?.certification?.identifier ?? "",
+                    })
+                }
+                return ({
+                    name: evidence.id,
+                    type: 'documentHandler',
+                    fullRow: true,
+                    label: evidence.name,
                     params: {
+                        getFileUrl: () => productEvidenceDownloadUrl(),
+                    }
+                } as FormComposableField)
+              }
+            );
+            const field: FormComposableField = {
+                name: it.identifier,
+                label: `${it.identifier} - ${it.name}`,
+                params: {
                     orientation: "horizontal"
                 },
                 type: "textField"
-            })) ?? []),
-            ...filesFields
-       ] );
-    }, [steps, filesFields]);
+            }
+            return [field, ...evidences];
+        }) ?? [];
+    }, [steps]);
+
 
     return (
         <Stack
