@@ -19,7 +19,7 @@ object ProjectPolicies {
      * User can list the projects
      */
     fun canList(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
+        return true
     }
 
     /**

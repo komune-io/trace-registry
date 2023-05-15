@@ -4,7 +4,7 @@ import f2.dsl.fnc.F2Supplier
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2Supplier
 import f2.dsl.fnc.f2SupplierSingle
-import javax.annotation.security.PermitAll
+import jakarta.annotation.security.PermitAll
 import kotlinx.coroutines.flow.flowOf
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

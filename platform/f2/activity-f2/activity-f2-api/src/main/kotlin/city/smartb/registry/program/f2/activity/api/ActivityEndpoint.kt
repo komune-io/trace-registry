@@ -29,6 +29,7 @@ import city.smartb.registry.program.infra.fs.FsService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.multipart.FilePart
@@ -39,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
-import javax.annotation.security.PermitAll
 
 @RestController
 @RequestMapping

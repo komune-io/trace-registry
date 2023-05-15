@@ -18,14 +18,12 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
-import javax.annotation.security.PermitAll
 
-@RestController
 @RequestMapping
 @Configuration
 class ProjectEndpoint(
