@@ -3108,6 +3108,18 @@ export namespace city.smartb.registry.program.f2.asset.domain.command {
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetRetireCommandDTO {
+        readonly poolId: string;
+        readonly from: string;
+        readonly quantity: number;
+
+    }
+    interface AssetRetiredEventDTO {
+        readonly transactionId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetTransferCommandDTO {
         readonly poolId: string;
         readonly from: string;
@@ -3116,18 +3128,6 @@ export namespace city.smartb.registry.program.f2.asset.domain.command {
 
     }
     interface AssetTransferredEventDTO {
-        readonly transactionId: string;
-
-    }
-}
-export namespace city.smartb.registry.program.f2.asset.domain.command {
-    interface AssetWithdrawCommandDTO {
-        readonly poolId: string;
-        readonly from: string;
-        readonly quantity: number;
-
-    }
-    interface AssetWithdrawnEventDTO {
         readonly transactionId: string;
 
     }
@@ -3154,7 +3154,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
     }
     interface AssetGetStatsResultDTO {
         readonly available: number;
-        readonly withdrawn: number;
+        readonly retired: number;
         readonly traded: number;
 
     }
@@ -3179,14 +3179,14 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
         canIssue(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canTransfer(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canOffset(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
-        canWithdraw(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canRetire(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
     };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const TransactionTypeValues: {
-        issue(): string;
-        transfer(): string;
-        withdraw(): string;
+        issued(): string;
+        transferred(): string;
+        retired(): string;
         offset(): string;
     };
 }

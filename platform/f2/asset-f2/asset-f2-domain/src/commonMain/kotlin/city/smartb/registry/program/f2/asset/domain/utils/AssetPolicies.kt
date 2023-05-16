@@ -24,7 +24,7 @@ object AssetPolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
     }
 
-    fun canWithdraw(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
+    fun canRetire(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
     }
 

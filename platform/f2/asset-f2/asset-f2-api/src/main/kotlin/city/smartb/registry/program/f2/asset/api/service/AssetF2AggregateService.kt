@@ -6,7 +6,7 @@ import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransac
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetWithdrawCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
@@ -28,7 +28,7 @@ class AssetF2AggregateService(
         return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 
-    suspend fun withdraw(command: AssetWithdrawCommandDTOBase): AssetPoolEmittedTransactionEvent {
+    suspend fun retire(command: AssetRetireCommandDTOBase): AssetPoolEmittedTransactionEvent {
         return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
     }
 

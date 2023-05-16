@@ -8,32 +8,32 @@ import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
 /**
- * Withdraw assets from a pool, removing them from the circulation.
+ * Retire assets from a pool, removing them from the circulation.
  * @d2 function
  * @parent [city.smartb.registry.program.f2.asset.domain.D2AssetF2Page]
  * @order 130
  */
-typealias AssetWithdrawFunction = F2Function<AssetWithdrawCommandDTOBase, AssetWithdrawnEventDTOBase>
+typealias AssetRetireFunction = F2Function<AssetRetireCommandDTOBase, AssetRetiredEventDTOBase>
 
 /**
  * @d2 command
- * @parent [AssetWithdrawFunction]
+ * @parent [AssetRetireFunction]
  */
 @JsExport
-interface AssetWithdrawCommandDTO {
+interface AssetRetireCommandDTO {
     /**
      * Id of the pool hosting the assets.
      */
     val poolId: AssetPoolId
 
     /**
-     * Owner of the assets to withdraw.
+     * Owner of the assets to retire.
      * @example "SmartB"
      */
     val from: String
 
     /**
-     * Quantity of withdrawn assets
+     * Quantity of retired assets
      * @example 20.0
      */
     val quantity: BigDecimalAsNumber
@@ -42,21 +42,21 @@ interface AssetWithdrawCommandDTO {
 /**
  * @d2 inherit
  */
-data class AssetWithdrawCommandDTOBase(
+data class AssetRetireCommandDTOBase(
     override val poolId: AssetPoolId,
     override val from: String,
     override val quantity: BigDecimalAsNumber
-): AssetWithdrawCommandDTO, AbstractAssetTransactionCommand() {
+): AssetRetireCommandDTO, AbstractAssetTransactionCommand() {
     override val to: String? = null
-    override val type: TransactionType = TransactionType.WITHDRAW
+    override val type: TransactionType = TransactionType.RETIRED
 }
 
 /**
  * @d2 event
- * @parent [AssetWithdrawFunction]
+ * @parent [AssetRetireFunction]
  */
 @JsExport
-interface AssetWithdrawnEventDTO {
+interface AssetRetiredEventDTO {
     /**
      * Id of the emitted transaction.
      */
@@ -66,6 +66,6 @@ interface AssetWithdrawnEventDTO {
 /**
  * @d2 inherit
  */
-data class AssetWithdrawnEventDTOBase(
+data class AssetRetiredEventDTOBase(
     override val transactionId: TransactionId
-): AssetWithdrawnEventDTO
+): AssetRetiredEventDTO

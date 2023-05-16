@@ -62,7 +62,7 @@ typealias AssetPoolId = String
 @Serializable
 enum class AssetPoolState(override val position: Int): S2State {
     /**
-     * The pool is operational, and assets can be issued, transferred, or withdrawn within it.
+     * The pool is operational, and assets can be issued, transferred, or retired within it.
      * Trading is allowed, and assets are actively managed.
      */
     ACTIVE(0),

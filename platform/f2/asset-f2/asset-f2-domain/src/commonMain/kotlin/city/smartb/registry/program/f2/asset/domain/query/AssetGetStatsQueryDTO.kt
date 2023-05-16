@@ -15,12 +15,12 @@ data class AssetGetStatsQueryDTOBase(
 @JsExport
 interface AssetGetStatsResultDTO {
     val available: Double
-    val withdrawn: Double
+    val retired: Double
     val traded: Double
 }
 
 data class AssetGetStatsResultDTOBase(
     override val available: Double,
-    override val withdrawn: Double,
+    override val retired: Double,
     override val traded: Double
 ): AssetGetStatsResultDTO

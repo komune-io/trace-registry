@@ -7,8 +7,8 @@ import kotlin.js.JsName
 @JsExport
 @JsName("TransactionTypeValues")
 object TransactionTypeValues {
-    fun issue() = TransactionType.ISSUE.name
-    fun transfer() = TransactionType.TRANSFER.name
-    fun withdraw() = TransactionType.WITHDRAW.name
+    fun issued() = TransactionType.ISSUED.name
+    fun transferred() = TransactionType.TRANSFERRED.name
+    fun retired() = TransactionType.RETIRED.name
     fun offset() = TransactionType.OFFSET.name
 }

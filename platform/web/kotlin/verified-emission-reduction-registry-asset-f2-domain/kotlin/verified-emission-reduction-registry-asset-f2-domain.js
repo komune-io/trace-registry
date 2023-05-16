@@ -2307,10 +2307,10 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetIssuedEventDTO, 'AssetIssuedEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetOffsetCommandDTO, 'AssetOffsetCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetOffsettedEventDTO, 'AssetOffsettedEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetRetireCommandDTO, 'AssetRetireCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetRetiredEventDTO, 'AssetRetiredEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetTransferCommandDTO, 'AssetTransferCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetTransferredEventDTO, 'AssetTransferredEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(AssetWithdrawCommandDTO, 'AssetWithdrawCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(AssetWithdrawnEventDTO, 'AssetWithdrawnEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(TransactionDTO_0, 'TransactionDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetGetStatsQueryDTO, 'AssetGetStatsQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetGetStatsResultDTO, 'AssetGetStatsResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -86499,34 +86499,34 @@ if (typeof Math.imul === 'undefined') {
       return this.n4t();
     }
   });
-  var TransactionType_ISSUE_instance;
-  var TransactionType_TRANSFER_instance;
-  var TransactionType_WITHDRAW_instance;
+  var TransactionType_ISSUED_instance;
+  var TransactionType_TRANSFERRED_instance;
+  var TransactionType_RETIRED_instance;
   var TransactionType_OFFSET_instance;
   var TransactionType_entriesInitialized;
   function TransactionType_initEntries() {
     if (TransactionType_entriesInitialized)
       return Unit_getInstance();
     TransactionType_entriesInitialized = true;
-    TransactionType_ISSUE_instance = new TransactionType('ISSUE', 0);
-    TransactionType_TRANSFER_instance = new TransactionType('TRANSFER', 1);
-    TransactionType_WITHDRAW_instance = new TransactionType('WITHDRAW', 2);
+    TransactionType_ISSUED_instance = new TransactionType('ISSUED', 0);
+    TransactionType_TRANSFERRED_instance = new TransactionType('TRANSFERRED', 1);
+    TransactionType_RETIRED_instance = new TransactionType('RETIRED', 2);
     TransactionType_OFFSET_instance = new TransactionType('OFFSET', 3);
   }
   function TransactionType(name, ordinal) {
     Enum.call(this, name, ordinal);
   }
-  function TransactionType_ISSUE_getInstance() {
+  function TransactionType_ISSUED_getInstance() {
     TransactionType_initEntries();
-    return TransactionType_ISSUE_instance;
+    return TransactionType_ISSUED_instance;
   }
-  function TransactionType_TRANSFER_getInstance() {
+  function TransactionType_TRANSFERRED_getInstance() {
     TransactionType_initEntries();
-    return TransactionType_TRANSFER_instance;
+    return TransactionType_TRANSFERRED_instance;
   }
-  function TransactionType_WITHDRAW_getInstance() {
+  function TransactionType_RETIRED_getInstance() {
     TransactionType_initEntries();
-    return TransactionType_WITHDRAW_instance;
+    return TransactionType_RETIRED_instance;
   }
   function TransactionType_OFFSET_getInstance() {
     TransactionType_initEntries();
@@ -103583,13 +103583,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetOffsettedEventDTO() {
   }
+  function AssetRetireCommandDTO() {
+  }
+  function AssetRetiredEventDTO() {
+  }
   function AssetTransferCommandDTO() {
   }
   function AssetTransferredEventDTO() {
-  }
-  function AssetWithdrawCommandDTO() {
-  }
-  function AssetWithdrawnEventDTO() {
   }
   function TransactionDTO_0() {
   }
@@ -103678,7 +103678,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$1 = tmp;
     return tmp$ret$1;
   };
-  AssetPolicies.prototype.canWithdraw = function (authedUser, assetPool) {
+  AssetPolicies.prototype.canRetire = function (authedUser, assetPool) {
     var tmp$ret$1;
     // Inline function 'city.smartb.registry.program.f2.asset.domain.utils.AssetPolicies.canTransitionAnd' call
     var tmp;
@@ -103711,14 +103711,14 @@ if (typeof Math.imul === 'undefined') {
   function TransactionTypeValues() {
     TransactionTypeValues_instance = this;
   }
-  TransactionTypeValues.prototype.issue = function () {
-    return TransactionType_ISSUE_getInstance().k4_1;
+  TransactionTypeValues.prototype.issued = function () {
+    return TransactionType_ISSUED_getInstance().k4_1;
   };
-  TransactionTypeValues.prototype.transfer = function () {
-    return TransactionType_TRANSFER_getInstance().k4_1;
+  TransactionTypeValues.prototype.transferred = function () {
+    return TransactionType_TRANSFERRED_getInstance().k4_1;
   };
-  TransactionTypeValues.prototype.withdraw = function () {
-    return TransactionType_WITHDRAW_getInstance().k4_1;
+  TransactionTypeValues.prototype.retired = function () {
+    return TransactionType_RETIRED_getInstance().k4_1;
   };
   TransactionTypeValues.prototype.offset = function () {
     return TransactionType_OFFSET_getInstance().k4_1;

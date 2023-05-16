@@ -12,8 +12,8 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetWithdrawFunction
-import city.smartb.registry.program.f2.asset.domain.command.AssetWithdrawnEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
@@ -22,6 +22,7 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import s2.spring.utils.logger.Logger
@@ -34,6 +35,7 @@ class AssetEndpoint(
 ): AssetQueryApi, AssetCommandApi {
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun assetTransactionPage(): AssetTransactionPageFunction = f2Function { query ->
         logger.info("assetTransactionPage: $query")
@@ -80,10 +82,10 @@ class AssetEndpoint(
     }
 
     @Bean
-    override fun assetWithdraw(): AssetWithdrawFunction = f2Function { command ->
-        logger.info("assetWithdraw: $command")
-        assetPoliciesEnforcer.checkWithdraw(command.poolId)
-        assetF2AggregateService.withdraw(command)
-            .let { AssetWithdrawnEventDTOBase(it.transactionId) }
+    override fun assetRetire(): AssetRetireFunction = f2Function { command ->
+        logger.info("assetRetire: $command")
+        assetPoliciesEnforcer.checkRetire(command.poolId)
+        assetF2AggregateService.retire(command)
+            .let { AssetRetiredEventDTOBase(it.transactionId) }
     }
 }

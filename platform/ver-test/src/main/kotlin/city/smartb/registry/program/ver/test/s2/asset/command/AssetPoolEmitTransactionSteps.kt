@@ -134,7 +134,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         to = entry?.get("to"),
         by = entry?.get("by").orRandom(),
         quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
-        type = entry?.extractTransactionType("type") ?: TransactionType.ISSUE,
+        type = entry?.extractTransactionType("type") ?: TransactionType.ISSUED,
     )
 
     private data class AssetPoolEmitTransactionParams(
