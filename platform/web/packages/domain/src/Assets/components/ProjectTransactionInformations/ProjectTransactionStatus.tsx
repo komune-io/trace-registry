@@ -14,9 +14,9 @@ const green = "#159D50"
 
 
 export const transactionTypeValuestoColor={
-    [transactionTypeValues.issue()]: green,
-    [transactionTypeValues.transfer()]: blue,
-    [transactionTypeValues.withdraw()]: red,
+    [transactionTypeValues.issued()]: green,
+    [transactionTypeValues.transferred()]: blue,
+    [transactionTypeValues.retired()]: red,
     [transactionTypeValues.offset()]: yellow,
 }
 export const ProjectTransactionStatus = (props: ProjectTransactionStatusProps) => {
