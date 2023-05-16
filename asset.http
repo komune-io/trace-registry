@@ -1,60 +1,78 @@
 # https://registry.trace.smart-b.io/projects/e53f091c-bb37-4840-ad82-b16c65224f44
 
-### projectGet
-POST https://trace.smart-b.io/ver/projectGet
+### projectPage
+POST {{urlbase}}/projectPage
 Content-Type: application/json
 
 {
-  "id": "e53f091c-bb37-4840-ad82-b16c65224f44"
 }
+### projectGet
+POST {{urlbase}}/projectGet
+Content-Type: application/json
+
+{
+  "id": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
+}
+
+### assetTransactionPage
+POST {{urlbase}}/assetTransactionPage
+Content-Type: application/json
+
+{
+  "projectId": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
+}
+
+### OAuth2 Token
+POST https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{clientId}}&client_secret={{clientSecret}}
 
 ###
-POST https://trace.smart-b.io/ver/assetTransactionPage
+
+### assetPoolCreate
+POST {{urlbase}}/assetPoolCreate
 Content-Type: application/json
+Authorization: Bearer Bearer {{accessToken}}
 
 {
-  "projectId": "e53f091c-bb37-4840-ad82-b16c65224f44"
+  "vintage": "2012",
+  "indicator": "tonnes",
+  "granularity": "0.001",
+  "projectId": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
 }
 
-### assetPoolCreate  4519f147-5a27-4474-9950-234c4aed87b6 poolId
-POST https://trace.smart-b.io/ver/assetIssue
+
+### assetIssue
+POST {{urlbase}}/assetIssue
 Content-Type: application/json
+Authorization: Bearer
 
 {
-  "poolId": "4519f147-5a27-4474-9950-234c4aed87b6",
-  "receiver": "SmartB",
+  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
+  "to": "SmartB",
   "quantity": 50000
 }
 
-### assetPoolCreate  4519f147-5a27-4474-9950-234c4aed87b6 poolId
-POST https://trace.smart-b.io/ver/assetIssue
+### assetTransfer
+POST {{urlbase}}/assetTransfer
 Content-Type: application/json
-
+Authorization: Bearer {{accessToken}}
 {
-  "poolId": "4519f147-5a27-4474-9950-234c4aed87b6",
-  "receiver": "SmartB",
-  "quantity": 50000
-}
-
-### assetPoolCreate  4519f147-5a27-4474-9950-234c4aed87b6 poolId
-
-### assetTransfer  4519f147-5a27-4474-9950-234c4aed87b6 poolId
-POST https://trace.smart-b.io/ver/assetTransfer
-Content-Type: application/json
-
-{
-  "poolId": "4519f147-5a27-4474-9950-234c4aed87b6",
-  "sender": "SmartB",
-  "receiver": "Phease",
+  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
+  "from": "SmartB",
+  "to": "Phease",
   "quantity": 500
 }
 
-### assetTransfer  4519f147-5a27-4474-9950-234c4aed87b6 poolId
-POST https://trace.smart-b.io/ver/assetOffset
+### assetTransfer  102c2aec-c8eb-4374-a590-0cbe9ef96fb3 poolId
+POST {{urlbase}}/assetOffset
 Content-Type: application/json
+Authorization: Bearer Bearer {{accessTokenOffseter}}
 
 {
-  "poolId": "4519f147-5a27-4474-9950-234c4aed87b6",
-  "owner": "Phease",
+  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
+  "from": "Phease",
+  "to": "0x5f5Afce1f980cBae2cEaf7Ec1696b0AEb8dE0366",
   "quantity": 20
 }

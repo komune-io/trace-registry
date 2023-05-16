@@ -3,7 +3,7 @@ import {FilterComposableField, Option} from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {AssetPageQuery, transactionTypeValues} from "domain-components";
-import {transactionTypeValuestoColor} from "../ProjectTransactionInformations/ProjectTransactionStatus";
+import {transactionTypeValuesToColor} from "../ProjectTransactionInformations/ProjectTransactionStatus";
 
 export const useTransactionsFilters = () => {
 
@@ -15,7 +15,7 @@ export const useTransactionsFilters = () => {
                             types.push({
                                 key: key,
                                 label: t(key),
-                                color: transactionTypeValuestoColor[key]
+                                color: transactionTypeValuesToColor[key]
                             })
 
                     }

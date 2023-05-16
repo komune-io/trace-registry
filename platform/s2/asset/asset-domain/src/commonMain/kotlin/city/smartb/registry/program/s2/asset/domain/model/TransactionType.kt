@@ -11,7 +11,7 @@ enum class TransactionType {
      * and typically occurs when a project or organization generates new credits as a result of their activities,
      * such as reducing greenhouse gas emissions or implementing sustainable practices.
      */
-    ISSUE,
+    ISSUED,
 
     /**
      * A transfer transaction involves moving assets or credits from one account to another within the same pool.
@@ -19,14 +19,14 @@ enum class TransactionType {
      * decreasing the sender's balance while increasing the recipient's balance.
      * Transfer transactions can occur for various reasons, such as selling credits or reallocating them within an organization.
      */
-    TRANSFER,
+    TRANSFERRED,
 
     /**
-     * A withdraw transaction is the process of permanently removing assets or credits from circulation within a pool.
+     * A retire transaction is the process of permanently removing assets or credits from circulation within a pool.
      * This transaction decreases the credit balance of the owner and prevents the retired credits from being traded or used in the future.
      * Credits are often retired to meet compliance requirements, offset emissions, or demonstrate a commitment to environmental goals.
      */
-    WITHDRAW,
+    RETIRED,
 
     /**
      * An offset transaction is the process of using assets or credits within a pool to create a certificate

@@ -20,6 +20,7 @@ storybook-static
 *.iml
 *.ipr
 **/out/
+http-client.private.env.json
 
 ### NetBeans ###
 /nbproject/private/

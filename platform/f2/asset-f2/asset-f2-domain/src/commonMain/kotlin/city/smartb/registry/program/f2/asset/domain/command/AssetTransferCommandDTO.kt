@@ -54,7 +54,7 @@ data class AssetTransferCommandDTOBase(
     override val to: String,
     override val quantity: BigDecimalAsNumber
 ): AssetTransferCommandDTO, AbstractAssetTransactionCommand() {
-    override val type: TransactionType = TransactionType.TRANSFER
+    override val type: TransactionType = TransactionType.TRANSFERRED
 }
 
 /**

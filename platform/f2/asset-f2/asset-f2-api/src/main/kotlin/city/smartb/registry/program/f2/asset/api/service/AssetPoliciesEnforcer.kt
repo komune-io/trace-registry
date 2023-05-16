@@ -25,8 +25,8 @@ class AssetPoliciesEnforcer(
         AssetPolicies.canOffset(authedUser, pool)
     }
 
-    suspend fun checkWithdraw(poolId: AssetPoolId) = check("withdraw assets in asset pool [$poolId]") { authedUser ->
+    suspend fun checkRetire(poolId: AssetPoolId) = check("retire assets in asset pool [$poolId]") { authedUser ->
         val pool = assetPoolF2FinderService.get(poolId)
-        AssetPolicies.canWithdraw(authedUser, pool)
+        AssetPolicies.canRetire(authedUser, pool)
     }
 }

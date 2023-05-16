@@ -1657,36 +1657,17 @@ export namespace s2.sourcing.dsl {
     }
 }
 export namespace city.smartb.registry.program.api.commons.auth {
-    interface AuthedUserDTO {
-        readonly id: string;
-        readonly memberOf?: string;
-        readonly roles: Array<string>;
-
-    }
-}
-export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ADMIN(): string;
-        get USER(): string;
-        get ONBOARDING_USER(): string;
-        get FUB(): string;
-        get SUPPORT(): string;
-        get BENEFICIARY(): string;
-        get PROVIDER_COUNSELING(): string;
-        get PROVIDER_EQUIPMENT(): string;
-        get PROVIDER_TRAINING(): string;
-        get ONBOARDING(): string;
-        get UNCHARTED(): string;
+        get ORCHESTRATOR(): string;
+        get PROJECT_MANAGER(): string;
+        get PROJECT_STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
     const ExceptionCodes: {
-        notEligible(): number;
-        unacceptedTerms(): number;
-        quotationMissingFile(): number;
-        userSupervisesProject(): number;
-        userSupervisesQuotation(): number;
-        userSupervisesTask(): number;
+        negativeTransaction(): number;
+        notEnoughAssets(): number;
+        granularityTooSmall(): number;
     };
 }
 export namespace city.smartb.registry.program.api.commons.model {
@@ -2015,7 +1996,8 @@ export namespace cccev.s2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         s2Id(): string;
 
     }
@@ -2108,7 +2090,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
+        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2121,6 +2103,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
 
     }
 }
@@ -2300,6 +2283,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
 
     }
@@ -2309,7 +2293,8 @@ export namespace cccev.f2.certification.domain.command {
         readonly name: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
-        readonly isConformantTo?: any/* Nullable<string>[] */;
+        readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
         s2Id(): string;
 
     }
@@ -2402,7 +2387,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly verifier?: string;
         readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
+        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
         readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
 
@@ -2415,6 +2400,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly url?: string;
         readonly isConformantTo: string[];
+        readonly supportsConcept: string[];
 
     }
 }
@@ -3060,13 +3046,14 @@ export namespace city.smartb.registry.program.f2.pool.domain.command {
     }
 }
 export namespace city.smartb.registry.program.f2.pool.domain.model {
-    interface AssetPoolDTO {
+    interface AssetPoolDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */> {
         readonly id: string;
         readonly status: string;
         readonly vintage: string;
         readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly granularity: number;
         readonly wallets: Record<string, number>;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */;
 
     }
 }
@@ -3081,6 +3068,14 @@ export namespace city.smartb.registry.program.f2.pool.domain.query {
     }
 }
 export namespace city.smartb.registry.program.f2.pool.domain.utils {
+    const AssetPoolPolicies: {
+        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+        canHold(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canResume(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canClose(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+    };
+}
+export namespace city.smartb.registry.program.f2.pool.domain.utils {
     const AssetPoolStatusValues: {
         active(): string;
         onHold(): string;
@@ -3090,7 +3085,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.utils {
 export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetIssueCommandDTO {
         readonly poolId: string;
-        readonly receiver: string;
+        readonly to: string;
         readonly quantity: number;
 
     }
@@ -3102,7 +3097,8 @@ export namespace city.smartb.registry.program.f2.asset.domain.command {
 export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetOffsetCommandDTO {
         readonly poolId: string;
-        readonly owner: string;
+        readonly from: string;
+        readonly to: string;
         readonly quantity: number;
 
     }
@@ -3112,26 +3108,26 @@ export namespace city.smartb.registry.program.f2.asset.domain.command {
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
-    interface AssetTransferCommandDTO {
+    interface AssetRetireCommandDTO {
         readonly poolId: string;
-        readonly sender: string;
-        readonly receiver: string;
+        readonly from: string;
         readonly quantity: number;
 
     }
-    interface AssetTransferredEventDTO {
+    interface AssetRetiredEventDTO {
         readonly transactionId: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
-    interface AssetWithdrawCommandDTO {
+    interface AssetTransferCommandDTO {
         readonly poolId: string;
-        readonly owner: string;
+        readonly from: string;
+        readonly to: string;
         readonly quantity: number;
 
     }
-    interface AssetWithdrawnEventDTO {
+    interface AssetTransferredEventDTO {
         readonly transactionId: string;
 
     }
@@ -3144,6 +3140,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly type: string;
         readonly from?: string;
         readonly to?: string;
+        readonly by: string;
         readonly quantity: number;
         readonly unit: string;
         readonly vintage: string;
@@ -3157,7 +3154,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
     }
     interface AssetGetStatsResultDTO {
         readonly available: number;
-        readonly withdrawn: number;
+        readonly retired: number;
         readonly traded: number;
 
     }
@@ -3178,10 +3175,18 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
+    const AssetPolicies: {
+        canIssue(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canTransfer(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canOffset(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canRetire(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+    };
+}
+export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const TransactionTypeValues: {
-        issue(): string;
-        transfer(): string;
-        withdraw(): string;
+        issued(): string;
+        transferred(): string;
+        retired(): string;
         offset(): string;
     };
 }

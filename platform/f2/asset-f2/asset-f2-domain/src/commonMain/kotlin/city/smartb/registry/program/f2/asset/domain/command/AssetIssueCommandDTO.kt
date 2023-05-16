@@ -50,7 +50,7 @@ data class AssetIssueCommandDTOBase(
     override val quantity: BigDecimalAsNumber
 ): AssetIssueCommandDTO, AbstractAssetTransactionCommand() {
     override val from: String? = null
-    override val type: TransactionType = TransactionType.ISSUE
+    override val type: TransactionType = TransactionType.ISSUED
 }
 
 /**

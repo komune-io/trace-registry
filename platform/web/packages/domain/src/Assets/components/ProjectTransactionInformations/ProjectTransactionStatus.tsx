@@ -13,10 +13,10 @@ const red = "#D33147"
 const green = "#159D50"
 
 
-export const transactionTypeValuestoColor={
-    [transactionTypeValues.issue()]: green,
-    [transactionTypeValues.transfer()]: blue,
-    [transactionTypeValues.withdraw()]: red,
+export const transactionTypeValuesToColor={
+    [transactionTypeValues.issued()]: green,
+    [transactionTypeValues.transferred()]: blue,
+    [transactionTypeValues.retired()]: red,
     [transactionTypeValues.offset()]: yellow,
 }
 export const ProjectTransactionStatus = (props: ProjectTransactionStatusProps) => {
@@ -24,6 +24,6 @@ export const ProjectTransactionStatus = (props: ProjectTransactionStatusProps) =
     const {t} = useTranslation()
 
     return (
-        <StatusTag label={t(value)} customColor={transactionTypeValuestoColor[value]} />
+        <StatusTag label={t(value)} customColor={transactionTypeValuesToColor[value]} />
     )
 }
