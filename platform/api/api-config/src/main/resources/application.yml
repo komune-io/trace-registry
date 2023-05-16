@@ -24,7 +24,7 @@ i2:
     -
       name: connect-sb-io
       authUrl: https://auth.connect.smart-b.io
-      realm: connect
+      realm: sb-dev
       web:
         clientId: sb-plateform-web
       im:
