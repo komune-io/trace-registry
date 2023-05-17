@@ -26,7 +26,8 @@ class TransactionPageQueryDB(
         offset: OffsetPagination? = null
     ): PageDTO<TransactionEntity> = doQuery(offset) {
         match(`TransactionEntity$`.ID, id)
-        match(`TransactionEntity$`.POOL_ID, poolId)
+        // This line is not working, an error is thrown:
+        //match(`TransactionEntity$`.POOL_ID, poolId)
         match(`TransactionEntity$`.TYPE as TextTagField<TransactionEntity, TransactionType>, type)
 
         sorted( { t1, t2 -> t1.date.compareTo(t2.date) }, SortedField.SortOrder.DESC)
