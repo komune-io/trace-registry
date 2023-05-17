@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.asset.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
+import city.smartb.im.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
@@ -26,6 +27,10 @@ object AssetPolicies {
 
     fun canWithdraw(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+    }
+
+    fun canEmitTransactionForOther(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasRole(Roles.ORCHESTRATOR)
     }
 
     private inline fun <reified C: AssetPoolCommand> canTransitionAnd(assetPool: AssetPoolDTO?, hasAccess: () -> Boolean): Boolean {

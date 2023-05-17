@@ -22,7 +22,7 @@ object Versions {
 	val f2 = Framework.fixers
 	val s2 = Framework.fixers
 	val i2 = Framework.fixers
-//	val fs = Framework.connect
+	//	val fs = Framework.connect
 	val fs = "experimental-SNAPSHOT"
 	val im = Framework.connect
 	val cccev = Framework.connect
@@ -75,6 +75,11 @@ object Dependencies {
 
 		fun i2Keycloak(scope: Scope) = scope.add(
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
+		)
+
+		fun im(scope: Scope) = scope.add(
+			"city.smartb.im:organization-client:${Versions.im}",
+			"city.smartb.im:user-client:${Versions.im}"
 		)
 
 		object Cccev {

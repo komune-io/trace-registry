@@ -14,6 +14,7 @@ fs:
   url: http://localhost:8090
 
 im:
+  url: https://connect.smart-b.io/im
   organization:
     insee:
       token: c6ef3de5-3ef1-330a-8917-21f6750dcb09

@@ -10,4 +10,6 @@ dependencies {
 
     implementation(project(":platform:s2:asset:asset-api"))
     implementation(project(":platform:s2:project:project-api"))
+
+    Dependencies.Jvm.im(::implementation)
 }

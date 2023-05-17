@@ -58,7 +58,7 @@ class AssetEndpoint(
     @Bean
     override fun assetIssue(): AssetIssueFunction = f2Function { command ->
         logger.info("assetIssue: $command")
-        assetPoliciesEnforcer.checkIssue(command.poolId)
+        assetPoliciesEnforcer.checkIssue(command)
         assetF2AggregateService.issue(command)
             .let { AssetIssuedEventDTOBase(it.transactionId) }
     }
@@ -66,7 +66,7 @@ class AssetEndpoint(
     @Bean
     override fun assetTransfer(): AssetTransferFunction = f2Function { command ->
         logger.info("assetTransfer: $command")
-        assetPoliciesEnforcer.checkTransfer(command.poolId)
+        assetPoliciesEnforcer.checkTransfer(command)
         assetF2AggregateService.transfer(command)
             .let { AssetTransferredEventDTOBase(it.transactionId) }
     }
@@ -74,7 +74,7 @@ class AssetEndpoint(
     @Bean
     override fun assetOffset(): AssetOffsetFunction = f2Function { command ->
         logger.info("assetOffset: $command")
-        assetPoliciesEnforcer.checkOffset(command.poolId)
+        assetPoliciesEnforcer.checkOffset(command)
         assetF2AggregateService.offset(command)
             .let { AssetOffsettedEventDTOBase(it.transactionId) }
     }
@@ -82,7 +82,7 @@ class AssetEndpoint(
     @Bean
     override fun assetWithdraw(): AssetWithdrawFunction = f2Function { command ->
         logger.info("assetWithdraw: $command")
-        assetPoliciesEnforcer.checkWithdraw(command.poolId)
+        assetPoliciesEnforcer.checkWithdraw(command)
         assetF2AggregateService.withdraw(command)
             .let { AssetWithdrawnEventDTOBase(it.transactionId) }
     }
