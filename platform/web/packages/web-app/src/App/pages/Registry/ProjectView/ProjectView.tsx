@@ -27,20 +27,27 @@ export const ProjectView = (_: ProjectViewProps) => {
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         navigate(projectsProjectIdViewTabAll(projectId || "", value))
     }, [])
+    const tabs: Tab[] = useMemo(() => {
+        const tabs: Tab[] = [{
+            key: 'info',
+            label: t('informations'),
+            component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading}/>)
+        }]
+        const hasActivity = !!project?.activities && project?.activities.length !== 0
+        const hasAssetPools = !!project?.assetPools && project?.assetPools.length !== 0
+        hasActivity && tabs.push({
+            key: 'activities',
+            label: t('activities'),
+            component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project}/> : <></>)
+        })
 
-    const tabs: Tab[] = useMemo(() => [{
-        key: 'info',
-        label: t('informations'),
-        component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading} />)
-    }, {
-        key: 'activities',
-        label: t('activities'),
-        component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project} /> : <></>)
-    }, {
-        key: 'assets',
-        label: t('assets'),
-        component: (project ? <ProjectAssets isLoading={projectQuery.isLoading} project={project}/> : <></>)
-    }], [project, projectQuery.isLoading, t])
+        hasAssetPools && tabs.push({
+            key: 'assets',
+            label: t('assets'),
+            component: (project ? <ProjectAssets isLoading={projectQuery.isLoading} project={project}/> : <></>)
+        })
+        return tabs
+    }, [project, projectQuery.isLoading, t])
 
     return (
         <AppPage title={project?.name ?? t("project")} >
