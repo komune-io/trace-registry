@@ -5,8 +5,8 @@ import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.spring.utils.toUploadCommand
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.im.organization.client.OrganizationClient
-import city.smartb.im.organization.domain.model.Organization
 import city.smartb.im.organization.domain.features.query.OrganizationPageQuery
+import city.smartb.im.organization.domain.model.Organization
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
@@ -24,21 +24,28 @@ import org.springframework.stereotype.Service
 
 @Service
 class AssetF2AggregateService(
+    private val assetPoliciesEnforcer: AssetPoliciesEnforcer,
     private val assetPoolAggregateService: AssetPoolAggregateService,
     private val fileClient: FileClient,
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
     private val organizationClient: OrganizationClient<Organization>
 ) {
     suspend fun issue(command: AssetIssueCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
+        val emitCommand = command.toEmitTransactionCommand()
+        assetPoliciesEnforcer.checkTransaction(emitCommand)
+        return assetPoolAggregateService.emitTransaction(emitCommand)
     }
 
     suspend fun transfer(command: AssetTransferCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
+        val emitCommand = command.toEmitTransactionCommand()
+        assetPoliciesEnforcer.checkTransaction(emitCommand)
+        return assetPoolAggregateService.emitTransaction(emitCommand)
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        val createdEvent = assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
+        val emitCommand = command.toEmitTransactionCommand()
+        assetPoliciesEnforcer.checkTransaction(emitCommand)
+        val createdEvent = assetPoolAggregateService.emitTransaction(emitCommand)
 
         val result = CertificateGenerator.fill(
             transactionId = createdEvent.transactionId,
@@ -65,7 +72,9 @@ class AssetF2AggregateService(
     }
 
     suspend fun retire(command: AssetRetireCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return assetPoolAggregateService.emitTransaction(command.toEmitTransactionCommand())
+        val emitCommand = command.toEmitTransactionCommand()
+        assetPoliciesEnforcer.checkTransaction(emitCommand)
+        return assetPoolAggregateService.emitTransaction(emitCommand)
     }
 
     private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand() = AssetPoolEmitTransactionCommand(
