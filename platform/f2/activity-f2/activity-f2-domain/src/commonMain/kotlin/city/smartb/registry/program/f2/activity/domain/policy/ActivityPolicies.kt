@@ -14,10 +14,10 @@ object ActivityPolicies {
      * User can list the activities
      */
     fun canPage(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
     fun canPageSteps(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
