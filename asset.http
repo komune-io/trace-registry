@@ -6,12 +6,16 @@ Content-Type: application/json
 
 {
 }
+
+> {% client.global.set("projectId", response.body[0].items[0].id); %}
+
+
 ### projectGet
 POST {{urlbase}}/projectGet
 Content-Type: application/json
 
 {
-  "id": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
+  "id": "{{projectId}}"
 }
 
 ### assetTransactionPage
@@ -19,59 +23,69 @@ POST {{urlbase}}/assetTransactionPage
 Content-Type: application/json
 
 {
-  "projectId": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
+  "projectId": "{{projectId}}"
 }
 
-### OAuth2 Token
+### OAuth2 Token Phease
 POST https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=client_credentials&client_id={{clientId}}&client_secret={{clientSecret}}
+grant_type=client_credentials&client_id={{phease_clientId}}&client_secret={{phease_clientSecret}}
 
-###
+> {% client.global.set("phease_accessToken", response.body.access_token); %}
+
+### OAuth2 Token Rockfeller
+POST https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{rockfeller_clientId}}&client_secret={{rockfeller_clientSecret}}
+
+> {% client.global.set("rockfeller_accessToken", response.body.access_token); %}
 
 ### assetPoolCreate
 POST {{urlbase}}/assetPoolCreate
 Content-Type: application/json
-Authorization: Bearer Bearer {{accessToken}}
+Authorization: Bearer {{rockfeller_accessToken}}
 
 {
   "vintage": "2012",
   "indicator": "tonnes",
   "granularity": "0.001",
-  "projectId": "9e0eb1fa-6a09-4327-891a-d1b2cdcb2e27"
+  "projectId": "{{projectId}}"
 }
 
+> {% client.global.set("poolId", response.body[0].id); %}
 
 ### assetIssue
 POST {{urlbase}}/assetIssue
 Content-Type: application/json
-Authorization: Bearer
+Authorization: Bearer {{rockfeller_accessToken}}
 
 {
-  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
-  "to": "SmartB",
+  "poolId": "{{poolId}}",
+  "to": "Rockfeller",
   "quantity": 50000
 }
 
 ### assetTransfer
 POST {{urlbase}}/assetTransfer
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{rockfeller_accessToken}}
+
 {
-  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
-  "from": "SmartB",
+  "poolId": "{{poolId}}",
+  "from": "Rockfeller",
   "to": "Phease",
-  "quantity": 500
+  "quantity": 10000
 }
 
-### assetTransfer  102c2aec-c8eb-4374-a590-0cbe9ef96fb3 poolId
+### assetOffset
 POST {{urlbase}}/assetOffset
 Content-Type: application/json
-Authorization: Bearer Bearer {{accessTokenOffseter}}
+Authorization: Bearer {{phease_accessToken}}
 
 {
-  "poolId": "102c2aec-c8eb-4374-a590-0cbe9ef96fb3",
+  "poolId": "{{poolId}}",
   "from": "Phease",
   "to": "0x5f5Afce1f980cBae2cEaf7Ec1696b0AEb8dE0366",
   "quantity": 20
