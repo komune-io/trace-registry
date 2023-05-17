@@ -2,7 +2,7 @@ import { useCustomFilters } from 'components'
 import {FilterComposableField, Option} from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {AssetPageQuery, transactionTypeValues} from "domain-components";
+import {AssetTransactionPageQuery, transactionTypeValues} from "domain-components";
 import {transactionTypeValuesToColor} from "../ProjectTransactionInformations/ProjectTransactionStatus";
 
 export const useTransactionsFilters = () => {
@@ -40,5 +40,5 @@ export const useTransactionsFilters = () => {
             }
         }
     ], [t])
-    return useCustomFilters<AssetPageQuery>({filters: filters})
+    return useCustomFilters<AssetTransactionPageQuery>({filters: filters})
 }

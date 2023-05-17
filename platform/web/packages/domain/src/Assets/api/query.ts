@@ -2,12 +2,12 @@ import { QueryParams, useQueryRequest } from "@smartb/g2-utils"
 import { city } from "verified-emission-reduction-registry-asset-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 
-export interface AssetPageQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageQueryDTO { }
-export interface AssetPageResult extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTO { }
+export interface AssetTransactionPageQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageQueryDTO { }
+export interface AssetTransactionPageResult extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTO { }
 
-export const useAssetPageQuery = (params: QueryParams<AssetPageQuery, AssetPageResult>) => {
+export const useAssetTransactionPage = (params: QueryParams<AssetTransactionPageQuery, AssetTransactionPageResult>) => {
     const requestProps = useNoAuthenticatedRequest()
-    return useQueryRequest<AssetPageQuery, AssetPageResult>(
+    return useQueryRequest<AssetTransactionPageQuery, AssetTransactionPageResult>(
         "assetTransactionPage", requestProps, params
     )
 }
