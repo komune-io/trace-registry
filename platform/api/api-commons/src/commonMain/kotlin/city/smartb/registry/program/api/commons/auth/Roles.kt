@@ -8,5 +8,5 @@ import kotlin.js.JsName
 object Roles {
     const val ORCHESTRATOR = "tr_orchestrator"
     const val PROJECT_MANAGER = "tr_project_manager"
-    const val PROJECT_STAKEHOLDER = "tr_project_stakeholder"
+    const val STAKEHOLDER = "tr_stakeholder"
 }

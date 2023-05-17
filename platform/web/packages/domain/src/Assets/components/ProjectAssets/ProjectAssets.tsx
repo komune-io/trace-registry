@@ -8,20 +8,25 @@ import {
     ProjectBalanceBanner,
     useTransactionsFilters,
     ProjectTransactionPage,
-    useAssetPageQuery,
-    Transaction
+    useAssetTransactionPage,
+    Transaction,
+    Project
 } from "domain-components";
 
 export interface ProjectAssetsProps {
     isLoading: boolean
+    project: Project
 }
 
 export const ProjectAssets = (props: ProjectAssetsProps) => {
-    const { isLoading } = props
+    const { isLoading, project } = props
     const { component, setOffset, submittedFilters } = useTransactionsFilters()
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
-    const transactions = useAssetPageQuery({
-        query: submittedFilters
+    const transactions = useAssetTransactionPage({
+        query: {
+            ...submittedFilters,
+            projectId: project.id
+        }
     })
 
     const [selectedTransaction, setTransaction] = useState<Transaction | undefined>(undefined)

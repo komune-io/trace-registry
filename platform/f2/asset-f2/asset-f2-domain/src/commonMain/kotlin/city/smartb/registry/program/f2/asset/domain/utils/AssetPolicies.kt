@@ -17,11 +17,11 @@ object AssetPolicies {
     }
 
     fun canTransfer(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
 
     fun canOffset(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.PROJECT_STAKEHOLDER)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
 
     fun canRetire(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {

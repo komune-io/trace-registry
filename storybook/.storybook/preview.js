@@ -20,6 +20,13 @@ export const parameters = {
   docs: {
     container: StorybookCanvas
   },
+  options: {
+    storySort: {
+      order: [
+        'Getting started','Authentication'
+      ],
+    },
+  },
 };
 
 export const withThemeProvider = (Story) => {

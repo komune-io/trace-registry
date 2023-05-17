@@ -42,7 +42,7 @@ export const ProjectBalanceBanner = (props: ProjectBalanceBannerProps) => {
                 height="150px"
                 >
                 <ProjectDataSummary name={"available"} icon={<ArrowUpwardRounded sx={{ color: "#159D50" }}/>} label={t("projects.assets.availableQuantity")} formState={formState} />
-                <ProjectDataSummary name={"withdrawn"} icon={<DownloadRounded sx={{ color: "#F36D25" }}/>} label={t("projects.assets.retiredQuantity")} formState={formState} />
+                <ProjectDataSummary name={"retired"} icon={<DownloadRounded sx={{ color: "#F36D25" }}/>} label={t("projects.assets.retiredQuantity")} formState={formState} />
                 <ProjectDataSummary name={"traded"} icon={<CompareArrowsRounded sx={{ color: "#284FDB" }}/>} label={t("projects.assets.tradedQuantity")} formState={formState} />
             </Stack>
         </>
