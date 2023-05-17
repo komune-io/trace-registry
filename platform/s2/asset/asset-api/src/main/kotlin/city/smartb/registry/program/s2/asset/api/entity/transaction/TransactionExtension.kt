@@ -10,5 +10,6 @@ fun TransactionEntity.toTransaction() = Transaction(
     by = by,
     quantity = quantity,
     type = type,
-    date = date
+    date = date,
+    file = file
 )

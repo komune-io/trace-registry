@@ -6,16 +6,13 @@ import city.smartb.registry.program.f2.asset.api.service.AssetF2FinderService
 import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
-import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
-import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
-import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
-import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
-import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.*
+import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
+import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
+import city.smartb.registry.program.infra.fs.FsService
+import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
@@ -25,13 +22,22 @@ import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.server.reactive.ServerHttpResponse
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
+@RestController
+@RequestMapping
 @Configuration
 class AssetEndpoint(
     private val assetF2AggregateService: AssetF2AggregateService,
     private val assetF2FinderService: AssetF2FinderService,
-    private val assetPoliciesEnforcer: AssetPoliciesEnforcer
+    private val assetPoliciesEnforcer: AssetPoliciesEnforcer,
+    private val fsService: FsService,
+    private val assetPoolFinderService: AssetPoolFinderService
 ): AssetQueryApi, AssetCommandApi {
     private val logger by Logger()
 
@@ -88,4 +94,17 @@ class AssetEndpoint(
         assetF2AggregateService.retire(command)
             .let { AssetRetiredEventDTOBase(it.transactionId) }
     }
+
+
+    @PostMapping("/assetCertificateDownload")
+    suspend fun assetCertificateDownload(
+        @RequestBody query: AssetCertificateDownloadQuery,
+        response: ServerHttpResponse
+    ): AssetCertificateDownloadResult? {
+        logger.info("assetCertificateDownload: $query")
+        return fsService.downloadFile(response){
+            assetPoolFinderService.getTransaction(query.transactionId).file
+        }
+    }
+
 }

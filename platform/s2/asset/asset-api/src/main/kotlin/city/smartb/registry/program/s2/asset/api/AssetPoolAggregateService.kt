@@ -8,22 +8,15 @@ import city.smartb.registry.program.s2.asset.api.exception.NegativeTransactionEx
 import city.smartb.registry.program.s2.asset.api.exception.NotEnoughAssetsException
 import city.smartb.registry.program.s2.asset.domain.AssetPoolAggregate
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolClosedEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreateCommand
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.*
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class AssetPoolAggregateService(
@@ -84,13 +77,21 @@ class AssetPoolAggregateService(
 			to = command.to,
 			by = command.by,
 			quantity = command.quantity,
-			type = command.type,
+			type = command.type
 		).let { emitTransaction(it) }
 
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			transactionId = transactionEvent.id
+		)
+	}
+
+	override suspend fun addFileTransaction(command: TransactionAddFileCommand): TransactionAddedFileEvent = transactionAutomate.transition(command) {
+		TransactionAddedFileEvent(
+			id = UUID.randomUUID().toString(),
+			date = System.currentTimeMillis(),
+			file = command.file
 		)
 	}
 

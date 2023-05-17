@@ -10,4 +10,5 @@ dependencies {
 	Dependencies.Jvm.Cccev.client(::api)
 
 	implementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
+	implementation(project(":platform:api:api-commons"))
 }

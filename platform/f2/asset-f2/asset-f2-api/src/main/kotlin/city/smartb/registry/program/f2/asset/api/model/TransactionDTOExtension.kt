@@ -19,6 +19,7 @@ suspend fun Transaction.toDTO(
         type = type.name,
         date = date,
         unit = pool.indicator.unit?.notation.orEmpty(),
-        vintage = pool.vintage
+        vintage = pool.vintage,
+        file = file
     )
 }

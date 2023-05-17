@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.asset.api.entity.transaction
 
+import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
@@ -40,6 +41,8 @@ class TransactionEntity: WithS2Id<TransactionId>, WithS2State<TransactionState> 
     lateinit var type: TransactionType
 
     var date: Long = 0
+
+    var file: FilePath? = null
 
     override fun s2Id() = id
     override fun s2State() = status

@@ -1,6 +1,8 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
 import city.smartb.registry.program.api.commons.model.S2SourcingEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import kotlinx.serialization.Serializable
@@ -16,6 +18,10 @@ val s2Transaction = s2Sourcing {
     name = "TransactionS2"
     init<TransactionEmitCommand, TransactionEmittedEvent> {
         to = TransactionState.EMITTED
+        role = TransactionRole.Emitter
+    }
+    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
+        states+=TransactionState.EMITTED
         role = TransactionRole.Emitter
     }
 }

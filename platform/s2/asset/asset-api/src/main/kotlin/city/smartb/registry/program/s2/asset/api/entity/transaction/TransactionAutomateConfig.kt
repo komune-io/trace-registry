@@ -4,6 +4,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
 import city.smartb.registry.program.s2.asset.domain.automate.s2Transaction
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -56,6 +57,7 @@ class TransactionAutomateConfig(
 			classDiscriminator = "class"
 			polymorphic(TransactionEvent::class) {
 				subclass(TransactionEmittedEvent::class, TransactionEmittedEvent.serializer())
+				subclass(TransactionAddedFileEvent::class, TransactionAddedFileEvent.serializer())
 			}
 		}
 	}

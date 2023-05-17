@@ -2,6 +2,7 @@ package city.smartb.registry.program.s2.asset.api.entity.transaction
 
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -10,6 +11,7 @@ import s2.sourcing.dsl.view.View
 class TransactionEvolver: View<TransactionEvent, TransactionEntity> {
     override suspend fun evolve(event: TransactionEvent, model: TransactionEntity?): TransactionEntity? = when (event) {
         is TransactionEmittedEvent -> emit(event)
+        is TransactionAddedFileEvent -> model?.addFile(event)
         else -> TODO()
     }
 
@@ -24,4 +26,9 @@ class TransactionEvolver: View<TransactionEvent, TransactionEntity> {
         type = event.type
         date = event.date
     }
+
+    private suspend fun TransactionEntity.addFile(event: TransactionAddedFileEvent) = apply {
+        file = event.file
+    }
+
 }
