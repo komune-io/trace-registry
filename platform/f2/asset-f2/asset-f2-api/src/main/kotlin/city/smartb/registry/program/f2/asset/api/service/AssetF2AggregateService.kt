@@ -41,14 +41,14 @@ class AssetF2AggregateService(
 
         val path = FilePath(
             objectType = "organization",
-            objectId = command.to,
+            objectId = createdEvent.transactionId,
             directory = "certificate",
             name = "certificate-${System.currentTimeMillis()}.pdf"
         )
         fileClient.fileUpload(path.toUploadCommand(), result)
 
         assetPoolAggregateService.addFileTransaction(TransactionAddFileCommand(
-            id=createdEvent.transactionId,
+            id = createdEvent.transactionId,
             file = path
         ))
 

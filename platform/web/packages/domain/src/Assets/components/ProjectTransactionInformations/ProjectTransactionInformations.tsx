@@ -1,10 +1,11 @@
-import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
+import {FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
 import {Box, Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
 import {Transaction} from 'domain-components';
+import {config} from "../../../config";
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
@@ -68,8 +69,15 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                         </IconButton>
                     </Stack>
                     <Divider sx={{ margin: "8px 0" }} />
-
-                    <Typography sx={{ marginBottom: "40px"}}>{t("projects.assets.transactionId", { id: transaction?.id })}</Typography>
+                    <Link
+                      sx={{ marginBottom: "40px"}}
+                      href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}
+                      target="_blank"
+                      rel="noopener"
+                      underline="hover"
+                    >
+                        {t("projects.assets.transactionId", { id: transaction?.id })}
+                    </Link>
                     <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
 
                 </Box>

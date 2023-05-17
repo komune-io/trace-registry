@@ -23,9 +23,12 @@ import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.server.reactive.ServerHttpResponse
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
@@ -106,5 +109,18 @@ class AssetEndpoint(
             assetPoolFinderService.getTransaction(query.transactionId).file
         }
     }
+
+    @PermitAll
+    @GetMapping("/assetCertificateDownload")
+    suspend fun assetCertificateDownload(
+        @RequestParam transactionId: String,
+        response: ServerHttpResponse
+    ): AssetCertificateDownloadResult? {
+        logger.info("assetCertificateDownload: $transactionId")
+        return fsService.downloadFile(response){
+            assetPoolFinderService.getTransaction(transactionId).file
+        }
+    }
+
 
 }
