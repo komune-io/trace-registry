@@ -38,7 +38,7 @@ class AssetF2FinderService(
 
         return assetPoolFinderService.pageTransactions(
             id = transactionId,
-            poolId = projects?.flatMap(Project::assetPools)?.let(::CollectionMatch),
+            poolId = projects?.flatMap(Project::assetPools)?.takeIf { it.isNotEmpty() }?.let(::CollectionMatch),
             type = type,
             offset = offset
         ).map { it.toDTO(cache) }
