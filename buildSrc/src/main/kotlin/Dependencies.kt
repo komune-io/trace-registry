@@ -77,6 +77,11 @@ object Dependencies {
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
 		)
 
+		fun im(scope: Scope) = scope.add(
+			"city.smartb.im:organization-client:${Versions.im}",
+			"city.smartb.im:user-client:${Versions.im}"
+		)
+
 		object Cccev {
 			fun client(scope: Scope) = scope.add(
 				"city.smartb.cccev:dsl-client:${Versions.cccev}",

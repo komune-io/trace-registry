@@ -13,4 +13,6 @@ dependencies {
 
     implementation(project(":platform:infra:fs"))
     implementation(project(":platform:infra:pdf"))
+
+    Dependencies.Jvm.im(::implementation)
 }
