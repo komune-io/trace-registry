@@ -8,7 +8,16 @@ import city.smartb.registry.program.s2.asset.api.exception.NegativeTransactionEx
 import city.smartb.registry.program.s2.asset.api.exception.NotEnoughAssetsException
 import city.smartb.registry.program.s2.asset.domain.AssetPoolAggregate
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
-import city.smartb.registry.program.s2.asset.domain.command.pool.*
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolClosedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreateCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreatedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
@@ -16,7 +25,7 @@ import city.smartb.registry.program.s2.asset.domain.command.transaction.Transact
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 @Service
 class AssetPoolAggregateService(

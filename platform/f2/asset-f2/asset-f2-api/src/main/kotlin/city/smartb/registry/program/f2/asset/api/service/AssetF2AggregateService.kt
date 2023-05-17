@@ -5,7 +5,11 @@ import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.spring.utils.toUploadCommand
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
-import city.smartb.registry.program.f2.asset.domain.command.*
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService

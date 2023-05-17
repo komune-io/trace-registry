@@ -6,7 +6,14 @@ import city.smartb.registry.program.f2.asset.api.service.AssetF2FinderService
 import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
-import city.smartb.registry.program.f2.asset.domain.command.*
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
@@ -121,6 +128,4 @@ class AssetEndpoint(
             assetPoolFinderService.getTransaction(transactionId).file
         }
     }
-
-
 }
