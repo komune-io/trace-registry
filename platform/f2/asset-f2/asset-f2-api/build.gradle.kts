@@ -12,7 +12,6 @@ dependencies {
     implementation(project(":platform:s2:project:project-api"))
 
     implementation(project(":platform:infra:fs"))
+    implementation(project(":platform:infra:im"))
     implementation(project(":platform:infra:pdf"))
-
-    Dependencies.Jvm.im(::implementation)
 }

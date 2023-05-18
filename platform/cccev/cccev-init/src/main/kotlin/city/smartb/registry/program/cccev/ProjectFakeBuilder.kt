@@ -31,10 +31,10 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DecimalStyle
 import java.util.concurrent.TimeUnit
 
-class ProjectFakeBuilder(url: String) {
+class ProjectFakeBuilder(url: String, accessToken: String) {
     val faker = Faker()
     val activityClient = activityClient(url)
-    val projectClient = projectClient(url)
+    val projectClient = projectClient(url, accessToken)
 
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
@@ -52,15 +52,8 @@ class ProjectFakeBuilder(url: String) {
     )
 }
 
-fun main() {
-//     val url = "https://api.registry.smartb.network/ver"
-    val url = "http://localhost:8070"
-    createYahuma(url)
-//    createRandomProject(url, 1..1)
-}
-
-fun createYahuma(url: String): Unit = runBlocking {
-    val helper = ProjectFakeBuilder(url)
+fun createYahuma(url: String, accessToken: String): Unit = runBlocking {
+    val helper = ProjectFakeBuilder(url, accessToken)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
     val created = projectClient.projectCreate().invoke(flowOf(yahuma())).toList()
@@ -90,8 +83,8 @@ private suspend fun fullFillProject(
     }
 }
 
-fun createRandomProject(url: String, countRange: IntRange = 1..10): Unit = runBlocking {
-    val helper = ProjectFakeBuilder(url)
+fun createRandomProject(url: String, accessToken: String, countRange: IntRange = 1..10): Unit = runBlocking {
+    val helper = ProjectFakeBuilder(url, accessToken)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
     val faker = helper.faker

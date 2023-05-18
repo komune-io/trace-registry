@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+	commonMainImplementation("io.ktor:ktor-client-auth:${Versions.ktor}")
 	commonMainApi(project(":platform:f2:project-f2:project-f2-domain"))
 	Dependencies.Mpp.f2Client(::commonMainApi)
 	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)

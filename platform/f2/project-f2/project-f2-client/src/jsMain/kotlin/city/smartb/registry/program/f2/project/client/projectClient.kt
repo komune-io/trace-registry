@@ -10,7 +10,7 @@ import kotlinx.coroutines.await
 
 @JsName("projectClient")
 @JsExport
-actual fun projectClient(urlBase: String): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
+actual fun projectClient(urlBase: String, accessToken: String): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
     F2ClientBuilder.get(urlBase)
         .await()
         .let(::ProjectClient)
