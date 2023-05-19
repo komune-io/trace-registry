@@ -17,8 +17,9 @@ class ImService(
             attributes = null,
             page = 0,
             size = Integer.MAX_VALUE
-        ).let { client.organizationPage<Organization>(listOf(it)).first() }
-            .items
+        ).let {
+            client.organizationPage<Organization>(listOf(it)).first()
+        }.items
             .firstOrNull { it.name == name }
             ?: throw NotFoundException("Organization with name", name)
     }
