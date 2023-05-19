@@ -41,7 +41,7 @@ class AssetF2AggregateService(
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        val emitCommand = command.toEmitTransactionCommand()
+        val emitCommand = command.toEmitTransactionCommand(verifyTo = false)
         assetPoliciesEnforcer.checkTransaction(emitCommand)
         val createdEvent = assetPoolAggregateService.emitTransaction(emitCommand)
 
@@ -75,14 +75,21 @@ class AssetF2AggregateService(
         return assetPoolAggregateService.emitTransaction(emitCommand)
     }
 
-    private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand() = AssetPoolEmitTransactionCommand(
-        id = poolId,
-        from = from?.let { imService.getOrganizationByName(it).id },
-        to = to?.let { imService.getOrganizationByName(it).id },
-        by = AuthenticationProvider.getAuthedUser().memberOf!!,
-        quantity = quantity,
-        type = type
-    )
-
-
+    private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand(
+        verifyTo: Boolean = true
+    ): AssetPoolEmitTransactionCommand {
+        val to = if(verifyTo) {
+            to?.let { imService.getOrganizationByName(it).id }
+        } else {
+            to
+        }
+        return AssetPoolEmitTransactionCommand(
+            id = poolId,
+            from = from?.let { imService.getOrganizationByName(it).id },
+            to = to,
+            by = AuthenticationProvider.getAuthedUser().memberOf!!,
+            quantity = quantity,
+            type = type
+        )
+    }
 }
