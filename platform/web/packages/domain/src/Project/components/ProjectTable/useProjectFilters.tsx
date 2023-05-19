@@ -1,8 +1,8 @@
-import { useCustomFilters } from 'components'
-import { FilterComposableField } from '@smartb/g2'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { ProjectPageQuery } from "../../api";
+import {getProjectTypesOptions, useCustomFilters} from 'components'
+import {FilterComposableField} from '@smartb/g2'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {ProjectPageQuery} from "../../api";
 
 export const useProjectFilters = () => {
     const {t} = useTranslation()
@@ -35,11 +35,11 @@ export const useProjectFilters = () => {
         },
         {
             name: 'type',
-            type: 'textField',
+            type: 'select',
             params: {
-                textFieldType: 'search',
-                placeholder: t("type"),
-                style: { width: "120px" }
+                label: t("type"),
+                style: { width: "120px"},
+                options: getProjectTypesOptions(t),
             },
             mandatory: true
         },
