@@ -29,8 +29,8 @@ export CLIENT_SECRET="your_client_secret"
 
 curl -X POST \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET"
-  https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token'
+  -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" \
+  https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
 ```
 
 Replace `YOUR_CLIENT_ID` and `YOUR_CLIENT_SECRET` with your actual `clientId` and `clientSecret`.
@@ -43,9 +43,12 @@ This will look something like:
 
 ```json
 {
-  "access_token": "YOUR_ACCESS_TOKEN",
-  "token_type": "Bearer",
-  "expires_in": 3600
+	"access_token": "YOUR_ACCESS_TOKEN",
+	"expires_in": 28800,
+	"refresh_expires_in": 0,
+	"token_type": "Bearer",
+	"not-before-policy": 0,
+	"scope": "profile email"
 }
 ```
 
