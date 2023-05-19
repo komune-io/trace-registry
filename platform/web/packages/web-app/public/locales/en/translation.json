@@ -40,6 +40,7 @@
   "quantity": "Quantity",
   "from": "From",
   "to": "To",
+  "amount": "Amount",
   "avgReductions": "AVG. Reductions",
   "refYear": "Ref. year",
   "dueDate": "Due date",
@@ -126,6 +127,8 @@
     "registry": "Registry of trusted projects",
     "followAndTrack": "Follow and track activities on verified and trusted projects.",
     "noData": "No project were found",
+    "partner": "Project Partner",
+    "impactDetails": "Impact details",
     "types": {
       "1": "Agriculture Forestry and Other Land Use",
       "2": "Waste handling and disposal",
@@ -159,6 +162,7 @@
         "transactions": "Transactions history"
       },
       "noData": "No asset was found",
+      "certificate": "View certificate",
       "availableQuantity" : "Available quantity",
       "retiredQuantity" : "Retired quantity",
       "tradedQuantity" : "Traded quantity",
