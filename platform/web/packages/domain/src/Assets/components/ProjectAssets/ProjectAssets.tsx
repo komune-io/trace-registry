@@ -1,16 +1,16 @@
 import {Stack} from '@mui/material'
 import {Header} from '@smartb/g2'
 import {Fragment, useCallback, useMemo, useState} from "react";
-import { Row } from '@tanstack/react-table';
+import {Row} from '@tanstack/react-table';
 import {Offset, OffsetPagination} from "template";
 import {
-    ProjectTransactionsTable,
+    Project,
     ProjectBalanceBanner,
-    useTransactionsFilters,
     ProjectTransactionPage,
-    useAssetTransactionPage,
+    ProjectTransactionsTable,
     Transaction,
-    Project
+    useAssetTransactionPage,
+    useTransactionsFilters
 } from "domain-components";
 
 export interface ProjectAssetsProps {
@@ -98,7 +98,7 @@ export const ProjectAssets = (props: ProjectAssetsProps) => {
             </Stack>
             {
                 selectedTransaction ?
-                    <ProjectTransactionPage isLoading={isLoading} transaction={selectedTransaction} onBack={onBack}/>
+                    <ProjectTransactionPage isLoading={isLoading} transaction={selectedTransaction} onBack={onBack} project={project}/>
                     : ""
             }
         </Stack>

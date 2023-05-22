@@ -1,14 +1,15 @@
 import {Stack} from '@mui/material'
-import {ProjectTransactionInformations, Transaction} from "domain-components";
+import {Project, ProjectTransactionInformations, Transaction} from "domain-components";
 
 export interface ProjectTransactionPageProps {
     isLoading: boolean
-    transaction?: Transaction
     onBack: () => void
+    project: Project
+    transaction?: Transaction
 }
 
 export const ProjectTransactionPage = (props: ProjectTransactionPageProps) => {
-    const { isLoading, transaction, onBack } = props
+    const { isLoading, transaction, project, onBack } = props
 
     return (
             <Stack
@@ -25,7 +26,7 @@ export const ProjectTransactionPage = (props: ProjectTransactionPageProps) => {
                 }}
                 gap={2}
             >
-                <ProjectTransactionInformations isLoading={isLoading} transaction={transaction} onBack={onBack}/>
+                <ProjectTransactionInformations project={project} isLoading={isLoading} transaction={transaction} onBack={onBack}/>
                 {/*<ProjectTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />*/}
             </Stack>
 

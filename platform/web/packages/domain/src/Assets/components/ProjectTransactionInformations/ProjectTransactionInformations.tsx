@@ -1,23 +1,27 @@
-import {FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
+import {Button, FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
 import {Box, Divider, IconButton, Stack, Typography} from '@mui/material'
-import {useMemo} from "react";
+import {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {ProjectTransactionStatus} from "./ProjectTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
-import {Transaction} from 'domain-components';
+import {Project, Transaction} from 'domain-components';
 import {config} from "../../../config";
+import {useRoutesDefinition} from "components";
+import {useNavigate} from "react-router-dom";
 
 export interface ProjectTransactionInformationsProps {
     isLoading: boolean
     transaction?: Transaction
     onBack: () => void
+    project : Project
 }
 
 export const ProjectTransactionInformations = (props: ProjectTransactionInformationsProps) => {
-    let { isLoading, transaction, onBack } = props
+    let { isLoading, transaction, project, onBack } = props
 
     const { t } = useTranslation()
-
+    const { projectsProjectIdTransactionsTransactionIdView } = useRoutesDefinition()
+    const navigate = useNavigate();
     const formState = useFormComposable({
         isLoading: isLoading,
         readonly: true,
@@ -57,6 +61,10 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             }
         }], [transaction, t])
 
+    const transactionLink = useCallback( () => {
+                navigate(projectsProjectIdTransactionsTransactionIdView(project.id, transaction ? transaction.id : "null"))
+        },[])
+
     return (
                 <Box>
                     <Stack
@@ -80,6 +88,9 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                         {t("projects.assets.transactionId", { id: transaction?.id })}
                     </Link>
                     <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
+                    <Button onClick={transactionLink} >
+                        {t("projects.assets.certificate")}
+                    </Button>
                 </Box>
     )
 }
