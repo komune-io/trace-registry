@@ -7,3 +7,5 @@ export * from "./ProjectTransactionPage"
 export * from "./ProjectDataSummary"
 export * from "./TransactionCertificatePage"
 export * from "./ProjectImpactDetails"
+export * from "./ProjectTransactionDetails"
+

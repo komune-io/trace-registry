@@ -19,6 +19,7 @@
   "origin": "Origin",
   "proponent": "Proponent",
   "vvb": "VVB",
+  "back": "Back",
   "assessor": "Assessor",
   "project": "Project",
   "status": "Status",
@@ -48,6 +49,7 @@
   "transactionDate": "Transaction date",
   "issuanceDate": "Issuance date",
   "retirementDate": "Retirement date",
+  "purchasedBy": "Purchased by",
   "transaction": "Transaction #",
   "dataTons":  "{{count}} $t(tons)",
   "tons":  "tons",
@@ -128,7 +130,6 @@
     "followAndTrack": "Follow and track activities on verified and trusted projects.",
     "noData": "No project were found",
     "partner": "Project Partner",
-    "impactDetails": "Impact details",
     "types": {
       "1": "Agriculture Forestry and Other Land Use",
       "2": "Waste handling and disposal",
@@ -159,7 +160,8 @@
     "assets": {
       "titles": {
         "balance": "Project balance",
-        "transactions": "Transactions history"
+        "transactions": "Transactions history",
+        "impactDetails": "Impact details"
       },
       "noData": "No asset was found",
       "certificate": "View certificate",
@@ -169,8 +171,10 @@
       "tons" :  "Tons",
       "serial": "Serial #",
       "transactionInformations":  "Transaction informations",
-      "history": "History",
+      "transactionDetails":  "Transaction details",
+      "transactionHistory": "Transaction history",
       "transactionId": "$t(transaction) : {{id}}",
+      "transactionCertificate": "Transaction certificate - {{id}}",
       "sellTo": "Sell to {{name}}",
       "history1": "Issued to {{resultName}} from {{name}} in {{country}}",
       "retired": "Retired {{name}}"

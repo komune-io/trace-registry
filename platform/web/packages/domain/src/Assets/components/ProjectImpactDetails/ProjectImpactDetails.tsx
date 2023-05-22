@@ -66,11 +66,10 @@ export const ProjectImpactDetails = (props: ProjectImpactDetailsProps) => {
                 alignItems="center"
                 justifyContent="space-between"
             >
-                <Typography variant="h5" >{t("projects.impactDetails")}</Typography>
+                <Typography variant="h5" >{t("projects.assets.titles.impactDetails")}</Typography>
             </Stack>
             <Divider sx={{ margin: "8px 0" }} />
-            <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
-
+            <FormComposable fields={fields} formState={formState} sx={{ marginBottom: "40px" }}/>
         </Box>
     )
 }

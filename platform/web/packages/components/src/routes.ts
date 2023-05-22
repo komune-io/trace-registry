@@ -1,6 +1,6 @@
-import { useMemo } from "react"
-import { Roles } from "./roles"
-import { RecordRouteCamelCase, insertObjectIdsInsideRoutes } from "./types"
+import {useMemo} from "react"
+import {Roles} from "./roles"
+import {insertObjectIdsInsideRoutes, RecordRouteCamelCase} from "./types"
 
 const IMRoutesAuthorizations = {
     "organizations": "open",
@@ -21,6 +21,7 @@ const strictRoutesAuthorizations = {
     "": "open",
     "projects": "open",
     "projects/:projectId/view/:tab?/*": "open",
+    "projects/:projectId/:transactionId": "open",
     ...IMRoutesAuthorizations,
 } as const
 

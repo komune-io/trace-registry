@@ -1,7 +1,7 @@
-import { PageRoute } from "App/routes";
-import { ProjectList } from "./ProjectList/ProjectList";
-import { ProjectView } from "./ProjectView/ProjectView";
-
+import {PageRoute} from "App/routes";
+import {ProjectList} from "./ProjectList/ProjectList";
+import {ProjectView} from "./ProjectView/ProjectView";
+import {TransactionView} from "./TransactionView/TransactionView";
 
 export const registryPages: PageRoute[] = [
   {
@@ -15,5 +15,9 @@ export const registryPages: PageRoute[] = [
   {
     path: "projects/:projectId/view/:tab?/*",
     element: <ProjectView />
+  },
+  {
+    path: "projects/:projectId/:transactionId",
+    element: <TransactionView />
   }
 ]

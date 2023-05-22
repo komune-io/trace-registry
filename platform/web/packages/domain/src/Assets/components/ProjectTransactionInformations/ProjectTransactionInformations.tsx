@@ -79,7 +79,6 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
                         {t("projects.assets.transactionId", { id: transaction?.id })}
                     </Link>
                     <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
-
                 </Box>
     )
 }

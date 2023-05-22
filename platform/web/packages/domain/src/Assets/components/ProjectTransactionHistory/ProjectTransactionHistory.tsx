@@ -7,7 +7,6 @@ import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/ic
 import {TransactionDataHistory} from "./TransactionDataHistory";
 
 
-
 export interface ProjectTransactionHistoryProps {
     isLoading: boolean
     project?: Project
@@ -62,7 +61,7 @@ export const ProjectTransactionHistory = (props: ProjectTransactionHistoryProps)
 
     return (
         <Box>
-            <Typography variant="h5" >{t("projects.assets.history")}</Typography>
+            <Typography variant="h5" >{t("projects.assets.transactionHistory")}</Typography>
             <Divider sx={{ margin: "8px 0" }} />
 
             <FormComposable sx={{
