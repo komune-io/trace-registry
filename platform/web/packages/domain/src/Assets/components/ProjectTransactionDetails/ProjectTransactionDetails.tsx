@@ -1,9 +1,8 @@
-import {FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
+import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
 import {Box, Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {ProjectTransactionStatus, Transaction} from 'domain-components';
-import {config} from "../../../config";
 
 export interface ProjectTransactionDetailsProps {
     isLoading: boolean
@@ -38,7 +37,7 @@ export const ProjectTransactionDetails = (props: ProjectTransactionDetailsProps)
             }
         },
         {
-            name: "retirementDate", // même name en attendant le back
+            name: "retirementDate",
             type: "textField",
             label: t('retirementDate'),
             params: {
@@ -64,15 +63,9 @@ export const ProjectTransactionDetails = (props: ProjectTransactionDetailsProps)
                 <Typography variant="h5" >{t("projects.assets.transactionDetails")}</Typography>
             </Stack>
             <Divider sx={{ margin: "8px 0" }} />
-            <Link
-                sx={{ marginBottom: "40px"}}
-                href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}
-                target="_blank"
-                rel="noopener"
-                underline="hover"
-            >
+            <Typography>
                 {t("projects.assets.transactionId", { id: transaction?.id })}
-            </Link>
+            </Typography>
             <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
         </Box>
     )

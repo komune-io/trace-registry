@@ -29,16 +29,17 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Transaction | "issuanceDate" | "retirementDate">[] => [{ // enlever | "issuanceDate" | "retirementDate", quand back accessible
-        name: "type",
-        type: "textField",
-        label: t('status'),
-        params: {
-            orientation: "horizontal",
-            readonlyType: "customElement",
-            readonlyElement: ProjectTransactionStatus
-        }
-    },
+    const fields = useMemo((): FormComposableField<keyof Transaction | "issuanceDate" | "retirementDate">[] =>
+        [{ // enlever | "issuanceDate" | "retirementDate", quand back accessible
+            name: "type",
+            type: "textField",
+            label: t('status'),
+            params: {
+                orientation: "horizontal",
+                readonlyType: "customElement",
+                readonlyElement: ProjectTransactionStatus
+            }
+        },
         {
             name: "issuanceDate",
             type: "textField",
@@ -48,7 +49,7 @@ export const ProjectTransactionInformations = (props: ProjectTransactionInformat
             }
         },
         {
-            name: "retirementDate", // même name en attendant le back
+            name: "retirementDate",
             type: "textField",
             label: t('retirementDate'),
             params: {

@@ -32,8 +32,6 @@ export const TransactionView = (_: TransactionViewProps) => { // Attente Back et
                         marginBottom: "-6px"
                     }
                 }
-
-
             }}
             >
                 <TransactionCertificatePage isLoading={isLoading} transaction={transaction} project={project} />
