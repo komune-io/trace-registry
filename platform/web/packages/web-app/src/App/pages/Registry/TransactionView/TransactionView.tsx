@@ -1,10 +1,16 @@
 import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {Transaction, TransactionCertificatePage, useProjectGetQuery} from "domain-components";
+import {
+    Transaction,
+    TransactionCertificateSummary,
+    TransactionPdfCertificate,
+    useProjectGetQuery
+} from "domain-components";
 import {AppPage} from "template";
 import {LinkButton, Section} from "@smartb/g2";
 import {useRoutesDefinition} from "components";
 import {ArrowBackIosNewRounded} from "@mui/icons-material";
+import {Stack} from "@mui/material";
 
 export interface TransactionViewProps {
 }
@@ -13,14 +19,13 @@ export const TransactionView = (_: TransactionViewProps) => { // Attente Back et
     const { projectId, /*transactionId*/ } = useParams()
     const { t } = useTranslation()
     const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
-    //const transactionQuery = useTransactionGetQuery({ query: { transactionId: transactionId! } })
     const project = projectQuery.data?.item
-    //const transaction = transactionQuery.data.
+    //const transactionQuery = useTransactionGetQuery({ query: { transactionId: transactionId! } })
+    //const transaction = transactionQuery.data?.item
     const { projects } = useRoutesDefinition()
 
     return (
         <AppPage title={t("projects.assets.transactionCertificate", { id: transaction?.id }) ?? t('transaction')} >
-
             <Section headerProps={{
                 content: [{
                     leftPart: [
@@ -34,7 +39,15 @@ export const TransactionView = (_: TransactionViewProps) => { // Attente Back et
                 }
             }}
             >
-                <TransactionCertificatePage isLoading={isLoading} transaction={transaction} project={project} />
+                <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+
+                >
+                    <TransactionCertificateSummary isLoading={isLoading} transaction={transaction} project={project} />
+                    <TransactionPdfCertificate transaction={transaction} />
+                </Stack>
             </Section>
         </AppPage>
     )
@@ -43,7 +56,7 @@ export const TransactionView = (_: TransactionViewProps) => { // Attente Back et
 //Données temporaires
 const isLoading = false
 const transaction : Transaction = {
-    id:'da16910d-ed9d-46bb-92df-1aa571b156ba',
+    id:'d3aaf9f7-870f-4453-9ca0-18842dff889d',
     date: 12102003,
     poolId: "poolid",
     unit: "Ton",
