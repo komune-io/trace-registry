@@ -25,7 +25,7 @@ export const AssetsImpactDetails = (props: ProjectImpactDetailsProps) => {
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Project | "amount">[] => [{
+    const fields = useMemo((): FormComposableField<keyof Project | "amount" | "projectPartner">[] => [{
 
             name: "name",
             type: "textField",
@@ -51,7 +51,7 @@ export const AssetsImpactDetails = (props: ProjectImpactDetailsProps) => {
             }
         },
         {
-            name: "id",
+            name: "projectPartner", // attente du back
             type: "textField",
             label: t('projects.partner'),
             params: {

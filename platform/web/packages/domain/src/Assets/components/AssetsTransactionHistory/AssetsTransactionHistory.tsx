@@ -34,7 +34,7 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<ArrowUpwardRounded sx={{color: "#0000008A"}}/>} count={1000000} />,
-        defaultValue : t('projects.assets.history1', {resultName: "Odilon", name: project?.name, country: project?.country}),
+        defaultValue : t('projects.assets.history1', {resultName: "-", name: project?.name, country: project?.country}),
         params: {
             orientation: "horizontal"
         }
@@ -43,7 +43,7 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<CompareArrowsRounded sx={{color: "#0000008A"}}/>} count={1000} />,
-        defaultValue : t('projects.assets.sellTo', {name: "Phease"}),
+        defaultValue : t('projects.assets.sellTo', {name: "-"}),
         params: {
             orientation: "horizontal"
         }
@@ -52,7 +52,7 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<DownloadRounded sx={{color: "#0000008A"}} />} count={10} />,
-        defaultValue : t('projects.assets.retired', {name: "0x....3232"}),
+        defaultValue : t('projects.assets.retired', {name: "-"}),
         params: {
             orientation: "horizontal"
         }
