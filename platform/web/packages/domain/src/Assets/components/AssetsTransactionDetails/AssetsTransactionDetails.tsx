@@ -1,5 +1,5 @@
 import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
-import {Box, Divider, Stack, Typography} from '@mui/material'
+import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {AssetsTransactionStatus, Transaction} from 'domain-components';
@@ -54,19 +54,11 @@ export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) 
         }], [t])
 
     return (
-        <Box>
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-            >
-                <Typography variant="h5" >{t("projects.assets.transactionDetails")}</Typography>
-            </Stack>
-            <Divider sx={{ margin: "8px 0" }} />
-            <Typography>
-                {t("projects.assets.transactionId", { id: transaction?.id })}
-            </Typography>
-            <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
-        </Box>
+        <Stack gap={1}>
+            <Typography variant="h5" >{t("projects.assets.transactionDetails")}</Typography>
+            <Divider/>
+            <Typography sx={{marginBottom : (theme) => `${theme.spacing(2)}`}}>{t("projects.assets.transactionId", { id: transaction?.id })}</Typography>
+            <FormComposable fields={fields} formState={formState}/>
+        </Stack>
     )
 }

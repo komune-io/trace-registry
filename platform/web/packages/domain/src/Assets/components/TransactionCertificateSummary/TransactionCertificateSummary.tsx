@@ -20,10 +20,10 @@ export const TransactionCertificateSummary = (props: TransactionCertificatePageP
             <Stack
                 sx={{
                     width: "550px",
-                    padding: "0 24px 32px 24px",
+                    padding: (theme) => `0 ${theme.spacing(3)} ${theme.spacing(4)} ${theme.spacing(3)}`,
                     overflowY: "auto"
                 }}
-                gap={2}
+                gap={6}
             >
                 <AssetsTransactionDetails isLoading={isLoading} transaction={transaction}/>
                 <AssetsImpactDetails isLoading={isLoading} project={project} />

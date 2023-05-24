@@ -14,7 +14,8 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
         <Stack
             alignItems="center"
             direction="column"
-            width="65%"
+            flexGrow={1}
+            flexBasis={1}
             sx={{
                 "& .pdfPage": {
                     padding: "20px",

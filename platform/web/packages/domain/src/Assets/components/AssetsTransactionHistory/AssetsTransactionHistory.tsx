@@ -1,4 +1,4 @@
-import {Box, Divider, Typography} from "@mui/material";
+import {Divider, Stack, Typography} from "@mui/material";
 import {FormComposable, FormComposableField, useFormComposable} from "@smartb/g2";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
@@ -24,7 +24,10 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         emptyValueInReadonly: "-",
         formikConfig:{
             initialValues:{
-                ...transaction // Pour l'instant inutile car je ne peux pas récupérer du back les différentes infos et il n'y a pas de paramètres aux noms correspondants dans TransactionDTO
+                ...transaction,
+                dataTons1 : t('projects.assets.history1', {resultName: "-", name: project?.name, country: project?.country}),
+                dataTons2 : t('projects.assets.sellTo', {name: "-"}),
+                dataTons3 : t('projects.assets.retired', {name: "-"})
             }
         }
     })
@@ -34,7 +37,6 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<ArrowUpwardRounded sx={{color: "#0000008A"}}/>} count={1000000} />,
-        defaultValue : t('projects.assets.history1', {resultName: "-", name: project?.name, country: project?.country}),
         params: {
             orientation: "horizontal"
         }
@@ -43,7 +45,6 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<CompareArrowsRounded sx={{color: "#0000008A"}}/>} count={1000} />,
-        defaultValue : t('projects.assets.sellTo', {name: "-"}),
         params: {
             orientation: "horizontal"
         }
@@ -52,25 +53,22 @@ export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) 
         type: "textField",
         //@ts-ignore
         label: <TransactionDataHistory icon={<DownloadRounded sx={{color: "#0000008A"}} />} count={10} />,
-        defaultValue : t('projects.assets.retired', {name: "-"}),
         params: {
             orientation: "horizontal"
         }
-    }], [transaction, t])
+    }], [])
 
 
     return (
-        <Box>
+        <Stack gap={1}>
             <Typography variant="h5" >{t("projects.assets.transactionHistory")}</Typography>
-            <Divider sx={{ margin: "8px 0" }} />
-
+            <Divider/>
             <FormComposable sx={{
                 "& .AruiInputForm-readonlyText" : {
                     textAlign: "right"
                 }
             }} fields={fields} formState={formState} />
-
-        </Box>
+        </Stack>
     )
 }
 

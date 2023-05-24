@@ -1,5 +1,5 @@
 import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
-import {Box, Divider, Stack, Typography} from '@mui/material'
+import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {Project} from 'domain-components';
@@ -60,16 +60,10 @@ export const AssetsImpactDetails = (props: ProjectImpactDetailsProps) => {
         }], [t])
 
     return (
-        <Box>
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-            >
-                <Typography variant="h5" >{t("projects.assets.titles.impactDetails")}</Typography>
-            </Stack>
-            <Divider sx={{ margin: "8px 0" }} />
-            <FormComposable fields={fields} formState={formState} sx={{ marginBottom: "40px" }}/>
-        </Box>
+        <Stack gap={1}>
+            <Typography variant="h5" >{t("projects.assets.titles.impactDetails")}</Typography>
+            <Divider />
+            <FormComposable fields={fields} formState={formState} />
+        </Stack>
     )
 }

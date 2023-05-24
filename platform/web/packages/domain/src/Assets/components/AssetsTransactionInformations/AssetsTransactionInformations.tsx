@@ -1,5 +1,5 @@
-import {Button, FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
-import {Box, Divider, IconButton, Stack, Typography} from '@mui/material'
+import {FormComposable, FormComposableField, Link, useFormComposable} from '@smartb/g2'
+import {Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
 import {AssetsTransactionStatus} from "./AssetsTransactionStatus";
@@ -65,8 +65,8 @@ export const AssetsTransactionInformations = (props: ProjectTransactionInformati
                 navigate(projectsProjectIdTransactionsTransactionIdView(project.id, transaction ? transaction.id : "undefined"))
         },[])
 
-    return (
-                <Box>
+
+    return (    <Stack gap={1}>
                     <Stack
                         direction="row"
                         alignItems="center"
@@ -77,20 +77,19 @@ export const AssetsTransactionInformations = (props: ProjectTransactionInformati
                             <CloseRounded />
                         </IconButton>
                     </Stack>
-                    <Divider sx={{ margin: "8px 0" }} />
+                    <Divider />
                     <Link
-                      sx={{ marginBottom: "40px"}}
-                      href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}
-                      target="_blank"
-                      rel="noopener"
-                      underline="hover"
+                        href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}
+                        target="_blank"
+                        rel="noopener"
+                        underline="hover"
                     >
                         {t("projects.assets.transactionId", { id: transaction?.id })}
                     </Link>
-                    <FormComposable fields={fields} formState={formState} sx={{ margin: "40px 0" }}/>
-                    <Button onClick={transactionLink} >
+                    <FormComposable fields={fields} formState={formState} sx={{margin : (theme) => `${theme.spacing(2)} 0`}}/>
+                    <Link onClick={transactionLink} sx={{cursor: 'pointer'}}>
                         {t("projects.assets.certificate")}
-                    </Button>
-                </Box>
+                    </Link>
+                </Stack>
     )
 }

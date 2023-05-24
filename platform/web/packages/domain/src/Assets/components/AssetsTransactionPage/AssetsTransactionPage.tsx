@@ -24,7 +24,7 @@ export const AssetsTransactionPage = (props: ProjectTransactionPageProps) => {
                     overflowY: "auto",
                     borderLeft: "1px solid #e0e0e0"
                 }}
-                gap={2}
+                gap={3}
             >
                 <AssetsTransactionInformations project={project} isLoading={isLoading} transaction={transaction} onBack={onBack}/>
                 {/*<AssetsTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />*/}

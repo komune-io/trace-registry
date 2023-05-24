@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {
     Transaction,
@@ -7,10 +7,11 @@ import {
     useProjectGetQuery
 } from "domain-components";
 import {AppPage} from "template";
-import {LinkButton, Section} from "@smartb/g2";
+import {Button, Section} from "@smartb/g2";
 import {useRoutesDefinition} from "components";
 import {ArrowBackIosNewRounded} from "@mui/icons-material";
 import {Stack} from "@mui/material";
+import {useCallback} from "react";
 
 export interface TransactionViewProps {
 }
@@ -22,14 +23,22 @@ export const TransactionView = (_: TransactionViewProps) => { // Attente Back et
     const project = projectQuery.data?.item
     //const transactionQuery = useTransactionGetQuery({ query: { transactionId: transactionId! } })
     //const transaction = transactionQuery.data?.item
-    const { projects } = useRoutesDefinition()
+    const navigate = useNavigate()
+    const { projectsProjectIdViewTabAll } = useRoutesDefinition()
+
+    const navigateAssets = useCallback(
+        () => {
+            navigate(projectsProjectIdViewTabAll(projectId!, "assets"))
+        },
+        [projectId],
+    )
 
     return (
-        <AppPage title={t("projects.assets.transactionCertificate", { id: transaction?.id }) ?? t('transaction')} >
+        <AppPage title={transaction ? t("projects.assets.transactionCertificate", { id: transaction.id }) : t('transaction')} >
             <Section headerProps={{
                 content: [{
                     leftPart: [
-                        <LinkButton sx={{zIndex: 5}} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />} to={projects()}>{t('back')}</LinkButton>
+                        <Button sx={{zIndex: 5}} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />} onClick={navigateAssets}>{t('back')}</Button>
                     ],
                 }],
                 sx: {

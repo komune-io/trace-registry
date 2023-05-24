@@ -1,7 +1,7 @@
 import {PageRoute} from "App/routes";
 import {ProjectList} from "./ProjectList/ProjectList";
 import {ProjectView} from "./ProjectView/ProjectView";
-import {TransactionView} from "./TransactionView/TransactionView";
+import {TransactionView} from "../Transaction/TransactionView/TransactionView";
 
 export const registryPages: PageRoute[] = [
   {
