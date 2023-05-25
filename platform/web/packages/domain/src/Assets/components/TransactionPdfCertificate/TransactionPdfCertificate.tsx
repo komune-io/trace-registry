@@ -8,7 +8,17 @@ export interface TransactionPdfCertificateProps {
 }
 
 export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps) => {
-    const { transaction } = props
+    const { transaction,  } = props
+    const downloadButton = (
+        <IconButton sx={{
+            marginLeft: "75%",
+            bottom: "-50px",
+            zIndex: 5
+
+        }} aria-label="download" href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} >
+            <DownloadIcon />
+        </IconButton>
+    )
 
     return (
         <Stack
@@ -19,18 +29,17 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
             sx={{
                 "& .pdfPage": {
                     padding: "20px",
+                },
+                "& .react-pdf__Page__annotations": {
+                    display: "none"
+                },
+                "& .react-pdf__Page__textContent": {
+                    display: "none"
                 }
             }}
         >
-            <IconButton sx={{
-                marginLeft: "75%",
-                bottom: "-50px",
-                zIndex: 5
 
-            }} aria-label="download" href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} >
-                <DownloadIcon />
-            </IconButton>
-            <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} width={950} />
+            <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} AbsoluteLayer={downloadButton}/>
        </Stack>
     )
 }

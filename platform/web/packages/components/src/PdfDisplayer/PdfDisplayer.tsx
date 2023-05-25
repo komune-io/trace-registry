@@ -1,46 +1,41 @@
 import {CircularProgress} from "@mui/material";
 import {Document, Page} from "react-pdf/dist/esm/entry.vite";
-import React, {useCallback, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 interface PdfDisplayerProps {
     file?: string
-    width : number
+    AbsoluteLayer: React.ReactNode
 }
 
 export const PdfDisplayer = (props: PdfDisplayerProps) => {
-    const { file, width } = props
-    const [pages, setPages] = useState<React.ReactNode[]>([])
+    const { file, AbsoluteLayer } = props
 
-    const onDocumentLoadSuccess = useCallback(
-        () => {
-            const page: React.ReactNode[] = []
-            page.push(
-                <Page
-                    width={width}
-                    key={`page_${1}`}
-                    pageNumber={1}
-                    className="pdfPage"
-                    loading={<CircularProgress />}
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                />
-            )
-            setPages(page)
-        },
-        [],
-    )
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, [file]);
 
     return (
-        file ? (
-            <Document
-                file={file}
-                onLoadSuccess={onDocumentLoadSuccess}
-                loading={<CircularProgress />}
-            >
-                {pages}
-            </Document>
-        ) : (
+        isLoading ? (
             <CircularProgress />
+        ) : (
+                file ? (
+                    <Document
+                        file={file}
+                        loading={<CircularProgress />}
+                    >
+                        {AbsoluteLayer}
+                        <Page
+                            key={`page_${1}`}
+                            pageNumber={1}
+                            className="pdfPage"
+                            loading={<CircularProgress />}
+                        />
+                    </Document>
+                ) : (
+                    <CircularProgress />
+                )
         )
     )
 }
