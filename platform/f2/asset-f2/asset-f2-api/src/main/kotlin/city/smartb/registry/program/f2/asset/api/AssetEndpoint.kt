@@ -58,7 +58,10 @@ class AssetEndpoint(
         logger.info("assetTransactionPage: $query")
         assetF2FinderService.page(
             projectId = query.projectId?.let(::ExactMatch),
+            poolId = query.poolId?.let(::ExactMatch),
             transactionId = query.transactionId?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            transactionFrom = query.transactionFrom?.let(::ExactMatch),
+            transactionTo = query.transactionTo?.let(::ExactMatch),
             type = query.type?.let { ExactMatch(TransactionType.valueOf(it)) },
             offset = takeIf { anyNotNull(query.limit, query.offset) }?.let {
                 OffsetPagination(
