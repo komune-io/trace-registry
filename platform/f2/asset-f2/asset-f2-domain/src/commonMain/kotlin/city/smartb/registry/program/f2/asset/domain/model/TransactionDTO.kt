@@ -5,6 +5,7 @@ import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
@@ -30,6 +31,7 @@ interface TransactionDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class TransactionDTOBase(
     override val id: TransactionId,
     override val poolId: AssetPoolId,

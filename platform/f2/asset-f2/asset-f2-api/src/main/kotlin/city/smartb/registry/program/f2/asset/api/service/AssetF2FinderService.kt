@@ -24,6 +24,11 @@ class AssetF2FinderService(
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
     private val projectFinderService: ProjectFinderService
 ) {
+
+    suspend fun assetTransactionGet(id: TransactionId): TransactionDTOBase {
+        return assetPoolFinderService.getTransaction(id).toDTO()
+    }
+
     suspend fun page(
         projectId: Match<ProjectId>?,
         transactionId: Match<TransactionId>? = null,
