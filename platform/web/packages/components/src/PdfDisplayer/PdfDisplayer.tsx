@@ -27,7 +27,6 @@ export const PdfDisplayer = (props: PdfDisplayerProps) => {
                     >
                         {AbsoluteLayer}
                         <Page
-                            key={`page_${1}`}
                             pageNumber={1}
                             className="pdfPage"
                             loading={<CircularProgress />}
