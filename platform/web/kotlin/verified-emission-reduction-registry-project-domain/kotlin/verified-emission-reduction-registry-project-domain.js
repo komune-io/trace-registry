@@ -43,6 +43,12 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
+  }});
+}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -52,12 +58,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
-  }});
-}
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -66606,7 +66606,7 @@ if (typeof Math.imul === 'undefined') {
     Roles_instance = this;
     this.ORCHESTRATOR = 'tr_orchestrator';
     this.PROJECT_MANAGER = 'tr_project_manager';
-    this.PROJECT_STAKEHOLDER = 'tr_project_stakeholder';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.n55 = function () {
     return this.ORCHESTRATOR;
@@ -66615,7 +66615,7 @@ if (typeof Math.imul === 'undefined') {
     return this.PROJECT_MANAGER;
   };
   Roles.prototype.p55 = function () {
-    return this.PROJECT_STAKEHOLDER;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {

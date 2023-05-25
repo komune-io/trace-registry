@@ -1660,7 +1660,7 @@ export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
         get ORCHESTRATOR(): string;
         get PROJECT_MANAGER(): string;
-        get PROJECT_STAKEHOLDER(): string;
+        get STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
@@ -3081,6 +3081,6 @@ export namespace city.smartb.registry.program.f2.project.client {
     }
 }
 export namespace city.smartb.registry.program.f2.project.client {
-    function projectClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<city.smartb.registry.program.f2.project.client.ProjectClient>;
+    function projectClient(urlBase: string, accessToken: string): f2.dsl.fnc.F2SupplierSingle<city.smartb.registry.program.f2.project.client.ProjectClient>;
 }
 export as namespace verified_emission_reduction_registry_project_f2_client;

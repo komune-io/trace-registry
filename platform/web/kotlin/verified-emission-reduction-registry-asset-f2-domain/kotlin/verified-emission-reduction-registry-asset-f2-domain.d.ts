@@ -1660,7 +1660,7 @@ export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
         get ORCHESTRATOR(): string;
         get PROJECT_MANAGER(): string;
-        get PROJECT_STAKEHOLDER(): string;
+        get STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
@@ -3144,6 +3144,13 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly quantity: number;
         readonly unit: string;
         readonly vintage: string;
+        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.query {
+    interface AssetCertificateDownloadQueryDTO {
+        readonly transactionId: string;
 
     }
 }
@@ -3156,6 +3163,16 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
         readonly available: number;
         readonly retired: number;
         readonly traded: number;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.query {
+    interface AssetTransactionGetQueryDTO {
+        readonly transactionId: string;
+
+    }
+    interface AssetTransactionGetResultDTO {
+        readonly item?: city.smartb.registry.program.f2.asset.domain.model.TransactionDTO;
 
     }
 }
@@ -3180,6 +3197,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
         canTransfer(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canOffset(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canRetire(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
+        canEmitTransactionForOther(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
     };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {

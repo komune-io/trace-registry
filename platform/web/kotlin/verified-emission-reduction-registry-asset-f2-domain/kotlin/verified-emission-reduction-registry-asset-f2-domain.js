@@ -2312,8 +2312,11 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetTransferCommandDTO, 'AssetTransferCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetTransferredEventDTO, 'AssetTransferredEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(TransactionDTO_0, 'TransactionDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetCertificateDownloadQueryDTO, 'AssetCertificateDownloadQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetGetStatsQueryDTO, 'AssetGetStatsQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetGetStatsResultDTO, 'AssetGetStatsResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetTransactionGetQueryDTO, 'AssetTransactionGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetTransactionGetResultDTO, 'AssetTransactionGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetTransactionPageQueryDTO, 'AssetTransactionPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetTransactionPageResultDTO, 'AssetTransactionPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
   setMetadataFor(AssetPolicies, 'AssetPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
@@ -63134,6 +63137,9 @@ if (typeof Math.imul === 'undefined') {
     }
     return tmp$ret$0;
   }
+  function hasRole_0(_this__u8e3s4, role) {
+    return contains_4(_this__u8e3s4.roles, role);
+  }
   var Role_IM_USER_READ_instance;
   var Role_IM_USER_WRITE_instance;
   var Role_IM_ORGANIZATION_READ_instance;
@@ -73945,7 +73951,7 @@ if (typeof Math.imul === 'undefined') {
     Roles_instance = this;
     this.ORCHESTRATOR = 'tr_orchestrator';
     this.PROJECT_MANAGER = 'tr_project_manager';
-    this.PROJECT_STAKEHOLDER = 'tr_project_stakeholder';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.r5g = function () {
     return this.ORCHESTRATOR;
@@ -73954,7 +73960,7 @@ if (typeof Math.imul === 'undefined') {
     return this.PROJECT_MANAGER;
   };
   Roles.prototype.t5g = function () {
-    return this.PROJECT_STAKEHOLDER;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {
@@ -103593,9 +103599,15 @@ if (typeof Math.imul === 'undefined') {
   }
   function TransactionDTO_0() {
   }
+  function AssetCertificateDownloadQueryDTO() {
+  }
   function AssetGetStatsQueryDTO() {
   }
   function AssetGetStatsResultDTO() {
+  }
+  function AssetTransactionGetQueryDTO() {
+  }
+  function AssetTransactionGetResultDTO() {
   }
   function AssetTransactionPageQueryDTO() {
   }
@@ -103641,7 +103653,7 @@ if (typeof Math.imul === 'undefined') {
         Roles_getInstance();
         Roles_getInstance();
         Roles_getInstance();
-        return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_project_stakeholder']);
+        return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_stakeholder']);
       } else {
         tmp_0 = false;
       }
@@ -103666,7 +103678,7 @@ if (typeof Math.imul === 'undefined') {
         Roles_getInstance();
         Roles_getInstance();
         Roles_getInstance();
-        return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_project_stakeholder']);
+        return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_stakeholder']);
       } else {
         tmp_0 = false;
       }
@@ -103701,6 +103713,10 @@ if (typeof Math.imul === 'undefined') {
     }
     tmp$ret$1 = tmp;
     return tmp$ret$1;
+  };
+  AssetPolicies.prototype.canEmitTransactionForOther = function (authedUser) {
+    Roles_getInstance();
+    return hasRole_0(authedUser, 'tr_orchestrator');
   };
   var AssetPolicies_instance;
   function AssetPolicies_getInstance() {
@@ -105827,6 +105843,22 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
     var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
     var $city$smartb$registry$program$f2$asset$domain$model = $city$smartb$registry$program$f2$asset$domain.model || ($city$smartb$registry$program$f2$asset$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
+    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
+    var $city$smartb$registry$program$f2$asset$domain$query = $city$smartb$registry$program$f2$asset$domain.query || ($city$smartb$registry$program$f2$asset$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
+    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
+    var $city$smartb$registry$program$f2$asset$domain$query = $city$smartb$registry$program$f2$asset$domain.query || ($city$smartb$registry$program$f2$asset$domain.query = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

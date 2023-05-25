@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -62572,6 +62572,9 @@ if (typeof Math.imul === 'undefined') {
   function hasRole(_this__u8e3s4, role) {
     return contains_4(_this__u8e3s4.roles, role.d4v_1);
   }
+  function hasRole_0(_this__u8e3s4, role) {
+    return contains_4(_this__u8e3s4.roles, role);
+  }
   function hasOneOfRoles(_this__u8e3s4, roles) {
     var tmp$ret$0;
     $l$block: {
@@ -62591,9 +62594,6 @@ if (typeof Math.imul === 'undefined') {
       tmp$ret$0 = false;
     }
     return tmp$ret$0;
-  }
-  function hasRole_0(_this__u8e3s4, role) {
-    return contains_4(_this__u8e3s4.roles, role);
   }
   var Role_IM_USER_READ_instance;
   var Role_IM_USER_WRITE_instance;
@@ -66645,7 +66645,7 @@ if (typeof Math.imul === 'undefined') {
     Roles_instance = this;
     this.ORCHESTRATOR = 'tr_orchestrator';
     this.PROJECT_MANAGER = 'tr_project_manager';
-    this.PROJECT_STAKEHOLDER = 'tr_project_stakeholder';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.n55 = function () {
     return this.ORCHESTRATOR;
@@ -66654,7 +66654,7 @@ if (typeof Math.imul === 'undefined') {
     return this.PROJECT_MANAGER;
   };
   Roles.prototype.p55 = function () {
-    return this.PROJECT_STAKEHOLDER;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {
@@ -91932,16 +91932,10 @@ if (typeof Math.imul === 'undefined') {
     ActivityPolicies_instance = this;
   }
   ActivityPolicies.prototype.canPage = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_project_stakeholder']);
+    return true;
   };
   ActivityPolicies.prototype.canPageSteps = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles(authedUser, ['tr_orchestrator', 'tr_project_manager', 'tr_project_stakeholder']);
+    return true;
   };
   ActivityPolicies.prototype.canCreate = function (authedUser) {
     Roles_getInstance();

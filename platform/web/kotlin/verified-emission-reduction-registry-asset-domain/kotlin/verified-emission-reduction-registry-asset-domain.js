@@ -16387,7 +16387,7 @@ if (typeof Math.imul === 'undefined') {
     Roles_instance = this;
     this.ORCHESTRATOR = 'tr_orchestrator';
     this.PROJECT_MANAGER = 'tr_project_manager';
-    this.PROJECT_STAKEHOLDER = 'tr_project_stakeholder';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.b12 = function () {
     return this.ORCHESTRATOR;
@@ -16396,7 +16396,7 @@ if (typeof Math.imul === 'undefined') {
     return this.PROJECT_MANAGER;
   };
   Roles.prototype.d12 = function () {
-    return this.PROJECT_STAKEHOLDER;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {

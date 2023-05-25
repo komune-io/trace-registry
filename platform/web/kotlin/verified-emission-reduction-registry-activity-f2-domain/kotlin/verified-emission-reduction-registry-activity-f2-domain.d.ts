@@ -1660,7 +1660,7 @@ export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
         get ORCHESTRATOR(): string;
         get PROJECT_MANAGER(): string;
-        get PROJECT_STAKEHOLDER(): string;
+        get STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
