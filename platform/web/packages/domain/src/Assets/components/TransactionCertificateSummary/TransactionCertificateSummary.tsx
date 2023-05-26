@@ -26,7 +26,7 @@ export const TransactionCertificateSummary = (props: TransactionCertificatePageP
                 gap={6}
             >
                 <AssetsTransactionDetails isLoading={isLoading} transaction={transaction}/>
-                <AssetsImpactDetails isLoading={isLoading} project={project} />
+                <AssetsImpactDetails isLoading={isLoading} project={project} transaction={transaction} />
                 <AssetsTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />
             </Stack>
     )

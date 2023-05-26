@@ -2,7 +2,7 @@ import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2
 import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {AssetsTransactionStatus, Transaction} from 'domain-components';
+import {Transaction} from 'domain-components';
 
 export interface ProjectTransactionDetailsProps {
     isLoading: boolean
@@ -11,7 +11,6 @@ export interface ProjectTransactionDetailsProps {
 
 export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) => {
     let { isLoading, transaction } = props
-
     const { t } = useTranslation()
 
     const formState = useFormComposable({
@@ -25,29 +24,28 @@ export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) 
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Transaction | "purchasedBy" | "retirementDate">[] =>
-        [{ // enlever | "purchasedby" | "retirementDate", quand back accessible
-            name: "type",
-            type: "textField",
-            label: t('status'),
+    const fields = useMemo((): FormComposableField<keyof Transaction>[] =>
+        [{
+            name: "date",
+            type: "datePicker",
+            label: t('offsetDate'),
             params: {
-                orientation: "horizontal",
-                readonlyType: "customElement",
-                readonlyElement: AssetsTransactionStatus
+                // @ts-ignore
+                orientation: "horizontal"
             }
         },
         {
-            name: "retirementDate",
+            name: "by",
             type: "textField",
-            label: t('retirementDate'),
+            label: t('offsettedBy'),
             params: {
                 orientation: "horizontal"
             }
         },
         {
-            name: "purchasedBy",
+            name: "to",
             type: "textField",
-            label: t('purchasedBy'),
+            label: t('offsettedFor'),
             params: {
                 orientation: "horizontal"
             }

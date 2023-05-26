@@ -1,24 +1,14 @@
-import {IconButton, Stack} from '@mui/material'
-import {DownloadIcon, PdfDisplayer} from "components";
+import {Stack} from '@mui/material'
+import {PdfDisplayer} from "components";
 import {config} from "domain-components/src/config";
 import {Transaction} from "domain-components";
 
 export interface TransactionPdfCertificateProps {
-    transaction : Transaction
+    transaction? : Transaction
 }
 
 export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps) => {
     const { transaction,  } = props
-    const downloadButton = (
-        <IconButton sx={{
-            marginLeft: "75%",
-            bottom: "-50px",
-            zIndex: 5
-
-        }} aria-label="download" href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} >
-            <DownloadIcon />
-        </IconButton>
-    )
 
     return (
         <Stack
@@ -38,8 +28,7 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
                 }
             }}
         >
-
-            <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction.id}`} AbsoluteLayer={downloadButton}/>
+            <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>
        </Stack>
     )
 }

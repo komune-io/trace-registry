@@ -1,14 +1,13 @@
 import {CircularProgress} from "@mui/material";
 import {Document, Page} from "react-pdf/dist/esm/entry.vite";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 interface PdfDisplayerProps {
     file?: string
-    AbsoluteLayer: React.ReactNode
 }
 
 export const PdfDisplayer = (props: PdfDisplayerProps) => {
-    const { file, AbsoluteLayer } = props
+    const { file } = props
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +24,6 @@ export const PdfDisplayer = (props: PdfDisplayerProps) => {
                         file={file}
                         loading={<CircularProgress />}
                     >
-                        {AbsoluteLayer}
                         <Page
                             pageNumber={1}
                             className="pdfPage"
