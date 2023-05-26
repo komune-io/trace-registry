@@ -6,8 +6,20 @@ import city.smartb.registry.program.f2.asset.api.service.AssetF2FinderService
 import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
-import city.smartb.registry.program.f2.asset.domain.command.*
-import city.smartb.registry.program.f2.asset.domain.query.*
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
+import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetResult
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
@@ -20,7 +32,12 @@ import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.server.reactive.ServerHttpResponse
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
 @RestController
