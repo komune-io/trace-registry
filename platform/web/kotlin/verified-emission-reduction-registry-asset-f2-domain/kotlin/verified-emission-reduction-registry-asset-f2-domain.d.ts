@@ -2825,6 +2825,14 @@ export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
 
     }
 }
+export namespace city.smartb.registry.program.s2.asset.domain.model {
+    interface AssetPoolStats {
+        readonly available: number;
+        readonly retired: number;
+        readonly transferred: number;
+
+    }
+}
 export namespace f2.client {
     interface F2Client {
         supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
@@ -3053,6 +3061,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.model {
         readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly granularity: number;
         readonly wallets: Record<string, number>;
+        readonly stats: city.smartb.registry.program.s2.asset.domain.model.AssetPoolStats;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */;
 
     }
@@ -3155,14 +3164,14 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.query {
-    interface AssetGetStatsQueryDTO {
+    interface AssetStatsGetQueryDTO {
         readonly projectId: string;
 
     }
-    interface AssetGetStatsResultDTO {
+    interface AssetStatsGetResultDTO {
         readonly available: number;
         readonly retired: number;
-        readonly traded: number;
+        readonly transferred: number;
 
     }
 }

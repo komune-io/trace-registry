@@ -29,6 +29,19 @@ class AssetPoolEntity: WithS2Id<AssetPoolId>, WithS2State<AssetPoolState> {
 
     var wallets: MutableMap<String, BigDecimalAsString> = mutableMapOf()
 
+    var stats: PoolEntityStats = PoolEntityStats(
+        available = BigDecimalAsString.ZERO,
+        retired = BigDecimalAsString.ZERO,
+        transferred = BigDecimalAsString.ZERO
+    )
+
     override fun s2Id() = id
     override fun s2State() = status
 }
+
+
+data class PoolEntityStats(
+   val available: BigDecimalAsString,
+   val retired: BigDecimalAsString,
+   val transferred: BigDecimalAsString
+)

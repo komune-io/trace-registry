@@ -1,8 +1,10 @@
 package city.smartb.registry.program.f2.asset.api.service
 
+import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.api.commons.model.SimpleCache
 import city.smartb.registry.program.f2.asset.api.model.toDTO
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
+import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetResultDTOBase
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
@@ -62,6 +64,23 @@ class AssetF2FinderService(
     private suspend fun Transaction.toDTO(cache: Cache = Cache()) = toDTO(
         getAssetPool = cache.pools::get
     )
+
+    suspend fun assetStatsGet(projectId: ProjectId): AssetStatsGetResultDTOBase {
+        val project = projectFinderService.get(projectId)
+        return project.assetPools.map { poolId ->
+            assetPoolF2FinderService.get(poolId)
+        }.foldRight(AssetStatsGetResultDTOBase(
+                available = BigDecimalAsString.ZERO,
+                retired = BigDecimalAsString.ZERO,
+                transferred = BigDecimalAsString.ZERO
+        )) { assetPool, acc ->
+            AssetStatsGetResultDTOBase(
+                    available = assetPool.stats.available + acc.available,
+                    retired = assetPool.stats.retired + acc.retired,
+                    transferred = assetPool.stats.transferred + acc.transferred
+            )
+        }
+    }
 
     private inner class Cache {
         val pools = SimpleCache(assetPoolF2FinderService::get)

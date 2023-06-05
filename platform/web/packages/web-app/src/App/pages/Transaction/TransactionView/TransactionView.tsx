@@ -22,7 +22,7 @@ export const TransactionView = (_: TransactionViewProps) => {
     const { t } = useTranslation()
     const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
     const project = projectQuery.data?.item
-    const transactionQuery = useAssetTransactionGetQuery({ query: { transactionId: transactionId! } })
+    const transactionQuery = useAssetTransactionGetQuery({ query: { transactionId: transactionId ?? "" }, options: { enabled: !!transactionId } })
     const transaction = transactionQuery.data?.item
     const navigate = useNavigate()
     const { projectsProjectIdViewTabAll } = useRoutesDefinition()

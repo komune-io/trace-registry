@@ -23,7 +23,7 @@ export const AssetsBalanceBanner = (props: ProjectBalanceBannerProps) => {
             initialValues: {
                 retired: assetQuery.data?.retired ?? 0,
                 available: assetQuery.data?.available ?? 0,
-                traded: assetQuery.data?.traded ?? 0
+                transferred: assetQuery.data?.transferred ?? 0
             }
         }
     })
@@ -43,7 +43,7 @@ export const AssetsBalanceBanner = (props: ProjectBalanceBannerProps) => {
                 >
                 <AssetsDataSummary name={"available"} icon={<ArrowUpwardRounded sx={{ color: "#159D50" }}/>} label={t("projects.assets.availableQuantity")} formState={formState} />
                 <AssetsDataSummary name={"retired"} icon={<DownloadRounded sx={{ color: "#F36D25" }}/>} label={t("projects.assets.retiredQuantity")} formState={formState} />
-                <AssetsDataSummary name={"traded"} icon={<CompareArrowsRounded sx={{ color: "#284FDB" }}/>} label={t("projects.assets.tradedQuantity")} formState={formState} />
+                <AssetsDataSummary name={"transferred"} icon={<CompareArrowsRounded sx={{ color: "#284FDB" }}/>} label={t("projects.assets.transferredQuantity")} formState={formState} />
             </Stack>
         </>
     )

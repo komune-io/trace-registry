@@ -8,8 +8,7 @@ export interface TransactionPdfCertificateProps {
 }
 
 export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps) => {
-    const { transaction,  } = props
-
+    const { transaction } = props
     return (
         <Stack
             alignItems="center"

@@ -14,12 +14,13 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetResult
-import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
-import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
+import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
@@ -109,7 +110,6 @@ class AssetEndpoint(
             .let { AssetRetiredEventDTOBase(it.transactionId) }
     }
 
-
     @PostMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(
         @RequestBody query: AssetCertificateDownloadQuery,
@@ -133,10 +133,17 @@ class AssetEndpoint(
         }
     }
 
-    @PermitAll
     @Bean
+    @PermitAll
     override fun assetTransactionGet(): AssetTransactionGetFunction = f2Function { query ->
         logger.info("assetTransactionGet: $query")
         assetF2FinderService.assetTransactionGet(query.transactionId).let(::AssetTransactionGetResult)
+    }
+
+    @Bean
+    @PermitAll
+    override fun assetStatsGet(): AssetStatsGetFunction = f2Function { query ->
+        logger.info("assetStatsGet: $query")
+        assetF2FinderService.assetStatsGet(query.projectId)
     }
 }

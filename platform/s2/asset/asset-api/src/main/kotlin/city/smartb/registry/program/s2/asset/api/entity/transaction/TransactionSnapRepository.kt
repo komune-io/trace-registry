@@ -20,4 +20,8 @@ class TransactionSnapRepository(
     override suspend fun save(entity: TransactionEntity): TransactionEntity {
         return repository.save(entity)
     }
+
+    fun clean() {
+        repository.deleteAll()
+    }
 }

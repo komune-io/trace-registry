@@ -13,13 +13,13 @@ export const useAssetTransactionPage = (params: QueryParams<AssetTransactionPage
 }
 
 
-export interface AssetGetQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetGetStatsQueryDTO { }
-export interface AssetGetResult extends city.smartb.registry.program.f2.asset.domain.query.AssetGetStatsResultDTO { }
+export interface AssetGetQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetQueryDTO { }
+export interface AssetGetResult extends city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetResultDTO { }
 
 export const useAssetGetQuery = (params: QueryParams<AssetGetQuery, AssetGetResult>) => {
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<AssetGetQuery, AssetGetResult>(
-        "assetGetStats", requestProps, params
+        "assetStatsGet", requestProps, params
     )
 }
 export interface AssetTransactionGetQuery extends city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetQueryDTO { }

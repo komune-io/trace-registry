@@ -171,7 +171,7 @@
       "certificate": "View certificate",
       "availableQuantity" : "Available quantity",
       "retiredQuantity" : "Retired quantity",
-      "tradedQuantity" : "Traded quantity",
+      "transferredQuantity" : "Transferred quantity",
       "tons" :  "Tons",
       "serial": "Serial #",
       "transactionInformations":  "Transaction informations",

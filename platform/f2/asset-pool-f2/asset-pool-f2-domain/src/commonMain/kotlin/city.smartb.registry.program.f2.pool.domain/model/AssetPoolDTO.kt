@@ -5,6 +5,8 @@ import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
+import city.smartb.registry.program.s2.asset.domain.model.AssetPoolStats
+import city.smartb.registry.program.s2.asset.domain.model.AssetPoolStatsBase
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsExport
@@ -21,6 +23,7 @@ interface AssetPoolDTO: WithS2State<AssetPoolState> {
     val indicator: InformationConceptDTO
     val granularity: Double
     val wallets: Map<String, BigDecimalAsNumber>
+    val stats: AssetPoolStats
 }
 
 /**
@@ -33,7 +36,8 @@ data class AssetPoolDTOBase(
     override val vintage: String,
     override val indicator: InformationConceptDTOBase,
     override val granularity: Double,
-    override val wallets: Map<String, BigDecimalAsNumber>
+    override val wallets: Map<String, BigDecimalAsNumber>,
+    override val stats: AssetPoolStatsBase,
 ): AssetPoolDTO {
     override fun s2State() = AssetPoolState.valueOf(status)
 }

@@ -20,4 +20,8 @@ class AssetPoolSnapRepository(
     override suspend fun save(entity: AssetPoolEntity): AssetPoolEntity {
         return repository.save(entity)
     }
+
+    fun clean() {
+        repository.deleteAll()
+    }
 }

@@ -2825,4 +2825,12 @@ export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
 
     }
 }
+export namespace city.smartb.registry.program.s2.asset.domain.model {
+    interface AssetPoolStats {
+        readonly available: number;
+        readonly retired: number;
+        readonly transferred: number;
+
+    }
+}
 export as namespace verified_emission_reduction_registry_asset_domain;

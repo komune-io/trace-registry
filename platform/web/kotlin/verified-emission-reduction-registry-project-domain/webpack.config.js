@@ -13,11 +13,11 @@ let config = {
 
 // entry
 config.entry = {
-    main: ["D:\\Documents\\SmartB\\Trace\\build\\js\\packages\\verified-emission-reduction-registry-project-domain\\kotlin\\verified-emission-reduction-registry-project-domain.js"]
+    main: ["/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/build/js/packages/verified-emission-reduction-registry-project-domain/kotlin/verified-emission-reduction-registry-project-domain.js"]
 };
 
 config.output = {
-    path: "D:\\Documents\\SmartB\\Trace\\platform\\s2\\project\\project-domain\\build\\distributions",
+    path: "/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/platform/s2/project/project-domain/build/distributions",
     filename: (chunkData) => {
         return chunkData.chunk.name === 'main'
             ? "project-domain.js"
@@ -44,7 +44,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const handler = (percentage, message, ...args) => {
         const p = percentage * 100;
         let msg = `${Math.trunc(p / 10)}${Math.trunc(p % 10)}% ${message} ${args.join(' ')}`;
-        msg = msg.replace("D:\\Documents\\SmartB\\Trace\\build\\js", '');;
+        msg = msg.replace("/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/build/js", '');;
         console.log(msg);
     };
 
@@ -66,7 +66,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const util = require('util');
     const fs = require('fs');
     const evaluatedConfig = util.inspect(config, {showHidden: false, depth: null, compact: false});
-    fs.writeFile("D:\\Documents\\SmartB\\Trace\\platform\\s2\\project\\project-domain\\build\\reports\\webpack\\verified-emission-reduction-registry-project-domain\\webpack.config.evaluated.js", evaluatedConfig, function (err) {});
+    fs.writeFile("/home/adrien/dev/smartb/git/framework/registry/verified-emission-reduction-registry/platform/s2/project/project-domain/build/reports/webpack/verified-emission-reduction-registry-project-domain/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
 })(config);
 
 module.exports = config
