@@ -69,7 +69,7 @@ function useTransactionColumn() {
     }), [t]);
 }
 
-export interface ProjectTransactionsTableProps extends Partial<OffsetTableProps<Transaction>>{
+export interface AssetsTransactionsTableProps extends Partial<OffsetTableProps<Transaction>>{
     onOffsetChange?: (newOffset: OffsetPagination) => void
     page?: PageQueryResult<Transaction>
     pagination: OffsetPagination
@@ -78,7 +78,7 @@ export interface ProjectTransactionsTableProps extends Partial<OffsetTableProps<
     selectedTransaction: Transaction | undefined
 }
 
-export const AssetsTransactionsTable = (props: ProjectTransactionsTableProps) => {
+export const AssetsTransactionsTable = (props: AssetsTransactionsTableProps) => {
     const { isLoading, page, onOffsetChange, pagination, onTransactionClick, selectedTransaction, sx, header, ...other } = props
     const { t } = useTranslation()
 
