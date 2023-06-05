@@ -18,6 +18,7 @@ object CertificateGenerator {
     private const val FIELD_PROJECT = "(projet)"
     private const val FIELD_CARBON = "(nombre)"
     private const val FIELD_CARBON_INDICATOR = "(indicateur)"
+    private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
 
     fun fill(
         transactionId: TransactionId,
@@ -31,7 +32,7 @@ object CertificateGenerator {
 
         val company = "Sustainable Future Group"
         val project = "Certicongo"
-
+        val verb = if (quantity > BigDecimal.ONE) "Have been" else "Has Been"
         return PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
             .readAllBytes()
@@ -43,6 +44,7 @@ object CertificateGenerator {
             .replace(FIELD_PROJECT, project)
             .replace(FIELD_CARBON, quantity.toPlainString())
             .replace(FIELD_CARBON_INDICATOR, indicator)
+            .replace(FIELD_CARBON_INDICATOR_VERB, verb)
             .let(HtmlToPdfConverter::htmlToPdfB64)
     }
 }

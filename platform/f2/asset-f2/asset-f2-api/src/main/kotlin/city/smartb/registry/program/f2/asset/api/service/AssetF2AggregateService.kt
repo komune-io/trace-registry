@@ -50,7 +50,7 @@ class AssetF2AggregateService(
             date = createdEvent.date,
             issuedTo = command.to,
             quantity = command.quantity,
-            indicator = assetPoolF2FinderService.get(createdEvent.id).indicator.unit!!.name
+            indicator = if(command.quantity > 1) "tons" else "ton",
         )
 
         val path = FilePath(

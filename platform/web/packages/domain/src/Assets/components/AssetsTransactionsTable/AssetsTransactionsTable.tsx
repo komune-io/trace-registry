@@ -5,6 +5,7 @@ import {useCallback, useMemo} from "react"
 import {OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult} from "template";
 import {useTranslation} from 'react-i18next';
 import {AssetsTransactionStatus, Transaction} from 'domain-components';
+import {QuantityLabel} from "components";
 
 function useTransactionColumn() {
     const { t } = useTranslation();
@@ -32,13 +33,13 @@ function useTransactionColumn() {
                 })
             }),
 
-
-            quantity: generators.text({
+            quantity:{
                 header: t("quantity"),
-                getCellProps: (registry) => ({
-                    value: registry.quantity?.toLocaleString() + ' tons'
-                })
-            }),
+                cell: ({ row }) => (
+                    <QuantityLabel value={row.original.quantity} />
+                ),
+                className: "quantityColumn"
+            },
 
             from: generators.text({
                 header: t("from"),

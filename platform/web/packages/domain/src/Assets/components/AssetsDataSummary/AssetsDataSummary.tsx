@@ -1,7 +1,7 @@
 import {FormComposable, FormComposableField, FormComposableState} from "@smartb/g2";
 import {Stack} from "@mui/material";
 import React, {useMemo} from "react";
-import {QuantityFormatter} from "./QuantityFormatter";
+import {QuantityFormatter} from "components";
 
 
 export interface ProjectDataSummaryProps {

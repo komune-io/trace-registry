@@ -2,7 +2,6 @@ import {Stack} from '@mui/material'
 import {
     AssetsImpactDetails,
     AssetsTransactionDetails,
-    AssetsTransactionHistory,
     Project,
     Transaction
 } from "domain-components";
@@ -27,7 +26,7 @@ export const TransactionCertificateSummary = (props: TransactionCertificatePageP
             >
                 <AssetsTransactionDetails isLoading={isLoading} transaction={transaction}/>
                 <AssetsImpactDetails isLoading={isLoading} project={project} transaction={transaction} />
-                <AssetsTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />
+                {/*<AssetsTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />*/}
             </Stack>
     )
 }

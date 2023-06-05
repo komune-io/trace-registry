@@ -51,7 +51,7 @@
   "retirementDate": "Retirement date",
   "purchasedBy": "Purchased by",
   "transaction": "Transaction #",
-  "dataTons":  "{{count}} $t(tons)",
+  "ton":  "ton",
   "tons":  "tons",
   "available": "Available",
   "issue": "Issued",

@@ -4,6 +4,7 @@ export * from "./Map"
 export * from "./Sdg"
 export * from "./SdgCard"
 export * from "./ProjectType"
+export * from "./Quantity"
 export * from "./PdfDisplayer"
 
 export * from "./auth"
