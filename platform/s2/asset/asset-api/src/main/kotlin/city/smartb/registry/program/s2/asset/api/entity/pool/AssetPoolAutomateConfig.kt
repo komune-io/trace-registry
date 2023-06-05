@@ -39,6 +39,7 @@ class AssetPoolAutomateConfig(
 
 	override fun afterPropertiesSet() {
 		super.afterPropertiesSet()
+		forceReloadAsset()
 		if (repository.count() == 0L) {
 			try {
 				runBlocking {
@@ -51,6 +52,10 @@ class AssetPoolAutomateConfig(
 				logger.error("Replay history error", e)
 			}
 		}
+	}
+
+	private fun forceReloadAsset() {
+		repository.deleteAll()
 	}
 
 	override fun automate() = s2AssetPool
