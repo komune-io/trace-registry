@@ -21,7 +21,7 @@ object Versions {
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
 //	val s2 = Framework.fixers
-	val s2 = "experimental-SNAPSHOT"
+	val s2 = "0.15.1"
 	val i2 = Framework.fixers
 	val fs = Framework.connect
 //	val im = Framework.connect
