@@ -83,6 +83,7 @@ private fun <E, T> match(x: MetamodelField<E, T>, matcher: OrMatch<T>): Predicat
 
 private fun <E, T> match(x: MetamodelField<E, T>, matcher: CollectionMatch<T>): Predicate<T> {
     return when {
+        matcher.values.isEmpty() -> Predicate { false }
         matcher.values.any { it == null } -> {
             val notNullValues = matcher.values.filterNotNull()
             if (notNullValues.isEmpty()) {
@@ -92,7 +93,6 @@ private fun <E, T> match(x: MetamodelField<E, T>, matcher: CollectionMatch<T>): 
                     .or(x.isNull())
             }
         }
-
         else -> x.inValues(matcher.values)
     }
 }

@@ -45,12 +45,16 @@ class AssetPoolFinderService(
         id: Match<TransactionId>?,
         poolId: Match<AssetPoolId>?,
         type: Match<TransactionType>?,
+        from: Match<String?>?,
+        to: Match<String?>?,
         offset: OffsetPagination?
     ): PageDTO<Transaction> {
         return transactionPageQueryDB.execute(
             id = id,
             poolId = poolId,
             type = type,
+            from = from,
+            to = to,
             offset= offset
         ).map(TransactionEntity::toTransaction)
     }

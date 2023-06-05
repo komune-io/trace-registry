@@ -19,6 +19,8 @@ interface AssetPoolFinder {
         id: Match<TransactionId>? = null,
         poolId: Match<AssetPoolId>? = null,
         type: Match<TransactionType>? = null,
+        from: Match<String?>? = null,
+        to: Match<String?>? = null,
         offset: OffsetPagination? = null
     ): PageDTO<Transaction>
 }

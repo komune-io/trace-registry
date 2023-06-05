@@ -5,6 +5,7 @@ import city.smartb.registry.program.f2.asset.api.model.toDTO
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.Transaction
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
@@ -13,6 +14,7 @@ import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
@@ -30,8 +32,11 @@ class AssetF2FinderService(
     }
 
     suspend fun page(
-        projectId: Match<ProjectId>?,
+        projectId: Match<ProjectId>? = null,
+        poolId: Match<AssetPoolId>? = null,
         transactionId: Match<TransactionId>? = null,
+        transactionFrom: Match<String?>? = null,
+        transactionTo: Match<String?>? = null,
         type: Match<TransactionType>? = null,
         offset: OffsetPagination? = null
     ): PageDTO<TransactionDTOBase> {
@@ -43,8 +48,13 @@ class AssetF2FinderService(
 
         return assetPoolFinderService.pageTransactions(
             id = transactionId,
-            poolId = projects?.flatMap(Project::assetPools)?.takeIf { it.isNotEmpty() }?.let(::CollectionMatch),
+            poolId = andMatchOfNotNull(
+                projects?.flatMap(Project::assetPools)?.let(::CollectionMatch),
+                poolId
+            ),
             type = type,
+            from = transactionFrom,
+            to = transactionTo,
             offset = offset
         ).map { it.toDTO(cache) }
     }

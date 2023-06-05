@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.asset.domain.query
 
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTO
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.cqrs.page.PageDTO
@@ -24,7 +25,10 @@ interface AssetTransactionPageQueryDTO {
     val limit: Int?
     val offset: Int?
     val projectId: ProjectId?
+    val poolId: AssetPoolId?
     val transactionId: TransactionId?
+    val transactionFrom: String?
+    val transactionTo: String?
     val type: String?
 }
 
@@ -35,7 +39,10 @@ data class AssetTransactionPageQueryDTOBase(
     override val limit: Int?,
     override val offset: Int?,
     override val projectId: ProjectId?,
+    override val poolId: AssetPoolId?,
     override val transactionId: TransactionId?,
+    override val transactionFrom: String?,
+    override val transactionTo: String?,
     override val type: String?
 ): AssetTransactionPageQueryDTO
 
