@@ -5,6 +5,7 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
 import f2.client.F2Client
@@ -25,4 +26,5 @@ open class AssetClient constructor(private val client: F2Client) : AssetApi {
     override fun assetRetire(): AssetRetireFunction = client.function(this::assetRetire.name)
     override fun assetTransactionGet(): AssetTransactionGetFunction = client.function(this::assetTransactionGet.name)
     override fun assetTransactionPage(): AssetTransactionPageFunction = client.function(this::assetTransactionPage.name)
+    override fun assetStatsGet(): AssetStatsGetFunction = client.function(this::assetTransactionPage.name)
 }
