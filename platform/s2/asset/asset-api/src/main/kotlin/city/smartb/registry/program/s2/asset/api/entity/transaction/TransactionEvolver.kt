@@ -17,7 +17,7 @@ class TransactionEvolver: View<TransactionEvent, TransactionEntity> {
 
     private suspend fun emit(event: TransactionEmittedEvent) = TransactionEntity().apply {
         id = event.id
-        status = TransactionState.EMITTED
+        status = TransactionState.SUBMITTED
         poolId = event.poolId
         from = event.from
         to = event.to

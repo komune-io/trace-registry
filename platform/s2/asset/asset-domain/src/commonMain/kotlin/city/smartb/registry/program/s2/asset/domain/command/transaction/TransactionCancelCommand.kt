@@ -1,21 +1,17 @@
 package city.smartb.registry.program.s2.asset.domain.command.transaction
 
-import city.smartb.fs.s2.file.domain.model.FilePath
+import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionCommand
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import kotlinx.serialization.Serializable
 
-@Deprecated("Use TransactionCertificateGenerateCommand")
-data class TransactionAddFileCommand(
+data class TransactionCancelCommand(
     override val id: TransactionId,
-    val file: FilePath
+    val raison: String,
 ): TransactionCommand
 
-@Deprecated("Use TransactionCertificateGeneratedEvent")
 @Serializable
-data class TransactionAddedFileEvent(
+data class TransactionCanceledEvent(
     override val id: TransactionId,
     override val date: Long,
-    val file: FilePath
 ): TransactionEvent
