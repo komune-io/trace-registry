@@ -98,7 +98,7 @@ class AssetPoolAggregateService(
 
 	override suspend fun addFileTransaction(command: TransactionAddFileCommand): TransactionAddedFileEvent = transactionAutomate.transition(command) {
 		TransactionAddedFileEvent(
-			id = UUID.randomUUID().toString(),
+			id = command.id,
 			date = System.currentTimeMillis(),
 			file = command.file
 		)

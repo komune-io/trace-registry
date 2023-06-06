@@ -5,7 +5,6 @@ import {useTranslation} from "react-i18next";
 import {AssetsTransactionStatus} from "./AssetsTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
 import {Project, Transaction} from 'domain-components';
-import {config} from "../../../config";
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
 
@@ -78,14 +77,7 @@ export const AssetsTransactionInformations = (props: ProjectTransactionInformati
                         </IconButton>
                     </Stack>
                     <Divider />
-                    <Link
-                        href={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}
-                        target="_blank"
-                        rel="noopener"
-                        underline="hover"
-                    >
-                        {t("projects.assets.transactionId", { id: transaction?.id })}
-                    </Link>
+                    {t("projects.assets.transactionId", { id: transaction?.id })}
                     <FormComposable fields={fields} formState={formState} sx={{margin : (theme) => `${theme.spacing(2)} 0`}}/>
                     <Link onClick={transactionLink} sx={{cursor: 'pointer'}}>
                         {t("projects.assets.certificate")}

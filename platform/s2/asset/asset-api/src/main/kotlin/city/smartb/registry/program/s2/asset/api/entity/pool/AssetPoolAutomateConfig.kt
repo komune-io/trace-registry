@@ -39,7 +39,7 @@ class AssetPoolAutomateConfig(
 
 	override fun afterPropertiesSet() {
 		super.afterPropertiesSet()
-//		forceReloadAsset()
+//		forceReload()
 		if (repository.count() == 0L) {
 			try {
 				runBlocking {
@@ -54,7 +54,7 @@ class AssetPoolAutomateConfig(
 		}
 	}
 
-	private fun forceReloadAsset() {
+	private fun forceReload() {
 		repository.deleteAll()
 	}
 

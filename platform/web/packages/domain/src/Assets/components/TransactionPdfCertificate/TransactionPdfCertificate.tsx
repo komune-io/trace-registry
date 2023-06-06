@@ -27,7 +27,7 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
                 }
             }}
         >
-            <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>
+            {transaction && <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>}
        </Stack>
     )
 }

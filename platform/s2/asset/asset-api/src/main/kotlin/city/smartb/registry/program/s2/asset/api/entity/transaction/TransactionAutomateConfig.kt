@@ -36,6 +36,7 @@ class TransactionAutomateConfig(
 
 	override fun afterPropertiesSet() {
 		super.afterPropertiesSet()
+		forceReload()
 		if (repository.count() == 0L) {
 			try {
 				runBlocking {
@@ -48,6 +49,10 @@ class TransactionAutomateConfig(
 				logger.error("Replay history error", e)
 			}
 		}
+	}
+
+	private fun forceReload() {
+		repository.deleteAll()
 	}
 
 	override fun automate() = s2Transaction

@@ -23,6 +23,7 @@ import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetRes
 import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
+import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
@@ -124,11 +125,11 @@ class AssetEndpoint(
     @PermitAll
     @GetMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(
-        @RequestParam transactionId: String,
+        @RequestParam transactionId: TransactionId,
         response: ServerHttpResponse
     ): AssetCertificateDownloadResult? {
         logger.info("assetCertificateDownload: $transactionId")
-        return fsService.downloadFile(response){
+        return fsService.downloadFile(response) {
             assetPoolFinderService.getTransaction(transactionId).file
         }
     }
