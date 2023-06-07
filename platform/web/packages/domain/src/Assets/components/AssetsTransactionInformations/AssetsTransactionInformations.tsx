@@ -8,17 +8,18 @@ import {Project, Transaction} from 'domain-components';
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
 
-export interface ProjectTransactionInformationsProps {
+export interface AssetsTransactionInformationsProps {
     isLoading: boolean
     transaction?: Transaction
     onBack: () => void
     project : Project
 }
 
-export const AssetsTransactionInformations = (props: ProjectTransactionInformationsProps) => {
+export const AssetsTransactionInformations = (props: AssetsTransactionInformationsProps) => {
     let { isLoading, transaction, project, onBack } = props
 
     const { t } = useTranslation()
+    // REMOVE From Here Add GoBack Link
     const { projectsProjectIdTransactionsTransactionIdView } = useRoutesDefinition()
     const navigate = useNavigate();
     const formState = useFormComposable({

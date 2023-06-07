@@ -2,18 +2,16 @@ import {Stack} from '@mui/material'
 import {
     AssetsImpactDetails,
     AssetsTransactionDetails,
-    Project,
     Transaction
 } from "domain-components";
 
 export interface TransactionCertificatePageProps {
     isLoading: boolean
     transaction?: Transaction
-    project?: Project
 }
 
 export const TransactionCertificateSummary = (props: TransactionCertificatePageProps) => {
-    const { isLoading, transaction, project } = props
+    const { isLoading, transaction } = props
 
     return (
             <Stack
@@ -25,8 +23,7 @@ export const TransactionCertificateSummary = (props: TransactionCertificatePageP
                 gap={6}
             >
                 <AssetsTransactionDetails isLoading={isLoading} transaction={transaction}/>
-                <AssetsImpactDetails isLoading={isLoading} project={project} transaction={transaction} />
-                {/*<AssetsTransactionHistory isLoading={isLoading} project={project} transaction={transaction} />*/}
+                <AssetsImpactDetails isLoading={isLoading} transaction={transaction} />
             </Stack>
     )
 }

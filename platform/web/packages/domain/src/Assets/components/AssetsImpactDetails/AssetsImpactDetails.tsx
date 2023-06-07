@@ -2,16 +2,15 @@ import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2
 import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {Project, Transaction} from 'domain-components';
+import {Transaction} from 'domain-components';
 
-export interface ProjectImpactDetailsProps {
+export interface AssetImpactDetailsProps {
     isLoading: boolean
-    project?: Project
     transaction?:  Transaction
 }
 
-export const AssetsImpactDetails = (props: ProjectImpactDetailsProps) => {
-    let { isLoading, project, transaction } = props
+export const AssetsImpactDetails = (props: AssetImpactDetailsProps) => {
+    let { isLoading, transaction } = props
     const { t } = useTranslation()
 
     const formState = useFormComposable({
@@ -20,45 +19,34 @@ export const AssetsImpactDetails = (props: ProjectImpactDetailsProps) => {
         emptyValueInReadonly: "-",
         formikConfig:{
             initialValues:{
-                ...project,
-                ...transaction,
+                vintage: transaction?.vintage,
                 amount : transaction ? transaction?.quantity + " " + transaction?.unit : "-"
             }
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Project | keyof Transaction | "projectPartner"| "amount" >[] => [{
-            name: "name",
-            type: "textField",
-            label: t('project'),
-            params: {
-                orientation: "horizontal"
+    const fields = useMemo((): FormComposableField[] =>  {
+        const values: FormComposableField[] = [
+            {
+                name: "amount",
+                type: "textField",
+                label: t('amount'),
+                params: {
+                    orientation: "horizontal"
+                }
+            },
+            {
+                name: "vintage",
+                type: "textField",
+                label: t('vintage'),
+                params: {
+                    orientation: "horizontal",
+                    hidden:  !!transaction?.vintage
+                }
             }
-        },
-        {
-            name: "vintage",
-            type: "textField",
-            label: t('vintage'),
-            params: {
-                orientation: "horizontal"
-            }
-        },
-        {
-            name: "amount",
-            type: "textField",
-            label: t('amount'),
-            params: {
-                orientation: "horizontal"
-            }
-        },
-        {
-            name: "projectPartner", // attente du back
-            type: "textField",
-            label: t('projects.partner'),
-            params: {
-                orientation: "horizontal"
-            }
-        }], [t])
+        ]
+        return values
+    }, [t])
 
     return (
         <Stack gap={1}>

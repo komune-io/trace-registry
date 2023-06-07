@@ -1,14 +1,14 @@
 import {Stack} from '@mui/material'
 import {AssetsTransactionInformations, Project, Transaction} from "domain-components";
 
-export interface ProjectTransactionPageProps {
+export interface AssetsTransactionPageProps {
     isLoading: boolean
     onBack: () => void
     project: Project
     transaction?: Transaction
 }
 
-export const AssetsTransactionPage = (props: ProjectTransactionPageProps) => {
+export const AssetsTransactionPage = (props: AssetsTransactionPageProps) => {
     const { isLoading, transaction, project, onBack } = props
 
     return (

@@ -26,18 +26,19 @@ export const TransactionView = (_: TransactionViewProps) => {
 
     const navigateAssets = useCallback(
         () => {
-            navigate(projectsProjectIdViewTabAll(projectId!, "assets"))
+            projectId && navigate(projectsProjectIdViewTabAll(projectId, "assets"))
         },
         [projectId],
     )
+
 
     return (
         <AppPage title={transaction ? t("projects.assets.transactionCertificate", { id: transaction.id }) : t('transaction')} >
             <Section headerProps={{
                 content: [{
-                    leftPart: [
+                    leftPart: projectId ? [
                         <Button sx={{zIndex: 5}} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />} onClick={navigateAssets}>{t('back')}</Button>
-                    ],
+                    ] : [],
                     rightPart: transaction?.file ? [
                         <Button sx={{
                             color: "white"

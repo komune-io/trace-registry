@@ -23,6 +23,7 @@ const strictRoutesAuthorizations = {
     "projects/:projectId/view/:tab?/*": "open",
     "projects/:projectId/transactions/:transactionId/view": "open",
     ...IMRoutesAuthorizations,
+    "transactions/:transactionId": "open",
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations

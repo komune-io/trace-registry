@@ -7,13 +7,13 @@ import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/ic
 import {TransactionDataHistory} from "./TransactionDataHistory";
 
 
-export interface ProjectTransactionHistoryProps {
+export interface AssetsTransactionHistoryProps {
     isLoading: boolean
     project?: Project
     transaction?: Transaction
 }
 
-export const AssetsTransactionHistory = (props: ProjectTransactionHistoryProps) => {
+export const AssetsTransactionHistory = (props: AssetsTransactionHistoryProps) => {
     const { isLoading, project, transaction } = props
 
     const { t } = useTranslation()
