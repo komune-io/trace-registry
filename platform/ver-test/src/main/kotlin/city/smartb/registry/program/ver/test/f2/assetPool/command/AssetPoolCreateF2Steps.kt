@@ -53,7 +53,8 @@ class AssetPoolCreateF2Steps: En, VerCucumberStepsDefinition() {
 
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
         command = AssetPoolCreateCommandDTOBase(
-            projectId = context.projectIds[params.project] ?: params.project,
+//            projectId = context.projectIds[params.project] ?: params.project,
+            indicator = "carbon",
             vintage = params.vintage,
             granularity = params.granularity
         )

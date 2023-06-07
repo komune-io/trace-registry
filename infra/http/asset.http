@@ -48,7 +48,7 @@ Authorization: Bearer {{rockfeller_accessToken}}
 
 {
   "vintage": "2013",
-  "indicator": "tonnes",
+  "indicator": "carbon",
   "granularity": "0.001",
   "projectId": "{{assetProjectId}}"
 }
@@ -91,25 +91,25 @@ Authorization: Bearer {{offseter_accessToken}}
 }
 
 #### assetOffset second
-#POST {{urlbase}}/assetOffset
-#Content-Type: application/json
-#Authorization: Bearer {{offseter_accessToken}}
-#
-#{
-#  "poolId": "{{poolId}}",
-#  "from": "{{offseter}}",
-#  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-#  "quantity": 42.141
-#}
-#
-#### ShouldNotWork
-#POST {{urlbase}}/assetOffset
-#Content-Type: application/json
-#Authorization: Bearer {{offseter_accessToken}}
-#
-#{
-#  "poolId": "{{poolId}}",
-#  "from": "ShouldNotWork",
-#  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-#  "quantity": 42.141
-#}
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "{{offseter}}",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}
+
+### ShouldNotWork
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "ShouldNotWork",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}

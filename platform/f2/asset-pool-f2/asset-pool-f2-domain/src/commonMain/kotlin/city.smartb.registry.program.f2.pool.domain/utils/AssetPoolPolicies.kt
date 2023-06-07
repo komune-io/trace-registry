@@ -18,8 +18,8 @@ import kotlin.js.JsExport
 
 @JsExport
 object AssetPoolPolicies {
-    fun canCreate(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean = canTransitionAnd<ProjectAddAssetPoolCommand>(project) {
-        authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+    fun canCreate(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
     }
 
     fun canHold(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolHoldCommand>(assetPool) {
@@ -38,7 +38,4 @@ object AssetPoolPolicies {
         return assetPool != null && s2AssetPool.canExecuteTransitionAnd<C>(assetPool, hasAccess)
     }
 
-    private inline fun <reified C: ProjectCommand> canTransitionAnd(project: ProjectDTO?, hasAccess: () -> Boolean): Boolean {
-        return project != null && s2Project.canExecuteTransitionAnd<C>(project, hasAccess)
-    }
 }
