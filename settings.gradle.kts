@@ -30,10 +30,17 @@ include(
 	"platform:f2:activity-f2:activity-f2-domain"
 )
 
-//include(
-//	"platform:f2:asset-f2:asset-f2-api",
-//	"platform:f2:asset-f2:asset-f2-domain",
-//)
+include(
+	"platform:f2:asset-f2:asset-f2-api",
+	"platform:f2:asset-f2:asset-f2-client",
+	"platform:f2:asset-f2:asset-f2-domain"
+)
+
+include(
+	"platform:f2:asset-pool-f2:asset-pool-f2-api",
+	"platform:f2:asset-pool-f2:asset-pool-f2-client",
+	"platform:f2:asset-pool-f2:asset-pool-f2-domain"
+)
 
 include(
 	"platform:f2:project-f2:project-f2-api",
@@ -44,15 +51,14 @@ include(
 include(
 	"platform:infra:cccev",
 	"platform:infra:fs",
+	"platform:infra:im",
+	"platform:infra:pdf",
 	"platform:infra:redis"
 )
 
-//include(
-//	"platform:s2:asset:asset-api",
-//	"platform:s2:asset:asset-domain",
-//)
-
 include(
+	"platform:s2:asset:asset-api",
+	"platform:s2:asset:asset-domain",
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
 )

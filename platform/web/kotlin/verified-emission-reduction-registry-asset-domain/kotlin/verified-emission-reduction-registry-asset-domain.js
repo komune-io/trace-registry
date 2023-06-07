@@ -609,7 +609,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(WithS2State, 'WithS2State', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(WithS2IdAndStatus, 'WithS2IdAndStatus', interfaceMeta, undefined, [WithS2Id, WithS2State], undefined, undefined, []);
   setMetadataFor(Decide, 'Decide', interfaceMeta, undefined, [F2Function], undefined, undefined, []);
-  setMetadataFor(AuthedUserDTO_0, 'AuthedUserDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(Roles, 'Roles', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ExceptionCodes, 'ExceptionCodes', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(GeoLocationDTO, 'GeoLocationDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -779,6 +778,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetPoolCloseCommandDTO, 'AssetPoolCloseCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolHoldCommandDTO, 'AssetPoolHoldCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolResumeCommandDTO, 'AssetPoolResumeCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
+  setMetadataFor(AssetPoolStats, 'AssetPoolStats', interfaceMeta, undefined, undefined, undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -16384,54 +16384,20 @@ if (typeof Math.imul === 'undefined') {
   }
   function Decide() {
   }
-  function AuthedUserDTO_0() {
-  }
   function Roles() {
     Roles_instance = this;
-    this.ADMIN = 'admin';
-    this.USER = 'user';
-    this.ONBOARDING_USER = 'onboarding_user';
-    this.FUB = 'fub';
-    this.SUPPORT = 'support';
-    this.BENEFICIARY = 'beneficiary';
-    this.PROVIDER_COUNSELING = 'provider_counseling';
-    this.PROVIDER_EQUIPMENT = 'provider_equipment';
-    this.PROVIDER_TRAINING = 'provider_training';
-    this.ONBOARDING = 'onboarding';
-    this.UNCHARTED = 'uncharted';
+    this.ORCHESTRATOR = 'tr_orchestrator';
+    this.PROJECT_MANAGER = 'tr_project_manager';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.b12 = function () {
-    return this.ADMIN;
+    return this.ORCHESTRATOR;
   };
   Roles.prototype.c12 = function () {
-    return this.USER;
+    return this.PROJECT_MANAGER;
   };
   Roles.prototype.d12 = function () {
-    return this.ONBOARDING_USER;
-  };
-  Roles.prototype.e12 = function () {
-    return this.FUB;
-  };
-  Roles.prototype.f12 = function () {
-    return this.SUPPORT;
-  };
-  Roles.prototype.g12 = function () {
-    return this.BENEFICIARY;
-  };
-  Roles.prototype.h12 = function () {
-    return this.PROVIDER_COUNSELING;
-  };
-  Roles.prototype.i12 = function () {
-    return this.PROVIDER_EQUIPMENT;
-  };
-  Roles.prototype.j12 = function () {
-    return this.PROVIDER_TRAINING;
-  };
-  Roles.prototype.k12 = function () {
-    return this.ONBOARDING;
-  };
-  Roles.prototype.l12 = function () {
-    return this.UNCHARTED;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {
@@ -16442,23 +16408,14 @@ if (typeof Math.imul === 'undefined') {
   function ExceptionCodes() {
     ExceptionCodes_instance = this;
   }
-  ExceptionCodes.prototype.notEligible = function () {
+  ExceptionCodes.prototype.negativeTransaction = function () {
     return 1000;
   };
-  ExceptionCodes.prototype.unacceptedTerms = function () {
+  ExceptionCodes.prototype.notEnoughAssets = function () {
     return 1001;
   };
-  ExceptionCodes.prototype.quotationMissingFile = function () {
-    return 2000;
-  };
-  ExceptionCodes.prototype.userSupervisesProject = function () {
-    return 3000;
-  };
-  ExceptionCodes.prototype.userSupervisesQuotation = function () {
-    return 3001;
-  };
-  ExceptionCodes.prototype.userSupervisesTask = function () {
-    return 3002;
+  ExceptionCodes.prototype.granularityTooSmall = function () {
+    return 1002;
   };
   var ExceptionCodes_instance;
   function ExceptionCodes_getInstance() {
@@ -16508,10 +16465,10 @@ if (typeof Math.imul === 'undefined') {
   function $serializer_10() {
     $serializer_instance_8 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.dsl.model.CoreLocationLocation', this, 0);
-    this.z12_1 = tmp0_serialDesc;
+    this.r12_1 = tmp0_serialDesc;
   }
   $serializer_10.prototype.aj = function () {
-    return this.z12_1;
+    return this.r12_1;
   };
   $serializer_10.prototype.mm = function () {
     var tmp$ret$2;
@@ -16526,7 +16483,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_10.prototype.ep = function (decoder) {
-    var tmp0_desc = this.z12_1;
+    var tmp0_desc = this.r12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16543,13 +16500,13 @@ if (typeof Math.imul === 'undefined') {
     tmp4_input.xk(tmp0_desc);
     return CoreLocationLocation_init_$Create$(tmp3_bitMask0, null);
   };
-  $serializer_10.prototype.a13 = function (encoder, value) {
-    var tmp0_desc = this.z12_1;
+  $serializer_10.prototype.s12 = function (encoder, value) {
+    var tmp0_desc = this.r12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_10.prototype.hp = function (encoder, value) {
-    return this.a13(encoder, value instanceof CoreLocationLocation ? value : THROW_CCE());
+    return this.s12(encoder, value instanceof CoreLocationLocation ? value : THROW_CCE());
   };
   var $serializer_instance_8;
   function $serializer_getInstance_8() {
@@ -16559,7 +16516,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function CoreLocationLocation_init_$Init$(seen1, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_8().z12_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_8().r12_1);
     }
     return $this;
   }
@@ -16600,10 +16557,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('duration', true);
     tmp0_serialDesc.pm('endTime', true);
     tmp0_serialDesc.pm('startTime', true);
-    this.b13_1 = tmp0_serialDesc;
+    this.t12_1 = tmp0_serialDesc;
   }
   $serializer_11.prototype.aj = function () {
-    return this.b13_1;
+    return this.t12_1;
   };
   $serializer_11.prototype.mm = function () {
     var tmp$ret$2;
@@ -16619,7 +16576,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_11.prototype.ep = function (decoder) {
-    var tmp0_desc = this.b13_1;
+    var tmp0_desc = this.t12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16660,8 +16617,8 @@ if (typeof Math.imul === 'undefined') {
     tmp7_input.xk(tmp0_desc);
     return PeriodOfTime_init_$Create$_0(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
   };
-  $serializer_11.prototype.c13 = function (encoder, value) {
-    var tmp0_desc = this.b13_1;
+  $serializer_11.prototype.u12 = function (encoder, value) {
+    var tmp0_desc = this.t12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     if (tmp1_output.el(tmp0_desc, 0) ? true : !(value.duration == null)) {
       tmp1_output.il(tmp0_desc, 0, StringSerializer_getInstance(), value.duration);
@@ -16675,7 +16632,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_11.prototype.hp = function (encoder, value) {
-    return this.c13(encoder, value instanceof PeriodOfTime ? value : THROW_CCE());
+    return this.u12(encoder, value instanceof PeriodOfTime ? value : THROW_CCE());
   };
   var $serializer_instance_9;
   function $serializer_getInstance_9() {
@@ -16685,7 +16642,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function PeriodOfTime_init_$Init$_0(seen1, duration, endTime, startTime, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_9().b13_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_9().t12_1);
     }
     if (0 === (seen1 & 1))
       $this.duration = null;
@@ -16713,13 +16670,13 @@ if (typeof Math.imul === 'undefined') {
     this.endTime = endTime_0;
     this.startTime = startTime_0;
   }
-  PeriodOfTime.prototype.d13 = function () {
+  PeriodOfTime.prototype.v12 = function () {
     return this.duration;
   };
-  PeriodOfTime.prototype.e13 = function () {
+  PeriodOfTime.prototype.w12 = function () {
     return this.endTime;
   };
-  PeriodOfTime.prototype.f13 = function () {
+  PeriodOfTime.prototype.x12 = function () {
     return this.startTime;
   };
   function InformationConcept() {
@@ -17049,6 +17006,8 @@ if (typeof Math.imul === 'undefined') {
   function AssetPoolHoldCommandDTO() {
   }
   function AssetPoolResumeCommandDTO() {
+  }
+  function AssetPoolStats() {
   }
   //region block: post-declaration
   CombinedContext.prototype.u2 = plus;
@@ -18053,13 +18012,6 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$api = $city$smartb$registry$program.api || ($city$smartb$registry$program.api = {});
     var $city$smartb$registry$program$api$commons = $city$smartb$registry$program$api.commons || ($city$smartb$registry$program$api.commons = {});
     var $city$smartb$registry$program$api$commons$auth = $city$smartb$registry$program$api$commons.auth || ($city$smartb$registry$program$api$commons.auth = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$api = $city$smartb$registry$program.api || ($city$smartb$registry$program.api = {});
-    var $city$smartb$registry$program$api$commons = $city$smartb$registry$program$api.commons || ($city$smartb$registry$program$api.commons = {});
-    var $city$smartb$registry$program$api$commons$auth = $city$smartb$registry$program$api$commons.auth || ($city$smartb$registry$program$api$commons.auth = {});
     Object.defineProperty($city$smartb$registry$program$api$commons$auth, 'Roles', {
       configurable: true,
       get: Roles_getInstance
@@ -18535,6 +18487,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
     var $city$smartb$registry$program$s2$asset$domain$command = $city$smartb$registry$program$s2$asset$domain.command || ($city$smartb$registry$program$s2$asset$domain.command = {});
     var $city$smartb$registry$program$s2$asset$domain$command$pool = $city$smartb$registry$program$s2$asset$domain$command.pool || ($city$smartb$registry$program$s2$asset$domain$command.pool = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$asset = $city$smartb$registry$program$s2.asset || ($city$smartb$registry$program$s2.asset = {});
+    var $city$smartb$registry$program$s2$asset$domain = $city$smartb$registry$program$s2$asset.domain || ($city$smartb$registry$program$s2$asset.domain = {});
+    var $city$smartb$registry$program$s2$asset$domain$model = $city$smartb$registry$program$s2$asset$domain.model || ($city$smartb$registry$program$s2$asset$domain.model = {});
   }
   $jsExportAll$(_);
   //endregion

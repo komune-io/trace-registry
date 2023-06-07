@@ -2,6 +2,7 @@ package city.smartb.registry.program.api.commons.auth
 
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.i2.spring.boot.auth.config.WebSecurityConfig
+import city.smartb.im.commons.auth.AuthedUser
 
 suspend fun AuthenticationProvider.getAuthedUser() = AuthedUser(
     id = getPrincipal()?.subject.orEmpty(),

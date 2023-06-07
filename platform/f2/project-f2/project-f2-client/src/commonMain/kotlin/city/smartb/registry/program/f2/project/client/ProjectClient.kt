@@ -13,7 +13,7 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 expect fun F2Client.projectClient(): F2SupplierSingle<ProjectClient>
-expect fun projectClient(urlBase: String): F2SupplierSingle<ProjectClient>
+expect fun projectClient(urlBase: String, accessToken: String): F2SupplierSingle<ProjectClient>
 
 @JsName("ProjectClient")
 @JsExport

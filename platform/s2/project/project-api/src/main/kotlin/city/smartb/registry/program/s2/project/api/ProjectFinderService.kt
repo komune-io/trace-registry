@@ -9,6 +9,7 @@ import city.smartb.registry.program.s2.project.domain.ProjectFinder
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -29,7 +30,8 @@ class ProjectFinderService(
 	}
 
 	override suspend fun page(
-        identifier: Match<ProjectId>?,
+        id: Match<ProjectId>?,
+        identifier: Match<ProjectIdentifier>?,
         name: Match<String>?,
         proponent: Match<String>?,
         type: Match<Int>?,
@@ -42,6 +44,7 @@ class ProjectFinderService(
         offset: OffsetPagination?,
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
+			id = id,
 			identifier = identifier,
 			name = name,
 			proponent = proponent,

@@ -14,13 +14,24 @@ fs:
   url: http://localhost:8090
 
 im:
-  organization:
-    insee:
-      token: c6ef3de5-3ef1-330a-8917-21f6750dcb09
-      sirene-api: https://api.insee.fr/entreprises/sirene/V3
+  url: https://connect.smart-b.io/im
+  auth:
+    url: https://auth.connect.smart-b.io
+    realm: sb-dev
+    clientId: sb-plateform-app
+    clientSecret: secretsecret
 
 i2:
   issuers:
+    -
+      name: connect-sb-io
+      authUrl: ${im.auth.url}
+      realm: ${im.auth.realm}
+      web:
+        clientId: sb-plateform-web
+      im:
+        clientId: ${im.auth.clientId}
+        clientSecret: ${im.auth.clientSecret}
 
 ssm:
   signer:

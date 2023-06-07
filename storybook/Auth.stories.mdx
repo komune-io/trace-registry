@@ -1,0 +1,85 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Authentication" parameters={{ previewTabs: { canvas: { hidden: true } } }} />
+
+# API Authentication Using OAuth2.0
+
+OAuth2.0 is a protocol that allows a user to grant a third-party website or application access to their resources,
+without necessarily revealing their credentials. In other words, it's a secure and standard method
+to authenticate and authorize your API.
+
+To authenticate to an API using OAuth2.0 with a `clientId` and `clientSecret`,
+you typically follow the Client Credentials flow. Here is a simple guide to help you through the process.
+
+
+## Step 1: Get Your ClientId and ClientSecret
+
+The `clientId` and `clientSecret` are provided by the API provider. The `clientId` is a public identifier
+for your application, and the `clientSecret` is a secret known only to the application and the authorization server.
+
+
+## Step 2: Request an Access Token
+
+To request an access token, your application sends a POST request to the authorization server's token endpoint.
+The POST request includes the `clientId` and `clientSecret` in the header. It should look something like this:
+
+```bash
+export CLIENT_ID="your_client_id"
+export CLIENT_SECRET="your_client_secret"
+
+curl -X POST \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" \
+  https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+```
+
+Replace `YOUR_CLIENT_ID` and `YOUR_CLIENT_SECRET` with your actual `clientId` and `clientSecret`.
+
+
+## Step 3: Receive and Store the Access Token
+
+The authorization server will respond with a JSON object containing an access token if the request is successful.
+This will look something like:
+
+```json
+{
+	"access_token": "YOUR_ACCESS_TOKEN",
+	"expires_in": 28800,
+	"refresh_expires_in": 0,
+	"token_type": "Bearer",
+	"not-before-policy": 0,
+	"scope": "profile email"
+}
+```
+
+The `access_token` is the token your application will use to authenticate against the required API.
+The `expires_in` field contains the number of seconds until the token expires.
+
+
+## Step 4: Use the Access Token
+
+To use the access token, include it in the header of your API requests. This typically looks like this:
+
+```bash
+export YOUR_ACCESS_TOKEN="your_access_token"
+
+curl -X POST https://trace.smart-b.io/ver/assetTransfer \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer $YOUR_ACCESS_TOKEN" \
+     -d '{
+           "poolId": "4519f147-5a27-4474-9950-234c4aed87b6",
+           "sender": "SmartB",
+           "receiver": "Phease",
+           "quantity": 500
+         }'
+```
+
+Replace `YOUR_ACCESS_TOKEN` with the access token you received from the authorization server.
+
+
+## Conclusion
+
+Using OAuth2.0 with a `clientId` and `clientSecret` for API authentication is a secure and standardized method.
+This guide provides the basic steps involved in this process. For more details, always refer
+to the specific documentation provided by the API provider. Remember to handle and store
+your `clientSecret` and received `access_token` securely to prevent unauthorized access to your services.

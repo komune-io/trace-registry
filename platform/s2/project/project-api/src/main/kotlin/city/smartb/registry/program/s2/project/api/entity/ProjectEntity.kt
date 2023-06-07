@@ -1,5 +1,7 @@
 package city.smartb.registry.program.s2.project.api.entity
 
+import cccev.s2.concept.domain.InformationConceptIdentifier
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier
 import city.smartb.registry.program.s2.project.domain.model.CertificationRef
@@ -11,6 +13,7 @@ import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
+import com.redis.om.spring.annotations.TagIndexed
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.domain.geo.GeoLocation
 import s2.dsl.automate.model.WithS2Id
@@ -34,6 +37,9 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Searchable(nostem=true)
     var country: String? = null
 
+    @TagIndexed
+    var indicator: InformationConceptIdentifier = ""
+
     @Searchable(nostem=true)
     var subContinent: String? = null
 
@@ -44,6 +50,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Searchable(nostem=true)
     var description: String? = null
 
+    @Indexed
     var dueDate: DateTime? = null
 
     @Searchable(nostem=true)
@@ -79,6 +86,8 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var activities: List<ActivityIdentifier>? = null
     var request: CertificationRef? = null
     var sdgs: List<SdgNumber>? = null
+
+    val assetPools: MutableSet<AssetPoolId> = mutableSetOf()
 
 //    @CreatedDate
 //    val createdDate: Date? = null

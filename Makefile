@@ -43,7 +43,7 @@ dev-bclan-up:
 	@docker compose --env-file .env_dev -f docker-compose-bclan.yml up -d
 
 dev-bclan-down:
-	@docker compose --env-file .env_dev -f docker-compose-bclan.yml down -v;
+	@docker compose --env-file .env_dev -f docker-compose-bclan.yml down -v
 
 dev-bclan-log:
 	@docker compose --env-file .env_dev -f docker-compose-bclan.yml logs -f
@@ -55,7 +55,7 @@ dev-redis-up:
 	@docker compose --env-file .env_dev -f docker-compose-redis.yml up -d
 
 dev-redis-down:
-	@docker compose --env-file .env_dev -f docker-compose-redis.yml down -v;
+	@docker compose --env-file .env_dev -f docker-compose-redis.yml down -v
 
 dev-redis-log:
 	@docker compose --env-file .env_dev -f docker-compose-redis.yml logs -f
@@ -67,7 +67,7 @@ dev-fs-up:
 	@docker compose --env-file .env_dev -f docker-compose-fs.yml up -d
 
 dev-fs-down:
-	@docker compose --env-file .env_dev -f docker-compose-fs.yml down -v;
+	@docker compose --env-file .env_dev -f docker-compose-fs.yml down -v
 
 dev-fs-log:
 	@docker compose --env-file .env_dev -f docker-compose-fs.yml logs -f
@@ -83,7 +83,7 @@ dev-cccev-up:
 	@docker compose --env-file .env_dev -f docker-compose-cccev.yml up -d
 
 dev-cccev-down:
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml down -v;
+	@docker compose --env-file .env_dev -f docker-compose-cccev.yml down -v
 
 dev-cccev-log:
 	@docker compose --env-file .env_dev -f docker-compose-cccev.yml logs -f

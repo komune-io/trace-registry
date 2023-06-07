@@ -6,18 +6,29 @@ import f2.client.ktor.get
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.bearer
+import io.ktor.client.plugins.auth.providers.BearerTokens
 
 actual fun F2Client.projectClient(): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
     ProjectClient(this)
 }
 
 actual fun projectClient(
-    urlBase: String
+    urlBase: String,
+    accessToken: String,
 ): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
     ProjectClient(
         F2ClientBuilder.get(urlBase) {
             install(HttpTimeout) {
                 requestTimeoutMillis = 60000
+            }
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        BearerTokens(accessToken, "")
+                    }
+                }
             }
         }
     )

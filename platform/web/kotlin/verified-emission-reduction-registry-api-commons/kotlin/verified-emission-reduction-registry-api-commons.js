@@ -609,7 +609,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(WithS2State, 'WithS2State', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(WithS2IdAndStatus, 'WithS2IdAndStatus', interfaceMeta, undefined, [WithS2Id, WithS2State], undefined, undefined, []);
   setMetadataFor(Decide, 'Decide', interfaceMeta, undefined, [F2Function], undefined, undefined, []);
-  setMetadataFor(AuthedUserDTO_0, 'AuthedUserDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(Roles, 'Roles', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ExceptionCodes, 'ExceptionCodes', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(GeoLocationDTO, 'GeoLocationDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -631,9 +630,6 @@ if (typeof Math.imul === 'undefined') {
   }
   function get_indices(_this__u8e3s4) {
     return new IntRange(0, get_lastIndex(_this__u8e3s4));
-  }
-  function contains(_this__u8e3s4, element) {
-    return indexOf(_this__u8e3s4, element) >= 0;
   }
   function indexOf(_this__u8e3s4, element) {
     if (element == null) {
@@ -686,6 +682,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(($mask0 & 32) === 0))
       transform = null;
     return joinToString(_this__u8e3s4, separator, prefix, postfix, limit, truncated, transform);
+  }
+  function contains(_this__u8e3s4, element) {
+    return indexOf(_this__u8e3s4, element) >= 0;
   }
   function joinTo(_this__u8e3s4, buffer, separator, prefix, postfix, limit, truncated, transform) {
     buffer.a(prefix);
@@ -16219,54 +16218,20 @@ if (typeof Math.imul === 'undefined') {
   }
   function Decide() {
   }
-  function AuthedUserDTO_0() {
-  }
   function Roles() {
     Roles_instance = this;
-    this.ADMIN = 'admin';
-    this.USER = 'user';
-    this.ONBOARDING_USER = 'onboarding_user';
-    this.FUB = 'fub';
-    this.SUPPORT = 'support';
-    this.BENEFICIARY = 'beneficiary';
-    this.PROVIDER_COUNSELING = 'provider_counseling';
-    this.PROVIDER_EQUIPMENT = 'provider_equipment';
-    this.PROVIDER_TRAINING = 'provider_training';
-    this.ONBOARDING = 'onboarding';
-    this.UNCHARTED = 'uncharted';
+    this.ORCHESTRATOR = 'tr_orchestrator';
+    this.PROJECT_MANAGER = 'tr_project_manager';
+    this.STAKEHOLDER = 'tr_stakeholder';
   }
   Roles.prototype.b12 = function () {
-    return this.ADMIN;
+    return this.ORCHESTRATOR;
   };
   Roles.prototype.c12 = function () {
-    return this.USER;
+    return this.PROJECT_MANAGER;
   };
   Roles.prototype.d12 = function () {
-    return this.ONBOARDING_USER;
-  };
-  Roles.prototype.e12 = function () {
-    return this.FUB;
-  };
-  Roles.prototype.f12 = function () {
-    return this.SUPPORT;
-  };
-  Roles.prototype.g12 = function () {
-    return this.BENEFICIARY;
-  };
-  Roles.prototype.h12 = function () {
-    return this.PROVIDER_COUNSELING;
-  };
-  Roles.prototype.i12 = function () {
-    return this.PROVIDER_EQUIPMENT;
-  };
-  Roles.prototype.j12 = function () {
-    return this.PROVIDER_TRAINING;
-  };
-  Roles.prototype.k12 = function () {
-    return this.ONBOARDING;
-  };
-  Roles.prototype.l12 = function () {
-    return this.UNCHARTED;
+    return this.STAKEHOLDER;
   };
   var Roles_instance;
   function Roles_getInstance() {
@@ -16277,23 +16242,14 @@ if (typeof Math.imul === 'undefined') {
   function ExceptionCodes() {
     ExceptionCodes_instance = this;
   }
-  ExceptionCodes.prototype.notEligible = function () {
+  ExceptionCodes.prototype.negativeTransaction = function () {
     return 1000;
   };
-  ExceptionCodes.prototype.unacceptedTerms = function () {
+  ExceptionCodes.prototype.notEnoughAssets = function () {
     return 1001;
   };
-  ExceptionCodes.prototype.quotationMissingFile = function () {
-    return 2000;
-  };
-  ExceptionCodes.prototype.userSupervisesProject = function () {
-    return 3000;
-  };
-  ExceptionCodes.prototype.userSupervisesQuotation = function () {
-    return 3001;
-  };
-  ExceptionCodes.prototype.userSupervisesTask = function () {
-    return 3002;
+  ExceptionCodes.prototype.granularityTooSmall = function () {
+    return 1002;
   };
   var ExceptionCodes_instance;
   function ExceptionCodes_getInstance() {
@@ -17312,13 +17268,6 @@ if (typeof Math.imul === 'undefined') {
     var $s2 = _.s2 || (_.s2 = {});
     var $s2$sourcing = $s2.sourcing || ($s2.sourcing = {});
     var $s2$sourcing$dsl = $s2$sourcing.dsl || ($s2$sourcing.dsl = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$api = $city$smartb$registry$program.api || ($city$smartb$registry$program.api = {});
-    var $city$smartb$registry$program$api$commons = $city$smartb$registry$program$api.commons || ($city$smartb$registry$program$api.commons = {});
-    var $city$smartb$registry$program$api$commons$auth = $city$smartb$registry$program$api$commons.auth || ($city$smartb$registry$program$api$commons.auth = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

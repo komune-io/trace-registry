@@ -1,7 +1,9 @@
 package city.smartb.registry.program.s2.project.domain.model
 
+import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.api.commons.model.GeoLocationDTO
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
@@ -45,6 +47,11 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * @example "ProjectName"
      */
     val country: String?
+
+    /**
+     *
+     */
+    val indicator: InformationConceptIdentifier
 
     /**
      * Date of the start of the crediting period
@@ -167,6 +174,11 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * @example [[2, 5, 6]]
      */
     val sdgs: List<SdgNumber>?
+
+    /**
+     *
+     */
+    val assetPools: List<AssetPoolId>
 }
 
 /**
@@ -177,6 +189,7 @@ data class Project(
     override val id: ProjectId,
     override val identifier: ProjectIdentifier?,
     override val country: String?,
+    override val indicator: InformationConceptIdentifier,
     override val creditingPeriodStartDate: DateTime?,
     override val creditingPeriodEndDate: DateTime?,
     override val description: String?,
@@ -198,7 +211,8 @@ data class Project(
     override val status: ProjectState,
     override val activities: List<ActivityIdentifier>?,
     override var sdgs: List<SdgNumber>?,
-    override val certification: CertificationRef?
+    override val certification: CertificationRef?,
+    override val assetPools: List<AssetPoolId>
 ): ProjectDTO {
     override fun s2State() = status
     override fun s2Id() = id

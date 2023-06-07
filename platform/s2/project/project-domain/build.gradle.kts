@@ -4,6 +4,8 @@ plugins {
 }
 
 dependencies {
+	commonMainApi(project(":platform:s2:asset:asset-domain"))
+
 	Dependencies.Mpp.im(::commonMainApi)
 	Dependencies.Jvm.Cccev.client(::commonMainImplementation)
 	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)

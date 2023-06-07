@@ -1,16 +1,12 @@
-import { LinkButton } from '@smartb/g2'
-import { Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
-import {
-    ProjectActivities, ProjectInformationSection,
-    useProjectGetQuery,
-} from 'domain-components'
-import { useParams } from 'react-router-dom'
-import { useCallback, useMemo } from 'react'
-import { useRoutesDefinition } from 'components'
-import { AppPage, SectionTab, Tab } from 'template'
-import { ArrowBackIosNewRounded } from '@mui/icons-material'
-import { useNavigate } from "react-router-dom";
+import {LinkButton} from '@smartb/g2'
+import {Typography} from '@mui/material'
+import {useTranslation} from 'react-i18next'
+import {AssetsPage, ProjectActivities, ProjectInformationSection, useProjectGetQuery} from 'domain-components'
+import {useNavigate, useParams} from 'react-router-dom'
+import React, {useCallback, useMemo} from 'react'
+import {useRoutesDefinition} from 'components'
+import {AppPage, SectionTab, Tab} from 'template'
+import {ArrowBackIosNewRounded} from '@mui/icons-material'
 
 export interface ProjectViewProps {
 }
@@ -27,16 +23,27 @@ export const ProjectView = (_: ProjectViewProps) => {
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         navigate(projectsProjectIdViewTabAll(projectId || "", value))
     }, [])
+    const tabs: Tab[] = useMemo(() => {
+        const tabs: Tab[] = [{
+            key: 'info',
+            label: t('informations'),
+            component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading}/>)
+        }]
+        const hasActivity = !!project?.activities && project?.activities.length !== 0
+        const hasAssetPools = !!project?.assetPools && project?.assetPools.length !== 0
+        hasActivity && tabs.push({
+            key: 'activities',
+            label: t('activities'),
+            component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project}/> : <></>)
+        })
 
-    const tabs: Tab[] = useMemo(() => [{
-        key: 'info',
-        label: t('informations'),
-        component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading} />)
-    }, {
-        key: 'activities',
-        label: t('activities'),
-        component: (project ? <ProjectActivities isLoading={projectQuery.isLoading} project={project} /> : <></>)
-    }], [project, projectQuery.isLoading, t])
+        hasAssetPools && tabs.push({
+            key: 'assets',
+            label: t('assets'),
+            component: (project ? <AssetsPage isLoading={projectQuery.isLoading} project={project}/> : <></>)
+        })
+        return tabs
+    }, [project, projectQuery.isLoading, t])
 
     return (
         <AppPage title={project?.name ?? t("project")} >
@@ -47,7 +54,7 @@ export const ProjectView = (_: ProjectViewProps) => {
               onTabChange={onTabChange}
               sx={{
                   "& .AruiSection-contentContainer": {
-                      padding: currentTab === "activities" ? "unset" : undefined
+                      padding: currentTab === "activities" || currentTab ==="assets" ? "unset" : undefined
                   }
               }}
             />

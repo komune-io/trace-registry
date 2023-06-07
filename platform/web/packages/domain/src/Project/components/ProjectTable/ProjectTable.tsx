@@ -8,17 +8,18 @@ import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from
 import { useTranslation } from 'react-i18next';
 
 function useProductColumn() {
+    const { t } = useTranslation();
     return useMemo(() => ColumnFactory<Project>({
         generateColumns: (generators) => ({
             id: generators.text({
-                header: 'ID',
+                header: t("id"),
                 getCellProps: (registry) => ({
                     value: registry.identifier
                 })
             }),
 
             name: generators.text({
-                header: 'Name',
+                header: t("name"),
                 getCellProps: (registry) => ({
                     value: registry.name,
                     componentProps: {
@@ -31,7 +32,7 @@ function useProductColumn() {
             }),
 
             proponent: generators.text({
-                header: 'Proponent',
+                header: t("proponent"),
                 getCellProps: (registry) => ({
                     value: registry.proponent?.name
                 })
@@ -47,49 +48,49 @@ function useProductColumn() {
             },
 
             origin: generators.text({
-                header: 'Origin',
+                header: t("origin"),
                 getCellProps: (registry) => ({
                     value: registry.country
                 })
             }),
 
             avgReductions: generators.number({
-                header: 'AVG. reductions',
+                header: t("avgReductions"),
                 getCellProps: (registry) => ({
                     value: Number(registry.estimatedReductions)
                 })
             }),
 
             yearReference: generators.text({
-                header: 'Ref. year',
+                header: t("refYear"),
                 getCellProps: (registry) => ({
                     value: registry.referenceYear
                 })
             }),
 
             endDate: generators.date({
-                header: 'End date',
+                header: t("endDate"),
                 getCellProps: (registry) => ({
                     date: registry.creditingPeriodEndDate
                 })
             }),
 
             vintage: generators.text({
-                header: 'Vintage',
+                header: t("vintage"),
                 getCellProps: (registry) => ({
                     value: registry.vintage?.toString()
                 })
             }),
 
             status: {
-                header: "Status",
+                header: t("status"),
                 cell: ({ row }) => (
                     <StatusTag label={row.original.status} />
                 ),
                 className: "statusColumn"
             }
         })
-    }), []);
+    }), [t]);
 }
 
 export interface ProjectTableProps extends Partial<OffsetTableProps<Project>> {
@@ -100,7 +101,7 @@ export interface ProjectTableProps extends Partial<OffsetTableProps<Project>> {
 }
 
 export const ProjectTable = (props: ProjectTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, sx, header, ...other } = props
     const { projectsProjectIdViewTabAll } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -120,32 +121,40 @@ export const ProjectTable = (props: ProjectTableProps) => {
         [projectsProjectIdViewTabAll],
     )
 
+     return (
+        <>
+        { (!page?.items && !isLoading) ?
+            <>
+                {header}
+                <Typography align="center" sx={{ marginTop: "32px" }}>{t("projects.noData")}</Typography>
+            </>
+            :
+                <OffsetTable<Project>
+                    {...other}
+                    sx={{
+                        overflow: "unset",
+                        "& .statusColumn": {
+                            maxWidth: "180px"
+                        },
+                        "& .typeColumn": {
+                            maxWidth: "150px"
+                        },
+                        "& .AruiTable-tableHead": {
+                            top: "70px",
+                            background: (theme) => theme.palette.background.default + "99"
+                        },
+                        ...sx
+                    }}
+                    header={header}
+                    tableState={tableState}
+                    page={page}
+                    pagination={pagination}
+                    onOffsetChange={onOffsetChange}
+                    isLoading={isLoading}
+                    getRowLink={getRowLink}
 
-    if (!page?.items && !isLoading) return (<Typography align="center">{t("projects.noData")}</Typography>)
-    return (
-        <OffsetTable<Project>
-            {...other}
-            sx={{
-                overflow: "unset",
-                "& .statusColumn": {
-                    maxWidth: "180px"
-                },
-                "& .typeColumn": {
-                    maxWidth: "150px"
-                },
-                "& .AruiTable-tableHead": {
-                    top: "70px",
-                    background: (theme) => theme.palette.background.default + "99"
-                },
-                ...sx
-            }}
-            tableState={tableState}
-            page={page}
-            pagination={pagination}
-            onOffsetChange={onOffsetChange}
-            isLoading={isLoading}
-            getRowLink={getRowLink}
-
-        />
+                />
+        }
+        </>
     )
 }

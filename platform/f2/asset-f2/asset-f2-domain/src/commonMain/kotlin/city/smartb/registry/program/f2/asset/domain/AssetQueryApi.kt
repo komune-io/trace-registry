@@ -1,15 +1,21 @@
 package city.smartb.registry.program.f2.asset.domain
 
-import city.smartb.registry.program.f2.asset.domain.query.AssetGetFunction
-import city.smartb.registry.program.f2.asset.domain.query.AssetPageFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
 
 interface AssetQueryApi {
+
+    /** Get a transaction by id */
+    fun assetTransactionGet(): AssetTransactionGetFunction
+
     /**
-     * Get a asset by Id
+     * Fetch a page of transactions.
      */
-    fun assetGet(): AssetGetFunction
+    fun assetTransactionPage(): AssetTransactionPageFunction
+
     /**
-     * Get a page of asset
+     * Fetch a page of transactions.
      */
-    fun assetPage(): AssetPageFunction
+    fun assetStatsGet(): AssetStatsGetFunction
 }

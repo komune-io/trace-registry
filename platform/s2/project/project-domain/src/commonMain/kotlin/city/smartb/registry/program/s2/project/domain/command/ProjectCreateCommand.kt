@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.command
 
+import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
@@ -36,6 +37,7 @@ data class ProjectCreateCommand(
     override var name: String,
     override var identifier: String?,
     override var country: String?,
+    override var indicator: InformationConceptIdentifier,
     override var creditingPeriodStartDate: DateTime?,
     override var creditingPeriodEndDate: DateTime?,
     override var description: String?,
@@ -76,8 +78,10 @@ interface ProjectCreatedEventDTO: ProjectEvent, ProjectAbstractMsg  {
 data class ProjectCreatedEvent(
     override val id: ProjectId,
     override var name: String,
+    override val date: Long,
     override var identifier: String? = null,
     override var country: String? = null,
+    override var indicator: InformationConceptIdentifier,
     override var creditingPeriodStartDate: DateTime? = null,
     override var creditingPeriodEndDate: DateTime? = null,
     override var description: String? = null,

@@ -1,35 +1,34 @@
 package city.smartb.registry.program.f2.activity.domain.policy
 
-import city.smartb.registry.program.api.commons.auth.AuthedUser
-import city.smartb.registry.program.api.commons.auth.AuthedUserDTO
+import city.smartb.im.commons.auth.AuthedUserDTO
+import city.smartb.im.commons.auth.hasOneOfRoles
+import city.smartb.im.commons.auth.hasRole
+import city.smartb.registry.program.api.commons.auth.Roles
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 @JsExport
 @JsName("ActivityPolicies")
 object ActivityPolicies {
-
-    const val VALID = true
-
     /**
      * User can list the activities
      */
     fun canPage(authedUser: AuthedUserDTO): Boolean {
-        return VALID
+        return true
     }
     fun canPageSteps(authedUser: AuthedUserDTO): Boolean {
-        return VALID
+        return true
     }
 
-    fun canCreate(authedUser: AuthedUser): Boolean {
-        return VALID
+    fun canCreate(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasRole(Roles.ORCHESTRATOR)
     }
 
-    fun canCreateStep(authedUser: AuthedUser): Boolean {
-        return VALID
+    fun canCreateStep(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasRole(Roles.ORCHESTRATOR)
     }
 
-    fun canFulfillTask(authedUser: AuthedUser): Boolean {
-        return VALID
+    fun canFulfillTask(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
     }
 }

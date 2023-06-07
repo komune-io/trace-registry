@@ -29,3 +29,12 @@ ssm:
 
 i2:
   issuers:
+    -
+      name: connect-sb-io
+      authUrl: https://auth.connect.smart-b.io
+      realm: connect
+      web:
+        clientId: sb-plateform-web
+      im:
+        clientId: sb-plateform-app
+        clientSecret: secretsecret

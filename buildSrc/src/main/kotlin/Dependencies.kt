@@ -20,16 +20,20 @@ object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
-	val s2 = Framework.fixers
+//	val s2 = Framework.fixers
+	val s2 = "0.15.1"
 	val i2 = Framework.fixers
 	val fs = Framework.connect
-	val im = Framework.connect
+//	val im = Framework.connect
+	val im = "experimental-SNAPSHOT"
 	val cccev = Framework.connect
 
-	const val ktor = FixersVersions.Kotlin.ktor
-	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
-	const val redisOm = "0.8.0"
+	const val bignum = "0.3.8"
 	const val datafaker = "1.8.1"
+	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
+	const val ktor = FixersVersions.Kotlin.ktor
+	const val redisOm = "0.8.0"
+	const val html2pdf = "5.0.0"
 }
 
 object Repo {
@@ -71,8 +75,13 @@ object Dependencies {
 			"city.smartb.f2:f2-spring-boot-openapi:${Versions.f2}"
 		)
 
-		fun i2Keycloack(scope: Scope) = scope.add(
+		fun i2Keycloak(scope: Scope) = scope.add(
 			"city.smartb.i2:i2-spring-boot-starter-auth-keycloak:${Versions.i2}"
+		)
+
+		fun im(scope: Scope) = scope.add(
+			"city.smartb.im:organization-client:${Versions.im}",
+			"city.smartb.im:user-client:${Versions.im}"
 		)
 
 		object Cccev {
@@ -147,6 +156,16 @@ object Dependencies {
 
 		fun test(scope: Scope) = scope.add(
 			"org.jetbrains.kotlin:kotlin-test-common:${PluginVersions.kotlin}",
+		)
+
+		fun cccevDomain(scope: Scope) = scope.add(
+			"city.smartb.cccev:certification-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:concept-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:evidence-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:evidence-type-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:framework-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:requirement-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:unit-f2-domain:${Versions.cccev}"
 		)
 	}
 }

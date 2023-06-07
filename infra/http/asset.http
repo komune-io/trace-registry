@@ -1,0 +1,115 @@
+# https://registry.trace.smart-b.io/projects/e53f091c-bb37-4840-ad82-b16c65224f44
+
+### projectPage
+#POST {{urlbase}}/projectPage
+#Content-Type: application/json
+#
+#{}
+#
+#> {% client.global.set("projectId", response.body[0].items[0].id); %}
+
+
+### projectGet
+POST {{urlbase}}/projectGet
+Content-Type: application/json
+
+{
+  "id": "{{assetProjectId}}"
+}
+
+### assetTransactionPage
+POST {{urlbase}}/assetTransactionPage
+Content-Type: application/json
+
+{
+  "projectId": "{{assetProjectId}}"
+}
+
+### OAuth2 Token Phease
+POST https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{offseter_clientId}}&client_secret={{offseter_clientSecret}}
+
+> {% client.global.set("offseter_accessToken", response.body.access_token); %}
+
+### OAuth2 Token Rockfeller
+POST https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{rockfeller_clientId}}&client_secret={{rockfeller_clientSecret}}
+
+> {% client.global.set("rockfeller_accessToken", response.body.access_token); %}
+
+### assetPoolCreate
+POST {{urlbase}}/assetPoolCreate
+Content-Type: application/json
+Authorization: Bearer {{rockfeller_accessToken}}
+
+{
+  "vintage": "2012",
+  "indicator": "tonnes",
+  "granularity": "0.001",
+  "projectId": "{{assetProjectId}}"
+}
+
+> {% client.global.set("poolId", response.body[0].id); %}
+
+### assetIssue
+POST {{urlbase}}/assetIssue
+Content-Type: application/json
+Authorization: Bearer {{rockfeller_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "to": "Rockfeller",
+  "quantity": 30000
+}
+
+### assetTransfer
+POST {{urlbase}}/assetTransfer
+Content-Type: application/json
+Authorization: Bearer {{rockfeller_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "Rockfeller",
+  "to": "{{offseter}}",
+  "quantity": 5000
+}
+
+### assetOffset
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "{{offseter}}",
+  "to": "0x5f5Afce1f980cBae2cEaf7Ec1696b0AEb8dE0366",
+  "quantity": 20
+}
+
+### assetOffset second
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "{{offseter}}",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}
+
+### ShouldNotWork
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "ShouldNotWork",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}

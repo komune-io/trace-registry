@@ -1657,36 +1657,17 @@ export namespace s2.sourcing.dsl {
     }
 }
 export namespace city.smartb.registry.program.api.commons.auth {
-    interface AuthedUserDTO {
-        readonly id: string;
-        readonly memberOf?: string;
-        readonly roles: Array<string>;
-
-    }
-}
-export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ADMIN(): string;
-        get USER(): string;
-        get ONBOARDING_USER(): string;
-        get FUB(): string;
-        get SUPPORT(): string;
-        get BENEFICIARY(): string;
-        get PROVIDER_COUNSELING(): string;
-        get PROVIDER_EQUIPMENT(): string;
-        get PROVIDER_TRAINING(): string;
-        get ONBOARDING(): string;
-        get UNCHARTED(): string;
+        get ORCHESTRATOR(): string;
+        get PROJECT_MANAGER(): string;
+        get STAKEHOLDER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
     const ExceptionCodes: {
-        notEligible(): number;
-        unacceptedTerms(): number;
-        quotationMissingFile(): number;
-        userSupervisesProject(): number;
-        userSupervisesQuotation(): number;
-        userSupervisesTask(): number;
+        negativeTransaction(): number;
+        notEnoughAssets(): number;
+        granularityTooSmall(): number;
     };
 }
 export namespace city.smartb.registry.program.api.commons.model {
@@ -2296,52 +2277,6 @@ export namespace cccev.f2.concept.domain.query {
 
     }
 }
-export namespace f2.client {
-    interface F2Client {
-        supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
-        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
-        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
-        readonly type: f2.client.F2ClientType;
-    }
-}
-export namespace f2.client.ktor.http {
-    class HttpClientBuilder {
-        constructor(json?: kotlinx.serialization.json.Json);
-        build(urlBase: string): Promise<f2.client.F2Client>;
-    }
-}
-export namespace f2.client.ktor.rsocket {
-    class RSocketF2Client implements f2.client.F2Client {
-        constructor(rSocketClient: f2.client.ktor.rsocket.RSocketClient);
-        get type(): f2.client.F2ClientType;
-        supplier<RESPONSE>(route: string, typeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
-        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
-        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
-    }
-}
-export namespace f2.client.ktor {
-    abstract class Protocol {
-        protected constructor();
-    }
-    const HTTP: {
-    } & f2.client.ktor.Protocol;
-    const HTTPS: {
-    } & f2.client.ktor.Protocol;
-    const WS: {
-    } & f2.client.ktor.Protocol;
-    const WSS: {
-    } & f2.client.ktor.Protocol;
-    const TCP: {
-    } & f2.client.ktor.Protocol;
-}
-export namespace cccev.f2.concept.client {
-    class InformationConceptClient /* implements cccev.f2.concept.domain.InformationConceptApi */ {
-        constructor(client: f2.client.F2Client);
-    }
-}
-export namespace cccev.f2.concept.client {
-    function informationConceptClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.concept.client.InformationConceptClient>;
-}
 export namespace cccev.f2.certification.domain.command {
     interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
@@ -2495,15 +2430,6 @@ export namespace cccev.f2.certification.domain.query {
         readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
 
     }
-}
-export namespace cccev.f2.certification.client {
-    class CertificationClient /* implements cccev.f2.certification.domain.CertificationApi */ {
-        constructor(client: f2.client.F2Client);
-        get client(): f2.client.F2Client;
-    }
-}
-export namespace cccev.f2.certification.client {
-    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
 }
 export namespace cccev.f2.evidence.type.domain.command.list {
     interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreateCommandDTO {
@@ -2853,6 +2779,107 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.program.s2.asset.domain.automate {
+    interface AssetPoolInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface AssetPoolCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface AssetPoolEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.automate {
+    interface TransactionInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface TransactionCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface TransactionEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolCloseCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolHoldCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.command.pool {
+    interface AssetPoolResumeCommandDTO extends city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.asset.domain.model {
+    interface AssetPoolStats {
+        readonly available: number;
+        readonly retired: number;
+        readonly transferred: number;
+
+    }
+}
+export namespace f2.client {
+    interface F2Client {
+        supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+        readonly type: f2.client.F2ClientType;
+    }
+}
+export namespace f2.client.ktor.http {
+    class HttpClientBuilder {
+        constructor(json?: kotlinx.serialization.json.Json);
+        build(urlBase: string): Promise<f2.client.F2Client>;
+    }
+}
+export namespace f2.client.ktor.rsocket {
+    class RSocketF2Client implements f2.client.F2Client {
+        constructor(rSocketClient: f2.client.ktor.rsocket.RSocketClient);
+        get type(): f2.client.F2ClientType;
+        supplier<RESPONSE>(route: string, typeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;
+        function<QUERY, RESPONSE>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Function<QUERY, RESPONSE>;
+        consumer<QUERY>(route: string, queryTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Consumer<QUERY>;
+    }
+}
+export namespace f2.client.ktor {
+    abstract class Protocol {
+        protected constructor();
+    }
+    const HTTP: {
+    } & f2.client.ktor.Protocol;
+    const HTTPS: {
+    } & f2.client.ktor.Protocol;
+    const WS: {
+    } & f2.client.ktor.Protocol;
+    const WSS: {
+    } & f2.client.ktor.Protocol;
+    const TCP: {
+    } & f2.client.ktor.Protocol;
+}
+export namespace cccev.f2.certification.client {
+    class CertificationClient /* implements cccev.f2.certification.domain.CertificationApi */ {
+        constructor(client: f2.client.F2Client);
+        get client(): f2.client.F2Client;
+    }
+}
+export namespace cccev.f2.certification.client {
+    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
+}
 export namespace cccev.s2.requirement.client {
     class RequirementClient /* implements cccev.f2.requirement.domain.RequirementApi */ {
         constructor(client: f2.client.F2Client);
@@ -2860,6 +2887,14 @@ export namespace cccev.s2.requirement.client {
 }
 export namespace cccev.s2.requirement.client {
     function requirementClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.s2.requirement.client.RequirementClient>;
+}
+export namespace cccev.f2.concept.client {
+    class InformationConceptClient /* implements cccev.f2.concept.domain.InformationConceptApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace cccev.f2.concept.client {
+    function informationConceptClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.concept.client.InformationConceptClient>;
 }
 export namespace cccev.f2.evidence.type.client {
     class EvidenceTypeClient /* implements cccev.f2.evidence.type.domain.EvidenceTypeApi */ {
@@ -2893,9 +2928,9 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
         readonly id: string;
 
     }
-    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string> {
-        readonly id: string;
+    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
+        readonly id: string;
 
     }
 }
@@ -2943,6 +2978,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly identifier?: string;
         readonly name?: string;
         readonly country?: string;
+        readonly indicator: string;
         readonly creditingPeriodStartDate?: any/* Nullable<number> */;
         readonly creditingPeriodEndDate?: any/* Nullable<number> */;
         readonly description?: string;
@@ -2964,6 +3000,7 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
         readonly creationDate?: any/* Nullable<number> */;
         readonly lastModificationDate?: any/* Nullable<number> */;
         readonly sdgs?: any/* Nullable<number>[] */;
+        readonly assetPools: string[];
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.project.domain.automate.ProjectState */;
         s2Id(): string;
 

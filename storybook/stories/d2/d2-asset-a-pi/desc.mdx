@@ -1,0 +1,193 @@
+import { DocsTable } from '@smartb/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetTransactionPage
+
+
+
+Fetch a page of transactions.
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetTransactionPageQueryDTO`](#asset-transaction-page)  
+Result: [`AssetTransactionPageResultDTO`](#asset-transaction-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetPoolClose
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetPoolCloseCommandDTO`](#asset-pool-close)  
+Result: [`AssetPoolClosedEventDTO`](#asset-pool-close)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetPoolCreate
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetPoolCreateCommandDTO`](#asset-pool-create)  
+Result: [`AssetPoolCreatedEventDTO`](#asset-pool-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetPoolHold
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetPoolHoldCommandDTO`](#asset-pool-hold)  
+Result: [`AssetPoolHeldEventDTO`](#asset-pool-hold)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetPoolResume
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetPoolResumeCommandDTO`](#asset-pool-resume)  
+Result: [`AssetPoolResumedEventDTO`](#asset-pool-resume)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetIssue
+
+
+
+Issue assets in an Asset Pool.
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetIssueCommandDTO`](#asset-issue)  
+Result: [`AssetIssuedEventDTO`](#asset-issue)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetTransfer
+
+
+
+Transfer assets from a sender to a receiver.
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetTransferCommandDTO`](#asset-transfer)  
+Result: [`AssetTransferredEventDTO`](#asset-transfer)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOffset
+
+
+
+Offset assets from an asset pool.
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOffsetCommandDTO`](#asset-offset)  
+Result: [`AssetOffsettedEventDTO`](#asset-offset)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetWithdraw
+
+
+
+Withdraw assets from an asset pool.
+
+
+  </div>
+
+  <div>
+
+    
+Body: [`AssetWithdrawCommandDTO`](#asset-withdraw)  
+Result: [`AssetWithdrawnEventDTO`](#asset-withdraw)
+  </div>
+</DocsTable>

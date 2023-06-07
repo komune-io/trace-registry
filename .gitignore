@@ -3,7 +3,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 .env
 storybook-static
-data
+/data
 
 ### STS ###
 .apt_generated
@@ -20,6 +20,7 @@ data
 *.iml
 *.ipr
 **/out/
+http-client.private.env.json
 
 ### NetBeans ###
 /nbproject/private/

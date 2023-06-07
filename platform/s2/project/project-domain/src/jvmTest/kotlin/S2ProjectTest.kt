@@ -64,7 +64,9 @@ class S2ProjectTest {
             identifier = "SB-${faker.idNumber().valid()}",
             activities = listOf("P1", "P2", "P3", "P4", "P5"),
             certification = null,
-            sdgs = (1..15).shuffled().take((1..15).random())
+            sdgs = (1..15).shuffled().take((1..15).random()),
+            assetPools = emptyList(),
+            indicator = "ewf"
         )
 
         println(json.encodeToString(project))
