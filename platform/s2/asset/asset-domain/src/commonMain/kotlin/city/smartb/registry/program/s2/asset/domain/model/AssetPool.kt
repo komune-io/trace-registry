@@ -14,8 +14,8 @@ data class AssetPool(
     val indicator: InformationConceptIdentifier,
     val granularity: Double,
     val wallets: Map<String, BigDecimalAsString>,
-    val stats: AssetPoolStatsBase
-
+    val stats: AssetPoolStatsBase,
+    val metadata: Map<String, String?>
 )
 
 @JsExport

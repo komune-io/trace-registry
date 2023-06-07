@@ -90,7 +90,8 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
         command = AssetPoolCreateCommand(
             vintage = params.vintage,
             indicator = params.indicator,
-            granularity = params.granularity
+            granularity = params.granularity,
+            metadata = emptyMap()
         )
         assetPoolAggregateService.create(command).id
     }

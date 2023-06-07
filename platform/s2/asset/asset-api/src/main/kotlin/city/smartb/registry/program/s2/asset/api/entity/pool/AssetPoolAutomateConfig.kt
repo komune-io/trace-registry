@@ -9,6 +9,7 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreate
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -65,6 +66,7 @@ class AssetPoolAutomateConfig(
 			classDiscriminator = "class"
 			polymorphic(AssetPoolEvent::class) {
 				subclass(AssetPoolCreatedEvent::class, AssetPoolCreatedEvent.serializer())
+				subclass(AssetPoolUpdatedEvent::class, AssetPoolUpdatedEvent.serializer())
 				subclass(AssetPoolHeldEvent::class, AssetPoolHeldEvent.serializer())
 				subclass(AssetPoolResumedEvent::class, AssetPoolResumedEvent.serializer())
 				subclass(AssetPoolClosedEvent::class, AssetPoolClosedEvent.serializer())

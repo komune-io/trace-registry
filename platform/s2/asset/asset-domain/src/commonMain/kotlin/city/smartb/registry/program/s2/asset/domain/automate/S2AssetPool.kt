@@ -11,6 +11,8 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEv
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -26,14 +28,18 @@ val s2AssetPool = s2Sourcing {
         to = AssetPoolState.ACTIVE
         role = AssetPoolRole.Issuer
     }
-    transaction<AssetPoolHoldCommand, AssetPoolHeldEvent> {
-        from = AssetPoolState.ACTIVE
-        to = AssetPoolState.ON_HOLD
+    selfTransaction<AssetPoolUpdateCommand, AssetPoolUpdatedEvent> {
+        states += listOf(AssetPoolState.ACTIVE, AssetPoolState.ON_HOLD)
         role = AssetPoolRole.Issuer
     }
     transaction<AssetPoolResumeCommand, AssetPoolResumedEvent> {
         from = AssetPoolState.ON_HOLD
         to = AssetPoolState.ACTIVE
+        role = AssetPoolRole.Issuer
+    }
+    transaction<AssetPoolHoldCommand, AssetPoolHeldEvent> {
+        from = AssetPoolState.ACTIVE
+        to = AssetPoolState.ON_HOLD
         role = AssetPoolRole.Issuer
     }
     transaction<AssetPoolCloseCommand, AssetPoolClosedEvent> {

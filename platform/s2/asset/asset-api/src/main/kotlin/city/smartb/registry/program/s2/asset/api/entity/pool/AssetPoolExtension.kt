@@ -14,5 +14,6 @@ fun AssetPoolEntity.toAssetPool() = AssetPool(
         available = stats.available,
         retired = stats.retired,
         transferred = stats.transferred
-    )
+    ),
+    metadata = metadata
 )

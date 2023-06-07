@@ -24,6 +24,7 @@ interface AssetPoolDTO: WithS2State<AssetPoolState> {
     val granularity: Double
     val wallets: Map<String, BigDecimalAsNumber>
     val stats: AssetPoolStats
+    val metadata: Map<String, String?>
 }
 
 /**
@@ -38,6 +39,7 @@ data class AssetPoolDTOBase(
     override val granularity: Double,
     override val wallets: Map<String, BigDecimalAsNumber>,
     override val stats: AssetPoolStatsBase,
+    override val metadata: Map<String, String?>
 ): AssetPoolDTO {
     override fun s2State() = AssetPoolState.valueOf(status)
 }

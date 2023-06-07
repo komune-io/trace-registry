@@ -18,6 +18,8 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEv
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
@@ -39,7 +41,20 @@ class AssetPoolAggregateService(
 			status = AssetPoolState.ACTIVE,
 			vintage = command.vintage,
 			indicator = command.indicator,
-			granularity = command.granularity
+			granularity = command.granularity,
+			metadata = command.metadata ?: emptyMap()
+		)
+	}
+
+	override suspend fun update(command: AssetPoolUpdateCommand) = poolAutomate.init(command) {
+		AssetPoolUpdatedEvent(
+			id = UUID.randomUUID().toString(),
+			date = System.currentTimeMillis(),
+			status = AssetPoolState.ACTIVE,
+			vintage = command.vintage,
+			indicator = command.indicator,
+			granularity = command.granularity,
+			metadata = command.metadata ?: emptyMap()
 		)
 	}
 

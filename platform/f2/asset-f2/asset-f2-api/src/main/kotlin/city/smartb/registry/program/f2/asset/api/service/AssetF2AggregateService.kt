@@ -44,13 +44,17 @@ class AssetF2AggregateService(
         val emitCommand = command.toEmitTransactionCommand(verifyTo = false)
         assetPoliciesEnforcer.checkTransaction(emitCommand)
         val createdEvent = assetPoolAggregateService.emitTransaction(emitCommand)
-
+        val pool = assetPoolF2FinderService.get(command.poolId)
+        val certifiedBy = pool.metadata["certifiedBy"] ?: "-"
+        val project = pool.metadata["project"] ?: "-"
         val result = CertificateGenerator.fill(
             transactionId = createdEvent.transactionId,
             date = createdEvent.date,
             issuedTo = command.to,
             quantity = command.quantity,
             indicator = if(command.quantity > 1) "tons" else "ton",
+                certifiedBy = certifiedBy,
+                project = project
         )
 
         val path = FilePath(

@@ -18,6 +18,7 @@ suspend fun AssetPool.toDTO(
     stats = AssetPoolStatsBase(
         available = stats.available,
         retired = stats.retired,
-        transferred = stats.transferred
-    )
+        transferred = stats.transferred,
+    ),
+    metadata = metadata
 )

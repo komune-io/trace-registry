@@ -34,6 +34,7 @@ class AssetPoolEntity: WithS2Id<AssetPoolId>, WithS2State<AssetPoolState> {
         retired = BigDecimalAsString.ZERO,
         transferred = BigDecimalAsString.ZERO
     )
+    var metadata: Map<String, String?> = mutableMapOf()
 
     override fun s2Id() = id
     override fun s2State() = status

@@ -13,7 +13,7 @@ object CertificateGenerator {
 
     private const val FIELD_ISSUEDTO = "(entreprise)"
     private const val FIELD_DATE = "(date)"
-    private const val FIELD_COMPANY = "(entreprise 1)"
+    private const val FIELD_CERTIFIED_BY = "(certifiedBy)"
     private const val FIELD_TRANSACTION = "(adresse)"
     private const val FIELD_PROJECT = "(projet)"
     private const val FIELD_CARBON = "(nombre)"
@@ -25,13 +25,12 @@ object CertificateGenerator {
         date: Long,
         issuedTo: String,
         quantity: BigDecimal,
-        indicator: String
-
+        indicator: String,
+        certifiedBy: String,
+        project: String
     ): ByteArray {
         val template = TEMPLATE_CERTIFICATE
 
-        val company = "Sustainable Future Group"
-        val project = "Certicongo"
         val verb = if (quantity > BigDecimal.ONE) "Have been" else "Has Been"
         return PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
@@ -39,7 +38,7 @@ object CertificateGenerator {
             .decodeToString()
             .replace(FIELD_ISSUEDTO, issuedTo)
             .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
-            .replace(FIELD_COMPANY, company)
+            .replace(FIELD_CERTIFIED_BY, certifiedBy)
             .replace(FIELD_TRANSACTION, transactionId)
             .replace(FIELD_PROJECT, project)
             .replace(FIELD_CARBON, quantity.toPlainString())

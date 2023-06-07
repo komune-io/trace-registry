@@ -41,9 +41,9 @@ interface AssetPoolCreateCommandDTO {
  * @d2 inherit
  */
 data class AssetPoolCreateCommandDTOBase(
-    override val projectId: ProjectId,
-    override val vintage: String,
-    override val granularity: Double
+        override val projectId: ProjectId,
+        override val vintage: String,
+        override val granularity: Double
 ): AssetPoolCreateCommandDTO
 
 /**
