@@ -124,7 +124,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
             quantity = params.quantity,
             type = params.type
         )
-        assetPoolAggregateService.emitTransaction(command).transactionId
+        assetPoolAggregateService.submitTransaction(command).transactionId
     }
 
     private fun assetPoolEmitTransactionParams(entry: Map<String, String>?) = AssetPoolEmitTransactionParams(

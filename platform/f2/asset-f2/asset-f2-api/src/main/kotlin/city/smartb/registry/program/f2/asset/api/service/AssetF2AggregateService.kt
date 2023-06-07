@@ -17,6 +17,7 @@ import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,41 +31,36 @@ class AssetF2AggregateService(
     suspend fun issue(command: AssetIssueCommandDTOBase): AssetPoolEmittedTransactionEvent {
         val emitCommand = command.toEmitTransactionCommand()
         assetPoliciesEnforcer.checkTransaction(emitCommand)
-        return assetPoolAggregateService.emitTransaction(emitCommand)
+        return assetPoolAggregateService.submitTransaction(emitCommand)
     }
 
     suspend fun transfer(command: AssetTransferCommandDTOBase): AssetPoolEmittedTransactionEvent {
         val emitCommand = command.toEmitTransactionCommand()
         assetPoliciesEnforcer.checkTransaction(emitCommand)
-        return assetPoolAggregateService.emitTransaction(emitCommand)
+        return assetPoolAggregateService.submitTransaction(emitCommand)
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
         val emitCommand = command.toEmitTransactionCommand(verifyTo = false)
         assetPoliciesEnforcer.checkTransaction(emitCommand)
-        val createdEvent = assetPoolAggregateService.emitTransaction(emitCommand)
-        val pool = assetPoolF2FinderService.get(command.poolId)
-        val certifiedBy = pool.metadata["certifiedBy"] ?: "-"
-        val project = pool.metadata["project"] ?: "-"
-        val result = CertificateGenerator.fill(
+        val createdEvent = assetPoolAggregateService.submitTransaction(emitCommand)
+        val result = CertificateGenerator.fillPendingCertificate(
             transactionId = createdEvent.transactionId,
             date = createdEvent.date,
             issuedTo = command.to,
             quantity = command.quantity,
             indicator = if(command.quantity > 1) "tons" else "ton",
-                certifiedBy = certifiedBy,
-                project = project
         )
 
         val path = FilePath(
             objectType = "organization",
             objectId = createdEvent.transactionId,
             directory = "certificate",
-            name = "certificate-${System.currentTimeMillis()}.pdf"
+            name = "certificate-pending.pdf"
         )
         fileClient.fileUpload(path.toUploadCommand(), result)
 
-        assetPoolAggregateService.addFileTransaction(TransactionAddFileCommand(
+        assetPoolAggregateService.generatePendingCertificateCommand(TransactionPendingCertificateGenerateCommand(
             id = createdEvent.transactionId,
             file = path
         ))
@@ -75,7 +71,7 @@ class AssetF2AggregateService(
     suspend fun retire(command: AssetRetireCommandDTOBase): AssetPoolEmittedTransactionEvent {
         val emitCommand = command.toEmitTransactionCommand()
         assetPoliciesEnforcer.checkTransaction(emitCommand)
-        return assetPoolAggregateService.emitTransaction(emitCommand)
+        return assetPoolAggregateService.submitTransaction(emitCommand)
     }
 
     private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand(
