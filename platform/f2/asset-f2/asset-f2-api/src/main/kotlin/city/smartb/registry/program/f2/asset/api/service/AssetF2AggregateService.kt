@@ -4,7 +4,6 @@ import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.spring.utils.toUploadCommand
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
-import city.smartb.im.organization.domain.model.Organization
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase

@@ -1,6 +1,7 @@
 import city.smartb.registry.program.cccev.AppAuth
 import city.smartb.registry.program.cccev.createBrazilRockFeller
 import city.smartb.registry.program.cccev.createRandomProject
+import city.smartb.registry.program.cccev.initIndicatorsCarbon
 import city.smartb.registry.program.cccev.initRequirement
 import kotlinx.coroutines.runBlocking
 
@@ -33,6 +34,7 @@ fun main() = runBlocking {
     val accessToken = AppAuth.getTokens(urlAuth, client, secret).access_token
 
     initRequirement(urlCCCEV)
+    initIndicatorsCarbon(urlCCCEV)
     createRandomProject(urlVer, accessToken)
 //    createYahuma(urlVer, accessToken)
 //    createBrazilRockFeller(urlVer, accessToken)

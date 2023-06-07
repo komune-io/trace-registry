@@ -22,6 +22,6 @@ object Indicators {
 val IndicatorsCarbon = informationRequirement {
     identifier = "indicators"
     name = "indicators"
-    description = "tmp"
+    description = ""
     hasConcept += Indicators.carbon
 }

@@ -43,3 +43,19 @@ suspend fun initRequirement(url: String) {
         println("Created requirement: ${it.identifier}")
     }.collect()
 }
+
+suspend fun initIndicatorsCarbon(url: String) {
+    val client = CCCEVClient(url) {
+        install(HttpTimeout) {
+            requestTimeoutMillis = 60000
+        }
+        install(Logging)
+    }
+    client.createGraph(
+        buildList<Requirement> {
+            add(IndicatorsCarbon)
+        }.asFlow()
+    ).onEach {
+        println("Created requirement: ${it.identifier}")
+    }.collect()
+}
