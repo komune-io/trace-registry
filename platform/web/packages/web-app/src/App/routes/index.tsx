@@ -2,7 +2,7 @@ import { NoMatchPage, Router } from "@smartb/g2";
 import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
-import { registryPages } from "App/pages/Registry/router";
+import { registryPages } from "App/pages/router";
 // import {OrganizationListPage, OrganizationProfilePage, UserListPage, UserProfilePage, } from "im"
 import {useMemo} from "react"
 
