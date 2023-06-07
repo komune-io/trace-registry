@@ -59,7 +59,6 @@ export const AssetsPage = (props: AssetsProps) => {
                     width: "100%",
                 }}
                 gap={3}
-
             >
                 <AssetsBalanceBanner />
                 <AssetsTransactionsTable
@@ -81,7 +80,6 @@ export const AssetsPage = (props: AssetsProps) => {
                             }}
                         />
                     }
-
                     page={transactions.data}
                     pagination={pagination}
                     isLoading={transactions.isLoading}

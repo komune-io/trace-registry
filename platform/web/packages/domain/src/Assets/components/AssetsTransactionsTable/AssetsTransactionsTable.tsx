@@ -75,8 +75,8 @@ export interface AssetsTransactionsTableProps extends Partial<OffsetTableProps<T
     page?: PageQueryResult<Transaction>
     pagination: OffsetPagination
     isLoading?: boolean
-    onTransactionClick: (Transaction: Row<Transaction>) => void
-    selectedTransaction: Transaction | undefined
+    onTransactionClick?: (Transaction: Row<Transaction>) => void
+    selectedTransaction?: Transaction | undefined
 }
 
 export const AssetsTransactionsTable = (props: AssetsTransactionsTableProps) => {
