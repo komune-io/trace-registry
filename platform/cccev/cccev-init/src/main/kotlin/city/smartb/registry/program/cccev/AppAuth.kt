@@ -1,10 +1,12 @@
 package city.smartb.registry.program.cccev
 
-import f2.client.ktor.F2ClientBuilder
-import f2.client.ktor.get
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -14,9 +16,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 object AppAuth {
-    suspend fun getTokens(clientId: String, clientSecret: String): AccessToken {
-        val url = "https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token"
-        return HttpClient{
+    suspend fun getTokens(authUrl: String, clientId: String, clientSecret: String): AccessToken {
+        val url = "${authUrl}/protocol/openid-connect/token"
+        return HttpClient {
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.HEADERS
+            }
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -38,5 +44,5 @@ data class AccessToken(
     val expires_in: Int,
     val refresh_expires_in: Int,
     val token_type: String,
-    val scope: String
+    val scope: String,
 )

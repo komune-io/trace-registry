@@ -65,7 +65,9 @@ fun createBrazilRockFeller(url: String, accessToken: String): Unit = runBlocking
     val helper = ProjectFakeBuilder(url, accessToken)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
-    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
+    val created = projectClient.projectCreate().invoke(
+        flowOf(brazilRockFeller())
+    ).toList()
     val project = created.first()
 
     fullFillProject(project.id, projectClient, activityClient)
@@ -236,18 +238,18 @@ private fun brazilRockFeller(): ProjectCreateCommand {
             name = "MediaGEO Group Ltg."
         ),
         type = 1,
-        referenceYear = "2023",
+        referenceYear = "2013",
         registrationDate = registrationDate,
         vintage = null,
         slug = null,
         assessor = null,
         location = GeoLocation(
-            lon = 24.233000,
-            lat = 0.783000
+            lon = -47.882778,
+            lat = -15.793889
         ),
         vvb = OrganizationRef(
             id = "",
-            name = "InBECAS - The Brazilian Institute of Carbon Stocks and Sustainable Action"
+            name = "InBECAS"
         ),
         activities = listOf(),
         sdgs = emptyList()
