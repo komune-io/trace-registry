@@ -61,6 +61,15 @@ fun createYahuma(url: String, accessToken: String): Unit = runBlocking {
 
     fullFillProject(project.id, projectClient, activityClient)
 }
+fun createBrazilRockFeller(url: String, accessToken: String): Unit = runBlocking {
+    val helper = ProjectFakeBuilder(url, accessToken)
+    val projectClient = helper.projectClient.invoke()
+    val activityClient = helper.activityClient.invoke()
+    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
+    val project = created.first()
+
+    fullFillProject(project.id, projectClient, activityClient)
+}
 
 private suspend fun fullFillProject(
     projectId: ProjectIdentifier,
@@ -147,8 +156,8 @@ private fun randomProject(
         name = faker.company().name()
     ),
     location = GeoLocation(
-        lon = address.longitude().toDouble(),
-        lat = address.latitude().toDouble()
+        lon = -15.793889,
+        lat = -47.882778
     ),
     vvb = OrganizationRef(
         id = faker.idNumber().valid(),
@@ -199,6 +208,48 @@ private fun yahuma(): ProjectCreateCommand {
         ),
         vvb = null,
         activities = listOf("P0", "P1", "P2", "P3", "P4", "P5"),
+        sdgs = emptyList()
+    )
+}
+
+private fun brazilRockFeller(): ProjectCreateCommand {
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yy").withZone(ZoneOffset.UTC).withChronology(IsoChronology.INSTANCE).withDecimalStyle(DecimalStyle.STANDARD)
+    val creditingPeriodStartDate = LocalDate.parse("23/05/12", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
+    val creditingPeriodEndDate = LocalDate.parse("31/12/31", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
+    val registrationDate = LocalDate.parse("16/07/17", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
+    return ProjectCreateCommand(
+        identifier = "3424-0001",
+        name = "Projecto d'Cerrado a'Amazonia REDD Brasil",
+        country = "Brazil",
+        indicator = "carbon",
+        subContinent = "South America",
+        creditingPeriodStartDate = creditingPeriodStartDate,
+        creditingPeriodEndDate = creditingPeriodEndDate,
+        description = """
+            REDD APD Project - GHG Emission Reductions From Avoiding Planned Deforestation
+        """.trimIndent(),
+        dueDate = creditingPeriodEndDate,
+        estimatedReduction = "1161.17",
+        localization = null,
+        proponent = OrganizationRef(
+            id = "",
+            name = "MediaGEO Group Ltg."
+        ),
+        type = 1,
+        referenceYear = "2023",
+        registrationDate = registrationDate,
+        vintage = null,
+        slug = null,
+        assessor = null,
+        location = GeoLocation(
+            lon = 24.233000,
+            lat = 0.783000
+        ),
+        vvb = OrganizationRef(
+            id = "",
+            name = "InBECAS - The Brazilian Institute of Carbon Stocks and Sustainable Action"
+        ),
+        activities = listOf(),
         sdgs = emptyList()
     )
 }

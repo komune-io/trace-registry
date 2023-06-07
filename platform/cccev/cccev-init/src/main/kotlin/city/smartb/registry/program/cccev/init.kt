@@ -1,4 +1,5 @@
 import city.smartb.registry.program.cccev.AppAuth
+import city.smartb.registry.program.cccev.createBrazilRockFeller
 import city.smartb.registry.program.cccev.createRandomProject
 import city.smartb.registry.program.cccev.initRequirement
 import kotlinx.coroutines.runBlocking
@@ -14,7 +15,8 @@ fun main() = runBlocking {
     val urlVer = "http://localhost:8070"
 
     val accessToken = AppAuth.getTokens("sb-plateform-app", "secretsecret").access_token
-    initRequirement(urlCCCEV)
-    createRandomProject(urlVer, accessToken)
-//    createYahuma(urlVer)
+//    initRequirement(urlCCCEV)
+//    createRandomProject(urlVer, accessToken)
+//    createYahuma(urlVer, accessToken)
+    createBrazilRockFeller(urlVer, accessToken)
 }
