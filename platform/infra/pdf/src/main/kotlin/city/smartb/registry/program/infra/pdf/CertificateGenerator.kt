@@ -8,7 +8,7 @@ import java.util.Date
 
 
 object CertificateGenerator {
-    const val TEMPLATE_CERTIFICATE = "classpath:certificate.html"
+    const val TEMPLATE_CERTIFICATE = "classpath:certificate_pending.html"
 
 
     private const val FIELD_ISSUEDTO = "(entreprise)"
