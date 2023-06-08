@@ -3232,4 +3232,12 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
         offset(): string;
     };
 }
-export as namespace verified_emission_reduction_registry_asset_f2_domain;
+export namespace city.smartb.registry.program.f2.asset.client {
+    class AssetClient /* implements city.smartb.registry.program.f2.asset.domain.AssetApi */ {
+        constructor(client: f2.client.F2Client);
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.client {
+    function assetClient(urlBase: string, accessToken: string): f2.dsl.fnc.F2SupplierSingle<city.smartb.registry.program.f2.asset.client.AssetClient>;
+}
+export as namespace verified_emission_reduction_registry_asset_f2_client;

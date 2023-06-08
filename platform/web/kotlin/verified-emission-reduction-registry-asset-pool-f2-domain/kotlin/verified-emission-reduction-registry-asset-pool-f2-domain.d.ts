@@ -3023,8 +3023,8 @@ export namespace city.smartb.registry.program.f2.pool.domain.command {
 }
 export namespace city.smartb.registry.program.f2.pool.domain.command {
     interface AssetPoolCreateCommandDTO {
-        readonly projectId: string;
         readonly vintage: string;
+        readonly indicator: string;
         readonly granularity: number;
 
     }
@@ -3062,6 +3062,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.model {
         readonly granularity: number;
         readonly wallets: Record<string, number>;
         readonly stats: city.smartb.registry.program.s2.asset.domain.model.AssetPoolStats;
+        readonly metadata: Record<string, Nullable<string>>;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */;
 
     }
@@ -3078,7 +3079,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.query {
 }
 export namespace city.smartb.registry.program.f2.pool.domain.utils {
     const AssetPoolPolicies: {
-        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, project: city.smartb.registry.program.s2.project.domain.model.ProjectDTO): boolean;
+        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canHold(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canResume(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
         canClose(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;

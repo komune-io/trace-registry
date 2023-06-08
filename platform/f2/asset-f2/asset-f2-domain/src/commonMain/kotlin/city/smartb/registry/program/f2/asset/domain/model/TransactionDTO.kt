@@ -26,6 +26,7 @@ interface TransactionDTO {
     val unit: String
     val vintage: String
     val file: FilePathDTO?
+    val status: String?
 }
 
 /**
@@ -43,5 +44,6 @@ data class TransactionDTOBase(
     override val date: Long,
     override val unit: String,
     override val vintage: String,
-    override val file: FilePath?
+    override val file: FilePath?,
+    override val status: String?
 ): TransactionDTO

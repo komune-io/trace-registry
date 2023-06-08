@@ -44,6 +44,8 @@ class TransactionEntity: WithS2Id<TransactionId>, WithS2State<TransactionState> 
 
     var file: FilePath? = null
 
+    var raison: String? = null
+
     override fun s2Id() = id
     override fun s2State() = status
 }

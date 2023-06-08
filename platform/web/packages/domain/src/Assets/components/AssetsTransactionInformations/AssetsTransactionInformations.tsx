@@ -2,9 +2,8 @@ import {FormComposable, FormComposableField, Link, useFormComposable} from '@sma
 import {Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {AssetsTransactionStatus} from "./AssetsTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
-import {Project, Transaction} from 'domain-components';
+import {AssetsTransactionType, Project, Transaction} from 'domain-components';
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
 
@@ -41,7 +40,7 @@ export const AssetsTransactionInformations = (props: AssetsTransactionInformatio
             params: {
                 orientation: "horizontal",
                 readonlyType: "customElement",
-                readonlyElement: AssetsTransactionStatus
+                readonlyElement: AssetsTransactionType
             }
         },
         {

@@ -14,4 +14,5 @@ data class TransactionCancelCommand(
 data class TransactionCanceledEvent(
     override val id: TransactionId,
     override val date: Long,
+    val raison: String,
 ): TransactionEvent

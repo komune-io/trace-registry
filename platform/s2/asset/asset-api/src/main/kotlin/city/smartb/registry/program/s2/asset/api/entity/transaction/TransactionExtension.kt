@@ -11,5 +11,6 @@ fun TransactionEntity.toTransaction() = Transaction(
     quantity = quantity,
     type = type,
     date = date,
-    file = file
+    file = file,
+    state = s2State()
 )
