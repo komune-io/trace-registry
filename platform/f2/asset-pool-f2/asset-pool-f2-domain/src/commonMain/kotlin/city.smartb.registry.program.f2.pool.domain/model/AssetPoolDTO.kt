@@ -19,7 +19,7 @@ import kotlin.js.JsExport
 interface AssetPoolDTO: WithS2State<AssetPoolState> {
     val id: AssetPoolId
     val status: String
-    val vintage: String
+    val vintage: String?
     val indicator: InformationConceptDTO
     val granularity: Double
     val wallets: Map<String, BigDecimalAsNumber>
@@ -34,7 +34,7 @@ interface AssetPoolDTO: WithS2State<AssetPoolState> {
 data class AssetPoolDTOBase(
     override val id: AssetPoolId,
     override val status: String,
-    override val vintage: String,
+    override val vintage: String?,
     override val indicator: InformationConceptDTOBase,
     override val granularity: Double,
     override val wallets: Map<String, BigDecimalAsNumber>,
