@@ -30,14 +30,14 @@ import kotlin.js.JsName
 
 val s2Transaction = s2Sourcing {
     name = "TransactionS2"
-    init<TransactionEmitCommand, TransactionEmittedEvent> {
-        to = TransactionState.SUBMITTED
-        role = TransactionRole.Emitter
-    }
-    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
-        states+=TransactionState.SUBMITTED
-        role = TransactionRole.Emitter
-    }
+//    init<TransactionEmitCommand, TransactionEmittedEvent> {
+//        to = TransactionState.SUBMITTED
+//        role = TransactionRole.Emitter
+//    }
+//    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
+//        states+=TransactionState.SUBMITTED
+//        role = TransactionRole.Emitter
+//    }
 
     init<TransactionDraftCommand, TransactionDraftedEvent> {
         to = TransactionState.DRAFTED

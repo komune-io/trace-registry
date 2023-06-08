@@ -31,11 +31,11 @@ fun main() = runBlocking {
     val urlCCCEV = "http://localhost:8083"
     val urlVer = "http://localhost:8070"
 
-    val accessToken = AppAuth.getTokens(urlAuth, client, secret).access_token
+//    val accessToken = AppAuth.getTokens(urlAuth, client, secret).access_token
 
-    initRequirement(urlCCCEV)
+//    initRequirement(urlCCCEV)
     initIndicatorsCarbon(urlCCCEV)
-    createRandomProject(urlVer, accessToken)
+//    createRandomProject(urlVer, accessToken)
 //    createYahuma(urlVer, accessToken)
 //    createBrazilRockFeller(urlVer, accessToken)
 }

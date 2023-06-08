@@ -84,7 +84,7 @@ class AssetEndpoint(
         logger.info("assetIssue: $command")
         assetPoliciesEnforcer.checkIssue(command.poolId)
         assetF2AggregateService.issue(command)
-            .let { AssetIssuedEventDTOBase(it.transactionId) }
+
     }
 
     @Bean
@@ -92,7 +92,6 @@ class AssetEndpoint(
         logger.info("assetTransfer: $command")
         assetPoliciesEnforcer.checkTransfer(command.poolId)
         assetF2AggregateService.transfer(command)
-            .let { AssetTransferredEventDTOBase(it.transactionId) }
     }
 
     @Bean
@@ -100,7 +99,6 @@ class AssetEndpoint(
         logger.info("assetOffset: $command")
         assetPoliciesEnforcer.checkOffset(command.poolId)
         assetF2AggregateService.offset(command)
-            .let { AssetOffsettedEventDTOBase(it.transactionId) }
     }
 
     @Bean
@@ -108,7 +106,6 @@ class AssetEndpoint(
         logger.info("assetRetire: $command")
         assetPoliciesEnforcer.checkRetire(command.poolId)
         assetF2AggregateService.retire(command)
-            .let { AssetRetiredEventDTOBase(it.transactionId) }
     }
 
     @PostMapping("/assetCertificateDownload")

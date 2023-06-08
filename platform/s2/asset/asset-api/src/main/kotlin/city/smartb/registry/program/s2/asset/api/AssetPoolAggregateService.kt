@@ -32,7 +32,7 @@ import java.util.UUID
 @Service
 class AssetPoolAggregateService(
 	private val poolAutomate: AssetPoolAutomateExecutor,
-	private val transactionAutomate: TransactionAutomateExecutor,
+//	private val transactionAutomate: TransactionAutomateExecutor,
 ): AssetPoolAggregate {
 	override suspend fun create(command: AssetPoolCreateCommand) = poolAutomate.init(command) {
 		AssetPoolCreatedEvent(
@@ -79,7 +79,7 @@ class AssetPoolAggregateService(
 		)
 	}
 
-	override suspend fun submitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
+	override suspend fun emitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
 		if (command.quantity < 0) {
 			throw NegativeTransactionException(command.quantity)
 		}
@@ -95,60 +95,17 @@ class AssetPoolAggregateService(
 			throw GranularityTooSmallException(transaction = command.quantity, granularity = pool.granularity)
 		}
 
-		val transactionEvent = TransactionSubmitCommand(
-			poolId = command.id,
-			from = command.from,
-			to = command.to,
-			by = command.by,
-			quantity = command.quantity,
-			type = command.type
-		).let { submitTransaction(it) }
 
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			transactionId = transactionEvent.id
-		)
-	}
-
-//	override suspend fun addFileTransaction(command: TransactionAddFileCommand): TransactionAddedFileEvent = transactionAutomate.transition(command) {
-//		TransactionAddedFileEvent(
-//			id = command.id,
-//			date = System.currentTimeMillis(),
-//			file = command.file
-//		)
-//	}
-
-	override suspend fun generatePendingCertificateCommand(command: TransactionPendingCertificateGenerateCommand): TransactionPendingCertificateGeneratedEvent = transactionAutomate.transition(command) {
-		TransactionPendingCertificateGeneratedEvent(
-			id = command.id,
-			date = System.currentTimeMillis(),
-			file = command.file
-		)
-	}
-
-//	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
-//		TransactionEmittedEvent(
-//			id = UUID.randomUUID().toString(),
-//			date = System.currentTimeMillis(),
-//			poolId = command.poolId,
-//			from = command.from,
-//			to = command.to,
-//			by = command.by,
-//			quantity = command.quantity,
-//			type = command.type
-//		)
-//	}
-	private suspend fun submitTransaction(command: TransactionSubmitCommand) = transactionAutomate.init(command) {
-		TransactionSubmittedEvent(
-			id = UUID.randomUUID().toString(),
-			date = System.currentTimeMillis(),
-			poolId = command.poolId,
-			from = command.from,
-			to = command.to,
+			transactionId = command.transactionId,
 			by = command.by,
+			from = command.from,
 			quantity = command.quantity,
-			type = command.type
+			to = command.to,
+			type = command.type,
 		)
 	}
+
 }

@@ -5,6 +5,7 @@ import city.smartb.registry.program.f2.asset.domain.utils.AssetPolicies
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitCommand
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,8 +33,8 @@ class AssetPoliciesEnforcer(
     }
 
     suspend fun checkTransaction(
-        command: AssetPoolEmitTransactionCommand
-    ) = check("emit transaction from [${command.from}]") { authedUser ->
+        command: TransactionSubmitCommand
+    ) = check("submit transaction from [${command.from}]") { authedUser ->
         command.from == null
                 || command.from == authedUser.memberOf
                 || AssetPolicies.canEmitTransactionForOther(authedUser)

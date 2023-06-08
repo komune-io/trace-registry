@@ -23,7 +23,7 @@ interface AssetPoolCreateCommandDTO {
      * Vintage of the assets issued inside the pool
      * @example "2023"
      */
-    val vintage: String
+    val vintage: String?
 
     /**
      * Indicator of the assets issued inside the pool
@@ -42,7 +42,7 @@ interface AssetPoolCreateCommandDTO {
  * @d2 inherit
  */
 data class AssetPoolCreateCommandDTOBase(
-        override val vintage: String,
+        override val vintage: String?,
         override val indicator: String,
         override val granularity: Double
 ): AssetPoolCreateCommandDTO

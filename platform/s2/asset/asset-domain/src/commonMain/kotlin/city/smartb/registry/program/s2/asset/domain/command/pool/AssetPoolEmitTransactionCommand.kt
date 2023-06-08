@@ -14,6 +14,7 @@ data class AssetPoolEmitTransactionCommand(
     val to: String?,
     val by: String,
     val quantity: BigDecimalAsString,
+    val transactionId: TransactionId,
     val type: TransactionType
 ): AssetPoolCommand
 
@@ -21,5 +22,10 @@ data class AssetPoolEmitTransactionCommand(
 data class AssetPoolEmittedTransactionEvent(
     override val id: AssetPoolId,
     override val date: Long,
+    val from: String?,
+    val to: String?,
+    val by: String,
+    val quantity: BigDecimalAsString,
+    val type: TransactionType,
     val transactionId: TransactionId
 ): AssetPoolEvent
