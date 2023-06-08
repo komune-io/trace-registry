@@ -8,7 +8,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import kotlinx.serialization.Serializable
 
 data class AssetPoolUpdateCommand(
-    val vintage: String,
+    val vintage: String?,
     val indicator: InformationConceptIdentifier,
     val granularity: Double,
     val metadata: Map<String, String>?
@@ -19,7 +19,7 @@ data class AssetPoolUpdatedEvent(
     override val id: AssetPoolId,
     override val date: Long,
     val status: AssetPoolState,
-    val vintage: String,
+    val vintage: String?,
     val indicator: InformationConceptIdentifier,
     val granularity: Double,
     val metadata: Map<String, String>
