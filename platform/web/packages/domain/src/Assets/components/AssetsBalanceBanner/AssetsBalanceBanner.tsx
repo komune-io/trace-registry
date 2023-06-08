@@ -7,10 +7,10 @@ import {AssetsDataSummary, useAssetGetQuery} from "domain-components";
 import {useParams} from "react-router-dom";
 
 
-export interface ProjectBalanceBannerProps {
+export interface AssetsBalanceBannerProps {
 }
 
-export const AssetsBalanceBanner = (props: ProjectBalanceBannerProps) => {
+export const AssetsBalanceBanner = (props: AssetsBalanceBannerProps) => {
     const { } = props
     const { t } = useTranslation()
     const { projectId } = useParams()

@@ -10,7 +10,7 @@ class CertificateGeneratorTest {
     fun fill() {
         val certifiedBy = "Sustainable Future Group"
         val project = "Certicongo"
-        val result = CertificateGenerator.fill("lala",1002020,"lala", BigDecimal.TEN,"lala", certifiedBy, project)
+        val result = CertificateGenerator.fillPendingCertificate("lala",1002020,"lala", BigDecimal.TEN,"lala")
         val pdf = File("certificate.pdf")
             pdf.writeBytes(result)
             println(pdf.writeBytes(result))

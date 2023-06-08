@@ -2,8 +2,8 @@ import {useCustomFilters} from 'components'
 import {FilterComposableField, Option} from '@smartb/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
-import {AssetTransactionPageQuery, transactionTypeValues} from "domain-components";
-import {transactionTypeValuesToColor} from "../AssetsTransactionInformations";
+import {AssetTransactionPageQuery, TransactionTypeValues} from "domain-components";
+import {transactionTypeValuesToColor} from "../AssetsTransactionType/AssetsTransactionType";
 
 export const useTransactionsFilters = () => {
 
@@ -11,7 +11,7 @@ export const useTransactionsFilters = () => {
      const typesOptions = useMemo(
          () => {
                     const types: Option[] = []
-                    for (let key in transactionTypeValues) {
+                    for (let key in TransactionTypeValues) {
                             types.push({
                                 key: key,
                                 label: t(key),

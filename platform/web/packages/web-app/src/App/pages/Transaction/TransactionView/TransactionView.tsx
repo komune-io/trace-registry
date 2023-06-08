@@ -4,7 +4,6 @@ import {
     TransactionCertificateSummary,
     TransactionPdfCertificate,
     useAssetTransactionGetQuery,
-    useProjectGetQuery
 } from "domain-components";
 import {AppPage} from "template";
 import {Button, Section} from "@smartb/g2";
@@ -20,8 +19,6 @@ export interface TransactionViewProps {
 export const TransactionView = (_: TransactionViewProps) => {
     const { projectId, transactionId } = useParams()
     const { t } = useTranslation()
-    const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
-    const project = projectQuery.data?.item
     const transactionQuery = useAssetTransactionGetQuery({ query: { transactionId: transactionId ?? "" }, options: { enabled: !!transactionId } })
     const transaction = transactionQuery.data?.item
     const navigate = useNavigate()
@@ -62,7 +59,7 @@ export const TransactionView = (_: TransactionViewProps) => {
                     alignItems="center"
 
                 >
-                    <TransactionCertificateSummary isLoading={transactionQuery.isLoading} transaction={transaction} project={project} />
+                    <TransactionCertificateSummary isLoading={transactionQuery.isLoading} transaction={transaction} />
                     <TransactionPdfCertificate transaction={transaction} />
                 </Stack>
             </Section>

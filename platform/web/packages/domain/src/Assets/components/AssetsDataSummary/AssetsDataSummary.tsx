@@ -4,14 +4,14 @@ import React, {useMemo} from "react";
 import {QuantityFormatter} from "components";
 
 
-export interface ProjectDataSummaryProps {
+export interface AssetDataSummaryProps {
     icon: React.ReactNode,
     label: string,
     formState: FormComposableState,
     name: string
 }
 
-export const AssetsDataSummary = (props: ProjectDataSummaryProps) => {
+export const AssetsDataSummary = (props: AssetDataSummaryProps) => {
     const {icon, label, formState, name} = props
 
     const fields = useMemo((): FormComposableField[] => [{
@@ -24,8 +24,6 @@ export const AssetsDataSummary = (props: ProjectDataSummaryProps) => {
         }
     },
     ], [label])
-
-
 
     return (
         <Stack

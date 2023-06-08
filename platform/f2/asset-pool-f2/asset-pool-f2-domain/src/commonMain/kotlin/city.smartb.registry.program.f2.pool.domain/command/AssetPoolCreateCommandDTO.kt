@@ -20,15 +20,16 @@ typealias AssetPoolCreateFunction = F2Function<AssetPoolCreateCommandDTOBase, As
 @JsExport
 interface AssetPoolCreateCommandDTO {
     /**
-     * Id of the project the pool will be assigned to.
-     */
-    val projectId: ProjectId
-
-    /**
      * Vintage of the assets issued inside the pool
      * @example "2023"
      */
     val vintage: String
+
+    /**
+     * Indicator of the assets issued inside the pool
+     * @example carbon
+     */
+    val indicator: String
 
     /**
      *
@@ -41,8 +42,8 @@ interface AssetPoolCreateCommandDTO {
  * @d2 inherit
  */
 data class AssetPoolCreateCommandDTOBase(
-        override val projectId: ProjectId,
         override val vintage: String,
+        override val indicator: String,
         override val granularity: Double
 ): AssetPoolCreateCommandDTO
 

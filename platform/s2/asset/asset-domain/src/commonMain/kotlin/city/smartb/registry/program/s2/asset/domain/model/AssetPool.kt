@@ -10,7 +10,7 @@ import kotlin.js.JsExport
 data class AssetPool(
     val id: AssetPoolId,
     val status: AssetPoolState,
-    val vintage: String,
+    val vintage: String?,
     val indicator: InformationConceptIdentifier,
     val granularity: Double,
     val wallets: Map<String, BigDecimalAsString>,

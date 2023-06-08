@@ -2,23 +2,23 @@ import {FormComposable, FormComposableField, Link, useFormComposable} from '@sma
 import {Divider, IconButton, Stack, Typography} from '@mui/material'
 import {useCallback, useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {AssetsTransactionStatus} from "./AssetsTransactionStatus";
 import {CloseRounded} from "@mui/icons-material";
-import {Project, Transaction} from 'domain-components';
+import {AssetsTransactionType, Project, Transaction} from 'domain-components';
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
 
-export interface ProjectTransactionInformationsProps {
+export interface AssetsTransactionInformationsProps {
     isLoading: boolean
     transaction?: Transaction
     onBack: () => void
     project : Project
 }
 
-export const AssetsTransactionInformations = (props: ProjectTransactionInformationsProps) => {
+export const AssetsTransactionInformations = (props: AssetsTransactionInformationsProps) => {
     let { isLoading, transaction, project, onBack } = props
 
     const { t } = useTranslation()
+    // REMOVE From Here Add GoBack Link
     const { projectsProjectIdTransactionsTransactionIdView } = useRoutesDefinition()
     const navigate = useNavigate();
     const formState = useFormComposable({
@@ -40,7 +40,7 @@ export const AssetsTransactionInformations = (props: ProjectTransactionInformati
             params: {
                 orientation: "horizontal",
                 readonlyType: "customElement",
-                readonlyElement: AssetsTransactionStatus
+                readonlyElement: AssetsTransactionType
             }
         },
         {

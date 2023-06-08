@@ -21,7 +21,7 @@ class AssetPoolEntity: WithS2Id<AssetPoolId>, WithS2State<AssetPoolState> {
     var creationDate: Long = 0
 
     @Searchable(nostem=true)
-    lateinit var vintage: String
+    var vintage: String? = null
 
     lateinit var indicator: InformationConceptIdentifier
 

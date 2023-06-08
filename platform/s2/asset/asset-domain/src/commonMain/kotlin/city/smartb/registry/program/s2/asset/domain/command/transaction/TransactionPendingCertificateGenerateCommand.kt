@@ -6,13 +6,13 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import kotlinx.serialization.Serializable
 
-data class TransactionCertificateGenerateCommand(
+data class TransactionPendingCertificateGenerateCommand(
     override val id: TransactionId,
     val file: FilePath
 ): TransactionCommand
 
 @Serializable
-data class TransactionCertificateGeneratedEvent(
+data class TransactionPendingCertificateGeneratedEvent(
     override val id: TransactionId,
     override val date: Long,
     val file: FilePath

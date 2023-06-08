@@ -24,7 +24,7 @@ class AssertionAssetPool(
         fun hasFields(
             id: AssetPoolId = pool.id,
             status: AssetPoolState = pool.status,
-            vintage: String = pool.vintage,
+            vintage: String? = pool.vintage,
             indicator: InformationConceptIdentifier = pool.indicator,
             granularity: Double = pool.granularity,
             wallets: MutableMap<String, BigDecimal> = pool.wallets,

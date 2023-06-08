@@ -13,12 +13,12 @@ import {
     useTransactionsFilters
 } from "domain-components";
 
-export interface ProjectAssetsProps {
+export interface AssetsProps {
     isLoading: boolean
     project: Project
 }
 
-export const AssetsPage = (props: ProjectAssetsProps) => {
+export const AssetsPage = (props: AssetsProps) => {
     const { isLoading, project } = props
     const { component, setOffset, submittedFilters } = useTransactionsFilters()
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
@@ -59,7 +59,6 @@ export const AssetsPage = (props: ProjectAssetsProps) => {
                     width: "100%",
                 }}
                 gap={3}
-
             >
                 <AssetsBalanceBanner />
                 <AssetsTransactionsTable
@@ -81,7 +80,6 @@ export const AssetsPage = (props: ProjectAssetsProps) => {
                             }}
                         />
                     }
-
                     page={transactions.data}
                     pagination={pagination}
                     isLoading={transactions.isLoading}

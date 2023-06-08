@@ -14,7 +14,7 @@ data class TransactionDraftCommand(
     val to: String?,
     val by: String,
     val quantity: BigDecimalAsString?,
-    val type: TransactionType?
+    val type: TransactionType
 ): TransactionInitCommand
 
 @Serializable
@@ -26,5 +26,5 @@ data class TransactionDraftedEvent(
     val to: String?,
     val by: String?,
     val quantity: BigDecimalAsString?,
-    val type: TransactionType?
+    val type: TransactionType
 ): TransactionEvent

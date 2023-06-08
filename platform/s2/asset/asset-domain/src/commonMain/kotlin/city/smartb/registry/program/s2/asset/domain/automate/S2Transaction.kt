@@ -11,8 +11,8 @@ import city.smartb.registry.program.s2.asset.domain.command.transaction.Transact
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCertificateGenerateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCertificateGeneratedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidateCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCancelCommand
@@ -56,7 +56,7 @@ val s2Transaction = s2Sourcing {
         to = TransactionState.SUBMITTED
         role = TransactionRole.Stakeholder
     }
-    transaction<TransactionCertificateGenerateCommand, TransactionCertificateGeneratedEvent> {
+    transaction<TransactionPendingCertificateGenerateCommand, TransactionPendingCertificateGeneratedEvent> {
         from = TransactionState.SUBMITTED
         to = TransactionState.PENDING
         role = TransactionRole.Orchestrator

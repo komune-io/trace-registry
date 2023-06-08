@@ -5521,6 +5521,30 @@ if (typeof Math.imul === 'undefined') {
       limit = 0;
     return split_0(_this__u8e3s4, delimiters, ignoreCase, limit);
   }
+  function trim(_this__u8e3s4) {
+    var tmp$ret$0;
+    // Inline function 'kotlin.text.trim' call
+    var startIndex = 0;
+    var endIndex = charSequenceLength(_this__u8e3s4) - 1 | 0;
+    var startFound = false;
+    $l$loop: while (startIndex <= endIndex) {
+      var index = !startFound ? startIndex : endIndex;
+      var match = isWhitespace(charSequenceGet(_this__u8e3s4, index));
+      if (!startFound) {
+        if (!match)
+          startFound = true;
+        else
+          startIndex = startIndex + 1 | 0;
+      } else {
+        if (!match)
+          break $l$loop;
+        else
+          endIndex = endIndex - 1 | 0;
+      }
+    }
+    tmp$ret$0 = charSequenceSubSequence(_this__u8e3s4, startIndex, endIndex + 1 | 0);
+    return tmp$ret$0;
+  }
   function indexOfAny(_this__u8e3s4, chars, startIndex, ignoreCase) {
     var tmp;
     if (!ignoreCase ? chars.length === 1 : false) {
@@ -5581,30 +5605,6 @@ if (typeof Math.imul === 'undefined') {
     if (!(($mask0 & 4) === 0))
       ignoreCase = false;
     return indexOfAny(_this__u8e3s4, chars, startIndex, ignoreCase);
-  }
-  function trim(_this__u8e3s4) {
-    var tmp$ret$0;
-    // Inline function 'kotlin.text.trim' call
-    var startIndex = 0;
-    var endIndex = charSequenceLength(_this__u8e3s4) - 1 | 0;
-    var startFound = false;
-    $l$loop: while (startIndex <= endIndex) {
-      var index = !startFound ? startIndex : endIndex;
-      var match = isWhitespace(charSequenceGet(_this__u8e3s4, index));
-      if (!startFound) {
-        if (!match)
-          startFound = true;
-        else
-          startIndex = startIndex + 1 | 0;
-      } else {
-        if (!match)
-          break $l$loop;
-        else
-          endIndex = endIndex - 1 | 0;
-      }
-    }
-    tmp$ret$0 = charSequenceSubSequence(_this__u8e3s4, startIndex, endIndex + 1 | 0);
-    return tmp$ret$0;
   }
   function splitToSequence(_this__u8e3s4, delimiters, ignoreCase, limit) {
     var tmp = rangesDelimitedBy$default(_this__u8e3s4, delimiters, 0, ignoreCase, limit, 2, null);

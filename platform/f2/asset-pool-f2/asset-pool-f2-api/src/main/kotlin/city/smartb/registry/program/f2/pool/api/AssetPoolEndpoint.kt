@@ -36,7 +36,7 @@ class AssetPoolEndpoint(
     @Bean
     override fun assetPoolCreate(): AssetPoolCreateFunction = f2Function { command ->
         logger.info("assetPoolCreate: $command")
-        assetPoolPoliciesEnforcer.checkCreate(command.projectId)
+        assetPoolPoliciesEnforcer.checkCreate()
         assetPoolF2AggregateService.create(command)
             .let { AssetPoolCreatedEventDTOBase(it.id) }
     }

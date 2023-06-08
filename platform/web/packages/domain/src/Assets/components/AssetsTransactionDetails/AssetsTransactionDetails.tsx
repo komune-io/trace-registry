@@ -2,7 +2,7 @@ import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2
 import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";
-import {Transaction} from 'domain-components';
+import {Transaction, transactionStatusValuesOption} from 'domain-components';
 
 export interface ProjectTransactionDetailsProps {
     isLoading: boolean
@@ -49,7 +49,16 @@ export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) 
             params: {
                 orientation: "horizontal"
             }
-        }], [t])
+        },
+        {
+            name: "status",
+            type: "select",
+            label: t('status'),
+            params: {
+                orientation: "horizontal",
+                options: transactionStatusValuesOption
+            }
+        }], [t, transaction?.status])
 
     return (
         <Stack gap={1}>

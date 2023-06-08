@@ -4,7 +4,7 @@ import {Row} from '@tanstack/react-table';
 import {useCallback, useMemo} from "react"
 import {OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult} from "template";
 import {useTranslation} from 'react-i18next';
-import {AssetsTransactionStatus, Transaction} from 'domain-components';
+import {AssetsTransactionType, Transaction} from 'domain-components';
 import {QuantityLabel} from "components";
 
 function useTransactionColumn() {
@@ -60,7 +60,7 @@ function useTransactionColumn() {
             type: {
                 header: t("type"),
                 cell: ({ row }) => (
-                    <AssetsTransactionStatus value={row.original.type} />
+                    <AssetsTransactionType value={row.original.type} />
                 ),
                 className: "typesColumn"
             }
@@ -75,8 +75,8 @@ export interface AssetsTransactionsTableProps extends Partial<OffsetTableProps<T
     page?: PageQueryResult<Transaction>
     pagination: OffsetPagination
     isLoading?: boolean
-    onTransactionClick: (Transaction: Row<Transaction>) => void
-    selectedTransaction: Transaction | undefined
+    onTransactionClick?: (Transaction: Row<Transaction>) => void
+    selectedTransaction?: Transaction | undefined
 }
 
 export const AssetsTransactionsTable = (props: AssetsTransactionsTableProps) => {

@@ -10,20 +10,20 @@
 
 
 ### projectGet
-POST {{urlbase}}/projectGet
-Content-Type: application/json
-
-{
-  "id": "{{assetProjectId}}"
-}
+#POST {{urlbase}}/projectGet
+#Content-Type: application/json
+#
+#{
+#  "id": "{{assetProjectId}}"
+#}
 
 ### assetTransactionPage
-POST {{urlbase}}/assetTransactionPage
-Content-Type: application/json
-
-{
-  "projectId": "{{assetProjectId}}"
-}
+#POST {{urlbase}}/assetTransactionPage
+#Content-Type: application/json
+#
+#{
+#  "projectId": "{{assetProjectId}}"
+#}
 
 ### OAuth2 Token Phease
 POST {{urlAuth}}/protocol/openid-connect/token
@@ -33,22 +33,22 @@ grant_type=client_credentials&client_id={{offseter_clientId}}&client_secret={{of
 
 > {% client.global.set("offseter_accessToken", response.body.access_token); %}
 
-### OAuth2 Token Rockfeller
+### OAuth2 Token Issuer
 POST {{urlAuth}}/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=client_credentials&client_id={{rockfeller_clientId}}&client_secret={{rockfeller_clientSecret}}
+grant_type=client_credentials&client_id={{issuer_clientId}}&client_secret={{issuer_clientSecret}}
 
-> {% client.global.set("rockfeller_accessToken", response.body.access_token); %}
+> {% client.global.set("issuer_accessToken", response.body.access_token); %}
 
 ### assetPoolCreate
 POST {{urlbase}}/assetPoolCreate
 Content-Type: application/json
-Authorization: Bearer {{rockfeller_accessToken}}
+Authorization: Bearer {{issuer_accessToken}}
 
 {
   "vintage": "2013",
-  "indicator": "tonnes",
+  "indicator": "carbon",
   "granularity": "0.001",
   "projectId": "{{assetProjectId}}"
 }
@@ -58,7 +58,7 @@ Authorization: Bearer {{rockfeller_accessToken}}
 ### assetIssue
 POST {{urlbase}}/assetIssue
 Content-Type: application/json
-Authorization: Bearer {{rockfeller_accessToken}}
+Authorization: Bearer {{issuer_accessToken}}
 
 {
   "poolId": "{{poolId}}",
@@ -69,7 +69,7 @@ Authorization: Bearer {{rockfeller_accessToken}}
 ### assetTransfer
 POST {{urlbase}}/assetTransfer
 Content-Type: application/json
-Authorization: Bearer {{rockfeller_accessToken}}
+Authorization: Bearer {{issuer_accessToken}}
 
 {
   "poolId": "{{poolId}}",
@@ -91,25 +91,25 @@ Authorization: Bearer {{offseter_accessToken}}
 }
 
 #### assetOffset second
-#POST {{urlbase}}/assetOffset
-#Content-Type: application/json
-#Authorization: Bearer {{offseter_accessToken}}
-#
-#{
-#  "poolId": "{{poolId}}",
-#  "from": "{{offseter}}",
-#  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-#  "quantity": 42.141
-#}
-#
-#### ShouldNotWork
-#POST {{urlbase}}/assetOffset
-#Content-Type: application/json
-#Authorization: Bearer {{offseter_accessToken}}
-#
-#{
-#  "poolId": "{{poolId}}",
-#  "from": "ShouldNotWork",
-#  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-#  "quantity": 42.141
-#}
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "{{offseter}}",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}
+
+### ShouldNotWork
+POST {{urlbase}}/assetOffset
+Content-Type: application/json
+Authorization: Bearer {{offseter_accessToken}}
+
+{
+  "poolId": "{{poolId}}",
+  "from": "ShouldNotWork",
+  "to": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+  "quantity": 42.141
+}
