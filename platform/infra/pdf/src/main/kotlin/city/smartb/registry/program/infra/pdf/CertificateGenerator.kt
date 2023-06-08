@@ -43,7 +43,7 @@ object CertificateGenerator {
     ): ByteArray {
         val template = TEMPLATE_CERTIFICATE
 
-        val verb = if (quantity > BigDecimal.ONE) "Have been" else "Has Been"
+        val verb = if (quantity > BigDecimal.ONE) "will be" else "will be"
         val templateFilled =  PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
             .readAllBytes()
