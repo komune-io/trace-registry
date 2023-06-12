@@ -68,6 +68,7 @@ interface AssetIssuedEventDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetIssuedEventDTOBase(
     override val transactionId: TransactionId
 ): AssetIssuedEventDTO

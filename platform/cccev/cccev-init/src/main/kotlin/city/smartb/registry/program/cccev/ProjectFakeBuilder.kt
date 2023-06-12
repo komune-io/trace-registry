@@ -4,14 +4,33 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.f2.activity.client.ActivityClient
 import city.smartb.registry.program.f2.activity.client.activityClient
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
+import city.smartb.registry.program.f2.asset.client.AssetClient
+import city.smartb.registry.program.f2.asset.client.assetClient
+import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
+import city.smartb.registry.program.f2.pool.client.AssetPoolClient
+import city.smartb.registry.program.f2.pool.client.assetPoolClient
+import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateCommandDTOBase
 import city.smartb.registry.program.f2.project.client.ProjectClient
 import city.smartb.registry.program.f2.project.client.projectClient
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetQuery
+import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
+import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.asFlow
@@ -23,18 +42,13 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 import net.datafaker.providers.base.Address
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneOffset
-import java.time.chrono.IsoChronology
-import java.time.format.DateTimeFormatter
-import java.time.format.DecimalStyle
-import java.util.concurrent.TimeUnit
 
 class ProjectFakeBuilder(url: String, accessToken: String) {
     val faker = Faker()
     val activityClient = activityClient(url)
     val projectClient = projectClient(url, accessToken)
+    val assetPoolClient = assetPoolClient(url, accessToken)
+    val assetClient = assetClient(url, accessToken)
 
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
@@ -61,16 +75,42 @@ fun createYahuma(url: String, accessToken: String): Unit = runBlocking {
 
     fullFillProject(project.id, projectClient, activityClient)
 }
-fun createBrazilRockFeller(url: String, accessToken: String): Unit = runBlocking {
+fun createBrazilRockFeller(
+    url: String,
+    accessToken: String,
+    accessTokenRockfeller: String,
+    accessTokenOffseter: String
+): Unit = runBlocking {
+
     val helper = ProjectFakeBuilder(url, accessToken)
+    val helperRockfeller = ProjectFakeBuilder(url, accessTokenRockfeller)
+    val helperOffseter = ProjectFakeBuilder(url, accessTokenOffseter)
+
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
-    val created = projectClient.projectCreate().invoke(
-        flowOf(brazilRockFeller())
-    ).toList()
+    val assetPoolClient = helperRockfeller.assetPoolClient.invoke()
+    val assetClientRockfeller = helperRockfeller.assetClient.invoke()
+    val assetClientOffseter = helperOffseter.assetClient.invoke()
+
+    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
     val project = created.first()
 
     fullFillProject(project.id, projectClient, activityClient)
+
+    createAssetPool(project.id, assetPoolClient, assetClientRockfeller, assetClientOffseter)
+}
+private fun createAssetPool(
+    projectId: ProjectId,
+    assetPoolClient: AssetPoolClient,
+    assetClientRockfeller: AssetClient,
+    assetClientOffseter: AssetClient
+): Unit = runBlocking {
+    val assetPoolId = assetPoolCreateCommand(projectId).invokeWith(assetPoolClient.assetPoolCreate()).id
+    val assetIssue = assetIssueCommand(assetPoolId).invokeWith(assetClientRockfeller.assetIssue())
+    val assetTransfer = assetTransferCommand(assetPoolId).invokeWith(assetClientRockfeller.assetTransfer())
+    val assetOffset1 = assetOffset1Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset())
+//    val assetOffset2 = assetOffset2Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset())
+//    val assetOffset3 = assetOffset3Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset()) //ShouldNotWork
 }
 
 private suspend fun fullFillProject(
@@ -253,5 +293,78 @@ private fun brazilRockFeller(): ProjectCreateCommand {
         ),
         activities = listOf(),
         sdgs = emptyList()
+    )
+}
+
+private fun projectPageQuery(): ProjectPageQuery {
+    println("projectPageQuery")
+    return ProjectPageQuery(
+        limit = null,
+        offset = null,
+        identifier = null,
+        name = null,
+        proponent = null,
+        type = null,
+        estimatedReductions = null,
+        referenceYear = null,
+        dueDate = null,
+        status = null,
+        vintage = null,
+        origin = null
+    )
+}
+private fun assetPoolCreateCommand(projectId: ProjectId): AssetPoolCreateCommandDTOBase {
+    println("assetPoolCommand, projectId: $projectId")
+    return AssetPoolCreateCommandDTOBase(
+        vintage = "2013",
+        indicator = "carbon",
+        granularity = 0.001
+    )
+}
+
+private fun assetIssueCommand(assetPoolId: AssetPoolId): AssetIssueCommandDTOBase {
+    println("assetIssueCommand, assetPoolId: $assetPoolId")
+    return AssetIssueCommandDTOBase(
+        poolId = assetPoolId,
+        to = "Rockfeller",
+        quantity = 10000.toBigDecimal()
+    )
+}
+
+private fun assetTransferCommand(assetPoolId: AssetPoolId): AssetTransferCommandDTOBase {
+    println("assetTransferCommand, assetPoolId: $assetPoolId")
+    return AssetTransferCommandDTOBase(
+        poolId = assetPoolId,
+        from = "Rockfeller",
+        to = "Phease",
+        quantity = 10000.toBigDecimal()
+    )
+}
+
+private fun assetOffset1Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
+    println("assetOffset1Command, assetPoolId: $assetPoolId")
+    return AssetOffsetCommandDTOBase(
+        poolId = assetPoolId,
+        from = "Phease",
+        to = "Phease",
+        quantity = 0.001.toBigDecimal() //TODO "Value cannot be narrowed to float"
+    )
+}
+private fun assetOffset2Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
+    println("assetOffset2Command, assetPoolId: $assetPoolId")
+    return AssetOffsetCommandDTOBase(
+        poolId = assetPoolId,
+        from = "Phease",
+        to = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+        quantity = 42.141f.toBigDecimal()
+    )
+}
+private fun assetOffset3Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
+    println("assetOffset3Command, assetPoolId: $assetPoolId")
+    return AssetOffsetCommandDTOBase(
+        poolId = assetPoolId,
+        from = "ShouldNotWork",
+        to = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+        quantity = 42.141f.toBigDecimal()
     )
 }

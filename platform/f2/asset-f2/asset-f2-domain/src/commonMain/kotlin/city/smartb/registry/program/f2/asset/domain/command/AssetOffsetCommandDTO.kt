@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Offset assets from a pool.
@@ -48,6 +49,7 @@ interface AssetOffsetCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetOffsetCommandDTOBase(
     override val poolId: AssetPoolId,
     override val from: String,
@@ -72,6 +74,7 @@ interface AssetOffsettedEventDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetOffsettedEventDTOBase(
     override val transactionId: TransactionId
 ): AssetOffsettedEventDTO

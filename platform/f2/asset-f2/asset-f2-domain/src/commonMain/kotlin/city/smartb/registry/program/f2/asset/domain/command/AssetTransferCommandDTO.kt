@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Transfer assets in a pool from a sender to a receiver.
@@ -48,6 +49,7 @@ interface AssetTransferCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetTransferCommandDTOBase(
     override val poolId: AssetPoolId,
     override val from: String,
@@ -72,6 +74,7 @@ interface AssetTransferredEventDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetTransferredEventDTOBase(
     override val transactionId: TransactionId
 ): AssetTransferredEventDTO

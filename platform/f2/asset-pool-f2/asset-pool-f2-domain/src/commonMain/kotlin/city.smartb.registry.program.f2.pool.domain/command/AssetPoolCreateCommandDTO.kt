@@ -1,9 +1,9 @@
 package city.smartb.registry.program.f2.pool.domain.command
 
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Create an AssetPool
@@ -41,6 +41,7 @@ interface AssetPoolCreateCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetPoolCreateCommandDTOBase(
         override val vintage: String,
         override val indicator: String,
@@ -62,6 +63,7 @@ interface AssetPoolCreatedEventDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class AssetPoolCreatedEventDTOBase(
     override val id: AssetPoolId
 ): AssetPoolCreatedEventDTO
