@@ -37,7 +37,6 @@ suspend fun initRequirement(url: String) {
             addAll(LocalConsultationRequirements)
             addAll(ReddPlusRequirement)
             addAll(VerraVcsRequirement)
-            add(IndicatorsCarbon)
         }.asFlow()
     ).onEach {
         println("Created requirement: ${it.identifier}")

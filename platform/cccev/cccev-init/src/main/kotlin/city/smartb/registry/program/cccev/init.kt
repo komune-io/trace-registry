@@ -26,18 +26,27 @@ fun main() = runBlocking {
 
 //    Local
     val urlAuth = "https://auth.connect.smart-b.io/realms/sb-dev"
-    val client = "sb-plateform-app"
-    val secret = "secretsecret"
     val urlCCCEV = "http://localhost:8083"
     val urlVer = "http://localhost:8070"
 
-    val accessToken = AppAuth.getTokens(urlAuth, client, secret).access_token
+    val clientSb = "sb-plateform-app"
+    val secretSb = "secretsecret"
 
-    initRequirement(urlCCCEV)
+    val clientRockfeller = "sb-rockfeller-app"
+    val secretRockfeller = "IY4wICIbvqHtVQFuvkrYvhQ4j5sEydwV"
+
+    val clientOffseter = "sb-phease-app"
+    val secretOffseter = "ZcX92th9ca4FYdZ2wwUnnzi8btPCZDZH"
+
+    val accessTokenSb = AppAuth.getTokens(urlAuth, clientSb, secretSb).access_token
+    val accessTokenRockfeller = AppAuth.getTokens(urlAuth, clientRockfeller, secretRockfeller).access_token
+    val accessTokenOffseter = AppAuth.getTokens(urlAuth, clientOffseter, secretOffseter).access_token
+
+//    initRequirement(urlCCCEV)
     initIndicatorsCarbon(urlCCCEV)
-    createRandomProject(urlVer, accessToken)
+//    createRandomProject(urlVer, accessToken)
+
+//    createRandomProject(urlVer, accessToken)
 //    createYahuma(urlVer, accessToken)
-//    createBrazilRockFeller(urlVer, accessToken)
+    createBrazilRockFeller(urlVer, accessTokenSb, accessTokenRockfeller, accessTokenOffseter)
 }
-
-
