@@ -20,7 +20,7 @@ object BigDecimalAsStringSerializer: KSerializer<BigDecimal> {
 
 object BigDecimalAsNumberSerializer: KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.DOUBLE)
-    override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeDouble(value.doubleValue())
+    override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeDouble(value.doubleValue(false))
     override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal.fromDouble(decoder.decodeDouble())
 }
 
