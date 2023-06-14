@@ -26,7 +26,7 @@ docker-gateway:
 	@docker push ${GATEWAY_IMG}
 
 docker-web:
-	@docker build --progress=plain --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
+	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
 	@docker push ${FRONT_VER_IMG}
 
 docker-registry-certificate-web:
