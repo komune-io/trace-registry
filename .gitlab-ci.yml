@@ -1,0 +1,38 @@
+include:
+  - project: 'framework/fixers/cicd'
+    file: 'make/.gitlab-ci-jdk17.yml'
+
+stages:
+  - package
+
+##########################################
+## Tasks
+##########################################
+#  docker-gateway docker-web docker-registry-certificate-web
+api:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: docker-gateway
+
+web:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: docker-web
+
+docker-registry-certificate-web:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: package-certificate-web
+
+docs:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: package-docs
