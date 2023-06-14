@@ -1,5 +1,7 @@
 plugins {
     id("city.smartb.fixers.gradle.kotlin.mpp")
+    // TODO REMOVE THIS PLUBLICATION OR MOVE IT IN ANOHTER PACKAGE NAME.
+    id("city.smartb.fixers.gradle.publish")
     kotlin("plugin.serialization")
     kotlin("plugin.spring")
     kotlin("kapt")
