@@ -26,15 +26,15 @@ docker-gateway:
 	@docker push ${GATEWAY_IMG}
 
 docker-web:
-	@docker build --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
+	@docker build --progress=plain --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
 	@docker push ${FRONT_VER_IMG}
 
 docker-registry-certificate-web:
-	@docker build --no-cache -f ${FRONT_CERT_DOCKERFILE} -t ${FRONT_CERT_IMG} .
+	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_CERT_DOCKERFILE} -t ${FRONT_CERT_IMG} .
 	@docker push ${FRONT_CERT_IMG}
 
 package-storybook:
-	@docker build --no-cache=true -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
+	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache=true -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
 	@docker push ${STORYBOOK_IMG}
 
 

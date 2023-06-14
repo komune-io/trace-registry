@@ -28,7 +28,7 @@ docker-registry-certificate-web:
   extends:
     - .make
   variables:
-    MAKE_TARGET: package-certificate-web
+    MAKE_TARGET: docker-registry-certificate-web
 
 docs:
   stage: package
