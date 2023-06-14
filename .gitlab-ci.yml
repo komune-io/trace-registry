@@ -35,4 +35,4 @@ docs:
   extends:
     - .make
   variables:
-    MAKE_TARGET: package-docs
+    MAKE_TARGET: docs
