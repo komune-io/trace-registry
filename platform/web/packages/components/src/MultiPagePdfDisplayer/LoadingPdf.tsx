@@ -1,8 +1,21 @@
-import {Paper, Skeleton, Stack, Typography} from '@mui/material'
+import { Paper, Skeleton, Stack, Typography } from '@mui/material'
 
-export const LoadingPdf = () => {
+export interface LoadingPdfProps {
+    parentWidth: number
+}
+
+export const LoadingPdf = (props: LoadingPdfProps) => {
+    const { parentWidth } = props
     return (
-        <Paper elevation={0}  sx={{ borderRadius: "0px", width: "100%", height: "100%",paddingBottom: "12px", boxSizing: "border-box" }}>
+        <Paper elevation={0}
+            sx={{
+                borderRadius: "0px",
+                width: parentWidth,
+                aspectRatio:"29.7/21",
+                paddingBottom: "12px",
+                boxSizing: "border-box"
+            }}
+        >
             <Stack spacing={8} alignItems="center" height={1302}>
                 <Typography component="div" variant="h3" width="50%">
                     <Skeleton />

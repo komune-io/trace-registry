@@ -16,7 +16,8 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                 width: "550px",
                 flexShrink: 0,
                 padding: "24px 32px",
-                overflow: "auto"
+                overflow: "auto",
+                // bgcolor:"#F0EDE6"
             }}
             gap={2}
         >
