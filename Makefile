@@ -49,50 +49,50 @@ dev-up: dev-bclan-up dev-redis-up dev-cccev-up dev-fs-up
 dev-bclan: dev-bclan-down dev-bclan-up
 
 dev-bclan-up:
-	@docker compose --env-file .env_dev -f docker-compose-bclan.yml up -d
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-bclan.yml up -d
 
 dev-bclan-down:
-	@docker compose --env-file .env_dev -f docker-compose-bclan.yml down -v
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-bclan.yml down -v
 
 dev-bclan-log:
-	@docker compose --env-file .env_dev -f docker-compose-bclan.yml logs -f
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-bclan.yml logs -f
 
 ## DEV redis
 dev-redis: dev-redis-down dev-redis-up
 
 dev-redis-up:
-	@docker compose --env-file .env_dev -f docker-compose-redis.yml up -d
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-redis.yml up -d
 
 dev-redis-down:
-	@docker compose --env-file .env_dev -f docker-compose-redis.yml down -v
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-redis.yml down -v
 
 dev-redis-log:
-	@docker compose --env-file .env_dev -f docker-compose-redis.yml logs -f
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-redis.yml logs -f
 
 ## DEV fs
 dev-fs: dev-fs-down dev-fs-up
 
 dev-fs-up:
-	@docker compose --env-file .env_dev -f docker-compose-fs.yml up -d
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-fs.yml up -d
 
 dev-fs-down:
-	@docker compose --env-file .env_dev -f docker-compose-fs.yml down -v
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-fs.yml down -v
 
 dev-fs-log:
-	@docker compose --env-file .env_dev -f docker-compose-fs.yml logs -f
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-fs.yml logs -f
 
 ## DEV cccev
 dev-cccev: dev-cccev-down dev-cccev-up
 
 dev-cccev-pull:
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml pull
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-cccev.yml pull
 
 dev-cccev-up:
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml pull
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml up -d
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-cccev.yml pull
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-cccev.yml up -d
 
 dev-cccev-down:
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml down -v
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-cccev.yml down -v
 
 dev-cccev-log:
-	@docker compose --env-file .env_dev -f docker-compose-cccev.yml logs -f
+	@docker compose --env-file .env_dev -f infra/docker-compose/docker-compose-cccev.yml logs -f
