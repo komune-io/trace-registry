@@ -39,7 +39,6 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
 
     const onLoadSuccess = ({ numPages }: { numPages: number }) => {
         setNumPages(numPages)
-        console.log(numPages)
     }
 
     return (

@@ -11,8 +11,9 @@ export const LoadingPdf = (props: LoadingPdfProps) => {
             sx={{
                 borderRadius: "0px",
                 width: parentWidth,
-                aspectRatio:"29.7/21",
+                height: (parentWidth * 297) / 210,
                 paddingBottom: "12px",
+                overflow: "hidden",
                 boxSizing: "border-box"
             }}
         >

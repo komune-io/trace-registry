@@ -1,6 +1,7 @@
 import {DocumentsListSelector} from "domain-components";
 import {Stack} from "@mui/material";
-import { Tchat } from "components";
+import { Chat } from "components";
+import { askQuestion } from "../../api";
 
 export interface DocumentsChatbotProps {
     isLoading : boolean
@@ -22,11 +23,13 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
             gap={2}
         >
             <DocumentsListSelector isLoading={isLoading} />
-            <Tchat 
+            <Chat 
             sx={{
                 overflow: "auto",
                 width: "100%"
             }}
+            //@ts-ignore
+             getResponse={askQuestion}
             />
         </Stack>
     )

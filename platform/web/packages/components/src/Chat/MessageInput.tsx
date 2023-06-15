@@ -2,13 +2,12 @@ import {InputBaseProps, Paper, InputBase, IconButton} from '@mui/material'
 import {SendRounded} from "@mui/icons-material"
 import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
-export interface MessageInputProps extends Omit<Partial<InputBaseProps>, "size"> {
+export interface MessageInputProps extends Partial<InputBaseProps> {
     onSend: (message: string) => void
-    size?: "medium" | "small"
 }
 
 export const MessageInput = (props: MessageInputProps) => {
-    const {onSend, size = "medium", ...other} = props
+    const {onSend, ...other} = props
     const [message, setMessage] = useState<string>("")
 
     const onChange = useCallback(
@@ -43,10 +42,11 @@ export const MessageInput = (props: MessageInputProps) => {
     <Paper
     elevation={0}
     sx={{
-        padding: (theme) => size === "medium" ? theme.spacing(3) : theme.spacing(2, 3),
+        padding: (theme) => theme.spacing(2, 3),
         display: "flex",
         gap: (theme) => theme.spacing(1.5),
-        alignItems: "flex-end"
+        alignItems: "flex-end",
+        border: "1px solid #C5C7D0"
     }}
     >
         <InputBase
@@ -58,9 +58,9 @@ export const MessageInput = (props: MessageInputProps) => {
         maxRows={5} 
         sx={{
             flexGrow: 1,
+            padding: "8px 0 8px",
             ...other.sx
         }}
-        size={size}
         onKeyDown={onEnter}
         />
         <IconButton
