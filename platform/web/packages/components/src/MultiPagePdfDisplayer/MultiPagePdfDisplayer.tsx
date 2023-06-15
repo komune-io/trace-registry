@@ -1,8 +1,15 @@
 import React, {useCallback, useState} from 'react'
-import {Document, Page} from 'react-pdf/dist/esm/entry.webpack5'
+import {Document, Page, pdfjs} from 'react-pdf'
 import {LoadingPdf} from './LoadingPdf'
 import {styled} from '@mui/material'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+import 'react-pdf/dist/esm/Page/TextLayer.css'
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString()
 
 const StyledInfiniteScroll = styled(InfiniteScroll)({
     boxSizing: "border-box",
@@ -74,7 +81,8 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
             next={onLoadMore}
             hasMore={pages.length + 1 < numPages}
             loader={<LoadingPdf />}
-            height={"100vh"}
+            height="100%"
+            style={{height: "100%"}}
             scrollThreshold={"1300px"}
             className="PdfDisplayer-infiniteScroll"
         >

@@ -10,7 +10,7 @@ import {
 } from 'domain-components'
 import {useNavigate, useParams} from 'react-router-dom'
 import React, {useCallback, useMemo} from 'react'
-import {Tchat, useRoutesDefinition} from 'components'
+import { useRoutesDefinition} from 'components'
 import {AppPage, SectionTab, Tab} from 'template'
 import {ArrowBackIosNewRounded} from '@mui/icons-material'
 
@@ -70,12 +70,6 @@ export const ProjectView = (_: ProjectViewProps) => {
               }}
             />
             {currentTab === "info" && <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >{t("lastChanged", { date: new Date(project?.lastModificationDate).toLocaleDateString() })}</Typography>}
-            <Tchat 
-            sx={{
-                height: "600px",
-                width: "500px"
-            }}
-            />
         </AppPage>
     )
 }

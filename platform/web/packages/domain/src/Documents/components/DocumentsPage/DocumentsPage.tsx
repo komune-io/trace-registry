@@ -12,6 +12,7 @@ export const DocumentsPage = (props: DocumentsPageProps) => {
         <Stack
             direction="row"
             position="relative"
+            height="calc(100vh - 200px)"
         >
             <DocumentsViewer />
             <DocumentsChatbot isLoading={isLoading} />

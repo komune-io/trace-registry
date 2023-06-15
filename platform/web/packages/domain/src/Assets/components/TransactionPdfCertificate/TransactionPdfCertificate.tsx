@@ -18,12 +18,6 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
             sx={{
                 "& .pdfPage": {
                     padding: "20px",
-                },
-                "& .react-pdf__Page__annotations": {
-                    display: "none"
-                },
-                "& .react-pdf__Page__textContent": {
-                    display: "none"
                 }
             }}
         >

@@ -13,20 +13,9 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
         <Stack
             bgcolor="#F0EDE6"
             flexGrow={1}
-            flexBasis={1}
+            flexBasis={0}
             sx={{
-
-                "& .react-pdf__Page__annotations": {
-                    display: "none"
-                },
-                "& .react-pdf__Page__textContent": {
-                    display: "none"
-                },
-                "& .react-pdf__Page__canvas" : {
-                    minWidth: '100%',
-                    height: "100% ! important",
-                    paddingBottom: "12px"
-                }
+                width: "100%"
             }}
         >
             <MultiPagePdfDisplayer
