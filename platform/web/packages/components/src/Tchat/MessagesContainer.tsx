@@ -1,5 +1,6 @@
-import { Stack, CircularProgress, Box } from '@mui/material'
+import { Stack, CircularProgress } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
+
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ResponseText } from './ResponseText'
 import { UserMessageChip } from './UserMessageChip'
@@ -29,35 +30,38 @@ export const MessagesContainer = (props: MessagesContainerProps) => {
         (message) => message.protagonist === "ai" ? (
             <ResponseText key={message.id} >{message.content}</ResponseText>
         ) : (
-            <UserMessageChip key={message.id} label={message.content} />
+            <UserMessageChip 
+            key={message.id} 
+            label={message.content} 
+            sx={{
+                marginTop: (theme) => theme.spacing(1)
+            }}
+            />
         )
-    ), [page])
+    ), [page, messages])
 
     return (
-        <Box
+        <Stack
             id="scrollableContainer"
+            gap={2}
+            flexDirection="column-reverse"
             sx={{
                 height: "100%",
                 overflow: 'auto',
-                padding: (theme) => theme.spacing(0, 2)
+                padding: (theme) => theme.spacing(2, 1)
             }}
         >
             <InfiniteScroll
                 dataLength={messages.length}
                 next={next}
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                style={{ display: 'flex', flexDirection: 'column-reverse', gap: "16px" }}
                 inverse
-                hasMore={page * 20 > messages.length}
+                hasMore={page * 20 < messages.length}
                 loader={<CircularProgress />}
                 scrollableTarget="scrollableContainer"
             >
-                <Stack
-                    gap={2}
-                    flexDirection="column-reverse"
-                >
                     {displayList}
-                </Stack>
             </InfiniteScroll>
-        </Box>
+        </Stack>
     )
 }

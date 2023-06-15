@@ -7,6 +7,7 @@ export * from "./ProjectType"
 export * from "./Quantity"
 export * from "./PdfDisplayer"
 export * from "./MultiPagePdfDisplayer"
+export * from "./Tchat"
 
 export * from "./auth"
 export * from "./roles"
