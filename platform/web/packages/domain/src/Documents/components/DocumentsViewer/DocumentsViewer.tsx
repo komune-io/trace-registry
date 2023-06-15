@@ -15,6 +15,9 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
             flexGrow={1}
             flexBasis={0}
             sx={{
+                "& .pdfPage" : {
+                    padding: "12px 40px 0 12px"
+                },
                 width: "100%"
             }}
         >
