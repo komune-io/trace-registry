@@ -5,12 +5,8 @@ import {styled} from '@mui/material'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 const StyledInfiniteScroll = styled(InfiniteScroll)({
-    marginTop: "-20px",
-    paddingTop: "20px",
     boxSizing: "border-box",
-    "& .pdfPage": {
-        padding: "20px 0"
-    }
+    padding: "12px 40px 0 12px"
 })
 
 interface MultiPagePdfDisplayerProps {
@@ -29,7 +25,6 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
             const page: React.ReactNode[] = []
             page.push(
                 <Page
-                    width={460}
                     key={`page_${1}`}
                     pageNumber={1}
                     className="pdfPage"
@@ -39,7 +34,6 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
             if (numPages >= 2) {
                 page.push(
                     <Page
-                        width={460}
                         key={`page_${2}`}
                         pageNumber={2}
                         className="pdfPage"
@@ -61,7 +55,6 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
                     if (numPages < index + i + 1) break;
                     oldPagesCopy.push(
                         <Page
-                            width={460}
                             key={`page_${index + i + 1}`}
                             pageNumber={index + i + 1}
                             className="pdfPage"
