@@ -15,8 +15,8 @@ fun main() = runBlocking {
 
 //    PreProd
 //    val urlAuth = "https://auth.connect.smart-b.io/realms/sb-dev"
-//    val client = "sb-plateform-app"
-//    val secret = "secretsecret"
+//    val clientSb = "sb-plateform-app"
+//    val secretSb = "secretsecret"
 //    val urlCCCEV = "https://trace.smart-b.io/cccev"
 //    val urlVer = "https://trace.smart-b.io/ver"
 
@@ -24,7 +24,6 @@ fun main() = runBlocking {
     val urlAuth = "https://auth.connect.smart-b.io/realms/sb-dev"
     val urlCCCEV = "http://localhost:8083"
     val urlVer = "http://localhost:8070"
-
     val clientSb = "sb-plateform-app"
     val secretSb = "secretsecret"
 
@@ -39,9 +38,8 @@ fun main() = runBlocking {
     val accessTokenOffseter = AppAuth.getTokens(urlAuth, clientOffseter, secretOffseter).access_token
 
 //    initRequirement(urlCCCEV)
-    initIndicatorsCarbon(urlCCCEV)
-//    createRandomProject(urlVer, accessToken)
+//    initIndicatorsCarbon(urlCCCEV)
+    createRandomProject(urlVer, accessTokenSb)
 
-//    createRandomProject(urlVer, accessToken)
-    createBrazilRockFeller(urlVer, accessTokenSb, accessTokenRockfeller, accessTokenOffseter)
+//    createBrazilRockFeller(urlVer, accessTokenSb, accessTokenRockfeller, accessTokenOffseter)
 }

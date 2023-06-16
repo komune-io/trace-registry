@@ -65,7 +65,7 @@ class ActivityF2FinderService(
             }
 
         val activities = requirements?.toActivities(
-            certificationIdentifier = project.certification!!.identifier,
+            certificationIdentifier = project.certification?.identifier,
             cache = cache
         ) ?: emptyList()
 
