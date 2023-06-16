@@ -49,6 +49,9 @@ ssm:
   chaincode:
     url: http://localhost:9090
 
+vectorpedia:
+  url: http://localhost:9999
+
 ---
 spring:
   config:
