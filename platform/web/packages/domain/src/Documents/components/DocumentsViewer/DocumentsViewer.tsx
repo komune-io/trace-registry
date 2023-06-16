@@ -24,6 +24,9 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 overflow: "auto",
                 "& .pdfPage": {
                     marginBottom: "16px"
+                },
+                "& .mui-utz8u3" : {
+                    margin: "0"
                 }
             }}
         >
