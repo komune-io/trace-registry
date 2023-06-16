@@ -43,6 +43,5 @@ fun main() = runBlocking {
 //    createRandomProject(urlVer, accessToken)
 
 //    createRandomProject(urlVer, accessToken)
-    createYahuma(urlVer, accessToken)
     createBrazilRockFeller(urlVer, accessTokenSb, accessTokenRockfeller, accessTokenOffseter)
 }
