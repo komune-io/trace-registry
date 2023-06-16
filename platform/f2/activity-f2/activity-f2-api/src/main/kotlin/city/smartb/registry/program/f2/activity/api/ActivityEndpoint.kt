@@ -155,7 +155,8 @@ class ActivityEndpoint(
                 url = null,
                 isConformantTo = emptyList(),
                 supportsConcept = listOf(step.id),
-                metadata = mapOf("isPublic" to cmd.isPublic.toString())
+                metadata = mapOf("isPublic" to cmd.isPublic.toString(), "certificationId" to certification.id),
+                vectorize = true
             ) to file.contentByteArray()).invokeWith(
                 cccevClient.certificationClient.certificationAddEvidence()
             )
