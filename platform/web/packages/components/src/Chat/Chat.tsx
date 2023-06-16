@@ -6,7 +6,7 @@ import { useCallback, useMemo, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 
 export interface ChatProps extends StackProps {
-    getResponse: (message: string) => Promise<string | undefined>
+    getResponse: (message: string, history: Message[]) => Promise<string | undefined>
 }
 
 export const Chat = (props: ChatProps) => {
@@ -17,17 +17,18 @@ export const Chat = (props: ChatProps) => {
     const onUserMessage = useCallback(
         async (message: string) => {
             setIsLoading(true)
+            const history = [...messages]
             messages.push({
                 id: uuidv4(),
                 content: message,
-                protagonist: 'user'
+                type: 'HUMAN'
             })
             setMessages([...messages])
-            const response = await getResponse(message)
+            const response = await getResponse(message, history)
             messages.push({
                 id: uuidv4(),
                 content: response ?? "No response were received",
-                protagonist: 'ai'
+                type: 'AI'
             })
             setMessages([...messages])
             setIsLoading(false)

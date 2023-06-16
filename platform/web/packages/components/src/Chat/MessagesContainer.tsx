@@ -7,7 +7,7 @@ import { UserMessageChip } from './UserMessageChip'
 
 export type Message = {
     id: string
-    protagonist: "user" | "ai"
+    type: "HUMAN" | "AI"
     content: string
 }
 
@@ -28,7 +28,7 @@ export const MessagesContainer = (props: MessagesContainerProps) => {
     )
 
     const displayList = useMemo(() => messages.slice(0, page * 20).map(
-        (message) => message.protagonist === "ai" ? (
+        (message) => message.type === "AI" ? (
             <ResponseText key={message.id} >{message.content}</ResponseText>
         ) : (
             <UserMessageChip 
