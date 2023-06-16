@@ -2285,6 +2285,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
+        readonly vectorize: boolean;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -3043,12 +3044,29 @@ export namespace city.smartb.registry.program.f2.project.domain.command {
     }
 }
 export namespace city.smartb.registry.program.f2.project.domain.query {
+    interface ProjectDownloadFileQueryDTO {
+        readonly id: string;
+        readonly path: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.project.domain.query {
     interface ProjectGetQueryDTO {
         readonly id: string;
 
     }
     interface ProjectGetResultDTO {
         readonly item?: city.smartb.registry.program.s2.project.domain.model.ProjectDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.project.domain.query {
+    interface ProjectListFilesQueryDTO {
+        readonly id: string;
+
+    }
+    interface ProjectListFilesResultDTO {
+        readonly items: city.smartb.fs.s2.file.domain.model.FilePathDTO[];
 
     }
 }

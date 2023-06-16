@@ -1,6 +1,7 @@
 package city.smartb.registry.program.f2.project.domain
 
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
+import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
 
 interface ProjectQueryApi {
@@ -9,4 +10,7 @@ interface ProjectQueryApi {
 
     /** Get a page of projects */
     fun projectPage(): ProjectPageFunction
+
+    /** List all files of a project */
+    fun projectListFiles(): ProjectListFilesFunction
 }

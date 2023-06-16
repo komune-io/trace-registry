@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class ImProperties (
     val url: String,
     val auth: ImAuthProperties
-
 )
 
 data class ImAuthProperties (

@@ -6,10 +6,6 @@ import city.smartb.registry.program.cccev.initRequirement
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
-//     axess
-//     val urlVer = "https://api.registry.smartb.network/ver"
-//     val urlCCCEV = "https://api.registry.smartb.network/cccev"
-
 //    Prod
 //    val urlAuth ="https://auth.connect.smartb.network/realms/sb"
 //    val client = System.getenv("PROD_TRACE_CLIENT_ID")!!
@@ -47,6 +43,5 @@ fun main() = runBlocking {
 //    createRandomProject(urlVer, accessToken)
 
 //    createRandomProject(urlVer, accessToken)
-//    createYahuma(urlVer, accessToken)
     createBrazilRockFeller(urlVer, accessTokenSb, accessTokenRockfeller, accessTokenOffseter)
 }

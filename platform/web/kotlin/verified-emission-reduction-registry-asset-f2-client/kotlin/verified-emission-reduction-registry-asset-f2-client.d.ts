@@ -2285,6 +2285,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
+        readonly vectorize: boolean;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -3057,7 +3058,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.model {
     interface AssetPoolDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */> {
         readonly id: string;
         readonly status: string;
-        readonly vintage: string;
+        readonly vintage?: string;
         readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly granularity: number;
         readonly wallets: Record<string, number>;
@@ -3153,7 +3154,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly by: string;
         readonly quantity: number;
         readonly unit: string;
-        readonly vintage: string;
+        readonly vintage?: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly status?: string;
 
