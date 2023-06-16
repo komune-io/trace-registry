@@ -1,9 +1,9 @@
-Feature: ProjectF2EligibleProvidersPage
+Feature: ProjectList
 
   Scenario: I want to fetch a page of project
     Given A project is created:
-      | identifier | name      | description      |
-      | p1         | Project1  | The description 1|
+      | identifier | name     | description       |
+      | p1         | Project1 | The description 1 |
     When I fetch page of projects:
       | offset | limit |
       | 0      | 10    |
@@ -16,10 +16,10 @@ Feature: ProjectF2EligibleProvidersPage
 
   Scenario: I want to fetch a page of project by name
     Given Some projects are created:
-      | identifier | name       | description      |
-      | p10        | Project 1  | The description 1|
-      | p20        | Project 2  | The description 2|
-      | p30        | Tcejorp 3  | The 3            |
+      | identifier | name      | description       |
+      | p10        | Project 1 | The description 1 |
+      | p20        | Project 2 | The description 2 |
+      | p30        | Tcejorp 3 | The 3             |
     When I fetch page of projects:
       | offset | limit | name |
       | 0      | 10    | Project|
@@ -60,4 +60,3 @@ Feature: ProjectF2EligibleProvidersPage
     Then I should not receive projects:
       | identifier  |
       | p2          |
-

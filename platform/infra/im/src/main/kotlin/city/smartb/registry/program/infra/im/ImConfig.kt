@@ -27,7 +27,7 @@ class ImConfig {
 
     fun generateToken(properties: ImProperties): suspend () -> String? = {
         val url = "${properties.auth.url}/realms/${properties.auth.realm}/protocol/openid-connect/token"
-        val result: AccessToken = HttpClient{
+        val result: AccessToken = HttpClient {
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -54,4 +54,3 @@ data class AccessToken(
     val token_type: String,
     val scope: String
 )
-

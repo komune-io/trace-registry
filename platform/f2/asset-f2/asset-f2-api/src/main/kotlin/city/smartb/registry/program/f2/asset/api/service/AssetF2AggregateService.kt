@@ -7,16 +7,15 @@ import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.infra.im.ImService
 import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
 import org.springframework.stereotype.Service
 
@@ -77,7 +76,7 @@ class AssetF2AggregateService(
     private suspend fun AbstractAssetTransactionCommand.toEmitTransactionCommand(
         verifyTo: Boolean = true
     ): AssetPoolEmitTransactionCommand {
-        val to = if(verifyTo) {
+        val to = if (verifyTo) {
             to?.let { imService.getOrganizationByName(it).id }
         } else {
             to
