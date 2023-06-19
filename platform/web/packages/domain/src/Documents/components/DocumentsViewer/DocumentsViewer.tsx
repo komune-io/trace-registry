@@ -31,7 +31,7 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
             }}
         >
             <MultiPagePdfDisplayer
-                file={pdf}
+                files={[pdf]}
                 parentWidth={width}
                 />
         </Box>
