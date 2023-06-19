@@ -89,15 +89,12 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
                 selection?.removeAllRanges();
     
                 const elements = document.querySelectorAll(target?.elementsIds.map(id => `[id='${id}']`).join(', '))
-                console.log(elements, target?.elementsIds.map(id => `[id='${id}']`).join(', '))
                 let range = document.createRange();
                 range.selectNodeContents(elements[0]);
             
-                // Add the range to the selection
                 selection?.addRange(range);
                 elements.forEach((element) => {
                     selection?.extend(element, element.childNodes.length)
-                    console.log(selection, element, element.childNodes.length)
                 })
                 elements[elements.length - 1].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
             }
