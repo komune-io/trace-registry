@@ -24,11 +24,14 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 overflow: "auto",
                 "& .pdfPage": {
                     marginBottom: "16px"
+                },
+                "& .mui-utz8u3" : {
+                    margin: "0"
                 }
             }}
         >
             <MultiPagePdfDisplayer
-                file={pdf}
+                files={[pdf]}
                 parentWidth={width}
                 />
         </Box>
