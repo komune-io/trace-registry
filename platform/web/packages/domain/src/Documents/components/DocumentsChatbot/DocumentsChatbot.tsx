@@ -4,18 +4,18 @@ import { askQuestion } from "../../api";
 import { InputForm, Option } from "@smartb/g2";
 import { useProjectListFilesQuery } from "../../api/query";
 import { useParams } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface DocumentsChatbotProps {
-    isLoading: boolean
+    files: string[]
+    setFiles: (files: string[]) => void
 }
 
 export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
-    const { isLoading } = props
+    const { files, setFiles } = props
     const {projectid} = useParams()
     const {t} = useTranslation()
-    const [files, setFiles] = useState<string[]>([])
 
     const fileListQuery = useProjectListFilesQuery({query: {id: projectid!}})
     const fileList = fileListQuery.data?.items
@@ -42,7 +42,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                 onChangeValues={setFiles}
                 inputType="select"
                 multiple
-                isLoading={isLoading}
+                isLoading={fileListQuery.isLoading}
                 placeholder={t("chooseFile")}
                 options={options}
             />

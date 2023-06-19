@@ -1,12 +1,13 @@
 import {DocumentsChatbot, DocumentsViewer} from "domain-components";
 import {Stack} from "@mui/material";
+import { useState } from "react";
 
 export interface DocumentsPageProps {
-    isLoading: boolean
 }
 
-export const DocumentsPage = (props: DocumentsPageProps) => {
-    const { isLoading } = props
+export const DocumentsPage = (/* props: DocumentsPageProps */) => {
+
+    const [files, setFiles] = useState<string[]>([])
 
     return (
         <Stack
@@ -15,7 +16,7 @@ export const DocumentsPage = (props: DocumentsPageProps) => {
             height="calc(100vh - 200px)"
         >
             <DocumentsViewer />
-            <DocumentsChatbot isLoading={isLoading} />
+            <DocumentsChatbot files={files} setFiles={setFiles} />
         </Stack>
     )
 }

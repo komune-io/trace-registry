@@ -51,7 +51,7 @@ export const ProjectView = (_: ProjectViewProps) => {
         hasActivity && tabs.push({
             key: 'documents',
             label: t('documents'),
-            component: (project ? <DocumentsPage isLoading={projectQuery.isLoading} /> : <></>)
+            component: (project ? <DocumentsPage /> : <></>)
         })
         return tabs
     }, [project, projectQuery.isLoading, t])
