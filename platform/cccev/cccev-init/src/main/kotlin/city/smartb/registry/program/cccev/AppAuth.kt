@@ -16,6 +16,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 object AppAuth {
+    suspend fun getActor(authUrl: String, name: String, clientId: String, clientSecret: String): Actor {
+        val token = getTokens(authUrl, clientId, clientSecret)
+        return Actor(name, token)
+    }
     suspend fun getTokens(authUrl: String, clientId: String, clientSecret: String): AccessToken {
         val url = "${authUrl}/protocol/openid-connect/token"
         return HttpClient {
@@ -45,4 +49,9 @@ data class AccessToken(
     val refresh_expires_in: Int,
     val token_type: String,
     val scope: String,
+)
+
+open class Actor(
+    val name: String,
+    val accessToken: AccessToken
 )

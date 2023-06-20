@@ -115,7 +115,7 @@ class ActivityEndpoint(
         ).invokeWith(cccevClient.certificationClient.certificationGetByIdentifier()).item
             ?: throw NotFoundException("Certification with identifier", cmd.certificationIdentifier)
 
-        val step = activityF2FinderService.getStep(cmd.identifier, certification.identifier)
+        val step = activityF2FinderService.getStep(cmd.identifier, certification)
             ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
         val value = step.hasConcept?.let { concept ->
@@ -145,7 +145,7 @@ class ActivityEndpoint(
 
         val certification = certificateService.get(cmd.certificationIdentifier)
 
-        val step = activityF2FinderService.getStep(cmd.identifier, certification.identifier)
+        val step = activityF2FinderService.getStep(cmd.identifier, certification)
             ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
         val part = file?.let {

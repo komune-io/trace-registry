@@ -1,6 +1,9 @@
 package city.smartb.registry.program.infra.cccev
 
 import cccev.dsl.client.CCCEVClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -12,6 +15,10 @@ class CCCEVConfig {
 
     @Bean
     fun cccevClient(properties: CCCEVProperties): CCCEVClient = runBlocking {
-        CCCEVClient.invoke(properties.url)
+        CCCEVClient.invoke(properties.url) {
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60000
+            }
+        }
     }
 }
