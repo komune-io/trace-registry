@@ -1,15 +1,22 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState, useEffect } from 'react'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { Pagination } from '@smartb/g2'
 import { Box } from '@mui/material'
 
-export const useMultiFilePagination = () => {
+export const useMultiFilePagination = (files?: { name: string, file: any }[]) => {
     const [numPages, setNumPages] = useState(0)
     const [numTotalPages, setNumTotalPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const pageRefs = useRef<HTMLCanvasElement[]>([])
+
+    useEffect(() => {
+        setNumPages(0)
+        setNumTotalPages(0)
+        setCurrentPage(1)
+    }, [files])
+    
 
     const goToPage = useCallback((pageNumber: number) => {
         setCurrentPage(pageNumber)

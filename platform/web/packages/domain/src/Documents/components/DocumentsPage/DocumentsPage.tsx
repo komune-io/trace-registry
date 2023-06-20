@@ -29,7 +29,13 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
         [],
     )
 
-    console.log(files, downloadedFiles)
+    const removeQuote = useCallback(
+        () => {
+            setQuote(undefined)
+        },
+        [],
+    )
+
     return (
         <Stack
             direction="row"
@@ -37,7 +43,7 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
             height="calc(100vh - 200px)"
         >
             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!downloadedFiles} files={downloadedFiles} />
-            <DocumentsChatbot setReference={setReference} quote={quote} files={files} setFiles={setFiles} />
+            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} files={files} setFiles={setFiles} />
         </Stack>
     )
 }

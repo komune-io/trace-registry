@@ -33,7 +33,7 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
         setPageRef,
         onDocumentLoadSuccess,
         pagination
-    } = useMultiFilePagination()
+    } = useMultiFilePagination(files)
 
     useEffect(() => {
         const loadNextPages = () => {

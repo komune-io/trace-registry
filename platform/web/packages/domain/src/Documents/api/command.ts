@@ -5,7 +5,8 @@ export const askQuestion = (message: string, history: Message[]) => {
   const messages = history.map((message) => ({...message, additional_kwargs: {}}))
   return request<string>({
     method: "POST",
-    url: "http://162.19.69.14:9999/ask",
+    //@ts-ignore
+    url: window._env_.aiUrl + "/ask",
     body: JSON.stringify({
       question: message,
       messages

@@ -8,16 +8,18 @@ import { v4 as uuidv4 } from 'uuid'
 export interface ChatProps extends StackProps {
     getResponse: (message: string, history: Message[]) => Promise<string | undefined>
     quote?: { quote: string, fileName: string, pageNumber: number }
+    removeQuote?: () => void
 }
 
 export const Chat = (props: ChatProps) => {
-    const {getResponse, quote, ...other} = props
+    const {getResponse, quote, removeQuote, ...other} = props
     const [messages, setMessages] = useLocalStorage<Message[]>({ key: 'chat-history', defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
 
     const onUserMessage = useCallback(
         async (message: string) => {
             setIsLoading(true)
+            removeQuote && removeQuote()
             const history = [...messages]
             messages.push({
                 id: uuidv4(),
@@ -34,7 +36,7 @@ export const Chat = (props: ChatProps) => {
             setMessages([...messages])
             setIsLoading(false)
         },
-        [messages, setMessages],
+        [messages, setMessages, removeQuote],
     )
 
     const reversedMessages = useMemo(() => [...messages].reverse(), [messages])
@@ -63,6 +65,7 @@ export const Chat = (props: ChatProps) => {
             <MessageInput
                 onSend={onUserMessage}
                 quote={quote}
+                removeQuote={removeQuote}
             />
         </Stack>
     )

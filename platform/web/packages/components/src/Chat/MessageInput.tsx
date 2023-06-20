@@ -1,14 +1,15 @@
 import { InputBaseProps, Paper, InputBase, IconButton, Stack, Typography } from '@mui/material'
-import { SendRounded } from "@mui/icons-material"
+import { SendRounded, CloseRounded } from "@mui/icons-material"
 import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
 export interface MessageInputProps extends Partial<InputBaseProps> {
   onSend: (message: string) => void
   quote?: { quote: string, fileName: string, pageNumber: number }
+  removeQuote?: () => void
 }
 
 export const MessageInput = (props: MessageInputProps) => {
-  const { onSend, quote, ...other } = props
+  const { onSend, quote, removeQuote, ...other } = props
   const [message, setMessage] = useState<string>("")
 
   const onChange = useCallback(
@@ -54,9 +55,22 @@ export const MessageInput = (props: MessageInputProps) => {
         <Stack
           gap={0.5}
           maxHeight="100px"
-          position="relative"
         >
-          <Typography color="divider" variant='subtitle2'>{quote.fileName}</Typography>
+          <Stack
+            direction="row"
+            gap={1}
+            alignItems="center"
+          >
+            <Typography color="divider" variant='subtitle2'>{quote.fileName}</Typography>
+            <CloseRounded
+              sx={{
+                color: (theme) => theme.palette.divider,
+                cursor: "pointer",
+              }}
+              onClick={removeQuote}
+            />
+          </Stack>
+
           <Typography
             color="text.secondary"
             variant='body2'
