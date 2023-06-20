@@ -5,8 +5,8 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import type { PDFPageProxy } from 'pdfjs-dist';
 import type { TextItem } from 'pdfjs-dist/types/src/display/api';
-import { Pagination } from '@smartb/g2'
-import { Box, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
+import { useMultiFilePagination } from './useMultiFilePagination'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -14,23 +14,29 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString()
 
 interface MultiPagePdfDisplayerProps {
-    files?: string[]
+    files?: { name: string, file: any }[]
     parentWidth: number
+    reference?: string
+    setQuote: (quote: string, fileName: string, pageNumber: number) => void
+    isLoading?: boolean
 }
 
 export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
-    const { files, parentWidth } = props
+    const { files, parentWidth, reference, isLoading = false, setQuote } = props
 
-    const [numPages, setNumPages] = useState(0)
-    const [numTotalPages, setNumTotalPages] = useState(0)
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentLoadingPage, setCurrentLoadingPage] = useState(1)
     const paragraphs = useRef<{ text: string, elementsIds: string[] }[]>([])
-    const [currentPagePagination, setCurrentPagePagination] = useState(1)
-    const pageRefs = useRef<Array<HTMLDivElement | null>>([])
+
+    const {
+        numPages,
+        setPageRef,
+        onDocumentLoadSuccess,
+        pagination
+    } = useMultiFilePagination()
 
     useEffect(() => {
         const loadNextPages = () => {
-            setCurrentPage((prevPage) => {
+            setCurrentLoadingPage((prevPage) => {
                 const nextPage = prevPage + 5
                 if (nextPage > numPages) {
                     return numPages
@@ -39,121 +45,124 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
                 }
             })
         }
-        if (currentPage <= numPages) {
+        if (currentLoadingPage <= numPages) {
             loadNextPages()
         }
-    }, [currentPage, numPages])
-
-    const onPageLoadSuccess = async (page: PDFPageProxy) => {
-        const textContent = await page.getTextContent()
-        let lastY, paragraph = '';
-        let elementsIds: string[] = [];
-
-        for (let i = 0; i < textContent.items.length; i++) {
-            let item = textContent.items[i] as TextItem;
-
-            let itemText = item.str;
-            let itemY = item.transform[5]
-
-            paragraph += itemText + ' ';
-
-            elementsIds.push(page.pageNumber + "-" + i)
+    }, [currentLoadingPage, numPages])
 
 
-            if (itemText.match(/[.!?]$/) || (lastY !== itemY && !item.hasEOL)) {
+
+    useEffect(() => {
+        if (reference) {
+            selectReference(paragraphs.current, reference)
+        }
+    }, [reference])
+
+
+    const onPageLoadSuccess = useCallback(
+        async (page: PDFPageProxy) => {
+            const textContent = await page.getTextContent()
+            let lastY, paragraph = '';
+            let elementsIds: string[] = [];
+            //we check and group every text on the page by pargraph and save all the elements of the paragraph
+            for (let i = 0; i < textContent.items.length; i++) {
+                let item = textContent.items[i] as TextItem;
+
+                let itemText = item.str;
+                let itemY = item.transform[5]
+
+                paragraph += itemText + ' ';
+
+                elementsIds.push(page.pageNumber + "-" + i)
+
+
+                if (itemText.match(/[.!?]$/) || (lastY !== itemY && !item.hasEOL)) {
+                    paragraphs.current.push({
+                        text: paragraph,
+                        elementsIds
+                    });
+                    paragraph = '';
+                    elementsIds = []
+                }
+                lastY = itemY;
+            }
+
+            if (paragraph !== '') {
                 paragraphs.current.push({
                     text: paragraph,
                     elementsIds
                 });
-                paragraph = '';
-                elementsIds = []
             }
-            lastY = itemY;
-        }
+        },
+        [],
+    )
 
-        // Don't forget the last paragraph!
-        if (paragraph !== '') {
-            paragraphs.current.push({
-                text: paragraph,
-                elementsIds
-            });
-        }
-        if (page.pageNumber === 39) {
-            const target = paragraphs.current.find((paragraph) => paragraph.text.includes("the Southern Regional Electricity Grid of India generation mix"))
-            console.log(target)
-            if (target) {
-                let selection = window.getSelection();
-                selection?.removeAllRanges();
-    
-                const elements = document.querySelectorAll(target?.elementsIds.map(id => `[id='${id}']`).join(', '))
-                let range = document.createRange();
-                range.selectNodeContents(elements[0]);
-            
-                selection?.addRange(range);
-                elements.forEach((element) => {
-                    selection?.extend(element, element.childNodes.length)
-                })
-                elements[elements.length - 1].scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+    const onSelectQuote = useCallback(
+        (fileName: string, pageNumber: number) => {
+            const selectedText = window.getSelection()?.toString();
+
+            if (selectedText) {
+                setQuote(selectedText, fileName, pageNumber)
             }
-        }
-    }
+        },
+        [setQuote],
+    )
 
-    const goToPage = useCallback((pageNumber: number) => {
-        setCurrentPagePagination(pageNumber)
-        const pageIndex = pageNumber - 1
-        if (pageIndex >= 0 && pageIndex < pageRefs.current.length) {
-            const pageRef = pageRefs.current[pageIndex]
-            if (pageRef) {
-                pageRef.scrollIntoView({ behavior: 'smooth' })
-            }
-        }
-    }, [pageRefs])
 
-    const onLoadSuccess = ({ numPages }: { numPages: number }) => {
-        setNumPages(numPages)
-        setNumTotalPages((prevNumTotalPages) => prevNumTotalPages + numPages)
-    }
-
+    if (isLoading) return <LoadingPdf parentWidth={parentWidth} />
     return (
-        <Stack>
-            {files && (
-                <Box
-                    position={'absolute'}
-                    display={'flex'}
-                    zIndex={5}
-                    margin={(theme) => theme.spacing(3)}
-                    bgcolor="rgba(240, 237, 230, 0.9)"
-                    padding={(theme) => theme.spacing(1)}
-                    borderRadius="10px"
-                >
-                    <Pagination
-                        page={currentPagePagination}
-                        totalPage={numTotalPages}
-                        onPageChange={(newPageNumber) => goToPage(newPageNumber)}
-                    />
-                </Box>
-            )}
+        <Stack
+            sx={{
+                overflow: "hidden"
+            }}
+        >
+            {files && pagination}
             {files ? (
                 <Stack display="flex" flexDirection="column">
-                    {Array.from({ length: files.length }, (_, indexDoc) => (
-                        <Document key={`doc_${indexDoc}`} file={files[indexDoc]} onLoadSuccess={onLoadSuccess}>
+                    {files.map(((document, indexDoc) => (
+                        <Document key={`doc_${indexDoc}`} file={document.file} onLoadSuccess={onDocumentLoadSuccess}>
                             {Array.from({ length: numPages }, (_, index) => (
                                 <Page
+                                    onMouseUp={() => onSelectQuote(document.name, index + 1)}
                                     key={`page_${index + 1}`}
                                     pageNumber={index + 1}
                                     loading={<LoadingPdf parentWidth={parentWidth} />}
                                     onLoadSuccess={onPageLoadSuccess}
                                     width={parentWidth}
                                     className="pdfPage"
-                                    inputRef={(ref) => (pageRefs.current[index] = ref)}
+                                    canvasRef={(ref) => setPageRef(index, ref)}
                                 />
                             ))}
                         </Document>
-                    ))}
+                    ))
+                    )}
                 </Stack>
             ) : (
                 <LoadingPdf parentWidth={parentWidth} />
             )}
         </Stack>
     )
+}
+
+const selectReference = (paragraphs: { text: string, elementsIds: string[] }[], ref: string) => {
+    //we search the ref in all the paragraphs
+    const target = paragraphs.find((paragraph) => paragraph.text.includes(ref))
+    let selection = window.getSelection();
+    if (target && selection) {
+        //We select all element of the dom that compose the paragraph of the ref
+        const elements = document.querySelectorAll(target.elementsIds.map(id => `[id='${id}']`).join(', '))
+        if (elements[0]) {
+            //we select and scroll to all the element of the paragraph
+            selection.removeAllRanges()
+            let range = document.createRange();
+            range.selectNodeContents(elements[0]);
+
+            selection.addRange(range);
+            elements.forEach((element) => {
+                selection?.extend(element, element.childNodes.length)
+            })
+            elements[elements.length - 1].scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+        }
+
+    }
 }

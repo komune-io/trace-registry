@@ -5,11 +5,16 @@ import { useElementSize } from "@mantine/hooks";
 
 
 export interface DocumentsViewerProps {
+    files?: { name: string, file: any }[]
+    reference?: string
+    setQuote: (quote: string, fileName: string, pageNumber: number) => void
+    isLoading?: boolean
 }
 
 export const DocumentsViewer = (props: DocumentsViewerProps) => {
-    const {  } = props
+
     const { ref, width } = useElementSize();
+    
 
     return (
         <Box
@@ -33,6 +38,7 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
             <MultiPagePdfDisplayer
                 files={[pdf]}
                 parentWidth={width}
+                {...props}
                 />
         </Box>
     )

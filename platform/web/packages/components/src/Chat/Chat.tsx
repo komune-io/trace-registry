@@ -7,10 +7,11 @@ import { v4 as uuidv4 } from 'uuid'
 
 export interface ChatProps extends StackProps {
     getResponse: (message: string, history: Message[]) => Promise<string | undefined>
+    quote?: { quote: string, fileName: string, pageNumber: number }
 }
 
 export const Chat = (props: ChatProps) => {
-    const {getResponse} = props
+    const {getResponse, ...other} = props
     const [messages, setMessages] = useLocalStorage<Message[]>({ key: 'chat-history', defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
 
@@ -41,7 +42,7 @@ export const Chat = (props: ChatProps) => {
 
     return (
         <Stack
-            {...props}
+            {...other}
             gap={1}
             sx={{
                 height: "100%",
