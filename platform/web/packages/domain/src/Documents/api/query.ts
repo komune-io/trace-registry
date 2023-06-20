@@ -22,7 +22,7 @@ export const useProjectDownloadFileQuery = (): (query?: (ProjectDownloadFileQuer
   return useFetchBinary<ProjectDownloadFileQuery>("projectDownloadFile", requestProps)
 }
 
-export const useProjectFilesQuery = (queries: (ProjectDownloadFileQuery | undefined)[], options?: UseQueryOptions) => {
+export const useProjectFilesQuery = (queries: (ProjectDownloadFileQuery | undefined)[], options?: UseQueryOptions<(string | undefined)[]>) => {
   const download = useProjectDownloadFileQuery()
   const getAllFiles = useCallback(
     async () => {
@@ -35,9 +35,8 @@ export const useProjectFilesQuery = (queries: (ProjectDownloadFileQuery | undefi
   
   return {
     ...useQuery<(string | undefined)[], unknown, (string | undefined)[]>(
-      "projectFiles",
+      ["projectFiles", queries],
       getAllFiles,
-      //@ts-ignore
       options
     ),
     key: "projectFiles",

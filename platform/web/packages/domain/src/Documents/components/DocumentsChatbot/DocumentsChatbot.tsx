@@ -16,7 +16,7 @@ export interface DocumentsChatbotProps {
 }
 
 export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
-    const { files, setFiles, setReference, /* quote */ } = props
+    const { files, setFiles, setReference, quote } = props
     const { projectId } = useParams()
     const { t } = useTranslation()
     const [localReference, setlocalReference] = useState("")
@@ -93,6 +93,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                 }}
                 //@ts-ignore
                 getResponse={askQuestion}
+                quote={quote}
             />
         </Stack>
     )

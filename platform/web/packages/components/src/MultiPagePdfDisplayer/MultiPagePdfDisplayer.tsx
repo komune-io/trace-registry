@@ -7,6 +7,7 @@ import type { PDFPageProxy } from 'pdfjs-dist';
 import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 import { Stack } from '@mui/material'
 import { useMultiFilePagination } from './useMultiFilePagination'
+import { CustomTextRenderer } from 'react-pdf/dist/cjs/shared/types'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -100,13 +101,18 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
     const onSelectQuote = useCallback(
         (fileName: string, pageNumber: number) => {
             const selectedText = window.getSelection()?.toString();
-
             if (selectedText) {
                 setQuote(selectedText, fileName, pageNumber)
             }
         },
         [setQuote],
     )
+
+    const addIdOnTextElement = useCallback<CustomTextRenderer>(
+      (props) => `<span id="${props.pageNumber + "-" + props.itemIndex}" >${props.str}<span/>`,
+      [],
+    )
+    
 
 
     if (isLoading) return <LoadingPdf parentWidth={parentWidth} />
@@ -131,6 +137,7 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
                                     width={parentWidth}
                                     className="pdfPage"
                                     canvasRef={(ref) => setPageRef(index, ref)}
+                                    customTextRenderer={addIdOnTextElement}
                                 />
                             ))}
                         </Document>

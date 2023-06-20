@@ -1,5 +1,5 @@
-import {Box} from "@mui/material";
-import {MultiPagePdfDisplayer} from "components";
+import { Box } from "@mui/material";
+import { MultiPagePdfDisplayer } from "components";
 import pdf from "./pdd.pdf"
 import { useElementSize } from "@mantine/hooks";
 
@@ -14,11 +14,11 @@ export interface DocumentsViewerProps {
 export const DocumentsViewer = (props: DocumentsViewerProps) => {
 
     const { ref, width } = useElementSize();
-    
+
 
     return (
         <Box
-        ref={ref}
+            ref={ref}
             bgcolor="#F0EDE6"
             flexGrow={1}
             flexBasis={0}
@@ -30,16 +30,17 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 "& .pdfPage": {
                     marginBottom: "16px"
                 },
-                "& .mui-utz8u3" : {
+                "& .mui-utz8u3": {
                     margin: "0"
                 }
             }}
         >
             <MultiPagePdfDisplayer
-                files={[pdf]}
-                parentWidth={width}
+                
+                files={[{name: "test", file: pdf}]}
                 {...props}
-                />
+                parentWidth={width}
+            />
         </Box>
     )
 }

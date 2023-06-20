@@ -11,7 +11,7 @@ export interface ChatProps extends StackProps {
 }
 
 export const Chat = (props: ChatProps) => {
-    const {getResponse, ...other} = props
+    const {getResponse, quote, ...other} = props
     const [messages, setMessages] = useLocalStorage<Message[]>({ key: 'chat-history', defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
 
@@ -62,6 +62,7 @@ export const Chat = (props: ChatProps) => {
             </Paper>
             <MessageInput
                 onSend={onUserMessage}
+                quote={quote}
             />
         </Stack>
     )
