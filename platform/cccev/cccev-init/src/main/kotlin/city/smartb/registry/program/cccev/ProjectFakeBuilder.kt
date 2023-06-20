@@ -4,12 +4,7 @@ import city.smartb.registry.program.api.commons.model.GeoLocation
 import city.smartb.registry.program.f2.activity.client.ActivityClient
 import city.smartb.registry.program.f2.activity.client.activityClient
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
-import city.smartb.registry.program.f2.asset.client.AssetClient
 import city.smartb.registry.program.f2.asset.client.assetClient
-import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
-import city.smartb.registry.program.f2.pool.client.AssetPoolClient
 import city.smartb.registry.program.f2.pool.client.assetPoolClient
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateCommandDTOBase
 import city.smartb.registry.program.f2.project.client.ProjectClient
@@ -20,9 +15,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
-import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
 import java.time.LocalDate
 import java.time.LocalTime
@@ -45,7 +38,7 @@ import net.datafaker.providers.base.Address
 
 class ProjectFakeBuilder(url: String, accessToken: String) {
     val faker = Faker()
-    val activityClient = activityClient(url)
+    val activityClient = activityClient(url, accessToken)
     val projectClient = projectClient(url, accessToken)
     val assetPoolClient = assetPoolClient(url, accessToken)
     val assetClient = assetClient(url, accessToken)
@@ -66,41 +59,23 @@ class ProjectFakeBuilder(url: String, accessToken: String) {
     )
 }
 
-fun createBrazilRockFeller(
-    url: String,
-    accessToken: String,
-    accessTokenRockfeller: String,
-    accessTokenOffseter: String
-): Unit = runBlocking {
-
-    val helper = ProjectFakeBuilder(url, accessToken)
-    val helperRockfeller = ProjectFakeBuilder(url, accessTokenRockfeller)
-    val helperOffseter = ProjectFakeBuilder(url, accessTokenOffseter)
-
-    val projectClient = helper.projectClient.invoke()
-    val activityClient = helper.activityClient.invoke()
-    val assetPoolClient = helperRockfeller.assetPoolClient.invoke()
-    val assetClientRockfeller = helperRockfeller.assetClient.invoke()
-    val assetClientOffseter = helperOffseter.assetClient.invoke()
-
-    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
-    val project = created.first()
-
-    createAssetPool(project.id, assetPoolClient, assetClientRockfeller, assetClientOffseter)
-}
-private fun createAssetPool(
-    projectId: ProjectId,
-    assetPoolClient: AssetPoolClient,
-    assetClientRockfeller: AssetClient,
-    assetClientOffseter: AssetClient
-): Unit = runBlocking {
-    val assetPoolId = assetPoolCreateCommand(projectId).invokeWith(assetPoolClient.assetPoolCreate()).id
-    val assetIssue = assetIssueCommand(assetPoolId).invokeWith(assetClientRockfeller.assetIssue())
-    val assetTransfer = assetTransferCommand(assetPoolId).invokeWith(assetClientRockfeller.assetTransfer())
-    val assetOffset1 = assetOffset1Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset())
-//    val assetOffset2 = assetOffset2Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset())
-//    val assetOffset3 = assetOffset3Command(assetPoolId).invokeWith(assetClientOffseter.assetOffset()) //ShouldNotWork
-}
+//fun createBrazilRockFeller(
+//    url: String,
+//    accessToken: String,
+//    accessTokenIssuer: String,
+//    accessTokenOffseter: String
+//): Unit = runBlocking {
+//
+//    val helper = ProjectFakeBuilder(url, accessToken)
+//
+//    val projectClient = helper.projectClient.invoke()
+//    val activityClient = helper.activityClient.invoke()
+//
+//    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
+//    val project = created.first()
+//
+//    createAssetPool(url, accessTokenIssuer, accessTokenOffseter)
+//}
 
 private suspend fun fullFillProject(
     projectId: ProjectIdentifier,
@@ -123,7 +98,7 @@ private suspend fun fullFillProject(
     }
 }
 
-fun createRandomProject(url: String, accessToken: String, countRange: IntRange = 1..10): Unit = runBlocking {
+fun createRandomProject(url: String, poolId: AssetPoolId, accessToken: String, countRange: IntRange = 1..2): Unit = runBlocking {
     val helper = ProjectFakeBuilder(url, accessToken)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
@@ -133,7 +108,7 @@ fun createRandomProject(url: String, accessToken: String, countRange: IntRange =
     val address =  faker.address()
     val years =  helper.years
     val projects: List<ProjectCreatedEvent> = (countRange).map {
-        randomProject(faker, address, subContinents, types, years)
+        randomProject(faker, address, subContinents, types, years, poolId)
     }.asFlow().buffer(8).map {
         async {
             println("&&&&&&&&&&&&&&"+it.identifier)
@@ -161,6 +136,7 @@ private fun randomProject(
     subContinents: List<String>,
     types: List<String>,
     years: IntRange,
+    poolId: AssetPoolId,
 ) = ProjectCreateCommand(
     identifier = faker.idNumber().valid(),
     name = faker.mountain().name(),
@@ -195,7 +171,7 @@ private fun randomProject(
         name = faker.company().name()
     ),
     activities = listOf("P0", "P1", "P2", "P3", "P4", "P5"),
-    sdgs = (1..15).shuffled().take((1..15).random())
+    sdgs = (1..15).shuffled().take((1..15).random()),
 )
 
 
@@ -258,58 +234,11 @@ private fun projectPageQuery(): ProjectPageQuery {
         origin = null
     )
 }
-private fun assetPoolCreateCommand(projectId: ProjectId): AssetPoolCreateCommandDTOBase {
-    println("assetPoolCommand, projectId: $projectId")
+private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double = 0.001): AssetPoolCreateCommandDTOBase {
+    println("assetPoolCommand")
     return AssetPoolCreateCommandDTOBase(
-        vintage = "2013",
+        vintage = vintage,
         indicator = "carbon",
-        granularity = 0.001
-    )
-}
-
-private fun assetIssueCommand(assetPoolId: AssetPoolId): AssetIssueCommandDTOBase {
-    println("assetIssueCommand, assetPoolId: $assetPoolId")
-    return AssetIssueCommandDTOBase(
-        poolId = assetPoolId,
-        to = "Rockfeller",
-        quantity = 10000.toBigDecimal()
-    )
-}
-
-private fun assetTransferCommand(assetPoolId: AssetPoolId): AssetTransferCommandDTOBase {
-    println("assetTransferCommand, assetPoolId: $assetPoolId")
-    return AssetTransferCommandDTOBase(
-        poolId = assetPoolId,
-        from = "Rockfeller",
-        to = "Phease",
-        quantity = 10000.toBigDecimal()
-    )
-}
-
-private fun assetOffset1Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
-    println("assetOffset1Command, assetPoolId: $assetPoolId")
-    return AssetOffsetCommandDTOBase(
-        poolId = assetPoolId,
-        from = "Phease",
-        to = "Phease",
-        quantity = 0.001.toBigDecimal() //TODO "Value cannot be narrowed to float"
-    )
-}
-private fun assetOffset2Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
-    println("assetOffset2Command, assetPoolId: $assetPoolId")
-    return AssetOffsetCommandDTOBase(
-        poolId = assetPoolId,
-        from = "Phease",
-        to = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-        quantity = 42.141f.toBigDecimal()
-    )
-}
-private fun assetOffset3Command(assetPoolId: AssetPoolId): AssetOffsetCommandDTOBase {
-    println("assetOffset3Command, assetPoolId: $assetPoolId")
-    return AssetOffsetCommandDTOBase(
-        poolId = assetPoolId,
-        from = "ShouldNotWork",
-        to = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-        quantity = 42.141f.toBigDecimal()
+        granularity = granularity
     )
 }

@@ -13,11 +13,11 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 expect fun F2Client.activityClient(): F2SupplierSingle<ActivityClient>
-expect fun activityClient(urlBase: String): F2SupplierSingle<ActivityClient>
+expect fun activityClient(urlBase: String, accessToken: String): F2SupplierSingle<ActivityClient>
 
 @JsExport
 @JsName("ActivityClient")
-open class ActivityClient constructor(private val client: F2Client) : ActivityApi {
+open class ActivityClient constructor(val client: F2Client) : ActivityApi {
     override fun activityCreate(): ActivityCreateFunction = client.function(this::activityCreate.name)
     override fun activityStepCreate(): ActivityStepCreateFunction = client.function(this::activityStepCreate.name)
     override fun activityStepFulfill(): ActivityStepFulfillFunction = client.function(this::activityStepFulfill.name)

@@ -10,7 +10,7 @@ import kotlinx.coroutines.await
 
 @JsExport
 @JsName("activityClient")
-actual fun activityClient(urlBase: String): F2SupplierSingle<ActivityClient> = f2SupplierSingle {
+actual fun activityClient(urlBase: String, accessToken: String): F2SupplierSingle<ActivityClient> = f2SupplierSingle {
     F2ClientBuilder.get(urlBase)
         .await()
         .let(::ActivityClient)
