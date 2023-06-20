@@ -7,13 +7,13 @@ import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetQueryDTOBase
 import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
+import cccev.s2.certification.domain.model.Certification
 import cccev.s2.certification.domain.model.CertificationIdentifier
 import cccev.s2.requirement.domain.RequirementId
 import city.smartb.registry.program.api.commons.model.SimpleCache
 import city.smartb.registry.program.f2.activity.api.model.toActivities
 import city.smartb.registry.program.f2.activity.api.model.toActivity
 import city.smartb.registry.program.f2.activity.api.model.toStep
-import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.Activity
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
@@ -77,9 +77,8 @@ class ActivityF2FinderService(
 
     suspend fun getStep(
         identifier: ActivityStepIdentifier,
-        certificationIdentifier: CertificationIdentifier,
+        certification: Certification,
     ): ActivityStep? {
-        val certification = certificateService.getOrNull(certificationIdentifier)
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item

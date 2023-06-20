@@ -11,13 +11,21 @@ import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+data class File(
+    val name: String,
+    val content: ByteArray,
+)
+
 /**
  * Fulfill an activity step by providing a value.
  * @d2 function
  * @parent [city.smartb.registry.program.f2.activity.domain.D2ActivityF2Page]
  * @order 110
  */
-typealias ActivityStepEvidenceFulfillFunction = F2Function<ActivityStepEvidenceFulfillCommandDTOBase, ActivityStepEvidenceFulfilledEventDTOBase>
+typealias ActivityStepEvidenceFulfillFunction
+        = F2Function<Pair<ActivityStepEvidenceFulfillCommandDTOBase, File>, ActivityStepEvidenceFulfilledEventDTOBase>
+
+
 
 /**
  * @d2 command
