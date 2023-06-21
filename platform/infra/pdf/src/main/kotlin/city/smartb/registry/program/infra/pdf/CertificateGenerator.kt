@@ -8,7 +8,7 @@ import java.util.Date
 
 
 object CertificateGenerator {
-    const val TEMPLATE_CERTIFICATE = "classpath:certificate_pending.html"
+    const val TEMPLATE_CERTIFICATE = "classpath:certificate.html"
     const val TEMPLATE_CERTIFICATE_PENDING = "classpath:certificate_pending.html"
 
 
@@ -26,11 +26,21 @@ object CertificateGenerator {
         date: Long,
         issuedTo: String,
         quantity: BigDecimal,
-        indicator: String,
+        indicator: String
     ): ByteArray {
-        val template = TEMPLATE_CERTIFICATE_PENDING
+        return fill(TEMPLATE_CERTIFICATE_PENDING, transactionId, date, issuedTo, quantity, indicator)
+    }
+
+    fun fillFinalCertificate(
+        transactionId: TransactionId,
+        date: Long,
+        issuedTo: String,
+        quantity: BigDecimal,
+        indicator: String
+    ): ByteArray {
         return fill(TEMPLATE_CERTIFICATE, transactionId, date, issuedTo, quantity, indicator)
     }
+
     private fun fill(
         template: String,
         transactionId: TransactionId,
@@ -41,8 +51,6 @@ object CertificateGenerator {
         certifiedBy: String? = null,
         project: String? = null
     ): ByteArray {
-        val template = TEMPLATE_CERTIFICATE
-
         val verb = if (quantity > BigDecimal.ONE) "will be" else "will be"
         val templateFilled =  PathMatchingResourcePatternResolver().getResource(template)
             .inputStream

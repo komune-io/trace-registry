@@ -10,11 +10,14 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEv
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
-
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCancelCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCanceledEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidateCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
 
 interface AssetPoolAggregate {
 	// pool
@@ -27,5 +30,6 @@ interface AssetPoolAggregate {
 	// transaction
 	suspend fun pendTransaction(command: TransactionPendCommand): TransactionPendedEvent
 	suspend fun submitTransaction(command: AssetPoolEmitTransactionCommand): AssetPoolEmittedTransactionEvent
-    suspend fun generatePendingCertificateCommand(command: TransactionPendingCertificateGenerateCommand): TransactionPendingCertificateGeneratedEvent
+	suspend fun validateTransaction(command: TransactionValidateCommand): TransactionValidatedEvent
+	suspend fun cancelTransaction(command: TransactionCancelCommand): TransactionCanceledEvent
 }

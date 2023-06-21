@@ -20,10 +20,14 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResume
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCancelCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCanceledEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidateCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.springframework.stereotype.Service
@@ -129,7 +133,27 @@ class AssetPoolAggregateService(
 		)
 	}
 
-//	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
+	override suspend fun validateTransaction(
+		command: TransactionValidateCommand
+	): TransactionValidatedEvent = transactionAutomate.transition(command) {
+		TransactionValidatedEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			file = command.file
+		)
+	}
+
+	override suspend fun cancelTransaction(
+		command: TransactionCancelCommand
+	): TransactionCanceledEvent = transactionAutomate.transition(command) {
+		TransactionCanceledEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			reason = command.reason
+		)
+	}
+
+	//	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
 //		TransactionEmittedEvent(
 //			id = UUID.randomUUID().toString(),
 //			date = System.currentTimeMillis(),
