@@ -8,6 +8,7 @@ import city.smartb.registry.program.s2.asset.domain.command.transaction.Transact
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
@@ -21,7 +22,7 @@ class TransactionEvolver: View<TransactionEvent, TransactionEntity> {
         is TransactionEmittedEvent -> emit(event)
         is TransactionAddedFileEvent -> model?.addFile(event)
         is TransactionSubmittedEvent -> submit(event)
-        is TransactionPendingCertificateGeneratedEvent -> model?.addFile(event)
+        is TransactionPendedEvent -> model?.pend(event)
         is TransactionCanceledEvent -> model?.cancel(event)
         is TransactionDeletedEvent -> model?.delete(event)
         is TransactionDraftedEvent -> draft(event)

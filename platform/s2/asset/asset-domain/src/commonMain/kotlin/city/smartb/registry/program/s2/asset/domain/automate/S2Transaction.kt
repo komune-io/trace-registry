@@ -30,15 +30,6 @@ import kotlin.js.JsName
 
 val s2Transaction = s2Sourcing {
     name = "TransactionS2"
-    init<TransactionEmitCommand, TransactionEmittedEvent> {
-        to = TransactionState.SUBMITTED
-        role = TransactionRole.Emitter
-    }
-    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
-        states+=TransactionState.SUBMITTED
-        role = TransactionRole.Emitter
-    }
-
     init<TransactionDraftCommand, TransactionDraftedEvent> {
         to = TransactionState.DRAFTED
         role = TransactionRole.Stakeholder
@@ -56,7 +47,7 @@ val s2Transaction = s2Sourcing {
         to = TransactionState.SUBMITTED
         role = TransactionRole.Stakeholder
     }
-    transaction<TransactionPendingCertificateGenerateCommand, TransactionPendingCertificateGeneratedEvent> {
+    transaction<TransactionPendCommand, TransactionPendedEvent> {
         from = TransactionState.SUBMITTED
         to = TransactionState.PENDING
         role = TransactionRole.Orchestrator
@@ -87,6 +78,21 @@ val s2Transaction = s2Sourcing {
         from = TransactionState.CANCELLED
         to = TransactionState.DELETED
         role = TransactionRole.Stakeholder
+    }
+
+
+    init<TransactionEmitCommand, TransactionEmittedEvent> {
+        to = TransactionState.SUBMITTED
+        role = TransactionRole.Emitter
+    }
+    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
+        states += TransactionState.SUBMITTED
+        role = TransactionRole.Emitter
+    }
+    transaction<TransactionPendingCertificateGenerateCommand, TransactionPendingCertificateGeneratedEvent> {
+        from = TransactionState.SUBMITTED
+        to = TransactionState.PENDING
+        role = TransactionRole.Orchestrator
     }
 }
 

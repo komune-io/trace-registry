@@ -119,8 +119,10 @@ class AssetPoolAggregateService(
 //		)
 //	}
 
-	override suspend fun generatePendingCertificateCommand(command: TransactionPendingCertificateGenerateCommand): TransactionPendingCertificateGeneratedEvent = transactionAutomate.transition(command) {
-		TransactionPendingCertificateGeneratedEvent(
+	override suspend fun pendTransaction(
+		command: TransactionPendCommand
+	): TransactionPendedEvent = transactionAutomate.transition(command) {
+		TransactionPendedEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			file = command.file

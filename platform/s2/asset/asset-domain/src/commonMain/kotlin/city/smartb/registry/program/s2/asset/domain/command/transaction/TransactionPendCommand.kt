@@ -6,16 +6,14 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import kotlinx.serialization.Serializable
 
-@Deprecated("Use TransactionPendCommand")
-data class TransactionPendingCertificateGenerateCommand(
+data class TransactionPendCommand(
     override val id: TransactionId,
-    val file: FilePath
+    val file: FilePath?
 ): TransactionCommand
 
-@Deprecated("Use TransactionPendedEvent")
 @Serializable
-data class TransactionPendingCertificateGeneratedEvent(
+data class TransactionPendedEvent(
     override val id: TransactionId,
     override val date: Long,
-    val file: FilePath
+    val file: FilePath?
 ): TransactionEvent

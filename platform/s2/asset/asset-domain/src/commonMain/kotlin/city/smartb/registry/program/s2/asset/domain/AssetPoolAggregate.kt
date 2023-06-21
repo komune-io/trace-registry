@@ -17,11 +17,15 @@ import city.smartb.registry.program.s2.asset.domain.command.transaction.Transact
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
 
 interface AssetPoolAggregate {
+	// pool
 	suspend fun create(command: AssetPoolCreateCommand): AssetPoolCreatedEvent
 	suspend fun update(command: AssetPoolUpdateCommand): AssetPoolUpdatedEvent
 	suspend fun hold(command: AssetPoolHoldCommand): AssetPoolHeldEvent
 	suspend fun resume(command: AssetPoolResumeCommand): AssetPoolResumedEvent
 	suspend fun close(command: AssetPoolCloseCommand): AssetPoolClosedEvent
+
+	// transaction
+	suspend fun pendTransaction(command: TransactionPendCommand): TransactionPendedEvent
 	suspend fun submitTransaction(command: AssetPoolEmitTransactionCommand): AssetPoolEmittedTransactionEvent
     suspend fun generatePendingCertificateCommand(command: TransactionPendingCertificateGenerateCommand): TransactionPendingCertificateGeneratedEvent
 }
