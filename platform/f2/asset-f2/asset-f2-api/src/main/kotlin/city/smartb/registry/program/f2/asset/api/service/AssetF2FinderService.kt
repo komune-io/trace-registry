@@ -29,7 +29,7 @@ class AssetF2FinderService(
     private val projectFinderService: ProjectFinderService
 ) {
 
-    suspend fun assetTransactionGet(id: TransactionId): TransactionDTOBase {
+    suspend fun getTransaction(id: TransactionId): TransactionDTOBase {
         return assetPoolFinderService.getTransaction(id).toDTO()
     }
 
@@ -65,7 +65,7 @@ class AssetF2FinderService(
         getAssetPool = cache.pools::get
     )
 
-    suspend fun assetStatsGet(projectId: ProjectId): AssetStatsGetResultDTOBase {
+    suspend fun getAssetStats(projectId: ProjectId): AssetStatsGetResultDTOBase {
         val project = projectFinderService.get(projectId)
         return project.assetPools.map { poolId ->
             assetPoolF2FinderService.get(poolId)

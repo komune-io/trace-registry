@@ -154,13 +154,13 @@ class AssetEndpoint(
     @PermitAll
     override fun assetTransactionGet(): AssetTransactionGetFunction = f2Function { query ->
         logger.info("assetTransactionGet: $query")
-        assetF2FinderService.assetTransactionGet(query.transactionId).let(::AssetTransactionGetResult)
+        assetF2FinderService.getTransaction(query.transactionId).let(::AssetTransactionGetResult)
     }
 
     @Bean
     @PermitAll
     override fun assetStatsGet(): AssetStatsGetFunction = f2Function { query ->
         logger.info("assetStatsGet: $query")
-        assetF2FinderService.assetStatsGet(query.projectId)
+        assetF2FinderService.getAssetStats(query.projectId)
     }
 }
