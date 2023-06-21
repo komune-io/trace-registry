@@ -1,4 +1,4 @@
-import { Paper, Stack, StackProps } from '@mui/material'
+import { Paper, Stack, StackProps, Typography } from '@mui/material'
 import { useLocalStorage } from '@mantine/hooks';
 import { Message, MessagesContainer } from './MessagesContainer';
 import { MessageInput } from './MessageInput';
@@ -13,10 +13,11 @@ export interface ChatProps extends StackProps {
 }
 
 export const Chat = (props: ChatProps) => {
-    const {getResponse, quote, removeQuote, ...other} = props
-    const [messages, setMessages] = useLocalStorage<Message[]>({ key: 'chat-history', defaultValue: [] });
+    const { getResponse, quote, removeQuote, ...other } = props
+    const { projectId } = useParams()
+    const [messages, setMessages] = useLocalStorage<Message[]>({ key: `chat-history-${projectId}`, defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
-    const {projectId} = useParams()
+
 
     const onUserMessage = useCallback(
         async (message: string) => {
@@ -56,13 +57,23 @@ export const Chat = (props: ChatProps) => {
             <Paper
                 elevation={0}
                 sx={{
-                    overflow: "auto"
+                    overflow: "auto",
+                    flexGrow: "1"
                 }}
             >
-                <MessagesContainer
-                    messages={reversedMessages}
-                    isLoading={isLoading}
-                />
+                {
+                    messages.length > 0 ? <MessagesContainer
+                        messages={reversedMessages}
+                        isLoading={isLoading}
+                    /> :
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            height="100%"
+                        >
+                            <Typography align='center'>You haven't started the conversation with Tmate on this project yet</Typography>
+                        </Stack>
+                }
             </Paper>
             <MessageInput
                 onSend={onUserMessage}

@@ -36,7 +36,6 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
             }}
         >
             <MultiPagePdfDisplayer
-                
                 files={[{name: "test", file: pdf}]}
                 {...props}
                 parentWidth={width}
