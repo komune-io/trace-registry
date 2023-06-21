@@ -24,8 +24,6 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
 
     const filteredDownloadedFiles = useMemo(() => downloadedFiles.data?.map((file, index) => ({ name: files[index].name, file })), [downloadedFiles.data, files])
 
-    console.log(filteredDownloadedFiles)
-
     const onSetQuote = useCallback(
         (quote: string, fileName: string, pageNumber: number) => {
             setQuote({
@@ -48,7 +46,7 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
         <Stack
             direction="row"
             position="relative"
-            height="calc(100vh - 200px)"
+            height="calc(100vh - 220px)"
         >
             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
             <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={files} allFiles={fileList} isLoading={fileListQuery.isLoading} setFiles={setFiles} />

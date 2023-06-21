@@ -5,6 +5,7 @@ import { MessageInput } from './MessageInput';
 import { useCallback, useMemo, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom';
+import { ChatHeader } from './ChatHeader';
 
 export interface ChatProps extends StackProps {
     getResponse: (message: string, history: Message[], projectId?: string) => Promise<string | undefined>
@@ -27,6 +28,7 @@ export const Chat = (props: ChatProps) => {
             messages.push({
                 id: uuidv4(),
                 content: message,
+                date: Date.now(),
                 type: 'HUMAN'
             })
             setMessages([...messages])
@@ -34,6 +36,7 @@ export const Chat = (props: ChatProps) => {
             messages.push({
                 id: uuidv4(),
                 content: response ?? "No response were received",
+                date: Date.now(),
                 type: 'AI'
             })
             setMessages([...messages])
@@ -43,6 +46,24 @@ export const Chat = (props: ChatProps) => {
     )
 
     const reversedMessages = useMemo(() => [...messages].reverse(), [messages])
+
+    const removeMessages = useCallback(
+      (messageIds: string[]) => {
+        console.log(messageIds)
+        setMessages(old => {
+            const copy = [...old]
+            return copy.filter((messsage) => !messageIds.includes(messsage.id))
+        })
+      },
+      [setMessages],
+    )
+    
+    const removeAllMessages = useCallback(
+        () => {
+          setMessages([])
+        },
+        [setMessages],
+      )
 
 
     return (
@@ -58,13 +79,17 @@ export const Chat = (props: ChatProps) => {
                 elevation={0}
                 sx={{
                     overflow: "auto",
-                    flexGrow: "1"
+                    flexGrow: "1",
+                    display: "flex",
+                    flexDirection: "column"
                 }}
             >
+                <ChatHeader removeAll={removeAllMessages} />
                 {
                     messages.length > 0 ? <MessagesContainer
                         messages={reversedMessages}
                         isLoading={isLoading}
+                        removeMessages={removeMessages}
                     /> :
                         <Stack
                             direction="row"
