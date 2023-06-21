@@ -61,6 +61,7 @@ class InformationConceptCreateSteps: En, VerCucumberStepsDefinition() {
             expressionOfExpectedValue = null,
             dependsOn = null
         )
+        context.cccevConceptIdentifiers[params.identifier] = command.identifier!!
         command.invokeWith(cccevClient.informationConceptClient.conceptCreate()).id
     }
 

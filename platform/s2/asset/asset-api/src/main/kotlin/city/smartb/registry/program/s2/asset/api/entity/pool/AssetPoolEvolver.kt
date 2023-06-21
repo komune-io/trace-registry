@@ -5,10 +5,10 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolEvent
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolClosedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmittedTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.springframework.stereotype.Service
@@ -63,16 +63,16 @@ class AssetPoolEvolver(
         val transaction = transactionRepository.findById(event.transactionId).get()
         transaction.from?.let { updateWallet(it, -transaction.quantity) }
         transaction.to?.let { updateWallet(it, transaction.quantity) }
-        when(transaction.type) {
-            TransactionType.TRANSFERRED -> stats = stats.copy(transferred = stats.transferred + transaction.quantity)
-            TransactionType.RETIRED -> stats = stats.copy(
-                    available = stats.available - transaction.quantity,
-                    retired = stats.retired + transaction.quantity
+        stats = when (transaction.type) {
+            TransactionType.TRANSFERRED -> stats.copy(transferred = stats.transferred + transaction.quantity)
+            TransactionType.RETIRED -> stats.copy(
+                available = stats.available - transaction.quantity,
+                retired = stats.retired + transaction.quantity
             )
-            TransactionType.ISSUED -> stats = stats.copy(available = stats.available + transaction.quantity)
-            TransactionType.OFFSET -> stats = stats.copy(
-                    available = stats.available - transaction.quantity,
-                    retired = stats.retired + transaction.quantity
+            TransactionType.ISSUED -> stats.copy(available = stats.available + transaction.quantity)
+            TransactionType.OFFSET -> stats.copy(
+                available = stats.available - transaction.quantity,
+                retired = stats.retired + transaction.quantity
             )
         }
     }

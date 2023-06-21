@@ -1,5 +1,16 @@
 Feature: ActivityCreate
 
+  Background:
+    Given An organization is defined:
+      | roles           |
+      | tr_orchestrator |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
+
   Scenario: I want to create an activity
     When I create an activity:
       | identifier | name      | description       |

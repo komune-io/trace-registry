@@ -79,7 +79,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
 
                 AssertionBdd.assetPool(assetPoolRepository).assertThat(pool!!).hasFields(
                     vintage = params.vintage ?: pool.vintage,
-                    indicator = params.indicator ?: pool.indicator,
+                    indicator = params.indicator?.let(context.cccevConceptIdentifiers::safeGet) ?: pool.indicator,
                     granularity = params.granularity ?: pool.granularity,
                 )
             }
@@ -89,7 +89,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
         command = AssetPoolCreateCommand(
             vintage = params.vintage,
-            indicator = params.indicator,
+            indicator = context.cccevConceptIdentifiers.safeGet(params.indicator),
             granularity = params.granularity,
             metadata = emptyMap()
         )
@@ -99,7 +99,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
     private fun assetPoolCreateParams(entry: Map<String, String>?) = AssetPoolCreateParams(
         identifier = entry?.get("identifier").orRandom(),
         vintage = entry?.get("vintage") ?: "2023",
-        indicator = entry?.get("vintage") ?: context.cccevConceptIds.lastUsedKey,
+        indicator = entry?.get("indicator") ?: context.cccevConceptIds.lastUsedKey,
         granularity = entry?.get("granularity")?.toDouble() ?: 1.0
     )
 
@@ -113,7 +113,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
     private fun assertPoolAssertParams(entry: Map<String, String>) = AssertPoolAssertParams(
         identifier = entry["identifier"] ?: context.assetPoolIds.lastUsedKey,
         vintage = entry["vintage"],
-        indicator = entry["vintage"],
+        indicator = entry["indicator"],
         granularity = entry["granularity"]?.toDouble(),
     )
 

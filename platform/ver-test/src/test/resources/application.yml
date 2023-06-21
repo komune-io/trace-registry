@@ -5,11 +5,31 @@ spring:
       username: neo4j
       password: smartbsmartb
 
+cccev:
+  url: http://localhost:8083
+
 fs:
   url: http://localhost:8090
 
-cccev:
-  url: http://localhost:8083
+im:
+  url: https://connect.smart-b.io/im
+  auth:
+    url: https://auth.connect.smart-b.io
+    realm: sb-dev
+    clientId: sb-plateform-app
+    clientSecret: secretsecret
+
+i2:
+  issuers:
+    -
+      name: connect-sb-io
+      authUrl: ${im.auth.url}
+      realm: ${im.auth.realm}
+      web:
+        clientId: sb-plateform-web
+      im:
+        clientId: ${im.auth.clientId}
+        clientSecret: ${im.auth.clientSecret}
 
 ssm:
   signer:
@@ -26,15 +46,3 @@ ssm:
     serviceName: s2-sample-did
   chaincode:
     url: http://localhost:9090
-
-i2:
-  issuers:
-    -
-      name: connect-sb-io
-      authUrl: https://auth.connect.smart-b.io
-      realm: connect
-      web:
-        clientId: sb-plateform-web
-      im:
-        clientId: sb-plateform-app
-        clientSecret: secretsecret

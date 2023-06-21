@@ -34,6 +34,7 @@ class AssertionTransaction(
             Assertions.assertThat(transaction.poolId).isEqualTo(poolId)
             Assertions.assertThat(transaction.from).isEqualTo(from)
             Assertions.assertThat(transaction.to).isEqualTo(to)
+            Assertions.assertThat(transaction.by).isEqualTo(by)
             Assertions.assertThat(transaction.quantity).isEqualTo(quantity)
             Assertions.assertThat(transaction.type).isEqualTo(type)
         }
