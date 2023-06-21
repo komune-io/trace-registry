@@ -4,9 +4,10 @@ import { Message, MessagesContainer } from './MessagesContainer';
 import { MessageInput } from './MessageInput';
 import { useCallback, useMemo, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
+import { useParams } from 'react-router-dom';
 
 export interface ChatProps extends StackProps {
-    getResponse: (message: string, history: Message[]) => Promise<string | undefined>
+    getResponse: (message: string, history: Message[], projectId?: string) => Promise<string | undefined>
     quote?: { quote: string, fileName: string, pageNumber: number }
     removeQuote?: () => void
 }
@@ -15,6 +16,7 @@ export const Chat = (props: ChatProps) => {
     const {getResponse, quote, removeQuote, ...other} = props
     const [messages, setMessages] = useLocalStorage<Message[]>({ key: 'chat-history', defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
+    const {projectId} = useParams()
 
     const onUserMessage = useCallback(
         async (message: string) => {
@@ -27,7 +29,7 @@ export const Chat = (props: ChatProps) => {
                 type: 'HUMAN'
             })
             setMessages([...messages])
-            const response = await getResponse(message, history)
+            const response = await getResponse(message, history, projectId)
             messages.push({
                 id: uuidv4(),
                 content: response ?? "No response were received",
@@ -36,7 +38,7 @@ export const Chat = (props: ChatProps) => {
             setMessages([...messages])
             setIsLoading(false)
         },
-        [messages, setMessages, removeQuote],
+        [messages, setMessages, removeQuote, projectId],
     )
 
     const reversedMessages = useMemo(() => [...messages].reverse(), [messages])

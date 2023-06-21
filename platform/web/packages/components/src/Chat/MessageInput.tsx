@@ -1,5 +1,5 @@
-import { InputBaseProps, Paper, InputBase, IconButton, Stack, Typography } from '@mui/material'
-import { SendRounded, CloseRounded } from "@mui/icons-material"
+import { InputBaseProps, Paper, InputBase, IconButton, Stack } from '@mui/material'
+import { SendRounded } from "@mui/icons-material"
 import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react'
 
 export interface MessageInputProps extends Partial<InputBaseProps> {
@@ -9,7 +9,7 @@ export interface MessageInputProps extends Partial<InputBaseProps> {
 }
 
 export const MessageInput = (props: MessageInputProps) => {
-  const { onSend, quote, removeQuote, ...other } = props
+  const { onSend, /* quote, */ removeQuote, ...other } = props
   const [message, setMessage] = useState<string>("")
 
   const onChange = useCallback(
@@ -51,7 +51,7 @@ export const MessageInput = (props: MessageInputProps) => {
         border: "1px solid #C5C7D0"
       }}
     >
-      {quote && (
+      {/* quote && (
         <Stack
           gap={0.5}
           maxHeight="100px"
@@ -87,7 +87,7 @@ export const MessageInput = (props: MessageInputProps) => {
           </Typography>
         </Stack>
       )
-      }
+       */}
       <Stack
         flexDirection="row"
         alignItems="flex-end"

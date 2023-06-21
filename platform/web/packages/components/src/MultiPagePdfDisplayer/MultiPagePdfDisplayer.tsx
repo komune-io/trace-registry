@@ -32,6 +32,7 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
         numPages,
         setPageRef,
         onDocumentLoadSuccess,
+        pagesNumberPerDocument,
         pagination
     } = useMultiFilePagination(files)
 
@@ -126,8 +127,8 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
             {files ? (
                 <Stack display="flex" flexDirection="column">
                     {files.map(((document, indexDoc) => (
-                        <Document key={`doc_${indexDoc}`} file={document.file} onLoadSuccess={onDocumentLoadSuccess}>
-                            {Array.from({ length: numPages }, (_, index) => (
+                        <Document key={`doc_${indexDoc}`} file={document.file} onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, indexDoc)}>
+                            {Array.from({ length: pagesNumberPerDocument[indexDoc] }, (_, index) => (
                                 <Page
                                     onMouseUp={() => onSelectQuote(document.name, index + 1)}
                                     key={`page_${index + 1}`}
@@ -136,7 +137,7 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
                                     onLoadSuccess={onPageLoadSuccess}
                                     width={parentWidth}
                                     className="pdfPage"
-                                    canvasRef={(ref) => setPageRef(index, ref)}
+                                    canvasRef={(ref) => setPageRef(index, indexDoc, ref)}
                                     customTextRenderer={addIdOnTextElement}
                                 />
                             ))}

@@ -7,16 +7,22 @@ import { Box } from '@mui/material'
 
 export const useMultiFilePagination = (files?: { name: string, file: any }[]) => {
     const [numPages, setNumPages] = useState(0)
-    const [numTotalPages, setNumTotalPages] = useState(0)
+    const [pagesCount, setPagesCount] = useState<{ totalPages: number, pagesNumberPerDocument: number[] }>({
+        totalPages: 0,
+        pagesNumberPerDocument: [],
+    })
     const [currentPage, setCurrentPage] = useState(1)
     const pageRefs = useRef<HTMLCanvasElement[]>([])
 
     useEffect(() => {
-        setNumPages(0)
-        setNumTotalPages(0)
+        setPagesCount({
+            totalPages: 0,
+            pagesNumberPerDocument: []
+        })
         setCurrentPage(1)
+        pageRefs.current = []
     }, [files])
-    
+
 
     const goToPage = useCallback((pageNumber: number) => {
         setCurrentPage(pageNumber)
@@ -30,18 +36,32 @@ export const useMultiFilePagination = (files?: { name: string, file: any }[]) =>
     }, [])
 
     const onDocumentLoadSuccess = useCallback(
-        (pdf: PDFDocumentProxy) => {
-            setNumPages(pdf.numPages)
-            setNumTotalPages((prevNumTotalPages) => prevNumTotalPages + pdf.numPages)
+        (pdf: PDFDocumentProxy, docIndex: number) => {
+            setPagesCount(old => {
+                const copy = [...old.pagesNumberPerDocument]
+                copy[docIndex] = pdf.numPages
+                return {
+                    totalPages: old.totalPages + pdf.numPages,
+                    pagesNumberPerDocument: copy
+                }
+            })
         },
-      [],
+        [],
     )
-    
+
     const setPageRef = useCallback(
-        (index: number, ref: HTMLCanvasElement | null) => ref && (pageRefs.current[index] = ref),
-      [],
+        (index: number, docIndex: number, ref: HTMLCanvasElement | null) => {
+            if (ref) {
+                let startingIndex = 0
+                for (let i = 0; i < docIndex; i++) {
+                    startingIndex += pagesCount.pagesNumberPerDocument[i] ?? 0
+                }
+                pageRefs.current[(startingIndex + index)] = ref
+            }
+        },
+      [pagesCount],
     )
-    
+
     return {
         pagination: <Box
             position={'absolute'}
@@ -54,7 +74,7 @@ export const useMultiFilePagination = (files?: { name: string, file: any }[]) =>
         >
             <Pagination
                 page={currentPage}
-                totalPage={numTotalPages}
+                totalPage={pagesCount.totalPages}
                 onPageChange={(newPageNumber) => goToPage(newPageNumber)}
             />
         </Box>,
@@ -62,8 +82,8 @@ export const useMultiFilePagination = (files?: { name: string, file: any }[]) =>
         setNumPages,
         currentPage,
         setCurrentPage,
-        numTotalPages,
-        setNumTotalPages,
+        totalPages: pagesCount.totalPages,
+        pagesNumberPerDocument: pagesCount.pagesNumberPerDocument,
         pageRefs,
         goToPage,
         onDocumentLoadSuccess,
