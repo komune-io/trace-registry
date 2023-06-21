@@ -72,7 +72,8 @@ export const MessagesContainer = (props: MessagesContainerProps) => {
                         height={100}
                         sx={{
                             flexShrink: 0,
-                            margin: (theme) => theme.spacing(0, 2),
+                            marginBottom: (theme) => theme.spacing(2),
+                            marginTop: (theme) => theme.spacing(1),
                         }}
                     />
                 )
