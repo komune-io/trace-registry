@@ -35,5 +35,6 @@ class OrderEvolver: View<OrderEvent, OrderEntity> {
 
     private suspend fun OrderEntity.pend(event: OrderPendedEvent) = apply {
         status = OrderState.PENDING
+        certificate = event.certificate
     }
 }

@@ -52,7 +52,8 @@ class OrderAggregateService(
     override suspend fun pend(command: OrderPendCommand) = automate.transition(command) {
         OrderPendedEvent(
             id = command.id,
-            date = System.currentTimeMillis()
+            date = System.currentTimeMillis(),
+            certificate = command.certificate
         )
     }
 

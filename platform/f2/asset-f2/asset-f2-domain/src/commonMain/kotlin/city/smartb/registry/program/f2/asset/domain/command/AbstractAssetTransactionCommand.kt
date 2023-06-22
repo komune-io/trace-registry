@@ -4,10 +4,11 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 
-abstract class AbstractAssetTransactionCommand {
-    abstract val poolId: AssetPoolId
-    abstract val from: String?
-    abstract val to: String?
-    abstract val quantity: BigDecimalAsNumber
-    abstract val type: TransactionType
+interface AbstractAssetTransactionCommand {
+    val poolId: AssetPoolId?
+    val from: String?
+    val to: String?
+    val quantity: BigDecimalAsNumber
+    val type: TransactionType
+    val draft: Boolean
 }

@@ -10,7 +10,6 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionCommand
 import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
 import city.smartb.registry.program.s2.asset.domain.automate.s2Transaction
-import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCancelCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidateCommand
 import s2.dsl.automate.extention.canExecuteTransitionAnd
@@ -18,23 +17,23 @@ import kotlin.js.JsExport
 
 @JsExport
 object AssetPolicies {
-    fun canIssue(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
+    fun canIssue(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
     }
 
-    fun canTransfer(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
+    fun canTransfer(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
 
-    fun canOffset(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
+    fun canOffset(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER, Roles.STAKEHOLDER)
     }
 
-    fun canRetire(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO) = canTransitionAnd<AssetPoolEmitTransactionCommand>(assetPool) {
+    fun canRetire(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
     }
 
-    fun canEmitTransactionForOther(authedUser: AuthedUserDTO): Boolean {
+    fun canPlaceOrderForOther(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasRole(Roles.ORCHESTRATOR)
     }
 

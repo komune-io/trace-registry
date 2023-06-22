@@ -2,11 +2,11 @@ package city.smartb.registry.program.f2.asset.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Offset assets from a pool.
@@ -25,7 +25,7 @@ interface AssetOffsetCommandDTO {
     /**
      * Id of the pool hosting the assets.
      */
-    val poolId: AssetPoolId
+    val poolId: AssetPoolId?
 
     /**
      * Owner of the assets to offset.
@@ -44,6 +44,12 @@ interface AssetOffsetCommandDTO {
      * @example 20.0
      */
     val quantity: BigDecimalAsNumber
+
+    /**
+     * If false, the transaction order will be automatically submitted for processing
+     * @default false
+     */
+    val draft: Boolean
 }
 
 /**
@@ -51,11 +57,12 @@ interface AssetOffsetCommandDTO {
  */
 @Serializable
 data class AssetOffsetCommandDTOBase(
-    override val poolId: AssetPoolId,
+    override val poolId: AssetPoolId?,
     override val from: String,
     override val to: String,
-    override val quantity: BigDecimalAsNumber
-): AssetOffsetCommandDTO, AbstractAssetTransactionCommand() {
+    override val quantity: BigDecimalAsNumber,
+    override val draft: Boolean = false
+): AssetOffsetCommandDTO, AbstractAssetTransactionCommand {
     override val type: TransactionType = TransactionType.OFFSET
 }
 
@@ -66,9 +73,9 @@ data class AssetOffsetCommandDTOBase(
 @JsExport
 interface AssetOffsettedEventDTO {
     /**
-     * Id of the emitted transaction.
+     * Id of the placed transaction order.
      */
-    val transactionId: TransactionId
+    val orderId: OrderId
 }
 
 /**
@@ -76,5 +83,5 @@ interface AssetOffsettedEventDTO {
  */
 @Serializable
 data class AssetOffsettedEventDTOBase(
-    override val transactionId: TransactionId
+    override val orderId: OrderId
 ): AssetOffsettedEventDTO

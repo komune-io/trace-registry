@@ -2,8 +2,8 @@ package city.smartb.registry.program.f2.asset.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
@@ -24,7 +24,7 @@ interface AssetRetireCommandDTO {
     /**
      * Id of the pool hosting the assets.
      */
-    val poolId: AssetPoolId
+    val poolId: AssetPoolId?
 
     /**
      * Owner of the assets to retire.
@@ -37,16 +37,23 @@ interface AssetRetireCommandDTO {
      * @example 20.0
      */
     val quantity: BigDecimalAsNumber
+
+    /**
+     * If false, the transaction order will be automatically submitted for processing
+     * @default false
+     */
+    val draft: Boolean
 }
 
 /**
  * @d2 inherit
  */
 data class AssetRetireCommandDTOBase(
-    override val poolId: AssetPoolId,
+    override val poolId: AssetPoolId?,
     override val from: String,
-    override val quantity: BigDecimalAsNumber
-): AssetRetireCommandDTO, AbstractAssetTransactionCommand() {
+    override val quantity: BigDecimalAsNumber,
+    override val draft: Boolean = false
+): AssetRetireCommandDTO, AbstractAssetTransactionCommand {
     override val to: String? = null
     override val type: TransactionType = TransactionType.RETIRED
 }
@@ -58,14 +65,14 @@ data class AssetRetireCommandDTOBase(
 @JsExport
 interface AssetRetiredEventDTO {
     /**
-     * Id of the emitted transaction.
+     * Id of the placed transaction order.
      */
-    val transactionId: TransactionId
+    val orderId: OrderId
 }
 
 /**
  * @d2 inherit
  */
 data class AssetRetiredEventDTOBase(
-    override val transactionId: TransactionId
+    override val orderId: OrderId
 ): AssetRetiredEventDTO
