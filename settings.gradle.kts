@@ -27,22 +27,13 @@ include(
 include(
 	"platform:f2:activity-f2:activity-f2-api",
 	"platform:f2:activity-f2:activity-f2-client",
-	"platform:f2:activity-f2:activity-f2-domain"
-)
-
-include(
+	"platform:f2:activity-f2:activity-f2-domain",
 	"platform:f2:asset-f2:asset-f2-api",
 	"platform:f2:asset-f2:asset-f2-client",
-	"platform:f2:asset-f2:asset-f2-domain"
-)
-
-include(
+	"platform:f2:asset-f2:asset-f2-domain",
 	"platform:f2:asset-pool-f2:asset-pool-f2-api",
 	"platform:f2:asset-pool-f2:asset-pool-f2-client",
-	"platform:f2:asset-pool-f2:asset-pool-f2-domain"
-)
-
-include(
+	"platform:f2:asset-pool-f2:asset-pool-f2-domain",
 	"platform:f2:project-f2:project-f2-api",
 	"platform:f2:project-f2:project-f2-client",
 	"platform:f2:project-f2:project-f2-domain",
@@ -59,6 +50,8 @@ include(
 include(
 	"platform:s2:asset:asset-api",
 	"platform:s2:asset:asset-domain",
+	"platform:s2:order:order-api",
+	"platform:s2:order:order-domain",
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
 )
