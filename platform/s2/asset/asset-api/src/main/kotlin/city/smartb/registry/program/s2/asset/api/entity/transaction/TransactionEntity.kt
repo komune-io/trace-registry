@@ -24,6 +24,9 @@ class TransactionEntity: WithS2Id<TransactionId>, WithS2State<TransactionState> 
     lateinit var status: TransactionState
 
     @Indexed
+    lateinit var orderId: String
+
+    @Indexed
     lateinit var poolId: AssetPoolId
 
     @Indexed

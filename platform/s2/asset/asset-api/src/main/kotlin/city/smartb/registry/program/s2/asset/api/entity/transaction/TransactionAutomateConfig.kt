@@ -4,17 +4,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
 import city.smartb.registry.program.s2.asset.domain.automate.s2Transaction
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCanceledEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDeletedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftUpdatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedDraftEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -70,18 +60,7 @@ class TransactionAutomateConfig(
 		serializersModule = SerializersModule {
 			classDiscriminator = "class"
 			polymorphic(TransactionEvent::class) {
-				subclass(TransactionDraftedEvent::class, TransactionDraftedEvent.serializer())
-				subclass(TransactionDraftUpdatedEvent::class, TransactionDraftUpdatedEvent.serializer())
-				subclass(TransactionSubmittedDraftEvent::class, TransactionSubmittedDraftEvent.serializer())
-				subclass(TransactionSubmittedEvent::class, TransactionSubmittedEvent.serializer())
-				subclass(TransactionPendedEvent::class, TransactionPendedEvent.serializer())
-				subclass(TransactionValidatedEvent::class, TransactionValidatedEvent.serializer())
-				subclass(TransactionCanceledEvent::class, TransactionCanceledEvent.serializer())
-				subclass(TransactionDeletedEvent::class, TransactionDeletedEvent.serializer())
-
 				subclass(TransactionEmittedEvent::class, TransactionEmittedEvent.serializer())
-				subclass(TransactionAddedFileEvent::class, TransactionAddedFileEvent.serializer())
-				subclass(TransactionPendingCertificateGeneratedEvent::class, TransactionPendingCertificateGeneratedEvent.serializer())
 			}
 		}
 	}

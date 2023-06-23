@@ -1,28 +1,8 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
 import city.smartb.registry.program.api.commons.model.S2SourcingEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddFileCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionAddedFileEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCancelCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionCanceledEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDeleteCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDeletedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftUpdateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftUpdatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionDraftedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitDraftCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedDraftEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionValidatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -34,63 +14,9 @@ import kotlin.js.JsName
 
 val s2Transaction = s2Sourcing {
     name = "TransactionS2"
-    init<TransactionDraftCommand, TransactionDraftedEvent> {
-        to = TransactionState.DRAFTED
-        role = TransactionRole.Stakeholder
-    }
-    selfTransaction<TransactionDraftUpdateCommand, TransactionDraftUpdatedEvent> {
-        states += TransactionState.DRAFTED
-        role = TransactionRole.Stakeholder
-    }
-    transaction<TransactionSubmitDraftCommand, TransactionSubmittedDraftEvent> {
-        from = TransactionState.DRAFTED
-        to = TransactionState.SUBMITTED
-        role = TransactionRole.Stakeholder
-    }
-    init<TransactionSubmitCommand, TransactionSubmittedEvent> {
-        to = TransactionState.SUBMITTED
-        role = TransactionRole.Stakeholder
-    }
-    transaction<TransactionPendCommand, TransactionPendedEvent> {
-        from = TransactionState.SUBMITTED
-        to = TransactionState.PENDING
-        role = TransactionRole.Orchestrator
-    }
-    transaction<TransactionValidateCommand, TransactionValidatedEvent> {
-        from = TransactionState.PENDING
-        to = TransactionState.VALIDATED
-        role = TransactionRole.Orchestrator
-    }
-    transaction<TransactionCancelCommand, TransactionCanceledEvent> {
-        from = TransactionState.SUBMITTED
-        to = TransactionState.CANCELLED
-        role = TransactionRole.Stakeholder
-    }
-    transaction<TransactionCancelCommand, TransactionCanceledEvent> {
-        from = TransactionState.PENDING
-        to = TransactionState.CANCELLED
-        role = TransactionRole.Orchestrator
-    }
-    transaction<TransactionDeleteCommand, TransactionDeletedEvent> {
-        froms += TransactionState.DRAFTED
-        froms += TransactionState.CANCELLED
-        to = TransactionState.DELETED
-        role = TransactionRole.Stakeholder
-    }
-
-
     init<TransactionEmitCommand, TransactionEmittedEvent> {
-        to = TransactionState.SUBMITTED
+        to = TransactionState.EMITTED
         role = TransactionRole.Emitter
-    }
-    selfTransaction<TransactionAddFileCommand, TransactionAddedFileEvent> {
-        states += TransactionState.SUBMITTED
-        role = TransactionRole.Emitter
-    }
-    transaction<TransactionPendingCertificateGenerateCommand, TransactionPendingCertificateGeneratedEvent> {
-        from = TransactionState.SUBMITTED
-        to = TransactionState.PENDING
-        role = TransactionRole.Orchestrator
     }
 }
 
@@ -108,18 +34,11 @@ typealias TransactionId = String
  */
 @Serializable
 enum class TransactionState(override val position: Int): S2State {
-    SUBMITTED(0),
-    DRAFTED(1),
-    PENDING(3),
-    VALIDATED(4),
-    CANCELLED(5),
-    DELETED(6)
+    EMITTED(0),
 }
 
 enum class TransactionRole(val value: String): S2Role {
-    Emitter("Emitter"),
-    Stakeholder("stakeholder"),
-    Orchestrator("Orchestrator");
+    Emitter("Emitter");
     override fun toString() = value
 }
 

@@ -6,7 +6,6 @@ import city.smartb.registry.program.f2.asset.api.service.AssetF2FinderService
 import city.smartb.registry.program.f2.asset.api.service.AssetPoliciesEnforcer
 import city.smartb.registry.program.f2.asset.domain.AssetCommandApi
 import city.smartb.registry.program.f2.asset.domain.AssetQueryApi
-import city.smartb.registry.program.f2.asset.domain.command.AssetCancelTransactionFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
@@ -15,7 +14,6 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.command.AssetValidateTransactionFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
 import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
@@ -113,19 +111,19 @@ class AssetEndpoint(
             .let { AssetRetiredEventDTOBase(it.id) }
     }
 
-    @Bean
-    override fun assetTransactionCancel(): AssetCancelTransactionFunction = f2Function { command ->
-        logger.info("assetTransactionCancel: $command")
-        assetPoliciesEnforcer.checkCancelTransaction(command.id)
-        assetF2AggregateService.cancelTransaction(command)
-    }
-
-    @Bean
-    override fun assetTransactionValidate(): AssetValidateTransactionFunction = f2Function { command ->
-        logger.info("assetTransactionValidate: $command")
-        assetPoliciesEnforcer.checkValidateTransaction(command.id)
-        assetF2AggregateService.validateTransaction(command)
-    }
+//    @Bean
+//    override fun assetTransactionCancel(): AssetCancelTransactionFunction = f2Function { command ->
+//        logger.info("assetTransactionCancel: $command")
+//        assetPoliciesEnforcer.checkCancelTransaction(command.id)
+//        assetF2AggregateService.cancelTransaction(command)
+//    }
+//
+//    @Bean
+//    override fun assetTransactionValidate(): AssetValidateTransactionFunction = f2Function { command ->
+//        logger.info("assetTransactionValidate: $command")
+//        assetPoliciesEnforcer.checkValidateTransaction(command.id)
+//        assetF2AggregateService.validateTransaction(command)
+//    }
 
     @PostMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(

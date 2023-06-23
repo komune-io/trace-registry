@@ -8,6 +8,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
 
 data class Transaction(
     val id: TransactionId,
+    val orderId: String,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
