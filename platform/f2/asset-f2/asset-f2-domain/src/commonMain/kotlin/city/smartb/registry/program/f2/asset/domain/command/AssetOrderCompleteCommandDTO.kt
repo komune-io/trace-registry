@@ -1,11 +1,12 @@
 package city.smartb.registry.program.f2.asset.domain.command
 
+import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
 /**
- * Validate a transaction.
+ * Complete a transaction order and emit the actual transaction.
  * @d2 function
  * @parent [city.smartb.registry.program.f2.asset.domain.D2AssetF2Page]
  * @order 160
@@ -41,11 +42,17 @@ interface AssetOrderCompletedEventDTO {
      * Id of the completed order.
      */
     val id: OrderId
+
+    /**
+     * Id of the emitted transaction.
+     */
+    val transactionId: TransactionId
 }
 
 /**
  * @d2 inherit
  */
 data class AssetOrderCompletedEventDTOBase(
-    override val id: OrderId
+    override val id: OrderId,
+    override val transactionId: TransactionId
 ): AssetOrderCompletedEventDTO

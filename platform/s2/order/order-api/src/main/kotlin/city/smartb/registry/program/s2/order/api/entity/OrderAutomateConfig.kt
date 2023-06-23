@@ -9,7 +9,6 @@ import city.smartb.registry.program.s2.order.domain.command.OrderDeletedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPendedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedDraftEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 import city.smartb.registry.program.s2.order.domain.s2Order
 import kotlinx.coroutines.runBlocking
@@ -68,7 +67,6 @@ class OrderAutomateConfig(
 			classDiscriminator = "class"
 			polymorphic(OrderEvent::class) {
 				subclass(OrderPlacedEvent::class, OrderPlacedEvent.serializer())
-				subclass(OrderUpdatedDraftEvent::class, OrderUpdatedDraftEvent.serializer())
 				subclass(OrderSubmittedEvent::class, OrderSubmittedEvent.serializer())
 				subclass(OrderPendedEvent::class, OrderPendedEvent.serializer())
 				subclass(OrderUpdatedEvent::class, OrderUpdatedEvent.serializer())

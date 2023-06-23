@@ -15,8 +15,6 @@ import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdateDraftCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedDraftEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -38,10 +36,6 @@ class OrderAggregateService(
         )
     }
 
-    override suspend fun updateDraft(command: OrderUpdateDraftCommand): OrderUpdatedDraftEvent {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun submit(command: OrderSubmitCommand) = automate.transition(command) {
         OrderSubmittedEvent(
             id = command.id,
@@ -57,11 +51,16 @@ class OrderAggregateService(
         )
     }
 
-    override suspend fun update(command: OrderUpdateCommand): OrderUpdatedEvent {
-        TODO("Not yet implemented")
+    override suspend fun update(command: OrderUpdateCommand) = automate.transition(command) {
+        OrderUpdatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+            poolId = command.poolId,
+            quantity = command.quantity
+        )
     }
 
-    override suspend fun complete(command: OrderCompleteCommand) = automate.transition(command){
+    override suspend fun complete(command: OrderCompleteCommand) = automate.transition(command) {
         OrderCompletedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
@@ -69,11 +68,17 @@ class OrderAggregateService(
         )
     }
 
-    override suspend fun cancel(command: OrderCancelCommand): OrderCanceledEvent {
-        TODO("Not yet implemented")
+    override suspend fun cancel(command: OrderCancelCommand) = automate.transition(command) {
+        OrderCanceledEvent(
+            id = command.id,
+            date = System.currentTimeMillis()
+        )
     }
 
-    override suspend fun delete(command: OrderDeleteCommand): OrderDeletedEvent {
-        TODO("Not yet implemented")
+    override suspend fun delete(command: OrderDeleteCommand) = automate.transition(command) {
+        OrderDeletedEvent(
+            id = command.id,
+            date = System.currentTimeMillis()
+        )
     }
 }

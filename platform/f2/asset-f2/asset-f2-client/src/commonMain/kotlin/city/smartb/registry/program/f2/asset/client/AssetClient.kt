@@ -3,7 +3,11 @@ package city.smartb.registry.program.f2.asset.client
 import city.smartb.registry.program.f2.asset.domain.AssetApi
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmitFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
@@ -24,9 +28,12 @@ open class AssetClient constructor(private val client: F2Client) : AssetApi {
     override fun assetIssue(): AssetIssueFunction = client.function(this::assetIssue.name)
     override fun assetTransfer(): AssetTransferFunction = client.function(this::assetTransfer.name)
     override fun assetOffset(): AssetOffsetFunction = client.function(this::assetOffset.name)
-//    override fun assetTransactionCancel(): AssetCancelTransactionFunction = client.function(this::assetTransactionCancel.name)
+    override fun assetOrderCancel(): AssetOrderCancelFunction = client.function(this::assetOrderCancel.name)
     override fun assetOrderComplete(): AssetOrderCompleteFunction = client.function(this::assetOrderComplete.name)
     override fun assetRetire(): AssetRetireFunction = client.function(this::assetRetire.name)
+    override fun assetOrderSubmit(): AssetOrderSubmitFunction = client.function(this::assetOrderSubmit.name)
+    override fun assetOrderUpdate(): AssetOrderUpdateFunction = client.function(this::assetOrderUpdate.name)
+    override fun assetOrderDelete(): AssetOrderDeleteFunction = client.function(this::assetOrderDelete.name)
     override fun assetTransactionGet(): AssetTransactionGetFunction = client.function(this::assetTransactionGet.name)
     override fun assetTransactionPage(): AssetTransactionPageFunction = client.function(this::assetTransactionPage.name)
     override fun assetStatsGet(): AssetStatsGetFunction = client.function(this::assetTransactionPage.name)

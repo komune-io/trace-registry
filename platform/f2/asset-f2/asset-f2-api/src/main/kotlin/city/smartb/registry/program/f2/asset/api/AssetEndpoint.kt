@@ -10,7 +10,11 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmitFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
@@ -112,18 +116,39 @@ class AssetEndpoint(
             .let { AssetRetiredEventDTOBase(it.id) }
     }
 
-//    @Bean
-//    override fun assetTransactionCancel(): AssetCancelTransactionFunction = f2Function { command ->
-//        logger.info("assetTransactionCancel: $command")
-//        assetPoliciesEnforcer.checkCancelTransaction(command.id)
-//        assetF2AggregateService.cancelTransaction(command)
-//    }
+    @Bean
+    override fun assetOrderSubmit(): AssetOrderSubmitFunction = f2Function { command ->
+        logger.info("assetOrderSubmit: $command")
+        assetPoliciesEnforcer.checkSubmitOrder(command.id)
+        assetF2AggregateService.submitOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderUpdate(): AssetOrderUpdateFunction = f2Function { command ->
+        logger.info("assetOrderUpdate: $command")
+        assetPoliciesEnforcer.checkUpdateOrder(command.id)
+        assetF2AggregateService.updateOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderCancel(): AssetOrderCancelFunction = f2Function { command ->
+        logger.info("assetOrderCancel: $command")
+        assetPoliciesEnforcer.checkCancelOrder(command.id)
+        assetF2AggregateService.cancelOrder(command)
+    }
 
     @Bean
     override fun assetOrderComplete(): AssetOrderCompleteFunction = f2Function { command ->
         logger.info("assetOrderComplete: $command")
         assetPoliciesEnforcer.checkCompleteOrder(command.id)
         assetF2AggregateService.completeOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderDelete(): AssetOrderDeleteFunction = f2Function { command ->
+        logger.info("assetOrderDelete: $command")
+        assetPoliciesEnforcer.checkDeleteOrder(command.id)
+        assetF2AggregateService.deleteOrder(command)
     }
 
     @PostMapping("/assetCertificateDownload")

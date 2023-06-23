@@ -15,8 +15,6 @@ import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdateDraftCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedDraftEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
@@ -32,10 +30,6 @@ val s2Order = s2Sourcing {
         to = OrderState.DRAFT
         role = Role.STAKEHOLDER
     }
-    selfTransaction<OrderUpdateDraftCommand, OrderUpdatedDraftEvent> {
-        states += OrderState.DRAFT
-        role = Role.STAKEHOLDER
-    }
     transaction<OrderSubmitCommand, OrderSubmittedEvent> {
         from = OrderState.DRAFT
         to = OrderState.SUBMITTED
@@ -47,6 +41,7 @@ val s2Order = s2Sourcing {
         role = Role.ORCHESTRATOR
     }
     selfTransaction<OrderUpdateCommand, OrderUpdatedEvent> {
+        states += OrderState.DRAFT
         states += OrderState.SUBMITTED
         states += OrderState.PENDING
         role = Role.STAKEHOLDER
@@ -63,6 +58,7 @@ val s2Order = s2Sourcing {
         role = Role.STAKEHOLDER
     }
     transaction<OrderDeleteCommand, OrderDeletedEvent> {
+        from = OrderState.DRAFT
         from = OrderState.CANCELLED
         to = OrderState.DELETED
         role = Role.STAKEHOLDER

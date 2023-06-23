@@ -4,10 +4,25 @@ import city.smartb.registry.program.s2.order.domain.OrderCommand
 import city.smartb.registry.program.s2.order.domain.OrderEvent
 import city.smartb.registry.program.s2.order.domain.OrderId
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
+/**
+ * @d2 command
+ */
+@JsExport
+interface OrderDeleteCommandDTO: OrderCommand {
+    /**
+     * Id of the order to delete.
+     */
+    override val id: OrderId
+}
+
+/**
+ * @d2 inherit
+ */
 data class OrderDeleteCommand(
     override val id: OrderId
-): OrderCommand
+): OrderDeleteCommandDTO
 
 @Serializable
 data class OrderDeletedEvent(

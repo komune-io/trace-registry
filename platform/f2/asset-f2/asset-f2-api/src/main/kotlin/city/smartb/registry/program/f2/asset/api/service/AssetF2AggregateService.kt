@@ -8,8 +8,16 @@ import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCanceledEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompletedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeleteCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeletedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmitCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmittedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdatedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.utils.OrganizationFsPath
@@ -71,10 +79,20 @@ class AssetF2AggregateService(
         return placeOrder(command)
     }
 
-//    suspend fun cancelTransaction(command: AssetCancelTransactionCommandDTOBase): AssetCanceledTransactionEventDTOBase {
-//        return assetPoolAggregateService.cancelTransaction(command)
-//            .let { AssetCanceledTransactionEventDTOBase(it.id) }
-//    }
+    suspend fun submitOrder(command: AssetOrderSubmitCommandDTOBase): AssetOrderSubmittedEventDTOBase {
+        return orderAggregateService.submit(command)
+            .let { AssetOrderSubmittedEventDTOBase(it.id) }
+    }
+
+    suspend fun updateOrder(command: AssetOrderUpdateCommandDTOBase): AssetOrderUpdatedEventDTOBase {
+        return orderAggregateService.update(command)
+            .let { AssetOrderUpdatedEventDTOBase(it.id) }
+    }
+
+    suspend fun cancelOrder(command: AssetOrderCancelCommandDTOBase): AssetOrderCanceledEventDTOBase {
+        return orderAggregateService.cancel(command)
+            .let { AssetOrderCanceledEventDTOBase(it.id) }
+    }
 
     suspend fun completeOrder(command: AssetOrderCompleteCommandDTOBase): AssetOrderCompletedEventDTOBase {
         val order = orderFinderService.get(command.id)
@@ -83,7 +101,7 @@ class AssetF2AggregateService(
             throw IllegalArgumentException("Asset pool is not defined in transaction order [${order.id}]")
         }
 
-        AssetPoolEmitTransactionCommand(
+        val transactionEvent = AssetPoolEmitTransactionCommand(
             id = order.poolId!!,
             orderId = order.id,
             from = order.from,
@@ -116,7 +134,15 @@ class AssetF2AggregateService(
             certificate = certificate
         ).let { orderAggregateService.complete(it) }
 
-        return AssetOrderCompletedEventDTOBase(command.id)
+        return AssetOrderCompletedEventDTOBase(
+            id = command.id,
+            transactionId = transactionEvent.transactionId
+        )
+    }
+
+    suspend fun deleteOrder(command: AssetOrderDeleteCommandDTOBase): AssetOrderDeletedEventDTOBase {
+        return orderAggregateService.delete(command)
+            .let { AssetOrderDeletedEventDTOBase(it.id) }
     }
 
     private suspend fun placeOrder(

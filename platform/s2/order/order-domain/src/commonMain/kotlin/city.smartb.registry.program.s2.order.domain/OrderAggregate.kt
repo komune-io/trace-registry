@@ -13,13 +13,10 @@ import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdateDraftCommand
-import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedDraftEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 
 interface OrderAggregate {
     suspend fun place(command: OrderPlaceCommand): OrderPlacedEvent
-    suspend fun updateDraft(command: OrderUpdateDraftCommand): OrderUpdatedDraftEvent
     suspend fun submit(command: OrderSubmitCommand): OrderSubmittedEvent
     suspend fun pend(command: OrderPendCommand): OrderPendedEvent
     suspend fun update(command: OrderUpdateCommand): OrderUpdatedEvent

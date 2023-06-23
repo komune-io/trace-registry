@@ -11,6 +11,9 @@ import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
 import city.smartb.registry.program.s2.order.domain.OrderCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderCancelCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderCompleteCommand
+import city.smartb.registry.program.s2.order.domain.command.OrderDeleteCommand
+import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
+import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
 import city.smartb.registry.program.s2.order.domain.s2Order
 import s2.dsl.automate.extention.canExecuteTransitionAnd
 import kotlin.js.JsExport
@@ -37,12 +40,28 @@ object AssetPolicies {
         return authedUser.hasRole(Roles.ORCHESTRATOR)
     }
 
-    fun canCancelTransaction(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderCancelCommand>(order) {
-        authedUser.hasRole(Roles.ORCHESTRATOR) || order.by == authedUser.memberOf
+    fun canSubmitOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderSubmitCommand>(order) {
+        canWriteOrder(authedUser, order)
+    }
+
+    fun canUpdateOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderUpdateCommand>(order) {
+        canWriteOrder(authedUser, order)
     }
 
     fun canCompleteOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderCompleteCommand>(order) {
         authedUser.hasRole(Roles.ORCHESTRATOR)
+    }
+
+    fun canCancelOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderCancelCommand>(order) {
+        canWriteOrder(authedUser, order)
+    }
+
+    fun canDeleteOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderDeleteCommand>(order) {
+        authedUser.hasRole(Roles.ORCHESTRATOR)
+    }
+
+    private fun canWriteOrder(authedUser: AuthedUserDTO, order: OrderDTO): Boolean {
+        return authedUser.hasRole(Roles.ORCHESTRATOR) || order.by == authedUser.memberOf
     }
 
     private inline fun <reified C: AssetPoolCommand> canTransitionAnd(assetPool: AssetPoolDTO?, hasAccess: () -> Boolean): Boolean {

@@ -7,7 +7,7 @@ import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
 /**
- * Cancel a transaction.
+ * Cancel a transaction order.
  * @d2 function
  * @parent [city.smartb.registry.program.f2.asset.domain.D2AssetF2Page]
  * @order 150
@@ -25,7 +25,7 @@ typealias AssetOrderCancelCommandDTOBase = OrderCancelCommand
 
 /**
  * @d2 event
- * @parent [AssetPoolHoldFunction]
+ * @parent [AssetOrderCancelFunction]
  */
 @JsExport
 interface AssetOrderCanceledEventDTO {

@@ -2,10 +2,13 @@ package city.smartb.registry.program.s2.order.api.entity
 
 import city.smartb.registry.program.s2.order.domain.OrderEvent
 import city.smartb.registry.program.s2.order.domain.OrderState
+import city.smartb.registry.program.s2.order.domain.command.OrderCanceledEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderCompletedEvent
+import city.smartb.registry.program.s2.order.domain.command.OrderDeletedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPendedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
+import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 
@@ -15,7 +18,10 @@ class OrderEvolver: View<OrderEvent, OrderEntity> {
         is OrderPlacedEvent -> place(event)
         is OrderSubmittedEvent -> model?.submit(event)
         is OrderPendedEvent -> model?.pend(event)
+        is OrderUpdatedEvent -> model?.update(event)
         is OrderCompletedEvent -> model?.complete(event)
+        is OrderCanceledEvent -> model?.cancel(event)
+        is OrderDeletedEvent -> model?.delete(event)
         else -> TODO()
     }
 
@@ -40,9 +46,22 @@ class OrderEvolver: View<OrderEvent, OrderEntity> {
         certificate = event.certificate
     }
 
+    private suspend fun OrderEntity.update(event: OrderUpdatedEvent) = apply {
+        poolId = event.poolId
+        quantity = event.quantity
+    }
+
     private suspend fun OrderEntity.complete(event: OrderCompletedEvent) = apply {
         status = OrderState.COMPLETED
         certificate = event.certificate
         completedDate = event.date
+    }
+
+    private suspend fun OrderEntity.cancel(event: OrderCanceledEvent) = apply {
+        status = OrderState.CANCELLED
+    }
+
+    private suspend fun OrderEntity.delete(event: OrderDeletedEvent) = apply {
+        status = OrderState.DELETED
     }
 }
