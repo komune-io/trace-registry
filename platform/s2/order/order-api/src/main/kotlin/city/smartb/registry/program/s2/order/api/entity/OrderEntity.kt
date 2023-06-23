@@ -41,6 +41,8 @@ class OrderEntity: WithS2Id<OrderId>, WithS2State<OrderState> {
 
     var creationDate: Long = 0
 
+    var completedDate: Long? = null
+
     var certificate: FilePath? = null
 
     var cancelReason: String? = null

@@ -61,8 +61,12 @@ class OrderAggregateService(
         TODO("Not yet implemented")
     }
 
-    override suspend fun complete(command: OrderCompleteCommand): OrderCompletedEvent {
-        TODO("Not yet implemented")
+    override suspend fun complete(command: OrderCompleteCommand) = automate.transition(command){
+        OrderCompletedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+            certificate = command.certificate
+        )
     }
 
     override suspend fun cancel(command: OrderCancelCommand): OrderCanceledEvent {

@@ -2,6 +2,7 @@ package city.smartb.registry.program.s2.order.api.entity
 
 import city.smartb.registry.program.s2.order.domain.OrderEvent
 import city.smartb.registry.program.s2.order.domain.OrderState
+import city.smartb.registry.program.s2.order.domain.command.OrderCompletedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPendedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
@@ -14,6 +15,7 @@ class OrderEvolver: View<OrderEvent, OrderEntity> {
         is OrderPlacedEvent -> place(event)
         is OrderSubmittedEvent -> model?.submit(event)
         is OrderPendedEvent -> model?.pend(event)
+        is OrderCompletedEvent -> model?.complete(event)
         else -> TODO()
     }
 
@@ -36,5 +38,11 @@ class OrderEvolver: View<OrderEvent, OrderEntity> {
     private suspend fun OrderEntity.pend(event: OrderPendedEvent) = apply {
         status = OrderState.PENDING
         certificate = event.certificate
+    }
+
+    private suspend fun OrderEntity.complete(event: OrderCompletedEvent) = apply {
+        status = OrderState.COMPLETED
+        certificate = event.certificate
+        completedDate = event.date
     }
 }

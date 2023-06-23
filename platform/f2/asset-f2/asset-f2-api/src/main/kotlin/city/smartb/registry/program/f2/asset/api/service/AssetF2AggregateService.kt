@@ -8,6 +8,8 @@ import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompletedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.utils.OrganizationFsPath
@@ -15,7 +17,11 @@ import city.smartb.registry.program.infra.im.ImService
 import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
+import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
+import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import city.smartb.registry.program.s2.order.api.OrderAggregateService
+import city.smartb.registry.program.s2.order.api.OrderFinderService
+import city.smartb.registry.program.s2.order.domain.command.OrderCompleteCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderPendCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderPlaceCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
@@ -29,7 +35,8 @@ class AssetF2AggregateService(
     private val assetPoolFinderService: AssetPoolFinderService,
     private val fileClient: FileClient,
     private val imService: ImService,
-    private val orderAggregateService: OrderAggregateService
+    private val orderAggregateService: OrderAggregateService,
+    private val orderFinderService: OrderFinderService
 ) {
     suspend fun issue(command: AssetIssueCommandDTOBase): OrderPlacedEvent {
         return placeOrder(command)
@@ -69,33 +76,48 @@ class AssetF2AggregateService(
 //            .let { AssetCanceledTransactionEventDTOBase(it.id) }
 //    }
 
-//    suspend fun validateTransaction(command: AssetValidateTransactionCommandDTOBase): AssetValidatedTransactionEventDTOBase {
-//        val transaction = assetPoolFinderService.getTransaction(command.id)
-//        val file = takeIf { transaction.type == TransactionType.OFFSET }?.let {
-//            val content = CertificateGenerator.fillPendingCertificate(
-//                orderId = transaction.id,
-//                date = transaction.date,
-//                issuedTo = transaction.to!!,
-//                quantity = transaction.quantity,
-//                indicator = if (transaction.quantity > 1) "tons" else "ton",
-//            )
-//            val path = FilePath(
-//                objectType = OrganizationFsPath.OBJECT_TYPE,
-//                objectId = transaction.to!!,
-//                directory = OrganizationFsPath.DIR_CERTIFICATE,
-//                name = "certificate-${transaction.id}.pdf"
-//            )
-//            fileClient.fileUpload(path.toUploadCommand(), content)
-//            path
-//        }
-//
-//        TransactionValidateCommand(
-//            id = transaction.id,
-//            file = file
-//        ).let { assetPoolAggregateService.validateTransaction(it) }
-//
-//        return AssetValidatedTransactionEventDTOBase(command.id)
-//    }
+    suspend fun completeOrder(command: AssetOrderCompleteCommandDTOBase): AssetOrderCompletedEventDTOBase {
+        val order = orderFinderService.get(command.id)
+
+        if (order.poolId == null) {
+            throw IllegalArgumentException("Asset pool is not defined in transaction order [${order.id}]")
+        }
+
+        AssetPoolEmitTransactionCommand(
+            id = order.poolId!!,
+            orderId = order.id,
+            from = order.from,
+            to = order.to,
+            by = AuthenticationProvider.getAuthedUser().memberOf!!,
+            quantity = order.quantity,
+            type = order.type
+        ).let { assetPoolAggregateService.emitTransaction(it) }
+
+        val certificate = takeIf { order.type == TransactionType.OFFSET }?.let {
+            val content = CertificateGenerator.fillFinalCertificate(
+                orderId = order.id,
+                date = System.currentTimeMillis(),
+                issuedTo = order.to!!,
+                quantity = order.quantity,
+                indicator = if (order.quantity > 1) "tons" else "ton",
+            )
+            val path = FilePath(
+                objectType = OrganizationFsPath.OBJECT_TYPE,
+                objectId = order.to!!,
+                directory = OrganizationFsPath.DIR_CERTIFICATE,
+                name = "certificate-${order.id}.pdf"
+            )
+            fileClient.fileUpload(path.toUploadCommand(), content)
+            path
+        }
+
+        OrderCompleteCommand(
+            id = order.id,
+            certificate = certificate
+        ).let { orderAggregateService.complete(it) }
+
+        return AssetOrderCompletedEventDTOBase(command.id)
+    }
 
     private suspend fun placeOrder(
         command: AbstractAssetTransactionCommand,

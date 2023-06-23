@@ -3,6 +3,7 @@ package city.smartb.registry.program.f2.asset.api.service
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.api.commons.model.SimpleCache
 import city.smartb.registry.program.f2.asset.api.model.toDTO
+import city.smartb.registry.program.f2.asset.domain.model.OrderDTOBase
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetResultDTOBase
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
@@ -11,6 +12,8 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.Transaction
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.api.OrderFinderService
+import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -26,11 +29,16 @@ import org.springframework.stereotype.Service
 class AssetF2FinderService(
     private val assetPoolFinderService: AssetPoolFinderService,
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
+    private val orderFinderService: OrderFinderService,
     private val projectFinderService: ProjectFinderService
 ) {
 
     suspend fun getTransaction(id: TransactionId): TransactionDTOBase {
         return assetPoolFinderService.getTransaction(id).toDTO()
+    }
+
+    suspend fun getOrder(id: OrderId): OrderDTOBase {
+        return orderFinderService.get(id).toDTO()
     }
 
     suspend fun page(

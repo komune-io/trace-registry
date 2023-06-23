@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.asset.domain
 
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 
@@ -34,5 +35,5 @@ interface AssetCommandApi {
     /**
      * Validate a transaction.
      */
-//    fun assetTransactionValidate(): AssetValidateTransactionFunction
+    fun assetOrderComplete(): AssetOrderCompleteFunction
 }

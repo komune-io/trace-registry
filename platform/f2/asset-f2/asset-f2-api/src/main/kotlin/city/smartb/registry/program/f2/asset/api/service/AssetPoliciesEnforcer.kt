@@ -4,6 +4,7 @@ import city.smartb.registry.program.api.commons.auth.PolicyEnforcer
 import city.smartb.registry.program.f2.asset.domain.utils.AssetPolicies
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.s2.order.domain.command.OrderPlaceCommand
 import org.springframework.stereotype.Service
 
@@ -36,13 +37,13 @@ class AssetPoliciesEnforcer(
                 || AssetPolicies.canPlaceOrderForOther(authedUser)
     }
 
-    suspend fun checkCancelTransaction(transactionId: TransactionId) = check("cancel transaction [$transactionId]") { authedUser ->
-        val transaction = assetF2FinderService.getTransaction(transactionId)
-        AssetPolicies.canCancelTransaction(authedUser, transaction)
+    suspend fun checkCompleteOrder(orderId: OrderId) = check("complete order [$orderId]") { authedUser ->
+        val order = assetF2FinderService.getOrder(orderId)
+        AssetPolicies.canCompleteOrder(authedUser, order)
     }
 
-    suspend fun checkValidateTransaction(transactionId: TransactionId) = check("validate transaction [$transactionId]") { authedUser ->
-        val transaction = assetF2FinderService.getTransaction(transactionId)
-        AssetPolicies.canValidateTransaction(authedUser, transaction)
+    suspend fun checkCancelTransaction(orderId: TransactionId) = check("cancel order [$orderId]") { authedUser ->
+        val order = assetF2FinderService.getOrder(orderId)
+        AssetPolicies.canCancelTransaction(authedUser, order)
     }
 }

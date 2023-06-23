@@ -10,6 +10,7 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
@@ -117,13 +118,13 @@ class AssetEndpoint(
 //        assetPoliciesEnforcer.checkCancelTransaction(command.id)
 //        assetF2AggregateService.cancelTransaction(command)
 //    }
-//
-//    @Bean
-//    override fun assetTransactionValidate(): AssetValidateTransactionFunction = f2Function { command ->
-//        logger.info("assetTransactionValidate: $command")
-//        assetPoliciesEnforcer.checkValidateTransaction(command.id)
-//        assetF2AggregateService.validateTransaction(command)
-//    }
+
+    @Bean
+    override fun assetOrderComplete(): AssetOrderCompleteFunction = f2Function { command ->
+        logger.info("assetOrderComplete: $command")
+        assetPoliciesEnforcer.checkCompleteOrder(command.id)
+        assetF2AggregateService.completeOrder(command)
+    }
 
     @PostMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(
