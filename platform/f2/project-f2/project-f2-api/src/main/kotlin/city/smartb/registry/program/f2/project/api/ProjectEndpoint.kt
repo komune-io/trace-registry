@@ -57,7 +57,7 @@ class ProjectEndpoint(
             estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) },
+            status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) } ?: ExactMatch(ProjectState.STAMPED),
             type = query.type?.let(::ExactMatch),
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
@@ -87,6 +87,8 @@ class ProjectEndpoint(
         projectAggregateService.update(command)
     }
 
+//    @PermitAll
+//    @Bean
     override fun projectDelete(): ProjectDeleteFunction = f2Function { command ->
         projectPoliciesEnforcer.checkDelete(command.id)
         projectAggregateService.delete(command)

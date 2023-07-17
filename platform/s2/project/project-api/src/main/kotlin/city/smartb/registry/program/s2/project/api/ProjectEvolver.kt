@@ -7,6 +7,7 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -18,6 +19,7 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		is ProjectCreatedEvent -> create(event)
 		is ProjectUpdatedEvent -> model?.update(event)
 		is ProjectAddedAssetPoolEvent -> model?.addAssetPool(event)
+		is ProjectDeletedEvent -> model?.delete(event)
 		else -> TODO()
 	}
 
@@ -73,4 +75,9 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 	private fun ProjectEntity.addAssetPool(event: ProjectAddedAssetPoolEvent) = apply {
 		assetPools += event.poolId
 	}
+
+	private fun ProjectEntity.delete(event: ProjectDeletedEvent) = apply {
+		status = ProjectState.WITHDRAWN
+	}
+
 }
