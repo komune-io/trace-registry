@@ -21,11 +21,11 @@ docker-gateway:
 	@docker push ${GATEWAY_IMG}
 
 docker-web:
-	@docker build --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
+	@docker build --no-cache=true --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
 	@docker push ${FRONT_VER_IMG}
 
 package-storybook:
-	@docker build --no-cache=true -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
+	@docker build --no-cache=true --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
 	@docker push ${STORYBOOK_IMG}
 
 
