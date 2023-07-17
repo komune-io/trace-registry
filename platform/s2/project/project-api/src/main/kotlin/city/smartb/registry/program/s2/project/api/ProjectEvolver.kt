@@ -3,6 +3,8 @@ package city.smartb.registry.program.s2.project.api
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.Project
 import kotlinx.datetime.Clock
@@ -15,6 +17,7 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 	override suspend fun evolve(event: ProjectEvent, model: Project?): Project? = when (event) {
 		is ProjectCreatedEvent -> create(event)
 		is ProjectUpdatedEvent -> model?.update(event)
+		is ProjectDeletedEvent -> model?.delete(event)
 		else -> model
 	}
 
@@ -44,6 +47,9 @@ class ProjectEvolver: View<ProjectEvent, Project> {
 		activities = event.activities,
 		certification = event.certification,
 		sdgs = event.sdgs
+	)
+	private fun Project.delete(event: ProjectDeletedEvent) = copy(
+		status = ProjectState.WITHDRAWN,
 	)
 	private fun Project.update(event: ProjectUpdatedEvent) = copy(
 		status = event.status,
