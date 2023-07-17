@@ -73,3 +73,8 @@ include(
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
 )
+
+include(
+	"platform:s2:catalog:catalog-api",
+	"platform:s2:catalog:catalog-domain",
+)

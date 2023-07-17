@@ -1,0 +1,64 @@
+{
+  "@context": {
+    "@vocab": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "qb": "http://purl.org/linked-data/cube#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://example.org/framework/1",
+  "@type": "Dataset",
+  "dct:identifier": "1",
+  "dct:title": "Framework Name",
+  "qb:structure": {
+    "@type": "DataStructureDefinition",
+    "qb:component": [
+      {
+          "qb:dimension": {
+            "@id": "http://example.org/framework/1/type",
+            "@type": "DimensionProperty",
+            "rdfs:label": "Framework Type",
+            "rdfs:range": {
+              "@id": "http://example.org/frameworktype",
+              "@type": "skos:ConceptScheme",
+              "skos:prefLabel": "Framework Type",
+              "skos:hasTopConcept": [
+                {
+                  "@id": "http://example.org/frameworktype/standard",
+                  "@type": "skos:Concept",
+                  "skos:prefLabel": "STANDARD"
+                },
+                {
+                  "@id": "http://example.org/frameworktype/program",
+                  "@type": "skos:Concept",
+                  "skos:prefLabel": "PROGRAM"
+                },
+                {
+                  "@id": "http://example.org/frameworktype/methodology",
+                  "@type": "skos:Concept",
+                  "skos:prefLabel": "METHODOLOGY"
+                }
+              ]
+            }
+          }
+      },
+      {
+        "qb:measure": {
+          "@id": "http://example.org/framework/1/sectorialScopes",
+          "@type": "MeasureProperty",
+          "rdfs:label": "Sectorial Scopes",
+          "rdfs:range": "xsd:string"
+        }
+      },
+      {
+        "qb:attribute": {
+          "@id": "http://example.org/framework/1/owner",
+          "@type": "AttributeProperty",
+          "rdfs:label": "Owner",
+          "rdfs:range": "http://example.org/agent"
+        }
+      }
+    ]
+  }
+}
