@@ -89,6 +89,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                     width: "100%"
                 }}
                 //@ts-ignore
+                selectedFiles={filesNames}
                 getResponse={askQuestion}
                 removeQuote={removeQuote}
                 quote={quote}

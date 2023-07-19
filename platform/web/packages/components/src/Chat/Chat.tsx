@@ -8,13 +8,14 @@ import { useParams } from 'react-router-dom';
 import { ChatHeader } from './ChatHeader';
 
 export interface ChatProps extends StackProps {
-    getResponse: (message: string, history: Message[], projectId?: string) => Promise<string | undefined>
+    selectedFiles?: string[]
+    getResponse: (message: string, history: Message[], targetedFiles?: string[], projectId?: string) => Promise<string | undefined>
     quote?: { quote: string, fileName: string, pageNumber: number }
     removeQuote?: () => void
 }
 
 export const Chat = (props: ChatProps) => {
-    const { getResponse, quote, removeQuote, ...other } = props
+    const { selectedFiles, getResponse, quote, removeQuote, ...other } = props
     const { projectId } = useParams()
     const [messages, setMessages] = useLocalStorage<Message[]>({ key: `chat-history-${projectId}`, defaultValue: [] });
     const [isLoading, setIsLoading] = useState(false)
@@ -32,7 +33,7 @@ export const Chat = (props: ChatProps) => {
                 type: 'HUMAN'
             })
             setMessages([...messages])
-            const response = await getResponse(message, history, projectId)
+            const response = await getResponse(message, history, selectedFiles, projectId)
             messages.push({
                 id: uuidv4(),
                 content: response ?? "No response were received",

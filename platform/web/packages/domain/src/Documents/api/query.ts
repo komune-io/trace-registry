@@ -21,7 +21,7 @@ export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQue
 export interface ChatAskQuestionQuery extends chat.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
 export interface ChatAskQuestionResult extends chat.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
 
-export const askQuestion = async (message: string, history: Message[], projectId?: string) => {
+export const askQuestion = async (message: string, history: Message[], targetedFiles?: string[], projectId?: string) => {
   const res = await request<ChatAskQuestionResult[]>({
     method: "POST",
     //@ts-ignore
@@ -29,6 +29,7 @@ export const askQuestion = async (message: string, history: Message[], projectId
     body: JSON.stringify({
       question: message,
       history: history.map((message) => ({...message, additional_kwargs: {}})),
+      metadata: {targetedFiles},
       projectId
     } as ChatAskQuestionQuery),
     returnType: "json"

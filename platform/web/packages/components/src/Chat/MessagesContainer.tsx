@@ -41,14 +41,16 @@ export const MessagesContainer = (props: MessagesContainerProps) => {
             startIndex = 1
         }
         for (let i = startIndex; i < paginatedMessages.length; i += 2) {
-            display.push(
-                <ChatExchange
-                    response={paginatedMessages[i]}
-                    message={paginatedMessages[i + 1]}
-                    key={`${paginatedMessages[i].id}-${paginatedMessages[i + 1]?.id}`}
-                    onRemove={() => removeMessages([paginatedMessages[i].id, paginatedMessages[i + 1].id])}
-                />
-            )
+            if (paginatedMessages[i] && paginatedMessages[i+1]) {
+                display.push(
+                    <ChatExchange
+                        response={paginatedMessages[i]}
+                        message={paginatedMessages[i + 1]}
+                        key={`${paginatedMessages[i].id}-${paginatedMessages[i + 1]?.id}`}
+                        onRemove={() => removeMessages([paginatedMessages[i].id, paginatedMessages[i + 1].id])}
+                    />
+                )
+            }
         }
         return display
     }, [page, messages, removeMessages])

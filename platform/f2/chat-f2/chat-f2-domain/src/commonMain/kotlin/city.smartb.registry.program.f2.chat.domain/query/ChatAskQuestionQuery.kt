@@ -2,11 +2,13 @@ package city.smartb.registry.program.f2.chat.domain.query
 
 import city.smartb.registry.program.f2.chat.domain.model.ChatMessage
 import city.smartb.registry.program.f2.chat.domain.model.ChatMessageDTO
+import city.smartb.registry.program.f2.chat.domain.model.ChatMetadata
+import city.smartb.registry.program.f2.chat.domain.model.ChatMetadataDTO
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 
 /**
@@ -45,6 +47,11 @@ interface ChatAskQuestionQueryDTO {
     val history: List<ChatMessageDTO>
 
     /**
+     * Optional filter to restrain the knowledge search on specific files.
+     */
+    val metadata: ChatMetadataDTO
+
+    /**
      * Optional filter to restrain the knowledge search on a specific project.
      */
     val projectId: ProjectId?
@@ -57,6 +64,7 @@ interface ChatAskQuestionQueryDTO {
 data class ChatAskQuestionQuery(
     override val question: String,
     override val history: List<ChatMessage>,
+    override val metadata: ChatMetadata,
     override val projectId: ProjectId?
 ): ChatAskQuestionQueryDTO
 
