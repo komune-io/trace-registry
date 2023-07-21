@@ -5,16 +5,18 @@ import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsExport
 
 /**
  * @d2 model
  * @parent [city.smartb.registry.program.f2.asset.domain.D2AssetF2Page]
- * @order 100
+ * @order 200
  */
 @JsExport
-interface TransactionDTO {
+interface TransactionDTO: WithS2State<TransactionState> {
     val id: TransactionId
     val date: Long
     val poolId: AssetPoolId
@@ -26,7 +28,9 @@ interface TransactionDTO {
     val unit: String
     val vintage: String?
     val file: FilePathDTO?
-    val status: String?
+    val status: String
+
+    override fun s2State() = TransactionState.valueOf(status)
 }
 
 /**
@@ -45,5 +49,5 @@ data class TransactionDTOBase(
     override val unit: String,
     override val vintage: String?,
     override val file: FilePath?,
-    override val status: String?
+    override val status: String
 ): TransactionDTO

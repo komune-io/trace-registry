@@ -4,6 +4,7 @@ import city.smartb.registry.program.s2.asset.domain.model.Transaction
 
 fun TransactionEntity.toTransaction() = Transaction(
     id = id,
+    orderId = orderId,
     poolId = poolId,
     from = from,
     to = to,

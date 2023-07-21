@@ -91,9 +91,9 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
 
                 AssertionBdd.transaction(transactionRepository).assertThat(transaction!!).hasFields(
                     poolId = context.assetPoolIds.safeGet(params.pool),
-                    from = params.from.parseNullableOrDefault(transaction.from),
-                    to = params.to.parseNullableOrDefault(transaction.to),
-                    by = params.by ?: transaction.by,
+                    from = params.from.parseNullableOrDefault(transaction.from) { context.organizations.safeGet(it).id },
+                    to = params.to.parseNullableOrDefault(transaction.to) { context.organizations.safeGet(it).id },
+                    by = params.by?.let { context.organizations.safeGet(it).id } ?: transaction.by,
                     quantity = params.quantity ?: transaction.quantity,
                     type = params.type ?: transaction.type,
                 )
@@ -108,7 +108,8 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
                     .forEach { (poolId, paramList) ->
                         val asserter = AssertionBdd.assetPool(assetPoolRepository).assertThatId(poolId)
                         paramList.forEach { params ->
-                            asserter.hasWallet(params.owner, params.value)
+                            val owner = context.organizations[params.owner]?.id ?: params.owner
+                            asserter.hasWallet(owner, params.value)
                         }
                     }
             }
@@ -124,7 +125,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
             quantity = params.quantity,
             type = params.type
         )
-        assetPoolAggregateService.submitTransaction(command).transactionId
+        assetPoolAggregateService.emitTransaction(command).transactionId
     }
 
     private fun assetPoolEmitTransactionParams(entry: Map<String, String>?) = AssetPoolEmitTransactionParams(

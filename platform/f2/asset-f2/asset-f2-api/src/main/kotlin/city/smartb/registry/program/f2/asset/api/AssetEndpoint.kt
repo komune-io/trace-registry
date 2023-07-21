@@ -10,17 +10,22 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetIssuedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetOffsettedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeleteFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmitFunction
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
-import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
-import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
+import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetResult
-import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFunction
+import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
@@ -82,33 +87,68 @@ class AssetEndpoint(
     @Bean
     override fun assetIssue(): AssetIssueFunction = f2Function { command ->
         logger.info("assetIssue: $command")
-        assetPoliciesEnforcer.checkIssue(command.poolId)
+        assetPoliciesEnforcer.checkIssue()
         assetF2AggregateService.issue(command)
-            .let { AssetIssuedEventDTOBase(it.transactionId) }
+            .let { AssetIssuedEventDTOBase(it.id) }
     }
 
     @Bean
     override fun assetTransfer(): AssetTransferFunction = f2Function { command ->
         logger.info("assetTransfer: $command")
-        assetPoliciesEnforcer.checkTransfer(command.poolId)
+        assetPoliciesEnforcer.checkTransfer()
         assetF2AggregateService.transfer(command)
-            .let { AssetTransferredEventDTOBase(it.transactionId) }
+            .let { AssetTransferredEventDTOBase(it.id) }
     }
 
     @Bean
     override fun assetOffset(): AssetOffsetFunction = f2Function { command ->
         logger.info("assetOffset: $command")
-        assetPoliciesEnforcer.checkOffset(command.poolId)
+        assetPoliciesEnforcer.checkOffset()
         assetF2AggregateService.offset(command)
-            .let { AssetOffsettedEventDTOBase(it.transactionId) }
+            .let { AssetOffsettedEventDTOBase(it.id) }
     }
 
     @Bean
     override fun assetRetire(): AssetRetireFunction = f2Function { command ->
         logger.info("assetRetire: $command")
-        assetPoliciesEnforcer.checkRetire(command.poolId)
+        assetPoliciesEnforcer.checkRetire()
         assetF2AggregateService.retire(command)
-            .let { AssetRetiredEventDTOBase(it.transactionId) }
+            .let { AssetRetiredEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun assetOrderSubmit(): AssetOrderSubmitFunction = f2Function { command ->
+        logger.info("assetOrderSubmit: $command")
+        assetPoliciesEnforcer.checkSubmitOrder(command.id)
+        assetF2AggregateService.submitOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderUpdate(): AssetOrderUpdateFunction = f2Function { command ->
+        logger.info("assetOrderUpdate: $command")
+        assetPoliciesEnforcer.checkUpdateOrder(command.id)
+        assetF2AggregateService.updateOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderCancel(): AssetOrderCancelFunction = f2Function { command ->
+        logger.info("assetOrderCancel: $command")
+        assetPoliciesEnforcer.checkCancelOrder(command.id)
+        assetF2AggregateService.cancelOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderComplete(): AssetOrderCompleteFunction = f2Function { command ->
+        logger.info("assetOrderComplete: $command")
+        assetPoliciesEnforcer.checkCompleteOrder(command.id)
+        assetF2AggregateService.completeOrder(command)
+    }
+
+    @Bean
+    override fun assetOrderDelete(): AssetOrderDeleteFunction = f2Function { command ->
+        logger.info("assetOrderDelete: $command")
+        assetPoliciesEnforcer.checkDeleteOrder(command.id)
+        assetF2AggregateService.deleteOrder(command)
     }
 
     @PostMapping("/assetCertificateDownload")
@@ -138,13 +178,13 @@ class AssetEndpoint(
     @PermitAll
     override fun assetTransactionGet(): AssetTransactionGetFunction = f2Function { query ->
         logger.info("assetTransactionGet: $query")
-        assetF2FinderService.assetTransactionGet(query.transactionId).let(::AssetTransactionGetResult)
+        assetF2FinderService.getTransaction(query.transactionId).let(::AssetTransactionGetResult)
     }
 
     @Bean
     @PermitAll
     override fun assetStatsGet(): AssetStatsGetFunction = f2Function { query ->
         logger.info("assetStatsGet: $query")
-        assetF2FinderService.assetStatsGet(query.projectId)
+        assetF2FinderService.getAssetStats(query.projectId)
     }
 }

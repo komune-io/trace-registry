@@ -20,10 +20,8 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResume
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGenerateCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionPendingCertificateGeneratedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmitCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionSubmittedEvent
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.springframework.stereotype.Service
@@ -79,7 +77,7 @@ class AssetPoolAggregateService(
 		)
 	}
 
-	override suspend fun submitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
+	override suspend fun emitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
 		if (command.quantity < 0) {
 			throw NegativeTransactionException(command.quantity)
 		}
@@ -95,14 +93,15 @@ class AssetPoolAggregateService(
 			throw GranularityTooSmallException(transaction = command.quantity, granularity = pool.granularity)
 		}
 
-		val transactionEvent = TransactionSubmitCommand(
+		val transactionEvent = TransactionEmitCommand(
+			orderId = command.orderId,
 			poolId = command.id,
 			from = command.from,
 			to = command.to,
 			by = command.by,
 			quantity = command.quantity,
 			type = command.type
-		).let { submitTransaction(it) }
+		).let { emitTransaction(it) }
 
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
@@ -111,38 +110,11 @@ class AssetPoolAggregateService(
 		)
 	}
 
-//	override suspend fun addFileTransaction(command: TransactionAddFileCommand): TransactionAddedFileEvent = transactionAutomate.transition(command) {
-//		TransactionAddedFileEvent(
-//			id = command.id,
-//			date = System.currentTimeMillis(),
-//			file = command.file
-//		)
-//	}
-
-	override suspend fun generatePendingCertificateCommand(command: TransactionPendingCertificateGenerateCommand): TransactionPendingCertificateGeneratedEvent = transactionAutomate.transition(command) {
-		TransactionPendingCertificateGeneratedEvent(
-			id = command.id,
-			date = System.currentTimeMillis(),
-			file = command.file
-		)
-	}
-
-//	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
-//		TransactionEmittedEvent(
-//			id = UUID.randomUUID().toString(),
-//			date = System.currentTimeMillis(),
-//			poolId = command.poolId,
-//			from = command.from,
-//			to = command.to,
-//			by = command.by,
-//			quantity = command.quantity,
-//			type = command.type
-//		)
-//	}
-	private suspend fun submitTransaction(command: TransactionSubmitCommand) = transactionAutomate.init(command) {
-		TransactionSubmittedEvent(
+	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
+		TransactionEmittedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
+			orderId = command.orderId,
 			poolId = command.poolId,
 			from = command.from,
 			to = command.to,

@@ -2,8 +2,8 @@ package city.smartb.registry.program.f2.asset.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -25,7 +25,7 @@ interface AssetIssueCommandDTO {
     /**
      * Id of the pool to issue new assets in.
      */
-    val poolId: AssetPoolId
+    val poolId: AssetPoolId?
 
     /**
      * New owner of the issued assets.
@@ -38,6 +38,12 @@ interface AssetIssueCommandDTO {
      * @example 100.0
      */
     val quantity: BigDecimalAsNumber
+
+    /**
+     * If false, the transaction order will be automatically submitted for processing
+     * @default false
+     */
+    val draft: Boolean
 }
 
 /**
@@ -45,10 +51,11 @@ interface AssetIssueCommandDTO {
  */
 @Serializable
 data class AssetIssueCommandDTOBase(
-    override val poolId: AssetPoolId,
+    override val poolId: AssetPoolId?,
     override val to: String,
-    override val quantity: BigDecimalAsNumber
-): AssetIssueCommandDTO, AbstractAssetTransactionCommand() {
+    override val quantity: BigDecimalAsNumber,
+    override val draft: Boolean = false
+): AssetIssueCommandDTO, AbstractAssetTransactionCommand {
     override val from: String? = null
     override val type: TransactionType = TransactionType.ISSUED
 }
@@ -60,9 +67,9 @@ data class AssetIssueCommandDTOBase(
 @JsExport
 interface AssetIssuedEventDTO {
     /**
-     * Id of the emitted transaction.
+     * Id of the placed transaction order.
      */
-    val transactionId: TransactionId
+    val orderId: OrderId
 }
 
 /**
@@ -70,5 +77,5 @@ interface AssetIssuedEventDTO {
  */
 @Serializable
 data class AssetIssuedEventDTOBase(
-    override val transactionId: TransactionId
+    override val orderId: OrderId
 ): AssetIssuedEventDTO

@@ -53,8 +53,7 @@ class AssetPoolCreateF2Steps: En, VerCucumberStepsDefinition() {
 
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
         command = AssetPoolCreateCommandDTOBase(
-//            projectId = context.projectIds[params.project] ?: params.project,
-            indicator = "carbon",
+            indicator = context.cccevConceptIdentifiers[params.indicator] ?: params.indicator,
             vintage = params.vintage,
             granularity = params.granularity
         )
@@ -63,14 +62,14 @@ class AssetPoolCreateF2Steps: En, VerCucumberStepsDefinition() {
 
     private fun assetPoolCreateParams(entry: Map<String, String>?) = AssetPoolCreateParams(
         identifier = entry?.get("identifier").orRandom(),
-        project = entry?.get("project") ?: context.projectIds.lastUsedKey,
+        indicator = entry?.get("indicator") ?: context.cccevConceptIds.lastUsedKey,
         vintage = entry?.get("vintage") ?: "2023",
         granularity = entry?.get("granularity")?.toDouble() ?: 1.0
     )
 
     private data class AssetPoolCreateParams(
         val identifier: TestContextKey,
-        val project: TestContextKey,
+        val indicator: TestContextKey,
         val vintage: String,
         val granularity: Double
     )

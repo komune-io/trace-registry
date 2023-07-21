@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 
 data class AssetPoolEmitTransactionCommand(
     override val id: AssetPoolId,
+    val orderId: String,
     val from: String?,
     val to: String?,
     val by: String,

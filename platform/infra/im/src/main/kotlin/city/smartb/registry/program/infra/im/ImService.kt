@@ -4,12 +4,14 @@ import city.smartb.im.organization.client.OrganizationClient
 import city.smartb.im.organization.domain.features.query.OrganizationPageQuery
 import city.smartb.im.organization.domain.model.Organization
 import city.smartb.registry.program.api.commons.exception.NotFoundException
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class ImService(
-    private val client: OrganizationClient<Organization>
-) {
+class ImService {
+    @Autowired
+    private lateinit var client: OrganizationClient<Organization>
+
     suspend fun getOrganizationByName(name: String): Organization {
         return OrganizationPageQuery(
             search = name,

@@ -1,4 +1,4 @@
-Feature: ProjectF2EligibleProvidersPage
+Feature: ProjectList
 
   Scenario: I want to fetch a page of project
     Given A project is created:
@@ -21,8 +21,8 @@ Feature: ProjectF2EligibleProvidersPage
       | p20        | Project 2  | The description 2|
       | p30        | Tcejorp 3  | The 3            |
     When I fetch page of projects:
-      | offset | limit | name |
-      | 0      | 10    | Project|
+      | offset | limit | name    |
+      | 0      | 10    | Project |
     Then I should receive projects:
       | identifier  |
       | p10         |
@@ -60,4 +60,3 @@ Feature: ProjectF2EligibleProvidersPage
     Then I should not receive projects:
       | identifier  |
       | p2          |
-

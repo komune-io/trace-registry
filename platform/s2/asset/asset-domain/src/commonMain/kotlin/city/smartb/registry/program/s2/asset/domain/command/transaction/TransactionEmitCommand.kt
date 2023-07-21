@@ -8,8 +8,8 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionInitComm
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import kotlinx.serialization.Serializable
 
-@Deprecated("Use TransactionSubmitCommand")
 data class TransactionEmitCommand(
+    val orderId: String,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
@@ -18,11 +18,11 @@ data class TransactionEmitCommand(
     val type: TransactionType
 ): TransactionInitCommand
 
-@Deprecated("Use TransactionSubmittedEvent")
 @Serializable
 data class TransactionEmittedEvent(
     override val id: TransactionId,
     override val date: Long,
+    val orderId: String,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,

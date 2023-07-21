@@ -1,30 +1,30 @@
-package city.smartb.registry.program.s2.asset.domain.command.transaction
+package city.smartb.registry.program.s2.order.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionEvent
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionInitCommand
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.domain.OrderEvent
+import city.smartb.registry.program.s2.order.domain.OrderId
+import city.smartb.registry.program.s2.order.domain.OrderInitCommand
 import kotlinx.serialization.Serializable
 
-data class TransactionSubmitCommand(
-    val poolId: AssetPoolId,
+data class OrderPlaceCommand(
     val from: String?,
     val to: String?,
     val by: String,
+    val poolId: AssetPoolId?,
     val quantity: BigDecimalAsString,
     val type: TransactionType
-): TransactionInitCommand
+): OrderInitCommand
 
 @Serializable
-data class TransactionSubmittedEvent(
-    override val id: TransactionId,
+data class OrderPlacedEvent(
+    override val id: OrderId,
     override val date: Long,
-    val poolId: AssetPoolId,
+    val poolId: AssetPoolId?,
     val from: String?,
     val to: String?,
     val by: String,
     val quantity: BigDecimalAsString,
     val type: TransactionType
-): TransactionEvent
+): OrderEvent
