@@ -429,27 +429,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(GroupSetAttributesEvent, 'GroupSetAttributesEvent', classMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(GroupUpdateCommand, 'GroupUpdateCommand', classMeta, undefined, [KeycloakF2Command], undefined, undefined, []);
   setMetadataFor(GroupUpdatedEvent, 'GroupUpdatedEvent', classMeta, undefined, [KeycloakF2Result], undefined, undefined, []);
-  setMetadataFor(OrganizationCreateCommandDTO, 'OrganizationCreateCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
-  setMetadataFor(OrganizationCreatedEventDTO, 'OrganizationCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationDeleteCommandDTO, 'OrganizationDeleteCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
-  setMetadataFor(OrganizationDeletedEventDTO, 'OrganizationDeletedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationDisableCommandDTO, 'OrganizationDisableCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
-  setMetadataFor(OrganizationDisabledEventDTO, 'OrganizationDisabledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationUpdateCommandDTO, 'OrganizationUpdateCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
-  setMetadataFor(OrganizationUpdatedResultDTO, 'OrganizationUpdatedResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationUploadLogoCommandDTO, 'OrganizationUploadLogoCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
-  setMetadataFor(OrganizationUploadedLogoEventDTO, 'OrganizationUploadedLogoEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationGetFromInseeQueryDTO, 'OrganizationGetFromInseeQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
-  setMetadataFor(OrganizationGetFromInseeResultDTO, 'OrganizationGetFromInseeResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationGetQueryDTO, 'OrganizationGetQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
-  setMetadataFor(OrganizationGetResultDTO, 'OrganizationGetResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationPageQueryDTO, 'OrganizationPageQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
-  setMetadataFor(OrganizationPageResultDTO, 'OrganizationPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
-  setMetadataFor(OrganizationRefListQueryDTO, 'OrganizationRefListQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
-  setMetadataFor(OrganizationRefListResultDTO, 'OrganizationRefListResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
-  setMetadataFor(OrganizationDTO, 'OrganizationDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(OrganizationRefDTO, 'OrganizationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(OrganizationPolicies, 'OrganizationPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(UserCreateCommand, 'UserCreateCommand', classMeta, undefined, [Command], undefined, undefined, []);
   setMetadataFor(UserCreatedEvent, 'UserCreatedCommand', classMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(UserDeleteCommand, 'UserDeleteCommand', classMeta, undefined, [KeycloakF2Command], undefined, undefined, []);
@@ -488,6 +467,50 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(UserPageResult, 'UserPageResult', classMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(UserGroup, 'UserGroup', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(UserModel, 'UserModel', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientModel, 'ClientModel', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientGetByClientIdentifierQuery, 'ClientGetByClientIdentifierQuery', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientGetByClientIdentifierResult, 'ClientGetByClientIdentifierResult', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientGetQuery, 'ClientGetQuery', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientGetResult, 'ClientGetResult', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientGetSecretQuery, 'ClientGetSecretQuery', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientGetSecretResult, 'ClientGetSecretResult', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientGetServiceAccountQuery, 'ClientGetServiceAccountQuery', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientGetServiceAccountResult, 'ClientGetServiceAccountResult', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientPageQuery, 'ClientPageQuery', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientPageResult, 'ClientPageResult', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientCreateCommand, 'ClientCreateCommand', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientCreatedEvent, 'ClientCreatedEvent', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientDeleteCommand, 'ClientDeleteCommand', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientDeletedEvent, 'ClientDeletedEvent', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientGenerateSecretCommand, 'ClientGenerateSecretCommand', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientGeneratedSecretEvent, 'ClientGeneratedSecretEvent', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientRealmManagementRolesGrantCommand, 'ClientRealmManagementRolesGrantCommand', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientRealmManagementRolesGrantedEvent, 'ClientRealmManagementRolesGrantedEvent', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientServiceAccountRolesGrantCommand, 'ClientServiceAccountRolesGrantCommand', classMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(ClientServiceAccountRolesGrantedEvent, 'ClientServiceAccountRolesGrantedEvent', classMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(ClientUpdateUrisCommand, 'ClientUpdateUrisCommand', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ClientUpdatedUrisEvent, 'ClientUpdatedUrisEvent', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(OrganizationCreateCommandDTO, 'OrganizationCreateCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(OrganizationCreatedEventDTO, 'OrganizationCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationDeleteCommandDTO, 'OrganizationDeleteCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(OrganizationDeletedEventDTO, 'OrganizationDeletedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationDisableCommandDTO, 'OrganizationDisableCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(OrganizationDisabledEventDTO, 'OrganizationDisabledEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationUpdateCommandDTO, 'OrganizationUpdateCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(OrganizationUpdatedResultDTO, 'OrganizationUpdatedResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationUploadLogoCommandDTO, 'OrganizationUploadLogoCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
+  setMetadataFor(OrganizationUploadedLogoEventDTO, 'OrganizationUploadedLogoEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationGetFromInseeQueryDTO, 'OrganizationGetFromInseeQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
+  setMetadataFor(OrganizationGetFromInseeResultDTO, 'OrganizationGetFromInseeResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationGetQueryDTO, 'OrganizationGetQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
+  setMetadataFor(OrganizationGetResultDTO, 'OrganizationGetResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationPageQueryDTO, 'OrganizationPageQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
+  setMetadataFor(OrganizationPageResultDTO, 'OrganizationPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(OrganizationRefListQueryDTO, 'OrganizationRefListQueryDTO', interfaceMeta, undefined, [Query], undefined, undefined, []);
+  setMetadataFor(OrganizationRefListResultDTO, 'OrganizationRefListResultDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(OrganizationDTO, 'OrganizationDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(OrganizationRefDTO, 'OrganizationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(OrganizationPolicies, 'OrganizationPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(UserCreateCommandDTO, 'UserCreateCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
   setMetadataFor(UserCreatedEventDTO, 'UserCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(UserDeleteCommandDTO, 'UserDeleteCommandDTO', interfaceMeta, undefined, [Command], undefined, undefined, []);
@@ -12178,10 +12201,61 @@ if (typeof Math.imul === 'undefined') {
   function hasRole(_this__u8e3s4, role) {
     return contains(_this__u8e3s4.roles, role.jr_1);
   }
+  function hasOneOfRoles(_this__u8e3s4, roles) {
+    var tmp$ret$2;
+    $l$block_0: {
+      // Inline function 'kotlin.collections.any' call
+      var tmp$ret$1;
+      // Inline function 'kotlin.collections.map' call
+      var tmp0_map = value$factory();
+      var tmp$ret$0;
+      // Inline function 'kotlin.collections.mapTo' call
+      var tmp0_mapTo = ArrayList_init_$Create$_0(roles.length);
+      var indexedObject = roles;
+      var inductionVariable = 0;
+      var last = indexedObject.length;
+      while (inductionVariable < last) {
+        var item = indexedObject[inductionVariable];
+        inductionVariable = inductionVariable + 1 | 0;
+        tmp0_mapTo.e(tmp0_map(item));
+      }
+      tmp$ret$0 = tmp0_mapTo;
+      tmp$ret$1 = tmp$ret$0;
+      var tmp1_any = tmp$ret$1;
+      var tmp2_any = _this__u8e3s4.roles;
+      var tmp;
+      if (isInterface(tmp1_any, Collection)) {
+        tmp = tmp1_any.k();
+      } else {
+        tmp = false;
+      }
+      if (tmp) {
+        tmp$ret$2 = false;
+        break $l$block_0;
+      }
+      var tmp0_iterator = tmp1_any.h();
+      while (tmp0_iterator.i()) {
+        var element = tmp0_iterator.j();
+        if (contains(tmp2_any, element)) {
+          tmp$ret$2 = true;
+          break $l$block_0;
+        }
+      }
+      tmp$ret$2 = false;
+    }
+    return tmp$ret$2;
+  }
+  function value$factory() {
+    return getPropertyCallableRef('value', 1, KProperty1, function (receiver) {
+      return receiver.jr_1;
+    }, null);
+  }
   var Role_IM_USER_READ_instance;
   var Role_IM_USER_WRITE_instance;
   var Role_IM_ORGANIZATION_READ_instance;
   var Role_IM_ORGANIZATION_WRITE_instance;
+  var Role_IM_APIKEY_READ_instance;
+  var Role_IM_APIKEY_WRITE_instance;
   var Role_IM_ROLE_READ_instance;
   var Role_IM_ROLE_WRITE_instance;
   var Role_IM_MY_ORGANIZATION_WRITE_instance;
@@ -12194,9 +12268,11 @@ if (typeof Math.imul === 'undefined') {
     Role_IM_USER_WRITE_instance = new Role('IM_USER_WRITE', 1, 'im_write_user');
     Role_IM_ORGANIZATION_READ_instance = new Role('IM_ORGANIZATION_READ', 2, 'im_read_organization');
     Role_IM_ORGANIZATION_WRITE_instance = new Role('IM_ORGANIZATION_WRITE', 3, 'im_write_organization');
-    Role_IM_ROLE_READ_instance = new Role('IM_ROLE_READ', 4, 'im_read_role');
-    Role_IM_ROLE_WRITE_instance = new Role('IM_ROLE_WRITE', 5, 'im_write_role');
-    Role_IM_MY_ORGANIZATION_WRITE_instance = new Role('IM_MY_ORGANIZATION_WRITE', 6, 'im_write_my_organization');
+    Role_IM_APIKEY_READ_instance = new Role('IM_APIKEY_READ', 4, 'im_read_apikey');
+    Role_IM_APIKEY_WRITE_instance = new Role('IM_APIKEY_WRITE', 5, 'im_write_apikey');
+    Role_IM_ROLE_READ_instance = new Role('IM_ROLE_READ', 6, 'im_read_role');
+    Role_IM_ROLE_WRITE_instance = new Role('IM_ROLE_WRITE', 7, 'im_write_role');
+    Role_IM_MY_ORGANIZATION_WRITE_instance = new Role('IM_MY_ORGANIZATION_WRITE', 8, 'im_write_my_organization');
   }
   function Role(name, ordinal, value) {
     Enum.call(this, name, ordinal);
@@ -12711,6 +12787,1085 @@ if (typeof Math.imul === 'undefined') {
   GroupUpdatedEvent.prototype.zo = function () {
     return this.id;
   };
+  function UserCreateCommand_init_$Init$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker, $this) {
+    if (!(($mask0 & 512) === 0))
+      password = null;
+    if (!(($mask0 & 1024) === 0))
+      isPasswordTemporary = false;
+    UserCreateCommand.call($this, realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary);
+    return $this;
+  }
+  function UserCreateCommand_init_$Create$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker) {
+    return UserCreateCommand_init_$Init$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker, Object.create(UserCreateCommand.prototype));
+  }
+  function UserCreateCommand(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary) {
+    var password_0 = password === void 1 ? null : password;
+    var isPasswordTemporary_0 = isPasswordTemporary === void 1 ? false : isPasswordTemporary;
+    this.realmId = realmId;
+    this.username = username;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.isEnable = isEnable;
+    this.isEmailVerified = isEmailVerified;
+    this.attributes = attributes;
+    this.auth = auth;
+    this.password = password_0;
+    this.isPasswordTemporary = isPasswordTemporary_0;
+  }
+  UserCreateCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserCreateCommand.prototype.ys = function () {
+    return this.username;
+  };
+  UserCreateCommand.prototype.zs = function () {
+    return this.firstname;
+  };
+  UserCreateCommand.prototype.at = function () {
+    return this.lastname;
+  };
+  UserCreateCommand.prototype.bt = function () {
+    return this.email;
+  };
+  UserCreateCommand.prototype.ct = function () {
+    return this.isEnable;
+  };
+  UserCreateCommand.prototype.dt = function () {
+    return this.isEmailVerified;
+  };
+  UserCreateCommand.prototype.ts = function () {
+    return this.attributes;
+  };
+  UserCreateCommand.prototype.as = function () {
+    return this.auth;
+  };
+  UserCreateCommand.prototype.et = function () {
+    return this.password;
+  };
+  UserCreateCommand.prototype.ft = function () {
+    return this.isPasswordTemporary;
+  };
+  function UserCreatedEvent(id) {
+    this.id = id;
+  }
+  UserCreatedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserDeleteCommand(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.gt_1 = auth;
+  }
+  UserDeleteCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserDeleteCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserDeleteCommand.prototype.as = function () {
+    return this.gt_1;
+  };
+  Object.defineProperty(UserDeleteCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserDeletedEvent(id) {
+    this.id = id;
+  }
+  UserDeletedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserDisableCommand(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  UserDisableCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserDisableCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserDisableCommand.prototype.as = function () {
+    return this.auth;
+  };
+  function UserDisabledEvent(id) {
+    this.id = id;
+  }
+  UserDisabledEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserEmailSendActionsCommand(userId, clientId, redirectUri, actions, realmId, auth) {
+    this.userId = userId;
+    this.clientId = clientId;
+    this.redirectUri = redirectUri;
+    this.actions = actions;
+    this.realmId = realmId;
+    this.ht_1 = auth;
+  }
+  UserEmailSendActionsCommand.prototype.it = function () {
+    return this.userId;
+  };
+  UserEmailSendActionsCommand.prototype.jt = function () {
+    return this.clientId;
+  };
+  UserEmailSendActionsCommand.prototype.kt = function () {
+    return this.redirectUri;
+  };
+  UserEmailSendActionsCommand.prototype.lt = function () {
+    return this.actions;
+  };
+  UserEmailSendActionsCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserEmailSendActionsCommand.prototype.as = function () {
+    return this.ht_1;
+  };
+  Object.defineProperty(UserEmailSendActionsCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserEmailSentActionsEvent(id) {
+    this.id = id;
+  }
+  UserEmailSentActionsEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserJoinGroupCommand_init_$Init$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker, $this) {
+    if (!(($mask0 & 4) === 0))
+      leaveOtherGroups = false;
+    UserJoinGroupCommand.call($this, id, groupId, leaveOtherGroups, realmId, auth);
+    return $this;
+  }
+  function UserJoinGroupCommand_init_$Create$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker) {
+    return UserJoinGroupCommand_init_$Init$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker, Object.create(UserJoinGroupCommand.prototype));
+  }
+  function UserJoinGroupCommand(id, groupId, leaveOtherGroups, realmId, auth) {
+    var leaveOtherGroups_0 = leaveOtherGroups === void 1 ? false : leaveOtherGroups;
+    this.id = id;
+    this.groupId = groupId;
+    this.leaveOtherGroups = leaveOtherGroups_0;
+    this.realmId = realmId;
+    this.mt_1 = auth;
+  }
+  UserJoinGroupCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserJoinGroupCommand.prototype.nt = function () {
+    return this.groupId;
+  };
+  UserJoinGroupCommand.prototype.ot = function () {
+    return this.leaveOtherGroups;
+  };
+  UserJoinGroupCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserJoinGroupCommand.prototype.as = function () {
+    return this.mt_1;
+  };
+  Object.defineProperty(UserJoinGroupCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserJoinedGroupEvent(id, groupId, groupsLeft) {
+    this.id = id;
+    this.groupId = groupId;
+    this.groupsLeft = groupsLeft;
+  }
+  UserJoinedGroupEvent.prototype.zo = function () {
+    return this.id;
+  };
+  UserJoinedGroupEvent.prototype.nt = function () {
+    return this.groupId;
+  };
+  UserJoinedGroupEvent.prototype.pt = function () {
+    return this.groupsLeft;
+  };
+  function UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      realmId = auth.hs();
+    if (!(($mask0 & 16) === 0))
+      clientId = null;
+    UserRolesGrantCommand.call($this, id, roles, auth, realmId, clientId);
+    return $this;
+  }
+  function UserRolesGrantCommand_init_$Create$(id, roles, auth, realmId, clientId, $mask0, $marker) {
+    return UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, Object.create(UserRolesGrantCommand.prototype));
+  }
+  function UserRolesGrantCommand(id, roles, auth, realmId, clientId) {
+    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var clientId_0 = clientId === void 1 ? null : clientId;
+    this.id = id;
+    this.roles = roles;
+    this.ut_1 = auth;
+    this.realmId = realmId_0;
+    this.clientId = clientId_0;
+  }
+  UserRolesGrantCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserRolesGrantCommand.prototype.gr = function () {
+    return this.roles;
+  };
+  UserRolesGrantCommand.prototype.as = function () {
+    return this.ut_1;
+  };
+  UserRolesGrantCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserRolesGrantCommand.prototype.jt = function () {
+    return this.clientId;
+  };
+  Object.defineProperty(UserRolesGrantCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserRolesGrantedEvent(id) {
+    this.id = id;
+  }
+  UserRolesGrantedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      realmId = auth.hs();
+    UserRolesRevokeCommand.call($this, id, roles, auth, realmId);
+    return $this;
+  }
+  function UserRolesRevokeCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
+    return UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesRevokeCommand.prototype));
+  }
+  function UserRolesRevokeCommand(id, roles, auth, realmId) {
+    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    this.id = id;
+    this.roles = roles;
+    this.vt_1 = auth;
+    this.realmId = realmId_0;
+  }
+  UserRolesRevokeCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserRolesRevokeCommand.prototype.gr = function () {
+    return this.roles;
+  };
+  UserRolesRevokeCommand.prototype.as = function () {
+    return this.vt_1;
+  };
+  UserRolesRevokeCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  Object.defineProperty(UserRolesRevokeCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserRolesRevokedEvent(id) {
+    this.id = id;
+  }
+  UserRolesRevokedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      realmId = auth.hs();
+    UserRolesSetCommand.call($this, id, roles, auth, realmId);
+    return $this;
+  }
+  function UserRolesSetCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
+    return UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesSetCommand.prototype));
+  }
+  function UserRolesSetCommand(id, roles, auth, realmId) {
+    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    this.id = id;
+    this.roles = roles;
+    this.wt_1 = auth;
+    this.realmId = realmId_0;
+  }
+  UserRolesSetCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserRolesSetCommand.prototype.gr = function () {
+    return this.roles;
+  };
+  UserRolesSetCommand.prototype.as = function () {
+    return this.wt_1;
+  };
+  UserRolesSetCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  Object.defineProperty(UserRolesSetCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserRolesSetEvent(id) {
+    this.id = id;
+  }
+  UserRolesSetEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserSetAttributesCommand(id, attributes, realmId, auth) {
+    this.id = id;
+    this.attributes = attributes;
+    this.realmId = realmId;
+    this.xt_1 = auth;
+  }
+  UserSetAttributesCommand.prototype.zo = function () {
+    return this.id;
+  };
+  UserSetAttributesCommand.prototype.ts = function () {
+    return this.attributes;
+  };
+  UserSetAttributesCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserSetAttributesCommand.prototype.as = function () {
+    return this.xt_1;
+  };
+  Object.defineProperty(UserSetAttributesCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserSetAttributesEvent(id) {
+    this.id = id;
+  }
+  UserSetAttributesEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserUpdateEmailCommand_init_$Init$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      clientId = null;
+    if (!(($mask0 & 16) === 0))
+      redirectUri = null;
+    UserUpdateEmailCommand.call($this, userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth);
+    return $this;
+  }
+  function UserUpdateEmailCommand_init_$Create$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker) {
+    return UserUpdateEmailCommand_init_$Init$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker, Object.create(UserUpdateEmailCommand.prototype));
+  }
+  function UserUpdateEmailCommand(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth) {
+    var clientId_0 = clientId === void 1 ? null : clientId;
+    var redirectUri_0 = redirectUri === void 1 ? null : redirectUri;
+    this.userId = userId;
+    this.email = email;
+    this.sendVerificationEmail = sendVerificationEmail;
+    this.clientId = clientId_0;
+    this.redirectUri = redirectUri_0;
+    this.realmId = realmId;
+    this.yt_1 = auth;
+  }
+  UserUpdateEmailCommand.prototype.it = function () {
+    return this.userId;
+  };
+  UserUpdateEmailCommand.prototype.bt = function () {
+    return this.email;
+  };
+  UserUpdateEmailCommand.prototype.zt = function () {
+    return this.sendVerificationEmail;
+  };
+  UserUpdateEmailCommand.prototype.jt = function () {
+    return this.clientId;
+  };
+  UserUpdateEmailCommand.prototype.kt = function () {
+    return this.redirectUri;
+  };
+  UserUpdateEmailCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserUpdateEmailCommand.prototype.as = function () {
+    return this.yt_1;
+  };
+  Object.defineProperty(UserUpdateEmailCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserUpdatedEmailEvent(userId) {
+    this.userId = userId;
+  }
+  UserUpdatedEmailEvent.prototype.it = function () {
+    return this.userId;
+  };
+  function UserUpdateCommand(userId, realmId, auth, firstname, lastname, attributes) {
+    this.userId = userId;
+    this.realmId = realmId;
+    this.auth = auth;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.attributes = attributes;
+  }
+  UserUpdateCommand.prototype.it = function () {
+    return this.userId;
+  };
+  UserUpdateCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserUpdateCommand.prototype.as = function () {
+    return this.auth;
+  };
+  UserUpdateCommand.prototype.zs = function () {
+    return this.firstname;
+  };
+  UserUpdateCommand.prototype.at = function () {
+    return this.lastname;
+  };
+  UserUpdateCommand.prototype.ts = function () {
+    return this.attributes;
+  };
+  function UserUpdatedEvent(id) {
+    this.id = id;
+  }
+  UserUpdatedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function UserUpdatePasswordCommand(userId, password, realmId, auth) {
+    this.userId = userId;
+    this.password = password;
+    this.realmId = realmId;
+    this.au_1 = auth;
+  }
+  UserUpdatePasswordCommand.prototype.it = function () {
+    return this.userId;
+  };
+  UserUpdatePasswordCommand.prototype.et = function () {
+    return this.password;
+  };
+  UserUpdatePasswordCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserUpdatePasswordCommand.prototype.as = function () {
+    return this.au_1;
+  };
+  Object.defineProperty(UserUpdatePasswordCommand.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserUpdatedPasswordEvent(userId) {
+    this.userId = userId;
+  }
+  UserUpdatedPasswordEvent.prototype.it = function () {
+    return this.userId;
+  };
+  function UserGetByEmailQuery(email, realmId, auth) {
+    this.email = email;
+    this.realmId = realmId;
+    this.bu_1 = auth;
+  }
+  UserGetByEmailQuery.prototype.bt = function () {
+    return this.email;
+  };
+  UserGetByEmailQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserGetByEmailQuery.prototype.as = function () {
+    return this.bu_1;
+  };
+  Object.defineProperty(UserGetByEmailQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserGetByEmailQueryResult(item) {
+    this.item = item;
+  }
+  UserGetByEmailQueryResult.prototype.ks = function () {
+    return this.item;
+  };
+  function UserGetByUsernameQuery(realmId, username, auth) {
+    this.realmId = realmId;
+    this.username = username;
+    this.cu_1 = auth;
+  }
+  UserGetByUsernameQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserGetByUsernameQuery.prototype.ys = function () {
+    return this.username;
+  };
+  UserGetByUsernameQuery.prototype.as = function () {
+    return this.cu_1;
+  };
+  Object.defineProperty(UserGetByUsernameQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserGetByUsernameResult(item) {
+    this.item = item;
+  }
+  UserGetByUsernameResult.prototype.ks = function () {
+    return this.item;
+  };
+  function UserGetQuery(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.du_1 = auth;
+  }
+  UserGetQuery.prototype.zo = function () {
+    return this.id;
+  };
+  UserGetQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserGetQuery.prototype.as = function () {
+    return this.du_1;
+  };
+  Object.defineProperty(UserGetQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserGetResult(item) {
+    this.item = item;
+  }
+  UserGetResult.prototype.ks = function () {
+    return this.item;
+  };
+  function UserGetGroupsQuery(userId, realmId, auth) {
+    this.userId = userId;
+    this.realmId = realmId;
+    this.eu_1 = auth;
+  }
+  UserGetGroupsQuery.prototype.it = function () {
+    return this.userId;
+  };
+  UserGetGroupsQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserGetGroupsQuery.prototype.as = function () {
+    return this.eu_1;
+  };
+  Object.defineProperty(UserGetGroupsQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserGetGroupsResult(items) {
+    this.items = items;
+  }
+  UserGetGroupsResult.prototype.bq = function () {
+    return this.items;
+  };
+  function UserGetRolesQuery(userId, realmId, auth) {
+    this.userId = userId;
+    this.realmId = realmId;
+    this.fu_1 = auth;
+  }
+  UserGetRolesQuery.prototype.it = function () {
+    return this.userId;
+  };
+  UserGetRolesQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserGetRolesQuery.prototype.as = function () {
+    return this.fu_1;
+  };
+  Object.defineProperty(UserGetRolesQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserGetRolesResult(roles) {
+    this.roles = roles;
+  }
+  UserGetRolesResult.prototype.gr = function () {
+    return this.roles;
+  };
+  function UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, $this) {
+    if (!(($mask0 & 1) === 0))
+      groupId = null;
+    if (!(($mask0 & 2) === 0))
+      search = null;
+    if (!(($mask0 & 4) === 0))
+      role = null;
+    if (!(($mask0 & 8) === 0))
+      attributes = emptyMap();
+    UserPageQuery.call($this, groupId, search, role, attributes, withDisabled, page, realmId, auth);
+    return $this;
+  }
+  function UserPageQuery_init_$Create$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker) {
+    return UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, Object.create(UserPageQuery.prototype));
+  }
+  function UserPageQuery(groupId, search, role, attributes, withDisabled, page, realmId, auth) {
+    var groupId_0 = groupId === void 1 ? null : groupId;
+    var search_0 = search === void 1 ? null : search;
+    var role_0 = role === void 1 ? null : role;
+    var attributes_0 = attributes === void 1 ? emptyMap() : attributes;
+    this.groupId = groupId_0;
+    this.search = search_0;
+    this.role = role_0;
+    this.attributes = attributes_0;
+    this.withDisabled = withDisabled;
+    this.page = page;
+    this.realmId = realmId;
+    this.gu_1 = auth;
+  }
+  UserPageQuery.prototype.nt = function () {
+    return this.groupId;
+  };
+  UserPageQuery.prototype.hu = function () {
+    return this.search;
+  };
+  UserPageQuery.prototype.iu = function () {
+    return this.role;
+  };
+  UserPageQuery.prototype.ts = function () {
+    return this.attributes;
+  };
+  UserPageQuery.prototype.ju = function () {
+    return this.withDisabled;
+  };
+  UserPageQuery.prototype.wq = function () {
+    return this.page;
+  };
+  UserPageQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  UserPageQuery.prototype.as = function () {
+    return this.gu_1;
+  };
+  Object.defineProperty(UserPageQuery.prototype, 'auth', {
+    configurable: true,
+    get: function () {
+      return this.as();
+    }
+  });
+  function UserPageResult(items) {
+    this.items = items;
+  }
+  UserPageResult.prototype.bq = function () {
+    return this.items;
+  };
+  function UserGroup(id, name, roles) {
+    this.id = id;
+    this.name = name;
+    this.roles = roles;
+  }
+  UserGroup.prototype.zo = function () {
+    return this.id;
+  };
+  UserGroup.prototype.s8 = function () {
+    return this.name;
+  };
+  UserGroup.prototype.gr = function () {
+    return this.roles;
+  };
+  function UserModel(id, email, firstName, lastName, roles, attributes, enabled, creationDate) {
+    this.id = id;
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.roles = roles;
+    this.attributes = attributes;
+    this.enabled = enabled;
+    this.creationDate = creationDate;
+  }
+  UserModel.prototype.zo = function () {
+    return this.id;
+  };
+  UserModel.prototype.bt = function () {
+    return this.email;
+  };
+  UserModel.prototype.ku = function () {
+    return this.firstName;
+  };
+  UserModel.prototype.lu = function () {
+    return this.lastName;
+  };
+  UserModel.prototype.gr = function () {
+    return this.roles;
+  };
+  UserModel.prototype.ts = function () {
+    return this.attributes;
+  };
+  UserModel.prototype.mu = function () {
+    return this.enabled;
+  };
+  UserModel.prototype.nu = function () {
+    return this.creationDate;
+  };
+  function ClientModel(id, clientIdentifier) {
+    this.id = id;
+    this.clientIdentifier = clientIdentifier;
+  }
+  ClientModel.prototype.zo = function () {
+    return this.id;
+  };
+  ClientModel.prototype.ou = function () {
+    return this.clientIdentifier;
+  };
+  function ClientGetByClientIdentifierQuery(clientIdentifier, realmId, auth) {
+    this.clientIdentifier = clientIdentifier;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientGetByClientIdentifierQuery.prototype.ou = function () {
+    return this.clientIdentifier;
+  };
+  ClientGetByClientIdentifierQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientGetByClientIdentifierQuery.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientGetByClientIdentifierResult(idem) {
+    this.idem = idem;
+  }
+  ClientGetByClientIdentifierResult.prototype.pu = function () {
+    return this.idem;
+  };
+  function ClientGetQuery(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientGetQuery.prototype.zo = function () {
+    return this.id;
+  };
+  ClientGetQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientGetQuery.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientGetResult(item) {
+    this.item = item;
+  }
+  ClientGetResult.prototype.ks = function () {
+    return this.item;
+  };
+  function ClientGetSecretQuery(clientId, realmId, auth) {
+    this.clientId = clientId;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientGetSecretQuery.prototype.jt = function () {
+    return this.clientId;
+  };
+  ClientGetSecretQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientGetSecretQuery.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientGetSecretResult(secret) {
+    this.secret = secret;
+  }
+  ClientGetSecretResult.prototype.qu = function () {
+    return this.secret;
+  };
+  function ClientGetServiceAccountQuery(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientGetServiceAccountQuery.prototype.zo = function () {
+    return this.id;
+  };
+  ClientGetServiceAccountQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientGetServiceAccountQuery.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientGetServiceAccountResult(item) {
+    this.item = item;
+  }
+  ClientGetServiceAccountResult.prototype.ks = function () {
+    return this.item;
+  };
+  function ClientPageQuery(realmId, page, auth) {
+    this.realmId = realmId;
+    this.page = page;
+    this.auth = auth;
+  }
+  ClientPageQuery.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientPageQuery.prototype.wq = function () {
+    return this.page;
+  };
+  ClientPageQuery.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientPageResult(page) {
+    this.page = page;
+  }
+  ClientPageResult.prototype.wq = function () {
+    return this.page;
+  };
+  function ClientCreateCommand_init_$Init$(auth, realmId, clientIdentifier, secret, isPublicClient, isDirectAccessGrantsEnabled, isServiceAccountsEnabled, authorizationServicesEnabled, isStandardFlowEnabled, rootUrl, redirectUris, baseUrl, adminUrl, webOrigins, protocolMappers, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      secret = null;
+    if (!(($mask0 & 16) === 0))
+      isPublicClient = true;
+    if (!(($mask0 & 32) === 0))
+      isDirectAccessGrantsEnabled = true;
+    if (!(($mask0 & 64) === 0))
+      isServiceAccountsEnabled = true;
+    if (!(($mask0 & 128) === 0))
+      authorizationServicesEnabled = false;
+    if (!(($mask0 & 256) === 0))
+      isStandardFlowEnabled = false;
+    if (!(($mask0 & 512) === 0))
+      rootUrl = null;
+    if (!(($mask0 & 1024) === 0))
+      redirectUris = emptyList();
+    if (!(($mask0 & 2048) === 0))
+      baseUrl = '';
+    if (!(($mask0 & 4096) === 0))
+      adminUrl = '';
+    if (!(($mask0 & 8192) === 0))
+      webOrigins = emptyList();
+    if (!(($mask0 & 16384) === 0))
+      protocolMappers = emptyMap();
+    ClientCreateCommand.call($this, auth, realmId, clientIdentifier, secret, isPublicClient, isDirectAccessGrantsEnabled, isServiceAccountsEnabled, authorizationServicesEnabled, isStandardFlowEnabled, rootUrl, redirectUris, baseUrl, adminUrl, webOrigins, protocolMappers);
+    return $this;
+  }
+  function ClientCreateCommand_init_$Create$(auth, realmId, clientIdentifier, secret, isPublicClient, isDirectAccessGrantsEnabled, isServiceAccountsEnabled, authorizationServicesEnabled, isStandardFlowEnabled, rootUrl, redirectUris, baseUrl, adminUrl, webOrigins, protocolMappers, $mask0, $marker) {
+    return ClientCreateCommand_init_$Init$(auth, realmId, clientIdentifier, secret, isPublicClient, isDirectAccessGrantsEnabled, isServiceAccountsEnabled, authorizationServicesEnabled, isStandardFlowEnabled, rootUrl, redirectUris, baseUrl, adminUrl, webOrigins, protocolMappers, $mask0, $marker, Object.create(ClientCreateCommand.prototype));
+  }
+  function ClientCreateCommand(auth, realmId, clientIdentifier, secret, isPublicClient, isDirectAccessGrantsEnabled, isServiceAccountsEnabled, authorizationServicesEnabled, isStandardFlowEnabled, rootUrl, redirectUris, baseUrl, adminUrl, webOrigins, protocolMappers) {
+    var secret_0 = secret === void 1 ? null : secret;
+    var isPublicClient_0 = isPublicClient === void 1 ? true : isPublicClient;
+    var isDirectAccessGrantsEnabled_0 = isDirectAccessGrantsEnabled === void 1 ? true : isDirectAccessGrantsEnabled;
+    var isServiceAccountsEnabled_0 = isServiceAccountsEnabled === void 1 ? true : isServiceAccountsEnabled;
+    var authorizationServicesEnabled_0 = authorizationServicesEnabled === void 1 ? false : authorizationServicesEnabled;
+    var isStandardFlowEnabled_0 = isStandardFlowEnabled === void 1 ? false : isStandardFlowEnabled;
+    var rootUrl_0 = rootUrl === void 1 ? null : rootUrl;
+    var redirectUris_0 = redirectUris === void 1 ? emptyList() : redirectUris;
+    var baseUrl_0 = baseUrl === void 1 ? '' : baseUrl;
+    var adminUrl_0 = adminUrl === void 1 ? '' : adminUrl;
+    var webOrigins_0 = webOrigins === void 1 ? emptyList() : webOrigins;
+    var protocolMappers_0 = protocolMappers === void 1 ? emptyMap() : protocolMappers;
+    this.auth = auth;
+    this.realmId = realmId;
+    this.clientIdentifier = clientIdentifier;
+    this.secret = secret_0;
+    this.isPublicClient = isPublicClient_0;
+    this.isDirectAccessGrantsEnabled = isDirectAccessGrantsEnabled_0;
+    this.isServiceAccountsEnabled = isServiceAccountsEnabled_0;
+    this.authorizationServicesEnabled = authorizationServicesEnabled_0;
+    this.isStandardFlowEnabled = isStandardFlowEnabled_0;
+    this.rootUrl = rootUrl_0;
+    this.redirectUris = redirectUris_0;
+    this.baseUrl = baseUrl_0;
+    this.adminUrl = adminUrl_0;
+    this.webOrigins = webOrigins_0;
+    this.protocolMappers = protocolMappers_0;
+  }
+  ClientCreateCommand.prototype.as = function () {
+    return this.auth;
+  };
+  ClientCreateCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientCreateCommand.prototype.ou = function () {
+    return this.clientIdentifier;
+  };
+  ClientCreateCommand.prototype.qu = function () {
+    return this.secret;
+  };
+  ClientCreateCommand.prototype.ru = function () {
+    return this.isPublicClient;
+  };
+  ClientCreateCommand.prototype.su = function () {
+    return this.isDirectAccessGrantsEnabled;
+  };
+  ClientCreateCommand.prototype.tu = function () {
+    return this.isServiceAccountsEnabled;
+  };
+  ClientCreateCommand.prototype.uu = function () {
+    return this.authorizationServicesEnabled;
+  };
+  ClientCreateCommand.prototype.vu = function () {
+    return this.isStandardFlowEnabled;
+  };
+  ClientCreateCommand.prototype.wu = function () {
+    return this.rootUrl;
+  };
+  ClientCreateCommand.prototype.xu = function () {
+    return this.redirectUris;
+  };
+  ClientCreateCommand.prototype.yu = function () {
+    return this.baseUrl;
+  };
+  ClientCreateCommand.prototype.zu = function () {
+    return this.adminUrl;
+  };
+  ClientCreateCommand.prototype.av = function () {
+    return this.webOrigins;
+  };
+  ClientCreateCommand.prototype.bv = function () {
+    return this.protocolMappers;
+  };
+  function ClientCreatedEvent(id) {
+    this.id = id;
+  }
+  ClientCreatedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function ClientDeleteCommand(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientDeleteCommand.prototype.zo = function () {
+    return this.id;
+  };
+  ClientDeleteCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientDeleteCommand.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientDeletedEvent(id) {
+    this.id = id;
+  }
+  ClientDeletedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function ClientGenerateSecretCommand(id, realmId, auth) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+  }
+  ClientGenerateSecretCommand.prototype.zo = function () {
+    return this.id;
+  };
+  ClientGenerateSecretCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientGenerateSecretCommand.prototype.as = function () {
+    return this.auth;
+  };
+  function ClientGeneratedSecretEvent(secret) {
+    this.secret = secret;
+  }
+  ClientGeneratedSecretEvent.prototype.qu = function () {
+    return this.secret;
+  };
+  function ClientRealmManagementRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      realmId = auth.hs();
+    ClientRealmManagementRolesGrantCommand.call($this, id, roles, auth, realmId);
+    return $this;
+  }
+  function ClientRealmManagementRolesGrantCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
+    return ClientRealmManagementRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(ClientRealmManagementRolesGrantCommand.prototype));
+  }
+  function ClientRealmManagementRolesGrantCommand(id, roles, auth, realmId) {
+    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    this.id = id;
+    this.roles = roles;
+    this.auth = auth;
+    this.realmId = realmId_0;
+  }
+  ClientRealmManagementRolesGrantCommand.prototype.zo = function () {
+    return this.id;
+  };
+  ClientRealmManagementRolesGrantCommand.prototype.gr = function () {
+    return this.roles;
+  };
+  ClientRealmManagementRolesGrantCommand.prototype.as = function () {
+    return this.auth;
+  };
+  ClientRealmManagementRolesGrantCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  function ClientRealmManagementRolesGrantedEvent(id) {
+    this.id = id;
+  }
+  ClientRealmManagementRolesGrantedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function ClientServiceAccountRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
+    if (!(($mask0 & 8) === 0))
+      realmId = auth.hs();
+    ClientServiceAccountRolesGrantCommand.call($this, id, roles, auth, realmId);
+    return $this;
+  }
+  function ClientServiceAccountRolesGrantCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
+    return ClientServiceAccountRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(ClientServiceAccountRolesGrantCommand.prototype));
+  }
+  function ClientServiceAccountRolesGrantCommand(id, roles, auth, realmId) {
+    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    this.id = id;
+    this.roles = roles;
+    this.auth = auth;
+    this.realmId = realmId_0;
+  }
+  ClientServiceAccountRolesGrantCommand.prototype.zo = function () {
+    return this.id;
+  };
+  ClientServiceAccountRolesGrantCommand.prototype.gr = function () {
+    return this.roles;
+  };
+  ClientServiceAccountRolesGrantCommand.prototype.as = function () {
+    return this.auth;
+  };
+  ClientServiceAccountRolesGrantCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  function ClientServiceAccountRolesGrantedEvent(id) {
+    this.id = id;
+  }
+  ClientServiceAccountRolesGrantedEvent.prototype.zo = function () {
+    return this.id;
+  };
+  function ClientUpdateUrisCommand(id, realmId, auth, rootUrl, redirectUris, baseUrl) {
+    this.id = id;
+    this.realmId = realmId;
+    this.auth = auth;
+    this.rootUrl = rootUrl;
+    this.redirectUris = redirectUris;
+    this.baseUrl = baseUrl;
+  }
+  ClientUpdateUrisCommand.prototype.zo = function () {
+    return this.id;
+  };
+  ClientUpdateUrisCommand.prototype.hs = function () {
+    return this.realmId;
+  };
+  ClientUpdateUrisCommand.prototype.as = function () {
+    return this.auth;
+  };
+  ClientUpdateUrisCommand.prototype.wu = function () {
+    return this.rootUrl;
+  };
+  ClientUpdateUrisCommand.prototype.xu = function () {
+    return this.redirectUris;
+  };
+  ClientUpdateUrisCommand.prototype.yu = function () {
+    return this.baseUrl;
+  };
+  function ClientUpdatedUrisEvent(id) {
+    this.id = id;
+  }
+  ClientUpdatedUrisEvent.prototype.zo = function () {
+    return this.id;
+  };
   function OrganizationCreateCommandDTO() {
   }
   function OrganizationCreatedEventDTO() {
@@ -12781,724 +13936,6 @@ if (typeof Math.imul === 'undefined') {
       new OrganizationPolicies();
     return OrganizationPolicies_instance;
   }
-  function UserCreateCommand_init_$Init$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker, $this) {
-    if (!(($mask0 & 512) === 0))
-      password = null;
-    if (!(($mask0 & 1024) === 0))
-      isPasswordTemporary = false;
-    UserCreateCommand.call($this, realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary);
-    return $this;
-  }
-  function UserCreateCommand_init_$Create$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker) {
-    return UserCreateCommand_init_$Init$(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary, $mask0, $marker, Object.create(UserCreateCommand.prototype));
-  }
-  function UserCreateCommand(realmId, username, firstname, lastname, email, isEnable, isEmailVerified, attributes, auth, password, isPasswordTemporary) {
-    var password_0 = password === void 1 ? null : password;
-    var isPasswordTemporary_0 = isPasswordTemporary === void 1 ? false : isPasswordTemporary;
-    this.realmId = realmId;
-    this.username = username;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.email = email;
-    this.isEnable = isEnable;
-    this.isEmailVerified = isEmailVerified;
-    this.attributes = attributes;
-    this.auth = auth;
-    this.password = password_0;
-    this.isPasswordTemporary = isPasswordTemporary_0;
-  }
-  UserCreateCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserCreateCommand.prototype.pt = function () {
-    return this.username;
-  };
-  UserCreateCommand.prototype.qt = function () {
-    return this.firstname;
-  };
-  UserCreateCommand.prototype.rt = function () {
-    return this.lastname;
-  };
-  UserCreateCommand.prototype.st = function () {
-    return this.email;
-  };
-  UserCreateCommand.prototype.tt = function () {
-    return this.isEnable;
-  };
-  UserCreateCommand.prototype.ut = function () {
-    return this.isEmailVerified;
-  };
-  UserCreateCommand.prototype.ts = function () {
-    return this.attributes;
-  };
-  UserCreateCommand.prototype.as = function () {
-    return this.auth;
-  };
-  UserCreateCommand.prototype.vt = function () {
-    return this.password;
-  };
-  UserCreateCommand.prototype.wt = function () {
-    return this.isPasswordTemporary;
-  };
-  function UserCreatedEvent(id) {
-    this.id = id;
-  }
-  UserCreatedEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserDeleteCommand(id, realmId, auth) {
-    this.id = id;
-    this.realmId = realmId;
-    this.xt_1 = auth;
-  }
-  UserDeleteCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserDeleteCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserDeleteCommand.prototype.as = function () {
-    return this.xt_1;
-  };
-  Object.defineProperty(UserDeleteCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserDeletedEvent(id) {
-    this.id = id;
-  }
-  UserDeletedEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserDisableCommand(id, realmId, auth) {
-    this.id = id;
-    this.realmId = realmId;
-    this.auth = auth;
-  }
-  UserDisableCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserDisableCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserDisableCommand.prototype.as = function () {
-    return this.auth;
-  };
-  function UserDisabledEvent(id) {
-    this.id = id;
-  }
-  UserDisabledEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserEmailSendActionsCommand(userId, clientId, redirectUri, actions, realmId, auth) {
-    this.userId = userId;
-    this.clientId = clientId;
-    this.redirectUri = redirectUri;
-    this.actions = actions;
-    this.realmId = realmId;
-    this.yt_1 = auth;
-  }
-  UserEmailSendActionsCommand.prototype.zt = function () {
-    return this.userId;
-  };
-  UserEmailSendActionsCommand.prototype.au = function () {
-    return this.clientId;
-  };
-  UserEmailSendActionsCommand.prototype.bu = function () {
-    return this.redirectUri;
-  };
-  UserEmailSendActionsCommand.prototype.cu = function () {
-    return this.actions;
-  };
-  UserEmailSendActionsCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserEmailSendActionsCommand.prototype.as = function () {
-    return this.yt_1;
-  };
-  Object.defineProperty(UserEmailSendActionsCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserEmailSentActionsEvent(id) {
-    this.id = id;
-  }
-  UserEmailSentActionsEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserJoinGroupCommand_init_$Init$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker, $this) {
-    if (!(($mask0 & 4) === 0))
-      leaveOtherGroups = false;
-    UserJoinGroupCommand.call($this, id, groupId, leaveOtherGroups, realmId, auth);
-    return $this;
-  }
-  function UserJoinGroupCommand_init_$Create$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker) {
-    return UserJoinGroupCommand_init_$Init$(id, groupId, leaveOtherGroups, realmId, auth, $mask0, $marker, Object.create(UserJoinGroupCommand.prototype));
-  }
-  function UserJoinGroupCommand(id, groupId, leaveOtherGroups, realmId, auth) {
-    var leaveOtherGroups_0 = leaveOtherGroups === void 1 ? false : leaveOtherGroups;
-    this.id = id;
-    this.groupId = groupId;
-    this.leaveOtherGroups = leaveOtherGroups_0;
-    this.realmId = realmId;
-    this.du_1 = auth;
-  }
-  UserJoinGroupCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserJoinGroupCommand.prototype.eu = function () {
-    return this.groupId;
-  };
-  UserJoinGroupCommand.prototype.fu = function () {
-    return this.leaveOtherGroups;
-  };
-  UserJoinGroupCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserJoinGroupCommand.prototype.as = function () {
-    return this.du_1;
-  };
-  Object.defineProperty(UserJoinGroupCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserJoinedGroupEvent(id, groupId, groupsLeft) {
-    this.id = id;
-    this.groupId = groupId;
-    this.groupsLeft = groupsLeft;
-  }
-  UserJoinedGroupEvent.prototype.zo = function () {
-    return this.id;
-  };
-  UserJoinedGroupEvent.prototype.eu = function () {
-    return this.groupId;
-  };
-  UserJoinedGroupEvent.prototype.gu = function () {
-    return this.groupsLeft;
-  };
-  function UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, $this) {
-    if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
-    if (!(($mask0 & 16) === 0))
-      clientId = null;
-    UserRolesGrantCommand.call($this, id, roles, auth, realmId, clientId);
-    return $this;
-  }
-  function UserRolesGrantCommand_init_$Create$(id, roles, auth, realmId, clientId, $mask0, $marker) {
-    return UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, Object.create(UserRolesGrantCommand.prototype));
-  }
-  function UserRolesGrantCommand(id, roles, auth, realmId, clientId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
-    var clientId_0 = clientId === void 1 ? null : clientId;
-    this.id = id;
-    this.roles = roles;
-    this.lu_1 = auth;
-    this.realmId = realmId_0;
-    this.clientId = clientId_0;
-  }
-  UserRolesGrantCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserRolesGrantCommand.prototype.gr = function () {
-    return this.roles;
-  };
-  UserRolesGrantCommand.prototype.as = function () {
-    return this.lu_1;
-  };
-  UserRolesGrantCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserRolesGrantCommand.prototype.au = function () {
-    return this.clientId;
-  };
-  Object.defineProperty(UserRolesGrantCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserRolesGrantedEvent(id) {
-    this.id = id;
-  }
-  UserRolesGrantedEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
-    if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
-    UserRolesRevokeCommand.call($this, id, roles, auth, realmId);
-    return $this;
-  }
-  function UserRolesRevokeCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
-    return UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesRevokeCommand.prototype));
-  }
-  function UserRolesRevokeCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
-    this.id = id;
-    this.roles = roles;
-    this.mu_1 = auth;
-    this.realmId = realmId_0;
-  }
-  UserRolesRevokeCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserRolesRevokeCommand.prototype.gr = function () {
-    return this.roles;
-  };
-  UserRolesRevokeCommand.prototype.as = function () {
-    return this.mu_1;
-  };
-  UserRolesRevokeCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  Object.defineProperty(UserRolesRevokeCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserRolesRevokedEvent(id) {
-    this.id = id;
-  }
-  UserRolesRevokedEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
-    if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
-    UserRolesSetCommand.call($this, id, roles, auth, realmId);
-    return $this;
-  }
-  function UserRolesSetCommand_init_$Create$(id, roles, auth, realmId, $mask0, $marker) {
-    return UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesSetCommand.prototype));
-  }
-  function UserRolesSetCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
-    this.id = id;
-    this.roles = roles;
-    this.nu_1 = auth;
-    this.realmId = realmId_0;
-  }
-  UserRolesSetCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserRolesSetCommand.prototype.gr = function () {
-    return this.roles;
-  };
-  UserRolesSetCommand.prototype.as = function () {
-    return this.nu_1;
-  };
-  UserRolesSetCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  Object.defineProperty(UserRolesSetCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserRolesSetEvent(id) {
-    this.id = id;
-  }
-  UserRolesSetEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserSetAttributesCommand(id, attributes, realmId, auth) {
-    this.id = id;
-    this.attributes = attributes;
-    this.realmId = realmId;
-    this.ou_1 = auth;
-  }
-  UserSetAttributesCommand.prototype.zo = function () {
-    return this.id;
-  };
-  UserSetAttributesCommand.prototype.ts = function () {
-    return this.attributes;
-  };
-  UserSetAttributesCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserSetAttributesCommand.prototype.as = function () {
-    return this.ou_1;
-  };
-  Object.defineProperty(UserSetAttributesCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserSetAttributesEvent(id) {
-    this.id = id;
-  }
-  UserSetAttributesEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserUpdateEmailCommand_init_$Init$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker, $this) {
-    if (!(($mask0 & 8) === 0))
-      clientId = null;
-    if (!(($mask0 & 16) === 0))
-      redirectUri = null;
-    UserUpdateEmailCommand.call($this, userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth);
-    return $this;
-  }
-  function UserUpdateEmailCommand_init_$Create$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker) {
-    return UserUpdateEmailCommand_init_$Init$(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth, $mask0, $marker, Object.create(UserUpdateEmailCommand.prototype));
-  }
-  function UserUpdateEmailCommand(userId, email, sendVerificationEmail, clientId, redirectUri, realmId, auth) {
-    var clientId_0 = clientId === void 1 ? null : clientId;
-    var redirectUri_0 = redirectUri === void 1 ? null : redirectUri;
-    this.userId = userId;
-    this.email = email;
-    this.sendVerificationEmail = sendVerificationEmail;
-    this.clientId = clientId_0;
-    this.redirectUri = redirectUri_0;
-    this.realmId = realmId;
-    this.pu_1 = auth;
-  }
-  UserUpdateEmailCommand.prototype.zt = function () {
-    return this.userId;
-  };
-  UserUpdateEmailCommand.prototype.st = function () {
-    return this.email;
-  };
-  UserUpdateEmailCommand.prototype.qu = function () {
-    return this.sendVerificationEmail;
-  };
-  UserUpdateEmailCommand.prototype.au = function () {
-    return this.clientId;
-  };
-  UserUpdateEmailCommand.prototype.bu = function () {
-    return this.redirectUri;
-  };
-  UserUpdateEmailCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserUpdateEmailCommand.prototype.as = function () {
-    return this.pu_1;
-  };
-  Object.defineProperty(UserUpdateEmailCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserUpdatedEmailEvent(userId) {
-    this.userId = userId;
-  }
-  UserUpdatedEmailEvent.prototype.zt = function () {
-    return this.userId;
-  };
-  function UserUpdateCommand(userId, realmId, auth, firstname, lastname, attributes) {
-    this.userId = userId;
-    this.realmId = realmId;
-    this.auth = auth;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.attributes = attributes;
-  }
-  UserUpdateCommand.prototype.zt = function () {
-    return this.userId;
-  };
-  UserUpdateCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserUpdateCommand.prototype.as = function () {
-    return this.auth;
-  };
-  UserUpdateCommand.prototype.qt = function () {
-    return this.firstname;
-  };
-  UserUpdateCommand.prototype.rt = function () {
-    return this.lastname;
-  };
-  UserUpdateCommand.prototype.ts = function () {
-    return this.attributes;
-  };
-  function UserUpdatedEvent(id) {
-    this.id = id;
-  }
-  UserUpdatedEvent.prototype.zo = function () {
-    return this.id;
-  };
-  function UserUpdatePasswordCommand(userId, password, realmId, auth) {
-    this.userId = userId;
-    this.password = password;
-    this.realmId = realmId;
-    this.ru_1 = auth;
-  }
-  UserUpdatePasswordCommand.prototype.zt = function () {
-    return this.userId;
-  };
-  UserUpdatePasswordCommand.prototype.vt = function () {
-    return this.password;
-  };
-  UserUpdatePasswordCommand.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserUpdatePasswordCommand.prototype.as = function () {
-    return this.ru_1;
-  };
-  Object.defineProperty(UserUpdatePasswordCommand.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserUpdatedPasswordEvent(userId) {
-    this.userId = userId;
-  }
-  UserUpdatedPasswordEvent.prototype.zt = function () {
-    return this.userId;
-  };
-  function UserGetByEmailQuery(email, realmId, auth) {
-    this.email = email;
-    this.realmId = realmId;
-    this.su_1 = auth;
-  }
-  UserGetByEmailQuery.prototype.st = function () {
-    return this.email;
-  };
-  UserGetByEmailQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserGetByEmailQuery.prototype.as = function () {
-    return this.su_1;
-  };
-  Object.defineProperty(UserGetByEmailQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserGetByEmailQueryResult(item) {
-    this.item = item;
-  }
-  UserGetByEmailQueryResult.prototype.ks = function () {
-    return this.item;
-  };
-  function UserGetByUsernameQuery(realmId, username, auth) {
-    this.realmId = realmId;
-    this.username = username;
-    this.tu_1 = auth;
-  }
-  UserGetByUsernameQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserGetByUsernameQuery.prototype.pt = function () {
-    return this.username;
-  };
-  UserGetByUsernameQuery.prototype.as = function () {
-    return this.tu_1;
-  };
-  Object.defineProperty(UserGetByUsernameQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserGetByUsernameResult(item) {
-    this.item = item;
-  }
-  UserGetByUsernameResult.prototype.ks = function () {
-    return this.item;
-  };
-  function UserGetQuery(id, realmId, auth) {
-    this.id = id;
-    this.realmId = realmId;
-    this.uu_1 = auth;
-  }
-  UserGetQuery.prototype.zo = function () {
-    return this.id;
-  };
-  UserGetQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserGetQuery.prototype.as = function () {
-    return this.uu_1;
-  };
-  Object.defineProperty(UserGetQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserGetResult(item) {
-    this.item = item;
-  }
-  UserGetResult.prototype.ks = function () {
-    return this.item;
-  };
-  function UserGetGroupsQuery(userId, realmId, auth) {
-    this.userId = userId;
-    this.realmId = realmId;
-    this.vu_1 = auth;
-  }
-  UserGetGroupsQuery.prototype.zt = function () {
-    return this.userId;
-  };
-  UserGetGroupsQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserGetGroupsQuery.prototype.as = function () {
-    return this.vu_1;
-  };
-  Object.defineProperty(UserGetGroupsQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserGetGroupsResult(items) {
-    this.items = items;
-  }
-  UserGetGroupsResult.prototype.bq = function () {
-    return this.items;
-  };
-  function UserGetRolesQuery(userId, realmId, auth) {
-    this.userId = userId;
-    this.realmId = realmId;
-    this.wu_1 = auth;
-  }
-  UserGetRolesQuery.prototype.zt = function () {
-    return this.userId;
-  };
-  UserGetRolesQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserGetRolesQuery.prototype.as = function () {
-    return this.wu_1;
-  };
-  Object.defineProperty(UserGetRolesQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserGetRolesResult(roles) {
-    this.roles = roles;
-  }
-  UserGetRolesResult.prototype.gr = function () {
-    return this.roles;
-  };
-  function UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, $this) {
-    if (!(($mask0 & 1) === 0))
-      groupId = null;
-    if (!(($mask0 & 2) === 0))
-      search = null;
-    if (!(($mask0 & 4) === 0))
-      role = null;
-    if (!(($mask0 & 8) === 0))
-      attributes = emptyMap();
-    UserPageQuery.call($this, groupId, search, role, attributes, withDisabled, page, realmId, auth);
-    return $this;
-  }
-  function UserPageQuery_init_$Create$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker) {
-    return UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, Object.create(UserPageQuery.prototype));
-  }
-  function UserPageQuery(groupId, search, role, attributes, withDisabled, page, realmId, auth) {
-    var groupId_0 = groupId === void 1 ? null : groupId;
-    var search_0 = search === void 1 ? null : search;
-    var role_0 = role === void 1 ? null : role;
-    var attributes_0 = attributes === void 1 ? emptyMap() : attributes;
-    this.groupId = groupId_0;
-    this.search = search_0;
-    this.role = role_0;
-    this.attributes = attributes_0;
-    this.withDisabled = withDisabled;
-    this.page = page;
-    this.realmId = realmId;
-    this.xu_1 = auth;
-  }
-  UserPageQuery.prototype.eu = function () {
-    return this.groupId;
-  };
-  UserPageQuery.prototype.it = function () {
-    return this.search;
-  };
-  UserPageQuery.prototype.jt = function () {
-    return this.role;
-  };
-  UserPageQuery.prototype.ts = function () {
-    return this.attributes;
-  };
-  UserPageQuery.prototype.kt = function () {
-    return this.withDisabled;
-  };
-  UserPageQuery.prototype.wq = function () {
-    return this.page;
-  };
-  UserPageQuery.prototype.hs = function () {
-    return this.realmId;
-  };
-  UserPageQuery.prototype.as = function () {
-    return this.xu_1;
-  };
-  Object.defineProperty(UserPageQuery.prototype, 'auth', {
-    configurable: true,
-    get: function () {
-      return this.as();
-    }
-  });
-  function UserPageResult(items) {
-    this.items = items;
-  }
-  UserPageResult.prototype.bq = function () {
-    return this.items;
-  };
-  function UserGroup(id, name, roles) {
-    this.id = id;
-    this.name = name;
-    this.roles = roles;
-  }
-  UserGroup.prototype.zo = function () {
-    return this.id;
-  };
-  UserGroup.prototype.s8 = function () {
-    return this.name;
-  };
-  UserGroup.prototype.gr = function () {
-    return this.roles;
-  };
-  function UserModel(id, email, firstName, lastName, roles, attributes, enabled, creationDate) {
-    this.id = id;
-    this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.roles = roles;
-    this.attributes = attributes;
-    this.enabled = enabled;
-    this.creationDate = creationDate;
-  }
-  UserModel.prototype.zo = function () {
-    return this.id;
-  };
-  UserModel.prototype.st = function () {
-    return this.email;
-  };
-  UserModel.prototype.yu = function () {
-    return this.firstName;
-  };
-  UserModel.prototype.zu = function () {
-    return this.lastName;
-  };
-  UserModel.prototype.gr = function () {
-    return this.roles;
-  };
-  UserModel.prototype.ts = function () {
-    return this.attributes;
-  };
-  UserModel.prototype.mt = function () {
-    return this.enabled;
-  };
-  UserModel.prototype.nt = function () {
-    return this.creationDate;
-  };
   function UserCreateCommandDTO() {
   }
   function UserCreatedEventDTO() {
@@ -13572,7 +14009,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp;
   };
   UserPolicies.prototype.canPage = function (authedUser) {
-    return hasRole(authedUser, Role_IM_USER_READ_getInstance()) ? true : hasRole(authedUser, Role_IM_MY_ORGANIZATION_WRITE_getInstance());
+    return hasOneOfRoles(authedUser, [Role_IM_USER_READ_getInstance()]);
   };
   UserPolicies.prototype.checkRefList = function (authedUser) {
     return true;
@@ -13606,45 +14043,45 @@ if (typeof Math.imul === 'undefined') {
   function BlockDTO() {
   }
   function Block(blockId, previousHash, dataHash, transactions) {
-    this.lv_1 = blockId;
-    this.mv_1 = previousHash;
-    this.nv_1 = dataHash;
-    this.ov_1 = transactions;
+    this.aw_1 = blockId;
+    this.bw_1 = previousHash;
+    this.cw_1 = dataHash;
+    this.dw_1 = transactions;
   }
-  Block.prototype.hv = function () {
-    return this.lv_1;
+  Block.prototype.wv = function () {
+    return this.aw_1;
   };
-  Block.prototype.iv = function () {
-    return this.mv_1;
+  Block.prototype.xv = function () {
+    return this.bw_1;
   };
-  Block.prototype.jv = function () {
-    return this.nv_1;
+  Block.prototype.yv = function () {
+    return this.cw_1;
   };
-  Block.prototype.kv = function () {
-    return this.ov_1;
+  Block.prototype.zv = function () {
+    return this.dw_1;
   };
   Object.defineProperty(Block.prototype, 'blockId', {
     configurable: true,
     get: function () {
-      return this.hv();
+      return this.wv();
     }
   });
   Object.defineProperty(Block.prototype, 'previousHash', {
     configurable: true,
     get: function () {
-      return this.iv();
+      return this.xv();
     }
   });
   Object.defineProperty(Block.prototype, 'dataHash', {
     configurable: true,
     get: function () {
-      return this.jv();
+      return this.yv();
     }
   });
   Object.defineProperty(Block.prototype, 'transactions', {
     configurable: true,
     get: function () {
-      return this.kv();
+      return this.zv();
     }
   });
   var EnvelopeType_TRANSACTION_ENVELOPE_instance;
@@ -13694,14 +14131,14 @@ if (typeof Math.imul === 'undefined') {
   function IdentitiesInfoDTO() {
   }
   function IdentitiesInfo(id, mspid) {
-    this.sv_1 = id;
-    this.tv_1 = mspid;
+    this.hw_1 = id;
+    this.iw_1 = mspid;
   }
   IdentitiesInfo.prototype.zo = function () {
-    return this.sv_1;
+    return this.hw_1;
   };
-  IdentitiesInfo.prototype.rv = function () {
-    return this.tv_1;
+  IdentitiesInfo.prototype.gw = function () {
+    return this.iw_1;
   };
   Object.defineProperty(IdentitiesInfo.prototype, 'id', {
     configurable: true,
@@ -13712,59 +14149,59 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(IdentitiesInfo.prototype, 'mspid', {
     configurable: true,
     get: function () {
-      return this.rv();
+      return this.gw();
     }
   });
   function TransactionDTO() {
   }
   function Transaction(transactionId, blockId, timestamp, isValid, channelId, creator, nonce, type, validationCode) {
-    this.bw_1 = transactionId;
-    this.cw_1 = blockId;
-    this.dw_1 = timestamp;
-    this.ew_1 = isValid;
-    this.fw_1 = channelId;
-    this.gw_1 = creator;
-    this.hw_1 = nonce;
-    this.iw_1 = type;
-    this.jw_1 = validationCode;
+    this.qw_1 = transactionId;
+    this.rw_1 = blockId;
+    this.sw_1 = timestamp;
+    this.tw_1 = isValid;
+    this.uw_1 = channelId;
+    this.vw_1 = creator;
+    this.ww_1 = nonce;
+    this.xw_1 = type;
+    this.yw_1 = validationCode;
   }
-  Transaction.prototype.uv = function () {
-    return this.bw_1;
-  };
-  Transaction.prototype.hv = function () {
-    return this.cw_1;
-  };
-  Transaction.prototype.ap = function () {
-    return this.dw_1;
-  };
-  Transaction.prototype.vv = function () {
-    return this.ew_1;
+  Transaction.prototype.jw = function () {
+    return this.qw_1;
   };
   Transaction.prototype.wv = function () {
-    return this.fw_1;
+    return this.rw_1;
   };
-  Transaction.prototype.xv = function () {
-    return this.gw_1;
+  Transaction.prototype.ap = function () {
+    return this.sw_1;
   };
-  Transaction.prototype.yv = function () {
-    return this.hw_1;
+  Transaction.prototype.kw = function () {
+    return this.tw_1;
   };
-  Transaction.prototype.zv = function () {
-    return this.iw_1;
+  Transaction.prototype.lw = function () {
+    return this.uw_1;
   };
-  Transaction.prototype.aw = function () {
-    return this.jw_1;
+  Transaction.prototype.mw = function () {
+    return this.vw_1;
+  };
+  Transaction.prototype.nw = function () {
+    return this.ww_1;
+  };
+  Transaction.prototype.ow = function () {
+    return this.xw_1;
+  };
+  Transaction.prototype.pw = function () {
+    return this.yw_1;
   };
   Object.defineProperty(Transaction.prototype, 'transactionId', {
     configurable: true,
     get: function () {
-      return this.uv();
+      return this.jw();
     }
   });
   Object.defineProperty(Transaction.prototype, 'blockId', {
     configurable: true,
     get: function () {
-      return this.hv();
+      return this.wv();
     }
   });
   Object.defineProperty(Transaction.prototype, 'timestamp', {
@@ -13776,51 +14213,51 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Transaction.prototype, 'isValid', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.kw();
     }
   });
   Object.defineProperty(Transaction.prototype, 'channelId', {
     configurable: true,
     get: function () {
-      return this.wv();
+      return this.lw();
     }
   });
   Object.defineProperty(Transaction.prototype, 'creator', {
     configurable: true,
     get: function () {
-      return this.xv();
+      return this.mw();
     }
   });
   Object.defineProperty(Transaction.prototype, 'nonce', {
     configurable: true,
     get: function () {
-      return this.yv();
+      return this.nw();
     }
   });
   Object.defineProperty(Transaction.prototype, 'type', {
     configurable: true,
     get: function () {
-      return this.zv();
+      return this.ow();
     }
   });
   Object.defineProperty(Transaction.prototype, 'validationCode', {
     configurable: true,
     get: function () {
-      return this.aw();
+      return this.pw();
     }
   });
   function SsmChaincodePropertiesDTO() {
   }
   function ChaincodeSsmConfig(url) {
-    this.kw_1 = url;
+    this.zw_1 = url;
   }
-  ChaincodeSsmConfig.prototype.ht = function () {
-    return this.kw_1;
+  ChaincodeSsmConfig.prototype.mv = function () {
+    return this.zw_1;
   };
   Object.defineProperty(ChaincodeSsmConfig.prototype, 'url', {
     configurable: true,
     get: function () {
-      return this.ht();
+      return this.mv();
     }
   });
   function AgentDTO() {
@@ -13836,14 +14273,14 @@ if (typeof Math.imul === 'undefined') {
   }
   function Agent(name, pub) {
     Companion_getInstance_18();
-    this.mw_1 = name;
-    this.nw_1 = pub;
+    this.bx_1 = name;
+    this.cx_1 = pub;
   }
   Agent.prototype.s8 = function () {
-    return this.mw_1;
+    return this.bx_1;
   };
-  Agent.prototype.lw = function () {
-    return this.nw_1;
+  Agent.prototype.ax = function () {
+    return this.cx_1;
   };
   Agent.prototype.equals = function (other) {
     if (this === other)
@@ -13854,38 +14291,38 @@ if (typeof Math.imul === 'undefined') {
       other;
     else
       THROW_CCE();
-    if (!(this.mw_1 === other.mw_1))
+    if (!(this.bx_1 === other.bx_1))
       return false;
-    if (!contentEquals_0(this.nw_1, other.nw_1))
+    if (!contentEquals_0(this.cx_1, other.cx_1))
       return false;
     return true;
   };
   Agent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.mw_1);
-    result = imul(31, result) + contentHashCode_0(this.nw_1) | 0;
+    var result = getStringHashCode(this.bx_1);
+    result = imul(31, result) + contentHashCode_0(this.cx_1) | 0;
     return result;
   };
   Agent.prototype.component1 = function () {
-    return this.mw_1;
+    return this.bx_1;
   };
   Agent.prototype.component2 = function () {
-    return this.nw_1;
+    return this.cx_1;
   };
   Agent.prototype.copy = function (name, pub) {
-    return this.ow(name === void 1 ? this.mw_1 : name, pub === void 1 ? this.nw_1 : pub);
+    return this.dx(name === void 1 ? this.bx_1 : name, pub === void 1 ? this.cx_1 : pub);
   };
-  Agent.prototype.ow = function (name, pub) {
+  Agent.prototype.dx = function (name, pub) {
     return new Agent(name, pub);
   };
-  Agent.prototype.pw = function (name, pub, $mask0, $handler) {
+  Agent.prototype.ex = function (name, pub, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      name = this.mw_1;
+      name = this.bx_1;
     if (!(($mask0 & 2) === 0))
-      pub = this.nw_1;
-    return this.ow(name, pub);
+      pub = this.cx_1;
+    return this.dx(name, pub);
   };
   Agent.prototype.toString = function () {
-    return 'Agent(name=' + this.mw_1 + ', pub=' + toString_2(this.nw_1) + ')';
+    return 'Agent(name=' + this.bx_1 + ', pub=' + toString_2(this.cx_1) + ')';
   };
   Object.defineProperty(Agent.prototype, 'name', {
     configurable: true,
@@ -13896,46 +14333,46 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Agent.prototype, 'pub', {
     configurable: true,
     get: function () {
-      return this.lw();
+      return this.ax();
     }
   });
   function ChaincodeDTO() {
   }
   function Chaincode(id, channelId) {
-    this.qw_1 = id;
-    this.rw_1 = channelId;
+    this.fx_1 = id;
+    this.gx_1 = channelId;
   }
   Chaincode.prototype.zo = function () {
-    return this.qw_1;
+    return this.fx_1;
   };
-  Chaincode.prototype.wv = function () {
-    return this.rw_1;
+  Chaincode.prototype.lw = function () {
+    return this.gx_1;
   };
   Chaincode.prototype.component1 = function () {
-    return this.qw_1;
+    return this.fx_1;
   };
   Chaincode.prototype.component2 = function () {
-    return this.rw_1;
+    return this.gx_1;
   };
   Chaincode.prototype.copy = function (id, channelId) {
-    return this.sw(id === void 1 ? this.qw_1 : id, channelId === void 1 ? this.rw_1 : channelId);
+    return this.hx(id === void 1 ? this.fx_1 : id, channelId === void 1 ? this.gx_1 : channelId);
   };
-  Chaincode.prototype.sw = function (id, channelId) {
+  Chaincode.prototype.hx = function (id, channelId) {
     return new Chaincode(id, channelId);
   };
-  Chaincode.prototype.tw = function (id, channelId, $mask0, $handler) {
+  Chaincode.prototype.ix = function (id, channelId, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      id = this.qw_1;
+      id = this.fx_1;
     if (!(($mask0 & 2) === 0))
-      channelId = this.rw_1;
-    return this.sw(id, channelId);
+      channelId = this.gx_1;
+    return this.hx(id, channelId);
   };
   Chaincode.prototype.toString = function () {
-    return 'Chaincode(id=' + this.qw_1 + ', channelId=' + this.rw_1 + ')';
+    return 'Chaincode(id=' + this.fx_1 + ', channelId=' + this.gx_1 + ')';
   };
   Chaincode.prototype.hashCode = function () {
-    var result = getStringHashCode(this.qw_1);
-    result = imul(result, 31) + getStringHashCode(this.rw_1) | 0;
+    var result = getStringHashCode(this.fx_1);
+    result = imul(result, 31) + getStringHashCode(this.gx_1) | 0;
     return result;
   };
   Chaincode.prototype.equals = function (other) {
@@ -13944,9 +14381,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Chaincode))
       return false;
     var tmp0_other_with_cast = other instanceof Chaincode ? other : THROW_CCE();
-    if (!(this.qw_1 === tmp0_other_with_cast.qw_1))
+    if (!(this.fx_1 === tmp0_other_with_cast.fx_1))
       return false;
-    if (!(this.rw_1 === tmp0_other_with_cast.rw_1))
+    if (!(this.gx_1 === tmp0_other_with_cast.gx_1))
       return false;
     return true;
   };
@@ -13959,46 +14396,46 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Chaincode.prototype, 'channelId', {
     configurable: true,
     get: function () {
-      return this.wv();
+      return this.lw();
     }
   });
   function SsmDTO() {
   }
   function Ssm(name, transitions) {
-    this.vw_1 = name;
-    this.ww_1 = transitions;
+    this.kx_1 = name;
+    this.lx_1 = transitions;
   }
   Ssm.prototype.s8 = function () {
-    return this.vw_1;
+    return this.kx_1;
   };
-  Ssm.prototype.uw = function () {
-    return this.ww_1;
+  Ssm.prototype.jx = function () {
+    return this.lx_1;
   };
   Ssm.prototype.component1 = function () {
-    return this.vw_1;
+    return this.kx_1;
   };
   Ssm.prototype.component2 = function () {
-    return this.ww_1;
+    return this.lx_1;
   };
   Ssm.prototype.copy = function (name, transitions) {
-    return this.xw(name === void 1 ? this.vw_1 : name, transitions === void 1 ? this.ww_1 : transitions);
+    return this.mx(name === void 1 ? this.kx_1 : name, transitions === void 1 ? this.lx_1 : transitions);
   };
-  Ssm.prototype.xw = function (name, transitions) {
+  Ssm.prototype.mx = function (name, transitions) {
     return new Ssm(name, transitions);
   };
-  Ssm.prototype.yw = function (name, transitions, $mask0, $handler) {
+  Ssm.prototype.nx = function (name, transitions, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      name = this.vw_1;
+      name = this.kx_1;
     if (!(($mask0 & 2) === 0))
-      transitions = this.ww_1;
-    return this.xw(name, transitions);
+      transitions = this.lx_1;
+    return this.mx(name, transitions);
   };
   Ssm.prototype.toString = function () {
-    return 'Ssm(name=' + this.vw_1 + ', transitions=' + this.ww_1 + ')';
+    return 'Ssm(name=' + this.kx_1 + ', transitions=' + this.lx_1 + ')';
   };
   Ssm.prototype.hashCode = function () {
-    var result = getStringHashCode(this.vw_1);
-    result = imul(result, 31) + hashCode(this.ww_1) | 0;
+    var result = getStringHashCode(this.kx_1);
+    result = imul(result, 31) + hashCode(this.lx_1) | 0;
     return result;
   };
   Ssm.prototype.equals = function (other) {
@@ -14007,9 +14444,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Ssm))
       return false;
     var tmp0_other_with_cast = other instanceof Ssm ? other : THROW_CCE();
-    if (!(this.vw_1 === tmp0_other_with_cast.vw_1))
+    if (!(this.kx_1 === tmp0_other_with_cast.kx_1))
       return false;
-    if (!equals_0(this.ww_1, tmp0_other_with_cast.ww_1))
+    if (!equals_0(this.lx_1, tmp0_other_with_cast.lx_1))
       return false;
     return true;
   };
@@ -14022,7 +14459,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Ssm.prototype, 'transitions', {
     configurable: true,
     get: function () {
-      return this.uw();
+      return this.jx();
     }
   });
   function SsmContextDTO() {
@@ -14038,60 +14475,60 @@ if (typeof Math.imul === 'undefined') {
   }
   function SsmContext(session, public_0, iteration, private_0) {
     var private_1 = private_0 === void 1 ? null : private_0;
-    this.dx_1 = session;
-    this.ex_1 = public_0;
-    this.fx_1 = iteration;
-    this.gx_1 = private_1;
+    this.sx_1 = session;
+    this.tx_1 = public_0;
+    this.ux_1 = iteration;
+    this.vx_1 = private_1;
   }
-  SsmContext.prototype.zw = function () {
-    return this.dx_1;
+  SsmContext.prototype.ox = function () {
+    return this.sx_1;
   };
-  SsmContext.prototype.ax = function () {
-    return this.ex_1;
+  SsmContext.prototype.px = function () {
+    return this.tx_1;
   };
-  SsmContext.prototype.bx = function () {
-    return this.fx_1;
+  SsmContext.prototype.qx = function () {
+    return this.ux_1;
   };
-  SsmContext.prototype.cx = function () {
-    return this.gx_1;
+  SsmContext.prototype.rx = function () {
+    return this.vx_1;
   };
   SsmContext.prototype.component1 = function () {
-    return this.dx_1;
+    return this.sx_1;
   };
   SsmContext.prototype.component2 = function () {
-    return this.ex_1;
+    return this.tx_1;
   };
   SsmContext.prototype.component3 = function () {
-    return this.fx_1;
+    return this.ux_1;
   };
   SsmContext.prototype.component4 = function () {
-    return this.gx_1;
+    return this.vx_1;
   };
   SsmContext.prototype.copy = function (session, public_0, iteration, private_0) {
-    return this.hx(session === void 1 ? this.dx_1 : session, public_0 === void 1 ? this.ex_1 : public_0, iteration === void 1 ? this.fx_1 : iteration, private_0 === void 1 ? this.gx_1 : private_0);
+    return this.wx(session === void 1 ? this.sx_1 : session, public_0 === void 1 ? this.tx_1 : public_0, iteration === void 1 ? this.ux_1 : iteration, private_0 === void 1 ? this.vx_1 : private_0);
   };
-  SsmContext.prototype.hx = function (session, public_0, iteration, private_0) {
+  SsmContext.prototype.wx = function (session, public_0, iteration, private_0) {
     return new SsmContext(session, public_0, iteration, private_0);
   };
-  SsmContext.prototype.ix = function (session, public_0, iteration, private_0, $mask0, $handler) {
+  SsmContext.prototype.xx = function (session, public_0, iteration, private_0, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      session = this.dx_1;
+      session = this.sx_1;
     if (!(($mask0 & 2) === 0))
-      public_0 = this.ex_1;
+      public_0 = this.tx_1;
     if (!(($mask0 & 4) === 0))
-      iteration = this.fx_1;
+      iteration = this.ux_1;
     if (!(($mask0 & 8) === 0))
-      private_0 = this.gx_1;
-    return this.hx(session, public_0, iteration, private_0);
+      private_0 = this.vx_1;
+    return this.wx(session, public_0, iteration, private_0);
   };
   SsmContext.prototype.toString = function () {
-    return 'SsmContext(session=' + this.dx_1 + ', public=' + this.ex_1 + ', iteration=' + this.fx_1 + ', private=' + this.gx_1 + ')';
+    return 'SsmContext(session=' + this.sx_1 + ', public=' + this.tx_1 + ', iteration=' + this.ux_1 + ', private=' + this.vx_1 + ')';
   };
   SsmContext.prototype.hashCode = function () {
-    var result = getStringHashCode(this.dx_1);
-    result = imul(result, 31) + getStringHashCode(this.ex_1) | 0;
-    result = imul(result, 31) + this.fx_1 | 0;
-    result = imul(result, 31) + (this.gx_1 == null ? 0 : hashCode(this.gx_1)) | 0;
+    var result = getStringHashCode(this.sx_1);
+    result = imul(result, 31) + getStringHashCode(this.tx_1) | 0;
+    result = imul(result, 31) + this.ux_1 | 0;
+    result = imul(result, 31) + (this.vx_1 == null ? 0 : hashCode(this.vx_1)) | 0;
     return result;
   };
   SsmContext.prototype.equals = function (other) {
@@ -14100,38 +14537,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmContext))
       return false;
     var tmp0_other_with_cast = other instanceof SsmContext ? other : THROW_CCE();
-    if (!(this.dx_1 === tmp0_other_with_cast.dx_1))
+    if (!(this.sx_1 === tmp0_other_with_cast.sx_1))
       return false;
-    if (!(this.ex_1 === tmp0_other_with_cast.ex_1))
+    if (!(this.tx_1 === tmp0_other_with_cast.tx_1))
       return false;
-    if (!(this.fx_1 === tmp0_other_with_cast.fx_1))
+    if (!(this.ux_1 === tmp0_other_with_cast.ux_1))
       return false;
-    if (!equals_0(this.gx_1, tmp0_other_with_cast.gx_1))
+    if (!equals_0(this.vx_1, tmp0_other_with_cast.vx_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmContext.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.zw();
+      return this.ox();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.ax();
+      return this.px();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'iteration', {
     configurable: true,
     get: function () {
-      return this.bx();
+      return this.qx();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.cx();
+      return this.rx();
     }
   });
   function SsmGrantDTO() {
@@ -14141,13 +14578,13 @@ if (typeof Math.imul === 'undefined') {
     this.iteration = iteration;
     this.credits = credits;
   }
-  SsmGrant.prototype.jx = function () {
+  SsmGrant.prototype.yx = function () {
     return this.user;
   };
-  SsmGrant.prototype.bx = function () {
+  SsmGrant.prototype.qx = function () {
     return this.iteration;
   };
-  SsmGrant.prototype.kx = function () {
+  SsmGrant.prototype.zx = function () {
     return this.credits;
   };
   SsmGrant.prototype.component1 = function () {
@@ -14160,19 +14597,19 @@ if (typeof Math.imul === 'undefined') {
     return this.credits;
   };
   SsmGrant.prototype.copy = function (user, iteration, credits) {
-    return this.lx(user === void 1 ? this.user : user, iteration === void 1 ? this.iteration : iteration, credits === void 1 ? this.credits : credits);
+    return this.ay(user === void 1 ? this.user : user, iteration === void 1 ? this.iteration : iteration, credits === void 1 ? this.credits : credits);
   };
-  SsmGrant.prototype.lx = function (user, iteration, credits) {
+  SsmGrant.prototype.ay = function (user, iteration, credits) {
     return new SsmGrant(user, iteration, credits);
   };
-  SsmGrant.prototype.mx = function (user, iteration, credits, $mask0, $handler) {
+  SsmGrant.prototype.by = function (user, iteration, credits, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
       user = this.user;
     if (!(($mask0 & 2) === 0))
       iteration = this.iteration;
     if (!(($mask0 & 4) === 0))
       credits = this.credits;
-    return this.lx(user, iteration, credits);
+    return this.ay(user, iteration, credits);
   };
   SsmGrant.prototype.toString = function () {
     return 'SsmGrant(user=' + this.user + ', iteration=' + this.iteration + ', credits=' + this.credits + ')';
@@ -14200,30 +14637,30 @@ if (typeof Math.imul === 'undefined') {
   function CreditDTO() {
   }
   function Credit(amount) {
-    this.ox_1 = amount;
+    this.dy_1 = amount;
   }
-  Credit.prototype.nx = function () {
-    return this.ox_1;
+  Credit.prototype.cy = function () {
+    return this.dy_1;
   };
   Credit.prototype.component1 = function () {
-    return this.ox_1;
+    return this.dy_1;
   };
   Credit.prototype.copy = function (amount) {
-    return this.px(amount === void 1 ? this.ox_1 : amount);
+    return this.ey(amount === void 1 ? this.dy_1 : amount);
   };
-  Credit.prototype.px = function (amount) {
+  Credit.prototype.ey = function (amount) {
     return new Credit(amount);
   };
-  Credit.prototype.qx = function (amount, $mask0, $handler) {
+  Credit.prototype.fy = function (amount, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      amount = this.ox_1;
-    return this.px(amount);
+      amount = this.dy_1;
+    return this.ey(amount);
   };
   Credit.prototype.toString = function () {
-    return 'Credit(amount=' + this.ox_1 + ')';
+    return 'Credit(amount=' + this.dy_1 + ')';
   };
   Credit.prototype.hashCode = function () {
-    return this.ox_1;
+    return this.dy_1;
   };
   Credit.prototype.equals = function (other) {
     if (this === other)
@@ -14231,14 +14668,14 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Credit))
       return false;
     var tmp0_other_with_cast = other instanceof Credit ? other : THROW_CCE();
-    if (!(this.ox_1 === tmp0_other_with_cast.ox_1))
+    if (!(this.dy_1 === tmp0_other_with_cast.dy_1))
       return false;
     return true;
   };
   Object.defineProperty(Credit.prototype, 'amount', {
     configurable: true,
     get: function () {
-      return this.nx();
+      return this.cy();
     }
   });
   function SsmSessionDTO() {
@@ -14271,37 +14708,37 @@ if (typeof Math.imul === 'undefined') {
       tmp = private_0;
     }
     var private_1 = tmp;
-    this.sx_1 = ssm;
-    this.tx_1 = session;
-    this.ux_1 = roles;
-    this.vx_1 = public_0;
-    this.wx_1 = private_1;
+    this.hy_1 = ssm;
+    this.iy_1 = session;
+    this.jy_1 = roles;
+    this.ky_1 = public_0;
+    this.ly_1 = private_1;
   }
-  SsmSession.prototype.rx = function () {
-    return this.sx_1;
+  SsmSession.prototype.gy = function () {
+    return this.hy_1;
   };
-  SsmSession.prototype.zw = function () {
-    return this.tx_1;
+  SsmSession.prototype.ox = function () {
+    return this.iy_1;
   };
   SsmSession.prototype.gr = function () {
-    return this.ux_1;
+    return this.jy_1;
   };
-  SsmSession.prototype.ax = function () {
-    return this.vx_1;
+  SsmSession.prototype.px = function () {
+    return this.ky_1;
   };
-  SsmSession.prototype.cx = function () {
-    return this.wx_1;
+  SsmSession.prototype.rx = function () {
+    return this.ly_1;
   };
   Object.defineProperty(SsmSession.prototype, 'ssm', {
     configurable: true,
     get: function () {
-      return this.rx();
+      return this.gy();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.zw();
+      return this.ox();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'roles', {
@@ -14313,13 +14750,13 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmSession.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.ax();
+      return this.px();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.cx();
+      return this.rx();
     }
   });
   function SsmSessionStateDTO() {
@@ -14352,100 +14789,100 @@ if (typeof Math.imul === 'undefined') {
       tmp = private_0;
     }
     var private_1 = tmp;
-    this.zx_1 = ssm;
-    this.ay_1 = session;
-    this.by_1 = roles;
-    this.cy_1 = public_0;
-    this.dy_1 = private_1;
-    this.ey_1 = origin;
-    this.fy_1 = current;
-    this.gy_1 = iteration;
+    this.oy_1 = ssm;
+    this.py_1 = session;
+    this.qy_1 = roles;
+    this.ry_1 = public_0;
+    this.sy_1 = private_1;
+    this.ty_1 = origin;
+    this.uy_1 = current;
+    this.vy_1 = iteration;
   }
-  SsmSessionState.prototype.rx = function () {
-    return this.zx_1;
+  SsmSessionState.prototype.gy = function () {
+    return this.oy_1;
   };
-  SsmSessionState.prototype.zw = function () {
-    return this.ay_1;
+  SsmSessionState.prototype.ox = function () {
+    return this.py_1;
   };
   SsmSessionState.prototype.gr = function () {
-    return this.by_1;
+    return this.qy_1;
   };
-  SsmSessionState.prototype.ax = function () {
-    return this.cy_1;
+  SsmSessionState.prototype.px = function () {
+    return this.ry_1;
   };
-  SsmSessionState.prototype.cx = function () {
-    return this.dy_1;
+  SsmSessionState.prototype.rx = function () {
+    return this.sy_1;
   };
-  SsmSessionState.prototype.xx = function () {
-    return this.ey_1;
+  SsmSessionState.prototype.my = function () {
+    return this.ty_1;
   };
-  SsmSessionState.prototype.yx = function () {
-    return this.fy_1;
+  SsmSessionState.prototype.ny = function () {
+    return this.uy_1;
   };
-  SsmSessionState.prototype.bx = function () {
-    return this.gy_1;
+  SsmSessionState.prototype.qx = function () {
+    return this.vy_1;
   };
   SsmSessionState.prototype.component1 = function () {
-    return this.zx_1;
+    return this.oy_1;
   };
   SsmSessionState.prototype.component2 = function () {
-    return this.ay_1;
+    return this.py_1;
   };
   SsmSessionState.prototype.component3 = function () {
-    return this.by_1;
+    return this.qy_1;
   };
   SsmSessionState.prototype.component4 = function () {
-    return this.cy_1;
+    return this.ry_1;
   };
   SsmSessionState.prototype.component5 = function () {
-    return this.dy_1;
+    return this.sy_1;
   };
   SsmSessionState.prototype.component6 = function () {
-    return this.ey_1;
+    return this.ty_1;
   };
   SsmSessionState.prototype.component7 = function () {
-    return this.fy_1;
+    return this.uy_1;
   };
   SsmSessionState.prototype.component8 = function () {
-    return this.gy_1;
+    return this.vy_1;
   };
   SsmSessionState.prototype.copy = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
-    return this.hy(ssm === void 1 ? this.zx_1 : ssm, session === void 1 ? this.ay_1 : session, roles === void 1 ? this.by_1 : roles, public_0 === void 1 ? this.cy_1 : public_0, private_0 === void 1 ? this.dy_1 : private_0, origin === void 1 ? this.ey_1 : origin, current === void 1 ? this.fy_1 : current, iteration === void 1 ? this.gy_1 : iteration);
+    return this.wy(ssm === void 1 ? this.oy_1 : ssm, session === void 1 ? this.py_1 : session, roles === void 1 ? this.qy_1 : roles, public_0 === void 1 ? this.ry_1 : public_0, private_0 === void 1 ? this.sy_1 : private_0, origin === void 1 ? this.ty_1 : origin, current === void 1 ? this.uy_1 : current, iteration === void 1 ? this.vy_1 : iteration);
   };
-  SsmSessionState.prototype.hy = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
+  SsmSessionState.prototype.wy = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
     return new SsmSessionState(ssm, session, roles, public_0, private_0, origin, current, iteration);
   };
-  SsmSessionState.prototype.iy = function (ssm, session, roles, public_0, private_0, origin, current, iteration, $mask0, $handler) {
+  SsmSessionState.prototype.xy = function (ssm, session, roles, public_0, private_0, origin, current, iteration, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      ssm = this.zx_1;
+      ssm = this.oy_1;
     if (!(($mask0 & 2) === 0))
-      session = this.ay_1;
+      session = this.py_1;
     if (!(($mask0 & 4) === 0))
-      roles = this.by_1;
+      roles = this.qy_1;
     if (!(($mask0 & 8) === 0))
-      public_0 = this.cy_1;
+      public_0 = this.ry_1;
     if (!(($mask0 & 16) === 0))
-      private_0 = this.dy_1;
+      private_0 = this.sy_1;
     if (!(($mask0 & 32) === 0))
-      origin = this.ey_1;
+      origin = this.ty_1;
     if (!(($mask0 & 64) === 0))
-      current = this.fy_1;
+      current = this.uy_1;
     if (!(($mask0 & 128) === 0))
-      iteration = this.gy_1;
-    return this.hy(ssm, session, roles, public_0, private_0, origin, current, iteration);
+      iteration = this.vy_1;
+    return this.wy(ssm, session, roles, public_0, private_0, origin, current, iteration);
   };
   SsmSessionState.prototype.toString = function () {
-    return 'SsmSessionState(ssm=' + this.zx_1 + ', session=' + this.ay_1 + ', roles=' + this.by_1 + ', public=' + toString_1(this.cy_1) + ', private=' + this.dy_1 + ', origin=' + this.ey_1 + ', current=' + this.fy_1 + ', iteration=' + this.gy_1 + ')';
+    return 'SsmSessionState(ssm=' + this.oy_1 + ', session=' + this.py_1 + ', roles=' + this.qy_1 + ', public=' + toString_1(this.ry_1) + ', private=' + this.sy_1 + ', origin=' + this.ty_1 + ', current=' + this.uy_1 + ', iteration=' + this.vy_1 + ')';
   };
   SsmSessionState.prototype.hashCode = function () {
-    var result = this.zx_1 == null ? 0 : getStringHashCode(this.zx_1);
-    result = imul(result, 31) + getStringHashCode(this.ay_1) | 0;
-    result = imul(result, 31) + (this.by_1 == null ? 0 : hashCode(this.by_1)) | 0;
-    result = imul(result, 31) + (this.cy_1 == null ? 0 : hashCode(this.cy_1)) | 0;
-    result = imul(result, 31) + (this.dy_1 == null ? 0 : hashCode(this.dy_1)) | 0;
-    result = imul(result, 31) + (this.ey_1 == null ? 0 : this.ey_1.hashCode()) | 0;
-    result = imul(result, 31) + this.fy_1 | 0;
-    result = imul(result, 31) + this.gy_1 | 0;
+    var result = this.oy_1 == null ? 0 : getStringHashCode(this.oy_1);
+    result = imul(result, 31) + getStringHashCode(this.py_1) | 0;
+    result = imul(result, 31) + (this.qy_1 == null ? 0 : hashCode(this.qy_1)) | 0;
+    result = imul(result, 31) + (this.ry_1 == null ? 0 : hashCode(this.ry_1)) | 0;
+    result = imul(result, 31) + (this.sy_1 == null ? 0 : hashCode(this.sy_1)) | 0;
+    result = imul(result, 31) + (this.ty_1 == null ? 0 : this.ty_1.hashCode()) | 0;
+    result = imul(result, 31) + this.uy_1 | 0;
+    result = imul(result, 31) + this.vy_1 | 0;
     return result;
   };
   SsmSessionState.prototype.equals = function (other) {
@@ -14454,34 +14891,34 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmSessionState))
       return false;
     var tmp0_other_with_cast = other instanceof SsmSessionState ? other : THROW_CCE();
-    if (!(this.zx_1 == tmp0_other_with_cast.zx_1))
+    if (!(this.oy_1 == tmp0_other_with_cast.oy_1))
       return false;
-    if (!(this.ay_1 === tmp0_other_with_cast.ay_1))
+    if (!(this.py_1 === tmp0_other_with_cast.py_1))
       return false;
-    if (!equals_0(this.by_1, tmp0_other_with_cast.by_1))
+    if (!equals_0(this.qy_1, tmp0_other_with_cast.qy_1))
       return false;
-    if (!equals_0(this.cy_1, tmp0_other_with_cast.cy_1))
+    if (!equals_0(this.ry_1, tmp0_other_with_cast.ry_1))
       return false;
-    if (!equals_0(this.dy_1, tmp0_other_with_cast.dy_1))
+    if (!equals_0(this.sy_1, tmp0_other_with_cast.sy_1))
       return false;
-    if (!equals_0(this.ey_1, tmp0_other_with_cast.ey_1))
+    if (!equals_0(this.ty_1, tmp0_other_with_cast.ty_1))
       return false;
-    if (!(this.fy_1 === tmp0_other_with_cast.fy_1))
+    if (!(this.uy_1 === tmp0_other_with_cast.uy_1))
       return false;
-    if (!(this.gy_1 === tmp0_other_with_cast.gy_1))
+    if (!(this.vy_1 === tmp0_other_with_cast.vy_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmSessionState.prototype, 'ssm', {
     configurable: true,
     get: function () {
-      return this.rx();
+      return this.gy();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.zw();
+      return this.ox();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'roles', {
@@ -14493,70 +14930,70 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmSessionState.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.ax();
+      return this.px();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.cx();
+      return this.rx();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'origin', {
     configurable: true,
     get: function () {
-      return this.xx();
+      return this.my();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'current', {
     configurable: true,
     get: function () {
-      return this.yx();
+      return this.ny();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'iteration', {
     configurable: true,
     get: function () {
-      return this.bx();
+      return this.qx();
     }
   });
   function SsmSessionStateLogDTO() {
   }
   function SsmSessionStateLog(txId, state) {
-    this.ky_1 = txId;
-    this.ly_1 = state;
+    this.zy_1 = txId;
+    this.az_1 = state;
   }
-  SsmSessionStateLog.prototype.jy = function () {
-    return this.ky_1;
+  SsmSessionStateLog.prototype.yy = function () {
+    return this.zy_1;
   };
   SsmSessionStateLog.prototype.ob = function () {
-    return this.ly_1;
+    return this.az_1;
   };
   SsmSessionStateLog.prototype.component1 = function () {
-    return this.ky_1;
+    return this.zy_1;
   };
   SsmSessionStateLog.prototype.component2 = function () {
-    return this.ly_1;
+    return this.az_1;
   };
   SsmSessionStateLog.prototype.copy = function (txId, state) {
-    return this.my(txId === void 1 ? this.ky_1 : txId, state === void 1 ? this.ly_1 : state);
+    return this.bz(txId === void 1 ? this.zy_1 : txId, state === void 1 ? this.az_1 : state);
   };
-  SsmSessionStateLog.prototype.my = function (txId, state) {
+  SsmSessionStateLog.prototype.bz = function (txId, state) {
     return new SsmSessionStateLog(txId, state);
   };
-  SsmSessionStateLog.prototype.ny = function (txId, state, $mask0, $handler) {
+  SsmSessionStateLog.prototype.cz = function (txId, state, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      txId = this.ky_1;
+      txId = this.zy_1;
     if (!(($mask0 & 2) === 0))
-      state = this.ly_1;
-    return this.my(txId, state);
+      state = this.az_1;
+    return this.bz(txId, state);
   };
   SsmSessionStateLog.prototype.toString = function () {
-    return 'SsmSessionStateLog(txId=' + this.ky_1 + ', state=' + this.ly_1 + ')';
+    return 'SsmSessionStateLog(txId=' + this.zy_1 + ', state=' + this.az_1 + ')';
   };
   SsmSessionStateLog.prototype.hashCode = function () {
-    var result = getStringHashCode(this.ky_1);
-    result = imul(result, 31) + this.ly_1.hashCode() | 0;
+    var result = getStringHashCode(this.zy_1);
+    result = imul(result, 31) + this.az_1.hashCode() | 0;
     return result;
   };
   SsmSessionStateLog.prototype.equals = function (other) {
@@ -14565,16 +15002,16 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmSessionStateLog))
       return false;
     var tmp0_other_with_cast = other instanceof SsmSessionStateLog ? other : THROW_CCE();
-    if (!(this.ky_1 === tmp0_other_with_cast.ky_1))
+    if (!(this.zy_1 === tmp0_other_with_cast.zy_1))
       return false;
-    if (!this.ly_1.equals(tmp0_other_with_cast.ly_1))
+    if (!this.az_1.equals(tmp0_other_with_cast.az_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmSessionStateLog.prototype, 'txId', {
     configurable: true,
     get: function () {
-      return this.jy();
+      return this.yy();
     }
   });
   Object.defineProperty(SsmSessionStateLog.prototype, 'state', {
@@ -14586,60 +15023,60 @@ if (typeof Math.imul === 'undefined') {
   function SsmTransitionDTO() {
   }
   function SsmTransition(from, to, role, action) {
-    this.ry_1 = from;
-    this.sy_1 = to;
-    this.ty_1 = role;
-    this.uy_1 = action;
+    this.gz_1 = from;
+    this.hz_1 = to;
+    this.iz_1 = role;
+    this.jz_1 = action;
   }
-  SsmTransition.prototype.oy = function () {
-    return this.ry_1;
+  SsmTransition.prototype.dz = function () {
+    return this.gz_1;
   };
-  SsmTransition.prototype.py = function () {
-    return this.sy_1;
+  SsmTransition.prototype.ez = function () {
+    return this.hz_1;
   };
-  SsmTransition.prototype.jt = function () {
-    return this.ty_1;
+  SsmTransition.prototype.iu = function () {
+    return this.iz_1;
   };
-  SsmTransition.prototype.qy = function () {
-    return this.uy_1;
+  SsmTransition.prototype.fz = function () {
+    return this.jz_1;
   };
   SsmTransition.prototype.component1 = function () {
-    return this.ry_1;
+    return this.gz_1;
   };
   SsmTransition.prototype.component2 = function () {
-    return this.sy_1;
+    return this.hz_1;
   };
   SsmTransition.prototype.component3 = function () {
-    return this.ty_1;
+    return this.iz_1;
   };
   SsmTransition.prototype.component4 = function () {
-    return this.uy_1;
+    return this.jz_1;
   };
   SsmTransition.prototype.copy = function (from, to, role, action) {
-    return this.vy(from === void 1 ? this.ry_1 : from, to === void 1 ? this.sy_1 : to, role === void 1 ? this.ty_1 : role, action === void 1 ? this.uy_1 : action);
+    return this.kz(from === void 1 ? this.gz_1 : from, to === void 1 ? this.hz_1 : to, role === void 1 ? this.iz_1 : role, action === void 1 ? this.jz_1 : action);
   };
-  SsmTransition.prototype.vy = function (from, to, role, action) {
+  SsmTransition.prototype.kz = function (from, to, role, action) {
     return new SsmTransition(from, to, role, action);
   };
-  SsmTransition.prototype.wy = function (from, to, role, action, $mask0, $handler) {
+  SsmTransition.prototype.lz = function (from, to, role, action, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      from = this.ry_1;
+      from = this.gz_1;
     if (!(($mask0 & 2) === 0))
-      to = this.sy_1;
+      to = this.hz_1;
     if (!(($mask0 & 4) === 0))
-      role = this.ty_1;
+      role = this.iz_1;
     if (!(($mask0 & 8) === 0))
-      action = this.uy_1;
-    return this.vy(from, to, role, action);
+      action = this.jz_1;
+    return this.kz(from, to, role, action);
   };
   SsmTransition.prototype.toString = function () {
-    return 'SsmTransition(from=' + this.ry_1 + ', to=' + this.sy_1 + ', role=' + this.ty_1 + ', action=' + this.uy_1 + ')';
+    return 'SsmTransition(from=' + this.gz_1 + ', to=' + this.hz_1 + ', role=' + this.iz_1 + ', action=' + this.jz_1 + ')';
   };
   SsmTransition.prototype.hashCode = function () {
-    var result = this.ry_1;
-    result = imul(result, 31) + this.sy_1 | 0;
-    result = imul(result, 31) + getStringHashCode(this.ty_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.uy_1) | 0;
+    var result = this.gz_1;
+    result = imul(result, 31) + this.hz_1 | 0;
+    result = imul(result, 31) + getStringHashCode(this.iz_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.jz_1) | 0;
     return result;
   };
   SsmTransition.prototype.equals = function (other) {
@@ -14648,38 +15085,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmTransition))
       return false;
     var tmp0_other_with_cast = other instanceof SsmTransition ? other : THROW_CCE();
-    if (!(this.ry_1 === tmp0_other_with_cast.ry_1))
+    if (!(this.gz_1 === tmp0_other_with_cast.gz_1))
       return false;
-    if (!(this.sy_1 === tmp0_other_with_cast.sy_1))
+    if (!(this.hz_1 === tmp0_other_with_cast.hz_1))
       return false;
-    if (!(this.ty_1 === tmp0_other_with_cast.ty_1))
+    if (!(this.iz_1 === tmp0_other_with_cast.iz_1))
       return false;
-    if (!(this.uy_1 === tmp0_other_with_cast.uy_1))
+    if (!(this.jz_1 === tmp0_other_with_cast.jz_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmTransition.prototype, 'from', {
     configurable: true,
     get: function () {
-      return this.oy();
+      return this.dz();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.py();
+      return this.ez();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.jt();
+      return this.iu();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.qy();
+      return this.fz();
     }
   });
   function WithPrivate() {
@@ -14691,10 +15128,10 @@ if (typeof Math.imul === 'undefined') {
     this.PARTS = 3;
     this.PREFIX = 'chaincode';
   }
-  Companion_19.prototype.yy = function () {
+  Companion_19.prototype.nz = function () {
     return this.PARTS;
   };
-  Companion_19.prototype.zy = function () {
+  Companion_19.prototype.oz = function () {
     return this.PREFIX;
   };
   var Companion_instance_19;
@@ -14705,11 +15142,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChaincodeUri(uri) {
     Companion_getInstance_19();
-    this.az_1 = uri;
+    this.pz_1 = uri;
     var tmp = this;
-    tmp.bz_1 = split$default(this.az_1, [':'], false, 0, 6, null);
+    tmp.qz_1 = split$default(this.pz_1, [':'], false, 0, 6, null);
     // Inline function 'kotlin.require' call
-    var tmp_0 = this.bz_1.f();
+    var tmp_0 = this.qz_1.f();
     Companion_getInstance_19();
     var tmp0_require = tmp_0 === 3;
     // Inline function 'kotlin.contracts.contract' call
@@ -14723,7 +15160,7 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message));
     }
     // Inline function 'kotlin.require' call
-    var tmp_1 = first(this.bz_1);
+    var tmp_1 = first(this.qz_1);
     Companion_getInstance_19();
     var tmp1_require = tmp_1 === 'chaincode';
     // Inline function 'kotlin.contracts.contract' call
@@ -14737,28 +15174,28 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message_0));
     }
   }
-  ChaincodeUri.prototype.xy = function () {
-    return this.az_1;
+  ChaincodeUri.prototype.mz = function () {
+    return this.pz_1;
   };
-  ChaincodeUri.prototype.wv = function () {
-    return this.bz_1.l(1);
+  ChaincodeUri.prototype.lw = function () {
+    return this.qz_1.l(1);
   };
-  ChaincodeUri.prototype.cz = function () {
-    return this.bz_1.l(2);
+  ChaincodeUri.prototype.rz = function () {
+    return this.qz_1.l(2);
   };
   Object.defineProperty(ChaincodeUri.prototype, 'uri', {
     configurable: true,
     get: function () {
-      return this.xy();
+      return this.mz();
     }
   });
   Object.defineProperty(ChaincodeUri.prototype, 'channelId', {
     configurable: true,
-    get: ChaincodeUri.prototype.wv
+    get: ChaincodeUri.prototype.lw
   });
   Object.defineProperty(ChaincodeUri.prototype, 'chaincodeId', {
     configurable: true,
-    get: ChaincodeUri.prototype.cz
+    get: ChaincodeUri.prototype.rz
   });
   function from(_this__u8e3s4, channelId, chaincodeId) {
     return new ChaincodeUri('chaincode:' + channelId + ':' + chaincodeId);
@@ -14770,10 +15207,10 @@ if (typeof Math.imul === 'undefined') {
     this.PARTS = 4;
     this.PREFIX = 'ssm';
   }
-  Companion_20.prototype.yy = function () {
+  Companion_20.prototype.nz = function () {
     return this.PARTS;
   };
-  Companion_20.prototype.zy = function () {
+  Companion_20.prototype.oz = function () {
     return this.PREFIX;
   };
   var Companion_instance_20;
@@ -14784,11 +15221,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function SsmUri(uri) {
     Companion_getInstance_20();
-    this.dz_1 = uri;
+    this.sz_1 = uri;
     var tmp = this;
-    tmp.ez_1 = split$default(this.dz_1, [':'], false, 0, 6, null);
+    tmp.tz_1 = split$default(this.sz_1, [':'], false, 0, 6, null);
     // Inline function 'kotlin.require' call
-    var tmp_0 = this.ez_1.f();
+    var tmp_0 = this.tz_1.f();
     Companion_getInstance_20();
     var tmp0_require = tmp_0 === 4;
     // Inline function 'kotlin.contracts.contract' call
@@ -14802,7 +15239,7 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message));
     }
     // Inline function 'kotlin.require' call
-    var tmp_1 = first(this.ez_1);
+    var tmp_1 = first(this.tz_1);
     Companion_getInstance_20();
     var tmp1_require = tmp_1 === 'ssm';
     // Inline function 'kotlin.contracts.contract' call
@@ -14816,43 +15253,43 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message_0));
     }
   }
-  SsmUri.prototype.xy = function () {
-    return this.dz_1;
+  SsmUri.prototype.mz = function () {
+    return this.sz_1;
   };
-  SsmUri.prototype.wv = function () {
-    return this.ez_1.l(1);
+  SsmUri.prototype.lw = function () {
+    return this.tz_1.l(1);
   };
-  SsmUri.prototype.cz = function () {
-    return this.ez_1.l(2);
+  SsmUri.prototype.rz = function () {
+    return this.tz_1.l(2);
   };
-  SsmUri.prototype.fz = function () {
-    return this.ez_1.l(3);
+  SsmUri.prototype.uz = function () {
+    return this.tz_1.l(3);
   };
-  SsmUri.prototype.gz = function () {
+  SsmUri.prototype.vz = function () {
     return '1.0.0';
   };
-  SsmUri.prototype.gv = function () {
+  SsmUri.prototype.vv = function () {
     return from(Companion_getInstance_19(), this.channelId, this.chaincodeId);
   };
   SsmUri.prototype.component1 = function () {
-    return this.dz_1;
+    return this.sz_1;
   };
   SsmUri.prototype.copy = function (uri) {
-    return this.hz(uri === void 1 ? this.dz_1 : uri);
+    return this.wz(uri === void 1 ? this.sz_1 : uri);
   };
-  SsmUri.prototype.hz = function (uri) {
+  SsmUri.prototype.wz = function (uri) {
     return new SsmUri(uri);
   };
-  SsmUri.prototype.iz = function (uri, $mask0, $handler) {
+  SsmUri.prototype.xz = function (uri, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      uri = this.dz_1;
-    return this.hz(uri);
+      uri = this.sz_1;
+    return this.wz(uri);
   };
   SsmUri.prototype.toString = function () {
-    return 'SsmUri(uri=' + this.dz_1 + ')';
+    return 'SsmUri(uri=' + this.sz_1 + ')';
   };
   SsmUri.prototype.hashCode = function () {
-    return getStringHashCode(this.dz_1);
+    return getStringHashCode(this.sz_1);
   };
   SsmUri.prototype.equals = function (other) {
     if (this === other)
@@ -14860,42 +15297,42 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmUri))
       return false;
     var tmp0_other_with_cast = other instanceof SsmUri ? other : THROW_CCE();
-    if (!(this.dz_1 === tmp0_other_with_cast.dz_1))
+    if (!(this.sz_1 === tmp0_other_with_cast.sz_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmUri.prototype, 'uri', {
     configurable: true,
     get: function () {
-      return this.xy();
+      return this.mz();
     }
   });
   Object.defineProperty(SsmUri.prototype, 'channelId', {
     configurable: true,
-    get: SsmUri.prototype.wv
+    get: SsmUri.prototype.lw
   });
   Object.defineProperty(SsmUri.prototype, 'chaincodeId', {
     configurable: true,
-    get: SsmUri.prototype.cz
+    get: SsmUri.prototype.rz
   });
   Object.defineProperty(SsmUri.prototype, 'ssmName', {
     configurable: true,
-    get: SsmUri.prototype.fz
+    get: SsmUri.prototype.uz
   });
   Object.defineProperty(SsmUri.prototype, 'ssmVersion', {
     configurable: true,
-    get: SsmUri.prototype.gz
+    get: SsmUri.prototype.vz
   });
   Object.defineProperty(SsmUri.prototype, 'chaincodeUri', {
     configurable: true,
-    get: SsmUri.prototype.gv
+    get: SsmUri.prototype.vv
   });
   function SsmGetAdminQuery(chaincodeUri, name) {
-    this.jz_1 = chaincodeUri;
+    this.yz_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetAdminQuery.prototype.gv = function () {
-    return this.jz_1;
+  SsmGetAdminQuery.prototype.vv = function () {
+    return this.yz_1;
   };
   SsmGetAdminQuery.prototype.s8 = function () {
     return this.name;
@@ -14903,14 +15340,14 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetAdminQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetAdminResult(item) {
-    this.kz_1 = item;
+    this.zz_1 = item;
   }
   SsmGetAdminResult.prototype.ks = function () {
-    return this.kz_1;
+    return this.zz_1;
   };
   Object.defineProperty(SsmGetAdminResult.prototype, 'item', {
     configurable: true,
@@ -14919,11 +15356,11 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmGetQuery(chaincodeUri, name) {
-    this.lz_1 = chaincodeUri;
+    this.a10_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetQuery.prototype.gv = function () {
-    return this.lz_1;
+  SsmGetQuery.prototype.vv = function () {
+    return this.a10_1;
   };
   SsmGetQuery.prototype.s8 = function () {
     return this.name;
@@ -14931,14 +15368,14 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetResult(item) {
-    this.mz_1 = item;
+    this.b10_1 = item;
   }
   SsmGetResult.prototype.ks = function () {
-    return this.mz_1;
+    return this.b10_1;
   };
   Object.defineProperty(SsmGetResult.prototype, 'item', {
     configurable: true,
@@ -14947,23 +15384,23 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmGetSessionLogsQuery(chaincodeUri, ssmName, sessionName) {
-    this.nz_1 = chaincodeUri;
+    this.c10_1 = chaincodeUri;
     this.ssmName = ssmName;
     this.sessionName = sessionName;
   }
-  SsmGetSessionLogsQuery.prototype.gv = function () {
-    return this.nz_1;
+  SsmGetSessionLogsQuery.prototype.vv = function () {
+    return this.c10_1;
   };
-  SsmGetSessionLogsQuery.prototype.fz = function () {
+  SsmGetSessionLogsQuery.prototype.uz = function () {
     return this.ssmName;
   };
-  SsmGetSessionLogsQuery.prototype.oz = function () {
+  SsmGetSessionLogsQuery.prototype.d10 = function () {
     return this.sessionName;
   };
   Object.defineProperty(SsmGetSessionLogsQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetSessionLogsQueryResult(ssmName, sessionName, logs) {
@@ -14971,13 +15408,13 @@ if (typeof Math.imul === 'undefined') {
     this.sessionName = sessionName;
     this.logs = logs;
   }
-  SsmGetSessionLogsQueryResult.prototype.fz = function () {
+  SsmGetSessionLogsQueryResult.prototype.uz = function () {
     return this.ssmName;
   };
-  SsmGetSessionLogsQueryResult.prototype.oz = function () {
+  SsmGetSessionLogsQueryResult.prototype.d10 = function () {
     return this.sessionName;
   };
-  SsmGetSessionLogsQueryResult.prototype.pz = function () {
+  SsmGetSessionLogsQueryResult.prototype.e10 = function () {
     return this.logs;
   };
   SsmGetSessionLogsQueryResult.prototype.component1 = function () {
@@ -14990,19 +15427,19 @@ if (typeof Math.imul === 'undefined') {
     return this.logs;
   };
   SsmGetSessionLogsQueryResult.prototype.copy = function (ssmName, sessionName, logs) {
-    return this.qz(ssmName === void 1 ? this.ssmName : ssmName, sessionName === void 1 ? this.sessionName : sessionName, logs === void 1 ? this.logs : logs);
+    return this.f10(ssmName === void 1 ? this.ssmName : ssmName, sessionName === void 1 ? this.sessionName : sessionName, logs === void 1 ? this.logs : logs);
   };
-  SsmGetSessionLogsQueryResult.prototype.qz = function (ssmName, sessionName, logs) {
+  SsmGetSessionLogsQueryResult.prototype.f10 = function (ssmName, sessionName, logs) {
     return new SsmGetSessionLogsQueryResult(ssmName, sessionName, logs);
   };
-  SsmGetSessionLogsQueryResult.prototype.rz = function (ssmName, sessionName, logs, $mask0, $handler) {
+  SsmGetSessionLogsQueryResult.prototype.g10 = function (ssmName, sessionName, logs, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
       ssmName = this.ssmName;
     if (!(($mask0 & 2) === 0))
       sessionName = this.sessionName;
     if (!(($mask0 & 4) === 0))
       logs = this.logs;
-    return this.qz(ssmName, sessionName, logs);
+    return this.f10(ssmName, sessionName, logs);
   };
   SsmGetSessionLogsQueryResult.prototype.toString = function () {
     return 'SsmGetSessionLogsQueryResult(ssmName=' + this.ssmName + ', sessionName=' + this.sessionName + ', logs=' + this.logs + ')';
@@ -15028,26 +15465,26 @@ if (typeof Math.imul === 'undefined') {
     return true;
   };
   function SsmGetSessionQuery(chaincodeUri, sessionName) {
-    this.sz_1 = chaincodeUri;
+    this.h10_1 = chaincodeUri;
     this.sessionName = sessionName;
   }
-  SsmGetSessionQuery.prototype.gv = function () {
-    return this.sz_1;
+  SsmGetSessionQuery.prototype.vv = function () {
+    return this.h10_1;
   };
-  SsmGetSessionQuery.prototype.oz = function () {
+  SsmGetSessionQuery.prototype.d10 = function () {
     return this.sessionName;
   };
   Object.defineProperty(SsmGetSessionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetSessionResult(item) {
-    this.tz_1 = item;
+    this.i10_1 = item;
   }
   SsmGetSessionResult.prototype.ks = function () {
-    return this.tz_1;
+    return this.i10_1;
   };
   Object.defineProperty(SsmGetSessionResult.prototype, 'item', {
     configurable: true,
@@ -15056,39 +15493,39 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmGetTransactionQuery(chaincodeUri, id) {
-    this.uz_1 = chaincodeUri;
+    this.j10_1 = chaincodeUri;
     this.id = id;
   }
-  SsmGetTransactionQuery.prototype.gv = function () {
-    return this.uz_1;
+  SsmGetTransactionQuery.prototype.vv = function () {
+    return this.j10_1;
   };
   SsmGetTransactionQuery.prototype.zo = function () {
     return this.id;
   };
   SsmGetTransactionQuery.prototype.component1 = function () {
-    return this.uz_1;
+    return this.j10_1;
   };
   SsmGetTransactionQuery.prototype.component2 = function () {
     return this.id;
   };
   SsmGetTransactionQuery.prototype.copy = function (chaincodeUri, id) {
-    return this.vz(chaincodeUri === void 1 ? this.uz_1 : chaincodeUri, id === void 1 ? this.id : id);
+    return this.k10(chaincodeUri === void 1 ? this.j10_1 : chaincodeUri, id === void 1 ? this.id : id);
   };
-  SsmGetTransactionQuery.prototype.vz = function (chaincodeUri, id) {
+  SsmGetTransactionQuery.prototype.k10 = function (chaincodeUri, id) {
     return new SsmGetTransactionQuery(chaincodeUri, id);
   };
-  SsmGetTransactionQuery.prototype.wz = function (chaincodeUri, id, $mask0, $handler) {
+  SsmGetTransactionQuery.prototype.l10 = function (chaincodeUri, id, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      chaincodeUri = this.uz_1;
+      chaincodeUri = this.j10_1;
     if (!(($mask0 & 2) === 0))
       id = this.id;
-    return this.vz(chaincodeUri, id);
+    return this.k10(chaincodeUri, id);
   };
   SsmGetTransactionQuery.prototype.toString = function () {
-    return 'SsmGetTransactionQuery(chaincodeUri=' + this.uz_1 + ', id=' + this.id + ')';
+    return 'SsmGetTransactionQuery(chaincodeUri=' + this.j10_1 + ', id=' + this.id + ')';
   };
   SsmGetTransactionQuery.prototype.hashCode = function () {
-    var result = hashCode(this.uz_1);
+    var result = hashCode(this.j10_1);
     result = imul(result, 31) + getStringHashCode(this.id) | 0;
     return result;
   };
@@ -15098,7 +15535,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmGetTransactionQuery))
       return false;
     var tmp0_other_with_cast = other instanceof SsmGetTransactionQuery ? other : THROW_CCE();
-    if (!equals_0(this.uz_1, tmp0_other_with_cast.uz_1))
+    if (!equals_0(this.j10_1, tmp0_other_with_cast.j10_1))
       return false;
     if (!(this.id === tmp0_other_with_cast.id))
       return false;
@@ -15107,14 +15544,14 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetTransactionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetTransactionQueryResult(item) {
-    this.xz_1 = item;
+    this.m10_1 = item;
   }
   SsmGetTransactionQueryResult.prototype.ks = function () {
-    return this.xz_1;
+    return this.m10_1;
   };
   Object.defineProperty(SsmGetTransactionQueryResult.prototype, 'item', {
     configurable: true,
@@ -15123,11 +15560,11 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmGetUserQuery(chaincodeUri, name) {
-    this.yz_1 = chaincodeUri;
+    this.n10_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetUserQuery.prototype.gv = function () {
-    return this.yz_1;
+  SsmGetUserQuery.prototype.vv = function () {
+    return this.n10_1;
   };
   SsmGetUserQuery.prototype.s8 = function () {
     return this.name;
@@ -15135,14 +15572,14 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetUserQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmGetUserResult(item) {
-    this.zz_1 = item;
+    this.o10_1 = item;
   }
   SsmGetUserResult.prototype.ks = function () {
-    return this.zz_1;
+    return this.o10_1;
   };
   Object.defineProperty(SsmGetUserResult.prototype, 'item', {
     configurable: true,
@@ -15151,22 +15588,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListAdminQuery(chaincodeUri) {
-    this.a10_1 = chaincodeUri;
+    this.p10_1 = chaincodeUri;
   }
-  SsmListAdminQuery.prototype.gv = function () {
-    return this.a10_1;
+  SsmListAdminQuery.prototype.vv = function () {
+    return this.p10_1;
   };
   Object.defineProperty(SsmListAdminQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmListAdminResult(items) {
-    this.b10_1 = items;
+    this.q10_1 = items;
   }
   SsmListAdminResult.prototype.bq = function () {
-    return this.b10_1;
+    return this.q10_1;
   };
   Object.defineProperty(SsmListAdminResult.prototype, 'items', {
     configurable: true,
@@ -15175,22 +15612,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListSessionQuery(chaincodeUri) {
-    this.c10_1 = chaincodeUri;
+    this.r10_1 = chaincodeUri;
   }
-  SsmListSessionQuery.prototype.gv = function () {
-    return this.c10_1;
+  SsmListSessionQuery.prototype.vv = function () {
+    return this.r10_1;
   };
   Object.defineProperty(SsmListSessionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmListSessionResult(items) {
-    this.d10_1 = items;
+    this.s10_1 = items;
   }
   SsmListSessionResult.prototype.bq = function () {
-    return this.d10_1;
+    return this.s10_1;
   };
   Object.defineProperty(SsmListSessionResult.prototype, 'items', {
     configurable: true,
@@ -15199,22 +15636,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListSsmQuery(chaincodeUri) {
-    this.e10_1 = chaincodeUri;
+    this.t10_1 = chaincodeUri;
   }
-  SsmListSsmQuery.prototype.gv = function () {
-    return this.e10_1;
+  SsmListSsmQuery.prototype.vv = function () {
+    return this.t10_1;
   };
   Object.defineProperty(SsmListSsmQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmListSsmResult(items) {
-    this.f10_1 = items;
+    this.u10_1 = items;
   }
   SsmListSsmResult.prototype.bq = function () {
-    return this.f10_1;
+    return this.u10_1;
   };
   Object.defineProperty(SsmListSsmResult.prototype, 'items', {
     configurable: true,
@@ -15223,22 +15660,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListUserQuery(chaincodeUri) {
-    this.g10_1 = chaincodeUri;
+    this.v10_1 = chaincodeUri;
   }
-  SsmListUserQuery.prototype.gv = function () {
-    return this.g10_1;
+  SsmListUserQuery.prototype.vv = function () {
+    return this.v10_1;
   };
   Object.defineProperty(SsmListUserQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.gv();
+      return this.vv();
     }
   });
   function SsmListUserResult(items) {
-    this.h10_1 = items;
+    this.w10_1 = items;
   }
   SsmListUserResult.prototype.bq = function () {
-    return this.h10_1;
+    return this.w10_1;
   };
   Object.defineProperty(SsmListUserResult.prototype, 'items', {
     configurable: true,
@@ -15274,10 +15711,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('name', false);
     tmp0_serialDesc.pm('version', false);
     tmp0_serialDesc.pm('transitions', false);
-    this.i10_1 = tmp0_serialDesc;
+    this.x10_1 = tmp0_serialDesc;
   }
   $serializer_5.prototype.aj = function () {
-    return this.i10_1;
+    return this.x10_1;
   };
   $serializer_5.prototype.mm = function () {
     var tmp$ret$2;
@@ -15293,7 +15730,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_5.prototype.ep = function (decoder) {
-    var tmp0_desc = this.i10_1;
+    var tmp0_desc = this.x10_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -15334,8 +15771,8 @@ if (typeof Math.imul === 'undefined') {
     tmp7_input.xk(tmp0_desc);
     return S2Automate_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
   };
-  $serializer_5.prototype.j10 = function (encoder, value) {
-    var tmp0_desc = this.i10_1;
+  $serializer_5.prototype.y10 = function (encoder, value) {
+    var tmp0_desc = this.x10_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.il(tmp0_desc, 1, StringSerializer_getInstance(), value.version);
@@ -15343,7 +15780,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_5.prototype.hp = function (encoder, value) {
-    return this.j10(encoder, value instanceof S2Automate ? value : THROW_CCE());
+    return this.y10(encoder, value instanceof S2Automate ? value : THROW_CCE());
   };
   var $serializer_instance_3;
   function $serializer_getInstance_3() {
@@ -15353,7 +15790,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Automate_init_$Init$(seen1, name, version, transitions, serializationConstructorMarker, $this) {
     if (!(7 === (7 & seen1))) {
-      throwMissingFieldException(seen1, 7, $serializer_getInstance_3().i10_1);
+      throwMissingFieldException(seen1, 7, $serializer_getInstance_3().x10_1);
     }
     $this.name = name;
     $this.version = version;
@@ -15372,10 +15809,10 @@ if (typeof Math.imul === 'undefined') {
   S2Automate.prototype.s8 = function () {
     return this.name;
   };
-  S2Automate.prototype.k10 = function () {
+  S2Automate.prototype.z10 = function () {
     return this.version;
   };
-  S2Automate.prototype.uw = function () {
+  S2Automate.prototype.jx = function () {
     return this.transitions;
   };
   S2Automate.prototype.getAvailableTransitions = function (state) {
@@ -15470,30 +15907,30 @@ if (typeof Math.imul === 'undefined') {
   function S2Error() {
   }
   function S2ErrorBase(type, description, date, payload) {
-    this.n10_1 = type;
-    this.o10_1 = description;
-    this.p10_1 = date;
-    this.q10_1 = payload;
+    this.c11_1 = type;
+    this.d11_1 = description;
+    this.e11_1 = date;
+    this.f11_1 = payload;
   }
-  S2ErrorBase.prototype.zv = function () {
-    return this.n10_1;
+  S2ErrorBase.prototype.ow = function () {
+    return this.c11_1;
   };
   S2ErrorBase.prototype.bs = function () {
-    return this.o10_1;
+    return this.d11_1;
   };
-  S2ErrorBase.prototype.l10 = function () {
-    return this.p10_1;
+  S2ErrorBase.prototype.a11 = function () {
+    return this.e11_1;
   };
-  S2ErrorBase.prototype.m10 = function () {
-    return this.q10_1;
+  S2ErrorBase.prototype.b11 = function () {
+    return this.f11_1;
   };
   S2ErrorBase.prototype.toString = function () {
-    return "S2ErrorBase(type='" + this.n10_1 + "', description='" + this.o10_1 + "', date='" + this.p10_1 + "', payload=" + this.q10_1 + ')';
+    return "S2ErrorBase(type='" + this.c11_1 + "', description='" + this.d11_1 + "', date='" + this.e11_1 + "', payload=" + this.f11_1 + ')';
   };
   Object.defineProperty(S2ErrorBase.prototype, 'type', {
     configurable: true,
     get: function () {
-      return this.zv();
+      return this.ow();
     }
   });
   Object.defineProperty(S2ErrorBase.prototype, 'description', {
@@ -15505,13 +15942,13 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(S2ErrorBase.prototype, 'date', {
     configurable: true,
     get: function () {
-      return this.l10();
+      return this.a11();
     }
   });
   Object.defineProperty(S2ErrorBase.prototype, 'payload', {
     configurable: true,
     get: function () {
-      return this.m10();
+      return this.b11();
     }
   });
   function S2Event() {
@@ -15525,13 +15962,13 @@ if (typeof Math.imul === 'undefined') {
   S2EventSuccess.prototype.zo = function () {
     return this.id;
   };
-  S2EventSuccess.prototype.zv = function () {
+  S2EventSuccess.prototype.ow = function () {
     return this.type;
   };
-  S2EventSuccess.prototype.oy = function () {
+  S2EventSuccess.prototype.dz = function () {
     return this.from;
   };
-  S2EventSuccess.prototype.py = function () {
+  S2EventSuccess.prototype.ez = function () {
     return this.to;
   };
   function S2EventError(id, type, from, to, error) {
@@ -15544,13 +15981,13 @@ if (typeof Math.imul === 'undefined') {
   S2EventError.prototype.zo = function () {
     return this.id;
   };
-  S2EventError.prototype.zv = function () {
+  S2EventError.prototype.ow = function () {
     return this.type;
   };
-  S2EventError.prototype.oy = function () {
+  S2EventError.prototype.dz = function () {
     return this.from;
   };
-  S2EventError.prototype.py = function () {
+  S2EventError.prototype.ez = function () {
     return this.to;
   };
   S2EventError.prototype.pp = function () {
@@ -15583,97 +16020,97 @@ if (typeof Math.imul === 'undefined') {
     var autostart_0 = autostart === void 1 ? false : autostart;
     var blocking_0 = blocking === void 1 ? false : blocking;
     var singleton_0 = singleton === void 1 ? false : singleton;
-    this.s10_1 = automate;
-    this.t10_1 = startsOn_0;
-    this.u10_1 = endsOn_0;
-    this.v10_1 = autostart_0;
-    this.w10_1 = blocking_0;
-    this.x10_1 = singleton_0;
+    this.h11_1 = automate;
+    this.i11_1 = startsOn_0;
+    this.j11_1 = endsOn_0;
+    this.k11_1 = autostart_0;
+    this.l11_1 = blocking_0;
+    this.m11_1 = singleton_0;
   }
-  S2SubMachine.prototype.y10 = function () {
-    return this.s10_1;
+  S2SubMachine.prototype.n11 = function () {
+    return this.h11_1;
   };
-  S2SubMachine.prototype.z10 = function () {
-    return this.t10_1;
+  S2SubMachine.prototype.o11 = function () {
+    return this.i11_1;
   };
-  S2SubMachine.prototype.a11 = function () {
-    return this.u10_1;
+  S2SubMachine.prototype.p11 = function () {
+    return this.j11_1;
   };
-  S2SubMachine.prototype.b11 = function () {
-    return this.v10_1;
+  S2SubMachine.prototype.q11 = function () {
+    return this.k11_1;
   };
-  S2SubMachine.prototype.c11 = function () {
-    return this.w10_1;
+  S2SubMachine.prototype.r11 = function () {
+    return this.l11_1;
   };
-  S2SubMachine.prototype.d11 = function () {
-    return this.x10_1;
+  S2SubMachine.prototype.s11 = function () {
+    return this.m11_1;
   };
   Object.defineProperty(S2SubMachine.prototype, 'automate', {
     configurable: true,
     get: function () {
-      return this.y10();
+      return this.n11();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'startsOn', {
     configurable: true,
     get: function () {
-      return this.z10();
+      return this.o11();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'endsOn', {
     configurable: true,
     get: function () {
-      return this.a11();
+      return this.p11();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'autostart', {
     configurable: true,
     get: function () {
-      return this.b11();
+      return this.q11();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'blocking', {
     configurable: true,
     get: function () {
-      return this.c11();
+      return this.r11();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'singleton', {
     configurable: true,
     get: function () {
-      return this.d11();
+      return this.s11();
     }
   });
   function S2InitTransition(to, role, action) {
-    this.e11_1 = to;
-    this.f11_1 = role;
-    this.g11_1 = action;
+    this.t11_1 = to;
+    this.u11_1 = role;
+    this.v11_1 = action;
   }
-  S2InitTransition.prototype.py = function () {
-    return this.e11_1;
+  S2InitTransition.prototype.ez = function () {
+    return this.t11_1;
   };
-  S2InitTransition.prototype.jt = function () {
-    return this.f11_1;
+  S2InitTransition.prototype.iu = function () {
+    return this.u11_1;
   };
-  S2InitTransition.prototype.qy = function () {
-    return this.g11_1;
+  S2InitTransition.prototype.fz = function () {
+    return this.v11_1;
   };
   Object.defineProperty(S2InitTransition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.py();
+      return this.ez();
     }
   });
   Object.defineProperty(S2InitTransition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.jt();
+      return this.iu();
     }
   });
   Object.defineProperty(S2InitTransition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.qy();
+      return this.fz();
     }
   });
   function Companion_22() {
@@ -15696,10 +16133,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('role', false);
     tmp0_serialDesc.pm('action', false);
     tmp0_serialDesc.pm('result', false);
-    this.h11_1 = tmp0_serialDesc;
+    this.w11_1 = tmp0_serialDesc;
   }
   $serializer_6.prototype.aj = function () {
-    return this.h11_1;
+    return this.w11_1;
   };
   $serializer_6.prototype.mm = function () {
     var tmp$ret$2;
@@ -15715,7 +16152,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_6.prototype.ep = function (decoder) {
-    var tmp0_desc = this.h11_1;
+    var tmp0_desc = this.w11_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -15770,8 +16207,8 @@ if (typeof Math.imul === 'undefined') {
     tmp9_input.xk(tmp0_desc);
     return S2Transition_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
   };
-  $serializer_6.prototype.i11 = function (encoder, value) {
-    var tmp0_desc = this.h11_1;
+  $serializer_6.prototype.x11 = function (encoder, value) {
+    var tmp0_desc = this.w11_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.il(tmp0_desc, 0, $serializer_getInstance_7(), value.from);
     tmp1_output.hl(tmp0_desc, 1, $serializer_getInstance_7(), value.to);
@@ -15781,7 +16218,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_6.prototype.hp = function (encoder, value) {
-    return this.i11(encoder, value instanceof S2Transition ? value : THROW_CCE());
+    return this.x11(encoder, value instanceof S2Transition ? value : THROW_CCE());
   };
   var $serializer_instance_4;
   function $serializer_getInstance_4() {
@@ -15791,13 +16228,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Transition_init_$Init$(seen1, from, to, role, action, result, serializationConstructorMarker, $this) {
     if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_4().h11_1);
+      throwMissingFieldException(seen1, 31, $serializer_getInstance_4().w11_1);
     }
-    $this.j11_1 = from;
-    $this.k11_1 = to;
-    $this.l11_1 = role;
-    $this.m11_1 = action;
-    $this.n11_1 = result;
+    $this.y11_1 = from;
+    $this.z11_1 = to;
+    $this.a12_1 = role;
+    $this.b12_1 = action;
+    $this.c12_1 = result;
     return $this;
   }
   function S2Transition_init_$Create$(seen1, from, to, role, action, result, serializationConstructorMarker) {
@@ -15805,55 +16242,55 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Transition(from, to, role, action, result) {
     Companion_getInstance_22();
-    this.j11_1 = from;
-    this.k11_1 = to;
-    this.l11_1 = role;
-    this.m11_1 = action;
-    this.n11_1 = result;
+    this.y11_1 = from;
+    this.z11_1 = to;
+    this.a12_1 = role;
+    this.b12_1 = action;
+    this.c12_1 = result;
   }
-  S2Transition.prototype.oy = function () {
-    return this.j11_1;
+  S2Transition.prototype.dz = function () {
+    return this.y11_1;
   };
-  S2Transition.prototype.py = function () {
-    return this.k11_1;
+  S2Transition.prototype.ez = function () {
+    return this.z11_1;
   };
-  S2Transition.prototype.jt = function () {
-    return this.l11_1;
+  S2Transition.prototype.iu = function () {
+    return this.a12_1;
   };
-  S2Transition.prototype.qy = function () {
-    return this.m11_1;
+  S2Transition.prototype.fz = function () {
+    return this.b12_1;
   };
-  S2Transition.prototype.o11 = function () {
-    return this.n11_1;
+  S2Transition.prototype.d12 = function () {
+    return this.c12_1;
   };
   Object.defineProperty(S2Transition.prototype, 'from', {
     configurable: true,
     get: function () {
-      return this.oy();
+      return this.dz();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.py();
+      return this.ez();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.jt();
+      return this.iu();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.qy();
+      return this.fz();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'result', {
     configurable: true,
     get: function () {
-      return this.o11();
+      return this.d12();
     }
   });
   function Companion_23() {
@@ -15872,10 +16309,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_5 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2TransitionValue', this, 1);
     tmp0_serialDesc.pm('name', false);
-    this.p11_1 = tmp0_serialDesc;
+    this.e12_1 = tmp0_serialDesc;
   }
   $serializer_7.prototype.aj = function () {
-    return this.p11_1;
+    return this.e12_1;
   };
   $serializer_7.prototype.mm = function () {
     var tmp$ret$2;
@@ -15891,7 +16328,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_7.prototype.ep = function (decoder) {
-    var tmp0_desc = this.p11_1;
+    var tmp0_desc = this.e12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -15918,14 +16355,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.xk(tmp0_desc);
     return S2TransitionValue_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_7.prototype.q11 = function (encoder, value) {
-    var tmp0_desc = this.p11_1;
+  $serializer_7.prototype.f12 = function (encoder, value) {
+    var tmp0_desc = this.e12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_7.prototype.hp = function (encoder, value) {
-    return this.q11(encoder, value instanceof S2TransitionValue ? value : THROW_CCE());
+    return this.f12(encoder, value instanceof S2TransitionValue ? value : THROW_CCE());
   };
   var $serializer_instance_5;
   function $serializer_getInstance_5() {
@@ -15935,7 +16372,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2TransitionValue_init_$Init$(seen1, name, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_5().p11_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_5().e12_1);
     }
     $this.name = name;
     return $this;
@@ -15966,10 +16403,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_6 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2RoleValue', this, 1);
     tmp0_serialDesc.pm('name', false);
-    this.r11_1 = tmp0_serialDesc;
+    this.g12_1 = tmp0_serialDesc;
   }
   $serializer_8.prototype.aj = function () {
-    return this.r11_1;
+    return this.g12_1;
   };
   $serializer_8.prototype.mm = function () {
     var tmp$ret$2;
@@ -15985,7 +16422,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_8.prototype.ep = function (decoder) {
-    var tmp0_desc = this.r11_1;
+    var tmp0_desc = this.g12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16012,14 +16449,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.xk(tmp0_desc);
     return S2RoleValue_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_8.prototype.s11 = function (encoder, value) {
-    var tmp0_desc = this.r11_1;
+  $serializer_8.prototype.h12 = function (encoder, value) {
+    var tmp0_desc = this.g12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_8.prototype.hp = function (encoder, value) {
-    return this.s11(encoder, value instanceof S2RoleValue ? value : THROW_CCE());
+    return this.h12(encoder, value instanceof S2RoleValue ? value : THROW_CCE());
   };
   var $serializer_instance_6;
   function $serializer_getInstance_6() {
@@ -16029,7 +16466,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2RoleValue_init_$Init$(seen1, name, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_6().r11_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_6().g12_1);
     }
     $this.name = name;
     return $this;
@@ -16061,10 +16498,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2StateValue', this, 2);
     tmp0_serialDesc.pm('name', false);
     tmp0_serialDesc.pm('position', false);
-    this.t11_1 = tmp0_serialDesc;
+    this.i12_1 = tmp0_serialDesc;
   }
   $serializer_9.prototype.aj = function () {
-    return this.t11_1;
+    return this.i12_1;
   };
   $serializer_9.prototype.mm = function () {
     var tmp$ret$2;
@@ -16080,7 +16517,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_9.prototype.ep = function (decoder) {
-    var tmp0_desc = this.t11_1;
+    var tmp0_desc = this.i12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16114,15 +16551,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.xk(tmp0_desc);
     return S2StateValue_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_9.prototype.u11 = function (encoder, value) {
-    var tmp0_desc = this.t11_1;
+  $serializer_9.prototype.j12 = function (encoder, value) {
+    var tmp0_desc = this.i12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.fl(tmp0_desc, 1, value.position);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_9.prototype.hp = function (encoder, value) {
-    return this.u11(encoder, value instanceof S2StateValue ? value : THROW_CCE());
+    return this.j12(encoder, value instanceof S2StateValue ? value : THROW_CCE());
   };
   var $serializer_instance_7;
   function $serializer_getInstance_7() {
@@ -16132,7 +16569,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2StateValue_init_$Init$(seen1, name, position, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_7().t11_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_7().i12_1);
     }
     $this.name = name;
     $this.position = position;
@@ -16149,7 +16586,7 @@ if (typeof Math.imul === 'undefined') {
   S2StateValue.prototype.s8 = function () {
     return this.name;
   };
-  S2StateValue.prototype.r10 = function () {
+  S2StateValue.prototype.g11 = function () {
     return this.position;
   };
   function toValue(_this__u8e3s4) {
@@ -16161,23 +16598,23 @@ if (typeof Math.imul === 'undefined') {
     var builder = new S2AutomateBuilder();
     exec(builder);
     var tmp = builder.s8();
-    var tmp_0 = builder.w11_1;
+    var tmp_0 = builder.l12_1;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.toTypedArray' call
-    var tmp0_toTypedArray = builder.x11_1;
+    var tmp0_toTypedArray = builder.m12_1;
     tmp$ret$0 = copyToArray(tmp0_toTypedArray);
     return new S2Automate(tmp, tmp_0, tmp$ret$0);
   }
   function S2AutomateBuilder() {
-    this.w11_1 = null;
+    this.l12_1 = null;
     var tmp = this;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.mutableListOf' call
     tmp$ret$0 = ArrayList_init_$Create$();
-    tmp.x11_1 = tmp$ret$0;
+    tmp.m12_1 = tmp$ret$0;
   }
   S2AutomateBuilder.prototype.s8 = function () {
-    var tmp = this.v11_1;
+    var tmp = this.k12_1;
     if (!(tmp == null))
       return tmp;
     else {
@@ -16190,20 +16627,20 @@ if (typeof Math.imul === 'undefined') {
     var tmp = builder.s8();
     var tmp$ret$0;
     // Inline function 'kotlin.collections.toTypedArray' call
-    var tmp0_toTypedArray = builder.a12_1;
+    var tmp0_toTypedArray = builder.p12_1;
     tmp$ret$0 = copyToArray(tmp0_toTypedArray);
-    return new S2Automate(tmp, builder.z11_1, tmp$ret$0);
+    return new S2Automate(tmp, builder.o12_1, tmp$ret$0);
   }
   function S2SourcingAutomateBuilder() {
-    this.z11_1 = null;
+    this.o12_1 = null;
     var tmp = this;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.mutableListOf' call
     tmp$ret$0 = ArrayList_init_$Create$();
-    tmp.a12_1 = tmp$ret$0;
+    tmp.p12_1 = tmp$ret$0;
   }
   S2SourcingAutomateBuilder.prototype.s8 = function () {
-    var tmp = this.y11_1;
+    var tmp = this.n12_1;
     if (!(tmp == null))
       return tmp;
     else {
@@ -16224,13 +16661,13 @@ if (typeof Math.imul === 'undefined') {
     this.PROJECT_MANAGER = 'tr_project_manager';
     this.STAKEHOLDER = 'tr_stakeholder';
   }
-  Roles.prototype.b12 = function () {
+  Roles.prototype.q12 = function () {
     return this.ORCHESTRATOR;
   };
-  Roles.prototype.c12 = function () {
+  Roles.prototype.r12 = function () {
     return this.PROJECT_MANAGER;
   };
-  Roles.prototype.d12 = function () {
+  Roles.prototype.s12 = function () {
     return this.STAKEHOLDER;
   };
   var Roles_instance;
@@ -16622,91 +17059,6 @@ if (typeof Math.imul === 'undefined') {
     var $i2$keycloak$f2$group$domain$features$command = $i2$keycloak$f2$group$domain$features.command || ($i2$keycloak$f2$group$domain$features.command = {});
     $i2$keycloak$f2$group$domain$features$command.GroupUpdateCommand = GroupUpdateCommand;
     $i2$keycloak$f2$group$domain$features$command.GroupUpdatedEvent = GroupUpdatedEvent;
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
-    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$model = $city$smartb$im$organization$domain.model || ($city$smartb$im$organization$domain.model = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$model = $city$smartb$im$organization$domain.model || ($city$smartb$im$organization$domain.model = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
-    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
-    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
-    var $city$smartb$im$organization$domain$policies = $city$smartb$im$organization$domain.policies || ($city$smartb$im$organization$domain.policies = {});
-    Object.defineProperty($city$smartb$im$organization$domain$policies, 'OrganizationPolicies', {
-      configurable: true,
-      get: OrganizationPolicies_getInstance
-    });
     var $i2 = _.i2 || (_.i2 = {});
     var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
     var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
@@ -16883,6 +17235,196 @@ if (typeof Math.imul === 'undefined') {
     var $i2$keycloak$f2$user$domain = $i2$keycloak$f2$user.domain || ($i2$keycloak$f2$user.domain = {});
     var $i2$keycloak$f2$user$domain$model = $i2$keycloak$f2$user$domain.model || ($i2$keycloak$f2$user$domain.model = {});
     $i2$keycloak$f2$user$domain$model.UserModel = UserModel;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    $i2$keycloak$f2$client$domain.ClientModel = ClientModel;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$query = $i2$keycloak$f2$client$domain$features.query || ($i2$keycloak$f2$client$domain$features.query = {});
+    $i2$keycloak$f2$client$domain$features$query.ClientGetByClientIdentifierQuery = ClientGetByClientIdentifierQuery;
+    $i2$keycloak$f2$client$domain$features$query.ClientGetByClientIdentifierResult = ClientGetByClientIdentifierResult;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$query = $i2$keycloak$f2$client$domain$features.query || ($i2$keycloak$f2$client$domain$features.query = {});
+    $i2$keycloak$f2$client$domain$features$query.ClientGetQuery = ClientGetQuery;
+    $i2$keycloak$f2$client$domain$features$query.ClientGetResult = ClientGetResult;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$query = $i2$keycloak$f2$client$domain$features.query || ($i2$keycloak$f2$client$domain$features.query = {});
+    $i2$keycloak$f2$client$domain$features$query.ClientGetSecretQuery = ClientGetSecretQuery;
+    $i2$keycloak$f2$client$domain$features$query.ClientGetSecretResult = ClientGetSecretResult;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$query = $i2$keycloak$f2$client$domain$features.query || ($i2$keycloak$f2$client$domain$features.query = {});
+    $i2$keycloak$f2$client$domain$features$query.ClientGetServiceAccountQuery = ClientGetServiceAccountQuery;
+    $i2$keycloak$f2$client$domain$features$query.ClientGetServiceAccountResult = ClientGetServiceAccountResult;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$query = $i2$keycloak$f2$client$domain$features.query || ($i2$keycloak$f2$client$domain$features.query = {});
+    $i2$keycloak$f2$client$domain$features$query.ClientPageQuery = ClientPageQuery;
+    $i2$keycloak$f2$client$domain$features$query.ClientPageResult = ClientPageResult;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientCreateCommand = ClientCreateCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientCreatedEvent = ClientCreatedEvent;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientDeleteCommand = ClientDeleteCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientDeletedEvent = ClientDeletedEvent;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientGenerateSecretCommand = ClientGenerateSecretCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientGeneratedSecretEvent = ClientGeneratedSecretEvent;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientRealmManagementRolesGrantCommand = ClientRealmManagementRolesGrantCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientRealmManagementRolesGrantedEvent = ClientRealmManagementRolesGrantedEvent;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientServiceAccountRolesGrantCommand = ClientServiceAccountRolesGrantCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientServiceAccountRolesGrantedEvent = ClientServiceAccountRolesGrantedEvent;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$f2 = $i2$keycloak.f2 || ($i2$keycloak.f2 = {});
+    var $i2$keycloak$f2$client = $i2$keycloak$f2.client || ($i2$keycloak$f2.client = {});
+    var $i2$keycloak$f2$client$domain = $i2$keycloak$f2$client.domain || ($i2$keycloak$f2$client.domain = {});
+    var $i2$keycloak$f2$client$domain$features = $i2$keycloak$f2$client$domain.features || ($i2$keycloak$f2$client$domain.features = {});
+    var $i2$keycloak$f2$client$domain$features$command = $i2$keycloak$f2$client$domain$features.command || ($i2$keycloak$f2$client$domain$features.command = {});
+    $i2$keycloak$f2$client$domain$features$command.ClientUpdateUrisCommand = ClientUpdateUrisCommand;
+    $i2$keycloak$f2$client$domain$features$command.ClientUpdatedUrisEvent = ClientUpdatedUrisEvent;
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$command = $city$smartb$im$organization$domain$features.command || ($city$smartb$im$organization$domain$features.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$features = $city$smartb$im$organization$domain.features || ($city$smartb$im$organization$domain.features = {});
+    var $city$smartb$im$organization$domain$features$query = $city$smartb$im$organization$domain$features.query || ($city$smartb$im$organization$domain$features.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$model = $city$smartb$im$organization$domain.model || ($city$smartb$im$organization$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$model = $city$smartb$im$organization$domain.model || ($city$smartb$im$organization$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});
+    var $city$smartb$im$organization = $city$smartb$im.organization || ($city$smartb$im.organization = {});
+    var $city$smartb$im$organization$domain = $city$smartb$im$organization.domain || ($city$smartb$im$organization.domain = {});
+    var $city$smartb$im$organization$domain$policies = $city$smartb$im$organization$domain.policies || ($city$smartb$im$organization$domain.policies = {});
+    Object.defineProperty($city$smartb$im$organization$domain$policies, 'OrganizationPolicies', {
+      configurable: true,
+      get: OrganizationPolicies_getInstance
+    });
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$im = $city$smartb.im || ($city$smartb.im = {});

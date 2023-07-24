@@ -34,7 +34,7 @@ class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
             enabled = true,
             disabledBy = null,
             creationDate = System.currentTimeMillis(),
-            disabledDate = null,
+            disabledDate = null
         )
     }
 

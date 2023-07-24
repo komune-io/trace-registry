@@ -390,159 +390,6 @@ export namespace i2.keycloak.f2.group.domain.features.command {
         get id(): string;
     }
 }
-export namespace city.smartb.im.organization.domain.features.command {
-    interface OrganizationCreateCommandDTO extends f2.dsl.cqrs.Command {
-        readonly siret?: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly address?: city.smartb.im.commons.model.AddressDTO;
-        readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly parentOrganizationId?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-
-    }
-    interface OrganizationCreatedEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly parentOrganization?: string;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.command {
-    interface OrganizationDeleteCommandDTO extends f2.dsl.cqrs.Command {
-        readonly id: string;
-
-    }
-    interface OrganizationDeletedEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.command {
-    interface OrganizationDisableCommandDTO extends f2.dsl.cqrs.Command {
-        readonly id: string;
-        readonly disabledBy?: string;
-        readonly anonymize: boolean;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-        readonly userAttributes?: any/* Nullable<Record<string, string>> */;
-
-    }
-    interface OrganizationDisabledEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly userIds: string[];
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.command {
-    interface OrganizationUpdateCommandDTO extends f2.dsl.cqrs.Command {
-        readonly id: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly address?: city.smartb.im.commons.model.AddressDTO;
-        readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-
-    }
-    interface OrganizationUpdatedResultDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.command {
-    interface OrganizationUploadLogoCommandDTO extends f2.dsl.cqrs.Command {
-        readonly id: string;
-
-    }
-    interface OrganizationUploadedLogoEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly url: string;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.query {
-    interface OrganizationGetFromInseeQueryDTO extends f2.dsl.cqrs.Query {
-        readonly siret: string;
-
-    }
-    interface OrganizationGetFromInseeResultDTO extends f2.dsl.cqrs.Event {
-        readonly item?: city.smartb.im.organization.domain.model.OrganizationDTO;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.query {
-    interface OrganizationGetQueryDTO extends f2.dsl.cqrs.Query {
-        readonly id: string;
-
-    }
-    interface OrganizationGetResultDTO<MODEL extends city.smartb.im.organization.domain.model.OrganizationDTO> extends f2.dsl.cqrs.Event {
-        readonly item?: MODEL;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.query {
-    interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
-        readonly search?: string;
-        readonly role?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-        readonly withDisabled?: boolean;
-        readonly page?: number;
-        readonly size?: number;
-
-    }
-    interface OrganizationPageResultDTO<MODEL extends city.smartb.im.organization.domain.model.OrganizationDTO> extends f2.dsl.cqrs.page.PageDTO<MODEL> {
-        readonly total: number;
-        readonly items: MODEL[];
-
-    }
-}
-export namespace city.smartb.im.organization.domain.features.query {
-    interface OrganizationRefListQueryDTO extends f2.dsl.cqrs.Query {
-        readonly withDisabled: boolean;
-
-    }
-    interface OrganizationRefListResultDTO extends f2.dsl.cqrs.Event {
-        readonly items: city.smartb.im.organization.domain.model.OrganizationRefDTO[];
-
-    }
-}
-export namespace city.smartb.im.organization.domain.model {
-    interface OrganizationDTO {
-        readonly id: string;
-        readonly siret?: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly address?: city.smartb.im.commons.model.AddressDTO;
-        readonly website?: string;
-        readonly attributes: Record<string, string>;
-        readonly roles: string[];
-        readonly rolesComposites: i2.keycloak.f2.role.domain.RolesCompositeModel;
-        readonly enabled: boolean;
-        readonly disabledBy?: string;
-        readonly creationDate: number;
-        readonly disabledDate?: any/* Nullable<number> */;
-
-    }
-}
-export namespace city.smartb.im.organization.domain.model {
-    interface OrganizationRefDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly roles: string[];
-
-    }
-}
-export namespace city.smartb.im.organization.domain.policies {
-    const OrganizationPolicies: {
-        canGet(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
-        canList(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
-        checkRefList(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
-        canDisable(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
-        canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
-    };
-}
 export namespace i2.keycloak.f2.user.domain.features.command {
     class UserCreateCommand implements f2.dsl.cqrs.Command {
         constructor(realmId: string, username: string, firstname?: string, lastname?: string, email: string, isEnable: boolean, isEmailVerified: boolean, attributes: Record<string, string>, auth: i2.keycloak.master.domain.AuthRealm, password?: string, isPasswordTemporary?: boolean);
@@ -812,6 +659,316 @@ export namespace i2.keycloak.f2.user.domain.model {
         get enabled(): boolean;
         get creationDate(): number;
     }
+}
+export namespace i2.keycloak.f2.client.domain {
+    class ClientModel {
+        constructor(id: string, clientIdentifier: string);
+        get id(): string;
+        get clientIdentifier(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.query {
+    class ClientGetByClientIdentifierQuery implements f2.dsl.cqrs.Command {
+        constructor(clientIdentifier: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get clientIdentifier(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientGetByClientIdentifierResult implements f2.dsl.cqrs.Event {
+        constructor(idem?: i2.keycloak.f2.client.domain.ClientModel);
+        get idem(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.query {
+    class ClientGetQuery implements f2.dsl.cqrs.Command {
+        constructor(id: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get id(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientGetResult implements f2.dsl.cqrs.Event {
+        constructor(item?: i2.keycloak.f2.client.domain.ClientModel);
+        get item(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.query {
+    class ClientGetSecretQuery {
+        constructor(clientId: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get clientId(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientGetSecretResult {
+        constructor(secret?: string);
+        get secret(): Nullable<string>;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.query {
+    class ClientGetServiceAccountQuery implements f2.dsl.cqrs.Command {
+        constructor(id: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get id(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientGetServiceAccountResult implements f2.dsl.cqrs.Event {
+        constructor(item?: i2.keycloak.f2.user.domain.model.UserModel);
+        get item(): Nullable<i2.keycloak.f2.user.domain.model.UserModel>;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.query {
+    class ClientPageQuery implements f2.dsl.cqrs.Command {
+        constructor(realmId: string, page: f2.dsl.cqrs.page.PagePagination, auth: i2.keycloak.master.domain.AuthRealm);
+        get realmId(): string;
+        get page(): f2.dsl.cqrs.page.PagePagination;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientPageResult implements f2.dsl.cqrs.Event {
+        constructor(page: f2.dsl.cqrs.page.Page<i2.keycloak.f2.client.domain.ClientModel>);
+        get page(): f2.dsl.cqrs.page.Page<i2.keycloak.f2.client.domain.ClientModel>;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientCreateCommand implements f2.dsl.cqrs.Command {
+        constructor(auth: i2.keycloak.master.domain.AuthRealm, realmId: string, clientIdentifier: string, secret?: string, isPublicClient?: boolean, isDirectAccessGrantsEnabled?: boolean, isServiceAccountsEnabled?: boolean, authorizationServicesEnabled?: boolean, isStandardFlowEnabled?: boolean, rootUrl?: string, redirectUris?: string[], baseUrl?: string, adminUrl?: string, webOrigins?: string[], protocolMappers?: Record<string, string>);
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+        get realmId(): string;
+        get clientIdentifier(): string;
+        get secret(): Nullable<string>;
+        get isPublicClient(): boolean;
+        get isDirectAccessGrantsEnabled(): boolean;
+        get isServiceAccountsEnabled(): boolean;
+        get authorizationServicesEnabled(): boolean;
+        get isStandardFlowEnabled(): boolean;
+        get rootUrl(): Nullable<string>;
+        get redirectUris(): string[];
+        get baseUrl(): string;
+        get adminUrl(): string;
+        get webOrigins(): string[];
+        get protocolMappers(): Record<string, string>;
+    }
+    class ClientCreatedEvent implements f2.dsl.cqrs.Event {
+        constructor(id: string);
+        get id(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientDeleteCommand {
+        constructor(id: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get id(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientDeletedEvent {
+        constructor(id: string);
+        get id(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientGenerateSecretCommand {
+        constructor(id: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        get id(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+    }
+    class ClientGeneratedSecretEvent {
+        constructor(secret: string);
+        get secret(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientRealmManagementRolesGrantCommand implements f2.dsl.cqrs.Command {
+        constructor(id: string, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
+        get id(): string;
+        get roles(): string[];
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+        get realmId(): string;
+    }
+    class ClientRealmManagementRolesGrantedEvent implements f2.dsl.cqrs.Event {
+        constructor(id: string);
+        get id(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientServiceAccountRolesGrantCommand implements f2.dsl.cqrs.Command {
+        constructor(id: string, roles: string[], auth: i2.keycloak.master.domain.AuthRealm, realmId?: string);
+        get id(): string;
+        get roles(): string[];
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+        get realmId(): string;
+    }
+    class ClientServiceAccountRolesGrantedEvent implements f2.dsl.cqrs.Event {
+        constructor(id: string);
+        get id(): string;
+    }
+}
+export namespace i2.keycloak.f2.client.domain.features.command {
+    class ClientUpdateUrisCommand {
+        constructor(id: string, realmId: string, auth: i2.keycloak.master.domain.AuthRealm, rootUrl: string, redirectUris: string[], baseUrl: string);
+        get id(): string;
+        get realmId(): string;
+        get auth(): i2.keycloak.master.domain.AuthRealm;
+        get rootUrl(): string;
+        get redirectUris(): string[];
+        get baseUrl(): string;
+    }
+    class ClientUpdatedUrisEvent {
+        constructor(id: string);
+        get id(): string;
+    }
+}
+export namespace city.smartb.im.organization.domain.features.command {
+    interface OrganizationCreateCommandDTO extends f2.dsl.cqrs.Command {
+        readonly siret?: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly address?: city.smartb.im.commons.model.AddressDTO;
+        readonly website?: string;
+        readonly roles?: any/* Nullable<string>[] */;
+        readonly parentOrganizationId?: string;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly withApiKey: boolean;
+
+    }
+    interface OrganizationCreatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly parentOrganization?: string;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.command {
+    interface OrganizationDeleteCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+
+    }
+    interface OrganizationDeletedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.command {
+    interface OrganizationDisableCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+        readonly disabledBy?: string;
+        readonly anonymize: boolean;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly userAttributes?: any/* Nullable<Record<string, string>> */;
+
+    }
+    interface OrganizationDisabledEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly userIds: string[];
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.command {
+    interface OrganizationUpdateCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly address?: city.smartb.im.commons.model.AddressDTO;
+        readonly website?: string;
+        readonly roles?: any/* Nullable<string>[] */;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+
+    }
+    interface OrganizationUpdatedResultDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.command {
+    interface OrganizationUploadLogoCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+
+    }
+    interface OrganizationUploadedLogoEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly url: string;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.query {
+    interface OrganizationGetFromInseeQueryDTO extends f2.dsl.cqrs.Query {
+        readonly siret: string;
+
+    }
+    interface OrganizationGetFromInseeResultDTO extends f2.dsl.cqrs.Event {
+        readonly item?: city.smartb.im.organization.domain.model.OrganizationDTO;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.query {
+    interface OrganizationGetQueryDTO extends f2.dsl.cqrs.Query {
+        readonly id: string;
+
+    }
+    interface OrganizationGetResultDTO<MODEL extends city.smartb.im.organization.domain.model.OrganizationDTO> extends f2.dsl.cqrs.Event {
+        readonly item?: MODEL;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.query {
+    interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
+        readonly search?: string;
+        readonly role?: string;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly withDisabled?: boolean;
+        readonly page?: number;
+        readonly size?: number;
+
+    }
+    interface OrganizationPageResultDTO<MODEL extends city.smartb.im.organization.domain.model.OrganizationDTO> extends f2.dsl.cqrs.page.PageDTO<MODEL> {
+        readonly total: number;
+        readonly items: MODEL[];
+
+    }
+}
+export namespace city.smartb.im.organization.domain.features.query {
+    interface OrganizationRefListQueryDTO extends f2.dsl.cqrs.Query {
+        readonly withDisabled: boolean;
+
+    }
+    interface OrganizationRefListResultDTO extends f2.dsl.cqrs.Event {
+        readonly items: city.smartb.im.organization.domain.model.OrganizationRefDTO[];
+
+    }
+}
+export namespace city.smartb.im.organization.domain.model {
+    interface OrganizationDTO {
+        readonly id: string;
+        readonly siret?: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly address?: city.smartb.im.commons.model.AddressDTO;
+        readonly website?: string;
+        readonly attributes: Record<string, string>;
+        readonly roles: string[];
+        readonly rolesComposites: i2.keycloak.f2.role.domain.RolesCompositeModel;
+        readonly enabled: boolean;
+        readonly disabledBy?: string;
+        readonly creationDate: number;
+        readonly disabledDate?: any/* Nullable<number> */;
+
+    }
+}
+export namespace city.smartb.im.organization.domain.model {
+    interface OrganizationRefDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly roles: string[];
+
+    }
+}
+export namespace city.smartb.im.organization.domain.policies {
+    const OrganizationPolicies: {
+        canGet(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
+        canList(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        checkRefList(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canUpdate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
+        canDisable(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
+        canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, organizationId: string): boolean;
+    };
 }
 export namespace city.smartb.im.user.domain.features.command {
     interface UserCreateCommandDTO extends f2.dsl.cqrs.Command {
@@ -2844,7 +3001,7 @@ export namespace f2.client {
 export namespace f2.client.ktor.http {
     class HttpClientBuilder {
         constructor(json?: kotlinx.serialization.json.Json);
-        build(urlBase: string): Promise<f2.client.F2Client>;
+        build(urlBase: string): Promise<f2.client.F2Client/* f2.client.ktor.http.HttpF2Client */>;
     }
 }
 export namespace f2.client.ktor.rsocket {
@@ -3057,7 +3214,7 @@ export namespace city.smartb.registry.program.f2.pool.domain.model {
     interface AssetPoolDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState */> {
         readonly id: string;
         readonly status: string;
-        readonly vintage: string;
+        readonly vintage?: string;
         readonly indicator: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly granularity: number;
         readonly wallets: Record<string, number>;
@@ -3092,58 +3249,172 @@ export namespace city.smartb.registry.program.f2.pool.domain.utils {
         closed(): string;
     };
 }
-export namespace city.smartb.registry.program.f2.asset.domain.command {
-    interface AssetIssueCommandDTO {
-        readonly poolId: string;
-        readonly to: string;
+export namespace city.smartb.registry.program.s2.order.domain {
+    interface OrderInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface OrderCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+    interface OrderEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.order.domain.command {
+    interface OrderCancelCommandDTO extends city.smartb.registry.program.s2.order.domain.OrderCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.order.domain.command {
+    interface OrderDeleteCommandDTO extends city.smartb.registry.program.s2.order.domain.OrderCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.order.domain.command {
+    interface OrderSubmitCommandDTO extends city.smartb.registry.program.s2.order.domain.OrderCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.order.domain.command {
+    interface OrderUpdateCommandDTO extends city.smartb.registry.program.s2.order.domain.OrderCommand {
+        readonly id: string;
+        readonly poolId?: string;
         readonly quantity: number;
 
     }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetIssueCommandDTO {
+        readonly poolId?: string;
+        readonly to: string;
+        readonly quantity: number;
+        readonly draft: boolean;
+
+    }
     interface AssetIssuedEventDTO {
-        readonly transactionId: string;
+        readonly orderId: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetOffsetCommandDTO {
-        readonly poolId: string;
+        readonly poolId?: string;
         readonly from: string;
         readonly to: string;
         readonly quantity: number;
+        readonly draft: boolean;
 
     }
     interface AssetOffsettedEventDTO {
+        readonly orderId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOrderCancelCommandDTO extends city.smartb.registry.program.s2.order.domain.command.OrderCancelCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetOrderCanceledEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOrderCompleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetOrderCompletedEventDTO {
+        readonly id: string;
         readonly transactionId: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOrderDeleteCommandDTO extends city.smartb.registry.program.s2.order.domain.command.OrderDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetOrderDeletedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOrderSubmitCommandDTO extends city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommandDTO {
+        readonly id: string;
+
+    }
+    interface AssetOrderSubmittedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.command {
+    interface AssetOrderUpdateCommandDTO extends city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommandDTO {
+        readonly id: string;
+        readonly poolId?: string;
+        readonly quantity: number;
+
+    }
+    interface AssetOrderUpdatedEventDTO {
+        readonly id: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetRetireCommandDTO {
-        readonly poolId: string;
+        readonly poolId?: string;
         readonly from: string;
         readonly quantity: number;
+        readonly draft: boolean;
 
     }
     interface AssetRetiredEventDTO {
-        readonly transactionId: string;
+        readonly orderId: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.command {
     interface AssetTransferCommandDTO {
-        readonly poolId: string;
+        readonly poolId?: string;
         readonly from: string;
         readonly to: string;
         readonly quantity: number;
+        readonly draft: boolean;
 
     }
     interface AssetTransferredEventDTO {
-        readonly transactionId: string;
+        readonly orderId: string;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.model {
-    interface TransactionDTO {
+    interface OrderDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */> {
+        readonly id: string;
+        readonly status: string;
+        readonly poolId?: string;
+        readonly from?: string;
+        readonly to?: string;
+        readonly by: string;
+        readonly quantity: number;
+        readonly type: string;
+        readonly creationDate: number;
+        readonly certificate?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly cancelReason?: string;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.asset.domain.model {
+    interface TransactionDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */> {
         readonly id: string;
         readonly date: number;
         readonly poolId: string;
@@ -3153,9 +3424,10 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly by: string;
         readonly quantity: number;
         readonly unit: string;
-        readonly vintage: string;
+        readonly vintage?: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly status?: string;
+        readonly status: string;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */;
 
     }
 }
@@ -3207,21 +3479,31 @@ export namespace city.smartb.registry.program.f2.asset.domain.query {
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const AssetPolicies: {
-        canIssue(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
-        canTransfer(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
-        canOffset(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
-        canRetire(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, assetPool: city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO): boolean;
-        canEmitTransactionForOther(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canIssue(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canTransfer(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canOffset(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canRetire(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canPlaceOrderForOther(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canSubmitOrder(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, order: city.smartb.registry.program.f2.asset.domain.model.OrderDTO): boolean;
+        canUpdateOrder(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, order: city.smartb.registry.program.f2.asset.domain.model.OrderDTO): boolean;
+        canCompleteOrder(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, order: city.smartb.registry.program.f2.asset.domain.model.OrderDTO): boolean;
+        canCancelOrder(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, order: city.smartb.registry.program.f2.asset.domain.model.OrderDTO): boolean;
+        canDeleteOrder(authedUser: city.smartb.im.commons.auth.AuthedUserDTO, order: city.smartb.registry.program.f2.asset.domain.model.OrderDTO): boolean;
+    };
+}
+export namespace city.smartb.registry.program.f2.asset.domain.utils {
+    const OrderStatusValues: {
+        draft(): string;
+        submitted(): string;
+        pending(): string;
+        completed(): string;
+        cancelled(): string;
+        deleted(): string;
     };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const TransactionStatusValues: {
-        cancelled(): string;
-        drafted(): string;
-        deleted(): string;
-        pending(): string;
-        submitted(): string;
-        validated(): string;
+        emitted(): string;
     };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {

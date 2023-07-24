@@ -8,9 +8,10 @@ import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
 import kotlinx.serialization.Serializable
 
+typealias OrderId = String
 data class AssetPoolEmitTransactionCommand(
     override val id: AssetPoolId,
-    val orderId: String,
+    val orderId: OrderId,
     val from: String?,
     val to: String?,
     val by: String,

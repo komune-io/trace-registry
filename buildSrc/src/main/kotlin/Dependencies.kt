@@ -24,8 +24,7 @@ object Versions {
 	val s2 = "0.15.1"
 	val i2 = Framework.fixers
 	val fs = Framework.connect
-//	val im = Framework.connect
-	val im = "experimental-SNAPSHOT"
+	val im = Framework.connect
 	val cccev = Framework.connect
 
 	const val bignum = "0.3.8"

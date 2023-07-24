@@ -5,6 +5,7 @@ import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolRepository
 import city.smartb.registry.program.s2.asset.api.entity.transaction.TransactionRepository
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import city.smartb.registry.program.ver.test.s2.asset.data.assetPool
 import city.smartb.registry.program.ver.test.s2.asset.data.extractTransactionType
@@ -123,7 +124,8 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
             to = params.to,
             by = params.by,
             quantity = params.quantity,
-            type = params.type
+            type = params.type,
+            orderId = params.orderId,
         )
         assetPoolAggregateService.emitTransaction(command).transactionId
     }
@@ -136,6 +138,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         by = entry?.get("by").orRandom(),
         quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
         type = entry?.extractTransactionType("type") ?: TransactionType.ISSUED,
+        orderId = entry?.get("orderId").orRandom(),
     )
 
     private data class AssetPoolEmitTransactionParams(
@@ -145,7 +148,8 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val to: String?,
         val by: String,
         val quantity: BigDecimal,
-        val type: TransactionType
+        val type: TransactionType,
+        val orderId: OrderId
     )
 
     private fun assertPoolAssertParams(entry: Map<String, String>) = TransactionAssertParams(

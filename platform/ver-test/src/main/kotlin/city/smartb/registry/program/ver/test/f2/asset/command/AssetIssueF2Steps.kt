@@ -53,7 +53,9 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
             to = params.receiver,
             quantity = params.quantity
         )
-        command.invokeWith(assetEndpoint.assetIssue()).transactionId
+        // TODO: Fix that
+//        command.invokeWith(assetEndpoint.assetIssue()).transactionId
+        command.invokeWith(assetEndpoint.assetIssue()).orderId
     }
 
     private fun assetIssueParams(entry: Map<String, String>?) = AssetIssueParams(
