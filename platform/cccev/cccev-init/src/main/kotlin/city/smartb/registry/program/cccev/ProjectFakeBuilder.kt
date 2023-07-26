@@ -59,47 +59,8 @@ class ProjectFakeBuilder(url: String, accessToken: String) {
     )
 }
 
-//fun createBrazilRockFeller(
-//    url: String,
-//    accessToken: String,
-//    accessTokenIssuer: String,
-//    accessTokenOffseter: String
-//): Unit = runBlocking {
-//
-//    val helper = ProjectFakeBuilder(url, accessToken)
-//
-//    val projectClient = helper.projectClient.invoke()
-//    val activityClient = helper.activityClient.invoke()
-//
-//    val created = projectClient.projectCreate().invoke(flowOf(brazilRockFeller())).toList()
-//    val project = created.first()
-//
-//    createAssetPool(url, accessTokenIssuer, accessTokenOffseter)
-//}
-
-private suspend fun fullFillProject(
-    projectId: ProjectIdentifier,
-    projectClient: ProjectClient,
-    activityClient: ActivityClient,
-) {
-    val project = ProjectGetQuery(projectId).invokeWith(projectClient.projectGet()).item!!
-
-    println("////////////////////////////////////")
-    println(project.id)
-    println(project.certification?.id)
-    println("////////////////////////////////////")
-    project.certification?.let { certification ->
-        val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
-            certificationIdentifier = certification.identifier,
-            identifier = "B101",
-            value = "Yahuma Sud"
-        ).invokeWith(activityClient.activityStepFulfill())
-        println(fulfilledEvent)
-    }
-}
-
-fun createRandomProject(url: String, poolId: AssetPoolId, accessToken: String, countRange: IntRange = 1..2): Unit = runBlocking {
-    val helper = ProjectFakeBuilder(url, accessToken)
+fun createRandomProject(url: String, accessToken: AccessToken, poolId: AssetPoolId?, countRange: IntRange = 1..2): Unit = runBlocking {
+    val helper = ProjectFakeBuilder(url, accessToken.access_token)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
     val faker = helper.faker
@@ -136,7 +97,7 @@ private fun randomProject(
     subContinents: List<String>,
     types: List<String>,
     years: IntRange,
-    poolId: AssetPoolId,
+    poolId: AssetPoolId?,
 ) = ProjectCreateCommand(
     identifier = faker.idNumber().valid(),
     name = faker.mountain().name(),
@@ -174,49 +135,6 @@ private fun randomProject(
     sdgs = (1..15).shuffled().take((1..15).random()),
 )
 
-
-private fun brazilRockFeller(): ProjectCreateCommand {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yy").withZone(ZoneOffset.UTC).withChronology(IsoChronology.INSTANCE).withDecimalStyle(DecimalStyle.STANDARD)
-    val creditingPeriodStartDate = LocalDate.parse("23/05/12", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
-    val creditingPeriodEndDate = LocalDate.parse("31/12/31", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
-    val registrationDate = LocalDate.parse("16/07/17", formatter).toEpochSecond(LocalTime.MIN, ZoneOffset.UTC)
-    return ProjectCreateCommand(
-        identifier = "3424-0001",
-        name = "Projecto d'Cerrado a'Amazonia REDD Brasil",
-        country = "Brazil",
-        indicator = "carbon",
-        subContinent = "South America",
-        creditingPeriodStartDate = creditingPeriodStartDate,
-        creditingPeriodEndDate = creditingPeriodEndDate,
-        description = """
-            REDD APD Project - GHG Emission Reductions From Avoiding Planned Deforestation
-        """.trimIndent(),
-        dueDate = creditingPeriodEndDate,
-        estimatedReduction = "1161.17",
-        localization = null,
-        proponent = OrganizationRef(
-            id = "",
-            name = "MediaGEO Group Ltg."
-        ),
-        type = 1,
-        referenceYear = "2013",
-        registrationDate = registrationDate,
-        vintage = null,
-        slug = null,
-        assessor = null,
-        location = GeoLocation(
-            lon = -47.882778,
-            lat = -15.793889
-        ),
-        vvb = OrganizationRef(
-            id = "",
-            name = "InBECAS"
-        ),
-        activities = listOf(),
-        sdgs = emptyList()
-    )
-}
-
 private fun projectPageQuery(): ProjectPageQuery {
     println("projectPageQuery")
     return ProjectPageQuery(
@@ -232,13 +150,5 @@ private fun projectPageQuery(): ProjectPageQuery {
         status = null,
         vintage = null,
         origin = null
-    )
-}
-private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double = 0.001): AssetPoolCreateCommandDTOBase {
-    println("assetPoolCommand")
-    return AssetPoolCreateCommandDTOBase(
-        vintage = vintage,
-        indicator = "carbon",
-        granularity = granularity
     )
 }
