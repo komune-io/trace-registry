@@ -24,8 +24,12 @@ class VectorpediaClient(baseUrl: String): Client(baseUrl, {
                 "additional_kwargs" to emptyMap<String, String>()
             ) },
             "metadata" to mapOf(
-                if(metadata.targetedFiles.isNotEmpty()) "targeted_files" to metadata.targetedFiles
-                else "" to ""
+                if(metadata.targetedFiles.isNotEmpty()) {
+                    "targeted_files" to metadata.targetedFiles
+                }
+                else {
+                    "" to ""
+                }
             )
         ).toJson())
     }

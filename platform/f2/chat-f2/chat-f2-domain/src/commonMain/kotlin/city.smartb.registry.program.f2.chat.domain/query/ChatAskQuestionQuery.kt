@@ -9,11 +9,6 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 import city.smartb.registry.program.f2.chat.domain.model.ChatMetadata
 import city.smartb.registry.program.f2.chat.domain.model.ChatMetadataDTO
-import city.smartb.registry.program.s2.project.domain.model.ProjectId
-import f2.dsl.fnc.F2Function
-import kotlin.js.JsExport
-import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Ask a question to the chat.
