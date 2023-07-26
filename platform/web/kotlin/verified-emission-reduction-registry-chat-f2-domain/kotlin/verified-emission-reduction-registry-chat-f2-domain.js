@@ -2184,6 +2184,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectDTO, 'ProjectDTO', interfaceMeta, undefined, [WithS2State, WithS2Id], undefined, undefined, []);
   setMetadataFor(OrganizationRefDTO_0, 'OrganizationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ChatMessageDTO, 'ChatMessageDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ChatMetadataDTO, 'ChatMetadataDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ChatAskQuestionQueryDTO, 'ChatAskQuestionQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ChatAskQuestionResultDTO, 'ChatAskQuestionResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   //endregion
@@ -92314,6 +92315,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatMessageDTO() {
   }
+  function ChatMetadataDTO() {
+  }
   function ChatAskQuestionQueryDTO() {
   }
   function ChatAskQuestionResultDTO() {
@@ -94383,6 +94386,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$chat = $city$smartb$registry$program$f2.chat || ($city$smartb$registry$program$f2.chat = {});
+    var $city$smartb$registry$program$f2$chat$domain = $city$smartb$registry$program$f2$chat.domain || ($city$smartb$registry$program$f2$chat.domain = {});
+    var $city$smartb$registry$program$f2$chat$domain$model = $city$smartb$registry$program$f2$chat$domain.model || ($city$smartb$registry$program$f2$chat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

@@ -2186,14 +2186,17 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ChatMessageDTO, 'ChatMessageDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_66, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
   setMetadataFor(ChatMessage, 'ChatMessage', classMeta, undefined, [ChatMessageDTO], undefined, {0: $serializer_getInstance_64}, []);
+  setMetadataFor(ChatMetadataDTO, 'ChatMetadataDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_67, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ChatMetadata, 'ChatMetadata', classMeta, undefined, [ChatMetadataDTO], undefined, {0: $serializer_getInstance_65}, []);
   setMetadataFor(ChatAskQuestionQueryDTO, 'ChatAskQuestionQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ChatAskQuestionResultDTO, 'ChatAskQuestionResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(Companion_129, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor($serializer_67, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ChatAskQuestionQuery, 'ChatAskQuestionQuery', classMeta, undefined, [ChatAskQuestionQueryDTO], undefined, {0: $serializer_getInstance_65}, []);
-  setMetadataFor(Companion_130, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_68, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ChatAskQuestionResult, 'ChatAskQuestionResult', classMeta, undefined, [ChatAskQuestionResultDTO], undefined, {0: $serializer_getInstance_66}, []);
+  setMetadataFor(ChatAskQuestionQuery, 'ChatAskQuestionQuery', classMeta, undefined, [ChatAskQuestionQueryDTO], undefined, {0: $serializer_getInstance_66}, []);
+  setMetadataFor(Companion_130, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_69, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ChatAskQuestionResult, 'ChatAskQuestionResult', classMeta, undefined, [ChatAskQuestionResultDTO], undefined, {0: $serializer_getInstance_67}, []);
   setMetadataFor(ChatClient, 'ChatClient', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(chatClient$slambda, 'chatClient$slambda', classMeta, CoroutineImpl, undefined, undefined, undefined, [0]);
   //endregion
@@ -92449,6 +92452,110 @@ if (typeof Math.imul === 'undefined') {
       return this.e50();
     }
   });
+  function ChatMetadataDTO() {
+  }
+  function $serializer_67() {
+    $serializer_instance_65 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.model.ChatMetadata', this, 1);
+    tmp0_serialDesc.f49('targetedFiles', false);
+    this.d7b_1 = tmp0_serialDesc;
+  }
+  $serializer_67.prototype.q3y = function () {
+    return this.d7b_1;
+  };
+  $serializer_67.prototype.u49 = function () {
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp0_arrayOf = [new ArrayListSerializer(StringSerializer_getInstance())];
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = tmp0_arrayOf;
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    return tmp$ret$2;
+  };
+  $serializer_67.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.d7b_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_input = decoder.c42(tmp0_desc);
+    if (tmp5_input.r42()) {
+      tmp4_local0 = tmp5_input.o42(tmp0_desc, 0, new ArrayListSerializer(StringSerializer_getInstance()), tmp4_local0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp5_input.s42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp5_input.o42(tmp0_desc, 0, new ArrayListSerializer(StringSerializer_getInstance()), tmp4_local0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp5_input.d42(tmp0_desc);
+    return ChatMetadata_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
+  };
+  $serializer_67.prototype.e7b = function (encoder, value) {
+    var tmp0_desc = this.d7b_1;
+    var tmp1_output = encoder.c42(tmp0_desc);
+    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer(StringSerializer_getInstance()), value.f7b_1);
+    tmp1_output.d42(tmp0_desc);
+  };
+  $serializer_67.prototype.r3y = function (encoder, value) {
+    return this.e7b(encoder, value instanceof ChatMetadata ? value : THROW_CCE());
+  };
+  var $serializer_instance_65;
+  function $serializer_getInstance_65() {
+    if ($serializer_instance_65 == null)
+      new $serializer_67();
+    return $serializer_instance_65;
+  }
+  function ChatMetadata_init_$Init$(seen1, targetedFiles, serializationConstructorMarker, $this) {
+    if (!(1 === (1 & seen1))) {
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_65().d7b_1);
+    }
+    $this.f7b_1 = targetedFiles;
+    return $this;
+  }
+  function ChatMetadata_init_$Create$(seen1, targetedFiles, serializationConstructorMarker) {
+    return ChatMetadata_init_$Init$(seen1, targetedFiles, serializationConstructorMarker, Object.create(ChatMetadata.prototype));
+  }
+  function ChatMetadata() {
+  }
+  ChatMetadata.prototype.c7b = function () {
+    return this.f7b_1;
+  };
+  ChatMetadata.prototype.toString = function () {
+    return 'ChatMetadata(targetedFiles=' + this.f7b_1 + ')';
+  };
+  ChatMetadata.prototype.hashCode = function () {
+    return hashCode(this.f7b_1);
+  };
+  ChatMetadata.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ChatMetadata))
+      return false;
+    var tmp0_other_with_cast = other instanceof ChatMetadata ? other : THROW_CCE();
+    if (!equals_1(this.f7b_1, tmp0_other_with_cast.f7b_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ChatMetadata.prototype, 'targetedFiles', {
+    configurable: true,
+    get: function () {
+      return this.c7b();
+    }
+  });
   function ChatAskQuestionQueryDTO() {
   }
   function ChatAskQuestionResultDTO() {
@@ -92462,21 +92569,22 @@ if (typeof Math.imul === 'undefined') {
       new Companion_129();
     return Companion_instance_129;
   }
-  function $serializer_67() {
-    $serializer_instance_65 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionQuery', this, 3);
+  function $serializer_68() {
+    $serializer_instance_66 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionQuery', this, 4);
     tmp0_serialDesc.f49('question', false);
     tmp0_serialDesc.f49('history', false);
+    tmp0_serialDesc.f49('metadata', false);
     tmp0_serialDesc.f49('projectId', false);
-    this.f7b_1 = tmp0_serialDesc;
+    this.j7b_1 = tmp0_serialDesc;
   }
-  $serializer_67.prototype.q3y = function () {
-    return this.f7b_1;
+  $serializer_68.prototype.q3y = function () {
+    return this.j7b_1;
   };
-  $serializer_67.prototype.u49 = function () {
+  $serializer_68.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), new ArrayListSerializer($serializer_getInstance_64()), get_nullable(StringSerializer_getInstance())];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), new ArrayListSerializer($serializer_getInstance_64()), $serializer_getInstance_65(), get_nullable(StringSerializer_getInstance())];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -92486,99 +92594,113 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_67.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.f7b_1;
+  $serializer_68.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.j7b_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
     var tmp4_local0 = null;
     var tmp5_local1 = null;
     var tmp6_local2 = null;
-    var tmp7_input = decoder.c42(tmp0_desc);
-    if (tmp7_input.r42()) {
-      tmp4_local0 = tmp7_input.m42(tmp0_desc, 0);
+    var tmp7_local3 = null;
+    var tmp8_input = decoder.c42(tmp0_desc);
+    if (tmp8_input.r42()) {
+      tmp4_local0 = tmp8_input.m42(tmp0_desc, 0);
       tmp3_bitMask0 = tmp3_bitMask0 | 1;
-      tmp5_local1 = tmp7_input.o42(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), tmp5_local1);
+      tmp5_local1 = tmp8_input.o42(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), tmp5_local1);
       tmp3_bitMask0 = tmp3_bitMask0 | 2;
-      tmp6_local2 = tmp7_input.q42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+      tmp6_local2 = tmp8_input.o42(tmp0_desc, 2, $serializer_getInstance_65(), tmp6_local2);
       tmp3_bitMask0 = tmp3_bitMask0 | 4;
+      tmp7_local3 = tmp8_input.q42(tmp0_desc, 3, StringSerializer_getInstance(), tmp7_local3);
+      tmp3_bitMask0 = tmp3_bitMask0 | 8;
     } else
       while (tmp1_flag) {
-        tmp2_index = tmp7_input.s42(tmp0_desc);
+        tmp2_index = tmp8_input.s42(tmp0_desc);
         switch (tmp2_index) {
           case -1:
             tmp1_flag = false;
             break;
           case 0:
-            tmp4_local0 = tmp7_input.m42(tmp0_desc, 0);
+            tmp4_local0 = tmp8_input.m42(tmp0_desc, 0);
             tmp3_bitMask0 = tmp3_bitMask0 | 1;
             break;
           case 1:
-            tmp5_local1 = tmp7_input.o42(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), tmp5_local1);
+            tmp5_local1 = tmp8_input.o42(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), tmp5_local1);
             tmp3_bitMask0 = tmp3_bitMask0 | 2;
             break;
           case 2:
-            tmp6_local2 = tmp7_input.q42(tmp0_desc, 2, StringSerializer_getInstance(), tmp6_local2);
+            tmp6_local2 = tmp8_input.o42(tmp0_desc, 2, $serializer_getInstance_65(), tmp6_local2);
             tmp3_bitMask0 = tmp3_bitMask0 | 4;
+            break;
+          case 3:
+            tmp7_local3 = tmp8_input.q42(tmp0_desc, 3, StringSerializer_getInstance(), tmp7_local3);
+            tmp3_bitMask0 = tmp3_bitMask0 | 8;
             break;
           default:
             throw UnknownFieldException_init_$Create$(tmp2_index);
         }
       }
-    tmp7_input.d42(tmp0_desc);
-    return ChatAskQuestionQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
+    tmp8_input.d42(tmp0_desc);
+    return ChatAskQuestionQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, null);
   };
-  $serializer_67.prototype.g7b = function (encoder, value) {
-    var tmp0_desc = this.f7b_1;
+  $serializer_68.prototype.k7b = function (encoder, value) {
+    var tmp0_desc = this.j7b_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.h7b_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), value.i7b_1);
-    tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.j7b_1);
+    tmp1_output.q43(tmp0_desc, 0, value.l7b_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_64()), value.m7b_1);
+    tmp1_output.s43(tmp0_desc, 2, $serializer_getInstance_65(), value.n7b_1);
+    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.o7b_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_67.prototype.r3y = function (encoder, value) {
-    return this.g7b(encoder, value instanceof ChatAskQuestionQuery ? value : THROW_CCE());
+  $serializer_68.prototype.r3y = function (encoder, value) {
+    return this.k7b(encoder, value instanceof ChatAskQuestionQuery ? value : THROW_CCE());
   };
-  var $serializer_instance_65;
-  function $serializer_getInstance_65() {
-    if ($serializer_instance_65 == null)
-      new $serializer_67();
-    return $serializer_instance_65;
+  var $serializer_instance_66;
+  function $serializer_getInstance_66() {
+    if ($serializer_instance_66 == null)
+      new $serializer_68();
+    return $serializer_instance_66;
   }
-  function ChatAskQuestionQuery_init_$Init$(seen1, question, history, projectId, serializationConstructorMarker, $this) {
-    if (!(7 === (7 & seen1))) {
-      throwMissingFieldException(seen1, 7, $serializer_getInstance_65().f7b_1);
+  function ChatAskQuestionQuery_init_$Init$(seen1, question, history, metadata, projectId, serializationConstructorMarker, $this) {
+    if (!(15 === (15 & seen1))) {
+      throwMissingFieldException(seen1, 15, $serializer_getInstance_66().j7b_1);
     }
-    $this.h7b_1 = question;
-    $this.i7b_1 = history;
-    $this.j7b_1 = projectId;
+    $this.l7b_1 = question;
+    $this.m7b_1 = history;
+    $this.n7b_1 = metadata;
+    $this.o7b_1 = projectId;
     return $this;
   }
-  function ChatAskQuestionQuery_init_$Create$(seen1, question, history, projectId, serializationConstructorMarker) {
-    return ChatAskQuestionQuery_init_$Init$(seen1, question, history, projectId, serializationConstructorMarker, Object.create(ChatAskQuestionQuery.prototype));
+  function ChatAskQuestionQuery_init_$Create$(seen1, question, history, metadata, projectId, serializationConstructorMarker) {
+    return ChatAskQuestionQuery_init_$Init$(seen1, question, history, metadata, projectId, serializationConstructorMarker, Object.create(ChatAskQuestionQuery.prototype));
   }
-  function ChatAskQuestionQuery(question, history, projectId) {
+  function ChatAskQuestionQuery(question, history, metadata, projectId) {
     Companion_getInstance_129();
-    this.h7b_1 = question;
-    this.i7b_1 = history;
-    this.j7b_1 = projectId;
+    this.l7b_1 = question;
+    this.m7b_1 = history;
+    this.n7b_1 = metadata;
+    this.o7b_1 = projectId;
   }
-  ChatAskQuestionQuery.prototype.c7b = function () {
-    return this.h7b_1;
+  ChatAskQuestionQuery.prototype.g7b = function () {
+    return this.l7b_1;
   };
-  ChatAskQuestionQuery.prototype.d7b = function () {
-    return this.i7b_1;
+  ChatAskQuestionQuery.prototype.h7b = function () {
+    return this.m7b_1;
   };
-  ChatAskQuestionQuery.prototype.e7b = function () {
-    return this.j7b_1;
+  ChatAskQuestionQuery.prototype.j5h = function () {
+    return this.n7b_1;
+  };
+  ChatAskQuestionQuery.prototype.i7b = function () {
+    return this.o7b_1;
   };
   ChatAskQuestionQuery.prototype.toString = function () {
-    return 'ChatAskQuestionQuery(question=' + this.h7b_1 + ', history=' + this.i7b_1 + ', projectId=' + this.j7b_1 + ')';
+    return 'ChatAskQuestionQuery(question=' + this.l7b_1 + ', history=' + this.m7b_1 + ', metadata=' + this.n7b_1 + ', projectId=' + this.o7b_1 + ')';
   };
   ChatAskQuestionQuery.prototype.hashCode = function () {
-    var result = getStringHashCode(this.h7b_1);
-    result = imul(result, 31) + hashCode(this.i7b_1) | 0;
-    result = imul(result, 31) + (this.j7b_1 == null ? 0 : getStringHashCode(this.j7b_1)) | 0;
+    var result = getStringHashCode(this.l7b_1);
+    result = imul(result, 31) + hashCode(this.m7b_1) | 0;
+    result = imul(result, 31) + this.n7b_1.hashCode() | 0;
+    result = imul(result, 31) + (this.o7b_1 == null ? 0 : getStringHashCode(this.o7b_1)) | 0;
     return result;
   };
   ChatAskQuestionQuery.prototype.equals = function (other) {
@@ -92587,30 +92709,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatAskQuestionQuery))
       return false;
     var tmp0_other_with_cast = other instanceof ChatAskQuestionQuery ? other : THROW_CCE();
-    if (!(this.h7b_1 === tmp0_other_with_cast.h7b_1))
+    if (!(this.l7b_1 === tmp0_other_with_cast.l7b_1))
       return false;
-    if (!equals_1(this.i7b_1, tmp0_other_with_cast.i7b_1))
+    if (!equals_1(this.m7b_1, tmp0_other_with_cast.m7b_1))
       return false;
-    if (!(this.j7b_1 == tmp0_other_with_cast.j7b_1))
+    if (!this.n7b_1.equals(tmp0_other_with_cast.n7b_1))
+      return false;
+    if (!(this.o7b_1 == tmp0_other_with_cast.o7b_1))
       return false;
     return true;
   };
   Object.defineProperty(ChatAskQuestionQuery.prototype, 'question', {
     configurable: true,
     get: function () {
-      return this.c7b();
+      return this.g7b();
     }
   });
   Object.defineProperty(ChatAskQuestionQuery.prototype, 'history', {
     configurable: true,
     get: function () {
-      return this.d7b();
+      return this.h7b();
+    }
+  });
+  Object.defineProperty(ChatAskQuestionQuery.prototype, 'metadata', {
+    configurable: true,
+    get: function () {
+      return this.j5h();
     }
   });
   Object.defineProperty(ChatAskQuestionQuery.prototype, 'projectId', {
     configurable: true,
     get: function () {
-      return this.e7b();
+      return this.i7b();
     }
   });
   function Companion_130() {
@@ -92622,16 +92752,16 @@ if (typeof Math.imul === 'undefined') {
       new Companion_130();
     return Companion_instance_130;
   }
-  function $serializer_68() {
-    $serializer_instance_66 = this;
+  function $serializer_69() {
+    $serializer_instance_67 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResult', this, 1);
     tmp0_serialDesc.f49('item', false);
-    this.k7b_1 = tmp0_serialDesc;
+    this.p7b_1 = tmp0_serialDesc;
   }
-  $serializer_68.prototype.q3y = function () {
-    return this.k7b_1;
+  $serializer_69.prototype.q3y = function () {
+    return this.p7b_1;
   };
-  $serializer_68.prototype.u49 = function () {
+  $serializer_69.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
     var tmp0_arrayOf = [StringSerializer_getInstance()];
@@ -92644,8 +92774,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_68.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.k7b_1;
+  $serializer_69.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.p7b_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -92672,26 +92802,26 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return ChatAskQuestionResult_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_68.prototype.l7b = function (encoder, value) {
-    var tmp0_desc = this.k7b_1;
+  $serializer_69.prototype.q7b = function (encoder, value) {
+    var tmp0_desc = this.p7b_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.m7b_1);
+    tmp1_output.q43(tmp0_desc, 0, value.r7b_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_68.prototype.r3y = function (encoder, value) {
-    return this.l7b(encoder, value instanceof ChatAskQuestionResult ? value : THROW_CCE());
+  $serializer_69.prototype.r3y = function (encoder, value) {
+    return this.q7b(encoder, value instanceof ChatAskQuestionResult ? value : THROW_CCE());
   };
-  var $serializer_instance_66;
-  function $serializer_getInstance_66() {
-    if ($serializer_instance_66 == null)
-      new $serializer_68();
-    return $serializer_instance_66;
+  var $serializer_instance_67;
+  function $serializer_getInstance_67() {
+    if ($serializer_instance_67 == null)
+      new $serializer_69();
+    return $serializer_instance_67;
   }
   function ChatAskQuestionResult_init_$Init$(seen1, item, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_66().k7b_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_67().p7b_1);
     }
-    $this.m7b_1 = item;
+    $this.r7b_1 = item;
     return $this;
   }
   function ChatAskQuestionResult_init_$Create$(seen1, item, serializationConstructorMarker) {
@@ -92699,16 +92829,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatAskQuestionResult(item) {
     Companion_getInstance_130();
-    this.m7b_1 = item;
+    this.r7b_1 = item;
   }
   ChatAskQuestionResult.prototype.d4w = function () {
-    return this.m7b_1;
+    return this.r7b_1;
   };
   ChatAskQuestionResult.prototype.toString = function () {
-    return 'ChatAskQuestionResult(item=' + this.m7b_1 + ')';
+    return 'ChatAskQuestionResult(item=' + this.r7b_1 + ')';
   };
   ChatAskQuestionResult.prototype.hashCode = function () {
-    return getStringHashCode(this.m7b_1);
+    return getStringHashCode(this.r7b_1);
   };
   ChatAskQuestionResult.prototype.equals = function (other) {
     if (this === other)
@@ -92716,7 +92846,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatAskQuestionResult))
       return false;
     var tmp0_other_with_cast = other instanceof ChatAskQuestionResult ? other : THROW_CCE();
-    if (!(this.m7b_1 === tmp0_other_with_cast.m7b_1))
+    if (!(this.r7b_1 === tmp0_other_with_cast.r7b_1))
       return false;
     return true;
   };
@@ -92728,18 +92858,18 @@ if (typeof Math.imul === 'undefined') {
   });
   function ChatClient$chatAskQuestion$ref($boundThis) {
     var l = function () {
-      return $boundThis.o7b();
+      return $boundThis.t7b();
     };
     l.callableName = 'chatAskQuestion';
     return l;
   }
   function ChatClient(client) {
-    this.n7b_1 = client;
+    this.s7b_1 = client;
   }
-  ChatClient.prototype.o7b = function () {
+  ChatClient.prototype.t7b = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
-    var tmp0_function = this.n7b_1;
+    var tmp0_function = this.s7b_1;
     var tmp1_function = ChatClient$chatAskQuestion$ref(this).callableName;
     var tmp$ret$4;
     // Inline function 'f2.client.getTypeInfo' call
@@ -92848,17 +92978,17 @@ if (typeof Math.imul === 'undefined') {
     return f2SupplierSingle(chatClient$slambda_0(urlBase, null));
   }
   function chatClient$slambda($urlBase, resultContinuation) {
-    this.x7b_1 = $urlBase;
+    this.c7c_1 = $urlBase;
     CoroutineImpl.call(this, resultContinuation);
   }
-  chatClient$slambda.prototype.y7b = function ($cont) {
+  chatClient$slambda.prototype.d7c = function ($cont) {
     var tmp = this.yg($cont);
     tmp.gg_1 = Unit_getInstance();
     tmp.hg_1 = null;
     return tmp.xg();
   };
   chatClient$slambda.prototype.e5y = function ($cont) {
-    return this.y7b($cont);
+    return this.d7c($cont);
   };
   chatClient$slambda.prototype.xg = function () {
     var suspendResult = this.gg_1;
@@ -92869,7 +92999,7 @@ if (typeof Math.imul === 'undefined') {
           case 0:
             this.fg_1 = 2;
             this.eg_1 = 1;
-            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.x7b_1), this);
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.c7c_1), this);
             if (suspendResult === get_COROUTINE_SUSPENDED()) {
               return suspendResult;
             }
@@ -92892,13 +93022,13 @@ if (typeof Math.imul === 'undefined') {
      while (true);
   };
   chatClient$slambda.prototype.yg = function (completion) {
-    var i = new chatClient$slambda(this.x7b_1, completion);
+    var i = new chatClient$slambda(this.c7c_1, completion);
     return i;
   };
   function chatClient$slambda_0($urlBase, resultContinuation) {
     var i = new chatClient$slambda($urlBase, resultContinuation);
     var l = function ($cont) {
-      return i.y7b($cont);
+      return i.d7c($cont);
     };
     l.$arity = 0;
     return l;
@@ -93287,6 +93417,7 @@ if (typeof Math.imul === 'undefined') {
   $serializer_66.prototype.v49 = typeParametersSerializers;
   $serializer_67.prototype.v49 = typeParametersSerializers;
   $serializer_68.prototype.v49 = typeParametersSerializers;
+  $serializer_69.prototype.v49 = typeParametersSerializers;
   //endregion
   //region block: init
   _stableSortingIsSupported = null;
@@ -94971,6 +95102,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$chat = $city$smartb$registry$program$f2.chat || ($city$smartb$registry$program$f2.chat = {});
+    var $city$smartb$registry$program$f2$chat$domain = $city$smartb$registry$program$f2$chat.domain || ($city$smartb$registry$program$f2$chat.domain = {});
+    var $city$smartb$registry$program$f2$chat$domain$model = $city$smartb$registry$program$f2$chat$domain.model || ($city$smartb$registry$program$f2$chat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

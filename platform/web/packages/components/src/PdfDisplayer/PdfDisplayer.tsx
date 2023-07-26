@@ -1,6 +1,13 @@
 import {CircularProgress} from "@mui/material";
-import {Document, Page} from "react-pdf/dist/esm/entry.vite";
+import {Document, Page, pdfjs} from "react-pdf";
 import {useEffect, useState} from "react";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+import 'react-pdf/dist/esm/Page/TextLayer.css'
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString()
 
 interface PdfDisplayerProps {
     file?: string

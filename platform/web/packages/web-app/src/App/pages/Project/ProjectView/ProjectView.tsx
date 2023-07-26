@@ -1,10 +1,16 @@
 import {LinkButton} from '@smartb/g2'
 import {Typography} from '@mui/material'
 import {useTranslation} from 'react-i18next'
-import {AssetsPage, ProjectActivities, ProjectInformationSection, useProjectGetQuery} from 'domain-components'
+import {
+    AssetsPage,
+    DocumentsPage,
+    ProjectActivities,
+    ProjectInformationSection,
+    useProjectGetQuery
+} from 'domain-components'
 import {useNavigate, useParams} from 'react-router-dom'
 import React, {useCallback, useMemo} from 'react'
-import {useRoutesDefinition} from 'components'
+import { useRoutesDefinition} from 'components'
 import {AppPage, SectionTab, Tab} from 'template'
 import {ArrowBackIosNewRounded} from '@mui/icons-material'
 
@@ -42,6 +48,11 @@ export const ProjectView = (_: ProjectViewProps) => {
             label: t('assets'),
             component: (project ? <AssetsPage isLoading={projectQuery.isLoading} project={project}/> : <></>)
         })
+        hasActivity && tabs.push({
+            key: 'documents',
+            label: t('documents'),
+            component: (project ? <DocumentsPage /> : <></>)
+        })
         return tabs
     }, [project, projectQuery.isLoading, t])
 
@@ -54,7 +65,7 @@ export const ProjectView = (_: ProjectViewProps) => {
               onTabChange={onTabChange}
               sx={{
                   "& .AruiSection-contentContainer": {
-                      padding: currentTab === "activities" || currentTab ==="assets" ? "unset" : undefined
+                      padding: currentTab === "activities" || currentTab ==="assets"|| currentTab ==="documents" ? "unset" : undefined
                   }
               }}
             />

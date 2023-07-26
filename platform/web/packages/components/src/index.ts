@@ -6,6 +6,8 @@ export * from "./SdgCard"
 export * from "./ProjectType"
 export * from "./Quantity"
 export * from "./PdfDisplayer"
+export * from "./MultiPagePdfDisplayer"
+export * from "./Chat"
 
 export * from "./auth"
 export * from "./roles"

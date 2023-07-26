@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   cccev-gateway:
-    image: smartbcity/cccev-gateway:${CONNECT_VERSION}
+    image: smartbcity/cccev-gateway:${CONNECT_CCCEV_VERSION}
     container_name: cccev-gateway
     environment:
       - ssm_couchdb_url=${BCLAN_COUCH_URL}

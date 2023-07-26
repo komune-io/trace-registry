@@ -3176,10 +3176,17 @@ export namespace city.smartb.registry.program.f2.chat.domain.model {
 
     }
 }
+export namespace city.smartb.registry.program.f2.chat.domain.model {
+    interface ChatMetadataDTO {
+        readonly targetedFiles: string[];
+
+    }
+}
 export namespace city.smartb.registry.program.f2.chat.domain.query {
     interface ChatAskQuestionQueryDTO {
         readonly question: string;
         readonly history: city.smartb.registry.program.f2.chat.domain.model.ChatMessageDTO[];
+        readonly metadata: city.smartb.registry.program.f2.chat.domain.model.ChatMetadataDTO;
         readonly projectId?: string;
 
     }

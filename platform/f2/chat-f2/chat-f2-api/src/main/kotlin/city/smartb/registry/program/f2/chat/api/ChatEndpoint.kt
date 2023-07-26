@@ -22,7 +22,7 @@ class ChatEndpoint(
         logger.info("chatAskQuestion: $query")
         vectorpediaClient.knowledgeAsk(
             question = query.question,
-            metadata = emptyMap(), // TODO
+            metadata = query.metadata,
             history = query.history
         ).let(::ChatAskQuestionResult)
     }
