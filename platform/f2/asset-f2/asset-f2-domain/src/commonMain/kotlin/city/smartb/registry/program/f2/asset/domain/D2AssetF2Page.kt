@@ -9,8 +9,8 @@ import city.smartb.registry.program.f2.pool.domain.AssetPoolApi
  * @d2 page
  * @title API/Asset
  * @child [city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState]
- * @child [city.smartb.registry.program.s2.asset.domain.automate.TransactionState]
- * @child [city.smartb.registry.program.s2.asset.domain.model.TransactionType]
+ * @child [city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState]
+ * @child [city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType]
  * @child [city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO]
  * @child [city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateFunction]
  * @child [city.smartb.registry.program.f2.pool.domain.command.AssetPoolHoldFunction]

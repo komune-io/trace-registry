@@ -2,9 +2,9 @@ package city.smartb.registry.program.ver.test.s2.asset.command
 
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolRepository
-import city.smartb.registry.program.s2.asset.api.entity.transaction.TransactionRepository
+import city.smartb.registry.program.s2.asset.api.entity.transaction.AssetTransactionRepository
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import city.smartb.registry.program.ver.test.s2.asset.data.assetPool
@@ -30,7 +30,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
     private lateinit var assetPoolRepository: AssetPoolRepository
 
     @Autowired
-    private lateinit var transactionRepository: TransactionRepository
+    private lateinit var assetTransactionRepository: AssetTransactionRepository
 
     private lateinit var command: AssetPoolEmitTransactionCommand
 
@@ -73,7 +73,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         Then("The transaction should be emitted") {
             step {
                 val transactionId = context.transactionIds.lastUsed
-                AssertionBdd.transaction(transactionRepository).assertThatId(transactionId).hasFields(
+                AssertionBdd.transaction(assetTransactionRepository).assertThatId(transactionId).hasFields(
                     poolId = command.id,
                     from = command.from,
                     to = command.to,
@@ -87,10 +87,10 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         Then("The transaction should be emitted:") { params: TransactionAssertParams ->
             step {
                 val transactionId = context.transactionIds.safeGet(params.identifier)
-                val transaction = transactionRepository.findById(transactionId).getOrNull()
+                val transaction = assetTransactionRepository.findById(transactionId).getOrNull()
                 Assertions.assertThat(transaction).isNotNull
 
-                AssertionBdd.transaction(transactionRepository).assertThat(transaction!!).hasFields(
+                AssertionBdd.transaction(assetTransactionRepository).assertThat(transaction!!).hasFields(
                     poolId = context.assetPoolIds.safeGet(params.pool),
                     from = params.from.parseNullableOrDefault(transaction.from) { context.organizations.safeGet(it).id },
                     to = params.to.parseNullableOrDefault(transaction.to) { context.organizations.safeGet(it).id },
@@ -137,7 +137,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         to = entry?.get("to"),
         by = entry?.get("by").orRandom(),
         quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
-        type = entry?.extractTransactionType("type") ?: TransactionType.ISSUED,
+        type = entry?.extractTransactionType("type") ?: AssetTransactionType.ISSUED,
         orderId = entry?.get("orderId").orRandom(),
     )
 
@@ -148,7 +148,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val to: String?,
         val by: String,
         val quantity: BigDecimal,
-        val type: TransactionType,
+        val type: AssetTransactionType,
         val orderId: OrderId
     )
 
@@ -169,7 +169,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         val to: String?,
         val by: String?,
         val quantity: BigDecimal?,
-        val type: TransactionType?
+        val type: AssetTransactionType?
     )
 
     private fun walletAssertParams(entry: Map<String, String>) = WalletAssertParams(

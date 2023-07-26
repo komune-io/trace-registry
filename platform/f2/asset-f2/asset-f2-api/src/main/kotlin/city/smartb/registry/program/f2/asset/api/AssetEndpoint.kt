@@ -28,8 +28,8 @@ import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageFu
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionPageResultDTOBase
 import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
@@ -69,7 +69,7 @@ class AssetEndpoint(
             transactionId = query.transactionId?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             transactionFrom = query.transactionFrom?.let(::ExactMatch),
             transactionTo = query.transactionTo?.let(::ExactMatch),
-            type = query.type?.let { ExactMatch(TransactionType.valueOf(it)) },
+            type = query.type?.let { ExactMatch(AssetTransactionType.valueOf(it)) },
             offset = takeIf { anyNotNull(query.limit, query.offset) }?.let {
                 OffsetPagination(
                     offset = query.offset ?: 0,
@@ -165,7 +165,7 @@ class AssetEndpoint(
     @PermitAll
     @GetMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(
-        @RequestParam transactionId: TransactionId,
+        @RequestParam transactionId: AssetTransactionId,
         response: ServerHttpResponse
     ): AssetCertificateDownloadResult? {
         logger.info("assetCertificateDownload: $transactionId")

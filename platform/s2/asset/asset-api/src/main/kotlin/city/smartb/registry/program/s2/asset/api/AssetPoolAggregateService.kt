@@ -20,7 +20,7 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResume
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmitCommand
+import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -93,7 +93,7 @@ class AssetPoolAggregateService(
 			throw GranularityTooSmallException(transaction = command.quantity, granularity = pool.granularity)
 		}
 
-		val transactionEvent = TransactionEmitCommand(
+		val transactionEvent = AssetTransactionEmitCommand(
 			orderId = command.orderId,
 			poolId = command.id,
 			from = command.from,
@@ -110,7 +110,7 @@ class AssetPoolAggregateService(
 		)
 	}
 
-	private suspend fun emitTransaction(command: TransactionEmitCommand) = transactionAutomate.init(command) {
+	private suspend fun emitTransaction(command: AssetTransactionEmitCommand) = transactionAutomate.init(command) {
 		TransactionEmittedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),

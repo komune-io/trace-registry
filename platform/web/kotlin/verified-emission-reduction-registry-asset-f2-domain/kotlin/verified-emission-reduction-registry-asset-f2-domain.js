@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -48,11 +43,10 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
@@ -63,6 +57,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1975,11 +1975,11 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_124, 'Companion', objectMeta, undefined, [SerializerFactory], undefined, undefined, []);
   setMetadataFor(AssetPoolState, 'AssetPoolState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_124}, []);
   setMetadataFor(AssetPoolRole, 'AssetPoolRole', classMeta, Enum, [Enum, S2Role], undefined, undefined, []);
-  setMetadataFor(TransactionInitCommand, 'TransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
-  setMetadataFor(TransactionCommand, 'TransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
-  setMetadataFor(TransactionEvent, 'TransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(AssetTransactionInitCommand, 'AssetTransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
+  setMetadataFor(AssetTransactionCommand, 'AssetTransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
+  setMetadataFor(AssetTransactionEvent, 'AssetTransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
   setMetadataFor(Companion_125, 'Companion', objectMeta, undefined, [SerializerFactory], undefined, undefined, []);
-  setMetadataFor(TransactionState, 'TransactionState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_125}, []);
+  setMetadataFor(AssetTransactionState, 'AssetTransactionState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_125}, []);
   setMetadataFor(AssetPoolCloseCommandDTO, 'AssetPoolCloseCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolCloseCommand, 'AssetPoolCloseCommand', classMeta, undefined, [AssetPoolCloseCommandDTO], undefined, undefined, []);
   setMetadataFor(Companion_126, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
@@ -2008,7 +2008,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor($serializer_71, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
   setMetadataFor(AssetPoolUpdatedEvent, 'AssetPoolUpdatedEvent', classMeta, undefined, [AssetPoolEvent], undefined, {0: $serializer_getInstance_69}, []);
   setMetadataFor(AssetPoolStats, 'AssetPoolStats', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(TransactionType, 'TransactionType', classMeta, Enum, undefined, undefined, undefined, []);
+  setMetadataFor(AssetTransactionType, 'AssetTransactionType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(F2ClientType, 'F2ClientType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(ConverterRegistration, 'ConverterRegistration', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ContentNegotiation$Config$defaultMatcher$1, undefined, classMeta, undefined, undefined, undefined, undefined, []);
@@ -86049,21 +86049,22 @@ if (typeof Math.imul === 'undefined') {
       s2AssetPool = s2Sourcing(s2AssetPool$lambda);
     }
   }
-  function TransactionInitCommand() {
+  function AssetTransactionInitCommand() {
   }
-  function TransactionCommand() {
+  function AssetTransactionCommand() {
   }
-  function TransactionEvent() {
+  function AssetTransactionEvent() {
   }
-  function TransactionState$Companion$$cachedSerializer$delegate$_anonymous__wxx3el() {
-    return createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.automate.TransactionState', values_14());
+  function AssetTransactionState$Companion$$cachedSerializer$delegate$_anonymous__xcacoj() {
+    return createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState', values_14());
   }
-  var TransactionState_EMITTED_instance;
+  var AssetTransactionState_EMITTED_instance;
+  var AssetTransactionState_CANCELLED_instance;
   function Companion_125() {
     Companion_instance_125 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.v5x_1 = lazy_0(tmp_0, TransactionState$Companion$$cachedSerializer$delegate$_anonymous__wxx3el);
+    tmp.v5x_1 = lazy_0(tmp_0, AssetTransactionState$Companion$$cachedSerializer$delegate$_anonymous__xcacoj);
   }
   Companion_125.prototype.h4l = function () {
     return this.v5x_1.p();
@@ -86073,46 +86074,55 @@ if (typeof Math.imul === 'undefined') {
   };
   var Companion_instance_125;
   function Companion_getInstance_125() {
-    TransactionState_initEntries();
+    AssetTransactionState_initEntries();
     if (Companion_instance_125 == null)
       new Companion_125();
     return Companion_instance_125;
   }
   function values_14() {
-    return [TransactionState_EMITTED_getInstance()];
+    return [AssetTransactionState_EMITTED_getInstance(), AssetTransactionState_CANCELLED_getInstance()];
   }
   function valueOf_1(value) {
-    if ('EMITTED' === value)
-      return TransactionState_EMITTED_getInstance();
-    else {
-      TransactionState_initEntries();
-      THROW_ISE();
+    switch (value) {
+      case 'EMITTED':
+        return AssetTransactionState_EMITTED_getInstance();
+      case 'CANCELLED':
+        return AssetTransactionState_CANCELLED_getInstance();
+      default:
+        AssetTransactionState_initEntries();
+        THROW_ISE();
+        break;
     }
   }
-  var TransactionState_entriesInitialized;
-  function TransactionState_initEntries() {
-    if (TransactionState_entriesInitialized)
+  var AssetTransactionState_entriesInitialized;
+  function AssetTransactionState_initEntries() {
+    if (AssetTransactionState_entriesInitialized)
       return Unit_getInstance();
-    TransactionState_entriesInitialized = true;
-    TransactionState_EMITTED_instance = new TransactionState('EMITTED', 0, 0);
+    AssetTransactionState_entriesInitialized = true;
+    AssetTransactionState_EMITTED_instance = new AssetTransactionState('EMITTED', 0, 0);
+    AssetTransactionState_CANCELLED_instance = new AssetTransactionState('CANCELLED', 1, 1);
     Companion_getInstance_125();
   }
-  function TransactionState(name, ordinal, position) {
+  function AssetTransactionState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
     this.y5x_1 = position;
   }
-  TransactionState.prototype.d48 = function () {
+  AssetTransactionState.prototype.d48 = function () {
     return this.y5x_1;
   };
-  Object.defineProperty(TransactionState.prototype, 'position', {
+  Object.defineProperty(AssetTransactionState.prototype, 'position', {
     configurable: true,
     get: function () {
       return this.d48();
     }
   });
-  function TransactionState_EMITTED_getInstance() {
-    TransactionState_initEntries();
-    return TransactionState_EMITTED_instance;
+  function AssetTransactionState_EMITTED_getInstance() {
+    AssetTransactionState_initEntries();
+    return AssetTransactionState_EMITTED_instance;
+  }
+  function AssetTransactionState_CANCELLED_getInstance() {
+    AssetTransactionState_initEntries();
+    return AssetTransactionState_CANCELLED_instance;
   }
   function AssetPoolCloseCommandDTO() {
   }
@@ -87263,41 +87273,41 @@ if (typeof Math.imul === 'undefined') {
   });
   function AssetPoolStats() {
   }
-  var TransactionType_ISSUED_instance;
-  var TransactionType_TRANSFERRED_instance;
-  var TransactionType_RETIRED_instance;
-  var TransactionType_OFFSET_instance;
+  var AssetTransactionType_ISSUED_instance;
+  var AssetTransactionType_TRANSFERRED_instance;
+  var AssetTransactionType_RETIRED_instance;
+  var AssetTransactionType_OFFSET_instance;
   function values_15() {
-    return [TransactionType_ISSUED_getInstance(), TransactionType_TRANSFERRED_getInstance(), TransactionType_RETIRED_getInstance(), TransactionType_OFFSET_getInstance()];
+    return [AssetTransactionType_ISSUED_getInstance(), AssetTransactionType_TRANSFERRED_getInstance(), AssetTransactionType_RETIRED_getInstance(), AssetTransactionType_OFFSET_getInstance()];
   }
-  var TransactionType_entriesInitialized;
-  function TransactionType_initEntries() {
-    if (TransactionType_entriesInitialized)
+  var AssetTransactionType_entriesInitialized;
+  function AssetTransactionType_initEntries() {
+    if (AssetTransactionType_entriesInitialized)
       return Unit_getInstance();
-    TransactionType_entriesInitialized = true;
-    TransactionType_ISSUED_instance = new TransactionType('ISSUED', 0);
-    TransactionType_TRANSFERRED_instance = new TransactionType('TRANSFERRED', 1);
-    TransactionType_RETIRED_instance = new TransactionType('RETIRED', 2);
-    TransactionType_OFFSET_instance = new TransactionType('OFFSET', 3);
+    AssetTransactionType_entriesInitialized = true;
+    AssetTransactionType_ISSUED_instance = new AssetTransactionType('ISSUED', 0);
+    AssetTransactionType_TRANSFERRED_instance = new AssetTransactionType('TRANSFERRED', 1);
+    AssetTransactionType_RETIRED_instance = new AssetTransactionType('RETIRED', 2);
+    AssetTransactionType_OFFSET_instance = new AssetTransactionType('OFFSET', 3);
   }
-  function TransactionType(name, ordinal) {
+  function AssetTransactionType(name, ordinal) {
     Enum.call(this, name, ordinal);
   }
-  function TransactionType_ISSUED_getInstance() {
-    TransactionType_initEntries();
-    return TransactionType_ISSUED_instance;
+  function AssetTransactionType_ISSUED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_ISSUED_instance;
   }
-  function TransactionType_TRANSFERRED_getInstance() {
-    TransactionType_initEntries();
-    return TransactionType_TRANSFERRED_instance;
+  function AssetTransactionType_TRANSFERRED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_TRANSFERRED_instance;
   }
-  function TransactionType_RETIRED_getInstance() {
-    TransactionType_initEntries();
-    return TransactionType_RETIRED_instance;
+  function AssetTransactionType_RETIRED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_RETIRED_instance;
   }
-  function TransactionType_OFFSET_getInstance() {
-    TransactionType_initEntries();
-    return TransactionType_OFFSET_instance;
+  function AssetTransactionType_OFFSET_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_OFFSET_instance;
   }
   var F2ClientType_HTTP_instance;
   var F2ClientType_RSOCKET_instance;
@@ -102382,7 +102392,7 @@ if (typeof Math.imul === 'undefined') {
   $serializer_76.prototype.k4a = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), BigDecimalAsStringSerializer_getInstance(), createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.TransactionType', values_15())];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), BigDecimalAsStringSerializer_getInstance(), createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType', values_15())];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -102421,7 +102431,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 32;
       tmp10_local6 = tmp12_input.e43(tmp0_desc, 6, BigDecimalAsStringSerializer_getInstance(), tmp10_local6);
       tmp3_bitMask0 = tmp3_bitMask0 | 64;
-      tmp11_local7 = tmp12_input.e43(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.TransactionType', values_15()), tmp11_local7);
+      tmp11_local7 = tmp12_input.e43(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType', values_15()), tmp11_local7);
       tmp3_bitMask0 = tmp3_bitMask0 | 128;
     } else
       while (tmp1_flag) {
@@ -102459,7 +102469,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 64;
             break;
           case 7:
-            tmp11_local7 = tmp12_input.e43(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.TransactionType', values_15()), tmp11_local7);
+            tmp11_local7 = tmp12_input.e43(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType', values_15()), tmp11_local7);
             tmp3_bitMask0 = tmp3_bitMask0 | 128;
             break;
           default:
@@ -102479,7 +102489,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.k44(tmp0_desc, 4, StringSerializer_getInstance(), value.j7q_1);
     tmp1_output.g44(tmp0_desc, 5, value.k7q_1);
     tmp1_output.i44(tmp0_desc, 6, BigDecimalAsStringSerializer_getInstance(), value.l7q_1);
-    tmp1_output.i44(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.TransactionType', values_15()), value.m7q_1);
+    tmp1_output.i44(tmp0_desc, 7, createSimpleEnumSerializer('city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType', values_15()), value.m7q_1);
     tmp1_output.t42(tmp0_desc);
   };
   $serializer_76.prototype.h3z = function (encoder, value) {
@@ -103203,7 +103213,10 @@ if (typeof Math.imul === 'undefined') {
     TransactionStatusValues_instance = this;
   }
   TransactionStatusValues.prototype.emitted = function () {
-    return TransactionState_EMITTED_getInstance().k4_1;
+    return AssetTransactionState_EMITTED_getInstance().k4_1;
+  };
+  TransactionStatusValues.prototype.cancelled = function () {
+    return AssetTransactionState_CANCELLED_getInstance().k4_1;
   };
   var TransactionStatusValues_instance;
   function TransactionStatusValues_getInstance() {
@@ -103215,16 +103228,16 @@ if (typeof Math.imul === 'undefined') {
     TransactionTypeValues_instance = this;
   }
   TransactionTypeValues.prototype.issued = function () {
-    return TransactionType_ISSUED_getInstance().k4_1;
+    return AssetTransactionType_ISSUED_getInstance().k4_1;
   };
   TransactionTypeValues.prototype.transferred = function () {
-    return TransactionType_TRANSFERRED_getInstance().k4_1;
+    return AssetTransactionType_TRANSFERRED_getInstance().k4_1;
   };
   TransactionTypeValues.prototype.retired = function () {
-    return TransactionType_RETIRED_getInstance().k4_1;
+    return AssetTransactionType_RETIRED_getInstance().k4_1;
   };
   TransactionTypeValues.prototype.offset = function () {
-    return TransactionType_OFFSET_getInstance().k4_1;
+    return AssetTransactionType_OFFSET_getInstance().k4_1;
   };
   var TransactionTypeValues_instance;
   function TransactionTypeValues_getInstance() {

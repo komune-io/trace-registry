@@ -2,7 +2,7 @@ package city.smartb.registry.program.s2.order.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.domain.OrderEvent
 import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.s2.order.domain.OrderInitCommand
@@ -14,7 +14,7 @@ data class OrderPlaceCommand(
     val by: String,
     val poolId: AssetPoolId?,
     val quantity: BigDecimalAsString,
-    val type: TransactionType
+    val type: AssetTransactionType
 ): OrderInitCommand
 
 @Serializable
@@ -26,5 +26,5 @@ data class OrderPlacedEvent(
     val to: String?,
     val by: String,
     val quantity: BigDecimalAsString,
-    val type: TransactionType
+    val type: AssetTransactionType
 ): OrderEvent

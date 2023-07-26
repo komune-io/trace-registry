@@ -2,7 +2,7 @@ package city.smartb.registry.program.f2.asset.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
@@ -63,7 +63,7 @@ data class AssetTransferCommandDTOBase(
     override val quantity: BigDecimalAsNumber,
     override val draft: Boolean = false
 ): AssetTransferCommandDTO, AbstractAssetTransactionCommand {
-    override val type: TransactionType = TransactionType.TRANSFERRED
+    override val type: AssetTransactionType = AssetTransactionType.TRANSFERRED
 }
 
 /**

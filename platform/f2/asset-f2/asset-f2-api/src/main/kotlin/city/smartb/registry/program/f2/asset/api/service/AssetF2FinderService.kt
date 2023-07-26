@@ -9,9 +9,9 @@ import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetResultDTO
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
-import city.smartb.registry.program.s2.asset.domain.model.Transaction
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransaction
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.api.OrderFinderService
 import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
@@ -33,7 +33,7 @@ class AssetF2FinderService(
     private val projectFinderService: ProjectFinderService
 ) {
 
-    suspend fun getTransaction(id: TransactionId): TransactionDTOBase {
+    suspend fun getTransaction(id: AssetTransactionId): TransactionDTOBase {
         return assetPoolFinderService.getTransaction(id).toDTO()
     }
 
@@ -44,10 +44,10 @@ class AssetF2FinderService(
     suspend fun page(
         projectId: Match<ProjectId>? = null,
         poolId: Match<AssetPoolId>? = null,
-        transactionId: Match<TransactionId>? = null,
+        transactionId: Match<AssetTransactionId>? = null,
         transactionFrom: Match<String?>? = null,
         transactionTo: Match<String?>? = null,
-        type: Match<TransactionType>? = null,
+        type: Match<AssetTransactionType>? = null,
         offset: OffsetPagination? = null
     ): PageDTO<TransactionDTOBase> {
         val cache = Cache()
@@ -69,7 +69,7 @@ class AssetF2FinderService(
         ).map { it.toDTO(cache) }
     }
 
-    private suspend fun Transaction.toDTO(cache: Cache = Cache()) = toDTO(
+    private suspend fun AssetTransaction.toDTO(cache: Cache = Cache()) = toDTO(
         getAssetPool = cache.pools::get
     )
 

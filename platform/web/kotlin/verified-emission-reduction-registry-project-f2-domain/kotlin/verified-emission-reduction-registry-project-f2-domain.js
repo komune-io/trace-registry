@@ -1895,9 +1895,9 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetPoolInitCommand, 'AssetPoolInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolCommand, 'AssetPoolCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   setMetadataFor(AssetPoolEvent, 'AssetPoolEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
-  setMetadataFor(TransactionInitCommand, 'TransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
-  setMetadataFor(TransactionCommand, 'TransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
-  setMetadataFor(TransactionEvent, 'TransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(AssetTransactionInitCommand, 'AssetTransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
+  setMetadataFor(AssetTransactionCommand, 'AssetTransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
+  setMetadataFor(AssetTransactionEvent, 'AssetTransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
   setMetadataFor(AssetPoolCloseCommandDTO, 'AssetPoolCloseCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolHoldCommandDTO, 'AssetPoolHoldCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolResumeCommandDTO, 'AssetPoolResumeCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
@@ -78653,11 +78653,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolEvent() {
   }
-  function TransactionInitCommand() {
+  function AssetTransactionInitCommand() {
   }
-  function TransactionCommand() {
+  function AssetTransactionCommand() {
   }
-  function TransactionEvent() {
+  function AssetTransactionEvent() {
   }
   function AssetPoolCloseCommandDTO() {
   }

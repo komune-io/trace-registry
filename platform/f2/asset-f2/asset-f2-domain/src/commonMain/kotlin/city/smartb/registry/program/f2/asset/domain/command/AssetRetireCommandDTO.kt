@@ -2,7 +2,7 @@ package city.smartb.registry.program.f2.asset.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -55,7 +55,7 @@ data class AssetRetireCommandDTOBase(
     override val draft: Boolean = false
 ): AssetRetireCommandDTO, AbstractAssetTransactionCommand {
     override val to: String? = null
-    override val type: TransactionType = TransactionType.RETIRED
+    override val type: AssetTransactionType = AssetTransactionType.RETIRED
 }
 
 /**

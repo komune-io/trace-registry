@@ -15,7 +15,6 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
 
     @Autowired
     private lateinit var assetEndpoint: AssetEndpoint
-
     private lateinit var command: AssetIssueCommandDTOBase
 
     init {

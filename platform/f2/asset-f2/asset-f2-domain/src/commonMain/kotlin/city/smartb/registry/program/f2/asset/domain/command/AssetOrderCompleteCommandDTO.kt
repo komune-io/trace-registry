@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.asset.domain.command
 
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.order.domain.OrderId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -46,7 +46,7 @@ interface AssetOrderCompletedEventDTO {
     /**
      * Id of the emitted transaction.
      */
-    val transactionId: TransactionId
+    val transactionId: AssetTransactionId
 }
 
 /**
@@ -54,5 +54,5 @@ interface AssetOrderCompletedEventDTO {
  */
 data class AssetOrderCompletedEventDTOBase(
     override val id: OrderId,
-    override val transactionId: TransactionId
+    override val transactionId: AssetTransactionId
 ): AssetOrderCompletedEventDTO

@@ -4,8 +4,8 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolEvent
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import kotlinx.serialization.Serializable
 
 typealias OrderId = String
@@ -16,12 +16,12 @@ data class AssetPoolEmitTransactionCommand(
     val to: String?,
     val by: String,
     val quantity: BigDecimalAsString,
-    val type: TransactionType
+    val type: AssetTransactionType
 ): AssetPoolCommand
 
 @Serializable
 data class AssetPoolEmittedTransactionEvent(
     override val id: AssetPoolId,
     override val date: Long,
-    val transactionId: TransactionId
+    val transactionId: AssetTransactionId
 ): AssetPoolEvent

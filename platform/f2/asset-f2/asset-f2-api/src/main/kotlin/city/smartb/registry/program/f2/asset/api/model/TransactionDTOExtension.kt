@@ -3,9 +3,9 @@ package city.smartb.registry.program.f2.asset.api.model
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTOBase
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.model.Transaction
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransaction
 
-suspend fun Transaction.toDTO(
+suspend fun AssetTransaction.toDTO(
     getAssetPool: suspend (AssetPoolId) -> AssetPoolDTOBase
 ): TransactionDTOBase {
     val pool = getAssetPool(poolId)

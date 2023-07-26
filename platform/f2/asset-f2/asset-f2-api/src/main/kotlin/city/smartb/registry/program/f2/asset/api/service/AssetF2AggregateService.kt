@@ -26,7 +26,7 @@ import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.program.s2.order.api.OrderAggregateService
 import city.smartb.registry.program.s2.order.api.OrderFinderService
 import city.smartb.registry.program.s2.order.domain.command.OrderCompleteCommand
@@ -111,7 +111,7 @@ class AssetF2AggregateService(
             type = order.type
         ).let { assetPoolAggregateService.emitTransaction(it) }
 
-        val certificate = takeIf { order.type == TransactionType.OFFSET }?.let {
+        val certificate = takeIf { order.type == AssetTransactionType.OFFSET }?.let {
             val content = CertificateGenerator.fillFinalCertificate(
                 orderId = order.id,
                 date = System.currentTimeMillis(),

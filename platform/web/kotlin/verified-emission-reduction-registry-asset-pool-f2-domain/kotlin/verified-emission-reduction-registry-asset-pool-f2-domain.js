@@ -48,6 +48,12 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
+  }});
+}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -57,12 +63,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
-  }});
-}
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1973,9 +1973,9 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_124, 'Companion', objectMeta, undefined, [SerializerFactory], undefined, undefined, []);
   setMetadataFor(AssetPoolState, 'AssetPoolState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_124}, []);
   setMetadataFor(AssetPoolRole, 'AssetPoolRole', classMeta, Enum, [Enum, S2Role], undefined, undefined, []);
-  setMetadataFor(TransactionInitCommand, 'TransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
-  setMetadataFor(TransactionCommand, 'TransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
-  setMetadataFor(TransactionEvent, 'TransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(AssetTransactionInitCommand, 'AssetTransactionInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
+  setMetadataFor(AssetTransactionCommand, 'AssetTransactionCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
+  setMetadataFor(AssetTransactionEvent, 'AssetTransactionEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
   setMetadataFor(AssetPoolCloseCommandDTO, 'AssetPoolCloseCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolCloseCommand, 'AssetPoolCloseCommand', classMeta, undefined, [AssetPoolCloseCommandDTO], undefined, undefined, []);
   setMetadataFor(Companion_125, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
@@ -85915,11 +85915,11 @@ if (typeof Math.imul === 'undefined') {
       s2AssetPool = s2Sourcing(s2AssetPool$lambda);
     }
   }
-  function TransactionInitCommand() {
+  function AssetTransactionInitCommand() {
   }
-  function TransactionCommand() {
+  function AssetTransactionCommand() {
   }
-  function TransactionEvent() {
+  function AssetTransactionEvent() {
   }
   function AssetPoolCloseCommandDTO() {
   }

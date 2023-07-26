@@ -4,7 +4,7 @@ import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionState
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
 import city.smartb.registry.program.s2.order.domain.OrderId
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State
@@ -16,7 +16,7 @@ import kotlin.js.JsExport
  * @order 100
  */
 @JsExport
-interface OrderDTO: WithS2State<TransactionState> {
+interface OrderDTO: WithS2State<AssetTransactionState> {
     val id: OrderId
     val status: String
     val poolId: AssetPoolId?
@@ -29,7 +29,7 @@ interface OrderDTO: WithS2State<TransactionState> {
     val certificate: FilePathDTO?
     val cancelReason: String?
 
-    override fun s2State() = TransactionState.valueOf(status)
+    override fun s2State() = AssetTransactionState.valueOf(status)
 }
 
 /**

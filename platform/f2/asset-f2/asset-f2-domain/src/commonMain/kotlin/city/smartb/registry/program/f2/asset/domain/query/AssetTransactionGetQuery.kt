@@ -2,7 +2,7 @@ package city.smartb.registry.program.f2.asset.domain.query
 
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTO
 import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
-import city.smartb.registry.program.s2.asset.domain.automate.TransactionId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -25,7 +25,7 @@ interface AssetTransactionGetQueryDTO {
     /**
      * Id of the transaction to fetch.
      */
-    val transactionId: TransactionId
+    val transactionId: AssetTransactionId
 }
 
 /**
@@ -33,7 +33,7 @@ interface AssetTransactionGetQueryDTO {
  */
 @Serializable
 data class AssetTransactionGetQuery(
-    override val transactionId: TransactionId
+    override val transactionId: AssetTransactionId
 ): AssetTransactionGetQueryDTO
 
 

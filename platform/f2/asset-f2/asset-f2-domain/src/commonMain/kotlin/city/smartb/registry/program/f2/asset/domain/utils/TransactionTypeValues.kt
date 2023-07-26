@@ -1,14 +1,14 @@
 package city.smartb.registry.program.f2.asset.domain.utils
 
-import city.smartb.registry.program.s2.asset.domain.model.TransactionType
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 @JsExport
 @JsName("TransactionTypeValues")
 object TransactionTypeValues {
-    fun issued() = TransactionType.ISSUED.name
-    fun transferred() = TransactionType.TRANSFERRED.name
-    fun retired() = TransactionType.RETIRED.name
-    fun offset() = TransactionType.OFFSET.name
+    fun issued() = AssetTransactionType.ISSUED.name
+    fun transferred() = AssetTransactionType.TRANSFERRED.name
+    fun retired() = AssetTransactionType.RETIRED.name
+    fun offset() = AssetTransactionType.OFFSET.name
 }

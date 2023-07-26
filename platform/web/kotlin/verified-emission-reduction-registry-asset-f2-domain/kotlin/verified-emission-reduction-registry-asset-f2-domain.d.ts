@@ -2951,14 +2951,14 @@ export namespace city.smartb.registry.program.s2.asset.domain.automate {
     }
 }
 export namespace city.smartb.registry.program.s2.asset.domain.automate {
-    interface TransactionInitCommand extends s2.dsl.automate.S2InitCommand {
+    interface AssetTransactionInitCommand extends s2.dsl.automate.S2InitCommand {
 
     }
-    interface TransactionCommand extends s2.dsl.automate.S2Command<string> {
+    interface AssetTransactionCommand extends s2.dsl.automate.S2Command<string> {
         readonly id: string;
 
     }
-    interface TransactionEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
+    interface AssetTransactionEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.program.api.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
         readonly id: string;
 
@@ -3397,7 +3397,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.command {
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.model {
-    interface OrderDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */> {
+    interface OrderDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState */> {
         readonly id: string;
         readonly status: string;
         readonly poolId?: string;
@@ -3409,12 +3409,12 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly creationDate: number;
         readonly certificate?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly cancelReason?: string;
-        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState */;
 
     }
 }
 export namespace city.smartb.registry.program.f2.asset.domain.model {
-    interface TransactionDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */> {
+    interface TransactionDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState */> {
         readonly id: string;
         readonly date: number;
         readonly poolId: string;
@@ -3427,7 +3427,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.model {
         readonly vintage?: string;
         readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
         readonly status: string;
-        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.TransactionState */;
+        s2State(): s2.dsl.automate.S2State/* city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState */;
 
     }
 }
@@ -3504,6 +3504,7 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
     const TransactionStatusValues: {
         emitted(): string;
+        cancelled(): string;
     };
 }
 export namespace city.smartb.registry.program.f2.asset.domain.utils {
