@@ -10,6 +10,14 @@ services:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
   #    volumes:
   #      - ~/DockerVolumes/redis/verr/data:/data
+  redis-test:
+    image: redis/redis-stack:6.2.6-v0
+    container_name: verr-redis-test
+    ports:
+      - 6380:6379
+      - 8012:8001
+    environment:
+      REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
   redisinsight:
     image: redislabs/redisinsight:latest
     container_name: verr-redisinsight

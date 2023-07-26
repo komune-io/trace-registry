@@ -2442,6 +2442,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
+        readonly vectorize: boolean;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -3001,7 +3002,7 @@ export namespace f2.client {
 export namespace f2.client.ktor.http {
     class HttpClientBuilder {
         constructor(json?: kotlinx.serialization.json.Json);
-        build(urlBase: string): Promise<f2.client.F2Client/* f2.client.ktor.http.HttpF2Client */>;
+        build(urlBase: string): Promise<f2.client.F2Client>;
     }
 }
 export namespace f2.client.ktor.rsocket {

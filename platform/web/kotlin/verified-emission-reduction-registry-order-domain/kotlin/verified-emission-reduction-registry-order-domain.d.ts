@@ -2442,6 +2442,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
+        readonly vectorize: boolean;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {

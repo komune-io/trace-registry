@@ -6,4 +6,7 @@ plugins {
 dependencies {
     api(project(":platform:f2:project-f2:project-f2-domain"))
     implementation(project(":platform:s2:project:project-api"))
+
+    implementation(project(":platform:infra:cccev"))
+    implementation(project(":platform:infra:fs"))
 }
