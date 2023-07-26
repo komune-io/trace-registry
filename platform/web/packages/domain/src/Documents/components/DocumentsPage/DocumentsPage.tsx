@@ -1,20 +1,23 @@
 import { DocumentsChatbot, DocumentsViewer } from "domain-components";
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { FilePath, useProjectFilesQuery, useProjectListFilesQuery } from "../../api/query";
+import { FilePath, useProjectFilesQuery } from "../../api/query";
 import { useParams } from "react-router-dom";
 
 export interface DocumentsPageProps {
+    isLoading?: boolean
+    files?: FilePath[]
 }
 
-export const DocumentsPage = (/* props: DocumentsPageProps */) => {
+export const DocumentsPage = (props: DocumentsPageProps ) => {
+    const { isLoading = false, files } = props
     const { projectId } = useParams()
     const [selectedFiles, selectFiles] = useState<FilePath[]>([])
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
 
-    const fileListQuery = useProjectListFilesQuery({ query: { id: projectId! } })
-    const fileList = fileListQuery.data?.items
+
+    const fileList = files
 
     useEffect(() => {
         fileList && fileList.length > 0 && selectFiles([fileList[0]])
@@ -54,7 +57,7 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
             height="calc(100vh - 220px)"
         >
             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
-            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={fileListQuery.isLoading} setFiles={selectFiles} />
+            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={isLoading} setFiles={selectFiles} />
         </Stack>
     )
 }

@@ -13,6 +13,7 @@ import React, {useCallback, useMemo} from 'react'
 import { useRoutesDefinition} from 'components'
 import {AppPage, SectionTab, Tab} from 'template'
 import {ArrowBackIosNewRounded} from '@mui/icons-material'
+import {useProjectListFilesQuery} from "domain-components";
 
 export interface ProjectViewProps {
 }
@@ -24,6 +25,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     const { t } = useTranslation()
     const currentTab = useMemo(() => tab ?? "info", [tab])
     const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
+    const fileListQuery = useProjectListFilesQuery({ query: { id: projectId! } })
     const project = projectQuery.data?.item
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
@@ -36,6 +38,7 @@ export const ProjectView = (_: ProjectViewProps) => {
             component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading}/>)
         }]
         const hasActivity = !!project?.activities && project?.activities.length !== 0
+        const hasDocument = fileListQuery.data?.items?.length || 0 > 0
         const hasAssetPools = !!project?.assetPools && project?.assetPools.length !== 0
         hasActivity && tabs.push({
             key: 'activities',
@@ -48,10 +51,10 @@ export const ProjectView = (_: ProjectViewProps) => {
             label: t('assets'),
             component: (project ? <AssetsPage isLoading={projectQuery.isLoading} project={project}/> : <></>)
         })
-        hasActivity && tabs.push({
+        hasDocument && tabs.push({
             key: 'documents',
             label: t('documents'),
-            component: (project ? <DocumentsPage /> : <></>)
+            component: (<DocumentsPage isLoading={fileListQuery.isLoading} files={fileListQuery.data?.items} />)
         })
         return tabs
     }, [project, projectQuery.isLoading, t])
