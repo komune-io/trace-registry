@@ -14,9 +14,9 @@ fs:
   url: http://localhost:8090
 
 im:
-  url: https://connect.smart-b.io/im
+  url: https://auth.dev.connect.smart-b.io/im
   auth:
-    url: https://auth.connect.smart-b.io
+    url: https://auth.dev.connect.smart-b.io
     realm: sb-dev
     clientId: sb-plateform-app
     clientSecret: secretsecret
