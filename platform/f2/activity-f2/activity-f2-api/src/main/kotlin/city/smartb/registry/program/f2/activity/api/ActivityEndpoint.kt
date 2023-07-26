@@ -161,6 +161,7 @@ class ActivityEndpoint(
                 cccevClient.certificationClient.certificationAddEvidence()
             )
         }
+
         return ActivityStepEvidenceFulfilledEventDTOBase(
             file = part?.file,
             identifier = cmd.identifier,

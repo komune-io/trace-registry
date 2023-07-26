@@ -49,7 +49,7 @@ ssm:
   chaincode:
     url: http://localhost:9090
 
-vectorpedia:
+kb:
   url: http://localhost:9999
 
 ---

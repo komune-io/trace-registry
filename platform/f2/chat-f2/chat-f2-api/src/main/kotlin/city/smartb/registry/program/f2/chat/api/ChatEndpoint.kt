@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.chat.api
 
-import city.smartb.registry.program.f2.chat.api.service.VectorpediaClient
+import city.smartb.registry.program.f2.chat.api.service.KBClient
 import city.smartb.registry.program.f2.chat.domain.ChatApi
 import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionFunction
 import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResult
@@ -12,7 +12,7 @@ import s2.spring.utils.logger.Logger
 
 @Configuration
 class ChatEndpoint(
-    private val vectorpediaClient: VectorpediaClient
+    private val vectorpediaClient: KBClient
 ): ChatApi {
     private val logger by Logger()
 

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-class VectorpediaClient(baseUrl: String): Client(baseUrl, {
+class KBClient(baseUrl: String): Client(baseUrl, {
     install(HttpTimeout) {
         requestTimeoutMillis = 60000
     }
@@ -36,10 +36,10 @@ class VectorpediaClient(baseUrl: String): Client(baseUrl, {
 }
 
 @Configuration
-class VectorpediaConfiguration {
-    @Value("\${vectorpedia.url}")
-    lateinit var vectorpediaUrl: String
+class KBConfiguration {
+    @Value("\${kb.url}")
+    lateinit var kbUrl: String
 
     @Bean
-    fun vectorpediaClient() = VectorpediaClient(vectorpediaUrl)
+    fun kbClient() = KBClient(kbUrl)
 }
