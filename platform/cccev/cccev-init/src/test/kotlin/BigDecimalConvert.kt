@@ -1,5 +1,3 @@
-package cee.BigNum
-
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import org.assertj.core.api.Assertions
