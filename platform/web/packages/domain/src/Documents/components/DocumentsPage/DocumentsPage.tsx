@@ -9,7 +9,7 @@ export interface DocumentsPageProps {
 
 export const DocumentsPage = (/* props: DocumentsPageProps */) => {
     const { projectId } = useParams()
-    const [files, setFiles] = useState<FilePath[]>([])
+    const [selectedFiles, selectFiles] = useState<FilePath[]>([])
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
 
@@ -17,13 +17,18 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
     const fileList = fileListQuery.data?.items
 
     useEffect(() => {
-        fileList && setFiles([fileList[0]])
+        fileList && fileList.length > 0 && selectFiles([fileList[0]])
     }, [fileList])
 
-    const downloadedFiles = useProjectFilesQuery(files.map((filePath) => ({ id: projectId!, path: filePath })), { enabled: !!files })
+    const downloadedFiles = useProjectFilesQuery(
+      selectedFiles.map((filePath) => (
+        { id: projectId!, path: filePath })
+      ), { enabled: !!selectedFiles })
 
-    const filteredDownloadedFiles = useMemo(() => downloadedFiles.data?.map((file, index) => ({ name: files[index].name, file })), [downloadedFiles.data, files])
-
+    const filteredDownloadedFiles = useMemo(
+      () => downloadedFiles.data?.map(
+        (file, index) => ({ name: selectedFiles[index].name, file })
+      ), [downloadedFiles.data, selectedFiles])
     const onSetQuote = useCallback(
         (quote: string, fileName: string, pageNumber: number) => {
             setQuote({
@@ -49,7 +54,7 @@ export const DocumentsPage = (/* props: DocumentsPageProps */) => {
             height="calc(100vh - 220px)"
         >
             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
-            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={files} allFiles={fileList} isLoading={fileListQuery.isLoading} setFiles={setFiles} />
+            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={fileListQuery.isLoading} setFiles={selectFiles} />
         </Stack>
     )
 }

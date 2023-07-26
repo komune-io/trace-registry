@@ -26,7 +26,9 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
         label: file.name
     })), [allFiles])
 
-    const filesNames = useMemo(() => selectedFiles.map((file) => file.name), [selectedFiles])
+    const filesNames = useMemo(
+      () => selectedFiles.map((file) => file.name)
+      , [selectedFiles])
 
     const onChangeFiles = useCallback(
         (values: SmartKey[]) => {
