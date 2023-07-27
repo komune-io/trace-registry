@@ -37,5 +37,14 @@ package-storybook:
 	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache=true -f ${STORYBOOK_DOCKERFILE} -t ${STORYBOOK_IMG} .
 	@docker push ${STORYBOOK_IMG}
 
+.PHONY: help
+
+help:
+	@echo 'Commonly used make targets:'
+	@echo '  docker-gateway              - Builds and publishes Docker image of Gateway'
+	@echo '  docker-web                  - Builds and publishes Docker image of Web application'
+	@echo '  docker-registry-certificate-web      - Builds and publishes Docker image of Registry Certificate Web'
+	@echo '  package-storybook           - Packages the Storybook Docker image and publishes it'
+
 ## DEV ENVIRONMENT
 include infra/docker-compose/dev-compose.mk

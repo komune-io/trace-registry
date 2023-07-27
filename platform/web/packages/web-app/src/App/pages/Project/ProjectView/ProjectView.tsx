@@ -38,7 +38,7 @@ export const ProjectView = (_: ProjectViewProps) => {
             component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading}/>)
         }]
         const hasActivity = !!project?.activities && project?.activities.length !== 0
-        const hasDocument = fileListQuery.data?.items?.length || 0 > 0
+        const hasDocument = (fileListQuery.data?.items?.length ?? 0) > 0
         const hasAssetPools = !!project?.assetPools && project?.assetPools.length !== 0
         hasActivity && tabs.push({
             key: 'activities',
@@ -57,7 +57,7 @@ export const ProjectView = (_: ProjectViewProps) => {
             component: (<DocumentsPage isLoading={fileListQuery.isLoading} files={fileListQuery.data?.items} />)
         })
         return tabs
-    }, [project, projectQuery.isLoading, t])
+    }, [project, projectQuery.isLoading, fileListQuery.data?.items, t])
 
     return (
         <AppPage title={project?.name ?? t("project")} >
