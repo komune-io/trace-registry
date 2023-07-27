@@ -42,18 +42,18 @@ interface ProjectPageQueryDTO {
  * @parent [ProjectPageFunction]
  */
 data class ProjectPageQuery(
-    override val limit: Int?,
-    override val offset: Int?,
-    override val identifier: String?,
-    override val name: String?,
-    override val proponent: String?,
-    override val type: Int?,
-    override val vintage: String?,
-    override val origin: String?,
-    override val estimatedReductions: String?,
-    override val referenceYear: String?,
-    override val dueDate: Long?,
-    override val status: String?
+    override val limit: Int? = null,
+    override val offset: Int? = null,
+    override val identifier: String? = null,
+    override val name: String? = null,
+    override val proponent: String? = null,
+    override val type: Int? = null,
+    override val vintage: String? = null,
+    override val origin: String? = null,
+    override val estimatedReductions: String? = null,
+    override val referenceYear: String? = null,
+    override val dueDate: Long? = null,
+    override val status: String? = null
 
 ): ProjectPageQueryDTO
 

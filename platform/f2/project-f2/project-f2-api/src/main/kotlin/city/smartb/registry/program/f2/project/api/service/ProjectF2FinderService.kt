@@ -24,6 +24,10 @@ class ProjectF2FinderService(
         return projectFinderService.getOrNull(id)
     }
 
+   suspend fun getOrNullByIdentifier(id: ProjectIdentifier): Project? {
+        return projectFinderService.getOrNullByIdentifier(id)
+    }
+
     suspend fun get(id: ProjectId): Project {
         return projectFinderService.get(id)
     }

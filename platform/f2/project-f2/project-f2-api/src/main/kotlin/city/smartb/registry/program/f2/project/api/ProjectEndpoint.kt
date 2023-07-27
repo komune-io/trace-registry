@@ -9,6 +9,8 @@ import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunct
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectDownloadFileQuery
 import city.smartb.registry.program.f2.project.domain.query.ProjectDownloadFileResult
+import city.smartb.registry.program.f2.project.domain.query.ProjectGetByIdentifierFunction
+import city.smartb.registry.program.f2.project.domain.query.ProjectGetByIdentifierResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesFunction
@@ -50,6 +52,13 @@ class ProjectEndpoint(
     override fun projectGet(): ProjectGetFunction = f2Function { query ->
         logger.info("projectGet: $query")
         projectF2FinderService.getOrNull(query.id).let(::ProjectGetResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction = f2Function { query ->
+        logger.info("projectGetByIdentifier: $query")
+        projectF2FinderService.getOrNullByIdentifier(query.identifier).let(::ProjectGetByIdentifierResult)
     }
 
     @PermitAll

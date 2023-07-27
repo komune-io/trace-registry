@@ -10,6 +10,7 @@ import f2.dsl.cqrs.page.PageDTO
 
 interface ProjectFinder {
     suspend fun getOrNull(id: ProjectId): Project?
+    suspend fun getOrNullByIdentifier(id: ProjectIdentifier): Project?
     suspend fun get(id: ProjectId): Project
     suspend fun page(
         id: Match<ProjectId>? = null,

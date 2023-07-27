@@ -25,6 +25,10 @@ class ProjectFinderService(
 		return projectRepository.findById(id).orElse(null)?.toProject()
 	}
 
+	override suspend fun getOrNullByIdentifier(id: ProjectIdentifier): Project? {
+		return projectRepository.findByIdentifier(id).orElse(null)?.toProject()
+	}
+
 	override suspend fun get(id: ProjectId): Project {
 		return getOrNull(id) ?: throw NotFoundException("Project", id)
 	}

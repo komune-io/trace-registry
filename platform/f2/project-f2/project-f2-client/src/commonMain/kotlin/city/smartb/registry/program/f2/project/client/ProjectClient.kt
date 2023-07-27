@@ -4,6 +4,7 @@ import city.smartb.registry.program.f2.project.domain.ProjectApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
+import city.smartb.registry.program.f2.project.domain.query.ProjectGetByIdentifierFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
@@ -22,6 +23,8 @@ open class ProjectClient constructor(private val client: F2Client) : ProjectApi 
     override fun projectCreate(): ProjectCreateFunction = client.function(this::projectCreate.name)
     override fun projectUpdate(): ProjectUpdateFunction = client.function(this::projectUpdate.name)
     override fun projectDelete(): ProjectDeleteFunction = client.function(this::projectDelete.name)
+    override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction
+        = client.function(this::projectGetByIdentifier.name)
 
     override fun projectGet(): ProjectGetFunction = client.function(this::projectGet.name)
     override fun projectPage(): ProjectPageFunction = client.function(this::projectPage.name)
