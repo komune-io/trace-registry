@@ -23,8 +23,7 @@ object Versions {
 //	val s2 = Framework.fixers
 	val s2 = "0.15.1"
 	val i2 = Framework.fixers
-//	val fs = Framework.connect
-	val fs = "experimental-SNAPSHOT"
+	val fs = Framework.connect
 	val im = Framework.connect
     val cccev = Framework.connect
 

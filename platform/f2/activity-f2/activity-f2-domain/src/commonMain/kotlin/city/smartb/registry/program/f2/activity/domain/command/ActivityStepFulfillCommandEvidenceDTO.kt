@@ -4,17 +4,13 @@ import cccev.s2.certification.domain.model.CertificationIdentifier
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
+import city.smartb.registry.program.f2.activity.domain.model.ActivityFile
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-
-data class File(
-    val name: String,
-    val content: ByteArray,
-)
 
 /**
  * Fulfill an activity step by providing a value.
@@ -23,7 +19,7 @@ data class File(
  * @order 110
  */
 typealias ActivityStepEvidenceFulfillFunction
-        = F2Function<Pair<ActivityStepEvidenceFulfillCommandDTOBase, File>, ActivityStepEvidenceFulfilledEventDTOBase>
+        = F2Function<Pair<ActivityStepEvidenceFulfillCommandDTOBase, ActivityFile>, ActivityStepEvidenceFulfilledEventDTOBase>
 
 
 
