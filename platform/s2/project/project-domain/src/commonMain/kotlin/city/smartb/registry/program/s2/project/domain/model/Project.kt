@@ -96,6 +96,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     val proponent: OrganizationRef?
 
     /**
+     * TODO CHANGE TYPE
      * Identifier of the type of the project
      * @example 4
      */
