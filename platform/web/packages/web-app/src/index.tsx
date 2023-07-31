@@ -1,7 +1,8 @@
 import React from "react";
 import {
   AppProvider,
-  G2ConfigBuilder
+  G2ConfigBuilder,
+  KeycloakProvider
 } from "@smartb/g2-providers";
 import { ThemeContextProvider } from "@smartb/g2-themes";
 import { Typography } from "@mui/material";
@@ -28,9 +29,10 @@ const container: HTMLElement = document.getElementById("root")
 const root = createRoot(container)
 
 root.render(
+  //@ts-ignore
   <ThemeContextProvider theme={theme}>
-      {/*react strict mode must be here to avoid an infinite loop if placed above KeycloakProvider*/}
-      <React.StrictMode>
+    <React.StrictMode>
+      <KeycloakProvider >
         <AppProvider
           languages={languages}
           queryClient={queryClient}
@@ -38,7 +40,8 @@ root.render(
         >
           <AppRouter />
         </AppProvider>
-      </React.StrictMode>
+      </KeycloakProvider>
+    </React.StrictMode>
   </ThemeContextProvider>
 );
 

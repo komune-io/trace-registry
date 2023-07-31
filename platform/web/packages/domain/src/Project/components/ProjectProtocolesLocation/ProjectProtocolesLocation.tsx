@@ -1,6 +1,5 @@
 import {Stack} from '@mui/material'
 import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
-import { addMapBaseProps } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../model'
@@ -16,14 +15,16 @@ export const ProjectProtocolesLocation = (props: ProjectProtocolesLocationProps)
     const map = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "location",
         type: "map",
-        params: addMapBaseProps(t, {
+        params: {
             draggableMarkerPlugin: {
                 enable: true
             },
             style: {
                 height: "400px"
-            }
-        }),
+            },
+            center: [0, 20],
+            zoom: 2,
+        }
     }], [t])
     // const vcus = useMemo((): FormComposableField<keyof Project>[] => [{
     //     name: "estimatedReductions",

@@ -23,8 +23,8 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
 
     const formState = useFormComposable({
         isLoading: isLoading,
-        readonly: true,
-        emptyValueInReadonly: "-",
+        readOnly: true,
+        emptyValueInReadOnly: "-",
         formikConfig: {
             initialValues: values
         }

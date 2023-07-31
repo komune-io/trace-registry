@@ -85,14 +85,17 @@ export const AssetsTransactionsTable = (props: AssetsTransactionsTableProps) => 
 
     const columns = useTransactionColumn()
 
-    const tableState = useTable({
-        data: page?.items ?? [],
-        columns: columns,
-    })
     const getRowId = useCallback(
         (row: Transaction) => row.id,
         [],
     )
+
+    const tableState = useTable({
+        data: page?.items ?? [],
+        columns: columns,
+        getRowId
+    })
+    
     const additionnalRowsProps = useMemo(() => selectedTransaction ? ({ [selectedTransaction.id]: { className: "selectedRow" } }) : undefined, [selectedTransaction])
 
     return (
@@ -136,8 +139,7 @@ export const AssetsTransactionsTable = (props: AssetsTransactionsTableProps) => 
                     onOffsetChange={onOffsetChange}
                     isLoading={isLoading}
                     onRowClicked={onTransactionClick}
-                    getRowId={getRowId}
-                    additionnalRowsProps={additionnalRowsProps}
+                    additionalRowsProps={additionnalRowsProps}
                 />
             }
 

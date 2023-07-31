@@ -22,7 +22,7 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
         },
         [],
     )
-    const { filtersCount, formState, submittedFilters, setAdditionnalFilter } = useFiltersComposable<T & OffsetPagination>({
+    const { filtersCount, formState, submittedFilters, setAdditionalFilter } = useFiltersComposable<T & OffsetPagination>({
         onSubmit: onSubmit,
         formikConfig: {
             initialValues: {
@@ -37,10 +37,10 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
 
     const setOffset = useCallback(
         (newPage: OffsetPagination) => {
-            setAdditionnalFilter("offset", newPage.offset)
-            setAdditionnalFilter("limit", newPage.limit)
+            setAdditionalFilter("offset", newPage.offset)
+            setAdditionalFilter("limit", newPage.limit)
         },
-        [setAdditionnalFilter],
+        [setAdditionalFilter],
     )
 
     const component = useMemo(() => (

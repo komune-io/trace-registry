@@ -18,7 +18,7 @@ export const AssetsBalanceBanner = (props: AssetsBalanceBannerProps) => {
     const assetQuery = useAssetGetQuery({ query: { projectId: projectId! } })
 
     const formState= useFormComposable({
-        readonly: true,
+        readOnly: true,
         formikConfig: {
             initialValues: {
                 retired: assetQuery.data?.retired ?? 0,

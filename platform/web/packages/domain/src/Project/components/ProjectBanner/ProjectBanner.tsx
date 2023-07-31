@@ -31,8 +31,8 @@ export const ProjectBanner = (props: ProjectBannerProps) => {
         type: "select",
         label: t("projects.type"),
         params: {
-            readonlyType: "customElement",
-            readonlyElement: TypeElement,
+            readOnlyType: "customElement",
+            readOnlyElement: TypeElement,
             options: getProjectTypesOptions(t)
         }
     }, {
@@ -40,9 +40,9 @@ export const ProjectBanner = (props: ProjectBannerProps) => {
         type: "select",
         label: t("sdgsImpact"),
         params: {
-            readonlyType: "customElement",
+            readOnlyType: "customElement",
             multiple: true,
-            readonlyElement: SdgElement,
+            readOnlyElement: SdgElement,
             options: getSdgsOptions(t)
         }
     }], [t])

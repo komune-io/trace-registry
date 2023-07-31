@@ -55,8 +55,8 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
         type: "textField",
         params: {
             orientation: "horizontal",
-            readonlyType: "customElement",
-            readonlyElement: ProjectStatus
+            readOnlyType: "customElement",
+            readOnlyElement: ProjectStatus
         }
     }], [t])
 

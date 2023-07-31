@@ -3,14 +3,14 @@ import { useEffect, useMemo } from 'react'
 import { requiredString, User } from '@smartb/g2-i2-v2'
 
 export interface UserDomainDetailsProps {
-    readonly?: boolean
+    readOnly?: boolean
     onSubmit: (values: Partial<User>) => void
     registerSubmitter: (submitForm: () => Promise<any>, validateForm: (values?: any) => Promise<any>) => () => void
     isLoading?: boolean
 }
 
 export const UserDomainDetails = (props: UserDomainDetailsProps) => {
-    const { readonly, onSubmit, registerSubmitter, isLoading } = props
+    const { readOnly, onSubmit, registerSubmitter, isLoading } = props
 
     const formState = useFormComposable({
         onSubmit: onSubmit,
@@ -25,8 +25,8 @@ export const UserDomainDetails = (props: UserDomainDetailsProps) => {
         validator: (value) => requiredString("this field is required", value)
     }], [])
 
-    if (readonly && !isLoading) return <></>
+    if (readOnly && !isLoading) return <></>
     return (
-        <FormComposable fields={fields} formState={formState} readonly={readonly} isLoading={isLoading} />
+        <FormComposable fields={fields} formState={formState} readOnly={readOnly} isLoading={isLoading} />
     )
 }

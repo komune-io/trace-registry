@@ -20,8 +20,8 @@ export const AssetsTransactionHistory = (props: AssetsTransactionHistoryProps) =
 
     const formState = useFormComposable({
         isLoading: isLoading,
-        readonly: true,
-        emptyValueInReadonly: "-",
+        readOnly: true,
+        emptyValueInReadOnly: "-",
         formikConfig:{
             initialValues:{
                 ...transaction,
@@ -64,7 +64,7 @@ export const AssetsTransactionHistory = (props: AssetsTransactionHistoryProps) =
             <Typography variant="h5" >{t("projects.assets.transactionHistory")}</Typography>
             <Divider/>
             <FormComposable sx={{
-                "& .AruiInputForm-readonlyText" : {
+                "& .AruiInputForm-readOnlyText" : {
                     textAlign: "right"
                 }
             }} fields={fields} formState={formState} />

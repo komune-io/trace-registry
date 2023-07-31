@@ -23,8 +23,8 @@ export const AssetsTransactionInformations = (props: AssetsTransactionInformatio
     const navigate = useNavigate();
     const formState = useFormComposable({
         isLoading: isLoading,
-        readonly: true,
-        emptyValueInReadonly: "-",
+        readOnly: true,
+        emptyValueInReadOnly: "-",
         formikConfig:{
             initialValues:{
                 ...transaction
@@ -39,8 +39,8 @@ export const AssetsTransactionInformations = (props: AssetsTransactionInformatio
             label: t('status'),
             params: {
                 orientation: "horizontal",
-                readonlyType: "customElement",
-                readonlyElement: AssetsTransactionType
+                readOnlyType: "customElement",
+                readOnlyElement: AssetsTransactionType
             }
         },
         {

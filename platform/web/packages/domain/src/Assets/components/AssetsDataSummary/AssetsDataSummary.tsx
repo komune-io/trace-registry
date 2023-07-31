@@ -19,8 +19,8 @@ export const AssetsDataSummary = (props: AssetDataSummaryProps) => {
         type: "textField",
         label: label,
         params: {
-            readonlyType: "customElement",
-            readonlyElement: QuantityFormatter
+            readOnlyType: "customElement",
+            readOnlyElement: QuantityFormatter
         }
     },
     ], [label])

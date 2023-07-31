@@ -6,14 +6,14 @@ import { useEffect, useMemo } from 'react'
 
 export interface OrganizationDomainDetailsProps {
     isLoading?: boolean
-    readonly?: boolean
+    readOnly?: boolean
     onSubmit: (values: Partial<Organization>) => void
     registerSubmitter: (submitForm: () => Promise<any>, validateForm: (values?: any) => Promise<any>) => () => void
     hidden?: boolean
 }
 
 export const OrganizationDomainDetails = (props: OrganizationDomainDetailsProps) => {
-    const {readonly, onSubmit, isLoading, registerSubmitter, hidden = false } = props
+    const {readOnly, onSubmit, isLoading, registerSubmitter, hidden = false } = props
 
     const formState = useFormComposable({
         onSubmit: onSubmit
@@ -34,7 +34,7 @@ export const OrganizationDomainDetails = (props: OrganizationDomainDetailsProps)
             gap={3}
             display={hidden ? "none" : "flex"}
         >
-            <FormComposable fields={fields} formState={formState} readonly={readonly} isLoading={isLoading} />
+            <FormComposable fields={fields} formState={formState} readOnly={readOnly} isLoading={isLoading} />
         </Stack>
     )
 }

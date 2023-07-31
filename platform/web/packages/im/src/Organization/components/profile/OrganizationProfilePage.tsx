@@ -9,12 +9,12 @@ import { OrganizationDomainDetails } from './OrganizationDomainDetails'
 import { OrganizationUserList } from './OrganizationUserList'
 
 export interface OrganizationProfilePageProps {
-    readonly: boolean
+    readOnly: boolean
     myOrganization?: boolean
 }
 
 export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => {
-    const { readonly, myOrganization = false } = props
+    const { readOnly, myOrganization = false } = props
     const { t } = useTranslation();
     const { organizationId } = useParams();
     const navigate = useNavigate()
@@ -51,13 +51,13 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     })
 
     const headerRightPart = useMemo(() => {
-        if (readonly) {
+        if (readOnly) {
             return [
                 <LinkButton to={organizationsOrganizationIdEdit(orgId!)} key="pageEditButton">{t("update")}</LinkButton>,
             ]
         }
         return []
-    }, [readonly, orgId, organizationsOrganizationIdEdit])
+    }, [readOnly, orgId, organizationsOrganizationIdEdit])
 
     const doSubmit = useCallback(async () => {
         const errorKey = await submitAllOrReturnFailedKey()
@@ -69,7 +69,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
     }, [formState.submitForm, submitAllOrReturnFailedKey])
 
     const actions = useMemo((): Action[] | undefined => {
-        if (!readonly) {
+        if (!readOnly) {
             return [{
                 key: "cancel",
                 label: t("cancel"),
@@ -81,7 +81,7 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                 onClick: doSubmit
             }]
         }
-    }, [readonly, doSubmit])
+    }, [readOnly, doSubmit])
 
     const userListFilters = useMemo(() => ({
         organizationId: orgId
@@ -142,14 +142,14 @@ export const OrganizationProfilePage = (props: OrganizationProfilePageProps) => 
                     flexShrink: 0
                 }}>
                     {!myOrganization ? <AutomatedOrganizationFactory
-                        readonly={readonly}
+                        readOnly={readOnly}
                         multipleRoles={false}
                         formState={formState}
                         organization={organization}
                         isLoading={isLoading}
                         fieldsOverride={fieldsOverride}
                     /> : <MyOrganization
-                        readonly={readonly}
+                        readOnly={readOnly}
                         formState={formState}
                         organization={organization}
                         isLoading={isLoading}

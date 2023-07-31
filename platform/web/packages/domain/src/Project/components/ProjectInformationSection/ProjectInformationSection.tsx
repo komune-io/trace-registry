@@ -18,7 +18,7 @@ export const ProjectInformationSection = (props: ProjectInformationSectionProps)
     const formState = useFormComposable({
         onSubmit: () => { },
         isLoading: isLoading,
-        readonly: true,
+        readOnly: true,
         formikConfig: {
             initialValues: {
                 ...project,

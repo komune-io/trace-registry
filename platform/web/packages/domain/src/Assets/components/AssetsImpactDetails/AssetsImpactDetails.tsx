@@ -15,8 +15,8 @@ export const AssetsImpactDetails = (props: AssetImpactDetailsProps) => {
 
     const formState = useFormComposable({
         isLoading: isLoading,
-        readonly: true,
-        emptyValueInReadonly: "-",
+        readOnly: true,
+        emptyValueInReadOnly: "-",
         formikConfig:{
             initialValues:{
                 vintage: transaction?.vintage,

@@ -15,8 +15,8 @@ export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) 
 
     const formState = useFormComposable({
         isLoading: isLoading,
-        readonly: true,
-        emptyValueInReadonly: "-",
+        readOnly: true,
+        emptyValueInReadOnly: "-",
         formikConfig:{
             initialValues:{
                 ...transaction
