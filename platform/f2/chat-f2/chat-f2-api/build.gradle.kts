@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    Dependencies.Jvm.Fs.client(::implementation)
     api(project(":platform:f2:chat-f2:chat-f2-domain"))
 
     implementation(project(":platform:s2:project:project-api"))

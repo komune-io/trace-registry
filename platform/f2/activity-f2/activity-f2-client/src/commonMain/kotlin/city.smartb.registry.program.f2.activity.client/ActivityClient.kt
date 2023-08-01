@@ -17,7 +17,7 @@ expect fun activityClient(urlBase: String, accessToken: String): F2SupplierSingl
 
 @JsExport
 @JsName("ActivityClient")
-open class ActivityClient constructor(val client: F2Client) : ActivityApi {
+open class ActivityClient(val client: F2Client) : ActivityApi {
     override fun activityCreate(): ActivityCreateFunction = client.function(this::activityCreate.name)
     override fun activityStepCreate(): ActivityStepCreateFunction = client.function(this::activityStepCreate.name)
     override fun activityStepFulfill(): ActivityStepFulfillFunction = client.function(this::activityStepFulfill.name)

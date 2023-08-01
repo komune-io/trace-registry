@@ -37,7 +37,6 @@ import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
-@Configuration
 class ProjectEndpoint(
     private val fsService: FsService,
     private val projectF2FinderService: ProjectF2FinderService,

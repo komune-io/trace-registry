@@ -43,7 +43,6 @@ import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
-@Configuration
 class ActivityEndpoint(
     private val cccevClient: CCCEVClient,
     private val certificateService: CertificateService,

@@ -49,7 +49,6 @@ import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
-@Configuration
 class AssetEndpoint(
     private val assetF2AggregateService: AssetF2AggregateService,
     private val assetF2FinderService: AssetF2FinderService,
