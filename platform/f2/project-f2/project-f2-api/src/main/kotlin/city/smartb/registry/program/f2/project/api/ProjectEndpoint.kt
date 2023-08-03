@@ -8,7 +8,6 @@ import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunct
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectDownloadFileQuery
-import city.smartb.registry.program.f2.project.domain.query.ProjectDownloadFileResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetByIdentifierFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetByIdentifierResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectGetFunction
@@ -25,9 +24,12 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import jakarta.annotation.security.PermitAll
+import java.io.InputStream
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -102,10 +104,14 @@ class ProjectEndpoint(
     suspend fun projectDownloadFile(
         @RequestBody query: ProjectDownloadFileQuery,
         response: ServerHttpResponse
-    ): ProjectDownloadFileResult? {
+    ): ResponseEntity<InputStreamResource> {
         logger.info("projectDownloadFile: $query")
         // TODO policy check on whether the user has access to the file in the project
-        return fsService.downloadFile(response) { query.path }
+        val stream = fsService.downloadFile(response) { query.path }?.toInputStream()
+                ?: InputStream.nullInputStream()
+
+        return ResponseEntity.ok()
+                .body(InputStreamResource(stream))
     }
 
     @PermitAll

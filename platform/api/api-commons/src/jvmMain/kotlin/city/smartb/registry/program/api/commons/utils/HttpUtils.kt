@@ -3,6 +3,7 @@ package city.smartb.registry.program.api.commons.utils
 import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.features.query.FileDownloadQuery
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
+import io.ktor.utils.io.ByteReadChannel
 import org.springframework.http.ContentDisposition
 import org.springframework.http.MediaType
 import org.springframework.http.server.reactive.ServerHttpResponse
@@ -11,7 +12,7 @@ import java.net.URLConnection
 suspend fun ServerHttpResponse.serveFile(
     fileClient: FileClient,
     getFilePath: suspend () -> FilePathDTO?
-): ByteArray? {
+): ByteReadChannel? {
     val path = getFilePath()
         ?: return null
 

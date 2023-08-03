@@ -29,9 +29,15 @@ import city.smartb.registry.program.infra.fs.FsService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
+import io.ktor.util.toByteArray
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import jakarta.annotation.security.PermitAll
+import java.io.InputStream
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.PostMapping
@@ -171,9 +177,9 @@ class ActivityEndpoint(
     suspend fun activityStepEvidenceDownload(
         @RequestBody query: ActivityStepEvidenceDownloadQuery,
         response: ServerHttpResponse
-    ): ActivityStepEvidenceDownloadResult? {
+    ): ResponseEntity<InputStreamResource> {
         logger.info("activityStepEvidenceDownload: $query")
-        return fsService.downloadFile(response) {
+        val stream = fsService.downloadFile(response) {
             certificateService.getOrNull(query.certificationIdentifier)
                 ?.getEvidence(query.evidenceId)
                 ?.file
@@ -182,6 +188,8 @@ class ActivityEndpoint(
                     file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
                 }
         }
+        return ResponseEntity.ok()
+                .body(InputStreamResource(stream?.toInputStream() ?: InputStream.nullInputStream()))
     }
 
 }

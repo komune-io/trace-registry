@@ -8,7 +8,6 @@ import city.smartb.fs.s2.file.domain.model.FileAskMessage
 import city.smartb.registry.program.f2.chat.domain.model.FileAskMetadata
 import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResult
 import f2.dsl.fnc.f2Function
-import f2.dsl.fnc.invokeWith
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

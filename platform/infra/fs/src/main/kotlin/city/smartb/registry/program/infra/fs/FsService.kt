@@ -7,6 +7,7 @@ import city.smartb.fs.s2.file.domain.features.query.FileListQuery
 import city.smartb.fs.s2.file.domain.model.File
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.fs.spring.utils.configureHeadersForFile
+import io.ktor.utils.io.ByteReadChannel
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Service
 
@@ -20,7 +21,7 @@ class FsService(
 		}
 	}
 	suspend fun getFile(query: FileGetQuery): File? {
-		return fileClient.fileGet(listOf(query)).first().file
+		return fileClient.fileGet(listOf(query)).first().item
 	}
 //
 //	suspend fun uploadFile(cmd: FileUploadCommand, base64: String): ExternalFile? = verifyB64File(base64) { file ->
@@ -61,7 +62,7 @@ class FsService(
 	suspend fun downloadFile(
 		response: ServerHttpResponse,
 		getFilePath: suspend () -> FilePathDTO?
-	): ByteArray? {
+	): ByteReadChannel? {
 		val path = getFilePath() ?: return null
 
 		response.configureHeadersForFile(path.name)

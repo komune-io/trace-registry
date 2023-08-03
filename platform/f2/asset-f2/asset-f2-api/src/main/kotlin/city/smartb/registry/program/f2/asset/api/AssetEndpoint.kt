@@ -20,7 +20,6 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetRetiredEventDTO
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.asset.domain.command.AssetTransferredEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadQuery
-import city.smartb.registry.program.f2.asset.domain.query.AssetCertificateDownloadResult
 import city.smartb.registry.program.f2.asset.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.asset.domain.query.AssetTransactionGetResult
@@ -35,9 +34,12 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import jakarta.annotation.security.PermitAll
+import java.io.InputStream
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -154,11 +156,14 @@ class AssetEndpoint(
     suspend fun assetCertificateDownload(
         @RequestBody query: AssetCertificateDownloadQuery,
         response: ServerHttpResponse
-    ): AssetCertificateDownloadResult? {
+    ): ResponseEntity<InputStreamResource> {
         logger.info("assetCertificateDownload: $query")
-        return fsService.downloadFile(response){
+        val stream =  fsService.downloadFile(response){
             assetPoolFinderService.getTransaction(query.transactionId).file
-        }
+        }?.toInputStream() ?: InputStream.nullInputStream()
+
+        return ResponseEntity.ok()
+                .body(InputStreamResource(stream))
     }
 
     @PermitAll
@@ -166,11 +171,15 @@ class AssetEndpoint(
     suspend fun assetCertificateDownload(
         @RequestParam transactionId: AssetTransactionId,
         response: ServerHttpResponse
-    ): AssetCertificateDownloadResult? {
+    ): ResponseEntity<InputStreamResource> {
         logger.info("assetCertificateDownload: $transactionId")
-        return fsService.downloadFile(response) {
+        val stream = fsService.downloadFile(response) {
             assetPoolFinderService.getTransaction(transactionId).file
-        }
+        }?.toInputStream()
+                ?: InputStream.nullInputStream()
+
+        return ResponseEntity.ok()
+                .body(InputStreamResource(stream))
     }
 
     @Bean
