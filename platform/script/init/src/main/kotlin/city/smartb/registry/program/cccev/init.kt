@@ -28,14 +28,14 @@ fun main() = runBlocking {
     val accessTokenIssuer = AppAuth.getActor(urlAuth, nameIssuer, clientIssuer, secretIssuer)
     val accessTokenOffseter = AppAuth.getActor(urlAuth, nameOffseter, clientOffseter, secretOffseter)
 
-    initRequirement(urlCCCEV)
-    initIndicatorsCarbon(urlCCCEV)
+//    initRequirement(urlCCCEV)
+//    initIndicatorsCarbon(urlCCCEV)
 
-//    val assetPoolId = null
-    val assetPoolId = createAssetPool(
-        urlVer,
-        issuer = accessTokenIssuer,
-        offsetter = accessTokenOffseter
-    )
+    val assetPoolId = null
+//    val assetPoolId = createAssetPool(
+//        urlVer,
+//        issuer = accessTokenProjectManager,
+//        offsetter = accessTokenProjectManager
+//    )
     createRandomProject(urlVer, accessTokenProjectManager.accessToken, assetPoolId)
 }

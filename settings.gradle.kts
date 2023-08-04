@@ -18,7 +18,7 @@ include(
 )
 
 include(
-	"platform:cccev:cccev-init"
+	"platform:script:init"
 )
 include(
 	"platform:ver-test"
