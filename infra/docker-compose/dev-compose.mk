@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_FILE = bclan redis fs kb cccev
+DOCKER_COMPOSE_FILE = bclan redis fs cccev bclan-init
 
 DOCKER_COMPOSE_PATH = infra/docker-compose
 DOCKER_COMPOSE_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
