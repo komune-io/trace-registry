@@ -53,7 +53,7 @@ class ActivityF2ExecutorService(
             this.description = description
             this.type = type
         }
-        val result = cccevClient.createGraph( flowOf(requirement) ).toList().first()
+        val result = cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
 
         CertificationCreateCommand(
             identifier = identifier,

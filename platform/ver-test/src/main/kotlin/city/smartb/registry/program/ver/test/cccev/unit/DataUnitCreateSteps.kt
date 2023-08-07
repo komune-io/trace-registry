@@ -54,6 +54,7 @@ class DataUnitCreateSteps: En, VerCucumberStepsDefinition() {
 
     private suspend fun createUnit(params: DataUnitCreateParams) = context.cccevUnitIds.register(params.identifier) {
         command = DataUnitCreateCommandDTOBase(
+            identifier = params.identifier,
             name = params.name,
             description = "",
             notation = params.notation,

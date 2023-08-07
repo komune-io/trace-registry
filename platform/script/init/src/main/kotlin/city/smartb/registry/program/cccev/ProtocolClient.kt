@@ -10,6 +10,9 @@ import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
 import city.smartb.registry.program.cccev.ver.ActivitiesAxess
 import city.smartb.registry.program.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -27,9 +30,12 @@ suspend fun initRequirement(url: String) {
         install(HttpTimeout) {
             requestTimeoutMillis = 60000
         }
-        install(Logging)
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.ALL
+        }
     }
-    client.createGraph(
+    client.graphClient.create(
         buildList<Requirement> {
             add(ActivitiesAxess)
             addAll(EligibilityRequirements)
@@ -39,7 +45,7 @@ suspend fun initRequirement(url: String) {
             addAll(VerraVcsRequirement)
         }.asFlow()
     ).onEach {
-        println("Created requirement: ${it.identifier}")
+        println("Created requirement: ${it}")
     }.collect()
 }
 
@@ -50,11 +56,11 @@ suspend fun initIndicatorsCarbon(url: String) {
         }
         install(Logging)
     }
-    client.createGraph(
+    client.graphClient.create(
         buildList<Requirement> {
             add(IndicatorsCarbon)
         }.asFlow()
     ).onEach {
-        println("Created requirement: ${it.identifier}")
+        println("Created requirement: ${it}")
     }.collect()
 }

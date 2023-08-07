@@ -92,6 +92,19 @@ object Dependencies {
 			)
 		}
 
+		object Im {
+			object Client {
+				fun organization(scope: Scope) = scope.add(
+					"city.smartb.im:organization-client:${Versions.fs}",
+					"io.ktor:ktor-utils:${Versions.ktor}"
+				)
+
+				fun userClient(scope: Scope) = scope.add(
+					"city.smartb.im:user-client:${Versions.fs}",
+					"io.ktor:ktor-utils:${Versions.ktor}"
+				)
+			}
+		}
 		object Fs {
 			fun client(scope: Scope) = scope.add(
 				"city.smartb.fs:file-client:${Versions.fs}",
