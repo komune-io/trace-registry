@@ -24,7 +24,7 @@ class AssetTransactionEntity: WithS2Id<AssetTransactionId>, WithS2State<AssetTra
     lateinit var status: AssetTransactionState
 
     @Indexed
-    lateinit var orderId: String
+    var orderId: String? = null
 
     @Indexed
     lateinit var poolId: AssetPoolId

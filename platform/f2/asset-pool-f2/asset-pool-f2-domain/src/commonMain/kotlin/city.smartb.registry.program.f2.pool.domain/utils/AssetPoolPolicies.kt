@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.pool.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
+import city.smartb.im.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
@@ -19,19 +20,67 @@ import kotlin.js.JsExport
 @JsExport
 object AssetPoolPolicies {
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
     }
 
     fun canHold(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolHoldCommand>(assetPool) {
-        authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+        authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
     }
 
     fun canResume(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolResumeCommand>(assetPool) {
-        authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+        authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
     }
 
     fun canClose(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolCloseCommand>(assetPool) {
-        authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+        authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
+    }
+
+    fun canIssue(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
+    }
+
+    fun canTransfer(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER,
+            Roles.STAKEHOLDER_ADMIN, Roles.STAKEHOLDER_USER
+        )
+    }
+
+    fun canOffset(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER,
+            Roles.STAKEHOLDER_ADMIN, Roles.STAKEHOLDER_USER
+        )
+    }
+
+    fun canRetire(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER,
+        )
+    }
+
+    fun canPlaceOrderForOther(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+        )
     }
 
     private inline fun <reified C: AssetPoolCommand> canTransitionAnd(assetPool: AssetPoolDTO?, hasAccess: () -> Boolean): Boolean {

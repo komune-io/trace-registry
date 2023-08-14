@@ -1,10 +1,14 @@
 package city.smartb.registry.program.f2.pool.client
 
 import city.smartb.registry.program.f2.pool.domain.AssetPoolApi
+import city.smartb.registry.program.f2.pool.domain.command.AssetIssueFunction
+import city.smartb.registry.program.f2.pool.domain.command.AssetOffsetFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolHoldFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolResumeFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCloseFunction
+import city.smartb.registry.program.f2.pool.domain.command.AssetRetireFunction
+import city.smartb.registry.program.f2.pool.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetFunction
 import f2.client.F2Client
 import f2.client.function
@@ -27,4 +31,9 @@ open class AssetPoolClient constructor(private val client: F2Client) : AssetPool
     override fun assetPoolClose(): AssetPoolCloseFunction = client.function(this::assetPoolClose.name)
 
     override fun assetPoolGet(): AssetPoolGetFunction = client.function(this::assetPoolGet.name)
+
+    override fun assetIssue(): AssetIssueFunction = client.function(this::assetIssue.name)
+    override fun assetTransfer(): AssetTransferFunction = client.function(this::assetTransfer.name)
+    override fun assetOffset(): AssetOffsetFunction = client.function(this::assetOffset.name)
+    override fun assetRetire(): AssetRetireFunction = client.function(this::assetRetire.name)
 }

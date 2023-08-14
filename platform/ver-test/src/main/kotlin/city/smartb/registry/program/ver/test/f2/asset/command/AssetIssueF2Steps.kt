@@ -1,7 +1,8 @@
 package city.smartb.registry.program.ver.test.f2.asset.command
 
 import city.smartb.registry.program.f2.asset.api.AssetEndpoint
-import city.smartb.registry.program.f2.asset.domain.command.AssetIssueCommandDTOBase
+import city.smartb.registry.program.f2.pool.api.AssetPoolEndpoint
+import city.smartb.registry.program.f2.pool.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -14,7 +15,8 @@ import s2.bdd.data.TestContextKey
 class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
 
     @Autowired
-    private lateinit var assetEndpoint: AssetEndpoint
+    private lateinit var assetPoolEndpoint: AssetPoolEndpoint
+
     private lateinit var command: AssetIssueCommandDTOBase
 
     init {
@@ -48,13 +50,13 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
 
     private suspend fun issueAssets(params: AssetIssueParams) = context.transactionIds.register(params.identifier) {
         command = AssetIssueCommandDTOBase(
-            poolId = context.assetPoolIds[params.pool] ?: params.pool,
+            id = context.assetPoolIds[params.pool] ?: params.pool,
             to = params.receiver,
             quantity = params.quantity
         )
         // TODO: Fix that
 //        command.invokeWith(assetEndpoint.assetIssue()).transactionId
-        command.invokeWith(assetEndpoint.assetIssue()).orderId
+        command.invokeWith(assetPoolEndpoint.assetIssue()).id
     }
 
     private fun assetIssueParams(entry: Map<String, String>?) = AssetIssueParams(

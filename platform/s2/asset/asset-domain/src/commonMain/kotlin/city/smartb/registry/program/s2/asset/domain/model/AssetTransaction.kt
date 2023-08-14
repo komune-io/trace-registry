@@ -5,10 +5,11 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
+import city.smartb.registry.program.s2.asset.domain.command.pool.OrderId
 
 data class AssetTransaction(
     val id: AssetTransactionId,
-    val orderId: String,
+    val orderId: OrderId?,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,

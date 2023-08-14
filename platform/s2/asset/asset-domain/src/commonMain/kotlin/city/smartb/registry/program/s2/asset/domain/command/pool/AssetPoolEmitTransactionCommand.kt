@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.asset.domain.command.pool
 
+import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolEvent
@@ -11,7 +12,6 @@ import kotlinx.serialization.Serializable
 typealias OrderId = String
 data class AssetPoolEmitTransactionCommand(
     override val id: AssetPoolId,
-    val orderId: OrderId,
     val from: String?,
     val to: String?,
     val by: String,
@@ -23,5 +23,6 @@ data class AssetPoolEmitTransactionCommand(
 data class AssetPoolEmittedTransactionEvent(
     override val id: AssetPoolId,
     override val date: Long,
-    val transactionId: AssetTransactionId
+    val transactionId: AssetTransactionId,
+    val certificate: FilePath?
 ): AssetPoolEvent

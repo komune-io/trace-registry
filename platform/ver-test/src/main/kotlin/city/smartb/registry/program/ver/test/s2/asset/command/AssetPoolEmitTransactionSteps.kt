@@ -125,7 +125,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
             by = params.by,
             quantity = params.quantity,
             type = params.type,
-            orderId = params.orderId,
+//            orderId = params.orderId,
         )
         assetPoolAggregateService.emitTransaction(command).transactionId
     }

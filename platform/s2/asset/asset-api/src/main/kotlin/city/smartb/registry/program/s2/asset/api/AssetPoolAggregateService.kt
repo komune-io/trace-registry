@@ -94,7 +94,7 @@ class AssetPoolAggregateService(
 		}
 
 		val transactionEvent = AssetTransactionEmitCommand(
-			orderId = command.orderId,
+			orderId = null,
 			poolId = command.id,
 			from = command.from,
 			to = command.to,
@@ -106,6 +106,7 @@ class AssetPoolAggregateService(
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
+			certificate = TODO(),
 			transactionId = transactionEvent.id
 		)
 	}
