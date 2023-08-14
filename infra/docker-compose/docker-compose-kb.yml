@@ -12,11 +12,13 @@ services:
       - CHROMADB_PERSIST_DIRECTORY=/chroma
     volumes:
       - kb_files:/chroma
+    networks:
+      - net
 
 volumes:
   kb_files:
 
 networks:
-  default:
-    name: ${DOCKER_NETWORK_NAME}
+  net:
+    name: ${DOCKER_NETWORK}
     external: true

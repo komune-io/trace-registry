@@ -6,9 +6,9 @@ services:
     image: smartbcity/commune-sandbox-cli:2.3.3-0.8.2-2
     command: /opt/commune-sandbox/util/init.sh
     networks:
-      - bclannet-it
+      - net
 
 networks:
-  bclannet-it:
-    name: bclannet-it
+  net:
+    name: ${DOCKER_NETWORK}
     external: true

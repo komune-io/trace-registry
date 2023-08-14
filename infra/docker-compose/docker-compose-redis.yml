@@ -8,23 +8,18 @@ services:
       - 8011:8001
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
-  #    volumes:
-  #      - ~/DockerVolumes/redis/verr/data:/data
-  redis-test:
-    image: redis/redis-stack:6.2.6-v0
-    container_name: verr-redis-test
-    ports:
-      - 6380:6379
-      - 8012:8001
-    environment:
-      REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
+    networks:
+      - net
+
   redisinsight:
     image: redislabs/redisinsight:latest
     container_name: verr-redisinsight
     ports:
       - '8001:8001'
+    networks:
+      - net
 
 networks:
-  bclannet-it:
-    name: bclannet-it
+  net:
+    name: ${DOCKER_NETWORK}
     external: true
