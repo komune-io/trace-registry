@@ -1,6 +1,11 @@
 package city.smartb.registry.program.s2.asset.api
 
+import city.smartb.fs.s2.file.client.FileClient
+import city.smartb.fs.s2.file.domain.model.FilePath
+import city.smartb.fs.spring.utils.toUploadCommand
 import city.smartb.registry.program.api.commons.model.respectsGranularity
+import city.smartb.registry.program.infra.fs.path.OrganizationFsPath
+import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolAutomateExecutor
 import city.smartb.registry.program.s2.asset.api.entity.transaction.TransactionAutomateExecutor
 import city.smartb.registry.program.s2.asset.api.exception.GranularityTooSmallException
@@ -31,6 +36,7 @@ import java.util.UUID
 class AssetPoolAggregateService(
 	private val poolAutomate: AssetPoolAutomateExecutor,
 	private val transactionAutomate: TransactionAutomateExecutor,
+	private val fileClient: FileClient,
 ): AssetPoolAggregate {
 	override suspend fun create(command: AssetPoolCreateCommand) = poolAutomate.init(command) {
 		AssetPoolCreatedEvent(
@@ -103,10 +109,26 @@ class AssetPoolAggregateService(
 			type = command.type
 		).let { emitTransaction(it) }
 
+		val result = CertificateGenerator.fillPendingCertificate(
+			orderId = transactionEvent.id,
+			date = transactionEvent.date,
+			issuedTo = transactionEvent.to!!,
+			quantity = transactionEvent.quantity,
+			indicator = if (transactionEvent.quantity > 1) "tons" else "ton",
+		)
+
+		val path = FilePath(
+			objectType = OrganizationFsPath.OBJECT_TYPE,
+			objectId = transactionEvent.to!!,
+			directory = OrganizationFsPath.DIR_CERTIFICATE,
+			name = "certificate-${transactionEvent.id}-pending.pdf"
+		)
+		val uploaded = fileClient.fileUpload(path.toUploadCommand(), result)
+
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			certificate = TODO(),
+			certificate = uploaded.path,
 			transactionId = transactionEvent.id
 		)
 	}

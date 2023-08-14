@@ -8,7 +8,7 @@ services:
       - fs_s3_external-url=http://localhost:9000
       - fs_s3_bucket=certification
       - fs_init_buckets=certification
-      - fs_kb_url=${KB_HOST_NAME}
+#      - fs_kb_url=${KB_HOST_NAME}
       - debug=true
     ports:
       - "8090:8090"

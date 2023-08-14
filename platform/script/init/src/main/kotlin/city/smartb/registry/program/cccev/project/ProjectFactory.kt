@@ -59,7 +59,7 @@ fun createRandomProject(url: String, accessToken: Actor, poolId: AssetPoolId?, c
     val address =  faker.address()
     val years =  helper.years
     val projects: List<ProjectCreatedEvent> = (countRange).map {
-        randomProject(faker, address, subContinents, types, years, poolId)
+        randomProject(faker, address, subContinents, types, years)
     }.asFlow().buffer(8).map {
         async {
             println("&&&&&&&&&&&&&&"+it.identifier)
@@ -87,7 +87,6 @@ private fun randomProject(
     subContinents: List<String>,
     types: List<String>,
     years: IntRange,
-    poolId: AssetPoolId?,
 ) = ProjectCreateCommand(
     identifier = faker.idNumber().valid(),
     name = faker.mountain().name(),

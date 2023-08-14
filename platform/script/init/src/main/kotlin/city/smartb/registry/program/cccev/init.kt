@@ -24,15 +24,15 @@ fun main() = runBlocking {
     val issuer = actorFactory.create(ActorType.ISSUER)
 
 
-    initRequirement(urlCCCEV)
-    initIndicatorsCarbon(urlCCCEV)
+//    initRequirement(urlCCCEV)
+//    initIndicatorsCarbon(urlCCCEV)
 
-    val assetPoolId = null
-//    val assetPoolId = createAssetPool(
-//        urlVer,
-//        issuer = issuer,
-//        offsetter = offseter
-//    )
+//    val assetPoolId = null
+    val assetPoolId = createAssetPool(
+        urlVer,
+        issuer = issuer,
+        offsetter = offseter
+    )
     createRandomProject(urlVer, accessTokenOrchestrator, assetPoolId)
 }
 

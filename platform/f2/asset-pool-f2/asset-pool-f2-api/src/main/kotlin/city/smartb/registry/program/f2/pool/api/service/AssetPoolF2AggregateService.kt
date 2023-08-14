@@ -3,10 +3,7 @@ package city.smartb.registry.program.f2.pool.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import ch.qos.logback.core.model.processor.PhaseIndicator
-import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.fs.spring.utils.toUploadCommand
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.pool.domain.command.AbstractAssetTransactionCommand
@@ -18,9 +15,7 @@ import city.smartb.registry.program.f2.pool.domain.command.AssetPoolHoldCommandD
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolResumeCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetRetireCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetTransferCommandDTOBase
-import city.smartb.registry.program.infra.fs.path.OrganizationFsPath
 import city.smartb.registry.program.infra.im.ImService
-import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreateCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreatedEvent
@@ -42,7 +37,6 @@ class AssetPoolF2AggregateService(
     private val assetPoolAggregateService: AssetPoolAggregateService,
     private val cccevClient: CCCEVClient,
     private val imService: ImService,
-    private val fileClient: FileClient,
     private val assetPoolPoliciesEnforcer: AssetPoolPoliciesEnforcer,
 ) {
     suspend fun create(command: AssetPoolCreateCommandDTOBase): AssetPoolCreatedEvent {
@@ -96,25 +90,7 @@ class AssetPoolF2AggregateService(
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return placeOrder(command, verifyTo = false) { orderCommand, orderEvent ->
-            // TODO Move it to s2.asset
-            val result = CertificateGenerator.fillPendingCertificate(
-                orderId = orderEvent.id,
-                date = orderEvent.date,
-                issuedTo = orderCommand.to!!,
-                quantity = orderCommand.quantity,
-                indicator = if (orderCommand.quantity > 1) "tons" else "ton",
-            )
-
-            val path = FilePath(
-                objectType = OrganizationFsPath.OBJECT_TYPE,
-                objectId = orderCommand.to!!,
-                directory = OrganizationFsPath.DIR_CERTIFICATE,
-                name = "certificate-${orderEvent.id}-pending.pdf"
-            )
-            fileClient.fileUpload(path.toUploadCommand(), result)
-            path
-        }
+        return placeOrder(command, verifyTo = false)
     }
 
     suspend fun retire(command: AssetRetireCommandDTOBase): AssetPoolEmittedTransactionEvent {
@@ -132,9 +108,8 @@ class AssetPoolF2AggregateService(
         ) -> FilePath? = { _, _ -> null }
     ): AssetPoolEmittedTransactionEvent {
         val orderCommand = command.toOrderPlaceCommand(verifyTo)
-    assetPoolPoliciesEnforcer.checkOrderPlace(orderCommand)
-        val orderEvent = assetPoolAggregateService.emitTransaction(orderCommand)
-        return orderEvent
+        assetPoolPoliciesEnforcer.checkOrderPlace(orderCommand)
+        return assetPoolAggregateService.emitTransaction(orderCommand)
     }
 
     private suspend fun AbstractAssetTransactionCommand.toOrderPlaceCommand(

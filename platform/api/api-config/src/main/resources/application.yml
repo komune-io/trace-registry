@@ -14,12 +14,13 @@ fs:
   url: http://localhost:8090
 
 im:
-  url: https://auth.dev.connect.smart-b.io/im
+  url: https://dev.connect.smart-b.io/im
   auth:
     url: https://auth.dev.connect.smart-b.io
     realm: sb-dev
-    clientId: sb-plateform-app
-    clientSecret: secretsecret
+    clientId: tr-smartb-ver2-app
+    clientSecret: 30ef2c5b-acee-460b-9f38-2ecd9855792d
+#  YsM5Xr66BbSHcM6d
 
 i2:
   issuers:

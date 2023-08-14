@@ -10,6 +10,9 @@ dependencies {
 
 	implementation(project((":platform:infra:redis")))
 
+	implementation(project(":platform:infra:pdf"))
+	implementation(project(":platform:infra:fs"))
+
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2SourcingSsm(::implementation)
 }

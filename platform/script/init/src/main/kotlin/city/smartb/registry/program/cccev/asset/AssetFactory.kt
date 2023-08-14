@@ -44,14 +44,14 @@ suspend fun createAssetPool(
     val helperOffseter = AssetFactory(verUrl, offsetter.accessToken.access_token)
 
     val assetPoolClient = helperIssuer.assetPoolClient.invoke()
-    val assetClientIssuer = helperIssuer.assetClient.invoke()
-    val assetClientOffseter = helperOffseter.assetClient.invoke()
+    val assetClientIssuer = helperIssuer.assetPoolClient.invoke()
+    val assetClientOffseter = helperOffseter.assetPoolClient.invoke()
 
 
     val assetPoolId = assetPoolCreateCommand().invokeWith(assetPoolClient.assetPoolCreate()).id
     val assetIssue = assetIssueCommand(assetPoolId = assetPoolId, to = issuer).invokeWith(assetPoolClient.assetIssue())
-    val assetTransfer = assetTransferCommand(assetPoolId, from = issuer, to = offsetter).invokeWith(assetPoolClient.assetTransfer())
-    val assetOffset1 = assetOffsetCommand(assetPoolId, from = offsetter, to = UUID.randomUUID().toString()).invokeWith(assetPoolClient.assetOffset())
+    val assetTransfer = assetTransferCommand(assetPoolId, from = issuer, to = offsetter).invokeWith(assetClientIssuer.assetTransfer())
+    val assetOffset1 = assetOffsetCommand(assetPoolId, from = offsetter, to = UUID.randomUUID().toString()).invokeWith(assetClientOffseter.assetOffset())
 
     return assetPoolId
 }
