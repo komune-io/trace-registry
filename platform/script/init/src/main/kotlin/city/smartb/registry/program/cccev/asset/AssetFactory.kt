@@ -1,7 +1,8 @@
-package city.smartb.registry.program.cccev
+package city.smartb.registry.program.cccev.asset
 
 import city.smartb.registry.program.cccev.actor.Actor
-import city.smartb.registry.program.cccev.project.ProjectFakeBuilder
+import city.smartb.registry.program.f2.asset.client.assetClient
+import city.smartb.registry.program.f2.pool.client.assetPoolClient
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetOffsetCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetTransferCommandDTOBase
@@ -10,6 +11,28 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
 import java.util.UUID
+import net.datafaker.Faker
+
+class AssetFactory(url: String, accessToken: String) {
+    val faker = Faker()
+    val assetPoolClient = assetPoolClient(url, accessToken)
+    val assetClient = assetClient(url, accessToken)
+
+    val years = (1980..2022)
+    val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
+    val subContinents = listOf("South Asia",
+        "Southeast Asia",
+        "East Asia",
+        "Central Asia",
+        "West Asia/Middle East",
+        "Europe",
+        "North America",
+        "Central America",
+        "South America",
+        "Africa",
+        "Oceania"
+    )
+}
 
 suspend fun createAssetPool(
     verUrl: String,
@@ -17,8 +40,8 @@ suspend fun createAssetPool(
     offsetter: Actor,
 ): AssetPoolId {
 
-    val helperIssuer = ProjectFakeBuilder(verUrl, issuer.accessToken.access_token)
-    val helperOffseter = ProjectFakeBuilder(verUrl, offsetter.accessToken.access_token)
+    val helperIssuer = AssetFactory(verUrl, issuer.accessToken.access_token)
+    val helperOffseter = AssetFactory(verUrl, offsetter.accessToken.access_token)
 
     val assetPoolClient = helperIssuer.assetPoolClient.invoke()
     val assetClientIssuer = helperIssuer.assetClient.invoke()

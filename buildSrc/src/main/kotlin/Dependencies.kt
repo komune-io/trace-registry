@@ -80,7 +80,8 @@ object Dependencies {
 
 		fun im(scope: Scope) = scope.add(
 			"city.smartb.im:organization-client:${Versions.im}",
-			"city.smartb.im:user-client:${Versions.im}"
+			"city.smartb.im:user-client:${Versions.im}",
+			"city.smartb.im:apikey-client:${Versions.im}"
 		)
 
 		object Cccev {

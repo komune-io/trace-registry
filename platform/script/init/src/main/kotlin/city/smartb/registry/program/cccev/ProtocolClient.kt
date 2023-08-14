@@ -2,13 +2,13 @@ package city.smartb.registry.program.cccev
 
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.Requirement
-import city.smartb.registry.program.cccev.requirement.EligibilityRequirements
-import city.smartb.registry.program.cccev.requirement.ImplementationRequirements
-import city.smartb.registry.program.cccev.requirement.LocalConsultationRequirements
-import city.smartb.registry.program.cccev.requirement.ReddPlusRequirement
-import city.smartb.registry.program.cccev.requirement.VerraVcsRequirement
-import city.smartb.registry.program.cccev.ver.ActivitiesAxess
-import city.smartb.registry.program.cccev.ver.IndicatorsCarbon
+import city.smartb.registry.program.cccev.cccev.requirement.EligibilityRequirements
+import city.smartb.registry.program.cccev.cccev.requirement.ImplementationRequirements
+import city.smartb.registry.program.cccev.cccev.requirement.LocalConsultationRequirements
+import city.smartb.registry.program.cccev.cccev.requirement.ReddPlusRequirement
+import city.smartb.registry.program.cccev.cccev.requirement.VerraVcsRequirement
+import city.smartb.registry.program.cccev.cccev.ver.ActivitiesAxess
+import city.smartb.registry.program.cccev.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel

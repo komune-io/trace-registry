@@ -1,5 +1,6 @@
 package city.smartb.registry.program.infra.im
 
+import city.smartb.im.commons.http.HttpClientBuilderJvm
 import city.smartb.im.organization.client.OrganizationClient
 import city.smartb.im.organization.domain.model.Organization
 import io.ktor.client.HttpClient
@@ -23,7 +24,7 @@ class ImConfig {
     @Bean
     fun organizationClient(
         properties: ImProperties
-    ) = OrganizationClient<Organization>(properties.url, generateToken(properties))
+    ) = OrganizationClient<Organization>(properties.url, HttpClientBuilderJvm, generateToken(properties))
 
     fun generateToken(properties: ImProperties): suspend () -> String? = {
         val url = "${properties.auth.url}/realms/${properties.auth.realm}/protocol/openid-connect/token"

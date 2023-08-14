@@ -1,4 +1,4 @@
-package city.smartb.registry.program.cccev.ver
+package city.smartb.registry.program.cccev.cccev.ver
 
 import cccev.dsl.model.ReferenceFramework
 

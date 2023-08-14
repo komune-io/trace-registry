@@ -28,40 +28,40 @@ val s2Order = s2Sourcing {
     name = "OrderS2"
     init<OrderPlaceCommand, OrderPlacedEvent> {
         to = OrderState.DRAFT
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
     transaction<OrderSubmitCommand, OrderSubmittedEvent> {
         from = OrderState.DRAFT
         to = OrderState.SUBMITTED
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
     transaction<OrderPendCommand, OrderPendedEvent> {
         from = OrderState.SUBMITTED
         to = OrderState.PENDING
-        role = Role.ORCHESTRATOR
+        role = Role.ORCHESTRATOR_USER
     }
     selfTransaction<OrderUpdateCommand, OrderUpdatedEvent> {
         states += OrderState.DRAFT
         states += OrderState.SUBMITTED
         states += OrderState.PENDING
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
     transaction<OrderCompleteCommand, OrderCompletedEvent> {
         from = OrderState.PENDING
         to = OrderState.COMPLETED
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
     transaction<OrderCancelCommand, OrderCanceledEvent> {
         froms += OrderState.SUBMITTED
         froms += OrderState.PENDING
         to = OrderState.CANCELLED
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
     transaction<OrderDeleteCommand, OrderDeletedEvent> {
         from = OrderState.DRAFT
         from = OrderState.CANCELLED
         to = OrderState.DELETED
-        role = Role.STAKEHOLDER
+        role = Role.STAKEHOLDER_USER
     }
 }
 

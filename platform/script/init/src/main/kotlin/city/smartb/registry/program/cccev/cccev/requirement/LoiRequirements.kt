@@ -1,8 +1,9 @@
-package city.smartb.registry.program.cccev.requirement
+package city.smartb.registry.program.cccev.cccev.requirement
 
 import cccev.dsl.model.informationRequirement
-import city.smartb.registry.program.cccev.ver.Activities
-import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.cccev.cccev.ver.Activities
+
+import city.smartb.registry.program.cccev.cccev.ver.ReferenceFramework
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 val loiStep = informationRequirement {

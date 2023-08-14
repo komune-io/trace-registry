@@ -1,4 +1,4 @@
-package city.smartb.registry.program.cccev
+package city.smartb.registry.program.cccev.actor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -15,7 +15,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-object AppAuth {
+object ActorAuth {
     suspend fun getActor(authUrl: String, name: String, clientId: String, clientSecret: String): Actor {
         val token = getTokens(authUrl, clientId, clientSecret)
         return Actor(name, token)
@@ -25,7 +25,7 @@ object AppAuth {
         return HttpClient {
             install(Logging) {
                 logger = Logger.DEFAULT
-                level = LogLevel.HEADERS
+                level = LogLevel.ALL
             }
             install(ContentNegotiation) {
                 json(Json {
@@ -55,7 +55,7 @@ open class Actor(
     val name: String,
     val accessToken: AccessToken
 )
-enum class ActorType(name: String, roles: List<String>) {
+enum class ActorType(roles: List<String>) {
     OFFSETTER(listOf(
         "tr_stakeholder_admin"
     )),

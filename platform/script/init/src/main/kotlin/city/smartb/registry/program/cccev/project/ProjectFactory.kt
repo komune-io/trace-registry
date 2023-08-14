@@ -1,28 +1,18 @@
-package city.smartb.registry.program.cccev
+package city.smartb.registry.program.cccev.project
 
 import city.smartb.registry.program.api.commons.model.GeoLocation
-import city.smartb.registry.program.f2.activity.client.ActivityClient
+import city.smartb.registry.program.cccev.actor.Actor
 import city.smartb.registry.program.f2.activity.client.activityClient
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
 import city.smartb.registry.program.f2.asset.client.assetClient
 import city.smartb.registry.program.f2.pool.client.assetPoolClient
-import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateCommandDTOBase
-import city.smartb.registry.program.f2.project.client.ProjectClient
 import city.smartb.registry.program.f2.project.client.projectClient
-import city.smartb.registry.program.f2.project.domain.query.ProjectGetQuery
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
-import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import f2.dsl.fnc.invokeWith
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneOffset
-import java.time.chrono.IsoChronology
-import java.time.format.DateTimeFormatter
-import java.time.format.DecimalStyle
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -36,7 +26,7 @@ import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 import net.datafaker.providers.base.Address
 
-class ProjectFakeBuilder(url: String, accessToken: String) {
+class ProjectFactory(url: String, accessToken: String) {
     val faker = Faker()
     val activityClient = activityClient(url, accessToken)
     val projectClient = projectClient(url, accessToken)
@@ -59,8 +49,8 @@ class ProjectFakeBuilder(url: String, accessToken: String) {
     )
 }
 
-fun createRandomProject(url: String, accessToken: AccessToken, poolId: AssetPoolId?, countRange: IntRange = 1..2): Unit = runBlocking {
-    val helper = ProjectFakeBuilder(url, accessToken.access_token)
+fun createRandomProject(url: String, accessToken: Actor, poolId: AssetPoolId?, countRange: IntRange = 1..2): Unit = runBlocking {
+    val helper = ProjectFactory(url, accessToken.accessToken.access_token)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
     val faker = helper.faker

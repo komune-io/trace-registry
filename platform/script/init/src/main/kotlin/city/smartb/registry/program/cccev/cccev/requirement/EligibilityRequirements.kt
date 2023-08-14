@@ -1,11 +1,11 @@
-package city.smartb.registry.program.cccev.requirement
+package city.smartb.registry.program.cccev.cccev.requirement
 
 import cccev.dsl.model.XSDString
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
-import city.smartb.registry.program.cccev.ver.Activities
-import city.smartb.registry.program.cccev.ver.ReferenceFramework
+import city.smartb.registry.program.cccev.cccev.ver.Activities
+import city.smartb.registry.program.cccev.cccev.ver.ReferenceFramework
 import city.smartb.registry.program.f2.activity.domain.model.RequirementType
 
 fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =

@@ -21,14 +21,17 @@ object ActivityPolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Roles.ORCHESTRATOR)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
     fun canCreateStep(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Roles.ORCHESTRATOR)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
     fun canFulfillTask(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR, Roles.PROJECT_MANAGER)
+        return authedUser.hasOneOfRoles(
+            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
+            Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
+        )
     }
 }
