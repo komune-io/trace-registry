@@ -176,6 +176,32 @@ export namespace city.smartb.im.commons.http {
         protected doCall<T>(fnc: any /*Suspend functions are not supported*/): Promise<T>;
     }
 }
+export namespace i2.keycloak.master.domain {
+    abstract class AuthRealm {
+        protected constructor(serverUrl: string, realmId: string, clientId: string, redirectUrl?: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get clientId(): string;
+        get redirectUrl(): Nullable<string>;
+    }
+    class AuthRealmPassword extends i2.keycloak.master.domain.AuthRealm {
+        constructor(serverUrl: string, realmId: string, redirectUrl: string, clientId: string, username: string, password: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get redirectUrl(): string;
+        get clientId(): string;
+        get username(): string;
+        get password(): string;
+    }
+    class AuthRealmClientSecret extends i2.keycloak.master.domain.AuthRealm {
+        constructor(serverUrl: string, realmId: string, clientId: string, redirectUrl?: string, clientSecret: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get clientId(): string;
+        get redirectUrl(): Nullable<string>;
+        get clientSecret(): string;
+    }
+}
 export namespace f2.dsl.fnc {
     interface F2Function<T, R> {
         invoke(cmd: Array<T>): Promise<Array<R>>;
@@ -624,10 +650,10 @@ export namespace i2.keycloak.f2.user.domain.features.query {
 }
 export namespace i2.keycloak.f2.user.domain.features.query {
     class UserPageQuery implements i2.keycloak.f2.commons.domain.KeycloakF2Query {
-        constructor(groupId?: string, search?: string, role?: string, attributes?: Record<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(groupId?: string, search?: string, roles?: any/* Nullable<string>[] */, attributes?: Record<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get groupId(): Nullable<string>;
         get search(): Nullable<string>;
-        get role(): Nullable<string>;
+        get roles(): Nullable<any>/* Nullable<string>[] */;
         get attributes(): Record<string, string>;
         get withDisabled(): boolean;
         get page(): f2.dsl.cqrs.page.PagePagination;
@@ -675,8 +701,8 @@ export namespace i2.keycloak.f2.client.domain.features.query {
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
     class ClientGetByClientIdentifierResult implements f2.dsl.cqrs.Event {
-        constructor(idem?: i2.keycloak.f2.client.domain.ClientModel);
-        get idem(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
+        constructor(item?: i2.keycloak.f2.client.domain.ClientModel);
+        get item(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
     }
 }
 export namespace i2.keycloak.f2.client.domain.features.query {
@@ -911,6 +937,7 @@ export namespace city.smartb.im.organization.domain.features.query {
     interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
         readonly search?: string;
         readonly role?: string;
+        readonly roles?: any/* Nullable<string>[] */;
         readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly withDisabled?: boolean;
         readonly page?: number;
@@ -1111,6 +1138,7 @@ export namespace city.smartb.im.user.domain.features.query {
         readonly organizationId?: string;
         readonly search?: string;
         readonly role?: string;
+        readonly roles?: any/* Nullable<string>[] */;
         readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly withDisabled: boolean;
         readonly page?: number;
@@ -1815,9 +1843,12 @@ export namespace s2.sourcing.dsl {
 }
 export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ORCHESTRATOR(): string;
-        get PROJECT_MANAGER(): string;
-        get STAKEHOLDER(): string;
+        get ORCHESTRATOR_ADMIN(): string;
+        get ORCHESTRATOR_USER(): string;
+        get PROJECT_MANAGER_ADMIN(): string;
+        get PROJECT_MANAGER_USER(): string;
+        get STAKEHOLDER_ADMIN(): string;
+        get STAKEHOLDER_USER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
@@ -1939,6 +1970,7 @@ export namespace cccev.s2.unit.domain {
 export namespace cccev.s2.unit.domain.command {
     interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.DataUnitEvent {
         readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
@@ -1984,7 +2016,7 @@ export namespace cccev.s2.concept.domain.command {
 
     }
 }
-export namespace cccev.s2.evidence.domain {
+export namespace cccev.s2.evidence.type.domain {
     interface EvidenceTypeInitCommand extends s2.dsl.automate.S2InitCommand {
 
     }
@@ -1997,7 +2029,7 @@ export namespace cccev.s2.evidence.domain {
 
     }
 }
-export namespace cccev.s2.evidence.domain {
+export namespace cccev.s2.evidence.type.domain {
     interface EvidenceTypeListInitCommand extends s2.dsl.automate.S2InitCommand {
 
     }
@@ -2011,54 +2043,54 @@ export namespace cccev.s2.evidence.domain {
 
     }
 }
-export namespace cccev.s2.evidence.domain.command.list {
-    interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.domain.EvidenceTypeListInitCommand {
+export namespace cccev.s2.evidence.type.domain.command.list {
+    interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.type.domain.EvidenceTypeListInitCommand {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
 
     }
-    interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeListEvent {
+    interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.type.domain.EvidenceTypeListEvent {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeListState */;
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeListState */;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.evidence.domain.command.list {
-    interface EvidenceTypeListUpdateCommandDTO extends cccev.s2.evidence.domain.EvidenceTypeListCommand {
+export namespace cccev.s2.evidence.type.domain.command.list {
+    interface EvidenceTypeListUpdateCommandDTO extends cccev.s2.evidence.type.domain.EvidenceTypeListCommand {
         readonly id: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
 
     }
-    interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeListEvent {
+    interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.type.domain.EvidenceTypeListEvent {
         readonly id: string;
         s2Id(): string;
 
     }
 }
-export namespace cccev.s2.evidence.domain.command.type {
-    interface EvidenceTypeCreateCommandDTO extends cccev.s2.evidence.domain.EvidenceTypeInitCommand {
+export namespace cccev.s2.evidence.type.domain.command.type {
+    interface EvidenceTypeCreateCommandDTO extends cccev.s2.evidence.type.domain.EvidenceTypeInitCommand {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly validityPeriodConstraint?: any/* Nullable<number> */;
 
     }
-    interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.domain.EvidenceTypeEvent {
+    interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.EvidenceTypeEvent {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly validityPeriodConstraint?: any/* Nullable<number> */;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeState */;
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
     }
@@ -2120,6 +2152,31 @@ export namespace cccev.s2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         s2Id(): string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.features.query {
+    interface FileAskQuestionQueryDTO {
+        readonly question: string;
+        readonly history: city.smartb.fs.s2.file.domain.model.ChatMessageDTO[];
+        readonly metadata: city.smartb.registry.program.f2.chat.domain.model.ChatMetadataDTO;
+
+    }
+    interface FileAskQuestionResultDTO {
+        readonly item: string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface ChatMessageDTO {
+        readonly content: string;
+        readonly type: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.chat.domain.model {
+    interface ChatMetadataDTO {
+        readonly targetedFiles: string[];
 
     }
 }
@@ -2308,6 +2365,7 @@ export namespace cccev.f2.evidence.domain.model {
 }
 export namespace cccev.f2.unit.domain.command {
     interface DataUnitCreateCommandDTO {
+        readonly identifier: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
@@ -2316,6 +2374,7 @@ export namespace cccev.f2.unit.domain.command {
     }
     interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.command.DataUnitCreatedEventDTO {
         readonly id: string;
+        readonly identifier: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
@@ -2342,6 +2401,16 @@ export namespace cccev.f2.unit.domain.model {
         number(): string;
         string(): string;
     };
+}
+export namespace cccev.f2.unit.domain.query {
+    interface DataUnitGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface DataUnitGetByIdentifierResultDTO {
+        readonly item?: cccev.f2.unit.domain.model.DataUnitDTO;
+
+    }
 }
 export namespace cccev.f2.unit.domain.query {
     interface DataUnitGetQueryDTO {
@@ -2442,7 +2511,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
         readonly metadata?: any/* Nullable<Record<string, string>> */;
-        readonly vectorize: boolean;
+        readonly vectorize?: boolean;
 
     }
     interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
@@ -2590,53 +2659,53 @@ export namespace cccev.f2.certification.domain.query {
     }
 }
 export namespace cccev.f2.evidence.type.domain.command.list {
-    interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreateCommandDTO {
+    interface EvidenceTypeListCreateCommandDTO extends cccev.s2.evidence.type.domain.command.list.EvidenceTypeListCreateCommandDTO {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
 
     }
-    interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListCreatedEventDTO {
+    interface EvidenceTypeListCreatedEventDTO extends cccev.s2.evidence.type.domain.command.list.EvidenceTypeListCreatedEventDTO {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeListState */;
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeListState */;
         s2Id(): string;
 
     }
 }
 export namespace cccev.f2.evidence.type.domain.command.list {
-    interface EvidenceTypeListUpdateCommandDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListUpdateCommandDTO {
+    interface EvidenceTypeListUpdateCommandDTO extends cccev.s2.evidence.type.domain.command.list.EvidenceTypeListUpdateCommandDTO {
         readonly id: string;
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: string[];
 
     }
-    interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.domain.command.list.EvidenceTypeListUpdatedEventDTO {
+    interface EvidenceTypeListUpdatedEventDTO extends cccev.s2.evidence.type.domain.command.list.EvidenceTypeListUpdatedEventDTO {
         readonly id: string;
         s2Id(): string;
 
     }
 }
 export namespace cccev.f2.evidence.type.domain.command.type {
-    interface EvidenceTypeCreateCommandDTO extends cccev.s2.evidence.domain.command.type.EvidenceTypeCreateCommandDTO {
+    interface EvidenceTypeCreateCommandDTO extends cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreateCommandDTO {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly validityPeriodConstraint?: any/* Nullable<number> */;
 
     }
-    interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.domain.command.type.EvidenceTypeCreatedEventDTO {
+    interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreatedEventDTO {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
         readonly validityPeriodConstraint?: any/* Nullable<number> */;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.domain.EvidenceTypeState */;
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
     }
@@ -2656,6 +2725,46 @@ export namespace cccev.f2.evidence.type.domain.model {
         readonly name: string;
         readonly description: string;
         readonly specifiesEvidenceType: cccev.f2.evidence.type.domain.model.EvidenceTypeDTO[];
+
+    }
+}
+export namespace cccev.f2.evidence.type.domain.query {
+    interface EvidenceTypeGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface EvidenceTypeGetByIdentifierResultDTO {
+        readonly item?: cccev.f2.evidence.type.domain.model.EvidenceTypeDTO;
+
+    }
+}
+export namespace cccev.f2.evidence.type.domain.query {
+    interface EvidenceTypeGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface EvidenceTypeGetResultDTO {
+        readonly item?: cccev.f2.evidence.type.domain.model.EvidenceTypeDTO;
+
+    }
+}
+export namespace cccev.f2.evidence.type.domain.query {
+    interface EvidenceTypeListGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface EvidenceTypeListGetByIdentifierResultDTO {
+        readonly item?: cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO;
+
+    }
+}
+export namespace cccev.f2.evidence.type.domain.query {
+    interface EvidenceTypeListGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface EvidenceTypeListGetResultDTO {
+        readonly item?: cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO;
 
     }
 }
@@ -2714,6 +2823,16 @@ export namespace cccev.f2.framework.domain.model {
         readonly id: string;
         readonly identifier?: string;
         readonly name: string;
+
+    }
+}
+export namespace cccev.f2.framework.domain.query {
+    interface FrameworkGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface FrameworkGetByIdentifierResultDTO {
+        readonly item?: cccev.s2.framework.domain.model.FrameworkDTO;
 
     }
 }
@@ -3002,7 +3121,7 @@ export namespace f2.client {
 export namespace f2.client.ktor.http {
     class HttpClientBuilder {
         constructor(json?: kotlinx.serialization.json.Json);
-        build(urlBase: string): Promise<f2.client.F2Client>;
+        build(urlBase: string): Promise<f2.client.F2Client/* f2.client.ktor.http.HttpF2Client */>;
     }
 }
 export namespace f2.client.ktor.rsocket {
@@ -3204,6 +3323,16 @@ export namespace city.smartb.registry.program.f2.project.domain.query {
     interface ProjectDownloadFileQueryDTO {
         readonly id: string;
         readonly path: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.project.domain.query {
+    interface ProjectGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface ProjectGetByIdentifierResultDTO {
+        readonly item?: city.smartb.registry.program.s2.project.domain.model.ProjectDTO;
 
     }
 }

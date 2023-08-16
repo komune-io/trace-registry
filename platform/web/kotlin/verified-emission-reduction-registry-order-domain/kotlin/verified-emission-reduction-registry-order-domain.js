@@ -396,6 +396,9 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AddressDTO, 'AddressDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ClientJs$doCall$slambda, 'ClientJs$doCall$slambda', classMeta, CoroutineImpl, undefined, undefined, undefined, [1]);
   setMetadataFor(ClientJs, 'ClientJs', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AuthRealm, 'AuthRealm', classMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AuthRealmPassword, 'AuthRealmPassword', classMeta, AuthRealm, undefined, undefined, undefined, []);
+  setMetadataFor(AuthRealmClientSecret, 'AuthRealmClientSecret', classMeta, AuthRealm, undefined, undefined, undefined, []);
   setMetadataFor(F2Function, 'F2Function', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(F2Supplier, 'F2Supplier', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(F2Consumer, 'F2Consumer', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -689,6 +692,10 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(RequirementCreatedEventDTO, 'RequirementCreatedEventDTO', interfaceMeta, undefined, [RequirementEvent], undefined, undefined, []);
   setMetadataFor(RequirementUpdateCommandDTO, 'RequirementUpdateCommandDTO', interfaceMeta, undefined, [RequirementCommand], undefined, undefined, []);
   setMetadataFor(RequirementUpdatedEventDTO, 'RequirementUpdatedEventDTO', interfaceMeta, undefined, [RequirementEvent], undefined, undefined, []);
+  setMetadataFor(FileAskQuestionQueryDTO, 'FileAskQuestionQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(FileAskQuestionResultDTO, 'FileAskQuestionResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ChatMessageDTO, 'FileAskMessageDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ChatMetadataDTO, 'FileAskMetadataDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(FilePathDTO, 'FilePathDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CertificationInitCommand, 'CertificationInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(CertificationCommand, 'CertificationCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
@@ -718,6 +725,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(DataUnitCreatedEventDTO_0, 'DataUnitCreatedEventDTO', interfaceMeta, undefined, [DataUnitCreatedEventDTO], undefined, undefined, []);
   setMetadataFor(DataUnitDTO_0, 'DataUnitDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DataUnitTypeValues, 'DataUnitTypeValues', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DataUnitGetByIdentifierQueryDTO, 'DataUnitGetByIdentifierQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DataUnitGetByIdentifierResultDTO, 'DataUnitGetByIdentifierResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DataUnitGetQueryDTO, 'DataUnitGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DataUnitGetResultDTO, 'DataUnitGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(InformationConceptCreateCommandDTO_0, 'InformationConceptCreateCommandDTO', interfaceMeta, undefined, [InformationConceptCreateCommandDTO], undefined, undefined, []);
@@ -757,6 +766,14 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(EvidenceTypeCreatedEventDTO_0, 'EvidenceTypeCreatedEventDTO', interfaceMeta, undefined, [EvidenceTypeCreatedEventDTO], undefined, undefined, []);
   setMetadataFor(EvidenceTypeDTO_0, 'EvidenceTypeDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(EvidenceTypeListDTO_0, 'EvidenceTypeListDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeGetByIdentifierQueryDTO, 'EvidenceTypeGetByIdentifierQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeGetByIdentifierResultDTO, 'EvidenceTypeGetByIdentifierResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeGetQueryDTO, 'EvidenceTypeGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeGetResultDTO, 'EvidenceTypeGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeListGetByIdentifierQueryDTO, 'EvidenceTypeListGetByIdentifierQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeListGetByIdentifierResultDTO, 'EvidenceTypeListGetByIdentifierResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeListGetQueryDTO, 'EvidenceTypeListGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(EvidenceTypeListGetResultDTO, 'EvidenceTypeListGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(FrameworkInitCommand, 'FrameworkInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(FrameworkCommand, 'FrameworkCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   function s2Id_3() {
@@ -769,6 +786,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(FrameworkCreateCommandDTO_0, 'FrameworkCreateCommandDTO', interfaceMeta, undefined, [FrameworkCreateCommandDTO], undefined, undefined, []);
   setMetadataFor(FrameworkCreatedEventDTO_0, 'FrameworkCreatedEventDTO', interfaceMeta, undefined, [FrameworkCreatedEventDTO], undefined, undefined, []);
   setMetadataFor(FrameworkDTO_0, 'FrameworkDTO', interfaceMeta, undefined, [FrameworkDTO], undefined, undefined, []);
+  setMetadataFor(FrameworkGetByIdentifierQueryDTO, 'FrameworkGetByIdentifierQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(FrameworkGetByIdentifierResultDTO, 'FrameworkGetByIdentifierResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(FrameworkGetQueryDTO, 'FrameworkGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(FrameworkGetResultDTO, 'FrameworkGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementCreateCommandDTO, 'RequirementCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -12423,6 +12442,7 @@ if (typeof Math.imul === 'undefined') {
       return receiver.jr_1;
     }, null);
   }
+  var Role_SUPER_ADMIN_instance;
   var Role_IM_USER_READ_instance;
   var Role_IM_USER_WRITE_instance;
   var Role_IM_ORGANIZATION_READ_instance;
@@ -12437,15 +12457,16 @@ if (typeof Math.imul === 'undefined') {
     if (Role_entriesInitialized)
       return Unit_getInstance();
     Role_entriesInitialized = true;
-    Role_IM_USER_READ_instance = new Role('IM_USER_READ', 0, 'im_read_user');
-    Role_IM_USER_WRITE_instance = new Role('IM_USER_WRITE', 1, 'im_write_user');
-    Role_IM_ORGANIZATION_READ_instance = new Role('IM_ORGANIZATION_READ', 2, 'im_read_organization');
-    Role_IM_ORGANIZATION_WRITE_instance = new Role('IM_ORGANIZATION_WRITE', 3, 'im_write_organization');
-    Role_IM_APIKEY_READ_instance = new Role('IM_APIKEY_READ', 4, 'im_read_apikey');
-    Role_IM_APIKEY_WRITE_instance = new Role('IM_APIKEY_WRITE', 5, 'im_write_apikey');
-    Role_IM_ROLE_READ_instance = new Role('IM_ROLE_READ', 6, 'im_read_role');
-    Role_IM_ROLE_WRITE_instance = new Role('IM_ROLE_WRITE', 7, 'im_write_role');
-    Role_IM_MY_ORGANIZATION_WRITE_instance = new Role('IM_MY_ORGANIZATION_WRITE', 8, 'im_write_my_organization');
+    Role_SUPER_ADMIN_instance = new Role('SUPER_ADMIN', 0, 'super_admin');
+    Role_IM_USER_READ_instance = new Role('IM_USER_READ', 1, 'im_read_user');
+    Role_IM_USER_WRITE_instance = new Role('IM_USER_WRITE', 2, 'im_write_user');
+    Role_IM_ORGANIZATION_READ_instance = new Role('IM_ORGANIZATION_READ', 3, 'im_read_organization');
+    Role_IM_ORGANIZATION_WRITE_instance = new Role('IM_ORGANIZATION_WRITE', 4, 'im_write_organization');
+    Role_IM_APIKEY_READ_instance = new Role('IM_APIKEY_READ', 5, 'im_read_apikey');
+    Role_IM_APIKEY_WRITE_instance = new Role('IM_APIKEY_WRITE', 6, 'im_write_apikey');
+    Role_IM_ROLE_READ_instance = new Role('IM_ROLE_READ', 7, 'im_read_role');
+    Role_IM_ROLE_WRITE_instance = new Role('IM_ROLE_WRITE', 8, 'im_write_role');
+    Role_IM_MY_ORGANIZATION_WRITE_instance = new Role('IM_MY_ORGANIZATION_WRITE', 9, 'im_write_my_organization');
   }
   function Role(name, ordinal, value) {
     Enum.call(this, name, ordinal);
@@ -12536,6 +12557,98 @@ if (typeof Math.imul === 'undefined') {
     var tmp = GlobalScope_getInstance();
     return promise$default(tmp, null, null, ClientJs$doCall$slambda_0(fnc, null), 3, null);
   };
+  function AuthRealm(serverUrl, realmId, clientId, redirectUrl) {
+    this.as_1 = serverUrl;
+    this.bs_1 = realmId;
+    this.cs_1 = clientId;
+    this.ds_1 = redirectUrl;
+  }
+  AuthRealm.prototype.es = function () {
+    return this.as_1;
+  };
+  AuthRealm.prototype.fs = function () {
+    return this.bs_1;
+  };
+  AuthRealm.prototype.gs = function () {
+    return this.cs_1;
+  };
+  AuthRealm.prototype.hs = function () {
+    return this.ds_1;
+  };
+  Object.defineProperty(AuthRealm.prototype, 'serverUrl', {
+    configurable: true,
+    get: function () {
+      return this.es();
+    }
+  });
+  Object.defineProperty(AuthRealm.prototype, 'realmId', {
+    configurable: true,
+    get: function () {
+      return this.fs();
+    }
+  });
+  Object.defineProperty(AuthRealm.prototype, 'clientId', {
+    configurable: true,
+    get: function () {
+      return this.gs();
+    }
+  });
+  Object.defineProperty(AuthRealm.prototype, 'redirectUrl', {
+    configurable: true,
+    get: function () {
+      return this.hs();
+    }
+  });
+  function AuthRealmPassword(serverUrl, realmId, redirectUrl, clientId, username, password) {
+    AuthRealm.call(this, serverUrl, realmId, clientId, redirectUrl);
+    this.ms_1 = serverUrl;
+    this.ns_1 = realmId;
+    this.os_1 = redirectUrl;
+    this.ps_1 = clientId;
+    this.username = username;
+    this.password = password;
+  }
+  AuthRealmPassword.prototype.es = function () {
+    return this.ms_1;
+  };
+  AuthRealmPassword.prototype.fs = function () {
+    return this.ns_1;
+  };
+  AuthRealmPassword.prototype.hs = function () {
+    return this.os_1;
+  };
+  AuthRealmPassword.prototype.gs = function () {
+    return this.ps_1;
+  };
+  AuthRealmPassword.prototype.qs = function () {
+    return this.username;
+  };
+  AuthRealmPassword.prototype.rs = function () {
+    return this.password;
+  };
+  function AuthRealmClientSecret(serverUrl, realmId, clientId, redirectUrl, clientSecret) {
+    AuthRealm.call(this, serverUrl, realmId, clientId, redirectUrl);
+    this.ws_1 = serverUrl;
+    this.xs_1 = realmId;
+    this.ys_1 = clientId;
+    this.zs_1 = redirectUrl;
+    this.clientSecret = clientSecret;
+  }
+  AuthRealmClientSecret.prototype.es = function () {
+    return this.ws_1;
+  };
+  AuthRealmClientSecret.prototype.fs = function () {
+    return this.xs_1;
+  };
+  AuthRealmClientSecret.prototype.gs = function () {
+    return this.ys_1;
+  };
+  AuthRealmClientSecret.prototype.hs = function () {
+    return this.zs_1;
+  };
+  AuthRealmClientSecret.prototype.at = function () {
+    return this.clientSecret;
+  };
   function F2Function() {
   }
   function F2Supplier() {
@@ -12562,60 +12675,60 @@ if (typeof Math.imul === 'undefined') {
   Role_0.prototype.s8 = function () {
     return this.name;
   };
-  Role_0.prototype.bs = function () {
+  Role_0.prototype.ct = function () {
     return this.description;
   };
-  Role_0.prototype.cs = function () {
+  Role_0.prototype.dt = function () {
     return this.isClientRole;
   };
   function RoleCompositesModel(assignedRole, effectiveRoles) {
     this.assignedRole = assignedRole;
     this.effectiveRoles = effectiveRoles;
   }
-  RoleCompositesModel.prototype.ds = function () {
+  RoleCompositesModel.prototype.et = function () {
     return this.assignedRole;
   };
-  RoleCompositesModel.prototype.es = function () {
+  RoleCompositesModel.prototype.ft = function () {
     return this.effectiveRoles;
   };
   function RolesCompositeModel(assignedRoles, effectiveRoles) {
     this.assignedRoles = assignedRoles;
     this.effectiveRoles = effectiveRoles;
   }
-  RolesCompositeModel.prototype.fs = function () {
+  RolesCompositeModel.prototype.gt = function () {
     return this.assignedRoles;
   };
-  RolesCompositeModel.prototype.es = function () {
+  RolesCompositeModel.prototype.ft = function () {
     return this.effectiveRoles;
   };
   function RoleCompositeGetQuery(realmId, objId, objType, auth) {
     this.realmId = realmId;
     this.objId = objId;
     this.objType = objType;
-    this.gs_1 = auth;
+    this.ht_1 = auth;
   }
-  RoleCompositeGetQuery.prototype.hs = function () {
+  RoleCompositeGetQuery.prototype.fs = function () {
     return this.realmId;
   };
-  RoleCompositeGetQuery.prototype.is = function () {
+  RoleCompositeGetQuery.prototype.it = function () {
     return this.objId;
   };
-  RoleCompositeGetQuery.prototype.js = function () {
+  RoleCompositeGetQuery.prototype.jt = function () {
     return this.objType;
   };
-  RoleCompositeGetQuery.prototype.as = function () {
-    return this.gs_1;
+  RoleCompositeGetQuery.prototype.bt = function () {
+    return this.ht_1;
   };
   Object.defineProperty(RoleCompositeGetQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function RoleCompositeGetResult(item) {
     this.item = item;
   }
-  RoleCompositeGetResult.prototype.ks = function () {
+  RoleCompositeGetResult.prototype.kt = function () {
     return this.item;
   };
   var RoleCompositeObjType_USER_instance;
@@ -12667,19 +12780,19 @@ if (typeof Math.imul === 'undefined') {
     this.id = id;
     this.auth = auth;
   }
-  RoleGetByIdQuery.prototype.hs = function () {
+  RoleGetByIdQuery.prototype.fs = function () {
     return this.realmId;
   };
   RoleGetByIdQuery.prototype.zo = function () {
     return this.id;
   };
-  RoleGetByIdQuery.prototype.as = function () {
+  RoleGetByIdQuery.prototype.bt = function () {
     return this.auth;
   };
   function RoleGetByIdResult(item) {
     this.item = item;
   }
-  RoleGetByIdResult.prototype.ks = function () {
+  RoleGetByIdResult.prototype.kt = function () {
     return this.item;
   };
   function RoleGetByNameQuery(realmId, auth, name) {
@@ -12687,10 +12800,10 @@ if (typeof Math.imul === 'undefined') {
     this.auth = auth;
     this.name = name;
   }
-  RoleGetByNameQuery.prototype.hs = function () {
+  RoleGetByNameQuery.prototype.fs = function () {
     return this.realmId;
   };
-  RoleGetByNameQuery.prototype.as = function () {
+  RoleGetByNameQuery.prototype.bt = function () {
     return this.auth;
   };
   RoleGetByNameQuery.prototype.s8 = function () {
@@ -12699,7 +12812,7 @@ if (typeof Math.imul === 'undefined') {
   function RoleGetByNameResult(item) {
     this.item = item;
   }
-  RoleGetByNameResult.prototype.ks = function () {
+  RoleGetByNameResult.prototype.kt = function () {
     return this.item;
   };
   function RolePageQuery(realmId, auth, page) {
@@ -12707,10 +12820,10 @@ if (typeof Math.imul === 'undefined') {
     this.auth = auth;
     this.page = page;
   }
-  RolePageQuery.prototype.hs = function () {
+  RolePageQuery.prototype.fs = function () {
     return this.realmId;
   };
-  RolePageQuery.prototype.as = function () {
+  RolePageQuery.prototype.bt = function () {
     return this.auth;
   };
   RolePageQuery.prototype.wq = function () {
@@ -12725,25 +12838,25 @@ if (typeof Math.imul === 'undefined') {
   function RoleAddCompositesCommand(roleName, composites, auth, realmId) {
     this.roleName = roleName;
     this.composites = composites;
-    this.ns_1 = auth;
+    this.nt_1 = auth;
     this.realmId = realmId;
   }
-  RoleAddCompositesCommand.prototype.os = function () {
+  RoleAddCompositesCommand.prototype.ot = function () {
     return this.roleName;
   };
-  RoleAddCompositesCommand.prototype.ps = function () {
+  RoleAddCompositesCommand.prototype.pt = function () {
     return this.composites;
   };
-  RoleAddCompositesCommand.prototype.as = function () {
-    return this.ns_1;
+  RoleAddCompositesCommand.prototype.bt = function () {
+    return this.nt_1;
   };
-  RoleAddCompositesCommand.prototype.hs = function () {
+  RoleAddCompositesCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(RoleAddCompositesCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function RoleAddedCompositesEvent(id) {
@@ -12757,31 +12870,31 @@ if (typeof Math.imul === 'undefined') {
     this.description = description;
     this.isClientRole = isClientRole;
     this.composites = composites;
-    this.qs_1 = auth;
+    this.qt_1 = auth;
     this.realmId = realmId;
   }
   RoleCreateCommand.prototype.s8 = function () {
     return this.name;
   };
-  RoleCreateCommand.prototype.bs = function () {
+  RoleCreateCommand.prototype.ct = function () {
     return this.description;
   };
-  RoleCreateCommand.prototype.cs = function () {
+  RoleCreateCommand.prototype.dt = function () {
     return this.isClientRole;
   };
-  RoleCreateCommand.prototype.ps = function () {
+  RoleCreateCommand.prototype.pt = function () {
     return this.composites;
   };
-  RoleCreateCommand.prototype.as = function () {
-    return this.qs_1;
+  RoleCreateCommand.prototype.bt = function () {
+    return this.qt_1;
   };
-  RoleCreateCommand.prototype.hs = function () {
+  RoleCreateCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(RoleCreateCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function RoleCreatedEvent(id) {
@@ -12795,31 +12908,31 @@ if (typeof Math.imul === 'undefined') {
     this.description = description;
     this.isClientRole = isClientRole;
     this.composites = composites;
-    this.rs_1 = auth;
+    this.rt_1 = auth;
     this.realmId = realmId;
   }
   RoleUpdateCommand.prototype.s8 = function () {
     return this.name;
   };
-  RoleUpdateCommand.prototype.bs = function () {
+  RoleUpdateCommand.prototype.ct = function () {
     return this.description;
   };
-  RoleUpdateCommand.prototype.cs = function () {
+  RoleUpdateCommand.prototype.dt = function () {
     return this.isClientRole;
   };
-  RoleUpdateCommand.prototype.ps = function () {
+  RoleUpdateCommand.prototype.pt = function () {
     return this.composites;
   };
-  RoleUpdateCommand.prototype.as = function () {
-    return this.rs_1;
+  RoleUpdateCommand.prototype.bt = function () {
+    return this.rt_1;
   };
-  RoleUpdateCommand.prototype.hs = function () {
+  RoleUpdateCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(RoleUpdateCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function RoleUpdatedEvent(id) {
@@ -12832,32 +12945,32 @@ if (typeof Math.imul === 'undefined') {
     this.name = name;
     this.attributes = attributes;
     this.roles = roles;
-    this.ss_1 = auth;
+    this.st_1 = auth;
     this.realmId = realmId;
     this.parentGroupId = parentGroupId;
   }
   GroupCreateCommand.prototype.s8 = function () {
     return this.name;
   };
-  GroupCreateCommand.prototype.ts = function () {
+  GroupCreateCommand.prototype.tt = function () {
     return this.attributes;
   };
   GroupCreateCommand.prototype.gr = function () {
     return this.roles;
   };
-  GroupCreateCommand.prototype.as = function () {
-    return this.ss_1;
+  GroupCreateCommand.prototype.bt = function () {
+    return this.st_1;
   };
-  GroupCreateCommand.prototype.hs = function () {
+  GroupCreateCommand.prototype.fs = function () {
     return this.realmId;
   };
-  GroupCreateCommand.prototype.us = function () {
+  GroupCreateCommand.prototype.ut = function () {
     return this.parentGroupId;
   };
   Object.defineProperty(GroupCreateCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function GroupCreatedEvent(id) {
@@ -12869,21 +12982,21 @@ if (typeof Math.imul === 'undefined') {
   function GroupDisableCommand(id, realmId, auth) {
     this.id = id;
     this.realmId = realmId;
-    this.vs_1 = auth;
+    this.vt_1 = auth;
   }
   GroupDisableCommand.prototype.zo = function () {
     return this.id;
   };
-  GroupDisableCommand.prototype.hs = function () {
+  GroupDisableCommand.prototype.fs = function () {
     return this.realmId;
   };
-  GroupDisableCommand.prototype.as = function () {
-    return this.vs_1;
+  GroupDisableCommand.prototype.bt = function () {
+    return this.vt_1;
   };
   Object.defineProperty(GroupDisableCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function GroupDisabledEvent(id) {
@@ -12896,24 +13009,24 @@ if (typeof Math.imul === 'undefined') {
     this.id = id;
     this.attributes = attributes;
     this.realmId = realmId;
-    this.ws_1 = auth;
+    this.wt_1 = auth;
   }
   GroupSetAttributesCommand.prototype.zo = function () {
     return this.id;
   };
-  GroupSetAttributesCommand.prototype.ts = function () {
+  GroupSetAttributesCommand.prototype.tt = function () {
     return this.attributes;
   };
-  GroupSetAttributesCommand.prototype.hs = function () {
+  GroupSetAttributesCommand.prototype.fs = function () {
     return this.realmId;
   };
-  GroupSetAttributesCommand.prototype.as = function () {
-    return this.ws_1;
+  GroupSetAttributesCommand.prototype.bt = function () {
+    return this.wt_1;
   };
   Object.defineProperty(GroupSetAttributesCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function GroupSetAttributesEvent(id) {
@@ -12927,7 +13040,7 @@ if (typeof Math.imul === 'undefined') {
     this.name = name;
     this.attributes = attributes;
     this.roles = roles;
-    this.xs_1 = auth;
+    this.xt_1 = auth;
     this.realmId = realmId;
   }
   GroupUpdateCommand.prototype.zo = function () {
@@ -12936,22 +13049,22 @@ if (typeof Math.imul === 'undefined') {
   GroupUpdateCommand.prototype.s8 = function () {
     return this.name;
   };
-  GroupUpdateCommand.prototype.ts = function () {
+  GroupUpdateCommand.prototype.tt = function () {
     return this.attributes;
   };
   GroupUpdateCommand.prototype.gr = function () {
     return this.roles;
   };
-  GroupUpdateCommand.prototype.as = function () {
-    return this.xs_1;
+  GroupUpdateCommand.prototype.bt = function () {
+    return this.xt_1;
   };
-  GroupUpdateCommand.prototype.hs = function () {
+  GroupUpdateCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(GroupUpdateCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function GroupUpdatedEvent(id) {
@@ -12986,37 +13099,37 @@ if (typeof Math.imul === 'undefined') {
     this.password = password_0;
     this.isPasswordTemporary = isPasswordTemporary_0;
   }
-  UserCreateCommand.prototype.hs = function () {
+  UserCreateCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserCreateCommand.prototype.ys = function () {
+  UserCreateCommand.prototype.qs = function () {
     return this.username;
   };
-  UserCreateCommand.prototype.zs = function () {
+  UserCreateCommand.prototype.yt = function () {
     return this.firstname;
   };
-  UserCreateCommand.prototype.at = function () {
+  UserCreateCommand.prototype.zt = function () {
     return this.lastname;
   };
-  UserCreateCommand.prototype.bt = function () {
+  UserCreateCommand.prototype.au = function () {
     return this.email;
   };
-  UserCreateCommand.prototype.ct = function () {
+  UserCreateCommand.prototype.bu = function () {
     return this.isEnable;
   };
-  UserCreateCommand.prototype.dt = function () {
+  UserCreateCommand.prototype.cu = function () {
     return this.isEmailVerified;
   };
-  UserCreateCommand.prototype.ts = function () {
+  UserCreateCommand.prototype.tt = function () {
     return this.attributes;
   };
-  UserCreateCommand.prototype.as = function () {
+  UserCreateCommand.prototype.bt = function () {
     return this.auth;
   };
-  UserCreateCommand.prototype.et = function () {
+  UserCreateCommand.prototype.rs = function () {
     return this.password;
   };
-  UserCreateCommand.prototype.ft = function () {
+  UserCreateCommand.prototype.du = function () {
     return this.isPasswordTemporary;
   };
   function UserCreatedEvent(id) {
@@ -13028,21 +13141,21 @@ if (typeof Math.imul === 'undefined') {
   function UserDeleteCommand(id, realmId, auth) {
     this.id = id;
     this.realmId = realmId;
-    this.gt_1 = auth;
+    this.eu_1 = auth;
   }
   UserDeleteCommand.prototype.zo = function () {
     return this.id;
   };
-  UserDeleteCommand.prototype.hs = function () {
+  UserDeleteCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserDeleteCommand.prototype.as = function () {
-    return this.gt_1;
+  UserDeleteCommand.prototype.bt = function () {
+    return this.eu_1;
   };
   Object.defineProperty(UserDeleteCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserDeletedEvent(id) {
@@ -13059,10 +13172,10 @@ if (typeof Math.imul === 'undefined') {
   UserDisableCommand.prototype.zo = function () {
     return this.id;
   };
-  UserDisableCommand.prototype.hs = function () {
+  UserDisableCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserDisableCommand.prototype.as = function () {
+  UserDisableCommand.prototype.bt = function () {
     return this.auth;
   };
   function UserDisabledEvent(id) {
@@ -13077,30 +13190,30 @@ if (typeof Math.imul === 'undefined') {
     this.redirectUri = redirectUri;
     this.actions = actions;
     this.realmId = realmId;
-    this.ht_1 = auth;
+    this.fu_1 = auth;
   }
-  UserEmailSendActionsCommand.prototype.it = function () {
+  UserEmailSendActionsCommand.prototype.gu = function () {
     return this.userId;
   };
-  UserEmailSendActionsCommand.prototype.jt = function () {
+  UserEmailSendActionsCommand.prototype.gs = function () {
     return this.clientId;
   };
-  UserEmailSendActionsCommand.prototype.kt = function () {
+  UserEmailSendActionsCommand.prototype.hu = function () {
     return this.redirectUri;
   };
-  UserEmailSendActionsCommand.prototype.lt = function () {
+  UserEmailSendActionsCommand.prototype.iu = function () {
     return this.actions;
   };
-  UserEmailSendActionsCommand.prototype.hs = function () {
+  UserEmailSendActionsCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserEmailSendActionsCommand.prototype.as = function () {
-    return this.ht_1;
+  UserEmailSendActionsCommand.prototype.bt = function () {
+    return this.fu_1;
   };
   Object.defineProperty(UserEmailSendActionsCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserEmailSentActionsEvent(id) {
@@ -13124,27 +13237,27 @@ if (typeof Math.imul === 'undefined') {
     this.groupId = groupId;
     this.leaveOtherGroups = leaveOtherGroups_0;
     this.realmId = realmId;
-    this.mt_1 = auth;
+    this.ju_1 = auth;
   }
   UserJoinGroupCommand.prototype.zo = function () {
     return this.id;
   };
-  UserJoinGroupCommand.prototype.nt = function () {
+  UserJoinGroupCommand.prototype.ku = function () {
     return this.groupId;
   };
-  UserJoinGroupCommand.prototype.ot = function () {
+  UserJoinGroupCommand.prototype.lu = function () {
     return this.leaveOtherGroups;
   };
-  UserJoinGroupCommand.prototype.hs = function () {
+  UserJoinGroupCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserJoinGroupCommand.prototype.as = function () {
-    return this.mt_1;
+  UserJoinGroupCommand.prototype.bt = function () {
+    return this.ju_1;
   };
   Object.defineProperty(UserJoinGroupCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserJoinedGroupEvent(id, groupId, groupsLeft) {
@@ -13155,15 +13268,15 @@ if (typeof Math.imul === 'undefined') {
   UserJoinedGroupEvent.prototype.zo = function () {
     return this.id;
   };
-  UserJoinedGroupEvent.prototype.nt = function () {
+  UserJoinedGroupEvent.prototype.ku = function () {
     return this.groupId;
   };
-  UserJoinedGroupEvent.prototype.pt = function () {
+  UserJoinedGroupEvent.prototype.mu = function () {
     return this.groupsLeft;
   };
   function UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, $this) {
     if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
+      realmId = auth.realmId;
     if (!(($mask0 & 16) === 0))
       clientId = null;
     UserRolesGrantCommand.call($this, id, roles, auth, realmId, clientId);
@@ -13173,11 +13286,11 @@ if (typeof Math.imul === 'undefined') {
     return UserRolesGrantCommand_init_$Init$(id, roles, auth, realmId, clientId, $mask0, $marker, Object.create(UserRolesGrantCommand.prototype));
   }
   function UserRolesGrantCommand(id, roles, auth, realmId, clientId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var realmId_0 = realmId === void 1 ? auth.realmId : realmId;
     var clientId_0 = clientId === void 1 ? null : clientId;
     this.id = id;
     this.roles = roles;
-    this.ut_1 = auth;
+    this.nu_1 = auth;
     this.realmId = realmId_0;
     this.clientId = clientId_0;
   }
@@ -13187,19 +13300,19 @@ if (typeof Math.imul === 'undefined') {
   UserRolesGrantCommand.prototype.gr = function () {
     return this.roles;
   };
-  UserRolesGrantCommand.prototype.as = function () {
-    return this.ut_1;
+  UserRolesGrantCommand.prototype.bt = function () {
+    return this.nu_1;
   };
-  UserRolesGrantCommand.prototype.hs = function () {
+  UserRolesGrantCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserRolesGrantCommand.prototype.jt = function () {
+  UserRolesGrantCommand.prototype.gs = function () {
     return this.clientId;
   };
   Object.defineProperty(UserRolesGrantCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserRolesGrantedEvent(id) {
@@ -13210,7 +13323,7 @@ if (typeof Math.imul === 'undefined') {
   };
   function UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
     if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
+      realmId = auth.realmId;
     UserRolesRevokeCommand.call($this, id, roles, auth, realmId);
     return $this;
   }
@@ -13218,10 +13331,10 @@ if (typeof Math.imul === 'undefined') {
     return UserRolesRevokeCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesRevokeCommand.prototype));
   }
   function UserRolesRevokeCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var realmId_0 = realmId === void 1 ? auth.realmId : realmId;
     this.id = id;
     this.roles = roles;
-    this.vt_1 = auth;
+    this.ou_1 = auth;
     this.realmId = realmId_0;
   }
   UserRolesRevokeCommand.prototype.zo = function () {
@@ -13230,16 +13343,16 @@ if (typeof Math.imul === 'undefined') {
   UserRolesRevokeCommand.prototype.gr = function () {
     return this.roles;
   };
-  UserRolesRevokeCommand.prototype.as = function () {
-    return this.vt_1;
+  UserRolesRevokeCommand.prototype.bt = function () {
+    return this.ou_1;
   };
-  UserRolesRevokeCommand.prototype.hs = function () {
+  UserRolesRevokeCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(UserRolesRevokeCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserRolesRevokedEvent(id) {
@@ -13250,7 +13363,7 @@ if (typeof Math.imul === 'undefined') {
   };
   function UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
     if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
+      realmId = auth.realmId;
     UserRolesSetCommand.call($this, id, roles, auth, realmId);
     return $this;
   }
@@ -13258,10 +13371,10 @@ if (typeof Math.imul === 'undefined') {
     return UserRolesSetCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(UserRolesSetCommand.prototype));
   }
   function UserRolesSetCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var realmId_0 = realmId === void 1 ? auth.realmId : realmId;
     this.id = id;
     this.roles = roles;
-    this.wt_1 = auth;
+    this.pu_1 = auth;
     this.realmId = realmId_0;
   }
   UserRolesSetCommand.prototype.zo = function () {
@@ -13270,16 +13383,16 @@ if (typeof Math.imul === 'undefined') {
   UserRolesSetCommand.prototype.gr = function () {
     return this.roles;
   };
-  UserRolesSetCommand.prototype.as = function () {
-    return this.wt_1;
+  UserRolesSetCommand.prototype.bt = function () {
+    return this.pu_1;
   };
-  UserRolesSetCommand.prototype.hs = function () {
+  UserRolesSetCommand.prototype.fs = function () {
     return this.realmId;
   };
   Object.defineProperty(UserRolesSetCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserRolesSetEvent(id) {
@@ -13292,24 +13405,24 @@ if (typeof Math.imul === 'undefined') {
     this.id = id;
     this.attributes = attributes;
     this.realmId = realmId;
-    this.xt_1 = auth;
+    this.qu_1 = auth;
   }
   UserSetAttributesCommand.prototype.zo = function () {
     return this.id;
   };
-  UserSetAttributesCommand.prototype.ts = function () {
+  UserSetAttributesCommand.prototype.tt = function () {
     return this.attributes;
   };
-  UserSetAttributesCommand.prototype.hs = function () {
+  UserSetAttributesCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserSetAttributesCommand.prototype.as = function () {
-    return this.xt_1;
+  UserSetAttributesCommand.prototype.bt = function () {
+    return this.qu_1;
   };
   Object.defineProperty(UserSetAttributesCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserSetAttributesEvent(id) {
@@ -13338,39 +13451,39 @@ if (typeof Math.imul === 'undefined') {
     this.clientId = clientId_0;
     this.redirectUri = redirectUri_0;
     this.realmId = realmId;
-    this.yt_1 = auth;
+    this.ru_1 = auth;
   }
-  UserUpdateEmailCommand.prototype.it = function () {
+  UserUpdateEmailCommand.prototype.gu = function () {
     return this.userId;
   };
-  UserUpdateEmailCommand.prototype.bt = function () {
+  UserUpdateEmailCommand.prototype.au = function () {
     return this.email;
   };
-  UserUpdateEmailCommand.prototype.zt = function () {
+  UserUpdateEmailCommand.prototype.su = function () {
     return this.sendVerificationEmail;
   };
-  UserUpdateEmailCommand.prototype.jt = function () {
+  UserUpdateEmailCommand.prototype.gs = function () {
     return this.clientId;
   };
-  UserUpdateEmailCommand.prototype.kt = function () {
+  UserUpdateEmailCommand.prototype.hu = function () {
     return this.redirectUri;
   };
-  UserUpdateEmailCommand.prototype.hs = function () {
+  UserUpdateEmailCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserUpdateEmailCommand.prototype.as = function () {
-    return this.yt_1;
+  UserUpdateEmailCommand.prototype.bt = function () {
+    return this.ru_1;
   };
   Object.defineProperty(UserUpdateEmailCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserUpdatedEmailEvent(userId) {
     this.userId = userId;
   }
-  UserUpdatedEmailEvent.prototype.it = function () {
+  UserUpdatedEmailEvent.prototype.gu = function () {
     return this.userId;
   };
   function UserUpdateCommand(userId, realmId, auth, firstname, lastname, attributes) {
@@ -13381,22 +13494,22 @@ if (typeof Math.imul === 'undefined') {
     this.lastname = lastname;
     this.attributes = attributes;
   }
-  UserUpdateCommand.prototype.it = function () {
+  UserUpdateCommand.prototype.gu = function () {
     return this.userId;
   };
-  UserUpdateCommand.prototype.hs = function () {
+  UserUpdateCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserUpdateCommand.prototype.as = function () {
+  UserUpdateCommand.prototype.bt = function () {
     return this.auth;
   };
-  UserUpdateCommand.prototype.zs = function () {
+  UserUpdateCommand.prototype.yt = function () {
     return this.firstname;
   };
-  UserUpdateCommand.prototype.at = function () {
+  UserUpdateCommand.prototype.zt = function () {
     return this.lastname;
   };
-  UserUpdateCommand.prototype.ts = function () {
+  UserUpdateCommand.prototype.tt = function () {
     return this.attributes;
   };
   function UserUpdatedEvent(id) {
@@ -13409,128 +13522,128 @@ if (typeof Math.imul === 'undefined') {
     this.userId = userId;
     this.password = password;
     this.realmId = realmId;
-    this.au_1 = auth;
+    this.tu_1 = auth;
   }
-  UserUpdatePasswordCommand.prototype.it = function () {
+  UserUpdatePasswordCommand.prototype.gu = function () {
     return this.userId;
   };
-  UserUpdatePasswordCommand.prototype.et = function () {
+  UserUpdatePasswordCommand.prototype.rs = function () {
     return this.password;
   };
-  UserUpdatePasswordCommand.prototype.hs = function () {
+  UserUpdatePasswordCommand.prototype.fs = function () {
     return this.realmId;
   };
-  UserUpdatePasswordCommand.prototype.as = function () {
-    return this.au_1;
+  UserUpdatePasswordCommand.prototype.bt = function () {
+    return this.tu_1;
   };
   Object.defineProperty(UserUpdatePasswordCommand.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserUpdatedPasswordEvent(userId) {
     this.userId = userId;
   }
-  UserUpdatedPasswordEvent.prototype.it = function () {
+  UserUpdatedPasswordEvent.prototype.gu = function () {
     return this.userId;
   };
   function UserGetByEmailQuery(email, realmId, auth) {
     this.email = email;
     this.realmId = realmId;
-    this.bu_1 = auth;
+    this.uu_1 = auth;
   }
-  UserGetByEmailQuery.prototype.bt = function () {
+  UserGetByEmailQuery.prototype.au = function () {
     return this.email;
   };
-  UserGetByEmailQuery.prototype.hs = function () {
+  UserGetByEmailQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserGetByEmailQuery.prototype.as = function () {
-    return this.bu_1;
+  UserGetByEmailQuery.prototype.bt = function () {
+    return this.uu_1;
   };
   Object.defineProperty(UserGetByEmailQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserGetByEmailQueryResult(item) {
     this.item = item;
   }
-  UserGetByEmailQueryResult.prototype.ks = function () {
+  UserGetByEmailQueryResult.prototype.kt = function () {
     return this.item;
   };
   function UserGetByUsernameQuery(realmId, username, auth) {
     this.realmId = realmId;
     this.username = username;
-    this.cu_1 = auth;
+    this.vu_1 = auth;
   }
-  UserGetByUsernameQuery.prototype.hs = function () {
+  UserGetByUsernameQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserGetByUsernameQuery.prototype.ys = function () {
+  UserGetByUsernameQuery.prototype.qs = function () {
     return this.username;
   };
-  UserGetByUsernameQuery.prototype.as = function () {
-    return this.cu_1;
+  UserGetByUsernameQuery.prototype.bt = function () {
+    return this.vu_1;
   };
   Object.defineProperty(UserGetByUsernameQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserGetByUsernameResult(item) {
     this.item = item;
   }
-  UserGetByUsernameResult.prototype.ks = function () {
+  UserGetByUsernameResult.prototype.kt = function () {
     return this.item;
   };
   function UserGetQuery(id, realmId, auth) {
     this.id = id;
     this.realmId = realmId;
-    this.du_1 = auth;
+    this.wu_1 = auth;
   }
   UserGetQuery.prototype.zo = function () {
     return this.id;
   };
-  UserGetQuery.prototype.hs = function () {
+  UserGetQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserGetQuery.prototype.as = function () {
-    return this.du_1;
+  UserGetQuery.prototype.bt = function () {
+    return this.wu_1;
   };
   Object.defineProperty(UserGetQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserGetResult(item) {
     this.item = item;
   }
-  UserGetResult.prototype.ks = function () {
+  UserGetResult.prototype.kt = function () {
     return this.item;
   };
   function UserGetGroupsQuery(userId, realmId, auth) {
     this.userId = userId;
     this.realmId = realmId;
-    this.eu_1 = auth;
+    this.xu_1 = auth;
   }
-  UserGetGroupsQuery.prototype.it = function () {
+  UserGetGroupsQuery.prototype.gu = function () {
     return this.userId;
   };
-  UserGetGroupsQuery.prototype.hs = function () {
+  UserGetGroupsQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserGetGroupsQuery.prototype.as = function () {
-    return this.eu_1;
+  UserGetGroupsQuery.prototype.bt = function () {
+    return this.xu_1;
   };
   Object.defineProperty(UserGetGroupsQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserGetGroupsResult(items) {
@@ -13542,21 +13655,21 @@ if (typeof Math.imul === 'undefined') {
   function UserGetRolesQuery(userId, realmId, auth) {
     this.userId = userId;
     this.realmId = realmId;
-    this.fu_1 = auth;
+    this.yu_1 = auth;
   }
-  UserGetRolesQuery.prototype.it = function () {
+  UserGetRolesQuery.prototype.gu = function () {
     return this.userId;
   };
-  UserGetRolesQuery.prototype.hs = function () {
+  UserGetRolesQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserGetRolesQuery.prototype.as = function () {
-    return this.fu_1;
+  UserGetRolesQuery.prototype.bt = function () {
+    return this.yu_1;
   };
   Object.defineProperty(UserGetRolesQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserGetRolesResult(roles) {
@@ -13565,63 +13678,63 @@ if (typeof Math.imul === 'undefined') {
   UserGetRolesResult.prototype.gr = function () {
     return this.roles;
   };
-  function UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, $this) {
+  function UserPageQuery_init_$Init$(groupId, search, roles, attributes, withDisabled, page, realmId, auth, $mask0, $marker, $this) {
     if (!(($mask0 & 1) === 0))
       groupId = null;
     if (!(($mask0 & 2) === 0))
       search = null;
     if (!(($mask0 & 4) === 0))
-      role = null;
+      roles = null;
     if (!(($mask0 & 8) === 0))
       attributes = emptyMap();
-    UserPageQuery.call($this, groupId, search, role, attributes, withDisabled, page, realmId, auth);
+    UserPageQuery.call($this, groupId, search, roles, attributes, withDisabled, page, realmId, auth);
     return $this;
   }
-  function UserPageQuery_init_$Create$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker) {
-    return UserPageQuery_init_$Init$(groupId, search, role, attributes, withDisabled, page, realmId, auth, $mask0, $marker, Object.create(UserPageQuery.prototype));
+  function UserPageQuery_init_$Create$(groupId, search, roles, attributes, withDisabled, page, realmId, auth, $mask0, $marker) {
+    return UserPageQuery_init_$Init$(groupId, search, roles, attributes, withDisabled, page, realmId, auth, $mask0, $marker, Object.create(UserPageQuery.prototype));
   }
-  function UserPageQuery(groupId, search, role, attributes, withDisabled, page, realmId, auth) {
+  function UserPageQuery(groupId, search, roles, attributes, withDisabled, page, realmId, auth) {
     var groupId_0 = groupId === void 1 ? null : groupId;
     var search_0 = search === void 1 ? null : search;
-    var role_0 = role === void 1 ? null : role;
+    var roles_0 = roles === void 1 ? null : roles;
     var attributes_0 = attributes === void 1 ? emptyMap() : attributes;
     this.groupId = groupId_0;
     this.search = search_0;
-    this.role = role_0;
+    this.roles = roles_0;
     this.attributes = attributes_0;
     this.withDisabled = withDisabled;
     this.page = page;
     this.realmId = realmId;
-    this.gu_1 = auth;
+    this.zu_1 = auth;
   }
-  UserPageQuery.prototype.nt = function () {
+  UserPageQuery.prototype.ku = function () {
     return this.groupId;
   };
-  UserPageQuery.prototype.hu = function () {
+  UserPageQuery.prototype.av = function () {
     return this.search;
   };
-  UserPageQuery.prototype.iu = function () {
-    return this.role;
+  UserPageQuery.prototype.gr = function () {
+    return this.roles;
   };
-  UserPageQuery.prototype.ts = function () {
+  UserPageQuery.prototype.tt = function () {
     return this.attributes;
   };
-  UserPageQuery.prototype.ju = function () {
+  UserPageQuery.prototype.bv = function () {
     return this.withDisabled;
   };
   UserPageQuery.prototype.wq = function () {
     return this.page;
   };
-  UserPageQuery.prototype.hs = function () {
+  UserPageQuery.prototype.fs = function () {
     return this.realmId;
   };
-  UserPageQuery.prototype.as = function () {
-    return this.gu_1;
+  UserPageQuery.prototype.bt = function () {
+    return this.zu_1;
   };
   Object.defineProperty(UserPageQuery.prototype, 'auth', {
     configurable: true,
     get: function () {
-      return this.as();
+      return this.bt();
     }
   });
   function UserPageResult(items) {
@@ -13657,25 +13770,25 @@ if (typeof Math.imul === 'undefined') {
   UserModel.prototype.zo = function () {
     return this.id;
   };
-  UserModel.prototype.bt = function () {
+  UserModel.prototype.au = function () {
     return this.email;
   };
-  UserModel.prototype.ku = function () {
+  UserModel.prototype.cv = function () {
     return this.firstName;
   };
-  UserModel.prototype.lu = function () {
+  UserModel.prototype.dv = function () {
     return this.lastName;
   };
   UserModel.prototype.gr = function () {
     return this.roles;
   };
-  UserModel.prototype.ts = function () {
+  UserModel.prototype.tt = function () {
     return this.attributes;
   };
-  UserModel.prototype.mu = function () {
+  UserModel.prototype.ev = function () {
     return this.enabled;
   };
-  UserModel.prototype.nu = function () {
+  UserModel.prototype.fv = function () {
     return this.creationDate;
   };
   function ClientModel(id, clientIdentifier) {
@@ -13685,7 +13798,7 @@ if (typeof Math.imul === 'undefined') {
   ClientModel.prototype.zo = function () {
     return this.id;
   };
-  ClientModel.prototype.ou = function () {
+  ClientModel.prototype.gv = function () {
     return this.clientIdentifier;
   };
   function ClientGetByClientIdentifierQuery(clientIdentifier, realmId, auth) {
@@ -13693,20 +13806,20 @@ if (typeof Math.imul === 'undefined') {
     this.realmId = realmId;
     this.auth = auth;
   }
-  ClientGetByClientIdentifierQuery.prototype.ou = function () {
+  ClientGetByClientIdentifierQuery.prototype.gv = function () {
     return this.clientIdentifier;
   };
-  ClientGetByClientIdentifierQuery.prototype.hs = function () {
+  ClientGetByClientIdentifierQuery.prototype.fs = function () {
     return this.realmId;
   };
-  ClientGetByClientIdentifierQuery.prototype.as = function () {
+  ClientGetByClientIdentifierQuery.prototype.bt = function () {
     return this.auth;
   };
-  function ClientGetByClientIdentifierResult(idem) {
-    this.idem = idem;
+  function ClientGetByClientIdentifierResult(item) {
+    this.item = item;
   }
-  ClientGetByClientIdentifierResult.prototype.pu = function () {
-    return this.idem;
+  ClientGetByClientIdentifierResult.prototype.kt = function () {
+    return this.item;
   };
   function ClientGetQuery(id, realmId, auth) {
     this.id = id;
@@ -13716,16 +13829,16 @@ if (typeof Math.imul === 'undefined') {
   ClientGetQuery.prototype.zo = function () {
     return this.id;
   };
-  ClientGetQuery.prototype.hs = function () {
+  ClientGetQuery.prototype.fs = function () {
     return this.realmId;
   };
-  ClientGetQuery.prototype.as = function () {
+  ClientGetQuery.prototype.bt = function () {
     return this.auth;
   };
   function ClientGetResult(item) {
     this.item = item;
   }
-  ClientGetResult.prototype.ks = function () {
+  ClientGetResult.prototype.kt = function () {
     return this.item;
   };
   function ClientGetSecretQuery(clientId, realmId, auth) {
@@ -13733,19 +13846,19 @@ if (typeof Math.imul === 'undefined') {
     this.realmId = realmId;
     this.auth = auth;
   }
-  ClientGetSecretQuery.prototype.jt = function () {
+  ClientGetSecretQuery.prototype.gs = function () {
     return this.clientId;
   };
-  ClientGetSecretQuery.prototype.hs = function () {
+  ClientGetSecretQuery.prototype.fs = function () {
     return this.realmId;
   };
-  ClientGetSecretQuery.prototype.as = function () {
+  ClientGetSecretQuery.prototype.bt = function () {
     return this.auth;
   };
   function ClientGetSecretResult(secret) {
     this.secret = secret;
   }
-  ClientGetSecretResult.prototype.qu = function () {
+  ClientGetSecretResult.prototype.hv = function () {
     return this.secret;
   };
   function ClientGetServiceAccountQuery(id, realmId, auth) {
@@ -13756,16 +13869,16 @@ if (typeof Math.imul === 'undefined') {
   ClientGetServiceAccountQuery.prototype.zo = function () {
     return this.id;
   };
-  ClientGetServiceAccountQuery.prototype.hs = function () {
+  ClientGetServiceAccountQuery.prototype.fs = function () {
     return this.realmId;
   };
-  ClientGetServiceAccountQuery.prototype.as = function () {
+  ClientGetServiceAccountQuery.prototype.bt = function () {
     return this.auth;
   };
   function ClientGetServiceAccountResult(item) {
     this.item = item;
   }
-  ClientGetServiceAccountResult.prototype.ks = function () {
+  ClientGetServiceAccountResult.prototype.kt = function () {
     return this.item;
   };
   function ClientPageQuery(realmId, page, auth) {
@@ -13773,13 +13886,13 @@ if (typeof Math.imul === 'undefined') {
     this.page = page;
     this.auth = auth;
   }
-  ClientPageQuery.prototype.hs = function () {
+  ClientPageQuery.prototype.fs = function () {
     return this.realmId;
   };
   ClientPageQuery.prototype.wq = function () {
     return this.page;
   };
-  ClientPageQuery.prototype.as = function () {
+  ClientPageQuery.prototype.bt = function () {
     return this.auth;
   };
   function ClientPageResult(page) {
@@ -13848,49 +13961,49 @@ if (typeof Math.imul === 'undefined') {
     this.webOrigins = webOrigins_0;
     this.protocolMappers = protocolMappers_0;
   }
-  ClientCreateCommand.prototype.as = function () {
+  ClientCreateCommand.prototype.bt = function () {
     return this.auth;
   };
-  ClientCreateCommand.prototype.hs = function () {
+  ClientCreateCommand.prototype.fs = function () {
     return this.realmId;
   };
-  ClientCreateCommand.prototype.ou = function () {
+  ClientCreateCommand.prototype.gv = function () {
     return this.clientIdentifier;
   };
-  ClientCreateCommand.prototype.qu = function () {
+  ClientCreateCommand.prototype.hv = function () {
     return this.secret;
   };
-  ClientCreateCommand.prototype.ru = function () {
+  ClientCreateCommand.prototype.iv = function () {
     return this.isPublicClient;
   };
-  ClientCreateCommand.prototype.su = function () {
+  ClientCreateCommand.prototype.jv = function () {
     return this.isDirectAccessGrantsEnabled;
   };
-  ClientCreateCommand.prototype.tu = function () {
+  ClientCreateCommand.prototype.kv = function () {
     return this.isServiceAccountsEnabled;
   };
-  ClientCreateCommand.prototype.uu = function () {
+  ClientCreateCommand.prototype.lv = function () {
     return this.authorizationServicesEnabled;
   };
-  ClientCreateCommand.prototype.vu = function () {
+  ClientCreateCommand.prototype.mv = function () {
     return this.isStandardFlowEnabled;
   };
-  ClientCreateCommand.prototype.wu = function () {
+  ClientCreateCommand.prototype.nv = function () {
     return this.rootUrl;
   };
-  ClientCreateCommand.prototype.xu = function () {
+  ClientCreateCommand.prototype.ov = function () {
     return this.redirectUris;
   };
-  ClientCreateCommand.prototype.yu = function () {
+  ClientCreateCommand.prototype.pv = function () {
     return this.baseUrl;
   };
-  ClientCreateCommand.prototype.zu = function () {
+  ClientCreateCommand.prototype.qv = function () {
     return this.adminUrl;
   };
-  ClientCreateCommand.prototype.av = function () {
+  ClientCreateCommand.prototype.rv = function () {
     return this.webOrigins;
   };
-  ClientCreateCommand.prototype.bv = function () {
+  ClientCreateCommand.prototype.sv = function () {
     return this.protocolMappers;
   };
   function ClientCreatedEvent(id) {
@@ -13907,10 +14020,10 @@ if (typeof Math.imul === 'undefined') {
   ClientDeleteCommand.prototype.zo = function () {
     return this.id;
   };
-  ClientDeleteCommand.prototype.hs = function () {
+  ClientDeleteCommand.prototype.fs = function () {
     return this.realmId;
   };
-  ClientDeleteCommand.prototype.as = function () {
+  ClientDeleteCommand.prototype.bt = function () {
     return this.auth;
   };
   function ClientDeletedEvent(id) {
@@ -13927,21 +14040,21 @@ if (typeof Math.imul === 'undefined') {
   ClientGenerateSecretCommand.prototype.zo = function () {
     return this.id;
   };
-  ClientGenerateSecretCommand.prototype.hs = function () {
+  ClientGenerateSecretCommand.prototype.fs = function () {
     return this.realmId;
   };
-  ClientGenerateSecretCommand.prototype.as = function () {
+  ClientGenerateSecretCommand.prototype.bt = function () {
     return this.auth;
   };
   function ClientGeneratedSecretEvent(secret) {
     this.secret = secret;
   }
-  ClientGeneratedSecretEvent.prototype.qu = function () {
+  ClientGeneratedSecretEvent.prototype.hv = function () {
     return this.secret;
   };
   function ClientRealmManagementRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
     if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
+      realmId = auth.realmId;
     ClientRealmManagementRolesGrantCommand.call($this, id, roles, auth, realmId);
     return $this;
   }
@@ -13949,7 +14062,7 @@ if (typeof Math.imul === 'undefined') {
     return ClientRealmManagementRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(ClientRealmManagementRolesGrantCommand.prototype));
   }
   function ClientRealmManagementRolesGrantCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var realmId_0 = realmId === void 1 ? auth.realmId : realmId;
     this.id = id;
     this.roles = roles;
     this.auth = auth;
@@ -13961,10 +14074,10 @@ if (typeof Math.imul === 'undefined') {
   ClientRealmManagementRolesGrantCommand.prototype.gr = function () {
     return this.roles;
   };
-  ClientRealmManagementRolesGrantCommand.prototype.as = function () {
+  ClientRealmManagementRolesGrantCommand.prototype.bt = function () {
     return this.auth;
   };
-  ClientRealmManagementRolesGrantCommand.prototype.hs = function () {
+  ClientRealmManagementRolesGrantCommand.prototype.fs = function () {
     return this.realmId;
   };
   function ClientRealmManagementRolesGrantedEvent(id) {
@@ -13975,7 +14088,7 @@ if (typeof Math.imul === 'undefined') {
   };
   function ClientServiceAccountRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, $this) {
     if (!(($mask0 & 8) === 0))
-      realmId = auth.hs();
+      realmId = auth.realmId;
     ClientServiceAccountRolesGrantCommand.call($this, id, roles, auth, realmId);
     return $this;
   }
@@ -13983,7 +14096,7 @@ if (typeof Math.imul === 'undefined') {
     return ClientServiceAccountRolesGrantCommand_init_$Init$(id, roles, auth, realmId, $mask0, $marker, Object.create(ClientServiceAccountRolesGrantCommand.prototype));
   }
   function ClientServiceAccountRolesGrantCommand(id, roles, auth, realmId) {
-    var realmId_0 = realmId === void 1 ? auth.hs() : realmId;
+    var realmId_0 = realmId === void 1 ? auth.realmId : realmId;
     this.id = id;
     this.roles = roles;
     this.auth = auth;
@@ -13995,10 +14108,10 @@ if (typeof Math.imul === 'undefined') {
   ClientServiceAccountRolesGrantCommand.prototype.gr = function () {
     return this.roles;
   };
-  ClientServiceAccountRolesGrantCommand.prototype.as = function () {
+  ClientServiceAccountRolesGrantCommand.prototype.bt = function () {
     return this.auth;
   };
-  ClientServiceAccountRolesGrantCommand.prototype.hs = function () {
+  ClientServiceAccountRolesGrantCommand.prototype.fs = function () {
     return this.realmId;
   };
   function ClientServiceAccountRolesGrantedEvent(id) {
@@ -14018,19 +14131,19 @@ if (typeof Math.imul === 'undefined') {
   ClientUpdateUrisCommand.prototype.zo = function () {
     return this.id;
   };
-  ClientUpdateUrisCommand.prototype.hs = function () {
+  ClientUpdateUrisCommand.prototype.fs = function () {
     return this.realmId;
   };
-  ClientUpdateUrisCommand.prototype.as = function () {
+  ClientUpdateUrisCommand.prototype.bt = function () {
     return this.auth;
   };
-  ClientUpdateUrisCommand.prototype.wu = function () {
+  ClientUpdateUrisCommand.prototype.nv = function () {
     return this.rootUrl;
   };
-  ClientUpdateUrisCommand.prototype.xu = function () {
+  ClientUpdateUrisCommand.prototype.ov = function () {
     return this.redirectUris;
   };
-  ClientUpdateUrisCommand.prototype.yu = function () {
+  ClientUpdateUrisCommand.prototype.pv = function () {
     return this.baseUrl;
   };
   function ClientUpdatedUrisEvent(id) {
@@ -14216,45 +14329,45 @@ if (typeof Math.imul === 'undefined') {
   function BlockDTO() {
   }
   function Block(blockId, previousHash, dataHash, transactions) {
-    this.aw_1 = blockId;
-    this.bw_1 = previousHash;
-    this.cw_1 = dataHash;
-    this.dw_1 = transactions;
+    this.sw_1 = blockId;
+    this.tw_1 = previousHash;
+    this.uw_1 = dataHash;
+    this.vw_1 = transactions;
   }
-  Block.prototype.wv = function () {
-    return this.aw_1;
+  Block.prototype.ow = function () {
+    return this.sw_1;
   };
-  Block.prototype.xv = function () {
-    return this.bw_1;
+  Block.prototype.pw = function () {
+    return this.tw_1;
   };
-  Block.prototype.yv = function () {
-    return this.cw_1;
+  Block.prototype.qw = function () {
+    return this.uw_1;
   };
-  Block.prototype.zv = function () {
-    return this.dw_1;
+  Block.prototype.rw = function () {
+    return this.vw_1;
   };
   Object.defineProperty(Block.prototype, 'blockId', {
     configurable: true,
     get: function () {
-      return this.wv();
+      return this.ow();
     }
   });
   Object.defineProperty(Block.prototype, 'previousHash', {
     configurable: true,
     get: function () {
-      return this.xv();
+      return this.pw();
     }
   });
   Object.defineProperty(Block.prototype, 'dataHash', {
     configurable: true,
     get: function () {
-      return this.yv();
+      return this.qw();
     }
   });
   Object.defineProperty(Block.prototype, 'transactions', {
     configurable: true,
     get: function () {
-      return this.zv();
+      return this.rw();
     }
   });
   var EnvelopeType_TRANSACTION_ENVELOPE_instance;
@@ -14304,14 +14417,14 @@ if (typeof Math.imul === 'undefined') {
   function IdentitiesInfoDTO() {
   }
   function IdentitiesInfo(id, mspid) {
-    this.hw_1 = id;
-    this.iw_1 = mspid;
+    this.zw_1 = id;
+    this.ax_1 = mspid;
   }
   IdentitiesInfo.prototype.zo = function () {
-    return this.hw_1;
+    return this.zw_1;
   };
-  IdentitiesInfo.prototype.gw = function () {
-    return this.iw_1;
+  IdentitiesInfo.prototype.yw = function () {
+    return this.ax_1;
   };
   Object.defineProperty(IdentitiesInfo.prototype, 'id', {
     configurable: true,
@@ -14322,59 +14435,59 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(IdentitiesInfo.prototype, 'mspid', {
     configurable: true,
     get: function () {
-      return this.gw();
+      return this.yw();
     }
   });
   function TransactionDTO() {
   }
   function Transaction(transactionId, blockId, timestamp, isValid, channelId, creator, nonce, type, validationCode) {
-    this.qw_1 = transactionId;
-    this.rw_1 = blockId;
-    this.sw_1 = timestamp;
-    this.tw_1 = isValid;
-    this.uw_1 = channelId;
-    this.vw_1 = creator;
-    this.ww_1 = nonce;
-    this.xw_1 = type;
-    this.yw_1 = validationCode;
+    this.ix_1 = transactionId;
+    this.jx_1 = blockId;
+    this.kx_1 = timestamp;
+    this.lx_1 = isValid;
+    this.mx_1 = channelId;
+    this.nx_1 = creator;
+    this.ox_1 = nonce;
+    this.px_1 = type;
+    this.qx_1 = validationCode;
   }
-  Transaction.prototype.jw = function () {
-    return this.qw_1;
-  };
-  Transaction.prototype.wv = function () {
-    return this.rw_1;
-  };
-  Transaction.prototype.ap = function () {
-    return this.sw_1;
-  };
-  Transaction.prototype.kw = function () {
-    return this.tw_1;
-  };
-  Transaction.prototype.lw = function () {
-    return this.uw_1;
-  };
-  Transaction.prototype.mw = function () {
-    return this.vw_1;
-  };
-  Transaction.prototype.nw = function () {
-    return this.ww_1;
+  Transaction.prototype.bx = function () {
+    return this.ix_1;
   };
   Transaction.prototype.ow = function () {
-    return this.xw_1;
+    return this.jx_1;
   };
-  Transaction.prototype.pw = function () {
-    return this.yw_1;
+  Transaction.prototype.ap = function () {
+    return this.kx_1;
+  };
+  Transaction.prototype.cx = function () {
+    return this.lx_1;
+  };
+  Transaction.prototype.dx = function () {
+    return this.mx_1;
+  };
+  Transaction.prototype.ex = function () {
+    return this.nx_1;
+  };
+  Transaction.prototype.fx = function () {
+    return this.ox_1;
+  };
+  Transaction.prototype.gx = function () {
+    return this.px_1;
+  };
+  Transaction.prototype.hx = function () {
+    return this.qx_1;
   };
   Object.defineProperty(Transaction.prototype, 'transactionId', {
     configurable: true,
     get: function () {
-      return this.jw();
+      return this.bx();
     }
   });
   Object.defineProperty(Transaction.prototype, 'blockId', {
     configurable: true,
     get: function () {
-      return this.wv();
+      return this.ow();
     }
   });
   Object.defineProperty(Transaction.prototype, 'timestamp', {
@@ -14386,51 +14499,51 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Transaction.prototype, 'isValid', {
     configurable: true,
     get: function () {
-      return this.kw();
+      return this.cx();
     }
   });
   Object.defineProperty(Transaction.prototype, 'channelId', {
     configurable: true,
     get: function () {
-      return this.lw();
+      return this.dx();
     }
   });
   Object.defineProperty(Transaction.prototype, 'creator', {
     configurable: true,
     get: function () {
-      return this.mw();
+      return this.ex();
     }
   });
   Object.defineProperty(Transaction.prototype, 'nonce', {
     configurable: true,
     get: function () {
-      return this.nw();
+      return this.fx();
     }
   });
   Object.defineProperty(Transaction.prototype, 'type', {
     configurable: true,
     get: function () {
-      return this.ow();
+      return this.gx();
     }
   });
   Object.defineProperty(Transaction.prototype, 'validationCode', {
     configurable: true,
     get: function () {
-      return this.pw();
+      return this.hx();
     }
   });
   function SsmChaincodePropertiesDTO() {
   }
   function ChaincodeSsmConfig(url) {
-    this.zw_1 = url;
+    this.rx_1 = url;
   }
-  ChaincodeSsmConfig.prototype.mv = function () {
-    return this.zw_1;
+  ChaincodeSsmConfig.prototype.dw = function () {
+    return this.rx_1;
   };
   Object.defineProperty(ChaincodeSsmConfig.prototype, 'url', {
     configurable: true,
     get: function () {
-      return this.mv();
+      return this.dw();
     }
   });
   function AgentDTO() {
@@ -14446,14 +14559,14 @@ if (typeof Math.imul === 'undefined') {
   }
   function Agent(name, pub) {
     Companion_getInstance_18();
-    this.bx_1 = name;
-    this.cx_1 = pub;
+    this.tx_1 = name;
+    this.ux_1 = pub;
   }
   Agent.prototype.s8 = function () {
-    return this.bx_1;
+    return this.tx_1;
   };
-  Agent.prototype.ax = function () {
-    return this.cx_1;
+  Agent.prototype.sx = function () {
+    return this.ux_1;
   };
   Agent.prototype.equals = function (other) {
     if (this === other)
@@ -14464,38 +14577,38 @@ if (typeof Math.imul === 'undefined') {
       other;
     else
       THROW_CCE();
-    if (!(this.bx_1 === other.bx_1))
+    if (!(this.tx_1 === other.tx_1))
       return false;
-    if (!contentEquals_0(this.cx_1, other.cx_1))
+    if (!contentEquals_0(this.ux_1, other.ux_1))
       return false;
     return true;
   };
   Agent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.bx_1);
-    result = imul(31, result) + contentHashCode_0(this.cx_1) | 0;
+    var result = getStringHashCode(this.tx_1);
+    result = imul(31, result) + contentHashCode_0(this.ux_1) | 0;
     return result;
   };
   Agent.prototype.component1 = function () {
-    return this.bx_1;
+    return this.tx_1;
   };
   Agent.prototype.component2 = function () {
-    return this.cx_1;
+    return this.ux_1;
   };
   Agent.prototype.copy = function (name, pub) {
-    return this.dx(name === void 1 ? this.bx_1 : name, pub === void 1 ? this.cx_1 : pub);
+    return this.vx(name === void 1 ? this.tx_1 : name, pub === void 1 ? this.ux_1 : pub);
   };
-  Agent.prototype.dx = function (name, pub) {
+  Agent.prototype.vx = function (name, pub) {
     return new Agent(name, pub);
   };
-  Agent.prototype.ex = function (name, pub, $mask0, $handler) {
+  Agent.prototype.wx = function (name, pub, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      name = this.bx_1;
+      name = this.tx_1;
     if (!(($mask0 & 2) === 0))
-      pub = this.cx_1;
-    return this.dx(name, pub);
+      pub = this.ux_1;
+    return this.vx(name, pub);
   };
   Agent.prototype.toString = function () {
-    return 'Agent(name=' + this.bx_1 + ', pub=' + toString_2(this.cx_1) + ')';
+    return 'Agent(name=' + this.tx_1 + ', pub=' + toString_2(this.ux_1) + ')';
   };
   Object.defineProperty(Agent.prototype, 'name', {
     configurable: true,
@@ -14506,46 +14619,46 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Agent.prototype, 'pub', {
     configurable: true,
     get: function () {
-      return this.ax();
+      return this.sx();
     }
   });
   function ChaincodeDTO() {
   }
   function Chaincode(id, channelId) {
-    this.fx_1 = id;
-    this.gx_1 = channelId;
+    this.xx_1 = id;
+    this.yx_1 = channelId;
   }
   Chaincode.prototype.zo = function () {
-    return this.fx_1;
+    return this.xx_1;
   };
-  Chaincode.prototype.lw = function () {
-    return this.gx_1;
+  Chaincode.prototype.dx = function () {
+    return this.yx_1;
   };
   Chaincode.prototype.component1 = function () {
-    return this.fx_1;
+    return this.xx_1;
   };
   Chaincode.prototype.component2 = function () {
-    return this.gx_1;
+    return this.yx_1;
   };
   Chaincode.prototype.copy = function (id, channelId) {
-    return this.hx(id === void 1 ? this.fx_1 : id, channelId === void 1 ? this.gx_1 : channelId);
+    return this.zx(id === void 1 ? this.xx_1 : id, channelId === void 1 ? this.yx_1 : channelId);
   };
-  Chaincode.prototype.hx = function (id, channelId) {
+  Chaincode.prototype.zx = function (id, channelId) {
     return new Chaincode(id, channelId);
   };
-  Chaincode.prototype.ix = function (id, channelId, $mask0, $handler) {
+  Chaincode.prototype.ay = function (id, channelId, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      id = this.fx_1;
+      id = this.xx_1;
     if (!(($mask0 & 2) === 0))
-      channelId = this.gx_1;
-    return this.hx(id, channelId);
+      channelId = this.yx_1;
+    return this.zx(id, channelId);
   };
   Chaincode.prototype.toString = function () {
-    return 'Chaincode(id=' + this.fx_1 + ', channelId=' + this.gx_1 + ')';
+    return 'Chaincode(id=' + this.xx_1 + ', channelId=' + this.yx_1 + ')';
   };
   Chaincode.prototype.hashCode = function () {
-    var result = getStringHashCode(this.fx_1);
-    result = imul(result, 31) + getStringHashCode(this.gx_1) | 0;
+    var result = getStringHashCode(this.xx_1);
+    result = imul(result, 31) + getStringHashCode(this.yx_1) | 0;
     return result;
   };
   Chaincode.prototype.equals = function (other) {
@@ -14554,9 +14667,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Chaincode))
       return false;
     var tmp0_other_with_cast = other instanceof Chaincode ? other : THROW_CCE();
-    if (!(this.fx_1 === tmp0_other_with_cast.fx_1))
+    if (!(this.xx_1 === tmp0_other_with_cast.xx_1))
       return false;
-    if (!(this.gx_1 === tmp0_other_with_cast.gx_1))
+    if (!(this.yx_1 === tmp0_other_with_cast.yx_1))
       return false;
     return true;
   };
@@ -14569,46 +14682,46 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Chaincode.prototype, 'channelId', {
     configurable: true,
     get: function () {
-      return this.lw();
+      return this.dx();
     }
   });
   function SsmDTO() {
   }
   function Ssm(name, transitions) {
-    this.kx_1 = name;
-    this.lx_1 = transitions;
+    this.cy_1 = name;
+    this.dy_1 = transitions;
   }
   Ssm.prototype.s8 = function () {
-    return this.kx_1;
+    return this.cy_1;
   };
-  Ssm.prototype.jx = function () {
-    return this.lx_1;
+  Ssm.prototype.by = function () {
+    return this.dy_1;
   };
   Ssm.prototype.component1 = function () {
-    return this.kx_1;
+    return this.cy_1;
   };
   Ssm.prototype.component2 = function () {
-    return this.lx_1;
+    return this.dy_1;
   };
   Ssm.prototype.copy = function (name, transitions) {
-    return this.mx(name === void 1 ? this.kx_1 : name, transitions === void 1 ? this.lx_1 : transitions);
+    return this.ey(name === void 1 ? this.cy_1 : name, transitions === void 1 ? this.dy_1 : transitions);
   };
-  Ssm.prototype.mx = function (name, transitions) {
+  Ssm.prototype.ey = function (name, transitions) {
     return new Ssm(name, transitions);
   };
-  Ssm.prototype.nx = function (name, transitions, $mask0, $handler) {
+  Ssm.prototype.fy = function (name, transitions, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      name = this.kx_1;
+      name = this.cy_1;
     if (!(($mask0 & 2) === 0))
-      transitions = this.lx_1;
-    return this.mx(name, transitions);
+      transitions = this.dy_1;
+    return this.ey(name, transitions);
   };
   Ssm.prototype.toString = function () {
-    return 'Ssm(name=' + this.kx_1 + ', transitions=' + this.lx_1 + ')';
+    return 'Ssm(name=' + this.cy_1 + ', transitions=' + this.dy_1 + ')';
   };
   Ssm.prototype.hashCode = function () {
-    var result = getStringHashCode(this.kx_1);
-    result = imul(result, 31) + hashCode(this.lx_1) | 0;
+    var result = getStringHashCode(this.cy_1);
+    result = imul(result, 31) + hashCode(this.dy_1) | 0;
     return result;
   };
   Ssm.prototype.equals = function (other) {
@@ -14617,9 +14730,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Ssm))
       return false;
     var tmp0_other_with_cast = other instanceof Ssm ? other : THROW_CCE();
-    if (!(this.kx_1 === tmp0_other_with_cast.kx_1))
+    if (!(this.cy_1 === tmp0_other_with_cast.cy_1))
       return false;
-    if (!equals_0(this.lx_1, tmp0_other_with_cast.lx_1))
+    if (!equals_0(this.dy_1, tmp0_other_with_cast.dy_1))
       return false;
     return true;
   };
@@ -14632,7 +14745,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(Ssm.prototype, 'transitions', {
     configurable: true,
     get: function () {
-      return this.jx();
+      return this.by();
     }
   });
   function SsmContextDTO() {
@@ -14648,60 +14761,60 @@ if (typeof Math.imul === 'undefined') {
   }
   function SsmContext(session, public_0, iteration, private_0) {
     var private_1 = private_0 === void 1 ? null : private_0;
-    this.sx_1 = session;
-    this.tx_1 = public_0;
-    this.ux_1 = iteration;
-    this.vx_1 = private_1;
+    this.ky_1 = session;
+    this.ly_1 = public_0;
+    this.my_1 = iteration;
+    this.ny_1 = private_1;
   }
-  SsmContext.prototype.ox = function () {
-    return this.sx_1;
+  SsmContext.prototype.gy = function () {
+    return this.ky_1;
   };
-  SsmContext.prototype.px = function () {
-    return this.tx_1;
+  SsmContext.prototype.hy = function () {
+    return this.ly_1;
   };
-  SsmContext.prototype.qx = function () {
-    return this.ux_1;
+  SsmContext.prototype.iy = function () {
+    return this.my_1;
   };
-  SsmContext.prototype.rx = function () {
-    return this.vx_1;
+  SsmContext.prototype.jy = function () {
+    return this.ny_1;
   };
   SsmContext.prototype.component1 = function () {
-    return this.sx_1;
+    return this.ky_1;
   };
   SsmContext.prototype.component2 = function () {
-    return this.tx_1;
+    return this.ly_1;
   };
   SsmContext.prototype.component3 = function () {
-    return this.ux_1;
+    return this.my_1;
   };
   SsmContext.prototype.component4 = function () {
-    return this.vx_1;
+    return this.ny_1;
   };
   SsmContext.prototype.copy = function (session, public_0, iteration, private_0) {
-    return this.wx(session === void 1 ? this.sx_1 : session, public_0 === void 1 ? this.tx_1 : public_0, iteration === void 1 ? this.ux_1 : iteration, private_0 === void 1 ? this.vx_1 : private_0);
+    return this.oy(session === void 1 ? this.ky_1 : session, public_0 === void 1 ? this.ly_1 : public_0, iteration === void 1 ? this.my_1 : iteration, private_0 === void 1 ? this.ny_1 : private_0);
   };
-  SsmContext.prototype.wx = function (session, public_0, iteration, private_0) {
+  SsmContext.prototype.oy = function (session, public_0, iteration, private_0) {
     return new SsmContext(session, public_0, iteration, private_0);
   };
-  SsmContext.prototype.xx = function (session, public_0, iteration, private_0, $mask0, $handler) {
+  SsmContext.prototype.py = function (session, public_0, iteration, private_0, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      session = this.sx_1;
+      session = this.ky_1;
     if (!(($mask0 & 2) === 0))
-      public_0 = this.tx_1;
+      public_0 = this.ly_1;
     if (!(($mask0 & 4) === 0))
-      iteration = this.ux_1;
+      iteration = this.my_1;
     if (!(($mask0 & 8) === 0))
-      private_0 = this.vx_1;
-    return this.wx(session, public_0, iteration, private_0);
+      private_0 = this.ny_1;
+    return this.oy(session, public_0, iteration, private_0);
   };
   SsmContext.prototype.toString = function () {
-    return 'SsmContext(session=' + this.sx_1 + ', public=' + this.tx_1 + ', iteration=' + this.ux_1 + ', private=' + this.vx_1 + ')';
+    return 'SsmContext(session=' + this.ky_1 + ', public=' + this.ly_1 + ', iteration=' + this.my_1 + ', private=' + this.ny_1 + ')';
   };
   SsmContext.prototype.hashCode = function () {
-    var result = getStringHashCode(this.sx_1);
-    result = imul(result, 31) + getStringHashCode(this.tx_1) | 0;
-    result = imul(result, 31) + this.ux_1 | 0;
-    result = imul(result, 31) + (this.vx_1 == null ? 0 : hashCode(this.vx_1)) | 0;
+    var result = getStringHashCode(this.ky_1);
+    result = imul(result, 31) + getStringHashCode(this.ly_1) | 0;
+    result = imul(result, 31) + this.my_1 | 0;
+    result = imul(result, 31) + (this.ny_1 == null ? 0 : hashCode(this.ny_1)) | 0;
     return result;
   };
   SsmContext.prototype.equals = function (other) {
@@ -14710,38 +14823,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmContext))
       return false;
     var tmp0_other_with_cast = other instanceof SsmContext ? other : THROW_CCE();
-    if (!(this.sx_1 === tmp0_other_with_cast.sx_1))
+    if (!(this.ky_1 === tmp0_other_with_cast.ky_1))
       return false;
-    if (!(this.tx_1 === tmp0_other_with_cast.tx_1))
+    if (!(this.ly_1 === tmp0_other_with_cast.ly_1))
       return false;
-    if (!(this.ux_1 === tmp0_other_with_cast.ux_1))
+    if (!(this.my_1 === tmp0_other_with_cast.my_1))
       return false;
-    if (!equals_0(this.vx_1, tmp0_other_with_cast.vx_1))
+    if (!equals_0(this.ny_1, tmp0_other_with_cast.ny_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmContext.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.ox();
+      return this.gy();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.px();
+      return this.hy();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'iteration', {
     configurable: true,
     get: function () {
-      return this.qx();
+      return this.iy();
     }
   });
   Object.defineProperty(SsmContext.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.rx();
+      return this.jy();
     }
   });
   function SsmGrantDTO() {
@@ -14751,13 +14864,13 @@ if (typeof Math.imul === 'undefined') {
     this.iteration = iteration;
     this.credits = credits;
   }
-  SsmGrant.prototype.yx = function () {
+  SsmGrant.prototype.qy = function () {
     return this.user;
   };
-  SsmGrant.prototype.qx = function () {
+  SsmGrant.prototype.iy = function () {
     return this.iteration;
   };
-  SsmGrant.prototype.zx = function () {
+  SsmGrant.prototype.ry = function () {
     return this.credits;
   };
   SsmGrant.prototype.component1 = function () {
@@ -14770,19 +14883,19 @@ if (typeof Math.imul === 'undefined') {
     return this.credits;
   };
   SsmGrant.prototype.copy = function (user, iteration, credits) {
-    return this.ay(user === void 1 ? this.user : user, iteration === void 1 ? this.iteration : iteration, credits === void 1 ? this.credits : credits);
+    return this.sy(user === void 1 ? this.user : user, iteration === void 1 ? this.iteration : iteration, credits === void 1 ? this.credits : credits);
   };
-  SsmGrant.prototype.ay = function (user, iteration, credits) {
+  SsmGrant.prototype.sy = function (user, iteration, credits) {
     return new SsmGrant(user, iteration, credits);
   };
-  SsmGrant.prototype.by = function (user, iteration, credits, $mask0, $handler) {
+  SsmGrant.prototype.ty = function (user, iteration, credits, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
       user = this.user;
     if (!(($mask0 & 2) === 0))
       iteration = this.iteration;
     if (!(($mask0 & 4) === 0))
       credits = this.credits;
-    return this.ay(user, iteration, credits);
+    return this.sy(user, iteration, credits);
   };
   SsmGrant.prototype.toString = function () {
     return 'SsmGrant(user=' + this.user + ', iteration=' + this.iteration + ', credits=' + this.credits + ')';
@@ -14810,30 +14923,30 @@ if (typeof Math.imul === 'undefined') {
   function CreditDTO() {
   }
   function Credit(amount) {
-    this.dy_1 = amount;
+    this.vy_1 = amount;
   }
-  Credit.prototype.cy = function () {
-    return this.dy_1;
+  Credit.prototype.uy = function () {
+    return this.vy_1;
   };
   Credit.prototype.component1 = function () {
-    return this.dy_1;
+    return this.vy_1;
   };
   Credit.prototype.copy = function (amount) {
-    return this.ey(amount === void 1 ? this.dy_1 : amount);
+    return this.wy(amount === void 1 ? this.vy_1 : amount);
   };
-  Credit.prototype.ey = function (amount) {
+  Credit.prototype.wy = function (amount) {
     return new Credit(amount);
   };
-  Credit.prototype.fy = function (amount, $mask0, $handler) {
+  Credit.prototype.xy = function (amount, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      amount = this.dy_1;
-    return this.ey(amount);
+      amount = this.vy_1;
+    return this.wy(amount);
   };
   Credit.prototype.toString = function () {
-    return 'Credit(amount=' + this.dy_1 + ')';
+    return 'Credit(amount=' + this.vy_1 + ')';
   };
   Credit.prototype.hashCode = function () {
-    return this.dy_1;
+    return this.vy_1;
   };
   Credit.prototype.equals = function (other) {
     if (this === other)
@@ -14841,14 +14954,14 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Credit))
       return false;
     var tmp0_other_with_cast = other instanceof Credit ? other : THROW_CCE();
-    if (!(this.dy_1 === tmp0_other_with_cast.dy_1))
+    if (!(this.vy_1 === tmp0_other_with_cast.vy_1))
       return false;
     return true;
   };
   Object.defineProperty(Credit.prototype, 'amount', {
     configurable: true,
     get: function () {
-      return this.cy();
+      return this.uy();
     }
   });
   function SsmSessionDTO() {
@@ -14881,37 +14994,37 @@ if (typeof Math.imul === 'undefined') {
       tmp = private_0;
     }
     var private_1 = tmp;
-    this.hy_1 = ssm;
-    this.iy_1 = session;
-    this.jy_1 = roles;
-    this.ky_1 = public_0;
-    this.ly_1 = private_1;
+    this.zy_1 = ssm;
+    this.az_1 = session;
+    this.bz_1 = roles;
+    this.cz_1 = public_0;
+    this.dz_1 = private_1;
   }
-  SsmSession.prototype.gy = function () {
-    return this.hy_1;
+  SsmSession.prototype.yy = function () {
+    return this.zy_1;
   };
-  SsmSession.prototype.ox = function () {
-    return this.iy_1;
+  SsmSession.prototype.gy = function () {
+    return this.az_1;
   };
   SsmSession.prototype.gr = function () {
-    return this.jy_1;
+    return this.bz_1;
   };
-  SsmSession.prototype.px = function () {
-    return this.ky_1;
+  SsmSession.prototype.hy = function () {
+    return this.cz_1;
   };
-  SsmSession.prototype.rx = function () {
-    return this.ly_1;
+  SsmSession.prototype.jy = function () {
+    return this.dz_1;
   };
   Object.defineProperty(SsmSession.prototype, 'ssm', {
     configurable: true,
     get: function () {
-      return this.gy();
+      return this.yy();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.ox();
+      return this.gy();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'roles', {
@@ -14923,13 +15036,13 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmSession.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.px();
+      return this.hy();
     }
   });
   Object.defineProperty(SsmSession.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.rx();
+      return this.jy();
     }
   });
   function SsmSessionStateDTO() {
@@ -14962,100 +15075,100 @@ if (typeof Math.imul === 'undefined') {
       tmp = private_0;
     }
     var private_1 = tmp;
-    this.oy_1 = ssm;
-    this.py_1 = session;
-    this.qy_1 = roles;
-    this.ry_1 = public_0;
-    this.sy_1 = private_1;
-    this.ty_1 = origin;
-    this.uy_1 = current;
-    this.vy_1 = iteration;
+    this.gz_1 = ssm;
+    this.hz_1 = session;
+    this.iz_1 = roles;
+    this.jz_1 = public_0;
+    this.kz_1 = private_1;
+    this.lz_1 = origin;
+    this.mz_1 = current;
+    this.nz_1 = iteration;
   }
-  SsmSessionState.prototype.gy = function () {
-    return this.oy_1;
+  SsmSessionState.prototype.yy = function () {
+    return this.gz_1;
   };
-  SsmSessionState.prototype.ox = function () {
-    return this.py_1;
+  SsmSessionState.prototype.gy = function () {
+    return this.hz_1;
   };
   SsmSessionState.prototype.gr = function () {
-    return this.qy_1;
+    return this.iz_1;
   };
-  SsmSessionState.prototype.px = function () {
-    return this.ry_1;
+  SsmSessionState.prototype.hy = function () {
+    return this.jz_1;
   };
-  SsmSessionState.prototype.rx = function () {
-    return this.sy_1;
+  SsmSessionState.prototype.jy = function () {
+    return this.kz_1;
   };
-  SsmSessionState.prototype.my = function () {
-    return this.ty_1;
+  SsmSessionState.prototype.ez = function () {
+    return this.lz_1;
   };
-  SsmSessionState.prototype.ny = function () {
-    return this.uy_1;
+  SsmSessionState.prototype.fz = function () {
+    return this.mz_1;
   };
-  SsmSessionState.prototype.qx = function () {
-    return this.vy_1;
+  SsmSessionState.prototype.iy = function () {
+    return this.nz_1;
   };
   SsmSessionState.prototype.component1 = function () {
-    return this.oy_1;
+    return this.gz_1;
   };
   SsmSessionState.prototype.component2 = function () {
-    return this.py_1;
+    return this.hz_1;
   };
   SsmSessionState.prototype.component3 = function () {
-    return this.qy_1;
+    return this.iz_1;
   };
   SsmSessionState.prototype.component4 = function () {
-    return this.ry_1;
+    return this.jz_1;
   };
   SsmSessionState.prototype.component5 = function () {
-    return this.sy_1;
+    return this.kz_1;
   };
   SsmSessionState.prototype.component6 = function () {
-    return this.ty_1;
+    return this.lz_1;
   };
   SsmSessionState.prototype.component7 = function () {
-    return this.uy_1;
+    return this.mz_1;
   };
   SsmSessionState.prototype.component8 = function () {
-    return this.vy_1;
+    return this.nz_1;
   };
   SsmSessionState.prototype.copy = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
-    return this.wy(ssm === void 1 ? this.oy_1 : ssm, session === void 1 ? this.py_1 : session, roles === void 1 ? this.qy_1 : roles, public_0 === void 1 ? this.ry_1 : public_0, private_0 === void 1 ? this.sy_1 : private_0, origin === void 1 ? this.ty_1 : origin, current === void 1 ? this.uy_1 : current, iteration === void 1 ? this.vy_1 : iteration);
+    return this.oz(ssm === void 1 ? this.gz_1 : ssm, session === void 1 ? this.hz_1 : session, roles === void 1 ? this.iz_1 : roles, public_0 === void 1 ? this.jz_1 : public_0, private_0 === void 1 ? this.kz_1 : private_0, origin === void 1 ? this.lz_1 : origin, current === void 1 ? this.mz_1 : current, iteration === void 1 ? this.nz_1 : iteration);
   };
-  SsmSessionState.prototype.wy = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
+  SsmSessionState.prototype.oz = function (ssm, session, roles, public_0, private_0, origin, current, iteration) {
     return new SsmSessionState(ssm, session, roles, public_0, private_0, origin, current, iteration);
   };
-  SsmSessionState.prototype.xy = function (ssm, session, roles, public_0, private_0, origin, current, iteration, $mask0, $handler) {
+  SsmSessionState.prototype.pz = function (ssm, session, roles, public_0, private_0, origin, current, iteration, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      ssm = this.oy_1;
+      ssm = this.gz_1;
     if (!(($mask0 & 2) === 0))
-      session = this.py_1;
+      session = this.hz_1;
     if (!(($mask0 & 4) === 0))
-      roles = this.qy_1;
+      roles = this.iz_1;
     if (!(($mask0 & 8) === 0))
-      public_0 = this.ry_1;
+      public_0 = this.jz_1;
     if (!(($mask0 & 16) === 0))
-      private_0 = this.sy_1;
+      private_0 = this.kz_1;
     if (!(($mask0 & 32) === 0))
-      origin = this.ty_1;
+      origin = this.lz_1;
     if (!(($mask0 & 64) === 0))
-      current = this.uy_1;
+      current = this.mz_1;
     if (!(($mask0 & 128) === 0))
-      iteration = this.vy_1;
-    return this.wy(ssm, session, roles, public_0, private_0, origin, current, iteration);
+      iteration = this.nz_1;
+    return this.oz(ssm, session, roles, public_0, private_0, origin, current, iteration);
   };
   SsmSessionState.prototype.toString = function () {
-    return 'SsmSessionState(ssm=' + this.oy_1 + ', session=' + this.py_1 + ', roles=' + this.qy_1 + ', public=' + toString_1(this.ry_1) + ', private=' + this.sy_1 + ', origin=' + this.ty_1 + ', current=' + this.uy_1 + ', iteration=' + this.vy_1 + ')';
+    return 'SsmSessionState(ssm=' + this.gz_1 + ', session=' + this.hz_1 + ', roles=' + this.iz_1 + ', public=' + toString_1(this.jz_1) + ', private=' + this.kz_1 + ', origin=' + this.lz_1 + ', current=' + this.mz_1 + ', iteration=' + this.nz_1 + ')';
   };
   SsmSessionState.prototype.hashCode = function () {
-    var result = this.oy_1 == null ? 0 : getStringHashCode(this.oy_1);
-    result = imul(result, 31) + getStringHashCode(this.py_1) | 0;
-    result = imul(result, 31) + (this.qy_1 == null ? 0 : hashCode(this.qy_1)) | 0;
-    result = imul(result, 31) + (this.ry_1 == null ? 0 : hashCode(this.ry_1)) | 0;
-    result = imul(result, 31) + (this.sy_1 == null ? 0 : hashCode(this.sy_1)) | 0;
-    result = imul(result, 31) + (this.ty_1 == null ? 0 : this.ty_1.hashCode()) | 0;
-    result = imul(result, 31) + this.uy_1 | 0;
-    result = imul(result, 31) + this.vy_1 | 0;
+    var result = this.gz_1 == null ? 0 : getStringHashCode(this.gz_1);
+    result = imul(result, 31) + getStringHashCode(this.hz_1) | 0;
+    result = imul(result, 31) + (this.iz_1 == null ? 0 : hashCode(this.iz_1)) | 0;
+    result = imul(result, 31) + (this.jz_1 == null ? 0 : hashCode(this.jz_1)) | 0;
+    result = imul(result, 31) + (this.kz_1 == null ? 0 : hashCode(this.kz_1)) | 0;
+    result = imul(result, 31) + (this.lz_1 == null ? 0 : this.lz_1.hashCode()) | 0;
+    result = imul(result, 31) + this.mz_1 | 0;
+    result = imul(result, 31) + this.nz_1 | 0;
     return result;
   };
   SsmSessionState.prototype.equals = function (other) {
@@ -15064,34 +15177,34 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmSessionState))
       return false;
     var tmp0_other_with_cast = other instanceof SsmSessionState ? other : THROW_CCE();
-    if (!(this.oy_1 == tmp0_other_with_cast.oy_1))
+    if (!(this.gz_1 == tmp0_other_with_cast.gz_1))
       return false;
-    if (!(this.py_1 === tmp0_other_with_cast.py_1))
+    if (!(this.hz_1 === tmp0_other_with_cast.hz_1))
       return false;
-    if (!equals_0(this.qy_1, tmp0_other_with_cast.qy_1))
+    if (!equals_0(this.iz_1, tmp0_other_with_cast.iz_1))
       return false;
-    if (!equals_0(this.ry_1, tmp0_other_with_cast.ry_1))
+    if (!equals_0(this.jz_1, tmp0_other_with_cast.jz_1))
       return false;
-    if (!equals_0(this.sy_1, tmp0_other_with_cast.sy_1))
+    if (!equals_0(this.kz_1, tmp0_other_with_cast.kz_1))
       return false;
-    if (!equals_0(this.ty_1, tmp0_other_with_cast.ty_1))
+    if (!equals_0(this.lz_1, tmp0_other_with_cast.lz_1))
       return false;
-    if (!(this.uy_1 === tmp0_other_with_cast.uy_1))
+    if (!(this.mz_1 === tmp0_other_with_cast.mz_1))
       return false;
-    if (!(this.vy_1 === tmp0_other_with_cast.vy_1))
+    if (!(this.nz_1 === tmp0_other_with_cast.nz_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmSessionState.prototype, 'ssm', {
     configurable: true,
     get: function () {
-      return this.gy();
+      return this.yy();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'session', {
     configurable: true,
     get: function () {
-      return this.ox();
+      return this.gy();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'roles', {
@@ -15103,70 +15216,70 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmSessionState.prototype, 'public', {
     configurable: true,
     get: function () {
-      return this.px();
+      return this.hy();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'private', {
     configurable: true,
     get: function () {
-      return this.rx();
+      return this.jy();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'origin', {
     configurable: true,
     get: function () {
-      return this.my();
+      return this.ez();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'current', {
     configurable: true,
     get: function () {
-      return this.ny();
+      return this.fz();
     }
   });
   Object.defineProperty(SsmSessionState.prototype, 'iteration', {
     configurable: true,
     get: function () {
-      return this.qx();
+      return this.iy();
     }
   });
   function SsmSessionStateLogDTO() {
   }
   function SsmSessionStateLog(txId, state) {
-    this.zy_1 = txId;
-    this.az_1 = state;
+    this.rz_1 = txId;
+    this.sz_1 = state;
   }
-  SsmSessionStateLog.prototype.yy = function () {
-    return this.zy_1;
+  SsmSessionStateLog.prototype.qz = function () {
+    return this.rz_1;
   };
   SsmSessionStateLog.prototype.ob = function () {
-    return this.az_1;
+    return this.sz_1;
   };
   SsmSessionStateLog.prototype.component1 = function () {
-    return this.zy_1;
+    return this.rz_1;
   };
   SsmSessionStateLog.prototype.component2 = function () {
-    return this.az_1;
+    return this.sz_1;
   };
   SsmSessionStateLog.prototype.copy = function (txId, state) {
-    return this.bz(txId === void 1 ? this.zy_1 : txId, state === void 1 ? this.az_1 : state);
+    return this.tz(txId === void 1 ? this.rz_1 : txId, state === void 1 ? this.sz_1 : state);
   };
-  SsmSessionStateLog.prototype.bz = function (txId, state) {
+  SsmSessionStateLog.prototype.tz = function (txId, state) {
     return new SsmSessionStateLog(txId, state);
   };
-  SsmSessionStateLog.prototype.cz = function (txId, state, $mask0, $handler) {
+  SsmSessionStateLog.prototype.uz = function (txId, state, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      txId = this.zy_1;
+      txId = this.rz_1;
     if (!(($mask0 & 2) === 0))
-      state = this.az_1;
-    return this.bz(txId, state);
+      state = this.sz_1;
+    return this.tz(txId, state);
   };
   SsmSessionStateLog.prototype.toString = function () {
-    return 'SsmSessionStateLog(txId=' + this.zy_1 + ', state=' + this.az_1 + ')';
+    return 'SsmSessionStateLog(txId=' + this.rz_1 + ', state=' + this.sz_1 + ')';
   };
   SsmSessionStateLog.prototype.hashCode = function () {
-    var result = getStringHashCode(this.zy_1);
-    result = imul(result, 31) + this.az_1.hashCode() | 0;
+    var result = getStringHashCode(this.rz_1);
+    result = imul(result, 31) + this.sz_1.hashCode() | 0;
     return result;
   };
   SsmSessionStateLog.prototype.equals = function (other) {
@@ -15175,16 +15288,16 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmSessionStateLog))
       return false;
     var tmp0_other_with_cast = other instanceof SsmSessionStateLog ? other : THROW_CCE();
-    if (!(this.zy_1 === tmp0_other_with_cast.zy_1))
+    if (!(this.rz_1 === tmp0_other_with_cast.rz_1))
       return false;
-    if (!this.az_1.equals(tmp0_other_with_cast.az_1))
+    if (!this.sz_1.equals(tmp0_other_with_cast.sz_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmSessionStateLog.prototype, 'txId', {
     configurable: true,
     get: function () {
-      return this.yy();
+      return this.qz();
     }
   });
   Object.defineProperty(SsmSessionStateLog.prototype, 'state', {
@@ -15196,60 +15309,60 @@ if (typeof Math.imul === 'undefined') {
   function SsmTransitionDTO() {
   }
   function SsmTransition(from, to, role, action) {
-    this.gz_1 = from;
-    this.hz_1 = to;
-    this.iz_1 = role;
-    this.jz_1 = action;
+    this.yz_1 = from;
+    this.zz_1 = to;
+    this.a10_1 = role;
+    this.b10_1 = action;
   }
-  SsmTransition.prototype.dz = function () {
-    return this.gz_1;
+  SsmTransition.prototype.vz = function () {
+    return this.yz_1;
   };
-  SsmTransition.prototype.ez = function () {
-    return this.hz_1;
+  SsmTransition.prototype.wz = function () {
+    return this.zz_1;
   };
-  SsmTransition.prototype.iu = function () {
-    return this.iz_1;
+  SsmTransition.prototype.ew = function () {
+    return this.a10_1;
   };
-  SsmTransition.prototype.fz = function () {
-    return this.jz_1;
+  SsmTransition.prototype.xz = function () {
+    return this.b10_1;
   };
   SsmTransition.prototype.component1 = function () {
-    return this.gz_1;
+    return this.yz_1;
   };
   SsmTransition.prototype.component2 = function () {
-    return this.hz_1;
+    return this.zz_1;
   };
   SsmTransition.prototype.component3 = function () {
-    return this.iz_1;
+    return this.a10_1;
   };
   SsmTransition.prototype.component4 = function () {
-    return this.jz_1;
+    return this.b10_1;
   };
   SsmTransition.prototype.copy = function (from, to, role, action) {
-    return this.kz(from === void 1 ? this.gz_1 : from, to === void 1 ? this.hz_1 : to, role === void 1 ? this.iz_1 : role, action === void 1 ? this.jz_1 : action);
+    return this.c10(from === void 1 ? this.yz_1 : from, to === void 1 ? this.zz_1 : to, role === void 1 ? this.a10_1 : role, action === void 1 ? this.b10_1 : action);
   };
-  SsmTransition.prototype.kz = function (from, to, role, action) {
+  SsmTransition.prototype.c10 = function (from, to, role, action) {
     return new SsmTransition(from, to, role, action);
   };
-  SsmTransition.prototype.lz = function (from, to, role, action, $mask0, $handler) {
+  SsmTransition.prototype.d10 = function (from, to, role, action, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      from = this.gz_1;
+      from = this.yz_1;
     if (!(($mask0 & 2) === 0))
-      to = this.hz_1;
+      to = this.zz_1;
     if (!(($mask0 & 4) === 0))
-      role = this.iz_1;
+      role = this.a10_1;
     if (!(($mask0 & 8) === 0))
-      action = this.jz_1;
-    return this.kz(from, to, role, action);
+      action = this.b10_1;
+    return this.c10(from, to, role, action);
   };
   SsmTransition.prototype.toString = function () {
-    return 'SsmTransition(from=' + this.gz_1 + ', to=' + this.hz_1 + ', role=' + this.iz_1 + ', action=' + this.jz_1 + ')';
+    return 'SsmTransition(from=' + this.yz_1 + ', to=' + this.zz_1 + ', role=' + this.a10_1 + ', action=' + this.b10_1 + ')';
   };
   SsmTransition.prototype.hashCode = function () {
-    var result = this.gz_1;
-    result = imul(result, 31) + this.hz_1 | 0;
-    result = imul(result, 31) + getStringHashCode(this.iz_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.jz_1) | 0;
+    var result = this.yz_1;
+    result = imul(result, 31) + this.zz_1 | 0;
+    result = imul(result, 31) + getStringHashCode(this.a10_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.b10_1) | 0;
     return result;
   };
   SsmTransition.prototype.equals = function (other) {
@@ -15258,38 +15371,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmTransition))
       return false;
     var tmp0_other_with_cast = other instanceof SsmTransition ? other : THROW_CCE();
-    if (!(this.gz_1 === tmp0_other_with_cast.gz_1))
+    if (!(this.yz_1 === tmp0_other_with_cast.yz_1))
       return false;
-    if (!(this.hz_1 === tmp0_other_with_cast.hz_1))
+    if (!(this.zz_1 === tmp0_other_with_cast.zz_1))
       return false;
-    if (!(this.iz_1 === tmp0_other_with_cast.iz_1))
+    if (!(this.a10_1 === tmp0_other_with_cast.a10_1))
       return false;
-    if (!(this.jz_1 === tmp0_other_with_cast.jz_1))
+    if (!(this.b10_1 === tmp0_other_with_cast.b10_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmTransition.prototype, 'from', {
     configurable: true,
     get: function () {
-      return this.dz();
+      return this.vz();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.ez();
+      return this.wz();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.iu();
+      return this.ew();
     }
   });
   Object.defineProperty(SsmTransition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.fz();
+      return this.xz();
     }
   });
   function WithPrivate() {
@@ -15301,10 +15414,10 @@ if (typeof Math.imul === 'undefined') {
     this.PARTS = 3;
     this.PREFIX = 'chaincode';
   }
-  Companion_19.prototype.nz = function () {
+  Companion_19.prototype.f10 = function () {
     return this.PARTS;
   };
-  Companion_19.prototype.oz = function () {
+  Companion_19.prototype.g10 = function () {
     return this.PREFIX;
   };
   var Companion_instance_19;
@@ -15315,11 +15428,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChaincodeUri(uri) {
     Companion_getInstance_19();
-    this.pz_1 = uri;
+    this.h10_1 = uri;
     var tmp = this;
-    tmp.qz_1 = split$default(this.pz_1, [':'], false, 0, 6, null);
+    tmp.i10_1 = split$default(this.h10_1, [':'], false, 0, 6, null);
     // Inline function 'kotlin.require' call
-    var tmp_0 = this.qz_1.f();
+    var tmp_0 = this.i10_1.f();
     Companion_getInstance_19();
     var tmp0_require = tmp_0 === 3;
     // Inline function 'kotlin.contracts.contract' call
@@ -15333,7 +15446,7 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message));
     }
     // Inline function 'kotlin.require' call
-    var tmp_1 = first(this.qz_1);
+    var tmp_1 = first(this.i10_1);
     Companion_getInstance_19();
     var tmp1_require = tmp_1 === 'chaincode';
     // Inline function 'kotlin.contracts.contract' call
@@ -15347,28 +15460,28 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message_0));
     }
   }
-  ChaincodeUri.prototype.mz = function () {
-    return this.pz_1;
+  ChaincodeUri.prototype.e10 = function () {
+    return this.h10_1;
   };
-  ChaincodeUri.prototype.lw = function () {
-    return this.qz_1.l(1);
+  ChaincodeUri.prototype.dx = function () {
+    return this.i10_1.l(1);
   };
-  ChaincodeUri.prototype.rz = function () {
-    return this.qz_1.l(2);
+  ChaincodeUri.prototype.j10 = function () {
+    return this.i10_1.l(2);
   };
   Object.defineProperty(ChaincodeUri.prototype, 'uri', {
     configurable: true,
     get: function () {
-      return this.mz();
+      return this.e10();
     }
   });
   Object.defineProperty(ChaincodeUri.prototype, 'channelId', {
     configurable: true,
-    get: ChaincodeUri.prototype.lw
+    get: ChaincodeUri.prototype.dx
   });
   Object.defineProperty(ChaincodeUri.prototype, 'chaincodeId', {
     configurable: true,
-    get: ChaincodeUri.prototype.rz
+    get: ChaincodeUri.prototype.j10
   });
   function from(_this__u8e3s4, channelId, chaincodeId) {
     return new ChaincodeUri('chaincode:' + channelId + ':' + chaincodeId);
@@ -15380,10 +15493,10 @@ if (typeof Math.imul === 'undefined') {
     this.PARTS = 4;
     this.PREFIX = 'ssm';
   }
-  Companion_20.prototype.nz = function () {
+  Companion_20.prototype.f10 = function () {
     return this.PARTS;
   };
-  Companion_20.prototype.oz = function () {
+  Companion_20.prototype.g10 = function () {
     return this.PREFIX;
   };
   var Companion_instance_20;
@@ -15394,11 +15507,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function SsmUri(uri) {
     Companion_getInstance_20();
-    this.sz_1 = uri;
+    this.k10_1 = uri;
     var tmp = this;
-    tmp.tz_1 = split$default(this.sz_1, [':'], false, 0, 6, null);
+    tmp.l10_1 = split$default(this.k10_1, [':'], false, 0, 6, null);
     // Inline function 'kotlin.require' call
-    var tmp_0 = this.tz_1.f();
+    var tmp_0 = this.l10_1.f();
     Companion_getInstance_20();
     var tmp0_require = tmp_0 === 4;
     // Inline function 'kotlin.contracts.contract' call
@@ -15412,7 +15525,7 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message));
     }
     // Inline function 'kotlin.require' call
-    var tmp_1 = first(this.tz_1);
+    var tmp_1 = first(this.l10_1);
     Companion_getInstance_20();
     var tmp1_require = tmp_1 === 'ssm';
     // Inline function 'kotlin.contracts.contract' call
@@ -15426,43 +15539,43 @@ if (typeof Math.imul === 'undefined') {
       throw IllegalArgumentException_init_$Create$(toString_2(message_0));
     }
   }
-  SsmUri.prototype.mz = function () {
-    return this.sz_1;
+  SsmUri.prototype.e10 = function () {
+    return this.k10_1;
   };
-  SsmUri.prototype.lw = function () {
-    return this.tz_1.l(1);
+  SsmUri.prototype.dx = function () {
+    return this.l10_1.l(1);
   };
-  SsmUri.prototype.rz = function () {
-    return this.tz_1.l(2);
+  SsmUri.prototype.j10 = function () {
+    return this.l10_1.l(2);
   };
-  SsmUri.prototype.uz = function () {
-    return this.tz_1.l(3);
+  SsmUri.prototype.m10 = function () {
+    return this.l10_1.l(3);
   };
-  SsmUri.prototype.vz = function () {
+  SsmUri.prototype.n10 = function () {
     return '1.0.0';
   };
-  SsmUri.prototype.vv = function () {
+  SsmUri.prototype.nw = function () {
     return from(Companion_getInstance_19(), this.channelId, this.chaincodeId);
   };
   SsmUri.prototype.component1 = function () {
-    return this.sz_1;
+    return this.k10_1;
   };
   SsmUri.prototype.copy = function (uri) {
-    return this.wz(uri === void 1 ? this.sz_1 : uri);
+    return this.o10(uri === void 1 ? this.k10_1 : uri);
   };
-  SsmUri.prototype.wz = function (uri) {
+  SsmUri.prototype.o10 = function (uri) {
     return new SsmUri(uri);
   };
-  SsmUri.prototype.xz = function (uri, $mask0, $handler) {
+  SsmUri.prototype.p10 = function (uri, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      uri = this.sz_1;
-    return this.wz(uri);
+      uri = this.k10_1;
+    return this.o10(uri);
   };
   SsmUri.prototype.toString = function () {
-    return 'SsmUri(uri=' + this.sz_1 + ')';
+    return 'SsmUri(uri=' + this.k10_1 + ')';
   };
   SsmUri.prototype.hashCode = function () {
-    return getStringHashCode(this.sz_1);
+    return getStringHashCode(this.k10_1);
   };
   SsmUri.prototype.equals = function (other) {
     if (this === other)
@@ -15470,42 +15583,42 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmUri))
       return false;
     var tmp0_other_with_cast = other instanceof SsmUri ? other : THROW_CCE();
-    if (!(this.sz_1 === tmp0_other_with_cast.sz_1))
+    if (!(this.k10_1 === tmp0_other_with_cast.k10_1))
       return false;
     return true;
   };
   Object.defineProperty(SsmUri.prototype, 'uri', {
     configurable: true,
     get: function () {
-      return this.mz();
+      return this.e10();
     }
   });
   Object.defineProperty(SsmUri.prototype, 'channelId', {
     configurable: true,
-    get: SsmUri.prototype.lw
+    get: SsmUri.prototype.dx
   });
   Object.defineProperty(SsmUri.prototype, 'chaincodeId', {
     configurable: true,
-    get: SsmUri.prototype.rz
+    get: SsmUri.prototype.j10
   });
   Object.defineProperty(SsmUri.prototype, 'ssmName', {
     configurable: true,
-    get: SsmUri.prototype.uz
+    get: SsmUri.prototype.m10
   });
   Object.defineProperty(SsmUri.prototype, 'ssmVersion', {
     configurable: true,
-    get: SsmUri.prototype.vz
+    get: SsmUri.prototype.n10
   });
   Object.defineProperty(SsmUri.prototype, 'chaincodeUri', {
     configurable: true,
-    get: SsmUri.prototype.vv
+    get: SsmUri.prototype.nw
   });
   function SsmGetAdminQuery(chaincodeUri, name) {
-    this.yz_1 = chaincodeUri;
+    this.q10_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetAdminQuery.prototype.vv = function () {
-    return this.yz_1;
+  SsmGetAdminQuery.prototype.nw = function () {
+    return this.q10_1;
   };
   SsmGetAdminQuery.prototype.s8 = function () {
     return this.name;
@@ -15513,27 +15626,27 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetAdminQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetAdminResult(item) {
-    this.zz_1 = item;
+    this.r10_1 = item;
   }
-  SsmGetAdminResult.prototype.ks = function () {
-    return this.zz_1;
+  SsmGetAdminResult.prototype.kt = function () {
+    return this.r10_1;
   };
   Object.defineProperty(SsmGetAdminResult.prototype, 'item', {
     configurable: true,
     get: function () {
-      return this.ks();
+      return this.kt();
     }
   });
   function SsmGetQuery(chaincodeUri, name) {
-    this.a10_1 = chaincodeUri;
+    this.s10_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetQuery.prototype.vv = function () {
-    return this.a10_1;
+  SsmGetQuery.prototype.nw = function () {
+    return this.s10_1;
   };
   SsmGetQuery.prototype.s8 = function () {
     return this.name;
@@ -15541,39 +15654,39 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetResult(item) {
-    this.b10_1 = item;
+    this.t10_1 = item;
   }
-  SsmGetResult.prototype.ks = function () {
-    return this.b10_1;
+  SsmGetResult.prototype.kt = function () {
+    return this.t10_1;
   };
   Object.defineProperty(SsmGetResult.prototype, 'item', {
     configurable: true,
     get: function () {
-      return this.ks();
+      return this.kt();
     }
   });
   function SsmGetSessionLogsQuery(chaincodeUri, ssmName, sessionName) {
-    this.c10_1 = chaincodeUri;
+    this.u10_1 = chaincodeUri;
     this.ssmName = ssmName;
     this.sessionName = sessionName;
   }
-  SsmGetSessionLogsQuery.prototype.vv = function () {
-    return this.c10_1;
+  SsmGetSessionLogsQuery.prototype.nw = function () {
+    return this.u10_1;
   };
-  SsmGetSessionLogsQuery.prototype.uz = function () {
+  SsmGetSessionLogsQuery.prototype.m10 = function () {
     return this.ssmName;
   };
-  SsmGetSessionLogsQuery.prototype.d10 = function () {
+  SsmGetSessionLogsQuery.prototype.v10 = function () {
     return this.sessionName;
   };
   Object.defineProperty(SsmGetSessionLogsQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetSessionLogsQueryResult(ssmName, sessionName, logs) {
@@ -15581,13 +15694,13 @@ if (typeof Math.imul === 'undefined') {
     this.sessionName = sessionName;
     this.logs = logs;
   }
-  SsmGetSessionLogsQueryResult.prototype.uz = function () {
+  SsmGetSessionLogsQueryResult.prototype.m10 = function () {
     return this.ssmName;
   };
-  SsmGetSessionLogsQueryResult.prototype.d10 = function () {
+  SsmGetSessionLogsQueryResult.prototype.v10 = function () {
     return this.sessionName;
   };
-  SsmGetSessionLogsQueryResult.prototype.e10 = function () {
+  SsmGetSessionLogsQueryResult.prototype.w10 = function () {
     return this.logs;
   };
   SsmGetSessionLogsQueryResult.prototype.component1 = function () {
@@ -15600,19 +15713,19 @@ if (typeof Math.imul === 'undefined') {
     return this.logs;
   };
   SsmGetSessionLogsQueryResult.prototype.copy = function (ssmName, sessionName, logs) {
-    return this.f10(ssmName === void 1 ? this.ssmName : ssmName, sessionName === void 1 ? this.sessionName : sessionName, logs === void 1 ? this.logs : logs);
+    return this.x10(ssmName === void 1 ? this.ssmName : ssmName, sessionName === void 1 ? this.sessionName : sessionName, logs === void 1 ? this.logs : logs);
   };
-  SsmGetSessionLogsQueryResult.prototype.f10 = function (ssmName, sessionName, logs) {
+  SsmGetSessionLogsQueryResult.prototype.x10 = function (ssmName, sessionName, logs) {
     return new SsmGetSessionLogsQueryResult(ssmName, sessionName, logs);
   };
-  SsmGetSessionLogsQueryResult.prototype.g10 = function (ssmName, sessionName, logs, $mask0, $handler) {
+  SsmGetSessionLogsQueryResult.prototype.y10 = function (ssmName, sessionName, logs, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
       ssmName = this.ssmName;
     if (!(($mask0 & 2) === 0))
       sessionName = this.sessionName;
     if (!(($mask0 & 4) === 0))
       logs = this.logs;
-    return this.f10(ssmName, sessionName, logs);
+    return this.x10(ssmName, sessionName, logs);
   };
   SsmGetSessionLogsQueryResult.prototype.toString = function () {
     return 'SsmGetSessionLogsQueryResult(ssmName=' + this.ssmName + ', sessionName=' + this.sessionName + ', logs=' + this.logs + ')';
@@ -15638,67 +15751,67 @@ if (typeof Math.imul === 'undefined') {
     return true;
   };
   function SsmGetSessionQuery(chaincodeUri, sessionName) {
-    this.h10_1 = chaincodeUri;
+    this.z10_1 = chaincodeUri;
     this.sessionName = sessionName;
   }
-  SsmGetSessionQuery.prototype.vv = function () {
-    return this.h10_1;
+  SsmGetSessionQuery.prototype.nw = function () {
+    return this.z10_1;
   };
-  SsmGetSessionQuery.prototype.d10 = function () {
+  SsmGetSessionQuery.prototype.v10 = function () {
     return this.sessionName;
   };
   Object.defineProperty(SsmGetSessionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetSessionResult(item) {
-    this.i10_1 = item;
+    this.a11_1 = item;
   }
-  SsmGetSessionResult.prototype.ks = function () {
-    return this.i10_1;
+  SsmGetSessionResult.prototype.kt = function () {
+    return this.a11_1;
   };
   Object.defineProperty(SsmGetSessionResult.prototype, 'item', {
     configurable: true,
     get: function () {
-      return this.ks();
+      return this.kt();
     }
   });
   function SsmGetTransactionQuery(chaincodeUri, id) {
-    this.j10_1 = chaincodeUri;
+    this.b11_1 = chaincodeUri;
     this.id = id;
   }
-  SsmGetTransactionQuery.prototype.vv = function () {
-    return this.j10_1;
+  SsmGetTransactionQuery.prototype.nw = function () {
+    return this.b11_1;
   };
   SsmGetTransactionQuery.prototype.zo = function () {
     return this.id;
   };
   SsmGetTransactionQuery.prototype.component1 = function () {
-    return this.j10_1;
+    return this.b11_1;
   };
   SsmGetTransactionQuery.prototype.component2 = function () {
     return this.id;
   };
   SsmGetTransactionQuery.prototype.copy = function (chaincodeUri, id) {
-    return this.k10(chaincodeUri === void 1 ? this.j10_1 : chaincodeUri, id === void 1 ? this.id : id);
+    return this.c11(chaincodeUri === void 1 ? this.b11_1 : chaincodeUri, id === void 1 ? this.id : id);
   };
-  SsmGetTransactionQuery.prototype.k10 = function (chaincodeUri, id) {
+  SsmGetTransactionQuery.prototype.c11 = function (chaincodeUri, id) {
     return new SsmGetTransactionQuery(chaincodeUri, id);
   };
-  SsmGetTransactionQuery.prototype.l10 = function (chaincodeUri, id, $mask0, $handler) {
+  SsmGetTransactionQuery.prototype.d11 = function (chaincodeUri, id, $mask0, $handler) {
     if (!(($mask0 & 1) === 0))
-      chaincodeUri = this.j10_1;
+      chaincodeUri = this.b11_1;
     if (!(($mask0 & 2) === 0))
       id = this.id;
-    return this.k10(chaincodeUri, id);
+    return this.c11(chaincodeUri, id);
   };
   SsmGetTransactionQuery.prototype.toString = function () {
-    return 'SsmGetTransactionQuery(chaincodeUri=' + this.j10_1 + ', id=' + this.id + ')';
+    return 'SsmGetTransactionQuery(chaincodeUri=' + this.b11_1 + ', id=' + this.id + ')';
   };
   SsmGetTransactionQuery.prototype.hashCode = function () {
-    var result = hashCode(this.j10_1);
+    var result = hashCode(this.b11_1);
     result = imul(result, 31) + getStringHashCode(this.id) | 0;
     return result;
   };
@@ -15708,7 +15821,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SsmGetTransactionQuery))
       return false;
     var tmp0_other_with_cast = other instanceof SsmGetTransactionQuery ? other : THROW_CCE();
-    if (!equals_0(this.j10_1, tmp0_other_with_cast.j10_1))
+    if (!equals_0(this.b11_1, tmp0_other_with_cast.b11_1))
       return false;
     if (!(this.id === tmp0_other_with_cast.id))
       return false;
@@ -15717,27 +15830,27 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetTransactionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetTransactionQueryResult(item) {
-    this.m10_1 = item;
+    this.e11_1 = item;
   }
-  SsmGetTransactionQueryResult.prototype.ks = function () {
-    return this.m10_1;
+  SsmGetTransactionQueryResult.prototype.kt = function () {
+    return this.e11_1;
   };
   Object.defineProperty(SsmGetTransactionQueryResult.prototype, 'item', {
     configurable: true,
     get: function () {
-      return this.ks();
+      return this.kt();
     }
   });
   function SsmGetUserQuery(chaincodeUri, name) {
-    this.n10_1 = chaincodeUri;
+    this.f11_1 = chaincodeUri;
     this.name = name;
   }
-  SsmGetUserQuery.prototype.vv = function () {
-    return this.n10_1;
+  SsmGetUserQuery.prototype.nw = function () {
+    return this.f11_1;
   };
   SsmGetUserQuery.prototype.s8 = function () {
     return this.name;
@@ -15745,38 +15858,38 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(SsmGetUserQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmGetUserResult(item) {
-    this.o10_1 = item;
+    this.g11_1 = item;
   }
-  SsmGetUserResult.prototype.ks = function () {
-    return this.o10_1;
+  SsmGetUserResult.prototype.kt = function () {
+    return this.g11_1;
   };
   Object.defineProperty(SsmGetUserResult.prototype, 'item', {
     configurable: true,
     get: function () {
-      return this.ks();
+      return this.kt();
     }
   });
   function SsmListAdminQuery(chaincodeUri) {
-    this.p10_1 = chaincodeUri;
+    this.h11_1 = chaincodeUri;
   }
-  SsmListAdminQuery.prototype.vv = function () {
-    return this.p10_1;
+  SsmListAdminQuery.prototype.nw = function () {
+    return this.h11_1;
   };
   Object.defineProperty(SsmListAdminQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmListAdminResult(items) {
-    this.q10_1 = items;
+    this.i11_1 = items;
   }
   SsmListAdminResult.prototype.bq = function () {
-    return this.q10_1;
+    return this.i11_1;
   };
   Object.defineProperty(SsmListAdminResult.prototype, 'items', {
     configurable: true,
@@ -15785,22 +15898,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListSessionQuery(chaincodeUri) {
-    this.r10_1 = chaincodeUri;
+    this.j11_1 = chaincodeUri;
   }
-  SsmListSessionQuery.prototype.vv = function () {
-    return this.r10_1;
+  SsmListSessionQuery.prototype.nw = function () {
+    return this.j11_1;
   };
   Object.defineProperty(SsmListSessionQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmListSessionResult(items) {
-    this.s10_1 = items;
+    this.k11_1 = items;
   }
   SsmListSessionResult.prototype.bq = function () {
-    return this.s10_1;
+    return this.k11_1;
   };
   Object.defineProperty(SsmListSessionResult.prototype, 'items', {
     configurable: true,
@@ -15809,22 +15922,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListSsmQuery(chaincodeUri) {
-    this.t10_1 = chaincodeUri;
+    this.l11_1 = chaincodeUri;
   }
-  SsmListSsmQuery.prototype.vv = function () {
-    return this.t10_1;
+  SsmListSsmQuery.prototype.nw = function () {
+    return this.l11_1;
   };
   Object.defineProperty(SsmListSsmQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmListSsmResult(items) {
-    this.u10_1 = items;
+    this.m11_1 = items;
   }
   SsmListSsmResult.prototype.bq = function () {
-    return this.u10_1;
+    return this.m11_1;
   };
   Object.defineProperty(SsmListSsmResult.prototype, 'items', {
     configurable: true,
@@ -15833,22 +15946,22 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function SsmListUserQuery(chaincodeUri) {
-    this.v10_1 = chaincodeUri;
+    this.n11_1 = chaincodeUri;
   }
-  SsmListUserQuery.prototype.vv = function () {
-    return this.v10_1;
+  SsmListUserQuery.prototype.nw = function () {
+    return this.n11_1;
   };
   Object.defineProperty(SsmListUserQuery.prototype, 'chaincodeUri', {
     configurable: true,
     get: function () {
-      return this.vv();
+      return this.nw();
     }
   });
   function SsmListUserResult(items) {
-    this.w10_1 = items;
+    this.o11_1 = items;
   }
   SsmListUserResult.prototype.bq = function () {
-    return this.w10_1;
+    return this.o11_1;
   };
   Object.defineProperty(SsmListUserResult.prototype, 'items', {
     configurable: true,
@@ -15884,10 +15997,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('name', false);
     tmp0_serialDesc.pm('version', false);
     tmp0_serialDesc.pm('transitions', false);
-    this.x10_1 = tmp0_serialDesc;
+    this.p11_1 = tmp0_serialDesc;
   }
   $serializer_5.prototype.aj = function () {
-    return this.x10_1;
+    return this.p11_1;
   };
   $serializer_5.prototype.mm = function () {
     var tmp$ret$2;
@@ -15903,7 +16016,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_5.prototype.ep = function (decoder) {
-    var tmp0_desc = this.x10_1;
+    var tmp0_desc = this.p11_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -15944,8 +16057,8 @@ if (typeof Math.imul === 'undefined') {
     tmp7_input.xk(tmp0_desc);
     return S2Automate_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
   };
-  $serializer_5.prototype.y10 = function (encoder, value) {
-    var tmp0_desc = this.x10_1;
+  $serializer_5.prototype.q11 = function (encoder, value) {
+    var tmp0_desc = this.p11_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.il(tmp0_desc, 1, StringSerializer_getInstance(), value.version);
@@ -15953,7 +16066,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_5.prototype.hp = function (encoder, value) {
-    return this.y10(encoder, value instanceof S2Automate ? value : THROW_CCE());
+    return this.q11(encoder, value instanceof S2Automate ? value : THROW_CCE());
   };
   var $serializer_instance_3;
   function $serializer_getInstance_3() {
@@ -15963,7 +16076,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Automate_init_$Init$(seen1, name, version, transitions, serializationConstructorMarker, $this) {
     if (!(7 === (7 & seen1))) {
-      throwMissingFieldException(seen1, 7, $serializer_getInstance_3().x10_1);
+      throwMissingFieldException(seen1, 7, $serializer_getInstance_3().p11_1);
     }
     $this.name = name;
     $this.version = version;
@@ -15982,10 +16095,10 @@ if (typeof Math.imul === 'undefined') {
   S2Automate.prototype.s8 = function () {
     return this.name;
   };
-  S2Automate.prototype.z10 = function () {
+  S2Automate.prototype.r11 = function () {
     return this.version;
   };
-  S2Automate.prototype.jx = function () {
+  S2Automate.prototype.by = function () {
     return this.transitions;
   };
   S2Automate.prototype.getAvailableTransitions = function (state) {
@@ -16080,48 +16193,48 @@ if (typeof Math.imul === 'undefined') {
   function S2Error() {
   }
   function S2ErrorBase(type, description, date, payload) {
-    this.c11_1 = type;
-    this.d11_1 = description;
-    this.e11_1 = date;
-    this.f11_1 = payload;
+    this.u11_1 = type;
+    this.v11_1 = description;
+    this.w11_1 = date;
+    this.x11_1 = payload;
   }
-  S2ErrorBase.prototype.ow = function () {
-    return this.c11_1;
+  S2ErrorBase.prototype.gx = function () {
+    return this.u11_1;
   };
-  S2ErrorBase.prototype.bs = function () {
-    return this.d11_1;
+  S2ErrorBase.prototype.ct = function () {
+    return this.v11_1;
   };
-  S2ErrorBase.prototype.a11 = function () {
-    return this.e11_1;
+  S2ErrorBase.prototype.s11 = function () {
+    return this.w11_1;
   };
-  S2ErrorBase.prototype.b11 = function () {
-    return this.f11_1;
+  S2ErrorBase.prototype.t11 = function () {
+    return this.x11_1;
   };
   S2ErrorBase.prototype.toString = function () {
-    return "S2ErrorBase(type='" + this.c11_1 + "', description='" + this.d11_1 + "', date='" + this.e11_1 + "', payload=" + this.f11_1 + ')';
+    return "S2ErrorBase(type='" + this.u11_1 + "', description='" + this.v11_1 + "', date='" + this.w11_1 + "', payload=" + this.x11_1 + ')';
   };
   Object.defineProperty(S2ErrorBase.prototype, 'type', {
     configurable: true,
     get: function () {
-      return this.ow();
+      return this.gx();
     }
   });
   Object.defineProperty(S2ErrorBase.prototype, 'description', {
     configurable: true,
     get: function () {
-      return this.bs();
+      return this.ct();
     }
   });
   Object.defineProperty(S2ErrorBase.prototype, 'date', {
     configurable: true,
     get: function () {
-      return this.a11();
+      return this.s11();
     }
   });
   Object.defineProperty(S2ErrorBase.prototype, 'payload', {
     configurable: true,
     get: function () {
-      return this.b11();
+      return this.t11();
     }
   });
   function S2Event() {
@@ -16135,13 +16248,13 @@ if (typeof Math.imul === 'undefined') {
   S2EventSuccess.prototype.zo = function () {
     return this.id;
   };
-  S2EventSuccess.prototype.ow = function () {
+  S2EventSuccess.prototype.gx = function () {
     return this.type;
   };
-  S2EventSuccess.prototype.dz = function () {
+  S2EventSuccess.prototype.vz = function () {
     return this.from;
   };
-  S2EventSuccess.prototype.ez = function () {
+  S2EventSuccess.prototype.wz = function () {
     return this.to;
   };
   function S2EventError(id, type, from, to, error) {
@@ -16154,13 +16267,13 @@ if (typeof Math.imul === 'undefined') {
   S2EventError.prototype.zo = function () {
     return this.id;
   };
-  S2EventError.prototype.ow = function () {
+  S2EventError.prototype.gx = function () {
     return this.type;
   };
-  S2EventError.prototype.dz = function () {
+  S2EventError.prototype.vz = function () {
     return this.from;
   };
-  S2EventError.prototype.ez = function () {
+  S2EventError.prototype.wz = function () {
     return this.to;
   };
   S2EventError.prototype.pp = function () {
@@ -16193,97 +16306,97 @@ if (typeof Math.imul === 'undefined') {
     var autostart_0 = autostart === void 1 ? false : autostart;
     var blocking_0 = blocking === void 1 ? false : blocking;
     var singleton_0 = singleton === void 1 ? false : singleton;
-    this.h11_1 = automate;
-    this.i11_1 = startsOn_0;
-    this.j11_1 = endsOn_0;
-    this.k11_1 = autostart_0;
-    this.l11_1 = blocking_0;
-    this.m11_1 = singleton_0;
+    this.z11_1 = automate;
+    this.a12_1 = startsOn_0;
+    this.b12_1 = endsOn_0;
+    this.c12_1 = autostart_0;
+    this.d12_1 = blocking_0;
+    this.e12_1 = singleton_0;
   }
-  S2SubMachine.prototype.n11 = function () {
-    return this.h11_1;
+  S2SubMachine.prototype.f12 = function () {
+    return this.z11_1;
   };
-  S2SubMachine.prototype.o11 = function () {
-    return this.i11_1;
+  S2SubMachine.prototype.g12 = function () {
+    return this.a12_1;
   };
-  S2SubMachine.prototype.p11 = function () {
-    return this.j11_1;
+  S2SubMachine.prototype.h12 = function () {
+    return this.b12_1;
   };
-  S2SubMachine.prototype.q11 = function () {
-    return this.k11_1;
+  S2SubMachine.prototype.i12 = function () {
+    return this.c12_1;
   };
-  S2SubMachine.prototype.r11 = function () {
-    return this.l11_1;
+  S2SubMachine.prototype.j12 = function () {
+    return this.d12_1;
   };
-  S2SubMachine.prototype.s11 = function () {
-    return this.m11_1;
+  S2SubMachine.prototype.k12 = function () {
+    return this.e12_1;
   };
   Object.defineProperty(S2SubMachine.prototype, 'automate', {
     configurable: true,
     get: function () {
-      return this.n11();
+      return this.f12();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'startsOn', {
     configurable: true,
     get: function () {
-      return this.o11();
+      return this.g12();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'endsOn', {
     configurable: true,
     get: function () {
-      return this.p11();
+      return this.h12();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'autostart', {
     configurable: true,
     get: function () {
-      return this.q11();
+      return this.i12();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'blocking', {
     configurable: true,
     get: function () {
-      return this.r11();
+      return this.j12();
     }
   });
   Object.defineProperty(S2SubMachine.prototype, 'singleton', {
     configurable: true,
     get: function () {
-      return this.s11();
+      return this.k12();
     }
   });
   function S2InitTransition(to, role, action) {
-    this.t11_1 = to;
-    this.u11_1 = role;
-    this.v11_1 = action;
+    this.l12_1 = to;
+    this.m12_1 = role;
+    this.n12_1 = action;
   }
-  S2InitTransition.prototype.ez = function () {
-    return this.t11_1;
+  S2InitTransition.prototype.wz = function () {
+    return this.l12_1;
   };
-  S2InitTransition.prototype.iu = function () {
-    return this.u11_1;
+  S2InitTransition.prototype.ew = function () {
+    return this.m12_1;
   };
-  S2InitTransition.prototype.fz = function () {
-    return this.v11_1;
+  S2InitTransition.prototype.xz = function () {
+    return this.n12_1;
   };
   Object.defineProperty(S2InitTransition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.ez();
+      return this.wz();
     }
   });
   Object.defineProperty(S2InitTransition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.iu();
+      return this.ew();
     }
   });
   Object.defineProperty(S2InitTransition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.fz();
+      return this.xz();
     }
   });
   function Companion_22() {
@@ -16306,10 +16419,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('role', false);
     tmp0_serialDesc.pm('action', false);
     tmp0_serialDesc.pm('result', false);
-    this.w11_1 = tmp0_serialDesc;
+    this.o12_1 = tmp0_serialDesc;
   }
   $serializer_6.prototype.aj = function () {
-    return this.w11_1;
+    return this.o12_1;
   };
   $serializer_6.prototype.mm = function () {
     var tmp$ret$2;
@@ -16325,7 +16438,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_6.prototype.ep = function (decoder) {
-    var tmp0_desc = this.w11_1;
+    var tmp0_desc = this.o12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16380,8 +16493,8 @@ if (typeof Math.imul === 'undefined') {
     tmp9_input.xk(tmp0_desc);
     return S2Transition_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
   };
-  $serializer_6.prototype.x11 = function (encoder, value) {
-    var tmp0_desc = this.w11_1;
+  $serializer_6.prototype.p12 = function (encoder, value) {
+    var tmp0_desc = this.o12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.il(tmp0_desc, 0, $serializer_getInstance_7(), value.from);
     tmp1_output.hl(tmp0_desc, 1, $serializer_getInstance_7(), value.to);
@@ -16391,7 +16504,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_6.prototype.hp = function (encoder, value) {
-    return this.x11(encoder, value instanceof S2Transition ? value : THROW_CCE());
+    return this.p12(encoder, value instanceof S2Transition ? value : THROW_CCE());
   };
   var $serializer_instance_4;
   function $serializer_getInstance_4() {
@@ -16401,13 +16514,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Transition_init_$Init$(seen1, from, to, role, action, result, serializationConstructorMarker, $this) {
     if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_4().w11_1);
+      throwMissingFieldException(seen1, 31, $serializer_getInstance_4().o12_1);
     }
-    $this.y11_1 = from;
-    $this.z11_1 = to;
-    $this.a12_1 = role;
-    $this.b12_1 = action;
-    $this.c12_1 = result;
+    $this.q12_1 = from;
+    $this.r12_1 = to;
+    $this.s12_1 = role;
+    $this.t12_1 = action;
+    $this.u12_1 = result;
     return $this;
   }
   function S2Transition_init_$Create$(seen1, from, to, role, action, result, serializationConstructorMarker) {
@@ -16415,55 +16528,55 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2Transition(from, to, role, action, result) {
     Companion_getInstance_22();
-    this.y11_1 = from;
-    this.z11_1 = to;
-    this.a12_1 = role;
-    this.b12_1 = action;
-    this.c12_1 = result;
+    this.q12_1 = from;
+    this.r12_1 = to;
+    this.s12_1 = role;
+    this.t12_1 = action;
+    this.u12_1 = result;
   }
-  S2Transition.prototype.dz = function () {
-    return this.y11_1;
+  S2Transition.prototype.vz = function () {
+    return this.q12_1;
   };
-  S2Transition.prototype.ez = function () {
-    return this.z11_1;
+  S2Transition.prototype.wz = function () {
+    return this.r12_1;
   };
-  S2Transition.prototype.iu = function () {
-    return this.a12_1;
+  S2Transition.prototype.ew = function () {
+    return this.s12_1;
   };
-  S2Transition.prototype.fz = function () {
-    return this.b12_1;
+  S2Transition.prototype.xz = function () {
+    return this.t12_1;
   };
-  S2Transition.prototype.d12 = function () {
-    return this.c12_1;
+  S2Transition.prototype.v12 = function () {
+    return this.u12_1;
   };
   Object.defineProperty(S2Transition.prototype, 'from', {
     configurable: true,
     get: function () {
-      return this.dz();
+      return this.vz();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'to', {
     configurable: true,
     get: function () {
-      return this.ez();
+      return this.wz();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'role', {
     configurable: true,
     get: function () {
-      return this.iu();
+      return this.ew();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'action', {
     configurable: true,
     get: function () {
-      return this.fz();
+      return this.xz();
     }
   });
   Object.defineProperty(S2Transition.prototype, 'result', {
     configurable: true,
     get: function () {
-      return this.d12();
+      return this.v12();
     }
   });
   function Companion_23() {
@@ -16482,10 +16595,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_5 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2TransitionValue', this, 1);
     tmp0_serialDesc.pm('name', false);
-    this.e12_1 = tmp0_serialDesc;
+    this.w12_1 = tmp0_serialDesc;
   }
   $serializer_7.prototype.aj = function () {
-    return this.e12_1;
+    return this.w12_1;
   };
   $serializer_7.prototype.mm = function () {
     var tmp$ret$2;
@@ -16501,7 +16614,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_7.prototype.ep = function (decoder) {
-    var tmp0_desc = this.e12_1;
+    var tmp0_desc = this.w12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16528,14 +16641,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.xk(tmp0_desc);
     return S2TransitionValue_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_7.prototype.f12 = function (encoder, value) {
-    var tmp0_desc = this.e12_1;
+  $serializer_7.prototype.x12 = function (encoder, value) {
+    var tmp0_desc = this.w12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_7.prototype.hp = function (encoder, value) {
-    return this.f12(encoder, value instanceof S2TransitionValue ? value : THROW_CCE());
+    return this.x12(encoder, value instanceof S2TransitionValue ? value : THROW_CCE());
   };
   var $serializer_instance_5;
   function $serializer_getInstance_5() {
@@ -16545,7 +16658,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2TransitionValue_init_$Init$(seen1, name, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_5().e12_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_5().w12_1);
     }
     $this.name = name;
     return $this;
@@ -16576,10 +16689,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_6 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2RoleValue', this, 1);
     tmp0_serialDesc.pm('name', false);
-    this.g12_1 = tmp0_serialDesc;
+    this.y12_1 = tmp0_serialDesc;
   }
   $serializer_8.prototype.aj = function () {
-    return this.g12_1;
+    return this.y12_1;
   };
   $serializer_8.prototype.mm = function () {
     var tmp$ret$2;
@@ -16595,7 +16708,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_8.prototype.ep = function (decoder) {
-    var tmp0_desc = this.g12_1;
+    var tmp0_desc = this.y12_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16622,14 +16735,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.xk(tmp0_desc);
     return S2RoleValue_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_8.prototype.h12 = function (encoder, value) {
-    var tmp0_desc = this.g12_1;
+  $serializer_8.prototype.z12 = function (encoder, value) {
+    var tmp0_desc = this.y12_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_8.prototype.hp = function (encoder, value) {
-    return this.h12(encoder, value instanceof S2RoleValue ? value : THROW_CCE());
+    return this.z12(encoder, value instanceof S2RoleValue ? value : THROW_CCE());
   };
   var $serializer_instance_6;
   function $serializer_getInstance_6() {
@@ -16639,7 +16752,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2RoleValue_init_$Init$(seen1, name, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_6().g12_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_6().y12_1);
     }
     $this.name = name;
     return $this;
@@ -16671,10 +16784,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('s2.dsl.automate.S2StateValue', this, 2);
     tmp0_serialDesc.pm('name', false);
     tmp0_serialDesc.pm('position', false);
-    this.i12_1 = tmp0_serialDesc;
+    this.a13_1 = tmp0_serialDesc;
   }
   $serializer_9.prototype.aj = function () {
-    return this.i12_1;
+    return this.a13_1;
   };
   $serializer_9.prototype.mm = function () {
     var tmp$ret$2;
@@ -16690,7 +16803,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_9.prototype.ep = function (decoder) {
-    var tmp0_desc = this.i12_1;
+    var tmp0_desc = this.a13_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16724,15 +16837,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.xk(tmp0_desc);
     return S2StateValue_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_9.prototype.j12 = function (encoder, value) {
-    var tmp0_desc = this.i12_1;
+  $serializer_9.prototype.b13 = function (encoder, value) {
+    var tmp0_desc = this.a13_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.gl(tmp0_desc, 0, value.name);
     tmp1_output.fl(tmp0_desc, 1, value.position);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_9.prototype.hp = function (encoder, value) {
-    return this.j12(encoder, value instanceof S2StateValue ? value : THROW_CCE());
+    return this.b13(encoder, value instanceof S2StateValue ? value : THROW_CCE());
   };
   var $serializer_instance_7;
   function $serializer_getInstance_7() {
@@ -16742,7 +16855,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function S2StateValue_init_$Init$(seen1, name, position, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_7().i12_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_7().a13_1);
     }
     $this.name = name;
     $this.position = position;
@@ -16759,7 +16872,7 @@ if (typeof Math.imul === 'undefined') {
   S2StateValue.prototype.s8 = function () {
     return this.name;
   };
-  S2StateValue.prototype.g11 = function () {
+  S2StateValue.prototype.y11 = function () {
     return this.position;
   };
   function toValue(_this__u8e3s4) {
@@ -16771,23 +16884,23 @@ if (typeof Math.imul === 'undefined') {
     var builder = new S2AutomateBuilder();
     exec(builder);
     var tmp = builder.s8();
-    var tmp_0 = builder.l12_1;
+    var tmp_0 = builder.d13_1;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.toTypedArray' call
-    var tmp0_toTypedArray = builder.m12_1;
+    var tmp0_toTypedArray = builder.e13_1;
     tmp$ret$0 = copyToArray(tmp0_toTypedArray);
     return new S2Automate(tmp, tmp_0, tmp$ret$0);
   }
   function S2AutomateBuilder() {
-    this.l12_1 = null;
+    this.d13_1 = null;
     var tmp = this;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.mutableListOf' call
     tmp$ret$0 = ArrayList_init_$Create$();
-    tmp.m12_1 = tmp$ret$0;
+    tmp.e13_1 = tmp$ret$0;
   }
   S2AutomateBuilder.prototype.s8 = function () {
-    var tmp = this.k12_1;
+    var tmp = this.c13_1;
     if (!(tmp == null))
       return tmp;
     else {
@@ -16800,20 +16913,20 @@ if (typeof Math.imul === 'undefined') {
     var tmp = builder.s8();
     var tmp$ret$0;
     // Inline function 'kotlin.collections.toTypedArray' call
-    var tmp0_toTypedArray = builder.p12_1;
+    var tmp0_toTypedArray = builder.h13_1;
     tmp$ret$0 = copyToArray(tmp0_toTypedArray);
-    return new S2Automate(tmp, builder.o12_1, tmp$ret$0);
+    return new S2Automate(tmp, builder.g13_1, tmp$ret$0);
   }
   function S2SourcingAutomateBuilder() {
-    this.o12_1 = null;
+    this.g13_1 = null;
     var tmp = this;
     var tmp$ret$0;
     // Inline function 'kotlin.collections.mutableListOf' call
     tmp$ret$0 = ArrayList_init_$Create$();
-    tmp.p12_1 = tmp$ret$0;
+    tmp.h13_1 = tmp$ret$0;
   }
   S2SourcingAutomateBuilder.prototype.s8 = function () {
-    var tmp = this.n12_1;
+    var tmp = this.f13_1;
     if (!(tmp == null))
       return tmp;
     else {
@@ -16830,18 +16943,30 @@ if (typeof Math.imul === 'undefined') {
   }
   function Roles() {
     Roles_instance = this;
-    this.ORCHESTRATOR = 'tr_orchestrator';
-    this.PROJECT_MANAGER = 'tr_project_manager';
-    this.STAKEHOLDER = 'tr_stakeholder';
+    this.ORCHESTRATOR_ADMIN = 'tr_orchestrator_admin';
+    this.ORCHESTRATOR_USER = 'tr_orchestrator_user';
+    this.PROJECT_MANAGER_ADMIN = 'tr_project_manager_admin';
+    this.PROJECT_MANAGER_USER = 'tr_project_manager_user';
+    this.STAKEHOLDER_ADMIN = 'tr_stakeholder_admin';
+    this.STAKEHOLDER_USER = 'tr_stakeholder_user';
   }
-  Roles.prototype.q12 = function () {
-    return this.ORCHESTRATOR;
+  Roles.prototype.i13 = function () {
+    return this.ORCHESTRATOR_ADMIN;
   };
-  Roles.prototype.r12 = function () {
-    return this.PROJECT_MANAGER;
+  Roles.prototype.j13 = function () {
+    return this.ORCHESTRATOR_USER;
   };
-  Roles.prototype.s12 = function () {
-    return this.STAKEHOLDER;
+  Roles.prototype.k13 = function () {
+    return this.PROJECT_MANAGER_ADMIN;
+  };
+  Roles.prototype.l13 = function () {
+    return this.PROJECT_MANAGER_USER;
+  };
+  Roles.prototype.m13 = function () {
+    return this.STAKEHOLDER_ADMIN;
+  };
+  Roles.prototype.n13 = function () {
+    return this.STAKEHOLDER_USER;
   };
   var Roles_instance;
   function Roles_getInstance() {
@@ -16909,10 +17034,10 @@ if (typeof Math.imul === 'undefined') {
   function $serializer_10() {
     $serializer_instance_8 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.dsl.model.CoreLocationLocation', this, 0);
-    this.g13_1 = tmp0_serialDesc;
+    this.b14_1 = tmp0_serialDesc;
   }
   $serializer_10.prototype.aj = function () {
-    return this.g13_1;
+    return this.b14_1;
   };
   $serializer_10.prototype.mm = function () {
     var tmp$ret$2;
@@ -16927,7 +17052,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_10.prototype.ep = function (decoder) {
-    var tmp0_desc = this.g13_1;
+    var tmp0_desc = this.b14_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -16944,13 +17069,13 @@ if (typeof Math.imul === 'undefined') {
     tmp4_input.xk(tmp0_desc);
     return CoreLocationLocation_init_$Create$(tmp3_bitMask0, null);
   };
-  $serializer_10.prototype.h13 = function (encoder, value) {
-    var tmp0_desc = this.g13_1;
+  $serializer_10.prototype.c14 = function (encoder, value) {
+    var tmp0_desc = this.b14_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_10.prototype.hp = function (encoder, value) {
-    return this.h13(encoder, value instanceof CoreLocationLocation ? value : THROW_CCE());
+    return this.c14(encoder, value instanceof CoreLocationLocation ? value : THROW_CCE());
   };
   var $serializer_instance_8;
   function $serializer_getInstance_8() {
@@ -16960,7 +17085,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function CoreLocationLocation_init_$Init$(seen1, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_8().g13_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_8().b14_1);
     }
     return $this;
   }
@@ -17001,10 +17126,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.pm('duration', true);
     tmp0_serialDesc.pm('endTime', true);
     tmp0_serialDesc.pm('startTime', true);
-    this.i13_1 = tmp0_serialDesc;
+    this.d14_1 = tmp0_serialDesc;
   }
   $serializer_11.prototype.aj = function () {
-    return this.i13_1;
+    return this.d14_1;
   };
   $serializer_11.prototype.mm = function () {
     var tmp$ret$2;
@@ -17020,7 +17145,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_11.prototype.ep = function (decoder) {
-    var tmp0_desc = this.i13_1;
+    var tmp0_desc = this.d14_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -17061,8 +17186,8 @@ if (typeof Math.imul === 'undefined') {
     tmp7_input.xk(tmp0_desc);
     return PeriodOfTime_init_$Create$_0(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
   };
-  $serializer_11.prototype.j13 = function (encoder, value) {
-    var tmp0_desc = this.i13_1;
+  $serializer_11.prototype.e14 = function (encoder, value) {
+    var tmp0_desc = this.d14_1;
     var tmp1_output = encoder.fp(tmp0_desc);
     if (tmp1_output.el(tmp0_desc, 0) ? true : !(value.duration == null)) {
       tmp1_output.il(tmp0_desc, 0, StringSerializer_getInstance(), value.duration);
@@ -17076,7 +17201,7 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.xk(tmp0_desc);
   };
   $serializer_11.prototype.hp = function (encoder, value) {
-    return this.j13(encoder, value instanceof PeriodOfTime ? value : THROW_CCE());
+    return this.e14(encoder, value instanceof PeriodOfTime ? value : THROW_CCE());
   };
   var $serializer_instance_9;
   function $serializer_getInstance_9() {
@@ -17086,7 +17211,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function PeriodOfTime_init_$Init$_0(seen1, duration, endTime, startTime, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_9().i13_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_9().d14_1);
     }
     if (0 === (seen1 & 1))
       $this.duration = null;
@@ -17114,13 +17239,13 @@ if (typeof Math.imul === 'undefined') {
     this.endTime = endTime_0;
     this.startTime = startTime_0;
   }
-  PeriodOfTime.prototype.k13 = function () {
+  PeriodOfTime.prototype.f14 = function () {
     return this.duration;
   };
-  PeriodOfTime.prototype.l13 = function () {
+  PeriodOfTime.prototype.g14 = function () {
     return this.endTime;
   };
-  PeriodOfTime.prototype.m13 = function () {
+  PeriodOfTime.prototype.h14 = function () {
     return this.startTime;
   };
   function InformationConcept() {
@@ -17220,6 +17345,14 @@ if (typeof Math.imul === 'undefined') {
   }
   function RequirementUpdatedEventDTO() {
   }
+  function FileAskQuestionQueryDTO() {
+  }
+  function FileAskQuestionResultDTO() {
+  }
+  function ChatMessageDTO() {
+  }
+  function ChatMetadataDTO() {
+  }
   function FilePathDTO() {
   }
   function CertificationInitCommand() {
@@ -17290,6 +17423,10 @@ if (typeof Math.imul === 'undefined') {
     if (DataUnitTypeValues_instance == null)
       new DataUnitTypeValues();
     return DataUnitTypeValues_instance;
+  }
+  function DataUnitGetByIdentifierQueryDTO() {
+  }
+  function DataUnitGetByIdentifierResultDTO() {
   }
   function DataUnitGetQueryDTO() {
   }
@@ -17369,6 +17506,22 @@ if (typeof Math.imul === 'undefined') {
   }
   function EvidenceTypeListDTO_0() {
   }
+  function EvidenceTypeGetByIdentifierQueryDTO() {
+  }
+  function EvidenceTypeGetByIdentifierResultDTO() {
+  }
+  function EvidenceTypeGetQueryDTO() {
+  }
+  function EvidenceTypeGetResultDTO() {
+  }
+  function EvidenceTypeListGetByIdentifierQueryDTO() {
+  }
+  function EvidenceTypeListGetByIdentifierResultDTO() {
+  }
+  function EvidenceTypeListGetQueryDTO() {
+  }
+  function EvidenceTypeListGetResultDTO() {
+  }
   function FrameworkInitCommand() {
   }
   function FrameworkCommand() {
@@ -17386,6 +17539,10 @@ if (typeof Math.imul === 'undefined') {
   function FrameworkCreatedEventDTO_0() {
   }
   function FrameworkDTO_0() {
+  }
+  function FrameworkGetByIdentifierQueryDTO() {
+  }
+  function FrameworkGetByIdentifierResultDTO() {
   }
   function FrameworkGetQueryDTO() {
   }
@@ -17686,6 +17843,13 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$im$commons = $city$smartb$im.commons || ($city$smartb$im.commons = {});
     var $city$smartb$im$commons$http = $city$smartb$im$commons.http || ($city$smartb$im$commons.http = {});
     $city$smartb$im$commons$http.ClientJs = ClientJs;
+    var $i2 = _.i2 || (_.i2 = {});
+    var $i2$keycloak = $i2.keycloak || ($i2.keycloak = {});
+    var $i2$keycloak$master = $i2$keycloak.master || ($i2$keycloak.master = {});
+    var $i2$keycloak$master$domain = $i2$keycloak$master.domain || ($i2$keycloak$master.domain = {});
+    $i2$keycloak$master$domain.AuthRealm = AuthRealm;
+    $i2$keycloak$master$domain.AuthRealmPassword = AuthRealmPassword;
+    $i2$keycloak$master$domain.AuthRealmClientSecret = AuthRealmClientSecret;
     var $f2 = _.f2 || (_.f2 = {});
     var $f2$dsl = $f2.dsl || ($f2.dsl = {});
     var $f2$dsl$fnc = $f2$dsl.fnc || ($f2$dsl.fnc = {});
@@ -18667,29 +18831,34 @@ if (typeof Math.imul === 'undefined') {
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$evidence = $cccev$s2.evidence || ($cccev$s2.evidence = {});
-    var $cccev$s2$evidence$domain = $cccev$s2$evidence.domain || ($cccev$s2$evidence.domain = {});
+    var $cccev$s2$evidence$type = $cccev$s2$evidence.type || ($cccev$s2$evidence.type = {});
+    var $cccev$s2$evidence$type$domain = $cccev$s2$evidence$type.domain || ($cccev$s2$evidence$type.domain = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$evidence = $cccev$s2.evidence || ($cccev$s2.evidence = {});
-    var $cccev$s2$evidence$domain = $cccev$s2$evidence.domain || ($cccev$s2$evidence.domain = {});
+    var $cccev$s2$evidence$type = $cccev$s2$evidence.type || ($cccev$s2$evidence.type = {});
+    var $cccev$s2$evidence$type$domain = $cccev$s2$evidence$type.domain || ($cccev$s2$evidence$type.domain = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$evidence = $cccev$s2.evidence || ($cccev$s2.evidence = {});
-    var $cccev$s2$evidence$domain = $cccev$s2$evidence.domain || ($cccev$s2$evidence.domain = {});
-    var $cccev$s2$evidence$domain$command = $cccev$s2$evidence$domain.command || ($cccev$s2$evidence$domain.command = {});
-    var $cccev$s2$evidence$domain$command$list = $cccev$s2$evidence$domain$command.list || ($cccev$s2$evidence$domain$command.list = {});
+    var $cccev$s2$evidence$type = $cccev$s2$evidence.type || ($cccev$s2$evidence.type = {});
+    var $cccev$s2$evidence$type$domain = $cccev$s2$evidence$type.domain || ($cccev$s2$evidence$type.domain = {});
+    var $cccev$s2$evidence$type$domain$command = $cccev$s2$evidence$type$domain.command || ($cccev$s2$evidence$type$domain.command = {});
+    var $cccev$s2$evidence$type$domain$command$list = $cccev$s2$evidence$type$domain$command.list || ($cccev$s2$evidence$type$domain$command.list = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$evidence = $cccev$s2.evidence || ($cccev$s2.evidence = {});
-    var $cccev$s2$evidence$domain = $cccev$s2$evidence.domain || ($cccev$s2$evidence.domain = {});
-    var $cccev$s2$evidence$domain$command = $cccev$s2$evidence$domain.command || ($cccev$s2$evidence$domain.command = {});
-    var $cccev$s2$evidence$domain$command$list = $cccev$s2$evidence$domain$command.list || ($cccev$s2$evidence$domain$command.list = {});
+    var $cccev$s2$evidence$type = $cccev$s2$evidence.type || ($cccev$s2$evidence.type = {});
+    var $cccev$s2$evidence$type$domain = $cccev$s2$evidence$type.domain || ($cccev$s2$evidence$type.domain = {});
+    var $cccev$s2$evidence$type$domain$command = $cccev$s2$evidence$type$domain.command || ($cccev$s2$evidence$type$domain.command = {});
+    var $cccev$s2$evidence$type$domain$command$list = $cccev$s2$evidence$type$domain$command.list || ($cccev$s2$evidence$type$domain$command.list = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$evidence = $cccev$s2.evidence || ($cccev$s2.evidence = {});
-    var $cccev$s2$evidence$domain = $cccev$s2$evidence.domain || ($cccev$s2$evidence.domain = {});
-    var $cccev$s2$evidence$domain$command = $cccev$s2$evidence$domain.command || ($cccev$s2$evidence$domain.command = {});
-    var $cccev$s2$evidence$domain$command$type = $cccev$s2$evidence$domain$command.type || ($cccev$s2$evidence$domain$command.type = {});
+    var $cccev$s2$evidence$type = $cccev$s2$evidence.type || ($cccev$s2$evidence.type = {});
+    var $cccev$s2$evidence$type$domain = $cccev$s2$evidence$type.domain || ($cccev$s2$evidence$type.domain = {});
+    var $cccev$s2$evidence$type$domain$command = $cccev$s2$evidence$type$domain.command || ($cccev$s2$evidence$type$domain.command = {});
+    var $cccev$s2$evidence$type$domain$command$type = $cccev$s2$evidence$type$domain$command.type || ($cccev$s2$evidence$type$domain$command.type = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$requirement = $cccev$s2.requirement || ($cccev$s2.requirement = {});
@@ -18709,6 +18878,29 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$s2$requirement = $cccev$s2.requirement || ($cccev$s2.requirement = {});
     var $cccev$s2$requirement$domain = $cccev$s2$requirement.domain || ($cccev$s2$requirement.domain = {});
     var $cccev$s2$requirement$domain$command = $cccev$s2$requirement$domain.command || ($cccev$s2$requirement$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$fs = $city$smartb.fs || ($city$smartb.fs = {});
+    var $city$smartb$fs$s2 = $city$smartb$fs.s2 || ($city$smartb$fs.s2 = {});
+    var $city$smartb$fs$s2$file = $city$smartb$fs$s2.file || ($city$smartb$fs$s2.file = {});
+    var $city$smartb$fs$s2$file$domain = $city$smartb$fs$s2$file.domain || ($city$smartb$fs$s2$file.domain = {});
+    var $city$smartb$fs$s2$file$domain$features = $city$smartb$fs$s2$file$domain.features || ($city$smartb$fs$s2$file$domain.features = {});
+    var $city$smartb$fs$s2$file$domain$features$query = $city$smartb$fs$s2$file$domain$features.query || ($city$smartb$fs$s2$file$domain$features.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$fs = $city$smartb.fs || ($city$smartb.fs = {});
+    var $city$smartb$fs$s2 = $city$smartb$fs.s2 || ($city$smartb$fs.s2 = {});
+    var $city$smartb$fs$s2$file = $city$smartb$fs$s2.file || ($city$smartb$fs$s2.file = {});
+    var $city$smartb$fs$s2$file$domain = $city$smartb$fs$s2$file.domain || ($city$smartb$fs$s2$file.domain = {});
+    var $city$smartb$fs$s2$file$domain$model = $city$smartb$fs$s2$file$domain.model || ($city$smartb$fs$s2$file$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$chat = $city$smartb$registry$program$f2.chat || ($city$smartb$registry$program$f2.chat = {});
+    var $city$smartb$registry$program$f2$chat$domain = $city$smartb$registry$program$f2$chat.domain || ($city$smartb$registry$program$f2$chat.domain = {});
+    var $city$smartb$registry$program$f2$chat$domain$model = $city$smartb$registry$program$f2$chat$domain.model || ($city$smartb$registry$program$f2$chat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$fs = $city$smartb.fs || ($city$smartb.fs = {});
@@ -18800,6 +18992,11 @@ if (typeof Math.imul === 'undefined') {
       configurable: true,
       get: DataUnitTypeValues_getInstance
     });
+    var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$unit = $cccev$f2.unit || ($cccev$f2.unit = {});
+    var $cccev$f2$unit$domain = $cccev$f2$unit.domain || ($cccev$f2$unit.domain = {});
+    var $cccev$f2$unit$domain$query = $cccev$f2$unit$domain.query || ($cccev$f2$unit$domain.query = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
     var $cccev$f2$unit = $cccev$f2.unit || ($cccev$f2.unit = {});
@@ -18924,6 +19121,30 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$f2$evidence$type$domain = $cccev$f2$evidence$type.domain || ($cccev$f2$evidence$type.domain = {});
     var $cccev$f2$evidence$type$domain$model = $cccev$f2$evidence$type$domain.model || ($cccev$f2$evidence$type$domain.model = {});
     var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$evidence = $cccev$f2.evidence || ($cccev$f2.evidence = {});
+    var $cccev$f2$evidence$type = $cccev$f2$evidence.type || ($cccev$f2$evidence.type = {});
+    var $cccev$f2$evidence$type$domain = $cccev$f2$evidence$type.domain || ($cccev$f2$evidence$type.domain = {});
+    var $cccev$f2$evidence$type$domain$query = $cccev$f2$evidence$type$domain.query || ($cccev$f2$evidence$type$domain.query = {});
+    var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$evidence = $cccev$f2.evidence || ($cccev$f2.evidence = {});
+    var $cccev$f2$evidence$type = $cccev$f2$evidence.type || ($cccev$f2$evidence.type = {});
+    var $cccev$f2$evidence$type$domain = $cccev$f2$evidence$type.domain || ($cccev$f2$evidence$type.domain = {});
+    var $cccev$f2$evidence$type$domain$query = $cccev$f2$evidence$type$domain.query || ($cccev$f2$evidence$type$domain.query = {});
+    var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$evidence = $cccev$f2.evidence || ($cccev$f2.evidence = {});
+    var $cccev$f2$evidence$type = $cccev$f2$evidence.type || ($cccev$f2$evidence.type = {});
+    var $cccev$f2$evidence$type$domain = $cccev$f2$evidence$type.domain || ($cccev$f2$evidence$type.domain = {});
+    var $cccev$f2$evidence$type$domain$query = $cccev$f2$evidence$type$domain.query || ($cccev$f2$evidence$type$domain.query = {});
+    var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$evidence = $cccev$f2.evidence || ($cccev$f2.evidence = {});
+    var $cccev$f2$evidence$type = $cccev$f2$evidence.type || ($cccev$f2$evidence.type = {});
+    var $cccev$f2$evidence$type$domain = $cccev$f2$evidence$type.domain || ($cccev$f2$evidence$type.domain = {});
+    var $cccev$f2$evidence$type$domain$query = $cccev$f2$evidence$type$domain.query || ($cccev$f2$evidence$type$domain.query = {});
+    var $cccev = _.cccev || (_.cccev = {});
     var $cccev$s2 = $cccev.s2 || ($cccev.s2 = {});
     var $cccev$s2$framework = $cccev$s2.framework || ($cccev$s2.framework = {});
     var $cccev$s2$framework$domain = $cccev$s2$framework.domain || ($cccev$s2$framework.domain = {});
@@ -18947,6 +19168,11 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$f2$framework = $cccev$f2.framework || ($cccev$f2.framework = {});
     var $cccev$f2$framework$domain = $cccev$f2$framework.domain || ($cccev$f2$framework.domain = {});
     var $cccev$f2$framework$domain$model = $cccev$f2$framework$domain.model || ($cccev$f2$framework$domain.model = {});
+    var $cccev = _.cccev || (_.cccev = {});
+    var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
+    var $cccev$f2$framework = $cccev$f2.framework || ($cccev$f2.framework = {});
+    var $cccev$f2$framework$domain = $cccev$f2$framework.domain || ($cccev$f2$framework.domain = {});
+    var $cccev$f2$framework$domain$query = $cccev$f2$framework$domain.query || ($cccev$f2$framework$domain.query = {});
     var $cccev = _.cccev || (_.cccev = {});
     var $cccev$f2 = $cccev.f2 || ($cccev.f2 = {});
     var $cccev$f2$framework = $cccev$f2.framework || ($cccev$f2.framework = {});

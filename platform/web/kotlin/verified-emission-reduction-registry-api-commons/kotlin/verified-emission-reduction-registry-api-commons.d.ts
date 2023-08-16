@@ -176,6 +176,32 @@ export namespace city.smartb.im.commons.http {
         protected doCall<T>(fnc: any /*Suspend functions are not supported*/): Promise<T>;
     }
 }
+export namespace i2.keycloak.master.domain {
+    abstract class AuthRealm {
+        protected constructor(serverUrl: string, realmId: string, clientId: string, redirectUrl?: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get clientId(): string;
+        get redirectUrl(): Nullable<string>;
+    }
+    class AuthRealmPassword extends i2.keycloak.master.domain.AuthRealm {
+        constructor(serverUrl: string, realmId: string, redirectUrl: string, clientId: string, username: string, password: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get redirectUrl(): string;
+        get clientId(): string;
+        get username(): string;
+        get password(): string;
+    }
+    class AuthRealmClientSecret extends i2.keycloak.master.domain.AuthRealm {
+        constructor(serverUrl: string, realmId: string, clientId: string, redirectUrl?: string, clientSecret: string);
+        get serverUrl(): string;
+        get realmId(): string;
+        get clientId(): string;
+        get redirectUrl(): Nullable<string>;
+        get clientSecret(): string;
+    }
+}
 export namespace f2.dsl.fnc {
     interface F2Function<T, R> {
         invoke(cmd: Array<T>): Promise<Array<R>>;
@@ -624,10 +650,10 @@ export namespace i2.keycloak.f2.user.domain.features.query {
 }
 export namespace i2.keycloak.f2.user.domain.features.query {
     class UserPageQuery implements i2.keycloak.f2.commons.domain.KeycloakF2Query {
-        constructor(groupId?: string, search?: string, role?: string, attributes?: Record<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
+        constructor(groupId?: string, search?: string, roles?: any/* Nullable<string>[] */, attributes?: Record<string, string>, withDisabled: boolean, page: f2.dsl.cqrs.page.PagePagination, realmId: string, auth: i2.keycloak.master.domain.AuthRealm);
         get groupId(): Nullable<string>;
         get search(): Nullable<string>;
-        get role(): Nullable<string>;
+        get roles(): Nullable<any>/* Nullable<string>[] */;
         get attributes(): Record<string, string>;
         get withDisabled(): boolean;
         get page(): f2.dsl.cqrs.page.PagePagination;
@@ -675,8 +701,8 @@ export namespace i2.keycloak.f2.client.domain.features.query {
         get auth(): i2.keycloak.master.domain.AuthRealm;
     }
     class ClientGetByClientIdentifierResult implements f2.dsl.cqrs.Event {
-        constructor(idem?: i2.keycloak.f2.client.domain.ClientModel);
-        get idem(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
+        constructor(item?: i2.keycloak.f2.client.domain.ClientModel);
+        get item(): Nullable<i2.keycloak.f2.client.domain.ClientModel>;
     }
 }
 export namespace i2.keycloak.f2.client.domain.features.query {
@@ -911,6 +937,7 @@ export namespace city.smartb.im.organization.domain.features.query {
     interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
         readonly search?: string;
         readonly role?: string;
+        readonly roles?: any/* Nullable<string>[] */;
         readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly withDisabled?: boolean;
         readonly page?: number;
@@ -1111,6 +1138,7 @@ export namespace city.smartb.im.user.domain.features.query {
         readonly organizationId?: string;
         readonly search?: string;
         readonly role?: string;
+        readonly roles?: any/* Nullable<string>[] */;
         readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly withDisabled: boolean;
         readonly page?: number;
@@ -1815,9 +1843,12 @@ export namespace s2.sourcing.dsl {
 }
 export namespace city.smartb.registry.program.api.commons.auth {
     const Roles: {
-        get ORCHESTRATOR(): string;
-        get PROJECT_MANAGER(): string;
-        get STAKEHOLDER(): string;
+        get ORCHESTRATOR_ADMIN(): string;
+        get ORCHESTRATOR_USER(): string;
+        get PROJECT_MANAGER_ADMIN(): string;
+        get PROJECT_MANAGER_USER(): string;
+        get STAKEHOLDER_ADMIN(): string;
+        get STAKEHOLDER_USER(): string;
     };
 }
 export namespace city.smartb.registry.program.api.commons.exception {
