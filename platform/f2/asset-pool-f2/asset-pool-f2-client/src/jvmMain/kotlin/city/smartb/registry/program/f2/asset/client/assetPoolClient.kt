@@ -7,8 +7,8 @@ import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 
 actual fun F2Client.assetPoolClient(): F2SupplierSingle<AssetPoolClient> = f2SupplierSingle {
     AssetPoolClient(this)

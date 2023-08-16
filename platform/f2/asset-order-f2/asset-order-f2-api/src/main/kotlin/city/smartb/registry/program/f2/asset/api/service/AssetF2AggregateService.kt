@@ -1,6 +1,5 @@
 package city.smartb.registry.program.f2.asset.api.service
 
-import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelCommandDTOBase
@@ -14,7 +13,6 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmittedE
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdatedEventDTOBase
 import city.smartb.registry.program.s2.asset.api.AssetPoolAggregateService
-import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import city.smartb.registry.program.s2.order.api.OrderAggregateService
 import city.smartb.registry.program.s2.order.api.OrderFinderService
@@ -51,7 +49,6 @@ class AssetF2AggregateService(
 
         val transactionEvent = AssetPoolEmitTransactionCommand(
             id = order.poolId!!,
-//            orderId = order.id,
             from = order.from,
             to = order.to,
             by = AuthenticationProvider.getAuthedUser().memberOf!!,
@@ -59,8 +56,10 @@ class AssetF2AggregateService(
             type = order.type
         ).let { assetPoolAggregateService.emitTransaction(it) }
 
+
         OrderCompleteCommand(
             id = order.id,
+            assetTransactionId =  transactionEvent.id,
             certificate = transactionEvent.certificate
         ).let { orderAggregateService.complete(it) }
 
@@ -75,46 +74,4 @@ class AssetF2AggregateService(
             .let { AssetOrderDeletedEventDTOBase(it.id) }
     }
 
-//    private suspend fun placeOrder(
-//        command: AbstractAssetTransactionCommand,
-//        verifyTo: Boolean = true,
-//        generatePendingCertificate: suspend (
-//            command: OrderPlaceCommand,
-//            event: OrderPlacedEvent
-//        ) -> FilePath? = { _, _ -> null }
-//    ): OrderPlacedEvent {
-//        val orderCommand = command.toOrderPlaceCommand(verifyTo)
-//        assetPoliciesEnforcer.checkOrderPlace(orderCommand)
-//        val orderEvent = orderAggregateService.place(orderCommand)
-//
-//        if (!command.draft) {
-//            orderAggregateService.submit(OrderSubmitCommand(
-//                id = orderEvent.id
-//            ))
-//
-//            orderAggregateService.pend(OrderPendCommand(
-//                id = orderEvent.id,
-//                certificate = generatePendingCertificate(orderCommand, orderEvent)
-//            ))
-//        }
-//        return orderEvent
-//    }
-//
-//    private suspend fun AbstractAssetTransactionCommand.toOrderPlaceCommand(
-//        verifyTo: Boolean = true
-//    ): OrderPlaceCommand {
-//        val to = if (verifyTo) {
-//            to?.let { imService.getOrganizationByName(it).id }
-//        } else {
-//            to
-//        }
-//        return OrderPlaceCommand(
-//            poolId = poolId,
-//            from = from?.let { imService.getOrganizationByName(it).id },
-//            to = to,
-//            by = AuthenticationProvider.getAuthedUser().memberOf!!,
-//            quantity = quantity,
-//            type = type
-//        )
-//    }
 }

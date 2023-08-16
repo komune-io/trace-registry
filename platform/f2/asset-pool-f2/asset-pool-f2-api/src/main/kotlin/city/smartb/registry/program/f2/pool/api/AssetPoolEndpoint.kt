@@ -1,8 +1,11 @@
 package city.smartb.registry.program.f2.pool.api
 
+import city.smartb.registry.program.api.commons.utils.anyNotNull
+import city.smartb.registry.program.f2.pool.api.service.AssetCertificationF2FinderService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2AggregateService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolPoliciesEnforcer
+import city.smartb.registry.program.f2.pool.api.service.AssetTransactionF2FinderService
 import city.smartb.registry.program.f2.pool.domain.AssetPoolApi
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssueFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssuedEventDTOBase
@@ -20,21 +23,42 @@ import city.smartb.registry.program.f2.pool.domain.command.AssetRetireFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetRetiredEventDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetTransferFunction
 import city.smartb.registry.program.f2.pool.domain.command.AssetTransferredEventDTOBase
+import city.smartb.registry.program.f2.pool.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetResultDTOBase
-import city.smartb.registry.program.infra.im.ImService
+import city.smartb.registry.program.f2.pool.domain.query.AssetStatsGetFunction
+import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionGetFunction
+import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionGetResult
+import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageFunction
+import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageResultDTOBase
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
+import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
+import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
+import org.springframework.http.server.reactive.ServerHttpResponse
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import s2.spring.utils.logger.Logger
 
 @Configuration
 class AssetPoolEndpoint(
     private val assetPoolF2AggregateService: AssetPoolF2AggregateService,
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
+    private val assetTransactionF2FinderService: AssetTransactionF2FinderService,
+    private val assetCertificationF2FinderService: AssetCertificationF2FinderService,
     private val assetPoolPoliciesEnforcer: AssetPoolPoliciesEnforcer,
 
-): AssetPoolApi {
+    ): AssetPoolApi {
     private val logger by Logger()
 
     @Bean
@@ -80,7 +104,9 @@ class AssetPoolEndpoint(
         logger.info("assetIssue: $command")
         assetPoolPoliciesEnforcer.checkIssue()
         assetPoolF2AggregateService.issue(command)
-            .let { AssetIssuedEventDTOBase(it.id) }
+            .let {
+                AssetIssuedEventDTOBase(id = it.id, transactionId = it.transactionId)
+            }
     }
 
     @Bean
@@ -107,5 +133,67 @@ class AssetPoolEndpoint(
             .let { AssetRetiredEventDTOBase(it.id) }
     }
 
+    @PermitAll
+    @Bean
+    override fun assetTransactionPage(): AssetTransactionPageFunction = f2Function { query ->
+        logger.info("assetTransactionPage: $query")
+        assetTransactionF2FinderService.page(
+            projectId = query.projectId?.let(::ExactMatch),
+            poolId = query.poolId?.let(::ExactMatch),
+            transactionId = query.transactionId?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            transactionFrom = query.transactionFrom?.let(::ExactMatch),
+            transactionTo = query.transactionTo?.let(::ExactMatch),
+            type = query.type?.let { ExactMatch(AssetTransactionType.valueOf(it)) },
+            offset = takeIf { anyNotNull(query.limit, query.offset) }?.let {
+                OffsetPagination(
+                    offset = query.offset ?: 0,
+                    limit = query.limit ?: Int.MAX_VALUE
+                )
+            }
+        ).let {
+            AssetTransactionPageResultDTOBase(
+                items = it.items,
+                total = it.total
+            )
+        }
+    }
+
+    @Bean
+    @PermitAll
+    override fun assetTransactionGet(): AssetTransactionGetFunction = f2Function { query ->
+        logger.info("assetTransactionGet: $query")
+        assetTransactionF2FinderService.getTransaction(query.transactionId).let(::AssetTransactionGetResult)
+    }
+
+    @Bean
+    @PermitAll
+    override fun assetStatsGet(): AssetStatsGetFunction = f2Function { query ->
+        logger.info("assetStatsGet: $query")
+        assetTransactionF2FinderService.getAssetStats(query.projectId)
+    }
+
+    @PermitAll
+    @PostMapping("/assetCertificateDownload")
+    suspend fun assetCertificateDownload(
+        @RequestBody query: AssetCertificateDownloadQuery,
+        response: ServerHttpResponse
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("assetCertificateDownload: $query")
+        val stream = assetCertificationF2FinderService.assetCertificateDownload(query.transactionId, response)
+        return ResponseEntity.ok()
+            .body(InputStreamResource(stream))
+    }
+
+    @PermitAll
+    @GetMapping("/assetCertificateDownload")
+    suspend fun assetCertificateDownload(
+        @RequestParam transactionId: AssetTransactionId,
+        response: ServerHttpResponse
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("assetCertificateDownload: $transactionId")
+        val stream = assetCertificationF2FinderService.assetCertificateDownload(transactionId, response)
+        return ResponseEntity.ok()
+            .body(InputStreamResource(stream))
+    }
 
 }

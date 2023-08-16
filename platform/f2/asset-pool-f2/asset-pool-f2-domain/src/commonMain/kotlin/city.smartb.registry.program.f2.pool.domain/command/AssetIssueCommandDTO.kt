@@ -2,10 +2,11 @@ package city.smartb.registry.program.f2.pool.domain.command
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Issue new assets into a pool.
@@ -66,11 +67,13 @@ data class AssetIssueCommandDTOBase(
 @JsExport
 interface AssetIssuedEventDTO {
     /**
-     * Id of the placed transaction order.
+     * Id of the asset poll.
      */
-//    val orderId: OrderId
-
     val id: AssetPoolId
+    /**
+     * Id of the placed transaction.
+     */
+    val transactionId: AssetTransactionId
 }
 
 /**
@@ -78,7 +81,6 @@ interface AssetIssuedEventDTO {
  */
 @Serializable
 data class AssetIssuedEventDTOBase(
-//    override val orderId: OrderId
-
-    override val id: AssetPoolId
+    override val id: AssetPoolId,
+    override val transactionId: AssetTransactionId
 ): AssetIssuedEventDTO

@@ -2,7 +2,6 @@ package city.smartb.registry.program.f2.activity.domain.policy
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
-import city.smartb.im.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.Roles
 import kotlin.js.JsExport
 import kotlin.js.JsName

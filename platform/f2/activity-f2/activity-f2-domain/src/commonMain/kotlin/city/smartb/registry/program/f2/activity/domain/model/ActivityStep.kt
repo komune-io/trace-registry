@@ -4,8 +4,8 @@ import cccev.f2.concept.domain.model.InformationConceptDTO
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.s2.certification.domain.model.Evidence
 import cccev.s2.certification.domain.model.EvidenceDTO
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 hidden

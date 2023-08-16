@@ -1,7 +1,5 @@
 package city.smartb.registry.program.f2.asset.domain
 
-import city.smartb.registry.program.f2.pool.domain.AssetPoolApi
-
 /**
  * Voluntary Emission Reductions (VER) asset pool is a collection of carbon offset credits generated through voluntary projects
  * aimed at reducing greenhouse gas emissions. Managed by third-party organizations, these credits can be traded or retired by businesses,
@@ -24,4 +22,4 @@ interface D2AssetF2Page
  * @d2 api
  * @parent [city.smartb.registry.program.f2.asset.domain.D2AssetF2Page]
  */
-interface D2AssetAPi: AssetPoolApi, AssetApi
+interface D2AssetOrderAPi: AssetOrderApi

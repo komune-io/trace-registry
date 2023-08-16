@@ -1,7 +1,7 @@
-package city.smartb.registry.program.f2.asset.domain.query
+package city.smartb.registry.program.f2.pool.domain.query
 
-import city.smartb.registry.program.f2.asset.domain.model.TransactionDTO
-import city.smartb.registry.program.f2.asset.domain.model.TransactionDTOBase
+import city.smartb.registry.program.f2.pool.domain.model.AssetTransactionDTO
+import city.smartb.registry.program.f2.pool.domain.model.AssetTransactionDTOBase
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -51,12 +51,12 @@ data class AssetTransactionPageQueryDTOBase(
  * @parent [AssetTransactionPageFunction]
  */
 @JsExport
-interface AssetTransactionPageResultDTO: PageDTO<TransactionDTO>
+interface AssetTransactionPageResultDTO: PageDTO<AssetTransactionDTO>
 
 /**
  * @d2 inherit
  */
 data class AssetTransactionPageResultDTOBase(
-    override val items: List<TransactionDTOBase>,
+    override val items: List<AssetTransactionDTOBase>,
     override val total: Int
 ): AssetTransactionPageResultDTO

@@ -2,7 +2,6 @@ package city.smartb.registry.program.f2.pool.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
-import city.smartb.im.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
@@ -10,12 +9,8 @@ import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
-import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
-import city.smartb.registry.program.s2.project.domain.automate.s2Project
-import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
-import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
-import s2.dsl.automate.extention.canExecuteTransitionAnd
 import kotlin.js.JsExport
+import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object AssetPoolPolicies {

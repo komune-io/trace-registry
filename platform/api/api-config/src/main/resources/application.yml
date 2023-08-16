@@ -20,7 +20,6 @@ im:
     realm: sb-dev
     clientId: tr-smartb-ver2-app
     clientSecret: 30ef2c5b-acee-460b-9f38-2ecd9855792d
-#  YsM5Xr66BbSHcM6d
 
 i2:
   issuers:

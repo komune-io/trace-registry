@@ -2,8 +2,6 @@ package city.smartb.registry.program.f2.activity.domain.query
 
 import cccev.dsl.model.EvidenceId
 import cccev.s2.certification.domain.model.CertificationIdentifier
-import city.smartb.registry.program.f2.activity.domain.model.ActivityIdentifier
-import city.smartb.registry.program.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName

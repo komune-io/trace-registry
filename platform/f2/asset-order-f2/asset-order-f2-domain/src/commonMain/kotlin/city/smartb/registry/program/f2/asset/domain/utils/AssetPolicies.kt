@@ -2,10 +2,8 @@ package city.smartb.registry.program.f2.asset.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
-import city.smartb.im.commons.auth.hasRole
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.f2.asset.domain.model.OrderDTO
-import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTO
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
 import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
 import city.smartb.registry.program.s2.order.domain.OrderCommand
@@ -15,8 +13,8 @@ import city.smartb.registry.program.s2.order.domain.command.OrderDeleteCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
 import city.smartb.registry.program.s2.order.domain.s2Order
-import s2.dsl.automate.extention.canExecuteTransitionAnd
 import kotlin.js.JsExport
+import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object AssetPolicies {
@@ -45,11 +43,8 @@ object AssetPolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) || order.by == authedUser.memberOf
     }
 
-    private inline fun <reified C: AssetPoolCommand> canTransitionAnd(assetPool: AssetPoolDTO?, hasAccess: () -> Boolean): Boolean {
-        return assetPool != null && s2AssetPool.canExecuteTransitionAnd<C>(assetPool, hasAccess)
-    }
-
     private inline fun <reified C: OrderCommand> canTransitionAnd(order: OrderDTO?, hasAccess: () -> Boolean): Boolean {
         return order != null && s2Order.canExecuteTransitionAnd<C>(order, hasAccess)
     }
+
 }

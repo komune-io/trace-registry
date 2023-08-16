@@ -1,7 +1,6 @@
 package city.smartb.registry.program.f2.pool.api.service
 
 import city.smartb.registry.program.api.commons.auth.PolicyEnforcer
-import city.smartb.registry.program.f2.pool.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.pool.domain.utils.AssetPoolPolicies
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand

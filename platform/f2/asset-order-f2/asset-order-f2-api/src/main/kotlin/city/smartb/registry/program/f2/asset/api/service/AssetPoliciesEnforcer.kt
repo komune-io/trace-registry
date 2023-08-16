@@ -2,9 +2,7 @@ package city.smartb.registry.program.f2.asset.api.service
 
 import city.smartb.registry.program.api.commons.auth.PolicyEnforcer
 import city.smartb.registry.program.f2.asset.domain.utils.AssetPolicies
-import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.s2.order.domain.OrderId
-import city.smartb.registry.program.s2.order.domain.command.OrderPlaceCommand
 import org.springframework.stereotype.Service
 
 @Service

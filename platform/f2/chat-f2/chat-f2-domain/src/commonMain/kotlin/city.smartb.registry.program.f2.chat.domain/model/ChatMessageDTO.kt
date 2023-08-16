@@ -1,8 +1,8 @@
 package city.smartb.registry.program.f2.chat.domain.model
 
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 @JsExport
 @JsName("ChatMessageDTO")

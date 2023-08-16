@@ -2,7 +2,6 @@ package city.smartb.registry.program.f2.activity.api.model
 
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.s2.certification.domain.model.Certification
-import cccev.s2.certification.domain.model.Evidence
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStep
 import city.smartb.registry.program.infra.fs.FsService

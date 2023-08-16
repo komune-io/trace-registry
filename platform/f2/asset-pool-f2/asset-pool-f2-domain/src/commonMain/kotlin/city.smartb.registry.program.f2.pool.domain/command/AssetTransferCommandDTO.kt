@@ -4,8 +4,8 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Transfer assets in a pool from a sender to a receiver.

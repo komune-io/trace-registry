@@ -64,6 +64,7 @@ class OrderAggregateService(
         OrderCompletedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            assetTransactionId = command.assetTransactionId,
             certificate = command.certificate
         )
     }

@@ -5,7 +5,6 @@ plugins {
 }
 
 dependencies {
-	commonMainImplementation("io.ktor:ktor-client-auth:${Versions.ktor}")
 	commonMainApi(project(":platform:f2:asset-order-f2:asset-order-f2-domain"))
 	Dependencies.Mpp.f2Client(::commonMainApi)
 }

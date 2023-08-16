@@ -4,9 +4,9 @@ import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.OffsetPaginationDTO
 import f2.dsl.cqrs.page.PageQueryResultDTO
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Get page of projects

@@ -1,4 +1,4 @@
-package city.smartb.registry.program.f2.asset.domain.query
+package city.smartb.registry.program.f2.pool.domain.query
 
 import city.smartb.registry.program.api.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.project.domain.model.ProjectId

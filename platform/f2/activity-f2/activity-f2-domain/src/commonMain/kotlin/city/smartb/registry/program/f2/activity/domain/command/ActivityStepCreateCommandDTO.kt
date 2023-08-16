@@ -4,9 +4,9 @@ import cccev.dsl.model.InformationConcept
 import city.smartb.registry.program.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Create an activity step.

@@ -1,4 +1,4 @@
-package city.smartb.registry.program.f2.asset.domain.model
+package city.smartb.registry.program.f2.pool.domain.model
 
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
@@ -6,9 +6,9 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsExport
 
 /**
  * @d2 model
@@ -16,7 +16,7 @@ import kotlin.js.JsExport
  * @order 200
  */
 @JsExport
-interface TransactionDTO: WithS2State<AssetTransactionState> {
+interface AssetTransactionDTO: WithS2State<AssetTransactionState> {
     val id: AssetTransactionId
     val date: Long
     val poolId: AssetPoolId
@@ -37,7 +37,7 @@ interface TransactionDTO: WithS2State<AssetTransactionState> {
  * @d2 inherit
  */
 @Serializable
-data class TransactionDTOBase(
+data class AssetTransactionDTOBase(
     override val id: AssetTransactionId,
     override val poolId: AssetPoolId,
     override val from: String?,
@@ -50,4 +50,4 @@ data class TransactionDTOBase(
     override val vintage: String?,
     override val file: FilePath?,
     override val status: String
-): TransactionDTO
+): AssetTransactionDTO

@@ -6,9 +6,9 @@ import city.smartb.registry.program.api.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
 import city.smartb.registry.program.s2.order.domain.OrderId
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsExport
 
 /**
  * @d2 model

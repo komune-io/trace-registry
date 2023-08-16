@@ -5,7 +5,7 @@ Feature: AssetIssueF2
     And A concept is created in cccev
     And An organization is defined:
       | identifier | roles           |
-      | SmartB     | tr_orchestrator |
+      | SmartB     | tr_orchestrator_user |
     And A user is defined:
       | identifier |
       | orch       |

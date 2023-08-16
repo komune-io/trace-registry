@@ -3,8 +3,8 @@ package city.smartb.registry.program.f2.activity.domain.model
 import cccev.dsl.model.Code
 import city.smartb.registry.program.s2.project.domain.model.CertificationRef
 import city.smartb.registry.program.s2.project.domain.model.CertificationRefDTO
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 hidden

@@ -1,11 +1,11 @@
 package city.smartb.registry.program.f2.chat.api
 
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.registry.program.f2.chat.domain.ChatApi
-import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionFunction
 import city.smartb.fs.s2.file.domain.features.query.FileAskQuestionQuery
 import city.smartb.fs.s2.file.domain.model.FileAskMessage
+import city.smartb.registry.program.f2.chat.domain.ChatApi
 import city.smartb.registry.program.f2.chat.domain.model.FileAskMetadata
+import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionFunction
 import city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResult
 import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll

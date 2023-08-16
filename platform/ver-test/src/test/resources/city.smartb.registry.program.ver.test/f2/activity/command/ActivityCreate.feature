@@ -3,7 +3,7 @@ Feature: ActivityCreate
   Background:
     Given An organization is defined:
       | roles           |
-      | tr_orchestrator |
+      | tr_orchestrator_user |
     And A user is defined:
       | identifier |
       | orch       |
