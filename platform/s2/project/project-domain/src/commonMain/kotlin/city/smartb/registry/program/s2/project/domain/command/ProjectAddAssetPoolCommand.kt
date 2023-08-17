@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
 @JsName("ProjectAddAssetPoolCommandDTO")
 interface ProjectAddAssetPoolCommandDTO: ProjectCommand
 
+@Serializable
 data class ProjectAddAssetPoolCommand(
     override val id: ProjectId,
     val poolId: AssetPoolId
