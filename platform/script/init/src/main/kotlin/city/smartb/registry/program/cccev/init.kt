@@ -1,10 +1,11 @@
-import city.smartb.registry.program.cccev.actor.ActorType
+package city.smartb.registry.program.cccev
+
 import city.smartb.registry.program.cccev.actor.ActorAuth
 import city.smartb.registry.program.cccev.actor.ActorBuilder
+import city.smartb.registry.program.cccev.actor.ActorType
 import city.smartb.registry.program.cccev.asset.createAssetPool
+import city.smartb.registry.program.cccev.project.addAssetPoolToProject
 import city.smartb.registry.program.cccev.project.createRandomProject
-import city.smartb.registry.program.cccev.initIndicatorsCarbon
-import city.smartb.registry.program.cccev.initRequirement
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
@@ -14,8 +15,8 @@ fun main() = runBlocking {
     val urlVer = "http://localhost:8070"
 
     val nameOrchestrator = "Smartb"
-    val clientOrchestrator = "tr-smartb-ver2-app"
-    val secretOrchestrator = "30ef2c5b-acee-460b-9f38-2ecd9855792d"
+    val clientOrchestrator = "tr-smartb-ver-app"
+    val secretOrchestrator = "8d637328-3e2f-476c-9737-29bd2889df83"
     val accessTokenOrchestrator= ActorAuth.getActor(urlAuth, nameOrchestrator, clientOrchestrator, secretOrchestrator)
     val actorFactory = ActorBuilder(imUrl, urlAuth, accessTokenOrchestrator)
 
@@ -27,12 +28,11 @@ fun main() = runBlocking {
     initRequirement(urlCCCEV)
     initIndicatorsCarbon(urlCCCEV)
 
-//    val assetPoolId = null
     val assetPoolId = createAssetPool(
         urlVer,
         issuer = issuer,
         offsetter = offseter
     )
-    createRandomProject(urlVer, accessTokenOrchestrator, assetPoolId)
+    val projectId = createRandomProject(urlVer, accessTokenOrchestrator, assetPoolId).first()
+    addAssetPoolToProject(urlVer, accessTokenOrchestrator, projectId, assetPoolId)
 }
-
