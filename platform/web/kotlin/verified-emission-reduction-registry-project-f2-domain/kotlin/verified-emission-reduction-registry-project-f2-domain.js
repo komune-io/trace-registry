@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -2241,37 +2241,43 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_142, 'Companion', objectMeta, undefined, [SerializerFactory], undefined, undefined, []);
   setMetadataFor(ProjectState, 'ProjectState', classMeta, Enum, [Enum, S2State], undefined, {0: Companion_getInstance_142}, []);
   setMetadataFor(ProjectRole, 'ProjectRole', classMeta, Enum, [Enum, S2Role], undefined, undefined, []);
-  setMetadataFor(ProjectAddAssetPoolCommand, 'ProjectAddAssetPoolCommand', classMeta, undefined, [ProjectCommand], undefined, undefined, []);
+  setMetadataFor(ProjectAddAssetPoolCommandDTO, 'ProjectAddAssetPoolCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
+  setMetadataFor(ProjectAddedAssetPoolEventDTO, 'ProjectAddedAssetPoolEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(Companion_143, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_81, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ProjectAddedAssetPoolEvent, 'ProjectAddedAssetPoolEvent', classMeta, undefined, [ProjectEvent], undefined, {0: $serializer_getInstance_79}, []);
-  setMetadataFor(ProjectCreateCommandDTO, 'ProjectCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
+  setMetadataFor(ProjectAddAssetPoolCommand, 'ProjectAddAssetPoolCommand', classMeta, undefined, [ProjectAddAssetPoolCommandDTO], undefined, {0: $serializer_getInstance_79}, []);
   setMetadataFor(Companion_144, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_82, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ProjectCreateCommand, 'ProjectCreateCommand', classMeta, undefined, [ProjectInitCommand, ProjectCreateCommandDTO], undefined, {0: $serializer_getInstance_80}, []);
+  setMetadataFor(ProjectAddedAssetPoolEvent, 'ProjectAddedAssetPoolEvent', classMeta, undefined, [ProjectAddedAssetPoolEventDTO], undefined, {0: $serializer_getInstance_80}, []);
+  setMetadataFor(ProjectCreateCommandDTO, 'ProjectCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(Companion_145, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_83, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ProjectCreatedEvent, 'ProjectCreatedEvent', classMeta, undefined, [ProjectCreatedEventDTO], undefined, {0: $serializer_getInstance_81}, []);
+  setMetadataFor(ProjectCreateCommand, 'ProjectCreateCommand', classMeta, undefined, [ProjectInitCommand, ProjectCreateCommandDTO], undefined, {0: $serializer_getInstance_81}, []);
+  setMetadataFor(Companion_146, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_84, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ProjectCreatedEvent, 'ProjectCreatedEvent', classMeta, undefined, [ProjectCreatedEventDTO], undefined, {0: $serializer_getInstance_82}, []);
   setMetadataFor(ProjectDeleteCommandDTO, 'ProjectDeleteCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
   setMetadataFor(ProjectDeletedEventDTO, 'ProjectDeletedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectDeleteCommand, 'ProjectDeleteCommand', classMeta, undefined, [ProjectDeleteCommandDTO], undefined, undefined, []);
-  setMetadataFor(Companion_146, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor($serializer_84, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ProjectDeletedEvent, 'ProjectDeletedEvent', classMeta, undefined, [ProjectDeletedEventDTO], undefined, {0: $serializer_getInstance_82}, []);
+  setMetadataFor(Companion_147, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_85, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(ProjectDeletedEvent, 'ProjectDeletedEvent', classMeta, undefined, [ProjectDeletedEventDTO], undefined, {0: $serializer_getInstance_83}, []);
   setMetadataFor(ProjectUpdateCommandDTO, 'ProjectUpdateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectUpdatedEventDTO, 'ProjectUpdatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectUpdateCommand, 'ProjectUpdateCommand', classMeta, undefined, [ProjectCommand, ProjectUpdateCommandDTO], undefined, undefined, []);
-  setMetadataFor(Companion_147, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor($serializer_85, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(ProjectUpdatedEvent, 'ProjectUpdatedEvent', classMeta, undefined, [ProjectUpdatedEventDTO], undefined, {0: $serializer_getInstance_83}, []);
-  setMetadataFor(CertificationRefDTO, 'CertificationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(Companion_148, 'Companion', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_86, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(CertificationRef, 'CertificationRef', classMeta, undefined, [CertificationRefDTO], undefined, {0: $serializer_getInstance_84}, []);
+  setMetadataFor(ProjectUpdatedEvent, 'ProjectUpdatedEvent', classMeta, undefined, [ProjectUpdatedEventDTO], undefined, {0: $serializer_getInstance_84}, []);
+  setMetadataFor(CertificationRefDTO, 'CertificationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor($serializer_87, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(CertificationRef, 'CertificationRef', classMeta, undefined, [CertificationRefDTO], undefined, {0: $serializer_getInstance_85}, []);
   setMetadataFor(ProjectDTO, 'ProjectDTO', interfaceMeta, undefined, [WithS2State, WithS2Id], undefined, undefined, []);
   setMetadataFor(OrganizationRefDTO_0, 'OrganizationRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor($serializer_87, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(OrganizationRef, 'OrganizationRef', classMeta, undefined, [OrganizationRefDTO_0], undefined, {0: $serializer_getInstance_85}, []);
+  setMetadataFor($serializer_88, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
+  setMetadataFor(OrganizationRef, 'OrganizationRef', classMeta, undefined, [OrganizationRefDTO_0], undefined, {0: $serializer_getInstance_86}, []);
+  setMetadataFor(ProjectAddAssetPoolCommandDTO_0, 'ProjectAddAssetPoolCommandDTO', interfaceMeta, undefined, [ProjectAddAssetPoolCommandDTO], undefined, undefined, []);
+  setMetadataFor(ProjectAddedAssetPoolEventDTO_0, 'ProjectAddedAssetPoolEventDTO', interfaceMeta, undefined, [ProjectAddedAssetPoolEventDTO], undefined, undefined, []);
   setMetadataFor(ProjectCreateCommandDTO_0, 'ProjectCreateCommandDTO', interfaceMeta, undefined, [ProjectCreateCommandDTO], undefined, undefined, []);
   setMetadataFor(ProjectCreatedEventDTO_0, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectCreatedEventDTO], undefined, undefined, []);
   setMetadataFor(ProjectDeleteCommandDTO_0, 'ProjectDeleteCommandDTO', interfaceMeta, undefined, [ProjectDeleteCommandDTO], undefined, undefined, []);
@@ -95343,39 +95349,10 @@ if (typeof Math.imul === 'undefined') {
       s2Project = s2Sourcing(s2Project$lambda);
     }
   }
-  function ProjectAddAssetPoolCommand(id, poolId) {
-    this.z7c_1 = id;
-    this.a7d_1 = poolId;
+  function ProjectAddAssetPoolCommandDTO() {
   }
-  ProjectAddAssetPoolCommand.prototype.x4s = function () {
-    return this.z7c_1;
-  };
-  ProjectAddAssetPoolCommand.prototype.toString = function () {
-    return 'ProjectAddAssetPoolCommand(id=' + this.z7c_1 + ', poolId=' + this.a7d_1 + ')';
-  };
-  ProjectAddAssetPoolCommand.prototype.hashCode = function () {
-    var result = getStringHashCode(this.z7c_1);
-    result = imul(result, 31) + getStringHashCode(this.a7d_1) | 0;
-    return result;
-  };
-  ProjectAddAssetPoolCommand.prototype.equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof ProjectAddAssetPoolCommand))
-      return false;
-    var tmp0_other_with_cast = other instanceof ProjectAddAssetPoolCommand ? other : THROW_CCE();
-    if (!(this.z7c_1 === tmp0_other_with_cast.z7c_1))
-      return false;
-    if (!(this.a7d_1 === tmp0_other_with_cast.a7d_1))
-      return false;
-    return true;
-  };
-  Object.defineProperty(ProjectAddAssetPoolCommand.prototype, 'id', {
-    configurable: true,
-    get: function () {
-      return this.x4s();
-    }
-  });
+  function ProjectAddedAssetPoolEventDTO() {
+  }
   function Companion_143() {
     Companion_instance_143 = this;
   }
@@ -95387,16 +95364,144 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_81() {
     $serializer_instance_79 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand', this, 2);
+    tmp0_serialDesc.f49('id', false);
+    tmp0_serialDesc.f49('poolId', false);
+    this.a7d_1 = tmp0_serialDesc;
+  }
+  $serializer_81.prototype.q3y = function () {
+    return this.a7d_1;
+  };
+  $serializer_81.prototype.u49 = function () {
+    var tmp$ret$2;
+    // Inline function 'kotlin.arrayOf' call
+    var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance()];
+    var tmp$ret$1;
+    // Inline function 'kotlin.js.unsafeCast' call
+    var tmp$ret$0;
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp$ret$0 = tmp0_arrayOf;
+    tmp$ret$1 = tmp$ret$0;
+    tmp$ret$2 = tmp$ret$1;
+    return tmp$ret$2;
+  };
+  $serializer_81.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.a7d_1;
+    var tmp1_flag = true;
+    var tmp2_index = 0;
+    var tmp3_bitMask0 = 0;
+    var tmp4_local0 = null;
+    var tmp5_local1 = null;
+    var tmp6_input = decoder.c42(tmp0_desc);
+    if (tmp6_input.r42()) {
+      tmp4_local0 = tmp6_input.m42(tmp0_desc, 0);
+      tmp3_bitMask0 = tmp3_bitMask0 | 1;
+      tmp5_local1 = tmp6_input.m42(tmp0_desc, 1);
+      tmp3_bitMask0 = tmp3_bitMask0 | 2;
+    } else
+      while (tmp1_flag) {
+        tmp2_index = tmp6_input.s42(tmp0_desc);
+        switch (tmp2_index) {
+          case -1:
+            tmp1_flag = false;
+            break;
+          case 0:
+            tmp4_local0 = tmp6_input.m42(tmp0_desc, 0);
+            tmp3_bitMask0 = tmp3_bitMask0 | 1;
+            break;
+          case 1:
+            tmp5_local1 = tmp6_input.m42(tmp0_desc, 1);
+            tmp3_bitMask0 = tmp3_bitMask0 | 2;
+            break;
+          default:
+            throw UnknownFieldException_init_$Create$(tmp2_index);
+        }
+      }
+    tmp6_input.d42(tmp0_desc);
+    return ProjectAddAssetPoolCommand_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
+  };
+  $serializer_81.prototype.b7d = function (encoder, value) {
+    var tmp0_desc = this.a7d_1;
+    var tmp1_output = encoder.c42(tmp0_desc);
+    tmp1_output.q43(tmp0_desc, 0, value.c7d_1);
+    tmp1_output.q43(tmp0_desc, 1, value.d7d_1);
+    tmp1_output.d42(tmp0_desc);
+  };
+  $serializer_81.prototype.r3y = function (encoder, value) {
+    return this.b7d(encoder, value instanceof ProjectAddAssetPoolCommand ? value : THROW_CCE());
+  };
+  var $serializer_instance_79;
+  function $serializer_getInstance_79() {
+    if ($serializer_instance_79 == null)
+      new $serializer_81();
+    return $serializer_instance_79;
+  }
+  function ProjectAddAssetPoolCommand_init_$Init$(seen1, id, poolId, serializationConstructorMarker, $this) {
+    if (!(3 === (3 & seen1))) {
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_79().a7d_1);
+    }
+    $this.c7d_1 = id;
+    $this.d7d_1 = poolId;
+    return $this;
+  }
+  function ProjectAddAssetPoolCommand_init_$Create$(seen1, id, poolId, serializationConstructorMarker) {
+    return ProjectAddAssetPoolCommand_init_$Init$(seen1, id, poolId, serializationConstructorMarker, Object.create(ProjectAddAssetPoolCommand.prototype));
+  }
+  function ProjectAddAssetPoolCommand(id, poolId) {
+    Companion_getInstance_143();
+    this.c7d_1 = id;
+    this.d7d_1 = poolId;
+  }
+  ProjectAddAssetPoolCommand.prototype.x4s = function () {
+    return this.c7d_1;
+  };
+  ProjectAddAssetPoolCommand.prototype.toString = function () {
+    return 'ProjectAddAssetPoolCommand(id=' + this.c7d_1 + ', poolId=' + this.d7d_1 + ')';
+  };
+  ProjectAddAssetPoolCommand.prototype.hashCode = function () {
+    var result = getStringHashCode(this.c7d_1);
+    result = imul(result, 31) + getStringHashCode(this.d7d_1) | 0;
+    return result;
+  };
+  ProjectAddAssetPoolCommand.prototype.equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof ProjectAddAssetPoolCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof ProjectAddAssetPoolCommand ? other : THROW_CCE();
+    if (!(this.c7d_1 === tmp0_other_with_cast.c7d_1))
+      return false;
+    if (!(this.d7d_1 === tmp0_other_with_cast.d7d_1))
+      return false;
+    return true;
+  };
+  Object.defineProperty(ProjectAddAssetPoolCommand.prototype, 'id', {
+    configurable: true,
+    get: function () {
+      return this.x4s();
+    }
+  });
+  function Companion_144() {
+    Companion_instance_144 = this;
+  }
+  var Companion_instance_144;
+  function Companion_getInstance_144() {
+    if (Companion_instance_144 == null)
+      new Companion_144();
+    return Companion_instance_144;
+  }
+  function $serializer_82() {
+    $serializer_instance_80 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent', this, 3);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('date', false);
     tmp0_serialDesc.f49('poolId', false);
-    this.b7d_1 = tmp0_serialDesc;
+    this.e7d_1 = tmp0_serialDesc;
   }
-  $serializer_81.prototype.q3y = function () {
-    return this.b7d_1;
+  $serializer_82.prototype.q3y = function () {
+    return this.e7d_1;
   };
-  $serializer_81.prototype.u49 = function () {
+  $serializer_82.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
     var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance(), StringSerializer_getInstance()];
@@ -95409,8 +95514,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_81.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.b7d_1;
+  $serializer_82.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.e7d_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -95451,54 +95556,57 @@ if (typeof Math.imul === 'undefined') {
     tmp7_input.d42(tmp0_desc);
     return ProjectAddedAssetPoolEvent_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, null);
   };
-  $serializer_81.prototype.c7d = function (encoder, value) {
-    var tmp0_desc = this.b7d_1;
+  $serializer_82.prototype.f7d = function (encoder, value) {
+    var tmp0_desc = this.e7d_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.d7d_1);
-    tmp1_output.m43(tmp0_desc, 1, value.e7d_1);
-    tmp1_output.q43(tmp0_desc, 2, value.f7d_1);
+    tmp1_output.q43(tmp0_desc, 0, value.g7d_1);
+    tmp1_output.m43(tmp0_desc, 1, value.h7d_1);
+    tmp1_output.q43(tmp0_desc, 2, value.i7d_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_81.prototype.r3y = function (encoder, value) {
-    return this.c7d(encoder, value instanceof ProjectAddedAssetPoolEvent ? value : THROW_CCE());
+  $serializer_82.prototype.r3y = function (encoder, value) {
+    return this.f7d(encoder, value instanceof ProjectAddedAssetPoolEvent ? value : THROW_CCE());
   };
-  var $serializer_instance_79;
-  function $serializer_getInstance_79() {
-    if ($serializer_instance_79 == null)
-      new $serializer_81();
-    return $serializer_instance_79;
+  var $serializer_instance_80;
+  function $serializer_getInstance_80() {
+    if ($serializer_instance_80 == null)
+      new $serializer_82();
+    return $serializer_instance_80;
   }
   function ProjectAddedAssetPoolEvent_init_$Init$(seen1, id, date, poolId, serializationConstructorMarker, $this) {
     if (!(7 === (7 & seen1))) {
-      throwMissingFieldException(seen1, 7, $serializer_getInstance_79().b7d_1);
+      throwMissingFieldException(seen1, 7, $serializer_getInstance_80().e7d_1);
     }
-    $this.d7d_1 = id;
-    $this.e7d_1 = date;
-    $this.f7d_1 = poolId;
+    $this.g7d_1 = id;
+    $this.h7d_1 = date;
+    $this.i7d_1 = poolId;
     return $this;
   }
   function ProjectAddedAssetPoolEvent_init_$Create$(seen1, id, date, poolId, serializationConstructorMarker) {
     return ProjectAddedAssetPoolEvent_init_$Init$(seen1, id, date, poolId, serializationConstructorMarker, Object.create(ProjectAddedAssetPoolEvent.prototype));
   }
   function ProjectAddedAssetPoolEvent(id, date, poolId) {
-    Companion_getInstance_143();
-    this.d7d_1 = id;
-    this.e7d_1 = date;
-    this.f7d_1 = poolId;
+    Companion_getInstance_144();
+    this.g7d_1 = id;
+    this.h7d_1 = date;
+    this.i7d_1 = poolId;
   }
   ProjectAddedAssetPoolEvent.prototype.x4s = function () {
-    return this.d7d_1;
+    return this.g7d_1;
   };
   ProjectAddedAssetPoolEvent.prototype.g55 = function () {
-    return this.e7d_1;
+    return this.h7d_1;
+  };
+  ProjectAddedAssetPoolEvent.prototype.z7c = function () {
+    return this.i7d_1;
   };
   ProjectAddedAssetPoolEvent.prototype.toString = function () {
-    return 'ProjectAddedAssetPoolEvent(id=' + this.d7d_1 + ', date=' + toString_3(this.e7d_1) + ', poolId=' + this.f7d_1 + ')';
+    return 'ProjectAddedAssetPoolEvent(id=' + this.g7d_1 + ', date=' + toString_3(this.h7d_1) + ', poolId=' + this.i7d_1 + ')';
   };
   ProjectAddedAssetPoolEvent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.d7d_1);
-    result = imul(result, 31) + this.e7d_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.f7d_1) | 0;
+    var result = getStringHashCode(this.g7d_1);
+    result = imul(result, 31) + this.h7d_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.i7d_1) | 0;
     return result;
   };
   ProjectAddedAssetPoolEvent.prototype.equals = function (other) {
@@ -95507,11 +95615,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectAddedAssetPoolEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectAddedAssetPoolEvent ? other : THROW_CCE();
-    if (!(this.d7d_1 === tmp0_other_with_cast.d7d_1))
+    if (!(this.g7d_1 === tmp0_other_with_cast.g7d_1))
       return false;
-    if (!this.e7d_1.equals(tmp0_other_with_cast.e7d_1))
+    if (!this.h7d_1.equals(tmp0_other_with_cast.h7d_1))
       return false;
-    if (!(this.f7d_1 === tmp0_other_with_cast.f7d_1))
+    if (!(this.i7d_1 === tmp0_other_with_cast.i7d_1))
       return false;
     return true;
   };
@@ -95521,21 +95629,30 @@ if (typeof Math.imul === 'undefined') {
       return this.x4s();
     }
   });
+  Object.defineProperty(ProjectAddedAssetPoolEvent.prototype, 'date', {
+    configurable: true
+  });
+  Object.defineProperty(ProjectAddedAssetPoolEvent.prototype, 'poolId', {
+    configurable: true,
+    get: function () {
+      return this.z7c();
+    }
+  });
   function ProjectCreateCommandDTO() {
   }
   function ProjectCreatedEventDTO() {
   }
-  function Companion_144() {
-    Companion_instance_144 = this;
+  function Companion_145() {
+    Companion_instance_145 = this;
   }
-  var Companion_instance_144;
-  function Companion_getInstance_144() {
-    if (Companion_instance_144 == null)
-      new Companion_144();
-    return Companion_instance_144;
+  var Companion_instance_145;
+  function Companion_getInstance_145() {
+    if (Companion_instance_145 == null)
+      new Companion_145();
+    return Companion_instance_145;
   }
-  function $serializer_82() {
-    $serializer_instance_80 = this;
+  function $serializer_83() {
+    $serializer_instance_81 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand', this, 22);
     tmp0_serialDesc.f49('name', false);
     tmp0_serialDesc.f49('identifier', false);
@@ -95559,15 +95676,15 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('activities', false);
     tmp0_serialDesc.f49('subContinent', false);
     tmp0_serialDesc.f49('sdgs', false);
-    this.u7e_1 = tmp0_serialDesc;
+    this.x7e_1 = tmp0_serialDesc;
   }
-  $serializer_82.prototype.q3y = function () {
-    return this.u7e_1;
+  $serializer_83.prototype.q3y = function () {
+    return this.x7e_1;
   };
-  $serializer_82.prototype.u49 = function () {
+  $serializer_83.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance()))];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance()))];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -95577,8 +95694,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_82.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.u7e_1;
+  $serializer_83.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.x7e_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -95626,7 +95743,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 256;
       tmp13_local9 = tmp26_input.q42(tmp0_desc, 9, StringSerializer_getInstance(), tmp13_local9);
       tmp3_bitMask0 = tmp3_bitMask0 | 512;
-      tmp14_local10 = tmp26_input.q42(tmp0_desc, 10, $serializer_getInstance_85(), tmp14_local10);
+      tmp14_local10 = tmp26_input.q42(tmp0_desc, 10, $serializer_getInstance_86(), tmp14_local10);
       tmp3_bitMask0 = tmp3_bitMask0 | 1024;
       tmp15_local11 = tmp26_input.q42(tmp0_desc, 11, IntSerializer_getInstance(), tmp15_local11);
       tmp3_bitMask0 = tmp3_bitMask0 | 2048;
@@ -95638,9 +95755,9 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 16384;
       tmp19_local15 = tmp26_input.q42(tmp0_desc, 15, StringSerializer_getInstance(), tmp19_local15);
       tmp3_bitMask0 = tmp3_bitMask0 | 32768;
-      tmp20_local16 = tmp26_input.q42(tmp0_desc, 16, $serializer_getInstance_85(), tmp20_local16);
+      tmp20_local16 = tmp26_input.q42(tmp0_desc, 16, $serializer_getInstance_86(), tmp20_local16);
       tmp3_bitMask0 = tmp3_bitMask0 | 65536;
-      tmp21_local17 = tmp26_input.q42(tmp0_desc, 17, $serializer_getInstance_85(), tmp21_local17);
+      tmp21_local17 = tmp26_input.q42(tmp0_desc, 17, $serializer_getInstance_86(), tmp21_local17);
       tmp3_bitMask0 = tmp3_bitMask0 | 131072;
       tmp22_local18 = tmp26_input.q42(tmp0_desc, 18, $serializer_getInstance_8(), tmp22_local18);
       tmp3_bitMask0 = tmp3_bitMask0 | 262144;
@@ -95698,7 +95815,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 512;
             break;
           case 10:
-            tmp14_local10 = tmp26_input.q42(tmp0_desc, 10, $serializer_getInstance_85(), tmp14_local10);
+            tmp14_local10 = tmp26_input.q42(tmp0_desc, 10, $serializer_getInstance_86(), tmp14_local10);
             tmp3_bitMask0 = tmp3_bitMask0 | 1024;
             break;
           case 11:
@@ -95722,11 +95839,11 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 32768;
             break;
           case 16:
-            tmp20_local16 = tmp26_input.q42(tmp0_desc, 16, $serializer_getInstance_85(), tmp20_local16);
+            tmp20_local16 = tmp26_input.q42(tmp0_desc, 16, $serializer_getInstance_86(), tmp20_local16);
             tmp3_bitMask0 = tmp3_bitMask0 | 65536;
             break;
           case 17:
-            tmp21_local17 = tmp26_input.q42(tmp0_desc, 17, $serializer_getInstance_85(), tmp21_local17);
+            tmp21_local17 = tmp26_input.q42(tmp0_desc, 17, $serializer_getInstance_86(), tmp21_local17);
             tmp3_bitMask0 = tmp3_bitMask0 | 131072;
             break;
           case 18:
@@ -95752,256 +95869,256 @@ if (typeof Math.imul === 'undefined') {
     tmp26_input.d42(tmp0_desc);
     return ProjectCreateCommand_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, tmp23_local19, tmp24_local20, tmp25_local21, null);
   };
-  $serializer_82.prototype.v7e = function (encoder, value) {
-    var tmp0_desc = this.u7e_1;
+  $serializer_83.prototype.y7e = function (encoder, value) {
+    var tmp0_desc = this.x7e_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.w7e_1);
-    tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.x7e_1);
-    tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.y7e_1);
-    tmp1_output.q43(tmp0_desc, 3, value.z7e_1);
-    tmp1_output.u43(tmp0_desc, 4, LongSerializer_getInstance(), value.a7f_1);
-    tmp1_output.u43(tmp0_desc, 5, LongSerializer_getInstance(), value.b7f_1);
-    tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.c7f_1);
-    tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.d7f_1);
-    tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.e7f_1);
-    tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.f7f_1);
-    tmp1_output.u43(tmp0_desc, 10, $serializer_getInstance_85(), value.g7f_1);
-    tmp1_output.u43(tmp0_desc, 11, IntSerializer_getInstance(), value.h7f_1);
-    tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.i7f_1);
-    tmp1_output.u43(tmp0_desc, 13, LongSerializer_getInstance(), value.j7f_1);
-    tmp1_output.u43(tmp0_desc, 14, StringSerializer_getInstance(), value.k7f_1);
-    tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.l7f_1);
-    tmp1_output.u43(tmp0_desc, 16, $serializer_getInstance_85(), value.m7f_1);
-    tmp1_output.u43(tmp0_desc, 17, $serializer_getInstance_85(), value.n7f_1);
-    tmp1_output.u43(tmp0_desc, 18, $serializer_getInstance_8(), value.o7f_1);
-    tmp1_output.u43(tmp0_desc, 19, new ArrayListSerializer(StringSerializer_getInstance()), value.p7f_1);
-    tmp1_output.u43(tmp0_desc, 20, StringSerializer_getInstance(), value.q7f_1);
-    tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer(IntSerializer_getInstance()), value.r7f_1);
+    tmp1_output.q43(tmp0_desc, 0, value.z7e_1);
+    tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.a7f_1);
+    tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.b7f_1);
+    tmp1_output.q43(tmp0_desc, 3, value.c7f_1);
+    tmp1_output.u43(tmp0_desc, 4, LongSerializer_getInstance(), value.d7f_1);
+    tmp1_output.u43(tmp0_desc, 5, LongSerializer_getInstance(), value.e7f_1);
+    tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.f7f_1);
+    tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.g7f_1);
+    tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.h7f_1);
+    tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.i7f_1);
+    tmp1_output.u43(tmp0_desc, 10, $serializer_getInstance_86(), value.j7f_1);
+    tmp1_output.u43(tmp0_desc, 11, IntSerializer_getInstance(), value.k7f_1);
+    tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.l7f_1);
+    tmp1_output.u43(tmp0_desc, 13, LongSerializer_getInstance(), value.m7f_1);
+    tmp1_output.u43(tmp0_desc, 14, StringSerializer_getInstance(), value.n7f_1);
+    tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.o7f_1);
+    tmp1_output.u43(tmp0_desc, 16, $serializer_getInstance_86(), value.p7f_1);
+    tmp1_output.u43(tmp0_desc, 17, $serializer_getInstance_86(), value.q7f_1);
+    tmp1_output.u43(tmp0_desc, 18, $serializer_getInstance_8(), value.r7f_1);
+    tmp1_output.u43(tmp0_desc, 19, new ArrayListSerializer(StringSerializer_getInstance()), value.s7f_1);
+    tmp1_output.u43(tmp0_desc, 20, StringSerializer_getInstance(), value.t7f_1);
+    tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer(IntSerializer_getInstance()), value.u7f_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_82.prototype.r3y = function (encoder, value) {
-    return this.v7e(encoder, value instanceof ProjectCreateCommand ? value : THROW_CCE());
+  $serializer_83.prototype.r3y = function (encoder, value) {
+    return this.y7e(encoder, value instanceof ProjectCreateCommand ? value : THROW_CCE());
   };
-  var $serializer_instance_80;
-  function $serializer_getInstance_80() {
-    if ($serializer_instance_80 == null)
-      new $serializer_82();
-    return $serializer_instance_80;
+  var $serializer_instance_81;
+  function $serializer_getInstance_81() {
+    if ($serializer_instance_81 == null)
+      new $serializer_83();
+    return $serializer_instance_81;
   }
   function ProjectCreateCommand_init_$Init$(seen1, name, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker, $this) {
     if (!(4194303 === (4194303 & seen1))) {
-      throwMissingFieldException(seen1, 4194303, $serializer_getInstance_80().u7e_1);
+      throwMissingFieldException(seen1, 4194303, $serializer_getInstance_81().x7e_1);
     }
-    $this.w7e_1 = name;
-    $this.x7e_1 = identifier;
-    $this.y7e_1 = country;
-    $this.z7e_1 = indicator;
-    $this.a7f_1 = creditingPeriodStartDate;
-    $this.b7f_1 = creditingPeriodEndDate;
-    $this.c7f_1 = description;
-    $this.d7f_1 = dueDate;
-    $this.e7f_1 = estimatedReduction;
-    $this.f7f_1 = localization;
-    $this.g7f_1 = proponent;
-    $this.h7f_1 = type;
-    $this.i7f_1 = referenceYear;
-    $this.j7f_1 = registrationDate;
-    $this.k7f_1 = slug;
-    $this.l7f_1 = vintage;
-    $this.m7f_1 = vvb;
-    $this.n7f_1 = assessor;
-    $this.o7f_1 = location;
-    $this.p7f_1 = activities;
-    $this.q7f_1 = subContinent;
-    $this.r7f_1 = sdgs;
+    $this.z7e_1 = name;
+    $this.a7f_1 = identifier;
+    $this.b7f_1 = country;
+    $this.c7f_1 = indicator;
+    $this.d7f_1 = creditingPeriodStartDate;
+    $this.e7f_1 = creditingPeriodEndDate;
+    $this.f7f_1 = description;
+    $this.g7f_1 = dueDate;
+    $this.h7f_1 = estimatedReduction;
+    $this.i7f_1 = localization;
+    $this.j7f_1 = proponent;
+    $this.k7f_1 = type;
+    $this.l7f_1 = referenceYear;
+    $this.m7f_1 = registrationDate;
+    $this.n7f_1 = slug;
+    $this.o7f_1 = vintage;
+    $this.p7f_1 = vvb;
+    $this.q7f_1 = assessor;
+    $this.r7f_1 = location;
+    $this.s7f_1 = activities;
+    $this.t7f_1 = subContinent;
+    $this.u7f_1 = sdgs;
     return $this;
   }
   function ProjectCreateCommand_init_$Create$(seen1, name, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker) {
     return ProjectCreateCommand_init_$Init$(seen1, name, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker, Object.create(ProjectCreateCommand.prototype));
   }
   function ProjectCreateCommand(name, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs) {
-    Companion_getInstance_144();
-    this.w7e_1 = name;
-    this.x7e_1 = identifier;
-    this.y7e_1 = country;
-    this.z7e_1 = indicator;
-    this.a7f_1 = creditingPeriodStartDate;
-    this.b7f_1 = creditingPeriodEndDate;
-    this.c7f_1 = description;
-    this.d7f_1 = dueDate;
-    this.e7f_1 = estimatedReduction;
-    this.f7f_1 = localization;
-    this.g7f_1 = proponent;
-    this.h7f_1 = type;
-    this.i7f_1 = referenceYear;
-    this.j7f_1 = registrationDate;
-    this.k7f_1 = slug;
-    this.l7f_1 = vintage;
-    this.m7f_1 = vvb;
-    this.n7f_1 = assessor;
-    this.o7f_1 = location;
-    this.p7f_1 = activities;
-    this.q7f_1 = subContinent;
-    this.r7f_1 = sdgs;
+    Companion_getInstance_145();
+    this.z7e_1 = name;
+    this.a7f_1 = identifier;
+    this.b7f_1 = country;
+    this.c7f_1 = indicator;
+    this.d7f_1 = creditingPeriodStartDate;
+    this.e7f_1 = creditingPeriodEndDate;
+    this.f7f_1 = description;
+    this.g7f_1 = dueDate;
+    this.h7f_1 = estimatedReduction;
+    this.i7f_1 = localization;
+    this.j7f_1 = proponent;
+    this.k7f_1 = type;
+    this.l7f_1 = referenceYear;
+    this.m7f_1 = registrationDate;
+    this.n7f_1 = slug;
+    this.o7f_1 = vintage;
+    this.p7f_1 = vvb;
+    this.q7f_1 = assessor;
+    this.r7f_1 = location;
+    this.s7f_1 = activities;
+    this.t7f_1 = subContinent;
+    this.u7f_1 = sdgs;
   }
-  ProjectCreateCommand.prototype.g7d = function (_set____db54di) {
-    this.w7e_1 = _set____db54di;
-  };
-  ProjectCreateCommand.prototype.gf = function () {
-    return this.w7e_1;
-  };
-  ProjectCreateCommand.prototype.l7d = function (_set____db54di) {
-    this.x7e_1 = _set____db54di;
-  };
-  ProjectCreateCommand.prototype.r57 = function () {
-    return this.x7e_1;
-  };
-  ProjectCreateCommand.prototype.h7d = function (_set____db54di) {
-    this.y7e_1 = _set____db54di;
-  };
-  ProjectCreateCommand.prototype.i7d = function () {
-    return this.y7e_1;
-  };
-  ProjectCreateCommand.prototype.m7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.j7d = function (_set____db54di) {
     this.z7e_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.n7d = function () {
+  ProjectCreateCommand.prototype.gf = function () {
     return this.z7e_1;
   };
   ProjectCreateCommand.prototype.o7d = function (_set____db54di) {
     this.a7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.p7d = function () {
+  ProjectCreateCommand.prototype.r57 = function () {
     return this.a7f_1;
   };
-  ProjectCreateCommand.prototype.q7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.k7d = function (_set____db54di) {
     this.b7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.r7d = function () {
+  ProjectCreateCommand.prototype.l7d = function () {
     return this.b7f_1;
   };
-  ProjectCreateCommand.prototype.s7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.p7d = function (_set____db54di) {
     this.c7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.u4w = function () {
+  ProjectCreateCommand.prototype.q7d = function () {
     return this.c7f_1;
   };
-  ProjectCreateCommand.prototype.t7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.r7d = function (_set____db54di) {
     this.d7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.u7d = function () {
+  ProjectCreateCommand.prototype.s7d = function () {
     return this.d7f_1;
   };
-  ProjectCreateCommand.prototype.v7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.t7d = function (_set____db54di) {
     this.e7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.w7d = function () {
+  ProjectCreateCommand.prototype.u7d = function () {
     return this.e7f_1;
   };
-  ProjectCreateCommand.prototype.x7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.v7d = function (_set____db54di) {
     this.f7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.y7d = function () {
+  ProjectCreateCommand.prototype.u4w = function () {
     return this.f7f_1;
   };
-  ProjectCreateCommand.prototype.z7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.w7d = function (_set____db54di) {
     this.g7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.a7e = function () {
+  ProjectCreateCommand.prototype.x7d = function () {
     return this.g7f_1;
   };
-  ProjectCreateCommand.prototype.b7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.y7d = function (_set____db54di) {
     this.h7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.w50 = function () {
+  ProjectCreateCommand.prototype.z7d = function () {
     return this.h7f_1;
   };
-  ProjectCreateCommand.prototype.c7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.a7e = function (_set____db54di) {
     this.i7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.d7e = function () {
+  ProjectCreateCommand.prototype.b7e = function () {
     return this.i7f_1;
   };
-  ProjectCreateCommand.prototype.e7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.c7e = function (_set____db54di) {
     this.j7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.f7e = function () {
+  ProjectCreateCommand.prototype.d7e = function () {
     return this.j7f_1;
   };
-  ProjectCreateCommand.prototype.g7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.e7e = function (_set____db54di) {
     this.k7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.h7e = function () {
+  ProjectCreateCommand.prototype.w50 = function () {
     return this.k7f_1;
   };
-  ProjectCreateCommand.prototype.i7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.f7e = function (_set____db54di) {
     this.l7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.j7e = function () {
+  ProjectCreateCommand.prototype.g7e = function () {
     return this.l7f_1;
   };
-  ProjectCreateCommand.prototype.k7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.h7e = function (_set____db54di) {
     this.m7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.l7e = function () {
+  ProjectCreateCommand.prototype.i7e = function () {
     return this.m7f_1;
   };
-  ProjectCreateCommand.prototype.m7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.j7e = function (_set____db54di) {
     this.n7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.n7e = function () {
+  ProjectCreateCommand.prototype.k7e = function () {
     return this.n7f_1;
   };
-  ProjectCreateCommand.prototype.o7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.l7e = function (_set____db54di) {
     this.o7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.p7e = function () {
+  ProjectCreateCommand.prototype.m7e = function () {
     return this.o7f_1;
   };
-  ProjectCreateCommand.prototype.s7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.n7e = function (_set____db54di) {
     this.p7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.t7e = function () {
+  ProjectCreateCommand.prototype.o7e = function () {
     return this.p7f_1;
   };
-  ProjectCreateCommand.prototype.j7d = function (_set____db54di) {
+  ProjectCreateCommand.prototype.p7e = function (_set____db54di) {
     this.q7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.k7d = function () {
+  ProjectCreateCommand.prototype.q7e = function () {
     return this.q7f_1;
   };
-  ProjectCreateCommand.prototype.q7e = function (_set____db54di) {
+  ProjectCreateCommand.prototype.r7e = function (_set____db54di) {
     this.r7f_1 = _set____db54di;
   };
-  ProjectCreateCommand.prototype.r7e = function () {
+  ProjectCreateCommand.prototype.s7e = function () {
     return this.r7f_1;
   };
+  ProjectCreateCommand.prototype.v7e = function (_set____db54di) {
+    this.s7f_1 = _set____db54di;
+  };
+  ProjectCreateCommand.prototype.w7e = function () {
+    return this.s7f_1;
+  };
+  ProjectCreateCommand.prototype.m7d = function (_set____db54di) {
+    this.t7f_1 = _set____db54di;
+  };
+  ProjectCreateCommand.prototype.n7d = function () {
+    return this.t7f_1;
+  };
+  ProjectCreateCommand.prototype.t7e = function (_set____db54di) {
+    this.u7f_1 = _set____db54di;
+  };
+  ProjectCreateCommand.prototype.u7e = function () {
+    return this.u7f_1;
+  };
   ProjectCreateCommand.prototype.toString = function () {
-    return 'ProjectCreateCommand(name=' + this.w7e_1 + ', identifier=' + this.x7e_1 + ', country=' + this.y7e_1 + ', indicator=' + this.z7e_1 + ', creditingPeriodStartDate=' + toString_2(this.a7f_1) + ', creditingPeriodEndDate=' + toString_2(this.b7f_1) + ', description=' + this.c7f_1 + ', dueDate=' + toString_2(this.d7f_1) + ', estimatedReduction=' + this.e7f_1 + ', localization=' + this.f7f_1 + ', proponent=' + this.g7f_1 + ', type=' + this.h7f_1 + ', referenceYear=' + this.i7f_1 + ', registrationDate=' + toString_2(this.j7f_1) + ', slug=' + this.k7f_1 + ', vintage=' + this.l7f_1 + ', vvb=' + this.m7f_1 + ', assessor=' + this.n7f_1 + ', location=' + this.o7f_1 + ', activities=' + this.p7f_1 + ', subContinent=' + this.q7f_1 + ', sdgs=' + this.r7f_1 + ')';
+    return 'ProjectCreateCommand(name=' + this.z7e_1 + ', identifier=' + this.a7f_1 + ', country=' + this.b7f_1 + ', indicator=' + this.c7f_1 + ', creditingPeriodStartDate=' + toString_2(this.d7f_1) + ', creditingPeriodEndDate=' + toString_2(this.e7f_1) + ', description=' + this.f7f_1 + ', dueDate=' + toString_2(this.g7f_1) + ', estimatedReduction=' + this.h7f_1 + ', localization=' + this.i7f_1 + ', proponent=' + this.j7f_1 + ', type=' + this.k7f_1 + ', referenceYear=' + this.l7f_1 + ', registrationDate=' + toString_2(this.m7f_1) + ', slug=' + this.n7f_1 + ', vintage=' + this.o7f_1 + ', vvb=' + this.p7f_1 + ', assessor=' + this.q7f_1 + ', location=' + this.r7f_1 + ', activities=' + this.s7f_1 + ', subContinent=' + this.t7f_1 + ', sdgs=' + this.u7f_1 + ')';
   };
   ProjectCreateCommand.prototype.hashCode = function () {
-    var result = getStringHashCode(this.w7e_1);
-    result = imul(result, 31) + (this.x7e_1 == null ? 0 : getStringHashCode(this.x7e_1)) | 0;
-    result = imul(result, 31) + (this.y7e_1 == null ? 0 : getStringHashCode(this.y7e_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.z7e_1) | 0;
-    result = imul(result, 31) + (this.a7f_1 == null ? 0 : this.a7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.b7f_1 == null ? 0 : this.b7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.c7f_1 == null ? 0 : getStringHashCode(this.c7f_1)) | 0;
+    var result = getStringHashCode(this.z7e_1);
+    result = imul(result, 31) + (this.a7f_1 == null ? 0 : getStringHashCode(this.a7f_1)) | 0;
+    result = imul(result, 31) + (this.b7f_1 == null ? 0 : getStringHashCode(this.b7f_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.c7f_1) | 0;
     result = imul(result, 31) + (this.d7f_1 == null ? 0 : this.d7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.e7f_1 == null ? 0 : getStringHashCode(this.e7f_1)) | 0;
+    result = imul(result, 31) + (this.e7f_1 == null ? 0 : this.e7f_1.hashCode()) | 0;
     result = imul(result, 31) + (this.f7f_1 == null ? 0 : getStringHashCode(this.f7f_1)) | 0;
     result = imul(result, 31) + (this.g7f_1 == null ? 0 : this.g7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.h7f_1 == null ? 0 : this.h7f_1) | 0;
+    result = imul(result, 31) + (this.h7f_1 == null ? 0 : getStringHashCode(this.h7f_1)) | 0;
     result = imul(result, 31) + (this.i7f_1 == null ? 0 : getStringHashCode(this.i7f_1)) | 0;
     result = imul(result, 31) + (this.j7f_1 == null ? 0 : this.j7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.k7f_1 == null ? 0 : getStringHashCode(this.k7f_1)) | 0;
+    result = imul(result, 31) + (this.k7f_1 == null ? 0 : this.k7f_1) | 0;
     result = imul(result, 31) + (this.l7f_1 == null ? 0 : getStringHashCode(this.l7f_1)) | 0;
     result = imul(result, 31) + (this.m7f_1 == null ? 0 : this.m7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n7f_1 == null ? 0 : this.n7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.o7f_1 == null ? 0 : this.o7f_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.p7f_1 == null ? 0 : hashCode(this.p7f_1)) | 0;
-    result = imul(result, 31) + (this.q7f_1 == null ? 0 : getStringHashCode(this.q7f_1)) | 0;
-    result = imul(result, 31) + (this.r7f_1 == null ? 0 : hashCode(this.r7f_1)) | 0;
+    result = imul(result, 31) + (this.n7f_1 == null ? 0 : getStringHashCode(this.n7f_1)) | 0;
+    result = imul(result, 31) + (this.o7f_1 == null ? 0 : getStringHashCode(this.o7f_1)) | 0;
+    result = imul(result, 31) + (this.p7f_1 == null ? 0 : this.p7f_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.q7f_1 == null ? 0 : this.q7f_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r7f_1 == null ? 0 : this.r7f_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.s7f_1 == null ? 0 : hashCode(this.s7f_1)) | 0;
+    result = imul(result, 31) + (this.t7f_1 == null ? 0 : getStringHashCode(this.t7f_1)) | 0;
+    result = imul(result, 31) + (this.u7f_1 == null ? 0 : hashCode(this.u7f_1)) | 0;
     return result;
   };
   ProjectCreateCommand.prototype.equals = function (other) {
@@ -96010,23 +96127,17 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectCreateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectCreateCommand ? other : THROW_CCE();
-    if (!(this.w7e_1 === tmp0_other_with_cast.w7e_1))
-      return false;
-    if (!(this.x7e_1 == tmp0_other_with_cast.x7e_1))
-      return false;
-    if (!(this.y7e_1 == tmp0_other_with_cast.y7e_1))
-      return false;
     if (!(this.z7e_1 === tmp0_other_with_cast.z7e_1))
       return false;
-    if (!equals_1(this.a7f_1, tmp0_other_with_cast.a7f_1))
+    if (!(this.a7f_1 == tmp0_other_with_cast.a7f_1))
       return false;
-    if (!equals_1(this.b7f_1, tmp0_other_with_cast.b7f_1))
+    if (!(this.b7f_1 == tmp0_other_with_cast.b7f_1))
       return false;
-    if (!(this.c7f_1 == tmp0_other_with_cast.c7f_1))
+    if (!(this.c7f_1 === tmp0_other_with_cast.c7f_1))
       return false;
     if (!equals_1(this.d7f_1, tmp0_other_with_cast.d7f_1))
       return false;
-    if (!(this.e7f_1 == tmp0_other_with_cast.e7f_1))
+    if (!equals_1(this.e7f_1, tmp0_other_with_cast.e7f_1))
       return false;
     if (!(this.f7f_1 == tmp0_other_with_cast.f7f_1))
       return false;
@@ -96044,29 +96155,35 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals_1(this.m7f_1, tmp0_other_with_cast.m7f_1))
       return false;
-    if (!equals_1(this.n7f_1, tmp0_other_with_cast.n7f_1))
+    if (!(this.n7f_1 == tmp0_other_with_cast.n7f_1))
       return false;
-    if (!equals_1(this.o7f_1, tmp0_other_with_cast.o7f_1))
+    if (!(this.o7f_1 == tmp0_other_with_cast.o7f_1))
       return false;
     if (!equals_1(this.p7f_1, tmp0_other_with_cast.p7f_1))
       return false;
-    if (!(this.q7f_1 == tmp0_other_with_cast.q7f_1))
+    if (!equals_1(this.q7f_1, tmp0_other_with_cast.q7f_1))
       return false;
     if (!equals_1(this.r7f_1, tmp0_other_with_cast.r7f_1))
       return false;
+    if (!equals_1(this.s7f_1, tmp0_other_with_cast.s7f_1))
+      return false;
+    if (!(this.t7f_1 == tmp0_other_with_cast.t7f_1))
+      return false;
+    if (!equals_1(this.u7f_1, tmp0_other_with_cast.u7f_1))
+      return false;
     return true;
   };
-  function Companion_145() {
-    Companion_instance_145 = this;
+  function Companion_146() {
+    Companion_instance_146 = this;
   }
-  var Companion_instance_145;
-  function Companion_getInstance_145() {
-    if (Companion_instance_145 == null)
-      new Companion_145();
-    return Companion_instance_145;
+  var Companion_instance_146;
+  function Companion_getInstance_146() {
+    if (Companion_instance_146 == null)
+      new Companion_146();
+    return Companion_instance_146;
   }
-  function $serializer_83() {
-    $serializer_instance_81 = this;
+  function $serializer_84() {
+    $serializer_instance_82 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent', this, 25);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('name', false);
@@ -96093,15 +96210,15 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('subContinent', true);
     tmp0_serialDesc.f49('sdgs', true);
     tmp0_serialDesc.f49('certification', true);
-    this.s7f_1 = tmp0_serialDesc;
+    this.v7f_1 = tmp0_serialDesc;
   }
-  $serializer_83.prototype.q3y = function () {
-    return this.s7f_1;
+  $serializer_84.prototype.q3y = function () {
+    return this.v7f_1;
   };
-  $serializer_83.prototype.u49 = function () {
+  $serializer_84.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance())), get_nullable($serializer_getInstance_84())];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance())), get_nullable($serializer_getInstance_85())];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -96111,8 +96228,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_83.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.s7f_1;
+  $serializer_84.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.v7f_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -96167,7 +96284,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 1024;
       tmp15_local11 = tmp29_input.q42(tmp0_desc, 11, StringSerializer_getInstance(), tmp15_local11);
       tmp3_bitMask0 = tmp3_bitMask0 | 2048;
-      tmp16_local12 = tmp29_input.q42(tmp0_desc, 12, $serializer_getInstance_85(), tmp16_local12);
+      tmp16_local12 = tmp29_input.q42(tmp0_desc, 12, $serializer_getInstance_86(), tmp16_local12);
       tmp3_bitMask0 = tmp3_bitMask0 | 4096;
       tmp17_local13 = tmp29_input.q42(tmp0_desc, 13, IntSerializer_getInstance(), tmp17_local13);
       tmp3_bitMask0 = tmp3_bitMask0 | 8192;
@@ -96179,9 +96296,9 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 65536;
       tmp21_local17 = tmp29_input.q42(tmp0_desc, 17, StringSerializer_getInstance(), tmp21_local17);
       tmp3_bitMask0 = tmp3_bitMask0 | 131072;
-      tmp22_local18 = tmp29_input.q42(tmp0_desc, 18, $serializer_getInstance_85(), tmp22_local18);
+      tmp22_local18 = tmp29_input.q42(tmp0_desc, 18, $serializer_getInstance_86(), tmp22_local18);
       tmp3_bitMask0 = tmp3_bitMask0 | 262144;
-      tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_85(), tmp23_local19);
+      tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_86(), tmp23_local19);
       tmp3_bitMask0 = tmp3_bitMask0 | 524288;
       tmp24_local20 = tmp29_input.q42(tmp0_desc, 20, $serializer_getInstance_8(), tmp24_local20);
       tmp3_bitMask0 = tmp3_bitMask0 | 1048576;
@@ -96191,7 +96308,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 4194304;
       tmp27_local23 = tmp29_input.q42(tmp0_desc, 23, new ArrayListSerializer(IntSerializer_getInstance()), tmp27_local23);
       tmp3_bitMask0 = tmp3_bitMask0 | 8388608;
-      tmp28_local24 = tmp29_input.q42(tmp0_desc, 24, $serializer_getInstance_84(), tmp28_local24);
+      tmp28_local24 = tmp29_input.q42(tmp0_desc, 24, $serializer_getInstance_85(), tmp28_local24);
       tmp3_bitMask0 = tmp3_bitMask0 | 16777216;
     } else
       while (tmp1_flag) {
@@ -96249,7 +96366,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 2048;
             break;
           case 12:
-            tmp16_local12 = tmp29_input.q42(tmp0_desc, 12, $serializer_getInstance_85(), tmp16_local12);
+            tmp16_local12 = tmp29_input.q42(tmp0_desc, 12, $serializer_getInstance_86(), tmp16_local12);
             tmp3_bitMask0 = tmp3_bitMask0 | 4096;
             break;
           case 13:
@@ -96273,11 +96390,11 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 131072;
             break;
           case 18:
-            tmp22_local18 = tmp29_input.q42(tmp0_desc, 18, $serializer_getInstance_85(), tmp22_local18);
+            tmp22_local18 = tmp29_input.q42(tmp0_desc, 18, $serializer_getInstance_86(), tmp22_local18);
             tmp3_bitMask0 = tmp3_bitMask0 | 262144;
             break;
           case 19:
-            tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_85(), tmp23_local19);
+            tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_86(), tmp23_local19);
             tmp3_bitMask0 = tmp3_bitMask0 | 524288;
             break;
           case 20:
@@ -96297,7 +96414,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 8388608;
             break;
           case 24:
-            tmp28_local24 = tmp29_input.q42(tmp0_desc, 24, $serializer_getInstance_84(), tmp28_local24);
+            tmp28_local24 = tmp29_input.q42(tmp0_desc, 24, $serializer_getInstance_85(), tmp28_local24);
             tmp3_bitMask0 = tmp3_bitMask0 | 16777216;
             break;
           default:
@@ -96307,382 +96424,382 @@ if (typeof Math.imul === 'undefined') {
     tmp29_input.d42(tmp0_desc);
     return ProjectCreatedEvent_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, tmp23_local19, tmp24_local20, tmp25_local21, tmp26_local22, tmp27_local23, tmp28_local24, null);
   };
-  $serializer_83.prototype.t7f = function (encoder, value) {
-    var tmp0_desc = this.s7f_1;
+  $serializer_84.prototype.w7f = function (encoder, value) {
+    var tmp0_desc = this.v7f_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.u7f_1);
-    tmp1_output.q43(tmp0_desc, 1, value.v7f_1);
-    tmp1_output.m43(tmp0_desc, 2, value.w7f_1);
-    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.x7f_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.x7f_1);
+    tmp1_output.q43(tmp0_desc, 0, value.x7f_1);
+    tmp1_output.q43(tmp0_desc, 1, value.y7f_1);
+    tmp1_output.m43(tmp0_desc, 2, value.z7f_1);
+    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.a7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.a7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.y7f_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.y7f_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.b7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.b7g_1);
     }
-    tmp1_output.q43(tmp0_desc, 5, value.z7f_1);
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.a7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, LongSerializer_getInstance(), value.a7g_1);
+    tmp1_output.q43(tmp0_desc, 5, value.c7g_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.d7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, LongSerializer_getInstance(), value.d7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.b7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.b7g_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.e7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.e7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.c7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.c7g_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.f7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.f7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.d7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 9, LongSerializer_getInstance(), value.d7g_1);
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.g7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 9, LongSerializer_getInstance(), value.g7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.e7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.e7g_1);
+    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.h7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.h7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.f7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.f7g_1);
+    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.i7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.i7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.g7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 12, $serializer_getInstance_85(), value.g7g_1);
+    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.j7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 12, $serializer_getInstance_86(), value.j7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.h7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 13, IntSerializer_getInstance(), value.h7g_1);
+    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.k7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 13, IntSerializer_getInstance(), value.k7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.i7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 14, StringSerializer_getInstance(), value.i7g_1);
+    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.l7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 14, StringSerializer_getInstance(), value.l7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.j7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 15, LongSerializer_getInstance(), value.j7g_1);
+    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.m7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 15, LongSerializer_getInstance(), value.m7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.k7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.k7g_1);
+    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.n7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.n7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.l7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.l7g_1);
+    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.o7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.o7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.m7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 18, $serializer_getInstance_85(), value.m7g_1);
+    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.p7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 18, $serializer_getInstance_86(), value.p7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.n7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 19, $serializer_getInstance_85(), value.n7g_1);
+    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.q7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 19, $serializer_getInstance_86(), value.q7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.o7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 20, $serializer_getInstance_8(), value.o7g_1);
+    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.r7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 20, $serializer_getInstance_8(), value.r7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.p7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer(StringSerializer_getInstance()), value.p7g_1);
+    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.s7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer(StringSerializer_getInstance()), value.s7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.q7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 22, StringSerializer_getInstance(), value.q7g_1);
+    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.t7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 22, StringSerializer_getInstance(), value.t7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 23) ? true : !(value.r7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 23, new ArrayListSerializer(IntSerializer_getInstance()), value.r7g_1);
+    if (tmp1_output.y43(tmp0_desc, 23) ? true : !(value.u7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 23, new ArrayListSerializer(IntSerializer_getInstance()), value.u7g_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.s7g_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 24, $serializer_getInstance_84(), value.s7g_1);
+    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.v7g_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 24, $serializer_getInstance_85(), value.v7g_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_83.prototype.r3y = function (encoder, value) {
-    return this.t7f(encoder, value instanceof ProjectCreatedEvent ? value : THROW_CCE());
+  $serializer_84.prototype.r3y = function (encoder, value) {
+    return this.w7f(encoder, value instanceof ProjectCreatedEvent ? value : THROW_CCE());
   };
-  var $serializer_instance_81;
-  function $serializer_getInstance_81() {
-    if ($serializer_instance_81 == null)
-      new $serializer_83();
-    return $serializer_instance_81;
+  var $serializer_instance_82;
+  function $serializer_getInstance_82() {
+    if ($serializer_instance_82 == null)
+      new $serializer_84();
+    return $serializer_instance_82;
   }
   function ProjectCreatedEvent_init_$Init$(seen1, id, name, date, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, certification, serializationConstructorMarker, $this) {
     if (!(39 === (39 & seen1))) {
-      throwMissingFieldException(seen1, 39, $serializer_getInstance_81().s7f_1);
+      throwMissingFieldException(seen1, 39, $serializer_getInstance_82().v7f_1);
     }
-    $this.u7f_1 = id;
-    $this.v7f_1 = name;
-    $this.w7f_1 = date;
+    $this.x7f_1 = id;
+    $this.y7f_1 = name;
+    $this.z7f_1 = date;
     if (0 === (seen1 & 8))
-      $this.x7f_1 = null;
-    else
-      $this.x7f_1 = identifier;
-    if (0 === (seen1 & 16))
-      $this.y7f_1 = null;
-    else
-      $this.y7f_1 = country;
-    $this.z7f_1 = indicator;
-    if (0 === (seen1 & 64))
       $this.a7g_1 = null;
     else
-      $this.a7g_1 = creditingPeriodStartDate;
-    if (0 === (seen1 & 128))
+      $this.a7g_1 = identifier;
+    if (0 === (seen1 & 16))
       $this.b7g_1 = null;
     else
-      $this.b7g_1 = creditingPeriodEndDate;
-    if (0 === (seen1 & 256))
-      $this.c7g_1 = null;
-    else
-      $this.c7g_1 = description;
-    if (0 === (seen1 & 512))
+      $this.b7g_1 = country;
+    $this.c7g_1 = indicator;
+    if (0 === (seen1 & 64))
       $this.d7g_1 = null;
     else
-      $this.d7g_1 = dueDate;
-    if (0 === (seen1 & 1024))
+      $this.d7g_1 = creditingPeriodStartDate;
+    if (0 === (seen1 & 128))
       $this.e7g_1 = null;
     else
-      $this.e7g_1 = estimatedReduction;
-    if (0 === (seen1 & 2048))
+      $this.e7g_1 = creditingPeriodEndDate;
+    if (0 === (seen1 & 256))
       $this.f7g_1 = null;
     else
-      $this.f7g_1 = localization;
-    if (0 === (seen1 & 4096))
+      $this.f7g_1 = description;
+    if (0 === (seen1 & 512))
       $this.g7g_1 = null;
     else
-      $this.g7g_1 = proponent;
-    if (0 === (seen1 & 8192))
+      $this.g7g_1 = dueDate;
+    if (0 === (seen1 & 1024))
       $this.h7g_1 = null;
     else
-      $this.h7g_1 = type;
-    if (0 === (seen1 & 16384))
+      $this.h7g_1 = estimatedReduction;
+    if (0 === (seen1 & 2048))
       $this.i7g_1 = null;
     else
-      $this.i7g_1 = referenceYear;
-    if (0 === (seen1 & 32768))
+      $this.i7g_1 = localization;
+    if (0 === (seen1 & 4096))
       $this.j7g_1 = null;
     else
-      $this.j7g_1 = registrationDate;
-    if (0 === (seen1 & 65536))
+      $this.j7g_1 = proponent;
+    if (0 === (seen1 & 8192))
       $this.k7g_1 = null;
     else
-      $this.k7g_1 = slug;
-    if (0 === (seen1 & 131072))
+      $this.k7g_1 = type;
+    if (0 === (seen1 & 16384))
       $this.l7g_1 = null;
     else
-      $this.l7g_1 = vintage;
-    if (0 === (seen1 & 262144))
+      $this.l7g_1 = referenceYear;
+    if (0 === (seen1 & 32768))
       $this.m7g_1 = null;
     else
-      $this.m7g_1 = vvb;
-    if (0 === (seen1 & 524288))
+      $this.m7g_1 = registrationDate;
+    if (0 === (seen1 & 65536))
       $this.n7g_1 = null;
     else
-      $this.n7g_1 = assessor;
-    if (0 === (seen1 & 1048576))
+      $this.n7g_1 = slug;
+    if (0 === (seen1 & 131072))
       $this.o7g_1 = null;
     else
-      $this.o7g_1 = location;
-    if (0 === (seen1 & 2097152))
+      $this.o7g_1 = vintage;
+    if (0 === (seen1 & 262144))
       $this.p7g_1 = null;
     else
-      $this.p7g_1 = activities;
-    if (0 === (seen1 & 4194304))
+      $this.p7g_1 = vvb;
+    if (0 === (seen1 & 524288))
       $this.q7g_1 = null;
     else
-      $this.q7g_1 = subContinent;
-    if (0 === (seen1 & 8388608))
+      $this.q7g_1 = assessor;
+    if (0 === (seen1 & 1048576))
       $this.r7g_1 = null;
     else
-      $this.r7g_1 = sdgs;
-    if (0 === (seen1 & 16777216))
+      $this.r7g_1 = location;
+    if (0 === (seen1 & 2097152))
       $this.s7g_1 = null;
     else
-      $this.s7g_1 = certification;
+      $this.s7g_1 = activities;
+    if (0 === (seen1 & 4194304))
+      $this.t7g_1 = null;
+    else
+      $this.t7g_1 = subContinent;
+    if (0 === (seen1 & 8388608))
+      $this.u7g_1 = null;
+    else
+      $this.u7g_1 = sdgs;
+    if (0 === (seen1 & 16777216))
+      $this.v7g_1 = null;
+    else
+      $this.v7g_1 = certification;
     return $this;
   }
   function ProjectCreatedEvent_init_$Create$(seen1, id, name, date, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, certification, serializationConstructorMarker) {
     return ProjectCreatedEvent_init_$Init$(seen1, id, name, date, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, certification, serializationConstructorMarker, Object.create(ProjectCreatedEvent.prototype));
   }
   function ProjectCreatedEvent(id, name, date, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, certification) {
-    Companion_getInstance_145();
-    this.u7f_1 = id;
-    this.v7f_1 = name;
-    this.w7f_1 = date;
-    this.x7f_1 = identifier;
-    this.y7f_1 = country;
-    this.z7f_1 = indicator;
-    this.a7g_1 = creditingPeriodStartDate;
-    this.b7g_1 = creditingPeriodEndDate;
-    this.c7g_1 = description;
-    this.d7g_1 = dueDate;
-    this.e7g_1 = estimatedReduction;
-    this.f7g_1 = localization;
-    this.g7g_1 = proponent;
-    this.h7g_1 = type;
-    this.i7g_1 = referenceYear;
-    this.j7g_1 = registrationDate;
-    this.k7g_1 = slug;
-    this.l7g_1 = vintage;
-    this.m7g_1 = vvb;
-    this.n7g_1 = assessor;
-    this.o7g_1 = location;
-    this.p7g_1 = activities;
-    this.q7g_1 = subContinent;
-    this.r7g_1 = sdgs;
-    this.s7g_1 = certification;
+    Companion_getInstance_146();
+    this.x7f_1 = id;
+    this.y7f_1 = name;
+    this.z7f_1 = date;
+    this.a7g_1 = identifier;
+    this.b7g_1 = country;
+    this.c7g_1 = indicator;
+    this.d7g_1 = creditingPeriodStartDate;
+    this.e7g_1 = creditingPeriodEndDate;
+    this.f7g_1 = description;
+    this.g7g_1 = dueDate;
+    this.h7g_1 = estimatedReduction;
+    this.i7g_1 = localization;
+    this.j7g_1 = proponent;
+    this.k7g_1 = type;
+    this.l7g_1 = referenceYear;
+    this.m7g_1 = registrationDate;
+    this.n7g_1 = slug;
+    this.o7g_1 = vintage;
+    this.p7g_1 = vvb;
+    this.q7g_1 = assessor;
+    this.r7g_1 = location;
+    this.s7g_1 = activities;
+    this.t7g_1 = subContinent;
+    this.u7g_1 = sdgs;
+    this.v7g_1 = certification;
   }
   ProjectCreatedEvent.prototype.x4s = function () {
-    return this.u7f_1;
-  };
-  ProjectCreatedEvent.prototype.g7d = function (_set____db54di) {
-    this.v7f_1 = _set____db54di;
-  };
-  ProjectCreatedEvent.prototype.gf = function () {
-    return this.v7f_1;
-  };
-  ProjectCreatedEvent.prototype.g55 = function () {
-    return this.w7f_1;
-  };
-  ProjectCreatedEvent.prototype.l7d = function (_set____db54di) {
-    this.x7f_1 = _set____db54di;
-  };
-  ProjectCreatedEvent.prototype.r57 = function () {
     return this.x7f_1;
   };
-  ProjectCreatedEvent.prototype.h7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.j7d = function (_set____db54di) {
     this.y7f_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.i7d = function () {
+  ProjectCreatedEvent.prototype.gf = function () {
     return this.y7f_1;
   };
-  ProjectCreatedEvent.prototype.m7d = function (_set____db54di) {
-    this.z7f_1 = _set____db54di;
-  };
-  ProjectCreatedEvent.prototype.n7d = function () {
+  ProjectCreatedEvent.prototype.g55 = function () {
     return this.z7f_1;
   };
   ProjectCreatedEvent.prototype.o7d = function (_set____db54di) {
     this.a7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.p7d = function () {
+  ProjectCreatedEvent.prototype.r57 = function () {
     return this.a7g_1;
   };
-  ProjectCreatedEvent.prototype.q7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.k7d = function (_set____db54di) {
     this.b7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.r7d = function () {
+  ProjectCreatedEvent.prototype.l7d = function () {
     return this.b7g_1;
   };
-  ProjectCreatedEvent.prototype.s7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.p7d = function (_set____db54di) {
     this.c7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.u4w = function () {
+  ProjectCreatedEvent.prototype.q7d = function () {
     return this.c7g_1;
   };
-  ProjectCreatedEvent.prototype.t7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.r7d = function (_set____db54di) {
     this.d7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.u7d = function () {
+  ProjectCreatedEvent.prototype.s7d = function () {
     return this.d7g_1;
   };
-  ProjectCreatedEvent.prototype.v7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.t7d = function (_set____db54di) {
     this.e7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.w7d = function () {
+  ProjectCreatedEvent.prototype.u7d = function () {
     return this.e7g_1;
   };
-  ProjectCreatedEvent.prototype.x7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.v7d = function (_set____db54di) {
     this.f7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.y7d = function () {
+  ProjectCreatedEvent.prototype.u4w = function () {
     return this.f7g_1;
   };
-  ProjectCreatedEvent.prototype.z7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.w7d = function (_set____db54di) {
     this.g7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.a7e = function () {
+  ProjectCreatedEvent.prototype.x7d = function () {
     return this.g7g_1;
   };
-  ProjectCreatedEvent.prototype.b7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.y7d = function (_set____db54di) {
     this.h7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.w50 = function () {
+  ProjectCreatedEvent.prototype.z7d = function () {
     return this.h7g_1;
   };
-  ProjectCreatedEvent.prototype.c7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.a7e = function (_set____db54di) {
     this.i7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.d7e = function () {
+  ProjectCreatedEvent.prototype.b7e = function () {
     return this.i7g_1;
   };
-  ProjectCreatedEvent.prototype.e7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.c7e = function (_set____db54di) {
     this.j7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.f7e = function () {
+  ProjectCreatedEvent.prototype.d7e = function () {
     return this.j7g_1;
   };
-  ProjectCreatedEvent.prototype.g7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.e7e = function (_set____db54di) {
     this.k7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.h7e = function () {
+  ProjectCreatedEvent.prototype.w50 = function () {
     return this.k7g_1;
   };
-  ProjectCreatedEvent.prototype.i7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.f7e = function (_set____db54di) {
     this.l7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.j7e = function () {
+  ProjectCreatedEvent.prototype.g7e = function () {
     return this.l7g_1;
   };
-  ProjectCreatedEvent.prototype.k7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.h7e = function (_set____db54di) {
     this.m7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.l7e = function () {
+  ProjectCreatedEvent.prototype.i7e = function () {
     return this.m7g_1;
   };
-  ProjectCreatedEvent.prototype.m7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.j7e = function (_set____db54di) {
     this.n7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.n7e = function () {
+  ProjectCreatedEvent.prototype.k7e = function () {
     return this.n7g_1;
   };
-  ProjectCreatedEvent.prototype.o7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.l7e = function (_set____db54di) {
     this.o7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.p7e = function () {
+  ProjectCreatedEvent.prototype.m7e = function () {
     return this.o7g_1;
   };
-  ProjectCreatedEvent.prototype.s7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.n7e = function (_set____db54di) {
     this.p7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.t7e = function () {
+  ProjectCreatedEvent.prototype.o7e = function () {
     return this.p7g_1;
   };
-  ProjectCreatedEvent.prototype.j7d = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.p7e = function (_set____db54di) {
     this.q7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.k7d = function () {
+  ProjectCreatedEvent.prototype.q7e = function () {
     return this.q7g_1;
   };
-  ProjectCreatedEvent.prototype.q7e = function (_set____db54di) {
+  ProjectCreatedEvent.prototype.r7e = function (_set____db54di) {
     this.r7g_1 = _set____db54di;
   };
-  ProjectCreatedEvent.prototype.r7e = function () {
+  ProjectCreatedEvent.prototype.s7e = function () {
     return this.r7g_1;
   };
+  ProjectCreatedEvent.prototype.v7e = function (_set____db54di) {
+    this.s7g_1 = _set____db54di;
+  };
+  ProjectCreatedEvent.prototype.w7e = function () {
+    return this.s7g_1;
+  };
+  ProjectCreatedEvent.prototype.m7d = function (_set____db54di) {
+    this.t7g_1 = _set____db54di;
+  };
+  ProjectCreatedEvent.prototype.n7d = function () {
+    return this.t7g_1;
+  };
+  ProjectCreatedEvent.prototype.t7e = function (_set____db54di) {
+    this.u7g_1 = _set____db54di;
+  };
+  ProjectCreatedEvent.prototype.u7e = function () {
+    return this.u7g_1;
+  };
   ProjectCreatedEvent.prototype.s2Id = function () {
-    return this.u7f_1;
+    return this.x7f_1;
   };
   ProjectCreatedEvent.prototype.toString = function () {
-    return 'ProjectCreatedEvent(id=' + this.u7f_1 + ', name=' + this.v7f_1 + ', date=' + toString_3(this.w7f_1) + ', identifier=' + this.x7f_1 + ', country=' + this.y7f_1 + ', indicator=' + this.z7f_1 + ', creditingPeriodStartDate=' + toString_2(this.a7g_1) + ', creditingPeriodEndDate=' + toString_2(this.b7g_1) + ', description=' + this.c7g_1 + ', dueDate=' + toString_2(this.d7g_1) + ', estimatedReduction=' + this.e7g_1 + ', localization=' + this.f7g_1 + ', proponent=' + this.g7g_1 + ', type=' + this.h7g_1 + ', referenceYear=' + this.i7g_1 + ', registrationDate=' + toString_2(this.j7g_1) + ', slug=' + this.k7g_1 + ', vintage=' + this.l7g_1 + ', vvb=' + this.m7g_1 + ', assessor=' + this.n7g_1 + ', location=' + this.o7g_1 + ', activities=' + this.p7g_1 + ', subContinent=' + this.q7g_1 + ', sdgs=' + this.r7g_1 + ', certification=' + this.s7g_1 + ')';
+    return 'ProjectCreatedEvent(id=' + this.x7f_1 + ', name=' + this.y7f_1 + ', date=' + toString_3(this.z7f_1) + ', identifier=' + this.a7g_1 + ', country=' + this.b7g_1 + ', indicator=' + this.c7g_1 + ', creditingPeriodStartDate=' + toString_2(this.d7g_1) + ', creditingPeriodEndDate=' + toString_2(this.e7g_1) + ', description=' + this.f7g_1 + ', dueDate=' + toString_2(this.g7g_1) + ', estimatedReduction=' + this.h7g_1 + ', localization=' + this.i7g_1 + ', proponent=' + this.j7g_1 + ', type=' + this.k7g_1 + ', referenceYear=' + this.l7g_1 + ', registrationDate=' + toString_2(this.m7g_1) + ', slug=' + this.n7g_1 + ', vintage=' + this.o7g_1 + ', vvb=' + this.p7g_1 + ', assessor=' + this.q7g_1 + ', location=' + this.r7g_1 + ', activities=' + this.s7g_1 + ', subContinent=' + this.t7g_1 + ', sdgs=' + this.u7g_1 + ', certification=' + this.v7g_1 + ')';
   };
   ProjectCreatedEvent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.u7f_1);
-    result = imul(result, 31) + getStringHashCode(this.v7f_1) | 0;
-    result = imul(result, 31) + this.w7f_1.hashCode() | 0;
-    result = imul(result, 31) + (this.x7f_1 == null ? 0 : getStringHashCode(this.x7f_1)) | 0;
-    result = imul(result, 31) + (this.y7f_1 == null ? 0 : getStringHashCode(this.y7f_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.z7f_1) | 0;
-    result = imul(result, 31) + (this.a7g_1 == null ? 0 : this.a7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.b7g_1 == null ? 0 : this.b7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.c7g_1 == null ? 0 : getStringHashCode(this.c7g_1)) | 0;
+    var result = getStringHashCode(this.x7f_1);
+    result = imul(result, 31) + getStringHashCode(this.y7f_1) | 0;
+    result = imul(result, 31) + this.z7f_1.hashCode() | 0;
+    result = imul(result, 31) + (this.a7g_1 == null ? 0 : getStringHashCode(this.a7g_1)) | 0;
+    result = imul(result, 31) + (this.b7g_1 == null ? 0 : getStringHashCode(this.b7g_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.c7g_1) | 0;
     result = imul(result, 31) + (this.d7g_1 == null ? 0 : this.d7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.e7g_1 == null ? 0 : getStringHashCode(this.e7g_1)) | 0;
+    result = imul(result, 31) + (this.e7g_1 == null ? 0 : this.e7g_1.hashCode()) | 0;
     result = imul(result, 31) + (this.f7g_1 == null ? 0 : getStringHashCode(this.f7g_1)) | 0;
     result = imul(result, 31) + (this.g7g_1 == null ? 0 : this.g7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.h7g_1 == null ? 0 : this.h7g_1) | 0;
+    result = imul(result, 31) + (this.h7g_1 == null ? 0 : getStringHashCode(this.h7g_1)) | 0;
     result = imul(result, 31) + (this.i7g_1 == null ? 0 : getStringHashCode(this.i7g_1)) | 0;
     result = imul(result, 31) + (this.j7g_1 == null ? 0 : this.j7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.k7g_1 == null ? 0 : getStringHashCode(this.k7g_1)) | 0;
+    result = imul(result, 31) + (this.k7g_1 == null ? 0 : this.k7g_1) | 0;
     result = imul(result, 31) + (this.l7g_1 == null ? 0 : getStringHashCode(this.l7g_1)) | 0;
     result = imul(result, 31) + (this.m7g_1 == null ? 0 : this.m7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n7g_1 == null ? 0 : this.n7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.o7g_1 == null ? 0 : this.o7g_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.p7g_1 == null ? 0 : hashCode(this.p7g_1)) | 0;
-    result = imul(result, 31) + (this.q7g_1 == null ? 0 : getStringHashCode(this.q7g_1)) | 0;
-    result = imul(result, 31) + (this.r7g_1 == null ? 0 : hashCode(this.r7g_1)) | 0;
-    result = imul(result, 31) + (this.s7g_1 == null ? 0 : this.s7g_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.n7g_1 == null ? 0 : getStringHashCode(this.n7g_1)) | 0;
+    result = imul(result, 31) + (this.o7g_1 == null ? 0 : getStringHashCode(this.o7g_1)) | 0;
+    result = imul(result, 31) + (this.p7g_1 == null ? 0 : this.p7g_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.q7g_1 == null ? 0 : this.q7g_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r7g_1 == null ? 0 : this.r7g_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.s7g_1 == null ? 0 : hashCode(this.s7g_1)) | 0;
+    result = imul(result, 31) + (this.t7g_1 == null ? 0 : getStringHashCode(this.t7g_1)) | 0;
+    result = imul(result, 31) + (this.u7g_1 == null ? 0 : hashCode(this.u7g_1)) | 0;
+    result = imul(result, 31) + (this.v7g_1 == null ? 0 : this.v7g_1.hashCode()) | 0;
     return result;
   };
   ProjectCreatedEvent.prototype.equals = function (other) {
@@ -96691,27 +96808,21 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectCreatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectCreatedEvent ? other : THROW_CCE();
-    if (!(this.u7f_1 === tmp0_other_with_cast.u7f_1))
+    if (!(this.x7f_1 === tmp0_other_with_cast.x7f_1))
       return false;
-    if (!(this.v7f_1 === tmp0_other_with_cast.v7f_1))
+    if (!(this.y7f_1 === tmp0_other_with_cast.y7f_1))
       return false;
-    if (!this.w7f_1.equals(tmp0_other_with_cast.w7f_1))
+    if (!this.z7f_1.equals(tmp0_other_with_cast.z7f_1))
       return false;
-    if (!(this.x7f_1 == tmp0_other_with_cast.x7f_1))
+    if (!(this.a7g_1 == tmp0_other_with_cast.a7g_1))
       return false;
-    if (!(this.y7f_1 == tmp0_other_with_cast.y7f_1))
+    if (!(this.b7g_1 == tmp0_other_with_cast.b7g_1))
       return false;
-    if (!(this.z7f_1 === tmp0_other_with_cast.z7f_1))
-      return false;
-    if (!equals_1(this.a7g_1, tmp0_other_with_cast.a7g_1))
-      return false;
-    if (!equals_1(this.b7g_1, tmp0_other_with_cast.b7g_1))
-      return false;
-    if (!(this.c7g_1 == tmp0_other_with_cast.c7g_1))
+    if (!(this.c7g_1 === tmp0_other_with_cast.c7g_1))
       return false;
     if (!equals_1(this.d7g_1, tmp0_other_with_cast.d7g_1))
       return false;
-    if (!(this.e7g_1 == tmp0_other_with_cast.e7g_1))
+    if (!equals_1(this.e7g_1, tmp0_other_with_cast.e7g_1))
       return false;
     if (!(this.f7g_1 == tmp0_other_with_cast.f7g_1))
       return false;
@@ -96729,17 +96840,23 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals_1(this.m7g_1, tmp0_other_with_cast.m7g_1))
       return false;
-    if (!equals_1(this.n7g_1, tmp0_other_with_cast.n7g_1))
+    if (!(this.n7g_1 == tmp0_other_with_cast.n7g_1))
       return false;
-    if (!equals_1(this.o7g_1, tmp0_other_with_cast.o7g_1))
+    if (!(this.o7g_1 == tmp0_other_with_cast.o7g_1))
       return false;
     if (!equals_1(this.p7g_1, tmp0_other_with_cast.p7g_1))
       return false;
-    if (!(this.q7g_1 == tmp0_other_with_cast.q7g_1))
+    if (!equals_1(this.q7g_1, tmp0_other_with_cast.q7g_1))
       return false;
     if (!equals_1(this.r7g_1, tmp0_other_with_cast.r7g_1))
       return false;
     if (!equals_1(this.s7g_1, tmp0_other_with_cast.s7g_1))
+      return false;
+    if (!(this.t7g_1 == tmp0_other_with_cast.t7g_1))
+      return false;
+    if (!equals_1(this.u7g_1, tmp0_other_with_cast.u7g_1))
+      return false;
+    if (!equals_1(this.v7g_1, tmp0_other_with_cast.v7g_1))
       return false;
     return true;
   };
@@ -96754,16 +96871,16 @@ if (typeof Math.imul === 'undefined') {
   function ProjectDeletedEventDTO() {
   }
   function ProjectDeleteCommand(id) {
-    this.t7g_1 = id;
+    this.w7g_1 = id;
   }
   ProjectDeleteCommand.prototype.x4s = function () {
-    return this.t7g_1;
+    return this.w7g_1;
   };
   ProjectDeleteCommand.prototype.toString = function () {
-    return 'ProjectDeleteCommand(id=' + this.t7g_1 + ')';
+    return 'ProjectDeleteCommand(id=' + this.w7g_1 + ')';
   };
   ProjectDeleteCommand.prototype.hashCode = function () {
-    return getStringHashCode(this.t7g_1);
+    return getStringHashCode(this.w7g_1);
   };
   ProjectDeleteCommand.prototype.equals = function (other) {
     if (this === other)
@@ -96771,7 +96888,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectDeleteCommand ? other : THROW_CCE();
-    if (!(this.t7g_1 === tmp0_other_with_cast.t7g_1))
+    if (!(this.w7g_1 === tmp0_other_with_cast.w7g_1))
       return false;
     return true;
   };
@@ -96781,26 +96898,26 @@ if (typeof Math.imul === 'undefined') {
       return this.x4s();
     }
   });
-  function Companion_146() {
-    Companion_instance_146 = this;
+  function Companion_147() {
+    Companion_instance_147 = this;
   }
-  var Companion_instance_146;
-  function Companion_getInstance_146() {
-    if (Companion_instance_146 == null)
-      new Companion_146();
-    return Companion_instance_146;
+  var Companion_instance_147;
+  function Companion_getInstance_147() {
+    if (Companion_instance_147 == null)
+      new Companion_147();
+    return Companion_instance_147;
   }
-  function $serializer_84() {
-    $serializer_instance_82 = this;
+  function $serializer_85() {
+    $serializer_instance_83 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('date', false);
-    this.u7g_1 = tmp0_serialDesc;
+    this.x7g_1 = tmp0_serialDesc;
   }
-  $serializer_84.prototype.q3y = function () {
-    return this.u7g_1;
+  $serializer_85.prototype.q3y = function () {
+    return this.x7g_1;
   };
-  $serializer_84.prototype.u49 = function () {
+  $serializer_85.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
     var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance()];
@@ -96813,8 +96930,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_84.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.u7g_1;
+  $serializer_85.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.x7g_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -96848,53 +96965,53 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return ProjectDeletedEvent_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_84.prototype.v7g = function (encoder, value) {
-    var tmp0_desc = this.u7g_1;
+  $serializer_85.prototype.y7g = function (encoder, value) {
+    var tmp0_desc = this.x7g_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.w7g_1);
-    tmp1_output.m43(tmp0_desc, 1, value.x7g_1);
+    tmp1_output.q43(tmp0_desc, 0, value.z7g_1);
+    tmp1_output.m43(tmp0_desc, 1, value.a7h_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_84.prototype.r3y = function (encoder, value) {
-    return this.v7g(encoder, value instanceof ProjectDeletedEvent ? value : THROW_CCE());
+  $serializer_85.prototype.r3y = function (encoder, value) {
+    return this.y7g(encoder, value instanceof ProjectDeletedEvent ? value : THROW_CCE());
   };
-  var $serializer_instance_82;
-  function $serializer_getInstance_82() {
-    if ($serializer_instance_82 == null)
-      new $serializer_84();
-    return $serializer_instance_82;
+  var $serializer_instance_83;
+  function $serializer_getInstance_83() {
+    if ($serializer_instance_83 == null)
+      new $serializer_85();
+    return $serializer_instance_83;
   }
   function ProjectDeletedEvent_init_$Init$(seen1, id, date, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_82().u7g_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_83().x7g_1);
     }
-    $this.w7g_1 = id;
-    $this.x7g_1 = date;
+    $this.z7g_1 = id;
+    $this.a7h_1 = date;
     return $this;
   }
   function ProjectDeletedEvent_init_$Create$(seen1, id, date, serializationConstructorMarker) {
     return ProjectDeletedEvent_init_$Init$(seen1, id, date, serializationConstructorMarker, Object.create(ProjectDeletedEvent.prototype));
   }
   function ProjectDeletedEvent(id, date) {
-    Companion_getInstance_146();
-    this.w7g_1 = id;
-    this.x7g_1 = date;
+    Companion_getInstance_147();
+    this.z7g_1 = id;
+    this.a7h_1 = date;
   }
   ProjectDeletedEvent.prototype.x4s = function () {
-    return this.w7g_1;
+    return this.z7g_1;
   };
   ProjectDeletedEvent.prototype.g55 = function () {
-    return this.x7g_1;
+    return this.a7h_1;
   };
   ProjectDeletedEvent.prototype.s2Id = function () {
-    return this.w7g_1;
+    return this.z7g_1;
   };
   ProjectDeletedEvent.prototype.toString = function () {
-    return 'ProjectDeletedEvent(id=' + this.w7g_1 + ', date=' + toString_3(this.x7g_1) + ')';
+    return 'ProjectDeletedEvent(id=' + this.z7g_1 + ', date=' + toString_3(this.a7h_1) + ')';
   };
   ProjectDeletedEvent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.w7g_1);
-    result = imul(result, 31) + this.x7g_1.hashCode() | 0;
+    var result = getStringHashCode(this.z7g_1);
+    result = imul(result, 31) + this.a7h_1.hashCode() | 0;
     return result;
   };
   ProjectDeletedEvent.prototype.equals = function (other) {
@@ -96903,9 +97020,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectDeletedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectDeletedEvent ? other : THROW_CCE();
-    if (!(this.w7g_1 === tmp0_other_with_cast.w7g_1))
+    if (!(this.z7g_1 === tmp0_other_with_cast.z7g_1))
       return false;
-    if (!this.x7g_1.equals(tmp0_other_with_cast.x7g_1))
+    if (!this.a7h_1.equals(tmp0_other_with_cast.a7h_1))
       return false;
     return true;
   };
@@ -96920,192 +97037,192 @@ if (typeof Math.imul === 'undefined') {
   function ProjectUpdatedEventDTO() {
   }
   function ProjectUpdateCommand(id, identifier, name, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs) {
-    this.y7g_1 = id;
-    this.z7g_1 = identifier;
-    this.a7h_1 = name;
-    this.b7h_1 = country;
-    this.c7h_1 = indicator;
-    this.d7h_1 = creditingPeriodStartDate;
-    this.e7h_1 = creditingPeriodEndDate;
-    this.f7h_1 = description;
-    this.g7h_1 = dueDate;
-    this.h7h_1 = estimatedReduction;
-    this.i7h_1 = localization;
-    this.j7h_1 = proponent;
-    this.k7h_1 = type;
-    this.l7h_1 = referenceYear;
-    this.m7h_1 = registrationDate;
-    this.n7h_1 = slug;
-    this.o7h_1 = vintage;
-    this.p7h_1 = vvb;
-    this.q7h_1 = assessor;
-    this.r7h_1 = location;
-    this.s7h_1 = activities;
-    this.t7h_1 = subContinent;
-    this.u7h_1 = sdgs;
+    this.b7h_1 = id;
+    this.c7h_1 = identifier;
+    this.d7h_1 = name;
+    this.e7h_1 = country;
+    this.f7h_1 = indicator;
+    this.g7h_1 = creditingPeriodStartDate;
+    this.h7h_1 = creditingPeriodEndDate;
+    this.i7h_1 = description;
+    this.j7h_1 = dueDate;
+    this.k7h_1 = estimatedReduction;
+    this.l7h_1 = localization;
+    this.m7h_1 = proponent;
+    this.n7h_1 = type;
+    this.o7h_1 = referenceYear;
+    this.p7h_1 = registrationDate;
+    this.q7h_1 = slug;
+    this.r7h_1 = vintage;
+    this.s7h_1 = vvb;
+    this.t7h_1 = assessor;
+    this.u7h_1 = location;
+    this.v7h_1 = activities;
+    this.w7h_1 = subContinent;
+    this.x7h_1 = sdgs;
   }
   ProjectUpdateCommand.prototype.x4s = function () {
-    return this.y7g_1;
-  };
-  ProjectUpdateCommand.prototype.l7d = function (_set____db54di) {
-    this.z7g_1 = _set____db54di;
-  };
-  ProjectUpdateCommand.prototype.r57 = function () {
-    return this.z7g_1;
-  };
-  ProjectUpdateCommand.prototype.g7d = function (_set____db54di) {
-    this.a7h_1 = _set____db54di;
-  };
-  ProjectUpdateCommand.prototype.gf = function () {
-    return this.a7h_1;
-  };
-  ProjectUpdateCommand.prototype.h7d = function (_set____db54di) {
-    this.b7h_1 = _set____db54di;
-  };
-  ProjectUpdateCommand.prototype.i7d = function () {
     return this.b7h_1;
   };
-  ProjectUpdateCommand.prototype.m7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.o7d = function (_set____db54di) {
     this.c7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.n7d = function () {
+  ProjectUpdateCommand.prototype.r57 = function () {
     return this.c7h_1;
   };
-  ProjectUpdateCommand.prototype.o7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.j7d = function (_set____db54di) {
     this.d7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.p7d = function () {
+  ProjectUpdateCommand.prototype.gf = function () {
     return this.d7h_1;
   };
-  ProjectUpdateCommand.prototype.q7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.k7d = function (_set____db54di) {
     this.e7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.r7d = function () {
+  ProjectUpdateCommand.prototype.l7d = function () {
     return this.e7h_1;
   };
-  ProjectUpdateCommand.prototype.s7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.p7d = function (_set____db54di) {
     this.f7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.u4w = function () {
+  ProjectUpdateCommand.prototype.q7d = function () {
     return this.f7h_1;
   };
-  ProjectUpdateCommand.prototype.t7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.r7d = function (_set____db54di) {
     this.g7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.u7d = function () {
+  ProjectUpdateCommand.prototype.s7d = function () {
     return this.g7h_1;
   };
-  ProjectUpdateCommand.prototype.v7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.t7d = function (_set____db54di) {
     this.h7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.w7d = function () {
+  ProjectUpdateCommand.prototype.u7d = function () {
     return this.h7h_1;
   };
-  ProjectUpdateCommand.prototype.x7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.v7d = function (_set____db54di) {
     this.i7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.y7d = function () {
+  ProjectUpdateCommand.prototype.u4w = function () {
     return this.i7h_1;
   };
-  ProjectUpdateCommand.prototype.z7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.w7d = function (_set____db54di) {
     this.j7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.a7e = function () {
+  ProjectUpdateCommand.prototype.x7d = function () {
     return this.j7h_1;
   };
-  ProjectUpdateCommand.prototype.b7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.y7d = function (_set____db54di) {
     this.k7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.w50 = function () {
+  ProjectUpdateCommand.prototype.z7d = function () {
     return this.k7h_1;
   };
-  ProjectUpdateCommand.prototype.c7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.a7e = function (_set____db54di) {
     this.l7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.d7e = function () {
+  ProjectUpdateCommand.prototype.b7e = function () {
     return this.l7h_1;
   };
-  ProjectUpdateCommand.prototype.e7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.c7e = function (_set____db54di) {
     this.m7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.f7e = function () {
+  ProjectUpdateCommand.prototype.d7e = function () {
     return this.m7h_1;
   };
-  ProjectUpdateCommand.prototype.g7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.e7e = function (_set____db54di) {
     this.n7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.h7e = function () {
+  ProjectUpdateCommand.prototype.w50 = function () {
     return this.n7h_1;
   };
-  ProjectUpdateCommand.prototype.i7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.f7e = function (_set____db54di) {
     this.o7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.j7e = function () {
+  ProjectUpdateCommand.prototype.g7e = function () {
     return this.o7h_1;
   };
-  ProjectUpdateCommand.prototype.k7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.h7e = function (_set____db54di) {
     this.p7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.l7e = function () {
+  ProjectUpdateCommand.prototype.i7e = function () {
     return this.p7h_1;
   };
-  ProjectUpdateCommand.prototype.m7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.j7e = function (_set____db54di) {
     this.q7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.n7e = function () {
+  ProjectUpdateCommand.prototype.k7e = function () {
     return this.q7h_1;
   };
-  ProjectUpdateCommand.prototype.o7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.l7e = function (_set____db54di) {
     this.r7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.p7e = function () {
+  ProjectUpdateCommand.prototype.m7e = function () {
     return this.r7h_1;
   };
-  ProjectUpdateCommand.prototype.s7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.n7e = function (_set____db54di) {
     this.s7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.t7e = function () {
+  ProjectUpdateCommand.prototype.o7e = function () {
     return this.s7h_1;
   };
-  ProjectUpdateCommand.prototype.j7d = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.p7e = function (_set____db54di) {
     this.t7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.k7d = function () {
+  ProjectUpdateCommand.prototype.q7e = function () {
     return this.t7h_1;
   };
-  ProjectUpdateCommand.prototype.q7e = function (_set____db54di) {
+  ProjectUpdateCommand.prototype.r7e = function (_set____db54di) {
     this.u7h_1 = _set____db54di;
   };
-  ProjectUpdateCommand.prototype.r7e = function () {
+  ProjectUpdateCommand.prototype.s7e = function () {
     return this.u7h_1;
   };
+  ProjectUpdateCommand.prototype.v7e = function (_set____db54di) {
+    this.v7h_1 = _set____db54di;
+  };
+  ProjectUpdateCommand.prototype.w7e = function () {
+    return this.v7h_1;
+  };
+  ProjectUpdateCommand.prototype.m7d = function (_set____db54di) {
+    this.w7h_1 = _set____db54di;
+  };
+  ProjectUpdateCommand.prototype.n7d = function () {
+    return this.w7h_1;
+  };
+  ProjectUpdateCommand.prototype.t7e = function (_set____db54di) {
+    this.x7h_1 = _set____db54di;
+  };
+  ProjectUpdateCommand.prototype.u7e = function () {
+    return this.x7h_1;
+  };
   ProjectUpdateCommand.prototype.toString = function () {
-    return 'ProjectUpdateCommand(id=' + this.y7g_1 + ', identifier=' + this.z7g_1 + ', name=' + this.a7h_1 + ', country=' + this.b7h_1 + ', indicator=' + this.c7h_1 + ', creditingPeriodStartDate=' + toString_2(this.d7h_1) + ', creditingPeriodEndDate=' + toString_2(this.e7h_1) + ', description=' + this.f7h_1 + ', dueDate=' + toString_2(this.g7h_1) + ', estimatedReduction=' + this.h7h_1 + ', localization=' + this.i7h_1 + ', proponent=' + this.j7h_1 + ', type=' + this.k7h_1 + ', referenceYear=' + this.l7h_1 + ', registrationDate=' + toString_2(this.m7h_1) + ', slug=' + this.n7h_1 + ', vintage=' + this.o7h_1 + ', vvb=' + this.p7h_1 + ', assessor=' + this.q7h_1 + ', location=' + this.r7h_1 + ', activities=' + this.s7h_1 + ', subContinent=' + this.t7h_1 + ', sdgs=' + this.u7h_1 + ')';
+    return 'ProjectUpdateCommand(id=' + this.b7h_1 + ', identifier=' + this.c7h_1 + ', name=' + this.d7h_1 + ', country=' + this.e7h_1 + ', indicator=' + this.f7h_1 + ', creditingPeriodStartDate=' + toString_2(this.g7h_1) + ', creditingPeriodEndDate=' + toString_2(this.h7h_1) + ', description=' + this.i7h_1 + ', dueDate=' + toString_2(this.j7h_1) + ', estimatedReduction=' + this.k7h_1 + ', localization=' + this.l7h_1 + ', proponent=' + this.m7h_1 + ', type=' + this.n7h_1 + ', referenceYear=' + this.o7h_1 + ', registrationDate=' + toString_2(this.p7h_1) + ', slug=' + this.q7h_1 + ', vintage=' + this.r7h_1 + ', vvb=' + this.s7h_1 + ', assessor=' + this.t7h_1 + ', location=' + this.u7h_1 + ', activities=' + this.v7h_1 + ', subContinent=' + this.w7h_1 + ', sdgs=' + this.x7h_1 + ')';
   };
   ProjectUpdateCommand.prototype.hashCode = function () {
-    var result = getStringHashCode(this.y7g_1);
-    result = imul(result, 31) + (this.z7g_1 == null ? 0 : getStringHashCode(this.z7g_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.a7h_1) | 0;
-    result = imul(result, 31) + (this.b7h_1 == null ? 0 : getStringHashCode(this.b7h_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.c7h_1) | 0;
-    result = imul(result, 31) + (this.d7h_1 == null ? 0 : this.d7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.e7h_1 == null ? 0 : this.e7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.f7h_1 == null ? 0 : getStringHashCode(this.f7h_1)) | 0;
+    var result = getStringHashCode(this.b7h_1);
+    result = imul(result, 31) + (this.c7h_1 == null ? 0 : getStringHashCode(this.c7h_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.d7h_1) | 0;
+    result = imul(result, 31) + (this.e7h_1 == null ? 0 : getStringHashCode(this.e7h_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.f7h_1) | 0;
     result = imul(result, 31) + (this.g7h_1 == null ? 0 : this.g7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.h7h_1 == null ? 0 : getStringHashCode(this.h7h_1)) | 0;
+    result = imul(result, 31) + (this.h7h_1 == null ? 0 : this.h7h_1.hashCode()) | 0;
     result = imul(result, 31) + (this.i7h_1 == null ? 0 : getStringHashCode(this.i7h_1)) | 0;
     result = imul(result, 31) + (this.j7h_1 == null ? 0 : this.j7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.k7h_1 == null ? 0 : this.k7h_1) | 0;
+    result = imul(result, 31) + (this.k7h_1 == null ? 0 : getStringHashCode(this.k7h_1)) | 0;
     result = imul(result, 31) + (this.l7h_1 == null ? 0 : getStringHashCode(this.l7h_1)) | 0;
     result = imul(result, 31) + (this.m7h_1 == null ? 0 : this.m7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n7h_1 == null ? 0 : getStringHashCode(this.n7h_1)) | 0;
+    result = imul(result, 31) + (this.n7h_1 == null ? 0 : this.n7h_1) | 0;
     result = imul(result, 31) + (this.o7h_1 == null ? 0 : getStringHashCode(this.o7h_1)) | 0;
     result = imul(result, 31) + (this.p7h_1 == null ? 0 : this.p7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.q7h_1 == null ? 0 : this.q7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.r7h_1 == null ? 0 : this.r7h_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s7h_1 == null ? 0 : hashCode(this.s7h_1)) | 0;
-    result = imul(result, 31) + (this.t7h_1 == null ? 0 : getStringHashCode(this.t7h_1)) | 0;
-    result = imul(result, 31) + (this.u7h_1 == null ? 0 : hashCode(this.u7h_1)) | 0;
+    result = imul(result, 31) + (this.q7h_1 == null ? 0 : getStringHashCode(this.q7h_1)) | 0;
+    result = imul(result, 31) + (this.r7h_1 == null ? 0 : getStringHashCode(this.r7h_1)) | 0;
+    result = imul(result, 31) + (this.s7h_1 == null ? 0 : this.s7h_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.t7h_1 == null ? 0 : this.t7h_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u7h_1 == null ? 0 : this.u7h_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.v7h_1 == null ? 0 : hashCode(this.v7h_1)) | 0;
+    result = imul(result, 31) + (this.w7h_1 == null ? 0 : getStringHashCode(this.w7h_1)) | 0;
+    result = imul(result, 31) + (this.x7h_1 == null ? 0 : hashCode(this.x7h_1)) | 0;
     return result;
   };
   ProjectUpdateCommand.prototype.equals = function (other) {
@@ -97114,25 +97231,19 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectUpdateCommand ? other : THROW_CCE();
-    if (!(this.y7g_1 === tmp0_other_with_cast.y7g_1))
+    if (!(this.b7h_1 === tmp0_other_with_cast.b7h_1))
       return false;
-    if (!(this.z7g_1 == tmp0_other_with_cast.z7g_1))
+    if (!(this.c7h_1 == tmp0_other_with_cast.c7h_1))
       return false;
-    if (!(this.a7h_1 === tmp0_other_with_cast.a7h_1))
+    if (!(this.d7h_1 === tmp0_other_with_cast.d7h_1))
       return false;
-    if (!(this.b7h_1 == tmp0_other_with_cast.b7h_1))
+    if (!(this.e7h_1 == tmp0_other_with_cast.e7h_1))
       return false;
-    if (!(this.c7h_1 === tmp0_other_with_cast.c7h_1))
-      return false;
-    if (!equals_1(this.d7h_1, tmp0_other_with_cast.d7h_1))
-      return false;
-    if (!equals_1(this.e7h_1, tmp0_other_with_cast.e7h_1))
-      return false;
-    if (!(this.f7h_1 == tmp0_other_with_cast.f7h_1))
+    if (!(this.f7h_1 === tmp0_other_with_cast.f7h_1))
       return false;
     if (!equals_1(this.g7h_1, tmp0_other_with_cast.g7h_1))
       return false;
-    if (!(this.h7h_1 == tmp0_other_with_cast.h7h_1))
+    if (!equals_1(this.h7h_1, tmp0_other_with_cast.h7h_1))
       return false;
     if (!(this.i7h_1 == tmp0_other_with_cast.i7h_1))
       return false;
@@ -97150,15 +97261,21 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals_1(this.p7h_1, tmp0_other_with_cast.p7h_1))
       return false;
-    if (!equals_1(this.q7h_1, tmp0_other_with_cast.q7h_1))
+    if (!(this.q7h_1 == tmp0_other_with_cast.q7h_1))
       return false;
-    if (!equals_1(this.r7h_1, tmp0_other_with_cast.r7h_1))
+    if (!(this.r7h_1 == tmp0_other_with_cast.r7h_1))
       return false;
     if (!equals_1(this.s7h_1, tmp0_other_with_cast.s7h_1))
       return false;
-    if (!(this.t7h_1 == tmp0_other_with_cast.t7h_1))
+    if (!equals_1(this.t7h_1, tmp0_other_with_cast.t7h_1))
       return false;
     if (!equals_1(this.u7h_1, tmp0_other_with_cast.u7h_1))
+      return false;
+    if (!equals_1(this.v7h_1, tmp0_other_with_cast.v7h_1))
+      return false;
+    if (!(this.w7h_1 == tmp0_other_with_cast.w7h_1))
+      return false;
+    if (!equals_1(this.x7h_1, tmp0_other_with_cast.x7h_1))
       return false;
     return true;
   };
@@ -97168,17 +97285,17 @@ if (typeof Math.imul === 'undefined') {
       return this.x4s();
     }
   });
-  function Companion_147() {
-    Companion_instance_147 = this;
+  function Companion_148() {
+    Companion_instance_148 = this;
   }
-  var Companion_instance_147;
-  function Companion_getInstance_147() {
-    if (Companion_instance_147 == null)
-      new Companion_147();
-    return Companion_instance_147;
+  var Companion_instance_148;
+  function Companion_getInstance_148() {
+    if (Companion_instance_148 == null)
+      new Companion_148();
+    return Companion_instance_148;
   }
-  function $serializer_85() {
-    $serializer_instance_83 = this;
+  function $serializer_86() {
+    $serializer_instance_84 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent', this, 25);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('date', false);
@@ -97205,15 +97322,15 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('activities', true);
     tmp0_serialDesc.f49('subContinent', true);
     tmp0_serialDesc.f49('sdgs', true);
-    this.v7h_1 = tmp0_serialDesc;
+    this.y7h_1 = tmp0_serialDesc;
   }
-  $serializer_85.prototype.q3y = function () {
-    return this.v7h_1;
+  $serializer_86.prototype.q3y = function () {
+    return this.y7h_1;
   };
-  $serializer_85.prototype.u49 = function () {
+  $serializer_86.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance(), StringSerializer_getInstance(), Companion_getInstance_142().r4k(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_85()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance()))];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), LongSerializer_getInstance(), StringSerializer_getInstance(), Companion_getInstance_142().r4k(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_86()), get_nullable($serializer_getInstance_8()), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(StringSerializer_getInstance()), get_nullable(new ArrayListSerializer(IntSerializer_getInstance()))];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -97223,8 +97340,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_85.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.v7h_1;
+  $serializer_86.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.y7h_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -97281,7 +97398,7 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 2048;
       tmp16_local12 = tmp29_input.q42(tmp0_desc, 12, StringSerializer_getInstance(), tmp16_local12);
       tmp3_bitMask0 = tmp3_bitMask0 | 4096;
-      tmp17_local13 = tmp29_input.q42(tmp0_desc, 13, $serializer_getInstance_85(), tmp17_local13);
+      tmp17_local13 = tmp29_input.q42(tmp0_desc, 13, $serializer_getInstance_86(), tmp17_local13);
       tmp3_bitMask0 = tmp3_bitMask0 | 8192;
       tmp18_local14 = tmp29_input.q42(tmp0_desc, 14, IntSerializer_getInstance(), tmp18_local14);
       tmp3_bitMask0 = tmp3_bitMask0 | 16384;
@@ -97293,9 +97410,9 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 131072;
       tmp22_local18 = tmp29_input.q42(tmp0_desc, 18, StringSerializer_getInstance(), tmp22_local18);
       tmp3_bitMask0 = tmp3_bitMask0 | 262144;
-      tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_85(), tmp23_local19);
+      tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_86(), tmp23_local19);
       tmp3_bitMask0 = tmp3_bitMask0 | 524288;
-      tmp24_local20 = tmp29_input.q42(tmp0_desc, 20, $serializer_getInstance_85(), tmp24_local20);
+      tmp24_local20 = tmp29_input.q42(tmp0_desc, 20, $serializer_getInstance_86(), tmp24_local20);
       tmp3_bitMask0 = tmp3_bitMask0 | 1048576;
       tmp25_local21 = tmp29_input.q42(tmp0_desc, 21, $serializer_getInstance_8(), tmp25_local21);
       tmp3_bitMask0 = tmp3_bitMask0 | 2097152;
@@ -97365,7 +97482,7 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 4096;
             break;
           case 13:
-            tmp17_local13 = tmp29_input.q42(tmp0_desc, 13, $serializer_getInstance_85(), tmp17_local13);
+            tmp17_local13 = tmp29_input.q42(tmp0_desc, 13, $serializer_getInstance_86(), tmp17_local13);
             tmp3_bitMask0 = tmp3_bitMask0 | 8192;
             break;
           case 14:
@@ -97389,11 +97506,11 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 262144;
             break;
           case 19:
-            tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_85(), tmp23_local19);
+            tmp23_local19 = tmp29_input.q42(tmp0_desc, 19, $serializer_getInstance_86(), tmp23_local19);
             tmp3_bitMask0 = tmp3_bitMask0 | 524288;
             break;
           case 20:
-            tmp24_local20 = tmp29_input.q42(tmp0_desc, 20, $serializer_getInstance_85(), tmp24_local20);
+            tmp24_local20 = tmp29_input.q42(tmp0_desc, 20, $serializer_getInstance_86(), tmp24_local20);
             tmp3_bitMask0 = tmp3_bitMask0 | 1048576;
             break;
           case 21:
@@ -97419,372 +97536,372 @@ if (typeof Math.imul === 'undefined') {
     tmp29_input.d42(tmp0_desc);
     return ProjectUpdatedEvent_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, tmp23_local19, tmp24_local20, tmp25_local21, tmp26_local22, tmp27_local23, tmp28_local24, null);
   };
-  $serializer_85.prototype.w7h = function (encoder, value) {
-    var tmp0_desc = this.v7h_1;
+  $serializer_86.prototype.z7h = function (encoder, value) {
+    var tmp0_desc = this.y7h_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.x7h_1);
-    tmp1_output.m43(tmp0_desc, 1, value.y7h_1);
-    tmp1_output.q43(tmp0_desc, 2, value.z7h_1);
-    tmp1_output.s43(tmp0_desc, 3, Companion_getInstance_142().r4k(), value.a7i_1);
-    tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.b7i_1);
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.c7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.c7i_1);
+    tmp1_output.q43(tmp0_desc, 0, value.a7i_1);
+    tmp1_output.m43(tmp0_desc, 1, value.b7i_1);
+    tmp1_output.q43(tmp0_desc, 2, value.c7i_1);
+    tmp1_output.s43(tmp0_desc, 3, Companion_getInstance_142().r4k(), value.d7i_1);
+    tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.e7i_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.f7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.f7i_1);
     }
-    tmp1_output.q43(tmp0_desc, 6, value.d7i_1);
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.e7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.e7i_1);
+    tmp1_output.q43(tmp0_desc, 6, value.g7i_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.h7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, LongSerializer_getInstance(), value.h7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.f7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, LongSerializer_getInstance(), value.f7i_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.i7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, LongSerializer_getInstance(), value.i7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.g7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.g7i_1);
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.j7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.j7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.h7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 10, LongSerializer_getInstance(), value.h7i_1);
+    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.k7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 10, LongSerializer_getInstance(), value.k7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.i7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.i7i_1);
+    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.l7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.l7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.j7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.j7i_1);
+    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.m7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.m7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.k7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 13, $serializer_getInstance_85(), value.k7i_1);
+    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.n7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 13, $serializer_getInstance_86(), value.n7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.l7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 14, IntSerializer_getInstance(), value.l7i_1);
+    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.o7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 14, IntSerializer_getInstance(), value.o7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.m7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.m7i_1);
+    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.p7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.p7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.n7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 16, LongSerializer_getInstance(), value.n7i_1);
+    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.q7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 16, LongSerializer_getInstance(), value.q7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.o7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.o7i_1);
+    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.r7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.r7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.p7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.p7i_1);
+    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.s7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.s7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.q7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 19, $serializer_getInstance_85(), value.q7i_1);
+    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.t7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 19, $serializer_getInstance_86(), value.t7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.r7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 20, $serializer_getInstance_85(), value.r7i_1);
+    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.u7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 20, $serializer_getInstance_86(), value.u7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.s7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 21, $serializer_getInstance_8(), value.s7i_1);
+    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.v7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 21, $serializer_getInstance_8(), value.v7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.t7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 22, new ArrayListSerializer(StringSerializer_getInstance()), value.t7i_1);
+    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.w7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 22, new ArrayListSerializer(StringSerializer_getInstance()), value.w7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 23) ? true : !(value.u7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 23, StringSerializer_getInstance(), value.u7i_1);
+    if (tmp1_output.y43(tmp0_desc, 23) ? true : !(value.x7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 23, StringSerializer_getInstance(), value.x7i_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.v7i_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 24, new ArrayListSerializer(IntSerializer_getInstance()), value.v7i_1);
+    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.y7i_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 24, new ArrayListSerializer(IntSerializer_getInstance()), value.y7i_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_85.prototype.r3y = function (encoder, value) {
-    return this.w7h(encoder, value instanceof ProjectUpdatedEvent ? value : THROW_CCE());
+  $serializer_86.prototype.r3y = function (encoder, value) {
+    return this.z7h(encoder, value instanceof ProjectUpdatedEvent ? value : THROW_CCE());
   };
-  var $serializer_instance_83;
-  function $serializer_getInstance_83() {
-    if ($serializer_instance_83 == null)
-      new $serializer_85();
-    return $serializer_instance_83;
+  var $serializer_instance_84;
+  function $serializer_getInstance_84() {
+    if ($serializer_instance_84 == null)
+      new $serializer_86();
+    return $serializer_instance_84;
   }
   function ProjectUpdatedEvent_init_$Init$(seen1, id, date, name, status, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker, $this) {
     if (!(95 === (95 & seen1))) {
-      throwMissingFieldException(seen1, 95, $serializer_getInstance_83().v7h_1);
+      throwMissingFieldException(seen1, 95, $serializer_getInstance_84().y7h_1);
     }
-    $this.x7h_1 = id;
-    $this.y7h_1 = date;
-    $this.z7h_1 = name;
-    $this.a7i_1 = status;
-    $this.b7i_1 = identifier;
+    $this.a7i_1 = id;
+    $this.b7i_1 = date;
+    $this.c7i_1 = name;
+    $this.d7i_1 = status;
+    $this.e7i_1 = identifier;
     if (0 === (seen1 & 32))
-      $this.c7i_1 = null;
-    else
-      $this.c7i_1 = country;
-    $this.d7i_1 = indicator;
-    if (0 === (seen1 & 128))
-      $this.e7i_1 = null;
-    else
-      $this.e7i_1 = creditingPeriodStartDate;
-    if (0 === (seen1 & 256))
       $this.f7i_1 = null;
     else
-      $this.f7i_1 = creditingPeriodEndDate;
-    if (0 === (seen1 & 512))
-      $this.g7i_1 = null;
-    else
-      $this.g7i_1 = description;
-    if (0 === (seen1 & 1024))
+      $this.f7i_1 = country;
+    $this.g7i_1 = indicator;
+    if (0 === (seen1 & 128))
       $this.h7i_1 = null;
     else
-      $this.h7i_1 = dueDate;
-    if (0 === (seen1 & 2048))
+      $this.h7i_1 = creditingPeriodStartDate;
+    if (0 === (seen1 & 256))
       $this.i7i_1 = null;
     else
-      $this.i7i_1 = estimatedReduction;
-    if (0 === (seen1 & 4096))
+      $this.i7i_1 = creditingPeriodEndDate;
+    if (0 === (seen1 & 512))
       $this.j7i_1 = null;
     else
-      $this.j7i_1 = localization;
-    if (0 === (seen1 & 8192))
+      $this.j7i_1 = description;
+    if (0 === (seen1 & 1024))
       $this.k7i_1 = null;
     else
-      $this.k7i_1 = proponent;
-    if (0 === (seen1 & 16384))
+      $this.k7i_1 = dueDate;
+    if (0 === (seen1 & 2048))
       $this.l7i_1 = null;
     else
-      $this.l7i_1 = type;
-    if (0 === (seen1 & 32768))
+      $this.l7i_1 = estimatedReduction;
+    if (0 === (seen1 & 4096))
       $this.m7i_1 = null;
     else
-      $this.m7i_1 = referenceYear;
-    if (0 === (seen1 & 65536))
+      $this.m7i_1 = localization;
+    if (0 === (seen1 & 8192))
       $this.n7i_1 = null;
     else
-      $this.n7i_1 = registrationDate;
-    if (0 === (seen1 & 131072))
+      $this.n7i_1 = proponent;
+    if (0 === (seen1 & 16384))
       $this.o7i_1 = null;
     else
-      $this.o7i_1 = slug;
-    if (0 === (seen1 & 262144))
+      $this.o7i_1 = type;
+    if (0 === (seen1 & 32768))
       $this.p7i_1 = null;
     else
-      $this.p7i_1 = vintage;
-    if (0 === (seen1 & 524288))
+      $this.p7i_1 = referenceYear;
+    if (0 === (seen1 & 65536))
       $this.q7i_1 = null;
     else
-      $this.q7i_1 = vvb;
-    if (0 === (seen1 & 1048576))
+      $this.q7i_1 = registrationDate;
+    if (0 === (seen1 & 131072))
       $this.r7i_1 = null;
     else
-      $this.r7i_1 = assessor;
-    if (0 === (seen1 & 2097152))
+      $this.r7i_1 = slug;
+    if (0 === (seen1 & 262144))
       $this.s7i_1 = null;
     else
-      $this.s7i_1 = location;
-    if (0 === (seen1 & 4194304))
+      $this.s7i_1 = vintage;
+    if (0 === (seen1 & 524288))
       $this.t7i_1 = null;
     else
-      $this.t7i_1 = activities;
-    if (0 === (seen1 & 8388608))
+      $this.t7i_1 = vvb;
+    if (0 === (seen1 & 1048576))
       $this.u7i_1 = null;
     else
-      $this.u7i_1 = subContinent;
-    if (0 === (seen1 & 16777216))
+      $this.u7i_1 = assessor;
+    if (0 === (seen1 & 2097152))
       $this.v7i_1 = null;
     else
-      $this.v7i_1 = sdgs;
+      $this.v7i_1 = location;
+    if (0 === (seen1 & 4194304))
+      $this.w7i_1 = null;
+    else
+      $this.w7i_1 = activities;
+    if (0 === (seen1 & 8388608))
+      $this.x7i_1 = null;
+    else
+      $this.x7i_1 = subContinent;
+    if (0 === (seen1 & 16777216))
+      $this.y7i_1 = null;
+    else
+      $this.y7i_1 = sdgs;
     return $this;
   }
   function ProjectUpdatedEvent_init_$Create$(seen1, id, date, name, status, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker) {
     return ProjectUpdatedEvent_init_$Init$(seen1, id, date, name, status, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, serializationConstructorMarker, Object.create(ProjectUpdatedEvent.prototype));
   }
   function ProjectUpdatedEvent(id, date, name, status, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs) {
-    Companion_getInstance_147();
-    this.x7h_1 = id;
-    this.y7h_1 = date;
-    this.z7h_1 = name;
-    this.a7i_1 = status;
-    this.b7i_1 = identifier;
-    this.c7i_1 = country;
-    this.d7i_1 = indicator;
-    this.e7i_1 = creditingPeriodStartDate;
-    this.f7i_1 = creditingPeriodEndDate;
-    this.g7i_1 = description;
-    this.h7i_1 = dueDate;
-    this.i7i_1 = estimatedReduction;
-    this.j7i_1 = localization;
-    this.k7i_1 = proponent;
-    this.l7i_1 = type;
-    this.m7i_1 = referenceYear;
-    this.n7i_1 = registrationDate;
-    this.o7i_1 = slug;
-    this.p7i_1 = vintage;
-    this.q7i_1 = vvb;
-    this.r7i_1 = assessor;
-    this.s7i_1 = location;
-    this.t7i_1 = activities;
-    this.u7i_1 = subContinent;
-    this.v7i_1 = sdgs;
+    Companion_getInstance_148();
+    this.a7i_1 = id;
+    this.b7i_1 = date;
+    this.c7i_1 = name;
+    this.d7i_1 = status;
+    this.e7i_1 = identifier;
+    this.f7i_1 = country;
+    this.g7i_1 = indicator;
+    this.h7i_1 = creditingPeriodStartDate;
+    this.i7i_1 = creditingPeriodEndDate;
+    this.j7i_1 = description;
+    this.k7i_1 = dueDate;
+    this.l7i_1 = estimatedReduction;
+    this.m7i_1 = localization;
+    this.n7i_1 = proponent;
+    this.o7i_1 = type;
+    this.p7i_1 = referenceYear;
+    this.q7i_1 = registrationDate;
+    this.r7i_1 = slug;
+    this.s7i_1 = vintage;
+    this.t7i_1 = vvb;
+    this.u7i_1 = assessor;
+    this.v7i_1 = location;
+    this.w7i_1 = activities;
+    this.x7i_1 = subContinent;
+    this.y7i_1 = sdgs;
   }
   ProjectUpdatedEvent.prototype.x4s = function () {
-    return this.x7h_1;
+    return this.a7i_1;
   };
   ProjectUpdatedEvent.prototype.g55 = function () {
-    return this.y7h_1;
-  };
-  ProjectUpdatedEvent.prototype.g7d = function (_set____db54di) {
-    this.z7h_1 = _set____db54di;
-  };
-  ProjectUpdatedEvent.prototype.gf = function () {
-    return this.z7h_1;
-  };
-  ProjectUpdatedEvent.prototype.l7d = function (_set____db54di) {
-    this.b7i_1 = _set____db54di;
-  };
-  ProjectUpdatedEvent.prototype.r57 = function () {
     return this.b7i_1;
   };
-  ProjectUpdatedEvent.prototype.h7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.j7d = function (_set____db54di) {
     this.c7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.i7d = function () {
+  ProjectUpdatedEvent.prototype.gf = function () {
     return this.c7i_1;
-  };
-  ProjectUpdatedEvent.prototype.m7d = function (_set____db54di) {
-    this.d7i_1 = _set____db54di;
-  };
-  ProjectUpdatedEvent.prototype.n7d = function () {
-    return this.d7i_1;
   };
   ProjectUpdatedEvent.prototype.o7d = function (_set____db54di) {
     this.e7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.p7d = function () {
+  ProjectUpdatedEvent.prototype.r57 = function () {
     return this.e7i_1;
   };
-  ProjectUpdatedEvent.prototype.q7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.k7d = function (_set____db54di) {
     this.f7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.r7d = function () {
+  ProjectUpdatedEvent.prototype.l7d = function () {
     return this.f7i_1;
   };
-  ProjectUpdatedEvent.prototype.s7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.p7d = function (_set____db54di) {
     this.g7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.u4w = function () {
+  ProjectUpdatedEvent.prototype.q7d = function () {
     return this.g7i_1;
   };
-  ProjectUpdatedEvent.prototype.t7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.r7d = function (_set____db54di) {
     this.h7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.u7d = function () {
+  ProjectUpdatedEvent.prototype.s7d = function () {
     return this.h7i_1;
   };
-  ProjectUpdatedEvent.prototype.v7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.t7d = function (_set____db54di) {
     this.i7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.w7d = function () {
+  ProjectUpdatedEvent.prototype.u7d = function () {
     return this.i7i_1;
   };
-  ProjectUpdatedEvent.prototype.x7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.v7d = function (_set____db54di) {
     this.j7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.y7d = function () {
+  ProjectUpdatedEvent.prototype.u4w = function () {
     return this.j7i_1;
   };
-  ProjectUpdatedEvent.prototype.z7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.w7d = function (_set____db54di) {
     this.k7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.a7e = function () {
+  ProjectUpdatedEvent.prototype.x7d = function () {
     return this.k7i_1;
   };
-  ProjectUpdatedEvent.prototype.b7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.y7d = function (_set____db54di) {
     this.l7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.w50 = function () {
+  ProjectUpdatedEvent.prototype.z7d = function () {
     return this.l7i_1;
   };
-  ProjectUpdatedEvent.prototype.c7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.a7e = function (_set____db54di) {
     this.m7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.d7e = function () {
+  ProjectUpdatedEvent.prototype.b7e = function () {
     return this.m7i_1;
   };
-  ProjectUpdatedEvent.prototype.e7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.c7e = function (_set____db54di) {
     this.n7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.f7e = function () {
+  ProjectUpdatedEvent.prototype.d7e = function () {
     return this.n7i_1;
   };
-  ProjectUpdatedEvent.prototype.g7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.e7e = function (_set____db54di) {
     this.o7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.h7e = function () {
+  ProjectUpdatedEvent.prototype.w50 = function () {
     return this.o7i_1;
   };
-  ProjectUpdatedEvent.prototype.i7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.f7e = function (_set____db54di) {
     this.p7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.j7e = function () {
+  ProjectUpdatedEvent.prototype.g7e = function () {
     return this.p7i_1;
   };
-  ProjectUpdatedEvent.prototype.k7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.h7e = function (_set____db54di) {
     this.q7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.l7e = function () {
+  ProjectUpdatedEvent.prototype.i7e = function () {
     return this.q7i_1;
   };
-  ProjectUpdatedEvent.prototype.m7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.j7e = function (_set____db54di) {
     this.r7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.n7e = function () {
+  ProjectUpdatedEvent.prototype.k7e = function () {
     return this.r7i_1;
   };
-  ProjectUpdatedEvent.prototype.o7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.l7e = function (_set____db54di) {
     this.s7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.p7e = function () {
+  ProjectUpdatedEvent.prototype.m7e = function () {
     return this.s7i_1;
   };
-  ProjectUpdatedEvent.prototype.s7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.n7e = function (_set____db54di) {
     this.t7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.t7e = function () {
+  ProjectUpdatedEvent.prototype.o7e = function () {
     return this.t7i_1;
   };
-  ProjectUpdatedEvent.prototype.j7d = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.p7e = function (_set____db54di) {
     this.u7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.k7d = function () {
+  ProjectUpdatedEvent.prototype.q7e = function () {
     return this.u7i_1;
   };
-  ProjectUpdatedEvent.prototype.q7e = function (_set____db54di) {
+  ProjectUpdatedEvent.prototype.r7e = function (_set____db54di) {
     this.v7i_1 = _set____db54di;
   };
-  ProjectUpdatedEvent.prototype.r7e = function () {
+  ProjectUpdatedEvent.prototype.s7e = function () {
     return this.v7i_1;
   };
+  ProjectUpdatedEvent.prototype.v7e = function (_set____db54di) {
+    this.w7i_1 = _set____db54di;
+  };
+  ProjectUpdatedEvent.prototype.w7e = function () {
+    return this.w7i_1;
+  };
+  ProjectUpdatedEvent.prototype.m7d = function (_set____db54di) {
+    this.x7i_1 = _set____db54di;
+  };
+  ProjectUpdatedEvent.prototype.n7d = function () {
+    return this.x7i_1;
+  };
+  ProjectUpdatedEvent.prototype.t7e = function (_set____db54di) {
+    this.y7i_1 = _set____db54di;
+  };
+  ProjectUpdatedEvent.prototype.u7e = function () {
+    return this.y7i_1;
+  };
   ProjectUpdatedEvent.prototype.s2Id = function () {
-    return this.x7h_1;
+    return this.a7i_1;
   };
   ProjectUpdatedEvent.prototype.toString = function () {
-    return 'ProjectUpdatedEvent(id=' + this.x7h_1 + ', date=' + toString_3(this.y7h_1) + ', name=' + this.z7h_1 + ', status=' + this.a7i_1 + ', identifier=' + this.b7i_1 + ', country=' + this.c7i_1 + ', indicator=' + this.d7i_1 + ', creditingPeriodStartDate=' + toString_2(this.e7i_1) + ', creditingPeriodEndDate=' + toString_2(this.f7i_1) + ', description=' + this.g7i_1 + ', dueDate=' + toString_2(this.h7i_1) + ', estimatedReduction=' + this.i7i_1 + ', localization=' + this.j7i_1 + ', proponent=' + this.k7i_1 + ', type=' + this.l7i_1 + ', referenceYear=' + this.m7i_1 + ', registrationDate=' + toString_2(this.n7i_1) + ', slug=' + this.o7i_1 + ', vintage=' + this.p7i_1 + ', vvb=' + this.q7i_1 + ', assessor=' + this.r7i_1 + ', location=' + this.s7i_1 + ', activities=' + this.t7i_1 + ', subContinent=' + this.u7i_1 + ', sdgs=' + this.v7i_1 + ')';
+    return 'ProjectUpdatedEvent(id=' + this.a7i_1 + ', date=' + toString_3(this.b7i_1) + ', name=' + this.c7i_1 + ', status=' + this.d7i_1 + ', identifier=' + this.e7i_1 + ', country=' + this.f7i_1 + ', indicator=' + this.g7i_1 + ', creditingPeriodStartDate=' + toString_2(this.h7i_1) + ', creditingPeriodEndDate=' + toString_2(this.i7i_1) + ', description=' + this.j7i_1 + ', dueDate=' + toString_2(this.k7i_1) + ', estimatedReduction=' + this.l7i_1 + ', localization=' + this.m7i_1 + ', proponent=' + this.n7i_1 + ', type=' + this.o7i_1 + ', referenceYear=' + this.p7i_1 + ', registrationDate=' + toString_2(this.q7i_1) + ', slug=' + this.r7i_1 + ', vintage=' + this.s7i_1 + ', vvb=' + this.t7i_1 + ', assessor=' + this.u7i_1 + ', location=' + this.v7i_1 + ', activities=' + this.w7i_1 + ', subContinent=' + this.x7i_1 + ', sdgs=' + this.y7i_1 + ')';
   };
   ProjectUpdatedEvent.prototype.hashCode = function () {
-    var result = getStringHashCode(this.x7h_1);
-    result = imul(result, 31) + this.y7h_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.z7h_1) | 0;
-    result = imul(result, 31) + this.a7i_1.hashCode() | 0;
-    result = imul(result, 31) + (this.b7i_1 == null ? 0 : getStringHashCode(this.b7i_1)) | 0;
-    result = imul(result, 31) + (this.c7i_1 == null ? 0 : getStringHashCode(this.c7i_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.d7i_1) | 0;
-    result = imul(result, 31) + (this.e7i_1 == null ? 0 : this.e7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.f7i_1 == null ? 0 : this.f7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.g7i_1 == null ? 0 : getStringHashCode(this.g7i_1)) | 0;
+    var result = getStringHashCode(this.a7i_1);
+    result = imul(result, 31) + this.b7i_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.c7i_1) | 0;
+    result = imul(result, 31) + this.d7i_1.hashCode() | 0;
+    result = imul(result, 31) + (this.e7i_1 == null ? 0 : getStringHashCode(this.e7i_1)) | 0;
+    result = imul(result, 31) + (this.f7i_1 == null ? 0 : getStringHashCode(this.f7i_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.g7i_1) | 0;
     result = imul(result, 31) + (this.h7i_1 == null ? 0 : this.h7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.i7i_1 == null ? 0 : getStringHashCode(this.i7i_1)) | 0;
+    result = imul(result, 31) + (this.i7i_1 == null ? 0 : this.i7i_1.hashCode()) | 0;
     result = imul(result, 31) + (this.j7i_1 == null ? 0 : getStringHashCode(this.j7i_1)) | 0;
     result = imul(result, 31) + (this.k7i_1 == null ? 0 : this.k7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.l7i_1 == null ? 0 : this.l7i_1) | 0;
+    result = imul(result, 31) + (this.l7i_1 == null ? 0 : getStringHashCode(this.l7i_1)) | 0;
     result = imul(result, 31) + (this.m7i_1 == null ? 0 : getStringHashCode(this.m7i_1)) | 0;
     result = imul(result, 31) + (this.n7i_1 == null ? 0 : this.n7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.o7i_1 == null ? 0 : getStringHashCode(this.o7i_1)) | 0;
+    result = imul(result, 31) + (this.o7i_1 == null ? 0 : this.o7i_1) | 0;
     result = imul(result, 31) + (this.p7i_1 == null ? 0 : getStringHashCode(this.p7i_1)) | 0;
     result = imul(result, 31) + (this.q7i_1 == null ? 0 : this.q7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.r7i_1 == null ? 0 : this.r7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s7i_1 == null ? 0 : this.s7i_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.t7i_1 == null ? 0 : hashCode(this.t7i_1)) | 0;
-    result = imul(result, 31) + (this.u7i_1 == null ? 0 : getStringHashCode(this.u7i_1)) | 0;
-    result = imul(result, 31) + (this.v7i_1 == null ? 0 : hashCode(this.v7i_1)) | 0;
+    result = imul(result, 31) + (this.r7i_1 == null ? 0 : getStringHashCode(this.r7i_1)) | 0;
+    result = imul(result, 31) + (this.s7i_1 == null ? 0 : getStringHashCode(this.s7i_1)) | 0;
+    result = imul(result, 31) + (this.t7i_1 == null ? 0 : this.t7i_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u7i_1 == null ? 0 : this.u7i_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.v7i_1 == null ? 0 : this.v7i_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.w7i_1 == null ? 0 : hashCode(this.w7i_1)) | 0;
+    result = imul(result, 31) + (this.x7i_1 == null ? 0 : getStringHashCode(this.x7i_1)) | 0;
+    result = imul(result, 31) + (this.y7i_1 == null ? 0 : hashCode(this.y7i_1)) | 0;
     return result;
   };
   ProjectUpdatedEvent.prototype.equals = function (other) {
@@ -97793,29 +97910,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectUpdatedEvent ? other : THROW_CCE();
-    if (!(this.x7h_1 === tmp0_other_with_cast.x7h_1))
+    if (!(this.a7i_1 === tmp0_other_with_cast.a7i_1))
       return false;
-    if (!this.y7h_1.equals(tmp0_other_with_cast.y7h_1))
+    if (!this.b7i_1.equals(tmp0_other_with_cast.b7i_1))
       return false;
-    if (!(this.z7h_1 === tmp0_other_with_cast.z7h_1))
+    if (!(this.c7i_1 === tmp0_other_with_cast.c7i_1))
       return false;
-    if (!this.a7i_1.equals(tmp0_other_with_cast.a7i_1))
+    if (!this.d7i_1.equals(tmp0_other_with_cast.d7i_1))
       return false;
-    if (!(this.b7i_1 == tmp0_other_with_cast.b7i_1))
+    if (!(this.e7i_1 == tmp0_other_with_cast.e7i_1))
       return false;
-    if (!(this.c7i_1 == tmp0_other_with_cast.c7i_1))
+    if (!(this.f7i_1 == tmp0_other_with_cast.f7i_1))
       return false;
-    if (!(this.d7i_1 === tmp0_other_with_cast.d7i_1))
-      return false;
-    if (!equals_1(this.e7i_1, tmp0_other_with_cast.e7i_1))
-      return false;
-    if (!equals_1(this.f7i_1, tmp0_other_with_cast.f7i_1))
-      return false;
-    if (!(this.g7i_1 == tmp0_other_with_cast.g7i_1))
+    if (!(this.g7i_1 === tmp0_other_with_cast.g7i_1))
       return false;
     if (!equals_1(this.h7i_1, tmp0_other_with_cast.h7i_1))
       return false;
-    if (!(this.i7i_1 == tmp0_other_with_cast.i7i_1))
+    if (!equals_1(this.i7i_1, tmp0_other_with_cast.i7i_1))
       return false;
     if (!(this.j7i_1 == tmp0_other_with_cast.j7i_1))
       return false;
@@ -97833,15 +97944,21 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals_1(this.q7i_1, tmp0_other_with_cast.q7i_1))
       return false;
-    if (!equals_1(this.r7i_1, tmp0_other_with_cast.r7i_1))
+    if (!(this.r7i_1 == tmp0_other_with_cast.r7i_1))
       return false;
-    if (!equals_1(this.s7i_1, tmp0_other_with_cast.s7i_1))
+    if (!(this.s7i_1 == tmp0_other_with_cast.s7i_1))
       return false;
     if (!equals_1(this.t7i_1, tmp0_other_with_cast.t7i_1))
       return false;
-    if (!(this.u7i_1 == tmp0_other_with_cast.u7i_1))
+    if (!equals_1(this.u7i_1, tmp0_other_with_cast.u7i_1))
       return false;
     if (!equals_1(this.v7i_1, tmp0_other_with_cast.v7i_1))
+      return false;
+    if (!equals_1(this.w7i_1, tmp0_other_with_cast.w7i_1))
+      return false;
+    if (!(this.x7i_1 == tmp0_other_with_cast.x7i_1))
+      return false;
+    if (!equals_1(this.y7i_1, tmp0_other_with_cast.y7i_1))
       return false;
     return true;
   };
@@ -97853,17 +97970,17 @@ if (typeof Math.imul === 'undefined') {
   });
   function CertificationRefDTO() {
   }
-  function $serializer_86() {
-    $serializer_instance_84 = this;
+  function $serializer_87() {
+    $serializer_instance_85 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.model.CertificationRef', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('identifier', false);
-    this.w7i_1 = tmp0_serialDesc;
+    this.z7i_1 = tmp0_serialDesc;
   }
-  $serializer_86.prototype.q3y = function () {
-    return this.w7i_1;
+  $serializer_87.prototype.q3y = function () {
+    return this.z7i_1;
   };
-  $serializer_86.prototype.u49 = function () {
+  $serializer_87.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
     var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance()];
@@ -97876,8 +97993,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_86.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.w7i_1;
+  $serializer_87.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.z7i_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -97911,28 +98028,28 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CertificationRef_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_86.prototype.x7i = function (encoder, value) {
-    var tmp0_desc = this.w7i_1;
+  $serializer_87.prototype.a7j = function (encoder, value) {
+    var tmp0_desc = this.z7i_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.y7i_1);
-    tmp1_output.q43(tmp0_desc, 1, value.z7i_1);
+    tmp1_output.q43(tmp0_desc, 0, value.b7j_1);
+    tmp1_output.q43(tmp0_desc, 1, value.c7j_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_86.prototype.r3y = function (encoder, value) {
-    return this.x7i(encoder, value instanceof CertificationRef ? value : THROW_CCE());
+  $serializer_87.prototype.r3y = function (encoder, value) {
+    return this.a7j(encoder, value instanceof CertificationRef ? value : THROW_CCE());
   };
-  var $serializer_instance_84;
-  function $serializer_getInstance_84() {
-    if ($serializer_instance_84 == null)
-      new $serializer_86();
-    return $serializer_instance_84;
+  var $serializer_instance_85;
+  function $serializer_getInstance_85() {
+    if ($serializer_instance_85 == null)
+      new $serializer_87();
+    return $serializer_instance_85;
   }
   function CertificationRef_init_$Init$(seen1, id, identifier, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_84().w7i_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_85().z7i_1);
     }
-    $this.y7i_1 = id;
-    $this.z7i_1 = identifier;
+    $this.b7j_1 = id;
+    $this.c7j_1 = identifier;
     return $this;
   }
   function CertificationRef_init_$Create$(seen1, id, identifier, serializationConstructorMarker) {
@@ -97941,17 +98058,17 @@ if (typeof Math.imul === 'undefined') {
   function CertificationRef() {
   }
   CertificationRef.prototype.x4s = function () {
-    return this.y7i_1;
+    return this.b7j_1;
   };
   CertificationRef.prototype.r57 = function () {
-    return this.z7i_1;
+    return this.c7j_1;
   };
   CertificationRef.prototype.toString = function () {
-    return 'CertificationRef(id=' + this.y7i_1 + ', identifier=' + this.z7i_1 + ')';
+    return 'CertificationRef(id=' + this.b7j_1 + ', identifier=' + this.c7j_1 + ')';
   };
   CertificationRef.prototype.hashCode = function () {
-    var result = getStringHashCode(this.y7i_1);
-    result = imul(result, 31) + getStringHashCode(this.z7i_1) | 0;
+    var result = getStringHashCode(this.b7j_1);
+    result = imul(result, 31) + getStringHashCode(this.c7j_1) | 0;
     return result;
   };
   CertificationRef.prototype.equals = function (other) {
@@ -97960,9 +98077,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CertificationRef))
       return false;
     var tmp0_other_with_cast = other instanceof CertificationRef ? other : THROW_CCE();
-    if (!(this.y7i_1 === tmp0_other_with_cast.y7i_1))
+    if (!(this.b7j_1 === tmp0_other_with_cast.b7j_1))
       return false;
-    if (!(this.z7i_1 === tmp0_other_with_cast.z7i_1))
+    if (!(this.c7j_1 === tmp0_other_with_cast.c7j_1))
       return false;
     return true;
   };
@@ -97982,17 +98099,17 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrganizationRefDTO_0() {
   }
-  function $serializer_87() {
-    $serializer_instance_85 = this;
+  function $serializer_88() {
+    $serializer_instance_86 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.s2.project.domain.model.OrganizationRef', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('name', false);
-    this.e7j_1 = tmp0_serialDesc;
+    this.h7j_1 = tmp0_serialDesc;
   }
-  $serializer_87.prototype.q3y = function () {
-    return this.e7j_1;
+  $serializer_88.prototype.q3y = function () {
+    return this.h7j_1;
   };
-  $serializer_87.prototype.u49 = function () {
+  $serializer_88.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
     var tmp0_arrayOf = [StringSerializer_getInstance(), StringSerializer_getInstance()];
@@ -98005,8 +98122,8 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$2 = tmp$ret$1;
     return tmp$ret$2;
   };
-  $serializer_87.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.e7j_1;
+  $serializer_88.prototype.s3y = function (decoder) {
+    var tmp0_desc = this.h7j_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -98040,28 +98157,28 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return OrganizationRef_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_87.prototype.f7j = function (encoder, value) {
-    var tmp0_desc = this.e7j_1;
+  $serializer_88.prototype.i7j = function (encoder, value) {
+    var tmp0_desc = this.h7j_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.g7j_1);
-    tmp1_output.q43(tmp0_desc, 1, value.h7j_1);
+    tmp1_output.q43(tmp0_desc, 0, value.j7j_1);
+    tmp1_output.q43(tmp0_desc, 1, value.k7j_1);
     tmp1_output.d42(tmp0_desc);
   };
-  $serializer_87.prototype.r3y = function (encoder, value) {
-    return this.f7j(encoder, value instanceof OrganizationRef ? value : THROW_CCE());
+  $serializer_88.prototype.r3y = function (encoder, value) {
+    return this.i7j(encoder, value instanceof OrganizationRef ? value : THROW_CCE());
   };
-  var $serializer_instance_85;
-  function $serializer_getInstance_85() {
-    if ($serializer_instance_85 == null)
-      new $serializer_87();
-    return $serializer_instance_85;
+  var $serializer_instance_86;
+  function $serializer_getInstance_86() {
+    if ($serializer_instance_86 == null)
+      new $serializer_88();
+    return $serializer_instance_86;
   }
   function OrganizationRef_init_$Init$(seen1, id, name, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_85().e7j_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_86().h7j_1);
     }
-    $this.g7j_1 = id;
-    $this.h7j_1 = name;
+    $this.j7j_1 = id;
+    $this.k7j_1 = name;
     return $this;
   }
   function OrganizationRef_init_$Create$(seen1, id, name, serializationConstructorMarker) {
@@ -98070,17 +98187,17 @@ if (typeof Math.imul === 'undefined') {
   function OrganizationRef() {
   }
   OrganizationRef.prototype.x4s = function () {
-    return this.g7j_1;
+    return this.j7j_1;
   };
   OrganizationRef.prototype.gf = function () {
-    return this.h7j_1;
+    return this.k7j_1;
   };
   OrganizationRef.prototype.toString = function () {
-    return 'OrganizationRef(id=' + this.g7j_1 + ', name=' + this.h7j_1 + ')';
+    return 'OrganizationRef(id=' + this.j7j_1 + ', name=' + this.k7j_1 + ')';
   };
   OrganizationRef.prototype.hashCode = function () {
-    var result = getStringHashCode(this.g7j_1);
-    result = imul(result, 31) + getStringHashCode(this.h7j_1) | 0;
+    var result = getStringHashCode(this.j7j_1);
+    result = imul(result, 31) + getStringHashCode(this.k7j_1) | 0;
     return result;
   };
   OrganizationRef.prototype.equals = function (other) {
@@ -98089,9 +98206,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrganizationRef))
       return false;
     var tmp0_other_with_cast = other instanceof OrganizationRef ? other : THROW_CCE();
-    if (!(this.g7j_1 === tmp0_other_with_cast.g7j_1))
+    if (!(this.j7j_1 === tmp0_other_with_cast.j7j_1))
       return false;
-    if (!(this.h7j_1 === tmp0_other_with_cast.h7j_1))
+    if (!(this.k7j_1 === tmp0_other_with_cast.k7j_1))
       return false;
     return true;
   };
@@ -98107,6 +98224,10 @@ if (typeof Math.imul === 'undefined') {
       return this.gf();
     }
   });
+  function ProjectAddAssetPoolCommandDTO_0() {
+  }
+  function ProjectAddedAssetPoolEventDTO_0() {
+  }
   function ProjectCreateCommandDTO_0() {
   }
   function ProjectCreatedEventDTO_0() {
@@ -98607,13 +98728,14 @@ if (typeof Math.imul === 'undefined') {
   PayloadFromBuilder.prototype.z1n = close_0;
   PayloadFromBuilder.prototype.d21 = copy;
   $serializer_81.prototype.v49 = typeParametersSerializers;
-  ProjectAddedAssetPoolEvent.prototype.s2Id = s2Id;
   $serializer_82.prototype.v49 = typeParametersSerializers;
+  ProjectAddedAssetPoolEvent.prototype.s2Id = s2Id;
   $serializer_83.prototype.v49 = typeParametersSerializers;
   $serializer_84.prototype.v49 = typeParametersSerializers;
   $serializer_85.prototype.v49 = typeParametersSerializers;
   $serializer_86.prototype.v49 = typeParametersSerializers;
   $serializer_87.prototype.v49 = typeParametersSerializers;
+  $serializer_88.prototype.v49 = typeParametersSerializers;
   //endregion
   //region block: init
   _stableSortingIsSupported = null;
@@ -100358,6 +100480,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
@@ -100367,6 +100497,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$project = $city$smartb$registry$program$f2.project || ($city$smartb$registry$program$f2.project = {});
+    var $city$smartb$registry$program$f2$project$domain = $city$smartb$registry$program$f2$project.domain || ($city$smartb$registry$program$f2$project.domain = {});
+    var $city$smartb$registry$program$f2$project$domain$command = $city$smartb$registry$program$f2$project$domain.command || ($city$smartb$registry$program$f2$project$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof String.prototype.startsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
@@ -1897,8 +1897,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(OrderDTO, 'OrderDTO', interfaceMeta, undefined, [WithS2State], undefined, undefined, []);
   setMetadataFor(AssetPolicies, 'AssetPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(OrderStatusValues, 'OrderStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(TransactionStatusValues, 'TransactionStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(TransactionTypeValues, 'TransactionTypeValues', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(F2ClientType, 'F2ClientType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(ConverterRegistration, 'ConverterRegistration', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ContentNegotiation$Config$defaultMatcher$1, undefined, classMeta, undefined, undefined, undefined, undefined, []);
@@ -77277,42 +77275,6 @@ if (typeof Math.imul === 'undefined') {
       new OrderStatusValues();
     return OrderStatusValues_instance;
   }
-  function TransactionStatusValues() {
-    TransactionStatusValues_instance = this;
-  }
-  TransactionStatusValues.prototype.emitted = function () {
-    return AssetTransactionState_EMITTED_getInstance().k4_1;
-  };
-  TransactionStatusValues.prototype.cancelled = function () {
-    return AssetTransactionState_CANCELLED_getInstance().k4_1;
-  };
-  var TransactionStatusValues_instance;
-  function TransactionStatusValues_getInstance() {
-    if (TransactionStatusValues_instance == null)
-      new TransactionStatusValues();
-    return TransactionStatusValues_instance;
-  }
-  function TransactionTypeValues() {
-    TransactionTypeValues_instance = this;
-  }
-  TransactionTypeValues.prototype.issued = function () {
-    return AssetTransactionType_ISSUED_getInstance().k4_1;
-  };
-  TransactionTypeValues.prototype.transferred = function () {
-    return AssetTransactionType_TRANSFERRED_getInstance().k4_1;
-  };
-  TransactionTypeValues.prototype.retired = function () {
-    return AssetTransactionType_RETIRED_getInstance().k4_1;
-  };
-  TransactionTypeValues.prototype.offset = function () {
-    return AssetTransactionType_OFFSET_getInstance().k4_1;
-  };
-  var TransactionTypeValues_instance;
-  function TransactionTypeValues_getInstance() {
-    if (TransactionTypeValues_instance == null)
-      new TransactionTypeValues();
-    return TransactionTypeValues_instance;
-  }
   var F2ClientType_HTTP_instance;
   var F2ClientType_RSOCKET_instance;
   var F2ClientType_entriesInitialized;
@@ -90442,30 +90404,6 @@ if (typeof Math.imul === 'undefined') {
     Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'OrderStatusValues', {
       configurable: true,
       get: OrderStatusValues_getInstance
-    });
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
-    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
-    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
-    var $city$smartb$registry$program$f2$asset$domain$utils = $city$smartb$registry$program$f2$asset$domain.utils || ($city$smartb$registry$program$f2$asset$domain.utils = {});
-    Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'TransactionStatusValues', {
-      configurable: true,
-      get: TransactionStatusValues_getInstance
-    });
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
-    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
-    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
-    var $city$smartb$registry$program$f2$asset$domain$utils = $city$smartb$registry$program$f2$asset$domain.utils || ($city$smartb$registry$program$f2$asset$domain.utils = {});
-    Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'TransactionTypeValues', {
-      configurable: true,
-      get: TransactionTypeValues_getInstance
     });
     var $f2 = _.f2 || (_.f2 = {});
     var $f2$client = $f2.client || ($f2.client = {});

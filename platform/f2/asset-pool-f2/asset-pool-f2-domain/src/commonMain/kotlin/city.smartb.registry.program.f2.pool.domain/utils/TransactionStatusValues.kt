@@ -1,4 +1,4 @@
-package city.smartb.registry.program.f2.asset.domain.utils
+package city.smartb.registry.program.f2.pool.domain.utils
 
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
 import kotlin.js.JsExport

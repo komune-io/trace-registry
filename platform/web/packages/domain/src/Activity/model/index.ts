@@ -1,5 +1,5 @@
 import {city} from "verified-emission-reduction-registry-activity-f2-domain"
-import { cccev} from 'verified-emission-reduction-registry-activity-f2-domain'
+import {cccev} from 'verified-emission-reduction-registry-activity-f2-domain'
 
 export type ActivityId = string
 export interface Activity extends city.smartb.registry.program.f2.activity.domain.model.ActivityDTO {}

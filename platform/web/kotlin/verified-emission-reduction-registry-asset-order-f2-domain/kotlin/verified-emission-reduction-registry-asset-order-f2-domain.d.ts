@@ -3239,18 +3239,4 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
         deleted(): string;
     };
 }
-export namespace city.smartb.registry.program.f2.asset.domain.utils {
-    const TransactionStatusValues: {
-        emitted(): string;
-        cancelled(): string;
-    };
-}
-export namespace city.smartb.registry.program.f2.asset.domain.utils {
-    const TransactionTypeValues: {
-        issued(): string;
-        transferred(): string;
-        retired(): string;
-        offset(): string;
-    };
-}
 export as namespace verified_emission_reduction_registry_asset_order_f2_domain;

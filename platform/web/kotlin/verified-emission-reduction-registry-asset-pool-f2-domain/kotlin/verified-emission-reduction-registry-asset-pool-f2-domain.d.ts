@@ -3212,6 +3212,18 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectAddAssetPoolCommandDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectCommand {
+        readonly id: string;
+
+    }
+    interface ProjectAddedAssetPoolEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
+        readonly id: string;
+        readonly poolId: string;
+        s2Id(): string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.project.domain.command {
     interface ProjectCreateCommandDTO /* extends city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
 
     }
@@ -3487,6 +3499,20 @@ export namespace city.smartb.registry.program.f2.pool.domain.utils {
         active(): string;
         onHold(): string;
         closed(): string;
+    };
+}
+export namespace city.smartb.registry.program.f2.pool.domain.utils {
+    const TransactionStatusValues: {
+        emitted(): string;
+        cancelled(): string;
+    };
+}
+export namespace city.smartb.registry.program.f2.pool.domain.utils {
+    const TransactionTypeValues: {
+        issued(): string;
+        transferred(): string;
+        retired(): string;
+        offset(): string;
     };
 }
 export as namespace verified_emission_reduction_registry_asset_pool_f2_domain;
