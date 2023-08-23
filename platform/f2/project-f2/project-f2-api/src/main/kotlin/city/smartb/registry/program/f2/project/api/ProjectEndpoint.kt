@@ -4,6 +4,7 @@ import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderServic
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
 import city.smartb.registry.program.f2.project.domain.ProjectQueryApi
+import city.smartb.registry.program.f2.project.domain.command.ProjectAddAssetPoolFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
@@ -128,6 +129,14 @@ class ProjectEndpoint(
         logger.info("projectUpdateDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
         projectAggregateService.update(command)
+    }
+
+    @PermitAll
+    @Bean
+    override fun projectAddAssetPool(): ProjectAddAssetPoolFunction = f2Function { command ->
+        logger.info("projectAddAssetPoolDetails: $command")
+        projectPoliciesEnforcer.checkUpdate(command.id)
+        projectAggregateService.addAssetPool(command)
     }
 
 //    @PermitAll

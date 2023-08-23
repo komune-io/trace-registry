@@ -2233,6 +2233,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectInitCommand, 'ProjectInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(ProjectCommand, 'ProjectCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   setMetadataFor(ProjectEvent, 'ProjectEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(ProjectAddAssetPoolCommandDTO, 'ProjectAddAssetPoolCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
+  setMetadataFor(ProjectAddedAssetPoolEventDTO, 'ProjectAddedAssetPoolEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectCreateCommandDTO, 'ProjectCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectDeleteCommandDTO, 'ProjectDeleteCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
@@ -94859,6 +94861,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectEvent() {
   }
+  function ProjectAddAssetPoolCommandDTO() {
+  }
+  function ProjectAddedAssetPoolEventDTO() {
+  }
   function ProjectCreateCommandDTO() {
   }
   function ProjectCreatedEventDTO() {
@@ -94884,10 +94890,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.model.ChatMessage', this, 2);
     tmp0_serialDesc.f49('content', false);
     tmp0_serialDesc.f49('type', false);
-    this.v7d_1 = tmp0_serialDesc;
+    this.w7d_1 = tmp0_serialDesc;
   }
   $serializer_80.prototype.q3y = function () {
-    return this.v7d_1;
+    return this.w7d_1;
   };
   $serializer_80.prototype.u49 = function () {
     var tmp$ret$2;
@@ -94903,7 +94909,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_80.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.v7d_1;
+    var tmp0_desc = this.w7d_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -94937,15 +94943,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return ChatMessage_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_80.prototype.w7d = function (encoder, value) {
-    var tmp0_desc = this.v7d_1;
+  $serializer_80.prototype.x7d = function (encoder, value) {
+    var tmp0_desc = this.w7d_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.x7d_1);
-    tmp1_output.q43(tmp0_desc, 1, value.y7d_1);
+    tmp1_output.q43(tmp0_desc, 0, value.y7d_1);
+    tmp1_output.q43(tmp0_desc, 1, value.z7d_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_80.prototype.r3y = function (encoder, value) {
-    return this.w7d(encoder, value instanceof ChatMessage ? value : THROW_CCE());
+    return this.x7d(encoder, value instanceof ChatMessage ? value : THROW_CCE());
   };
   var $serializer_instance_78;
   function $serializer_getInstance_78() {
@@ -94955,10 +94961,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatMessage_init_$Init$(seen1, content, type, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_78().v7d_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_78().w7d_1);
     }
-    $this.x7d_1 = content;
-    $this.y7d_1 = type;
+    $this.y7d_1 = content;
+    $this.z7d_1 = type;
     return $this;
   }
   function ChatMessage_init_$Create$(seen1, content, type, serializationConstructorMarker) {
@@ -94967,17 +94973,17 @@ if (typeof Math.imul === 'undefined') {
   function ChatMessage() {
   }
   ChatMessage.prototype.s32 = function () {
-    return this.x7d_1;
-  };
-  ChatMessage.prototype.w50 = function () {
     return this.y7d_1;
   };
+  ChatMessage.prototype.w50 = function () {
+    return this.z7d_1;
+  };
   ChatMessage.prototype.toString = function () {
-    return 'ChatMessage(content=' + this.x7d_1 + ', type=' + this.y7d_1 + ')';
+    return 'ChatMessage(content=' + this.y7d_1 + ', type=' + this.z7d_1 + ')';
   };
   ChatMessage.prototype.hashCode = function () {
-    var result = getStringHashCode(this.x7d_1);
-    result = imul(result, 31) + getStringHashCode(this.y7d_1) | 0;
+    var result = getStringHashCode(this.y7d_1);
+    result = imul(result, 31) + getStringHashCode(this.z7d_1) | 0;
     return result;
   };
   ChatMessage.prototype.equals = function (other) {
@@ -94986,9 +94992,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatMessage))
       return false;
     var tmp0_other_with_cast = other instanceof ChatMessage ? other : THROW_CCE();
-    if (!(this.x7d_1 === tmp0_other_with_cast.x7d_1))
-      return false;
     if (!(this.y7d_1 === tmp0_other_with_cast.y7d_1))
+      return false;
+    if (!(this.z7d_1 === tmp0_other_with_cast.z7d_1))
       return false;
     return true;
   };
@@ -95010,10 +95016,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_79 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.model.ChatMetadata', this, 1);
     tmp0_serialDesc.f49('targetedFiles', false);
-    this.z7d_1 = tmp0_serialDesc;
+    this.a7e_1 = tmp0_serialDesc;
   }
   $serializer_81.prototype.q3y = function () {
-    return this.z7d_1;
+    return this.a7e_1;
   };
   $serializer_81.prototype.u49 = function () {
     var tmp$ret$2;
@@ -95029,7 +95035,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_81.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.z7d_1;
+    var tmp0_desc = this.a7e_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -95056,14 +95062,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return ChatMetadata_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_81.prototype.a7e = function (encoder, value) {
-    var tmp0_desc = this.z7d_1;
+  $serializer_81.prototype.b7e = function (encoder, value) {
+    var tmp0_desc = this.a7e_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer(StringSerializer_getInstance()), value.b7e_1);
+    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer(StringSerializer_getInstance()), value.c7e_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_81.prototype.r3y = function (encoder, value) {
-    return this.a7e(encoder, value instanceof ChatMetadata ? value : THROW_CCE());
+    return this.b7e(encoder, value instanceof ChatMetadata ? value : THROW_CCE());
   };
   var $serializer_instance_79;
   function $serializer_getInstance_79() {
@@ -95073,9 +95079,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatMetadata_init_$Init$(seen1, targetedFiles, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_79().z7d_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_79().a7e_1);
     }
-    $this.b7e_1 = targetedFiles;
+    $this.c7e_1 = targetedFiles;
     return $this;
   }
   function ChatMetadata_init_$Create$(seen1, targetedFiles, serializationConstructorMarker) {
@@ -95084,13 +95090,13 @@ if (typeof Math.imul === 'undefined') {
   function ChatMetadata() {
   }
   ChatMetadata.prototype.r5c = function () {
-    return this.b7e_1;
+    return this.c7e_1;
   };
   ChatMetadata.prototype.toString = function () {
-    return 'ChatMetadata(targetedFiles=' + this.b7e_1 + ')';
+    return 'ChatMetadata(targetedFiles=' + this.c7e_1 + ')';
   };
   ChatMetadata.prototype.hashCode = function () {
-    return hashCode(this.b7e_1);
+    return hashCode(this.c7e_1);
   };
   ChatMetadata.prototype.equals = function (other) {
     if (this === other)
@@ -95098,7 +95104,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatMetadata))
       return false;
     var tmp0_other_with_cast = other instanceof ChatMetadata ? other : THROW_CCE();
-    if (!equals_1(this.b7e_1, tmp0_other_with_cast.b7e_1))
+    if (!equals_1(this.c7e_1, tmp0_other_with_cast.c7e_1))
       return false;
     return true;
   };
@@ -95128,10 +95134,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('history', false);
     tmp0_serialDesc.f49('metadata', false);
     tmp0_serialDesc.f49('projectId', false);
-    this.d7e_1 = tmp0_serialDesc;
+    this.e7e_1 = tmp0_serialDesc;
   }
   $serializer_82.prototype.q3y = function () {
-    return this.d7e_1;
+    return this.e7e_1;
   };
   $serializer_82.prototype.u49 = function () {
     var tmp$ret$2;
@@ -95147,7 +95153,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_82.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.d7e_1;
+    var tmp0_desc = this.e7e_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -95195,17 +95201,17 @@ if (typeof Math.imul === 'undefined') {
     tmp8_input.d42(tmp0_desc);
     return ChatAskQuestionQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, null);
   };
-  $serializer_82.prototype.e7e = function (encoder, value) {
-    var tmp0_desc = this.d7e_1;
+  $serializer_82.prototype.f7e = function (encoder, value) {
+    var tmp0_desc = this.e7e_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.f7e_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_78()), value.g7e_1);
-    tmp1_output.s43(tmp0_desc, 2, $serializer_getInstance_79(), value.h7e_1);
-    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.i7e_1);
+    tmp1_output.q43(tmp0_desc, 0, value.g7e_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_78()), value.h7e_1);
+    tmp1_output.s43(tmp0_desc, 2, $serializer_getInstance_79(), value.i7e_1);
+    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.j7e_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_82.prototype.r3y = function (encoder, value) {
-    return this.e7e(encoder, value instanceof ChatAskQuestionQuery ? value : THROW_CCE());
+    return this.f7e(encoder, value instanceof ChatAskQuestionQuery ? value : THROW_CCE());
   };
   var $serializer_instance_80;
   function $serializer_getInstance_80() {
@@ -95215,12 +95221,12 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatAskQuestionQuery_init_$Init$(seen1, question, history, metadata, projectId, serializationConstructorMarker, $this) {
     if (!(15 === (15 & seen1))) {
-      throwMissingFieldException(seen1, 15, $serializer_getInstance_80().d7e_1);
+      throwMissingFieldException(seen1, 15, $serializer_getInstance_80().e7e_1);
     }
-    $this.f7e_1 = question;
-    $this.g7e_1 = history;
-    $this.h7e_1 = metadata;
-    $this.i7e_1 = projectId;
+    $this.g7e_1 = question;
+    $this.h7e_1 = history;
+    $this.i7e_1 = metadata;
+    $this.j7e_1 = projectId;
     return $this;
   }
   function ChatAskQuestionQuery_init_$Create$(seen1, question, history, metadata, projectId, serializationConstructorMarker) {
@@ -95228,31 +95234,31 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatAskQuestionQuery(question, history, metadata, projectId) {
     Companion_getInstance_142();
-    this.f7e_1 = question;
-    this.g7e_1 = history;
-    this.h7e_1 = metadata;
-    this.i7e_1 = projectId;
+    this.g7e_1 = question;
+    this.h7e_1 = history;
+    this.i7e_1 = metadata;
+    this.j7e_1 = projectId;
   }
   ChatAskQuestionQuery.prototype.o5c = function () {
-    return this.f7e_1;
-  };
-  ChatAskQuestionQuery.prototype.p5c = function () {
     return this.g7e_1;
   };
-  ChatAskQuestionQuery.prototype.q5c = function () {
+  ChatAskQuestionQuery.prototype.p5c = function () {
     return this.h7e_1;
   };
-  ChatAskQuestionQuery.prototype.c7e = function () {
+  ChatAskQuestionQuery.prototype.q5c = function () {
     return this.i7e_1;
   };
+  ChatAskQuestionQuery.prototype.d7e = function () {
+    return this.j7e_1;
+  };
   ChatAskQuestionQuery.prototype.toString = function () {
-    return 'ChatAskQuestionQuery(question=' + this.f7e_1 + ', history=' + this.g7e_1 + ', metadata=' + this.h7e_1 + ', projectId=' + this.i7e_1 + ')';
+    return 'ChatAskQuestionQuery(question=' + this.g7e_1 + ', history=' + this.h7e_1 + ', metadata=' + this.i7e_1 + ', projectId=' + this.j7e_1 + ')';
   };
   ChatAskQuestionQuery.prototype.hashCode = function () {
-    var result = getStringHashCode(this.f7e_1);
-    result = imul(result, 31) + hashCode(this.g7e_1) | 0;
-    result = imul(result, 31) + this.h7e_1.hashCode() | 0;
-    result = imul(result, 31) + (this.i7e_1 == null ? 0 : getStringHashCode(this.i7e_1)) | 0;
+    var result = getStringHashCode(this.g7e_1);
+    result = imul(result, 31) + hashCode(this.h7e_1) | 0;
+    result = imul(result, 31) + this.i7e_1.hashCode() | 0;
+    result = imul(result, 31) + (this.j7e_1 == null ? 0 : getStringHashCode(this.j7e_1)) | 0;
     return result;
   };
   ChatAskQuestionQuery.prototype.equals = function (other) {
@@ -95261,13 +95267,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatAskQuestionQuery))
       return false;
     var tmp0_other_with_cast = other instanceof ChatAskQuestionQuery ? other : THROW_CCE();
-    if (!(this.f7e_1 === tmp0_other_with_cast.f7e_1))
+    if (!(this.g7e_1 === tmp0_other_with_cast.g7e_1))
       return false;
-    if (!equals_1(this.g7e_1, tmp0_other_with_cast.g7e_1))
+    if (!equals_1(this.h7e_1, tmp0_other_with_cast.h7e_1))
       return false;
-    if (!this.h7e_1.equals(tmp0_other_with_cast.h7e_1))
+    if (!this.i7e_1.equals(tmp0_other_with_cast.i7e_1))
       return false;
-    if (!(this.i7e_1 == tmp0_other_with_cast.i7e_1))
+    if (!(this.j7e_1 == tmp0_other_with_cast.j7e_1))
       return false;
     return true;
   };
@@ -95292,7 +95298,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(ChatAskQuestionQuery.prototype, 'projectId', {
     configurable: true,
     get: function () {
-      return this.c7e();
+      return this.d7e();
     }
   });
   function Companion_143() {
@@ -95308,10 +95314,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_81 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResult', this, 1);
     tmp0_serialDesc.f49('item', false);
-    this.j7e_1 = tmp0_serialDesc;
+    this.k7e_1 = tmp0_serialDesc;
   }
   $serializer_83.prototype.q3y = function () {
-    return this.j7e_1;
+    return this.k7e_1;
   };
   $serializer_83.prototype.u49 = function () {
     var tmp$ret$2;
@@ -95327,7 +95333,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_83.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.j7e_1;
+    var tmp0_desc = this.k7e_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -95354,14 +95360,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return ChatAskQuestionResult_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_83.prototype.k7e = function (encoder, value) {
-    var tmp0_desc = this.j7e_1;
+  $serializer_83.prototype.l7e = function (encoder, value) {
+    var tmp0_desc = this.k7e_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.l7e_1);
+    tmp1_output.q43(tmp0_desc, 0, value.m7e_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_83.prototype.r3y = function (encoder, value) {
-    return this.k7e(encoder, value instanceof ChatAskQuestionResult ? value : THROW_CCE());
+    return this.l7e(encoder, value instanceof ChatAskQuestionResult ? value : THROW_CCE());
   };
   var $serializer_instance_81;
   function $serializer_getInstance_81() {
@@ -95371,9 +95377,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatAskQuestionResult_init_$Init$(seen1, item, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_81().j7e_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_81().k7e_1);
     }
-    $this.l7e_1 = item;
+    $this.m7e_1 = item;
     return $this;
   }
   function ChatAskQuestionResult_init_$Create$(seen1, item, serializationConstructorMarker) {
@@ -95381,16 +95387,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function ChatAskQuestionResult(item) {
     Companion_getInstance_143();
-    this.l7e_1 = item;
+    this.m7e_1 = item;
   }
   ChatAskQuestionResult.prototype.c4x = function () {
-    return this.l7e_1;
+    return this.m7e_1;
   };
   ChatAskQuestionResult.prototype.toString = function () {
-    return 'ChatAskQuestionResult(item=' + this.l7e_1 + ')';
+    return 'ChatAskQuestionResult(item=' + this.m7e_1 + ')';
   };
   ChatAskQuestionResult.prototype.hashCode = function () {
-    return getStringHashCode(this.l7e_1);
+    return getStringHashCode(this.m7e_1);
   };
   ChatAskQuestionResult.prototype.equals = function (other) {
     if (this === other)
@@ -95398,7 +95404,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ChatAskQuestionResult))
       return false;
     var tmp0_other_with_cast = other instanceof ChatAskQuestionResult ? other : THROW_CCE();
-    if (!(this.l7e_1 === tmp0_other_with_cast.l7e_1))
+    if (!(this.m7e_1 === tmp0_other_with_cast.m7e_1))
       return false;
     return true;
   };
@@ -95410,18 +95416,18 @@ if (typeof Math.imul === 'undefined') {
   });
   function ChatClient$chatAskQuestion$ref($boundThis) {
     var l = function () {
-      return $boundThis.n7e();
+      return $boundThis.o7e();
     };
     l.callableName = 'chatAskQuestion';
     return l;
   }
   function ChatClient(client) {
-    this.m7e_1 = client;
+    this.n7e_1 = client;
   }
-  ChatClient.prototype.n7e = function () {
+  ChatClient.prototype.o7e = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
-    var tmp0_function = this.m7e_1;
+    var tmp0_function = this.n7e_1;
     var tmp1_function = ChatClient$chatAskQuestion$ref(this).callableName;
     var tmp$ret$4;
     // Inline function 'f2.client.getTypeInfo' call
@@ -95530,17 +95536,17 @@ if (typeof Math.imul === 'undefined') {
     return f2SupplierSingle(chatClient$slambda_0(urlBase, null));
   }
   function chatClient$slambda($urlBase, resultContinuation) {
-    this.w7e_1 = $urlBase;
+    this.x7e_1 = $urlBase;
     CoroutineImpl.call(this, resultContinuation);
   }
-  chatClient$slambda.prototype.x7e = function ($cont) {
+  chatClient$slambda.prototype.y7e = function ($cont) {
     var tmp = this.yg($cont);
     tmp.gg_1 = Unit_getInstance();
     tmp.hg_1 = null;
     return tmp.xg();
   };
   chatClient$slambda.prototype.v60 = function ($cont) {
-    return this.x7e($cont);
+    return this.y7e($cont);
   };
   chatClient$slambda.prototype.xg = function () {
     var suspendResult = this.gg_1;
@@ -95551,7 +95557,7 @@ if (typeof Math.imul === 'undefined') {
           case 0:
             this.fg_1 = 2;
             this.eg_1 = 1;
-            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.w7e_1), this);
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.x7e_1), this);
             if (suspendResult === get_COROUTINE_SUSPENDED()) {
               return suspendResult;
             }
@@ -95574,13 +95580,13 @@ if (typeof Math.imul === 'undefined') {
      while (true);
   };
   chatClient$slambda.prototype.yg = function (completion) {
-    var i = new chatClient$slambda(this.w7e_1, completion);
+    var i = new chatClient$slambda(this.x7e_1, completion);
     return i;
   };
   function chatClient$slambda_0($urlBase, resultContinuation) {
     var i = new chatClient$slambda($urlBase, resultContinuation);
     var l = function ($cont) {
-      return i.x7e($cont);
+      return i.y7e($cont);
     };
     l.$arity = 0;
     return l;
@@ -97697,6 +97703,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$automate = $city$smartb$registry$program$s2$project$domain.automate || ($city$smartb$registry$program$s2$project$domain.automate = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

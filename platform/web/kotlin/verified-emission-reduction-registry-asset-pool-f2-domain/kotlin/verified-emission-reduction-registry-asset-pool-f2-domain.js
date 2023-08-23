@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -48,11 +43,10 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
@@ -63,6 +57,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -2065,6 +2065,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor($serializer_85, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
   setMetadataFor(AssetPoolUpdatedEvent, 'AssetPoolUpdatedEvent', classMeta, undefined, [AssetPoolEvent], undefined, {0: $serializer_getInstance_83}, []);
   setMetadataFor(AssetPoolStats, 'AssetPoolStats', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(AssetTransactionType, 'AssetTransactionType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(F2ClientType, 'F2ClientType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(ConverterRegistration, 'ConverterRegistration', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ContentNegotiation$Config$defaultMatcher$1, undefined, classMeta, undefined, undefined, undefined, undefined, []);
@@ -2342,6 +2343,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectInitCommand, 'ProjectInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(ProjectCommand, 'ProjectCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   setMetadataFor(ProjectEvent, 'ProjectEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(ProjectAddAssetPoolCommandDTO, 'ProjectAddAssetPoolCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
+  setMetadataFor(ProjectAddedAssetPoolEventDTO, 'ProjectAddedAssetPoolEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectCreateCommandDTO, 'ProjectCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(ProjectCreatedEventDTO, 'ProjectCreatedEventDTO', interfaceMeta, undefined, [ProjectEvent], undefined, undefined, []);
   setMetadataFor(ProjectDeleteCommandDTO, 'ProjectDeleteCommandDTO', interfaceMeta, undefined, [ProjectCommand], undefined, undefined, []);
@@ -2383,6 +2386,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetTransactionPageResultDTO, 'AssetTransactionPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
   setMetadataFor(AssetPoolPolicies, 'AssetPoolPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(AssetPoolStatusValues, 'AssetPoolStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(TransactionStatusValues, 'TransactionStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(TransactionTypeValues, 'TransactionTypeValues', objectMeta, undefined, undefined, undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -89031,6 +89036,39 @@ if (typeof Math.imul === 'undefined') {
   });
   function AssetPoolStats() {
   }
+  var AssetTransactionType_ISSUED_instance;
+  var AssetTransactionType_TRANSFERRED_instance;
+  var AssetTransactionType_RETIRED_instance;
+  var AssetTransactionType_OFFSET_instance;
+  var AssetTransactionType_entriesInitialized;
+  function AssetTransactionType_initEntries() {
+    if (AssetTransactionType_entriesInitialized)
+      return Unit_getInstance();
+    AssetTransactionType_entriesInitialized = true;
+    AssetTransactionType_ISSUED_instance = new AssetTransactionType('ISSUED', 0);
+    AssetTransactionType_TRANSFERRED_instance = new AssetTransactionType('TRANSFERRED', 1);
+    AssetTransactionType_RETIRED_instance = new AssetTransactionType('RETIRED', 2);
+    AssetTransactionType_OFFSET_instance = new AssetTransactionType('OFFSET', 3);
+  }
+  function AssetTransactionType(name, ordinal) {
+    Enum.call(this, name, ordinal);
+  }
+  function AssetTransactionType_ISSUED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_ISSUED_instance;
+  }
+  function AssetTransactionType_TRANSFERRED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_TRANSFERRED_instance;
+  }
+  function AssetTransactionType_RETIRED_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_RETIRED_instance;
+  }
+  function AssetTransactionType_OFFSET_getInstance() {
+    AssetTransactionType_initEntries();
+    return AssetTransactionType_OFFSET_instance;
+  }
   var F2ClientType_HTTP_instance;
   var F2ClientType_RSOCKET_instance;
   var F2ClientType_entriesInitialized;
@@ -103634,6 +103672,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectEvent() {
   }
+  function ProjectAddAssetPoolCommandDTO() {
+  }
+  function ProjectAddedAssetPoolEventDTO() {
+  }
   function ProjectCreateCommandDTO() {
   }
   function ProjectCreatedEventDTO() {
@@ -103863,6 +103905,42 @@ if (typeof Math.imul === 'undefined') {
     if (AssetPoolStatusValues_instance == null)
       new AssetPoolStatusValues();
     return AssetPoolStatusValues_instance;
+  }
+  function TransactionStatusValues() {
+    TransactionStatusValues_instance = this;
+  }
+  TransactionStatusValues.prototype.emitted = function () {
+    return AssetTransactionState_EMITTED_getInstance().k4_1;
+  };
+  TransactionStatusValues.prototype.cancelled = function () {
+    return AssetTransactionState_CANCELLED_getInstance().k4_1;
+  };
+  var TransactionStatusValues_instance;
+  function TransactionStatusValues_getInstance() {
+    if (TransactionStatusValues_instance == null)
+      new TransactionStatusValues();
+    return TransactionStatusValues_instance;
+  }
+  function TransactionTypeValues() {
+    TransactionTypeValues_instance = this;
+  }
+  TransactionTypeValues.prototype.issued = function () {
+    return AssetTransactionType_ISSUED_getInstance().k4_1;
+  };
+  TransactionTypeValues.prototype.transferred = function () {
+    return AssetTransactionType_TRANSFERRED_getInstance().k4_1;
+  };
+  TransactionTypeValues.prototype.retired = function () {
+    return AssetTransactionType_RETIRED_getInstance().k4_1;
+  };
+  TransactionTypeValues.prototype.offset = function () {
+    return AssetTransactionType_OFFSET_getInstance().k4_1;
+  };
+  var TransactionTypeValues_instance;
+  function TransactionTypeValues_getInstance() {
+    if (TransactionTypeValues_instance == null)
+      new TransactionTypeValues();
+    return TransactionTypeValues_instance;
   }
   //region block: post-declaration
   CombinedContext.prototype.f4 = plus;
@@ -106030,6 +106108,14 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
     var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
     var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
+    var $city$smartb$registry$program$s2$project$domain$command = $city$smartb$registry$program$s2$project$domain.command || ($city$smartb$registry$program$s2$project$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$s2 = $city$smartb$registry$program.s2 || ($city$smartb$registry$program.s2 = {});
+    var $city$smartb$registry$program$s2$project = $city$smartb$registry$program$s2.project || ($city$smartb$registry$program$s2.project = {});
+    var $city$smartb$registry$program$s2$project$domain = $city$smartb$registry$program$s2$project.domain || ($city$smartb$registry$program$s2$project.domain = {});
     var $city$smartb$registry$program$s2$project$domain$model = $city$smartb$registry$program$s2$project$domain.model || ($city$smartb$registry$program$s2$project$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
@@ -106182,6 +106268,30 @@ if (typeof Math.imul === 'undefined') {
     Object.defineProperty($city$smartb$registry$program$f2$pool$domain$utils, 'AssetPoolStatusValues', {
       configurable: true,
       get: AssetPoolStatusValues_getInstance
+    });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$pool = $city$smartb$registry$program$f2.pool || ($city$smartb$registry$program$f2.pool = {});
+    var $city$smartb$registry$program$f2$pool$domain = $city$smartb$registry$program$f2$pool.domain || ($city$smartb$registry$program$f2$pool.domain = {});
+    var $city$smartb$registry$program$f2$pool$domain$utils = $city$smartb$registry$program$f2$pool$domain.utils || ($city$smartb$registry$program$f2$pool$domain.utils = {});
+    Object.defineProperty($city$smartb$registry$program$f2$pool$domain$utils, 'TransactionStatusValues', {
+      configurable: true,
+      get: TransactionStatusValues_getInstance
+    });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
+    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
+    var $city$smartb$registry$program$f2$pool = $city$smartb$registry$program$f2.pool || ($city$smartb$registry$program$f2.pool = {});
+    var $city$smartb$registry$program$f2$pool$domain = $city$smartb$registry$program$f2$pool.domain || ($city$smartb$registry$program$f2$pool.domain = {});
+    var $city$smartb$registry$program$f2$pool$domain$utils = $city$smartb$registry$program$f2$pool$domain.utils || ($city$smartb$registry$program$f2$pool$domain.utils = {});
+    Object.defineProperty($city$smartb$registry$program$f2$pool$domain$utils, 'TransactionTypeValues', {
+      configurable: true,
+      get: TransactionTypeValues_getInstance
     });
   }
   $jsExportAll$(_);

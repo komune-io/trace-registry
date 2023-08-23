@@ -1,5 +1,5 @@
 import {StatusTag} from '@smartb/g2'
-import {TransactionTypeValues} from "../../model";
+import {TransactionTypeValues} from "../../model/";
 import {useTranslation} from "react-i18next";
 
 export interface AssetTransactionTypeProps {

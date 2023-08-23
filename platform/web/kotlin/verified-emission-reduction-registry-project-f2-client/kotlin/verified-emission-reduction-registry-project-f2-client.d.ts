@@ -3212,6 +3212,18 @@ export namespace city.smartb.registry.program.s2.project.domain.automate {
     }
 }
 export namespace city.smartb.registry.program.s2.project.domain.command {
+    interface ProjectAddAssetPoolCommandDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectCommand {
+        readonly id: string;
+
+    }
+    interface ProjectAddedAssetPoolEventDTO extends city.smartb.registry.program.s2.project.domain.automate.ProjectEvent {
+        readonly id: string;
+        readonly poolId: string;
+        s2Id(): string;
+
+    }
+}
+export namespace city.smartb.registry.program.s2.project.domain.command {
     interface ProjectCreateCommandDTO /* extends city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg */ {
 
     }
@@ -3285,6 +3297,19 @@ export namespace city.smartb.registry.program.s2.project.domain.model {
     interface OrganizationRefDTO {
         readonly id: string;
         readonly name: string;
+
+    }
+}
+export namespace city.smartb.registry.program.f2.project.domain.command {
+    interface ProjectAddAssetPoolCommandDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommandDTO {
+        readonly id: string;
+
+    }
+    interface ProjectAddedAssetPoolEventDTO extends city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEventDTO {
+        readonly id: string;
+        readonly date: number;
+        readonly poolId: string;
+        s2Id(): string;
 
     }
 }

@@ -9,9 +9,11 @@ import city.smartb.registry.program.f2.pool.client.assetPoolClient
 import city.smartb.registry.program.f2.project.client.projectClient
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.fnc.invokeWith
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.async
@@ -49,7 +51,7 @@ class ProjectFactory(url: String, accessToken: String) {
     )
 }
 
-fun createRandomProject(url: String, accessToken: Actor, poolId: AssetPoolId?, countRange: IntRange = 1..2): Unit = runBlocking {
+fun createRandomProject(url: String, accessToken: Actor, poolId: AssetPoolId?, countRange: IntRange = 1..2): List<ProjectId> = runBlocking {
     val helper = ProjectFactory(url, accessToken.accessToken.access_token)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
@@ -79,6 +81,16 @@ fun createRandomProject(url: String, accessToken: Actor, poolId: AssetPoolId?, c
             println(fulfilledEvent)
         }
     }
+
+    return@runBlocking projects.map { it.id }
+}
+
+fun addAssetPoolToProject(url: String, accessToken: Actor, projectId: ProjectId, assetPoolId: AssetPoolId): Unit = runBlocking {
+    val helper = ProjectFactory(url, accessToken.accessToken.access_token)
+    val projectClient = helper.projectClient.invoke()
+    projectClient.projectAddAssetPool().invoke(flowOf(
+        ProjectAddAssetPoolCommand(id = projectId, poolId = assetPoolId)
+    ))
 }
 
 private fun randomProject(

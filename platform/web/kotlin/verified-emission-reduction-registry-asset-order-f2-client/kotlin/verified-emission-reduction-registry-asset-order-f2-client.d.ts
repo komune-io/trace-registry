@@ -3239,20 +3239,6 @@ export namespace city.smartb.registry.program.f2.asset.domain.utils {
         deleted(): string;
     };
 }
-export namespace city.smartb.registry.program.f2.asset.domain.utils {
-    const TransactionStatusValues: {
-        emitted(): string;
-        cancelled(): string;
-    };
-}
-export namespace city.smartb.registry.program.f2.asset.domain.utils {
-    const TransactionTypeValues: {
-        issued(): string;
-        transferred(): string;
-        retired(): string;
-        offset(): string;
-    };
-}
 export namespace f2.client {
     interface F2Client {
         supplier<RESPONSE>(route: string, responseTypeInfo: io.ktor.util.reflect.TypeInfo): f2.dsl.fnc.F2Supplier<RESPONSE>;

@@ -923,7 +923,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AssetPoolHoldCommandDTO, 'AssetPoolHoldCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolResumeCommandDTO, 'AssetPoolResumeCommandDTO', interfaceMeta, undefined, [AssetPoolCommand], undefined, undefined, []);
   setMetadataFor(AssetPoolStats, 'AssetPoolStats', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(AssetTransactionType, 'AssetTransactionType', classMeta, Enum, undefined, undefined, undefined, []);
   setMetadataFor(OrderInitCommand, 'OrderInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(OrderCommand, 'OrderCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
   setMetadataFor(OrderEvent, 'OrderEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
@@ -970,8 +969,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(OrderDTO, 'OrderDTO', interfaceMeta, undefined, [WithS2State], undefined, undefined, []);
   setMetadataFor(AssetPolicies, 'AssetPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(OrderStatusValues, 'OrderStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(TransactionStatusValues, 'TransactionStatusValues', objectMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(TransactionTypeValues, 'TransactionTypeValues', objectMeta, undefined, undefined, undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -26359,39 +26356,6 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolStats() {
   }
-  var AssetTransactionType_ISSUED_instance;
-  var AssetTransactionType_TRANSFERRED_instance;
-  var AssetTransactionType_RETIRED_instance;
-  var AssetTransactionType_OFFSET_instance;
-  var AssetTransactionType_entriesInitialized;
-  function AssetTransactionType_initEntries() {
-    if (AssetTransactionType_entriesInitialized)
-      return Unit_getInstance();
-    AssetTransactionType_entriesInitialized = true;
-    AssetTransactionType_ISSUED_instance = new AssetTransactionType('ISSUED', 0);
-    AssetTransactionType_TRANSFERRED_instance = new AssetTransactionType('TRANSFERRED', 1);
-    AssetTransactionType_RETIRED_instance = new AssetTransactionType('RETIRED', 2);
-    AssetTransactionType_OFFSET_instance = new AssetTransactionType('OFFSET', 3);
-  }
-  function AssetTransactionType(name, ordinal) {
-    Enum.call(this, name, ordinal);
-  }
-  function AssetTransactionType_ISSUED_getInstance() {
-    AssetTransactionType_initEntries();
-    return AssetTransactionType_ISSUED_instance;
-  }
-  function AssetTransactionType_TRANSFERRED_getInstance() {
-    AssetTransactionType_initEntries();
-    return AssetTransactionType_TRANSFERRED_instance;
-  }
-  function AssetTransactionType_RETIRED_getInstance() {
-    AssetTransactionType_initEntries();
-    return AssetTransactionType_RETIRED_instance;
-  }
-  function AssetTransactionType_OFFSET_getInstance() {
-    AssetTransactionType_initEntries();
-    return AssetTransactionType_OFFSET_instance;
-  }
   function get_s2Order() {
     init_properties_S2Order_kt_w18in9();
     return s2Order;
@@ -27477,42 +27441,6 @@ if (typeof Math.imul === 'undefined') {
     if (OrderStatusValues_instance == null)
       new OrderStatusValues();
     return OrderStatusValues_instance;
-  }
-  function TransactionStatusValues() {
-    TransactionStatusValues_instance = this;
-  }
-  TransactionStatusValues.prototype.emitted = function () {
-    return AssetTransactionState_EMITTED_getInstance().j3_1;
-  };
-  TransactionStatusValues.prototype.cancelled = function () {
-    return AssetTransactionState_CANCELLED_getInstance().j3_1;
-  };
-  var TransactionStatusValues_instance;
-  function TransactionStatusValues_getInstance() {
-    if (TransactionStatusValues_instance == null)
-      new TransactionStatusValues();
-    return TransactionStatusValues_instance;
-  }
-  function TransactionTypeValues() {
-    TransactionTypeValues_instance = this;
-  }
-  TransactionTypeValues.prototype.issued = function () {
-    return AssetTransactionType_ISSUED_getInstance().j3_1;
-  };
-  TransactionTypeValues.prototype.transferred = function () {
-    return AssetTransactionType_TRANSFERRED_getInstance().j3_1;
-  };
-  TransactionTypeValues.prototype.retired = function () {
-    return AssetTransactionType_RETIRED_getInstance().j3_1;
-  };
-  TransactionTypeValues.prototype.offset = function () {
-    return AssetTransactionType_OFFSET_getInstance().j3_1;
-  };
-  var TransactionTypeValues_instance;
-  function TransactionTypeValues_getInstance() {
-    if (TransactionTypeValues_instance == null)
-      new TransactionTypeValues();
-    return TransactionTypeValues_instance;
   }
   //region block: post-declaration
   CombinedContext.prototype.e3 = plus;
@@ -29307,30 +29235,6 @@ if (typeof Math.imul === 'undefined') {
     Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'OrderStatusValues', {
       configurable: true,
       get: OrderStatusValues_getInstance
-    });
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
-    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
-    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
-    var $city$smartb$registry$program$f2$asset$domain$utils = $city$smartb$registry$program$f2$asset$domain.utils || ($city$smartb$registry$program$f2$asset$domain.utils = {});
-    Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'TransactionStatusValues', {
-      configurable: true,
-      get: TransactionStatusValues_getInstance
-    });
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$program = $city$smartb$registry.program || ($city$smartb$registry.program = {});
-    var $city$smartb$registry$program$f2 = $city$smartb$registry$program.f2 || ($city$smartb$registry$program.f2 = {});
-    var $city$smartb$registry$program$f2$asset = $city$smartb$registry$program$f2.asset || ($city$smartb$registry$program$f2.asset = {});
-    var $city$smartb$registry$program$f2$asset$domain = $city$smartb$registry$program$f2$asset.domain || ($city$smartb$registry$program$f2$asset.domain = {});
-    var $city$smartb$registry$program$f2$asset$domain$utils = $city$smartb$registry$program$f2$asset$domain.utils || ($city$smartb$registry$program$f2$asset$domain.utils = {});
-    Object.defineProperty($city$smartb$registry$program$f2$asset$domain$utils, 'TransactionTypeValues', {
-      configurable: true,
-      get: TransactionTypeValues_getInstance
     });
   }
   $jsExportAll$(_);
