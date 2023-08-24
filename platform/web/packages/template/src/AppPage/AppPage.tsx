@@ -1,6 +1,6 @@
+import { Typography } from '@mui/material';
 import { Page, PageProps } from '@smartb/g2'
 import { ReactNode } from "react";
-import {AppBar} from "../AppBar";
 
 export interface AppPageProps extends PageProps {
   title?: string
@@ -8,11 +8,18 @@ export interface AppPageProps extends PageProps {
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, ...other } = props
+    const { title, children, sx, ...other } = props
     return (
         <Page
             headerProps={{
-                freeContent: (<AppBar title={title}/>)
+                content: [
+                    {
+                        leftPart: [title ? <Typography key="projectTitle" variant="h6">{title}</Typography> : undefined]
+                    }
+                ],
+                sx: {
+                    minHeight: "65px"
+                }
             }}
             {...other}
         >

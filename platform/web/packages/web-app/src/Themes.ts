@@ -1,5 +1,6 @@
 import { Theme as AruiTheme} from "@smartb/g2-themes";
 import { DeepPartial } from "@smartb/g2-utils";
+import { PermanentHeader } from "components";
 
 export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
@@ -7,4 +8,8 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     secondary: "#353945",
     background: "#FAF8F3"
   },
+   //@ts-ignore
+   permanentHeader: PermanentHeader,
+   logoUrl: "/trace.png",
+   drawerAbsolutePositionBreakpoint: "always"
 };

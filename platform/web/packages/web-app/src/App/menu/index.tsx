@@ -1,11 +1,8 @@
 import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@smartb/g2-components'
-import { useLocation } from "react-router-dom";
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import BusinessIcon from '@mui/icons-material/Business';
-import HomeIcon from '@mui/icons-material/Home';
-import { AccountCircle, Login, Logout } from "@mui/icons-material";
+import { useLocation } from "react-router";
+import {AccountCircle, Login, Logout, TravelExplore} from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { useExtendedAuth, useRoutesDefinition } from "components";
 
@@ -16,6 +13,7 @@ interface MenuItem {
     label: string
     icon: JSX.Element;
     isVisible?: boolean;
+    isSelected?: boolean;
 }
 
 export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps>[] => {
@@ -29,12 +27,12 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
         } : {
             goto: item.action
         }
-        if (!item.isVisible) return
+        if (item.isVisible === false) return
         finalMenu.push({
             key: `appLayout-${item.key}`,
             label: item.label,
             icon: item.icon,
-            isSelected: item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false,
+            isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
             ...additionals
         })
     })
@@ -44,45 +42,26 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {organizations, users} = useRoutesDefinition()
-    const menu: MenuItem[] = useMemo(() => [{
-        key: "dashboard",
-        to: "/",
-        label: t("dashboard"),
-        icon: <HomeIcon />,
-        isVisible: service.hasUserRouteAuth({route: ""})
-    }, {
-        key: "organizations",
-        to: organizations(),
-        label: t("organizations"),
-        icon: <BusinessIcon />,
-        isVisible: service.hasUserRouteAuth({route: "organizations"})
-    }, {
-        key: "users",
-        to: users(),
-        label: t("users"),
-        icon: <SupervisedUserCircleIcon />,
-        isVisible: service.hasUserRouteAuth({route: "organizations"})
-    }], [t, service.hasUserRouteAuth])
+    const {projects} = useRoutesDefinition()
+    const menu: MenuItem[] = useMemo(() => [
+     {
+        key: "Registry",
+        to: projects(),
+        label:  t("registry"),
+        icon: <TravelExplore />,
+        isSelected: location.pathname === "/" || location.pathname.includes(projects())
+    }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
 
 export const useUserMenu = (logout: () => void, login: () => void, t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {myProfil, myOrganization} = useRoutesDefinition()
     const loggedMenu: MenuItem[] = useMemo(() => [{
         key: "profil",
-        to: myProfil(),
+        to: "https://dev.connect.smart-b.io/myProfil",
         label: t("profil"),
-        icon: <AccountCircle />,
-        isVisible: service.hasUserRouteAuth({route: "myProfil"})
-    },{
-        key: "myOrganization",
-        to: myOrganization(),
-        label: t("myOrganization"),
-        icon: <AccountCircle />,
-        isVisible: service.hasUserRouteAuth({route: "myOrganization"})
+        icon: <AccountCircle />
     }, {
         key: "logout",
         action: logout,

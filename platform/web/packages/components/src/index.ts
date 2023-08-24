@@ -7,7 +7,7 @@ export * from "./Quantity"
 export * from "./PdfDisplayer"
 export * from "./MultiPagePdfDisplayer"
 export * from "./Chat"
-
+export * from "./PermanentHeader"
 export * from "./auth"
 export * from "./roles"
 export * from "./routes"
