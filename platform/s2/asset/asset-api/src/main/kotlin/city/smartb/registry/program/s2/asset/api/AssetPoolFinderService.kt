@@ -1,14 +1,17 @@
 package city.smartb.registry.program.s2.asset.api
 
 import city.smartb.registry.program.api.commons.exception.NotFoundException
+import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolEntity
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolRepository
 import city.smartb.registry.program.s2.asset.api.entity.pool.toAssetPool
 import city.smartb.registry.program.s2.asset.api.entity.transaction.AssetTransactionEntity
 import city.smartb.registry.program.s2.asset.api.entity.transaction.AssetTransactionRepository
 import city.smartb.registry.program.s2.asset.api.entity.transaction.toTransaction
+import city.smartb.registry.program.s2.asset.api.query.AssetPoolPageQueryDB
 import city.smartb.registry.program.s2.asset.api.query.AssetTransactionPageQueryDB
 import city.smartb.registry.program.s2.asset.domain.AssetPoolFinder
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.model.AssetPool
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransaction
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service
 @Service
 class AssetPoolFinderService(
     private val assetPoolRepository: AssetPoolRepository,
+    private val assetPoolPageQueryDB: AssetPoolPageQueryDB,
     private val transactionPageQueryDB: AssetTransactionPageQueryDB,
     private val assetTransactionRepository: AssetTransactionRepository
 ): AssetPoolFinder {
@@ -31,6 +35,18 @@ class AssetPoolFinderService(
 
     override suspend fun get(id: AssetPoolId): AssetPool {
         return getOrNull(id) ?: throw NotFoundException("AssetPool", id)
+    }
+
+    override suspend fun page(
+        status: Match<AssetPoolState>?,
+        vintage: Match<String>?,
+        offset: OffsetPagination?,
+    ): PageDTO<AssetPool> {
+        return assetPoolPageQueryDB.execute(
+            status = status,
+            vintage = vintage,
+            offset = offset
+        ).map(AssetPoolEntity::toAssetPool)
     }
 
     override suspend fun getTransactionOrNull(id: AssetTransactionId): AssetTransaction? {

@@ -1,11 +1,16 @@
 package city.smartb.registry.program.f2.pool.domain
 
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetFunction
+import city.smartb.registry.program.f2.pool.domain.query.AssetPoolPageFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageFunction
 
 interface AssetPoolQueryApi {
+    /**
+     * Get a page of asset pools.
+     */
+    fun assetPoolPage(): AssetPoolPageFunction
     /**
      * Get an asset pool by id.
      */

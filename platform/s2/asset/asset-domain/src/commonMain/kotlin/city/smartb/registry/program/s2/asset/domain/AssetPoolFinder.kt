@@ -1,6 +1,7 @@
 package city.smartb.registry.program.s2.asset.domain
 
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.model.AssetPool
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransaction
@@ -12,7 +13,11 @@ import f2.dsl.cqrs.page.PageDTO
 interface AssetPoolFinder {
     suspend fun getOrNull(id: AssetPoolId): AssetPool?
     suspend fun get(id: AssetPoolId): AssetPool
-
+    suspend fun page(
+        status: Match<AssetPoolState>? = null,
+        vintage: Match<String>? = null,
+        offset: OffsetPagination? = null
+    ): PageDTO<AssetPool>
     suspend fun getTransactionOrNull(id: AssetTransactionId): AssetTransaction?
     suspend fun getTransaction(id: AssetTransactionId): AssetTransaction
     suspend fun pageTransactions(
