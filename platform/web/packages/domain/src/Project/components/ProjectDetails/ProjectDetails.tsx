@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Project } from '../../model'
 import { ProjectStatus } from '../ProjectTable/ProjectStatus'
+import { useExtendedAuth } from 'components'
 
 export interface ProjectDetailsProps {
     formState: FormComposableState
@@ -12,9 +13,29 @@ export interface ProjectDetailsProps {
 export const ProjectDetails = (props: ProjectDetailsProps) => {
     const { formState } = props
 
+    const {service} = useExtendedAuth()
+
     const { t } = useTranslation()
 
-    const fields = useMemo((): FormComposableField<keyof Project | "vvb.name" | "proponent.name" | "assessor.name">[] => [{
+    const fields = useMemo((): FormComposableField<keyof Project | "vvb.name" | "proponent.name" | "assessor.name" | "private">[] => [
+        ...(service.is_tr_project_manager() ? [{
+        name: "private",
+        label: t("visibility"),
+        type: "select",
+        params: {
+            orientation: "horizontal",
+            readOnlyType: "chip",
+            options: [{
+                key: true,
+                label: t("private"),
+                color: "#353945"
+            },{
+                key: false,
+                label: t("public"),
+                color: "#353945"
+            }]
+        }
+    } as FormComposableField<"private">] : []),{
         name: "country",
         label: t("origin"),
         type: "select",
@@ -58,7 +79,7 @@ export const ProjectDetails = (props: ProjectDetailsProps) => {
             readOnlyType: "customElement",
             readOnlyElement: ProjectStatus
         }
-    }], [t])
+    }], [t, service.is_tr_project_manager])
 
     const description = useMemo((): FormComposableField<keyof Project>[] => [{
         name: "description",

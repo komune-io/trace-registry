@@ -71,6 +71,9 @@
   "toFilterCount": "Filter ({{count}})",
   "apply": "Apply",
   "clearFilters": "Clear filters",
+  "public": "Public",
+  "private": "Private",
+  "visibility": "Visibilty",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -136,6 +139,10 @@
     "followAndTrack": "Follow and track activities on verified and trusted projects.",
     "noData": "No project were found",
     "partner": "Project Partner",
+    "makePrivate": "Make it private",
+    "makePublic": "Make it public",
+    "editVisibility": "Edit project visibility",
+    "editVisibilityDescription": "The visibility configuration allows you to control the accessibility of project activities and documents. \nIn public mode, all users can view the project's activities and documents. \nHowever, in private mode, only individuals within your organization will have access to the project.",
     "types": {
       "1": "Agriculture Forestry and Other Land Use",
       "2": "Waste handling and disposal",

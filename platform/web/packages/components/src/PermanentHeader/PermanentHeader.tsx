@@ -15,7 +15,7 @@ export const PermanentHeader = (props: PermanentHeaderProps) => {
                 display: "flex",
                 justifyContent: "flex-end",
                 width: "100%",
-                padding: "12px",
+                padding: "16px",
                 gap: "16px",
                 alignItems: "center",
             }}

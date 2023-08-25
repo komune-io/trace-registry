@@ -1179,10 +1179,11 @@
 
 "@smartb/g2-themes@1.0.0-alpha.170":
   version "1.0.0-alpha.170"
-  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-themes/-/@smartb/g2-themes-1.0.0-alpha.170.tgz#08795e44448c2e24811f8f4dc2c8e1112a1bdeeb"
-  integrity sha1-CHleRESMLiSBH49NwsjhESob3us=
+  resolved "https://gitlab.smartb.city/api/v4/projects/127/packages/npm/@smartb/g2-themes/-/@smartb/g2-themes-1.0.0-alpha.170.tgz#8e5b2963c20ba25746c983e0d8e8c651e7a76be3"
+  integrity sha1-jlspY8ILoldGyYPg2OjGUeena+M=
   dependencies:
     "@emotion/cache" "^11.10.5"
+    "@mantine/hooks" "^4.2.12"
     ramda "^0.28.0"
     tinycolor2 "^1.6.0"
     tss-react "^3.7.0"
