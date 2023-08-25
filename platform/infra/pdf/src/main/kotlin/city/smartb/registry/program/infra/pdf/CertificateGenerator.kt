@@ -1,9 +1,9 @@
 package city.smartb.registry.program.infra.pdf
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import java.text.SimpleDateFormat
 import java.util.Date
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 object CertificateGenerator {
     const val TEMPLATE_CERTIFICATE = "classpath:certificate.html"
@@ -19,28 +19,28 @@ object CertificateGenerator {
     private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
 
     fun fillPendingCertificate(
-        orderId: String,
+        transactionId: String,
         date: Long,
         issuedTo: String,
         quantity: BigDecimal,
         indicator: String
     ): ByteArray {
-        return fill(TEMPLATE_CERTIFICATE_PENDING, orderId, date, issuedTo, quantity, indicator)
+        return fill(TEMPLATE_CERTIFICATE_PENDING, transactionId, date, issuedTo, quantity, indicator)
     }
 
     fun fillFinalCertificate(
-        orderId: String,
+        transactionId: String,
         date: Long,
         issuedTo: String,
         quantity: BigDecimal,
         indicator: String
     ): ByteArray {
-        return fill(TEMPLATE_CERTIFICATE, orderId, date, issuedTo, quantity, indicator)
+        return fill(TEMPLATE_CERTIFICATE, transactionId, date, issuedTo, quantity, indicator)
     }
 
     private fun fill(
         template: String,
-        orderId: String,
+        transactionId: String,
         date: Long,
         issuedTo: String,
         quantity: BigDecimal,
@@ -55,7 +55,7 @@ object CertificateGenerator {
             .decodeToString()
             .replace(FIELD_ISSUEDTO, issuedTo)
             .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
-            .replace(FIELD_TRANSACTION, orderId)
+            .replace(FIELD_TRANSACTION, transactionId)
             .replace(FIELD_CARBON, quantity.toPlainString())
             .replace(FIELD_CARBON_INDICATOR, indicator)
             .replace(FIELD_CARBON_INDICATOR_VERB, verb)

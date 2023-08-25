@@ -16,7 +16,6 @@ class AssetTransactionEvolver: View<AssetTransactionEvent, AssetTransactionEntit
     private suspend fun emit(event: TransactionEmittedEvent) = AssetTransactionEntity().apply {
         id = event.id
         status = AssetTransactionState.EMITTED
-        orderId = event.orderId
         poolId = event.poolId
         from = event.from
         to = event.to

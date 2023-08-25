@@ -4,8 +4,6 @@ import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.f2.asset.domain.model.OrderDTO
-import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
-import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
 import city.smartb.registry.program.s2.order.domain.OrderCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderCancelCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderCompleteCommand
@@ -18,6 +16,15 @@ import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object AssetPolicies {
+
+    fun canGetOrder(authedUser: AuthedUserDTO)
+    = authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+
+    fun canListOrder(authedUser: AuthedUserDTO)
+    = authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+
+    fun canPlaceOrder(authedUser: AuthedUserDTO)
+    = authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
 
     fun canSubmitOrder(authedUser: AuthedUserDTO, order: OrderDTO) = canTransitionAnd<OrderSubmitCommand>(order) {
         canWriteOrder(authedUser, order)

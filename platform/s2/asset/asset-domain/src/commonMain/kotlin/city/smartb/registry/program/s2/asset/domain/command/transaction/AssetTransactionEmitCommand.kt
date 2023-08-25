@@ -9,7 +9,6 @@ import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
 import kotlinx.serialization.Serializable
 
 data class AssetTransactionEmitCommand(
-    val orderId: String?,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
@@ -22,7 +21,6 @@ data class AssetTransactionEmitCommand(
 data class TransactionEmittedEvent(
     override val id: AssetTransactionId,
     override val date: Long,
-    val orderId: String?,
     val poolId: AssetPoolId,
     val from: String?,
     val to: String?,
