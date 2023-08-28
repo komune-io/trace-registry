@@ -8,8 +8,21 @@ Feature: AssetPoolCreateF2
       | identifier |
       | c1         |
     When I create an asset pool via API:
-      | indicator |
-      | c1        |
+      | indicator | vintage | status |
+      | c1        | 2024    | ACTIVE |
     Then The asset pool should be created:
-      | indicator |
-      | c1        |
+      | vintage | status |
+      | 2024    | ACTIVE |
+    Then The asset pool page should contain the asset pools
+    Then The asset pool page should contain only this vintage:
+      | vintage |
+      | 2024    |
+    Then The asset pool page should contain only this status:
+      | status |
+      | ACTIVE |
+    Then The asset pool page shouldn't contain this vintage:
+      | vintage |
+      | 9999    |
+    Then The asset pool page shouldn't contain this status:
+      | status |
+      | CLOSED |

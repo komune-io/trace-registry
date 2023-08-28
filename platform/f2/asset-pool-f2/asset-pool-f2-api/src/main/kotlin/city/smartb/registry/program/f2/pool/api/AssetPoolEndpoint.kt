@@ -26,13 +26,17 @@ import city.smartb.registry.program.f2.pool.domain.command.AssetTransferredEvent
 import city.smartb.registry.program.f2.pool.domain.query.AssetCertificateDownloadQuery
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetPoolGetResultDTOBase
+import city.smartb.registry.program.f2.pool.domain.query.AssetPoolPageFunction
+import city.smartb.registry.program.f2.pool.domain.query.AssetPoolPageResult
 import city.smartb.registry.program.f2.pool.domain.query.AssetStatsGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionGetFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionGetResult
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageFunction
 import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageResultDTOBase
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
+import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
@@ -65,6 +69,28 @@ class AssetPoolEndpoint(
     override fun assetPoolGet(): AssetPoolGetFunction = f2Function { query ->
         logger.info("assetPoolGet: $query")
         assetPoolF2FinderService.getOrNull(query.id).let(::AssetPoolGetResultDTOBase)
+    }
+
+    @Bean
+    override fun assetPoolPage(): AssetPoolPageFunction = f2Function { query ->
+        logger.info("projectPage: $query")
+        assetPoolPoliciesEnforcer.checkList()
+        val pagination = OffsetPagination(
+            offset = query.offset ?: 0,
+            limit = query.limit ?: 10,
+        )
+
+        assetPoolF2FinderService.page(
+            status = query.status?.let { ExactMatch(AssetPoolState.valueOf(it)) },
+            vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            offset = pagination
+        ).let { page ->
+            AssetPoolPageResult(
+                items = page.items,
+                total = page.total,
+                pagination = pagination
+            )
+        }
     }
 
     @Bean

@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service
 class AssetPoolPoliciesEnforcer(
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
 ): PolicyEnforcer() {
+    suspend fun checkList() = check("get page of asset pools") { authedUser ->
+        AssetPoolPolicies.canList(authedUser)
+    }
+
     suspend fun checkCreate() = check("create an asset pool") { authedUser ->
         AssetPoolPolicies.canCreate(authedUser)
     }

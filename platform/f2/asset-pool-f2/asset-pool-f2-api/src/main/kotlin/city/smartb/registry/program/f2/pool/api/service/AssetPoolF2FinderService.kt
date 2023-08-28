@@ -9,7 +9,14 @@ import city.smartb.registry.program.f2.pool.api.model.toDTO
 import city.smartb.registry.program.f2.pool.domain.model.AssetPoolDTOBase
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.model.AssetPool
+import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.model.Project
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
 import f2.dsl.fnc.invokeWith
 import org.springframework.stereotype.Service
 
@@ -24,6 +31,18 @@ class AssetPoolF2FinderService(
 
     suspend fun getOrNull(id: AssetPoolId): AssetPoolDTOBase? {
         return assetPoolFinderService.getOrNull(id)?.toDTO()
+    }
+
+    suspend fun page(
+        status: Match<AssetPoolState>? = null,
+        vintage: Match<String>? = null,
+        offset: OffsetPagination? = null,
+    ): PageDTO<AssetPoolDTOBase> {
+        return assetPoolFinderService.page(
+            status = status,
+            vintage = vintage,
+            offset = offset
+        ).map { it.toDTO() }
     }
 
     private suspend fun AssetPool.toDTO(cache: Cache = Cache()) = toDTO(
