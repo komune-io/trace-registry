@@ -3,7 +3,6 @@ package city.smartb.registry.program.f2.pool.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.i2.spring.boot.auth.AuthenticationProvider
 import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.pool.domain.command.AbstractAssetTransactionCommand
@@ -27,8 +26,6 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEv
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
-import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
-import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import f2.dsl.fnc.invokeWith
 import org.springframework.stereotype.Service
 
@@ -82,37 +79,31 @@ class AssetPoolF2AggregateService(
     }
 
     suspend fun issue(command: AssetIssueCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return placeOrder(command)
+        return emitTransaction(command)
     }
 
     suspend fun transfer(command: AssetTransferCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return placeOrder(command)
+        return emitTransaction(command)
     }
 
     suspend fun offset(command: AssetOffsetCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return placeOrder(command, verifyTo = false)
+        return emitTransaction(command, verifyTo = false)
     }
 
     suspend fun retire(command: AssetRetireCommandDTOBase): AssetPoolEmittedTransactionEvent {
-        return placeOrder(command)
+        return emitTransaction(command)
     }
 
-
-//    emitTransaction(command: AssetTransactionEmitCommand)
-    private suspend fun placeOrder(
+    private suspend fun emitTransaction(
         command: AbstractAssetTransactionCommand,
-        verifyTo: Boolean = true,
-        generatePendingCertificate: suspend (
-            command: AssetTransactionEmitCommand,
-            event: TransactionEmittedEvent,
-        ) -> FilePath? = { _, _ -> null }
+        verifyTo: Boolean = true
     ): AssetPoolEmittedTransactionEvent {
-        val orderCommand = command.toOrderPlaceCommand(verifyTo)
-        assetPoolPoliciesEnforcer.checkOrderPlace(orderCommand)
-        return assetPoolAggregateService.emitTransaction(orderCommand)
+        val emitTransactionCommand = command.toAssetPoolEmitTransactionCommand(verifyTo)
+        assetPoolPoliciesEnforcer.checkEmitTransaction(emitTransactionCommand)
+        return assetPoolAggregateService.emitTransaction(emitTransactionCommand)
     }
 
-    private suspend fun AbstractAssetTransactionCommand.toOrderPlaceCommand(
+    private suspend fun AbstractAssetTransactionCommand.toAssetPoolEmitTransactionCommand(
         verifyTo: Boolean = true
     ): AssetPoolEmitTransactionCommand {
         val to = if (verifyTo) {

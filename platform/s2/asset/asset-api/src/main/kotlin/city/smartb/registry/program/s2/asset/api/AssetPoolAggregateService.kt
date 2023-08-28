@@ -29,8 +29,8 @@ import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTra
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class AssetPoolAggregateService(
@@ -100,7 +100,6 @@ class AssetPoolAggregateService(
 		}
 
 		val transactionEvent = AssetTransactionEmitCommand(
-			orderId = null,
 			poolId = command.id,
 			from = command.from,
 			to = command.to,
@@ -110,7 +109,7 @@ class AssetPoolAggregateService(
 		).let { emitTransaction(it) }
 
 		val result = CertificateGenerator.fillPendingCertificate(
-			orderId = transactionEvent.id,
+			transactionId = transactionEvent.id,
 			date = transactionEvent.date,
 			issuedTo = transactionEvent.to!!,
 			quantity = transactionEvent.quantity,
@@ -137,7 +136,6 @@ class AssetPoolAggregateService(
 		TransactionEmittedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
-			orderId = command.orderId,
 			poolId = command.poolId,
 			from = command.from,
 			to = command.to,

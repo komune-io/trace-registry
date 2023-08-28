@@ -78,7 +78,7 @@ object AssetPoolPolicies {
         )
     }
 
-    fun canPlaceOrderForOther(authedUser: AuthedUserDTO): Boolean {
+    fun canEmitTransactionForOther(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
         )

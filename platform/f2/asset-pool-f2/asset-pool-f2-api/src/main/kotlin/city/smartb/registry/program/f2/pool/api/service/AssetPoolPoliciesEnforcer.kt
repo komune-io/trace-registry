@@ -49,12 +49,12 @@ class AssetPoolPoliciesEnforcer(
         AssetPoolPolicies.canRetire(authedUser)
     }
 
-    suspend fun checkOrderPlace(
+    suspend fun checkEmitTransaction(
         command: AssetPoolEmitTransactionCommand
-    ) = check("place order from [${command.from}]") { authedUser ->
+    ) = check("emit transaction from [${command.from}]") { authedUser ->
         command.from == null
                 || command.from == authedUser.memberOf
-                || AssetPoolPolicies.canPlaceOrderForOther(authedUser)
+                || AssetPoolPolicies.canEmitTransactionForOther(authedUser)
     }
 
 

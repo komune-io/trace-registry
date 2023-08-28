@@ -8,6 +8,8 @@ import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteCo
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompletedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeleteCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderDeletedEventDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderPlaceCommandDTOBase
+import city.smartb.registry.program.f2.asset.domain.command.AssetOrderPlacedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmitCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderSubmittedEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderUpdateCommandDTOBase
@@ -25,6 +27,12 @@ class AssetF2AggregateService(
     private val orderAggregateService: OrderAggregateService,
     private val orderFinderService: OrderFinderService
 ) {
+
+    suspend fun placeOrder(command: AssetOrderPlaceCommandDTOBase): AssetOrderPlacedEventDTOBase {
+        return orderAggregateService.place(command)
+            .let { AssetOrderPlacedEventDTOBase(it.id) }
+    }
+
     suspend fun submitOrder(command: AssetOrderSubmitCommandDTOBase): AssetOrderSubmittedEventDTOBase {
         return orderAggregateService.submit(command)
             .let { AssetOrderSubmittedEventDTOBase(it.id) }
