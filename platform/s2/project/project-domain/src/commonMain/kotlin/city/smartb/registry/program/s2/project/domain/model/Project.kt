@@ -180,6 +180,11 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      *
      */
     val assetPools: List<AssetPoolId>
+
+    /**
+     *
+     */
+    val isPrivate: Boolean
 }
 
 /**
@@ -213,7 +218,8 @@ data class Project(
     override val activities: List<ActivityIdentifier>?,
     override var sdgs: List<SdgNumber>?,
     override val certification: CertificationRef?,
-    override val assetPools: List<AssetPoolId>
+    override val assetPools: List<AssetPoolId>,
+    override val isPrivate: Boolean
 ): ProjectDTO {
     override fun s2State() = status
     override fun s2Id() = id

@@ -60,3 +60,14 @@ Feature: ProjectList
     Then I should not receive projects:
       | identifier  |
       | p2          |
+
+  Scenario: I want to fetch a page of private project
+    Given Some projects are created:
+      | identifier | private |
+      | p1         | true    |
+      | p2         | true    |
+    When I fetch page of projects
+    Then I should receive projects:
+      | identifier  |
+      | p1          |
+      | p2          |

@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.api
 
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
@@ -46,6 +47,7 @@ class ProjectFinderService(
 		origin: Match<String>?,
         status: Match<ProjectState>?,
         offset: OffsetPagination?,
+		privateOrganizationId: OrganizationId?
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
 			id = id,
@@ -59,7 +61,8 @@ class ProjectFinderService(
 			dueDate = dueDate,
 			origin = origin,
 			status = status,
-			offset = offset
+			offset = offset,
+			privateOrganizationId = privateOrganizationId
 		).map(ProjectEntity::toProject)
 	}
 }

@@ -1,10 +1,13 @@
 package city.smartb.registry.program.f2.project.api
 
+import city.smartb.i2.spring.boot.auth.AuthenticationProvider
+import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
 import city.smartb.registry.program.f2.project.domain.ProjectQueryApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectAddAssetPoolFunction
+import city.smartb.registry.program.f2.project.domain.command.ProjectChangePrivacyFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
@@ -53,6 +56,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectGet(): ProjectGetFunction = f2Function { query ->
         logger.info("projectGet: $query")
+        projectPoliciesEnforcer.checkGet(query.id)
         projectF2FinderService.getOrNull(query.id).let(::ProjectGetResult)
     }
 
@@ -60,6 +64,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction = f2Function { query ->
         logger.info("projectGetByIdentifier: $query")
+        projectPoliciesEnforcer.checkGetByIdentifier(query.identifier)
         projectF2FinderService.getOrNullByIdentifier(query.identifier).let(::ProjectGetByIdentifierResult)
     }
 
@@ -68,11 +73,12 @@ class ProjectEndpoint(
     override fun projectPage(): ProjectPageFunction = f2Function { query ->
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
+        val authedUserOrganizationId = AuthenticationProvider.getAuthedUser().memberOf
         val pagination = OffsetPagination(
             offset = query.offset ?: 0,
             limit = query.limit ?: 10,
         )
-        projectF2FinderService.page(
+        val p = projectF2FinderService.page(
             identifier = query.identifier?.let { ExactMatch(it) },
             name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             dueDate = query.dueDate?.let { ExactMatch(it) },
@@ -83,7 +89,8 @@ class ProjectEndpoint(
             type = query.type?.let(::ExactMatch),
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            offset = pagination
+            offset = pagination,
+            privateOrganizationId = authedUserOrganizationId
         ).let { page ->
             ProjectPageResult(
                 items = page.items,
@@ -91,6 +98,7 @@ class ProjectEndpoint(
                 pagination = pagination
             )
         }
+        return@f2Function p
     }
 
     @PermitAll
@@ -137,6 +145,14 @@ class ProjectEndpoint(
         logger.info("projectAddAssetPoolDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
         projectAggregateService.addAssetPool(command)
+    }
+
+    @PermitAll
+    @Bean
+    override fun projectChangePrivacy(): ProjectChangePrivacyFunction = f2Function { command ->
+        logger.info("projectAddAssetPoolDetails: $command")
+        projectPoliciesEnforcer.checkUpdate(command.id)
+        projectAggregateService.changePrivacy(command)
     }
 
 //    @PermitAll

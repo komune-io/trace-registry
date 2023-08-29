@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.project.domain
 
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
@@ -24,6 +25,7 @@ interface ProjectFinder {
         vintage: Match<String>? = null,
         origin: Match<String>? = null,
         status: Match<ProjectState>? = null,
-        offset: OffsetPagination? = null
+        offset: OffsetPagination? = null,
+        privateOrganizationId: OrganizationId? = null,
     ): PageDTO<Project>
 }

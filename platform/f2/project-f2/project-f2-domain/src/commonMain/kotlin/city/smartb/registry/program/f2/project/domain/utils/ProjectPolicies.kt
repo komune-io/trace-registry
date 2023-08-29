@@ -15,6 +15,13 @@ import s2.dsl.automate.extention.canExecuteTransitionAnd
 object ProjectPolicies {
 
     /**
+     * User can get a project
+     */
+    fun canGet(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean {
+        return project.isReadableBy(authedUser)
+    }
+
+    /**
      * User can list the projects
      */
     fun canList(authedUser: AuthedUserDTO): Boolean {
@@ -49,5 +56,9 @@ object ProjectPolicies {
 
     private inline fun <reified C: ProjectCommand> canTransitionAnd(project: ProjectDTO?, hasAccess: () -> Boolean): Boolean {
         return project != null && s2Project.canExecuteTransitionAnd<C>(project, hasAccess)
+    }
+
+    private fun ProjectDTO.isReadableBy(authedUser: AuthedUserDTO): Boolean {
+        return !(isPrivate && proponent?.id != authedUser.memberOf)
     }
 }

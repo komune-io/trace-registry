@@ -8,10 +8,12 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -25,7 +27,6 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
-import kotlin.reflect.KClass
 
 @Configuration
 class ProjectAutomateConfig(
@@ -66,6 +67,7 @@ class ProjectAutomateConfig(
 				subclass(ProjectUpdatedEvent::class, ProjectUpdatedEvent.serializer())
 				subclass(ProjectDeletedEvent::class, ProjectDeletedEvent.serializer())
 				subclass(ProjectAddedAssetPoolEvent::class, ProjectAddedAssetPoolEvent.serializer())
+				subclass(ProjectChangedPrivacyEvent::class, ProjectChangedPrivacyEvent.serializer())
 			}
 		}
 	}

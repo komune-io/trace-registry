@@ -13,6 +13,7 @@ import com.redis.om.spring.search.stream.EntityStream
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
+import java.util.function.Predicate
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -32,6 +33,7 @@ class ProjectPageQueryDB(
         vintage: Match<String>? = null,
         status: Match<ProjectState>? = null,
         offset: OffsetPagination? = null,
+        privateOrganizationId: String? = null,
     ): PageDTO<ProjectEntity> = doQuery(offset) {
         match(`ProjectEntity$`.ID, id)
         match(`ProjectEntity$`.IDENTIFIER, identifier)
@@ -45,5 +47,13 @@ class ProjectPageQueryDB(
         match(`ProjectEntity$`.DUE_DATE, dueDate)
         match(`ProjectEntity$`.STATUS as TextField<ProjectEntity, ProjectState>, status)
         match(TextField(SearchFieldAccessor("proponent_name", ProjectEntity::class.java.getDeclaredField("proponent")), true), proponent)
+
+        if (privateOrganizationId != null) {
+            filter(Predicate<ProjectEntity> { project ->
+                return@Predicate if (project.private) {
+                    project.proponent?.id == privateOrganizationId
+                } else false
+            })
+        }
     }
 }

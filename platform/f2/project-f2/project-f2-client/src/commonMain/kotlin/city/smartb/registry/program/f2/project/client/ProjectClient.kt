@@ -2,6 +2,7 @@ package city.smartb.registry.program.f2.project.client
 
 import city.smartb.registry.program.f2.project.domain.ProjectApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectAddAssetPoolFunction
+import city.smartb.registry.program.f2.project.domain.command.ProjectChangePrivacyFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
@@ -24,6 +25,7 @@ open class ProjectClient constructor(private val client: F2Client) : ProjectApi 
     override fun projectCreate(): ProjectCreateFunction = client.function(this::projectCreate.name)
     override fun projectUpdate(): ProjectUpdateFunction = client.function(this::projectUpdate.name)
     override fun projectAddAssetPool(): ProjectAddAssetPoolFunction = client.function(this::projectAddAssetPool.name)
+    override fun projectChangePrivacy(): ProjectChangePrivacyFunction  = client.function(this::projectChangePrivacy.name)
     override fun projectDelete(): ProjectDeleteFunction = client.function(this::projectDelete.name)
     override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction
         = client.function(this::projectGetByIdentifier.name)

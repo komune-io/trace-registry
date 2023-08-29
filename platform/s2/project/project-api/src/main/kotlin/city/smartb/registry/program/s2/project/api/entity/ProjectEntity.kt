@@ -28,6 +28,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     @Searchable(nostem=true)
     open lateinit var status: ProjectState
 
+
     @Searchable(nostem=true)
     var identifier: ProjectIdentifier? = null
 
@@ -88,6 +89,8 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var sdgs: List<SdgNumber>? = null
 
     val assetPools: MutableSet<AssetPoolId> = mutableSetOf()
+
+    var private: Boolean = true
 
 //    @CreatedDate
 //    val createdDate: Date? = null
