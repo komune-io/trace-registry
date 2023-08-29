@@ -1,30 +1,93 @@
+import city.smartb.registry.program.s2.catalog.domain.model.SkosConcept
+import city.smartb.registry.program.s2.catalog.domain.model.SkosConceptScheme
 
-
-interface Catalog: Dataset {
+interface DcatApCatalog: DcatDataset {
     override val identifier: String
     val homepage: String
-    val themes: List<Concept>?
+    val themes: List<SkosConcept>?
     val resources: List<Resource>?
-    val datasets: List<Dataset>?
+    val datasets: List<DcatDataset>?
     val services: List<DataService>?
-    val catalogs: List<Catalog>?
-    val catalogRecords: List<CatalogRecord>?
+    val catalogs: List<DcatApCatalog>?
+    val catalogRecords: List<DcatCatalogRecord>?
+}
+
+// DCAT-AP: This interface represents a Dataset Series, a collection of related Datasets.
+interface DcatApDatasetSeries : DcatDataset {
+    /**
+     * Last modification date of the Dataset Series
+     */
+    val modificationDate: String?
+
+    /**
+     * Geographical area covered by the Dataset Series
+     */
+    val geographicalCoverage: Location?
+
+    /**
+     * First dataset in the Series
+     */
+    val first: DcatApDatasetMember?
+
+    /**
+     * Last dataset in the Series
+     */
+    val last: DcatApDatasetMember?
+
+    /**
+     * List of Datasets that are part of this Series
+     */
+    val seriesMember: List<DcatApDatasetMember>?
+}
+
+// DCAT-AP: This interface represents a Dataset that is a member of a Dataset Series.
+interface DcatApDatasetMember : DcatDataset {
+    /**
+     * Title of the Dataset Member
+     */
+    override val title: String
+
+    /**
+     * Reference to the Dataset Series this Dataset is part of
+     */
+    val inSeries: DcatApDatasetSeries
+
+    /**
+     * Reference to the previous Dataset in the Series
+     */
+    val previous: DcatApDatasetMember?
+
+    /**
+     * Reference to the next Dataset in the Series
+     */
+    val next: DcatApDatasetMember?
+}
+
+interface DcatCatalog: DcatDataset {
+    override val identifier: String
+    val homepage: String
+    val themes: List<SkosConcept>?
+    val resources: List<Resource>?
+    val datasets: List<DcatDataset>?
+    val services: List<DataService>?
+    val catalogs: List<DcatCatalog>?
+    val catalogRecords: List<DcatCatalogRecord>?
 
 }
 
-interface CatalogRecord {
+interface DcatCatalogRecord {
     val identifier: String
     val title: String
     val description: String?
     val listingDate: String
     val updateDate: String?
     val primaryTopic: Resource?
-    val conformsTo: List<ConceptScheme>?
+    val conformsTo: List<SkosConceptScheme>?
 }
 
-sealed interface Dataset: Resource {
+sealed interface DcatDataset: Resource {
     override val identifier: String
-    val distributions: List<Distribution>?
+    val distributions: List<DcatDistribution>?
     val frequency: String?
     val spatialCoverage: Location?
     val spatialResolution: String?
@@ -33,7 +96,7 @@ sealed interface Dataset: Resource {
     val wasGeneratedBy: Activity?
 }
 
-interface Distribution {
+interface DcatDistribution {
     val identifier: String
     val accessURL: String?
     val accessService: DataService?
@@ -41,7 +104,7 @@ interface Distribution {
     val byteSize: Long?
     val spatialResolution: String?
     val temporalResolution: String?
-    val conformsTo: List<ConceptScheme>?
+    val conformsTo: List<SkosConceptScheme>?
     val mediaType: String?
     val format: String?
     val compressionFormat: String?
@@ -53,13 +116,13 @@ interface DataService {
     val identifier: String
     val endpointURL: String
     val endpointDescription: String?
-    val servesDataset: List<Dataset>?
+    val servesDataset: List<DcatDataset>?
 }
 
 
 sealed interface Resource {
     val accessRights: String?
-    val conformsTo: List<ConceptScheme>?
+    val conformsTo: List<SkosConceptScheme>?
     val contactPoint: String?
     val creator: Agent?
     val description: String?
@@ -69,7 +132,7 @@ sealed interface Resource {
     val language: List<String>?
     val publisher: Agent?
     val identifier: String?
-    val theme: List<Concept>?
+    val theme: List<SkosConcept>?
     val type: String?
     val relation: List<Relationship>?
     val qualifiedRelation: List<Relationship>?
@@ -89,16 +152,6 @@ sealed interface Resource {
     val versionNotes: String?
     val status: String?
 }
-
-data class ConceptScheme(
-    val identifier: String,
-    // Aucune propriété spécifique dans DCAT
-)
-
-data class Concept(
-    val identifier: String,
-    // Aucune propriété spécifique dans DCAT
-)
 
 data class Agent(
     val identifier: String,
@@ -135,24 +188,19 @@ data class Checksum(
 
 data class Policy(
     val identifier: String,
-    // Aucune propriété spécifique dans DCAT
 )
 
 data class Rights(
     val identifier: String,
-    // Aucune propriété spécifique dans DCAT
 )
 
 data class Attribution(
     val identifier: String,
-    // Aucune propriété spécifique dans DCAT
 )
 
 data class Activity(
     val identifier: String,
-    // Aucune propriété spécifique dans DCAT
 )
 data class LicenseDocument(
     val identifier: String,
-    // Aucune propriété spécifique dans DCAT
 )
