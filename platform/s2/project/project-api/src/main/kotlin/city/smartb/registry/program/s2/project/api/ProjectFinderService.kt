@@ -62,7 +62,7 @@ class ProjectFinderService(
 			origin = origin,
 			status = status,
 			offset = offset,
-			privateOrganizationId = privateOrganizationId
+//			privateOrganizationId = privateOrganizationId
 		).map(ProjectEntity::toProject)
 	}
 }
