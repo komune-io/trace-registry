@@ -2,10 +2,8 @@ package city.smartb.registry.program.ver.test.s2.project.command
 
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.program.api.commons.model.GeoLocation
-import city.smartb.registry.program.infra.redis.toRedisGeoLocation
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
-import city.smartb.registry.program.s2.project.api.entity.toEntity
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectChangePrivacyCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
@@ -34,6 +32,12 @@ class ProjectUpdateSteps: En, VerCucumberStepsDefinition() {
         DataTableType(::projectUpdateParams)
         DataTableType(::projectAddAssetPoolParams)
         DataTableType(::projectChangePrivacyParams)
+
+        Given("The project privacy is changed:") { params: ProjectChangePrivacyParams ->
+            step {
+                changeProjectPrivacy(params)
+            }
+        }
 
         When("I update the project:") { params: ProjectUpdateParams ->
             step {
@@ -73,7 +77,7 @@ class ProjectUpdateSteps: En, VerCucumberStepsDefinition() {
             step {
                 val projectId = context.projectIds.safeGet(params.identifier)
                 val project = projectRepository.findById(projectId).getOrNull()
-                Assertions.assertThat(project?.private).isEqualTo(params.private)
+                Assertions.assertThat(project?.privacy).isEqualTo(params.private)
             }
         }
     }

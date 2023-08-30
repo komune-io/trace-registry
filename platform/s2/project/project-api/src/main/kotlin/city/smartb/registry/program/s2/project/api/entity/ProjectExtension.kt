@@ -35,7 +35,7 @@ fun ProjectEntity.toProject() = Project(
     sdgs = sdgs,
     certification = request,
     assetPools = assetPools.toList(),
-    isPrivate = private
+    isPrivate = privacy
 //    creationDate = createdDate!!.time,
 //    lastModificationDate = lastModifiedDate!!.time
 )

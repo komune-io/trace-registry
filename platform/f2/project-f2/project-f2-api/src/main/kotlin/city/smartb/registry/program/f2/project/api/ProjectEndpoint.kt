@@ -73,12 +73,14 @@ class ProjectEndpoint(
     override fun projectPage(): ProjectPageFunction = f2Function { query ->
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
-        val authedUserOrganizationId = AuthenticationProvider.getAuthedUser().memberOf
+        val privateOrganizationId = if(projectPoliciesEnforcer.checkListPrivate()) {
+            null
+        } else AuthenticationProvider.getAuthedUser().memberOf
         val pagination = OffsetPagination(
             offset = query.offset ?: 0,
             limit = query.limit ?: 10,
         )
-        val p = projectF2FinderService.page(
+        projectF2FinderService.page(
             identifier = query.identifier?.let { ExactMatch(it) },
             name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             dueDate = query.dueDate?.let { ExactMatch(it) },
@@ -90,7 +92,7 @@ class ProjectEndpoint(
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination,
-            privateOrganizationId = authedUserOrganizationId
+            privateOrganizationId = privateOrganizationId
         ).let { page ->
             ProjectPageResult(
                 items = page.items,
@@ -98,7 +100,6 @@ class ProjectEndpoint(
                 pagination = pagination
             )
         }
-        return@f2Function p
     }
 
     @PermitAll

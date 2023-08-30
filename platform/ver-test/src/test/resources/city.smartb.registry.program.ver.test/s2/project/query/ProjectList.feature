@@ -61,13 +61,54 @@ Feature: ProjectList
       | identifier  |
       | p2          |
 
-  Scenario: I want to fetch a page of private project
-    Given Some projects are created:
+  Scenario: I want to fetch a page of private project as orchestrator
+    Given An organization is defined:
+      | identifier | roles                |
+      | orch       | tr_orchestrator_user |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
+    And Some projects are created:
+      | identifier | private | proponent |
+      | p1         | true    | orch      |
+      | p2         | true    | stake     |
+      | p3         | true    | stake     |
+    And The project privacy is changed:
       | identifier | private |
-      | p1         | true    |
-      | p2         | true    |
+      | p2         | false   |
     When I fetch page of projects
     Then I should receive projects:
       | identifier  |
       | p1          |
       | p2          |
+      | p3          |
+
+  Scenario: I want to fetch a page of private project as non-orchestrator
+    Given An organization is defined:
+      | identifier | roles               |
+      | stake      | tr_stakeholder_user |
+    And A user is defined:
+      | identifier |
+      | stake      |
+    And I am authenticated as:
+      | identifier |
+      | stake      |
+    And Some projects are created:
+      | identifier | private | proponent |
+      | p1         | true    | stake     |
+      | p2         | true    | orch      |
+      | p3         | true    | orch      |
+    And The project privacy is changed:
+      | identifier | private |
+      | p2         | false   |
+    When I fetch page of projects
+    Then I should receive projects:
+      | identifier  |
+      | p1          |
+      | p2          |
+    Then I should not receive projects:
+      | identifier  |
+      | p3          |

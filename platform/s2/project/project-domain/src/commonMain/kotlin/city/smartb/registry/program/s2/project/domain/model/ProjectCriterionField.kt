@@ -6,5 +6,5 @@ sealed interface ProjectCriterionField<out T>: CriterionField<T> {
     object Id: ProjectCriterionField<ProjectId>
     object Name: ProjectCriterionField<String>
     object Private: ProjectCriterionField<Boolean>
-    object ProponentName: ProjectCriterionField<String>
+    object ProponentId: ProjectCriterionField<String>
 }

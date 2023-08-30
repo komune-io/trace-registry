@@ -91,7 +91,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     val assetPools: MutableSet<AssetPoolId> = mutableSetOf()
 
     @Indexed
-    var private: Boolean = true
+    var privacy: Boolean = true
 
 //    @CreatedDate
 //    val createdDate: Date? = null

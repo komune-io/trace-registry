@@ -30,6 +30,10 @@ class ProjectPageQueryDB(
             SearchFieldAccessor("proponent_name", ProjectEntity::class.java.getDeclaredField("proponent")),
             true
         )
+        private val FIELD_PROPONENT_ID = TextField<ProjectEntity, String>(
+            SearchFieldAccessor("proponent_id", ProjectEntity::class.java.getDeclaredField("proponent")),
+            true
+        )
     }
 
     fun execute(
@@ -70,7 +74,7 @@ class ProjectPageQueryDB(
     private fun <T> ProjectCriterionField<T>.toRedisField(): MetamodelField<ProjectEntity, T> = when (this) {
         ProjectCriterionField.Id -> `ProjectEntity$`.ID
         ProjectCriterionField.Name -> `ProjectEntity$`.NAME
-        ProjectCriterionField.Private -> `ProjectEntity$`.PRIVATE
-        ProjectCriterionField.ProponentName -> FIELD_PROPONENT_NAME
+        ProjectCriterionField.Private -> `ProjectEntity$`.PRIVACY
+        ProjectCriterionField.ProponentId -> FIELD_PROPONENT_ID
     } as MetamodelField<ProjectEntity, T>
 }

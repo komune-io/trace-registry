@@ -79,7 +79,7 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 	}
 
 	private fun ProjectEntity.changePrivacy(event: ProjectChangedPrivacyEvent) = apply {
-		private = event.isPrivate
+		privacy = event.isPrivate
 	}
 
 	private fun ProjectEntity.delete(event: ProjectDeletedEvent) = apply {

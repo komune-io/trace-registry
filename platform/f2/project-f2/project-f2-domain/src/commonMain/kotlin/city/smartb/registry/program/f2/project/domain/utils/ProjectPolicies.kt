@@ -29,6 +29,13 @@ object ProjectPolicies {
     }
 
     /**
+     * User can list all the private projects
+     */
+    fun canListPrivate(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+    }
+
+    /**
      * User can create a project
      */
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
