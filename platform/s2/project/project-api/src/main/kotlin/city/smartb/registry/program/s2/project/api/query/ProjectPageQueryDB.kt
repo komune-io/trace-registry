@@ -14,6 +14,7 @@ import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
 import com.redis.om.spring.metamodel.MetamodelField
 import com.redis.om.spring.metamodel.SearchFieldAccessor
 import com.redis.om.spring.metamodel.indexed.TextField
+import com.redis.om.spring.metamodel.indexed.TextTagField
 import com.redis.om.spring.search.stream.EntityStream
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
@@ -30,7 +31,7 @@ class ProjectPageQueryDB(
             SearchFieldAccessor("proponent_name", ProjectEntity::class.java.getDeclaredField("proponent")),
             true
         )
-        private val FIELD_PROPONENT_ID = TextField<ProjectEntity, String>(
+        private val FIELD_PROPONENT_ID = TextTagField<ProjectEntity, String>(
             SearchFieldAccessor("proponent_id", ProjectEntity::class.java.getDeclaredField("proponent")),
             true
         )

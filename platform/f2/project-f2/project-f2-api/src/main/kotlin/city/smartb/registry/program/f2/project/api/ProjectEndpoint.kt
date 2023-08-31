@@ -1,7 +1,5 @@
 package city.smartb.registry.program.f2.project.api
 
-import city.smartb.i2.spring.boot.auth.AuthenticationProvider
-import city.smartb.registry.program.api.commons.auth.getAuthedUser
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
@@ -47,7 +45,7 @@ class ProjectEndpoint(
     private val fsService: FsService,
     private val projectF2FinderService: ProjectF2FinderService,
     private val projectAggregateService: ProjectAggregateService,
-    private val projectPoliciesEnforcer: ProjectPoliciesEnforcer
+    private val projectPoliciesEnforcer: ProjectPoliciesEnforcer,
 ): ProjectQueryApi, ProjectCommandApi {
 
     private val logger by Logger()
@@ -73,9 +71,6 @@ class ProjectEndpoint(
     override fun projectPage(): ProjectPageFunction = f2Function { query ->
         logger.info("projectPage: $query")
         projectPoliciesEnforcer.checkList()
-        val privateOrganizationId = if(projectPoliciesEnforcer.checkListPrivate()) {
-            null
-        } else AuthenticationProvider.getAuthedUser().memberOf
         val pagination = OffsetPagination(
             offset = query.offset ?: 0,
             limit = query.limit ?: 10,
@@ -92,7 +87,7 @@ class ProjectEndpoint(
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination,
-            privateOrganizationId = privateOrganizationId
+            privateOrganizationId = projectPoliciesEnforcer.privateOrganizationId()
         ).let { page ->
             ProjectPageResult(
                 items = page.items,

@@ -25,8 +25,8 @@ class ProjectPoliciesEnforcer(
         ProjectPolicies.canList(authedUser)
     }
 
-    suspend fun checkListPrivate() = enforce { authedUser ->
-        ProjectPolicies.canListPrivate(authedUser)
+    suspend fun privateOrganizationId() = enforce { authedUser ->
+        ProjectPolicies.privateOrganizationId(authedUser)
     }
 
     suspend fun checkCreate() = check("create a project") { authedUser ->

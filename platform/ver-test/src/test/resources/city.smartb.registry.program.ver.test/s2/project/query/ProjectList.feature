@@ -61,6 +61,32 @@ Feature: ProjectList
       | identifier  |
       | p2          |
 
+  Scenario: I want to fetch a page of project by proponent
+    Given An organization is defined:
+      | identifier | roles                |
+      | orch       | tr_orchestrator_user |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
+    And Some projects are created:
+      | identifier | proponent |
+      | p1         | orch      |
+      | p2         | stake     |
+      | p3         | stake     |
+    When I fetch page of projects:
+      | proponent |
+      | orch      |
+    Then I should receive projects:
+      | identifier  |
+      | p1          |
+    Then I should not receive projects:
+      | identifier  |
+      | p2          |
+      | p3          |
+
   Scenario: I want to fetch a page of private project as orchestrator
     Given An organization is defined:
       | identifier | roles                |

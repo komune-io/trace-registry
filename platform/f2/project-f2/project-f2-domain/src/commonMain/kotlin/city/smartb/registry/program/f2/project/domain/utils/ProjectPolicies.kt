@@ -1,6 +1,7 @@
 package city.smartb.registry.program.f2.project.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.im.commons.auth.hasOneOfRoles
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
@@ -29,10 +30,12 @@ object ProjectPolicies {
     }
 
     /**
-     * User can list all the private projects
+     * Proponent id of the allowed private projects or null if user can list all the private projects
      */
-    fun canListPrivate(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+    fun privateOrganizationId(authedUser: AuthedUserDTO): OrganizationId? {
+        return if (authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)){
+            null
+        } else authedUser.memberOf
     }
 
     /**
