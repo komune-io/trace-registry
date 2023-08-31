@@ -1,7 +1,8 @@
 package city.smartb.registry.program.f2.pool.api
 
+import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.registry.program.api.commons.utils.anyNotNull
-import city.smartb.registry.program.f2.pool.api.service.AssetCertificationF2FinderService
+import city.smartb.registry.program.api.commons.utils.serveFile
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2AggregateService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolPoliciesEnforcer
@@ -36,30 +37,30 @@ import city.smartb.registry.program.f2.pool.domain.query.AssetTransactionPageRes
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import io.ktor.utils.io.ByteReadChannel
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.InputStreamResource
-import org.springframework.http.ResponseEntity
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
 @Configuration
+@RestController
 class AssetPoolEndpoint(
     private val assetPoolF2AggregateService: AssetPoolF2AggregateService,
     private val assetPoolF2FinderService: AssetPoolF2FinderService,
     private val assetTransactionF2FinderService: AssetTransactionF2FinderService,
-    private val assetCertificationF2FinderService: AssetCertificationF2FinderService,
+    private val fileClient: FileClient,
     private val assetPoolPoliciesEnforcer: AssetPoolPoliciesEnforcer,
 
     ): AssetPoolApi {
@@ -198,16 +199,38 @@ class AssetPoolEndpoint(
         assetTransactionF2FinderService.getAssetStats(query.projectId)
     }
 
+//    @PermitAll
+//    @PostMapping("/assetCertificateDownload")
+//    suspend fun assetCertificateDownload(
+//        @RequestBody query: AssetCertificateDownloadQuery,
+//        response: ServerHttpResponse
+//    ): ResponseEntity<InputStreamResource> {
+//        logger.info("assetCertificateDownload: $query")
+//        val stream = assetCertificationF2FinderService.assetCertificateDownload(query.transactionId, response)
+//        return ResponseEntity.ok()
+//            .body(InputStreamResource(stream))
+//    }
+//
+//    @PermitAll
+//    @GetMapping("/assetCertificateDownload")
+//    suspend fun assetCertificateDownload(
+//        @RequestParam transactionId: AssetTransactionId,
+//        response: ServerHttpResponse
+//    ): ResponseEntity<InputStreamResource> {
+//        logger.info("assetCertificateDownload: $transactionId")
+//        val stream = assetCertificationF2FinderService.assetCertificateDownload(transactionId, response)
+//        return ResponseEntity.ok()
+//            .body(InputStreamResource(stream))
+//    }
+
     @PermitAll
     @PostMapping("/assetCertificateDownload")
     suspend fun assetCertificateDownload(
         @RequestBody query: AssetCertificateDownloadQuery,
         response: ServerHttpResponse
-    ): ResponseEntity<InputStreamResource> {
+    ): ByteReadChannel? = response.serveFile(fileClient) {
         logger.info("assetCertificateDownload: $query")
-        val stream = assetCertificationF2FinderService.assetCertificateDownload(query.transactionId, response)
-        return ResponseEntity.ok()
-            .body(InputStreamResource(stream))
+        assetTransactionF2FinderService.getTransaction(query.transactionId).file
     }
 
     @PermitAll
@@ -215,11 +238,9 @@ class AssetPoolEndpoint(
     suspend fun assetCertificateDownload(
         @RequestParam transactionId: AssetTransactionId,
         response: ServerHttpResponse
-    ): ResponseEntity<InputStreamResource> {
+    ): ByteReadChannel? = response.serveFile(fileClient) {
         logger.info("assetCertificateDownload: $transactionId")
-        val stream = assetCertificationF2FinderService.assetCertificateDownload(transactionId, response)
-        return ResponseEntity.ok()
-            .body(InputStreamResource(stream))
+        assetTransactionF2FinderService.getTransaction(transactionId).file
     }
 
 }

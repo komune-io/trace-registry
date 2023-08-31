@@ -12,8 +12,6 @@ import org.springframework.web.reactive.result.method.RequestMappingInfo
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping
 
 @Configuration
-@EnableWebFluxSecurity
-@SpringBootApplication(exclude=[SecurityAutoConfiguration::class])
 class VerWebSecurityConfig: WebSecurityConfig(){
     override fun addPermitAllRules(http: ServerHttpSecurity) {
         val requestMappingHandlerMapping: RequestMappingHandlerMapping = applicationContext
