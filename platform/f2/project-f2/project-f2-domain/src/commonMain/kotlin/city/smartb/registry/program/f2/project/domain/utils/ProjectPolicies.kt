@@ -19,7 +19,7 @@ object ProjectPolicies {
      * User can get a project
      */
     fun canGet(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean {
-        return project.isReadableBy(authedUser)
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) || project.isReadableBy(authedUser)
     }
 
     /**
@@ -35,7 +35,7 @@ object ProjectPolicies {
     fun privateOrganizationId(authedUser: AuthedUserDTO): OrganizationId? {
         return if (authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)){
             null
-        } else authedUser.memberOf
+        } else authedUser.memberOf ?: "none"
     }
 
     /**
