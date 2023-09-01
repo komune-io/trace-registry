@@ -1,5 +1,6 @@
 package city.smartb.registry.program.ver.test.s2.project.query
 
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.f2.project.api.ProjectEndpoint
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
 import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
@@ -70,6 +71,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
             status = params.status,
             vintage = params.vintage,
             origin = params.origin,
+
         ).invokeWith(projectEndpoint.projectPage()).items
     }
 
@@ -150,6 +152,6 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         val estimatedReductions: String?,
         val referenceYear: String?,
         val dueDate: Long?,
-        val status: String?
+        val status: String?,
     )
 }

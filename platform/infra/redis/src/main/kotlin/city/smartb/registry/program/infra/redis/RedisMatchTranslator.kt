@@ -55,7 +55,7 @@ fun <E, T: Enum<T>?> SearchStream<E>.match(x: TextTagField<E, T>, matcher: Match
         ?: this
 }
 
-private fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
+internal fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
     return when {
         matcher == null -> null
         matcher.negative -> not(match(x, matcher.not()))
@@ -66,7 +66,6 @@ private fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate
             is ComparableMatch -> match(x, matcher)
             is AndMatch -> match(x, matcher)
             is OrMatch -> match(x, matcher)
-            else -> TODO()
         }
     }
 }

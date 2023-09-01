@@ -12,6 +12,8 @@ import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangePrivacyCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
@@ -20,11 +22,11 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateComma
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.CertificationRef
 import f2.dsl.fnc.invokeWith
+import java.util.UUID
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class ProjectAggregateService(
@@ -94,6 +96,14 @@ class ProjectAggregateService(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			poolId = command.poolId
+		)
+	}
+
+	override suspend fun changePrivacy(command: ProjectChangePrivacyCommand) = automate.transition(command) {
+		ProjectChangedPrivacyEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			isPrivate = command.isPrivate
 		)
 	}
 }

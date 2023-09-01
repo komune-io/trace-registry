@@ -1,6 +1,7 @@
 package city.smartb.registry.program.f2.project.domain.utils
 
 import city.smartb.im.commons.auth.AuthedUserDTO
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.im.commons.auth.hasOneOfRoles
 import city.smartb.registry.program.api.commons.auth.Roles
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
@@ -15,10 +16,26 @@ import s2.dsl.automate.extention.canExecuteTransitionAnd
 object ProjectPolicies {
 
     /**
+     * User can get a project
+     */
+    fun canGet(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) || project.isReadableBy(authedUser)
+    }
+
+    /**
      * User can list the projects
      */
     fun canList(authedUser: AuthedUserDTO): Boolean {
         return true
+    }
+
+    /**
+     * Proponent id of the allowed private projects or null if user can list all the private projects
+     */
+    fun privateOrganizationId(authedUser: AuthedUserDTO): OrganizationId? {
+        return if (authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)){
+            null
+        } else authedUser.memberOf ?: "none"
     }
 
     /**
@@ -49,5 +66,9 @@ object ProjectPolicies {
 
     private inline fun <reified C: ProjectCommand> canTransitionAnd(project: ProjectDTO?, hasAccess: () -> Boolean): Boolean {
         return project != null && s2Project.canExecuteTransitionAnd<C>(project, hasAccess)
+    }
+
+    private fun ProjectDTO.isReadableBy(authedUser: AuthedUserDTO): Boolean {
+        return !(isPrivate && proponent?.id != authedUser.memberOf)
     }
 }

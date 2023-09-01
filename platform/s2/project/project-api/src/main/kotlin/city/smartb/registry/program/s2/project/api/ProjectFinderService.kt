@@ -1,6 +1,9 @@
 package city.smartb.registry.program.s2.project.api
 
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.api.commons.exception.NotFoundException
+import city.smartb.registry.program.api.commons.model.FieldCriterion
+import city.smartb.registry.program.api.commons.model.orCriterionOf
 import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.api.entity.toProject
@@ -8,8 +11,10 @@ import city.smartb.registry.program.s2.project.api.query.ProjectPageQueryDB
 import city.smartb.registry.program.s2.project.domain.ProjectFinder
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
+import city.smartb.registry.program.s2.project.domain.model.ProjectCriterionField
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
+import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -46,6 +51,7 @@ class ProjectFinderService(
 		origin: Match<String>?,
         status: Match<ProjectState>?,
         offset: OffsetPagination?,
+		privateOrganizationId: OrganizationId?
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
 			id = id,
@@ -59,7 +65,19 @@ class ProjectFinderService(
 			dueDate = dueDate,
 			origin = origin,
 			status = status,
-			offset = offset
+			offset = offset,
+			freeCriteria = privateOrganizationId?.let {
+				orCriterionOf(
+					FieldCriterion(
+						ProjectCriterionField.Private,
+						ExactMatch(false),
+					),
+					FieldCriterion(
+						ProjectCriterionField.ProponentId,
+						ExactMatch(it)
+					)
+				)
+			}
 		).map(ProjectEntity::toProject)
 	}
 }

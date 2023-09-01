@@ -3,6 +3,8 @@ package city.smartb.registry.program.s2.project.domain.automate
 import city.smartb.registry.program.api.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangePrivacyCommand
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
@@ -10,14 +12,14 @@ import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEven
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 val s2Project = s2Sourcing {
 	name = "ProjectS2"
@@ -30,6 +32,10 @@ val s2Project = s2Sourcing {
 		role = ProjectRole.ProjectDeveloper
 	}
 	selfTransaction<ProjectAddAssetPoolCommand, ProjectAddedAssetPoolEvent> {
+		states += ProjectState.STAMPED
+		role = ProjectRole.ProjectDeveloper
+	}
+	selfTransaction<ProjectChangePrivacyCommand, ProjectChangedPrivacyEvent> {
 		states += ProjectState.STAMPED
 		role = ProjectRole.ProjectDeveloper
 	}

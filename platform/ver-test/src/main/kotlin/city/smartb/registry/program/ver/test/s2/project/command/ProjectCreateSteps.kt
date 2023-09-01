@@ -137,7 +137,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
             dueDate = entry?.get("dueDate")?.toLong(),
             estimatedReduction = entry?.get("estimatedReduction").orRandom(),
             localization = entry?.get("localization").orRandom(),
-            proponent = null, //entry?.get("proponent")?.toOrganizationRef(),
+            proponent = entry?.get("proponent")?.toOrganizationRef(),
             referenceYear = entry?.get("referenceYear").orRandom(),
             registrationDate = entry?.get("registrationDate")?.toLong(),
             slug = entry?.get("slug").orRandom(),
@@ -202,4 +202,9 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
         val hasConcept: List<TestContextKey>?,
         val hasEvidenceTypeList: List<TestContextKey>?
     )
+
+    private fun String.toOrganizationRef(): OrganizationRef {
+        val organization = context.organizations[this]
+        return OrganizationRef(organization?.id?:UUID.randomUUID().toString(), organization?.name?:this)
+    }
 }

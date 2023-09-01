@@ -5,6 +5,7 @@ import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforc
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
 import city.smartb.registry.program.f2.project.domain.ProjectQueryApi
 import city.smartb.registry.program.f2.project.domain.command.ProjectAddAssetPoolFunction
+import city.smartb.registry.program.f2.project.domain.command.ProjectChangePrivacyFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectCreateFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectDeleteFunction
 import city.smartb.registry.program.f2.project.domain.command.ProjectUpdateFunction
@@ -44,7 +45,7 @@ class ProjectEndpoint(
     private val fsService: FsService,
     private val projectF2FinderService: ProjectF2FinderService,
     private val projectAggregateService: ProjectAggregateService,
-    private val projectPoliciesEnforcer: ProjectPoliciesEnforcer
+    private val projectPoliciesEnforcer: ProjectPoliciesEnforcer,
 ): ProjectQueryApi, ProjectCommandApi {
 
     private val logger by Logger()
@@ -53,6 +54,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectGet(): ProjectGetFunction = f2Function { query ->
         logger.info("projectGet: $query")
+        projectPoliciesEnforcer.checkGet(query.id)
         projectF2FinderService.getOrNull(query.id).let(::ProjectGetResult)
     }
 
@@ -60,6 +62,7 @@ class ProjectEndpoint(
     @Bean
     override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction = f2Function { query ->
         logger.info("projectGetByIdentifier: $query")
+        projectPoliciesEnforcer.checkGetByIdentifier(query.identifier)
         projectF2FinderService.getOrNullByIdentifier(query.identifier).let(::ProjectGetByIdentifierResult)
     }
 
@@ -83,7 +86,8 @@ class ProjectEndpoint(
             type = query.type?.let(::ExactMatch),
             vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            offset = pagination
+            offset = pagination,
+            privateOrganizationId = projectPoliciesEnforcer.privateOrganizationId()
         ).let { page ->
             ProjectPageResult(
                 items = page.items,
@@ -137,6 +141,14 @@ class ProjectEndpoint(
         logger.info("projectAddAssetPoolDetails: $command")
         projectPoliciesEnforcer.checkUpdate(command.id)
         projectAggregateService.addAssetPool(command)
+    }
+
+    @PermitAll
+    @Bean
+    override fun projectChangePrivacy(): ProjectChangePrivacyFunction = f2Function { command ->
+        logger.info("projectAddAssetPoolDetails: $command")
+        projectPoliciesEnforcer.checkUpdate(command.id)
+        projectAggregateService.changePrivacy(command)
     }
 
 //    @PermitAll

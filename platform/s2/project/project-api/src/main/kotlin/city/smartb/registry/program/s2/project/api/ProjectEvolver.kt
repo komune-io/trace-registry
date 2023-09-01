@@ -6,6 +6,7 @@ import city.smartb.registry.program.s2.project.api.entity.toEntity
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
+import city.smartb.registry.program.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdatedEvent
@@ -19,6 +20,7 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		is ProjectCreatedEvent -> create(event)
 		is ProjectUpdatedEvent -> model?.update(event)
 		is ProjectAddedAssetPoolEvent -> model?.addAssetPool(event)
+		is ProjectChangedPrivacyEvent -> model?.changePrivacy(event)
 		is ProjectDeletedEvent -> model?.delete(event)
 		else -> TODO()
 	}
@@ -74,6 +76,10 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 
 	private fun ProjectEntity.addAssetPool(event: ProjectAddedAssetPoolEvent) = apply {
 		assetPools += event.poolId
+	}
+
+	private fun ProjectEntity.changePrivacy(event: ProjectChangedPrivacyEvent) = apply {
+		privacy = event.isPrivate
 	}
 
 	private fun ProjectEntity.delete(event: ProjectDeletedEvent) = apply {

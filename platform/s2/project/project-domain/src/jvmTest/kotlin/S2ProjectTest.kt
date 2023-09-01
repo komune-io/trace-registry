@@ -66,7 +66,8 @@ class S2ProjectTest {
             certification = null,
             sdgs = (1..15).shuffled().take((1..15).random()),
             assetPools = emptyList(),
-            indicator = "ewf"
+            indicator = "ewf",
+            isPrivate = false
         )
 
         println(json.encodeToString(project))

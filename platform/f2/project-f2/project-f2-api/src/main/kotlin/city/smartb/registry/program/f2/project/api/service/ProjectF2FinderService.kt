@@ -4,6 +4,7 @@ import cccev.dsl.client.CCCEVClient
 import cccev.f2.certification.domain.query.CertificationGetQueryDTOBase
 import cccev.s2.certification.domain.model.Evidence
 import city.smartb.fs.s2.file.domain.model.FilePath
+import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
@@ -44,6 +45,7 @@ class ProjectF2FinderService(
         status: Match<ProjectState>? = null,
         origin: Match<String>? = null,
         offset: OffsetPagination? = null,
+        privateOrganizationId: OrganizationId? = null,
     ): PageDTO<Project> {
         return projectFinderService.page(
             identifier = identifier,
@@ -56,7 +58,8 @@ class ProjectF2FinderService(
             dueDate = dueDate,
             origin = origin,
             status = status,
-            offset = offset
+            offset = offset,
+            privateOrganizationId = privateOrganizationId
         )
     }
 
