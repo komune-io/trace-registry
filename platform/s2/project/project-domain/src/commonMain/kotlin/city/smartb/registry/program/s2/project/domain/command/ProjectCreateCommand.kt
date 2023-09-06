@@ -26,7 +26,13 @@ interface D2ProjectCreateFunction
  */
 @JsExport
 @JsName("ProjectCreateCommandDTO")
-interface ProjectCreateCommandDTO: ProjectAbstractMsg
+interface ProjectCreateCommandDTO: ProjectAbstractMsg {
+    /**
+     * Indicates whether the project is private or not.
+     *
+     */
+    var isPrivate: Boolean?
+}
 
 /**
  * @d2 command
@@ -55,7 +61,8 @@ data class ProjectCreateCommand(
     override var location: GeoLocation?,
     override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
-    override var sdgs: List<SdgNumber>?
+    override var sdgs: List<SdgNumber>?,
+    override var isPrivate: Boolean?
 ): ProjectInitCommand, ProjectCreateCommandDTO
 
 /**
@@ -68,6 +75,12 @@ interface ProjectCreatedEventDTO: ProjectEvent, ProjectAbstractMsg  {
      * Identifier of the created project.
      */
     override val id: ProjectId
+
+    /**
+     * Indicates whether the project is private or not. Default value is true.
+     *
+     */
+    var isPrivate: Boolean?
 }
 
 /**
@@ -80,6 +93,7 @@ data class ProjectCreatedEvent(
     override var name: String,
     override val date: Long,
     override var identifier: String? = null,
+    override var isPrivate: Boolean? = null,
     override var country: String? = null,
     override var indicator: InformationConceptIdentifier,
     override var creditingPeriodStartDate: DateTime? = null,

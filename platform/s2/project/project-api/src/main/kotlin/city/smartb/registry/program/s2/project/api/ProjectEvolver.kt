@@ -49,6 +49,7 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		location = event.location?.toRedisGeoLocation(id)
 		activities = event.activities
 		request = event.certification
+		privacy = event.isPrivate ?: true
 		sdgs = event.sdgs
 	}
 

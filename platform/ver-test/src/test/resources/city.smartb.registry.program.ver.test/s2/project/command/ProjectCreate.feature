@@ -15,4 +15,13 @@ Feature: ProjectCreate
     When I create a project:
       | identifier  | name        | description      |
       | p5          | Project5    | The description 5|
-    Then The project should be created
+    Then The project should be created:
+      | identifier  | name        | description      |isPrivate |
+      | p5          | Project5    | The description 5|true |
+  Scenario: I want to create a public project with an existing project
+    When I create a project:
+      | identifier  | name        | description       | isPrivate |
+      | p1          | Project1    | The description 1 | false     |
+    Then The project should be created:
+      | identifier  | name        | description       | isPrivate |
+      | p1          | Project1    | The description 1 | false     |

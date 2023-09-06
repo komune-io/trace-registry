@@ -40,7 +40,8 @@ class ProjectAggregateService(
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
 			name = cmd.name,
-			indicator = cmd.indicator
+			indicator = cmd.indicator,
+			isPrivate = cmd.isPrivate
 		).applyCmd(cmd)
 		.applyCCCEVCertification()
 	}

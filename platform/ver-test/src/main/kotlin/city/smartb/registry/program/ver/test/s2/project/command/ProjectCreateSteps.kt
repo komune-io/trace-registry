@@ -85,6 +85,9 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
                 val projectId = context.projectIds.safeGet(params.identifier)
                 val project = projectRepository.findById(projectId).getOrNull()
                 Assertions.assertThat(project).isNotNull
+                params.isPrivate?.let { isPrivate ->
+                    Assertions.assertThat(project?.privacy).isEqualTo(isPrivate)
+                }
 
 //                AssertionBdd.project(projectRepository).assertThat(project!!).hasFields(
 //                    status = ProjectState.STAMPED,
@@ -120,6 +123,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
             activities = params.activities,
             subContinent = params.subContinent,
             sdgs =  params.sdgs,
+            isPrivate = params.isPrivate
         )
         projectAggregateService.create(command).id
     }
@@ -148,6 +152,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
             activities = entry?.extractList("activities").orEmpty(),
             subContinent = entry?.get("subContinent")?.orRandom(),
             sdgs = entry?.extractList("sdgs")?.map { it.toInt() }.orEmpty(),
+            isPrivate = entry?.get("isPrivate")?.toBoolean(),
         )
 
     private data class ProjectCreateParams(
@@ -172,6 +177,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
         var location: GeoLocation?,
         val activities: List<TestContextKey>?,
         var subContinent: String?,
+        var isPrivate: Boolean?,
         var sdgs: List<SdgNumber>?
     )
 
@@ -188,6 +194,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
             name = entry["name"],
             description = entry["description"],
             type = entry["type"]?.toInt(),
+            isPrivate = entry["isPrivate"]?.toBoolean(),
             hasProject = entry.extractList("hasProject"),
             hasConcept = entry.extractList("hasConcept"),
             hasEvidenceTypeList = entry.extractList("hasEvidenceTypeList")
@@ -198,6 +205,7 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
         val name: String?,
         val description: String?,
         val type: Int?,
+        val isPrivate: Boolean?,
         val hasProject: List<TestContextKey>?,
         val hasConcept: List<TestContextKey>?,
         val hasEvidenceTypeList: List<TestContextKey>?

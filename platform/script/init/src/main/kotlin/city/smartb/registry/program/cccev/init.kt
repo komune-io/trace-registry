@@ -11,12 +11,12 @@ import kotlinx.coroutines.runBlocking
 fun main() = runBlocking {
     val urlAuth = "https://auth.dev.connect.smart-b.io/realms/sb-dev"
     val imUrl = "https://dev.connect.smart-b.io/im"
-    val urlCCCEV = "http://localhost:8083"
-    val urlVer = "http://localhost:8070"
+    val urlCCCEV = "https://dev.trace.smart-b.io/cccev"
+    val urlVer = "https://dev.trace.smart-b.io/ver"
 
     val nameOrchestrator = "Smartb"
     val clientOrchestrator = "tr-smartb-ver-app"
-    val secretOrchestrator = "8d637328-3e2f-476c-9737-29bd2889df83"
+    val secretOrchestrator = "4d3b598f-5a25-4b3e-b956-cf80aff8e1b7"
     val accessTokenOrchestrator= ActorAuth.getActor(urlAuth, nameOrchestrator, clientOrchestrator, secretOrchestrator)
     val actorFactory = ActorBuilder(imUrl, urlAuth, accessTokenOrchestrator)
 
