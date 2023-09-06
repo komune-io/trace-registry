@@ -1,19 +1,29 @@
-fun catalog(block: CatalogBuilder.() -> Unit): Catalog = CatalogBuilder().apply(block).build()
+package city.smartb.registry.program.s2.catalog.domain.model
 
+
+@DslMarker
+annotation class DCatDsl
+
+fun catalog(block: CatalogBuilder.() -> Unit): DcatCatalog = CatalogBuilder().apply(block).build()
+
+@DCatDsl
 class CatalogBuilder {
     var identifier: String = ""
     var homepage: String = ""
-    var themes: MutableList<Concept> = mutableListOf()
-    var resources: MutableList<CatalogedResource> = mutableListOf()
-    var datasets: MutableList<Dataset> = mutableListOf()
+    var title: String = ""
+    var description: String = ""
+    var type: String = ""
+    var themes: MutableList<SkosConcept> = mutableListOf()
+    var catalogedResources: MutableList<CatalogedResource> = mutableListOf()
+    var datasets: MutableList<DcatDataset> = mutableListOf()
     var services: MutableList<DataService> = mutableListOf()
-    var catalogs: MutableList<Catalog> = mutableListOf()
-    var catalogRecords: MutableList<CatalogRecord> = mutableListOf()
+    var catalogs: MutableList<DcatCatalog> = mutableListOf()
+    var catalogRecords: MutableList<DcatCatalogRecord> = mutableListOf()
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
-    fun THEMES.theme(block: ConceptBuilder.() -> Unit) = add(ConceptBuilder().apply(block).build())
+    fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
 
-    fun resources(block: RESOURCES.() -> Unit) = resources.addAll(RESOURCES().apply(block))
+    fun resources(block: RESOURCES.() -> Unit) = catalogedResources.addAll(RESOURCES().apply(block))
 //    fun RESOURCES.resource(block: CatalogedResourceBuilder.() -> Unit) = add(CatalogedResourceBuilder().apply(block).build())
 
     fun datasets(block: DATASETS.() -> Unit) = datasets.addAll(DATASETS().apply(block))
@@ -28,15 +38,33 @@ class CatalogBuilder {
     fun catalogRecords(block: CATALOGRECORDS.() -> Unit) = catalogRecords.addAll(CATALOGRECORDS().apply(block))
     fun CATALOGRECORDS.catalogRecord(block: CatalogRecordBuilder.() -> Unit) = add(CatalogRecordBuilder().apply(block).build())
 
-    fun build() = Catalog(identifier, homepage, themes, resources, datasets, services, catalogs, catalogRecords)
+    fun build() = DcatCatalogModel(
+        identifier = identifier,
+        homepage = homepage,
+        description = description,
+        type = type,
+        themes = themes,
+        catalogedResources = catalogedResources,
+        datasets = datasets,
+        service = services,
+        catalogs = catalogs,
+        title = title,
+        catalogRecords = catalogRecords
+    )
 }
 
-fun dataset(block: DatasetBuilder.() -> Unit): Dataset = DatasetBuilder().apply(block).build()
+fun dataset(block: DatasetBuilder.() -> Unit): DcatDataset = DatasetBuilder().apply(block).build()
 
+@DCatDsl
 class DatasetBuilder {
     var identifier: String = ""
-    var distributions: MutableList<Distribution> = mutableListOf()
+    var title: String = ""
+    var description: String = ""
+    var conformsTo: MutableList<SkosConceptScheme> = mutableListOf()
+    var type: String? = null
+    var distributions: MutableList<DcatDistribution> = mutableListOf()
     var frequency: String? = null
+    var theme: MutableList<SkosConcept> = mutableListOf()
     var spatialCoverage: Location? = null
     var spatialResolution: String? = null
     var temporalCoverage: PeriodOfTime? = null
@@ -46,27 +74,46 @@ class DatasetBuilder {
     fun distributions(block: DISTRIBUTIONS.() -> Unit) = distributions.addAll(DISTRIBUTIONS().apply(block))
     fun DISTRIBUTIONS.distribution(block: DistributionBuilder.() -> Unit) = add(DistributionBuilder().apply(block).build())
 
-    fun build() = Dataset(identifier, distributions, frequency, spatialCoverage, spatialResolution, temporalCoverage, temporalResolution, wasGeneratedBy)
-}
+    fun theme(block: THEMES.() -> Unit) = theme.addAll(THEMES().apply(block))
+    fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
 
+    fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo.addAll(CONFORMSTO().apply(block))
+    fun CONFORMSTO.conformsTo(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
+
+    fun build() = DcatDatasetModel(
+        identifier = identifier,
+        title = title,
+        description = description,
+        distributions = distributions,
+        frequency = frequency,
+        type = type,
+        spatialCoverage = spatialCoverage,
+        spatialResolution = spatialResolution,
+        temporalCoverage = temporalCoverage,
+        temporalResolution = temporalResolution,
+        wasGeneratedBy = wasGeneratedBy
+    )
+}
 
 fun dataService(block: DataServiceBuilder.() -> Unit): DataService = DataServiceBuilder().apply(block).build()
 
+@DCatDsl
 class DataServiceBuilder {
     var identifier: String = ""
     var endpointURL: String = ""
     var endpointDescription: String? = null
-    var servesDataset: MutableList<Dataset> = mutableListOf()
+    var servesDataset: MutableList<DcatDataset> = mutableListOf()
 
     fun servesDataset(block: SERVESDATASET.() -> Unit) = servesDataset.addAll(SERVESDATASET().apply(block))
     fun SERVESDATASET.dataset(block: DatasetBuilder.() -> Unit) = add(DatasetBuilder().apply(block).build())
 
-    fun build() = DataService(identifier, endpointURL, endpointDescription, servesDataset)
+    fun build() = DataServiceModel(identifier, endpointURL, endpointDescription, servesDataset)
 }
 
 
-fun catalogRecord(block: CatalogRecordBuilder.() -> Unit): CatalogRecord = CatalogRecordBuilder().apply(block).build()
+fun catalogRecord(block: CatalogRecordBuilder.() -> Unit): DcatCatalogRecord = CatalogRecordBuilder().apply(block).build()
 
+@DCatDsl
 class CatalogRecordBuilder {
     val identifier: String? = null
     val title: String? = null
@@ -74,21 +121,22 @@ class CatalogRecordBuilder {
     val description: String? = null
     val updateDate: String? = null
     val primaryTopic: CatalogedResource? = null
-    val conformsTo: MutableList<ConceptScheme>? = null
+    val conformsTo: MutableList<SkosConceptScheme>? = null
 
 //    fun primaryTopic(block: CatalogedResourceBuilder.() -> Unit) {
 //        primaryTopic = CatalogedResourceBuilder().apply(block).build()
 //    }
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo?.addAll(CONFORMSTO().apply(block))
-    fun CONFORMSTO.conceptScheme(block: ConceptSchemeBuilder.() -> Unit) = add(ConceptSchemeBuilder().apply(block).build())
+    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
 
 
-    fun build() = CatalogRecord(identifier!!, title!!, description, listingDate!!, updateDate, primaryTopic, conformsTo)
+    fun build() = DcatCatalogRecordModel(identifier!!, title!!, description, listingDate!!, updateDate, primaryTopic, conformsTo)
 }
 
-fun distribution(block: DistributionBuilder.() -> Unit): Distribution = DistributionBuilder().apply(block).build()
+fun distribution(block: DistributionBuilder.() -> Unit): DcatDistribution = DistributionBuilder().apply(block).build()
 
+@DCatDsl
 class DistributionBuilder {
     var identifier: String = ""
     var accessURL: String? = null
@@ -97,7 +145,7 @@ class DistributionBuilder {
     var byteSize: Long? = null
     var spatialResolution: String? = null
     var temporalResolution: String? = null
-    var conformsTo: MutableList<ConceptScheme> = mutableListOf()
+    var conformsTo: MutableList<SkosConceptScheme> = mutableListOf()
     var mediaType: String? = null
     var format: String? = null
     var compressionFormat: String? = null
@@ -109,33 +157,40 @@ class DistributionBuilder {
     }
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo.addAll(CONFORMSTO().apply(block))
-    fun CONFORMSTO.conceptScheme(block: ConceptSchemeBuilder.() -> Unit) = add(ConceptSchemeBuilder().apply(block).build())
+    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
 
     fun checksum(block: ChecksumBuilder.() -> Unit) {
         checksum = ChecksumBuilder().apply(block).build()
     }
 
-    fun build() = Distribution(identifier, accessURL, accessService, downloadURL, byteSize, spatialResolution, temporalResolution, conformsTo, mediaType, format, compressionFormat, packagingFormat, checksum)
+    fun build() = DcatDistributionModel(
+        identifier,
+        accessURL,
+        accessService,
+        downloadURL,
+        byteSize,
+        spatialResolution,
+        temporalResolution,
+        conformsTo,
+        mediaType,
+        format,
+        compressionFormat,
+        packagingFormat,
+        checksum
+    )
 }
 
-fun concept(block: ConceptBuilder.() -> Unit): Concept = ConceptBuilder().apply(block).build()
+infix fun String.toThat(value: String): Pair<String, String> = this to value
 
-class ConceptBuilder {
-    var identifier: String = ""
-
-    fun build() = Concept(identifier)
+operator fun <K, V> HashMap<K, V>.invoke(init: HashMap<K, V>.() -> Unit): HashMap<K, V> {
+    this.init()
+    return this
 }
 
-fun conceptScheme(block: ConceptSchemeBuilder.() -> Unit): ConceptScheme = ConceptSchemeBuilder().apply(block).build()
-
-class ConceptSchemeBuilder {
-    var identifier: String = ""
-
-    fun build() = ConceptScheme(identifier)
-}
 
 fun agent(block: AgentBuilder.() -> Unit): Agent = AgentBuilder().apply(block).build()
 
+@DCatDsl
 class AgentBuilder {
     var identifier: String = ""
 
@@ -144,6 +199,7 @@ class AgentBuilder {
 
 fun role(block: RoleBuilder.() -> Unit): Role = RoleBuilder().apply(block).build()
 
+@DCatDsl
 class RoleBuilder {
     var identifier: String = ""
 
@@ -152,6 +208,7 @@ class RoleBuilder {
 
 fun periodOfTime(block: PeriodOfTimeBuilder.() -> Unit): PeriodOfTime = PeriodOfTimeBuilder().apply(block).build()
 
+@DCatDsl
 class PeriodOfTimeBuilder {
     var startDate: String? = null
     var endDate: String? = null
@@ -163,6 +220,7 @@ class PeriodOfTimeBuilder {
 
 fun location(block: LocationBuilder.() -> Unit): Location = LocationBuilder().apply(block).build()
 
+@DCatDsl
 class LocationBuilder {
     var geometry: String? = null
     var boundingBox: String? = null
@@ -173,6 +231,7 @@ class LocationBuilder {
 
 fun checksum(block: ChecksumBuilder.() -> Unit): Checksum = ChecksumBuilder().apply(block).build()
 
+@DCatDsl
 class ChecksumBuilder {
     var algorithm: String = ""
     var checksumValue: String = ""
@@ -182,6 +241,7 @@ class ChecksumBuilder {
 
 fun policy(block: PolicyBuilder.() -> Unit): Policy = PolicyBuilder().apply(block).build()
 
+@DCatDsl
 class PolicyBuilder {
     var identifier: String = ""
 
@@ -190,6 +250,7 @@ class PolicyBuilder {
 
 fun rights(block: RightsBuilder.() -> Unit): Rights = RightsBuilder().apply(block).build()
 
+@DCatDsl
 class RightsBuilder {
     var identifier: String = ""
 
@@ -198,6 +259,7 @@ class RightsBuilder {
 
 fun attribution(block: AttributionBuilder.() -> Unit): Attribution = AttributionBuilder().apply(block).build()
 
+@DCatDsl
 class AttributionBuilder {
     var identifier: String = ""
 
@@ -206,6 +268,7 @@ class AttributionBuilder {
 
 fun activity(block: ActivityBuilder.() -> Unit): Activity = ActivityBuilder().apply(block).build()
 
+@DCatDsl
 class ActivityBuilder {
     var identifier: String = ""
 
@@ -214,6 +277,7 @@ class ActivityBuilder {
 
 fun licenseDocument(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument = LicenseDocumentBuilder().apply(block).build()
 
+@DCatDsl
 class LicenseDocumentBuilder {
     var identifier: String = ""
 
@@ -221,15 +285,15 @@ class LicenseDocumentBuilder {
 }
 
 
-typealias DISTRIBUTIONS = ArrayList<Distribution>
+typealias DISTRIBUTIONS = ArrayList<DcatDistribution>
 
-typealias THEMES = ArrayList<Concept>
+typealias THEMES = ArrayList<SkosConcept>
 typealias RESOURCES = ArrayList<CatalogedResource>
-typealias DATASETS = ArrayList<Dataset>
+typealias DATASETS = ArrayList<DcatDataset>
 typealias SERVICES = ArrayList<DataService>
-typealias CATALOGS = ArrayList<Catalog>
-typealias CATALOGRECORDS = ArrayList<CatalogRecord>
+typealias CATALOGS = ArrayList<DcatCatalog>
+typealias CATALOGRECORDS = ArrayList<DcatCatalogRecord>
 
 
-typealias SERVESDATASET = ArrayList<Dataset>
-typealias CONFORMSTO = ArrayList<ConceptScheme>
+typealias SERVESDATASET = ArrayList<DcatDataset>
+typealias CONFORMSTO = ArrayList<SkosConceptScheme>

@@ -3,8 +3,8 @@ package city.smartb.registry.program.s2.catalog.domain.automate
 import city.smartb.registry.program.api.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogCloseCommand
 import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogClosedEvent
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogCreateCommand
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogCreatedEvent
+import city.smartb.registry.program.s2.catalog.domain.command.CatalogCreateCommand
+import city.smartb.registry.program.s2.catalog.domain.command.CatalogCreatedEvent
 import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogUpdateCommand
 import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogUpdatedEvent
 import kotlinx.serialization.Serializable

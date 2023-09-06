@@ -46,3 +46,4 @@ val scheme = SkosConceptScheme(
         )
     )
 )
+

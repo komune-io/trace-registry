@@ -1,4 +1,4 @@
-package city.smartb.registry.program.s2.catalog.domain.command.catalog
+package city.smartb.registry.program.s2.catalog.domain.command
 
 import city.smartb.registry.program.s2.catalog.domain.automate.CatalogEvent
 import city.smartb.registry.program.s2.catalog.domain.automate.CatalogId

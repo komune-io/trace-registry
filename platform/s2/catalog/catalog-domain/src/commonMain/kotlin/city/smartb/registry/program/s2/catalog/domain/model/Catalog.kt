@@ -1,11 +1,10 @@
-import city.smartb.registry.program.s2.catalog.domain.model.SkosConcept
-import city.smartb.registry.program.s2.catalog.domain.model.SkosConceptScheme
+package city.smartb.registry.program.s2.catalog.domain.model
 
 interface DcatApCatalog: DcatDataset {
     override val identifier: String
     val homepage: String
     val themes: List<SkosConcept>?
-    val resources: List<Resource>?
+    val catalogedResources: List<CatalogedResource>?
     val datasets: List<DcatDataset>?
     val services: List<DataService>?
     val catalogs: List<DcatApCatalog>?
@@ -67,12 +66,11 @@ interface DcatCatalog: DcatDataset {
     override val identifier: String
     val homepage: String
     val themes: List<SkosConcept>?
-    val resources: List<Resource>?
+    val catalogedResources: List<CatalogedResource>?
     val datasets: List<DcatDataset>?
-    val services: List<DataService>?
+    val service: List<DataService>?
     val catalogs: List<DcatCatalog>?
     val catalogRecords: List<DcatCatalogRecord>?
-
 }
 
 interface DcatCatalogRecord {
@@ -81,11 +79,11 @@ interface DcatCatalogRecord {
     val description: String?
     val listingDate: String
     val updateDate: String?
-    val primaryTopic: Resource?
+    val primaryTopic: CatalogedResource?
     val conformsTo: List<SkosConceptScheme>?
 }
 
-sealed interface DcatDataset: Resource {
+sealed interface DcatDataset: CatalogedResource {
     override val identifier: String
     val distributions: List<DcatDistribution>?
     val frequency: String?
@@ -95,6 +93,7 @@ sealed interface DcatDataset: Resource {
     val temporalResolution: String?
     val wasGeneratedBy: Activity?
 }
+
 
 interface DcatDistribution {
     val identifier: String
@@ -112,6 +111,7 @@ interface DcatDistribution {
     val checksum: Checksum?
 }
 
+
 interface DataService {
     val identifier: String
     val endpointURL: String
@@ -120,7 +120,7 @@ interface DataService {
 }
 
 
-sealed interface Resource {
+sealed interface CatalogedResource {
     val accessRights: String?
     val conformsTo: List<SkosConceptScheme>?
     val contactPoint: String?
@@ -141,13 +141,13 @@ sealed interface Resource {
     val qualifiedAttribution: List<Attribution>?
     val license: LicenseDocument?
     val rights: Rights?
-    val hasPart: List<Resource>?
+    val hasPart: List<CatalogedResource>?
     val hasPolicy: List<Policy>?
-    val isReferencedBy: List<Resource>?
-    val previousVersion: Resource?
-    val hasVersion: List<Resource>?
-    val currentVersion: Resource?
-    val replaces: Resource?
+    val isReferencedBy: List<CatalogedResource>?
+    val previousVersion: CatalogedResource?
+    val hasVersion: List<CatalogedResource>?
+    val currentVersion: CatalogedResource?
+    val replaces: CatalogedResource?
     val version: String?
     val versionNotes: String?
     val status: String?
@@ -204,3 +204,216 @@ data class Activity(
 data class LicenseDocument(
     val identifier: String,
 )
+
+class DcatApCatalogModel(
+    override val identifier: String,
+    override val homepage: String,
+    override val themes: List<SkosConcept>? = null,
+    override val catalogedResources: List<CatalogedResource>? = null,
+    override val datasets: List<DcatDataset>? = null,
+    override val services: List<DataService>? = null,
+    override val catalogs: List<DcatApCatalog>? = null,
+    override val catalogRecords: List<DcatCatalogRecord>? = null,
+    override val distributions: List<DcatDistribution>? = null,
+    override val frequency: String? = null,
+    override val spatialCoverage: Location? = null,
+    override val spatialResolution: String? = null,
+    override val temporalCoverage: PeriodOfTime? = null,
+    override val temporalResolution: String? = null,
+    override val wasGeneratedBy: Activity? = null,
+    override val accessRights: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val contactPoint: String? = null,
+    override val creator: Agent? = null,
+    override val description: String? = null,
+    override val title: String,
+    override val releaseDate: String? = null,
+    override val updateDate: String? = null,
+    override val language: List<String>? = null,
+    override val publisher: Agent? = null,
+    override val theme: List<SkosConcept>? = null,
+    override val type: String? = null,
+    override val relation: List<Relationship>? = null,
+    override val qualifiedRelation: List<Relationship>? = null,
+    override val keywords: List<String>? = null,
+    override val landingPage: String? = null,
+    override val qualifiedAttribution: List<Attribution>? = null,
+    override val license: LicenseDocument? = null,
+    override val rights: Rights? = null,
+    override val hasPart: List<CatalogedResource>? = null,
+    override val hasPolicy: List<Policy>? = null,
+    override val isReferencedBy: List<CatalogedResource>? = null,
+    override val previousVersion: CatalogedResource? = null,
+    override val hasVersion: List<CatalogedResource>? = null,
+    override val currentVersion: CatalogedResource? = null,
+    override val replaces: CatalogedResource? = null,
+    override val version: String? = null,
+    override val versionNotes: String? = null,
+    override val status: String? = null
+): DcatApCatalog
+
+class DcatApDatasetMemberModel(
+    override val title: String,
+    override val inSeries: DcatApDatasetSeries,
+    override val previous: DcatApDatasetMember? = null,
+    override val next: DcatApDatasetMember? = null,
+    override val identifier: String,
+    override val distributions: List<DcatDistribution>? = null,
+    override val frequency: String? = null,
+    override val spatialCoverage: Location? = null,
+    override val spatialResolution: String? = null,
+    override val temporalCoverage: PeriodOfTime? = null,
+    override val temporalResolution: String? = null,
+    override val wasGeneratedBy: Activity? = null,
+    override val accessRights: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val contactPoint: String? = null,
+    override val creator: Agent? = null,
+    override val description: String? = null,
+    override val releaseDate: String? = null,
+    override val updateDate: String? = null,
+    override val language: List<String>? = null,
+    override val publisher: Agent? = null,
+    override val theme: List<SkosConcept>? = null,
+    override val type: String? = null,
+    override val relation: List<Relationship>? = null,
+    override val qualifiedRelation: List<Relationship>? = null,
+    override val keywords: List<String>? = null,
+    override val landingPage: String? = null,
+    override val qualifiedAttribution: List<Attribution>? = null,
+    override val license: LicenseDocument? = null,
+    override val rights: Rights? = null,
+    override val hasPart: List<CatalogedResource>? = null,
+    override val hasPolicy: List<Policy>? = null,
+    override val isReferencedBy: List<CatalogedResource>? = null,
+    override val previousVersion: CatalogedResource? = null,
+    override val hasVersion: List<CatalogedResource>? = null,
+    override val currentVersion: CatalogedResource? = null,
+    override val replaces: CatalogedResource? = null,
+    override val version: String? = null,
+    override val versionNotes: String? = null,
+    override val status: String? = null
+): DcatApDatasetMember
+
+data class DcatCatalogModel(
+    override val identifier: String,
+    override val homepage: String,
+    override val themes: List<SkosConcept>? = null,
+    override val catalogedResources: List<CatalogedResource>? = null,
+    override val datasets: List<DcatDataset>? = null,
+    override val service: List<DataService>? = null,
+    override val catalogs: List<DcatCatalog>? = null,
+    override val catalogRecords: List<DcatCatalogRecord>? = null,
+    override val distributions: List<DcatDistribution>? = null,
+    override val frequency: String? = null,
+    override val spatialCoverage: Location? = null,
+    override val spatialResolution: String? = null,
+    override val temporalCoverage: PeriodOfTime? = null,
+    override val temporalResolution: String? = null,
+    override val wasGeneratedBy: Activity? = null,
+    override val accessRights: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val contactPoint: String? = null,
+    override val creator: Agent? = null,
+    override val description: String? = null,
+    override val title: String,
+    override val releaseDate: String? = null,
+    override val updateDate: String? = null,
+    override val language: List<String>? = null,
+    override val publisher: Agent? = null,
+    override val theme: List<SkosConcept>? = null,
+    override val type: String? = null,
+    override val relation: List<Relationship>? = null,
+    override val qualifiedRelation: List<Relationship>? = null,
+    override val keywords: List<String>? = null,
+    override val landingPage: String? = null,
+    override val qualifiedAttribution: List<Attribution>? = null,
+    override val license: LicenseDocument? = null,
+    override val rights: Rights? = null,
+    override val hasPart: List<CatalogedResource>? = null,
+    override val hasPolicy: List<Policy>? = null,
+    override val isReferencedBy: List<CatalogedResource>? = null,
+    override val previousVersion: CatalogedResource? = null,
+    override val hasVersion: List<CatalogedResource>? = null,
+    override val currentVersion: CatalogedResource? = null,
+    override val replaces: CatalogedResource? = null,
+    override val version: String? = null,
+    override val versionNotes: String? = null,
+    override val status: String? = null
+): DcatCatalog
+
+
+data class DcatCatalogRecordModel(
+    override val identifier: String,
+    override val title: String,
+    override val description: String? = null,
+    override val listingDate: String,
+    override val updateDate: String? = null,
+    override val primaryTopic: CatalogedResource? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null
+): DcatCatalogRecord
+
+
+data class DcatDatasetModel(
+    override val identifier: String,
+    override val distributions: List<DcatDistribution>? = null,
+    override val frequency: String? = null,
+    override val spatialCoverage: Location? = null,
+    override val spatialResolution: String? = null,
+    override val temporalCoverage: PeriodOfTime? = null,
+    override val temporalResolution: String? = null,
+    override val wasGeneratedBy: Activity? = null,
+    override val accessRights: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val contactPoint: String? = null,
+    override val creator: Agent? = null,
+    override val description: String? = null,
+    override val title: String,
+    override val releaseDate: String? = null,
+    override val updateDate: String? = null,
+    override val language: List<String>? = null,
+    override val publisher: Agent? = null,
+    override val theme: List<SkosConcept>? = null,
+    override val type: String? = null,
+    override val relation: List<Relationship>? = null,
+    override val qualifiedRelation: List<Relationship>? = null,
+    override val keywords: List<String>? = null,
+    override val landingPage: String? = null,
+    override val qualifiedAttribution: List<Attribution>? = null,
+    override val license: LicenseDocument? = null,
+    override val rights: Rights? = null,
+    override val hasPart: List<CatalogedResource>? = null,
+    override val hasPolicy: List<Policy>? = null,
+    override val isReferencedBy: List<CatalogedResource>? = null,
+    override val previousVersion: CatalogedResource? = null,
+    override val hasVersion: List<CatalogedResource>? = null,
+    override val currentVersion: CatalogedResource? = null,
+    override val replaces: CatalogedResource? = null,
+    override val version: String? = null,
+    override val versionNotes: String? = null,
+    override val status: String? = null
+): DcatDataset
+
+
+data class DcatDistributionModel(
+    override val identifier: String,
+    override val accessURL: String? = null,
+    override val accessService: DataService? = null,
+    override val downloadURL: String? = null,
+    override val byteSize: Long? = null,
+    override val spatialResolution: String? = null,
+    override val temporalResolution: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val mediaType: String? = null,
+    override val format: String? = null,
+    override val compressionFormat: String? = null,
+    override val packagingFormat: String? = null,
+    override val checksum: Checksum? = null
+): DcatDistribution
+
+data class DataServiceModel(
+    override val identifier: String,
+    override val endpointURL: String,
+    override val endpointDescription: String? = null,
+    override val servesDataset: List<DcatDataset>? = null
+): DataService
