@@ -4,9 +4,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -20,6 +20,7 @@ object ActorAuth {
         val token = getTokens(authUrl, clientId, clientSecret)
         return Actor(name, token)
     }
+
     suspend fun getTokens(authUrl: String, clientId: String, clientSecret: String): AccessToken {
         val url = "${authUrl}/protocol/openid-connect/token"
         return HttpClient {
@@ -55,18 +56,42 @@ open class Actor(
     val name: String,
     val accessToken: AccessToken
 )
-enum class ActorType(roles: List<String>) {
-    OFFSETTER(listOf(
-        "tr_stakeholder_admin"
-    )),
-    ORCHESTRATOR(listOf(
-        "tr_orchestrator_admin"
-    )),
-    ISSUER(listOf(
-        "tr_stakeholder_admin"
-    )),
-    PROJECT_MANAGER(listOf(
-        "tr_project_manager_admin"
-    ))
+
+enum class ActorType(
+    val organizationRoles: List<String>,
+    val userRoles: List<String>
+) {
+    OFFSETTER(
+        organizationRoles = listOf(
+            "tr_stakeholder"
+        ),
+        userRoles = listOf(
+            "tr_stakeholder_admin"
+        )
+    ),
+    ORCHESTRATOR(
+        organizationRoles = listOf(
+            "tr_orchestrator"
+        ),
+        userRoles = listOf(
+            "tr_orchestrator_admin"
+        )
+    ),
+    ISSUER(
+        organizationRoles = listOf(
+            "tr_stakeholder"
+        ),
+        userRoles = listOf(
+            "tr_stakeholder_admin"
+        )
+    ),
+    PROJECT_MANAGER(
+        organizationRoles = listOf(
+            "tr_project_manager"
+        ),
+        userRoles = listOf(
+            "tr_project_manager_admin"
+        )
+    )
 }
 

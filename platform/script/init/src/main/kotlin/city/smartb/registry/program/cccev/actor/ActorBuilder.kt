@@ -28,7 +28,7 @@ class ActorBuilder(private val imUrl: String, private val authUrl: String,  orch
             OrganizationCreateCommand(
             name = "${name ?: type.name}-${UUID.randomUUID()}",
             withApiKey = false,
-            roles = listOf("tr_project_manager_admin")
+            roles = type.organizationRoles
         )
         )).first()
 

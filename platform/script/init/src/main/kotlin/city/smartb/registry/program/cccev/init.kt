@@ -15,15 +15,14 @@ fun main() = runBlocking {
     val urlVer = "https://dev.trace.smart-b.io/ver"
 
     val nameOrchestrator = "Smartb"
-    val clientOrchestrator = "tr-smartb-ver-app"
-    val secretOrchestrator = "4d3b598f-5a25-4b3e-b956-cf80aff8e1b7"
+    val clientOrchestrator = "tr-smartb-registry-script-app"
+    val secretOrchestrator = "000d4d95-9a55-4855-9549-53e4e2c68587"
     val accessTokenOrchestrator= ActorAuth.getActor(urlAuth, nameOrchestrator, clientOrchestrator, secretOrchestrator)
     val actorFactory = ActorBuilder(imUrl, urlAuth, accessTokenOrchestrator)
 
     val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
     val offseter = actorFactory.create(ActorType.OFFSETTER)
     val issuer = actorFactory.create(ActorType.ISSUER)
-
 
     initRequirement(urlCCCEV)
     initIndicatorsCarbon(urlCCCEV)
