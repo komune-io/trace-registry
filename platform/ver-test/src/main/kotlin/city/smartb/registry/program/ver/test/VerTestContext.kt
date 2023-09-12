@@ -3,7 +3,7 @@ package city.smartb.registry.program.ver.test
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.unit.domain.DataUnitId
-import city.smartb.im.organization.domain.model.Organization
+import city.smartb.im.f2.organization.domain.model.Organization
 import city.smartb.registry.program.f2.activity.domain.model.ActivityId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId

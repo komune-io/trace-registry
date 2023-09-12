@@ -1,8 +1,8 @@
 package city.smartb.registry.program.ver.test.auth
 
-import city.smartb.im.organization.domain.model.Organization
+import city.smartb.im.f2.organization.domain.model.Organization
+import city.smartb.im.f2.organization.domain.model.OrganizationStatus
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
-import i2.keycloak.f2.role.domain.RolesCompositesModel
 import io.cucumber.java8.En
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
@@ -29,12 +29,13 @@ class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
             address = null,
             website = null,
             attributes = emptyMap(),
-            roles = params.roles,
-            rolesComposites = RolesCompositesModel(params.roles, params.roles),
+            roles = params.roles.map(::emptyRole),
             enabled = true,
             disabledBy = null,
             creationDate = System.currentTimeMillis(),
-            disabledDate = null
+            disabledDate = null,
+            logo = null,
+            status = OrganizationStatus.VALIDATED.name
         )
     }
 

@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-  fs-gateway:
-    container_name: fs-gateway
+  verr-fs:
+    container_name: verr-fs
     image: smartbcity/fs-gateway:${CONNECT_FS_VERSION}
     environment:
       - fs_s3_internal-url=http://minio:9000

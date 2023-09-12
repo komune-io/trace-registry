@@ -4,7 +4,7 @@ import cccev.dsl.client.CCCEVClient
 import cccev.f2.certification.domain.query.CertificationGetQueryDTOBase
 import cccev.s2.certification.domain.model.Evidence
 import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.im.commons.auth.OrganizationId
+import city.smartb.im.commons.model.OrganizationId
 import city.smartb.registry.program.s2.project.api.ProjectFinderService
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project

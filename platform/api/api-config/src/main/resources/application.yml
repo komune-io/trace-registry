@@ -21,17 +21,9 @@ im:
     clientId: tr-smartb-ver-app
     clientSecret: 8d637328-3e2f-476c-9737-29bd2889df83
 
-i2:
-  issuers:
-    -
-      name: connect-sb-io
-      authUrl: ${im.auth.url}
-      realm: ${im.auth.realm}
-      web:
-        clientId: sb-plateform-web
-      im:
-        clientId: ${im.auth.clientId}
-        clientSecret: ${im.auth.clientSecret}
+f2:
+  tenant:
+    issuer-base-uri: https://auth.dev.connect.smart-b.io
 
 ssm:
   signer:
@@ -60,6 +52,17 @@ spring:
 
 server:
   port: 8000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  neo4j:
+    uri: neo4j://localhost:7687
+    authentication:
+      username: neo4j
+      password: smartbsmartb
 
 ---
 spring:
