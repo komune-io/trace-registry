@@ -1,6 +1,6 @@
 package city.smartb.registry.program.ver.test.config
 
-import city.smartb.im.organization.domain.model.Organization
+import city.smartb.im.f2.organization.domain.model.Organization
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.infra.im.ImService
 import city.smartb.registry.program.ver.test.VerTestContext

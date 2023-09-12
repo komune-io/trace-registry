@@ -1,7 +1,6 @@
 package city.smartb.registry.program.f2.asset.api.service
 
-import city.smartb.i2.spring.boot.auth.AuthenticationProvider
-import city.smartb.registry.program.api.commons.auth.getAuthedUser
+import city.smartb.im.commons.auth.AuthenticationProvider
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCancelCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCanceledEventDTOBase
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderCompleteCommandDTOBase
@@ -59,7 +58,7 @@ class AssetF2AggregateService(
             id = order.poolId!!,
             from = order.from,
             to = order.to,
-            by = AuthenticationProvider.getAuthedUser().memberOf!!,
+            by = AuthenticationProvider.getAuthedUser()?.memberOf!!,
             quantity = order.quantity,
             type = order.type
         ).let { assetPoolAggregateService.emitTransaction(it) }

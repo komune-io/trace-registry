@@ -1,5 +1,6 @@
 package city.smartb.registry.program.ver.test.auth
 
+import city.smartb.im.f2.privilege.domain.role.model.Role
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import io.cucumber.java8.En
 import s2.bdd.auth.AuthedUser
@@ -24,7 +25,7 @@ class DefineUserSteps: En, VerCucumberStepsDefinition() {
         AuthedUser(
             id = params.identifier,
             memberOf = organization.id,
-            roles = (organization.roles + params.roles).toSet().toTypedArray()
+            roles = (organization.roles.map(Role::identifier) + params.roles).toSet().toTypedArray()
         )
     }
 

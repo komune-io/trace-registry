@@ -1,6 +1,5 @@
 package city.smartb.registry.program.ver.test.s2.project.query
 
-import city.smartb.im.commons.auth.OrganizationId
 import city.smartb.registry.program.f2.project.api.ProjectEndpoint
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
 import city.smartb.registry.program.s2.project.domain.model.ProjectDTO

@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.project.domain
 
-import city.smartb.im.commons.auth.OrganizationId
+import city.smartb.im.commons.model.OrganizationId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId

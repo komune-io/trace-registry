@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.project.api
 
-import city.smartb.im.commons.auth.OrganizationId
+import city.smartb.im.commons.model.OrganizationId
 import city.smartb.registry.program.api.commons.exception.NotFoundException
 import city.smartb.registry.program.api.commons.model.FieldCriterion
 import city.smartb.registry.program.api.commons.model.orCriterionOf

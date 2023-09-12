@@ -3,8 +3,7 @@ package city.smartb.registry.program.f2.pool.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import city.smartb.i2.spring.boot.auth.AuthenticationProvider
-import city.smartb.registry.program.api.commons.auth.getAuthedUser
+import city.smartb.im.commons.auth.AuthenticationProvider
 import city.smartb.registry.program.f2.pool.domain.command.AbstractAssetTransactionCommand
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetOffsetCommandDTOBase
@@ -115,7 +114,7 @@ class AssetPoolF2AggregateService(
             id = id,
             from = from?.let { imService.getOrganizationByName(it).id },
             to = to,
-            by = AuthenticationProvider.getAuthedUser().memberOf!!,
+            by = AuthenticationProvider.getAuthedUser()?.memberOf!!,
             quantity = quantity,
             type = type,
         )

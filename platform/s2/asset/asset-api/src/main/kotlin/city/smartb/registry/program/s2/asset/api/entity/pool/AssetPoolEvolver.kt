@@ -63,6 +63,8 @@ class AssetPoolEvolver(
         val transaction = assetTransactionRepository.findById(event.transactionId).get()
         transaction.from?.let { updateWallet(it, -transaction.quantity) }
         transaction.to?.let { updateWallet(it, transaction.quantity) }
+        transaction.file = event.certificate
+        assetTransactionRepository.save(transaction)
         stats = when (transaction.type) {
             AssetTransactionType.TRANSFERRED -> stats.copy(transferred = stats.transferred + transaction.quantity)
             AssetTransactionType.RETIRED -> stats.copy(

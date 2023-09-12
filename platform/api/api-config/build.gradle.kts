@@ -6,6 +6,6 @@ plugins {
 
 dependencies {
     implementation(project(":platform:api:api-commons"))
-    Dependencies.Jvm.i2Keycloak(::api)
+    Dependencies.Jvm.f2Auth(::api)
     Dependencies.Jvm.f2OpenApi(::implementation)
 }
