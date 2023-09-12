@@ -2,6 +2,7 @@ package city.smartb.registry.program.cccev.actor
 
 import city.smartb.im.apikey.client.ApiKeyClient
 import city.smartb.im.apikey.domain.command.ApiKeyOrganizationAddKeyCommand
+import city.smartb.im.commons.auth.ImRole
 import city.smartb.im.f2.organization.client.OrganizationClient
 import city.smartb.im.f2.organization.domain.command.OrganizationCreateCommand
 import city.smartb.im.f2.organization.domain.model.OrganizationStatus
@@ -43,7 +44,7 @@ class ActorBuilder(private val imUrl: String, private val authUrl: String,  orch
         val projectManagerKey = ApiKeyOrganizationAddKeyCommand(
             organizationId = projectManagerCreated.id,
             name = "tr-smartb-ver-${UUID.randomUUID()}",
-            roles = emptyList()
+            roles = listOf(ImRole.ORCHESTRATOR.name)
         ).invokeWith(apikeyClient.apiKeyCreate())
 
         val nameProjectManager = projectManager.item!!.name
