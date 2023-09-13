@@ -44,7 +44,7 @@ class ActorBuilder(private val imUrl: String, private val authUrl: String,  orch
         val projectManagerKey = ApiKeyOrganizationAddKeyCommand(
             organizationId = projectManagerCreated.id,
             name = "tr-smartb-ver-${UUID.randomUUID()}",
-            roles = listOf(ImRole.ORCHESTRATOR.name)
+            roles = listOf(ImRole.ORCHESTRATOR_ADMIN.identifier)
         ).invokeWith(apikeyClient.apiKeyCreate())
 
         val nameProjectManager = projectManager.item!!.name

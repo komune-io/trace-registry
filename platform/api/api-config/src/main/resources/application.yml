@@ -41,9 +41,6 @@ ssm:
   chaincode:
     url: http://localhost:9090
 
-kb:
-  url: http://localhost:9999
-
 ---
 spring:
   config:
