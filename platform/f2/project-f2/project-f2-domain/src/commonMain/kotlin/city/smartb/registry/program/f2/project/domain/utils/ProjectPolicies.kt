@@ -71,6 +71,6 @@ object ProjectPolicies {
     }
 
     private fun ProjectDTO.isReadableBy(authedUser: AuthedUserDTO): Boolean {
-        return !(isPrivate && proponent?.id != authedUser.memberOf)
+        return !isPrivate || !(isPrivate && proponent?.id != authedUser.memberOf)
     }
 }
