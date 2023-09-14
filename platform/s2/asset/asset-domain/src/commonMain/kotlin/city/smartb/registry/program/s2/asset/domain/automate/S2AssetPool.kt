@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
-import city.smartb.registry.program.api.commons.model.S2SourcingEvent
+import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolClosedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreateCommand

@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.asset.api.entity.pool
 
 import cccev.s2.concept.domain.InformationConceptIdentifier
-import city.smartb.registry.program.api.commons.model.BigDecimalAsString
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import com.redis.om.spring.annotations.Document
@@ -42,7 +42,7 @@ class AssetPoolEntity: WithS2Id<AssetPoolId>, WithS2State<AssetPoolState> {
 
 
 data class PoolEntityStats(
-   val available: BigDecimalAsString,
-   val retired: BigDecimalAsString,
-   val transferred: BigDecimalAsString
+    val available: BigDecimalAsString,
+    val retired: BigDecimalAsString,
+    val transferred: BigDecimalAsString
 )

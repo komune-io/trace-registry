@@ -4,6 +4,10 @@ GATEWAY_NAME	   	:= smartbcity/registry-program-ver-gateway
 GATEWAY_IMG	    	:= ${GATEWAY_NAME}:${VERSION}
 GATEWAY_PACKAGE	   	:= platform:api:api-gateway
 
+SCRIPT_NAME	   		:= smartbcity/tr-registry-script
+SCRIPT_IMG	    	:= ${SCRIPT_NAME}:${VERSION}
+SCRIPT_PACKAGE	   	:= platform:script:script-gateway
+
 FRONT_VER_DOCKERFILE	:= infra/docker/ver-web-app/Dockerfile
 FRONT_VER_NAME	    	:= smartbcity/registry-program-ver-web
 FRONT_VER_IMG	    	:= ${FRONT_VER_NAME}:${VERSION}
@@ -18,18 +22,26 @@ STORYBOOK_DOCKERFILE	:= infra/docker/storybook/Dockerfile
 STORYBOOK_NAME	   	 	:= smartbcity/registry-program-ver-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 
-docker: docker-gateway docker-web docker-registry-certificate-web
+docker: docker-gateway docker-script docker-web docker-registry-certificate-web
 docs: package-storybook
 
 docker-gateway:
 	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test
 	@docker push ${GATEWAY_IMG}
 
+docker-script:
+	VERSION=${VERSION} IMAGE_NAME=${SCRIPT_NAME} ./gradlew build ${SCRIPT_PACKAGE}:bootBuildImage -x test
+	@docker push ${SCRIPT_IMG}
+
 docker-web:
 	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
 	@docker push ${FRONT_VER_IMG}
 
 docker-registry-certificate-web:
+	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_CERT_DOCKERFILE} -t ${FRONT_CERT_IMG} .
+	@docker push ${FRONT_CERT_IMG}
+
+docker-script-init:
 	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_CERT_DOCKERFILE} -t ${FRONT_CERT_IMG} .
 	@docker push ${FRONT_CERT_IMG}
 

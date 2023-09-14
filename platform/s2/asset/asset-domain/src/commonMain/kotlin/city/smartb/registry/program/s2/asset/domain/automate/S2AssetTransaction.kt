@@ -1,8 +1,8 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
-import city.smartb.registry.program.api.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand

@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
 	commonMainApi(project(":platform:s2:asset:asset-domain"))
+	commonMainApi(project(":platform:s2:commons"))
 
 	Dependencies.Mpp.im(::commonMainApi)
 	Dependencies.Jvm.Cccev.client(::commonMainImplementation)

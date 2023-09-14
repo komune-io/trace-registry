@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.domain.command
 
 import cccev.s2.concept.domain.InformationConceptIdentifier
-import city.smartb.registry.program.api.commons.model.GeoLocation
+import city.smartb.registry.program.s2.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.automate.ProjectInitCommand
 import city.smartb.registry.program.s2.project.domain.model.ActivityIdentifier

@@ -1,10 +1,12 @@
 subprojects {
     plugins.withType(JavaPlugin::class.java).whenPluginAdded {
         dependencies {
-            val implementation by configurations
-            implementation(project(":platform:api:api-commons"))
-            implementation(project(":platform:api:api-config"))
-            implementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
+            if (!project.path.endsWith("-client") && !project.path.endsWith("-domain")) {
+                val implementation by configurations
+                implementation(project(":platform:api:api-commons"))
+                implementation(project(":platform:api:api-config"))
+                implementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
+            }
         }
     }
 
@@ -14,7 +16,6 @@ subprojects {
             Dependencies.Mpp.f2 { commonMainApi(it) }
             Dependencies.Mpp.s2 { commonMainApi(it) }
             Dependencies.Mpp.im { commonMainApi(it) }
-            commonMainApi(project(":platform:api:api-commons"))
         }
     }
 }

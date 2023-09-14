@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.pool.api.service
 
-import city.smartb.registry.program.api.commons.model.BigDecimalAsString
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.api.commons.model.SimpleCache
 import city.smartb.registry.program.f2.pool.api.model.toDTO
 import city.smartb.registry.program.f2.pool.domain.model.AssetTransactionDTOBase

@@ -18,8 +18,10 @@ include(
 )
 
 include(
-	"platform:script:init"
+	"platform:script:script-init",
+	"platform:script:script-gateway",
 )
+
 include(
 	"platform:ver-test"
 )
@@ -65,6 +67,7 @@ include(
 include(
 	"platform:s2:asset:asset-api",
 	"platform:s2:asset:asset-domain",
+	"platform:s2:commons",
 	"platform:s2:order:order-api",
 	"platform:s2:order:order-domain",
 	"platform:s2:project:project-api",

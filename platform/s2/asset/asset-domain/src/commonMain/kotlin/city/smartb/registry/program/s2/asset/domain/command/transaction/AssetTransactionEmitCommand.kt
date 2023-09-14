@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.asset.domain.command.transaction
 
-import city.smartb.registry.program.api.commons.model.BigDecimalAsString
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId

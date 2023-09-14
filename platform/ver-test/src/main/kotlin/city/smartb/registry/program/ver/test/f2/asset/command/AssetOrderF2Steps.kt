@@ -1,6 +1,6 @@
 package city.smartb.registry.program.ver.test.f2.asset.command
 
-import city.smartb.registry.program.api.commons.model.BigDecimalAsString
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.f2.asset.api.AssetEndpoint
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderPlaceCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetOrderGetQueryDTOBase

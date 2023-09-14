@@ -1,8 +1,8 @@
 package city.smartb.registry.program.s2.project.domain.model
 
 import cccev.s2.concept.domain.InformationConceptIdentifier
-import city.smartb.registry.program.api.commons.model.GeoLocation
-import city.smartb.registry.program.api.commons.model.GeoLocationDTO
+import city.smartb.registry.program.s2.commons.model.GeoLocation
+import city.smartb.registry.program.s2.commons.model.GeoLocationDTO
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import kotlinx.serialization.Serializable

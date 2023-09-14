@@ -1,0 +1,28 @@
+server:
+  port: 1000
+
+registry:
+  script:
+    retry:
+      max: 5
+      delayMillis: 10000
+    init:
+      auth:
+        url: https://auth.dev.connect.smart-b.io/realms/sb-dev
+      cccev:
+        url: https://dev.trace.smart-b.io/cccev
+      registry:
+        url: https://dev.trace.smart-b.io/ver
+      im:
+        url: https://dev.connect.smart-b.io/im
+      orchestrator:
+        name: Smartb
+        clientId: tr-smartb-ver2-app
+        clientSecret: 816ab559-aaea-4b6b-9880-3e630d9ae3d1
+      nbProject: 25
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev

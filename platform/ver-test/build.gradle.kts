@@ -14,5 +14,8 @@ dependencies {
 
 	implementation(project(":platform:infra:im"))
 	implementation(project(":platform:infra:redis"))
+
+	implementation(project(":platform:api:api-commons"))
+
 	Dependencies.Jvm.s2Bdd(::api)
 }

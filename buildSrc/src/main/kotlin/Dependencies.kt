@@ -19,10 +19,10 @@ object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
-//	val s2 = Framework.fixers
-	val s2 = "0.15.1"
+	val s2 = Framework.fixers
 	val fs = Framework.connect
-	val im = Framework.connect
+//	val im = Framework.connect
+	val im = "local5-SNAPSHOT"
     val cccev = Framework.connect
 
 	const val bignum = "0.3.8"
@@ -148,7 +148,9 @@ object Dependencies {
 		fun f2Client(scope: Scope) = scope.add(
 			"city.smartb.f2:f2-client-ktor:${Versions.f2}",
 			"io.ktor:ktor-client-auth:${Versions.ktor}"
-		)
+		).also {
+			Ktor.Client.logging(it)
+		}
 
 		object Ktor {
 			object Client {
@@ -169,6 +171,11 @@ object Dependencies {
 			"city.smartb.im:organization-domain:${Versions.im}",
 			"city.smartb.im:user-domain:${Versions.im}"
 		)
+
+		fun bignum(scope: Scope) = scope.add(
+			"com.ionspin.kotlin:bignum:${Versions.bignum}"
+		)
+
 
 		fun s2(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-automate-dsl:${Versions.s2}",

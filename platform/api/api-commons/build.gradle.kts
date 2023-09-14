@@ -19,5 +19,4 @@ dependencies {
     jvmMainImplementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
     jvmMainApi("city.smartb.f2:f2-spring-boot-exception-http:${Versions.f2}")
 
-    commonMainApi("com.ionspin.kotlin:bignum:${Versions.bignum}")
 }

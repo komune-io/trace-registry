@@ -1,6 +1,6 @@
 package city.smartb.registry.program.ver.test.s2.project.command
 
-import city.smartb.registry.program.api.commons.model.GeoLocation
+import city.smartb.registry.program.s2.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
 import city.smartb.registry.program.s2.project.api.entity.ProjectRepository
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand

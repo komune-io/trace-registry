@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.activity.domain
 
-import city.smartb.registry.program.api.commons.model.GeoLocation
+import city.smartb.registry.program.s2.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef

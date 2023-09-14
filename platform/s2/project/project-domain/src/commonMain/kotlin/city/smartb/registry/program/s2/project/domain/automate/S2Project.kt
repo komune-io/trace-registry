@@ -1,6 +1,6 @@
 package city.smartb.registry.program.s2.project.domain.automate
 
-import city.smartb.registry.program.api.commons.model.S2SourcingEvent
+import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectChangePrivacyCommand

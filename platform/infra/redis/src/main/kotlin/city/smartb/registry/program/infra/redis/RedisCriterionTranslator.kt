@@ -1,10 +1,10 @@
 package city.smartb.registry.program.infra.redis
 
-import city.smartb.registry.program.api.commons.model.AndCriterion
-import city.smartb.registry.program.api.commons.model.Criterion
-import city.smartb.registry.program.api.commons.model.CriterionField
-import city.smartb.registry.program.api.commons.model.FieldCriterion
-import city.smartb.registry.program.api.commons.model.OrCriterion
+import city.smartb.registry.program.s2.commons.model.AndCriterion
+import city.smartb.registry.program.s2.commons.model.Criterion
+import city.smartb.registry.program.s2.commons.model.CriterionField
+import city.smartb.registry.program.s2.commons.model.FieldCriterion
+import city.smartb.registry.program.s2.commons.model.OrCriterion
 import com.redis.om.spring.metamodel.MetamodelField
 import com.redis.om.spring.search.stream.SearchStream
 import java.util.function.Predicate

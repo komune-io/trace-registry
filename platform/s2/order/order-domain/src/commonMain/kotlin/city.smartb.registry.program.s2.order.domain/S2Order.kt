@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.order.domain
 
-import city.smartb.registry.program.api.commons.auth.Role
-import city.smartb.registry.program.api.commons.model.S2SourcingEvent
+import city.smartb.registry.program.s2.commons.auth.Role
+import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderCancelCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderCanceledEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderCompleteCommand

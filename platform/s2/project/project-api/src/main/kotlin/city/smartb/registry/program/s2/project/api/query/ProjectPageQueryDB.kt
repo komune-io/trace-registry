@@ -1,7 +1,7 @@
 package city.smartb.registry.program.s2.project.api.query
 
-import city.smartb.registry.program.api.commons.model.Criterion
-import city.smartb.registry.program.api.commons.model.CriterionField
+import city.smartb.registry.program.s2.commons.model.Criterion
+import city.smartb.registry.program.s2.commons.model.CriterionField
 import city.smartb.registry.program.infra.redis.PageQueryDB
 import city.smartb.registry.program.infra.redis.criterion
 import city.smartb.registry.program.infra.redis.match
