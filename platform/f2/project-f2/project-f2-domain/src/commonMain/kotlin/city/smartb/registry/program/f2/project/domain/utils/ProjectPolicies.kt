@@ -18,24 +18,26 @@ object ProjectPolicies {
     /**
      * User can get a project
      */
-    fun canGet(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) || project.isReadableBy(authedUser)
+    fun canGet(authedUser: AuthedUserDTO?, project: ProjectDTO): Boolean {
+        if(authedUser == null) return !project.isPrivate
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+                || project.isReadableBy(authedUser)
     }
 
     /**
      * User can list the projects
      */
-    fun canList(authedUser: AuthedUserDTO): Boolean {
+    fun canList(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
 
     /**
      * Proponent id of the allowed private projects or null if user can list all the private projects
      */
-    fun privateOrganizationId(authedUser: AuthedUserDTO): OrganizationId? {
-        return if (authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)){
+    fun privateOrganizationId(authedUser: AuthedUserDTO?): OrganizationId? {
+        return if (authedUser?.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) ?: false){
             null
-        } else authedUser.memberOf ?: "none"
+        } else authedUser?.memberOf ?: "none"
     }
 
     /**

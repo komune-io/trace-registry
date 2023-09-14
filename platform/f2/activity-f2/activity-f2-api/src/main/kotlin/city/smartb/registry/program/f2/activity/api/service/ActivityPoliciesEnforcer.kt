@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ActivityPoliciesEnforcer: PolicyEnforcer() {
-    suspend fun checkPage() = checkAuthed("page activities") { authedUser ->
+    suspend fun checkPage() = check("page activities") { authedUser ->
         ActivityPolicies.canPage(authedUser)
     }
-    suspend fun checkPageStep() = checkAuthed("page step activities") { authedUser ->
+    suspend fun checkPageStep() = check("page step activities") { authedUser ->
         ActivityPolicies.canPage(authedUser)
     }
 

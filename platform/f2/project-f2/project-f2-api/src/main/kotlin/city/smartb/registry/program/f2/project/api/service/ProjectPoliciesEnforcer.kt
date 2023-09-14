@@ -10,22 +10,22 @@ import org.springframework.stereotype.Service
 class ProjectPoliciesEnforcer(
     private val projectF2FinderService: ProjectF2FinderService,
 ): PolicyEnforcer() {
-    suspend fun checkGet(projectId: ProjectId) = checkAuthed("get a project") { authedUser ->
+    suspend fun checkGet(projectId: ProjectId) = check("get a project") { authedUser ->
         val project = projectF2FinderService.get(projectId)
         ProjectPolicies.canGet(authedUser, project)
     }
 
-    suspend fun checkGetByIdentifier(identifier: ProjectIdentifier) = checkAuthed("get a project by identifier") { authedUser ->
+    suspend fun checkGetByIdentifier(identifier: ProjectIdentifier) = check("get a project by identifier") { authedUser ->
         projectF2FinderService.getOrNullByIdentifier(identifier)?.let {
             ProjectPolicies.canGet(authedUser, it)
         } ?: false
     }
 
-    suspend fun checkList() = checkAuthed("list the projects") { authedUser ->
+    suspend fun checkList() = check("list the projects") { authedUser ->
         ProjectPolicies.canList(authedUser)
     }
 
-    suspend fun privateOrganizationId() = enforceAuthed {authedUser ->
+    suspend fun privateOrganizationId() = enforce {authedUser ->
         ProjectPolicies.privateOrganizationId(authedUser)
     }
 

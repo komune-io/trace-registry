@@ -14,10 +14,8 @@ import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object AssetPoolPolicies {
-    fun canList(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(
-            Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER
-        )
+    fun canList(authedUser: AuthedUserDTO?): Boolean {
+        return true
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {

@@ -12,10 +12,10 @@ object ActivityPolicies {
     /**
      * User can list the activities
      */
-    fun canPage(authedUser: AuthedUserDTO): Boolean {
+    fun canPage(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
-    fun canPageSteps(authedUser: AuthedUserDTO): Boolean {
+    fun canPageSteps(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
 
