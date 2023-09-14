@@ -7,9 +7,6 @@ plugins {
 dependencies {
 	commonMainApi(project(":platform:f2:project-f2:project-f2-domain"))
 
-	Dependencies.Mpp.Ktor.Client.logging(::commonMainImplementation)
-	Dependencies.Mpp.Ktor.Client.auth(::commonMainImplementation)
-
 	Dependencies.Mpp.f2Client(::commonMainApi)
 	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)
 }

@@ -13,7 +13,6 @@ dependencies {
 	Dependencies.Jvm.im(::implementation)
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
 
-	Dependencies.Mpp.Ktor.Client.logging(::implementation)
 	Dependencies.Jvm.Cccev.client(::implementation)
 	Dependencies.Jvm.Test.dataFaker(::implementation)
 	Dependencies.Jvm.junit(::testImplementation)
