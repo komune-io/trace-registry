@@ -110,11 +110,16 @@ class AssetPoolF2AggregateService(
         } else {
             to
         }
+        val memberOf = AuthenticationProvider.getAuthedUser()?.memberOf
+            ?: throw IllegalStateException(
+                "Authed user[${AuthenticationProvider.getAuthedUser()?.id}] must must have memberOf propoerty"
+            )
+
         return AssetPoolEmitTransactionCommand(
             id = id,
             from = from?.let { imService.getOrganizationByName(it).id },
             to = to,
-            by = AuthenticationProvider.getAuthedUser()?.memberOf!!,
+            by = memberOf,
             quantity = quantity,
             type = type,
         )

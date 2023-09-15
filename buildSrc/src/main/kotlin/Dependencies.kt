@@ -21,8 +21,7 @@ object Versions {
 	val f2 = Framework.fixers
 	val s2 = Framework.fixers
 	val fs = Framework.connect
-//	val im = Framework.connect
-	val im = "local5-SNAPSHOT"
+	val im = Framework.connect
     val cccev = Framework.connect
 
 	const val bignum = "0.3.8"
@@ -147,21 +146,9 @@ object Dependencies {
 
 		fun f2Client(scope: Scope) = scope.add(
 			"city.smartb.f2:f2-client-ktor:${Versions.f2}",
-			"io.ktor:ktor-client-auth:${Versions.ktor}"
-		).also {
-			Ktor.Client.logging(it)
-		}
-
-		object Ktor {
-			object Client {
-				fun logging(scope: Scope) = scope.add(
-					"io.ktor:ktor-client-logging:${Versions.ktor}",
-				)
-				fun auth(scope: Scope) = scope.add(
-					"io.ktor:ktor-client-auth:${Versions.ktor}",
-				)
-			}
-		}
+			"io.ktor:ktor-client-auth:${Versions.ktor}",
+			"io.ktor:ktor-client-logging:${Versions.ktor}",
+		)
 
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:file-domain:${Versions.fs}"

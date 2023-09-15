@@ -7,9 +7,6 @@ plugins {
 dependencies {
 	commonMainApi(project(":platform:f2:chat-f2:chat-f2-domain"))
 
-	Dependencies.Mpp.Ktor.Client.logging(::commonMainImplementation)
-	Dependencies.Mpp.Ktor.Client.auth(::commonMainImplementation)
-
 	Dependencies.Mpp.f2Client(::commonMainApi)
 }
 

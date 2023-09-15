@@ -11,14 +11,15 @@ class ProjectPoliciesEnforcer(
     private val projectF2FinderService: ProjectF2FinderService,
 ): PolicyEnforcer() {
     suspend fun checkGet(projectId: ProjectId) = check("get a project") { authedUser ->
-        val project = projectF2FinderService.get(projectId)
-        ProjectPolicies.canGet(authedUser, project)
+        projectF2FinderService.getOrNull(projectId)?.let {project ->
+            ProjectPolicies.canGet(authedUser, project)
+        } ?: true
     }
 
     suspend fun checkGetByIdentifier(identifier: ProjectIdentifier) = check("get a project by identifier") { authedUser ->
         projectF2FinderService.getOrNullByIdentifier(identifier)?.let {
             ProjectPolicies.canGet(authedUser, it)
-        } ?: false
+        } ?: true
     }
 
     suspend fun checkList() = check("list the projects") { authedUser ->

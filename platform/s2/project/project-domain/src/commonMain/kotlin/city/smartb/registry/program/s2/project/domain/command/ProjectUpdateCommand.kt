@@ -56,7 +56,7 @@ data class ProjectUpdateCommand(
     override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?,
-): ProjectCommand, ProjectUpdateCommandDTO
+): ProjectAbstractMsg, ProjectCommand, ProjectUpdateCommandDTO
 
 /**
  * @d2 event

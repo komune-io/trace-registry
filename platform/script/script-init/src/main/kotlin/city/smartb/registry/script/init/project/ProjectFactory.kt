@@ -115,7 +115,7 @@ private fun randomProject(
         id = faker.idNumber().valid(),
         name = faker.company().name()
     ),
-    type = count % 25,
+    type = count + 1 % 25,
     referenceYear = years.random().toString(),
     registrationDate = faker.date().past(1, TimeUnit.HOURS).time,
     vintage = years.random().let { listOf(it, it + 1) }.joinToString(", "),

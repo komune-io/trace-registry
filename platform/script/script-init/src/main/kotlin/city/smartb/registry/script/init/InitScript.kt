@@ -18,22 +18,27 @@ class InitScript(
             properties.orchestrator.clientSecret
         )
 
-        val actorFactory = ActorBuilder(properties.im.url,  properties.auth.url, accessTokenOrchestrator)
-        val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
-        val offseter = actorFactory.create(ActorType.OFFSETTER)
-        val issuer = actorFactory.create(ActorType.ISSUER)
+        properties.cccev?.url?.let { url ->
+            initRequirement(url)
+            initIndicatorsCarbon(url)
+        }
+        properties.registry?.url?.let { url ->
+            val actorFactory = ActorBuilder(properties.im.url,  properties.auth.url, accessTokenOrchestrator)
+            val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
+            val offseter = actorFactory.create(ActorType.OFFSETTER)
+            val issuer = actorFactory.create(ActorType.ISSUER)
 
-        initRequirement(properties.cccev.url)
-        initIndicatorsCarbon(properties.cccev.url)
+            val assetPoolId = createAssetPool(
+                properties.registry.url,
+                orchestrator = accessTokenOrchestrator,
+                projectManager = projectManager,
+                issuer = issuer,
+                offsetter = offseter
+            )
+            val projectId = createRandomProject(properties.registry.url, accessTokenOrchestrator, assetPoolId, countRange = 0..properties.nbProject).first()
+            addAssetPoolToProject(properties.registry.url, accessTokenOrchestrator, projectId, assetPoolId)
+        }
 
-        val assetPoolId = createAssetPool(
-            properties.registry.url,
-            orchestrator = accessTokenOrchestrator,
-            projectManager = projectManager,
-            issuer = issuer,
-            offsetter = offseter
-        )
-        val projectId = createRandomProject(properties.registry.url, accessTokenOrchestrator, assetPoolId, countRange = 0..properties.nbProject).first()
-        addAssetPoolToProject(properties.registry.url, accessTokenOrchestrator, projectId, assetPoolId)
+
     }
 }

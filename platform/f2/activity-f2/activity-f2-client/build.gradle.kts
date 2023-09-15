@@ -6,8 +6,6 @@ plugins {
 
 dependencies {
 	commonMainApi(project(":platform:f2:activity-f2:activity-f2-domain"))
-	commonMainApi("city.smartb.f2:f2-client-ktor:${Versions.f2}")
 
-	Dependencies.Mpp.Ktor.Client.logging(::commonMainImplementation)
-	Dependencies.Mpp.Ktor.Client.auth(::commonMainImplementation)
+	Dependencies.Mpp.f2Client(::commonMainApi)
 }

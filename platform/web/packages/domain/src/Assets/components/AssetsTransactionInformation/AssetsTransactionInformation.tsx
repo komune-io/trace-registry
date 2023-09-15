@@ -7,14 +7,14 @@ import {AssetsTransactionType, Project, Transaction} from 'domain-components';
 import {useRoutesDefinition} from "components";
 import {useNavigate} from "react-router-dom";
 
-export interface AssetsTransactionInformationsProps {
+export interface AssetsTransactionInformationProps {
     isLoading: boolean
     transaction?: Transaction
     onBack: () => void
     project : Project
 }
 
-export const AssetsTransactionInformations = (props: AssetsTransactionInformationsProps) => {
+export const AssetsTransactionInformation = (props: AssetsTransactionInformationProps) => {
     let { isLoading, transaction, project, onBack } = props
 
     const { t } = useTranslation()
@@ -71,7 +71,7 @@ export const AssetsTransactionInformations = (props: AssetsTransactionInformatio
                         alignItems="center"
                         justifyContent="space-between"
                     >
-                        <Typography variant="h5" >{t("projects.assets.transactionInformations")}</Typography>
+                        <Typography variant="h5" >{t("projects.assets.transactionInformation")}</Typography>
                         <IconButton aria-label="close" onClick={onBack} >
                             <CloseRounded />
                         </IconButton>

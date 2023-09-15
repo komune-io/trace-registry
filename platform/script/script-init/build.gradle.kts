@@ -1,5 +1,6 @@
 plugins {
 	id("city.smartb.fixers.gradle.kotlin.jvm")
+	id("city.smartb.fixers.gradle.publish")
 	kotlin("plugin.serialization")
 	kotlin("kapt")
 }
@@ -13,7 +14,6 @@ dependencies {
 	Dependencies.Jvm.im(::implementation)
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
 
-	Dependencies.Mpp.Ktor.Client.logging(::implementation)
 	Dependencies.Jvm.Cccev.client(::implementation)
 	Dependencies.Jvm.Test.dataFaker(::implementation)
 	Dependencies.Jvm.junit(::testImplementation)
