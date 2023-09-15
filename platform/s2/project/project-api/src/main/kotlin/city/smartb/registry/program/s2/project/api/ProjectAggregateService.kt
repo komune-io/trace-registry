@@ -35,6 +35,7 @@ class ProjectAggregateService(
 ): ProjectAggregate {
 
 	override suspend fun create(cmd: ProjectCreateCommand): ProjectCreatedEvent = automate.init(cmd) {
+		checkType()
 		ProjectCreatedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
@@ -44,6 +45,10 @@ class ProjectAggregateService(
 			isPrivate = cmd.isPrivate
 		).applyCmd(cmd)
 		.applyCCCEVCertification()
+	}
+
+	private fun checkType() {
+		check(type > 0 && type <= 25) { "Project type is required" }
 	}
 
 	private suspend fun ProjectCreatedEvent.applyCCCEVCertification(): ProjectCreatedEvent {
@@ -75,6 +80,7 @@ class ProjectAggregateService(
 
 
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
+		checkType()
 		ProjectUpdatedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
