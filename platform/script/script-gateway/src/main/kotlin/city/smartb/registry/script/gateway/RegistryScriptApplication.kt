@@ -10,7 +10,6 @@ class RegistryScriptApplication
 
 fun main(args: Array<String>) {
 	SpringApplication(RegistryScriptApplication::class.java).run {
-//        setAdditionalProfiles("local")
 		run(*args)
 	}
 }

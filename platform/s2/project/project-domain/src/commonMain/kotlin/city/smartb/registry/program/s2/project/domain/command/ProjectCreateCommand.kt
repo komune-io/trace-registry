@@ -63,7 +63,7 @@ data class ProjectCreateCommand(
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?,
     override var isPrivate: Boolean?
-): ProjectInitCommand, ProjectCreateCommandDTO
+): ProjectAbstractMsg, ProjectInitCommand, ProjectCreateCommandDTO
 
 /**
  * @d2 event

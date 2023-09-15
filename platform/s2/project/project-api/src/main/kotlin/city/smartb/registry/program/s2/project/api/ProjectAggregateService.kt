@@ -10,6 +10,7 @@ import city.smartb.registry.program.s2.project.api.config.ProjectAutomateExecuto
 import city.smartb.registry.program.s2.project.api.entity.applyCmd
 import city.smartb.registry.program.s2.project.domain.ProjectAggregate
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import city.smartb.registry.program.s2.project.domain.command.ProjectAbstractMsg
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddedAssetPoolEvent
 import city.smartb.registry.program.s2.project.domain.command.ProjectChangePrivacyCommand
@@ -35,7 +36,7 @@ class ProjectAggregateService(
 ): ProjectAggregate {
 
 	override suspend fun create(cmd: ProjectCreateCommand): ProjectCreatedEvent = automate.init(cmd) {
-		checkType()
+		cmd.checkType()
 		ProjectCreatedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
@@ -47,8 +48,8 @@ class ProjectAggregateService(
 		.applyCCCEVCertification()
 	}
 
-	private fun checkType() {
-		check(type > 0 && type <= 25) { "Project type is required" }
+	private fun ProjectAbstractMsg.checkType() {
+		check(type != null && type!! > 0 && type!! <= 25) { "Project type is required" }
 	}
 
 	private suspend fun ProjectCreatedEvent.applyCCCEVCertification(): ProjectCreatedEvent {
@@ -80,7 +81,7 @@ class ProjectAggregateService(
 
 
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
-		checkType()
+		cmd.checkType()
 		ProjectUpdatedEvent(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
