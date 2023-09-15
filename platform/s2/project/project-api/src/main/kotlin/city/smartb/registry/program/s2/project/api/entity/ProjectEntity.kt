@@ -72,9 +72,6 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var registrationDate: DateTime? = null
 
     @Searchable(nostem=true)
-    var vintage: String? = null
-
-    @Searchable(nostem=true)
     var slug: String? = null
 
     @Indexed
@@ -88,7 +85,8 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
     var request: CertificationRef? = null
     var sdgs: List<SdgNumber>? = null
 
-    val assetPools: MutableSet<AssetPoolId> = mutableSetOf()
+    @Indexed
+    var assetPools: MutableSet<AssetPoolId> = mutableSetOf()
 
     @Indexed
     var privacy: Boolean = true

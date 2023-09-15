@@ -41,7 +41,6 @@ data class Project(
     val type: Int?,
     val referenceYear: String?,
     val registrationDate: DateTime?,
-    val vintage: String?,
     val slug: String?,
     val vvb: OrganizationRef?,
     val assessor: OrganizationRef?,

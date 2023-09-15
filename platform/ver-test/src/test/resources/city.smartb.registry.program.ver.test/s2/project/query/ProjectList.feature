@@ -123,18 +123,58 @@ Feature: ProjectList
       | identifier |
       | stake      |
     And Some projects are created:
-      | identifier | private | proponent |
-      | p1         | true    | stake     |
-      | p2         | true    | orch      |
-      | p3         | true    | orch      |
+      | identifier | isPrivate | proponent |
+      | p1         | true      | stake     |
+      | p2         | true      | orch      |
+      | p3         | true      | orch      |
     And The project privacy is changed:
       | identifier | private |
       | p2         | false   |
     When I fetch page of projects
     Then I should receive projects:
-      | identifier  |
-      | p1          |
-      | p2          |
+      | identifier |
+      | p1         |
+      | p2         |
     Then I should not receive projects:
-      | identifier  |
-      | p3          |
+      | identifier |
+      | p3         |
+
+  Scenario: I want to fetch a page of projects by vintage
+    Given A data unit is created in cccev
+    And A concept is created in cccev
+    And Some asset pools are created:
+      | identifier | vintage |
+      | a1         | 2021    |
+      | a2         | 2022    |
+      | a3         | 2023    |
+      | a11        | 2021    |
+    And Some projects are created:
+      | identifier | isPrivate |
+      | p1         | false     |
+      | p2         | false     |
+      | p11        | false     |
+    And The projects have asset pools:
+      | identifier | poolIdentifier |
+      | p1         | a1             |
+      | p2         | a2             |
+      | p11        | a11            |
+      | p11        | a3             |
+    When I fetch page of projects:
+      | vintage |
+      | 2021    |
+    Then I should receive projects:
+      | identifier | vintage   |
+      | p1         | 2021      |
+      | p11        | 2021,2023 |
+    Then I should not receive projects:
+      | identifier |
+      | p2         |
+      | p3         |
+    When I fetch page of projects:
+      | vintage |
+      | 3000    |
+    Then I should not receive projects:
+      | identifier |
+      | p1         |
+      | p2         |
+      | p11        |

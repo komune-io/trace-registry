@@ -24,7 +24,6 @@ fun ProjectEntity.toProject() = Project(
     type = type,
     referenceYear = referenceYear,
     registrationDate = registrationDate,
-    vintage = vintage,
     slug = slug,
     vvb = vvb?.toModel(),
     assessor = assessor?.toModel(),

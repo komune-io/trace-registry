@@ -95,6 +95,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
             providerParams.referenceYear?.let { Assertions.assertThat(provider.referenceYear).isEqualTo(it) }
             providerParams.dueDate?.let { Assertions.assertThat(provider.dueDate).isEqualTo(it) }
             providerParams.status?.let { Assertions.assertThat(provider.status.name).isEqualTo(it) }
+            providerParams.vintage?.let { Assertions.assertThat(provider.vintage).containsExactlyElementsOf(it) }
         }
     }
 
@@ -124,6 +125,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         referenceYear = entry["referenceYear"],
         dueDate = entry["dueDate"]?.toLong(),
         status = entry["status"],
+        vintage = entry["vintage"]?.split(","),
     )
 
     private data class ProjectPageParams(
@@ -152,5 +154,6 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         val referenceYear: String?,
         val dueDate: Long?,
         val status: String?,
+        val vintage: List<String>?,
     )
 }

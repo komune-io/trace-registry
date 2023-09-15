@@ -42,7 +42,6 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		type = event.type
 		referenceYear = event.referenceYear
 		registrationDate = event.registrationDate
-		vintage = event.vintage
 		slug = event.slug
 		vvb = event.vvb?.toEntity()
 		assessor = event.assessor?.toEntity()
@@ -68,7 +67,6 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		type = event.type
 		referenceYear = event.referenceYear
 		registrationDate = event.registrationDate
-		vintage = event.vintage
 		slug = event.slug
 		vvb = event.vvb?.toEntity()
 		assessor = event.assessor?.toEntity()
