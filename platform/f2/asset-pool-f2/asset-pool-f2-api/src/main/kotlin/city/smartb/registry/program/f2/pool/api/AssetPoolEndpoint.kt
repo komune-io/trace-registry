@@ -44,8 +44,12 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.ktor.utils.io.ByteReadChannel
 import jakarta.annotation.security.PermitAll
+import javax.annotation.security.RolesAllowed
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -228,17 +232,18 @@ class AssetPoolEndpoint(
     suspend fun assetCertificateDownload(
         @RequestBody query: AssetCertificateDownloadQuery,
         response: ServerHttpResponse
-    ): ByteReadChannel? = response.serveFile(fileClient) {
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("assetCertificateDownload: $query")
         assetTransactionF2FinderService.getTransaction(query.transactionId).file
     }
 
     @PermitAll
-    @GetMapping("/assetCertificateDownload")
+//    @GetMapping("/assetCertificateDownload")
+    @GetMapping("/assetCertificateDownload", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun assetCertificateDownload(
         @RequestParam transactionId: AssetTransactionId,
         response: ServerHttpResponse
-    ): ByteReadChannel? = response.serveFile(fileClient) {
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("assetCertificateDownload: $transactionId")
         assetTransactionF2FinderService.getTransaction(transactionId).file
     }
