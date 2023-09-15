@@ -14,7 +14,7 @@ services:
       - spring_neo4j_authentication_username=neo4j
       - spring_neo4j_authentication_password=smartbsmartb
     ports:
-      - 8083:8083
+      - ${CCCEV_PORT}:8083
     networks:
       - net
     depends_on:
