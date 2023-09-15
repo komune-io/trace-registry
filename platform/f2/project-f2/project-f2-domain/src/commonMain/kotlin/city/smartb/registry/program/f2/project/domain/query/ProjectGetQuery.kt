@@ -1,7 +1,7 @@
 package city.smartb.registry.program.f2.project.domain.query
 
-import city.smartb.registry.program.s2.project.domain.model.Project
-import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
+import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
+import city.smartb.registry.program.f2.project.domain.model.ProjectDTOBase
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -55,5 +55,5 @@ interface ProjectGetResultDTO {
  */
 @Serializable
 data class ProjectGetResult(
-    override val item: Project?
+    override val item: ProjectDTOBase?
 ): ProjectGetResultDTO

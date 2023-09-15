@@ -14,6 +14,7 @@ import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectCriterionField
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
@@ -39,18 +40,18 @@ class ProjectFinderService(
 	}
 
 	override suspend fun page(
-        id: Match<ProjectId>?,
-        identifier: Match<ProjectIdentifier>?,
-        name: Match<String>?,
-        proponent: Match<String>?,
-        type: Match<Int>?,
-        estimatedReductions: Match<String>?,
-        referenceYear: Match<String>?,
-        dueDate: Match<Long>?,
-		vintage: Match<String>?,
+		id: Match<ProjectId>?,
+		identifier: Match<ProjectIdentifier>?,
+		name: Match<String>?,
+		proponent: Match<String>?,
+		type: Match<Int>?,
+		estimatedReductions: Match<String>?,
+		referenceYear: Match<String>?,
+		dueDate: Match<Long>?,
+		assetPools: CollectionMatch<String>?,
 		origin: Match<String>?,
-        status: Match<ProjectState>?,
-        offset: OffsetPagination?,
+		status: Match<ProjectState>?,
+		offset: OffsetPagination?,
 		privateOrganizationId: OrganizationId?
 	): PageDTO<Project> {
 		return projectPageQueryDB.execute(
@@ -61,8 +62,8 @@ class ProjectFinderService(
 			type = type,
 			estimatedReductions = estimatedReductions,
 			referenceYear = referenceYear,
-			vintage = vintage,
 			dueDate = dueDate,
+			assetPools = assetPools,
 			origin = origin,
 			status = status,
 			offset = offset,

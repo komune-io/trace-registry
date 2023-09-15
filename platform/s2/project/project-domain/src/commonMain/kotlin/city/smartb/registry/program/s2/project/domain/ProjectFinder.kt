@@ -5,6 +5,7 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.model.Project
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.ProjectIdentifier
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -22,7 +23,7 @@ interface ProjectFinder {
         estimatedReductions: Match<String>? = null,
         referenceYear: Match<String>? = null,
         dueDate: Match<Long>? = null,
-        vintage: Match<String>? = null,
+        assetPools: CollectionMatch<String>? = null,
         origin: Match<String>? = null,
         status: Match<ProjectState>? = null,
         offset: OffsetPagination? = null,

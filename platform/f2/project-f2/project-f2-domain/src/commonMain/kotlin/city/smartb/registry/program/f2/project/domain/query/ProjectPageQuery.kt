@@ -1,6 +1,6 @@
 package city.smartb.registry.program.f2.project.domain.query
 
-import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
+import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.OffsetPaginationDTO
 import f2.dsl.cqrs.page.PageQueryResultDTO
 import f2.dsl.fnc.F2Function

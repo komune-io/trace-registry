@@ -1,10 +1,10 @@
 package city.smartb.registry.program.s2.project.api.query
 
-import city.smartb.registry.program.s2.commons.model.Criterion
-import city.smartb.registry.program.s2.commons.model.CriterionField
 import city.smartb.registry.program.infra.redis.PageQueryDB
 import city.smartb.registry.program.infra.redis.criterion
 import city.smartb.registry.program.infra.redis.match
+import city.smartb.registry.program.s2.commons.model.Criterion
+import city.smartb.registry.program.s2.commons.model.CriterionField
 import city.smartb.registry.program.s2.project.api.entity.ProjectEntity
 import city.smartb.registry.program.s2.project.api.entity.`ProjectEntity$`
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
@@ -47,7 +47,7 @@ class ProjectPageQueryDB(
         estimatedReductions: Match<String>? = null,
         referenceYear: Match<String>? = null,
         dueDate: Match<Long>? = null,
-        vintage: Match<String>? = null,
+        assetPools: Match<String>? = null,
         freeCriteria: Criterion? = null,
         status: Match<ProjectState>? = null,
         offset: OffsetPagination? = null,
@@ -60,7 +60,7 @@ class ProjectPageQueryDB(
         match(`ProjectEntity$`.COUNTRY, origin)
 //        match(`ProjectEntity$`.SUB_CONTINENT, origin)
         match(`ProjectEntity$`.REFERENCE_YEAR, referenceYear)
-        match(`ProjectEntity$`.VINTAGE, vintage)
+        match(`ProjectEntity$`.ASSET_POOLS, assetPools)
         match(`ProjectEntity$`.DUE_DATE, dueDate)
         match(`ProjectEntity$`.STATUS as TextField<ProjectEntity, ProjectState>, status)
         match(FIELD_PROPONENT_NAME, proponent)

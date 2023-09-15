@@ -19,8 +19,11 @@ import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesResu
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
 import city.smartb.registry.program.infra.fs.FsService
+import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
+import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
 import city.smartb.registry.program.s2.project.domain.automate.ProjectState
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
@@ -46,6 +49,7 @@ class ProjectEndpoint(
     private val projectF2FinderService: ProjectF2FinderService,
     private val projectAggregateService: ProjectAggregateService,
     private val projectPoliciesEnforcer: ProjectPoliciesEnforcer,
+    private val assetPoolFinderService: AssetPoolFinderService,
 ): ProjectQueryApi, ProjectCommandApi {
 
     private val logger by Logger()
@@ -84,7 +88,7 @@ class ProjectEndpoint(
             referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) } ?: ExactMatch(ProjectState.STAMPED),
             type = query.type?.let(::ExactMatch),
-            vintage = query.vintage?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            assetPools = query.vintage?.ifEmpty { null }?.let { CollectionMatch(getAssetPoolIdsWithVintage(it)) },
             origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination,
             privateOrganizationId = projectPoliciesEnforcer.privateOrganizationId()
@@ -156,5 +160,15 @@ class ProjectEndpoint(
     override fun projectDelete(): ProjectDeleteFunction = f2Function { command ->
         projectPoliciesEnforcer.checkDelete(command.id)
         projectAggregateService.delete(command)
+    }
+
+    private suspend fun getAssetPoolIdsWithVintage(vintage: String): Set<AssetPoolId> {
+        val assetPoolIdsWithQueryVintage: MutableSet<AssetPoolId> = assetPoolFinderService.page(
+            vintage = vintage.ifEmpty { null }?.let { ExactMatch(it) },
+        ).items.map { it.id }.toMutableSet()
+        if (assetPoolIdsWithQueryVintage.isEmpty()) {
+            assetPoolIdsWithQueryVintage.add("none")
+        }
+        return assetPoolIdsWithQueryVintage.toSet()
     }
 }

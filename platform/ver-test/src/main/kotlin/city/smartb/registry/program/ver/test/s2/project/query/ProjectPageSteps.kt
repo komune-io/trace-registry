@@ -1,8 +1,8 @@
 package city.smartb.registry.program.ver.test.s2.project.query
 
 import city.smartb.registry.program.f2.project.api.ProjectEndpoint
+import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
-import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
@@ -95,6 +95,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
             providerParams.referenceYear?.let { Assertions.assertThat(provider.referenceYear).isEqualTo(it) }
             providerParams.dueDate?.let { Assertions.assertThat(provider.dueDate).isEqualTo(it) }
             providerParams.status?.let { Assertions.assertThat(provider.status.name).isEqualTo(it) }
+            providerParams.vintage?.let { Assertions.assertThat(provider.vintage).containsExactlyElementsOf(it) }
         }
     }
 
@@ -124,6 +125,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         referenceYear = entry["referenceYear"],
         dueDate = entry["dueDate"]?.toLong(),
         status = entry["status"],
+        vintage = entry["vintage"]?.split(","),
     )
 
     private data class ProjectPageParams(
@@ -152,5 +154,6 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
         val referenceYear: String?,
         val dueDate: Long?,
         val status: String?,
+        val vintage: List<String>?,
     )
 }

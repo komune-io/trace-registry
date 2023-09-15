@@ -3,14 +3,14 @@ package city.smartb.registry.program.f2.project.domain.utils
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
 import city.smartb.im.commons.model.OrganizationId
+import city.smartb.registry.program.f2.project.domain.model.ProjectDTO
 import city.smartb.registry.program.s2.commons.auth.Roles
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
 import city.smartb.registry.program.s2.project.domain.command.ProjectDeleteCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectUpdateCommand
-import city.smartb.registry.program.s2.project.domain.model.ProjectDTO
-import s2.dsl.automate.extention.canExecuteTransitionAnd
 import kotlin.js.JsExport
+import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object ProjectPolicies {

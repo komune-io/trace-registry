@@ -54,6 +54,12 @@ fun <E, T: Enum<T>?> SearchStream<E>.match(x: TextTagField<E, T>, matcher: Match
         ?.let(::filter)
         ?: this
 }
+@JvmName("matchCollection")
+fun <E, T> SearchStream<E>.match(x: TagField<E, out Collection<T>>, matcher: Match<T>?): SearchStream<E> {
+    return match(x as MetamodelField<E, T>, matcher)
+        ?.let(::filter)
+        ?: this
+}
 
 internal fun <E, T> match(x: MetamodelField<E, T>, matcher: Match<T>?): Predicate<T>? {
     return when {

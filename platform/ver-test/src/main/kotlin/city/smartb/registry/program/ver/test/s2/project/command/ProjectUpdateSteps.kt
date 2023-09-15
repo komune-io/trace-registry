@@ -12,6 +12,7 @@ import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
+import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
@@ -36,6 +37,13 @@ class ProjectUpdateSteps: En, VerCucumberStepsDefinition() {
         Given("The project privacy is changed:") { params: ProjectChangePrivacyParams ->
             step {
                 changeProjectPrivacy(params)
+            }
+        }
+
+        Given("The projects have asset pools:") { dataTable: DataTable ->
+            step {
+                dataTable.asList(ProjectAddAssetPoolParams::class.java)
+                    .forEach { addAssetPoolToProject(it) }
             }
         }
 
@@ -166,18 +174,20 @@ class ProjectUpdateSteps: En, VerCucumberStepsDefinition() {
         projectAggregateService.addAssetPool(
             ProjectAddAssetPoolCommand(
                 id = context.projectIds.safeGet(params.identifier),
-                poolId = params.poolId
+                poolId = params.poolIdentifier?.let { context.assetPoolIds.safeGet(it)} ?: params.poolId,
             )
         )
     }
 
     private fun projectAddAssetPoolParams(entry: Map<String, String>?) = ProjectAddAssetPoolParams(
         identifier = entry?.get("identifier") ?: context.projectIds.lastUsed,
+        poolIdentifier = entry?.get("poolIdentifier"),
         poolId = entry?.get("poolId") ?: context.assetPoolIds.lastUsed
     )
 
     private data class ProjectAddAssetPoolParams(
         val identifier: TestContextKey,
+        val poolIdentifier: TestContextKey?,
         val poolId: String,
     )
 
