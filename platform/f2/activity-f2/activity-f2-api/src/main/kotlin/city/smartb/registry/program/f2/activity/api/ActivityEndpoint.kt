@@ -5,8 +5,10 @@ import cccev.f2.certification.client.certificationAddEvidence
 import cccev.f2.certification.domain.command.CertificationAddEvidenceCommandDTOBase
 import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
 import cccev.s2.certification.domain.command.CertificationAddValuesCommand
+import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.spring.utils.contentByteArray
 import city.smartb.registry.program.api.commons.exception.NotFoundException
+import city.smartb.registry.program.api.commons.utils.serveFile
 import city.smartb.registry.program.f2.activity.api.model.getEvidence
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
@@ -51,6 +53,7 @@ class ActivityEndpoint(
     private val activityExecutorService: ActivityF2ExecutorService,
     private val activityF2FinderService: ActivityF2FinderService,
     private val activityPoliciesEnforcer: ActivityPoliciesEnforcer,
+    private val fileClient: FileClient,
     private val fsService: FsService,
 ): ActivityApi {
 
@@ -173,19 +176,16 @@ class ActivityEndpoint(
     suspend fun activityStepEvidenceDownload(
         @RequestBody query: ActivityStepEvidenceDownloadQuery,
         response: ServerHttpResponse
-    ): ResponseEntity<InputStreamResource> {
-        logger.info("activityStepEvidenceDownload: $query")
-        val stream = fsService.downloadFile(response) {
-            certificateService.getOrNull(query.certificationIdentifier)
-                ?.getEvidence(query.evidenceId)
-                ?.file
-                ?.takeIf { path ->
-                    val file = fsService.getFile(path)
-                    file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
-                }
-        }
-        return ResponseEntity.ok()
-                .body(InputStreamResource(stream?.toInputStream() ?: InputStream.nullInputStream()))
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("assetCertificateDownload: $query")
+
+        certificateService.getOrNull(query.certificationIdentifier)
+            ?.getEvidence(query.evidenceId)
+            ?.file
+            ?.takeIf { path ->
+                val file = fsService.getFile(path)
+                file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
+            }
     }
 
 }

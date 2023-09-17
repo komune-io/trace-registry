@@ -3,7 +3,6 @@ package city.smartb.registry.program.api.commons.utils
 import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.features.query.FileDownloadQuery
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
-import io.ktor.http.ContentDisposition
 import io.ktor.utils.io.jvm.javaio.toInputStream
 import java.io.InputStream
 import java.net.URLConnection

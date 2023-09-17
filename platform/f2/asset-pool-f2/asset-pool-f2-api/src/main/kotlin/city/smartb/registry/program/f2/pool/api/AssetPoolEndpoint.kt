@@ -238,7 +238,6 @@ class AssetPoolEndpoint(
     }
 
     @PermitAll
-//    @GetMapping("/assetCertificateDownload")
     @GetMapping("/assetCertificateDownload", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun assetCertificateDownload(
         @RequestParam transactionId: AssetTransactionId,

@@ -1,5 +1,7 @@
 package city.smartb.registry.program.f2.project.api
 
+import city.smartb.fs.s2.file.client.FileClient
+import city.smartb.registry.program.api.commons.utils.serveFile
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
@@ -18,7 +20,6 @@ import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesFunc
 import city.smartb.registry.program.f2.project.domain.query.ProjectListFilesResult
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageFunction
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageResult
-import city.smartb.registry.program.infra.fs.FsService
 import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.project.api.ProjectAggregateService
@@ -29,9 +30,7 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import io.ktor.utils.io.jvm.javaio.toInputStream
 import jakarta.annotation.security.PermitAll
-import java.io.InputStream
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -45,11 +44,11 @@ import s2.spring.utils.logger.Logger
 @RestController
 @RequestMapping
 class ProjectEndpoint(
-    private val fsService: FsService,
     private val projectF2FinderService: ProjectF2FinderService,
     private val projectAggregateService: ProjectAggregateService,
     private val projectPoliciesEnforcer: ProjectPoliciesEnforcer,
     private val assetPoolFinderService: AssetPoolFinderService,
+    private val fileClient: FileClient,
 ): ProjectQueryApi, ProjectCommandApi {
 
     private val logger by Logger()
@@ -113,14 +112,9 @@ class ProjectEndpoint(
     suspend fun projectDownloadFile(
         @RequestBody query: ProjectDownloadFileQuery,
         response: ServerHttpResponse
-    ): ResponseEntity<InputStreamResource> {
-        logger.info("projectDownloadFile: $query")
-        // TODO policy check on whether the user has access to the file in the project
-        val stream = fsService.downloadFile(response) { query.path }?.toInputStream()
-                ?: InputStream.nullInputStream()
-
-        return ResponseEntity.ok()
-                .body(InputStreamResource(stream))
+    ): ResponseEntity<InputStreamResource> =  serveFile(fileClient) {
+        logger.info("assetCertificateDownload: $query")
+        query.path
     }
 
     @PermitAll
