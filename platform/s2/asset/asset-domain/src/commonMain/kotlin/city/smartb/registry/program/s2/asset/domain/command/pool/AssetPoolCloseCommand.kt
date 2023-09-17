@@ -3,8 +3,8 @@ package city.smartb.registry.program.s2.asset.domain.command.pool
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolCommand
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolEvent
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 command

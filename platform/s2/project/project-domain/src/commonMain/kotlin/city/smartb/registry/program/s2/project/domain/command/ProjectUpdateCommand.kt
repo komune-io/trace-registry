@@ -10,9 +10,9 @@ import city.smartb.registry.program.s2.project.domain.model.DateTime
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
 import city.smartb.registry.program.s2.project.domain.model.SdgNumber
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Update a project

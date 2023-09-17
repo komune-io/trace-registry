@@ -1,12 +1,12 @@
 package city.smartb.registry.program.s2.order.domain.command
 
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.order.domain.OrderCommand
 import city.smartb.registry.program.s2.order.domain.OrderEvent
 import city.smartb.registry.program.s2.order.domain.OrderId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 command

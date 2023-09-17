@@ -1,6 +1,5 @@
 package city.smartb.registry.program.ver.test.f2.asset.command
 
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.f2.asset.api.AssetEndpoint
 import city.smartb.registry.program.f2.asset.domain.command.AssetOrderPlaceCommandDTOBase
 import city.smartb.registry.program.f2.asset.domain.query.AssetOrderGetQueryDTOBase
@@ -9,6 +8,7 @@ import city.smartb.registry.program.f2.asset.domain.query.AssetOrderPageQueryDTO
 import city.smartb.registry.program.f2.asset.domain.query.AssetOrderPageResult
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal

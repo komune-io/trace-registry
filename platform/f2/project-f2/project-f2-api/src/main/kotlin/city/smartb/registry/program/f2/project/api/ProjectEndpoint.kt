@@ -1,7 +1,7 @@
 package city.smartb.registry.program.f2.project.api
 
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.registry.program.api.commons.utils.serveFile
+import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.program.f2.project.api.service.ProjectF2FinderService
 import city.smartb.registry.program.f2.project.api.service.ProjectPoliciesEnforcer
 import city.smartb.registry.program.f2.project.domain.ProjectCommandApi
@@ -112,7 +112,7 @@ class ProjectEndpoint(
     suspend fun projectDownloadFile(
         @RequestBody query: ProjectDownloadFileQuery,
         response: ServerHttpResponse
-    ): ResponseEntity<InputStreamResource> =  serveFile(fileClient) {
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("assetCertificateDownload: $query")
         query.path
     }

@@ -7,8 +7,8 @@ import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOB
 import cccev.s2.certification.domain.command.CertificationAddValuesCommand
 import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.spring.utils.contentByteArray
+import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.program.api.commons.exception.NotFoundException
-import city.smartb.registry.program.api.commons.utils.serveFile
 import city.smartb.registry.program.f2.activity.api.model.getEvidence
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.program.f2.activity.api.service.ActivityF2FinderService
@@ -30,9 +30,7 @@ import city.smartb.registry.program.infra.fs.FsService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
-import io.ktor.utils.io.jvm.javaio.toInputStream
 import jakarta.annotation.security.PermitAll
-import java.io.InputStream
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity

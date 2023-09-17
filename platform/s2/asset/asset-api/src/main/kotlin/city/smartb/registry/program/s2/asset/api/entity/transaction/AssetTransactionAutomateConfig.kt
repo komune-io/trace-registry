@@ -5,6 +5,7 @@ import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
 import city.smartb.registry.program.s2.asset.domain.automate.s2AssetTransaction
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -18,7 +19,6 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
-import kotlin.reflect.KClass
 
 @Configuration
 class AssetTransactionAutomateConfig(

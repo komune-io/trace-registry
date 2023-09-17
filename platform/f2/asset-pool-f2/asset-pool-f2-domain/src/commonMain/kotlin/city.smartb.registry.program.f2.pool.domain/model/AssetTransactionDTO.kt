@@ -2,10 +2,10 @@ package city.smartb.registry.program.f2.pool.domain.model
 
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionState
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsNumber
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State

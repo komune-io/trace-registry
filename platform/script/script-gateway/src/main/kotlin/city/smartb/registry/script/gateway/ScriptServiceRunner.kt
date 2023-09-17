@@ -1,8 +1,8 @@
 package city.smartb.registry.script.gateway
 
-import city.smartb.registry.script.init.InitScript
 import city.smartb.registry.script.gateway.config.RetryProperties
 import city.smartb.registry.script.gateway.extention.retryOnThrow
+import city.smartb.registry.script.init.InitScript
 import city.smartb.registry.script.init.RegistryScriptInitProperties
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory

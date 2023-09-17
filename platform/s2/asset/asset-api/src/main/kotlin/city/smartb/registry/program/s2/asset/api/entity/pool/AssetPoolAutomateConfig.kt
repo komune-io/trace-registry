@@ -10,6 +10,7 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolEmitte
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
+import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -23,7 +24,6 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
-import kotlin.reflect.KClass
 
 @Configuration
 class AssetPoolAutomateConfig(

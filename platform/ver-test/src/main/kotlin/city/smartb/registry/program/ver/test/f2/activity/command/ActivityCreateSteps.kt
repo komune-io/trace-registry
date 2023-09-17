@@ -6,6 +6,7 @@ import city.smartb.registry.program.f2.activity.domain.command.ActivityCreateCom
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import java.util.UUID
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.toList
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
 
 class ActivityCreateSteps: En, city.smartb.registry.program.ver.test.VerCucumberStepsDefinition() {
 

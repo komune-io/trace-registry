@@ -6,9 +6,9 @@ import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import java.util.UUID
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey
-import java.util.UUID
 
 class InformationConceptCreateSteps: En, VerCucumberStepsDefinition() {
 

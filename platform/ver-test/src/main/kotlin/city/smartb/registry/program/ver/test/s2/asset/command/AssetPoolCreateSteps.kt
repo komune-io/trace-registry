@@ -8,11 +8,11 @@ import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import city.smartb.registry.program.ver.test.s2.asset.data.assetPool
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
-import kotlin.jvm.optionals.getOrNull
 
 class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
 

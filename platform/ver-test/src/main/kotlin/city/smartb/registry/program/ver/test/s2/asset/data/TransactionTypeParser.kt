@@ -1,8 +1,8 @@
 package city.smartb.registry.program.ver.test.s2.asset.data
 
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
-import s2.bdd.data.parser.EntryParser
 import kotlin.reflect.jvm.jvmName
+import s2.bdd.data.parser.EntryParser
 
 private val assetTransactionTypeParser = EntryParser(
     parseErrorMessage = "Transaction type must be in ${AssetTransactionType::class.jvmName} values",

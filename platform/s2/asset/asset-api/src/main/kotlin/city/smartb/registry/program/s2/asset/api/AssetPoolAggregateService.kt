@@ -3,7 +3,6 @@ package city.smartb.registry.program.s2.asset.api
 import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.spring.utils.toUploadCommand
-import city.smartb.registry.program.s2.commons.model.respectsGranularity
 import city.smartb.registry.program.infra.fs.path.OrganizationFsPath
 import city.smartb.registry.program.infra.pdf.CertificateGenerator
 import city.smartb.registry.program.s2.asset.api.entity.pool.AssetPoolAutomateExecutor
@@ -27,6 +26,7 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdate
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import city.smartb.registry.program.s2.commons.model.respectsGranularity
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import java.util.UUID

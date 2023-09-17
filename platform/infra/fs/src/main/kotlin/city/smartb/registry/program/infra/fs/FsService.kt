@@ -1,7 +1,6 @@
 package city.smartb.registry.program.infra.fs
 
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.s2.file.domain.features.query.FileDownloadQuery
 import city.smartb.fs.s2.file.domain.features.query.FileGetQuery
 import city.smartb.fs.s2.file.domain.features.query.FileListQuery
 import city.smartb.fs.s2.file.domain.model.File

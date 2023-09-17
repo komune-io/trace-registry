@@ -3,9 +3,9 @@ package city.smartb.registry.program.s2.project.domain.command
 import city.smartb.registry.program.s2.project.domain.automate.ProjectCommand
 import city.smartb.registry.program.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Delete a project

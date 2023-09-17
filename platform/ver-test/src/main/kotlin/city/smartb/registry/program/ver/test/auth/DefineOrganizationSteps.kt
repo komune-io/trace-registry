@@ -4,9 +4,9 @@ import city.smartb.im.f2.organization.domain.model.Organization
 import city.smartb.im.f2.organization.domain.model.OrganizationStatus
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import io.cucumber.java8.En
+import java.util.UUID
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
 
 class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
 

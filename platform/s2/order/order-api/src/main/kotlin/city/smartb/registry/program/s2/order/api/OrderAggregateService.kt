@@ -16,8 +16,8 @@ import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class OrderAggregateService(

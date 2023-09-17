@@ -1,8 +1,8 @@
 package city.smartb.registry.program.s2.commons.auth
 
-import s2.dsl.automate.S2Role
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import s2.dsl.automate.S2Role
 
 @JsExport
 @JsName("Roles")

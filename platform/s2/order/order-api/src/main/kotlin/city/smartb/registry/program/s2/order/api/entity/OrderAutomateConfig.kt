@@ -11,6 +11,7 @@ import city.smartb.registry.program.s2.order.domain.command.OrderPlacedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
 import city.smartb.registry.program.s2.order.domain.s2Order
+import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -24,7 +25,6 @@ import ssm.chaincode.dsl.model.Agent
 import ssm.chaincode.dsl.model.uri.ChaincodeUri
 import ssm.chaincode.dsl.model.uri.from
 import ssm.sdk.sign.extention.loadFromFile
-import kotlin.reflect.KClass
 
 @Configuration
 class OrderAutomateConfig(

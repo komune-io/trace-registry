@@ -1,6 +1,5 @@
 package city.smartb.registry.program.s2.asset.domain.automate
 
-import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCloseCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolClosedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolCreateCommand
@@ -13,14 +12,15 @@ import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResume
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdateCommand
 import city.smartb.registry.program.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
+import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 val s2AssetPool = s2Sourcing {
     name = "AssetPool"

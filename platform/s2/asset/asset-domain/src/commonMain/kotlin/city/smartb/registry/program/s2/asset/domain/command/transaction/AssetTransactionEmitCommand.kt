@@ -1,11 +1,11 @@
 package city.smartb.registry.program.s2.asset.domain.command.transaction
 
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionEvent
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetTransactionInitCommand
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import kotlinx.serialization.Serializable
 
 data class AssetTransactionEmitCommand(

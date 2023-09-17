@@ -2,11 +2,11 @@ package city.smartb.registry.program.f2.pool.domain.model
 
 import cccev.f2.concept.domain.model.InformationConceptDTO
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsNumber
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.model.AssetPoolStats
 import city.smartb.registry.program.s2.asset.domain.model.AssetPoolStatsBase
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsNumber
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2State

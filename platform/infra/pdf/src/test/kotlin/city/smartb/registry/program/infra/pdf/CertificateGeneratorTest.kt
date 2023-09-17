@@ -1,8 +1,8 @@
 package city.smartb.registry.program.infra.pdf
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import org.junit.jupiter.api.Test
 import java.io.File
+import org.junit.jupiter.api.Test
 
 class CertificateGeneratorTest {
 

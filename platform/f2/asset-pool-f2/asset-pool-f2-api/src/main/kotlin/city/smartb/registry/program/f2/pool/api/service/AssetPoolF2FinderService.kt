@@ -11,8 +11,6 @@ import city.smartb.registry.program.s2.asset.api.AssetPoolFinderService
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolState
 import city.smartb.registry.program.s2.asset.domain.model.AssetPool
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.model.Project
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO

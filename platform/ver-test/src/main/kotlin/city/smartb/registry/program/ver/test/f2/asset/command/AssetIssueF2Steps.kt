@@ -1,6 +1,5 @@
 package city.smartb.registry.program.ver.test.f2.asset.command
 
-import city.smartb.registry.program.f2.asset.api.AssetEndpoint
 import city.smartb.registry.program.f2.pool.api.AssetPoolEndpoint
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition

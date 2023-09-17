@@ -3,10 +3,10 @@ package city.smartb.registry.program.ver.test.auth
 import city.smartb.im.f2.privilege.domain.role.model.Role
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import io.cucumber.java8.En
+import java.util.UUID
 import s2.bdd.auth.AuthedUser
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
 
 class DefineUserSteps: En, VerCucumberStepsDefinition() {
 

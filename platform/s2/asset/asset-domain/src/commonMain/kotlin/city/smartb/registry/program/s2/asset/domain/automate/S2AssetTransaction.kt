@@ -3,14 +3,14 @@ package city.smartb.registry.program.s2.asset.domain.automate
 import city.smartb.registry.program.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
 import city.smartb.registry.program.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import city.smartb.registry.program.s2.commons.model.S2SourcingEvent
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 val s2AssetTransaction = s2Sourcing {
     name = "AssetTransactionS2"

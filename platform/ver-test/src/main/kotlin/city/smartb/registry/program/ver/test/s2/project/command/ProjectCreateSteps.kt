@@ -10,6 +10,8 @@ import city.smartb.registry.program.s2.project.domain.model.SdgNumber
 import city.smartb.registry.program.ver.test.VerCucumberStepsDefinition
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import java.util.UUID
+import kotlin.jvm.optionals.getOrNull
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -20,8 +22,6 @@ import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
-import kotlin.jvm.optionals.getOrNull
 
 class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
 

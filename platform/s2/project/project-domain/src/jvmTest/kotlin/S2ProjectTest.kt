@@ -5,14 +5,14 @@ import city.smartb.registry.program.s2.project.domain.automate.ProjectState
 import city.smartb.registry.program.s2.project.domain.automate.s2Project
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.Project
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.datafaker.Faker
 import org.junit.jupiter.api.Test
 import s2.automate.documenter.S2Documenter
 import s2.automate.documenter.writeS2Automate
-import java.util.UUID
-import java.util.concurrent.TimeUnit
 
 
 class S2ProjectTest {

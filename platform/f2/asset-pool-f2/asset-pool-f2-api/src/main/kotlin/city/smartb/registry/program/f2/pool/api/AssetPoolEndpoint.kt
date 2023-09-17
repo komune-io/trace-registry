@@ -1,8 +1,8 @@
 package city.smartb.registry.program.f2.pool.api
 
 import city.smartb.fs.s2.file.client.FileClient
+import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.program.api.commons.utils.anyNotNull
-import city.smartb.registry.program.api.commons.utils.serveFile
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2AggregateService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolF2FinderService
 import city.smartb.registry.program.f2.pool.api.service.AssetPoolPoliciesEnforcer
@@ -42,9 +42,7 @@ import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import io.ktor.utils.io.ByteReadChannel
 import jakarta.annotation.security.PermitAll
-import javax.annotation.security.RolesAllowed
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.InputStreamResource

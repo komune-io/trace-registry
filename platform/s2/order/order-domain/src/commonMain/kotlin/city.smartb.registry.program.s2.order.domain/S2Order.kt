@@ -16,13 +16,13 @@ import city.smartb.registry.program.s2.order.domain.command.OrderSubmitCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderSubmittedEvent
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdateCommand
 import city.smartb.registry.program.s2.order.domain.command.OrderUpdatedEvent
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 val s2Order = s2Sourcing {
     name = "OrderS2"

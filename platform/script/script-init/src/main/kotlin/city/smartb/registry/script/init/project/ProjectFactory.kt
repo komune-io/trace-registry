@@ -1,7 +1,5 @@
 package city.smartb.registry.script.init.project
 
-import city.smartb.registry.program.s2.commons.model.GeoLocation
-import city.smartb.registry.script.init.actor.Actor
 import city.smartb.registry.program.f2.activity.client.activityClient
 import city.smartb.registry.program.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
 import city.smartb.registry.program.f2.asset.client.assetClient
@@ -9,11 +7,13 @@ import city.smartb.registry.program.f2.pool.client.assetPoolClient
 import city.smartb.registry.program.f2.project.client.projectClient
 import city.smartb.registry.program.f2.project.domain.query.ProjectPageQuery
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.program.s2.commons.model.GeoLocation
 import city.smartb.registry.program.s2.project.domain.command.ProjectAddAssetPoolCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreateCommand
 import city.smartb.registry.program.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.program.s2.project.domain.model.ProjectId
+import city.smartb.registry.script.init.actor.Actor
 import f2.dsl.fnc.invokeWith
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.async

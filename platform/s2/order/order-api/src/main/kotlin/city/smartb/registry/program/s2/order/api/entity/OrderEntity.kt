@@ -1,9 +1,9 @@
 package city.smartb.registry.program.s2.order.api.entity
 
 import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.program.s2.asset.domain.model.AssetTransactionType
+import city.smartb.registry.program.s2.commons.model.BigDecimalAsString
 import city.smartb.registry.program.s2.order.domain.OrderId
 import city.smartb.registry.program.s2.order.domain.OrderState
 import com.redis.om.spring.annotations.Document

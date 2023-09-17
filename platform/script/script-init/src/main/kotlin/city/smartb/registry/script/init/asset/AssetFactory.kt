@@ -1,12 +1,12 @@
 package city.smartb.registry.script.init.asset
 
-import city.smartb.registry.script.init.actor.Actor
 import city.smartb.registry.program.f2.pool.client.assetPoolClient
 import city.smartb.registry.program.f2.pool.domain.command.AssetIssueCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetOffsetCommandDTOBase
-import city.smartb.registry.program.f2.pool.domain.command.AssetTransferCommandDTOBase
 import city.smartb.registry.program.f2.pool.domain.command.AssetPoolCreateCommandDTOBase
+import city.smartb.registry.program.f2.pool.domain.command.AssetTransferCommandDTOBase
 import city.smartb.registry.program.s2.asset.domain.automate.AssetPoolId
+import city.smartb.registry.script.init.actor.Actor
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
 import java.util.UUID
