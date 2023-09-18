@@ -18,27 +18,32 @@ class InitScript(
             properties.orchestrator.clientSecret
         )
 
-        properties.cccev?.url?.let { url ->
-            initRequirement(url)
-            initIndicatorsCarbon(url)
-        }
+//        properties.cccev?.url?.let { url ->
+//            initRequirement(url)
+//            initIndicatorsCarbon(url)
+//        }
         properties.registry?.url?.let { url ->
             val actorFactory = ActorBuilder(properties.im.url,  properties.auth.url, accessTokenOrchestrator)
             val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
             val offseter = actorFactory.create(ActorType.OFFSETTER)
             val issuer = actorFactory.create(ActorType.ISSUER)
 
-            val assetPoolId = createAssetPool(
-                properties.registry.url,
-                orchestrator = accessTokenOrchestrator,
-                projectManager = projectManager,
-                issuer = issuer,
-                offsetter = offseter
-            )
-            val projectId = createRandomProject(properties.registry.url, accessTokenOrchestrator, assetPoolId, countRange = 0..properties.nbProject).first()
-            addAssetPoolToProject(properties.registry.url, accessTokenOrchestrator, projectId, assetPoolId)
+            val projectIds = createRandomProject(properties.registry.url, accessTokenOrchestrator, countRange = 0..properties.nbProject)
+
+            projectIds.forEach { projectId ->
+                val shouldCreatePool = (0..2).shuffled().first() == 1
+                if(shouldCreatePool) {
+                    val assetPoolId = createAssetPool(
+                        properties.registry.url,
+                        orchestrator = accessTokenOrchestrator,
+                        projectManager = projectManager,
+                        issuer = issuer,
+                        offsetter = offseter
+                    )
+                    addAssetPoolToProject(properties.registry.url, accessTokenOrchestrator, projectId, assetPoolId)
+                }
+            }
+
         }
-
-
     }
 }
