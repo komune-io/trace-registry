@@ -6,7 +6,10 @@ plugins {
 }
 
 dependencies {
+	implementation(project(":platform:infra:im"))
+
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
+	Dependencies.Mpp.f2Client(::api)
 	Dependencies.Jvm.Fs.client(::api)
 	Dependencies.Jvm.Fs.springUtils(::api)
 }

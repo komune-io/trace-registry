@@ -23,32 +23,15 @@ class ImConfig {
     @Bean
     fun organizationClient(
         properties: ImProperties
-    ) = OrganizationClient(properties.url, HttpClientBuilderJvm, generateToken(properties))
+    ) = OrganizationClient(properties.url, HttpClientBuilderJvm) { properties.generateTokenFunction()().access_token }
 
-    fun generateToken(properties: ImProperties): suspend () -> String? = {
-        val url = "${properties.auth.url}/realms/${properties.auth.realm}/protocol/openid-connect/token"
-        val result: AccessToken = HttpClient {
-            install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                })
-            }
-        }.use { client ->
-            client.post(url) {
-                contentType(ContentType.Application.FormUrlEncoded)
-                setBody(
-                    "grant_type=client_credentials&client_id=${properties.auth.clientId}&client_secret=${properties.auth.clientSecret}"
-                )
-            }.body()
-        }
-        result.access_token
-    }
 }
 
 @SuppressWarnings("ConstructorParameterNaming")
 @Serializable
 data class AccessToken(
     val access_token: String,
+    val refresh_token: String?,
     val expires_in: Int,
     val refresh_expires_in: Int,
     val token_type: String,
