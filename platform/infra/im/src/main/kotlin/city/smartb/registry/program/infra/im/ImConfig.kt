@@ -31,7 +31,7 @@ class ImConfig {
 @Serializable
 data class AccessToken(
     val access_token: String,
-    val refresh_token: String?,
+    val refresh_token: String? = null,
     val expires_in: Int,
     val refresh_expires_in: Int,
     val token_type: String,

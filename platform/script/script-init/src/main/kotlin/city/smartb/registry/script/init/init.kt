@@ -9,10 +9,10 @@ fun main() = runBlocking {
         im = ServiceProperties("https://dev.connect.smart-b.io/im"),
         cccev = ServiceProperties("https://dev.trace.smart-b.io/cccev"),
         registry = ServiceProperties("https://dev.trace.smart-b.io/ver"),
-        nbProject = 1,
+        nbProject = 30,
         orchestrator = ApiKeyProperties(
             name = "Smartb",
-            clientId = "tr-registry-script-api",
+            clientId = "tr-smartb-registry-script-api-key",
             clientSecret = "703ece3d-82bc-4747-8840-96c1c3431079"
         )
     )
