@@ -18,8 +18,8 @@ im:
   auth:
     url: https://auth.dev.connect.smart-b.io
     realm: sb-dev
-    clientId: tr-smartb-ver-app
-    clientSecret: 8d637328-3e2f-476c-9737-29bd2889df83
+    clientId: tr-smartb-registry-script-api-key
+    clientSecret: 703ece3d-82bc-4747-8840-96c1c3431079
 
 f2:
   tenant:
