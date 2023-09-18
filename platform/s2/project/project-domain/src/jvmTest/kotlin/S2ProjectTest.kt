@@ -1,10 +1,10 @@
-package city.smartb.registry.program.s2.activity.domain
+package city.smartb.registry.s2.activity.domain
 
-import city.smartb.registry.program.s2.commons.model.GeoLocation
-import city.smartb.registry.program.s2.project.domain.automate.ProjectState
-import city.smartb.registry.program.s2.project.domain.automate.s2Project
-import city.smartb.registry.program.s2.project.domain.model.OrganizationRef
-import city.smartb.registry.program.s2.project.domain.model.Project
+import city.smartb.registry.s2.commons.model.GeoLocation
+import city.smartb.registry.s2.project.domain.automate.ProjectState
+import city.smartb.registry.s2.project.domain.automate.s2Project
+import city.smartb.registry.s2.project.domain.model.OrganizationRef
+import city.smartb.registry.s2.project.domain.model.Project
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlinx.serialization.encodeToString
