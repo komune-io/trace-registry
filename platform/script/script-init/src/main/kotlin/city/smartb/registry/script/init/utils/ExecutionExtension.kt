@@ -5,10 +5,10 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 suspend inline fun <T, R> List<T>.asyncExecution(
-    size: Int = 2,
+    size: Int = 8,
     crossinline execute: suspend (value: T) -> R
 ): List<R> = coroutineScope {
-    chunked(8).mapIndexed { index, chunk ->
+    chunked(size).mapIndexed { index, chunk ->
         println("Chunk[$index] size: ${chunk.size}")
         chunk.map {
             async {
