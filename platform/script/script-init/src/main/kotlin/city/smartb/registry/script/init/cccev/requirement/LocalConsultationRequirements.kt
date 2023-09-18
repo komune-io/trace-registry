@@ -4,7 +4,7 @@ import cccev.dsl.model.XSDString
 import cccev.dsl.model.builder.InformationConceptBuilder
 import cccev.dsl.model.builder.InformationConceptListBuilder
 import cccev.dsl.model.builder.InformationRequirementBuilder
-import city.smartb.registry.program.f2.activity.domain.model.RequirementType
+import city.smartb.registry.f2.activity.domain.model.RequirementType
 import city.smartb.registry.script.init.cccev.ver.Activities
 import city.smartb.registry.script.init.cccev.ver.Methodology
 import city.smartb.registry.script.init.cccev.ver.ReferenceFramework

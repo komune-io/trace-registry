@@ -1,7 +1,7 @@
 package city.smartb.registry.script.init.cccev.ver
 
 import cccev.dsl.model.informationRequirement
-import city.smartb.registry.program.f2.activity.domain.model.RequirementType
+import city.smartb.registry.f2.activity.domain.model.RequirementType
 
 const val QUALIFIED_RELATION = "IS_RELATED_TO"
 

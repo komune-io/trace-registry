@@ -1,5 +1,5 @@
-import city.smartb.registry.program.s2.asset.domain.automate.s2AssetPool
-import city.smartb.registry.program.s2.project.domain.automate.s2Project
+import city.smartb.registry.s2.asset.domain.automate.s2AssetPool
+import city.smartb.registry.s2.project.domain.automate.s2Project
 import org.junit.jupiter.api.Test
 import s2.automate.documenter.S2Documenter
 import s2.automate.documenter.writeS2Automate

@@ -1,7 +1,7 @@
 package city.smartb.registry.script.init.cccev.ver
 
 import  cccev.dsl.model.informationRequirement
-import city.smartb.registry.program.f2.activity.domain.model.RequirementType
+import city.smartb.registry.f2.activity.domain.model.RequirementType
 
 object Methodology {
     val VM0011 = informationRequirement {

@@ -1,6 +1,6 @@
 package city.smartb.registry.api.config
 
-import city.smartb.registry.program.s2.commons.model.BigDecimalAsNumber
+import city.smartb.registry.s2.commons.model.BigDecimalAsNumber
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
