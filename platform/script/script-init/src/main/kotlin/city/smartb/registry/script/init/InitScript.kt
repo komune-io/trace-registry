@@ -18,10 +18,11 @@ class InitScript(
             properties.orchestrator.clientSecret
         )
 
-//        properties.cccev?.url?.let { url ->
-//            initRequirement(url)
-//            initIndicatorsCarbon(url)
-//        }
+        properties.cccev?.url?.let { url ->
+            initRequirement(url)
+            initIndicatorsCarbon(url)
+        }
+
         properties.registry?.url?.let { url ->
             val actorFactory = ActorBuilder(properties.im.url,  properties.auth.url, accessTokenOrchestrator)
             val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
