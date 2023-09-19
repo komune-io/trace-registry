@@ -1,6 +1,6 @@
 package city.smartb.registry.script.init.asset
 
-import city.smartb.registry.f2.pool.client.assetPoolClient
+import city.smartb.registry.f2.asset.pool.client.assetPoolClient
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.script.init.actor.Actor
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -54,27 +54,27 @@ suspend fun createAssetPool(
     return assetPoolId
 }
 
-private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double = 0.001): city.smartb.registry.f2.pool.domain.command.AssetPoolCreateCommandDTOBase {
+private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double = 0.001): city.smartb.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTOBase {
     println("assetPoolCommand")
-    return city.smartb.registry.f2.pool.domain.command.AssetPoolCreateCommandDTOBase(
+    return city.smartb.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTOBase(
         vintage = vintage,
         indicator = "carbon",
         granularity = granularity
     )
 }
 
-private fun assetIssueCommand(assetPoolId: AssetPoolId, to: Actor, quantity: Double = 10000.0): city.smartb.registry.f2.pool.domain.command.AssetIssueCommandDTOBase {
+private fun assetIssueCommand(assetPoolId: AssetPoolId, to: Actor, quantity: Double = 10000.0): city.smartb.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase {
     println("assetIssueCommand, assetPoolId: $assetPoolId")
-    return city.smartb.registry.f2.pool.domain.command.AssetIssueCommandDTOBase(
+    return city.smartb.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase(
         id = assetPoolId,
         to = to.name,
         quantity = quantity.toBigDecimal()
     )
 }
 
-private fun assetTransferCommand(assetPoolId: AssetPoolId, from: Actor, to: Actor): city.smartb.registry.f2.pool.domain.command.AssetTransferCommandDTOBase {
+private fun assetTransferCommand(assetPoolId: AssetPoolId, from: Actor, to: Actor): city.smartb.registry.f2.asset.pool.domain.command.AssetTransferCommandDTOBase {
     println("assetTransferCommand, assetPoolId: $assetPoolId")
-    return city.smartb.registry.f2.pool.domain.command.AssetTransferCommandDTOBase(
+    return city.smartb.registry.f2.asset.pool.domain.command.AssetTransferCommandDTOBase(
         id = assetPoolId,
         from = from.name,
         to = to.name,
@@ -82,9 +82,9 @@ private fun assetTransferCommand(assetPoolId: AssetPoolId, from: Actor, to: Acto
     )
 }
 
-private fun assetOffsetCommand(assetPoolId: AssetPoolId, from: Actor, to: String, quantity: Double = 0.123): city.smartb.registry.f2.pool.domain.command.AssetOffsetCommandDTOBase {
+private fun assetOffsetCommand(assetPoolId: AssetPoolId, from: Actor, to: String, quantity: Double = 0.123): city.smartb.registry.f2.asset.pool.domain.command.AssetOffsetCommandDTOBase {
     println("assetOffset1Command, assetPoolId: $assetPoolId")
-    return city.smartb.registry.f2.pool.domain.command.AssetOffsetCommandDTOBase(
+    return city.smartb.registry.f2.asset.pool.domain.command.AssetOffsetCommandDTOBase(
         id = assetPoolId,
         from = from.name,
         to = to,
