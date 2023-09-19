@@ -62,8 +62,10 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
       enabled: !!selectedNode?.identifier
     }
   })
+
+  const isactivityStepPageQueryLoading = activityStepPageQuery.isLoading && !!selectedNode?.identifier
   const steps = activityStepPageQuery.data?.items ?? []
   return (
-    <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || activityStepPageQuery.isLoading} steps={steps} />
+    <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || isactivityStepPageQueryLoading} steps={steps} />
   )
 }
