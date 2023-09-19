@@ -1,6 +1,8 @@
 package city.smartb.registry.ver.test.f2.asset.command
 
-import city.smartb.registry.f2.pool.api.AssetPoolEndpoint
+import city.smartb.registry.f2.asset.pool.api.AssetPoolEndpoint
+import city.smartb.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
+import city.smartb.registry.ver.test.VerCucumberStepsDefinition
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
@@ -9,12 +11,12 @@ import io.cucumber.java8.En
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey
 
-class AssetIssueF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDefinition() {
+class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
 
     @Autowired
     private lateinit var assetPoolEndpoint: AssetPoolEndpoint
 
-    private lateinit var command: city.smartb.registry.f2.pool.domain.command.AssetIssueCommandDTOBase
+    private lateinit var command: AssetIssueCommandDTOBase
 
     init {
         DataTableType(::assetIssueParams)
@@ -46,7 +48,7 @@ class AssetIssueF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDefin
     }
 
     private suspend fun issueAssets(params: AssetIssueParams) = context.transactionIds.register(params.identifier) {
-        command = city.smartb.registry.f2.pool.domain.command.AssetIssueCommandDTOBase(
+        command = AssetIssueCommandDTOBase(
             id = context.assetPoolIds[params.pool] ?: params.pool,
             to = params.receiver,
             quantity = params.quantity

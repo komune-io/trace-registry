@@ -1,11 +1,11 @@
 package city.smartb.registry.ver.test.f2.asset.command
 
-import city.smartb.registry.f2.asset.api.AssetEndpoint
-import city.smartb.registry.f2.asset.domain.command.AssetOrderPlaceCommandDTOBase
-import city.smartb.registry.f2.asset.domain.query.AssetOrderGetQueryDTOBase
-import city.smartb.registry.f2.asset.domain.query.AssetOrderGetResultDTOBase
-import city.smartb.registry.f2.asset.domain.query.AssetOrderPageQueryDTOBase
-import city.smartb.registry.f2.asset.domain.query.AssetOrderPageResult
+import city.smartb.registry.f2.asset.order.api.AssetEndpoint
+import city.smartb.registry.f2.asset.order.domain.command.AssetOrderPlaceCommandDTOBase
+import city.smartb.registry.f2.asset.order.domain.query.AssetOrderGetQueryDTOBase
+import city.smartb.registry.f2.asset.order.domain.query.AssetOrderGetResultDTOBase
+import city.smartb.registry.f2.asset.order.domain.query.AssetOrderPageQueryDTOBase
+import city.smartb.registry.f2.asset.order.domain.query.AssetOrderPageResult
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.s2.commons.model.BigDecimalAsString

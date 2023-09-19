@@ -1,8 +1,9 @@
 package city.smartb.registry.ver.test.f2.assetPool.command
 
-import city.smartb.registry.f2.pool.api.AssetPoolEndpoint
-import city.smartb.registry.f2.pool.domain.query.AssetPoolPageQueryDTOBase
-import city.smartb.registry.f2.pool.domain.query.AssetPoolPageResult
+import city.smartb.registry.f2.asset.pool.api.AssetPoolEndpoint
+import city.smartb.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTOBase
+import city.smartb.registry.f2.asset.pool.domain.query.AssetPoolPageQueryDTOBase
+import city.smartb.registry.f2.asset.pool.domain.query.AssetPoolPageResult
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -15,7 +16,7 @@ class AssetPoolCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
     @Autowired
     private lateinit var assetPoolEndpoint: AssetPoolEndpoint
 
-    private lateinit var command: city.smartb.registry.f2.pool.domain.command.AssetPoolCreateCommandDTOBase
+    private lateinit var command: AssetPoolCreateCommandDTOBase
 
     init {
         DataTableType(::assetPoolCreateParams)
@@ -89,7 +90,7 @@ class AssetPoolCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
     }
 
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
-        command = city.smartb.registry.f2.pool.domain.command.AssetPoolCreateCommandDTOBase(
+        command = AssetPoolCreateCommandDTOBase(
             indicator = context.cccevConceptIdentifiers[params.indicator] ?: params.indicator,
             vintage = params.vintage,
             granularity = params.granularity
@@ -97,7 +98,7 @@ class AssetPoolCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         command.invokeWith(assetPoolEndpoint.assetPoolCreate()).id
     }
 
-    private suspend fun getPoolPage(params: AssetPoolPageParams = AssetPoolPageParams()):AssetPoolPageResult {
+    private suspend fun getPoolPage(params: AssetPoolPageParams = AssetPoolPageParams()): AssetPoolPageResult {
         return params.toAssetPoolPageQueryDTOBase().invokeWith(assetPoolEndpoint.assetPoolPage())
     }
 
