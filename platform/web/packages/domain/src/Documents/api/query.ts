@@ -7,8 +7,8 @@ import {useCallback} from "react"
 import {request} from "@smartb/g2-utils";
 import { Message } from "components";
 
-export interface ProjectListFilesQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectListFilesQueryDTO  { }
-export interface ProjectListFilesResult extends city.smartb.registry.program.f2.project.domain.query.ProjectListFilesResultDTO  { }
+export interface ProjectListFilesQuery extends city.smartb.registry.f2.project.domain.query.ProjectListFilesQueryDTO  { }
+export interface ProjectListFilesResult extends city.smartb.registry.f2.project.domain.query.ProjectListFilesResultDTO  { }
 
 
 export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQuery, ProjectListFilesResult>) => {
@@ -18,8 +18,8 @@ export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQue
   )
 }
 
-export interface ChatAskQuestionQuery extends chat.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
-export interface ChatAskQuestionResult extends chat.smartb.registry.program.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
+export interface ChatAskQuestionQuery extends chat.smartb.registry.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
+export interface ChatAskQuestionResult extends chat.smartb.registry.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
 
 export const askQuestion = async (message: string, history: Message[], targetedFiles?: string[], projectId?: string) => {
   const res = await request<ChatAskQuestionResult[]>({
@@ -38,7 +38,7 @@ export const askQuestion = async (message: string, history: Message[], targetedF
 }
 
 
-export interface ProjectDownloadFileQuery extends city.smartb.registry.program.f2.project.domain.query.ProjectDownloadFileQueryDTO  { }
+export interface ProjectDownloadFileQuery extends city.smartb.registry.f2.project.domain.query.ProjectDownloadFileQueryDTO  { }
 
 export const useProjectDownloadFileQuery = (): (query?: (ProjectDownloadFileQuery | undefined)) => Promise<string | undefined>  => {
   const requestProps = useNoAuthenticatedRequest()

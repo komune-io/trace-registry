@@ -1,7 +1,7 @@
 import { useExtendedAuth } from "components";
-import { RequestProps } from "@smartb/g2-utils";
 import { useMemo } from "react";
 import { config } from "./index";
+import {RequestProps} from "@smartb/g2";
 
 export const useNoAuthenticatedRequest = (): RequestProps => {
   return useMemo(() => ({

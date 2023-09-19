@@ -5,8 +5,8 @@ import city.smartb.fs.s2.file.domain.features.query.FileAskQuestionQuery
 import city.smartb.fs.s2.file.domain.model.FileAskMessage
 import city.smartb.fs.s2.file.domain.model.FileAskMetadata
 import city.smartb.registry.f2.chat.domain.ChatApi
-import city.smartb.registry.f2.chat.domain.ChatAskQuestionFunction
-import city.smartb.registry.f2.chat.domain.ChatAskQuestionResult
+import city.smartb.registry.f2.chat.domain.query.ChatAskQuestionFunction
+import city.smartb.registry.f2.chat.domain.query.ChatAskQuestionResult
 import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean

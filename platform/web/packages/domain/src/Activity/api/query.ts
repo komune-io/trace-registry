@@ -3,12 +3,12 @@ import {QueryParams, useQueryRequest} from "@smartb/g2-utils";
 import {useNoAuthenticatedRequest} from "../../config";
 import {useFetchBinary} from "@smartb/g2";
 
-export interface ActivityPageQuery extends city.smartb.registry.program.f2.activity.domain.query.ActivityPageQueryDTO { }
-export interface ActivityPageResult extends city.smartb.registry.program.f2.activity.domain.query.ActivityPageResultDTO { }
+export interface ActivityPageQuery extends city.smartb.registry.f2.activity.domain.query.ActivityPageQueryDTO { }
+export interface ActivityPageResult extends city.smartb.registry.f2.activity.domain.query.ActivityPageResultDTO { }
 
-export interface ActivityStepPageQuery extends city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageQueryDTO { }
-export interface ActivityStepPageResult extends city.smartb.registry.program.f2.activity.domain.query.ActivityStepPageResultDTO { }
-export interface ActivityStepEvidenceDownloadQuery extends city.smartb.registry.program.f2.activity.domain.query.ActivityStepEvidenceDownloadQueryDTO { }
+export interface ActivityStepPageQuery extends city.smartb.registry.f2.activity.domain.query.ActivityStepPageQueryDTO { }
+export interface ActivityStepPageResult extends city.smartb.registry.f2.activity.domain.query.ActivityStepPageResultDTO { }
+export interface ActivityStepEvidenceDownloadQuery extends city.smartb.registry.f2.activity.domain.query.ActivityStepEvidenceDownloadQueryDTO { }
 
 export const useActivityPageQuery = (params: QueryParams<ActivityPageQuery, ActivityPageResult>) => {
   const requestProps = useNoAuthenticatedRequest()

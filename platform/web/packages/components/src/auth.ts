@@ -25,7 +25,7 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
     }
 }
 
-export const useExtendedAuth = () => useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices)
+export const useExtendedAuth = () => useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices, {})
 
 const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
     if (authorization === "currentUser") {
