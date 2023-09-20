@@ -8,7 +8,9 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "im")
@@ -22,6 +24,17 @@ data class ImAuthProperties (
     val realm: String,
     val clientId: String,
     val clientSecret: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+@Serializable
+data class AccessToken(
+    val access_token: String,
+    val refresh_token: String? = null,
+    val expires_in: Int,
+    val refresh_expires_in: Int,
+    val token_type: String,
+    val scope: String
 )
 
 fun ImProperties.generateTokenFunction(): suspend () -> AccessToken = {
