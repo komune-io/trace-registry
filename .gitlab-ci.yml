@@ -9,6 +9,12 @@ stages:
 ## Tasks
 ##########################################
 #  docker-gateway docker-web docker-registry-certificate-web
+libs:
+  stage: package
+  extends:
+    - .make
+  variables:
+    MAKE_TARGET: libs
 api:
   stage: package
   extends:
