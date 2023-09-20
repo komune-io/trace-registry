@@ -22,8 +22,12 @@ STORYBOOK_DOCKERFILE	:= infra/docker/storybook/Dockerfile
 STORYBOOK_NAME	   	 	:= smartbcity/registry-program-ver-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 
+libs: package-kotlin
 docker: docker-gateway docker-script docker-web docker-registry-certificate-web
 docs: package-storybook
+
+package-kotlin:
+	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test
 
 docker-gateway:
 	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test
