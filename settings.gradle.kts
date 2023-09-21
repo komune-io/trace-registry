@@ -8,7 +8,7 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "verified-emission-reduction-registry"
+rootProject.name = "registry"
 
 include(
 	"platform:api:api-commons",

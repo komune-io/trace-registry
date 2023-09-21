@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
 	group = "city.smartb.registry"
-	version = System.getenv("VERSION") ?: "latest"
+	version = System.getenv("VERSION") ?: "experimental-SNAPSHOT"
 	repositories {
 		mavenLocal()
 		mavenCentral()
@@ -43,8 +43,8 @@ subprojects {
 
 fixers {
 	bundle {
-		id = "registry-program-ver"
-		name = "Voluntary Emissions Reductions"
+		id = "registry"
+		name = "Registry"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environmental assets registries of the market."
 		url = "https://gitlab.smartb.city/framwork/registry/program"
 	}
