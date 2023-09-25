@@ -1,6 +1,6 @@
-package city.smartb.registry.program.s2.catalog.domain.model
+package city.smartb.registry.s2.catalog.domain.model
 
-import city.smartb.im.organization.domain.model.OrganizationRef
+import city.smartb.im.f2.organization.domain.model.OrganizationRef
 
 
 sealed interface Framework {
@@ -39,7 +39,7 @@ interface IndicatorRef {
     val trustability: Int
 }
 
-interface Program :Framework {
+interface Program : Framework {
     override val identifier: String
     override val name: String
     override val overview: String
@@ -49,7 +49,7 @@ interface Program :Framework {
     val programs: List<Methodology>
 }
 
-interface Methodology :Framework {
+interface Methodology : Framework {
     override val identifier: String
     override val name: String
     override val overview: String

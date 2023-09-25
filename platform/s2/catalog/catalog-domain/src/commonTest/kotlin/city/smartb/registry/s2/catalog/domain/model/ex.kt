@@ -1,7 +1,7 @@
-package city.smartb.registry.program.s2.catalog.domain.model
+package city.smartb.registry.s2.catalog.domain.model
 
 
-val catalog = catalog {
+val catalog1 = catalog {
     identifier = "http://example.com/catalog"
 
     datasets {

@@ -1,4 +1,4 @@
-package city.smartb.registry.program.s2.catalog.domain.model
+package city.smartb.registry.s2.catalog.domain.model
 
 interface DcatApCatalog: DcatDataset {
     override val identifier: String
@@ -68,7 +68,7 @@ interface DcatCatalog: DcatDataset {
     val themes: List<SkosConcept>?
     val catalogedResources: List<CatalogedResource>?
     val datasets: List<DcatDataset>?
-    val service: List<DataService>?
+    val services: List<DataService>?
     val catalogs: List<DcatCatalog>?
     val catalogRecords: List<DcatCatalogRecord>?
 }
@@ -301,7 +301,7 @@ data class DcatCatalogModel(
     override val themes: List<SkosConcept>? = null,
     override val catalogedResources: List<CatalogedResource>? = null,
     override val datasets: List<DcatDataset>? = null,
-    override val service: List<DataService>? = null,
+    override val services: List<DataService>? = null,
     override val catalogs: List<DcatCatalog>? = null,
     override val catalogRecords: List<DcatCatalogRecord>? = null,
     override val distributions: List<DcatDistribution>? = null,

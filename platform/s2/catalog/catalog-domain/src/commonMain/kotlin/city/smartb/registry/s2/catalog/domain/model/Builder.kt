@@ -1,4 +1,6 @@
-package city.smartb.registry.program.s2.catalog.domain.model
+package city.smartb.registry.s2.catalog.domain.model
+
+import cccev.dsl.model.InformationConcept
 
 
 @DslMarker
@@ -25,9 +27,9 @@ class CatalogBuilder {
 
     fun resources(block: RESOURCES.() -> Unit) = catalogedResources.addAll(RESOURCES().apply(block))
 //    fun RESOURCES.resource(block: CatalogedResourceBuilder.() -> Unit) = add(CatalogedResourceBuilder().apply(block).build())
-
+    operator fun DcatDataset.unaryPlus() { this@CatalogBuilder.datasets.add(this) }
     fun datasets(block: DATASETS.() -> Unit) = datasets.addAll(DATASETS().apply(block))
-    fun DATASETS.dataset(block: DatasetBuilder.() -> Unit) = add(DatasetBuilder().apply(block).build())
+    fun DATASETS.dataset(block: DatasetBuilder.() -> Unit) = +DatasetBuilder().apply(block).build()
 
     fun services(block: SERVICES.() -> Unit) = services.addAll(SERVICES().apply(block))
     fun SERVICES.service(block: DataServiceBuilder.() -> Unit) = add(DataServiceBuilder().apply(block).build())
@@ -46,7 +48,7 @@ class CatalogBuilder {
         themes = themes,
         catalogedResources = catalogedResources,
         datasets = datasets,
-        service = services,
+        services = services,
         catalogs = catalogs,
         title = title,
         catalogRecords = catalogRecords
@@ -64,7 +66,7 @@ class DatasetBuilder {
     var type: String? = null
     var distributions: MutableList<DcatDistribution> = mutableListOf()
     var frequency: String? = null
-    var theme: MutableList<SkosConcept> = mutableListOf()
+    var themes: MutableList<SkosConcept> = mutableListOf()
     var spatialCoverage: Location? = null
     var spatialResolution: String? = null
     var temporalCoverage: PeriodOfTime? = null
@@ -74,7 +76,7 @@ class DatasetBuilder {
     fun distributions(block: DISTRIBUTIONS.() -> Unit) = distributions.addAll(DISTRIBUTIONS().apply(block))
     fun DISTRIBUTIONS.distribution(block: DistributionBuilder.() -> Unit) = add(DistributionBuilder().apply(block).build())
 
-    fun theme(block: THEMES.() -> Unit) = theme.addAll(THEMES().apply(block))
+    fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo.addAll(CONFORMSTO().apply(block))

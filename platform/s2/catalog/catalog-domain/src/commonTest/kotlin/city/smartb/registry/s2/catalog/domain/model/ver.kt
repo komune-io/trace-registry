@@ -1,4 +1,4 @@
-package city.smartb.registry.program.s2.catalog.domain.model
+package city.smartb.registry.s2.catalog.domain.model
 
 
 

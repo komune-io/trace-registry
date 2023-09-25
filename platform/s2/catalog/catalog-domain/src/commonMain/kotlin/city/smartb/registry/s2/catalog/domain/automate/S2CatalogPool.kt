@@ -1,12 +1,12 @@
-package city.smartb.registry.program.s2.catalog.domain.automate
+package city.smartb.registry.s2.catalog.domain.automate
 
-import city.smartb.registry.program.api.commons.model.S2SourcingEvent
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogCloseCommand
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogClosedEvent
-import city.smartb.registry.program.s2.catalog.domain.command.CatalogCreateCommand
-import city.smartb.registry.program.s2.catalog.domain.command.CatalogCreatedEvent
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogUpdateCommand
-import city.smartb.registry.program.s2.catalog.domain.command.catalog.CatalogUpdatedEvent
+import city.smartb.registry.s2.catalog.domain.command.CatalogCloseCommand
+import city.smartb.registry.s2.catalog.domain.command.CatalogClosedEvent
+import city.smartb.registry.s2.catalog.domain.command.CatalogCreateCommand
+import city.smartb.registry.s2.catalog.domain.command.CatalogCreatedEvent
+import city.smartb.registry.s2.catalog.domain.command.CatalogUpdateCommand
+import city.smartb.registry.s2.catalog.domain.command.CatalogUpdatedEvent
+import city.smartb.registry.s2.commons.model.S2SourcingEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand

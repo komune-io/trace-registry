@@ -5,6 +5,12 @@ plugins {
 }
 
 dependencies {
-	Dependencies.Mpp.cccevDomain(::commonMainApi)
+	commonMainApi(project(":platform:s2:commons"))
+
+    Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
+}
+
+tasks.withType<Test>().configureEach {
+	useJUnitPlatform()
 }
