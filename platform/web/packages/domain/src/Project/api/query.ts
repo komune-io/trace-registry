@@ -1,5 +1,5 @@
 import { QueryParams, useQueryRequest } from "@smartb/g2-utils"
-import { city } from "verified-emission-reduction-registry-project-f2-domain"
+import { city } from "registry-project-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 
 export interface ProjectPageQuery extends city.smartb.registry.f2.project.domain.query.ProjectPageQueryDTO { }

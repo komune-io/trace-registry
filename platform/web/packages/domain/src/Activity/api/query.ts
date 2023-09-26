@@ -1,4 +1,4 @@
-import {city} from "verified-emission-reduction-registry-activity-f2-domain";
+import {city} from "registry-activity-f2-domain";
 import {QueryParams, useQueryRequest} from "@smartb/g2-utils";
 import {useNoAuthenticatedRequest} from "../../config";
 import {useFetchBinary} from "@smartb/g2";
