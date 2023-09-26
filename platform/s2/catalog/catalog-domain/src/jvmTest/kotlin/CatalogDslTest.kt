@@ -81,11 +81,16 @@ class CatalogDslTest {
     fun shouldCreateCatalogWithRecords() {
         val catalog1: DcatCatalog = catalog {
             identifier = "catalog1"
+            title = "Catalog 1"
             catalogRecords {
                 catalogRecord {
-                    //identifier = ""
+                    identifier = "catalogRecords1"
+                    title = "catalogRecords 1"
                 }
-                catalogRecord {}
+                catalogRecord {
+                    identifier = "catalogRecords2"
+                    title = "catalogRecords 2"
+                }
             }
         }
         Assertions.assertThat(catalog1.catalogRecords).hasSize(2)

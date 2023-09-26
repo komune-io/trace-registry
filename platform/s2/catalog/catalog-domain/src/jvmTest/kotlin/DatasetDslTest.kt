@@ -22,21 +22,4 @@ class DatasetDslTest {
         Assertions.assertThat(dataset1.distributions).hasSize(1)
     }
 
-/*    @Test
-    fun shouldCreateDatasetWithThemes() {
-        val dataset1: DcatDataset = dataset {
-            identifier = "dataset1"
-
-            themes {
-                theme {
-                    identifier = "theme1"
-                }
-            }
-        }
-
-        Assertions.assertThat(dataset1.identifier).isEqualTo("dataset1")
-        Assertions.assertThat(dataset1.themes).hasSize(1)
-    }*/
-
-
 }

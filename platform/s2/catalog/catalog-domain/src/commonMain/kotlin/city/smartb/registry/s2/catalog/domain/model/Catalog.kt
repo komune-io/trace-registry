@@ -1,6 +1,6 @@
 package city.smartb.registry.s2.catalog.domain.model
 
-interface DcatApCatalog: DcatDataset {
+interface DcatApCatalog: CatalogedResource {
     override val identifier: String
     val homepage: String
     val themes: List<SkosConcept>?
@@ -62,9 +62,10 @@ interface DcatApDatasetMember : DcatDataset {
     val next: DcatApDatasetMember?
 }
 
-interface DcatCatalog: DcatDataset {
+interface DcatCatalog: CatalogedResource {
     override val identifier: String
     val homepage: String
+    val img: String
     val themes: List<SkosConcept>?
     val catalogedResources: List<CatalogedResource>?
     val datasets: List<DcatDataset>?
@@ -77,7 +78,7 @@ interface DcatCatalogRecord {
     val identifier: String
     val title: String
     val description: String?
-    val listingDate: String
+    val listingDate: String?
     val updateDate: String?
     val primaryTopic: CatalogedResource?
     val conformsTo: List<SkosConceptScheme>?
@@ -92,6 +93,7 @@ sealed interface DcatDataset: CatalogedResource {
     val temporalCoverage: PeriodOfTime?
     val temporalResolution: String?
     val wasGeneratedBy: Activity?
+    val length: Int?
 }
 
 
@@ -214,13 +216,13 @@ class DcatApCatalogModel(
     override val services: List<DataService>? = null,
     override val catalogs: List<DcatApCatalog>? = null,
     override val catalogRecords: List<DcatCatalogRecord>? = null,
-    override val distributions: List<DcatDistribution>? = null,
-    override val frequency: String? = null,
-    override val spatialCoverage: Location? = null,
-    override val spatialResolution: String? = null,
-    override val temporalCoverage: PeriodOfTime? = null,
-    override val temporalResolution: String? = null,
-    override val wasGeneratedBy: Activity? = null,
+//    override val distributions: List<DcatDistribution>? = null,
+//    override val frequency: String? = null,
+//    override val spatialCoverage: Location? = null,
+//    override val spatialResolution: String? = null,
+//    override val temporalCoverage: PeriodOfTime? = null,
+//    override val temporalResolution: String? = null,
+//    override val wasGeneratedBy: Activity? = null,
     override val accessRights: String? = null,
     override val conformsTo: List<SkosConceptScheme>? = null,
     override val contactPoint: String? = null,
@@ -249,7 +251,7 @@ class DcatApCatalogModel(
     override val replaces: CatalogedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: String? = null
+    override val status: String? = null,
 ): DcatApCatalog
 
 class DcatApDatasetMemberModel(
@@ -292,25 +294,27 @@ class DcatApDatasetMemberModel(
     override val replaces: CatalogedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: String? = null
+    override val status: String? = null,
+    override val length: Int?
 ): DcatApDatasetMember
 
 data class DcatCatalogModel(
     override val identifier: String,
     override val homepage: String,
+    override val img: String,
     override val themes: List<SkosConcept>? = null,
     override val catalogedResources: List<CatalogedResource>? = null,
     override val datasets: List<DcatDataset>? = null,
     override val services: List<DataService>? = null,
     override val catalogs: List<DcatCatalog>? = null,
     override val catalogRecords: List<DcatCatalogRecord>? = null,
-    override val distributions: List<DcatDistribution>? = null,
-    override val frequency: String? = null,
-    override val spatialCoverage: Location? = null,
-    override val spatialResolution: String? = null,
-    override val temporalCoverage: PeriodOfTime? = null,
-    override val temporalResolution: String? = null,
-    override val wasGeneratedBy: Activity? = null,
+//    override val distributions: List<DcatDistribution>? = null,
+//    override val frequency: String? = null,
+//    override val spatialCoverage: Location? = null,
+//    override val spatialResolution: String? = null,
+//    override val temporalCoverage: PeriodOfTime? = null,
+//    override val temporalResolution: String? = null,
+//    override val wasGeneratedBy: Activity? = null,
     override val accessRights: String? = null,
     override val conformsTo: List<SkosConceptScheme>? = null,
     override val contactPoint: String? = null,
@@ -339,7 +343,7 @@ data class DcatCatalogModel(
     override val replaces: CatalogedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: String? = null
+    override val status: String? = null,
 ): DcatCatalog
 
 
@@ -347,7 +351,7 @@ data class DcatCatalogRecordModel(
     override val identifier: String,
     override val title: String,
     override val description: String? = null,
-    override val listingDate: String,
+    override val listingDate: String? = null,
     override val updateDate: String? = null,
     override val primaryTopic: CatalogedResource? = null,
     override val conformsTo: List<SkosConceptScheme>? = null
@@ -391,7 +395,8 @@ data class DcatDatasetModel(
     override val replaces: CatalogedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: String? = null
+    override val status: String? = null,
+    override val length: Int? = null,
 ): DcatDataset
 
 

@@ -1,18 +1,17 @@
 package city.smartb.registry.s2.catalog.domain.model
 
-import cccev.dsl.model.InformationConcept
-
 
 @DslMarker
 annotation class DCatDsl
 
-fun catalog(block: CatalogBuilder.() -> Unit): DcatCatalog = CatalogBuilder().apply(block).build()
+fun catalog(block: CatalogBuilder.() -> Unit): DcatCatalogModel = CatalogBuilder().apply(block).build()
 
 @DCatDsl
 class CatalogBuilder {
     var identifier: String = ""
     var homepage: String = ""
     var title: String = ""
+    var img: String = ""
     var description: String = ""
     var type: String = ""
     var themes: MutableList<SkosConcept> = mutableListOf()
@@ -43,6 +42,7 @@ class CatalogBuilder {
     fun build() = DcatCatalogModel(
         identifier = identifier,
         homepage = homepage,
+        img = img,
         description = description,
         type = type,
         themes = themes,
@@ -64,6 +64,7 @@ class DatasetBuilder {
     var description: String = ""
     var conformsTo: MutableList<SkosConceptScheme> = mutableListOf()
     var type: String? = null
+    var length: Int? = null
     var distributions: MutableList<DcatDistribution> = mutableListOf()
     var frequency: String? = null
     var themes: MutableList<SkosConcept> = mutableListOf()
@@ -85,6 +86,7 @@ class DatasetBuilder {
     fun build() = DcatDatasetModel(
         identifier = identifier,
         title = title,
+        length = length,
         description = description,
         distributions = distributions,
         frequency = frequency,
@@ -117,13 +119,13 @@ fun catalogRecord(block: CatalogRecordBuilder.() -> Unit): DcatCatalogRecord = C
 
 @DCatDsl
 class CatalogRecordBuilder {
-    val identifier: String? = null
-    val title: String? = null
-    val listingDate: String? = null
-    val description: String? = null
-    val updateDate: String? = null
-    val primaryTopic: CatalogedResource? = null
-    val conformsTo: MutableList<SkosConceptScheme>? = null
+    var identifier: String? = null
+    var title: String? = null
+    var listingDate: String? = null
+    var description: String? = null
+    var updateDate: String? = null
+    var primaryTopic: CatalogedResource? = null
+    var conformsTo: MutableList<SkosConceptScheme>? = null
 
 //    fun primaryTopic(block: CatalogedResourceBuilder.() -> Unit) {
 //        primaryTopic = CatalogedResourceBuilder().apply(block).build()
@@ -133,7 +135,7 @@ class CatalogRecordBuilder {
     fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
 
 
-    fun build() = DcatCatalogRecordModel(identifier!!, title!!, description, listingDate!!, updateDate, primaryTopic, conformsTo)
+    fun build() = DcatCatalogRecordModel(identifier!!, title!!, description, listingDate, updateDate, primaryTopic, conformsTo)
 }
 
 fun distribution(block: DistributionBuilder.() -> Unit): DcatDistribution = DistributionBuilder().apply(block).build()
