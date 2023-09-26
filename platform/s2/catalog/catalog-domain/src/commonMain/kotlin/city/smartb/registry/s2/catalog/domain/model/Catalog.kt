@@ -1,5 +1,8 @@
 package city.smartb.registry.s2.catalog.domain.model
 
+import kotlin.js.JsExport
+
+@JsExport
 interface DcatApCatalog: CatalogedResource {
     override val identifier: String
     val homepage: String
@@ -12,6 +15,7 @@ interface DcatApCatalog: CatalogedResource {
 }
 
 // DCAT-AP: This interface represents a Dataset Series, a collection of related Datasets.
+@JsExport
 interface DcatApDatasetSeries : DcatDataset {
     /**
      * Last modification date of the Dataset Series
@@ -40,6 +44,7 @@ interface DcatApDatasetSeries : DcatDataset {
 }
 
 // DCAT-AP: This interface represents a Dataset that is a member of a Dataset Series.
+@JsExport
 interface DcatApDatasetMember : DcatDataset {
     /**
      * Title of the Dataset Member
@@ -62,6 +67,7 @@ interface DcatApDatasetMember : DcatDataset {
     val next: DcatApDatasetMember?
 }
 
+@JsExport
 interface DcatCatalog: CatalogedResource {
     override val identifier: String
     val homepage: String
@@ -74,6 +80,7 @@ interface DcatCatalog: CatalogedResource {
     val catalogRecords: List<DcatCatalogRecord>?
 }
 
+@JsExport
 interface DcatCatalogRecord {
     val identifier: String
     val title: String
@@ -84,6 +91,7 @@ interface DcatCatalogRecord {
     val conformsTo: List<SkosConceptScheme>?
 }
 
+@JsExport
 sealed interface DcatDataset: CatalogedResource {
     override val identifier: String
     val distributions: List<DcatDistribution>?
@@ -96,7 +104,7 @@ sealed interface DcatDataset: CatalogedResource {
     val length: Int?
 }
 
-
+@JsExport
 interface DcatDistribution {
     val identifier: String
     val accessURL: String?
@@ -113,7 +121,7 @@ interface DcatDistribution {
     val checksum: Checksum?
 }
 
-
+@JsExport
 interface DataService {
     val identifier: String
     val endpointURL: String
@@ -121,7 +129,7 @@ interface DataService {
     val servesDataset: List<DcatDataset>?
 }
 
-
+@JsExport
 sealed interface CatalogedResource {
     val accessRights: String?
     val conformsTo: List<SkosConceptScheme>?
