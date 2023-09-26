@@ -1,6 +1,6 @@
 import { QueryParams, useQueryRequest, useFetchBinary } from "@smartb/g2-utils"
-import { city } from "verified-emission-reduction-registry-project-f2-domain"
-import { city as chat } from "verified-emission-reduction-registry-chat-f2-domain"
+import { city } from "registry-project-f2-domain"
+import { city as chat } from "registry-chat-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {useCallback} from "react"

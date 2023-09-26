@@ -1,5 +1,5 @@
 import {QueryParams, useQueryRequest} from "@smartb/g2-utils"
-import {city} from "verified-emission-reduction-registry-asset-pool-f2-domain"
+import {city} from "registry-asset-pool-f2-domain"
 import {useNoAuthenticatedRequest} from "../../config"
 
 export interface AssetTransactionPageQuery extends city.smartb.registry.f2.asset.pool.domain.query.AssetTransactionPageQueryDTO { }
