@@ -74,6 +74,8 @@
   "public": "Public",
   "private": "Private",
   "visibility": "Visibilty",
+  "exploreProjects": "Expore projects",
+  "exploreStandards": "Explore standards",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -192,5 +194,9 @@
       "history1": "Issued to {{resultName}} from {{name}} in {{country}}",
       "retired": "Retired {{name}}"
     }
+  },
+  "catalogs": {
+    "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
+    "verifiedProjects": "{{count}} verified projects"
   }
 }
