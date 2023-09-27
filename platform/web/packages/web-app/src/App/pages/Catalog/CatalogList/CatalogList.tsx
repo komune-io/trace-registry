@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'
-import { Catalog, StandardCard } from 'domain-components'
+import { Catalog, StandardCard, useCatalogFilters } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
@@ -46,6 +46,8 @@ const catalog: Catalog = {
 export const CatalogList = () => {
     const { t } = useTranslation()
 
+    const {component} = useCatalogFilters()
+
     const catalogs = useMemo(() => {
         const catalogs: Catalog[] = []
         for (let i = 0; i < 5; i++) {
@@ -67,6 +69,13 @@ export const CatalogList = () => {
             >
                 {t("catalogs.exploreDetails")}
             </Typography>
+            <Box
+            sx={{
+                alignSelf: "center"
+            }}
+            >
+            {component}
+            </Box>
             <Box
             sx={{
                 display: "grid",
