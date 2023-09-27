@@ -4,7 +4,7 @@ import { MenuItems } from '@smartb/g2-components'
 import { useLocation } from "react-router";
 import {AccountCircle, Login, Logout, TravelExplore} from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { useExtendedAuth, useRoutesDefinition } from "components";
+import { StandardIcon, useExtendedAuth, useRoutesDefinition } from "components";
 
 interface MenuItem {
     key: string,
@@ -42,14 +42,20 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {projects} = useRoutesDefinition()
+    const {projects, catalogs} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
      {
         key: "Registry",
         to: projects(),
-        label:  t("registry"),
+        label:  t("exploreProjects"),
         icon: <TravelExplore />,
         isSelected: location.pathname === "/" || location.pathname.includes(projects())
+    },{
+        key: "catalogs",
+        to: catalogs(),
+        label:  t("exploreStandards"),
+        icon: <StandardIcon />,
+        isSelected: location.pathname.includes(catalogs())
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
