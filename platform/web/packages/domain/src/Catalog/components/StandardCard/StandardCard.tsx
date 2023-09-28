@@ -24,6 +24,7 @@ export const StandardCard = (props: StandardCardProps) => {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
+                    height: "100%"
                 }}
                 gap={2}
                 padding={1.5}
@@ -31,9 +32,18 @@ export const StandardCard = (props: StandardCardProps) => {
                 <Stack
                     direction="row"
                     justifyContent="space-between"
+                    sx={{
+                        "& .catalogLogo": {
+                            width: "auto",
+                            height: "auto",
+                            maxWidth: "80px",
+                            maxHeight: "40px"
+                        }
+                    }}
                     gap={2}
                 >
                     {catalog?.img ? <img
+                        className='catalogLogo'
                         src={catalog?.img}
                         alt="The standard logo"
                     /> : <Box />}
@@ -46,6 +56,12 @@ export const StandardCard = (props: StandardCardProps) => {
                 <LimitedTagList
                     tags={themes}
                     description={catalog?.description}
+                />
+                <Box
+                flexGrow={1}
+                sx={{
+                    margin: (theme) => theme.spacing(-1, 0)
+                }}
                 />
                 <Divider />
                 <Stack
