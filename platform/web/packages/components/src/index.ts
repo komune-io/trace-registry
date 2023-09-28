@@ -13,4 +13,5 @@ export * from "./roles"
 export * from "./routes"
 export * from "./LimitedTagList"
 export * from "./types"
+export * from "./TitleDivider"
 

@@ -1,21 +1,22 @@
 import { Box, Card, CardProps, Divider, Stack, Typography } from '@mui/material'
 import { Catalog } from '../../model'
-import { LimitedTagList, Tag } from 'components'
+import { DescriptedLimitedTagList, Tag, useRoutesDefinition } from 'components'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
-import { Button } from '@smartb/g2'
+import { LinkButton } from '@smartb/g2'
 import { t } from 'i18next'
 
 export interface StandardCardProps extends CardProps {
-    catalog?: Catalog
+    catalog: Catalog
 }
 
 export const StandardCard = (props: StandardCardProps) => {
     const { catalog, ...other } = props
 
     const { i18n } = useTranslation()
+    const {catalogsCatalogIdViewTab} = useRoutesDefinition()
 
-    const themes = useMemo(() => catalog?.themes.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
+    const themes = useMemo(() => catalog.themes.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
     return (
         <Card
             {...other}
@@ -42,20 +43,20 @@ export const StandardCard = (props: StandardCardProps) => {
                     }}
                     gap={2}
                 >
-                    {catalog?.img ? <img
+                    {catalog.img ? <img
                         className='catalogLogo'
-                        src={catalog?.img}
+                        src={catalog.img}
                         alt="The standard logo"
                     /> : <Box />}
                     <Typography
                         variant="subtitle2"
                     >
-                        {catalog?.title}
+                        {catalog.title}
                     </Typography>
                 </Stack>
-                <LimitedTagList
+                <DescriptedLimitedTagList
                     tags={themes}
-                    description={catalog?.description}
+                    description={catalog.description}
                 />
                 <Box
                 flexGrow={1}
@@ -73,9 +74,9 @@ export const StandardCard = (props: StandardCardProps) => {
                     <Typography
                         variant='caption'
                     >
-                        {t("catalogs.verifiedProjects", { count: catalog?.datasets.filter((dataset: any) => dataset.type === "project").length })}
+                        {t("catalogs.verifiedProjects", { count: catalog.datasets.filter((dataset: any) => dataset.type === "project").length })}
                     </Typography>
-                    <Button>{t("details")}</Button>
+                    <LinkButton to={catalogsCatalogIdViewTab(catalog.identifier)} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
 
