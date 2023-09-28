@@ -1,2 +1,5 @@
 export * from "./StandardCard"
 export * from "./catalogFilters"
+export * from "./CatalogDetails"
+export * from "./CatalogGrid"
+export * from "./CatalogInformations"
