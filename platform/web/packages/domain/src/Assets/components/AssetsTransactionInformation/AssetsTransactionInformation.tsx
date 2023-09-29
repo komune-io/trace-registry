@@ -64,7 +64,6 @@ export const AssetsTransactionInformation = (props: AssetsTransactionInformation
                 navigate(projectsProjectIdTransactionsTransactionIdView(project.id, transaction ? transaction.id : "undefined"))
         },[])
 
-
     return (    <Stack gap={1}>
                     <Stack
                         direction="row"
@@ -79,9 +78,12 @@ export const AssetsTransactionInformation = (props: AssetsTransactionInformation
                     <Divider />
                     {t("projects.assets.transactionId", { id: transaction?.id })}
                     <FormComposable fields={fields} formState={formState} sx={{margin : (theme) => `${theme.spacing(2)} 0`}}/>
-                    <Link onClick={transactionLink} sx={{cursor: 'pointer'}}>
-                        {t("projects.assets.certificate")}
-                    </Link>
+                    {
+                        transaction?.file &&
+                        <Link onClick={transactionLink} sx={{cursor: 'pointer'}}>
+                            {t("projects.assets.certificate")}
+                        </Link>
+                    }
                 </Stack>
     )
 }

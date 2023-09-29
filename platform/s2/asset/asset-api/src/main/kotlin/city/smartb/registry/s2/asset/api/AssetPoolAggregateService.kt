@@ -26,6 +26,7 @@ import city.smartb.registry.s2.asset.domain.command.pool.AssetPoolUpdateCommand
 import city.smartb.registry.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import city.smartb.registry.s2.asset.domain.command.transaction.AssetTransactionEmitCommand
 import city.smartb.registry.s2.asset.domain.command.transaction.TransactionEmittedEvent
+import city.smartb.registry.s2.asset.domain.model.AssetTransactionType
 import city.smartb.registry.s2.commons.model.respectsGranularity
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -108,26 +109,28 @@ class AssetPoolAggregateService(
 			type = command.type
 		).let { emitTransaction(it) }
 
-		val result = CertificateGenerator.fillPendingCertificate(
-			transactionId = transactionEvent.id,
-			date = transactionEvent.date,
-			issuedTo = transactionEvent.to!!,
-			quantity = transactionEvent.quantity,
-			indicator = if (transactionEvent.quantity > 1) "tons" else "ton",
-		)
+		val uploaded = if(command.type == AssetTransactionType.OFFSET) {
+			val result = CertificateGenerator.fillPendingCertificate(
+				transactionId = transactionEvent.id,
+				date = transactionEvent.date,
+				issuedTo = transactionEvent.to!!,
+				quantity = transactionEvent.quantity,
+				indicator = if (transactionEvent.quantity > 1) "tons" else "ton",
+			)
 
-		val path = FilePath(
-			objectType = OrganizationFsPath.OBJECT_TYPE,
-			objectId = transactionEvent.to!!,
-			directory = OrganizationFsPath.DIR_CERTIFICATE,
-			name = "certificate-${transactionEvent.id}-pending.pdf"
-		)
-		val uploaded = fileClient.fileUpload(path.toUploadCommand(), result)
+			val path = FilePath(
+				objectType = OrganizationFsPath.OBJECT_TYPE,
+				objectId = transactionEvent.to!!,
+				directory = OrganizationFsPath.DIR_CERTIFICATE,
+				name = "certificate-${transactionEvent.id}-pending.pdf"
+			)
+			fileClient.fileUpload(path.toUploadCommand(), result)
+		} else null
 
 		AssetPoolEmittedTransactionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			certificate = uploaded.path,
+			certificate = uploaded?.path,
 			transactionId = transactionEvent.id
 		)
 	}

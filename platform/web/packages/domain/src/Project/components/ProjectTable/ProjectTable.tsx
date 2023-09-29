@@ -136,9 +136,6 @@ export const ProjectTable = (props: ProjectTableProps) => {
                         "& .statusColumn": {
                             maxWidth: "180px"
                         },
-                        "& .typeColumn": {
-                            maxWidth: "150px"
-                        },
                         "& .AruiTable-tableHead": {
                             top: "70px",
                             background: (theme) => theme.palette.background.default + "99"
