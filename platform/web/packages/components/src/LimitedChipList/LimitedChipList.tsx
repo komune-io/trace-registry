@@ -8,7 +8,7 @@ export type Tag = {
     color: string
 }
 
-export interface LimitedTagListProps extends StackProps {
+export interface LimitedChipListProps extends StackProps {
     tags?: Tag[]
     /**
      * @default 4
@@ -16,7 +16,7 @@ export interface LimitedTagListProps extends StackProps {
     limit?: number
 }
 
-export const LimitedTagList = (props: LimitedTagListProps) => {
+export const LimitedChipList = (props: LimitedChipListProps) => {
     const { tags = [], limit = 4, ...other } = props
 
     const tagsDisplay = useMemo(() => {

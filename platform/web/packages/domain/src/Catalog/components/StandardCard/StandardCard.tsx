@@ -1,6 +1,6 @@
 import { Box, Card, CardProps, Divider, Stack, Typography } from '@mui/material'
 import { Catalog } from '../../model'
-import { DescriptedLimitedTagList, Tag, useRoutesDefinition } from 'components'
+import { DescriptedLimitedChipList, Tag, useRoutesDefinition } from 'components'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
 import { LinkButton } from '@smartb/g2'
@@ -54,7 +54,7 @@ export const StandardCard = (props: StandardCardProps) => {
                         {catalog.title}
                     </Typography>
                 </Stack>
-                <DescriptedLimitedTagList
+                <DescriptedLimitedChipList
                     tags={themes}
                     description={catalog.description}
                 />

@@ -1,8 +1,8 @@
 import { Stack, StackProps, Typography } from '@mui/material'
-import { LimitedTagList, Tag } from './LimitedTagList'
+import { LimitedChipList, Tag } from './LimitedChipList'
 
 
-export interface DescriptedLimitedTagListProps extends StackProps {
+export interface DescriptedLimitedChipListProps extends StackProps {
     tags?: Tag[]
     description?: string
     /**
@@ -11,7 +11,7 @@ export interface DescriptedLimitedTagListProps extends StackProps {
     limit?: number
 }
 
-export const DescriptedLimitedTagList = (props: DescriptedLimitedTagListProps) => {
+export const DescriptedLimitedChipList = (props: DescriptedLimitedChipListProps) => {
     const { tags = [], description, limit = 4, ...other } = props
 
     return (
@@ -41,7 +41,7 @@ export const DescriptedLimitedTagList = (props: DescriptedLimitedTagListProps) =
             >
                 {description}
             </Typography>
-            <LimitedTagList tags={tags} limit={limit} />
+            <LimitedChipList tags={tags} limit={limit} />
             
         </Stack>
     )

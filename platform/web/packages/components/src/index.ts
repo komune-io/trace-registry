@@ -11,7 +11,7 @@ export * from "./PermanentHeader"
 export * from "./auth"
 export * from "./roles"
 export * from "./routes"
-export * from "./LimitedTagList"
+export * from "./LimitedChipList"
 export * from "./types"
 export * from "./TitleDivider"
 

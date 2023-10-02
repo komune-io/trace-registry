@@ -56,7 +56,7 @@ const toArray = () => {
 
 export const catalogs = toArray()
 
-export const CatalogList = () => {
+export const CatalogListPage = () => {
     const { t } = useTranslation()
 
     const {component} = useCatalogFilters()
