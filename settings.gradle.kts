@@ -43,6 +43,11 @@ include(
 	"platform:f2:asset-pool-f2:asset-pool-f2-client",
 	"platform:f2:asset-pool-f2:asset-pool-f2-domain"
 )
+include(
+	"platform:f2:catalogue-f2:catalogue-f2-api",
+	"platform:f2:catalogue-f2:catalogue-f2-client",
+	"platform:f2:catalogue-f2:catalogue-f2-domain"
+)
 
 include(
 	"platform:f2:project-f2:project-f2-api",
@@ -75,6 +80,6 @@ include(
 )
 
 include(
-	"platform:s2:catalog:catalog-api",
-	"platform:s2:catalog:catalog-domain",
+	"platform:s2:catalogue:catalogue-api",
+	"platform:s2:catalogue:catalogue-domain",
 )
