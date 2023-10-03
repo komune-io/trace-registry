@@ -6,6 +6,7 @@ import city.smartb.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
+import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
@@ -32,11 +33,18 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkPage()
 
         catalogueF2FinderService.page(
-            catalogueId = query.catalogueId ?: "",
+            catalogueId = query.catalogueId,
+            title = query.title,
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
+        )
+    }
+
+    override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
+        catalogueF2FinderService.getById(
+            id = query.id,
         )
     }
 

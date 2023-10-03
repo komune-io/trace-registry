@@ -2,6 +2,7 @@ package city.smartb.registry.f2.catalogue.client
 
 import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
 import f2.client.F2Client
 import f2.client.function
@@ -17,4 +18,5 @@ expect fun catalogueClient(urlBase: String, accessToken: String): F2SupplierSing
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
+    override fun catalogueGet(): CatalogueGetFunction = client.function(this::catalogueGet.name)
 }

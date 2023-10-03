@@ -5,5 +5,5 @@ plugins {
 
 dependencies {
     api(project(":platform:f2:catalogue-f2:catalogue-f2-domain"))
-    implementation(project(":platform:s2:catalog:catalog-api"))
+    implementation(project(":platform:s2:catalogue:catalogue-api"))
 }

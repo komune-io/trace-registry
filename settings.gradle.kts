@@ -80,6 +80,6 @@ include(
 )
 
 include(
-	"platform:s2:catalog:catalog-api",
-	"platform:s2:catalog:catalog-domain",
+	"platform:s2:catalogue:catalogue-api",
+	"platform:s2:catalogue:catalogue-domain",
 )

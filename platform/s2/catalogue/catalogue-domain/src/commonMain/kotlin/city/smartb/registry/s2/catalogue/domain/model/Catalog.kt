@@ -150,7 +150,7 @@ data class LicenseDocument(
     val identifier: String,
 )
 
-class DCatApCatalogModel(
+class DCatApCatalogueModel(
     override val identifier: String,
     override val homepage: String,
     override val themes: List<SkosConcept>? = null,

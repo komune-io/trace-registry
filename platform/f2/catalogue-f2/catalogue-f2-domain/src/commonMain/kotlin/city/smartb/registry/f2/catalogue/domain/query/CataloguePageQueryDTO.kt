@@ -1,6 +1,6 @@
 package city.smartb.registry.f2.catalogue.domain.query
 
-import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogModel
+import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
 import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
@@ -26,6 +26,7 @@ interface CataloguePageQueryDTO {
      * id of the catalogue
      */
     val catalogueId: String?
+    val title: String?
     val offset: Int?
     val limit: Int?
 }
@@ -34,7 +35,8 @@ interface CataloguePageQueryDTO {
  * @d2 inherit
  */
 data class CataloguePageQuery(
-    override val catalogueId: String,
+    override val catalogueId: String? = null,
+    override val title: String? = null,
     override val offset: Int?,
     override val limit: Int?,
 ): CataloguePageQueryDTO
@@ -51,6 +53,6 @@ interface CataloguePageResultDTO: PageDTO<DcatApCatalogue>
  * @d2 inherit
  */
 data class CataloguePageResult(
-    override val items: List<DCatApCatalogModel>,
+    override val items: List<DCatApCatalogueModel>,
     override val total: Int
 ): CataloguePageResultDTO
