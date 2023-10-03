@@ -7,6 +7,7 @@ import kotlin.js.JsExport
 interface DcatApCatalogue: CataloguedResource {
     override val identifier: String
     val homepage: String
+    val img: String?
     val themes: List<SkosConcept>?
     val cataloguedResource: List<CataloguedResource>?
     val datasets: List<DcatDataset>?
@@ -153,6 +154,7 @@ data class LicenseDocument(
 class DCatApCatalogueModel(
     override val identifier: String,
     override val homepage: String,
+    override val img: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val cataloguedResource: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,

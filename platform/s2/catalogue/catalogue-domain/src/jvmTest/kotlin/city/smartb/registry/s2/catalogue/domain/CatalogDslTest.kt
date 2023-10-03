@@ -1,6 +1,6 @@
 package city.smartb.registry.s2.catalogue.domain
 
-import city.smartb.registry.s2.catalogue.domain.model.DcatCatalogue
+import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
 import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test
 class CatalogueDslTest {
     @Test
     fun shouldCreateCatalogue() {
-        val catalogue1: DcatCatalogue = catalog {
-            identifier = "catalog1"
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
         }
-        Assertions.assertThat(catalog1.identifier).isEqualTo("catalog1")
+        Assertions.assertThat(catalogue1.identifier).isEqualTo("catalogue1")
     }
     @Test
     fun shouldCreateCatalogueWithDatasets() {
-        val catalog1: DcatCatalogue = catalog {
-            identifier = "catalog1"
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
             datasets {
                 dataset {
                     identifier = "dataset1"
@@ -26,13 +26,13 @@ class CatalogueDslTest {
                 }
             }
         }
-        Assertions.assertThat(catalog1.datasets).hasSize(2)
+        Assertions.assertThat(catalogue1.datasets).hasSize(2)
     }
 
     @Test
     fun shouldCreateCatalogueWithThemes() {
-        val catalog1: DcatCatalogue = catalog {
-            identifier = "catalog1"
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
             themes {
                 theme {
                     id = "theme1"
@@ -42,13 +42,13 @@ class CatalogueDslTest {
                 }
             }
         }
-        Assertions.assertThat(catalog1.themes).hasSize(2)
+        Assertions.assertThat(catalogue1.themes).hasSize(2)
     }
 
     @Test
     fun shouldCreateCatalogueWithServices() {
-        val catalog1: DcatCatalogue = catalog {
-            identifier = "catalog1"
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
             services {
                 service {
                     identifier = "service1"
@@ -58,41 +58,41 @@ class CatalogueDslTest {
                 }
             }
         }
-        Assertions.assertThat(catalog1.services).hasSize(2)
+        Assertions.assertThat(catalogue1.services).hasSize(2)
     }
 
     @Test
     fun shouldCreateCatalogueWithCatalogues() {
-        val catalog1: DcatCatalogue = catalog {
-            identifier = "catalog1"
-            catalogs {
-                catalog {
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
+            catalogues {
+                catalogue {
                     identifier = "subCatalogue1"
                 }
-                catalog {
+                catalogue {
                     identifier = "subCatalogue2"
                 }
             }
         }
-        Assertions.assertThat(catalog1.catalogs).hasSize(2)
+        Assertions.assertThat(catalogue1.catalogues).hasSize(2)
     }
 
     @Test
     fun shouldCreateCatalogueWithRecords() {
-        val catalog1: DcatCatalogue = catalog {
-            identifier = "catalog1"
+        val catalogue1: DcatApCatalogue = catalogue {
+            identifier = "catalogue1"
             title = "Catalogue 1"
-            catalogRecords {
-                catalogRecord {
-                    identifier = "catalogRecords1"
-                    title = "catalogRecords 1"
+            catalogueRecords{
+                catalogueRecord {
+                    identifier = "catalogueRecords1"
+                    title = "catalogueRecords 1"
                 }
-                catalogRecord {
-                    identifier = "catalogRecords2"
-                    title = "catalogRecords 2"
+                catalogueRecord {
+                    identifier = "catalogueRecords2"
+                    title = "catalogueRecords 2"
                 }
             }
         }
-        Assertions.assertThat(catalog1.catalogRecords).hasSize(2)
+        Assertions.assertThat(catalogue1.catalogueRecords).hasSize(2)
     }
 }

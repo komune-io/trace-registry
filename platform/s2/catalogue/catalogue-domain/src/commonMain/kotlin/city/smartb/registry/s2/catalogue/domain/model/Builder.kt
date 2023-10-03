@@ -4,7 +4,7 @@ package city.smartb.registry.s2.catalogue.domain.model
 @DslMarker
 annotation class DCatDsl
 
-fun catalogue(block: CatalogueBuilder.() -> Unit): DcatCatalogue = CatalogueBuilder().apply(block).build()
+fun catalogue(block: CatalogueBuilder.() -> Unit): DCatApCatalogueModel = CatalogueBuilder().apply(block).build()
 
 @DCatDsl
 class CatalogueBuilder {
@@ -18,7 +18,7 @@ class CatalogueBuilder {
     var cataloguedResources: MutableList<CataloguedResource> = mutableListOf()
     var datasets: MutableList<DcatDataset> = mutableListOf()
     var services: MutableList<DataService> = mutableListOf()
-    var catalogues: MutableList<DcatCatalogue> = mutableListOf()
+    var catalogues: MutableList<DcatApCatalogue> = mutableListOf()
     var catalogueRecords: MutableList<DcatCatalogueRecord> = mutableListOf()
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
@@ -34,19 +34,19 @@ class CatalogueBuilder {
     fun SERVICES.service(block: DataServiceBuilder.() -> Unit) = add(DataServiceBuilder().apply(block).build())
 
     fun catalogues(block: CATALOGS.() -> Unit) = catalogues.addAll(CATALOGS().apply(block))
-    fun CATALOGS.catalog(block: CatalogueBuilder.() -> Unit) = add(CatalogueBuilder().apply(block).build())
+    fun CATALOGS.catalogue(block: CatalogueBuilder.() -> Unit) = add(CatalogueBuilder().apply(block).build())
 
-    fun catalogRecords(block: CATALOGRECORDS.() -> Unit) = catalogueRecords.addAll(CATALOGRECORDS().apply(block))
-    fun CATALOGRECORDS.catalogRecord(block: CatalogRecordBuilder.() -> Unit) = add(CatalogRecordBuilder().apply(block).build())
+    fun catalogueRecords(block: CATALOGRECORDS.() -> Unit) = catalogueRecords.addAll(CATALOGRECORDS().apply(block))
+    fun CATALOGRECORDS.catalogueRecord(block: CatalogRecordBuilder.() -> Unit) = add(CatalogRecordBuilder().apply(block).build())
 
-    fun build() = DcatCatalogModel(
+    fun build() = DCatApCatalogueModel(
         identifier = identifier,
         homepage = homepage,
         img = img,
         description = description,
         type = type,
         themes = themes,
-        cataloguedResources = cataloguedResources,
+        cataloguedResource = cataloguedResources,
         datasets = datasets,
         services = services,
         catalogues = catalogues,
@@ -295,7 +295,7 @@ typealias THEMES = ArrayList<SkosConcept>
 typealias RESOURCES = ArrayList<CataloguedResource>
 typealias DATASETS = ArrayList<DcatDataset>
 typealias SERVICES = ArrayList<DataService>
-typealias CATALOGS = ArrayList<DcatCatalogue>
+typealias CATALOGS = ArrayList<DCatApCatalogueModel>
 typealias CATALOGRECORDS = ArrayList<DcatCatalogueRecord>
 
 

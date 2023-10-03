@@ -121,7 +121,7 @@ val PlasticWasteReductionProgram =  catalogue {
         }
     }
     catalogues {
-        catalog {
+        catalogue {
             identifier = "http://registry.smartb.city/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram/catalogue"
             title = "The Plastic Waste Reduction Program"
             type = "Methodologies"

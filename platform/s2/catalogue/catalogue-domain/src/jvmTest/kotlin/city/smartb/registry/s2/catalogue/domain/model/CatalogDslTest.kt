@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 
 class CatalogueDslTest {
     @Test
-    fun shouldCreateCatalogueueWithDataset() {
-        val catalogue1: DcatCatalogueModel = catalogue {
+    fun shouldCreateCatalogueWithDataset() {
+        val catalogue1: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue"
 
             datasets {
@@ -22,7 +22,7 @@ class CatalogueDslTest {
         }
 
         Assertions.assertThat(catalogue1.identifier).isEqualTo("http://example.com/catalogue")
-        Assertions.assertThat(catalog1.datasets).hasSize(2)
+        Assertions.assertThat(catalogue1.datasets).hasSize(2)
     }
 
 }
