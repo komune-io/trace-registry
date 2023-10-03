@@ -1,4 +1,4 @@
-import {city} from "registry-catalog-domain"
+import {city} from "registry-catalogue-domain"
 
-export interface Catalog extends city.smartb.registry.s2.catalog.domain.model.DcatCatalog {}
+export interface Catalogue extends city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue {}
 

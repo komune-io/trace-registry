@@ -2,11 +2,11 @@ import { Stack } from '@mui/material'
 import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Catalog } from '../../model'
+import { Catalogue } from '../../model'
 // import { CatalogTags } from './CatalogTags'
 
 export interface CatalogDetailsProps {
-    catalog?: Catalog
+    catalog?: Catalogue
     isLoading?: boolean
 }
 
@@ -23,7 +23,7 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Catalog>[] => [
+    const fields = useMemo((): FormComposableField<keyof Catalogue>[] => [
         {
             name: "description",
             type: "textField",

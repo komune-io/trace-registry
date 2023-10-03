@@ -1,5 +1,5 @@
 
-import { Catalog } from '../../model'
+import { Catalogue } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { CatalogDetails } from '../CatalogDetails'
 import { TitleDivider } from 'components'
@@ -7,9 +7,9 @@ import { CatalogGrid } from '../CatalogGrid'
 import { Button } from '@smartb/g2'
 
 export interface CatalogInformationsProps {
-    catalog?: Catalog
+    catalog?: Catalogue
     isLoading?: boolean
-    mostUsedCatalogs?: Catalog[]
+    mostUsedCatalogs?: Catalogue[]
 }
 
 export const CatalogInformations = (props: CatalogInformationsProps) => {

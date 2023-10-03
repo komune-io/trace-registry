@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import { StandardCard } from '../StandardCard'
-import { Catalog } from '../../model'
+import { Catalogue } from '../../model'
 
 export interface CatalogGridProps {
-    catalogs?: Catalog[]
+    catalogs?: Catalogue[]
 }
 
 export const CatalogGrid = (props: CatalogGridProps) => {

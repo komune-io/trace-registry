@@ -1,10 +1,10 @@
 import { Typography, Box } from '@mui/material'
-import { Catalog, CatalogGrid, useCatalogFilters } from 'domain-components'
+import { Catalogue, CatalogGrid, useCatalogFilters } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
 
 //@ts-ignore
-export const catalog: Catalog = {
+export const catalog: Catalogue = {
     identifier: "1",
     title: "Verra",
     description: `Verra, formerly known as Verified Carbon Standard (VCS), is a leading global standard for the certification of greenhouse gas emission reduction projects. 
@@ -46,7 +46,7 @@ export const catalog: Catalog = {
 }
 
 const toArray = () => {
-    const catalogs: Catalog[] = []
+    const catalogs: Catalogue[] = []
     for (let i = 0; i < 5; i++) {
         catalogs.push({
             ...catalog,
