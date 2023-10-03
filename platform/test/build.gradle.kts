@@ -7,6 +7,8 @@ dependencies {
 	implementation(project(":platform:f2:activity-f2:activity-f2-api"))
 	implementation(project(":platform:f2:asset-order-f2:asset-order-f2-api"))
 	implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-api"))
+	implementation(project(":platform:f2:catalogue-f2:catalogue-f2-api"))
+	implementation(project(":platform:s2:catalogue:catalogue-api"))
 	implementation(project(":platform:f2:project-f2:project-f2-api"))
 
 	implementation(project(":platform:s2:asset:asset-api"))

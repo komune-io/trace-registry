@@ -7,6 +7,7 @@ import city.smartb.im.f2.organization.domain.model.Organization
 import city.smartb.registry.f2.activity.domain.model.ActivityId
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.s2.asset.domain.automate.AssetTransactionId
+import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.order.domain.OrderId
 import city.smartb.registry.s2.project.domain.model.ProjectId
 import org.springframework.stereotype.Component
@@ -21,6 +22,7 @@ class VerTestContext: TestContext() {
     val transactionIds = testEntities<TestContextKey, AssetTransactionId>("Transaction")
     val orderIds = testEntities<TestContextKey, OrderId>("Order")
     val projectIds = testEntities<TestContextKey, ProjectId>("Project")
+    val catalogueIds = testEntities<TestContextKey, CatalogueId>("Catalogue")
 
     val cccevConceptIds = testEntities<TestContextKey, InformationConceptId>("CCCEV InformationConcept")
     val cccevConceptIdentifiers = testEntities<TestContextKey, InformationConceptIdentifier>("CCCEV InformationConcept")

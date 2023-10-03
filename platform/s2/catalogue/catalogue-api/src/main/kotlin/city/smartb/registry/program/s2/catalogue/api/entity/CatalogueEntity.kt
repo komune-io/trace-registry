@@ -26,7 +26,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var title: String = ""
 
     @Searchable(nostem=true)
-    lateinit var homepage: String
+    var homepage: String? = null
 
     @Searchable(nostem=true)
     var country: String? = null

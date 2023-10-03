@@ -27,6 +27,7 @@ interface CataloguePageQueryDTO {
      */
     val catalogueId: String?
     val title: String?
+    val status: String?
     val offset: Int?
     val limit: Int?
 }
@@ -37,6 +38,7 @@ interface CataloguePageQueryDTO {
 data class CataloguePageQuery(
     override val catalogueId: String? = null,
     override val title: String? = null,
+    override val status: String? = null,
     override val offset: Int?,
     override val limit: Int?,
 ): CataloguePageQueryDTO

@@ -21,6 +21,8 @@ class CatalogueAggregateService(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
+			description = cmd.description,
+			title = cmd.title,
 		)
 	}
 
@@ -37,5 +39,4 @@ class CatalogueAggregateService(
 			date = System.currentTimeMillis(),
 		)
 	}
-
 }

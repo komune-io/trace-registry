@@ -1,5 +1,6 @@
 package city.smartb.registry.f2.catalogue.domain.command
 
+import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
@@ -30,7 +31,7 @@ interface CatalogueCreateCommandDTO {
     /**
      * @ref [city.smartb.registry.f2.catalogue.domain.model.CatalogueDTO.name]
      */
-    val name: String
+    val title: String
 
     /**
      * @ref [city.smartb.registry.f2.catalogue.domain.model.CatalogueDTO.description]
@@ -42,11 +43,6 @@ interface CatalogueCreateCommandDTO {
      * @example [[]]
      */
     val hasCatalogue: Array<out CatalogueCreateCommandDTO>?
-
-    /**
-     * Steps to fulfill in order for the catalogue to be completed.
-     */
-    val hasStep: Array<out CatalogueCreateCommandDTO>?
 }
 
 /**
@@ -55,10 +51,9 @@ interface CatalogueCreateCommandDTO {
 @Serializable
 data class CatalogueCreateCommandDTOBase(
     override val identifier: CatalogueIdentifier,
-    override val name: String,
+    override val title: String,
     override val description: String?,
-    override val hasCatalogue: Array<CatalogueCreateCommandDTOBase>?,
-    override val hasStep: Array<CatalogueCreateCommandDTOBase>?
+    override val hasCatalogue: Array<CatalogueCreateCommandDTOBase>? = emptyArray(),
 ): CatalogueCreateCommandDTO
 
 /**
@@ -71,6 +66,10 @@ interface CatalogueCreatedEventDTO: Event {
     /**
      * Identifier of the created catalogue.
      */
+    val id: CatalogueId
+    /**
+     * Identifier of the created catalogue.
+     */
     val identifier: CatalogueIdentifier
 }
 
@@ -78,5 +77,6 @@ interface CatalogueCreatedEventDTO: Event {
  * @d2 inherit
  */
 data class CatalogueCreatedEventDTOBase(
+    override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
 ): CatalogueCreatedEventDTO
