@@ -23,7 +23,7 @@ include(
 )
 
 include(
-	"platform:ver-test"
+	"platform:test"
 )
 
 include(
