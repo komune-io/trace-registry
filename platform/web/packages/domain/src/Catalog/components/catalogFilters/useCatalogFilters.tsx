@@ -2,12 +2,13 @@ import {useCustomFilters} from 'components'
 import {FilterComposableField} from '@smartb/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
+import { CataloguePageQuery } from '../../api'
 
 export const useCatalogFilters = () => {
     const {t} = useTranslation()
-    const filters = useMemo((): FilterComposableField[] => [
+    const filters = useMemo((): FilterComposableField<keyof CataloguePageQuery>[] => [
         {
-            name: 'name',
+            name: 'title',
             type: 'textField',
             params: { 
                 textFieldType: 'search', 

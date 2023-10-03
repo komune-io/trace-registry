@@ -1,7 +1,9 @@
 import { Typography, Box } from '@mui/material'
-import { Catalogue, CatalogGrid, useCatalogFilters } from 'domain-components'
+import { Catalogue, CatalogGrid, useCatalogFilters, useCataloguePageQuery } from 'domain-components'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
+import { FixedPagination } from 'template/src/OffsetTable/FixedPagination'
 
 //@ts-ignore
 export const catalog: Catalogue = {
@@ -61,7 +63,18 @@ export const catalogs = toArray()
 export const CatalogListPage = () => {
     const { t } = useTranslation()
 
-    const { component } = useCatalogFilters()
+    const { component, submittedFilters,setOffset } = useCatalogFilters()
+
+    const cataloguePage = useCataloguePageQuery({
+        query: {
+            ...submittedFilters
+        }
+    })
+
+    const page = useMemo(() => ({
+        items: cataloguePage.data?.items ?? [],
+        total: cataloguePage.data?.total ?? 0
+      }), [cataloguePage.data])
 
     return (
         <AppPage
@@ -80,7 +93,8 @@ export const CatalogListPage = () => {
             >
                 {component}
             </Box>
-            <CatalogGrid catalogs={catalogs} />
+            <CatalogGrid catalogs={cataloguePage.data?.items}  />
+            <FixedPagination pagination={submittedFilters} page={page} isLoading={cataloguePage.isInitialLoading} onOffsetChange={setOffset} />
         </AppPage>
     )
 }
