@@ -1,0 +1,20 @@
+package city.smartb.registry.f2.catalogue.client
+
+import city.smartb.registry.f2.catalogue.domain.CatalogueApi
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
+import f2.client.F2Client
+import f2.client.function
+import f2.dsl.fnc.F2SupplierSingle
+import kotlin.js.JsExport
+import kotlin.js.JsName
+
+expect fun F2Client.catalogueClient(): F2SupplierSingle<CatalogueClient>
+expect fun catalogueClient(urlBase: String, accessToken: String): F2SupplierSingle<CatalogueClient>
+
+@JsExport
+@JsName("CatalogueClient")
+open class CatalogueClient(val client: F2Client) : CatalogueApi {
+    override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
+    override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
+}

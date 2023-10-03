@@ -1,7 +1,7 @@
-package city.smartb.registry.s2.catalog.domain
+package city.smartb.registry.s2.catalogue.domain
 
-import city.smartb.registry.s2.catalog.domain.model.DcatDataset
-import city.smartb.registry.s2.catalog.domain.model.dataset
+import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
+import city.smartb.registry.s2.catalogue.domain.model.dataset
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -1,21 +1,21 @@
-package city.smartb.registry.s2.catalog.domain
+package city.smartb.registry.s2.catalogue.domain
 
-import city.smartb.registry.s2.catalog.domain.model.DcatCatalog
-import city.smartb.registry.s2.catalog.domain.model.catalog
+import city.smartb.registry.s2.catalogue.domain.model.DcatCatalogue
+import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class CatalogDslTest {
+class CatalogueDslTest {
     @Test
-    fun shouldCreateCatalog() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogue() {
+        val catalogue1: DcatCatalogue = catalog {
             identifier = "catalog1"
         }
         Assertions.assertThat(catalog1.identifier).isEqualTo("catalog1")
     }
     @Test
-    fun shouldCreateCatalogWithDatasets() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogueWithDatasets() {
+        val catalog1: DcatCatalogue = catalog {
             identifier = "catalog1"
             datasets {
                 dataset {
@@ -30,8 +30,8 @@ class CatalogDslTest {
     }
 
     @Test
-    fun shouldCreateCatalogWithThemes() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogueWithThemes() {
+        val catalog1: DcatCatalogue = catalog {
             identifier = "catalog1"
             themes {
                 theme {
@@ -46,8 +46,8 @@ class CatalogDslTest {
     }
 
     @Test
-    fun shouldCreateCatalogWithServices() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogueWithServices() {
+        val catalog1: DcatCatalogue = catalog {
             identifier = "catalog1"
             services {
                 service {
@@ -62,15 +62,15 @@ class CatalogDslTest {
     }
 
     @Test
-    fun shouldCreateCatalogWithCatalogs() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogueWithCatalogues() {
+        val catalog1: DcatCatalogue = catalog {
             identifier = "catalog1"
             catalogs {
                 catalog {
-                    identifier = "subCatalog1"
+                    identifier = "subCatalogue1"
                 }
                 catalog {
-                    identifier = "subCatalog2"
+                    identifier = "subCatalogue2"
                 }
             }
         }
@@ -78,10 +78,10 @@ class CatalogDslTest {
     }
 
     @Test
-    fun shouldCreateCatalogWithRecords() {
-        val catalog1: DcatCatalog = catalog {
+    fun shouldCreateCatalogueWithRecords() {
+        val catalog1: DcatCatalogue = catalog {
             identifier = "catalog1"
-            title = "Catalog 1"
+            title = "Catalogue 1"
             catalogRecords {
                 catalogRecord {
                     identifier = "catalogRecords1"

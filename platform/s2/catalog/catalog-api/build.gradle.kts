@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-	api(project(":platform:s2:asset:asset-domain"))
+	api(project(":platform:s2:catalog:catalog-domain"))
 
 	implementation(project((":platform:infra:redis")))
 
