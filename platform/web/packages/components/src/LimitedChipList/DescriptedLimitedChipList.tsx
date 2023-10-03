@@ -1,4 +1,4 @@
-import { Stack, StackProps, Typography } from '@mui/material'
+import { Skeleton, Stack, StackProps, Typography } from '@mui/material'
 import { LimitedChipList, Tag } from './LimitedChipList'
 
 
@@ -9,10 +9,11 @@ export interface DescriptedLimitedChipListProps extends StackProps {
      * @default 4
      */
     limit?: number
+    isLoading?: boolean
 }
 
 export const DescriptedLimitedChipList = (props: DescriptedLimitedChipListProps) => {
-    const { tags = [], description, limit = 4, ...other } = props
+    const { tags = [], description, limit = 4, isLoading, ...other } = props
 
     return (
         <Stack
@@ -27,22 +28,30 @@ export const DescriptedLimitedChipList = (props: DescriptedLimitedChipListProps)
             gap={1.5}
             {...other}
         >
-            <Typography
-                className='tagDescription'
-                variant='body2'
-                sx={{
-                    WebkitLineClamp: 5,
-                    lineClamp: '5',
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                }}
-            >
-                {description}
-            </Typography>
-            <LimitedChipList tags={tags} limit={limit} />
-            
+            {!isLoading ?
+                <>
+                    <Typography
+                        className='tagDescription'
+                        variant='body2'
+                        sx={{
+                            WebkitLineClamp: 5,
+                            lineClamp: '5',
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        {description}
+                    </Typography>
+                    <LimitedChipList tags={tags} limit={limit} />
+                </>
+                :
+                <Skeleton animation="wave" height="230px" width="100%" sx={{
+                    transform: "none"
+                }} />
+            }
+
         </Stack>
     )
 }

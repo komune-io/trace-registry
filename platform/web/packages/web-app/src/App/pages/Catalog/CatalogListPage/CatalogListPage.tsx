@@ -93,7 +93,7 @@ export const CatalogListPage = () => {
             >
                 {component}
             </Box>
-            <CatalogGrid catalogs={cataloguePage.data?.items}  />
+            <CatalogGrid catalogs={cataloguePage.data?.items} isLoading={cataloguePage.isInitialLoading}  />
             <FixedPagination pagination={submittedFilters} page={page} isLoading={cataloguePage.isInitialLoading} onOffsetChange={setOffset} />
         </AppPage>
     )

@@ -4,10 +4,11 @@ import { Catalogue } from '../../model'
 
 export interface CatalogGridProps {
     catalogs?: Catalogue[]
+    isLoading?: boolean
 }
 
 export const CatalogGrid = (props: CatalogGridProps) => {
-    const { catalogs } = props
+    const { catalogs, isLoading } = props
     return (
         <Box
             sx={{
@@ -16,7 +17,14 @@ export const CatalogGrid = (props: CatalogGridProps) => {
             }}
             gap={4}
         >
-            {
+            { isLoading ?
+                    Array.from({length: 4}, (_, index) => (
+                        <StandardCard
+                            key={index}
+                            isLoading
+                        />
+                    ))
+                :
                 catalogs?.map((catalog) => (
                     <StandardCard key={catalog.identifier} catalog={catalog} />
                 ))

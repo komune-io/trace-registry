@@ -1,4 +1,4 @@
-import { Box, Card, CardProps, Divider, Stack, Typography } from '@mui/material'
+import { Box, Card, CardProps, Divider, Skeleton, Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
 import { DescriptedLimitedChipList, Tag, useRoutesDefinition } from 'components'
 import { useTranslation } from 'react-i18next'
@@ -7,16 +7,17 @@ import { LinkButton } from '@smartb/g2'
 import { t } from 'i18next'
 
 export interface StandardCardProps extends CardProps {
-    catalog: Catalogue
+    catalog?: Catalogue
+    isLoading?: boolean
 }
 
 export const StandardCard = (props: StandardCardProps) => {
-    const { catalog, ...other } = props
+    const { catalog, isLoading, ...other } = props
 
     const { i18n } = useTranslation()
     const {catalogsCatalogIdViewTab} = useRoutesDefinition()
 
-    const themes = useMemo(() => catalog.themes.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
+    const themes = useMemo(() => catalog?.themes.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
     return (
         <Card
             {...other}
@@ -43,20 +44,21 @@ export const StandardCard = (props: StandardCardProps) => {
                     }}
                     gap={2}
                 >
-                    {catalog.img ? <img
+                    {catalog?.img ? <img
                         className='catalogLogo'
                         src={catalog.img}
                         alt="The standard logo"
-                    /> : <Box />}
+                    /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
                     <Typography
                         variant="subtitle2"
                     >
-                        {catalog.title}
+                        {isLoading ? <Skeleton animation="wave" width="50px" /> : catalog?.title}
                     </Typography>
                 </Stack>
                 <DescriptedLimitedChipList
                     tags={themes}
-                    description={catalog.description}
+                    description={catalog?.description}
+                    isLoading={isLoading}
                 />
                 <Box
                 flexGrow={1}
@@ -74,9 +76,9 @@ export const StandardCard = (props: StandardCardProps) => {
                     <Typography
                         variant='caption'
                     >
-                        {t("catalogs.verifiedProjects", { count: catalog.datasets.filter((dataset: any) => dataset.type === "project").length })}
+                        {isLoading ? <Skeleton animation="wave" width="100px" /> : t("catalogs.verifiedProjects", { count: catalog?.datasets.filter((dataset: any) => dataset.type === "project").length })}
                     </Typography>
-                    <LinkButton to={catalogsCatalogIdViewTab(catalog.identifier)} >{t("details")}</LinkButton>
+                    <LinkButton to={catalogsCatalogIdViewTab(catalog?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
 
