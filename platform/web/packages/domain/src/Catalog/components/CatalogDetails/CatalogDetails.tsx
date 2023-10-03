@@ -30,6 +30,7 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
             params: {
                 multiline: true,
                 rows: 8,
+                className: "descriptionField"
             }
         }, {
             name: "title",
@@ -76,6 +77,9 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
                     "& .AruiForm-field > *": {
                         flexGrow: 1,
                         flexBasis: 0
+                    },
+                    "& .descriptionField .AruiInputForm-readOnlyText": {
+                        whiteSpace: "pre-line"
                     }
                 }}
                 formState={formState}

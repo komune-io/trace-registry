@@ -39,6 +39,11 @@ export const CatalogViewPage = () => {
                 currentTab={currentTab}
                 goBackLink={(<LinkButton sx={{ zIndex: 5 }} to={catalogs()} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />}>{t("standards")}</LinkButton>)}
                 onTabChange={onTabChange}
+                sx={{
+                    "& .AruiSection-contentContainer": {
+                        gap: (theme) => theme.spacing(5)
+                    }
+                }}
             />
         </AppPage>
     )

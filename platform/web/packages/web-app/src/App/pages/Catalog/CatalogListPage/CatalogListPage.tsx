@@ -7,7 +7,9 @@ import { AppPage } from 'template'
 export const catalog: Catalog = {
     identifier: "1",
     title: "Verra",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    description: `Verra, formerly known as Verified Carbon Standard (VCS), is a leading global standard for the certification of greenhouse gas emission reduction projects. 
+    \nIt provides a robust framework for verifying and accounting for the emission reductions achieved by these projects. Verra ensures that projects adhere to rigorous criteria, including additionality, permanence, and transparency, to ensure the integrity and credibility of the certified emission reductions.
+    \nBy supporting projects across various sectors and regions, Verra plays a vital role in promoting sustainable development and combating climate change.`,
     img: "/logo_verra.svg",
     themes: [{
         id: "1",
@@ -59,7 +61,7 @@ export const catalogs = toArray()
 export const CatalogListPage = () => {
     const { t } = useTranslation()
 
-    const {component} = useCatalogFilters()
+    const { component } = useCatalogFilters()
 
     return (
         <AppPage
@@ -67,16 +69,16 @@ export const CatalogListPage = () => {
             flexContent
         >
             <Typography
-            sx={{maxWidth: "1000px", alignSelf: "center"}}
+                sx={{ maxWidth: "1000px", alignSelf: "center" }}
             >
                 {t("catalogs.exploreDetails")}
             </Typography>
             <Box
-            sx={{
-                alignSelf: "center"
-            }}
+                sx={{
+                    alignSelf: "center"
+                }}
             >
-            {component}
+                {component}
             </Box>
             <CatalogGrid catalogs={catalogs} />
         </AppPage>
