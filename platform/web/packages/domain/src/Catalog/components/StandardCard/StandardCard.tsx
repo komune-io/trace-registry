@@ -17,7 +17,7 @@ export const StandardCard = (props: StandardCardProps) => {
     const { i18n } = useTranslation()
     const {catalogsCatalogIdViewTab} = useRoutesDefinition()
 
-    const themes = useMemo(() => catalog?.themes.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
+    const themes = useMemo(() => catalog?.themes?.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
     return (
         <Card
             {...other}
@@ -76,7 +76,7 @@ export const StandardCard = (props: StandardCardProps) => {
                     <Typography
                         variant='caption'
                     >
-                        {isLoading ? <Skeleton animation="wave" width="100px" /> : t("catalogs.verifiedProjects", { count: catalog?.datasets.filter((dataset: any) => dataset.type === "project").length })}
+                        {isLoading ? <Skeleton animation="wave" width="100px" /> : t("catalogs.verifiedProjects", { count: catalog?.datasets?.filter((dataset: any) => dataset.type === "project").length })}
                     </Typography>
                     <LinkButton to={catalogsCatalogIdViewTab(catalog?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
