@@ -30,59 +30,52 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
 
         When("I create a catalogue via API") {
             step {
-                createPool(catalogueCreateParams(null))
+                create(catalogueCreateParams(null))
             }
         }
 
         When("I create a catalogue via API:") { params: CatalogueCreateParams ->
             step {
-                createPool(params)
+                create(params)
             }
         }
 
-        Given("An catalogue is created via API") {
+        Given("A catalogue is created via API") {
             step {
-                createPool(catalogueCreateParams(null))
+                create(catalogueCreateParams(null))
             }
         }
 
-        Given("An catalogue is created via API:") { params: CatalogueCreateParams ->
+        Given("A catalogue is created via API:") { params: CatalogueCreateParams ->
             step {
-                createPool(params)
+                create(params)
             }
         }
 
         Given("Some catalogues are created via API:") { dataTable: DataTable ->
             step {
                 dataTable.asList(CatalogueCreateParams::class.java)
-                    .forEach { createPool(it) }
+                    .forEach { create(it) }
             }
         }
 
         Then("The catalogue page should contain the catalogues") {
             step {
-                val page = getPoolPage()
+                val page = getPage()
                 Assertions.assertThat(page.items.size).isGreaterThan(0)
             }
         }
 
         Then("The catalogue page should contain only this status:") { params: CataloguePageParams ->
             step {
-                val page = getPoolPage(params)
+                val page = getPage(params)
                 Assertions.assertThat(page.items).allMatch { it.status?.name == params.status }
-            }
-        }
-
-        Then("The catalogue page shouldn't contain this vintage:") { params: CataloguePageParams ->
-            step {
-                val page = getPoolPage(params)
-                Assertions.assertThat(page.items.size).isEqualTo(0)
             }
         }
 
         Then("The catalogue page shouldn't contain this status:") { params: CataloguePageParams ->
             step {
-                val page = getPoolPage(params)
+                val page = getPage(params)
                 Assertions.assertThat(page.items.size).isEqualTo(0)
             }
         }
@@ -101,7 +94,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         }
     }
 
-    private suspend fun createPool(params: CatalogueCreateParams) = context.catalogueIds.register(params.identifier) {
+    private suspend fun create(params: CatalogueCreateParams) = context.catalogueIds.register(params.identifier) {
         command = CatalogueCreateCommandDTOBase(
             title = params.title,
             identifier = params.identifier,
@@ -115,7 +108,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         command.invokeWith(catalogueEndpoint.catalogueCreate()).id
     }
 
-    private suspend fun getPoolPage(params: CataloguePageParams = CataloguePageParams()): CataloguePageResult {
+    private suspend fun getPage(params: CataloguePageParams = CataloguePageParams()): CataloguePageResult {
         return params.toCataloguePageQueryDTOBase().invokeWith(catalogueEndpoint.cataloguePage())
     }
 

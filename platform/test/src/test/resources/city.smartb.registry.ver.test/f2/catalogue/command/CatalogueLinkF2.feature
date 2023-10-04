@@ -1,18 +1,15 @@
-Feature: CatalogueCreateF2
+Feature: CatalogueLinkF2
 
-  Scenario: I want to create a catalogue via API
+  Scenario: I want to links catalogues to a catalogue via API
     When I create a catalogue via API:
       |identifier| title | status |
       |ParentCatalogue| My cucumber catalogue    | ACTIVE |
     When I create a catalogue via API:
       |identifier| title | status |
-      |Linked    | My cucumber linked catalogue | ACTIVE |
+      |Linked1    | My cucumber linked catalogue | ACTIVE |
+    When I create a catalogue via API:
+      |identifier| title | status |
+      |Linked2    | My cucumber linked catalogue | ACTIVE |
     When I link a catalogue via API:
-      | title | status |
-      | My cucumber catalogue    | ACTIVE |
-      | My cucumber linked catalogue | ACTIVE |
-    Then The catalogue should be created:
-      | title | status |
-      | My cucumber catalogue | ACTIVE |
-      | My cucumber linked catalogue | ACTIVE |
-
+      | identifier | catalogues |
+      | ParentCatalogue    | linked1,linked2 |

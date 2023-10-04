@@ -1,8 +1,8 @@
 package city.smartb.registry.s2.catalogue.domain.automate
 
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddCataloguesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddThemesCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -17,7 +17,7 @@ val s2Catalogue = s2Sourcing {
         to = CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
-    transaction<CatalogueAddCataloguesCommand, CatalogueAddedCataloguesEvent> {
+    transaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
         to = CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

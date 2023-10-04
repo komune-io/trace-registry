@@ -23,6 +23,10 @@ object CataloguePolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
+    fun checkLinkCatalogues(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+    }
+
     fun canCreateStep(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }

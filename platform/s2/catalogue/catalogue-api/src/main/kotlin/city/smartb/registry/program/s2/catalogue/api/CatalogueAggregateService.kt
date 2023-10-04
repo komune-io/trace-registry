@@ -2,10 +2,14 @@ package city.smartb.registry.program.s2.catalogue.api
 
 import city.smartb.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import city.smartb.registry.s2.catalogue.domain.CatalogueAggregate
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddThemesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import java.util.UUID
@@ -28,6 +32,22 @@ class CatalogueAggregateService(
 			type = cmd.type,
 			img = cmd.img,
 			homepage = cmd.homepage,
+		)
+	}
+
+	override suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
+		CatalogueLinkedCataloguesEvent(
+			id =  cmd.id,
+			date = System.currentTimeMillis(),
+			catalogues = cmd.catalogues
+		)
+	}
+
+	override suspend fun addThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent = automate.transition(cmd) {
+		CatalogueAddedThemesEvent(
+			id =  cmd.id,
+			date = System.currentTimeMillis(),
+			themes = cmd.themes
 		)
 	}
 

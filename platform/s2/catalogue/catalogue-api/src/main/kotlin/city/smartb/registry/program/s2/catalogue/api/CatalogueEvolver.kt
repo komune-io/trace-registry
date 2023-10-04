@@ -2,11 +2,11 @@ package city.smartb.registry.program.s2.catalogue.api
 
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedCataloguesEventDTO
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEventDTO
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -17,8 +17,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	override suspend fun evolve(event: CatalogueEvent, model: CatalogueEntity?): CatalogueEntity? = when (event) {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
-		is CatalogueAddedCataloguesEventDTO -> model?.addCatalogues(event)
-		is CatalogueAddedThemesEventDTO -> model?.addThemes(event)
+		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
+		is CatalogueAddedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 	}
 
@@ -47,11 +47,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		lastUpdate = event.date
 	}
 
-	private suspend fun CatalogueEntity.addThemes(event: CatalogueAddedThemesEventDTO) = apply {
+	private suspend fun CatalogueEntity.addThemes(event: CatalogueAddedThemesEvent) = apply {
 		themes = themes + event.themes
 	}
 
-	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueAddedCataloguesEventDTO) = apply {
+	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
 		catalogues = catalogues + event.catalogues
 	}
 
