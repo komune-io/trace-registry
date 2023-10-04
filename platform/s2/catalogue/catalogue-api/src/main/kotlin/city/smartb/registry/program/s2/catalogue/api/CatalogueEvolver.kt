@@ -2,7 +2,7 @@ package city.smartb.registry.program.s2.catalogue.api
 
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
@@ -18,7 +18,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
-		is CatalogueAddedThemesEvent -> model?.addThemes(event)
+		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 	}
 
@@ -47,7 +47,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		lastUpdate = event.date
 	}
 
-	private suspend fun CatalogueEntity.addThemes(event: CatalogueAddedThemesEvent) = apply {
+	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
 		themes = themes + event.themes
 	}
 
