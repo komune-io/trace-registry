@@ -23,13 +23,24 @@ class CatalogueAggregateService(
 			identifier = cmd.identifier,
 			description = cmd.description,
 			title = cmd.title,
+			catalogues = arrayListOf(),
+			themes = arrayListOf(),
+			type = cmd.type,
+			img = cmd.img,
+			homepage = cmd.homepage,
 		)
 	}
 
 	override suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent = automate.transition(cmd) {
 		CatalogueUpdatedEvent(
-			id = UUID.randomUUID().toString(),
+			id = it.id,
 			date = System.currentTimeMillis(),
+			identifier = cmd.identifier,
+			description = cmd.description,
+			title = cmd.title,
+			type = cmd.type,
+			homepage = cmd.homepage,
+			img = cmd.img,
 		)
 	}
 

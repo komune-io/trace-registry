@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
 @RestController
-@RequestMapping
 class CatalogueEndpoint(
     private val catalogueService: CatalogueAggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
@@ -47,6 +46,8 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
+    @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         catalogueF2FinderService.getById(
             id = query.id,
@@ -66,8 +67,20 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     identifier = identifier,
     title = title,
     description = description,
+    catalogues = emptyList(),
+    themes = emptyList(),
+    type = type,
+    homepage = homepage,
+    img = img
 )
 fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
     id = id,
-    identifier = identifier
+    identifier = identifier,
+    title = title,
+    description = description,
+    catalogues = emptyList(),
+    themes = emptyList(),
+    type = type,
+    homepage = homepage,
+    img = img,
 )

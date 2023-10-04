@@ -1,7 +1,7 @@
 Feature: CatalogueCreateF2
 
   Scenario: I want to create a catalogue via API
-    When I create an catalogue via API:
+    When I create a catalogue via API:
       | title | status |
       | My cucumber catalogue    | ACTIVE |
     Then The catalogue should be created:
@@ -12,4 +12,4 @@ Feature: CatalogueCreateF2
       | ACTIVE |
     Then The catalogue page shouldn't contain this status:
       | status |
-      | CLOSED |
+      | DELETED |

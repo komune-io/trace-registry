@@ -1,13 +1,18 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
+import kotlinx.serialization.Serializable
+
 // Context
 data class SkosContext(
     val skos: String = "http://www.w3.org/2004/02/skos/core#"
 )
 
+typealias SkosConceptId = String
+
 // Concept
+@Serializable
 data class SkosConcept(
-    val id: String,
+    val id: SkosConceptId,
     val type: String = "skos:Concept",
     val prefLabels: Map<String, String>,
     val definitions: Map<String, String>,

@@ -28,13 +28,13 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         DataTableType(::cataloguePageParams)
         DataTableType(::catalogueAssertParams)
 
-        When("I create an catalogue via API") {
+        When("I create a catalogue via API") {
             step {
                 createPool(catalogueCreateParams(null))
             }
         }
 
-        When("I create an catalogue via API:") { params: CatalogueCreateParams ->
+        When("I create a catalogue via API:") { params: CatalogueCreateParams ->
             step {
                 createPool(params)
             }
@@ -106,7 +106,11 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
             title = params.title,
             identifier = params.identifier,
             description = params.description,
-
+            type = params.type,
+            homepage = params.homepage,
+            catalogues = emptyList(),
+            img = params.img,
+            themes = emptyList(),
         )
         command.invokeWith(catalogueEndpoint.catalogueCreate()).id
     }
@@ -120,12 +124,18 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         title = entry?.get("title") ?: "My Catalogue",
         description = entry?.get("description") ?: "My Catalogue description",
         status = entry?.get("status") ?: "ACTIVE",
+        img = entry?.get("img"),
+        homepage = entry?.get("homepage") ?: "https://www.smartb.city",
+        type = entry?.get("type") ?: "Catalogue",
     )
 
     private data class CatalogueCreateParams(
         val identifier: TestContextKey,
         val title: TestContextKey,
         val description: String,
+        val type: String,
+        val homepage: String,
+        val img: String?,
         val status: String
     )
 

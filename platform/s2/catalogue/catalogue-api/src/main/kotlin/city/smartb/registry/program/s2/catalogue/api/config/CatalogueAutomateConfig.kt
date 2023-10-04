@@ -4,11 +4,15 @@ import city.smartb.registry.program.s2.catalogue.api.CatalogueEvolver
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueSnapRepository
-import city.smartb.registry.s2.catalogue.domain.automate.CatalogueEvent
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.automate.s2Catalogue
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -60,6 +64,9 @@ class CatalogueAutomateConfig(
 			classDiscriminator = "class"
 			polymorphic(CatalogueEvent::class) {
 				subclass(CatalogueCreatedEvent::class, CatalogueCreatedEvent.serializer())
+				subclass(CatalogueDeletedEvent::class, CatalogueDeletedEvent.serializer())
+				subclass(CatalogueAddedCataloguesEvent::class, CatalogueAddedCataloguesEvent.serializer())
+				subclass(CatalogueUpdatedEvent::class, CatalogueUpdatedEvent.serializer())
 			}
 		}
 	}

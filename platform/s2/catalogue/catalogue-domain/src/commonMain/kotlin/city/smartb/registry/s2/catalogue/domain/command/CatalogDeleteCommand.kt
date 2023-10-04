@@ -1,7 +1,5 @@
 package city.smartb.registry.s2.catalogue.domain.command
 
-import city.smartb.registry.s2.catalogue.domain.automate.CatalogueCommand
-import city.smartb.registry.s2.catalogue.domain.automate.CatalogueEvent
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport

@@ -2,6 +2,7 @@ package city.smartb.registry.f2.catalogue.domain.command
 
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import city.smartb.registry.s2.catalogue.domain.model.SkosConceptId
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -38,11 +39,11 @@ interface CatalogueCreateCommandDTO {
      */
     val description: String?
 
-    /**
-     * Sub-activities of the catalogue.
-     * @example [[]]
-     */
-    val hasCatalogue: Array<out CatalogueCreateCommandDTO>?
+    val type: String
+    val homepage: String?
+    val img: String?
+    val themes: List<SkosConceptId>
+    val catalogues: List<CatalogueId>
 }
 
 /**
@@ -52,8 +53,12 @@ interface CatalogueCreateCommandDTO {
 data class CatalogueCreateCommandDTOBase(
     override val identifier: CatalogueIdentifier,
     override val title: String,
-    override val description: String?,
-    override val hasCatalogue: Array<CatalogueCreateCommandDTOBase>? = emptyArray(),
+    override val description: String? = null,
+    override val type: String,
+    override val homepage: String? = null,
+    override val img: String? = null,
+    override val themes: List<SkosConceptId>,
+    override val catalogues: List<CatalogueId>,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -71,12 +76,27 @@ interface CatalogueCreatedEventDTO: Event {
      * Identifier of the created catalogue.
      */
     val identifier: CatalogueIdentifier
+    val title: String
+    val description: String?
+    val type: String
+    val homepage: String?
+    val img: String?
+    val themes: List<SkosConceptId>
+    val catalogues: List<CatalogueId>
 }
 
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
+    override val title: String,
+    override val description: String?,
+    override val type: String,
+    override val homepage: String? = null,
+    override val img: String? = null,
+    override val themes: List<SkosConceptId>,
+    override val catalogues: List<CatalogueId>,
 ): CatalogueCreatedEventDTO
