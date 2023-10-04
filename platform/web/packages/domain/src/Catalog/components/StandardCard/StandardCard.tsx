@@ -1,9 +1,9 @@
 import { Box, Card, CardProps, Divider, Skeleton, Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
-import { DescriptedLimitedChipList, Tag, useRoutesDefinition } from 'components'
+import { DescriptedLimitedChipList, useRoutesDefinition } from 'components'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
-import { LinkButton } from '@smartb/g2'
+import { LinkButton, Option } from '@smartb/g2'
 import { t } from 'i18next'
 
 export interface StandardCardProps extends CardProps {
@@ -17,7 +17,7 @@ export const StandardCard = (props: StandardCardProps) => {
     const { i18n } = useTranslation()
     const {catalogsCatalogIdViewTab} = useRoutesDefinition()
 
-    const themes = useMemo(() => catalog?.themes?.map((theme: any): Tag => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
+    const themes = useMemo(() => catalog?.themes?.map((theme: any): Option => ({ key: theme.id, label: theme.prefLabels[i18n.language], color: "#18159D" })), [catalog, i18n.language])
     return (
         <Card
             {...other}

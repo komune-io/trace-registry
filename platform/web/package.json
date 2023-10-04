@@ -23,7 +23,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
-    "@smartb/g2": "1.0.0-alpha.178",
+    "@smartb/g2": "1.0.0-alpha.180",
     "react-infinite-scroll-component": "^6.1.0",
     "@mantine/hooks": "^6.0.13",
     "d3-hierarchy": "^3.1.2",

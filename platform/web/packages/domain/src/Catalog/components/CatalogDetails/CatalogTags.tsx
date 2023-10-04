@@ -1,5 +1,4 @@
-import { Option } from '@smartb/g2'
-import { LimitedChipList } from 'components'
+import { Option, LimitedList, Chip } from '@smartb/g2'
 
 export interface CatalogTagsProps {
     values: Option[]
@@ -8,9 +7,9 @@ export interface CatalogTagsProps {
 export const CatalogTags = (props: CatalogTagsProps) => {
     const { values } = props
     return (
-        <LimitedChipList 
-        //@ts-ignore
-        tags={values}
+        <LimitedList
+        values={values}
+        listedComponent={Chip}
         flexWrap="nowrap" 
         />
     )
