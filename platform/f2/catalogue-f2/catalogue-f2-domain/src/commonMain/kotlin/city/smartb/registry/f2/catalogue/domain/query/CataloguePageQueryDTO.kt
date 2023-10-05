@@ -1,7 +1,6 @@
 package city.smartb.registry.f2.catalogue.domain.query
 
-import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
-import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
+import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -49,12 +48,12 @@ data class CataloguePageQuery(
  */
 @JsExport
 @JsName("CataloguePageResultDTO")
-interface CataloguePageResultDTO: PageDTO<DcatApCatalogue>
+interface CataloguePageResultDTO: PageDTO<CatalogueModel>
 
 /**
  * @d2 inherit
  */
 data class CataloguePageResult(
-    override val items: List<DCatApCatalogueModel>,
+    override val items: List<CatalogueModel>,
     override val total: Int
 ): CataloguePageResultDTO

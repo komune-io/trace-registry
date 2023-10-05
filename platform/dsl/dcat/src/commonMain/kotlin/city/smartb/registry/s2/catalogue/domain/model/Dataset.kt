@@ -1,6 +1,5 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
-import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import kotlin.js.JsExport
 
 // DCAT-AP: This interface represents a Dataset Series, a collection of related Datasets.
@@ -110,7 +109,6 @@ class DcatApDatasetMemberModel(
     override val replaces: CataloguedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: CatalogueState? = null,
     override val length: Int?
 ): DcatApDatasetMember
 
@@ -151,6 +149,5 @@ data class DcatDatasetModel(
     override val replaces: CataloguedResource? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
-    override val status: CatalogueState? = null,
     override val length: Int? = null,
 ): DcatDataset

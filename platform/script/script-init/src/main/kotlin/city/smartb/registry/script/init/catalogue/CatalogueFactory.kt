@@ -6,7 +6,6 @@ import city.smartb.registry.f2.catalogue.client.catalogueClient
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
-import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
 import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import city.smartb.registry.s2.catalogue.domain.model.concept
 import city.smartb.registry.s2.catalogue.domain.model.dataService

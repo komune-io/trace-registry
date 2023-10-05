@@ -1,8 +1,5 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
-import cccev.dsl.model.Requirement
-
-
 @DslMarker
 annotation class DCatDsl
 

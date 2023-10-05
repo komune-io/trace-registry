@@ -2,8 +2,7 @@ package city.smartb.registry.f2.catalogue.domain.query
 
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
-import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
+import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -50,7 +49,7 @@ data class CatalogueGetQuery(
 @JsExport
 @JsName("CatalogueGetResultDTO")
 interface CatalogueGetResultDTO {
-    val item: DcatApCatalogue?
+    val item: CatalogueModel?
 }
 
 /**
@@ -58,5 +57,5 @@ interface CatalogueGetResultDTO {
  */
 @Serializable
 data class CatalogueGetResult(
-    override val item: DCatApCatalogueModel?,
+    override val item: CatalogueModel?,
 ): CatalogueGetResultDTO

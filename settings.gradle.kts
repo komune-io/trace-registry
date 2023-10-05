@@ -18,7 +18,12 @@ include(
 )
 
 include(
-	"platform:dcat:dsl:dsl-client",
+	"platform:client:client-dsl",
+)
+
+include(
+	"platform:dsl:dcat",
+	"platform:dsl:skos",
 )
 
 include(

@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-	implementation(project(":platform:dcat:dsl:dsl-client"))
+	implementation(project(":platform:client:client-dsl"))
 	implementation(project(":platform:f2:activity-f2:activity-f2-client"))
 	implementation(project(":platform:f2:asset-order-f2:asset-order-f2-client"))
 	implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-client"))

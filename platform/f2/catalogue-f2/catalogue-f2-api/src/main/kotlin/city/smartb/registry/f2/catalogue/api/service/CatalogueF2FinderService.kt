@@ -5,9 +5,7 @@ import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult
 import city.smartb.registry.program.s2.catalogue.api.CatalogueFinderService
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
-import city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue
 import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
