@@ -287,3 +287,11 @@ Content-Type: application/json
   "receiver": "SmartB",
   "quantity": 100
 }
+
+
+### cataloguePage
+POST {{urlbase}}/cataloguePage
+Content-Type: application/json
+
+{
+}

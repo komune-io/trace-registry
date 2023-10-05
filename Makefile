@@ -27,7 +27,7 @@ docker: docker-gateway docker-script docker-web docker-registry-certificate-web
 docs: package-storybook
 
 package-kotlin:
-	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test
+	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test -x jvmTest
 
 docker-gateway:
 	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test

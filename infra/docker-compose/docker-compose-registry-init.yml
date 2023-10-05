@@ -11,7 +11,7 @@ services:
       - registry_script_init_cccev_url=http://${CCCEV_HOST_NAME}:${CCCEV_PORT}
       - registry_script_init_orchestrator_name=Smartb
       - registry_script_init_orchestrator_clientId=tr-registry-script-api
-      - registry_script_init_orchestrator_clientSecret=703ece3d-82bc-4747-8840-96c1c3431079
+      - registry_script_init_orchestrator_clientSecret=af1f464a-97d4-49db-9205-63a92b23a2be
     networks:
       - net
 
