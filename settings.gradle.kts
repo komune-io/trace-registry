@@ -22,9 +22,22 @@ include(
 )
 
 include(
-	"platform:dsl:dcat",
-	"platform:dsl:skos",
+	"ontology:dsl:client",
+	"ontology:dsl:dcat",
+	"ontology:dsl:skos",
 )
+
+include(
+	"ontology:f2:catalogue-f2:catalogue-f2-api",
+	"ontology:f2:catalogue-f2:catalogue-f2-client",
+	"ontology:f2:catalogue-f2:catalogue-f2-domain"
+)
+
+include(
+	"ontology:s2:catalogue:catalogue-api",
+	"ontology:s2:catalogue:catalogue-domain",
+)
+
 
 include(
 	"platform:script:script-init",
@@ -51,11 +64,6 @@ include(
 	"platform:f2:asset-pool-f2:asset-pool-f2-api",
 	"platform:f2:asset-pool-f2:asset-pool-f2-client",
 	"platform:f2:asset-pool-f2:asset-pool-f2-domain"
-)
-include(
-	"platform:f2:catalogue-f2:catalogue-f2-api",
-	"platform:f2:catalogue-f2:catalogue-f2-client",
-	"platform:f2:catalogue-f2:catalogue-f2-domain"
 )
 
 include(
@@ -86,9 +94,4 @@ include(
 	"platform:s2:order:order-domain",
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
-)
-
-include(
-	"platform:s2:catalogue:catalogue-api",
-	"platform:s2:catalogue:catalogue-domain",
 )
