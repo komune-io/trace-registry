@@ -34,7 +34,7 @@ data class CatalogueDTOBase(
     override val themes: List<SkosConcept>? = null,
 //    val datasets: List<DcatDataset>? = null,
 //    val services: List<DataService>? = null,
-    override val catalogues: List<CatalogueRefDTO>? = null,
+    override val catalogues: List<CatalogueRefDTOBase>? = null,
 //    val catalogueRecords: List<DcatCatalogueRecord>? = null,
     override val status: CatalogueState,
 ): CatalogueDTO
@@ -55,13 +55,13 @@ interface CatalogueRefDTO {
 
 @Serializable
 data class CatalogueRefDTOBase(
-    val id: String,
-    val identifier: String,
-    val description: String?,
-    val homepage: String? = null,
-    val title: String,
-    val img: String? = null,
-    val type: String,
-    val themes: List<SkosConcept>? = null,
-    val status: CatalogueState,
-)
+    override val id: String,
+    override val identifier: String,
+    override val description: String?,
+    override val homepage: String? = null,
+    override val title: String,
+    override val img: String? = null,
+    override val type: String,
+    override val themes: List<SkosConcept>? = null,
+    override val status: CatalogueState,
+): CatalogueRefDTO

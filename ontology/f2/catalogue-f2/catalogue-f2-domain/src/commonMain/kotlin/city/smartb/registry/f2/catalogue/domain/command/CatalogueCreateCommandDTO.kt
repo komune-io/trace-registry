@@ -2,6 +2,7 @@ package city.smartb.registry.f2.catalogue.domain.command
 
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.model.SkosConceptId
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
@@ -42,8 +43,8 @@ interface CatalogueCreateCommandDTO {
     val type: String
     val homepage: String?
     val img: String?
-    val themes: List<SkosConceptId>
-    val catalogues: List<CatalogueId>
+    val themes: List<SkosConcept>?
+    val catalogues: List<CatalogueId>?
 }
 
 /**
@@ -57,8 +58,8 @@ data class CatalogueCreateCommandDTOBase(
     override val type: String,
     override val homepage: String? = null,
     override val img: String? = null,
-    override val themes: List<SkosConceptId> = emptyList(),
-    override val catalogues: List<CatalogueId> = emptyList(),
+    override val themes: List<SkosConcept>? = null,
+    override val catalogues: List<CatalogueId>? = null,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -81,8 +82,8 @@ interface CatalogueCreatedEventDTO: Event {
     val type: String
     val homepage: String?
     val img: String?
-    val themes: List<SkosConceptId>
-    val catalogues: List<CatalogueId>
+    val themes: List<SkosConcept>?
+    val catalogues: List<CatalogueId>?
 }
 
 /**
@@ -97,6 +98,6 @@ data class CatalogueCreatedEventDTOBase(
     override val type: String,
     override val homepage: String? = null,
     override val img: String? = null,
-    override val themes: List<SkosConceptId>,
-    override val catalogues: List<CatalogueId>,
+    override val themes: List<SkosConcept>? = null,
+    override val catalogues: List<CatalogueId>? = null,
 ): CatalogueCreatedEventDTO

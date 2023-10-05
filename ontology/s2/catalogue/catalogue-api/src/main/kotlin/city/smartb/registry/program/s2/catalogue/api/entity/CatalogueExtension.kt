@@ -13,5 +13,6 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         type = type,
         description = description,
         catalogues = catalogues,
+        themes = themes
     )
 }

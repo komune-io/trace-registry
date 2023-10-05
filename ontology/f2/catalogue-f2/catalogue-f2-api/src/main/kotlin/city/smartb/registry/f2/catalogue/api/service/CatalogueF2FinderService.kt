@@ -1,6 +1,8 @@
 package city.smartb.registry.f2.catalogue.api.service
 
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult
 import city.smartb.registry.program.s2.catalogue.api.CatalogueFinderService
@@ -50,21 +52,38 @@ class CatalogueF2FinderService(
         )
     }
 
-    fun List<CatalogueModel>.toDTO() = map {
+    suspend fun List<CatalogueModel>.toDTO() = map {
         it.toDTO()
     }
-    fun CatalogueModel.toDTO() = CatalogueDTOBase(
-        id = id,
-        identifier = identifier,
-        status = status,
-        title = title,
-        description = description,
-        catalogues = emptyList(),
-        themes = emptyList(),
-        type = type,
-        homepage = homepage,
-        img = img
-    )
-
+    suspend fun CatalogueModel.toDTO(): CatalogueDTOBase {
+        val cataloguesFetched = catalogues?.mapNotNull {
+            catalogueFinderService.getOrNull(it)?.toRefDTO()
+        }
+        return CatalogueDTOBase(
+            id = id,
+            identifier = identifier,
+            status = status,
+            title = title,
+            description = description,
+            catalogues = cataloguesFetched,
+            themes = themes,
+            type = type,
+            homepage = homepage,
+            img = img
+        )
+    }
+    suspend fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
+        return CatalogueRefDTOBase(
+            id = id,
+            identifier = identifier,
+            status = status,
+            title = title,
+            description = description,
+            themes = themes,
+            type = type,
+            homepage = homepage,
+            img = img
+        )
+    }
 
 }

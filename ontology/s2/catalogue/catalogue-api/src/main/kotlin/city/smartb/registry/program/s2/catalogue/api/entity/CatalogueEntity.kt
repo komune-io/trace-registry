@@ -39,7 +39,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var description: String? = null
 
-    var themes: List<SkosConceptId> = emptyList()
+    var themes: List<SkosConcept> = emptyList()
     var catalogues: List<CatalogueId> = emptyList()
 
     var lastUpdate: Long? = null

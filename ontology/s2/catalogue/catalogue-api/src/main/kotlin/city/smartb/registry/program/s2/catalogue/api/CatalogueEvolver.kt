@@ -30,8 +30,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		description = event.description
 		homepage = event.homepage
 		img = event.img
-		themes = event.themes
-		catalogues = event.catalogues
+		themes = event.themes ?: emptyList()
+		catalogues = event.catalogues ?: emptyList()
 		lastUpdate = event.date
 		status = CatalogueState.ACTIVE
 	}
