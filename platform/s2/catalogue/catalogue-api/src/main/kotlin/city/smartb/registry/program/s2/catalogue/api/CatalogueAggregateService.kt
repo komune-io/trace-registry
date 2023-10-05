@@ -35,7 +35,9 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
+	override suspend fun linkCatalogues(
+		cmd: CatalogueLinkCataloguesCommand
+	): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
 		CatalogueLinkedCataloguesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
@@ -43,7 +45,7 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun addThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent = automate.transition(cmd) {
+	override suspend fun linkThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent = automate.transition(cmd) {
 		CatalogueAddedThemesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),

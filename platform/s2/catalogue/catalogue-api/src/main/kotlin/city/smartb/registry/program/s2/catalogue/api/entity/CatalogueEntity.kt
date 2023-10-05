@@ -34,7 +34,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var img: String? = null
 
     @Searchable(nostem=true)
-    var type: String? = null
+    lateinit var type: String
 
     @Searchable(nostem=true)
     var description: String? = null

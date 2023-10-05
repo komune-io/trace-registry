@@ -1,8 +1,5 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
-
-
-
 val standardsCatalogue = catalogue {
     identifier = "standards"
     description = """
@@ -16,36 +13,8 @@ val standardsCatalogue = catalogue {
             endpointURL = "https://standardsregistry.verra.org/api/standards"
         }
     }
-    datasets {
-        dataset {
-            identifier = "standards"
-            title = "standards"
-            description = """
-               Explore our comprehensive list of recognized standards for environmental project evaluation 
-               and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. 
-               Choose the standard that aligns with your goals and make a positive environmental impact. 
-            """.trimIndent()
-            distributions {
-
-            }
-        }
-        dataset {
-            identifier = "programs"
-            title = "programs"
-            description = """
-                Explore our comprehensive list of recognized standards for environmental project evaluation 
-                and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. 
-                Choose the standard that aligns with your goals and make a positive environmental impact.
-                """.trimIndent()
-        }
-        dataset {
-            identifier = "methodologies"
-            title = "methodologies"
-        }
-        dataset {
-            identifier = "projects"
-            title = "projects"
-        }
+    catalogues {
+        +verraCatalogue
     }
 }
 

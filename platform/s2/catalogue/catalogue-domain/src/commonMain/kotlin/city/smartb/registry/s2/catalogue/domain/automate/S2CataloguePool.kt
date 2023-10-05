@@ -17,12 +17,12 @@ val s2Catalogue = s2Sourcing {
         to = CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
-    transaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
-        to = CatalogueState.ACTIVE
+    selfTransaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
-    transaction<CatalogueAddThemesCommand, CatalogueAddedThemesEvent> {
-        to = CatalogueState.ACTIVE
+    selfTransaction<CatalogueAddThemesCommand, CatalogueAddedThemesEvent> {
+        states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
 }

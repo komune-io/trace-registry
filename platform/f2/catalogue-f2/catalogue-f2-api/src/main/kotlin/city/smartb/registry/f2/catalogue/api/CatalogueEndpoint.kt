@@ -10,6 +10,7 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesC
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
 import city.smartb.registry.program.s2.catalogue.api.CatalogueAggregateService
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -53,9 +54,11 @@ class CatalogueEndpoint(
     @PermitAll
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
-        catalogueF2FinderService.getById(
-            id = query.id,
-        )
+        query.identifier?.let {
+            catalogueF2FinderService.getByIdentifier(it)
+        } ?: query.id?.let {
+            catalogueF2FinderService.getById(it)
+        } ?: CatalogueGetResult(null)
     }
 
     @PermitAll

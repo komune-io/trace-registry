@@ -72,6 +72,7 @@ sealed interface DcatDataset: CataloguedResource {
 @Suppress("LongParameterList")
 class DcatApDatasetMemberModel(
     override val title: String,
+    override val type: String,
     override val inSeries: DcatApDatasetSeries,
     override val previous: DcatApDatasetMember? = null,
     override val next: DcatApDatasetMember? = null,
@@ -93,7 +94,6 @@ class DcatApDatasetMemberModel(
     override val language: List<String>? = null,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
-    override val type: String? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,
     override val keywords: List<String>? = null,
@@ -116,6 +116,7 @@ class DcatApDatasetMemberModel(
 
 data class DcatDatasetModel(
     override val identifier: String,
+    override val type: String,
     override val distributions: List<DcatDistribution>? = null,
     override val frequency: String? = null,
     override val spatialCoverage: Location? = null,
@@ -134,7 +135,6 @@ data class DcatDatasetModel(
     override val language: List<String>? = null,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
-    override val type: String? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,
     override val keywords: List<String>? = null,

@@ -26,8 +26,9 @@ class CatalogueF2FinderService(
     }
     suspend fun getByIdentifier(
         identifier: CatalogueIdentifier,
-    ): DcatApCatalogue? {
-        return catalogueFinderService.getOrNullByIdentifier(identifier)
+    ): CatalogueGetResult? {
+        val item = catalogueFinderService.getOrNullByIdentifier(identifier)
+        return CatalogueGetResult(item)
     }
 
     suspend fun page(

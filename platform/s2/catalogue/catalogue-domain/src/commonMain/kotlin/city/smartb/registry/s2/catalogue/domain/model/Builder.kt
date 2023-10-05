@@ -1,5 +1,7 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
+import cccev.dsl.model.Requirement
+
 
 @DslMarker
 annotation class DCatDsl
@@ -8,24 +10,23 @@ fun catalogue(block: CatalogueBuilder.() -> Unit): DCatApCatalogueModel = Catalo
 
 @DCatDsl
 class CatalogueBuilder {
-    var identifier: String = ""
-    var homepage: String = ""
-    var title: String = ""
-    var img: String = ""
-    var description: String = ""
-    var type: String = ""
+    lateinit var identifier: String
+    var homepage: String? = null
+    lateinit var title: String
+    var img: String? = null
+    lateinit var description: String
+    lateinit var type: String
     var themes: MutableList<SkosConcept> = mutableListOf()
     var cataloguedResources: MutableList<CataloguedResource> = mutableListOf()
     var datasets: MutableList<DcatDataset> = mutableListOf()
     var services: MutableList<DataService> = mutableListOf()
-    var catalogues: MutableList<DcatApCatalogue> = mutableListOf()
+    var catalogues: MutableList<DCatApCatalogueModel> = mutableListOf()
     var catalogueRecords: MutableList<DcatCatalogueRecord> = mutableListOf()
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
 
     fun resources(block: RESOURCES.() -> Unit) = cataloguedResources.addAll(RESOURCES().apply(block))
-//    fun RESOURCES.resource(block: CataloguedResourceBuilder.() -> Unit) = add(CataloguedResourceBuilder().apply(block).build())
     operator fun DcatDataset.unaryPlus() { this@CatalogueBuilder.datasets.add(this) }
     fun datasets(block: DATASETS.() -> Unit) = datasets.addAll(DATASETS().apply(block))
     fun DATASETS.dataset(block: DatasetBuilder.() -> Unit) = +DatasetBuilder().apply(block).build()
@@ -35,6 +36,11 @@ class CatalogueBuilder {
 
     fun catalogues(block: CATALOGS.() -> Unit) = catalogues.addAll(CATALOGS().apply(block))
     fun CATALOGS.catalogue(block: CatalogueBuilder.() -> Unit) = add(CatalogueBuilder().apply(block).build())
+
+    operator fun DCatApCatalogueModel.unaryPlus() {
+        this@CatalogueBuilder.catalogues.add(this)
+    }
+
 
     fun catalogueRecords(block: CATALOGRECORDS.() -> Unit) = catalogueRecords.addAll(CATALOGRECORDS().apply(block))
     fun CATALOGRECORDS.catalogueRecord(block: CatalogRecordBuilder.() -> Unit) = add(CatalogRecordBuilder().apply(block).build())
@@ -56,12 +62,11 @@ class CatalogueBuilder {
 }
 
 fun dataset(block: DatasetBuilder.() -> Unit): DcatDataset = DatasetBuilder().apply(block).build()
-
 @DCatDsl
 class DatasetBuilder {
-    var identifier: String = ""
-    var title: String = ""
-    var description: String = ""
+    var identifier: String? = null
+    var title: String? = null
+    var description: String? = null
     var conformsTo: MutableList<SkosConceptScheme> = mutableListOf()
     var type: String? = null
     var length: Int? = null
@@ -84,13 +89,13 @@ class DatasetBuilder {
     fun CONFORMSTO.conformsTo(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
 
     fun build() = DcatDatasetModel(
-        identifier = identifier,
-        title = title,
+        identifier = identifier!!,
+        title = title!!,
         length = length,
         description = description,
         distributions = distributions,
         frequency = frequency,
-        type = type,
+        type = type!!,
         spatialCoverage = spatialCoverage,
         spatialResolution = spatialResolution,
         temporalCoverage = temporalCoverage,

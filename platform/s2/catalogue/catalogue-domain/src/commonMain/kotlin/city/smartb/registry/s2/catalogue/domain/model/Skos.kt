@@ -2,7 +2,7 @@ package city.smartb.registry.s2.catalogue.domain.model
 
 import kotlinx.serialization.Serializable
 
-// Context
+@Serializable
 data class SkosContext(
     val skos: String = "http://www.w3.org/2004/02/skos/core#"
 )
@@ -19,6 +19,7 @@ data class SkosConcept(
     val broader: String? = null
 )
 
+@Serializable
 // Concept Scheme
 data class SkosConceptScheme(
     val id: String,

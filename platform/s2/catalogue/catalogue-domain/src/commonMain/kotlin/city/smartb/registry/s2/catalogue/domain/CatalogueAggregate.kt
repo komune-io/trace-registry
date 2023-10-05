@@ -14,7 +14,7 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 interface CatalogueAggregate {
 	suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent
 	suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent
-	suspend fun addThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent
+	suspend fun linkThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent
 	suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent
 	suspend fun delete(cmd: CatalogueDeleteCommand): CatalogueDeletedEvent
 }

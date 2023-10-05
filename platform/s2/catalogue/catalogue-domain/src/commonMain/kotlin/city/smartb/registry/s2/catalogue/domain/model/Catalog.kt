@@ -2,6 +2,7 @@ package city.smartb.registry.s2.catalogue.domain.model
 
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface DcatApCatalogue: CataloguedResource {
@@ -67,19 +68,19 @@ interface DataService {
 
 @JsExport
 sealed interface CataloguedResource {
+    val title: String
+    val type: String
     val accessRights: String?
     val conformsTo: List<SkosConceptScheme>?
     val contactPoint: String?
     val creator: Agent?
     val description: String?
-    val title: String
     val releaseDate: String?
     val updateDate: String?
     val language: List<String>?
     val publisher: Agent?
     val identifier: String?
     val theme: List<SkosConcept>?
-    val type: String?
     val relation: List<Relationship>?
     val qualifiedRelation: List<Relationship>?
     val keywords: List<String>?
@@ -99,21 +100,25 @@ sealed interface CataloguedResource {
     val status: CatalogueState?
 }
 
+@Serializable
 data class Agent(
     val identifier: String,
     // Déjà définie précédemment
 )
 
+@Serializable
 data class Relationship(
     val relation: Agent,
     val hadRole: Role
 )
 
+@Serializable
 data class Role(
     val identifier: String,
     // Aucune propriété spécifique dans DCAT
 )
 
+@Serializable
 data class PeriodOfTime(
     val startDate: String? = null,
     val endDate: String? = null,
@@ -121,45 +126,53 @@ data class PeriodOfTime(
     val end: String? = null
 )
 
+@Serializable
 data class Location(
     val geometry: String? = null,
     val boundingBox: String? = null,
     val centroid: String? = null
 )
 
+@Serializable
 data class Checksum(
     val algorithm: String,
     val checksumValue: String
 )
 
+@Serializable
 data class Policy(
     val identifier: String,
 )
 
+@Serializable
 data class Rights(
     val identifier: String,
 )
-
+@Serializable
 data class Attribution(
     val identifier: String,
 )
 
+@Serializable
 data class Activity(
     val identifier: String,
 )
+@Serializable
 data class LicenseDocument(
     val identifier: String,
 )
 
+@Serializable
 class DCatApCatalogueModel(
     override val identifier: String,
     override val homepage: String? = null,
     override val img: String? = null,
+    override val type: String,
     override val themes: List<SkosConcept>? = null,
     override val cataloguedResource: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,
     override val services: List<DataService>? = null,
-    override val catalogues: List<DcatApCatalogue>? = null,
+    override val catalogues: List<DCatApCatalogueModel>? = null,
     override val catalogueRecords: List<DcatCatalogueRecord>? = null,
     override val accessRights: String? = null,
     override val conformsTo: List<SkosConceptScheme>? = null,
@@ -172,7 +185,6 @@ class DCatApCatalogueModel(
     override val language: List<String>? = null,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
-    override val type: String? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,
     override val keywords: List<String>? = null,
@@ -192,10 +204,12 @@ class DCatApCatalogueModel(
     override val status: CatalogueState? = null,
 ): DcatApCatalogue
 
+@Serializable
 data class DcatCatalogModel(
     override val identifier: String,
     override val homepage: String,
     override val img: String,
+    override val type: String,
     override val themes: List<SkosConcept>? = null,
     override val cataloguedResources: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,
@@ -220,7 +234,6 @@ data class DcatCatalogModel(
     override val language: List<String>? = null,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
-    override val type: String? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,
     override val keywords: List<String>? = null,
@@ -240,7 +253,7 @@ data class DcatCatalogModel(
     override val status: CatalogueState? = null,
 ): DcatCatalogue
 
-
+@Serializable
 data class DcatCatalogRecordModel(
     override val identifier: String,
     override val title: String,
@@ -251,6 +264,7 @@ data class DcatCatalogRecordModel(
     override val conformsTo: List<SkosConceptScheme>? = null
 ): DcatCatalogueRecord
 
+@Serializable
 data class DcatDistributionModel(
     override val identifier: String,
     override val accessURL: String? = null,
@@ -267,6 +281,7 @@ data class DcatDistributionModel(
     override val checksum: Checksum? = null
 ): DcatDistribution
 
+@Serializable
 data class DataServiceModel(
     override val identifier: String,
     override val endpointURL: String,

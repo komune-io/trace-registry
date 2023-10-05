@@ -18,7 +18,7 @@ expect fun catalogueClient(urlBase: String, accessToken: String): F2SupplierSing
 @JsName("CatalogueClient")
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
-    override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = client.function(this::cataloguePage.name)
+    override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = client.function(this::catalogueLinkCatalogues.name)
 
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
     override fun catalogueGet(): CatalogueGetFunction = client.function(this::catalogueGet.name)

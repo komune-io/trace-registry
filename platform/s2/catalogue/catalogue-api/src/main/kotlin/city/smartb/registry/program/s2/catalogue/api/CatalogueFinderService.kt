@@ -26,7 +26,7 @@ class CatalogueFinderService(
 		return catalogueRepository.findById(id).orElse(null)?.toCatalogue()
 	}
 
-	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier): DcatApCatalogue? {
+	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier): DCatApCatalogueModel? {
 		return catalogueRepository.findByIdentifier(id).orElse(null)?.toCatalogue()
 	}
 

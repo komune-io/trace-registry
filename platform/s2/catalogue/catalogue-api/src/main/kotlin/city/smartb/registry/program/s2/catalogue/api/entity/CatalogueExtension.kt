@@ -7,4 +7,6 @@ fun CatalogueEntity.toCatalogue() = DCatApCatalogueModel(
     status = status,
     homepage = homepage,
     title = title,
+    type = type,
+    catalogues = catalogues,
 )

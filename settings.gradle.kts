@@ -18,6 +18,10 @@ include(
 )
 
 include(
+	"platform:dcat:dsl:dsl-client",
+)
+
+include(
 	"platform:script:script-init",
 	"platform:script:script-gateway",
 )

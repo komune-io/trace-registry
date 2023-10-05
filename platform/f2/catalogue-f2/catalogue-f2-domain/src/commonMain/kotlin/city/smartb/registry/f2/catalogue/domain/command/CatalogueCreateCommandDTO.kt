@@ -57,8 +57,8 @@ data class CatalogueCreateCommandDTOBase(
     override val type: String,
     override val homepage: String? = null,
     override val img: String? = null,
-    override val themes: List<SkosConceptId>,
-    override val catalogues: List<CatalogueId>,
+    override val themes: List<SkosConceptId> = emptyList(),
+    override val catalogues: List<CatalogueId> = emptyList(),
 ): CatalogueCreateCommandDTO
 
 /**
