@@ -17,7 +17,7 @@ config.entry = {
 };
 
 config.output = {
-    path: "/Users/adrien/Dev/smartb/git/framework/trace/registry/platform/f2/catalogue-f2/catalogue-f2-client/build/distributions",
+    path: "/Users/adrien/Dev/smartb/git/framework/trace/registry/ontology/f2/catalogue-f2/catalogue-f2-client/build/distributions",
     filename: (chunkData) => {
         return chunkData.chunk.name === 'main'
             ? "catalogue-f2-client.js"
@@ -66,7 +66,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const util = require('util');
     const fs = require('fs');
     const evaluatedConfig = util.inspect(config, {showHidden: false, depth: null, compact: false});
-    fs.writeFile("/Users/adrien/Dev/smartb/git/framework/trace/registry/platform/f2/catalogue-f2/catalogue-f2-client/build/reports/webpack/registry-catalogue-f2-client/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
+    fs.writeFile("/Users/adrien/Dev/smartb/git/framework/trace/registry/ontology/f2/catalogue-f2/catalogue-f2-client/build/reports/webpack/registry-catalogue-f2-client/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
 })(config);
 
 module.exports = config

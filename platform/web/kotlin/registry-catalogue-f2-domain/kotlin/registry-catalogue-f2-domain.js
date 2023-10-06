@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1581,21 +1581,26 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(RequirementListChildrenByTypeResultDTO, 'RequirementListChildrenByTypeResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListQueryDTO, 'RequirementListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListResultDTO, 'RequirementListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(CatalogInitCommand, 'CatalogueInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
-  setMetadataFor(CatalogCommand, 'CatalogueCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
-  setMetadataFor(CatalogEvent, 'CatalogueEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
-  setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta, undefined, [CatalogCommand], undefined, undefined, []);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
-  setMetadataFor(DcatCatalogue, 'DcatCatalogue', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
-  setMetadataFor(DcatCatalogueRecord, 'DcatCatalogueRecord', interfaceMeta, undefined, undefined, undefined, undefined, []);
-  setMetadataFor(DcatDistribution, 'DcatDistribution', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DataService, 'DataService', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DcatDataset, 'DcatDataset', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
   setMetadataFor(DcatApDatasetSeries, 'DcatApDatasetSeries', interfaceMeta, undefined, [DcatDataset], undefined, undefined, []);
   setMetadataFor(DcatApDatasetMember, 'DcatApDatasetMember', interfaceMeta, undefined, [DcatDataset], undefined, undefined, []);
+  setMetadataFor(DcatCatalogueRecord, 'DcatCatalogueRecord', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DcatDistribution, 'DcatDistribution', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueCommand, 'CatalogueCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
+  setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta, undefined, [CatalogueCommand], undefined, undefined, []);
+  setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueLinkCataloguesCommandDTO, 'CatalogueLinkCataloguesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueLinkThemesEventDTO, 'CatalogueLinkedThemesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguePolicies, 'CataloguePolicies', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueGetQueryDTO, 'CatalogueGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -58130,25 +58135,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function RequirementListResultDTO() {
   }
-  function CatalogInitCommand() {
-  }
-  function CatalogCommand() {
-  }
-  function CatalogEvent() {
-  }
-  function CatalogueDeleteCommandDTO() {
-  }
   function DcatApCatalogue() {
   }
-  function DcatCatalogue() {
-  }
-  function DcatCatalogueRecord() {
-  }
-  function DcatDistribution() {
+  function CataloguedResource() {
   }
   function DataService() {
-  }
-  function CataloguedResource() {
   }
   function DcatApDatasetSeries() {
   }
@@ -58156,9 +58147,33 @@ if (typeof Math.imul === 'undefined') {
   }
   function DcatDataset() {
   }
+  function DcatCatalogueRecord() {
+  }
+  function DcatDistribution() {
+  }
+  function CatalogueDeleteCommandDTO() {
+  }
+  function CatalogueEvent() {
+  }
+  function CatalogueInitCommand() {
+  }
+  function CatalogueCommand() {
+  }
   function CatalogueCreateCommandDTO() {
   }
   function CatalogueCreatedEventDTO() {
+  }
+  function CatalogueLinkCataloguesCommandDTO() {
+  }
+  function CatalogueLinkCataloguesEventDTO() {
+  }
+  function CatalogueLinkThemesCommandDTO() {
+  }
+  function CatalogueLinkThemesEventDTO() {
+  }
+  function CatalogueDTO() {
+  }
+  function CatalogueRefDTO() {
   }
   function CataloguePolicies() {
     CataloguePolicies_instance = this;
@@ -58170,6 +58185,11 @@ if (typeof Math.imul === 'undefined') {
     return true;
   };
   CataloguePolicies.prototype.canCreate = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  CataloguePolicies.prototype.checkLinkCatalogues = function (authedUser) {
     Roles_getInstance();
     Roles_getInstance();
     return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
@@ -59801,7 +59821,42 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
     var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
     var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$automate = $city$smartb$registry$s2$catalogue$domain.automate || ($city$smartb$registry$s2$catalogue$domain.automate = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
+    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
+    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
+    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
+    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
+    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
+    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
@@ -59815,14 +59870,7 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
     var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
     var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
-    var $city = _.city || (_.city = {});
-    var $city$smartb = $city.smartb || ($city.smartb = {});
-    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$s2$catalogue$domain$command = $city$smartb$registry$s2$catalogue$domain.command || ($city$smartb$registry$s2$catalogue$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
@@ -59830,6 +59878,27 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
     var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
     var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$dto = $city$smartb$registry$f2$catalogue$domain.dto || ($city$smartb$registry$f2$catalogue$domain.dto = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

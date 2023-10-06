@@ -2681,30 +2681,10 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
-export namespace city.smartb.registry.s2.catalogue.domain.automate {
-    interface CatalogInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface CatalogCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface CatalogEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-}
-export namespace city.smartb.registry.s2.catalogue.domain.command {
-    interface CatalogueDeleteCommandDTO extends city.smartb.registry.s2.catalogue.domain.automate.CatalogCommand {
-        readonly id: string;
-
-    }
-}
 export namespace city.smartb.registry.s2.catalogue.domain.model {
     interface DcatApCatalogue extends city.smartb.registry.s2.catalogue.domain.model.CataloguedResource {
         readonly identifier: string;
-        readonly homepage: string;
+        readonly homepage?: string;
         readonly img?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly cataloguedResource?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.CataloguedResource>[] */;
@@ -2712,18 +2692,18 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly services?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DataService>[] */;
         readonly catalogues?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue>[] */;
         readonly catalogueRecords?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatCatalogueRecord>[] */;
+        readonly title: string;
+        readonly type: string;
         readonly accessRights?: string;
         readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
         readonly contactPoint?: string;
         readonly creator?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly description?: string;
-        readonly title: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
         readonly language?: any/* Nullable<string>[] */;
         readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
         readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly keywords?: any/* Nullable<string>[] */;
@@ -2740,97 +2720,24 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
         readonly version?: string;
         readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
 
     }
-    interface DcatCatalogue extends city.smartb.registry.s2.catalogue.domain.model.CataloguedResource {
-        readonly identifier: string;
-        readonly homepage: string;
-        readonly img: string;
-        readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly cataloguedResources?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.CataloguedResource>[] */;
-        readonly datasets?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatDataset>[] */;
-        readonly services?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DataService>[] */;
-        readonly catalogues?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatCatalogue>[] */;
-        readonly catalogueRecords?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatCatalogueRecord>[] */;
-        readonly accessRights?: string;
-        readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
-        readonly contactPoint?: string;
-        readonly creator?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
-        readonly description?: string;
-        readonly title: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: any/* Nullable<string>[] */;
-        readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
-        readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
-        readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
-        readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
-        readonly keywords?: any/* Nullable<string>[] */;
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Attribution>[] */;
-        readonly license?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.LicenseDocument> */;
-        readonly rights?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Rights> */;
-        readonly hasPart?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.CataloguedResource>[] */;
-        readonly hasPolicy?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Policy>[] */;
-        readonly isReferencedBy?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.CataloguedResource>[] */;
-        readonly previousVersion?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
-        readonly hasVersion?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.CataloguedResource>[] */;
-        readonly currentVersion?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
-        readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
-
-    }
-    interface DcatCatalogueRecord {
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly listingDate?: string;
-        readonly updateDate?: string;
-        readonly primaryTopic?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
-        readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
-
-    }
-    interface DcatDistribution {
-        readonly identifier: string;
-        readonly accessURL?: string;
-        readonly accessService?: city.smartb.registry.s2.catalogue.domain.model.DataService;
-        readonly downloadURL?: string;
-        readonly byteSize?: any/* Nullable<number> */;
-        readonly spatialResolution?: string;
-        readonly temporalResolution?: string;
-        readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
-        readonly mediaType?: string;
-        readonly format?: string;
-        readonly compressionFormat?: string;
-        readonly packagingFormat?: string;
-        readonly checksum?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Checksum> */;
-
-    }
-    interface DataService {
-        readonly identifier: string;
-        readonly endpointURL: string;
-        readonly endpointDescription?: string;
-        readonly servesDataset?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatDataset>[] */;
-
-    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.model {
     interface CataloguedResource {
+        readonly title: string;
+        readonly type: string;
         readonly accessRights?: string;
         readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
         readonly contactPoint?: string;
         readonly creator?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly description?: string;
-        readonly title: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
         readonly language?: any/* Nullable<string>[] */;
         readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly identifier?: string;
         readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
         readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly keywords?: any/* Nullable<string>[] */;
@@ -2847,7 +2754,15 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
         readonly version?: string;
         readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
+
+    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.model {
+    interface DataService {
+        readonly identifier: string;
+        readonly endpointURL: string;
+        readonly endpointDescription?: string;
+        readonly servesDataset?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatDataset>[] */;
 
     }
 }
@@ -2867,18 +2782,18 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Activity> */;
         readonly length?: number;
+        readonly title: string;
+        readonly type: string;
         readonly accessRights?: string;
         readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
         readonly contactPoint?: string;
         readonly creator?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly description?: string;
-        readonly title: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
         readonly language?: any/* Nullable<string>[] */;
         readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
         readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly keywords?: any/* Nullable<string>[] */;
@@ -2895,7 +2810,6 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
         readonly version?: string;
         readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
 
     }
     interface DcatApDatasetMember extends city.smartb.registry.s2.catalogue.domain.model.DcatDataset {
@@ -2912,6 +2826,7 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Activity> */;
         readonly length?: number;
+        readonly type: string;
         readonly accessRights?: string;
         readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
         readonly contactPoint?: string;
@@ -2922,7 +2837,6 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly language?: any/* Nullable<string>[] */;
         readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
         readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly keywords?: any/* Nullable<string>[] */;
@@ -2939,7 +2853,6 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
         readonly version?: string;
         readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
 
     }
     interface DcatDataset extends city.smartb.registry.s2.catalogue.domain.model.CataloguedResource {
@@ -2952,18 +2865,18 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Activity> */;
         readonly length?: number;
+        readonly title: string;
+        readonly type: string;
         readonly accessRights?: string;
         readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
         readonly contactPoint?: string;
         readonly creator?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly description?: string;
-        readonly title: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
         readonly language?: any/* Nullable<string>[] */;
         readonly publisher?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Agent> */;
         readonly theme?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly type?: string;
         readonly relation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly qualifiedRelation?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Relationship>[] */;
         readonly keywords?: any/* Nullable<string>[] */;
@@ -2980,7 +2893,56 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly replaces?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
         readonly version?: string;
         readonly versionNotes?: string;
-        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
+
+    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.model {
+    interface DcatCatalogueRecord {
+        readonly identifier: string;
+        readonly title: string;
+        readonly description?: string;
+        readonly listingDate?: string;
+        readonly updateDate?: string;
+        readonly primaryTopic?: city.smartb.registry.s2.catalogue.domain.model.CataloguedResource;
+        readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
+
+    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.model {
+    interface DcatDistribution {
+        readonly identifier: string;
+        readonly accessURL?: string;
+        readonly accessService?: city.smartb.registry.s2.catalogue.domain.model.DataService;
+        readonly downloadURL?: string;
+        readonly byteSize?: any/* Nullable<number> */;
+        readonly spatialResolution?: string;
+        readonly temporalResolution?: string;
+        readonly conformsTo?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme>[] */;
+        readonly mediaType?: string;
+        readonly format?: string;
+        readonly compressionFormat?: string;
+        readonly packagingFormat?: string;
+        readonly checksum?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.Checksum> */;
+
+    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.command {
+    interface CatalogueDeleteCommandDTO extends city.smartb.registry.s2.catalogue.domain.command.CatalogueCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.s2.catalogue.domain.command {
+    interface CatalogueEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface CatalogueInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface CatalogueCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
 
     }
 }

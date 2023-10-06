@@ -6,7 +6,6 @@ server:
 #    multipart:
 #      maxInMemorySize: 20MB
 #      maxHeadersSize: 20MB
-
 cccev:
   url: http://localhost:8083
 

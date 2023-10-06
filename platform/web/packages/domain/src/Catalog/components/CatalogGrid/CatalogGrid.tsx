@@ -3,12 +3,12 @@ import { StandardCard } from '../StandardCard'
 import { Catalogue } from '../../model'
 
 export interface CatalogGridProps {
-    catalogs?: Catalogue[]
+    items?: Catalogue[]
     isLoading?: boolean
 }
 
 export const CatalogGrid = (props: CatalogGridProps) => {
-    const { catalogs, isLoading } = props
+    const { items, isLoading } = props
     return (
         <Box
             sx={{
@@ -25,7 +25,7 @@ export const CatalogGrid = (props: CatalogGridProps) => {
                         />
                     ))
                 :
-                catalogs?.map((catalog) => (
+                items?.map((catalog) => (
                     <StandardCard key={catalog.identifier} catalog={catalog} />
                 ))
             }

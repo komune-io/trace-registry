@@ -61,6 +61,7 @@ class CatalogueEndpoint(
     @PermitAll
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
+        logger.info("catalogueGet: $query")
         query.identifier?.let {
             catalogueF2FinderService.getByIdentifier(it)
         } ?: query.id?.let {

@@ -34,7 +34,8 @@ fun createRandomCatalogue(url: String, accessToken: Actor, countRange: IntRange 
     val dcatGraphClient = helper.dcatGraphClient
     val faker = helper.faker
 
-    val items = flowOf(catalogue(faker))
+    val items = flowOf(catalogueStandards(""))
+//    val items = flowOf(catalogueStandards("-${UUID.randomUUID()}"))
     dcatGraphClient.create(items).toList().onEach {
         println("Catalogue[${it.identifier}] Created.")
     }.map { it.identifier }
@@ -53,102 +54,3 @@ private suspend fun List<CatalogueCreateCommandDTOBase>.createCatalogues(catalog
         println("Catalogue[${catalogueCreateCommand.identifier}] Created.")
         created.first()
     }
-
-
-private fun randomCatalogue(
-    faker: Faker,
-): CatalogueCreateCommandDTOBase {
-    return CatalogueCreateCommandDTOBase(
-        identifier = faker.idNumber().valid(),
-        title = faker.artist().name(),
-        description = faker.lorem().paragraph(),
-        homepage = faker.internet().url(),
-        themes = emptyList(),
-        type = "Standard",
-        img = faker.internet().image(),
-    )
-}
-
-fun catalogue(faker: Faker) = catalogue {
-    identifier = "standards-${UUID.randomUUID()}"
-    title = "Standards"
-    type = "Standards"
-    description = """
-        Explore our comprehensive list of recognized standards for environmental project evaluation and certification. 
-        Discover diverse opportunities in energy, carbon, water, waste, and more. 
-        Choose the standard that aligns with your goals and make a positive environmental impact.
-    """.trimIndent()
-    services {
-        dataService {
-            identifier = "standards"
-            endpointURL = "https://standardsregistry.verra.org/api/standards"
-        }
-    }
-    catalogues {
-        +verraCatalogue
-    }
-}
-
-
-val verraCatalogue = catalogue {
-        identifier = "verra-${UUID.randomUUID()}"
-        homepage = "https://verra.org/"
-        title = "Verra"
-         type = "Standard"
-        description = """
-            Verra, formerly known as Verified Carbon Standard (VCS), is a leading global standard 
-            for the certification of greenhouse gas emission reduction projects.
-            """.trimIndent()
-        themes {
-            concept {
-                id = "ForestryAndLandUse"
-                prefLabels = mutableMapOf("en" to "Forestry and Land Use")
-                definitions = mutableMapOf("en" to "Forestry and Land Use")
-            }
-            concept {
-                id = "Transport"
-                prefLabels = mutableMapOf("en" to "Transport")
-                definitions = mutableMapOf("en" to "Transport")
-            }
-            concept {
-                id = "Energy Efficiency"
-                prefLabels = mutableMapOf("en" to "Energy Efficiency")
-                definitions = mutableMapOf("en" to "Energy Efficiency")
-            }
-            concept {
-                id = "Collection, Recycling"
-                prefLabels = mutableMapOf("en" to "Collection, Recycling")
-                definitions = mutableMapOf("en" to "Collection, Recycling")
-            }
-        }
-        datasets {
-            dataset {
-                identifier = "standards"
-                title = "standards"
-                type = "standard"
-                description = """
-                """.trimIndent()
-            }
-            dataset {
-                identifier = "programs"
-                title = "programs"
-                type = "program"
-                description = """
-                Explore our comprehensive list of recognized standards for environmental project evaluation 
-                and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. 
-                Choose the standard that aligns with your goals and make a positive environmental impact.
-                """.trimIndent()
-            }
-            dataset {
-                identifier = "methodologies"
-                title = "methodologies"
-                type = "methodology"
-            }
-            dataset {
-                identifier = "documents"
-                title = "documents"
-                type = "document"
-            }
-        }
-    }
-

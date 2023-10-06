@@ -1,6 +1,7 @@
 package city.smartb.registry.f2.catalogue.domain.dto
 
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
+import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
 import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
@@ -15,7 +16,7 @@ interface CatalogueDTO{
     val img: String?
     val type: String
     val themes: List<SkosConcept>?
-    //    val datasets: List<DcatDataset
+    val datasets: List<DcatDataset>?
 //    val services: List<DataService>
     val catalogues: List<CatalogueRefDTO>?
     //    val catalogueRecords: List<DcatCatalogueRecord>
@@ -32,7 +33,7 @@ data class CatalogueDTOBase(
     override val img: String? = null,
     override val type: String,
     override val themes: List<SkosConcept>? = null,
-//    val datasets: List<DcatDataset>? = null,
+    override val datasets: List<DcatDataset>? = null,
 //    val services: List<DataService>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
 //    val catalogueRecords: List<DcatCatalogueRecord>? = null,

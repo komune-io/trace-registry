@@ -17,7 +17,7 @@ config.entry = {
 };
 
 config.output = {
-    path: "/Users/adrien/Dev/smartb/git/framework/trace/registry/platform/s2/catalogue/catalogue-domain/build/distributions",
+    path: "/Users/adrien/Dev/smartb/git/framework/trace/registry/ontology/s2/catalogue/catalogue-domain/build/distributions",
     filename: (chunkData) => {
         return chunkData.chunk.name === 'main'
             ? "catalogue-domain.js"
@@ -66,7 +66,7 @@ config.ignoreWarnings = [/Failed to parse source map/]
     const util = require('util');
     const fs = require('fs');
     const evaluatedConfig = util.inspect(config, {showHidden: false, depth: null, compact: false});
-    fs.writeFile("/Users/adrien/Dev/smartb/git/framework/trace/registry/platform/s2/catalogue/catalogue-domain/build/reports/webpack/registry-catalogue-domain/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
+    fs.writeFile("/Users/adrien/Dev/smartb/git/framework/trace/registry/ontology/s2/catalogue/catalogue-domain/build/reports/webpack/registry-catalogue-domain/webpack.config.evaluated.js", evaluatedConfig, function (err) {});
 })(config);
 
 module.exports = config

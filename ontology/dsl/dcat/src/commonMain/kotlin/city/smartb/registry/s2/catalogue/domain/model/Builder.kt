@@ -22,7 +22,9 @@ class CatalogueBuilder {
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
-
+    operator fun List<SkosConcept>.unaryPlus() {
+        this@CatalogueBuilder.themes.addAll(this)
+    }
     fun resources(block: RESOURCES.() -> Unit) = cataloguedResources.addAll(RESOURCES().apply(block))
     operator fun DcatDataset.unaryPlus() { this@CatalogueBuilder.datasets.add(this) }
     fun datasets(block: DATASETS.() -> Unit) = datasets.addAll(DATASETS().apply(block))

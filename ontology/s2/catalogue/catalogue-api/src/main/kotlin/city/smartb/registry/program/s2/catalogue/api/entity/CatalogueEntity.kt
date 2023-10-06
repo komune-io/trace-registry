@@ -4,8 +4,8 @@ import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptId
 import com.redis.om.spring.annotations.Document
+import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
@@ -20,8 +20,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     open lateinit var status: CatalogueState
 
-
-    @Searchable(nostem=true)
+    @Indexed
     lateinit var identifier: CatalogueIdentifier
 
     @Searchable(nostem=true)
@@ -30,7 +29,6 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var homepage: String? = null
 
-    @Searchable(nostem=true)
     var img: String? = null
 
     @Searchable(nostem=true)
@@ -40,6 +38,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var description: String? = null
 
     var themes: List<SkosConcept> = emptyList()
+
     var catalogues: List<CatalogueId> = emptyList()
 
     var lastUpdate: Long? = null

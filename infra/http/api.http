@@ -295,3 +295,18 @@ Content-Type: application/json
 
 {
 }
+### cataloguePage
+POST {{urlbase}}/catalogueGet
+Content-Type: application/json
+
+{
+  "identifier": "standards"
+}
+
+### cataloguePage
+POST {{urlbase}}/catalogueGet
+Content-Type: application/json
+
+{
+  "identifier": "verra"
+}

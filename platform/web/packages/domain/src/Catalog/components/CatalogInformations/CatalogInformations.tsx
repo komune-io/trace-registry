@@ -35,7 +35,7 @@ export const CatalogInformations = (props: CatalogInformationsProps) => {
             title={t("catalogs.mostUsedStandards")}
             />
             <CatalogGrid 
-            catalogs={mostUsedCatalogs}
+            items={mostUsedCatalogs}
             />
             <Button sx={{alignSelf: "flex-end"}}>{t("catalogs.seeAllPrograms")}</Button>
         </>

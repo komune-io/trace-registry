@@ -1,8 +1,7 @@
-import { CatalogInformations, useCatalogueGetQuery } from 'domain-components'
+import {CatalogInformations, CatalogueRef, useCatalogueGetQuery} from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
-import { catalogs as catalogsObject } from '../CatalogListPage/CatalogListPage'
 import { LinkButton } from '@smartb/g2'
 import { useRoutesDefinition } from 'components'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
@@ -18,9 +17,10 @@ export const CatalogViewPage = () => {
 
     const catalogGet = useCatalogueGetQuery({
         query: {
-            id: catalogId!
+            identifier: catalogId!
         }
     })
+    const catalogues = catalogGet.data?.item?.catalogues.slice(0, 4) ?? [] as CatalogueRef[]
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
         navigate(catalogsCatalogIdViewTab(catalogId || "", value))
@@ -30,7 +30,7 @@ export const CatalogViewPage = () => {
         const tabs: Tab[] = [{
             key: 'info',
             label: t('information'),
-            component: (<CatalogInformations catalog={catalogGet.data?.item} mostUsedCatalogs={catalogsObject} isLoading={catalogGet.isInitialLoading} />)
+            component: (<CatalogInformations catalog={catalogGet.data?.item} mostUsedCatalogs={catalogues} isLoading={catalogGet.isInitialLoading} />)
         }]
         return tabs
     }, [t, catalogGet.data, catalogGet.isInitialLoading])

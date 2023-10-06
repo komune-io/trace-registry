@@ -87,6 +87,7 @@ class DCatGraphClient(
             id = createdCatalogues[parent.identifier]!!,
             catalogues = listOf(catalogueId)
         ).invokeWith(catalogueClient().catalogueLinkCatalogues())
+        println("Linked catalogue ${parent.identifier} to ${catalogueId}")
     }
 
     private suspend fun createCatalogue(
@@ -104,7 +105,10 @@ class DCatGraphClient(
             homepage = catalogue.homepage,
             img = catalogue.img,
             themes = catalogue.themes,
-        ).invokeWith(catalogueClient().catalogueCreate()).id
+        ).invokeWith(catalogueClient().catalogueCreate()).id.also {
+            println("Created catalogue ${catalogue.identifier} with id ${it}")
+        }
+
     }
 }
 
