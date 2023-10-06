@@ -10,29 +10,17 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@axa-fr/oidc-client-service-worker@6.26.6":
-  version "6.26.6"
-  resolved "https://registry.yarnpkg.com/@axa-fr/oidc-client-service-worker/-/oidc-client-service-worker-6.26.6.tgz#d47cc5584446b9800af8a5948bd919a9156bb538"
-  integrity sha512-dDLIz73fTuhfPax8XkzvbbxbKoB/FUKMLC3X/6Ym+wOicc8EoOPThhNr7NHGtlzZ5jVKlSSTG0ptEselPjXIxw==
-
 "@axa-fr/oidc-client-service-worker@7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@axa-fr/oidc-client-service-worker/-/oidc-client-service-worker-7.6.0.tgz#4499c95f8988b703e0f5ca252d1b75350d346633"
   integrity sha512-m/b2hlUvIuRDvLSgINKofSeaBFFKkdYJKi2Nzdy41+5jXOYLv9eA1r56bsLYQXkRsrFy2B2CHCCK9dpC9BY51g==
 
-"@axa-fr/oidc-client@7.6.0":
+"@axa-fr/oidc-client@7.6.0", "@axa-fr/oidc-client@^7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@axa-fr/oidc-client/-/oidc-client-7.6.0.tgz#bb1dbac7d0c2494e516bd46eb612c794a1d3518e"
   integrity sha512-ltpEHOAp1mZJG5rS8+pO8h6HVy9xWTMUN7cHW6l+81MJf+2I0Ks245L142+BRz1C/IRAwIyOjGUKvXNCAuSC7A==
   dependencies:
     "@axa-fr/oidc-client-service-worker" "7.6.0"
-
-"@axa-fr/oidc-client@^6.20.0":
-  version "6.26.6"
-  resolved "https://registry.yarnpkg.com/@axa-fr/oidc-client/-/oidc-client-6.26.6.tgz#fef9901afbc4501ae6dc4436bbd57844295bcf0d"
-  integrity sha512-jVVvN49U4ejtkX5Ozy7HEmBpAj2QTUd49Bmty041OpWjmPiVqV0W/ONQ3llEJAsU4Ny7G1BuGE7uHn5I4MPr1Q==
-  dependencies:
-    "@axa-fr/oidc-client-service-worker" "6.26.6"
 
 "@axa-fr/react-oidc@^7.6.0":
   version "7.6.0"
