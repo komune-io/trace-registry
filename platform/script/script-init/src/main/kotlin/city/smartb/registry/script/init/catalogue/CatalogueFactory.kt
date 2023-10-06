@@ -30,16 +30,14 @@ class CatalogueFactory(
 
 fun createRandomCatalogue(url: String, accessToken: Actor, countRange: IntRange = 1..2): List<CatalogueId> = runBlocking {
     val helper = CatalogueFactory(url, accessToken.accessToken.access_token)
-    val catalogueClient = helper.catalogueClient.invoke()
     val dcatGraphClient = helper.dcatGraphClient
-    val faker = helper.faker
 
     val items = flowOf(catalogueStandards(""))
 //    val items = flowOf(catalogueStandards("-${UUID.randomUUID()}"))
     dcatGraphClient.create(items).toList().onEach {
         println("Catalogue[${it.identifier}] Created.")
     }.map { it.identifier }
-//
+
 //    (countRange).map { count ->
 //        randomCatalogue(faker)
 //    }

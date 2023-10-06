@@ -7,6 +7,7 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -20,6 +21,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
+		is CatalogueSetImageEvent -> model?.setImageEvent(event)
 	}
 
 	private suspend fun create(event: CatalogueCreatedEvent) = CatalogueEntity().apply {
@@ -29,11 +31,14 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		type = event.type
 		description = event.description
 		homepage = event.homepage
-		img = event.img
 		themes = event.themes ?: emptyList()
 		catalogues = event.catalogues ?: emptyList()
 		lastUpdate = event.date
 		status = CatalogueState.ACTIVE
+	}
+	private suspend fun CatalogueEntity.setImageEvent(event: CatalogueSetImageEvent) = apply {
+		img = event.img
+		lastUpdate = event.date
 	}
 	private suspend fun CatalogueEntity.delete(event: CatalogueDeletedEvent) = apply {
 		status = CatalogueState.DELETED

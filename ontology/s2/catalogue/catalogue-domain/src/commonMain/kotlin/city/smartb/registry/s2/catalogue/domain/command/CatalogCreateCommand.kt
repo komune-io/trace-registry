@@ -13,7 +13,6 @@ data class CatalogueCreateCommand(
     val title: String,
     val description: String?,
     val homepage: String?,
-    val img: String?,
     val themes: List<SkosConcept>? = null,
     val catalogues: List<CatalogueId>? = null,
 ): CatalogueInitCommand
@@ -27,7 +26,6 @@ data class CatalogueCreatedEvent(
     val title: String,
     val description: String? = null,
     val homepage: String? = null,
-    val img: String? = null,
     val themes: List<SkosConcept>? = null,
     val catalogues: List<CatalogueId>? = null,
     override val date: Long,

@@ -10,12 +10,14 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesC
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
-import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
+import city.smartb.registry.infra.fs.FsService
 import city.smartb.registry.program.s2.catalogue.api.CatalogueAggregateService
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -24,12 +26,17 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCatalogue
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
+import org.springframework.http.codec.multipart.FilePart
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -38,6 +45,7 @@ class CatalogueEndpoint(
     private val catalogueService: CatalogueAggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
+    private val fsService: FsService,
 ): CatalogueApi {
 
     private val logger = LoggerFactory.getLogger(CatalogueEndpoint::class.java)
@@ -91,6 +99,34 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkLinkThemes()
         catalogueService.linkThemes(cmd.toCommand()).toEvent()
     }
+
+    @PostMapping("/catalogueSetImageFunction")
+    suspend fun catalogueSetImageFunction(
+        @RequestPart("command") cmd: CatalogueSetImageCommandDTOBase,
+        @RequestPart("file") file: FilePart?
+    ): CatalogueSetImageEventDTOBase {
+
+        logger.info("catalogueSetImageFunction: $cmd")
+        cataloguePoliciesEnforcer.checkSetImg()
+        val filePath = file?.let {
+            fsService.uploadCatalogueImg(
+                filePart = file,
+                catalogueId = cmd.id,
+            ).path
+        }
+        val result = catalogueService.setImageCommand(
+            cmd = CatalogueSetImageCommand(
+                id = cmd.id,
+                img = filePath,
+            )
+        )
+        return CatalogueSetImageEventDTOBase(
+            id = cmd.id,
+            img = result.img,
+            date = result.date,
+        )
+    }
+
 }
 
 fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
@@ -101,7 +137,6 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     themes = themes,
     type = type,
     homepage = homepage,
-    img = img
 )
 
 fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
@@ -113,7 +148,6 @@ fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
     themes = themes,
     type = type,
     homepage = homepage,
-    img = img,
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(

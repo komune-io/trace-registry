@@ -22,8 +22,19 @@ fun catalogueStandards(debug: String) = catalogue {
     }
     catalogues {
         +verraCatalogue(debug)
-        +goldStandardCatalogue
+        +cee(debug)
+        +goldStandardCatalogue(debug)
+        +cdm(debug)
     }
+}
+
+interface tt
+
+fun getImg(name: String): String? {
+    return CatalogueFactory::class.java.getResource("/$name")?.file.also {
+        println("getImg: $name - $it")
+    }
+
 }
 
 
@@ -32,6 +43,7 @@ fun verraCatalogue(debug: String) = catalogue {
     homepage = "https://verra.org/"
     title = "Verra"
     type = "standard"
+    img = getImg("verra.png")
     description = """
             Verra, formerly known as Verified Carbon Standard (VCS), is a leading global standard 
             for the certification of greenhouse gas emission reduction projects.
@@ -176,6 +188,7 @@ object VerraProgram {
         identifier = "verra-verifiedcarbonctandard${debug}"
         title = "Verified Carbon Standard"
         type = "program"
+        img = getImg("verifiedcarbonctandard.png")
         description = """
             The Verified Carbon Standard Program creates tradable carbon credits 
             from certified projects that reduce or remove greenhouse gas emissions.
@@ -311,6 +324,7 @@ object VerraProgram {
         identifier = "verra-plasticWasteReductionProgram${debug}"
         title = "The Plastic Waste Reduction Program"
         type = "program"
+        img = getImg("plasticWasteReductionProgram.png")
         description = """
            The Plastic Waste Reduction Program finances and expands recycling and collection to divert plastic waste 
            from the environment and support the circular economy.
@@ -349,6 +363,7 @@ object VerraProgram {
         identifier = "verra-climateCommunityBiodiversityStandards${debug}"
         title = "Climate, Community & Biodiversity Standards"
         type = "program"
+        img = getImg("climateCommunityBiodiversityStandards.png")
         description = """
           The Climate, Community & Biodiversity Program certifies land management projects that deliver net positive 
           impacts for climate, communities and biodiversity.
@@ -421,6 +436,7 @@ object VerraProgram {
         identifier = "verra-sustainableDevelopmentVerifiedImpactStandard${debug}"
         title = "Sustainable Development Verified Impact Standard"
         type = "program"
+        img = getImg("sustainableDevelopmentVerifiedImpactStandard.png")
         description = """
           The Sustainable Development Verified Impact Standard assesses projects delivering social and environmental 
           benefits aligned with the UN Sustainable Development Goals.
@@ -500,6 +516,7 @@ object VerraProgram {
         identifier = "verra-californiaOffsetProject${debug}"
         title = "California Offset Project"
         type = "program"
+        img = getImg("californiaOffsetProject.png")
         description = """
             The Verra California Offset Project Registry facilitates the verification and issuance of credits 
             from greenhouse gas reduction projects under California's cap-and-trade program.
@@ -535,11 +552,12 @@ object VerraProgram {
     }
 
 }
-val goldStandardCatalogue = city.smartb.registry.s2.catalogue.domain.model.catalogue {
-    identifier = "goldstandard-${UUID.randomUUID()}"
+fun goldStandardCatalogue(debug: String)  = catalogue {
+    identifier = "goldstandard${debug}"
     homepage = "https://www.goldstandard.org/"
     title = "Gold Standard"
     type = "standard"
+    img = getImg("goldstandard.png")
     description = """
            Gold Standard for the Global Goals is a standard that sets requirements to design projects 
            for maximum positive impact in climate and development -- and to measure and report outcomes 
@@ -575,6 +593,58 @@ val goldStandardCatalogue = city.smartb.registry.s2.catalogue.domain.model.catal
                 "fr" to "Utilisation des terres et forêts"
             )
         }
+    }
+    datasets {
+        dataset {
+            identifier = "documents"
+            title = "documents"
+            type = "document"
+        }
+        dataset {
+            identifier = "projects"
+            title = "documents"
+            type = "projects"
+        }
+    }
+}
+
+fun cee(debug: String) = catalogue {
+    identifier = "cee${debug}"
+    homepage = "https://www.ecologie.gouv.fr/dispositif-des-certificats-deconomies-denergie"
+    title = "CEE"
+    type = "standard"
+    img = getImg("cee.png")
+    description = """
+           The CEE (Energy Savings Certificates) programs are initiatives that allow obtaining 
+           CEE certificates without directly carrying out energy-saving actions. 
+            """.trimIndent()
+    themes {
+    }
+    datasets {
+        dataset {
+            identifier = "documents"
+            title = "documents"
+            type = "document"
+        }
+        dataset {
+            identifier = "projects"
+            title = "documents"
+            type = "projects"
+        }
+    }
+}
+
+fun cdm(debug: String) = catalogue {
+    identifier = "cdm${debug}"
+    homepage = "https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism"
+    title = "CDM"
+    type = "standard"
+    img = getImg("cdm.png")
+    description = """
+           The Clean Development Mechanism (CDM) is a key component of the United Nations Framework Convention 
+           on Climate Change (UNFCCC) designed to promote emission reduction projects in developing countries. 
+            """.trimIndent()
+    themes {
     }
     datasets {
         dataset {

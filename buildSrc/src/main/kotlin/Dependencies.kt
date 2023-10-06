@@ -146,7 +146,9 @@ object Dependencies {
 			"city.smartb.f2:f2-client-ktor:${Versions.f2}",
 			"io.ktor:ktor-client-auth:${Versions.ktor}",
 			"io.ktor:ktor-client-logging:${Versions.ktor}",
-		)
+		).also {
+			FixersDependencies.Jvm.Json.jackson(scope)
+		}
 
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:file-domain:${Versions.fs}"

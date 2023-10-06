@@ -22,12 +22,15 @@ object CataloguePolicies {
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
+    fun canSetImg(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+    }
 
     fun checkLinkCatalogues(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
-    fun canCreateStep(authedUser: AuthedUserDTO): Boolean {
+    fun checkLinkThemes(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 

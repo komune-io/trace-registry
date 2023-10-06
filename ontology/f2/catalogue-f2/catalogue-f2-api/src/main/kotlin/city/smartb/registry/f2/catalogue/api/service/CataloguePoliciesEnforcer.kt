@@ -12,11 +12,14 @@ class CataloguePoliciesEnforcer: PolicyEnforcer() {
     suspend fun checkCreation() = checkAuthed("create catalogue") { authedUser ->
         CataloguePolicies.canCreate(authedUser)
     }
+    suspend fun checkSetImg() = checkAuthed("set img") { authedUser ->
+        CataloguePolicies.canSetImg(authedUser)
+    }
     suspend fun checkLinkCatalogues() = checkAuthed("links catalogues") { authedUser ->
-        CataloguePolicies.canCreate(authedUser)
+        CataloguePolicies.checkLinkCatalogues(authedUser)
     }
     suspend fun checkLinkThemes() = checkAuthed("links themes") { authedUser ->
-        CataloguePolicies.canCreate(authedUser)
+        CataloguePolicies.checkLinkThemes(authedUser)
     }
 
 }

@@ -1,17 +1,20 @@
 package cccev.dsl.client
 
 import city.smartb.registry.f2.catalogue.client.CatalogueClient
+import city.smartb.registry.f2.catalogue.client.catalogueSetImageFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueFile
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTO
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.invokeWith
+import java.io.File
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
@@ -103,10 +106,21 @@ class DCatGraphClient(
             }.orEmpty(),
             type = catalogue.type,
             homepage = catalogue.homepage,
-            img = catalogue.img,
             themes = catalogue.themes,
         ).invokeWith(catalogueClient().catalogueCreate()).id.also {
             println("Created catalogue ${catalogue.identifier} with id ${it}")
+        }.also { catalogueId ->
+            catalogue.img?.let { img ->
+                val ff = File(img).readBytes()
+                (CatalogueSetImageCommandDTOBase(
+                    id = catalogueId,
+                ) to CatalogueFile(
+                    name = img,
+                    content = ff
+                )).invokeWith( catalogueClient().catalogueSetImageFunction())
+            }
+
+
         }
 
     }

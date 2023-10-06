@@ -12,6 +12,7 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCatalogue
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
@@ -68,6 +69,7 @@ class CatalogueAutomateConfig(
 				subclass(CatalogueUpdatedEvent::class, CatalogueUpdatedEvent.serializer())
 				subclass(CatalogueLinkedCataloguesEvent::class, CatalogueLinkedCataloguesEvent.serializer())
 				subclass(CatalogueLinkedThemesEvent::class, CatalogueLinkedThemesEvent.serializer())
+				subclass(CatalogueSetImageEvent::class, CatalogueSetImageEvent.serializer())
 			}
 		}
 	}

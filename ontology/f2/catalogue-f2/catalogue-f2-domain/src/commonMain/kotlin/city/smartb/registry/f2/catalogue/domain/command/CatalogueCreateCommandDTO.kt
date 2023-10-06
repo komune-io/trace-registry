@@ -42,7 +42,6 @@ interface CatalogueCreateCommandDTO {
 
     val type: String
     val homepage: String?
-    val img: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
 }
@@ -57,7 +56,6 @@ data class CatalogueCreateCommandDTOBase(
     override val description: String? = null,
     override val type: String,
     override val homepage: String? = null,
-    override val img: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,
 ): CatalogueCreateCommandDTO
@@ -81,7 +79,6 @@ interface CatalogueCreatedEventDTO: Event {
     val description: String?
     val type: String
     val homepage: String?
-    val img: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
 }
@@ -97,7 +94,9 @@ data class CatalogueCreatedEventDTOBase(
     override val description: String?,
     override val type: String,
     override val homepage: String? = null,
-    override val img: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,
 ): CatalogueCreatedEventDTO
+
+
+typealias ActivityStepEvidenceDownloadResult = ByteArray

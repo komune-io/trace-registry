@@ -1,5 +1,6 @@
 package city.smartb.registry.program.s2.catalogue.api.entity
 
+import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
@@ -29,7 +30,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var homepage: String? = null
 
-    var img: String? = null
+    var img: FilePath? = null
 
     @Searchable(nostem=true)
     lateinit var type: String

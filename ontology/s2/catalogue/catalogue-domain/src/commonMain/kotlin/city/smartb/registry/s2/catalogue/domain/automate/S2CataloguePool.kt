@@ -8,6 +8,8 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlinx.serialization.Serializable
@@ -19,6 +21,10 @@ val s2Catalogue = s2Sourcing {
     name = "Catalogue"
     init<CatalogueCreateCommand, CatalogueCreatedEvent> {
         to = CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueSetImageCommand, CatalogueSetImageEvent> {
+        states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {

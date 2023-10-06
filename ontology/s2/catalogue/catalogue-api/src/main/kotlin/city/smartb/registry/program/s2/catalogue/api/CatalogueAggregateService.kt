@@ -10,9 +10,12 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import java.util.UUID
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,8 +33,15 @@ class CatalogueAggregateService(
 			catalogues = cmd.catalogues,
 			themes = cmd.themes,
 			type = cmd.type,
-			img = cmd.img,
 			homepage = cmd.homepage,
+		)
+	}
+
+	override suspend fun setImageCommand(cmd: CatalogueSetImageCommand) = automate.transition(cmd) {
+		CatalogueSetImageEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			img = cmd.img,
 		)
 	}
 
