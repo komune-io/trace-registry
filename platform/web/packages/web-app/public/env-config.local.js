@@ -5,7 +5,7 @@ window._env_ = {
   config: {
     keycloak: {
       realm: "sb-dev",
-      clientId: "sb-platform-web",
+      clientId: "im-dev-web",
       url: "https://auth.dev.connect.smart-b.io/"
     }
   }

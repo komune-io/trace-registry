@@ -6,6 +6,10 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCatalogue
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
@@ -21,8 +25,17 @@ val s2Catalogue = s2Sourcing {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
-    transaction<CatalogueLinkThemesCommand, CatalogueLinkedThemesEvent> {
-        to = CatalogueState.ACTIVE
+    selfTransaction<CatalogueLinkThemesCommand, CatalogueLinkedThemesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueUpdateCommand, CatalogueUpdatedEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    transaction<CatalogueDeleteCommand, CatalogueDeletedEvent> {
+        from = CatalogueState.ACTIVE
+        to = CatalogueState.DELETED
         role = CatalogueRole.Issuer
     }
 }
