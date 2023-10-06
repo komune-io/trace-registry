@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
 import { LinkButton, Option } from '@smartb/g2'
 import { t } from 'i18next'
+import {config} from "../../../config";
 
 export interface StandardCardProps extends CardProps {
     catalog?: Catalogue
@@ -60,9 +61,9 @@ export const StandardCard = (props: StandardCardProps) => {
                     }}
                     gap={2}
                 >
-                    {catalog?.img ? <img
+                    {catalog?.id ? <img
                         className='catalogLogo'
-                        src={catalog.img}
+                        src={`${config().platform.url}/catalogues/${catalog.id}/logo`}
                         alt="The standard logo"
                     /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
                     <Typography

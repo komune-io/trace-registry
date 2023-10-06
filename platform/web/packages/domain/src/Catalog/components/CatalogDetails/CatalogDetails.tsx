@@ -3,6 +3,7 @@ import { FormComposable, FormComposableField, useFormComposable } from '@smartb/
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue } from '../../model'
+import {config} from "../../../config";
 // import { CatalogTags } from './CatalogTags'
 
 export interface CatalogDetailsProps {
@@ -85,9 +86,9 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
                 formState={formState}
                 fields={fields}
             />
-            {catalog?.img && <img
+            {catalog?.id && <img
                 className='catalogLogo'
-                src={catalog?.img}
+                src={`${config().platform.url}/catalogues/${catalog.id}/logo`}
                 alt="The standard logo"
             />}
         </Stack>

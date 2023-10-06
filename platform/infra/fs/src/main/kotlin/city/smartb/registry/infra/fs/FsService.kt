@@ -24,8 +24,9 @@ class FsService(
 		return fileClient.fileGet(listOf(query)).first().item
 	}
 	object FsPath {
-		const val CATALOGUE_TYPE = "catalogue"
+		const val CATALOGUE_TYPE = "catalogues"
 		const val CATALOGUE_DIR_IMG = "img"
+		const val CATALOGUE_IMG_NAME = "img.png"
 	}
 
 
@@ -37,7 +38,7 @@ class FsService(
 			objectType = FsPath.CATALOGUE_TYPE,
 			objectId = catalogueId,
 			directory = FsPath.CATALOGUE_DIR_IMG,
-			name = filePart.filename(),
+			name = FsPath.CATALOGUE_IMG_NAME,
 		)
 		return fileClient.fileUpload(
 			command = path.toUploadCommand(

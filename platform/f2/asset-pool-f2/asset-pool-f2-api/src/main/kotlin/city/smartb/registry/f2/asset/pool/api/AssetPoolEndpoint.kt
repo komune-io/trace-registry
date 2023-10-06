@@ -64,7 +64,6 @@ class AssetPoolEndpoint(
     private val assetTransactionF2FinderService: AssetTransactionF2FinderService,
     private val fileClient: FileClient,
     private val assetPoolPoliciesEnforcer: AssetPoolPoliciesEnforcer,
-
     ): AssetPoolApi {
     private val logger by Logger()
 
