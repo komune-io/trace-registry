@@ -1,7 +1,6 @@
 package city.smartb.registry.f2.catalogue.api.service
 
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult

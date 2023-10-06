@@ -2,8 +2,8 @@ package city.smartb.registry.program.s2.catalogue.api
 
 import city.smartb.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import city.smartb.registry.s2.catalogue.domain.CatalogueAggregate
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddThemesCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -45,8 +45,8 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun linkThemes(cmd: CatalogueAddThemesCommand): CatalogueAddedThemesEvent = automate.transition(cmd) {
-		CatalogueAddedThemesEvent(
+	override suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent = automate.transition(cmd) {
+		CatalogueLinkedThemesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
 			themes = cmd.themes

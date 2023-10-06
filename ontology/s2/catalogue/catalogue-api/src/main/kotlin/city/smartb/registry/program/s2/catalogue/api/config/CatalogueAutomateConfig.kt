@@ -7,7 +7,7 @@ import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueSnapReposit
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.automate.s2Catalogue
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
@@ -67,7 +67,7 @@ class CatalogueAutomateConfig(
 				subclass(CatalogueDeletedEvent::class, CatalogueDeletedEvent.serializer())
 				subclass(CatalogueUpdatedEvent::class, CatalogueUpdatedEvent.serializer())
 				subclass(CatalogueLinkedCataloguesEvent::class, CatalogueLinkedCataloguesEvent.serializer())
-				subclass(CatalogueAddedThemesEvent::class, CatalogueAddedThemesEvent.serializer())
+				subclass(CatalogueLinkedThemesEvent::class, CatalogueLinkedThemesEvent.serializer())
 			}
 		}
 	}

@@ -15,5 +15,8 @@ class CataloguePoliciesEnforcer: PolicyEnforcer() {
     suspend fun checkLinkCatalogues() = checkAuthed("links catalogues") { authedUser ->
         CataloguePolicies.canCreate(authedUser)
     }
+    suspend fun checkLinkThemes() = checkAuthed("links themes") { authedUser ->
+        CataloguePolicies.canCreate(authedUser)
+    }
 
 }

@@ -8,8 +8,11 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
@@ -19,6 +22,8 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
@@ -77,6 +82,14 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
     }
+
+    @PermitAll
+    @Bean
+    override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { cmd ->
+        logger.info("catalogueLinkThemes: $cmd")
+        cataloguePoliciesEnforcer.checkLinkThemes()
+        catalogueService.linkThemes(cmd.toCommand()).toEvent()
+    }
 }
 
 fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
@@ -110,4 +123,14 @@ fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesC
 fun CatalogueLinkedCataloguesEvent.toEvent() = CatalogueLinkedCataloguesEventDTOBase(
     id = id,
     catalogues = catalogues
+)
+
+fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
+    id = id,
+    themes = themes
+)
+
+fun CatalogueLinkedThemesEvent.toEvent() = CatalogueLinkedThemesEventDTOBase(
+    id = id,
+    themes = themes
 )

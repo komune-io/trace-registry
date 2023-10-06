@@ -1,9 +1,9 @@
 package city.smartb.registry.s2.catalogue.domain.automate
 
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddThemesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueAddedThemesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import kotlinx.serialization.Serializable
@@ -21,8 +21,8 @@ val s2Catalogue = s2Sourcing {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
-    selfTransaction<CatalogueAddThemesCommand, CatalogueAddedThemesEvent> {
-        states += CatalogueState.ACTIVE
+    transaction<CatalogueLinkThemesCommand, CatalogueLinkedThemesEvent> {
+        to = CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
 }
