@@ -6,7 +6,7 @@ import city.smartb.gradle.dependencies.add
 
 object Framework {
 	val fixers = FixersPluginVersions.fixers
-	val connect = "next-SNAPSHOT"
+	val connect = "0.15.0-RC2"
 }
 
 object PluginVersions {
@@ -77,36 +77,36 @@ object Dependencies {
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"city.smartb.im:organization-client:${Versions.im}",
-			"city.smartb.im:user-client:${Versions.im}",
-			"city.smartb.im:apikey-client:${Versions.im}",
+			"city.smartb.im:im-organization-client:${Versions.im}",
+			"city.smartb.im:im-user-client:${Versions.im}",
+			"city.smartb.im:im-apikey-client:${Versions.im}",
 		)
 
 		object Cccev {
 			fun client(scope: Scope) = scope.add(
-				"city.smartb.cccev:dsl-client:${Versions.cccev}",
+				"city.smartb.cccev:cccev-dsl-client:${Versions.cccev}",
 			)
 			fun dsl(scope: Scope) = scope.add(
-				"city.smartb.cccev:dsl-model:${Versions.cccev}",
+				"city.smartb.cccev:cccev-dsl-model:${Versions.cccev}",
 			)
 		}
 
 		object Im {
 			object Client {
 				fun organization(scope: Scope) = scope.add(
-					"city.smartb.im:organization-client:${Versions.fs}",
+					"city.smartb.im:im-organization-client:${Versions.fs}",
 					"io.ktor:ktor-utils:${Versions.ktor}"
 				)
 
 				fun userClient(scope: Scope) = scope.add(
-					"city.smartb.im:user-client:${Versions.fs}",
+					"city.smartb.im:im-user-client:${Versions.fs}",
 					"io.ktor:ktor-utils:${Versions.ktor}"
 				)
 			}
 		}
 		object Fs {
 			fun client(scope: Scope) = scope.add(
-				"city.smartb.fs:file-client:${Versions.fs}",
+				"city.smartb.fs:fs-file-client:${Versions.fs}",
 				"city.smartb.fs:fs-spring-utils:${Versions.fs}",
 				"io.ktor:ktor-utils:${Versions.ktor}"
 			)
@@ -151,12 +151,12 @@ object Dependencies {
 		}
 
 		fun fs(scope: Scope) = scope.add(
-			"city.smartb.fs:file-domain:${Versions.fs}"
+			"city.smartb.fs:fs-file-domain:${Versions.fs}"
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"city.smartb.im:organization-domain:${Versions.im}",
-			"city.smartb.im:user-domain:${Versions.im}"
+			"city.smartb.im:im-organization-domain:${Versions.im}",
+			"city.smartb.im:im-user-domain:${Versions.im}"
 		)
 
 		fun bignum(scope: Scope) = scope.add(
@@ -178,13 +178,13 @@ object Dependencies {
 		)
 
 		fun cccevDomain(scope: Scope) = scope.add(
-			"city.smartb.cccev:certification-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:concept-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:evidence-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:evidence-type-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:framework-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:requirement-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:unit-f2-domain:${Versions.cccev}"
+			"city.smartb.cccev:cccev-certification-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-concept-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-evidence-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-evidence-type-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-framework-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-requirement-f2-domain:${Versions.cccev}",
+			"city.smartb.cccev:cccev-unit-f2-domain:${Versions.cccev}"
 		)
 	}
 }
