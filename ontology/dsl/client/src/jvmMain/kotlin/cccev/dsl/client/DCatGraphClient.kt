@@ -63,6 +63,7 @@ class DCatGraphClient(
             identifier = identifier
         ).invokeWith(catalogueClient().catalogueGet()).item
         if(existingCatalogue != null) {
+            createdCatalogues[catalogue.identifier] = existingCatalogue.id
             return existingCatalogue.toDsl()
         }
 
@@ -72,10 +73,15 @@ class DCatGraphClient(
         )
 
         createdCatalogues[catalogue.identifier] = catalogueId
-
-        catalogue.catalogues?.forEach { parent ->
-            linkCatalogues(createdCatalogues, parent, catalogueId)
+        catalogue.catalogues?.takeIf { it.isNotEmpty() }?.let { catalogues ->
+            linkCatalogues(
+                createdCatalogues,
+                catalogue,
+                catalogues.map { createdCatalogues[it.identifier]!! })
         }
+//        catalogue.catalogues?.forEach { parent ->
+//            linkCatalogues(createdCatalogues, parent, catalogueId)
+//        }
         return CatalogueGetQuery(
             id = catalogueId
         ).invokeWith(catalogueClient().catalogueGet()).item?.toDsl()!!
@@ -84,11 +90,11 @@ class DCatGraphClient(
     private suspend fun DCatGraphClient.linkCatalogues(
         createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>,
         parent: DCatApCatalogueModel,
-        catalogueId: CatalogueId
+        catalogueId: List<CatalogueId>
     ) {
         CatalogueLinkCataloguesCommandDTOBase(
             id = createdCatalogues[parent.identifier]!!,
-            catalogues = listOf(catalogueId)
+            catalogues = catalogueId
         ).invokeWith(catalogueClient().catalogueLinkCatalogues())
         println("Linked catalogue ${parent.identifier} to ${catalogueId}")
     }

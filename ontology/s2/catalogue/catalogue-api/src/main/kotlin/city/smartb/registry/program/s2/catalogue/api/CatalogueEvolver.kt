@@ -31,8 +31,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		type = event.type
 		description = event.description
 		homepage = event.homepage
-		themes = event.themes ?: emptyList()
-		catalogues = event.catalogues ?: emptyList()
+		themes = event.themes?.toHashSet() ?: emptySet()
+		catalogues = event.catalogues?.toHashSet() ?: emptySet()
 		lastUpdate = event.date
 		status = CatalogueState.ACTIVE
 	}

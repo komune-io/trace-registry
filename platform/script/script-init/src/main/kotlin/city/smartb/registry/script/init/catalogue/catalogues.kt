@@ -3,7 +3,6 @@ package city.smartb.registry.script.init.catalogue
 import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import city.smartb.registry.s2.catalogue.domain.model.concept
 import city.smartb.registry.s2.catalogue.domain.model.dataService
-import java.util.UUID
 
 fun catalogueStandards(debug: String) = catalogue {
     identifier = "standards${debug}"
@@ -193,6 +192,287 @@ object VerraProgram {
             The Verified Carbon Standard Program creates tradable carbon credits 
             from certified projects that reduce or remove greenhouse gas emissions.
             """.trimIndent()
+
+        catalogues {
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0001${debug}"
+                title = "VM0001"
+                type = "methodology"
+                description = """
+            Infrared Automatic Refrigerant Leak Detection Efficiency Project Methodology, v1.1
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0003${debug}"
+                title = "VM0003"
+                type = "methodology"
+                description = """
+            Methodology for Improved Forest Management through Extension of Rotation Age, v1.3
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0004${debug}"
+                title = "VM0004"
+                type = "methodology"
+                description = """
+            Methodology for Conservation Projects that Avoid Planned Land-use Conversion in Peat Swamp Forests, v2.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0005${debug}"
+                title = "VM0005"
+                type = "methodology"
+                description = """
+            Methodology for Conversion of Low-Productive Forest to High-Productive Forest, v1.2
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0006${debug}"
+                title = "VM0006"
+                type = "methodology"
+                description = """
+            Methodology for Carbon Accounting for Mosaic and Landscape-scale REDD Projects, v2.2
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0007${debug}"
+                title = "VM0007"
+                type = "methodology"
+                description = """
+            REDD+ Methodology Framework (REDD-MF), v1.6
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0008${debug}"
+                title = "VM0008"
+                type = "methodology"
+                description = """
+            Weatherization of Single-Family and Multi-Family Buildings, v1.1
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0009${debug}"
+                title = "VM0009"
+                type = "methodology"
+                description = """
+            Methodology for Avoided Ecosystem Conversion, v3.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0010${debug}"
+                title = "VM0010"
+                type = "methodology"
+                description = """
+            Methodology for Improved Forest Management: Conversion from Logged to Protected Forest, v1.3
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0011"
+                title = "VM0011"
+                type = "methodology"
+                description = "Methodology for Calculating GHG Benefits from Preventing Planned Degradation, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0012"
+                title = "VM0012"
+                type = "methodology"
+                description = "Improved Forest Management in Temperate and Boreal Forests (LtPF), v1.2"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0014"
+                title = "VM0014"
+                type = "methodology"
+                description = "Interception and Destruction of Fugitive Methane from Coal Bed Methane (CBM) Seeps, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0015"
+                title = "VM0015"
+                type = "methodology"
+                description = "Methodology for Avoided Unplanned Deforestation, v1.1"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0016"
+                title = "VM0016"
+                type = "methodology"
+                description = "Recovery and Destruction of Ozone-Depleting Substances (ODS) from Products, v1.1"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0018"
+                title = "VM0018"
+                type = "methodology"
+                description = "Energy Efficiency and Solid Waste Diversion Activities within a Sustainable Community, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0019"
+                title = "VM0019"
+                type = "methodology"
+                description = "Fuel Switch from Gasoline to Ethanol in Flex-Fuel Vehicle Fleets, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0022"
+                title = "VM0022"
+                type = "methodology"
+                description = "Quantifying N2O Emissions Reductions in Agricultural Crops through Nitrogen Fertilizer Rate Reduction, v1.1"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0025"
+                title = "VM0025"
+                type = "methodology"
+                description = "Campus Clean Energy and Energy Efficiency, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0026"
+                title = "VM0026"
+                type = "methodology"
+                description = "Methodology for Sustainable Grassland Management (SGM), v1.1"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0032"
+                title = "VM0032"
+                type = "methodology"
+                description = "Methodology for the Adoption of Sustainable Grasslands through Adjustment of Fire and Grazing, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0033"
+                title = "VM0033"
+                type = "methodology"
+                description = "Methodology for Tidal Wetland and Seagrass Restoration, v2.1"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0034"
+                title = "VM0034"
+                type = "methodology"
+                description = "Canadian Forest Carbon Offset Methodology, v2.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0035"
+                title = "VM0035"
+                type = "methodology"
+                description = "Methodology for Improved Forest Management through Reduced Impact Logging v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0036"
+                title = "VM0036"
+                type = "methodology"
+                description = "Methodology for Rewetting Drained Temperate Peatlands, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0037"
+                title = "VM0037"
+                type = "methodology"
+                description = "Methodology for Implementation of REDD+ Activities in Landscapes Affected by Mosaic Deforestation and Degradation, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0038"
+                title = "VM0038"
+                type = "methodology"
+                description = "Methodology for Electric Vehicle Charging Systems, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VM0039"
+                title = "VM0039"
+                type = "methodology"
+                description = "Methodology for Use of Foam Stabilized Base and Emulsion Asphalt Mixtures in Pavement Application, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0041"
+                title = "VM0041"
+                type = "methodology"
+                description = """
+            Methodology for the Reduction of Enteric Methane Emissions from Ruminants through the Use of Feed Ingredients, v2.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0042"
+                title = "VM0042"
+                type = "methodology"
+                description = """
+            Methodology for Improved Agricultural Land Management, v2.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0043"
+                title = "VM0043"
+                type = "methodology"
+                description = """
+            Methodology for CO2 Utilization in Concrete Production, v1.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0044"
+                title = "VM0044"
+                type = "methodology"
+                description = """
+            Methodology for Biochar Utilization in Soil and Non-Soil Applications, v1.1
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0045"
+                title = "VM0045"
+                type = "methodology"
+                description = """
+            Improved Forest Management Methodology Using Dynamic Matched Baselines from National Forest Inventories, v1.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0046"
+                title = "VM0046"
+                type = "methodology"
+                description = """
+            Methodology for Reducing Food Loss and Waste, v1.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonstandard-VM0047"
+                title = "VM0047"
+                type = "methodology"
+                description = """
+            Afforestation, Reforestation, and Revegetation, v1.0
+        """.trimIndent()
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0001${debug}"
+                title = "VMR0001"
+                type = "methodology"
+                description = "Revisions to ACM0008 to Include Pre-drainage of Methane from an Active Open Cast Mine as a Methane Emission Reduction Activity, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0002${debug}"
+                title = "VMR0002"
+                type = "methodology"
+                description = "Revisions to ACM0008 to Include Methane Capture and Destruction from Abandoned Coal Mines, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0003${debug}"
+                title = "VMR0003"
+                type = "methodology"
+                description = "Revisions to AMS-III.Y to Include Use of Organic Bedding Material, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0004${debug}"
+                title = "VMR0004"
+                type = "methodology"
+                description = "Revisions to AMS-III.BC to Include Mobile Machinery, v1.0"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0006${debug}"
+                title = "VMR0006"
+                type = "methodology"
+                description = "Energy Efficiency and Fuel Switch Measures in Thermal Applications, v1.2"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0007${debug}"
+                title = "VMR0007"
+                type = "methodology"
+                description = "Revision to AMS-III.AJ.: Recovery and Recycling of Materials from Solid Wastes"
+            }
+            catalogue {
+                identifier = "verra-verifiedcarbonctandard-VMR0008${debug}"
+                title = "VMR0008"
+                type = "methodology"
+                description = "Revision to AMS-III.BA.: Recovery and Recycling of Materials from E-waste"
+            }
+        }
         themes {
             concept {
                 id = "EnergyRenewableNonRenewable"
@@ -320,6 +600,7 @@ object VerraProgram {
             }
         }
     }
+
     fun plasticWasteReductionProgram(debug: String) = catalogue {
         identifier = "verra-plasticWasteReductionProgram${debug}"
         title = "The Plastic Waste Reduction Program"
@@ -359,6 +640,7 @@ object VerraProgram {
             }
         }
     }
+
     fun climateCommunityBiodiversityStandards(debug: String) = catalogue {
         identifier = "verra-climateCommunityBiodiversityStandards${debug}"
         title = "Climate, Community & Biodiversity Standards"
@@ -432,6 +714,7 @@ object VerraProgram {
             }
         }
     }
+
     fun sustainableDevelopmentVerifiedImpactStandard(debug: String) = catalogue {
         identifier = "verra-sustainableDevelopmentVerifiedImpactStandard${debug}"
         title = "Sustainable Development Verified Impact Standard"
@@ -512,6 +795,7 @@ object VerraProgram {
             }
         }
     }
+
     fun californiaOffsetProject(debug: String) = catalogue {
         identifier = "verra-californiaOffsetProject${debug}"
         title = "California Offset Project"
@@ -552,7 +836,8 @@ object VerraProgram {
     }
 
 }
-fun goldStandardCatalogue(debug: String)  = catalogue {
+
+fun goldStandardCatalogue(debug: String) = catalogue {
     identifier = "goldstandard${debug}"
     homepage = "https://www.goldstandard.org/"
     title = "Gold Standard"
@@ -636,7 +921,8 @@ fun cee(debug: String) = catalogue {
 
 fun cdm(debug: String) = catalogue {
     identifier = "cdm${debug}"
-    homepage = "https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism"
+    homepage =
+        "https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism"
     title = "CDM"
     type = "standard"
     img = getImg("cdm.png")

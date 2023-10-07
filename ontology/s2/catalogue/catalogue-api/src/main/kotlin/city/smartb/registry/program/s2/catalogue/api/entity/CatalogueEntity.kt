@@ -8,6 +8,7 @@ import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
+import com.redis.om.spring.annotations.TagIndexed
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -38,9 +39,10 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var description: String? = null
 
-    var themes: List<SkosConcept> = emptyList()
+    var themes: Set<SkosConcept> = emptySet()
 
-    var catalogues: List<CatalogueId> = emptyList()
+    @TagIndexed
+    var catalogues: Set<CatalogueId> = emptySet()
 
     var lastUpdate: Long? = null
 

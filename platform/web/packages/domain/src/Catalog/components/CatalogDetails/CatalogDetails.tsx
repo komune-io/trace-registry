@@ -86,9 +86,9 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
                 formState={formState}
                 fields={fields}
             />
-            {catalog?.id && <img
+            {catalog?.img && <img
                 className='catalogLogo'
-                src={`${config().platform.url}/catalogues/${catalog.id}/logo`}
+                src={`${config().platform.url}${catalog.img}`}
                 alt="The standard logo"
             />}
         </Stack>

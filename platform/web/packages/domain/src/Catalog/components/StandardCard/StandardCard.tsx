@@ -61,9 +61,9 @@ export const StandardCard = (props: StandardCardProps) => {
                     }}
                     gap={2}
                 >
-                    {catalog?.id ? <img
+                    {catalog?.img ? <img
                         className='catalogLogo'
-                        src={`${config().platform.url}/catalogues/${catalog.id}/logo`}
+                        src={`${config().platform.url}${catalog.img}`}
                         alt="The standard logo"
                     /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
                     <Typography

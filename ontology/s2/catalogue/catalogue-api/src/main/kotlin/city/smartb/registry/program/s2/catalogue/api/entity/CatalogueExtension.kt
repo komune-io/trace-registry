@@ -11,8 +11,9 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         homepage = homepage,
         title = title,
         type = type,
+        img = img?.let {"/catalogues/${id}/logo" },
         description = description,
-        catalogues = catalogues,
-        themes = themes
+        catalogues = catalogues.toList(),
+        themes = themes.toList()
     )
 }
