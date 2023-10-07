@@ -102,7 +102,6 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
             type = params.type,
             homepage = params.homepage,
             catalogues = emptyList(),
-            img = params.img,
             themes = emptyList(),
         )
         command.invokeWith(catalogueEndpoint.catalogueCreate()).id
@@ -117,7 +116,6 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         title = entry?.get("title") ?: "My Catalogue",
         description = entry?.get("description") ?: "My Catalogue description",
         status = entry?.get("status") ?: "ACTIVE",
-        img = entry?.get("img"),
         homepage = entry?.get("homepage") ?: "https://www.smartb.city",
         type = entry?.get("type") ?: "Catalogue",
     )
@@ -128,7 +126,6 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         val description: String,
         val type: String,
         val homepage: String,
-        val img: String?,
         val status: String
     )
 

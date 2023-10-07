@@ -27,8 +27,6 @@ fun catalogueStandards(debug: String) = catalogue {
     }
 }
 
-interface tt
-
 fun getImg(name: String): String? {
     return CatalogueFactory::class.java.getResource("/$name")?.file.also {
         println("getImg: $name - $it")
@@ -36,7 +34,7 @@ fun getImg(name: String): String? {
 
 }
 
-
+@Suppress("LongMethod")
 fun verraCatalogue(debug: String) = catalogue {
     identifier = "verra${debug}"
     homepage = "https://verra.org/"
@@ -181,8 +179,9 @@ fun verraCatalogue(debug: String) = catalogue {
         }
     }
 }
-
+@Suppress("LargeClass")
 object VerraProgram {
+    @Suppress("LongMethod")
     fun verraVerifiedCarbonStandard(debug: String) = catalogue {
         identifier = "verra-verifiedcarbonctandard${debug}"
         title = "Verified Carbon Standard"
@@ -641,6 +640,7 @@ object VerraProgram {
         }
     }
 
+    @Suppress("LongMethod")
     fun climateCommunityBiodiversityStandards(debug: String) = catalogue {
         identifier = "verra-climateCommunityBiodiversityStandards${debug}"
         title = "Climate, Community & Biodiversity Standards"
@@ -714,7 +714,7 @@ object VerraProgram {
             }
         }
     }
-
+    @Suppress("LongMethod")
     fun sustainableDevelopmentVerifiedImpactStandard(debug: String) = catalogue {
         identifier = "verra-sustainableDevelopmentVerifiedImpactStandard${debug}"
         title = "Sustainable Development Verified Impact Standard"
