@@ -33,8 +33,11 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var img: FilePath? = null
 
-    @Searchable(nostem=true)
+    @Indexed
     lateinit var type: String
+
+    @Indexed
+    var display: String? = null
 
     @Searchable(nostem=true)
     var description: String? = null

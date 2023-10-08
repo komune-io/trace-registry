@@ -1,6 +1,6 @@
 window._env_ = {
   platform: {
-    url: "http://localhost:8070"
+    url: "https://dev.trace.smart-b.io/ver"
   },
   config: {
     keycloak: {

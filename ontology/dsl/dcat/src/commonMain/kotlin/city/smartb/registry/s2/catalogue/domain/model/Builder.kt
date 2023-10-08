@@ -11,8 +11,9 @@ class CatalogueBuilder {
     var homepage: String? = null
     lateinit var title: String
     var img: String? = null
-    lateinit var description: String
+    var description: String? = null
     lateinit var type: String
+    lateinit var display: String
     var themes: MutableList<SkosConcept> = mutableListOf()
     var cataloguedResources: MutableList<CataloguedResource> = mutableListOf()
     var datasets: MutableList<DcatDataset> = mutableListOf()
@@ -50,6 +51,7 @@ class CatalogueBuilder {
         img = img,
         description = description,
         type = type,
+        display = display,
         themes = themes,
         cataloguedResource = cataloguedResources,
         datasets = datasets,

@@ -5,6 +5,7 @@ import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 
@@ -16,6 +17,7 @@ interface CatalogueFinder {
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
+        parentIdentifier: StringMatch? = null,
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>

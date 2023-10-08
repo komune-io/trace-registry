@@ -18,7 +18,8 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
 
 val s2Catalogue = s2Sourcing {
-    name = "Catalogue"
+    // TODO Change to real name
+    name = "Catalogue-0.0.1"
     init<CatalogueCreateCommand, CatalogueCreatedEvent> {
         to = CatalogueState.ACTIVE
         role = CatalogueRole.Issuer

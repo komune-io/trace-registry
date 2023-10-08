@@ -15,6 +15,7 @@ interface CatalogueDTO{
     val title: String
     val img: String?
     val type: String
+    val display: String?
     val themes: List<SkosConcept>?
     val datasets: List<DcatDataset>?
 //    val services: List<DataService>
@@ -32,6 +33,7 @@ data class CatalogueDTOBase(
     override val title: String,
     override val img: String? = null,
     override val type: String,
+    override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val datasets: List<DcatDataset>? = null,
 //    val services: List<DataService>? = null,
@@ -49,6 +51,7 @@ interface CatalogueRefDTO {
     val title: String
     val img: String?
     val type: String
+    val display: String?
     val themes: List<SkosConcept>?
     val status: CatalogueState
 }
@@ -63,6 +66,7 @@ data class CatalogueRefDTOBase(
     override val title: String,
     override val img: String? = null,
     override val type: String,
+    override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val status: CatalogueState,
 ): CatalogueRefDTO

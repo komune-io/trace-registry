@@ -29,6 +29,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		title = event.title
 		identifier = event.identifier
 		type = event.type
+		display = event.display
 		description = event.description
 		homepage = event.homepage
 		themes = event.themes?.toHashSet() ?: emptySet()
@@ -48,6 +49,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		title = event.title
 		identifier = event.identifier
 		type = event.type
+		display = event.display
 		description = event.description
 		lastUpdate = event.date
 	}

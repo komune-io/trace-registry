@@ -10,9 +10,10 @@ import kotlinx.serialization.Serializable
 data class CatalogueCreateCommand(
     val identifier: CatalogueIdentifier,
     val type: String,
+    val display: String? = null,
     val title: String,
-    val description: String?,
-    val homepage: String?,
+    val description: String? = null,
+    val homepage: String? = null,
     val themes: List<SkosConcept>? = null,
     val catalogues: List<CatalogueId>? = null,
 ): CatalogueInitCommand
@@ -23,6 +24,7 @@ data class CatalogueCreatedEvent(
     override val id: CatalogueId,
     val identifier: CatalogueIdentifier,
     val type: String,
+    val display: String? = null,
     val title: String,
     val description: String? = null,
     val homepage: String? = null,

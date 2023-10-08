@@ -100,6 +100,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
             identifier = params.identifier,
             description = params.description,
             type = params.type,
+            display = params.display,
             homepage = params.homepage,
             catalogues = emptyList(),
             themes = emptyList(),
@@ -118,6 +119,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         status = entry?.get("status") ?: "ACTIVE",
         homepage = entry?.get("homepage") ?: "https://www.smartb.city",
         type = entry?.get("type") ?: "Catalogue",
+        display = entry?.get("display") ?: "grid",
     )
 
     private data class CatalogueCreateParams(
@@ -125,6 +127,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         val title: TestContextKey,
         val description: String,
         val type: String,
+        val display: String,
         val homepage: String,
         val status: String
     )

@@ -7,33 +7,33 @@ import { LinkButton, Option } from '@smartb/g2'
 import { t } from 'i18next'
 import {config} from "../../../config";
 
-export interface StandardCardProps extends CardProps {
-    catalog?: Catalogue
+export interface CatalogueCardProps extends CardProps {
+    catalogue?: Catalogue
     isLoading?: boolean
 }
 
-export const StandardCard = (props: StandardCardProps) => {
-    const { catalog, isLoading, ...other } = props
+export const CatalogueCard = (props: CatalogueCardProps) => {
+    const { catalogue, isLoading, ...other } = props
 
     const { i18n } = useTranslation()
     const {catalogsCatalogIdViewTab} = useRoutesDefinition()
 
     const themes = useMemo(() =>
-        catalog?.themes?.map((theme: any): Option => ({
+        catalogue?.themes?.map((theme: any): Option => ({
             key: theme.id, label: theme.prefLabels[i18n.resolvedLanguage ?? "en"], color: "#18159D"
         }))
-        , [catalog, i18n.language])
+        , [catalogue, i18n.language])
 
     const projectsCountLabel = useMemo(() => {
         type Dataset = {type: string, length: number}
-        const datasets = catalog?.datasets ?? [] as Array<Dataset>
+        const datasets = catalogue?.datasets ?? [] as Array<Dataset>
         const count = datasets
             .filter((dataset: Dataset) => dataset.type === "project")
             .map((dataset: Dataset) => dataset.length)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
 
         return count > 0 ? t("catalogs.verifiedProjects", { count: count }) : ""
-    }, [catalog?.datasets])
+    }, [catalogue?.datasets])
     console.log(projectsCountLabel)
     return (
         <Card
@@ -61,20 +61,20 @@ export const StandardCard = (props: StandardCardProps) => {
                     }}
                     gap={2}
                 >
-                    {catalog?.img ? <img
+                    {catalogue?.img ? <img
                         className='catalogLogo'
-                        src={`${config().platform.url}${catalog.img}`}
+                        src={`${config().platform.url}${catalogue.img}`}
                         alt="The standard logo"
                     /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
                     <Typography
                         variant="subtitle2"
                     >
-                        {isLoading ? <Skeleton animation="wave" width="50px" /> : catalog?.title}
+                        {isLoading ? <Skeleton animation="wave" width="50px" /> : catalogue?.title}
                     </Typography>
                 </Stack>
                 <DescriptedLimitedChipList
                     tags={themes}
-                    description={catalog?.description}
+                    description={catalogue?.description}
                     isLoading={isLoading}
                 />
                 <Box
@@ -95,7 +95,7 @@ export const StandardCard = (props: StandardCardProps) => {
                     >
                         {isLoading ? <Skeleton animation="wave" width="100px" /> : projectsCountLabel}
                     </Typography>
-                    <LinkButton to={catalogsCatalogIdViewTab(catalog?.identifier ?? "")} >{t("details")}</LinkButton>
+                    <LinkButton to={catalogsCatalogIdViewTab(catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
 

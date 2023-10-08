@@ -67,6 +67,7 @@ class CatalogueF2FinderService(
             catalogues = cataloguesFetched,
             themes = themes,
             type = type,
+            display = display,
             homepage = homepage,
             img = img
         )
@@ -80,6 +81,7 @@ class CatalogueF2FinderService(
             description = description,
             themes = themes,
             type = type,
+            display = display,
             homepage = homepage,
             img = img
         )

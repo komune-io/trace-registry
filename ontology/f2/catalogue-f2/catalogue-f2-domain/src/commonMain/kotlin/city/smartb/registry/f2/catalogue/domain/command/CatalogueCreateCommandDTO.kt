@@ -41,6 +41,7 @@ interface CatalogueCreateCommandDTO {
     val description: String?
 
     val type: String
+    val display: String?
     val homepage: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
@@ -55,6 +56,7 @@ data class CatalogueCreateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val type: String,
+    override val display: String? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,
@@ -78,6 +80,7 @@ interface CatalogueCreatedEventDTO: Event {
     val title: String
     val description: String?
     val type: String
+    val display: String?
     val homepage: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
@@ -93,6 +96,7 @@ data class CatalogueCreatedEventDTOBase(
     override val title: String,
     override val description: String?,
     override val type: String,
+    override val display: String? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,

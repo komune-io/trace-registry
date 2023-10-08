@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { StandardCard } from '../StandardCard'
+import { CatalogueCard } from '../StandardCard'
 import { Catalogue } from '../../model'
 
 export interface CatalogGridProps {
@@ -19,14 +19,14 @@ export const CatalogGrid = (props: CatalogGridProps) => {
         >
             { isLoading ?
                     Array.from({length: 4}, (_, index) => (
-                        <StandardCard
+                        <CatalogueCard
                             key={index}
                             isLoading
                         />
                     ))
                 :
                 items?.map((catalog) => (
-                    <StandardCard key={catalog.identifier} catalog={catalog} />
+                    <CatalogueCard key={catalog.identifier} catalogue={catalog} />
                 ))
             }
         </Box>

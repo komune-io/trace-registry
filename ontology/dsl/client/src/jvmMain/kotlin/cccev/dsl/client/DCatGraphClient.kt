@@ -111,6 +111,7 @@ class DCatGraphClient(
                 createdCatalogues[it.identifier]!!
             }.orEmpty(),
             type = catalogue.type,
+            display = catalogue.display,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
         ).invokeWith(catalogueClient().catalogueCreate()).id.also {
@@ -135,21 +136,23 @@ class DCatGraphClient(
 
 fun CatalogueDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,
-    title = title,
-    description = description,
     homepage = homepage,
     img = img,
     type = type,
-    catalogues = catalogues?.map { it.toDsl() },
     themes = themes,
+    catalogues = catalogues?.map { it.toDsl() },
+    description = description,
+    title = title,
+    display = display,
 )
 
 fun CatalogueRefDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,
-    title = title,
-    description = description,
     homepage = homepage,
     img = img,
     type = type,
     themes = themes,
+    description = description,
+    title = title,
+    display = display,
 )

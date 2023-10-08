@@ -9,7 +9,10 @@ import city.smartb.registry.s2.catalogue.domain.CatalogueFinder
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
@@ -36,11 +39,22 @@ class CatalogueFinderService(
 		id: Match<CatalogueId>?,
 		identifier: Match<CatalogueIdentifier>?,
 		title: Match<String>?,
+		parentIdentifier: StringMatch?,
 		status: Match<CatalogueState>?,
-		offset: OffsetPagination?,
+		offset: OffsetPagination?
 	): PageDTO<CatalogueModel> {
+
+		val parents = parentIdentifier?.value?.let { identifier ->
+			getOrNullByIdentifier(identifier)?.catalogues
+		}?.let { catalogues ->
+			CollectionMatch(catalogues)
+		}
+
 		return cataloguePageQueryDB.execute(
-			id = id,
+			id = andMatchOfNotNull(
+				parents,
+				id
+			),
 			identifier = identifier,
 			title = title,
 			status = status,

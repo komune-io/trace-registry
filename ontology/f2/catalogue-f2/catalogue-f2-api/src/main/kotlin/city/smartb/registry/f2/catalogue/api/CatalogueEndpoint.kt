@@ -211,6 +211,7 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     catalogues = catalogues,
     themes = themes,
     type = type,
+    display = display,
     homepage = homepage,
 )
 
@@ -222,6 +223,7 @@ fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
     catalogues = catalogues,
     themes = themes,
     type = type,
+    display = display,
     homepage = homepage,
 )
 

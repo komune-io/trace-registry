@@ -25,6 +25,7 @@ class CataloguePageQueryDB(
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
+        parentIdentifier: Match<CatalogueIdentifier>? = null,
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {

@@ -14,6 +14,7 @@ interface DcatApCatalogue: CataloguedResource {
     val services: List<DataService>?
     val catalogues: List<DcatApCatalogue>?
     val catalogueRecords: List<DcatCatalogueRecord>?
+    val display: String?
 }
 
 @Serializable
@@ -22,6 +23,7 @@ class DCatApCatalogueModel(
     override val homepage: String? = null,
     override val img: String? = null,
     override val type: String,
+    override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val cataloguedResource: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,

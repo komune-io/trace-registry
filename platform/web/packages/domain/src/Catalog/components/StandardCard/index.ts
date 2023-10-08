@@ -1,1 +1,1 @@
-export * from "./StandardCard"
+export * from "./CatalogueCard"
