@@ -65,7 +65,9 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
         Then ("The themes should be linked to the catalogue") { params: ThemeLinkParams ->
             step {
                 val itemId = context.catalogueIds.safeGet(params.identifier)
+                val catalog = getOne(itemId)
                 AssertionBdd.catalogue(repository).exists(itemId)
+                Assertions.assertThat(catalog?.themes).isEqualTo(params.themes)
             }
         }
 
@@ -85,7 +87,7 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
 
     private suspend fun createPool(params: CatalogueLinkParams) = context.catalogueIds.register(params.identifier) {
         linkCataloguesCommand = CatalogueLinkCataloguesCommandDTOBase(
-            id = params.identifier,
+            id = context.catalogueIds.safeGet(params.identifier),
             catalogues = params.catalogues
         )
         linkCataloguesCommand.invokeWith(catalogueEndpoint.catalogueLinkCatalogues()).id
@@ -93,7 +95,7 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
 
     private suspend fun linkThemesToCatalogue(params: ThemeLinkParams) = context.catalogueIds.register(params.identifier) {
         linkThemesCommand = CatalogueLinkThemesCommandDTOBase(
-            id = params.identifier,
+            id = context.catalogueIds.safeGet(params.identifier),
             themes = params.themes
         )
         linkThemesCommand.invokeWith(catalogueEndpoint.catalogueLinkThemes()).id
