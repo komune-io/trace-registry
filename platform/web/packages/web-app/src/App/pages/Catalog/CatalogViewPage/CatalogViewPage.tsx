@@ -1,39 +1,53 @@
-import {CatalogInformations, CatalogueRef, useCatalogueGetQuery} from 'domain-components'
+import {CatalogInformations, useCatalogueGetQuery, useCataloguePageQuery} from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
 import { LinkButton } from '@smartb/g2'
 import { useRoutesDefinition } from 'components'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { useCallback, useMemo } from 'react'
+import { useCatalogsRouteParams } from 'domain-components'
 
 export const CatalogViewPage = () => {
     const { t } = useTranslation()
-    const { catalogId, tab } = useParams()
+    const { ids, tab} = useCatalogsRouteParams()
+
+    const catalogId = ids[ids.length - 1]
+    
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
 
-    const {catalogs, catalogsCatalogIdViewTab} = useRoutesDefinition()
+    const {catalogs, catalogsAll} = useRoutesDefinition()
 
     const catalogGet = useCatalogueGetQuery({
         query: {
             identifier: catalogId!
         }
     })
-    const catalogues = catalogGet.data?.item?.catalogues.slice(0, 4) ?? [] as CatalogueRef[]
+
+    const subCatalogues = useCataloguePageQuery({
+        query: {
+            parentIdentifier: catalogGet.data?.item?.identifier,
+            offset: 0,
+            limit: 4
+        },
+        options: {
+            enabled: !!catalogGet.data?.item?.identifier
+        }
+    })
 
     const onTabChange = useCallback((_: React.SyntheticEvent<Element, Event>, value: string) => {
-        navigate(catalogsCatalogIdViewTab(catalogId || "", value))
-    }, [catalogId])
+        navigate(catalogsAll("item", value, ...ids))
+    }, [ids])
 
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
             key: 'info',
             label: t('information'),
-            component: (<CatalogInformations catalog={catalogGet.data?.item} mostUsedCatalogs={catalogues} isLoading={catalogGet.isInitialLoading} />)
+            component: (<CatalogInformations catalog={catalogGet.data?.item} mostUsedCatalogs={subCatalogues.data?.items} mostUsedCatalogsLoading={subCatalogues.isInitialLoading} isLoading={catalogGet.isInitialLoading} />)
         }]
         return tabs
-    }, [t, catalogGet.data, catalogGet.isInitialLoading])
+    }, [t, catalogGet.data, catalogGet.isInitialLoading, subCatalogues.data, subCatalogues.isInitialLoading])
 
     return (
         <AppPage

@@ -6,6 +6,7 @@ import { useMemo } from "react"
 import { LinkButton, Option } from '@smartb/g2'
 import { t } from 'i18next'
 import {config} from "../../../config";
+import { useCatalogsRouteParams } from '../useCatalogsRouteParams'
 
 export interface CatalogueCardProps extends CardProps {
     catalogue?: Catalogue
@@ -14,9 +15,9 @@ export interface CatalogueCardProps extends CardProps {
 
 export const CatalogueCard = (props: CatalogueCardProps) => {
     const { catalogue, isLoading, ...other } = props
-
+    const { ids } = useCatalogsRouteParams()
     const { i18n } = useTranslation()
-    const {catalogsCatalogIdViewTab} = useRoutesDefinition()
+    const {catalogsAll} = useRoutesDefinition()
 
     const themes = useMemo(() =>
         catalogue?.themes?.map((theme: any): Option => ({
@@ -34,7 +35,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
 
         return count > 0 ? t("catalogs.verifiedProjects", { count: count }) : ""
     }, [catalogue?.datasets])
-    console.log(projectsCountLabel)
+
     return (
         <Card
             {...other}
@@ -95,7 +96,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     >
                         {isLoading ? <Skeleton animation="wave" width="100px" /> : projectsCountLabel}
                     </Typography>
-                    <LinkButton to={catalogsCatalogIdViewTab(catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
+                    <LinkButton to={catalogsAll(catalogue?.display, undefined, ...ids, catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
 

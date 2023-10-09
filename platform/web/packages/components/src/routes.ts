@@ -1,4 +1,4 @@
-import {useMemo} from "react"
+import {useMemo, useCallback} from "react"
 import {Roles} from "./roles"
 import {insertObjectIdsInsideRoutes, RecordRouteCamelCase} from "./types"
 const strictRoutesAuthorizations = {
@@ -9,7 +9,7 @@ const strictRoutesAuthorizations = {
     "transactions/:transactionId": "open",
     "transactions": "open",
     "catalogs": "open",
-    "catalogs/:catalogId/view/:tab?": "open",
+    "catalogs/*": "open",
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
@@ -34,9 +34,19 @@ for (let route in strictRoutesAuthorizations) {
     routesDefinitions[camelCasedRoute] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
 }
 
-export const useRoutesDefinition = (): RoutesDefinitions => {
+export const useRoutesDefinition = () => {
+
+    const catalogsAll = useCallback(
+      (display: "item" | "grid" | "", tab?: string, ...objectIds: string[]) => {
+        const ends =  `/${display === "item" ? "view": "grid" }${tab ? "/" + tab : ""}`
+       return  "/" + insertObjectIdsInsideRoutes("catalogs/*", ...objectIds) + ends
+      },
+      [],
+    )
+    
 
     return useMemo(() => ({
         ...routesDefinitions,
-    }), [])
+        catalogsAll
+    }), [catalogsAll])
 }

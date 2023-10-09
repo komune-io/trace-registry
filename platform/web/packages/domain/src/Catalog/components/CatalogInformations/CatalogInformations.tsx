@@ -10,13 +10,15 @@ export interface CatalogInformationsProps {
     catalog?: Catalogue
     isLoading?: boolean
     mostUsedCatalogs?: Catalogue[]
+    mostUsedCatalogsLoading?: boolean
 }
 
 export const CatalogInformations = (props: CatalogInformationsProps) => {
     const {
         catalog,
         isLoading,
-        mostUsedCatalogs
+        mostUsedCatalogs,
+        mostUsedCatalogsLoading
     } = props
 
     const { t } = useTranslation()
@@ -36,6 +38,7 @@ export const CatalogInformations = (props: CatalogInformationsProps) => {
             />
             <CatalogGrid 
             items={mostUsedCatalogs}
+            isLoading={mostUsedCatalogsLoading}
             />
             <Button sx={{alignSelf: "flex-end"}}>{t("catalogs.seeAllPrograms")}</Button>
         </>

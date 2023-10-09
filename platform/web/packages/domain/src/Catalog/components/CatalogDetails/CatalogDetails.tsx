@@ -57,14 +57,17 @@ export const CatalogDetails = (props: CatalogDetailsProps) => {
         <Stack
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="stretch"
             gap={2}
             sx={{
                 "& .catalogLogo": {
                     width: "auto",
                     height: "auto",
                     maxWidth: "400px",
-                    maxHeight: "200px"
+                    maxHeight: "200px",
+                    flexShrink: 0,
+                    flexGrow: 1,
+                    objectFit: "contain"
                 }
             }}
         >

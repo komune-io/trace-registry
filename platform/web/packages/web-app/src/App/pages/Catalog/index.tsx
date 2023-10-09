@@ -1,6 +1,6 @@
 import {PageRoute} from "App/routes";
 import {CatalogListPage} from "./CatalogListPage/CatalogListPage";
-import { CatalogViewPage } from "./CatalogViewPage/CatalogViewPage";
+import { CatalogsRouter } from "./CatalogsRouter/CatalogsRouter";
 
 
 export const catalogPages: PageRoute[] = [
@@ -9,7 +9,7 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogListPage />
   },
   {
-    path: "catalogs/:catalogId/view/:tab?",
-    element: <CatalogViewPage />
+    path: "catalogs/*",
+    element: <CatalogsRouter />
   },
 ]
