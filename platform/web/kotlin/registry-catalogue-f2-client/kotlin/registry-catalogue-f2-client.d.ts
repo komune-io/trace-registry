@@ -3063,6 +3063,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.query {
 export namespace city.smartb.registry.f2.catalogue.domain.query {
     interface CataloguePageQueryDTO {
         readonly catalogueId?: string;
+        readonly parentIdentifier?: string;
         readonly title?: string;
         readonly status?: string;
         readonly offset?: number;

@@ -79385,37 +79385,42 @@ if (typeof Math.imul === 'undefined') {
   }
   function CataloguePageResultDTO() {
   }
-  function CataloguePageQuery(catalogueId, title, status, offset, limit) {
-    this.u6w_1 = catalogueId;
-    this.v6w_1 = title;
-    this.w6w_1 = status;
-    this.x6w_1 = offset;
-    this.y6w_1 = limit;
+  function CataloguePageQuery(catalogueId, parentIdentifier, title, status, offset, limit) {
+    this.v6w_1 = catalogueId;
+    this.w6w_1 = parentIdentifier;
+    this.x6w_1 = title;
+    this.y6w_1 = status;
+    this.z6w_1 = offset;
+    this.a6x_1 = limit;
   }
   CataloguePageQuery.prototype.t6w = function () {
-    return this.u6w_1;
-  };
-  CataloguePageQuery.prototype.y6r = function () {
     return this.v6w_1;
   };
-  CataloguePageQuery.prototype.v32 = function () {
+  CataloguePageQuery.prototype.u6w = function () {
     return this.w6w_1;
   };
-  CataloguePageQuery.prototype.p4u = function () {
+  CataloguePageQuery.prototype.y6r = function () {
     return this.x6w_1;
   };
-  CataloguePageQuery.prototype.q4u = function () {
+  CataloguePageQuery.prototype.v32 = function () {
     return this.y6w_1;
   };
+  CataloguePageQuery.prototype.p4u = function () {
+    return this.z6w_1;
+  };
+  CataloguePageQuery.prototype.q4u = function () {
+    return this.a6x_1;
+  };
   CataloguePageQuery.prototype.toString = function () {
-    return 'CataloguePageQuery(catalogueId=' + this.u6w_1 + ', title=' + this.v6w_1 + ', status=' + this.w6w_1 + ', offset=' + this.x6w_1 + ', limit=' + this.y6w_1 + ')';
+    return 'CataloguePageQuery(catalogueId=' + this.v6w_1 + ', parentIdentifier=' + this.w6w_1 + ', title=' + this.x6w_1 + ', status=' + this.y6w_1 + ', offset=' + this.z6w_1 + ', limit=' + this.a6x_1 + ')';
   };
   CataloguePageQuery.prototype.hashCode = function () {
-    var result = this.u6w_1 == null ? 0 : getStringHashCode(this.u6w_1);
-    result = imul(result, 31) + (this.v6w_1 == null ? 0 : getStringHashCode(this.v6w_1)) | 0;
+    var result = this.v6w_1 == null ? 0 : getStringHashCode(this.v6w_1);
     result = imul(result, 31) + (this.w6w_1 == null ? 0 : getStringHashCode(this.w6w_1)) | 0;
-    result = imul(result, 31) + (this.x6w_1 == null ? 0 : this.x6w_1) | 0;
-    result = imul(result, 31) + (this.y6w_1 == null ? 0 : this.y6w_1) | 0;
+    result = imul(result, 31) + (this.x6w_1 == null ? 0 : getStringHashCode(this.x6w_1)) | 0;
+    result = imul(result, 31) + (this.y6w_1 == null ? 0 : getStringHashCode(this.y6w_1)) | 0;
+    result = imul(result, 31) + (this.z6w_1 == null ? 0 : this.z6w_1) | 0;
+    result = imul(result, 31) + (this.a6x_1 == null ? 0 : this.a6x_1) | 0;
     return result;
   };
   CataloguePageQuery.prototype.equals = function (other) {
@@ -79424,8 +79429,6 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CataloguePageQuery))
       return false;
     var tmp0_other_with_cast = other instanceof CataloguePageQuery ? other : THROW_CCE();
-    if (!(this.u6w_1 == tmp0_other_with_cast.u6w_1))
-      return false;
     if (!(this.v6w_1 == tmp0_other_with_cast.v6w_1))
       return false;
     if (!(this.w6w_1 == tmp0_other_with_cast.w6w_1))
@@ -79434,12 +79437,22 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!(this.y6w_1 == tmp0_other_with_cast.y6w_1))
       return false;
+    if (!(this.z6w_1 == tmp0_other_with_cast.z6w_1))
+      return false;
+    if (!(this.a6x_1 == tmp0_other_with_cast.a6x_1))
+      return false;
     return true;
   };
   Object.defineProperty(CataloguePageQuery.prototype, 'catalogueId', {
     configurable: true,
     get: function () {
       return this.t6w();
+    }
+  });
+  Object.defineProperty(CataloguePageQuery.prototype, 'parentIdentifier', {
+    configurable: true,
+    get: function () {
+      return this.u6w();
     }
   });
   Object.defineProperty(CataloguePageQuery.prototype, 'title', {
@@ -79467,21 +79480,21 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function CataloguePageResult(items, total) {
-    this.z6w_1 = items;
-    this.a6x_1 = total;
+    this.b6x_1 = items;
+    this.c6x_1 = total;
   }
   CataloguePageResult.prototype.x4t = function () {
-    return this.z6w_1;
+    return this.b6x_1;
   };
   CataloguePageResult.prototype.w4t = function () {
-    return this.a6x_1;
+    return this.c6x_1;
   };
   CataloguePageResult.prototype.toString = function () {
-    return 'CataloguePageResult(items=' + this.z6w_1 + ', total=' + this.a6x_1 + ')';
+    return 'CataloguePageResult(items=' + this.b6x_1 + ', total=' + this.c6x_1 + ')';
   };
   CataloguePageResult.prototype.hashCode = function () {
-    var result = hashCode(this.z6w_1);
-    result = imul(result, 31) + this.a6x_1 | 0;
+    var result = hashCode(this.b6x_1);
+    result = imul(result, 31) + this.c6x_1 | 0;
     return result;
   };
   CataloguePageResult.prototype.equals = function (other) {
@@ -79490,9 +79503,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CataloguePageResult))
       return false;
     var tmp0_other_with_cast = other instanceof CataloguePageResult ? other : THROW_CCE();
-    if (!equals_1(this.z6w_1, tmp0_other_with_cast.z6w_1))
+    if (!equals_1(this.b6x_1, tmp0_other_with_cast.b6x_1))
       return false;
-    if (!(this.a6x_1 === tmp0_other_with_cast.a6x_1))
+    if (!(this.c6x_1 === tmp0_other_with_cast.c6x_1))
       return false;
     return true;
   };
@@ -79510,35 +79523,35 @@ if (typeof Math.imul === 'undefined') {
   });
   function CatalogueClient$catalogueCreate$ref($boundThis) {
     var l = function () {
-      return $boundThis.b6x();
+      return $boundThis.d6x();
     };
     l.callableName = 'catalogueCreate';
     return l;
   }
   function CatalogueClient$catalogueLinkCatalogues$ref($boundThis) {
     var l = function () {
-      return $boundThis.c6x();
+      return $boundThis.e6x();
     };
     l.callableName = 'catalogueLinkCatalogues';
     return l;
   }
   function CatalogueClient$catalogueLinkThemes$ref($boundThis) {
     var l = function () {
-      return $boundThis.d6x();
+      return $boundThis.f6x();
     };
     l.callableName = 'catalogueLinkThemes';
     return l;
   }
   function CatalogueClient$cataloguePage$ref($boundThis) {
     var l = function () {
-      return $boundThis.e6x();
+      return $boundThis.g6x();
     };
     l.callableName = 'cataloguePage';
     return l;
   }
   function CatalogueClient$catalogueGet$ref($boundThis) {
     var l = function () {
-      return $boundThis.f6x();
+      return $boundThis.h6x();
     };
     l.callableName = 'catalogueGet';
     return l;
@@ -79546,10 +79559,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueClient(client) {
     this.client = client;
   }
-  CatalogueClient.prototype.g6x = function () {
+  CatalogueClient.prototype.i6x = function () {
     return this.client;
   };
-  CatalogueClient.prototype.b6x = function () {
+  CatalogueClient.prototype.d6x = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -79657,7 +79670,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.c6x = function () {
+  CatalogueClient.prototype.e6x = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -79765,7 +79778,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.d6x = function () {
+  CatalogueClient.prototype.f6x = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -79873,7 +79886,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.e6x = function () {
+  CatalogueClient.prototype.g6x = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -79981,7 +79994,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.f6x = function () {
+  CatalogueClient.prototype.h6x = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80093,17 +80106,17 @@ if (typeof Math.imul === 'undefined') {
     return f2SupplierSingle(catalogueClient$slambda_0(urlBase, null));
   }
   function catalogueClient$slambda($urlBase, resultContinuation) {
-    this.p6x_1 = $urlBase;
+    this.r6x_1 = $urlBase;
     CoroutineImpl.call(this, resultContinuation);
   }
-  catalogueClient$slambda.prototype.q6x = function ($cont) {
+  catalogueClient$slambda.prototype.s6x = function ($cont) {
     var tmp = this.yg($cont);
     tmp.gg_1 = Unit_getInstance();
     tmp.hg_1 = null;
     return tmp.xg();
   };
   catalogueClient$slambda.prototype.w56 = function ($cont) {
-    return this.q6x($cont);
+    return this.s6x($cont);
   };
   catalogueClient$slambda.prototype.xg = function () {
     var suspendResult = this.gg_1;
@@ -80114,7 +80127,7 @@ if (typeof Math.imul === 'undefined') {
           case 0:
             this.fg_1 = 2;
             this.eg_1 = 1;
-            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.p6x_1), this);
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.r6x_1), this);
             if (suspendResult === get_COROUTINE_SUSPENDED()) {
               return suspendResult;
             }
@@ -80137,13 +80150,13 @@ if (typeof Math.imul === 'undefined') {
      while (true);
   };
   catalogueClient$slambda.prototype.yg = function (completion) {
-    var i = new catalogueClient$slambda(this.p6x_1, completion);
+    var i = new catalogueClient$slambda(this.r6x_1, completion);
     return i;
   };
   function catalogueClient$slambda_0($urlBase, resultContinuation) {
     var i = new catalogueClient$slambda($urlBase, resultContinuation);
     var l = function ($cont) {
-      return i.q6x($cont);
+      return i.s6x($cont);
     };
     l.$arity = 0;
     return l;
