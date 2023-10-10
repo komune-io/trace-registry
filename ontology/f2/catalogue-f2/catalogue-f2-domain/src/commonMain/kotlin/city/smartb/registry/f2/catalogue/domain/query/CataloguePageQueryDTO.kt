@@ -27,6 +27,7 @@ interface CataloguePageQueryDTO {
      * id of the catalogue
      */
     val catalogueId: String?
+    val parentIdentifier: String?
     val title: String?
     val status: String?
     val offset: Int?
@@ -38,6 +39,7 @@ interface CataloguePageQueryDTO {
  */
 data class CataloguePageQuery(
     override val catalogueId: String? = null,
+    override val parentIdentifier: String? = null,
     override val title: String? = null,
     override val status: String? = null,
     override val offset: Int?,

@@ -34,6 +34,7 @@ class CatalogueF2FinderService(
 
     suspend fun page(
         catalogueId: String?,
+        parentIdentifier: String?,
         title: String?,
         status: String?,
         offset: OffsetPagination? = null
@@ -42,6 +43,7 @@ class CatalogueF2FinderService(
         val catalogues = catalogueFinderService.page(
             id = catalogueId?.let { ExactMatch(it) },
             title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            parentIdentifier = title?.let { StringMatch(it, StringMatchCondition.EXACT) },
             status = ExactMatch(defaultValue),
             offset = offset
         )
