@@ -7,6 +7,6 @@ export const CatalogsRouter = () => {
     return display === "item" ? (
         <CatalogViewPage />
     ) : (
-        <CatalogListPage />
+        <CatalogListPage display='grid' />
     )
 }

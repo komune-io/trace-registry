@@ -9,7 +9,7 @@ export interface AppPageProps extends PageProps {
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, sx, headerProps, rightPart, ...other } = props
+    const { title, children, headerProps, rightPart, ...other } = props
     return (
         <Page
             headerProps={{
