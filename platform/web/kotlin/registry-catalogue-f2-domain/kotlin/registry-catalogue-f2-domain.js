@@ -1599,6 +1599,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkThemesEventDTO, 'CatalogueLinkedThemesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueSetImageCommandDTO, 'CatalogueSetImageCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueSetImageEventDTO, 'CatalogueSetImageEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguePolicies, 'CataloguePolicies', objectMeta, undefined, undefined, undefined, undefined, []);
@@ -58171,6 +58173,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkThemesEventDTO() {
   }
+  function CatalogueSetImageCommandDTO() {
+  }
+  function CatalogueSetImageEventDTO() {
+  }
   function CatalogueDTO() {
   }
   function CatalogueRefDTO() {
@@ -58189,12 +58195,17 @@ if (typeof Math.imul === 'undefined') {
     Roles_getInstance();
     return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
   };
+  CataloguePolicies.prototype.canSetImg = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
   CataloguePolicies.prototype.checkLinkCatalogues = function (authedUser) {
     Roles_getInstance();
     Roles_getInstance();
     return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
   };
-  CataloguePolicies.prototype.canCreateStep = function (authedUser) {
+  CataloguePolicies.prototype.checkLinkThemes = function (authedUser) {
     Roles_getInstance();
     Roles_getInstance();
     return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
@@ -59871,6 +59882,13 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
     var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
     var $city$smartb$registry$s2$catalogue$domain$command = $city$smartb$registry$s2$catalogue$domain.command || ($city$smartb$registry$s2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

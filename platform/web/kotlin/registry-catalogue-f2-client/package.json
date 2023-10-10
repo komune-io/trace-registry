@@ -4,10 +4,10 @@
   "main": "kotlin/registry-catalogue-f2-client.js",
   "devDependencies": {},
   "dependencies": {
+    "@js-joda/core": "3.2.0",
     "node-fetch": "2.6.7",
     "abort-controller": "3.0.0",
-    "ws": "8.5.0",
-    "@js-joda/core": "3.2.0"
+    "ws": "8.5.0"
   },
   "peerDependencies": {},
   "optionalDependencies": {},

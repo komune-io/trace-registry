@@ -2692,6 +2692,7 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly services?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DataService>[] */;
         readonly catalogues?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue>[] */;
         readonly catalogueRecords?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatCatalogueRecord>[] */;
+        readonly display?: string;
         readonly title: string;
         readonly type: string;
         readonly accessRights?: string;

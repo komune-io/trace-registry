@@ -2692,6 +2692,7 @@ export namespace city.smartb.registry.s2.catalogue.domain.model {
         readonly services?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DataService>[] */;
         readonly catalogues?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatApCatalogue>[] */;
         readonly catalogueRecords?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatCatalogueRecord>[] */;
+        readonly display?: string;
         readonly title: string;
         readonly type: string;
         readonly accessRights?: string;
@@ -2952,8 +2953,8 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
+        readonly display?: string;
         readonly homepage?: string;
-        readonly img?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly catalogues?: any/* Nullable<string>[] */;
 
@@ -2964,8 +2965,8 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
+        readonly display?: string;
         readonly homepage?: string;
-        readonly img?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly catalogues?: any/* Nullable<string>[] */;
 
@@ -2995,6 +2996,18 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
 
     }
 }
+export namespace city.smartb.registry.f2.catalogue.domain.command {
+    interface CatalogueSetImageCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueSetImageEventDTO {
+        readonly id: string;
+        readonly img?: city.smartb.fs.s2.file.domain.model.FilePathDTO/* Nullable<city.smartb.fs.s2.file.domain.model.FilePath> */;
+        readonly date: number;
+
+    }
+}
 export namespace city.smartb.registry.f2.catalogue.domain.dto {
     interface CatalogueDTO {
         readonly id: string;
@@ -3004,6 +3017,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly title: string;
         readonly img?: string;
         readonly type: string;
+        readonly display?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly datasets?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatDataset>[] */;
         readonly catalogues?: any/* Nullable<city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO>[] */;
@@ -3018,6 +3032,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly title: string;
         readonly img?: string;
         readonly type: string;
+        readonly display?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.catalogue.domain.automate.CatalogueState */;
 
@@ -3028,8 +3043,9 @@ export namespace city.smartb.registry.f2.catalogue.domain.policy {
         canPage(authedUser?: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canPageSteps(authedUser?: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canSetImg(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkCatalogues(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
-        canCreateStep(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkThemes(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canFulfillTask(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
     };
 }
