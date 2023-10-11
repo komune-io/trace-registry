@@ -23,7 +23,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
-    "@smartb/g2": "1.0.0-alpha.178",
+    "@smartb/g2": "1.0.0-alpha.180",
     "react-infinite-scroll-component": "^6.1.0",
     "@mantine/hooks": "^6.0.13",
     "d3-hierarchy": "^3.1.2",
@@ -33,7 +33,7 @@
     "react-i18next": "^12.2.0",
     "react-pdf": "^7.1.2",
     "@tanstack/react-query": "^4.32.5",
-    "@axa-fr/oidc-client": "^6.20.0",
+    "@axa-fr/oidc-client": "^7.6.0",
     "react-router-dom": "^6.8.2",
     "reactflow": "^11.6.1",
     "vite-plugin-checker": "^0.5.6",
@@ -45,6 +45,7 @@
   ],
   "scripts": {
     "start": "yarn workspace web-app start",
+    "postinstall": "node ./node_modules/@axa-fr/react-oidc/bin/copy-service-worker-files.mjs /packages/web-app/public",
     "type": "yarn workspace web-app type",
     "build": "yarn workspace web-app build"
   },
