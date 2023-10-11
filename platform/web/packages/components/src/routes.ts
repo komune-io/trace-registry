@@ -37,8 +37,8 @@ for (let route in strictRoutesAuthorizations) {
 export const useRoutesDefinition = () => {
 
     const catalogsAll = useCallback(
-      (display: "item" | "grid" | "", tab?: string, ...objectIds: string[]) => {
-        const ends =  `/${display === "item" ? "view": "grid" }${tab ? "/" + tab : ""}`
+      (display?: "item" | "grid", tab?: string, ...objectIds: string[]) => {
+        const ends =  `/${display === "grid" ? "grid": "view" }${tab ? "/" + tab : ""}`
        return  "/" + insertObjectIdsInsideRoutes("catalogs/*", ...objectIds) + ends
       },
       [],

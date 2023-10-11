@@ -96,7 +96,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     >
                         {isLoading ? <Skeleton animation="wave" width="100px" /> : projectsCountLabel}
                     </Typography>
-                    <LinkButton to={catalogsAll(catalogue?.display, undefined, ...ids, catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
+                    <LinkButton to={catalogsAll(catalogue?.display as "item" | "grid", undefined, ...ids, catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
 
