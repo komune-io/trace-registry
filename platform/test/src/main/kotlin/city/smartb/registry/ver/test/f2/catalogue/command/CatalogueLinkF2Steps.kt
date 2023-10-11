@@ -40,7 +40,7 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
 
         When("I link a catalogue via API:") { params: CatalogueLinkParams ->
             step {
-                createPool(params)
+                linkCataloguesToCatalogue(params)
             }
         }
 
@@ -51,14 +51,14 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
         }
         Given("A catalogue is linked via API:") { params: CatalogueLinkParams ->
             step {
-                createPool(params)
+                linkCataloguesToCatalogue(params)
             }
         }
 
         Given("Some catalogues are linked via API:") { dataTable: DataTable ->
             step {
                 dataTable.asList(CatalogueLinkParams::class.java)
-                    .forEach { createPool(it) }
+                    .forEach { linkCataloguesToCatalogue(it) }
             }
         }
 
@@ -85,7 +85,7 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
         }
     }
 
-    private suspend fun createPool(params: CatalogueLinkParams) = context.catalogueIds.register(params.identifier) {
+    private suspend fun linkCataloguesToCatalogue(params: CatalogueLinkParams) = context.catalogueIds.register(params.identifier) {
         linkCataloguesCommand = CatalogueLinkCataloguesCommandDTOBase(
             id = context.catalogueIds.safeGet(params.identifier),
             catalogues = params.catalogues

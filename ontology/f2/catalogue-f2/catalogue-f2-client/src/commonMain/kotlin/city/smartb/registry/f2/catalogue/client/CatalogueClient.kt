@@ -2,6 +2,7 @@ package city.smartb.registry.f2.catalogue.client
 
 import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
@@ -23,4 +24,5 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function(this::catalogueLinkThemes.name)
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
     override fun catalogueGet(): CatalogueGetFunction = client.function(this::catalogueGet.name)
+    override fun catalogueDelete(): CatalogueDeleteFunction = client.function(this::catalogueDelete.name)
 }

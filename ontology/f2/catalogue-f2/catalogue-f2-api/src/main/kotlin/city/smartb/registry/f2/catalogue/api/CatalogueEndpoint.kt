@@ -5,19 +5,23 @@ import city.smartb.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
-import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
 import city.smartb.registry.program.s2.catalogue.api.CatalogueAggregateService
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
@@ -78,6 +82,14 @@ class CatalogueEndpoint(
 
     @PermitAll
     @Bean
+    override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { cmd ->
+        logger.info("catalogueDelete: $cmd")
+        cataloguePoliciesEnforcer.checkDelete(cmd.id)
+        catalogueService.delete(cmd).toEvent()
+    }
+
+    @PermitAll
+    @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
@@ -133,4 +145,12 @@ fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
 fun CatalogueLinkedThemesEvent.toEvent() = CatalogueLinkedThemesEventDTOBase(
     id = id,
     themes = themes
+)
+
+fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
+    id = id
+)
+
+fun CatalogueDeletedEvent.toEvent() = CatalogueDeletedEventDTOBase(
+    id = id
 )
