@@ -2973,6 +2973,16 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
     }
 }
 export namespace city.smartb.registry.f2.catalogue.domain.command {
+    interface CatalogueDeleteCommandDTO extends city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueDeletedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.f2.catalogue.domain.command {
     interface CatalogueLinkCataloguesCommandDTO {
         readonly id: string;
         readonly catalogues: string[];
@@ -3027,14 +3037,14 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
         readonly id: string;
         readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
         readonly description?: string;
         readonly homepage?: string;
-        readonly title: string;
         readonly img?: string;
-        readonly type: string;
         readonly display?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
-        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.catalogue.domain.automate.CatalogueState */;
+        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
 
     }
 }
@@ -3044,6 +3054,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.policy {
         canPageSteps(authedUser?: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canSetImg(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkCatalogues(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkThemes(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canFulfillTask(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
@@ -3073,6 +3084,16 @@ export namespace city.smartb.registry.f2.catalogue.domain.query {
     interface CataloguePageResultDTO extends f2.dsl.cqrs.page.PageDTO<city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTO> {
         readonly total: number;
         readonly items: city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTO[];
+
+    }
+}
+export namespace city.smartb.registry.f2.catalogue.domain.query {
+    interface CatalogueRefListQueryDTO {
+
+    }
+    interface CatalogueRefListResultDTO {
+        readonly items: city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly total: number;
 
     }
 }

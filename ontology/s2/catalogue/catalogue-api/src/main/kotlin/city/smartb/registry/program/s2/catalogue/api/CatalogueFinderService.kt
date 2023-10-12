@@ -27,6 +27,12 @@ class CatalogueFinderService(
 		return catalogueRepository.findById(id).orElse(null)?.toCatalogue()
 	}
 
+	override suspend fun getAll(): List<CatalogueModel> {
+		return catalogueRepository.findAll().map {
+			it.toCatalogue()
+		}
+	}
+
 	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier): CatalogueModel? {
 		return catalogueRepository.findByIdentifier(id).orElse(null)?.toCatalogue()
 	}

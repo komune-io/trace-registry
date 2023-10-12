@@ -46,14 +46,14 @@ data class CatalogueDTOBase(
 interface CatalogueRefDTO {
     val id: String
     val identifier: String
+    val title: String
+    val type: String
     val description: String?
     val homepage: String?
-    val title: String
     val img: String?
-    val type: String
     val display: String?
     val themes: List<SkosConcept>?
-    val status: CatalogueState
+    val status: CatalogueState?
 }
 
 
@@ -61,12 +61,12 @@ interface CatalogueRefDTO {
 data class CatalogueRefDTOBase(
     override val id: String,
     override val identifier: String,
-    override val description: String?,
-    override val homepage: String? = null,
     override val title: String,
-    override val img: String? = null,
     override val type: String,
+    override val description: String? = null,
+    override val homepage: String? = null,
+    override val img: String? = null,
     override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
-    override val status: CatalogueState,
+    override val status: CatalogueState? = null,
 ): CatalogueRefDTO

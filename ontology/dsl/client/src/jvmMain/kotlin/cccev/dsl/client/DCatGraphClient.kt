@@ -64,7 +64,9 @@ class DCatGraphClient(
         ).invokeWith(catalogueClient().catalogueGet()).item
         if(existingCatalogue != null) {
             createdCatalogues[catalogue.identifier] = existingCatalogue.id
-            return existingCatalogue.toDsl()
+            return CatalogueGetQuery(
+                id =  existingCatalogue.id
+            ).invokeWith(catalogueClient().catalogueGet()).item?.toDsl()!!
         }
 
         val catalogueId = createCatalogue(

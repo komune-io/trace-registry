@@ -21,4 +21,6 @@ interface CatalogueFinder {
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>
+
+    suspend fun getAll(): List<CatalogueModel>
 }

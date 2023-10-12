@@ -21,8 +21,7 @@ class CataloguePoliciesEnforcer(
     suspend fun checkDelete(
         catalogueId: CatalogueId
     ) = checkAuthed("delete the catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.getById(catalogueId).item
-        CataloguePolicies.canDelete(authedUser, catalogue)
+        CataloguePolicies.canDelete(authedUser)
     }
     suspend fun checkLinkCatalogues() = checkAuthed("links catalogues") { authedUser ->
         CataloguePolicies.checkLinkCatalogues(authedUser)

@@ -4,6 +4,7 @@ import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult
+import city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import city.smartb.registry.program.s2.catalogue.api.CatalogueFinderService
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
@@ -24,6 +25,10 @@ class CatalogueF2FinderService(
     ): CatalogueGetResult {
         val item = catalogueFinderService.getOrNull(id)
         return CatalogueGetResult(item?.toDTO())
+    }
+    suspend fun getAllRefs(): CatalogueRefListResult {
+        val items = catalogueFinderService.getAll().map { it.toSimpleRefDTO() }
+        return CatalogueRefListResult(items = items, total = items.size)
     }
     suspend fun getByIdentifier(
         identifier: CatalogueIdentifier,
@@ -74,19 +79,4 @@ class CatalogueF2FinderService(
             img = img
         )
     }
-    suspend fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
-        return CatalogueRefDTOBase(
-            id = id,
-            identifier = identifier,
-            status = status,
-            title = title,
-            description = description,
-            themes = themes,
-            type = type,
-            display = display,
-            homepage = homepage,
-            img = img
-        )
-    }
-
 }

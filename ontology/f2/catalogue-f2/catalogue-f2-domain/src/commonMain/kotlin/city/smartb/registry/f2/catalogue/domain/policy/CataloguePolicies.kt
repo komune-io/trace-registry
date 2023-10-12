@@ -2,6 +2,7 @@ package city.smartb.registry.f2.catalogue.domain.policy
 
 import city.smartb.im.commons.auth.AuthedUserDTO
 import city.smartb.im.commons.auth.hasOneOfRoles
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTO
 import city.smartb.registry.s2.commons.auth.Roles
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -26,7 +27,7 @@ object CataloguePolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
-    fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueDTO?): Boolean {
+    fun canDelete(authedUser: AuthedUserDTO): Boolean {
         return true
     }
     fun checkLinkCatalogues(authedUser: AuthedUserDTO): Boolean {

@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1595,6 +1595,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
   setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueDeleteCommandDTO_0, 'CatalogueDeleteCommandDTO', interfaceMeta, undefined, [CatalogueDeleteCommandDTO], undefined, undefined, []);
+  setMetadataFor(CatalogueDeletedEventDTO, 'CatalogueDeletedEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkCataloguesCommandDTO, 'CatalogueLinkCataloguesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -1608,6 +1610,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguePageQueryDTO, 'CataloguePageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguePageResultDTO, 'CataloguePageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(CatalogueRefListQueryDTO, 'CatalogueRefListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueRefListResultDTO, 'CatalogueRefListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   //endregion
   function toList(_this__u8e3s4) {
     var tmp0_subject = _this__u8e3s4.length;
@@ -58165,6 +58169,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreatedEventDTO() {
   }
+  function CatalogueDeleteCommandDTO_0() {
+  }
+  function CatalogueDeletedEventDTO() {
+  }
   function CatalogueLinkCataloguesCommandDTO() {
   }
   function CatalogueLinkCataloguesEventDTO() {
@@ -58200,6 +58208,9 @@ if (typeof Math.imul === 'undefined') {
     Roles_getInstance();
     return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
   };
+  CataloguePolicies.prototype.canDelete = function (authedUser) {
+    return true;
+  };
   CataloguePolicies.prototype.checkLinkCatalogues = function (authedUser) {
     Roles_getInstance();
     Roles_getInstance();
@@ -58230,6 +58241,10 @@ if (typeof Math.imul === 'undefined') {
   function CataloguePageQueryDTO() {
   }
   function CataloguePageResultDTO() {
+  }
+  function CatalogueRefListQueryDTO() {
+  }
+  function CatalogueRefListResultDTO() {
   }
   //region block: post-declaration
   CombinedContext.prototype.p3 = plus;
@@ -59916,6 +59931,13 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
     var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
     var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
     var $city$smartb$registry$f2$catalogue$domain$dto = $city$smartb$registry$f2$catalogue$domain.dto || ($city$smartb$registry$f2$catalogue$domain.dto = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
@@ -59928,6 +59950,13 @@ if (typeof Math.imul === 'undefined') {
       configurable: true,
       get: CataloguePolicies_getInstance
     });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$query = $city$smartb$registry$f2$catalogue$domain.query || ($city$smartb$registry$f2$catalogue$domain.query = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

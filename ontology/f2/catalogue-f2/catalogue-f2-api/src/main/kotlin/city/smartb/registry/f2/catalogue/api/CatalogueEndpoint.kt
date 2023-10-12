@@ -4,41 +4,25 @@ import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.features.query.FileDownloadQuery
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
-import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import city.smartb.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
+import city.smartb.registry.f2.catalogue.api.service.toCommand
+import city.smartb.registry.f2.catalogue.api.service.toEvent
 import city.smartb.registry.f2.catalogue.domain.CatalogueApi
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
+import city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import city.smartb.registry.infra.fs.FsService
 import city.smartb.registry.program.s2.catalogue.api.CatalogueAggregateService
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
-import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
-import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.ktor.util.toByteArray
@@ -46,17 +30,14 @@ import jakarta.annotation.security.PermitAll
 import java.net.URLConnection
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
-import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ContentDisposition
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 
@@ -98,6 +79,10 @@ class CatalogueEndpoint(
         } ?: query.id?.let {
             catalogueF2FinderService.getById(it)
         } ?: CatalogueGetResult(null)
+    }
+
+    override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
+        catalogueF2FinderService.getAllRefs()
     }
 
     @PermitAll
@@ -158,20 +143,6 @@ class CatalogueEndpoint(
         )
     }
 
-//    @PermitAll
-//    @GetMapping("/catalogues/{catalogueId}/logo",  produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
-//    suspend fun organizationLogo(
-//        @PathVariable catalogueId: CatalogueId,
-//    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
-//        logger.info("/catalogues/${catalogueId}/logo")
-//        FilePath(
-//            objectType = FsService.FsPath.CATALOGUE_TYPE,
-//            objectId = catalogueId,
-//            directory = FsService.FsPath.CATALOGUE_DIR_IMG,
-//            name = FsService.FsPath.CATALOGUE_IMG_NAME
-//        )
-//    }
-
     @PermitAll
     @GetMapping("/catalogues/{catalogueId}/logo")
     suspend fun organizationLogo2(
@@ -216,55 +187,3 @@ class CatalogueEndpoint(
 
 }
 
-
-
-fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
-    identifier = identifier,
-    title = title,
-    description = description,
-    catalogues = catalogues,
-    themes = themes,
-    type = type,
-    display = display,
-    homepage = homepage,
-)
-
-fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
-    id = id,
-    identifier = identifier,
-    title = title,
-    description = description,
-    catalogues = catalogues,
-    themes = themes,
-    type = type,
-    display = display,
-    homepage = homepage,
-)
-
-fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
-    id = id,
-    catalogues = catalogues
-)
-
-fun CatalogueLinkedCataloguesEvent.toEvent() = CatalogueLinkedCataloguesEventDTOBase(
-    id = id,
-    catalogues = catalogues
-)
-
-fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
-    id = id,
-    themes = themes
-)
-
-fun CatalogueLinkedThemesEvent.toEvent() = CatalogueLinkedThemesEventDTOBase(
-    id = id,
-    themes = themes
-)
-
-fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
-    id = id
-)
-
-fun CatalogueDeletedEvent.toEvent() = CatalogueDeletedEventDTOBase(
-    id = id
-)
