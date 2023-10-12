@@ -1,5 +1,6 @@
 import { Typography, Box } from '@mui/material'
 import {
+    CatalogBreadcrumbs,
     CatalogGrid, Catalogue,
     useCatalogFilters,
     useCataloguePageQuery,
@@ -37,6 +38,7 @@ export const CatalogListPage = (props: CatalogViewPageProps) => {
                 paddingBottom:"90px"
             }}
         >
+            <CatalogBreadcrumbs />
             <Typography
                 sx={{ maxWidth: "1000px", alignSelf: "center" }}
             >

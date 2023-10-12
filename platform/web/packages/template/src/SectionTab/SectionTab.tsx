@@ -13,7 +13,7 @@ export interface Tab {
 export interface SectionTabProps {
     tabs: Tab[]
     currentTab: string
-    goBackLink: JSX.Element
+    goBackLink?: JSX.Element
     onTabChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void
     sx?: SxProps<Theme>;
 }

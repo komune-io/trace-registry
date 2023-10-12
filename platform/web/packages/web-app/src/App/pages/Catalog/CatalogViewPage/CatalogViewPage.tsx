@@ -1,13 +1,12 @@
 import {
+    CatalogBreadcrumbs,
     Catalogue,
     CatalogueInformation,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
-import { LinkButton } from '@smartb/g2'
 import { useRoutesDefinition } from 'components'
-import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { SyntheticEvent, useCallback, useMemo } from 'react'
 import { useCatalogsRouteParams } from 'domain-components'
 
@@ -23,7 +22,7 @@ export const CatalogViewPage = (props: CatalogViewPageProps) => {
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
 
-    const {catalogs, catalogsAll} = useRoutesDefinition()
+    const { catalogsAll} = useRoutesDefinition()
 
 
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
@@ -41,16 +40,16 @@ export const CatalogViewPage = (props: CatalogViewPageProps) => {
         }]
         return tabs
     }, [t, catalogue, isLoading])
-    console.log(tabs)
+
     return (
         <AppPage
             title={catalogue?.title}
             flexContent
         >
+            <CatalogBreadcrumbs />
             <SectionTab
                 tabs={tabs}
                 currentTab={currentTab}
-                goBackLink={(<LinkButton sx={{ zIndex: 5 }} to={catalogs()} key="goBack" variant="text" startIcon={<ArrowBackIosNewRounded />}>{t("standards")}</LinkButton>)}
                 onTabChange={onTabChange}
                 sx={{
                     "& .AruiSection-contentContainer": {

@@ -5,7 +5,6 @@ import { CatalogListPage } from '../CatalogListPage/CatalogListPage'
 export const CatalogsRouter = () => {
     const { ids } = useCatalogsRouteParams()
     const catalogueId = ids[ids.length - 1] ??  "standards"
-    console.log("catalogueId", catalogueId)
     const catalogueGet = useCatalogueGetQuery({
         query: {
             identifier: catalogueId!
