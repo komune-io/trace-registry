@@ -23,3 +23,16 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
       "cataloguePage", requestProps, params
     )
 }
+
+
+export interface CatalogueRefListQuery extends city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListQueryDTO {}
+
+export interface CatalogueRefListResult extends city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListResultDTO {}
+
+export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefListQuery, CatalogueRefListResult>) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useQueryRequest<CatalogueRefListQuery, CatalogueRefListResult>(
+      "catalogueRefList", requestProps, params
+    )
+}
+

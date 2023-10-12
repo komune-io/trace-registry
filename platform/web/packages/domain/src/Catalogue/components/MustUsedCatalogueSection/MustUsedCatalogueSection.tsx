@@ -1,5 +1,5 @@
 
-import { Catalogue } from '../../model'
+import { Catalogue, CatalogueRef } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { TitleDivider, useRoutesDefinition } from 'components'
 import { CatalogueGrid } from '../CatalogueGrid'
@@ -8,7 +8,7 @@ import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 import {useCataloguePageQuery} from "../../api";
 
 export interface MustUsedCatalogueSectionProps {
-    catalogue?: Catalogue
+    catalogue?: Catalogue | CatalogueRef
 }
 
 export const MustUsedCatalogueSection = (props: MustUsedCatalogueSectionProps) => {
