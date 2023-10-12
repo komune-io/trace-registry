@@ -43,7 +43,7 @@ class CatalogueF2FinderService(
         val catalogues = catalogueFinderService.page(
             id = catalogueId?.let { ExactMatch(it) },
             title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            parentIdentifier = title?.let { StringMatch(it, StringMatchCondition.EXACT) },
+            parentIdentifier = parentIdentifier?.let { StringMatch(it, StringMatchCondition.EXACT) },
             status = ExactMatch(defaultValue),
             offset = offset
         )

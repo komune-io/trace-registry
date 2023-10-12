@@ -1,6 +1,7 @@
 import { QueryParams, useQueryRequest } from "@smartb/g2"
 import {city} from "registry-catalogue-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
+import {QueriesParams, useQueriesRequest} from "components/src/hooks/useQueriesRequest";
 
 export interface CatalogueGetQuery extends city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO {}
 
@@ -21,5 +22,11 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<CataloguePageQuery, CataloguePageResult>(
       "cataloguePage", requestProps, params
+    )
+}
+export const useCataloguePageQueries = (params: QueriesParams<CataloguePageQuery, CataloguePageResult>) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useQueriesRequest<CataloguePageQuery, CataloguePageResult>(
+        "cataloguePage", requestProps, params
     )
 }

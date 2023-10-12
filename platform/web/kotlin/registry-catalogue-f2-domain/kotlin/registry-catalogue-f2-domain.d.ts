@@ -3020,7 +3020,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly display?: string;
         readonly themes?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.SkosConcept>[] */;
         readonly datasets?: any/* Nullable<city.smartb.registry.s2.catalogue.domain.model.DcatDataset>[] */;
-        readonly catalogues?: any/* Nullable<city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO>[] */;
+        readonly catalogues?: city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.catalogue.domain.automate.CatalogueState */;
 
     }
