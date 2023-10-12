@@ -26,6 +26,9 @@ object CataloguePolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
+    fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueDTO?): Boolean {
+        return true
+    }
     fun checkLinkCatalogues(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
