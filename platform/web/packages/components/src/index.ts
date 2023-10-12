@@ -14,4 +14,5 @@ export * from "./routes"
 export * from "./LimitedChipList"
 export * from "./types"
 export * from "./TitleDivider"
+export * from "./Breadcrumbs"
 
