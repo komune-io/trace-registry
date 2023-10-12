@@ -8,8 +8,8 @@ const strictRoutesAuthorizations = {
     "projects/:projectId/transactions/:transactionId/view": "open",
     "transactions/:transactionId": "open",
     "transactions": "open",
-    "catalogs": "open",
-    "catalogs/*": "open",
+    "catalogues": "open",
+    "catalogues/*": "open",
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
@@ -36,10 +36,10 @@ for (let route in strictRoutesAuthorizations) {
 
 export const useRoutesDefinition = () => {
 
-    const catalogsAll = useCallback(
+    const cataloguesAll = useCallback(
       (tab?: string, ...objectIds: string[]) => {
         const ends =  `/${tab ? "/" + tab : ""}`
-       return  "/" + insertObjectIdsInsideRoutes("catalogs/*", ...objectIds) + ends
+       return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds) + ends
       },
       [],
     )
@@ -47,6 +47,6 @@ export const useRoutesDefinition = () => {
 
     return useMemo(() => ({
         ...routesDefinitions,
-        catalogsAll
-    }), [catalogsAll])
+        cataloguesAll
+    }), [cataloguesAll])
 }

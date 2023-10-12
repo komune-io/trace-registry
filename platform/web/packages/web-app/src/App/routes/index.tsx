@@ -4,7 +4,7 @@ import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
 import {useMemo} from "react"
-import { catalogPages } from "App/pages/Catalog";
+import { catalogPages } from "App/pages/Catalogue";
 
 
 

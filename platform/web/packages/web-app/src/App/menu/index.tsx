@@ -42,7 +42,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {projects, catalogs} = useRoutesDefinition()
+    const {projects, catalogues} = useRoutesDefinition()
     const menu: MenuItem[] = useMemo(() => [
      {
         key: "Registry",
@@ -51,11 +51,11 @@ export const useMenu = (t: TFunction) => {
         icon: <TravelExplore />,
         isSelected: location.pathname === "/" || location.pathname.includes(projects())
     },{
-        key: "catalogs",
-        to: catalogs(),
+        key: "catalogues",
+        to: catalogues(),
         label:  t("exploreStandards"),
         icon: <StandardIcon />,
-        isSelected: location.pathname.includes(catalogs())
+        isSelected: location.pathname.includes(catalogues())
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
