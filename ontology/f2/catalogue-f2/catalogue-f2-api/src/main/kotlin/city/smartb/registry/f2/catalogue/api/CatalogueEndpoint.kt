@@ -1,9 +1,8 @@
 package city.smartb.registry.f2.catalogue.api
 
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.s2.file.domain.features.query.FileDownloadQuery
 import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.fs.s2.file.domain.model.FilePathDTO
+import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import city.smartb.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import city.smartb.registry.f2.catalogue.api.service.toCommand
@@ -30,8 +29,10 @@ import jakarta.annotation.security.PermitAll
 import java.net.URLConnection
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
+import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ContentDisposition
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
@@ -81,7 +82,10 @@ class CatalogueEndpoint(
         } ?: CatalogueGetResult(null)
     }
 
+    @PermitAll
+    @Bean
     override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
+        logger.info("catalogueRefList: $query")
         catalogueF2FinderService.getAllRefs()
     }
 
@@ -144,44 +148,17 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/catalogues/{catalogueId}/logo")
-    suspend fun organizationLogo2(
+    @GetMapping("/catalogues/{catalogueId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    suspend fun catalogueLogoDownload(
         @PathVariable catalogueId: CatalogueId,
-        response: ServerHttpResponse
-    ): ByteArray? = downloadFile(response) {
-        logger.info("/catalogues/${catalogueId}/logo")
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("catalogueLogoDownload: $catalogueId")
         FilePath(
             objectType = FsService.FsPath.CATALOGUE_TYPE,
             objectId = catalogueId,
             directory = FsService.FsPath.CATALOGUE_DIR_IMG,
             name = FsService.FsPath.CATALOGUE_IMG_NAME
         )
-    }
-
-
-    suspend fun downloadFile(
-        response: ServerHttpResponse,
-        getFilePath: suspend () -> FilePathDTO?
-    ): ByteArray? {
-        val path = getFilePath() ?: return null
-
-        response.configureHeadersForFile(path.name)
-
-        return FileDownloadQuery(
-            objectType = path.objectType,
-            objectId = path.objectId,
-            directory = path.directory,
-            name = path.name
-        ).let { fileClient.fileDownload(it).toByteArray() }
-    }
-
-    fun ServerHttpResponse.configureHeadersForFile(name: String) {
-        headers.contentDisposition = ContentDisposition.attachment().filename(name).build()
-        headers.contentType = URLConnection.guessContentTypeFromName(name)
-            ?.split("/")
-            ?.takeIf { it.size == 2 }
-            ?.let { (type, subtype) -> MediaType(type, subtype) }
-            ?: MediaType.APPLICATION_OCTET_STREAM
     }
 
 
