@@ -22,7 +22,7 @@ export const CatalogueBreadcrumbs = () => {
             url: catalogues()
         },
         ...ids.map((id, index): Crumb => ({
-            label: refs?.find((ref) => ref.id === id)?.title ?? id,
+            label: refs?.find((ref) => ref.identifier === id)?.title ?? id,
             url: cataloguesAll(undefined, ...ids.slice(0, index + 1))
         }))
     ], [ids, cataloguesAll, catalogues, t, refs])
