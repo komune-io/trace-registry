@@ -3,49 +3,12 @@ import { Route, useParams, useSearchParams } from "react-router-dom";
 import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
-// import {OrganizationListPage, OrganizationProfilePage, UserListPage, UserProfilePage, } from "im"
 import {useMemo} from "react"
+import { catalogPages } from "App/pages/Catalogue";
 
 
-// const imPages: PageRoute[] = [{
-//   path: "organizations",
-//   element: <OrganizationListPage />
-// }, {
-//   path: "organizations/add",
-//   element: <OrganizationProfilePage readOnly={false} />
-// }, {
-//   path: "organizations/:organizationId/view",
-//   element: <OrganizationProfilePage readOnly />
-// }, {
-//   path: "organizations/:organizationId/edit",
-//   element: <OrganizationProfilePage readOnly={false} />
-// }, {
-//   path: "myOrganization",
-//   element: <OrganizationProfilePage myOrganization readOnly />
-// }, {
-//   path: "myOrganization/edit",
-//   element: <OrganizationProfilePage myOrganization readOnly={false} />
-// }, {
-//   path: "users",
-//   element: <UserListPage />
-// }, {
-//   path: "users/add",
-//   element: <UserProfilePage readOnly={false} />
-// }, {
-//   path: "users/:userId/view",
-//   element: <UserProfilePage readOnly />
-// }, {
-//   path: "users/:userId/edit",
-//   element: <UserProfilePage readOnly={false} />
-// }, {
-//   path: "myProfil",
-//   element: <UserProfilePage myProfil readOnly />
-// }, {
-//   path: "myProfil/edit",
-//   element: <UserProfilePage myProfil readOnly={false} />
-// }]
 
-const allPages: PageRoute[] = [...registryPages]
+const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
 export const AppRouter = () => {
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])

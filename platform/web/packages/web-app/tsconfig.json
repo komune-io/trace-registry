@@ -20,6 +20,6 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src"],
+  "include": ["src", "../domain/src/Catalog/components/useCatalogsRouteParams/index.ts"],
   "references": [{ "path": "./tsconfig.vite.json" }]
 }

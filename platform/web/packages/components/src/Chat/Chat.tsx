@@ -50,7 +50,6 @@ export const Chat = (props: ChatProps) => {
 
     const removeMessages = useCallback(
       (messageIds: string[]) => {
-        console.log(messageIds)
         setMessages(old => {
             const copy = [...old]
             return copy.filter((messsage) => !messageIds.includes(messsage.id))

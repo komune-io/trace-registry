@@ -47,7 +47,8 @@
     "start": "yarn workspace web-app start",
     "postinstall": "node ./node_modules/@axa-fr/react-oidc/bin/copy-service-worker-files.mjs /packages/web-app/public",
     "type": "yarn workspace web-app type",
-    "build": "yarn workspace web-app build"
+    "build": "yarn workspace web-app build",
+    "postinstall": "node ./node_modules/@axa-fr/react-oidc/bin/copy-service-worker-files.mjs /packages/web-app/public"
   },
   "npmClient": "yarn",
   "useWorkspaces": true

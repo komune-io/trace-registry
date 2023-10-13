@@ -18,12 +18,39 @@ include(
 )
 
 include(
+	"platform:client:client-dsl",
+)
+
+include(
+	"ontology:dsl:client",
+	"ontology:dsl:dcat",
+	"ontology:dsl:skos",
+)
+
+include(
+	"ontology:f2:catalogue-f2:catalogue-f2-api",
+	"ontology:f2:catalogue-f2:catalogue-f2-client",
+	"ontology:f2:catalogue-f2:catalogue-f2-domain"
+)
+
+include(
+	"ontology:s2:catalogue:catalogue-api",
+	"ontology:s2:catalogue:catalogue-domain",
+)
+
+//include(
+//	"ontology:s2:dataset:dataset-api",
+//	"ontology:s2:dataset:dataset-domain",
+//)
+
+
+include(
 	"platform:script:script-init",
 	"platform:script:script-gateway",
 )
 
 include(
-	"platform:ver-test"
+	"platform:test"
 )
 
 include(

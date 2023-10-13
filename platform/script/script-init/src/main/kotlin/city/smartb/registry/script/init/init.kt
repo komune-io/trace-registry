@@ -19,5 +19,10 @@ fun main() = runBlocking {
             clientSecret = "703ece3d-82bc-4747-8840-96c1c3431079"
         )
     )
-    InitScript(properties).run()
+    InitScript(properties).run(
+        project = false,
+        asset = false,
+        cccev = false,
+        catalogue = true
+    )
 }
