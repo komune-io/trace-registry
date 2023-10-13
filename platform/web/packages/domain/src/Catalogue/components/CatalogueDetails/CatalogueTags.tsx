@@ -10,7 +10,6 @@ export const CatalogueTags = (props: CatalogueTagsProps) => {
         <LimitedList
         values={values}
         listedComponent={Chip}
-        flexWrap="nowrap" 
         />
     )
 }

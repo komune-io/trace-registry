@@ -23,7 +23,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
         catalogue?.themes?.map((theme: any): Option => ({
             key: theme.id, label: theme.prefLabels[i18n.resolvedLanguage ?? "en"], color: "#18159D"
         }))
-        , [catalogue, i18n.language])
+        , [catalogue, i18n.resolvedLanguage])
 
     const projectsCountLabel = useMemo(() => {
         type Dataset = {type: string, length: number}

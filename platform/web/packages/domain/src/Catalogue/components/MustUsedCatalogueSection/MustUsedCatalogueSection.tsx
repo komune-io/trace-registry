@@ -14,7 +14,7 @@ export interface MustUsedCatalogueSectionProps {
 export const MustUsedCatalogueSection = (props: MustUsedCatalogueSectionProps) => {
     const {catalogue} = props
     const { t } = useTranslation()
-    const {tab } = useCataloguesRouteParams()
+    const {ids } = useCataloguesRouteParams()
     const { cataloguesAll } = useRoutesDefinition()
     const cataloguePage = useCataloguePageQuery({
         query: {
@@ -33,10 +33,10 @@ export const MustUsedCatalogueSection = (props: MustUsedCatalogueSectionProps) =
             isLoading={cataloguePage.isLoading}
         />
         <LinkButton
-            to={cataloguesAll(tab, catalogue?.identifier ??"" )}
+            to={cataloguesAll(undefined, ...ids, catalogue?.identifier ?? "" )}
             sx={{alignSelf: "flex-end"}}
         >
-            {t("catalogues.seeAllPrograms")}
+            {catalogue?.type === "methodologies" ? t("catalogues.seeAllMethodologies") : t("catalogues.seeAllPrograms")}
         </LinkButton>
     </>)
 }

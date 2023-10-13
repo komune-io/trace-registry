@@ -20,7 +20,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
     return (
         <>
             <TitleDivider
-                title={t("catalogues.standardDescription")}
+                title={t("catalogues.description", {entity: t(catalogue?.type ?? "standard")})}
             />
             <CatalogueDetails
                 catalogue={catalogue}

@@ -1,10 +1,10 @@
 import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
+import { FormComposable, FormComposableField, Option, useFormComposable } from '@smartb/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue } from '../../model'
 import {config} from "../../../config";
-// import { CatalogueTags } from './CatalogueTags'
+import { CatalogueTags } from './CatalogueTags'
 
 export interface CatalogueDetailsProps {
     catalogue?: Catalogue
@@ -14,13 +14,18 @@ export interface CatalogueDetailsProps {
 export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     const { catalogue, isLoading } = props
 
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+
+    const initialValues = useMemo(() => ({
+        ...catalogue,
+        themes: catalogue?.themes.map((theme: any) => theme.id)
+    }), [catalogue])
 
     const formState = useFormComposable({
         isLoading,
         readOnly: true,
         formikConfig: {
-            initialValues: catalogue
+            initialValues
         }
     })
 
@@ -35,23 +40,28 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             }
         }, {
             name: "title",
-            label: t("catalogues.standardAdministrator"),
+            label: t("catalogues.administrator", {entity: t(catalogue?.type ?? "standard")}),
             type: "textField",
             params: {
                 orientation: "horizontal",
                 getReadOnlyTextUrl: () => catalogue?.homepage
             }
         }, 
-        // {
-        //     name: "themes",
-        //     label: t("catalogues.sectoralScopes"),
-        //     type: "select",
-        //     params: {
-        //         readOnlyType: "customContainer",
-        //         readOnlyElement: CatalogueTags
-        //     }
-        // }
-    ], [t, catalogue])
+        {
+            name: "themes",
+            label: t("catalogues.sectoralScopes"),
+            type: "select",
+            params: {
+                orientation: "horizontal",
+                readOnlyType: "customContainer",
+                readOnlyElement: CatalogueTags,
+                multiple: true,
+                options: catalogue?.themes?.map((theme: any): Option => ({
+                    key: theme.id, label: theme.prefLabels[i18n.resolvedLanguage ?? "en"], color: "#18159D"
+                }))
+            }
+        }
+    ], [t, catalogue, i18n.resolvedLanguage])
 
     return (
         <Stack
@@ -84,6 +94,9 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                     },
                     "& .descriptionField .AruiInputForm-readOnlyText": {
                         whiteSpace: "pre-line"
+                    },
+                    "& .MuiInputLabel-root": {
+                        maxWidth: "250px"
                     }
                 }}
                 formState={formState}
