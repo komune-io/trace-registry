@@ -38,10 +38,10 @@ include(
 	"ontology:s2:catalogue:catalogue-domain",
 )
 
-//include(
-//	"ontology:s2:dataset:dataset-api",
-//	"ontology:s2:dataset:dataset-domain",
-//)
+include(
+	"ontology:s2:dataset:dataset-api",
+	"ontology:s2:dataset:dataset-domain",
+)
 
 
 include(
