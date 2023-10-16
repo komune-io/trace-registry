@@ -62,7 +62,7 @@ data class ProjectCreateCommand(
     override var activities: List<ActivityIdentifier>?,
     override var subContinent: String?,
     override var sdgs: List<SdgNumber>?,
-    override var isPrivate: Boolean?
+    override var isPrivate: Boolean?,
 ): ProjectAbstractMsg, ProjectInitCommand, ProjectCreateCommandDTO
 
 /**

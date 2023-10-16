@@ -10,6 +10,9 @@ import city.smartb.registry.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.s2.project.domain.command.ProjectUpdatedEvent
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 
@@ -49,6 +52,8 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		activities = event.activities
 		request = event.certification
 		privacy = event.isPrivate ?: true
+		createdDate = event.date
+		lastModifiedDate = event.date
 		sdgs = event.sdgs
 	}
 
@@ -70,19 +75,23 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		slug = event.slug
 		vvb = event.vvb?.toEntity()
 		assessor = event.assessor?.toEntity()
+		lastModifiedDate = event.date
 		location = event.location?.toRedisGeoLocation(id)
 	}
 
 	private fun ProjectEntity.addAssetPool(event: ProjectAddedAssetPoolEvent) = apply {
 		assetPools += event.poolId
+		lastModifiedDate = event.date
 	}
 
 	private fun ProjectEntity.changePrivacy(event: ProjectChangedPrivacyEvent) = apply {
 		privacy = event.isPrivate
+		lastModifiedDate = event.date
 	}
 
 	private fun ProjectEntity.delete(event: ProjectDeletedEvent) = apply {
 		status = ProjectState.WITHDRAWN
+		lastModifiedDate = event.date
 	}
 
 }

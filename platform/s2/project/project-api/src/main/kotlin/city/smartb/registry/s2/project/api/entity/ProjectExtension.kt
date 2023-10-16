@@ -6,6 +6,7 @@ import city.smartb.registry.s2.project.domain.error.IllegalSdgError
 import city.smartb.registry.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.s2.project.domain.model.Project
 import f2.dsl.cqrs.error.asException
+import kotlinx.datetime.toJavaLocalTime
 
 fun ProjectEntity.toProject() = Project(
     id = id,
@@ -28,15 +29,13 @@ fun ProjectEntity.toProject() = Project(
     vvb = vvb?.toModel(),
     assessor = assessor?.toModel(),
     location = location?.toGeoLocation(),
-    creationDate = null,
-    lastModificationDate = null,
+    creationDate = createdDate,
+    lastModificationDate = lastModifiedDate,
     activities = activities,
     sdgs = sdgs,
     certification = request,
     assetPools = assetPools.toList(),
     isPrivate = privacy
-//    creationDate = createdDate!!.time,
-//    lastModificationDate = lastModifiedDate!!.time
 )
 
 fun <T: ProjectAbstractMsg> T.applyCmd(msg: ProjectAbstractMsg): T = apply {

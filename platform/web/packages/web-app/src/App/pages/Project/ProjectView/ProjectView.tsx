@@ -86,7 +86,11 @@ export const ProjectView = (_: ProjectViewProps) => {
                     }
                 }}
             />
-            {currentTab === "info" && <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >{t("lastChanged", { date: new Date(project?.lastModificationDate).toLocaleDateString() })}</Typography>}
+            {currentTab === "info" &&  !!project &&
+                <Typography align='right' sx={{ marginTop: (theme) => theme.spacing(3), color: "#9E9E9E" }} >
+                    {t("lastChanged", { date: new Date(project.lastModificationDate).toLocaleDateString() })}
+                </Typography>
+            }
             {popup}
         </AppPage>
     )

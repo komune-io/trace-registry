@@ -54,7 +54,22 @@ fixers {
 	kt2Ts {
 		additionalCleaning = mapOf(
 			".d.ts" to listOf(
-          		Regex("""com\.ionspin\.kotlin\.bignum\.decimal\.BigDecimal""") to "number"
+          		Regex("""com\.ionspin\.kotlin\.bignum\.decimal\.BigDecimal""") to "number",
+				Regex("""(?m).*__doNotImplementIt.*\n""") to "",
+				Regex(""".*readonly __doNotUseOrImplementIt.*;\n""") to "",
+				Regex(""".*__doNotUseOrImplementIt:*[\s\S].*\n.*\n.*;""") to "",
+				Regex("""kotlin.js.""") to "",
+				Regex("""org.w3c.dom.url.""") to "",
+				Regex("""org.w3c.dom.""") to "",
+				Regex(""" any/\* ([^*/]*) \*/""") to " $1",
+				Regex("""type Nullable<T> = T \| null \| undefined\n""") to "",
+				Regex("""(?<=\(|, |readonly )(\w*)(\?)?: Nullable<([\w\.<>, \[\]]*)>(?=\)|, |;|/*)""") to "$1?: $3",
+				Regex("""kotlin.collections.Map""") to "Record",
+				Regex(""", kotlin\.collections\.List<(.*?)>""") to ", $1[]", // handles Record<string, List<T>>,
+				Regex("""kotlin\.collections\.List<(.*?>?)>""") to "$1[]",
+				Regex("""kotlin\.collections\.List<(.*?>?)>""") to "$1[]", // in case of List<List<T>>
+				Regex("""kotlin.Long""") to "number",
+				Regex("""static get Companion(.*\n)*?(\s)*}( &.*)?;""") to ""
 		 	)
 		)
 	}

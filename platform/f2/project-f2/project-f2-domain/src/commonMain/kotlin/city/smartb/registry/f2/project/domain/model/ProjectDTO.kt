@@ -160,13 +160,13 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
      * Date of creation.
      * @example "1670255859"
      */
-    val creationDate: DateTime?
+    val creationDate: DateTime
 
     /**
      * Date of last modification of the asset.
      * @example "1670255859"
      */
-    val lastModificationDate: DateTime?
+    val lastModificationDate: DateTime
 
     /**
      * List of SDGs the project is linked to.
@@ -210,8 +210,8 @@ data class ProjectDTOBase(
     override val vvb: OrganizationRef?,
     override val assessor: OrganizationRef?,
     override val location: GeoLocation?,
-    override val creationDate: DateTime?,
-    override val lastModificationDate: DateTime?,
+    override val creationDate: DateTime,
+    override val lastModificationDate: DateTime,
     override val status: ProjectState,
     override val activities: List<ActivityIdentifier>?,
     override var sdgs: List<SdgNumber>?,
