@@ -27,14 +27,14 @@ docker: docker-gateway docker-script docker-web docker-registry-certificate-web
 docs: package-storybook
 
 package-kotlin:
-	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test -x jvmTest -x allTests
+	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
 
 docker-gateway:
-	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests
+	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests -x jsBrowserTest
 	@docker push ${GATEWAY_IMG}
 
 docker-script:
-	VERSION=${VERSION} IMAGE_NAME=${SCRIPT_NAME} ./gradlew build ${SCRIPT_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests
+	VERSION=${VERSION} IMAGE_NAME=${SCRIPT_NAME} ./gradlew build ${SCRIPT_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests -x jsBrowserTest
 	@docker push ${SCRIPT_IMG}
 
 docker-web:
