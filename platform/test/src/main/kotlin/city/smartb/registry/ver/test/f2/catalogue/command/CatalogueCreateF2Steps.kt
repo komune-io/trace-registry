@@ -69,7 +69,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
         Then("The catalogue page should contain only this status:") { params: CataloguePageParams ->
             step {
                 val page = getPage(params)
-                Assertions.assertThat(page.items).allMatch { it.status?.name == params.status }
+                Assertions.assertThat(page.items).allMatch { it.status.name == params.status }
             }
         }
 

@@ -1,15 +1,25 @@
 Feature: CatalogueCreateF2
+  Background:
+    Given An organization is defined:
+      | roles           |
+      | tr_orchestrator_user |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
 
   Scenario: I want to create a catalogue via API
     When I create a catalogue via API:
-      | title | status |
-      | My cucumber catalogue    | ACTIVE |
+      | identifier | title | status |
+      | MyCat1 | My cucumber catalogue    | ACTIVE |
     Then The catalogue should be created:
-      | title | status |
-      | My cucumber catalogue | ACTIVE |
+      | identifier | title | status |
+      | MyCat1 | My cucumber catalogue | ACTIVE |
     Then The catalogue page should contain only this status:
-      | status |
-      | ACTIVE |
+      | identifier | status |
+      | MyCat1     | ACTIVE |
     Then The catalogue page shouldn't contain this status:
-      | status |
-      | DELETED |
+      | identifier | status |
+      | MyCat1 | DELETED |

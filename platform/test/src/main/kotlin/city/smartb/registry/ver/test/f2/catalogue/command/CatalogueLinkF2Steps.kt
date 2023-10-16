@@ -67,7 +67,7 @@ class CatalogueLinkF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
                 val itemId = context.catalogueIds.safeGet(params.identifier)
                 val catalog = getOne(itemId)
                 AssertionBdd.catalogue(repository).exists(itemId)
-                Assertions.assertThat(catalog?.themes).isEqualTo(params.themes)
+                Assertions.assertThat(catalog?.themes).isEqualTo(params.themes.toSet())
             }
         }
 

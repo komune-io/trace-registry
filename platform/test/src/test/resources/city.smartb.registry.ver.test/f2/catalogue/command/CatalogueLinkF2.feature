@@ -1,4 +1,14 @@
 Feature: CatalogueLinkF2
+  Background:
+    Given An organization is defined:
+      | roles           |
+      | tr_orchestrator_user |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
 
   Scenario: I want to links catalogues to a catalogue via API
     When I create a catalogue via API:
@@ -13,8 +23,6 @@ Feature: CatalogueLinkF2
     When I link a catalogue via API:
       | identifier | catalogues |
       | ParentCatalogue    | linked1,linked2 |
-
-
 
   Scenario: I want to link themes to a catalogue via API
     When I create a catalogue via API:
