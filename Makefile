@@ -30,11 +30,11 @@ package-kotlin:
 	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test -x jvmTest -x allTests
 
 docker-gateway:
-	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test -x allTests
+	VERSION=${VERSION} IMAGE_NAME=${GATEWAY_NAME} ./gradlew build ${GATEWAY_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests
 	@docker push ${GATEWAY_IMG}
 
 docker-script:
-	VERSION=${VERSION} IMAGE_NAME=${SCRIPT_NAME} ./gradlew build ${SCRIPT_PACKAGE}:bootBuildImage -x test -x allTests
+	VERSION=${VERSION} IMAGE_NAME=${SCRIPT_NAME} ./gradlew build ${SCRIPT_PACKAGE}:bootBuildImage -x test -x jvmTest -x allTests
 	@docker push ${SCRIPT_IMG}
 
 docker-web:
