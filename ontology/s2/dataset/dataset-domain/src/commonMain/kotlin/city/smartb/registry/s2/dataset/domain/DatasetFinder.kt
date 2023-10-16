@@ -21,4 +21,6 @@ interface DatasetFinder {
         status: Match<DatasetState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<DatasetModel>
+
+    suspend fun getAll(): List<DatasetModel>
 }

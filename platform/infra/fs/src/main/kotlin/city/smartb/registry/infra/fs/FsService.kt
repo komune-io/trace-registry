@@ -24,21 +24,40 @@ class FsService(
 		return fileClient.fileGet(listOf(query)).first().item
 	}
 	object FsPath {
+		const val DATASET_TYPE = "datasets"
 		const val CATALOGUE_TYPE = "catalogues"
-		const val CATALOGUE_DIR_IMG = "img"
-		const val CATALOGUE_IMG_NAME = "img.png"
+		const val DIR_IMG = "img"
+		const val IMG_NAME = "img.png"
 	}
-
 
 	suspend fun uploadCatalogueImg(
 		filePart: FilePart,
-		catalogueId: String,
+		objectId: String,
 	): FileUploadedEvent {
 		val path = FilePath(
 			objectType = FsPath.CATALOGUE_TYPE,
-			objectId = catalogueId,
-			directory = FsPath.CATALOGUE_DIR_IMG,
-			name = FsPath.CATALOGUE_IMG_NAME,
+			objectId = objectId,
+			directory = FsPath.DIR_IMG,
+			name = FsPath.IMG_NAME,
+		)
+		return fileClient.fileUpload(
+			command = path.toUploadCommand(
+				metadata = emptyMap(),
+				vectorize = false
+			),
+			file = filePart.contentByteArray()
+		)
+	}
+
+	suspend fun uploadDatasetImg(
+		filePart: FilePart,
+		objectId: String,
+	): FileUploadedEvent {
+		val path = FilePath(
+			objectType = FsPath.DATASET_TYPE,
+			objectId = objectId,
+			directory = FsPath.DIR_IMG,
+			name = FsPath.IMG_NAME,
 		)
 		return fileClient.fileUpload(
 			command = path.toUploadCommand(

@@ -34,6 +34,12 @@ include(
 )
 
 include(
+	"ontology:f2:dataset-f2:dataset-f2-api",
+	"ontology:f2:dataset-f2:dataset-f2-client",
+	"ontology:f2:dataset-f2:dataset-f2-domain"
+)
+
+include(
 	"ontology:s2:catalogue:catalogue-api",
 	"ontology:s2:catalogue:catalogue-domain",
 )

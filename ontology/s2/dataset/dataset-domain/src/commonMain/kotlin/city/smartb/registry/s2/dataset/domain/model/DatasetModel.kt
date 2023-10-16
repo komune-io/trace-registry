@@ -42,5 +42,6 @@ data class DatasetModel(
     val img: String? = null,
     val datasets: List<DatasetId>? = null,
     val themes: List<SkosConcept>? = null,
+    val status: DatasetState,
 )
 

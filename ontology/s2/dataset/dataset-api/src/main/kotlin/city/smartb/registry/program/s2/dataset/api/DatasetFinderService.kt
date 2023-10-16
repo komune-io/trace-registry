@@ -1,6 +1,7 @@
 package city.smartb.registry.program.s2.dataset.api
 
 import city.smartb.registry.api.commons.exception.NotFoundException
+import city.smartb.registry.program.s2.dataset.api.entity.DatasetEntity
 import city.smartb.registry.program.s2.dataset.api.entity.DatasetRepository
 import city.smartb.registry.program.s2.dataset.api.entity.toDataset
 import city.smartb.registry.program.s2.dataset.api.query.DatasetPageQueryDB
@@ -33,6 +34,9 @@ class DatasetFinderService(
 
 	override suspend fun get(id: DatasetId): DatasetModel {
 		return getOrNull(id) ?: throw NotFoundException("Dataset", id)
+	}
+	override suspend fun getAll(): List<DatasetModel> {
+		return datasetRepository.findAll().map { it.toDataset() }
 	}
 
 	override suspend fun page(

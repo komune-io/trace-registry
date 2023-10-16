@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DatasetCreateCommand(
-    val title: String,
     val identifier: String,
+    val title: String,
     val type: String,
     val temporalResolution: String? = null,
     val wasGeneratedBy: Activity? = null,

@@ -28,5 +28,6 @@ fun DatasetEntity.toDataset(): DatasetModel {
         wasGeneratedBy = wasGeneratedBy,
         releaseDate = releaseDate,
         updateDate = updateDate,
+        status = status,
     )
 }

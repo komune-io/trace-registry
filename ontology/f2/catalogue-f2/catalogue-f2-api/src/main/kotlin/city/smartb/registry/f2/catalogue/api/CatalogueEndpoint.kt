@@ -24,17 +24,13 @@ import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import io.ktor.util.toByteArray
 import jakarta.annotation.security.PermitAll
-import java.net.URLConnection
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
-import org.springframework.http.ContentDisposition
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
-import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -131,7 +127,7 @@ class CatalogueEndpoint(
         val filePath = file?.let {
             fsService.uploadCatalogueImg(
                 filePart = file,
-                catalogueId = cmd.id,
+                objectId = cmd.id,
             ).path
         }
         val result = catalogueService.setImageCommand(
@@ -156,8 +152,8 @@ class CatalogueEndpoint(
         FilePath(
             objectType = FsService.FsPath.CATALOGUE_TYPE,
             objectId = catalogueId,
-            directory = FsService.FsPath.CATALOGUE_DIR_IMG,
-            name = FsService.FsPath.CATALOGUE_IMG_NAME
+            directory = FsService.FsPath.DIR_IMG,
+            name = FsService.FsPath.IMG_NAME
         )
     }
 
