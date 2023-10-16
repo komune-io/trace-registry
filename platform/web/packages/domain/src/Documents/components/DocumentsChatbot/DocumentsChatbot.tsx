@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import { Chat } from "components";
-import { InputForm, Option, SmartKey } from "@smartb/g2";
+import { InputForm, Option, SmartKey, Button } from "@smartb/g2";
 import { FilePath, askQuestion } from "../../api/query";
 import { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -71,6 +71,11 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                 placeholder={t("chooseFile")}
                 options={options}
             />
+            <Button sx={{
+                    color: "white"
+                    }} aria-label="download" href={""} >
+                {t('viewSelectedDocuments')}
+            </Button>
             {/* <InputForm
                 value={localReference}
                 onChange={setlocalReference}

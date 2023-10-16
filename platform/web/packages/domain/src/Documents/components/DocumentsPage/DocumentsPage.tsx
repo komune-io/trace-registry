@@ -1,8 +1,9 @@
-import { DocumentsChatbot, DocumentsViewer } from "domain-components";
+import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-components";
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { FilePath, useProjectFilesQuery } from "../../api/query";
 import { useParams } from "react-router-dom";
+import { RowSelectionState } from '@tanstack/react-table';
 
 export interface DocumentsPageProps {
     isLoading?: boolean
@@ -15,7 +16,7 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
     const [selectedFiles, selectFiles] = useState<FilePath[]>([])
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
-
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
     const fileList = files
 
@@ -43,6 +44,10 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
         [],
     )
 
+    const onRowClicked = useCallback(() => {
+
+    }, [])
+        
     const removeQuote = useCallback(
         () => {
             setQuote(undefined)
@@ -56,8 +61,11 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
             position="relative"
             height="calc(100vh - 220px)"
         >
-            <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
-            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={isLoading} setFiles={selectFiles} />
+            
+                <DocumentsList page={selectedFiles} onRowClicked={onRowClicked} rowSelection={rowSelection} onRowSelectionChange={setRowSelection}/>
+
+{/*             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
+ */}            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={isLoading} setFiles={selectFiles} />
         </Stack>
     )
 }
