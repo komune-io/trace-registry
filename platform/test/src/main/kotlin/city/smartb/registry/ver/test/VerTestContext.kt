@@ -23,6 +23,7 @@ class VerTestContext: TestContext() {
     val orderIds = testEntities<TestContextKey, OrderId>("Order")
     val projectIds = testEntities<TestContextKey, ProjectId>("Project")
     val catalogueIds = testEntities<TestContextKey, CatalogueId>("Catalogue")
+    val datasetIds = testEntities<TestContextKey, CatalogueId>("Catalogue")
 
     val cccevConceptIds = testEntities<TestContextKey, InformationConceptId>("CCCEV InformationConcept")
     val cccevConceptIdentifiers = testEntities<TestContextKey, InformationConceptIdentifier>("CCCEV InformationConcept")

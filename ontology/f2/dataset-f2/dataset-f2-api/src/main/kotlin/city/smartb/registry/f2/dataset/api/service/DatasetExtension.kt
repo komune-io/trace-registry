@@ -82,7 +82,24 @@ fun DatasetCreateCommandDTOBase.toCommand() = DatasetCreateCommand(
     identifier = identifier,
     title = title,
     description = description,
+    datasets = datasets,
     type = type,
+    accessRights = accessRights,
+    conformsTo = conformsTo,
+    creator = creator,
+    language = language,
+    publisher = publisher,
+    theme = theme,
+    keywords = keywords,
+    landingPage = landingPage,
+    version = version,
+    versionNotes = versionNotes,
+    length = length,
+    temporalResolution = temporalResolution,
+    wasGeneratedBy = wasGeneratedBy,
+    releaseDate = releaseDate,
+    updateDate = updateDate,
+
 )
 
 fun DatasetCreatedEvent.toEvent() = DatasetCreatedEventDTOBase(
@@ -90,7 +107,23 @@ fun DatasetCreatedEvent.toEvent() = DatasetCreatedEventDTOBase(
     identifier = identifier,
     title = title,
     description = description,
+    datasets = datasets,
     type = type,
+    accessRights = accessRights,
+    conformsTo = conformsTo,
+    creator = creator,
+    language = language,
+    publisher = publisher,
+    theme = theme,
+    keywords = keywords,
+    landingPage = landingPage,
+    version = version,
+    versionNotes = versionNotes,
+    length = length,
+    temporalResolution = temporalResolution,
+    wasGeneratedBy = wasGeneratedBy,
+    releaseDate = releaseDate,
+    updateDate = updateDate,
 )
 
 fun DatasetLinkDatasetsCommandDTOBase.toCommand() = DatasetLinkDatasetsCommand(

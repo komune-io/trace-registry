@@ -58,6 +58,7 @@ interface DatasetCreateCommandDTO {
     val version: String?
     val versionNotes: String?
     val length: Int?
+    val datasets: List<DatasetId>?
 }
 
 /**
@@ -84,6 +85,7 @@ data class DatasetCreateCommandDTOBase(
     override val version: String? = null,
     override val versionNotes: String? = null,
     override val length: Int? = null,
+    override val datasets: List<DatasetId>?,
 ): DatasetCreateCommandDTO
 
 /**
@@ -101,12 +103,33 @@ interface DatasetCreatedEventDTO: Event {
      * Identifier of the created dataset.
      */
     val identifier: DatasetIdentifier
+
+    /**
+     * @ref [city.smartb.registry.f2.dataset.domain.model.DatasetDTO.name]
+     */
     val title: String
+
+    /**
+     * @ref [city.smartb.registry.f2.dataset.domain.model.DatasetDTO.description]
+     */
     val description: String?
+
     val type: String
-    val display: String?
-    val homepage: String?
-    val themes: List<SkosConcept>?
+    val temporalResolution: String?
+    val wasGeneratedBy: Activity?
+    val accessRights: String?
+    val conformsTo: List<SkosConceptScheme>?
+    val creator: Agent?
+    val releaseDate: String?
+    val updateDate: String?
+    val language: List<String>?
+    val publisher: Agent?
+    val theme: List<SkosConcept>?
+    val keywords: List<String>?
+    val landingPage: String?
+    val version: String?
+    val versionNotes: String?
+    val length: Int?
     val datasets: List<DatasetId>?
 }
 
@@ -120,11 +143,21 @@ data class DatasetCreatedEventDTOBase(
     override val title: String,
     override val description: String?,
     override val type: String,
-    override val display: String? = null,
-    override val homepage: String? = null,
-    override val themes: List<SkosConcept>? = null,
+    override val theme: List<SkosConcept>? = null,
     override val datasets: List<DatasetId>? = null,
+    override val temporalResolution: String?,
+    override val wasGeneratedBy: Activity?,
+    override val accessRights: String?,
+    override val conformsTo: List<SkosConceptScheme>?,
+    override val creator: Agent?,
+    override val releaseDate: String?,
+    override val updateDate: String?,
+    override val language: List<String>?,
+    override val publisher: Agent?,
+    override val keywords: List<String>?,
+    override val landingPage: String?,
+    override val version: String?,
+    override val versionNotes: String?,
+    override val length: Int?,
 ): DatasetCreatedEventDTO
 
-
-typealias ActivityStepEvidenceDownloadResult = ByteArray
