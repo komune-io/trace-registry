@@ -76,7 +76,11 @@ class DatasetCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
         Then("The dataset page shouldn't contain this status:") { params: DatasetPageParams ->
             step {
                 val page = getPage(params)
-                Assertions.assertThat(page.items.size).isEqualTo(0)
+                if(params.identifier != null) {
+                    Assertions.assertThat(page.items.map { it.identifier }).doesNotContain(params.identifier)
+                } else {
+                    Assertions.assertThat(page.items.size).isEqualTo(0)
+                }
             }
         }
 
@@ -134,13 +138,16 @@ class DatasetCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
         offset = entry?.get("offset")?.toInt() ?: 0,
         limit = entry?.get("limit")?.toInt() ?: 10,
         status = entry?.get("status") ?: "ACTIVE",
+        title = entry?.get("title"),
+        identifier = entry?.get("identifier")
     )
 
     private data class DatasetPageParams(
         val offset: Int? = null,
         val limit: Int? = null,
         val status: String? = null,
-        val title: String? = null
+        val title: String? = null,
+        val identifier: String? = null
     )
 
     private fun DatasetPageParams.toDatasetPageQueryDTOBase(): DatasetPageQuery {

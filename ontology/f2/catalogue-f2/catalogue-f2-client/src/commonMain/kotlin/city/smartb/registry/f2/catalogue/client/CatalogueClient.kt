@@ -4,6 +4,7 @@ import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageFunction
@@ -22,7 +23,7 @@ expect fun catalogueClient(urlBase: String, accessToken: String): F2SupplierSing
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = client.function(this::catalogueLinkCatalogues.name)
-    override fun catalogueLinkDatasets(): CatalogueLinkCataloguesFunction = client.function(this::catalogueLinkCatalogues.name)
+    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = client.function(this::catalogueLinkDatasets.name)
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function(this::catalogueLinkThemes.name)
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function(this::catalogueDelete.name)
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)

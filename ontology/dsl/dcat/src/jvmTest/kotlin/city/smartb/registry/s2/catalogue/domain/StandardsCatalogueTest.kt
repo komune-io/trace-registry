@@ -10,9 +10,15 @@ class StandardsCatalogueTest {
     fun shouldCreateCatalogueWithDataset() {
         val catalogue1: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue1"
+            type = "catalogues"
+            title = "catalogues"
+            display = "catalogues"
         }
         val catalogue2: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue2"
+            type = "catalogues"
+            title = "catalogues"
+            display = "catalogues"
             catalogues {
                 +catalogue1
             }

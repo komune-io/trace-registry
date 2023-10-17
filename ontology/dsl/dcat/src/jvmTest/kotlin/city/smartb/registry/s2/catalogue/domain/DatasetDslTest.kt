@@ -10,7 +10,8 @@ class DatasetDslTest {
     fun shouldCreateDatasetWithDistributions() {
         val dataset1: DcatDataset = dataset {
             identifier = "dataset1"
-
+            title = "catalogues"
+            type = "catalogues"
             distributions {
                 distribution {
                     identifier = "distribution1"

@@ -60,6 +60,12 @@ class CatalogueLinkCataloguesF2Steps: En, city.smartb.registry.ver.test.VerCucum
                 AssertionBdd.catalogue(repository).exists(itemId)
             }
         }
+        Then("The catalogues should be linked:") { params: CatalogueLinkParams ->
+            step {
+                val itemId = context.catalogueIds.safeGet(params.identifier)
+                AssertionBdd.catalogue(repository).exists(itemId)
+            }
+        }
     }
 
     private suspend fun linkCataloguesToDataset(params: CatalogueLinkParams) = context.catalogueIds.register(params.identifier) {

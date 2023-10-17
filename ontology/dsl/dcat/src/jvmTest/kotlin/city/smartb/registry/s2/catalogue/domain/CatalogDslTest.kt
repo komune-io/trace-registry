@@ -10,6 +10,9 @@ class CatalogueDslTest {
     fun shouldCreateCatalogue() {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
         }
         Assertions.assertThat(catalogue1.identifier).isEqualTo("catalogue1")
     }
@@ -17,12 +20,19 @@ class CatalogueDslTest {
     fun shouldCreateCatalogueWithDatasets() {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
             datasets {
                 dataset {
                     identifier = "dataset1"
+                    type = "catalogues"
+                    title = "catalogues"
                 }
                 dataset {
                     identifier = "dataset2"
+                    type = "catalogues"
+                    title = "catalogues"
                 }
             }
         }
@@ -33,6 +43,9 @@ class CatalogueDslTest {
     fun shouldCreateCatalogueWithThemes() {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
             themes {
                 theme {
                     id = "theme1"
@@ -49,6 +62,9 @@ class CatalogueDslTest {
     fun shouldCreateCatalogueWithServices() {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
             services {
                 service {
                     identifier = "service1"
@@ -65,12 +81,21 @@ class CatalogueDslTest {
     fun shouldCreateCatalogueWithCatalogues() {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
             catalogues {
                 catalogue {
                     identifier = "subCatalogue1"
+                    type = "catalogues"
+                    display = "catalogues"
+                    title = "catalogues"
                 }
                 catalogue {
                     identifier = "subCatalogue2"
+                    type = "catalogues"
+                    display = "catalogues"
+                    title = "catalogues"
                 }
             }
         }
@@ -82,6 +107,8 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             title = "Catalogue 1"
+            type = "catalogues"
+            display = "catalogues"
             catalogueRecords{
                 catalogueRecord {
                     identifier = "catalogueRecords1"

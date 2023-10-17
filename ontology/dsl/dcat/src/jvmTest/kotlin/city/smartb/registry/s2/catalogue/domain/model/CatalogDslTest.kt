@@ -8,14 +8,20 @@ class CatalogueDslTest {
     fun shouldCreateCatalogueWithDataset() {
         val catalogue1: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue"
-
+            type = "catalogues"
+            display = "catalogues"
+            title = "catalogues"
             datasets {
                 dataset {
                     identifier = "http://example.com/datasets/weather"
+                    type = "catalogues"
+                    title = "catalogues"
 
                 }
                 dataset {
                     identifier = "http://example.com/datasets/weather1"
+                    type = "catalogues"
+                    title = "catalogues"
 
                 }
             }

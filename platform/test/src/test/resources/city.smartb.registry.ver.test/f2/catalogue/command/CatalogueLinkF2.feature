@@ -12,17 +12,21 @@ Feature: CatalogueLinkF2
 
   Scenario: I want to links catalogues to a catalogue via API
     When I create a catalogue via API:
-      |identifier| title | status |
-      |ParentCatalogue| My cucumber catalogue    | ACTIVE |
+      |identifier| title |
+      |ParentCatalogue| My cucumber catalogue    |
     When I create a catalogue via API:
-      |identifier| title | status |
-      |Linked1    | My cucumber linked catalogue | ACTIVE |
+      |identifier| title |
+      |Linked1    | My cucumber linked catalogue |
     When I create a catalogue via API:
-      |identifier| title | status |
-      |Linked2    | My cucumber linked catalogue | ACTIVE |
+      |identifier| title |
+      |Linked2    | My cucumber linked catalogue |
     When I link a catalogue via API:
       | identifier | catalogues |
       | ParentCatalogue    | linked1,linked2 |
+    Then The catalogues should be linked:
+      | identifier | catalogues |
+      | ParentCatalogue | linked1,linked2 |
+
 
   Scenario: I want to link themes to a catalogue via API
     When I create a catalogue via API:
