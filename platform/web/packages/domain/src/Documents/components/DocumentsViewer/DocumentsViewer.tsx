@@ -1,7 +1,8 @@
-import { Box } from "@mui/material";
-import { MultiPagePdfDisplayer } from "components";
+import { Box, Stack } from "@mui/material";
+import { MultiFilePdfDisplayer, useMultiFilePagination } from "components";
 import pdf from "./pdd.pdf"
 import { useElementSize } from "@mantine/hooks";
+import { DocumentsThumbnails } from "../DocumentsThumbnails";
 
 
 export interface DocumentsViewerProps {
@@ -15,8 +16,21 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
 
     const { ref, width } = useElementSize();
 
+    const {
+        pagesNumberPerDocument,
+        onDocumentLoadSuccess,
+        setPageRef,
+        goToPage,
+        visiblePages
+    } = useMultiFilePagination()
 
     return (
+        <Stack
+        direction="row"
+        flexGrow={1}
+            flexBasis={0}
+        >
+            <DocumentsThumbnails file={{name: "test", file: pdf}} isLoading={props.isLoading} goToPage={goToPage} visiblePages={visiblePages}/>
         <Box
             ref={ref}
             bgcolor="#F0EDE6"
@@ -35,11 +49,16 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 }
             }}
         >
-            <MultiPagePdfDisplayer
+            <MultiFilePdfDisplayer
+            {...props}
                 files={[{name: "test", file: pdf}]}
-                {...props}
+                
+                onDocumentLoadSuccess={onDocumentLoadSuccess}
+                pagesNumberPerDocument={pagesNumberPerDocument}
+                setPageRef={setPageRef}
                 parentWidth={width}
             />
         </Box>
+        </Stack>
     )
 }
