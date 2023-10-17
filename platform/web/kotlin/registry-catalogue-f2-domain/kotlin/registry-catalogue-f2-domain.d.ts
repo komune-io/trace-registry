@@ -2995,6 +2995,18 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
     }
 }
 export namespace city.smartb.registry.f2.catalogue.domain.command {
+    interface CatalogueLinkDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+    interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+}
+export namespace city.smartb.registry.f2.catalogue.domain.command {
     interface CatalogueLinkThemesCommandDTO {
         readonly id: string;
         readonly themes: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
@@ -3057,6 +3069,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.policy {
         canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkCatalogues(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkThemes(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkDatasets(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
         canFulfillTask(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
     };
 }

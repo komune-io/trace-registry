@@ -43,6 +43,12 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
+  }});
+}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -52,12 +58,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
-  }});
-}
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1599,6 +1599,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueDeletedEventDTO, 'CatalogueDeletedEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkCataloguesCommandDTO, 'CatalogueLinkCataloguesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(CatalogueLinkDatasetsCommandDTO, 'CatalogueLinkDatasetsCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(CatalogueLinkDatasetsEventDTO, 'CatalogueLinkedDatasetsEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueLinkThemesEventDTO, 'CatalogueLinkedThemesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(CatalogueSetImageCommandDTO, 'CatalogueSetImageCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -58177,6 +58179,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkCataloguesEventDTO() {
   }
+  function CatalogueLinkDatasetsCommandDTO() {
+  }
+  function CatalogueLinkDatasetsEventDTO() {
+  }
   function CatalogueLinkThemesCommandDTO() {
   }
   function CatalogueLinkThemesEventDTO() {
@@ -58189,6 +58195,11 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueRefDTO() {
   }
+  function isOrchestrator($this, authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  }
   function CataloguePolicies() {
     CataloguePolicies_instance = this;
   }
@@ -58199,27 +58210,22 @@ if (typeof Math.imul === 'undefined') {
     return true;
   };
   CataloguePolicies.prototype.canCreate = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+    return isOrchestrator(this, authedUser);
   };
   CataloguePolicies.prototype.canSetImg = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+    return isOrchestrator(this, authedUser);
   };
   CataloguePolicies.prototype.canDelete = function (authedUser) {
     return true;
   };
   CataloguePolicies.prototype.checkLinkCatalogues = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+    return isOrchestrator(this, authedUser);
   };
   CataloguePolicies.prototype.checkLinkThemes = function (authedUser) {
-    Roles_getInstance();
-    Roles_getInstance();
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+    return isOrchestrator(this, authedUser);
+  };
+  CataloguePolicies.prototype.checkLinkDatasets = function (authedUser) {
+    return isOrchestrator(this, authedUser);
   };
   CataloguePolicies.prototype.canFulfillTask = function (authedUser) {
     Roles_getInstance();
@@ -59897,6 +59903,13 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
     var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
     var $city$smartb$registry$s2$catalogue$domain$command = $city$smartb$registry$s2$catalogue$domain.command || ($city$smartb$registry$s2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$catalogue = $city$smartb$registry$f2.catalogue || ($city$smartb$registry$f2.catalogue = {});
+    var $city$smartb$registry$f2$catalogue$domain = $city$smartb$registry$f2$catalogue.domain || ($city$smartb$registry$f2$catalogue.domain = {});
+    var $city$smartb$registry$f2$catalogue$domain$command = $city$smartb$registry$f2$catalogue$domain.command || ($city$smartb$registry$f2$catalogue$domain.command = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
