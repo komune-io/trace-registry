@@ -5,8 +5,10 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -14,12 +16,14 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 
-suspend fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
+fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
     return CatalogueRefDTOBase(
         id = id,
         identifier = identifier,
@@ -33,7 +37,7 @@ suspend fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
         img = img
     )
 }
-suspend fun CatalogueModel.toSimpleRefDTO(): CatalogueRefDTOBase {
+fun CatalogueModel.toSimpleRefDTO(): CatalogueRefDTOBase {
     return CatalogueRefDTOBase(
         id = id,
         identifier = identifier,
@@ -73,6 +77,16 @@ fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesC
 fun CatalogueLinkedCataloguesEvent.toEvent() = CatalogueLinkedCataloguesEventDTOBase(
     id = id,
     catalogues = catalogues
+)
+
+fun CatalogueLinkDatasetsCommandDTOBase.toCommand() = CatalogueLinkDatasetsCommand(
+    id = id,
+    datasets = datasets
+)
+
+fun CatalogueLinkedDatasetsEvent.toEvent() = CatalogueLinkedDatasetsEventDTOBase(
+    id = id,
+    datasets = datasets
 )
 
 fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(

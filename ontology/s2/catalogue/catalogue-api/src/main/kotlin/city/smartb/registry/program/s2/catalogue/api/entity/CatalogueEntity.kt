@@ -4,6 +4,7 @@ import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
+import city.smartb.registry.s2.catalogue.domain.command.DatasetId
 import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
@@ -56,5 +57,3 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     override fun s2Id() = id
     override fun s2State() = status
 }
-
-typealias DatasetId = String

@@ -11,6 +11,7 @@ import city.smartb.registry.f2.catalogue.domain.CatalogueApi
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
@@ -108,7 +109,7 @@ class CatalogueEndpoint(
         catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
     }
 
-    override fun catalogueLinkDatasets(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
+    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->
         logger.info("catalogueLinkDatasets: $cmd")
         cataloguePoliciesEnforcer.checkLinkDatasets()
         catalogueService.linkDatasets(cmd.toCommand()).toEvent()
