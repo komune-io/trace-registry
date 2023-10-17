@@ -9,7 +9,9 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
@@ -53,6 +55,15 @@ class CatalogueAggregateService(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
 			catalogues = cmd.catalogues
+		)
+	}
+	override suspend fun linkDatasets(
+		cmd: CatalogueLinkDatasetsCommand
+	): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
+		CatalogueLinkedDatasetsEvent(
+			id =  cmd.id,
+			date = System.currentTimeMillis(),
+			datasets = cmd.datasets
 		)
 	}
 

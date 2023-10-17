@@ -42,13 +42,19 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var description: String? = null
 
+    @TagIndexed
     var themes: Set<SkosConcept> = emptySet()
 
     @TagIndexed
     var catalogues: Set<CatalogueId> = emptySet()
+
+    @TagIndexed
+    var datasets: Set<DatasetId> = emptySet()
 
     var lastUpdate: Long? = null
 
     override fun s2Id() = id
     override fun s2State() = status
 }
+
+typealias DatasetId = String

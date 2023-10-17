@@ -22,6 +22,7 @@ expect fun catalogueClient(urlBase: String, accessToken: String): F2SupplierSing
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = client.function(this::catalogueLinkCatalogues.name)
+    override fun catalogueLinkDatasets(): CatalogueLinkCataloguesFunction = client.function(this::catalogueLinkCatalogues.name)
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function(this::catalogueLinkThemes.name)
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function(this::catalogueDelete.name)
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)

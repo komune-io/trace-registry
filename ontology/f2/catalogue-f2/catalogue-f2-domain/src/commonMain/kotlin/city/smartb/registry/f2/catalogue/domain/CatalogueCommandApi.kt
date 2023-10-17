@@ -7,6 +7,7 @@ interface CatalogueCommandApi {
     /** Create a catalogue */
     fun catalogueCreate(): CatalogueCreateFunction
     fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
+    fun catalogueLinkDatasets(): CatalogueLinkCataloguesFunction
     fun catalogueLinkThemes(): CatalogueLinkThemesFunction
     fun catalogueDelete(): CatalogueDeleteFunction
 }

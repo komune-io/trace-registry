@@ -21,22 +21,28 @@ object CataloguePolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+        return isOrchestrator(authedUser)
     }
     fun canSetImg(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+        return isOrchestrator(authedUser)
     }
 
     fun canDelete(authedUser: AuthedUserDTO): Boolean {
         return true
     }
     fun checkLinkCatalogues(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+        return isOrchestrator(authedUser)
     }
 
     fun checkLinkThemes(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+        return isOrchestrator(authedUser)
     }
+    fun checkLinkDatasets(authedUser: AuthedUserDTO): Boolean {
+        return isOrchestrator(authedUser)
+    }
+
+    private fun isOrchestrator(authedUser: AuthedUserDTO) =
+        authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
 
     fun canFulfillTask(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(

@@ -7,7 +7,9 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
@@ -20,4 +22,5 @@ interface CatalogueAggregate {
 	suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent
 	suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent
 	suspend fun delete(cmd: CatalogueDeleteCommand): CatalogueDeletedEvent
+    suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent
 }

@@ -108,6 +108,12 @@ class CatalogueEndpoint(
         catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
     }
 
+    override fun catalogueLinkDatasets(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
+        logger.info("catalogueLinkDatasets: $cmd")
+        cataloguePoliciesEnforcer.checkLinkDatasets()
+        catalogueService.linkDatasets(cmd.toCommand()).toEvent()
+    }
+
     @PermitAll
     @Bean
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { cmd ->

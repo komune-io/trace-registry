@@ -29,5 +29,8 @@ class CataloguePoliciesEnforcer(
     suspend fun checkLinkThemes() = checkAuthed("links themes") { authedUser ->
         CataloguePolicies.checkLinkThemes(authedUser)
     }
+    suspend fun checkLinkDatasets() = checkAuthed("links datasets") { authedUser ->
+        CataloguePolicies.checkLinkDatasets(authedUser)
+    }
 
 }

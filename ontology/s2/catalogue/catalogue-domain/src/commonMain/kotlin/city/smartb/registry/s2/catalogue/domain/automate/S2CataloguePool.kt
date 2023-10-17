@@ -8,6 +8,7 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
@@ -33,6 +34,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueLinkThemesCommand, CatalogueLinkedThemesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueLinkThemesCommand, CatalogueLinkedDatasetsEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

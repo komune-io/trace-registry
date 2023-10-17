@@ -7,6 +7,7 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
+import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
@@ -19,6 +20,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
+		is CatalogueLinkedDatasetsEvent -> model?.linkCatalogues(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 		is CatalogueSetImageEvent -> model?.setImageEvent(event)
@@ -56,6 +58,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
 		themes = themes + event.themes
+	}
+
+	private suspend fun CatalogueEntity.linkCatalogues(event: CatalogueLinkedDatasetsEvent) = apply {
+		datasets = datasets + event.datasets
 	}
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
