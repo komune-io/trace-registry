@@ -1,4 +1,4 @@
-import {Box, CircularProgress, Stack } from "@mui/material"
+import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import { Document, pdfjs, Thumbnail } from "react-pdf"
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import "react-pdf/dist/esm/Page/TextLayer.css"
@@ -12,61 +12,100 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 interface ThumbnailPdfDisplayerProps {
     file?: any
-    isLoading: boolean
+    isLoading?: boolean
     goToPage: (pageNumber: number) => void
-    isOpen?: boolean
     isVisiblePage: (pageNumber: number) => boolean
+    width?: number
 }
 
 export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
-    const { isLoading, goToPage, file, isOpen = false, isVisiblePage } = props
+    const { isLoading, goToPage, file, isVisiblePage, width = 200 } = props
 
     const [pageNumber, setPageNumber] = useState(0)
 
     useEffect(() => {
         setPageNumber(0)
     }, [file])
-    
-    
+
+
     const onDocumentLoadSuccess = useCallback(
-      (pdf: PDFDocumentProxy) => {
-        setPageNumber(pdf.numPages)
-      },
-      [],
+        (pdf: PDFDocumentProxy) => {
+            setPageNumber(pdf.numPages)
+        },
+        [],
     )
-    
+
 
     return (
-        <Stack display={isOpen ? "flex" : "none"} flexDirection="column">
+        <Box 
+        sx={{
+            "& .thubnailContainer": {
+                display: "flex",
+                flexDirection: "column",
+                gap: (theme) => theme.spacing(1.5)
+            }
+        }}
+        >
             {isLoading || !file ? (
                 <CircularProgress />
             ) : (
-                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                <Document loading={<CircularProgress />} className={"thubnailContainer"} file={file} onLoadSuccess={onDocumentLoadSuccess}>
                     {Array.from({ length: pageNumber }, (_, index) => (
-                        <Box
-                            sx={isVisiblePage(index+1) ? {
-                                border :  "#EDBA27 solid 3px",
-                                marginBottom: (theme) => theme.spacing(2)
-                            }: {
-                                border : "none",
-                                marginBottom: (theme) => theme.spacing(2)
-                            }
-                            }
-                            width="100%"
+                        <Stack
+                        gap={0.5}
+                        alignItems="center"
                         >
-                            <Thumbnail
-                                key={`thumbnail_${index}`}
-                                pageNumber={index + 1}
-                                loading={<CircularProgress />}
-                                width={200}
-                                className="thumbnailPdfPage"
-                                onClick={() => goToPage(index + 1)}
-                            />
-                        </Box>
+                            <Box
+                                sx={isVisiblePage(index + 1) ? {
+                                    border: "#EDBA2766 solid 6px",
+                                    borderRadius: "4px",
+                                    boxShadow: (theme) => theme.shadows[1]
+                                } : {
+                                    border: "transparent solid 6px",
+                                    borderRadius: "4px",
+                                }
+                                }
+                                width="100%"
+                            >
+                                <Thumbnail
+                                    key={`thumbnail_${index}`}
+                                    pageNumber={index + 1}
+                                    loading={<CircularProgress />}
+                                    width={width}
+                                    className="thumbnailPdfPage"
+                                    onClick={() => goToPage(index + 1)}
+                                />
+                            </Box>
+                            <Box
+                                sx={{
+                                    width: "fit-content",
+                                    minWidth: "17px",
+                                    padding: (theme) => theme.spacing(0.25, 0.75),
+                                    minHeight: "21px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    bgcolor: isVisiblePage(index + 1) ? "#EDBA27" : "#8E8C8D",
+                                    borderRadius: "4px"
+                                }
+                                }
+                                width="100%"
+                            >
+                                <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    color: "white"
+                                }}
+                                >
+                                {index + 1}
+                                </Typography>
+                            </Box>
+                        </Stack>
+
                     ))}
                 </Document>
             )
-        }
-        </Stack>
+            }
+        </Box>
     )
 }
