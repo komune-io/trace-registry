@@ -27,7 +27,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
 
     const projectsCountLabel = useMemo(() => {
         type Dataset = {type: string, length: number}
-        const datasets = catalogue?.datasets ?? [] as Array<Dataset>
+        const datasets = (catalogue?.datasets ?? [])as Dataset[]
         const count = datasets
             .filter((dataset: Dataset) => dataset.type === "project")
             .map((dataset: Dataset) => dataset.length)

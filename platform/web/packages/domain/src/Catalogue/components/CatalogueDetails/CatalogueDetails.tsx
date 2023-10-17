@@ -18,7 +18,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const initialValues = useMemo(() => ({
         ...catalogue,
-        themes: catalogue?.themes.map((theme: any) => theme.id)
+        themes: catalogue?.themes?.map((theme: any) => theme.id)
     }), [catalogue])
 
     const formState = useFormComposable({
