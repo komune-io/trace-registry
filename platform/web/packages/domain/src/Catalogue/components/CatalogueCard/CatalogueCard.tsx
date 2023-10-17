@@ -99,7 +99,6 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     <LinkButton to={cataloguesAll(undefined, ...ids, catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
                 </Stack>
             </Box>
-
         </Card>
     )
 }
