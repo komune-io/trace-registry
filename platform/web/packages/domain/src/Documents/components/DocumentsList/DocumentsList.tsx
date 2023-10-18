@@ -4,12 +4,13 @@ import { FilePath } from "../../api";
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next";
 import { TableCellFileName } from "components";
-import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
+import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 
 
 
 export interface DocumentsListProps {
     page?: FilePath[]
+    onRowClicked: (row: Row<FilePath>) => void
     rowSelection?: RowSelectionState
     onRowSelectionChange?: OnChangeFn<RowSelectionState>
     isLoading?: boolean
@@ -17,7 +18,7 @@ export interface DocumentsListProps {
 
 
 export const DocumentsList = (props: DocumentsListProps) => {
-    const { page, rowSelection, onRowSelectionChange, isLoading = false } = props;
+    const { page, rowSelection, onRowSelectionChange, isLoading = false, onRowClicked } = props;
     const { t } = useTranslation();
 
     const useDocumentsListColumn = () => {
@@ -67,6 +68,7 @@ export const DocumentsList = (props: DocumentsListProps) => {
                 <TableV2
                     isLoading={isLoading}
                     tableState={tableState}
+                    onRowClicked={onRowClicked}
                 />
         </Box>
     )

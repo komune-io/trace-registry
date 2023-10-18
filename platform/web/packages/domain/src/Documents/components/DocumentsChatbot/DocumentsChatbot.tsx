@@ -10,13 +10,13 @@ export interface DocumentsChatbotProps {
     quote?: { quote: string, fileName: string, pageNumber: number }
     setReference: (ref: string) => void
     removeQuote?: () => void
-    viewSelectedDocuments?: () => void
+    toggleDocumentsSelection?: () => void
     disabled: boolean
     isPreviewMode: boolean
 }
 
 export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
-    const { selectedFiles, /* setReference, */ quote, removeQuote, viewSelectedDocuments, disabled, isPreviewMode } = props
+    const { selectedFiles, /* setReference, */ quote, removeQuote, toggleDocumentsSelection, disabled, isPreviewMode } = props
     const { t } = useTranslation()
     // const [localReference, setlocalReference] = useState("")
 
@@ -50,8 +50,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                     color: "white"
                 }} 
                 aria-label="download" 
-                href={""} 
-                onClick={viewSelectedDocuments}
+                onClick={toggleDocumentsSelection}
                 disabled={disabled}
                 >
                 {isPreviewMode ? t("navigateThroughDocs") : t("viewSelectedDocs")}
