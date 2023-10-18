@@ -1,4 +1,3 @@
-import { Page, Section, Button, FormComposableField, FormComposable, useFormComposable } from "@smartb/g2";
 import { Box } from "@mui/material";
 import { TableV2, useTable, ColumnFactory } from "@smartb/g2";
 import { FilePath } from "../../api";
@@ -24,7 +23,7 @@ export const DocumentsList = (props: DocumentsListProps) => {
     const useDocumentsListColumn = () => {
 
         return useMemo(() => ColumnFactory<FilePath>({
-            generateColumns: (generators) => ({
+            generateColumns: () => ({
                 name: ({
                     header: t("name"),
                     cell: ({ row }) => {
@@ -36,7 +35,6 @@ export const DocumentsList = (props: DocumentsListProps) => {
     }
 
     const columns = useDocumentsListColumn();
-    console.log("page", page)
 
     const tableState = useTable({
         data: page ?? [],
@@ -71,6 +69,6 @@ export const DocumentsList = (props: DocumentsListProps) => {
                     tableState={tableState}
                     onRowClicked={onRowClicked}
                 />
-                </Box>
+        </Box>
     )
 }
