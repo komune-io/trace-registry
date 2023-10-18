@@ -6,7 +6,7 @@ import {
     useCataloguePageQuery,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { AppPage } from 'template'
+import { AppPage, FixedPagination } from 'template'
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -17,13 +17,13 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t } = useTranslation()
 
-    const { component, submittedFilters } = useCatalogueFilters({
+    const { component, submittedFilters, setOffset } = useCatalogueFilters({
         initialValues: {
             limit: 12
         }
     })
 
-    const subCatalogues  = useCataloguePageQuery({
+    const {data, isInitialLoading}  = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
             ...submittedFilters
@@ -53,7 +53,8 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
             >
                 {component}
             </Box>
-            <CatalogueGrid items={subCatalogues.data?.items} isLoading={isLoading} />
+            <CatalogueGrid items={data?.items} isLoading={isLoading} />
+            <FixedPagination pagination={submittedFilters} page={data} isLoading={isInitialLoading} onOffsetChange={setOffset} />
         </AppPage>
     )
 }
