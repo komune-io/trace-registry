@@ -43,22 +43,11 @@ class DatasetFinderService(
 		id: Match<DatasetId>?,
 		identifier: Match<DatasetIdentifier>?,
 		title: Match<String>?,
-		parentIdentifier: StringMatch?,
 		status: Match<DatasetState>?,
 		offset: OffsetPagination?
 	): PageDTO<DatasetModel> {
-
-		val parents = parentIdentifier?.value?.let { identifier ->
-			getOrNullByIdentifier(identifier)?.datasets
-		}?.let { datasets ->
-			CollectionMatch(datasets)
-		}
-
 		return datasetPageQueryDB.execute(
-			id = andMatchOfNotNull(
-				parents,
-				id
-			),
+			id = id,
 			identifier = identifier,
 			title = title,
 			status = status,

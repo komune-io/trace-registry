@@ -26,9 +26,6 @@ suspend fun List<DatasetModel>.toDTO(datasetFinderService: DatasetFinderService)
     it.toDTO(datasetFinderService)
 }
 suspend fun DatasetModel.toDTO(datasetFinderService: DatasetFinderService): DatasetDTOBase {
-    val datasetsFetched = datasets?.mapNotNull {
-        datasetFinderService.getOrNull(it)?.toRefDTO()
-    }
     return DatasetDTOBase(
         id = id,
         identifier = identifier,
@@ -36,7 +33,6 @@ suspend fun DatasetModel.toDTO(datasetFinderService: DatasetFinderService): Data
         type = type,
         img = img?.let {"/datasets/${id}/logo" },
         description = description,
-        datasets = datasetsFetched,
         themes = themes?.toList(),
         accessRights = accessRights,
         conformsTo = conformsTo,
@@ -82,7 +78,6 @@ fun DatasetCreateCommandDTOBase.toCommand() = DatasetCreateCommand(
     identifier = identifier,
     title = title,
     description = description,
-    datasets = datasets,
     type = type,
     accessRights = accessRights,
     conformsTo = conformsTo,
@@ -107,7 +102,6 @@ fun DatasetCreatedEvent.toEvent() = DatasetCreatedEventDTOBase(
     identifier = identifier,
     title = title,
     description = description,
-    datasets = datasets,
     type = type,
     accessRights = accessRights,
     conformsTo = conformsTo,

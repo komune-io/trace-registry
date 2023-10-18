@@ -5,6 +5,7 @@ import city.smartb.registry.f2.catalogue.client.CatalogueClient
 import city.smartb.registry.f2.catalogue.client.catalogueClient
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
+import city.smartb.registry.f2.dataset.client.datasetClient
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import city.smartb.registry.s2.catalogue.domain.model.concept
@@ -24,8 +25,8 @@ class CatalogueFactory(
 ) {
     val faker = Faker()
     val catalogueClient = catalogueClient(url, accessToken)
-    val dcatGraphClient = DCatGraphClient(catalogueClient)
-
+    val datasetsClient = datasetClient(url, accessToken)
+    val dcatGraphClient = DCatGraphClient(catalogueClient, datasetsClient)
 }
 
 fun createRandomCatalogue(url: String, accessToken: Actor, countRange: IntRange = 1..2): List<CatalogueId> = runBlocking {

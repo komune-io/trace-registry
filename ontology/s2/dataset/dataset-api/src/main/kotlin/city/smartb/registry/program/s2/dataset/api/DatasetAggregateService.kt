@@ -46,7 +46,6 @@ class DatasetAggregateService(
 			length = cmd.length,
 			temporalResolution = cmd.temporalResolution,
 			wasGeneratedBy = cmd.wasGeneratedBy,
-			datasets = cmd.datasets,
 		)
 	}
 

@@ -47,7 +47,6 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		wasGeneratedBy = event.wasGeneratedBy
 		lastUpdate = event.date
 		status = DatasetState.ACTIVE
-		datasets = event.datasets?.toSet() ?: emptySet()
 	}
 	private suspend fun DatasetEntity.setImageEvent(event: DatasetSetImageEvent) = apply {
 		img = event.img
@@ -87,7 +86,6 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	}
 
 	private suspend fun DatasetEntity.addDatasets(event: DatasetLinkedDatasetsEvent) = apply {
-		datasets = datasets + event.datasets
 	}
 
 }

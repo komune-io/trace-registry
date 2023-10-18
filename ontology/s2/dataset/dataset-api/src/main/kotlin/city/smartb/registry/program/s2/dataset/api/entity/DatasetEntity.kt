@@ -59,7 +59,6 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var versionNotes: String? = null
     var length: Int? = null
 
-    var datasets: Set<DatasetId> = emptySet()
     var themes: Set<SkosConcept> = emptySet()
     var lastUpdate: Long? = null
 

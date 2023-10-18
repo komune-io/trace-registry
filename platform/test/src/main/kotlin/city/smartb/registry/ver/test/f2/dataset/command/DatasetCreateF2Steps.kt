@@ -104,7 +104,6 @@ class DatasetCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberStepsDe
             identifier = params.identifier,
             description = params.description,
             type = params.type,
-            datasets = emptyList(),
             theme = emptyList(),
         )
         command.invokeWith(datasetEndpoint.datasetCreate()).id

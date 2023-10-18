@@ -1,5 +1,6 @@
 package city.smartb.registry.f2.catalogue.domain.dto
 
+import city.smartb.registry.f2.dataset.domain.dto.DatasetDTO
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
 import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
@@ -17,10 +18,9 @@ interface CatalogueDTO{
     val type: String
     val display: String?
     val themes: List<SkosConcept>?
-    val datasets: List<DcatDataset>?
+    val datasets: List<DatasetDTO>?
 //    val services: List<DataService>
     val catalogues: List<CatalogueRefDTO>?
-    //    val catalogueRecords: List<DcatCatalogueRecord>
     val status: CatalogueState
 }
 
@@ -35,10 +35,8 @@ data class CatalogueDTOBase(
     override val type: String,
     override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
-    override val datasets: List<DcatDataset>? = null,
-//    val services: List<DataService>? = null,
+    override val datasets: List<DatasetDTO>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
-//    val catalogueRecords: List<DcatCatalogueRecord>? = null,
     override val status: CatalogueState,
 ): CatalogueDTO
 

@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
 	commonMainApi(project(":ontology:s2:catalogue:catalogue-domain"))
+	commonMainApi(project(":ontology:f2:dataset-f2:dataset-f2-domain"))
 	commonMainApi(project(":ontology:dsl:dcat"))
 
 	Dependencies.Mpp.f2 { commonMainApi(it) }

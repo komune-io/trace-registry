@@ -10,7 +10,10 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesComma
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import city.smartb.registry.f2.dataset.api.service.DatasetF2FinderService
+import city.smartb.registry.program.s2.catalogue.api.CatalogueFinderService
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -22,6 +25,38 @@ import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedCatalogue
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import city.smartb.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
+
+suspend fun List<CatalogueModel>.toDTO(
+    catalogueFinderService: CatalogueFinderService,
+    datasetF2FinderService: DatasetF2FinderService
+) = map {
+    it.toDTO(catalogueFinderService, datasetF2FinderService)
+}
+suspend fun CatalogueModel.toDTO(
+    catalogueFinderService: CatalogueFinderService,
+    datasetF2FinderService: DatasetF2FinderService
+): CatalogueDTOBase {
+    val cataloguesFetched = catalogues?.mapNotNull {
+        catalogueFinderService.getOrNull(it)?.toRefDTO()
+    }
+    val datasetFetched = datasets?.mapNotNull {
+        datasetF2FinderService.getById(it).item
+    }
+    return CatalogueDTOBase(
+        id = id,
+        identifier = identifier,
+        status = status,
+        title = title,
+        description = description,
+        catalogues = cataloguesFetched,
+        themes = themes,
+        type = type,
+        display = display,
+        homepage = homepage,
+        img = img,
+        datasets = datasetFetched,
+    )
+}
 
 fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
     return CatalogueRefDTOBase(

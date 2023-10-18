@@ -11,7 +11,6 @@ fun DatasetEntity.toDataset(): DatasetModel {
         type = type,
         img = img?.let {"/datasets/${id}/logo" },
         description = description,
-        datasets = datasets.toList(),
         themes = themes.toList(),
         accessRights = accessRights,
         conformsTo = conformsTo,

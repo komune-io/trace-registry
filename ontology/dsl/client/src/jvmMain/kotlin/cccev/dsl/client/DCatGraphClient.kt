@@ -1,17 +1,28 @@
 package cccev.dsl.client
 
+import cccev.dsl.model.InformationConcept
+import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
+import cccev.s2.concept.domain.command.InformationConceptCreateCommand
 import city.smartb.registry.f2.catalogue.client.CatalogueClient
 import city.smartb.registry.f2.catalogue.client.catalogueSetImageFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueFile
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTO
 import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQuery
+import city.smartb.registry.f2.dataset.client.DatasetClient
+import city.smartb.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
+import city.smartb.registry.f2.dataset.domain.query.DatasetGetQuery
+import city.smartb.registry.f2.dataset.domain.query.DatasetGetQueryDTO
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
+import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
+import city.smartb.registry.s2.dataset.domain.automate.DatasetId
+import city.smartb.registry.s2.dataset.domain.command.DatasetCreateCommand
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.invokeWith
 import java.io.File
@@ -24,6 +35,7 @@ import org.slf4j.LoggerFactory
 
 class DCatGraphClient(
     private val catalogueClient: F2SupplierSingle<CatalogueClient>,
+    private val datasetClient: F2SupplierSingle<DatasetClient>,
 ) {
 
     private val logger = LoggerFactory.getLogger(DCatGraphClient::class.java)
@@ -31,6 +43,7 @@ class DCatGraphClient(
     suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<DCatApCatalogueModel> {
         val visitedCatalogueIdentifiers = mutableSetOf<CatalogueIdentifier>()
         val createdCatalogues = mutableMapOf<CatalogueIdentifier, CatalogueId>()
+        val createdDatasets = mutableMapOf<String, DatasetId>()
 
         fun DCatApCatalogueModel.flatten(): Flow<DCatApCatalogueModel> = flow {
             if (identifier in visitedCatalogueIdentifiers) {
@@ -49,7 +62,18 @@ class DCatGraphClient(
                     catalogue,
                     createdCatalogues
                 )
+                val calalogueId = createdCatalogues[catalogue.identifier]!!
 
+                catalogue.datasets?.mapNotNull { dataset ->
+                    val datasetId = if (dataset.identifier !in createdDatasets) {
+                        val datasetId = dataset.getOrCreate()
+                        createdDatasets[dataset.identifier] = datasetId
+                        datasetId
+                    } else createdDatasets[dataset.identifier]
+                    datasetId
+                }?.takeIf { it.isNotEmpty() }?.let { datasetIds ->
+                    linkDatasetToCatalogue(calalogueId, datasetIds)
+                }
                 catalogueIdentifier
             }
     }
@@ -81,9 +105,6 @@ class DCatGraphClient(
                 catalogue,
                 catalogues.map { createdCatalogues[it.identifier]!! })
         }
-//        catalogue.catalogues?.forEach { parent ->
-//            linkCatalogues(createdCatalogues, parent, catalogueId)
-//        }
         return CatalogueGetQuery(
             id = catalogueId
         ).invokeWith(catalogueClient().catalogueGet()).item?.toDsl()!!
@@ -131,7 +152,58 @@ class DCatGraphClient(
 
 
         }
+    }
 
+//    private suspend fun initDataset(
+//        dataset: DcatDataset,
+//        createdDatasets: MutableMap<String, DatasetId>
+//    ) {
+//        if (dataset.identifier !in createdDatasets) {
+//            val datasetId = dataset.getOrCreate()
+//            createdDatasets[dataset.identifier] = datasetId
+//        }
+//    }
+
+    private suspend fun DcatDataset.getOrCreate(): DatasetId {
+        val client = datasetClient()
+        return DatasetGetQuery(
+            identifier = identifier
+        ).invokeWith(client.datasetGet()).item?.id
+            ?: createDataset(client)
+    }
+
+    suspend fun linkDatasetToCatalogue(catalogueId: String, datasets: List<DatasetId>) {
+        val client = catalogueClient()
+        println("Linking catalogue ${catalogueId} to datasets ${datasets}")
+        CatalogueLinkDatasetsCommandDTOBase(
+            id = catalogueId,
+            datasets = datasets
+        ).invokeWith(client.catalogueLinkDatasets())
+    }
+
+    private suspend fun DcatDataset.createDataset(client: DatasetClient): DatasetId {
+        return DatasetCreateCommandDTOBase(
+            identifier = identifier,
+            description = description,
+            type = type,
+            title = title,
+            wasGeneratedBy = wasGeneratedBy,
+            accessRights = accessRights,
+            conformsTo = conformsTo,
+            creator = creator,
+            releaseDate = releaseDate,
+            updateDate = updateDate,
+            language = language,
+            publisher = publisher,
+            theme = theme,
+            keywords = keywords,
+            landingPage = landingPage,
+            version = version,
+            versionNotes = versionNotes,
+            length = length,
+        ).invokeWith(client.datasetCreate()).id.also {
+            println("Created dataset ${identifier} with id ${it}")
+        }
     }
 }
 

@@ -58,7 +58,6 @@ interface DatasetCreateCommandDTO {
     val version: String?
     val versionNotes: String?
     val length: Int?
-    val datasets: List<DatasetId>?
 }
 
 /**
@@ -85,7 +84,6 @@ data class DatasetCreateCommandDTOBase(
     override val version: String? = null,
     override val versionNotes: String? = null,
     override val length: Int? = null,
-    override val datasets: List<DatasetId>?,
 ): DatasetCreateCommandDTO
 
 /**
@@ -130,7 +128,6 @@ interface DatasetCreatedEventDTO: Event {
     val version: String?
     val versionNotes: String?
     val length: Int?
-    val datasets: List<DatasetId>?
 }
 
 /**
@@ -144,7 +141,6 @@ data class DatasetCreatedEventDTOBase(
     override val description: String?,
     override val type: String,
     override val theme: List<SkosConcept>? = null,
-    override val datasets: List<DatasetId>? = null,
     override val temporalResolution: String?,
     override val wasGeneratedBy: Activity?,
     override val accessRights: String?,

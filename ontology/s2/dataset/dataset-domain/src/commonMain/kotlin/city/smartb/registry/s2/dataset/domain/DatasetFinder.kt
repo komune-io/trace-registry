@@ -17,7 +17,6 @@ interface DatasetFinder {
         id: Match<DatasetId>? = null,
         identifier: Match<DatasetIdentifier>? = null,
         title: Match<String>? = null,
-        parentIdentifier: StringMatch? = null,
         status: Match<DatasetState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<DatasetModel>

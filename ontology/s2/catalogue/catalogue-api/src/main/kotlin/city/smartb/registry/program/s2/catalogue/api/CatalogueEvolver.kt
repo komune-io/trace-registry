@@ -20,7 +20,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
-		is CatalogueLinkedDatasetsEvent -> model?.linkCatalogues(event)
+		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 		is CatalogueSetImageEvent -> model?.setImageEvent(event)
@@ -60,7 +60,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		themes = themes + event.themes
 	}
 
-	private suspend fun CatalogueEntity.linkCatalogues(event: CatalogueLinkedDatasetsEvent) = apply {
+	private suspend fun CatalogueEntity.linkDataset(event: CatalogueLinkedDatasetsEvent) = apply {
 		datasets = datasets + event.datasets
 	}
 

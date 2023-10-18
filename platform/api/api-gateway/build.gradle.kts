@@ -14,17 +14,13 @@ dependencies {
     implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-api"))
     implementation(project(":platform:f2:chat-f2:chat-f2-api"))
     implementation(project(":ontology:f2:catalogue-f2:catalogue-f2-api"))
+    implementation(project(":ontology:f2:dataset-f2:dataset-f2-api"))
     implementation(project(":platform:f2:project-f2:project-f2-api"))
 
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
-
-
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
     imageName.set("${System.getenv("IMAGE_NAME")}:${this.project.version}")
-//    environment.set(mapOf(
-//        "BPE_APPEND_JAVA_TOOL_OPTIONS" to " -XX:MaxDirectMemorySize=35M"
-//    ))
 }

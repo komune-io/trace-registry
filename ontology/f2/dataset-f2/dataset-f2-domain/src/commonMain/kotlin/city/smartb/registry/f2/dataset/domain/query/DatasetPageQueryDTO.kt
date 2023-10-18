@@ -2,6 +2,7 @@ package city.smartb.registry.f2.dataset.domain.query
 
 import city.smartb.registry.f2.dataset.domain.dto.DatasetDTO
 import city.smartb.registry.f2.dataset.domain.dto.DatasetDTOBase
+import city.smartb.registry.s2.dataset.domain.automate.DatasetId
 import city.smartb.registry.s2.dataset.domain.model.DatasetModel
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
@@ -26,8 +27,7 @@ interface DatasetPageQueryDTO {
     /**
      * id of the dataset
      */
-    val datasetId: String?
-    val parentIdentifier: String?
+    val datasetId: DatasetId?
     val title: String?
     val status: String?
     val offset: Int?
@@ -38,8 +38,7 @@ interface DatasetPageQueryDTO {
  * @d2 inherit
  */
 data class DatasetPageQuery(
-    override val datasetId: String? = null,
-    override val parentIdentifier: String? = null,
+    override val datasetId: DatasetId? = null,
     override val title: String? = null,
     override val status: String? = null,
     override val offset: Int?,

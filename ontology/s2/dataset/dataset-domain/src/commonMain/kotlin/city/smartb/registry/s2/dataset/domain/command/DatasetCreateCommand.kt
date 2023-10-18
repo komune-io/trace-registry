@@ -29,7 +29,6 @@ data class DatasetCreateCommand(
     val version: String? = null,
     val versionNotes: String? = null,
     val length: Int? = null,
-    val datasets: List<DatasetId>?
 ): DatasetInitCommand
 
 
@@ -55,6 +54,5 @@ data class DatasetCreatedEvent(
     val version: String? = null,
     val versionNotes: String? = null,
     val length: Int? = null,
-    val datasets: List<DatasetId>? = null,
     override val date: Long,
 ): DatasetEvent

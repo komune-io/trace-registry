@@ -43,7 +43,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var description: String? = null
 
-    @TagIndexed
+//    @TagIndexed
     var themes: Set<SkosConcept> = emptySet()
 
     @TagIndexed

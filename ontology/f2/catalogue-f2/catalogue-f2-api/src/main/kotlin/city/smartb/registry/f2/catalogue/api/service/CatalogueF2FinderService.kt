@@ -1,14 +1,12 @@
 package city.smartb.registry.f2.catalogue.api.service
 
-import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult
 import city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListResult
+import city.smartb.registry.f2.dataset.api.service.DatasetF2FinderService
 import city.smartb.registry.program.s2.catalogue.api.CatalogueFinderService
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
-import city.smartb.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
@@ -18,13 +16,14 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueF2FinderService(
     private val catalogueFinderService: CatalogueFinderService,
+    private val datasetF2FinderService: DatasetF2FinderService
 ) {
 
     suspend fun getById(
         id: CatalogueIdentifier,
     ): CatalogueGetResult {
         val item = catalogueFinderService.getOrNull(id)
-        return CatalogueGetResult(item?.toDTO())
+        return CatalogueGetResult(item?.toDTO(catalogueFinderService, datasetF2FinderService))
     }
     suspend fun getAllRefs(): CatalogueRefListResult {
         val items = catalogueFinderService.getAll().map { it.toSimpleRefDTO() }
@@ -34,7 +33,7 @@ class CatalogueF2FinderService(
         identifier: CatalogueIdentifier,
     ): CatalogueGetResult? {
         val item = catalogueFinderService.getOrNullByIdentifier(identifier)
-        return CatalogueGetResult(item?.toDTO())
+        return CatalogueGetResult(item?.toDTO(catalogueFinderService, datasetF2FinderService))
     }
 
     suspend fun page(
@@ -53,30 +52,8 @@ class CatalogueF2FinderService(
             offset = offset
         )
         return CataloguePageResult(
-            items = catalogues.items.toDTO(),
+            items = catalogues.items.toDTO(catalogueFinderService, datasetF2FinderService),
             total = catalogues.total
-        )
-    }
-
-    suspend fun List<CatalogueModel>.toDTO() = map {
-        it.toDTO()
-    }
-    suspend fun CatalogueModel.toDTO(): CatalogueDTOBase {
-        val cataloguesFetched = catalogues?.mapNotNull {
-            catalogueFinderService.getOrNull(it)?.toRefDTO()
-        }
-        return CatalogueDTOBase(
-            id = id,
-            identifier = identifier,
-            status = status,
-            title = title,
-            description = description,
-            catalogues = cataloguesFetched,
-            themes = themes,
-            type = type,
-            display = display,
-            homepage = homepage,
-            img = img
         )
     }
 }

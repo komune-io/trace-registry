@@ -39,7 +39,6 @@ class DatasetF2FinderService(
 
     suspend fun page(
         datasetId: String?,
-        parentIdentifier: String?,
         title: String?,
         status: String?,
         offset: OffsetPagination? = null
@@ -48,7 +47,6 @@ class DatasetF2FinderService(
         val datasets = datasetFinderService.page(
             id = datasetId?.let { ExactMatch(it) },
             title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            parentIdentifier = parentIdentifier?.let { StringMatch(it, StringMatchCondition.EXACT) },
             status = ExactMatch(defaultValue),
             offset = offset
         )

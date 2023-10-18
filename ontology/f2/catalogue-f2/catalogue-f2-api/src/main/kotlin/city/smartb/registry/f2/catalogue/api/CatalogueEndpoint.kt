@@ -108,7 +108,8 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
     }
-
+    @PermitAll
+    @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->
         logger.info("catalogueLinkDatasets: $cmd")
         cataloguePoliciesEnforcer.checkLinkDatasets()
