@@ -12,11 +12,13 @@ export interface DocumentsChatbotProps {
     quote?: { quote: string, fileName: string, pageNumber: number }
     setReference: (ref: string) => void
     removeQuote?: () => void
-    isLoading?: boolean
+    viewSelectedDocuments?: () => void
+    disabled: boolean
+    isPreviewMode: boolean
 }
 
 export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
-    const { selectedFiles, allFiles, setFiles, /* setReference, */ quote, removeQuote, isLoading = false } = props
+    const { selectedFiles, allFiles, setFiles, /* setReference, */ quote, removeQuote, viewSelectedDocuments, disabled, isPreviewMode } = props
     const { t } = useTranslation()
     // const [localReference, setlocalReference] = useState("")
 
@@ -62,19 +64,16 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
             }}
             gap={2}
         >
-            <InputForm
-                values={filesNames}
-                onChangeValues={onChangeFiles}
-                inputType="select"
-                multiple
-                isLoading={isLoading}
-                placeholder={t("chooseFile")}
-                options={options}
-            />
-            <Button sx={{
+            <Button 
+                sx={{
                     color: "white"
-                    }} aria-label="download" href={""} >
-                {t('viewSelectedDocuments')}
+                }} 
+                aria-label="download" 
+                href={""} 
+                onClick={viewSelectedDocuments}
+                disabled={disabled}
+                >
+                {isPreviewMode ? t("navigateThroughDocs") : t("viewSelectedDocs")}
             </Button>
             {/* <InputForm
                 value={localReference}

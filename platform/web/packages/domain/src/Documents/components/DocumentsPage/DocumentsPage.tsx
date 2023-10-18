@@ -2,8 +2,9 @@ import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-compone
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { FilePath, useProjectFilesQuery } from "../../api/query";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { RowSelectionState } from '@tanstack/react-table';
+import qs from 'qs';
 
 export interface DocumentsPageProps {
     isLoading?: boolean
@@ -17,12 +18,27 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [isPreviewMode, setPreviewMode] = useState(searchParams.toString() === '' ? false : true) 
 
     const fileList = files
-
     useEffect(() => {
         fileList && fileList.length > 0 && selectFiles([fileList[0]])
     }, [fileList])
+
+    const isAnyFileSlected = () => {
+        return Object.values(rowSelection).length > 0;
+    }   
+
+    const viewSelectedDocuments = useCallback(() => {
+        if(!isPreviewMode) {
+            setSearchParams(qs.stringify({ files: selectedFiles.map(file => file.objectId).join(',') }));
+        }else {
+            setSearchParams()
+            setRowSelection({})
+        }
+        setPreviewMode(isPreviewMode => !isPreviewMode)
+    }, [selectedFiles, isPreviewMode])
 
     const downloadedFiles = useProjectFilesQuery(
       selectedFiles.map((filePath) => (
@@ -61,11 +77,22 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
             position="relative"
             height="calc(100vh - 220px)"
         >
-            
-                <DocumentsList page={selectedFiles} onRowClicked={onRowClicked} rowSelection={rowSelection} onRowSelectionChange={setRowSelection}/>
-
-{/*             <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
- */}            <DocumentsChatbot removeQuote={removeQuote} setReference={setReference} quote={quote} selectedFiles={selectedFiles} allFiles={fileList} isLoading={isLoading} setFiles={selectFiles} />
+            {
+                isPreviewMode 
+                ? <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
+                : <DocumentsList page={selectedFiles} onRowClicked={onRowClicked} rowSelection={rowSelection} onRowSelectionChange={setRowSelection}/>
+            }
+            <DocumentsChatbot 
+                removeQuote={removeQuote} 
+                setReference={setReference} 
+                quote={quote} 
+                selectedFiles={selectedFiles} 
+                allFiles={fileList}
+                setFiles={selectFiles} 
+                viewSelectedDocuments={viewSelectedDocuments} 
+                disabled={!isAnyFileSlected()}
+                isPreviewMode={isPreviewMode}
+            />
         </Stack>
     )
 }
