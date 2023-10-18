@@ -32,13 +32,13 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
 
     const viewSelectedDocuments = useCallback(() => {
         if(!isPreviewMode) {
-            setSearchParams(qs.stringify({ files: selectedFiles.map(file => file.objectId).join(',') }));
+            setSearchParams(qs.stringify({ files: fileList?.map(file => file.objectId).join(',') }));
         }else {
             setSearchParams()
             setRowSelection({})
         }
         setPreviewMode(isPreviewMode => !isPreviewMode)
-    }, [selectedFiles, isPreviewMode])
+    }, [fileList, isPreviewMode])
 
     const downloadedFiles = useProjectFilesQuery(
       selectedFiles.map((filePath) => (
@@ -60,9 +60,6 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
         [],
     )
 
-    const onRowClicked = useCallback(() => {
-
-    }, [])
         
     const removeQuote = useCallback(
         () => {
@@ -80,15 +77,13 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
             {
                 isPreviewMode 
                 ? <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
-                : <DocumentsList page={selectedFiles} onRowClicked={onRowClicked} rowSelection={rowSelection} onRowSelectionChange={setRowSelection}/>
+                : <DocumentsList page={fileList} rowSelection={rowSelection} onRowSelectionChange={setRowSelection} isLoading={isLoading} />
             }
             <DocumentsChatbot 
                 removeQuote={removeQuote} 
                 setReference={setReference} 
                 quote={quote} 
                 selectedFiles={selectedFiles} 
-                allFiles={fileList}
-                setFiles={selectFiles} 
                 viewSelectedDocuments={viewSelectedDocuments} 
                 disabled={!isAnyFileSlected()}
                 isPreviewMode={isPreviewMode}
