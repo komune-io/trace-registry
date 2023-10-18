@@ -16,4 +16,5 @@ export * from "./types"
 export * from "./TitleDivider"
 export * from "./Breadcrumbs"
 export * from "./ThumbnailPdfDisplayer"
+export * from "./InteractiveChipList"
 
