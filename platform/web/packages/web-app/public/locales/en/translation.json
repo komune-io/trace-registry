@@ -82,6 +82,7 @@
   "standard": "Standard",
   "program": "Program",
   "methodologie": "Methodologie",
+  "switchTo": "Switch to",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

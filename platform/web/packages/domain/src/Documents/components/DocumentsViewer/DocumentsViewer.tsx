@@ -3,6 +3,7 @@ import { MultiFilePdfDisplayer, useMultiFilePagination } from "components";
 import pdf from "./pdd.pdf"
 import { useElementSize } from "@mantine/hooks";
 import { DocumentsThumbnails } from "../DocumentsThumbnails";
+import { DocumentsSwitch } from "../DocumentsSwitch/DocumentsSwitch";
 
 
 export interface DocumentsViewerProps {
@@ -34,13 +35,14 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
         <Box
             ref={ref}
             bgcolor="#F0EDE6"
-            flexGrow={1}
+            flex={1}
             flexBasis={0}
             sx={{
                 padding: (theme) => theme.spacing(1.5),
                 width: "100%",
                 height: "100%",
                 overflow: "auto",
+                position: "relative",
                 "& .pdfPage": {
                     marginBottom: "16px"
                 },
@@ -49,6 +51,19 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 }
             }}
         >
+            {/* <DocumentsSwitch 
+            sx={{
+                position: "sticky",
+                top: "-12px",
+                marginTop: "-12px",
+                marginLeft: "-12px",
+                marginRight: "-12px",
+                width: "calc(100% + 24px)",
+                alignSelf: "center",
+                zIndex: 1
+            }}
+            files={["VERRA_VCS_STANDARD_4.4_FINAL.pdf", "VERRA_VCS_STANDARD_4.4_FINAL.pdf", "VERRA_VCS_STANDARD_4.4_FINAL.pdf"]}
+            /> */}
             <MultiFilePdfDisplayer
             {...props}
                 files={[{name: "test", file: pdf}]}
