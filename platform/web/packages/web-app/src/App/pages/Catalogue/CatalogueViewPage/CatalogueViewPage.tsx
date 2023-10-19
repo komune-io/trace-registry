@@ -24,10 +24,18 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
 
     const { cataloguesAll} = useRoutesDefinition()
 
-
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
-        navigate(cataloguesAll("item", value, ...ids))
+        navigate(cataloguesAll(value, ...ids))
     }, [ids])
+
+    const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
+        console.log(dataset.identifier)
+        return {
+            key: dataset.identifier,
+            label: dataset.title,
+            component: (<div>{dataset.title}</div>)
+        }
+    }) ?? []
 
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
@@ -37,7 +45,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 catalogue={catalogue}
                 isLoading={isLoading}
             />)
-        }]
+        }, ...datasetTab]
         return tabs
     }, [t, catalogue, isLoading])
 
