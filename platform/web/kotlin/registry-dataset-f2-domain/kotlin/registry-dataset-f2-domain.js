@@ -1082,8 +1082,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ComposerWithPrettyPrint, 'ComposerWithPrettyPrint', classMeta, Composer, undefined, undefined, undefined, []);
   setMetadataFor(JsonElementMarker, 'JsonElementMarker', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(JsonException, 'JsonException', classMeta, SerializationException, undefined, undefined, undefined, []);
-  setMetadataFor(JsonEncodingException, 'JsonEncodingException', classMeta, JsonException, undefined, undefined, undefined, []);
   setMetadataFor(JsonDecodingException, 'JsonDecodingException', classMeta, JsonException, undefined, undefined, undefined, []);
+  setMetadataFor(JsonEncodingException, 'JsonEncodingException', classMeta, JsonException, undefined, undefined, undefined, []);
   setMetadataFor(Tombstone, 'Tombstone', objectMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(JsonPath, 'JsonPath', classMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(JsonTreeReader$readDeepRecursive$slambda, 'JsonTreeReader$readDeepRecursive$slambda', classMeta, CoroutineImpl, undefined, undefined, undefined, [2]);
@@ -1606,6 +1606,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(DatasetDTO, 'DatasetDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DatasetRefDTO, 'DatasetRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DatasetPolicies, 'DatasetPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetDataQueryDTO, 'DatasetDataQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetDataResultDTO, 'DatasetDataResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DatasetGetQueryDTO, 'DatasetGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DatasetGetResultDTO, 'DatasetGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DatasetPageQueryDTO, 'DatasetPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -7246,6 +7248,9 @@ if (typeof Math.imul === 'undefined') {
   UShortArray.prototype.equals = function (other) {
     return UShortArray__equals_impl_tyc3mk(this.s8_1, other);
   };
+  function toULongOrNull(_this__u8e3s4) {
+    return toULongOrNull_0(_this__u8e3s4, 10);
+  }
   function toUInt(_this__u8e3s4) {
     var tmp0_elvis_lhs = toUIntOrNull(_this__u8e3s4);
     var tmp;
@@ -7289,18 +7294,6 @@ if (typeof Math.imul === 'undefined') {
       tmp = tmp0_elvis_lhs;
     }
     return tmp;
-  }
-  function toULongOrNull(_this__u8e3s4) {
-    return toULongOrNull_0(_this__u8e3s4, 10);
-  }
-  function toUIntOrNull(_this__u8e3s4) {
-    return toUIntOrNull_0(_this__u8e3s4, 10);
-  }
-  function toUByteOrNull(_this__u8e3s4) {
-    return toUByteOrNull_0(_this__u8e3s4, 10);
-  }
-  function toUShortOrNull(_this__u8e3s4) {
-    return toUShortOrNull_0(_this__u8e3s4, 10);
   }
   function toULongOrNull_0(_this__u8e3s4, radix) {
     checkRadix(radix);
@@ -7387,6 +7380,15 @@ if (typeof Math.imul === 'undefined') {
       }
        while (inductionVariable < length);
     return result;
+  }
+  function toUIntOrNull(_this__u8e3s4) {
+    return toUIntOrNull_0(_this__u8e3s4, 10);
+  }
+  function toUByteOrNull(_this__u8e3s4) {
+    return toUByteOrNull_0(_this__u8e3s4, 10);
+  }
+  function toUShortOrNull(_this__u8e3s4) {
+    return toUShortOrNull_0(_this__u8e3s4, 10);
   }
   function toUIntOrNull_0(_this__u8e3s4, radix) {
     checkRadix(radix);
@@ -46162,15 +46164,23 @@ if (typeof Math.imul === 'undefined') {
       new JsonNull();
     return JsonNull_instance;
   }
+  function get_longOrNull(_this__u8e3s4) {
+    init_properties_JsonElement_kt_hwpfpc();
+    return toLongOrNull(_this__u8e3s4.h25());
+  }
+  function get_doubleOrNull(_this__u8e3s4) {
+    init_properties_JsonElement_kt_hwpfpc();
+    return toDoubleOrNull(_this__u8e3s4.h25());
+  }
+  function get_booleanOrNull(_this__u8e3s4) {
+    init_properties_JsonElement_kt_hwpfpc();
+    return toBooleanStrictOrNull(_this__u8e3s4.h25());
+  }
   function JsonPrimitive_0(value) {
     init_properties_JsonElement_kt_hwpfpc();
     if (value == null)
       return JsonNull_getInstance();
     return JsonLiteral_init_$Create$(value, true, null, 4, null);
-  }
-  function get_booleanOrNull(_this__u8e3s4) {
-    init_properties_JsonElement_kt_hwpfpc();
-    return toBooleanStrictOrNull(_this__u8e3s4.h25());
   }
   function get_int(_this__u8e3s4) {
     init_properties_JsonElement_kt_hwpfpc();
@@ -46208,14 +46218,6 @@ if (typeof Math.imul === 'undefined') {
       tmp = _this__u8e3s4.h25();
     }
     return tmp;
-  }
-  function get_longOrNull(_this__u8e3s4) {
-    init_properties_JsonElement_kt_hwpfpc();
-    return toLongOrNull(_this__u8e3s4.h25());
-  }
-  function get_doubleOrNull(_this__u8e3s4) {
-    init_properties_JsonElement_kt_hwpfpc();
-    return toDoubleOrNull(_this__u8e3s4.h25());
   }
   function get_jsonPrimitive(_this__u8e3s4) {
     init_properties_JsonElement_kt_hwpfpc();
@@ -46825,6 +46827,13 @@ if (typeof Math.imul === 'undefined') {
   JsonElementMarker.prototype.q37 = function () {
     return this.l3l_1.q37();
   };
+  function JsonDecodingException(message) {
+    JsonException.call(this, message);
+    captureStack(this, JsonDecodingException);
+  }
+  function JsonDecodingException_0(offset, message, input) {
+    return JsonDecodingException_1(offset, message + '\nJSON input: ' + minify(input, offset));
+  }
   function throwInvalidFloatingPointDecoded(_this__u8e3s4, result) {
     var tmp = 'Unexpected special floating-point value ' + toString_2(result) + '. By default, ' + 'non-finite floating point values are prohibited because they do not conform JSON specification';
     _this__u8e3s4.n3l(tmp, 0, get_specialFlowingValuesHint(), 2, null);
@@ -46836,13 +46845,6 @@ if (typeof Math.imul === 'undefined') {
   function InvalidKeyKindException(keyDescriptor) {
     return new JsonEncodingException("Value of type '" + keyDescriptor.m2z() + "' can't be used in JSON as a key in the map. " + ("It should have either primitive or enum kind, but its kind is '" + keyDescriptor.f30() + "'.\n") + get_allowStructuredMapKeysHint());
   }
-  function JsonDecodingException(message) {
-    JsonException.call(this, message);
-    captureStack(this, JsonDecodingException);
-  }
-  function JsonDecodingException_0(offset, message, input) {
-    return JsonDecodingException_1(offset, message + '\nJSON input: ' + minify(input, offset));
-  }
   function InvalidFloatingPointDecoded(value, key, output) {
     return JsonDecodingException_1(-1, unexpectedFpErrorMessage(value, key, output));
   }
@@ -46853,17 +46855,9 @@ if (typeof Math.imul === 'undefined') {
     var tmp = "Encountered an unknown key '" + key + "'.\n" + (get_ignoreUnknownKeysHint() + '\n');
     return JsonDecodingException_1(-1, tmp + ('Current input: ' + minify$default(input, 0, 1, null)));
   }
-  function InvalidFloatingPointEncoded(value, output) {
-    var tmp = 'Unexpected special floating-point value ' + toString_2(value) + '. By default, ' + 'non-finite floating point values are prohibited because they do not conform JSON specification. ' + (get_specialFlowingValuesHint() + '\n');
-    return new JsonEncodingException(tmp + ('Current output: ' + minify$default(output, 0, 1, null)));
-  }
   function JsonException(message) {
     SerializationException_init_$Init$(message, this);
     captureStack(this, JsonException);
-  }
-  function unexpectedFpErrorMessage(value, key, output) {
-    var tmp = 'Unexpected special floating-point value ' + toString_2(value) + ' with key ' + key + '. By default, ' + 'non-finite floating point values are prohibited because they do not conform JSON specification. ' + (get_specialFlowingValuesHint() + '\n');
-    return tmp + ('Current output: ' + minify$default(output, 0, 1, null));
   }
   function minify(_this__u8e3s4, offset) {
     if (charSequenceLength(_this__u8e3s4) < 200)
@@ -46893,6 +46887,14 @@ if (typeof Math.imul === 'undefined') {
     if (!(($mask0 & 1) === 0))
       offset = -1;
     return minify(_this__u8e3s4, offset);
+  }
+  function unexpectedFpErrorMessage(value, key, output) {
+    var tmp = 'Unexpected special floating-point value ' + toString_2(value) + ' with key ' + key + '. By default, ' + 'non-finite floating point values are prohibited because they do not conform JSON specification. ' + (get_specialFlowingValuesHint() + '\n');
+    return tmp + ('Current output: ' + minify$default(output, 0, 1, null));
+  }
+  function InvalidFloatingPointEncoded(value, output) {
+    var tmp = 'Unexpected special floating-point value ' + toString_2(value) + '. By default, ' + 'non-finite floating point values are prohibited because they do not conform JSON specification. ' + (get_specialFlowingValuesHint() + '\n');
+    return new JsonEncodingException(tmp + ('Current output: ' + minify$default(output, 0, 1, null)));
   }
   function get_JsonDeserializationNamesKey() {
     init_properties_JsonNamesMap_kt_1j2xk2();
@@ -50196,6 +50198,18 @@ if (typeof Math.imul === 'undefined') {
     return lenientHint;
   }
   var lenientHint;
+  function get_specialFlowingValuesHint() {
+    return specialFlowingValuesHint;
+  }
+  var specialFlowingValuesHint;
+  function get_allowStructuredMapKeysHint() {
+    return allowStructuredMapKeysHint;
+  }
+  var allowStructuredMapKeysHint;
+  function get_ignoreUnknownKeysHint() {
+    return ignoreUnknownKeysHint;
+  }
+  var ignoreUnknownKeysHint;
   function get_INVALID() {
     return INVALID;
   }
@@ -50227,10 +50241,6 @@ if (typeof Math.imul === 'undefined') {
   function escapeToChar(c) {
     return c < 117 ? CharMappings_getInstance().c3r_1[c] : _Char___init__impl__6a9atx(0);
   }
-  function get_ignoreUnknownKeysHint() {
-    return ignoreUnknownKeysHint;
-  }
-  var ignoreUnknownKeysHint;
   function initEscape($this) {
     var inductionVariable = 0;
     if (inductionVariable <= 31)
@@ -50307,14 +50317,6 @@ if (typeof Math.imul === 'undefined') {
       new CharMappings();
     return CharMappings_instance;
   }
-  function get_specialFlowingValuesHint() {
-    return specialFlowingValuesHint;
-  }
-  var specialFlowingValuesHint;
-  function get_allowStructuredMapKeysHint() {
-    return allowStructuredMapKeysHint;
-  }
-  var allowStructuredMapKeysHint;
   function StringJsonLexer(source) {
     AbstractJsonLexer.call(this);
     this.i3r_1 = source;
@@ -58234,6 +58236,10 @@ if (typeof Math.imul === 'undefined') {
       new DatasetPolicies();
     return DatasetPolicies_instance;
   }
+  function DatasetDataQueryDTO() {
+  }
+  function DatasetDataResultDTO() {
+  }
   function DatasetGetQueryDTO() {
   }
   function DatasetGetResultDTO() {
@@ -58524,6 +58530,9 @@ if (typeof Math.imul === 'undefined') {
   BEGIN_LIST = _Char___init__impl__6a9atx(91);
   END_LIST = _Char___init__impl__6a9atx(93);
   lenientHint = "Use 'isLenient = true' in 'Json {}` builder to accept non-compliant JSON.";
+  specialFlowingValuesHint = "It is possible to deserialize them using 'JsonBuilder.allowSpecialFloatingPointValues = true'";
+  allowStructuredMapKeysHint = "Use 'allowStructuredMapKeys = true' in 'Json {}' builder to convert such maps to [key1, value1, key2, value2,...] arrays.";
+  ignoreUnknownKeysHint = "Use 'ignoreUnknownKeys = true' in 'Json {}' builder to ignore unknown keys.";
   INVALID = _Char___init__impl__6a9atx(0);
   COMMA = _Char___init__impl__6a9atx(44);
   NULL_0 = 'null';
@@ -58531,9 +58540,6 @@ if (typeof Math.imul === 'undefined') {
   TC_BEGIN_LIST = 8;
   TC_END_LIST = 9;
   TC_OTHER = 0;
-  ignoreUnknownKeysHint = "Use 'ignoreUnknownKeys = true' in 'Json {}' builder to ignore unknown keys.";
-  specialFlowingValuesHint = "It is possible to deserialize them using 'JsonBuilder.allowSpecialFloatingPointValues = true'";
-  allowStructuredMapKeysHint = "Use 'allowStructuredMapKeys = true' in 'Json {}' builder to convert such maps to [key1, value1, key2, value2,...] arrays.";
   initializer = SerializerInitializer_getInstance();
   DISTANT_PAST_SECONDS = new Long(-931914497, -750);
   DISTANT_FUTURE_SECONDS = new Long(1151527680, 720);
@@ -59950,6 +59956,13 @@ if (typeof Math.imul === 'undefined') {
       configurable: true,
       get: DatasetPolicies_getInstance
     });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$query = $city$smartb$registry$f2$dataset$domain.query || ($city$smartb$registry$f2$dataset$domain.query = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

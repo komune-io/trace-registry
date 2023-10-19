@@ -2968,7 +2968,6 @@ export namespace city.smartb.registry.f2.dataset.domain.command {
         readonly version?: string;
         readonly versionNotes?: string;
         readonly length?: number;
-        readonly datasets?: string[];
 
     }
     interface DatasetCreatedEventDTO extends f2.dsl.cqrs.Event {
@@ -2992,7 +2991,6 @@ export namespace city.smartb.registry.f2.dataset.domain.command {
         readonly version?: string;
         readonly versionNotes?: string;
         readonly length?: number;
-        readonly datasets?: string[];
 
     }
 }
@@ -3099,6 +3097,16 @@ export namespace city.smartb.registry.f2.dataset.domain.policy {
     };
 }
 export namespace city.smartb.registry.f2.dataset.domain.query {
+    interface DatasetDataQueryDTO {
+        readonly id: string;
+
+    }
+    interface DatasetDataResultDTO {
+        readonly items: kotlinx.serialization.json.JsonElement[];
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.query {
     interface DatasetGetQueryDTO {
         readonly id?: string;
         readonly identifier?: string;
@@ -3112,7 +3120,6 @@ export namespace city.smartb.registry.f2.dataset.domain.query {
 export namespace city.smartb.registry.f2.dataset.domain.query {
     interface DatasetPageQueryDTO {
         readonly datasetId?: string;
-        readonly parentIdentifier?: string;
         readonly title?: string;
         readonly status?: string;
         readonly offset?: number;

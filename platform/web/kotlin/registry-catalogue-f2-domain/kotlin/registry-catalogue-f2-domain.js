@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -1593,6 +1593,31 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta, undefined, [CatalogueCommand], undefined, undefined, []);
   setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
   setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
+  setMetadataFor(DatasetCommand, 'DatasetCommand', interfaceMeta, undefined, [S2Command], undefined, undefined, []);
+  setMetadataFor(DatasetDeleteCommandDTO, 'DatasetDeleteCommandDTO', interfaceMeta, undefined, [DatasetCommand], undefined, undefined, []);
+  setMetadataFor(DatasetEvent, 'DatasetEvent', interfaceMeta, undefined, [S2SourcingEvent], undefined, undefined, []);
+  setMetadataFor(DatasetInitCommand, 'DatasetInitCommand', interfaceMeta, undefined, [S2InitCommand], undefined, undefined, []);
+  setMetadataFor(DatasetCreateCommandDTO, 'DatasetCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetCreatedEventDTO, 'DatasetCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(DatasetDeleteCommandDTO_0, 'DatasetDeleteCommandDTO', interfaceMeta, undefined, [DatasetDeleteCommandDTO], undefined, undefined, []);
+  setMetadataFor(DatasetDeletedEventDTO, 'DatasetDeletedEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetLinkDatasetsCommandDTO, 'DatasetLinkDatasetsCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetLinkDatasetsEventDTO, 'DatasetLinkedDatasetsEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(DatasetLinkThemesCommandDTO, 'DatasetLinkThemesCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetLinkThemesEventDTO, 'DatasetLinkedThemesEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
+  setMetadataFor(DatasetSetImageCommandDTO, 'DatasetSetImageCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetSetImageEventDTO, 'DatasetSetImageEventDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetDTO, 'DatasetDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetRefDTO, 'DatasetRefDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetPolicies, 'DatasetPolicies', objectMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetDataQueryDTO, 'DatasetDataQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetDataResultDTO, 'DatasetDataResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetGetQueryDTO, 'DatasetGetQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetGetResultDTO, 'DatasetGetResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetPageQueryDTO, 'DatasetPageQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetPageResultDTO, 'DatasetPageResultDTO', interfaceMeta, undefined, [PageDTO], undefined, undefined, []);
+  setMetadataFor(DatasetRefListQueryDTO, 'DatasetRefListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(DatasetRefListResultDTO, 'DatasetRefListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, undefined, [Event], undefined, undefined, []);
   setMetadataFor(CatalogueDeleteCommandDTO_0, 'CatalogueDeleteCommandDTO', interfaceMeta, undefined, [CatalogueDeleteCommandDTO], undefined, undefined, []);
@@ -58167,6 +58192,99 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCommand() {
   }
+  function DatasetDeleteCommandDTO() {
+  }
+  function DatasetEvent() {
+  }
+  function DatasetInitCommand() {
+  }
+  function DatasetCommand() {
+  }
+  function DatasetCreateCommandDTO() {
+  }
+  function DatasetCreatedEventDTO() {
+  }
+  function DatasetDeleteCommandDTO_0() {
+  }
+  function DatasetDeletedEventDTO() {
+  }
+  function DatasetLinkDatasetsCommandDTO() {
+  }
+  function DatasetLinkDatasetsEventDTO() {
+  }
+  function DatasetLinkThemesCommandDTO() {
+  }
+  function DatasetLinkThemesEventDTO() {
+  }
+  function DatasetSetImageCommandDTO() {
+  }
+  function DatasetSetImageEventDTO() {
+  }
+  function DatasetDTO() {
+  }
+  function DatasetRefDTO() {
+  }
+  function DatasetPolicies() {
+    DatasetPolicies_instance = this;
+  }
+  DatasetPolicies.prototype.canPage = function (authedUser) {
+    return true;
+  };
+  DatasetPolicies.prototype.canPageSteps = function (authedUser) {
+    return true;
+  };
+  DatasetPolicies.prototype.canCreate = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  DatasetPolicies.prototype.canSetImg = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  DatasetPolicies.prototype.canDelete = function (authedUser) {
+    return true;
+  };
+  DatasetPolicies.prototype.checkLinkDatasets = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  DatasetPolicies.prototype.checkLinkThemes = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  DatasetPolicies.prototype.canFulfillTask = function (authedUser) {
+    Roles_getInstance();
+    Roles_getInstance();
+    Roles_getInstance();
+    Roles_getInstance();
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user', 'tr_project_manager_admin', 'tr_project_manager_user']);
+  };
+  var DatasetPolicies_instance;
+  function DatasetPolicies_getInstance() {
+    if (DatasetPolicies_instance == null)
+      new DatasetPolicies();
+    return DatasetPolicies_instance;
+  }
+  function DatasetDataQueryDTO() {
+  }
+  function DatasetDataResultDTO() {
+  }
+  function DatasetGetQueryDTO() {
+  }
+  function DatasetGetResultDTO() {
+  }
+  function DatasetPageQueryDTO() {
+  }
+  function DatasetPageResultDTO() {
+  }
+  function DatasetRefListQueryDTO() {
+  }
+  function DatasetRefListResultDTO() {
+  }
   function CatalogueCreateCommandDTO() {
   }
   function CatalogueCreatedEventDTO() {
@@ -59903,6 +60021,101 @@ if (typeof Math.imul === 'undefined') {
     var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
     var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
     var $city$smartb$registry$s2$catalogue$domain$command = $city$smartb$registry$s2$catalogue$domain.command || ($city$smartb$registry$s2$catalogue$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$dataset = $city$smartb$registry$s2.dataset || ($city$smartb$registry$s2.dataset = {});
+    var $city$smartb$registry$s2$dataset$domain = $city$smartb$registry$s2$dataset.domain || ($city$smartb$registry$s2$dataset.domain = {});
+    var $city$smartb$registry$s2$dataset$domain$command = $city$smartb$registry$s2$dataset$domain.command || ($city$smartb$registry$s2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$dataset = $city$smartb$registry$s2.dataset || ($city$smartb$registry$s2.dataset = {});
+    var $city$smartb$registry$s2$dataset$domain = $city$smartb$registry$s2$dataset.domain || ($city$smartb$registry$s2$dataset.domain = {});
+    var $city$smartb$registry$s2$dataset$domain$command = $city$smartb$registry$s2$dataset$domain.command || ($city$smartb$registry$s2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$command = $city$smartb$registry$f2$dataset$domain.command || ($city$smartb$registry$f2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$command = $city$smartb$registry$f2$dataset$domain.command || ($city$smartb$registry$f2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$command = $city$smartb$registry$f2$dataset$domain.command || ($city$smartb$registry$f2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$command = $city$smartb$registry$f2$dataset$domain.command || ($city$smartb$registry$f2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$command = $city$smartb$registry$f2$dataset$domain.command || ($city$smartb$registry$f2$dataset$domain.command = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$dto = $city$smartb$registry$f2$dataset$domain.dto || ($city$smartb$registry$f2$dataset$domain.dto = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$policy = $city$smartb$registry$f2$dataset$domain.policy || ($city$smartb$registry$f2$dataset$domain.policy = {});
+    Object.defineProperty($city$smartb$registry$f2$dataset$domain$policy, 'DatasetPolicies', {
+      configurable: true,
+      get: DatasetPolicies_getInstance
+    });
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$query = $city$smartb$registry$f2$dataset$domain.query || ($city$smartb$registry$f2$dataset$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$query = $city$smartb$registry$f2$dataset$domain.query || ($city$smartb$registry$f2$dataset$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$query = $city$smartb$registry$f2$dataset$domain.query || ($city$smartb$registry$f2$dataset$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$f2 = $city$smartb$registry.f2 || ($city$smartb$registry.f2 = {});
+    var $city$smartb$registry$f2$dataset = $city$smartb$registry$f2.dataset || ($city$smartb$registry$f2.dataset = {});
+    var $city$smartb$registry$f2$dataset$domain = $city$smartb$registry$f2$dataset.domain || ($city$smartb$registry$f2$dataset.domain = {});
+    var $city$smartb$registry$f2$dataset$domain$query = $city$smartb$registry$f2$dataset$domain.query || ($city$smartb$registry$f2$dataset$domain.query = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

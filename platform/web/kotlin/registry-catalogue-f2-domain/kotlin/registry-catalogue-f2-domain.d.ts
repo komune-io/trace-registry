@@ -2947,6 +2947,221 @@ export namespace city.smartb.registry.s2.catalogue.domain.command {
 
     }
 }
+export namespace city.smartb.registry.s2.dataset.domain.command {
+    interface DatasetDeleteCommandDTO extends city.smartb.registry.s2.dataset.domain.command.DatasetCommand {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.s2.dataset.domain.command {
+    interface DatasetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, city.smartb.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface DatasetInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface DatasetCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.command {
+    interface DatasetCreateCommandDTO {
+        readonly identifier: string;
+        readonly title: string;
+        readonly description?: string;
+        readonly type: string;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: city.smartb.registry.s2.catalogue.domain.model.Activity;
+        readonly accessRights?: string;
+        readonly conformsTo?: city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme[];
+        readonly creator?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language?: string[];
+        readonly publisher?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly theme?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly version?: string;
+        readonly versionNotes?: string;
+        readonly length?: number;
+
+    }
+    interface DatasetCreatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly description?: string;
+        readonly type: string;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: city.smartb.registry.s2.catalogue.domain.model.Activity;
+        readonly accessRights?: string;
+        readonly conformsTo?: city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme[];
+        readonly creator?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language?: string[];
+        readonly publisher?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly theme?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly version?: string;
+        readonly versionNotes?: string;
+        readonly length?: number;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.command {
+    interface DatasetDeleteCommandDTO extends city.smartb.registry.s2.dataset.domain.command.DatasetDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface DatasetDeletedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.command {
+    interface DatasetLinkDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+    interface DatasetLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.command {
+    interface DatasetLinkThemesCommandDTO {
+        readonly id: string;
+        readonly themes: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+
+    }
+    interface DatasetLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly themes: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.command {
+    interface DatasetSetImageCommandDTO {
+        readonly id: string;
+
+    }
+    interface DatasetSetImageEventDTO {
+        readonly id: string;
+        readonly img?: city.smartb.fs.s2.file.domain.model.FilePathDTO/* Nullable<city.smartb.fs.s2.file.domain.model.FilePath> */;
+        readonly date: number;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.dto {
+    interface DatasetDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly type: string;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: city.smartb.registry.s2.catalogue.domain.model.Activity;
+        readonly accessRights?: string;
+        readonly conformsTo?: city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme[];
+        readonly creator?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly description?: string;
+        readonly title: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language?: string[];
+        readonly publisher?: city.smartb.registry.s2.catalogue.domain.model.Agent;
+        readonly theme?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly version?: string;
+        readonly versionNotes?: string;
+        readonly length?: number;
+        readonly img?: string;
+        readonly datasets?: city.smartb.registry.f2.dataset.domain.dto.DatasetRefDTOBase[];
+        readonly themes?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+        readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.dataset.domain.automate.DatasetState */;
+        readonly homepage?: string;
+        readonly display?: string;
+
+    }
+    interface DatasetRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
+        readonly description?: string;
+        readonly homepage?: string;
+        readonly img?: string;
+        readonly display?: string;
+        readonly themes?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
+        readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.dataset.domain.automate.DatasetState> */;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.policy {
+    const DatasetPolicies: {
+        canPage(authedUser?: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canPageSteps(authedUser?: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canSetImg(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canDelete(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkDatasets(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkThemes(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+        canFulfillTask(authedUser: city.smartb.im.commons.auth.AuthedUserDTO): boolean;
+    };
+}
+export namespace city.smartb.registry.f2.dataset.domain.query {
+    interface DatasetDataQueryDTO {
+        readonly id: string;
+
+    }
+    interface DatasetDataResultDTO {
+        readonly items: kotlinx.serialization.json.JsonElement[];
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.query {
+    interface DatasetGetQueryDTO {
+        readonly id?: string;
+        readonly identifier?: string;
+
+    }
+    interface DatasetGetResultDTO {
+        readonly item?: city.smartb.registry.f2.dataset.domain.dto.DatasetDTO;
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.query {
+    interface DatasetPageQueryDTO {
+        readonly datasetId?: string;
+        readonly title?: string;
+        readonly status?: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface DatasetPageResultDTO extends f2.dsl.cqrs.page.PageDTO<city.smartb.registry.f2.dataset.domain.dto.DatasetDTO> {
+        readonly total: number;
+        readonly items: city.smartb.registry.f2.dataset.domain.dto.DatasetDTO[];
+
+    }
+}
+export namespace city.smartb.registry.f2.dataset.domain.query {
+    interface DatasetRefListQueryDTO {
+
+    }
+    interface DatasetRefListResultDTO {
+        readonly items: city.smartb.registry.f2.dataset.domain.dto.DatasetRefDTO[];
+        readonly total: number;
+
+    }
+}
 export namespace city.smartb.registry.f2.catalogue.domain.command {
     interface CatalogueCreateCommandDTO {
         readonly identifier: string;
@@ -3041,7 +3256,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly type: string;
         readonly display?: string;
         readonly themes?: city.smartb.registry.s2.catalogue.domain.model.SkosConcept[];
-        readonly datasets?: city.smartb.registry.s2.catalogue.domain.model.DcatDataset[];
+        readonly datasets?: city.smartb.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly catalogues?: city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.catalogue.domain.automate.CatalogueState */;
 
