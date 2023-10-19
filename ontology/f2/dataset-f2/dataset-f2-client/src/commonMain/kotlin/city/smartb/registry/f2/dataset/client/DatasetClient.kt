@@ -5,6 +5,7 @@ import city.smartb.registry.f2.dataset.domain.command.DatasetCreateFunction
 import city.smartb.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import city.smartb.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import city.smartb.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
+import city.smartb.registry.f2.dataset.domain.query.DatasetDataFunction
 import city.smartb.registry.f2.dataset.domain.query.DatasetGetFunction
 import city.smartb.registry.f2.dataset.domain.query.DatasetPageFunction
 import city.smartb.registry.f2.dataset.domain.query.DatasetRefListFunction
@@ -27,4 +28,5 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetPage(): DatasetPageFunction = client.function(this::datasetPage.name)
     override fun datasetGet(): DatasetGetFunction = client.function(this::datasetGet.name)
     override fun datasetRefList(): DatasetRefListFunction = client.function(this::datasetRefList.name)
+    override fun datasetData(): DatasetDataFunction = client.function(this::datasetData.name)
 }

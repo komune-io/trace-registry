@@ -3,6 +3,7 @@ package city.smartb.registry.f2.dataset.api
 import city.smartb.fs.s2.file.client.FileClient
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.spring.utils.serveFile
+import city.smartb.registry.f2.dataset.api.data.DataProvider
 import city.smartb.registry.f2.dataset.api.service.DatasetF2FinderService
 import city.smartb.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import city.smartb.registry.f2.dataset.api.service.toCommand
@@ -14,6 +15,8 @@ import city.smartb.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunctio
 import city.smartb.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import city.smartb.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBase
 import city.smartb.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
+import city.smartb.registry.f2.dataset.domain.query.DatasetDataFunction
+import city.smartb.registry.f2.dataset.domain.query.DatasetDataResult
 import city.smartb.registry.f2.dataset.domain.query.DatasetGetFunction
 import city.smartb.registry.f2.dataset.domain.query.DatasetGetResult
 import city.smartb.registry.f2.dataset.domain.query.DatasetPageFunction
@@ -46,6 +49,7 @@ class DatasetEndpoint(
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
+    private val dataProvider: DataProvider,
 ): DatasetApi {
 
     private val logger = LoggerFactory.getLogger(DatasetEndpoint::class.java)
@@ -82,6 +86,12 @@ class DatasetEndpoint(
     override fun datasetRefList(): DatasetRefListFunction = f2Function { query ->
         logger.info("datasetRefList: $query")
         datasetF2FinderService.getAllRefs()
+    }
+
+    override fun datasetData(): DatasetDataFunction = f2Function { query ->
+        logger.info("datasetRefList: $query")
+        val items = dataProvider.retrieve(datasetId = query.id)
+        DatasetDataResult(items = items)
     }
 
     @PermitAll

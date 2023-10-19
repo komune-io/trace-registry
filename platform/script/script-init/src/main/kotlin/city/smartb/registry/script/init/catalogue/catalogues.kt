@@ -40,8 +40,13 @@ fun CatalogueBuilder.datasetBase(parentIdentifier: String) {
     datasets {
         dataset {
             identifier = "${parentIdentifier}-documents"
-            title = "documents"
+            title = "Documents"
             type = "document"
+        }
+        dataset {
+            identifier = "${parentIdentifier}-activities"
+            title = "Activities"
+            type = "activity"
         }
     }
 }
