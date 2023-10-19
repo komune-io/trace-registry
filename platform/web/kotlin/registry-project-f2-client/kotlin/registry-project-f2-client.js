@@ -97563,7 +97563,7 @@ if (typeof Math.imul === 'undefined') {
   $serializer_91.prototype.u49 = function () {
     var tmp$ret$2;
     // Inline function 'kotlin.arrayOf' call
-    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_88()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), new ArrayListSerializer(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_88()), get_nullable($serializer_getInstance_88()), get_nullable($serializer_getInstance_8()), LongSerializer_getInstance(), LongSerializer_getInstance(), Companion_getInstance_142().r4k(), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(new ArrayListSerializer(IntSerializer_getInstance())), get_nullable($serializer_getInstance_87()), new ArrayListSerializer(StringSerializer_getInstance()), BooleanSerializer_getInstance()];
+    var tmp0_arrayOf = [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), StringSerializer_getInstance(), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_88()), get_nullable(IntSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), new ArrayListSerializer(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_88()), get_nullable($serializer_getInstance_88()), get_nullable($serializer_getInstance_8()), get_nullable(LongSerializer_getInstance()), get_nullable(LongSerializer_getInstance()), Companion_getInstance_142().r4k(), get_nullable(new ArrayListSerializer(StringSerializer_getInstance())), get_nullable(new ArrayListSerializer(IntSerializer_getInstance())), get_nullable($serializer_getInstance_87()), new ArrayListSerializer(StringSerializer_getInstance()), BooleanSerializer_getInstance()];
     var tmp$ret$1;
     // Inline function 'kotlin.js.unsafeCast' call
     var tmp$ret$0;
@@ -97598,8 +97598,8 @@ if (typeof Math.imul === 'undefined') {
     var tmp21_local17 = null;
     var tmp22_local18 = null;
     var tmp23_local19 = null;
-    var tmp24_local20 = new Long(0, 0);
-    var tmp25_local21 = new Long(0, 0);
+    var tmp24_local20 = null;
+    var tmp25_local21 = null;
     var tmp26_local22 = null;
     var tmp27_local23 = null;
     var tmp28_local24 = null;
@@ -97648,9 +97648,9 @@ if (typeof Math.imul === 'undefined') {
       tmp3_bitMask0 = tmp3_bitMask0 | 262144;
       tmp23_local19 = tmp32_input.q42(tmp0_desc, 19, $serializer_getInstance_8(), tmp23_local19);
       tmp3_bitMask0 = tmp3_bitMask0 | 524288;
-      tmp24_local20 = tmp32_input.i42(tmp0_desc, 20);
+      tmp24_local20 = tmp32_input.q42(tmp0_desc, 20, LongSerializer_getInstance(), tmp24_local20);
       tmp3_bitMask0 = tmp3_bitMask0 | 1048576;
-      tmp25_local21 = tmp32_input.i42(tmp0_desc, 21);
+      tmp25_local21 = tmp32_input.q42(tmp0_desc, 21, LongSerializer_getInstance(), tmp25_local21);
       tmp3_bitMask0 = tmp3_bitMask0 | 2097152;
       tmp26_local22 = tmp32_input.o42(tmp0_desc, 22, Companion_getInstance_142().r4k(), tmp26_local22);
       tmp3_bitMask0 = tmp3_bitMask0 | 4194304;
@@ -97752,11 +97752,11 @@ if (typeof Math.imul === 'undefined') {
             tmp3_bitMask0 = tmp3_bitMask0 | 524288;
             break;
           case 20:
-            tmp24_local20 = tmp32_input.i42(tmp0_desc, 20);
+            tmp24_local20 = tmp32_input.q42(tmp0_desc, 20, LongSerializer_getInstance(), tmp24_local20);
             tmp3_bitMask0 = tmp3_bitMask0 | 1048576;
             break;
           case 21:
-            tmp25_local21 = tmp32_input.i42(tmp0_desc, 21);
+            tmp25_local21 = tmp32_input.q42(tmp0_desc, 21, LongSerializer_getInstance(), tmp25_local21);
             tmp3_bitMask0 = tmp3_bitMask0 | 2097152;
             break;
           case 22:
@@ -97813,8 +97813,8 @@ if (typeof Math.imul === 'undefined') {
     tmp1_output.u43(tmp0_desc, 17, $serializer_getInstance_88(), value.x7i_1);
     tmp1_output.u43(tmp0_desc, 18, $serializer_getInstance_88(), value.y7i_1);
     tmp1_output.u43(tmp0_desc, 19, $serializer_getInstance_8(), value.z7i_1);
-    tmp1_output.m43(tmp0_desc, 20, value.a7j_1);
-    tmp1_output.m43(tmp0_desc, 21, value.b7j_1);
+    tmp1_output.u43(tmp0_desc, 20, LongSerializer_getInstance(), value.a7j_1);
+    tmp1_output.u43(tmp0_desc, 21, LongSerializer_getInstance(), value.b7j_1);
     tmp1_output.s43(tmp0_desc, 22, Companion_getInstance_142().r4k(), value.c7j_1);
     tmp1_output.u43(tmp0_desc, 23, new ArrayListSerializer(StringSerializer_getInstance()), value.d7j_1);
     tmp1_output.u43(tmp0_desc, 24, new ArrayListSerializer(IntSerializer_getInstance()), value.e7j_1);
@@ -97962,7 +97962,7 @@ if (typeof Math.imul === 'undefined') {
     return this.g7i_1;
   };
   ProjectDTOBase.prototype.toString = function () {
-    return 'ProjectDTOBase(id=' + this.g7i_1 + ', identifier=' + this.h7i_1 + ', country=' + this.i7i_1 + ', indicator=' + this.j7i_1 + ', creditingPeriodStartDate=' + toString_2(this.k7i_1) + ', creditingPeriodEndDate=' + toString_2(this.l7i_1) + ', description=' + this.m7i_1 + ', dueDate=' + toString_2(this.n7i_1) + ', estimatedReductions=' + this.o7i_1 + ', localization=' + this.p7i_1 + ', name=' + this.q7i_1 + ', proponent=' + this.r7i_1 + ', type=' + this.s7i_1 + ', referenceYear=' + this.t7i_1 + ', registrationDate=' + toString_2(this.u7i_1) + ', vintage=' + this.v7i_1 + ', slug=' + this.w7i_1 + ', vvb=' + this.x7i_1 + ', assessor=' + this.y7i_1 + ', location=' + this.z7i_1 + ', creationDate=' + toString_3(this.a7j_1) + ', lastModificationDate=' + toString_3(this.b7j_1) + ', status=' + this.c7j_1 + ', activities=' + this.d7j_1 + ', sdgs=' + this.e7j_1 + ', certification=' + this.f7j_1 + ', assetPools=' + this.g7j_1 + ', isPrivate=' + this.h7j_1 + ')';
+    return 'ProjectDTOBase(id=' + this.g7i_1 + ', identifier=' + this.h7i_1 + ', country=' + this.i7i_1 + ', indicator=' + this.j7i_1 + ', creditingPeriodStartDate=' + toString_2(this.k7i_1) + ', creditingPeriodEndDate=' + toString_2(this.l7i_1) + ', description=' + this.m7i_1 + ', dueDate=' + toString_2(this.n7i_1) + ', estimatedReductions=' + this.o7i_1 + ', localization=' + this.p7i_1 + ', name=' + this.q7i_1 + ', proponent=' + this.r7i_1 + ', type=' + this.s7i_1 + ', referenceYear=' + this.t7i_1 + ', registrationDate=' + toString_2(this.u7i_1) + ', vintage=' + this.v7i_1 + ', slug=' + this.w7i_1 + ', vvb=' + this.x7i_1 + ', assessor=' + this.y7i_1 + ', location=' + this.z7i_1 + ', creationDate=' + toString_2(this.a7j_1) + ', lastModificationDate=' + toString_2(this.b7j_1) + ', status=' + this.c7j_1 + ', activities=' + this.d7j_1 + ', sdgs=' + this.e7j_1 + ', certification=' + this.f7j_1 + ', assetPools=' + this.g7j_1 + ', isPrivate=' + this.h7j_1 + ')';
   };
   ProjectDTOBase.prototype.hashCode = function () {
     var result = getStringHashCode(this.g7i_1);
@@ -97985,8 +97985,8 @@ if (typeof Math.imul === 'undefined') {
     result = imul(result, 31) + (this.x7i_1 == null ? 0 : this.x7i_1.hashCode()) | 0;
     result = imul(result, 31) + (this.y7i_1 == null ? 0 : this.y7i_1.hashCode()) | 0;
     result = imul(result, 31) + (this.z7i_1 == null ? 0 : this.z7i_1.hashCode()) | 0;
-    result = imul(result, 31) + this.a7j_1.hashCode() | 0;
-    result = imul(result, 31) + this.b7j_1.hashCode() | 0;
+    result = imul(result, 31) + (this.a7j_1 == null ? 0 : this.a7j_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.b7j_1 == null ? 0 : this.b7j_1.hashCode()) | 0;
     result = imul(result, 31) + this.c7j_1.hashCode() | 0;
     result = imul(result, 31) + (this.d7j_1 == null ? 0 : hashCode(this.d7j_1)) | 0;
     result = imul(result, 31) + (this.e7j_1 == null ? 0 : hashCode(this.e7j_1)) | 0;
@@ -98041,9 +98041,9 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals_1(this.z7i_1, tmp0_other_with_cast.z7i_1))
       return false;
-    if (!this.a7j_1.equals(tmp0_other_with_cast.a7j_1))
+    if (!equals_1(this.a7j_1, tmp0_other_with_cast.a7j_1))
       return false;
-    if (!this.b7j_1.equals(tmp0_other_with_cast.b7j_1))
+    if (!equals_1(this.b7j_1, tmp0_other_with_cast.b7j_1))
       return false;
     if (!this.c7j_1.equals(tmp0_other_with_cast.c7j_1))
       return false;
