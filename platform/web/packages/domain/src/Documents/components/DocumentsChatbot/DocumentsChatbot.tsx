@@ -1,48 +1,31 @@
 import { Stack } from "@mui/material";
 import { Chat } from "components";
-import { InputForm, Option, SmartKey } from "@smartb/g2";
+import { Button } from "@smartb/g2";
 import { FilePath, askQuestion } from "../../api/query";
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 export interface DocumentsChatbotProps {
     selectedFiles: FilePath[]
-    allFiles?: FilePath[]
-    setFiles: (selectedFiles: FilePath[]) => void
     quote?: { quote: string, fileName: string, pageNumber: number }
     setReference: (ref: string) => void
     removeQuote?: () => void
-    isLoading?: boolean
+    toggleDocumentsSelection?: () => void
+    disabled: boolean
+    isPreviewMode: boolean
 }
 
 export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
-    const { selectedFiles, allFiles, setFiles, /* setReference, */ quote, removeQuote, isLoading = false } = props
+    const { selectedFiles, /* setReference, */ quote, removeQuote, toggleDocumentsSelection, disabled, isPreviewMode } = props
     const { t } = useTranslation()
     // const [localReference, setlocalReference] = useState("")
 
 
-    const options = useMemo(() => allFiles?.map((file): Option => ({
-        key: file.name,
-        label: file.name
-    })), [allFiles])
 
     const filesNames = useMemo(
       () => selectedFiles.map((file) => file.name)
       , [selectedFiles])
 
-    const onChangeFiles = useCallback(
-        (values: SmartKey[]) => {
-            setFiles(
-                values.map(
-                    (value) => allFiles?.find(
-                        (file) => file.name === value
-                    )!
-                )
-            )
-
-        },
-        [setFiles, allFiles],
-    )
 
     // const sendReference = useCallback(
     //     () => {
@@ -62,15 +45,16 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
             }}
             gap={2}
         >
-            <InputForm
-                values={filesNames}
-                onChangeValues={onChangeFiles}
-                inputType="select"
-                multiple
-                isLoading={isLoading}
-                placeholder={t("chooseFile")}
-                options={options}
-            />
+            <Button 
+                sx={{
+                    color: "white"
+                }} 
+                aria-label="download" 
+                onClick={toggleDocumentsSelection}
+                disabled={disabled}
+                >
+                {isPreviewMode ? t("navigateThroughDocs") : t("viewSelectedDocs")}
+            </Button>
             {/* <InputForm
                 value={localReference}
                 onChange={setlocalReference}

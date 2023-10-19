@@ -36,6 +36,8 @@
   "useMyPosition": "Use my position",
   "progress": "Progress",
   "projectList": "Project list",
+  "viewSelectedDocs": "View Selected Documents",
+  "navigateThroughDocs": "Navigate through documents",
   "id": "ID",
   "type": "Type",
   "types": "Types",
