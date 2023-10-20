@@ -1,8 +1,8 @@
 package city.smartb.registry.script.init.catalogue
 
-import city.smartb.registry.s2.catalogue.domain.model.CatalogueBuilder
-import city.smartb.registry.s2.catalogue.domain.model.catalogue
-import city.smartb.registry.s2.catalogue.domain.model.dataService
+import city.smartb.registry.dsl.dcat.domain.model.CatalogueBuilder
+import city.smartb.registry.dsl.dcat.domain.model.catalogue
+import city.smartb.registry.dsl.dcat.domain.model.dataService
 
 fun catalogueStandards(debug: String) = catalogue {
     identifier = "standards${debug}"

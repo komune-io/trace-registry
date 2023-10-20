@@ -7,12 +7,8 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDT
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import city.smartb.registry.f2.dataset.client.datasetClient
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
-import city.smartb.registry.s2.catalogue.domain.model.catalogue
-import city.smartb.registry.s2.catalogue.domain.model.concept
-import city.smartb.registry.s2.catalogue.domain.model.dataService
 import city.smartb.registry.script.init.actor.Actor
 import city.smartb.registry.script.init.utils.asyncExecution
-import java.util.UUID
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList

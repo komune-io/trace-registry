@@ -1,9 +1,8 @@
 package city.smartb.registry.f2.catalogue.domain.command
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptId
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport

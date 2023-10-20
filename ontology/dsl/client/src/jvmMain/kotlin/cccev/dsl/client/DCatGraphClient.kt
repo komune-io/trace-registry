@@ -1,8 +1,6 @@
 package cccev.dsl.client
 
-import cccev.dsl.model.InformationConcept
-import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
+import city.smartb.registry.dsl.dcat.domain.model.DCatApCatalogueModel
 import city.smartb.registry.f2.catalogue.client.CatalogueClient
 import city.smartb.registry.f2.catalogue.client.catalogueSetImageFunction
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
@@ -16,13 +14,10 @@ import city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import city.smartb.registry.f2.dataset.client.DatasetClient
 import city.smartb.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import city.smartb.registry.f2.dataset.domain.query.DatasetGetQuery
-import city.smartb.registry.f2.dataset.domain.query.DatasetGetQueryDTO
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import city.smartb.registry.s2.catalogue.domain.model.DCatApCatalogueModel
-import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
+import city.smartb.registry.dsl.dcat.domain.model.DcatDataset
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
-import city.smartb.registry.s2.dataset.domain.command.DatasetCreateCommand
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.invokeWith
 import java.io.File

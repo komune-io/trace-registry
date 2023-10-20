@@ -1,5 +1,6 @@
 package city.smartb.registry.s2.catalogue.domain.model
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.command.DatasetId

@@ -1,11 +1,10 @@
 package city.smartb.registry.f2.dataset.domain.dto
 
-import city.smartb.registry.s2.catalogue.domain.model.Activity
-import city.smartb.registry.s2.catalogue.domain.model.Agent
+import city.smartb.registry.dsl.dcat.domain.model.Activity
+import city.smartb.registry.dsl.dcat.domain.model.Agent
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
+import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
 import city.smartb.registry.s2.dataset.domain.automate.DatasetState
-import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
@@ -69,7 +68,7 @@ data class DatasetDTOBase(
     override val homepage: String? = null,
     override val display: String? = null,
 
-): DatasetDTO
+    ): DatasetDTO
 
 @JsExport
 interface DatasetRefDTO {

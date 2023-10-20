@@ -1,9 +1,8 @@
 package city.smartb.registry.f2.catalogue.domain.dto
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.f2.dataset.domain.dto.DatasetDTO
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
-import city.smartb.registry.s2.catalogue.domain.model.DcatDataset
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

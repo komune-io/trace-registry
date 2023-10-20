@@ -1,9 +1,9 @@
 package city.smartb.registry.s2.dataset.domain.command
 
-import city.smartb.registry.s2.catalogue.domain.model.Activity
-import city.smartb.registry.s2.catalogue.domain.model.Agent
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme
+import city.smartb.registry.dsl.dcat.domain.model.Activity
+import city.smartb.registry.dsl.dcat.domain.model.Agent
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
+import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
 import city.smartb.registry.s2.dataset.domain.automate.DatasetIdentifier
 import kotlinx.serialization.Serializable

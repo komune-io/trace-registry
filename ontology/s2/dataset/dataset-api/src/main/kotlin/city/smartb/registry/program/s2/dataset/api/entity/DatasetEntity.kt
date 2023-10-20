@@ -1,13 +1,13 @@
 package city.smartb.registry.program.s2.dataset.api.entity
 
 import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.registry.s2.catalogue.domain.model.Activity
-import city.smartb.registry.s2.catalogue.domain.model.Agent
+import city.smartb.registry.dsl.dcat.domain.model.Activity
+import city.smartb.registry.dsl.dcat.domain.model.Agent
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
+import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
 import city.smartb.registry.s2.dataset.domain.automate.DatasetIdentifier
 import city.smartb.registry.s2.dataset.domain.automate.DatasetState
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable

@@ -1,11 +1,10 @@
 package city.smartb.registry.ver.test.f2.catalogue.command
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.f2.catalogue.api.CatalogueEndpoint
-import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import city.smartb.registry.ver.test.f2.catalogue.data.catalogue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue

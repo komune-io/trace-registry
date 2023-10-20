@@ -1,7 +1,7 @@
 package city.smartb.registry.f2.dataset.domain.command
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import f2.dsl.fnc.F2Function
 import f2.dsl.cqrs.Event
 import kotlin.js.JsExport

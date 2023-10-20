@@ -1,11 +1,11 @@
 package city.smartb.registry.program.s2.catalogue.api.entity
 
 import city.smartb.fs.s2.file.domain.model.FilePath
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.command.DatasetId
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable

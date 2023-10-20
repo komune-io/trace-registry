@@ -2,7 +2,7 @@ package city.smartb.registry.s2.structure.domain.model
 
 import kotlinx.serialization.Serializable
 
-typealias SkosConceptId = String
+typealias StructureId = String
 
 // Concept
 @Serializable

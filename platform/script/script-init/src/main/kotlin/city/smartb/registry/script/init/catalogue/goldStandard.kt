@@ -1,7 +1,7 @@
 package city.smartb.registry.script.init.catalogue
 
-import city.smartb.registry.s2.catalogue.domain.model.catalogue
-import city.smartb.registry.s2.catalogue.domain.model.concept
+import city.smartb.registry.dsl.dcat.domain.model.catalogue
+import city.smartb.registry.dsl.skos.domain.model.concept
 
 
 @Suppress("LongMethod")

@@ -1,12 +1,12 @@
 package city.smartb.registry.ver.test.f2.dataset.command
 
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.f2.dataset.api.DatasetEndpoint
 import city.smartb.registry.f2.dataset.domain.command.DatasetLinkDatasetsCommandDTOBase
 import city.smartb.registry.f2.dataset.domain.command.DatasetLinkThemesCommandDTOBase
 import city.smartb.registry.program.s2.dataset.api.entity.DatasetEntity
 import city.smartb.registry.program.s2.dataset.api.entity.DatasetRepository
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
 import city.smartb.registry.ver.test.f2.dataset.data.dataset
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue

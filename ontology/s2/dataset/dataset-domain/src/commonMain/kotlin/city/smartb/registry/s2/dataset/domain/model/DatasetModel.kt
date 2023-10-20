@@ -1,19 +1,9 @@
 package city.smartb.registry.s2.dataset.domain.model
 
-import city.smartb.registry.s2.catalogue.domain.model.Activity
-import city.smartb.registry.s2.catalogue.domain.model.Agent
-import city.smartb.registry.s2.catalogue.domain.model.Attribution
-import city.smartb.registry.s2.catalogue.domain.model.CataloguedResource
-import city.smartb.registry.s2.catalogue.domain.model.DcatDistribution
-import city.smartb.registry.s2.catalogue.domain.model.LicenseDocument
-import city.smartb.registry.s2.catalogue.domain.model.Location
-import city.smartb.registry.s2.catalogue.domain.model.PeriodOfTime
-import city.smartb.registry.s2.catalogue.domain.model.Policy
-import city.smartb.registry.s2.catalogue.domain.model.Relationship
-import city.smartb.registry.s2.catalogue.domain.model.Rights
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.SkosConceptScheme
-import city.smartb.registry.s2.dataset.domain.automate.DatasetId
+import city.smartb.registry.dsl.dcat.domain.model.Activity
+import city.smartb.registry.dsl.dcat.domain.model.Agent
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
+import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
 import city.smartb.registry.s2.dataset.domain.automate.DatasetState
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,7 @@
 package city.smartb.registry.s2.catalogue.domain
 
-import city.smartb.registry.s2.catalogue.domain.model.SkosConcept
-import city.smartb.registry.s2.catalogue.domain.model.concept
+import city.smartb.registry.dsl.skos.domain.model.SkosConcept
+import city.smartb.registry.dsl.skos.domain.model.concept
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
