@@ -17,6 +17,8 @@ import city.smartb.registry.f2.dataset.domain.query.DatasetGetQuery
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.dsl.dcat.domain.model.DcatDataset
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.invokeWith
@@ -203,7 +205,7 @@ class DCatGraphClient(
 }
 
 
-fun CatalogueDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
+fun CatalogueDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,
     homepage = homepage,
     img = img,
@@ -215,7 +217,7 @@ fun CatalogueDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     structure = structure,
 )
 
-fun CatalogueRefDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
+fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,
     homepage = homepage,
     img = img,

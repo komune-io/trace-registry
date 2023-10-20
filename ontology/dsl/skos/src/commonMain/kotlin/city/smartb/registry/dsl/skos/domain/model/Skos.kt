@@ -1,5 +1,6 @@
 package city.smartb.registry.dsl.skos.domain.model
 
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,15 +10,24 @@ data class SkosContext(
 
 typealias SkosConceptId = String
 
+@JsExport
+interface SkosConceptDTO {
+    val id: SkosConceptId
+    val type: String
+    val prefLabels: Map<String, String>
+    val definitions: Map<String, String>
+    val broader: String?
+}
+
 // Concept
 @Serializable
 data class SkosConcept(
-    val id: SkosConceptId,
-    val type: String = "skos:Concept",
-    val prefLabels: Map<String, String>,
-    val definitions: Map<String, String>,
-    val broader: String? = null
-)
+    override val id: SkosConceptId,
+    override val type: String = "skos:Concept",
+    override val prefLabels: Map<String, String>,
+    override val definitions: Map<String, String>,
+    override val broader: String? = null
+): SkosConceptDTO
 
 @Serializable
 // Concept Scheme
