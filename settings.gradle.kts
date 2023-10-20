@@ -25,6 +25,7 @@ include(
 	"ontology:dsl:client",
 	"ontology:dsl:dcat",
 	"ontology:dsl:skos",
+	"ontology:dsl:structure",
 )
 
 include(
