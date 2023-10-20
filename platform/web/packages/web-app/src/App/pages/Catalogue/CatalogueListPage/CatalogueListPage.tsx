@@ -41,11 +41,11 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
             }}
         >
             <CatalogueBreadcrumbs />
-            <Typography
+            {catalogue?.description && <Typography
                 sx={{ maxWidth: "1000px", alignSelf: "center" }}
             >
                 {catalogue?.description}
-            </Typography>
+            </Typography>}
             <Box
                 sx={{
                     alignSelf: "center"

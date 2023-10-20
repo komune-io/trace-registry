@@ -38,7 +38,7 @@ export const useRoutesDefinition = () => {
 
     const cataloguesAll = useCallback(
       (tab?: string, ...objectIds: string[]) => {
-        const ends =  `/${tab ? "/" + tab : ""}`
+        const ends =  `/${tab ? tab : ""}`
        return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds) + ends
       },
       [],
