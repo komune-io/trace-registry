@@ -49,7 +49,7 @@ export const useMultiFilePagination = (files?: { name: string, file: any }[]) =>
                 const observer = new IntersectionObserver(function(entries) {
                     entries.forEach(function(entry) {
                         var visibilityRatio = entry.intersectionRatio * 100
-                      if (visibilityRatio > 50 ) {
+                      if (visibilityRatio > 45 ) {
                         setVisiblePages(old => {
                             if (old.find((page) => page.docName === docName && page.pageNumber === pageNumber)) return old
                             return [...old, {docName, pageNumber}]

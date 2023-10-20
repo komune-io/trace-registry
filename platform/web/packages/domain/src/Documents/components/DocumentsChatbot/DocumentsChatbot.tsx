@@ -1,12 +1,11 @@
 import { Stack } from "@mui/material";
 import { Chat } from "components";
 import { Button } from "@smartb/g2";
-import { FilePath, askQuestion } from "../../api/query";
-import { useMemo } from "react";
+import {  askQuestion } from "../../api/query";
 import { useTranslation } from "react-i18next";
 
 export interface DocumentsChatbotProps {
-    selectedFiles: FilePath[]
+    selectedFiles: string[]
     quote?: { quote: string, fileName: string, pageNumber: number }
     setReference: (ref: string) => void
     removeQuote?: () => void
@@ -19,12 +18,6 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
     const { selectedFiles, /* setReference, */ quote, removeQuote, toggleDocumentsSelection, disabled, isPreviewMode } = props
     const { t } = useTranslation()
     // const [localReference, setlocalReference] = useState("")
-
-
-
-    const filesNames = useMemo(
-      () => selectedFiles.map((file) => file.name)
-      , [selectedFiles])
 
 
     // const sendReference = useCallback(
@@ -51,7 +44,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                 }} 
                 aria-label="download" 
                 onClick={toggleDocumentsSelection}
-                disabled={disabled}
+                disabled={disabled && !isPreviewMode}
                 >
                 {isPreviewMode ? t("navigateThroughDocs") : t("viewSelectedDocs")}
             </Button>
@@ -75,7 +68,7 @@ export const DocumentsChatbot = (props: DocumentsChatbotProps) => {
                     width: "100%"
                 }}
                 //@ts-ignore
-                selectedFiles={filesNames}
+                selectedFiles={selectedFiles}
                 getResponse={askQuestion}
                 removeQuote={removeQuote}
                 quote={quote}

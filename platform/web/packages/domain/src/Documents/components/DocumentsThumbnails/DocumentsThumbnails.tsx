@@ -5,7 +5,7 @@ import {useElementSize} from "@mantine/hooks"
 
 export interface DocumentsThumbnailsProps {
     visiblePages: { pageNumber: number, docName: string }[]
-    file: { name: string; file: any }
+    file?: { name: string; file: any }
     goToPage: (pageNumber: number, docName: string) => void
     isLoading?: boolean
 }
@@ -16,7 +16,7 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
     const isVisiblePage = useCallback(
         (pageNum: number) => {
             return visiblePages.some(
-                (page) => page.pageNumber === pageNum && page.docName === file.name
+                (page) => page.pageNumber === pageNum && page.docName === file?.name
             )
         },
         [visiblePages, file]
@@ -33,7 +33,7 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                 position: "relative"
             }}
         >
-            <Box
+            {file?.name && <Box
                 sx={{
                     bgcolor: "white",
                     padding: (theme) => theme.spacing(0.5, 1),
@@ -48,11 +48,12 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                     sx={{
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
+                        overflow: "hidden"
                     }}
                 >
-                    {file.name}
+                    {file?.name}
                 </Typography>
-            </Box>
+            </Box>}
             <Box
                 ref={ref}
                 sx={{
@@ -62,9 +63,9 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                 }}
             >
                 <ThumbnailPdfDisplayer
-                    file={file.file}
+                    file={file?.file}
                     isLoading={isLoading ? isLoading : false}
-                    goToPage={(number) => goToPage(number, file.name)}
+                    goToPage={(number) => goToPage(number, file?.name ?? "")}
                     isVisiblePage={isVisiblePage}
                     width={width - 28}
                 />

@@ -1,9 +1,9 @@
 import { Box, Stack } from "@mui/material";
 import { MultiFilePdfDisplayer, useMultiFilePagination } from "components";
-import pdf from "./pdd.pdf"
 import { useElementSize } from "@mantine/hooks";
 import { DocumentsThumbnails } from "../DocumentsThumbnails";
-import { DocumentsSwitch } from "../DocumentsSwitch/DocumentsSwitch";
+import { DocumentsSwitch } from "../DocumentsSwitch";
+import { useState, useEffect, useMemo, useCallback } from "react"
 
 
 export interface DocumentsViewerProps {
@@ -14,6 +14,22 @@ export interface DocumentsViewerProps {
 }
 
 export const DocumentsViewer = (props: DocumentsViewerProps) => {
+    const { files } = props
+    const [displayedFile, setDisplayedFile] = useState<{ name: string, file: any } | undefined>(undefined)
+
+    useEffect(() => {
+        if (files) setDisplayedFile(files[0])
+    }, [files])
+
+    const onChangeDocument = useCallback(
+        (fileName: string) => {
+            setDisplayedFile(files?.find((file) => fileName === file.name))
+        },
+        [files],
+    )
+
+
+    const filesToSwitch = useMemo(() => files?.filter((file) => file.name !== displayedFile?.name).map((file) => file.name), [files, displayedFile])
 
     const { ref, width } = useElementSize();
 
@@ -27,53 +43,54 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
 
     return (
         <Stack
-        direction="row"
-        flexGrow={1}
+            direction="row"
+            flexGrow={1}
             flexBasis={0}
+            width="calc(100% - 550px)"
         >
-            <DocumentsThumbnails file={{name: "test", file: pdf}} isLoading={props.isLoading} goToPage={goToPage} visiblePages={visiblePages}/>
-        <Box
-            ref={ref}
-            bgcolor="#F0EDE6"
-            flex={1}
-            flexBasis={0}
-            sx={{
-                padding: (theme) => theme.spacing(1.5),
-                width: "100%",
-                height: "100%",
-                overflow: "auto",
-                position: "relative",
-                "& .pdfPage": {
-                    marginBottom: "16px"
-                },
-                "& .mui-utz8u3": {
-                    margin: "0"
-                }
-            }}
-        >
-            {/* <DocumentsSwitch 
-            sx={{
-                position: "sticky",
-                top: "-12px",
-                marginTop: "-12px",
-                marginLeft: "-12px",
-                marginRight: "-12px",
-                width: "calc(100% + 24px)",
-                alignSelf: "center",
-                zIndex: 1
-            }}
-            files={["VERRA_VCS_STANDARD_4.4_FINAL.pdf", "VERRA_VCS_STANDARD_4.4_FINAL.pdf", "VERRA_VCS_STANDARD_4.4_FINAL.pdf"]}
-            /> */}
-            <MultiFilePdfDisplayer
-            {...props}
-                files={[{name: "test", file: pdf}]}
-                
-                onDocumentLoadSuccess={onDocumentLoadSuccess}
-                pagesNumberPerDocument={pagesNumberPerDocument}
-                setPageRef={setPageRef}
-                parentWidth={width}
-            />
-        </Box>
+            <DocumentsThumbnails file={displayedFile} isLoading={props.isLoading} goToPage={goToPage} visiblePages={visiblePages} />
+            <Box
+                bgcolor="#F0EDE6"
+                flexGrow={1}
+                flexBasis={0}
+                sx={{
+                    overflow: "auto",
+                    position: "relative",
+                    "& .pdfPage": {
+                        marginBottom: "16px"
+                    },
+                    "& .mui-utz8u3": {
+                        margin: "0"
+                    }
+                }}
+            >
+                {(filesToSwitch?.length ?? 0) >= 1 && <DocumentsSwitch
+                    sx={{
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1
+                    }}
+                    onClickDocument={onChangeDocument}
+                    files={filesToSwitch}
+                />}
+                <Box
+                    ref={ref}
+                    sx={{
+                        padding: (theme) => theme.spacing(2, 1.5),
+                        width: "100%",
+                    }}
+                >
+                    <MultiFilePdfDisplayer
+                        {...props}
+                        files={displayedFile ? [displayedFile] : undefined}
+
+                        onDocumentLoadSuccess={onDocumentLoadSuccess}
+                        pagesNumberPerDocument={pagesNumberPerDocument}
+                        setPageRef={setPageRef}
+                        parentWidth={width - 24}
+                    />
+                </Box>
+            </Box>
         </Stack>
     )
 }

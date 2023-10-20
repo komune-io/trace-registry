@@ -1,6 +1,6 @@
 import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-components";
 import { Stack } from "@mui/material";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { FilePath, useProjectFilesQuery } from "../../api/query";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Row, RowSelectionState } from '@tanstack/react-table';
@@ -14,18 +14,16 @@ export interface DocumentsPageProps {
 export const DocumentsPage = (props: DocumentsPageProps ) => {
     const { isLoading = false, files } = props
     const { projectId } = useParams()
-    const [selectedFiles, selectFiles] = useState<FilePath[]>([])
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [searchParams, setSearchParams] = useSearchParams()
 
     const fileList = files
-    const isPreviewMode = useMemo(() => searchParams.toString() !== '' , [searchParams])
+   
 
-    useEffect(() => {
-        fileList && fileList.length > 0 && selectFiles([fileList[0]])
-    }, [fileList])
+    const selectedFiles = useMemo(() => (qs.parse(searchParams.toString()).files ?? []) as string[], [searchParams])
+    const isPreviewMode = useMemo(() => selectedFiles.length !== 0, [selectedFiles])
 
     const isAnyFileSlected = () => {
         return Object.values(rowSelection).length > 0;
@@ -40,7 +38,7 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
 
     const toggleDocumentsSelection = useCallback(() => {
         if(!isPreviewMode) {
-            setSearchParams(qs.stringify({ files: fileList?.map(file => file.objectId).join(',') }));
+            setSearchParams(qs.stringify({ files: fileList?.map(file => file.name),  }, {arrayFormat: 'indices'}));
         }else {
             setSearchParams()
             setRowSelection({})
@@ -48,14 +46,15 @@ export const DocumentsPage = (props: DocumentsPageProps ) => {
     }, [fileList, isPreviewMode])
 
     const downloadedFiles = useProjectFilesQuery(
-      selectedFiles.map((filePath) => (
-        { id: projectId!, path: filePath })
+      selectedFiles?.map((fileName) => (
+        { id: projectId!, path: fileList?.find((file) => file.name === fileName)! })
       ), { enabled: !!selectedFiles })
 
     const filteredDownloadedFiles = useMemo(
       () => downloadedFiles.data?.map(
-        (file, index) => ({ name: selectedFiles[index].name, file })
+        (file, index) => ({ name: selectedFiles[index], file })
       ), [downloadedFiles.data, selectedFiles])
+
     const onSetQuote = useCallback(
         (quote: string, fileName: string, pageNumber: number) => {
             setQuote({

@@ -99,9 +99,6 @@ export const MultiFilePdfDisplayer = (props: MultiFilePdfDisplayerProps) => {
     if (isLoading) return <LoadingPdf parentWidth={parentWidth} />
     return (
         <Stack
-            sx={{
-                overflow: "hidden"
-            }}
         >
             {files ? (
                 <Stack display="flex" flexDirection="column">
