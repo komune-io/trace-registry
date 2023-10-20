@@ -152,19 +152,22 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/catalogues/{catalogueId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    @GetMapping("/catalogues/{catalogueId}/logo")
     suspend fun catalogueLogoDownload(
         @PathVariable catalogueId: CatalogueId,
-    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+    ): ResponseEntity<InputStreamResource> {
         logger.info("catalogueLogoDownload: $catalogueId")
-        FilePath(
-            objectType = FsService.FsPath.CATALOGUE_TYPE,
-            objectId = catalogueId,
-            directory = FsService.FsPath.DIR_IMG,
-            name = FsService.FsPath.IMG_NAME
-        )
+        val file = serveFile(fileClient) {
+            logger.info("serveFile: $catalogueId")
+            FilePath(
+                objectType = FsService.FsPath.CATALOGUE_TYPE,
+                objectId = catalogueId,
+                directory = FsService.FsPath.DIR_IMG,
+                name = FsService.FsPath.IMG_NAME
+            )
+        }
+        logger.info("servedFile: $catalogueId")
+        return file
     }
-
-
 }
 
