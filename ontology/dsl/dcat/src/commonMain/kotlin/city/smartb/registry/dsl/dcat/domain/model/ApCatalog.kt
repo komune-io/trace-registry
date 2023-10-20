@@ -2,6 +2,7 @@ package city.smartb.registry.dsl.dcat.domain.model
 
 import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
+import city.smartb.registry.s2.structure.domain.model.Structure
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
@@ -16,7 +17,7 @@ interface DcatApCatalogue: CataloguedResource {
     val services: List<DataService>?
     val catalogues: List<DcatApCatalogue>?
     val catalogueRecords: List<DcatCatalogueRecord>?
-    val display: String?
+    val structure: Structure?
 }
 
 @Serializable
@@ -25,7 +26,7 @@ class DCatApCatalogueModel(
     override val homepage: String? = null,
     override val img: String? = null,
     override val type: String,
-    override val display: String? = null,
+    override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
     override val cataloguedResource: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,

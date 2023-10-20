@@ -3,12 +3,13 @@ package city.smartb.registry.script.init.catalogue
 import city.smartb.registry.dsl.dcat.domain.model.CatalogueBuilder
 import city.smartb.registry.dsl.dcat.domain.model.catalogue
 import city.smartb.registry.dsl.dcat.domain.model.dataService
+import city.smartb.registry.s2.structure.domain.model.Structure
 
 fun catalogueStandards(debug: String) = catalogue {
     identifier = "standards${debug}"
     title = "Standards"
     type = "standards"
-    display = "grid"
+    structure = Structure("grid")
     description = """
         Explore our comprehensive list of recognized standards for environmental project evaluation and certification. 
         Discover diverse opportunities in energy, carbon, water, waste, and more. 

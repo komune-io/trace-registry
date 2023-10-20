@@ -4,6 +4,7 @@ import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.command.DatasetId
+import city.smartb.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,7 +16,7 @@ data class CatalogueModel(
     val title: String,
     val img: String? = null,
     val type: String,
-    val display: String? = null,
+    var structure: Structure? = null,
     val themes: List<SkosConcept>? = null,
     val datasets: List<DatasetId>? = null,
 //    val services: List<DataService>? = null,

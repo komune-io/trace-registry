@@ -3,6 +3,7 @@ package city.smartb.registry.f2.catalogue.domain.dto
 import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.f2.dataset.domain.dto.DatasetDTO
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
+import city.smartb.registry.s2.structure.domain.model.Structure
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
@@ -15,7 +16,7 @@ interface CatalogueDTO{
     val title: String
     val img: String?
     val type: String
-    val display: String?
+    val structure: Structure?
     val themes: List<SkosConcept>?
     val datasets: List<DatasetDTO>?
 //    val services: List<DataService>
@@ -32,7 +33,7 @@ data class CatalogueDTOBase(
     override val title: String,
     override val img: String? = null,
     override val type: String,
-    override val display: String? = null,
+    override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
     override val datasets: List<DatasetDTO>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
@@ -48,7 +49,7 @@ interface CatalogueRefDTO {
     val description: String?
     val homepage: String?
     val img: String?
-    val display: String?
+    val structure: Structure?
     val themes: List<SkosConcept>?
     val status: CatalogueState?
 }
@@ -63,7 +64,7 @@ data class CatalogueRefDTOBase(
     override val description: String? = null,
     override val homepage: String? = null,
     override val img: String? = null,
-    override val display: String? = null,
+    override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
     override val status: CatalogueState? = null,
 ): CatalogueRefDTO

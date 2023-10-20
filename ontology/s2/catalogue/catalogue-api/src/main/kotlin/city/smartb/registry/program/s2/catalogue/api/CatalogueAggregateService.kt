@@ -35,7 +35,7 @@ class CatalogueAggregateService(
 			catalogues = cmd.catalogues,
 			themes = cmd.themes,
 			type = cmd.type,
-			display = cmd.display,
+			structure = cmd.structure,
 			homepage = cmd.homepage,
 		)
 	}
@@ -83,7 +83,7 @@ class CatalogueAggregateService(
 			description = cmd.description,
 			title = cmd.title,
 			type = cmd.type,
-			display = cmd.display,
+			structure = cmd.structure,
 			homepage = cmd.homepage,
 			img = cmd.img,
 		)

@@ -6,6 +6,7 @@ import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueState
 import city.smartb.registry.s2.catalogue.domain.command.DatasetId
+import city.smartb.registry.s2.structure.domain.model.Structure
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
@@ -38,7 +39,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     lateinit var type: String
 
     @Indexed
-    var display: String? = null
+    var structure: Structure? = null
 
     @Searchable(nostem=true)
     var description: String? = null

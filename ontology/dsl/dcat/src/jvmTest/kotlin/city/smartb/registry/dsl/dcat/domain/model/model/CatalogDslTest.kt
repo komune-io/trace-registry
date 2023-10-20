@@ -2,6 +2,7 @@ package city.smartb.registry.dsl.dcat.domain.model.model
 
 import city.smartb.registry.dsl.dcat.domain.model.DCatApCatalogueModel
 import city.smartb.registry.dsl.dcat.domain.model.catalogue
+import city.smartb.registry.s2.structure.domain.model.Structure
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -11,7 +12,7 @@ class CatalogueDslTest {
         val catalogue1: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
             datasets {
                 dataset {

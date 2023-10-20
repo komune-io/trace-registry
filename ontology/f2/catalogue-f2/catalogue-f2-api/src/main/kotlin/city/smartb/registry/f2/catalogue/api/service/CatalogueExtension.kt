@@ -51,7 +51,7 @@ suspend fun CatalogueModel.toDTO(
         catalogues = cataloguesFetched,
         themes = themes,
         type = type,
-        display = display,
+        structure = structure,
         homepage = homepage,
         img = img,
         datasets = datasetFetched,
@@ -67,7 +67,7 @@ fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
         description = description,
         themes = themes,
         type = type,
-        display = display,
+        structure = structure,
         homepage = homepage,
         img = img
     )
@@ -88,7 +88,7 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     catalogues = catalogues,
     themes = themes,
     type = type,
-    display = display,
+    structure = structure,
     homepage = homepage,
 )
 
@@ -100,7 +100,7 @@ fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
     catalogues = catalogues,
     themes = themes,
     type = type,
-    display = display,
+    structure = structure,
     homepage = homepage,
 )
 

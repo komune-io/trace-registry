@@ -3,6 +3,7 @@ package city.smartb.registry.f2.catalogue.domain.command
 import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import city.smartb.registry.s2.structure.domain.model.Structure
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
@@ -40,7 +41,7 @@ interface CatalogueCreateCommandDTO {
     val description: String?
 
     val type: String
-    val display: String?
+    val structure: Structure?
     val homepage: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
@@ -55,7 +56,7 @@ data class CatalogueCreateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val type: String,
-    override val display: String? = null,
+    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,
@@ -79,7 +80,7 @@ interface CatalogueCreatedEventDTO: Event {
     val title: String
     val description: String?
     val type: String
-    val display: String?
+    val structure: Structure?
     val homepage: String?
     val themes: List<SkosConcept>?
     val catalogues: List<CatalogueId>?
@@ -95,7 +96,7 @@ data class CatalogueCreatedEventDTOBase(
     override val title: String,
     override val description: String?,
     override val type: String,
-    override val display: String? = null,
+    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val catalogues: List<CatalogueId>? = null,

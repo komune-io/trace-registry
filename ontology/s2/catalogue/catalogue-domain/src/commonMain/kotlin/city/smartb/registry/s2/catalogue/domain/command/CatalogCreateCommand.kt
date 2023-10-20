@@ -3,13 +3,14 @@ package city.smartb.registry.s2.catalogue.domain.command
 import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueId
 import city.smartb.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import city.smartb.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CatalogueCreateCommand(
     val identifier: CatalogueIdentifier,
     val type: String,
-    val display: String? = null,
+    var structure: Structure? = null,
     val title: String,
     val description: String? = null,
     val homepage: String? = null,
@@ -23,7 +24,7 @@ data class CatalogueCreatedEvent(
     override val id: CatalogueId,
     val identifier: CatalogueIdentifier,
     val type: String,
-    val display: String? = null,
+    var structure: Structure? = null,
     val title: String,
     val description: String? = null,
     val homepage: String? = null,

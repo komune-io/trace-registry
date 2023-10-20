@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
 	commonMainApi(project(":ontology:dsl:dcat"))
+	commonMainApi(project(":ontology:dsl:structure"))
 }
 
 tasks.withType<Test>().configureEach {

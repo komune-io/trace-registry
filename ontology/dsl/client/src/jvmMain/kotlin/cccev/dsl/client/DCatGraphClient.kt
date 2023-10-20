@@ -129,7 +129,7 @@ class DCatGraphClient(
                 createdCatalogues[it.identifier]!!
             }.orEmpty(),
             type = catalogue.type,
-            display = catalogue.display,
+            structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
         ).invokeWith(catalogueClient().catalogueCreate()).id.also {
@@ -212,7 +212,7 @@ fun CatalogueDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     catalogues = catalogues?.map { it.toDsl() },
     description = description,
     title = title,
-    display = display,
+    structure = structure,
 )
 
 fun CatalogueRefDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
@@ -223,5 +223,5 @@ fun CatalogueRefDTO.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     themes = themes,
     description = description,
     title = title,
-    display = display,
+    structure = structure,
 )

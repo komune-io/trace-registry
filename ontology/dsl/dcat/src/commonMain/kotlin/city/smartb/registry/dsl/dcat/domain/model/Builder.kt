@@ -4,6 +4,7 @@ import city.smartb.registry.dsl.skos.domain.model.SkosConcept
 import city.smartb.registry.dsl.skos.domain.model.SkosConceptBuilder
 import city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme
 import city.smartb.registry.dsl.skos.domain.model.SkosConceptSchemeBuilder
+import city.smartb.registry.s2.structure.domain.model.Structure
 
 @DslMarker
 annotation class DCatDsl
@@ -18,7 +19,7 @@ class CatalogueBuilder {
     var img: String? = null
     var description: String? = null
     lateinit var type: String
-    lateinit var display: String
+    lateinit var structure: Structure
     var themes: MutableList<SkosConcept> = mutableListOf()
     var cataloguedResources: MutableList<CataloguedResource> = mutableListOf()
     var datasets: MutableList<DcatDataset> = mutableListOf()
@@ -56,7 +57,7 @@ class CatalogueBuilder {
         img = img,
         description = description,
         type = type,
-        display = display,
+        structure = structure,
         themes = themes,
         cataloguedResource = cataloguedResources,
         datasets = datasets,

@@ -2,6 +2,7 @@ package city.smartb.registry.script.init.catalogue
 
 import city.smartb.registry.dsl.dcat.domain.model.catalogue
 import city.smartb.registry.dsl.skos.domain.model.concept
+import city.smartb.registry.s2.structure.domain.model.Structure
 
 
 @Suppress("LongMethod")
@@ -10,7 +11,7 @@ fun goldStandard(debug: String) = catalogue {
     homepage = "https://www.goldstandard.org/"
     title = "Gold Standard"
     type = "standard"
-    display = "item"
+    structure = Structure("item")
     img = getImg("goldstandard.png")
     description = """
            Gold Standard for the Global Goals is a standard that sets requirements to design projects 
@@ -53,7 +54,7 @@ fun goldStandard(debug: String) = catalogue {
             identifier = "standards-goldstandard-programs${debug}"
             title = "Programs"
             type = "programs"
-            display = "grid"
+            structure = Structure("grid")
             datasetBase(identifier)
             catalogues {
                 +GoldStandardProgram.communityServices(debug)
@@ -66,7 +67,7 @@ fun goldStandard(debug: String) = catalogue {
             identifier = "standards-goldstandard-programsOfActivities${debug}"
             title = "Programs of activities"
             type = "programs"
-            display = "grid"
+            structure = Structure("grid")
             datasetBase(identifier)
             catalogues {
 //                +otherGridTemp(debug)
@@ -83,7 +84,7 @@ fun goldStandard(debug: String) = catalogue {
 //    identifier = "standards-goldstandard-programs-otherGridTemp-${debug}"
 //    title = "Other Grid Temp"
 //    type = "programs"
-//    display = "grid"
+//    structure = Structure("grid"
 //    datasetBase(identifier)
 //    catalogues {
 //        +GoldStandardProgram.communityServices(debug)
@@ -99,7 +100,7 @@ object GoldStandardProgram{
         identifier = "standards-goldstandard-programs-communityServices${debug}"
         title = "Community services"
         type = "programs"
-        display = "item"
+        structure = Structure("item")
         datasetBase(identifier)
     }
 
@@ -107,7 +108,7 @@ object GoldStandardProgram{
         identifier = "standards-goldstandard-programs-renewableEnergy${debug}"
         title = "Renewable Energy"
         type = "programs"
-        display = "item"
+        structure = Structure("item")
         datasetBase(identifier)
     }
 
@@ -115,7 +116,7 @@ object GoldStandardProgram{
         identifier = "standards-goldstandard-programs-landUseForests${debug}"
         title = "Community services"
         type = "programs"
-        display = "item"
+        structure = Structure("item")
         datasetBase(identifier)
     }
 
@@ -123,7 +124,7 @@ object GoldStandardProgram{
         identifier = "standards-goldstandard-programs-goldStandardSustainableUrbanDevelopment${debug}"
         title = "Gold Standard for sustainable urban development"
         type = "programs"
-        display = "item"
+        structure = Structure("item")
         datasetBase(identifier)
     }
 }

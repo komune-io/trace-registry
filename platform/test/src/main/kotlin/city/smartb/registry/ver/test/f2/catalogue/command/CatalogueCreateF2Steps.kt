@@ -5,6 +5,7 @@ import city.smartb.registry.f2.catalogue.domain.command.CatalogueCreateCommandDT
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageQuery
 import city.smartb.registry.f2.catalogue.domain.query.CataloguePageResult
 import city.smartb.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import city.smartb.registry.s2.structure.domain.model.Structure
 import city.smartb.registry.ver.test.f2.catalogue.data.catalogue
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
@@ -104,7 +105,7 @@ class CatalogueCreateF2Steps: En, city.smartb.registry.ver.test.VerCucumberSteps
             identifier = params.identifier,
             description = params.description,
             type = params.type,
-            display = params.display,
+            structure = Structure(type = params.type),
             homepage = params.homepage,
             catalogues = emptyList(),
             themes = emptyList(),

@@ -1,5 +1,6 @@
 package city.smartb.registry.dsl.dcat.domain.model
 
+import city.smartb.registry.s2.structure.domain.model.Structure
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -9,7 +10,7 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
         }
         Assertions.assertThat(catalogue1.identifier).isEqualTo("catalogue1")
@@ -19,7 +20,7 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
             datasets {
                 dataset {
@@ -42,7 +43,7 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
             themes {
                 theme {
@@ -61,7 +62,7 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
             services {
                 service {
@@ -80,19 +81,19 @@ class CatalogueDslTest {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             title = "catalogues"
             catalogues {
                 catalogue {
                     identifier = "subCatalogue1"
                     type = "catalogues"
-                    display = "catalogues"
+                    structure = Structure("catalogues")
                     title = "catalogues"
                 }
                 catalogue {
                     identifier = "subCatalogue2"
                     type = "catalogues"
-                    display = "catalogues"
+                    structure = Structure("catalogues")
                     title = "catalogues"
                 }
             }
@@ -106,7 +107,7 @@ class CatalogueDslTest {
             identifier = "catalogue1"
             title = "Catalogue 1"
             type = "catalogues"
-            display = "catalogues"
+            structure = Structure("catalogues")
             catalogueRecords{
                 catalogueRecord {
                     identifier = "catalogueRecords1"
