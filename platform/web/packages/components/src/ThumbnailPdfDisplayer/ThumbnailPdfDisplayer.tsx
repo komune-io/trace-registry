@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { Document, pdfjs, Thumbnail } from "react-pdf"
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import "react-pdf/dist/esm/Page/TextLayer.css"
@@ -59,7 +59,7 @@ export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
                     <ThumbnailLoading parentWidth={width} />
                 </Stack>
             ) : (
-                <Document loading={<CircularProgress />} className={"thubnailContainer"} file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                <Document loading={<ThumbnailLoading parentWidth={width} />} className={"thubnailContainer"} file={file} onLoadSuccess={onDocumentLoadSuccess}>
                     {Array.from({ length: pageNumber }, (_, index) => (
                         <Stack
                             gap={0.5}
