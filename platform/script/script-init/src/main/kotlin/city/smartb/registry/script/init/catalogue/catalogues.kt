@@ -2,7 +2,6 @@ package city.smartb.registry.script.init.catalogue
 
 import city.smartb.registry.s2.catalogue.domain.model.CatalogueBuilder
 import city.smartb.registry.s2.catalogue.domain.model.catalogue
-import city.smartb.registry.s2.catalogue.domain.model.concept
 import city.smartb.registry.s2.catalogue.domain.model.dataService
 
 fun catalogueStandards(debug: String) = catalogue {
@@ -24,7 +23,7 @@ fun catalogueStandards(debug: String) = catalogue {
     catalogues {
         +verraCatalogue(debug)
         +cee(debug)
-        +goldStandardCatalogue(debug)
+        +goldStandard(debug)
         +cdm(debug)
     }
 }
@@ -33,7 +32,6 @@ fun getImg(name: String): String? {
     return CatalogueFactory::class.java.getResource("/$name")?.file.also {
         println("getImg: $name - $it")
     }
-
 }
 
 fun CatalogueBuilder.datasetBase(parentIdentifier: String) {

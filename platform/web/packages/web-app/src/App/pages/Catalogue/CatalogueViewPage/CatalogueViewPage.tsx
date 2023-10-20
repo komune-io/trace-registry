@@ -1,7 +1,7 @@
 import {
     CatalogueBreadcrumbs,
     Catalogue,
-    CatalogueInformation,
+    CatalogueInformation, DatasetDataSection,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -33,7 +33,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         return {
             key: dataset.identifier,
             label: dataset.title,
-            component: (<div>{dataset.title}</div>)
+            component: (<DatasetDataSection item={dataset} isLoading={false} />)
         }
     }) ?? []
 

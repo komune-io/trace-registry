@@ -30,7 +30,10 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
         },
     })
 
-    const title = catalogue?.type === "methodologies" ? t("exploreMethodologies") : catalogue?.type === "programs" ? t("explorePrograms") : t("exploreStandards")
+    const title =
+        catalogue?.type === "methodologies" ?
+            t("exploreMethodologies") : catalogue?.type === "programs"
+                ? t("explorePrograms") : t("exploreStandards")
 
     return (
         <AppPage

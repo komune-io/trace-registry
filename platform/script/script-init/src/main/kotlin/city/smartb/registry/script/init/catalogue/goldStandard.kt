@@ -4,7 +4,8 @@ import city.smartb.registry.s2.catalogue.domain.model.catalogue
 import city.smartb.registry.s2.catalogue.domain.model.concept
 
 
-fun goldStandardCatalogue(debug: String) = catalogue {
+@Suppress("LongMethod")
+fun goldStandard(debug: String) = catalogue {
     identifier = "goldstandard${debug}"
     homepage = "https://www.goldstandard.org/"
     title = "Gold Standard"

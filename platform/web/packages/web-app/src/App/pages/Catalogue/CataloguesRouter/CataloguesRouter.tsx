@@ -10,7 +10,6 @@ export const CataloguesRouter = () => {
             identifier: catalogueId!
         }
     })
-
     return catalogueGet.data?.item?.display === "item" ? (
         <CatalogueViewPage isLoading={catalogueGet.isInitialLoading} catalogue={catalogueGet.data.item}/>
     ) : (

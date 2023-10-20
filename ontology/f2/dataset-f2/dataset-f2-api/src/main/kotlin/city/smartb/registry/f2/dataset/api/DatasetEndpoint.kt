@@ -88,6 +88,8 @@ class DatasetEndpoint(
         datasetF2FinderService.getAllRefs()
     }
 
+    @PermitAll
+    @Bean
     override fun datasetData(): DatasetDataFunction = f2Function { query ->
         logger.info("datasetRefList: $query")
         val items = dataProvider.retrieve(datasetId = query.id)

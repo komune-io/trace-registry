@@ -1,9 +1,7 @@
-import { Stack } from '@mui/material'
 import { Project } from '../../model'
 import 'reactflow/dist/style.css';
 import { useActivityPageQuery } from "../../../Activity";
-import { ActivitiesSummary, ActivitiesGraph } from "../../../Activity";
-import { ReactFlowProvider } from 'reactflow';
+import {ActivitiesSection} from "../ActivitiesSection";
 
 export interface ProjectActivitiesProps {
   project: Project
@@ -22,17 +20,6 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
   const activities = activityPageQuery.data?.items ?? []
   
   return (
-    <Stack
-      direction="row"
-      sx={{
-        height: "calc(100vh - 200px)",
-        minHeight: "fit-content"
-      }}
-    >
-      <ReactFlowProvider>
-        <ActivitiesGraph activities={activities} />
-        <ActivitiesSummary isLoading={isLoading} activities={activities} />
-      </ReactFlowProvider>
-    </Stack>
+      <ActivitiesSection items={activities} isLoading={isLoading}/>
   )
 }
