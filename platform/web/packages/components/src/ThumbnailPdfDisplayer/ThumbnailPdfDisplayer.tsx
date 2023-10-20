@@ -4,6 +4,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import "react-pdf/dist/esm/Page/TextLayer.css"
 import { useCallback, useEffect, useState } from "react"
 import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { ThumbnailLoading } from "./ThumbnailLoading"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.js",
@@ -37,23 +38,33 @@ export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
 
 
     return (
-        <Box 
-        sx={{
-            "& .thubnailContainer": {
-                display: "flex",
-                flexDirection: "column",
-                gap: (theme) => theme.spacing(1.5)
-            }
-        }}
+        <Box
+            sx={{
+                "& .thubnailContainer": {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: (theme) => theme.spacing(1.5)
+                }
+            }}
         >
             {isLoading || !file ? (
-                <CircularProgress />
+                <Stack
+                    gap={2}
+                    alignItems="center"
+                >
+                    <ThumbnailLoading parentWidth={width} />
+                    <ThumbnailLoading parentWidth={width} />
+                    <ThumbnailLoading parentWidth={width} />
+                    <ThumbnailLoading parentWidth={width} />
+                    <ThumbnailLoading parentWidth={width} />
+                </Stack>
             ) : (
                 <Document loading={<CircularProgress />} className={"thubnailContainer"} file={file} onLoadSuccess={onDocumentLoadSuccess}>
                     {Array.from({ length: pageNumber }, (_, index) => (
                         <Stack
-                        gap={0.5}
-                        alignItems="center"
+                            gap={0.5}
+                            alignItems="center"
+                            key={`thumbnail_${index}`}
                         >
                             <Box
                                 sx={isVisiblePage(index + 1) ? {
@@ -68,9 +79,8 @@ export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
                                 width="100%"
                             >
                                 <Thumbnail
-                                    key={`thumbnail_${index}`}
                                     pageNumber={index + 1}
-                                    loading={<CircularProgress />}
+                                    loading={<ThumbnailLoading parentWidth={width} />}
                                     width={width}
                                     className="thumbnailPdfPage"
                                     onClick={() => goToPage(index + 1)}
@@ -92,12 +102,12 @@ export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
                                 width="100%"
                             >
                                 <Typography
-                                variant="subtitle2"
-                                sx={{
-                                    color: "white"
-                                }}
+                                    variant="subtitle2"
+                                    sx={{
+                                        color: "white"
+                                    }}
                                 >
-                                {index + 1}
+                                    {index + 1}
                                 </Typography>
                             </Box>
                         </Stack>
