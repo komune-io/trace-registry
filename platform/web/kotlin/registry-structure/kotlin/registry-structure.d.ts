@@ -2681,4 +2681,11 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.s2.structure.domain.model {
+    interface StructureDto {
+        readonly type: string;
+        readonly definitions: Record<string, string>;
+
+    }
+}
 export as namespace registry_structure;

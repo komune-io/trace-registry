@@ -1932,10 +1932,12 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(RequirementListChildrenByTypeResultDTO, 'RequirementListChildrenByTypeResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListQueryDTO, 'RequirementListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListResultDTO, 'RequirementListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_12, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(SkosConcept, 'SkosConcept', classMeta, undefined, undefined, undefined, {0: $serializer_getInstance_10}, []);
+  setMetadataFor(SkosConcept, 'SkosConcept', classMeta, undefined, [SkosConceptDTO], undefined, {0: $serializer_getInstance_10}, []);
+  setMetadataFor(StructureDto, 'StructureDto', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_13, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(Structure, 'Structure', classMeta, undefined, undefined, undefined, {0: $serializer_getInstance_11}, []);
+  setMetadataFor(Structure, 'Structure', classMeta, undefined, [StructureDto], undefined, {0: $serializer_getInstance_11}, []);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
   setMetadataFor(DataService, 'DataService', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -76953,6 +76955,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function RequirementListResultDTO() {
   }
+  function SkosConceptDTO() {
+  }
   function $serializer_12() {
     $serializer_instance_10 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.dsl.skos.domain.model.SkosConcept', this, 5);
@@ -76961,10 +76965,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('prefLabels', false);
     tmp0_serialDesc.f49('definitions', false);
     tmp0_serialDesc.f49('broader', true);
-    this.i6r_1 = tmp0_serialDesc;
+    this.l6r_1 = tmp0_serialDesc;
   }
   $serializer_12.prototype.q3y = function () {
-    return this.i6r_1;
+    return this.l6r_1;
   };
   $serializer_12.prototype.u49 = function () {
     var tmp$ret$2;
@@ -76980,7 +76984,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_12.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6r_1;
+    var tmp0_desc = this.l6r_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77035,22 +77039,22 @@ if (typeof Math.imul === 'undefined') {
     tmp9_input.d42(tmp0_desc);
     return SkosConcept_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
   };
-  $serializer_12.prototype.j6r = function (encoder, value) {
-    var tmp0_desc = this.i6r_1;
+  $serializer_12.prototype.m6r = function (encoder, value) {
+    var tmp0_desc = this.l6r_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6r_1);
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.l6r_1 === 'skos:Concept')) {
-      tmp1_output.q43(tmp0_desc, 1, value.l6r_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6r_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.o6r_1 === 'skos:Concept')) {
+      tmp1_output.q43(tmp0_desc, 1, value.o6r_1);
     }
-    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.m6r_1);
-    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.n6r_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.o6r_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.o6r_1);
+    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.p6r_1);
+    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.q6r_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.r6r_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.r6r_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_12.prototype.r3y = function (encoder, value) {
-    return this.j6r(encoder, value instanceof SkosConcept ? value : THROW_CCE());
+    return this.m6r(encoder, value instanceof SkosConcept ? value : THROW_CCE());
   };
   var $serializer_instance_10;
   function $serializer_getInstance_10() {
@@ -77060,19 +77064,19 @@ if (typeof Math.imul === 'undefined') {
   }
   function SkosConcept_init_$Init$(seen1, id, type, prefLabels, definitions, broader, serializationConstructorMarker, $this) {
     if (!(13 === (13 & seen1))) {
-      throwMissingFieldException(seen1, 13, $serializer_getInstance_10().i6r_1);
+      throwMissingFieldException(seen1, 13, $serializer_getInstance_10().l6r_1);
     }
-    $this.k6r_1 = id;
+    $this.n6r_1 = id;
     if (0 === (seen1 & 2))
-      $this.l6r_1 = 'skos:Concept';
+      $this.o6r_1 = 'skos:Concept';
     else
-      $this.l6r_1 = type;
-    $this.m6r_1 = prefLabels;
-    $this.n6r_1 = definitions;
+      $this.o6r_1 = type;
+    $this.p6r_1 = prefLabels;
+    $this.q6r_1 = definitions;
     if (0 === (seen1 & 16))
-      $this.o6r_1 = null;
+      $this.r6r_1 = null;
     else
-      $this.o6r_1 = broader;
+      $this.r6r_1 = broader;
     return $this;
   }
   function SkosConcept_init_$Create$(seen1, id, type, prefLabels, definitions, broader, serializationConstructorMarker) {
@@ -77080,15 +77084,30 @@ if (typeof Math.imul === 'undefined') {
   }
   function SkosConcept() {
   }
+  SkosConcept.prototype.y4s = function () {
+    return this.n6r_1;
+  };
+  SkosConcept.prototype.b52 = function () {
+    return this.o6r_1;
+  };
+  SkosConcept.prototype.i6r = function () {
+    return this.p6r_1;
+  };
+  SkosConcept.prototype.j6r = function () {
+    return this.q6r_1;
+  };
+  SkosConcept.prototype.k6r = function () {
+    return this.r6r_1;
+  };
   SkosConcept.prototype.toString = function () {
-    return 'SkosConcept(id=' + this.k6r_1 + ', type=' + this.l6r_1 + ', prefLabels=' + this.m6r_1 + ', definitions=' + this.n6r_1 + ', broader=' + this.o6r_1 + ')';
+    return 'SkosConcept(id=' + this.n6r_1 + ', type=' + this.o6r_1 + ', prefLabels=' + this.p6r_1 + ', definitions=' + this.q6r_1 + ', broader=' + this.r6r_1 + ')';
   };
   SkosConcept.prototype.hashCode = function () {
-    var result = getStringHashCode(this.k6r_1);
-    result = imul(result, 31) + getStringHashCode(this.l6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.m6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.n6r_1) | 0;
-    result = imul(result, 31) + (this.o6r_1 == null ? 0 : getStringHashCode(this.o6r_1)) | 0;
+    var result = getStringHashCode(this.n6r_1);
+    result = imul(result, 31) + getStringHashCode(this.o6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.p6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.q6r_1) | 0;
+    result = imul(result, 31) + (this.r6r_1 == null ? 0 : getStringHashCode(this.r6r_1)) | 0;
     return result;
   };
   SkosConcept.prototype.equals = function (other) {
@@ -77097,27 +77116,59 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SkosConcept))
       return false;
     var tmp0_other_with_cast = other instanceof SkosConcept ? other : THROW_CCE();
-    if (!(this.k6r_1 === tmp0_other_with_cast.k6r_1))
+    if (!(this.n6r_1 === tmp0_other_with_cast.n6r_1))
       return false;
-    if (!(this.l6r_1 === tmp0_other_with_cast.l6r_1))
+    if (!(this.o6r_1 === tmp0_other_with_cast.o6r_1))
       return false;
-    if (!equals_1(this.m6r_1, tmp0_other_with_cast.m6r_1))
+    if (!equals_1(this.p6r_1, tmp0_other_with_cast.p6r_1))
       return false;
-    if (!equals_1(this.n6r_1, tmp0_other_with_cast.n6r_1))
+    if (!equals_1(this.q6r_1, tmp0_other_with_cast.q6r_1))
       return false;
-    if (!(this.o6r_1 == tmp0_other_with_cast.o6r_1))
+    if (!(this.r6r_1 == tmp0_other_with_cast.r6r_1))
       return false;
     return true;
   };
+  Object.defineProperty(SkosConcept.prototype, 'id', {
+    configurable: true,
+    get: function () {
+      return this.y4s();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'type', {
+    configurable: true,
+    get: function () {
+      return this.b52();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'prefLabels', {
+    configurable: true,
+    get: function () {
+      return this.i6r();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'definitions', {
+    configurable: true,
+    get: function () {
+      return this.j6r();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'broader', {
+    configurable: true,
+    get: function () {
+      return this.k6r();
+    }
+  });
+  function StructureDto() {
+  }
   function $serializer_13() {
     $serializer_instance_11 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.s2.structure.domain.model.Structure', this, 2);
     tmp0_serialDesc.f49('type', false);
     tmp0_serialDesc.f49('definitions', true);
-    this.p6r_1 = tmp0_serialDesc;
+    this.s6r_1 = tmp0_serialDesc;
   }
   $serializer_13.prototype.q3y = function () {
-    return this.p6r_1;
+    return this.s6r_1;
   };
   $serializer_13.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77133,7 +77184,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_13.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.p6r_1;
+    var tmp0_desc = this.s6r_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77167,17 +77218,17 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return Structure_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_13.prototype.q6r = function (encoder, value) {
-    var tmp0_desc = this.p6r_1;
+  $serializer_13.prototype.t6r = function (encoder, value) {
+    var tmp0_desc = this.s6r_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.r6r_1);
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !equals_1(value.s6r_1, emptyMap())) {
-      tmp1_output.s43(tmp0_desc, 1, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.s6r_1);
+    tmp1_output.q43(tmp0_desc, 0, value.u6r_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !equals_1(value.v6r_1, emptyMap())) {
+      tmp1_output.s43(tmp0_desc, 1, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.v6r_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_13.prototype.r3y = function (encoder, value) {
-    return this.q6r(encoder, value instanceof Structure ? value : THROW_CCE());
+    return this.t6r(encoder, value instanceof Structure ? value : THROW_CCE());
   };
   var $serializer_instance_11;
   function $serializer_getInstance_11() {
@@ -77187,13 +77238,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function Structure_init_$Init$(seen1, type, definitions, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_11().p6r_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_11().s6r_1);
     }
-    $this.r6r_1 = type;
+    $this.u6r_1 = type;
     if (0 === (seen1 & 2))
-      $this.s6r_1 = emptyMap();
+      $this.v6r_1 = emptyMap();
     else
-      $this.s6r_1 = definitions;
+      $this.v6r_1 = definitions;
     return $this;
   }
   function Structure_init_$Create$(seen1, type, definitions, serializationConstructorMarker) {
@@ -77201,12 +77252,18 @@ if (typeof Math.imul === 'undefined') {
   }
   function Structure() {
   }
+  Structure.prototype.b52 = function () {
+    return this.u6r_1;
+  };
+  Structure.prototype.j6r = function () {
+    return this.v6r_1;
+  };
   Structure.prototype.toString = function () {
-    return 'Structure(type=' + this.r6r_1 + ', definitions=' + this.s6r_1 + ')';
+    return 'Structure(type=' + this.u6r_1 + ', definitions=' + this.v6r_1 + ')';
   };
   Structure.prototype.hashCode = function () {
-    var result = getStringHashCode(this.r6r_1);
-    result = imul(result, 31) + hashCode(this.s6r_1) | 0;
+    var result = getStringHashCode(this.u6r_1);
+    result = imul(result, 31) + hashCode(this.v6r_1) | 0;
     return result;
   };
   Structure.prototype.equals = function (other) {
@@ -77215,12 +77272,24 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Structure))
       return false;
     var tmp0_other_with_cast = other instanceof Structure ? other : THROW_CCE();
-    if (!(this.r6r_1 === tmp0_other_with_cast.r6r_1))
+    if (!(this.u6r_1 === tmp0_other_with_cast.u6r_1))
       return false;
-    if (!equals_1(this.s6r_1, tmp0_other_with_cast.s6r_1))
+    if (!equals_1(this.v6r_1, tmp0_other_with_cast.v6r_1))
       return false;
     return true;
   };
+  Object.defineProperty(Structure.prototype, 'type', {
+    configurable: true,
+    get: function () {
+      return this.b52();
+    }
+  });
+  Object.defineProperty(Structure.prototype, 'definitions', {
+    configurable: true,
+    get: function () {
+      return this.j6r();
+    }
+  });
   function DcatApCatalogue() {
   }
   function CataloguedResource() {
@@ -77246,10 +77315,10 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_84 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.b6u_1 = lazy_0(tmp_0, CatalogueState$Companion$$cachedSerializer$delegate$_anonymous__xybo6q);
+    tmp.e6u_1 = lazy_0(tmp_0, CatalogueState$Companion$$cachedSerializer$delegate$_anonymous__xybo6q);
   }
   Companion_84.prototype.r4k = function () {
-    return this.b6u_1.p();
+    return this.e6u_1.p();
   };
   Companion_84.prototype.f4a = function (typeParamsSerializers) {
     return this.r4k();
@@ -77275,10 +77344,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.e6u_1 = position;
+    this.h6u_1 = position;
   }
   CatalogueState.prototype.n47 = function () {
-    return this.e6u_1;
+    return this.h6u_1;
   };
   Object.defineProperty(CatalogueState.prototype, 'position', {
     configurable: true,
@@ -77297,16 +77366,16 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDeleteCommandDTO() {
   }
   function CatalogueDeleteCommand(id) {
-    this.f6u_1 = id;
+    this.i6u_1 = id;
   }
   CatalogueDeleteCommand.prototype.y4s = function () {
-    return this.f6u_1;
+    return this.i6u_1;
   };
   CatalogueDeleteCommand.prototype.toString = function () {
-    return 'CatalogueDeleteCommand(id=' + this.f6u_1 + ')';
+    return 'CatalogueDeleteCommand(id=' + this.i6u_1 + ')';
   };
   CatalogueDeleteCommand.prototype.hashCode = function () {
-    return getStringHashCode(this.f6u_1);
+    return getStringHashCode(this.i6u_1);
   };
   CatalogueDeleteCommand.prototype.equals = function (other) {
     if (this === other)
@@ -77314,7 +77383,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDeleteCommand ? other : THROW_CCE();
-    if (!(this.f6u_1 === tmp0_other_with_cast.f6u_1))
+    if (!(this.i6u_1 === tmp0_other_with_cast.i6u_1))
       return false;
     return true;
   };
@@ -77447,10 +77516,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('homepage', true);
     tmp0_serialDesc.f49('themes', true);
     tmp0_serialDesc.f49('catalogues', true);
-    this.i6u_1 = tmp0_serialDesc;
+    this.l6u_1 = tmp0_serialDesc;
   }
   $serializer_14.prototype.q3y = function () {
-    return this.i6u_1;
+    return this.l6u_1;
   };
   $serializer_14.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77466,7 +77535,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_14.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6u_1;
+    var tmp0_desc = this.l6u_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77542,31 +77611,31 @@ if (typeof Math.imul === 'undefined') {
     tmp12_input.d42(tmp0_desc);
     return CatalogueCreateCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, null);
   };
-  $serializer_14.prototype.j6u = function (encoder, value) {
-    var tmp0_desc = this.i6u_1;
+  $serializer_14.prototype.m6u = function (encoder, value) {
+    var tmp0_desc = this.l6u_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6u_1);
-    tmp1_output.q43(tmp0_desc, 1, value.l6u_1);
-    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.m6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.m6u_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6u_1);
+    tmp1_output.q43(tmp0_desc, 1, value.o6u_1);
+    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.p6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.p6u_1);
     }
-    tmp1_output.q43(tmp0_desc, 3, value.n6u_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.o6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, $serializer_getInstance_11(), value.o6u_1);
+    tmp1_output.q43(tmp0_desc, 3, value.q6u_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.r6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, $serializer_getInstance_11(), value.r6u_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.p6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.p6u_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.s6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.s6u_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.q6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, new ArrayListSerializer($serializer_getInstance_10()), value.q6u_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.t6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, new ArrayListSerializer($serializer_getInstance_10()), value.t6u_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.r6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer(StringSerializer_getInstance()), value.r6u_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.u6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer(StringSerializer_getInstance()), value.u6u_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_14.prototype.r3y = function (encoder, value) {
-    return this.j6u(encoder, value instanceof CatalogueCreateCommandDTOBase ? value : THROW_CCE());
+    return this.m6u(encoder, value instanceof CatalogueCreateCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_12;
   function $serializer_getInstance_12() {
@@ -77576,31 +77645,31 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreateCommandDTOBase_init_$Init$(seen1, identifier, title, description, type, structure, homepage, themes, catalogues, serializationConstructorMarker, $this) {
     if (!(11 === (11 & seen1))) {
-      throwMissingFieldException(seen1, 11, $serializer_getInstance_12().i6u_1);
+      throwMissingFieldException(seen1, 11, $serializer_getInstance_12().l6u_1);
     }
-    $this.k6u_1 = identifier;
-    $this.l6u_1 = title;
+    $this.n6u_1 = identifier;
+    $this.o6u_1 = title;
     if (0 === (seen1 & 4))
-      $this.m6u_1 = null;
-    else
-      $this.m6u_1 = description;
-    $this.n6u_1 = type;
-    if (0 === (seen1 & 16))
-      $this.o6u_1 = null;
-    else
-      $this.o6u_1 = structure;
-    if (0 === (seen1 & 32))
       $this.p6u_1 = null;
     else
-      $this.p6u_1 = homepage;
-    if (0 === (seen1 & 64))
-      $this.q6u_1 = null;
-    else
-      $this.q6u_1 = themes;
-    if (0 === (seen1 & 128))
+      $this.p6u_1 = description;
+    $this.q6u_1 = type;
+    if (0 === (seen1 & 16))
       $this.r6u_1 = null;
     else
-      $this.r6u_1 = catalogues;
+      $this.r6u_1 = structure;
+    if (0 === (seen1 & 32))
+      $this.s6u_1 = null;
+    else
+      $this.s6u_1 = homepage;
+    if (0 === (seen1 & 64))
+      $this.t6u_1 = null;
+    else
+      $this.t6u_1 = themes;
+    if (0 === (seen1 & 128))
+      $this.u6u_1 = null;
+    else
+      $this.u6u_1 = catalogues;
     return $this;
   }
   function CatalogueCreateCommandDTOBase_init_$Create$(seen1, identifier, title, description, type, structure, homepage, themes, catalogues, serializationConstructorMarker) {
@@ -77608,51 +77677,51 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreateCommandDTOBase(identifier, title, description, type, structure, homepage, themes, catalogues) {
     Companion_getInstance_85();
-    this.k6u_1 = identifier;
-    this.l6u_1 = title;
-    this.m6u_1 = description;
-    this.n6u_1 = type;
-    this.o6u_1 = structure;
-    this.p6u_1 = homepage;
-    this.q6u_1 = themes;
-    this.r6u_1 = catalogues;
+    this.n6u_1 = identifier;
+    this.o6u_1 = title;
+    this.p6u_1 = description;
+    this.q6u_1 = type;
+    this.r6u_1 = structure;
+    this.s6u_1 = homepage;
+    this.t6u_1 = themes;
+    this.u6u_1 = catalogues;
   }
   CatalogueCreateCommandDTOBase.prototype.k6e = function () {
-    return this.k6u_1;
-  };
-  CatalogueCreateCommandDTOBase.prototype.c6s = function () {
-    return this.l6u_1;
-  };
-  CatalogueCreateCommandDTOBase.prototype.n6g = function () {
-    return this.m6u_1;
-  };
-  CatalogueCreateCommandDTOBase.prototype.b52 = function () {
     return this.n6u_1;
   };
-  CatalogueCreateCommandDTOBase.prototype.b6s = function () {
+  CatalogueCreateCommandDTOBase.prototype.f6s = function () {
     return this.o6u_1;
   };
-  CatalogueCreateCommandDTOBase.prototype.t6r = function () {
+  CatalogueCreateCommandDTOBase.prototype.n6g = function () {
     return this.p6u_1;
   };
-  CatalogueCreateCommandDTOBase.prototype.v6r = function () {
+  CatalogueCreateCommandDTOBase.prototype.b52 = function () {
     return this.q6u_1;
   };
-  CatalogueCreateCommandDTOBase.prototype.z6r = function () {
+  CatalogueCreateCommandDTOBase.prototype.e6s = function () {
     return this.r6u_1;
   };
+  CatalogueCreateCommandDTOBase.prototype.w6r = function () {
+    return this.s6u_1;
+  };
+  CatalogueCreateCommandDTOBase.prototype.y6r = function () {
+    return this.t6u_1;
+  };
+  CatalogueCreateCommandDTOBase.prototype.c6s = function () {
+    return this.u6u_1;
+  };
   CatalogueCreateCommandDTOBase.prototype.toString = function () {
-    return 'CatalogueCreateCommandDTOBase(identifier=' + this.k6u_1 + ', title=' + this.l6u_1 + ', description=' + this.m6u_1 + ', type=' + this.n6u_1 + ', structure=' + this.o6u_1 + ', homepage=' + this.p6u_1 + ', themes=' + this.q6u_1 + ', catalogues=' + this.r6u_1 + ')';
+    return 'CatalogueCreateCommandDTOBase(identifier=' + this.n6u_1 + ', title=' + this.o6u_1 + ', description=' + this.p6u_1 + ', type=' + this.q6u_1 + ', structure=' + this.r6u_1 + ', homepage=' + this.s6u_1 + ', themes=' + this.t6u_1 + ', catalogues=' + this.u6u_1 + ')';
   };
   CatalogueCreateCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.k6u_1);
-    result = imul(result, 31) + getStringHashCode(this.l6u_1) | 0;
-    result = imul(result, 31) + (this.m6u_1 == null ? 0 : getStringHashCode(this.m6u_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.n6u_1) | 0;
-    result = imul(result, 31) + (this.o6u_1 == null ? 0 : this.o6u_1.hashCode()) | 0;
+    var result = getStringHashCode(this.n6u_1);
+    result = imul(result, 31) + getStringHashCode(this.o6u_1) | 0;
     result = imul(result, 31) + (this.p6u_1 == null ? 0 : getStringHashCode(this.p6u_1)) | 0;
-    result = imul(result, 31) + (this.q6u_1 == null ? 0 : hashCode(this.q6u_1)) | 0;
-    result = imul(result, 31) + (this.r6u_1 == null ? 0 : hashCode(this.r6u_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.q6u_1) | 0;
+    result = imul(result, 31) + (this.r6u_1 == null ? 0 : this.r6u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.s6u_1 == null ? 0 : getStringHashCode(this.s6u_1)) | 0;
+    result = imul(result, 31) + (this.t6u_1 == null ? 0 : hashCode(this.t6u_1)) | 0;
+    result = imul(result, 31) + (this.u6u_1 == null ? 0 : hashCode(this.u6u_1)) | 0;
     return result;
   };
   CatalogueCreateCommandDTOBase.prototype.equals = function (other) {
@@ -77661,21 +77730,21 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueCreateCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueCreateCommandDTOBase ? other : THROW_CCE();
-    if (!(this.k6u_1 === tmp0_other_with_cast.k6u_1))
-      return false;
-    if (!(this.l6u_1 === tmp0_other_with_cast.l6u_1))
-      return false;
-    if (!(this.m6u_1 == tmp0_other_with_cast.m6u_1))
-      return false;
     if (!(this.n6u_1 === tmp0_other_with_cast.n6u_1))
       return false;
-    if (!equals_1(this.o6u_1, tmp0_other_with_cast.o6u_1))
+    if (!(this.o6u_1 === tmp0_other_with_cast.o6u_1))
       return false;
     if (!(this.p6u_1 == tmp0_other_with_cast.p6u_1))
       return false;
-    if (!equals_1(this.q6u_1, tmp0_other_with_cast.q6u_1))
+    if (!(this.q6u_1 === tmp0_other_with_cast.q6u_1))
       return false;
     if (!equals_1(this.r6u_1, tmp0_other_with_cast.r6u_1))
+      return false;
+    if (!(this.s6u_1 == tmp0_other_with_cast.s6u_1))
+      return false;
+    if (!equals_1(this.t6u_1, tmp0_other_with_cast.t6u_1))
+      return false;
+    if (!equals_1(this.u6u_1, tmp0_other_with_cast.u6u_1))
       return false;
     return true;
   };
@@ -77688,7 +77757,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.c6s();
+      return this.f6s();
     }
   });
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'description', {
@@ -77706,25 +77775,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'structure', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.t6r();
+      return this.w6r();
     }
   });
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   Object.defineProperty(CatalogueCreateCommandDTOBase.prototype, 'catalogues', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function Companion_86() {
@@ -77748,10 +77817,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('homepage', true);
     tmp0_serialDesc.f49('themes', true);
     tmp0_serialDesc.f49('catalogues', true);
-    this.s6u_1 = tmp0_serialDesc;
+    this.v6u_1 = tmp0_serialDesc;
   }
   $serializer_15.prototype.q3y = function () {
-    return this.s6u_1;
+    return this.v6u_1;
   };
   $serializer_15.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77767,7 +77836,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_15.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.s6u_1;
+    var tmp0_desc = this.v6u_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77850,30 +77919,30 @@ if (typeof Math.imul === 'undefined') {
     tmp13_input.d42(tmp0_desc);
     return CatalogueCreatedEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, null);
   };
-  $serializer_15.prototype.t6u = function (encoder, value) {
-    var tmp0_desc = this.s6u_1;
+  $serializer_15.prototype.w6u = function (encoder, value) {
+    var tmp0_desc = this.v6u_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.u6u_1);
-    tmp1_output.q43(tmp0_desc, 1, value.v6u_1);
-    tmp1_output.q43(tmp0_desc, 2, value.w6u_1);
-    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.x6u_1);
-    tmp1_output.q43(tmp0_desc, 4, value.y6u_1);
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.z6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, $serializer_getInstance_11(), value.z6u_1);
+    tmp1_output.q43(tmp0_desc, 0, value.x6u_1);
+    tmp1_output.q43(tmp0_desc, 1, value.y6u_1);
+    tmp1_output.q43(tmp0_desc, 2, value.z6u_1);
+    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.a6v_1);
+    tmp1_output.q43(tmp0_desc, 4, value.b6v_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.c6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, $serializer_getInstance_11(), value.c6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.a6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.a6v_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.d6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.d6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.b6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer($serializer_getInstance_10()), value.b6v_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.e6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer($serializer_getInstance_10()), value.e6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.c6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer(StringSerializer_getInstance()), value.c6v_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.f6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer(StringSerializer_getInstance()), value.f6v_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_15.prototype.r3y = function (encoder, value) {
-    return this.t6u(encoder, value instanceof CatalogueCreatedEventDTOBase ? value : THROW_CCE());
+    return this.w6u(encoder, value instanceof CatalogueCreatedEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_13;
   function $serializer_getInstance_13() {
@@ -77883,29 +77952,29 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreatedEventDTOBase_init_$Init$(seen1, id, identifier, title, description, type, structure, homepage, themes, catalogues, serializationConstructorMarker, $this) {
     if (!(31 === (31 & seen1))) {
-      throwMissingFieldException(seen1, 31, $serializer_getInstance_13().s6u_1);
+      throwMissingFieldException(seen1, 31, $serializer_getInstance_13().v6u_1);
     }
-    $this.u6u_1 = id;
-    $this.v6u_1 = identifier;
-    $this.w6u_1 = title;
-    $this.x6u_1 = description;
-    $this.y6u_1 = type;
+    $this.x6u_1 = id;
+    $this.y6u_1 = identifier;
+    $this.z6u_1 = title;
+    $this.a6v_1 = description;
+    $this.b6v_1 = type;
     if (0 === (seen1 & 32))
-      $this.z6u_1 = null;
-    else
-      $this.z6u_1 = structure;
-    if (0 === (seen1 & 64))
-      $this.a6v_1 = null;
-    else
-      $this.a6v_1 = homepage;
-    if (0 === (seen1 & 128))
-      $this.b6v_1 = null;
-    else
-      $this.b6v_1 = themes;
-    if (0 === (seen1 & 256))
       $this.c6v_1 = null;
     else
-      $this.c6v_1 = catalogues;
+      $this.c6v_1 = structure;
+    if (0 === (seen1 & 64))
+      $this.d6v_1 = null;
+    else
+      $this.d6v_1 = homepage;
+    if (0 === (seen1 & 128))
+      $this.e6v_1 = null;
+    else
+      $this.e6v_1 = themes;
+    if (0 === (seen1 & 256))
+      $this.f6v_1 = null;
+    else
+      $this.f6v_1 = catalogues;
     return $this;
   }
   function CatalogueCreatedEventDTOBase_init_$Create$(seen1, id, identifier, title, description, type, structure, homepage, themes, catalogues, serializationConstructorMarker) {
@@ -77913,56 +77982,56 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreatedEventDTOBase(id, identifier, title, description, type, structure, homepage, themes, catalogues) {
     Companion_getInstance_86();
-    this.u6u_1 = id;
-    this.v6u_1 = identifier;
-    this.w6u_1 = title;
-    this.x6u_1 = description;
-    this.y6u_1 = type;
-    this.z6u_1 = structure;
-    this.a6v_1 = homepage;
-    this.b6v_1 = themes;
-    this.c6v_1 = catalogues;
+    this.x6u_1 = id;
+    this.y6u_1 = identifier;
+    this.z6u_1 = title;
+    this.a6v_1 = description;
+    this.b6v_1 = type;
+    this.c6v_1 = structure;
+    this.d6v_1 = homepage;
+    this.e6v_1 = themes;
+    this.f6v_1 = catalogues;
   }
   CatalogueCreatedEventDTOBase.prototype.y4s = function () {
-    return this.u6u_1;
-  };
-  CatalogueCreatedEventDTOBase.prototype.k6e = function () {
-    return this.v6u_1;
-  };
-  CatalogueCreatedEventDTOBase.prototype.c6s = function () {
-    return this.w6u_1;
-  };
-  CatalogueCreatedEventDTOBase.prototype.n6g = function () {
     return this.x6u_1;
   };
-  CatalogueCreatedEventDTOBase.prototype.b52 = function () {
+  CatalogueCreatedEventDTOBase.prototype.k6e = function () {
     return this.y6u_1;
   };
-  CatalogueCreatedEventDTOBase.prototype.b6s = function () {
+  CatalogueCreatedEventDTOBase.prototype.f6s = function () {
     return this.z6u_1;
   };
-  CatalogueCreatedEventDTOBase.prototype.t6r = function () {
+  CatalogueCreatedEventDTOBase.prototype.n6g = function () {
     return this.a6v_1;
   };
-  CatalogueCreatedEventDTOBase.prototype.v6r = function () {
+  CatalogueCreatedEventDTOBase.prototype.b52 = function () {
     return this.b6v_1;
   };
-  CatalogueCreatedEventDTOBase.prototype.z6r = function () {
+  CatalogueCreatedEventDTOBase.prototype.e6s = function () {
     return this.c6v_1;
   };
+  CatalogueCreatedEventDTOBase.prototype.w6r = function () {
+    return this.d6v_1;
+  };
+  CatalogueCreatedEventDTOBase.prototype.y6r = function () {
+    return this.e6v_1;
+  };
+  CatalogueCreatedEventDTOBase.prototype.c6s = function () {
+    return this.f6v_1;
+  };
   CatalogueCreatedEventDTOBase.prototype.toString = function () {
-    return 'CatalogueCreatedEventDTOBase(id=' + this.u6u_1 + ', identifier=' + this.v6u_1 + ', title=' + this.w6u_1 + ', description=' + this.x6u_1 + ', type=' + this.y6u_1 + ', structure=' + this.z6u_1 + ', homepage=' + this.a6v_1 + ', themes=' + this.b6v_1 + ', catalogues=' + this.c6v_1 + ')';
+    return 'CatalogueCreatedEventDTOBase(id=' + this.x6u_1 + ', identifier=' + this.y6u_1 + ', title=' + this.z6u_1 + ', description=' + this.a6v_1 + ', type=' + this.b6v_1 + ', structure=' + this.c6v_1 + ', homepage=' + this.d6v_1 + ', themes=' + this.e6v_1 + ', catalogues=' + this.f6v_1 + ')';
   };
   CatalogueCreatedEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.u6u_1);
-    result = imul(result, 31) + getStringHashCode(this.v6u_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.w6u_1) | 0;
-    result = imul(result, 31) + (this.x6u_1 == null ? 0 : getStringHashCode(this.x6u_1)) | 0;
+    var result = getStringHashCode(this.x6u_1);
     result = imul(result, 31) + getStringHashCode(this.y6u_1) | 0;
-    result = imul(result, 31) + (this.z6u_1 == null ? 0 : this.z6u_1.hashCode()) | 0;
+    result = imul(result, 31) + getStringHashCode(this.z6u_1) | 0;
     result = imul(result, 31) + (this.a6v_1 == null ? 0 : getStringHashCode(this.a6v_1)) | 0;
-    result = imul(result, 31) + (this.b6v_1 == null ? 0 : hashCode(this.b6v_1)) | 0;
-    result = imul(result, 31) + (this.c6v_1 == null ? 0 : hashCode(this.c6v_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.b6v_1) | 0;
+    result = imul(result, 31) + (this.c6v_1 == null ? 0 : this.c6v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.d6v_1 == null ? 0 : getStringHashCode(this.d6v_1)) | 0;
+    result = imul(result, 31) + (this.e6v_1 == null ? 0 : hashCode(this.e6v_1)) | 0;
+    result = imul(result, 31) + (this.f6v_1 == null ? 0 : hashCode(this.f6v_1)) | 0;
     return result;
   };
   CatalogueCreatedEventDTOBase.prototype.equals = function (other) {
@@ -77971,23 +78040,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueCreatedEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueCreatedEventDTOBase ? other : THROW_CCE();
-    if (!(this.u6u_1 === tmp0_other_with_cast.u6u_1))
-      return false;
-    if (!(this.v6u_1 === tmp0_other_with_cast.v6u_1))
-      return false;
-    if (!(this.w6u_1 === tmp0_other_with_cast.w6u_1))
-      return false;
-    if (!(this.x6u_1 == tmp0_other_with_cast.x6u_1))
+    if (!(this.x6u_1 === tmp0_other_with_cast.x6u_1))
       return false;
     if (!(this.y6u_1 === tmp0_other_with_cast.y6u_1))
       return false;
-    if (!equals_1(this.z6u_1, tmp0_other_with_cast.z6u_1))
+    if (!(this.z6u_1 === tmp0_other_with_cast.z6u_1))
       return false;
     if (!(this.a6v_1 == tmp0_other_with_cast.a6v_1))
       return false;
-    if (!equals_1(this.b6v_1, tmp0_other_with_cast.b6v_1))
+    if (!(this.b6v_1 === tmp0_other_with_cast.b6v_1))
       return false;
     if (!equals_1(this.c6v_1, tmp0_other_with_cast.c6v_1))
+      return false;
+    if (!(this.d6v_1 == tmp0_other_with_cast.d6v_1))
+      return false;
+    if (!equals_1(this.e6v_1, tmp0_other_with_cast.e6v_1))
+      return false;
+    if (!equals_1(this.f6v_1, tmp0_other_with_cast.f6v_1))
       return false;
     return true;
   };
@@ -78006,7 +78075,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.c6s();
+      return this.f6s();
     }
   });
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'description', {
@@ -78024,25 +78093,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'structure', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.t6r();
+      return this.w6r();
     }
   });
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   Object.defineProperty(CatalogueCreatedEventDTOBase.prototype, 'catalogues', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function CatalogueDeleteCommandDTO_0() {
@@ -78050,16 +78119,16 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDeletedEventDTO() {
   }
   function CatalogueDeletedEventDTOBase(id) {
-    this.d6v_1 = id;
+    this.g6v_1 = id;
   }
   CatalogueDeletedEventDTOBase.prototype.y4s = function () {
-    return this.d6v_1;
+    return this.g6v_1;
   };
   CatalogueDeletedEventDTOBase.prototype.toString = function () {
-    return 'CatalogueDeletedEventDTOBase(id=' + this.d6v_1 + ')';
+    return 'CatalogueDeletedEventDTOBase(id=' + this.g6v_1 + ')';
   };
   CatalogueDeletedEventDTOBase.prototype.hashCode = function () {
-    return getStringHashCode(this.d6v_1);
+    return getStringHashCode(this.g6v_1);
   };
   CatalogueDeletedEventDTOBase.prototype.equals = function (other) {
     if (this === other)
@@ -78067,7 +78136,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDeletedEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDeletedEventDTOBase ? other : THROW_CCE();
-    if (!(this.d6v_1 === tmp0_other_with_cast.d6v_1))
+    if (!(this.g6v_1 === tmp0_other_with_cast.g6v_1))
       return false;
     return true;
   };
@@ -78095,10 +78164,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('catalogues', false);
-    this.e6v_1 = tmp0_serialDesc;
+    this.h6v_1 = tmp0_serialDesc;
   }
   $serializer_16.prototype.q3y = function () {
-    return this.e6v_1;
+    return this.h6v_1;
   };
   $serializer_16.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78114,7 +78183,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_16.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.e6v_1;
+    var tmp0_desc = this.h6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78148,15 +78217,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkCataloguesCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_16.prototype.f6v = function (encoder, value) {
-    var tmp0_desc = this.e6v_1;
+  $serializer_16.prototype.i6v = function (encoder, value) {
+    var tmp0_desc = this.h6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.g6v_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.h6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.j6v_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.k6v_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_16.prototype.r3y = function (encoder, value) {
-    return this.f6v(encoder, value instanceof CatalogueLinkCataloguesCommandDTOBase ? value : THROW_CCE());
+    return this.i6v(encoder, value instanceof CatalogueLinkCataloguesCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_14;
   function $serializer_getInstance_14() {
@@ -78166,10 +78235,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkCataloguesCommandDTOBase_init_$Init$(seen1, id, catalogues, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_14().e6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_14().h6v_1);
     }
-    $this.g6v_1 = id;
-    $this.h6v_1 = catalogues;
+    $this.j6v_1 = id;
+    $this.k6v_1 = catalogues;
     return $this;
   }
   function CatalogueLinkCataloguesCommandDTOBase_init_$Create$(seen1, id, catalogues, serializationConstructorMarker) {
@@ -78177,21 +78246,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkCataloguesCommandDTOBase(id, catalogues) {
     Companion_getInstance_87();
-    this.g6v_1 = id;
-    this.h6v_1 = catalogues;
+    this.j6v_1 = id;
+    this.k6v_1 = catalogues;
   }
   CatalogueLinkCataloguesCommandDTOBase.prototype.y4s = function () {
-    return this.g6v_1;
+    return this.j6v_1;
   };
-  CatalogueLinkCataloguesCommandDTOBase.prototype.z6r = function () {
-    return this.h6v_1;
+  CatalogueLinkCataloguesCommandDTOBase.prototype.c6s = function () {
+    return this.k6v_1;
   };
   CatalogueLinkCataloguesCommandDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkCataloguesCommandDTOBase(id=' + this.g6v_1 + ', catalogues=' + this.h6v_1 + ')';
+    return 'CatalogueLinkCataloguesCommandDTOBase(id=' + this.j6v_1 + ', catalogues=' + this.k6v_1 + ')';
   };
   CatalogueLinkCataloguesCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.g6v_1);
-    result = imul(result, 31) + hashCode(this.h6v_1) | 0;
+    var result = getStringHashCode(this.j6v_1);
+    result = imul(result, 31) + hashCode(this.k6v_1) | 0;
     return result;
   };
   CatalogueLinkCataloguesCommandDTOBase.prototype.equals = function (other) {
@@ -78200,9 +78269,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkCataloguesCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkCataloguesCommandDTOBase ? other : THROW_CCE();
-    if (!(this.g6v_1 === tmp0_other_with_cast.g6v_1))
+    if (!(this.j6v_1 === tmp0_other_with_cast.j6v_1))
       return false;
-    if (!equals_1(this.h6v_1, tmp0_other_with_cast.h6v_1))
+    if (!equals_1(this.k6v_1, tmp0_other_with_cast.k6v_1))
       return false;
     return true;
   };
@@ -78215,7 +78284,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkCataloguesCommandDTOBase.prototype, 'catalogues', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function Companion_88() {
@@ -78232,10 +78301,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('catalogues', false);
-    this.i6v_1 = tmp0_serialDesc;
+    this.l6v_1 = tmp0_serialDesc;
   }
   $serializer_17.prototype.q3y = function () {
-    return this.i6v_1;
+    return this.l6v_1;
   };
   $serializer_17.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78251,7 +78320,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_17.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6v_1;
+    var tmp0_desc = this.l6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78285,15 +78354,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkedCataloguesEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_17.prototype.j6v = function (encoder, value) {
-    var tmp0_desc = this.i6v_1;
+  $serializer_17.prototype.m6v = function (encoder, value) {
+    var tmp0_desc = this.l6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6v_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.l6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6v_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.o6v_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_17.prototype.r3y = function (encoder, value) {
-    return this.j6v(encoder, value instanceof CatalogueLinkedCataloguesEventDTOBase ? value : THROW_CCE());
+    return this.m6v(encoder, value instanceof CatalogueLinkedCataloguesEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_15;
   function $serializer_getInstance_15() {
@@ -78303,10 +78372,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedCataloguesEventDTOBase_init_$Init$(seen1, id, catalogues, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_15().i6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_15().l6v_1);
     }
-    $this.k6v_1 = id;
-    $this.l6v_1 = catalogues;
+    $this.n6v_1 = id;
+    $this.o6v_1 = catalogues;
     return $this;
   }
   function CatalogueLinkedCataloguesEventDTOBase_init_$Create$(seen1, id, catalogues, serializationConstructorMarker) {
@@ -78314,21 +78383,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedCataloguesEventDTOBase(id, catalogues) {
     Companion_getInstance_88();
-    this.k6v_1 = id;
-    this.l6v_1 = catalogues;
+    this.n6v_1 = id;
+    this.o6v_1 = catalogues;
   }
   CatalogueLinkedCataloguesEventDTOBase.prototype.y4s = function () {
-    return this.k6v_1;
+    return this.n6v_1;
   };
-  CatalogueLinkedCataloguesEventDTOBase.prototype.z6r = function () {
-    return this.l6v_1;
+  CatalogueLinkedCataloguesEventDTOBase.prototype.c6s = function () {
+    return this.o6v_1;
   };
   CatalogueLinkedCataloguesEventDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkedCataloguesEventDTOBase(id=' + this.k6v_1 + ', catalogues=' + this.l6v_1 + ')';
+    return 'CatalogueLinkedCataloguesEventDTOBase(id=' + this.n6v_1 + ', catalogues=' + this.o6v_1 + ')';
   };
   CatalogueLinkedCataloguesEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.k6v_1);
-    result = imul(result, 31) + hashCode(this.l6v_1) | 0;
+    var result = getStringHashCode(this.n6v_1);
+    result = imul(result, 31) + hashCode(this.o6v_1) | 0;
     return result;
   };
   CatalogueLinkedCataloguesEventDTOBase.prototype.equals = function (other) {
@@ -78337,9 +78406,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkedCataloguesEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkedCataloguesEventDTOBase ? other : THROW_CCE();
-    if (!(this.k6v_1 === tmp0_other_with_cast.k6v_1))
+    if (!(this.n6v_1 === tmp0_other_with_cast.n6v_1))
       return false;
-    if (!equals_1(this.l6v_1, tmp0_other_with_cast.l6v_1))
+    if (!equals_1(this.o6v_1, tmp0_other_with_cast.o6v_1))
       return false;
     return true;
   };
@@ -78352,7 +78421,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkedCataloguesEventDTOBase.prototype, 'catalogues', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function CatalogueLinkDatasetsCommandDTO() {
@@ -78373,10 +78442,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('datasets', false);
-    this.m6v_1 = tmp0_serialDesc;
+    this.p6v_1 = tmp0_serialDesc;
   }
   $serializer_18.prototype.q3y = function () {
-    return this.m6v_1;
+    return this.p6v_1;
   };
   $serializer_18.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78392,7 +78461,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_18.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.m6v_1;
+    var tmp0_desc = this.p6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78426,15 +78495,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkDatasetsCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_18.prototype.n6v = function (encoder, value) {
-    var tmp0_desc = this.m6v_1;
+  $serializer_18.prototype.q6v = function (encoder, value) {
+    var tmp0_desc = this.p6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.o6v_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.p6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.r6v_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.s6v_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_18.prototype.r3y = function (encoder, value) {
-    return this.n6v(encoder, value instanceof CatalogueLinkDatasetsCommandDTOBase ? value : THROW_CCE());
+    return this.q6v(encoder, value instanceof CatalogueLinkDatasetsCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_16;
   function $serializer_getInstance_16() {
@@ -78444,10 +78513,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkDatasetsCommandDTOBase_init_$Init$(seen1, id, datasets, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_16().m6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_16().p6v_1);
     }
-    $this.o6v_1 = id;
-    $this.p6v_1 = datasets;
+    $this.r6v_1 = id;
+    $this.s6v_1 = datasets;
     return $this;
   }
   function CatalogueLinkDatasetsCommandDTOBase_init_$Create$(seen1, id, datasets, serializationConstructorMarker) {
@@ -78455,21 +78524,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkDatasetsCommandDTOBase(id, datasets) {
     Companion_getInstance_89();
-    this.o6v_1 = id;
-    this.p6v_1 = datasets;
+    this.r6v_1 = id;
+    this.s6v_1 = datasets;
   }
   CatalogueLinkDatasetsCommandDTOBase.prototype.y4s = function () {
-    return this.o6v_1;
+    return this.r6v_1;
   };
-  CatalogueLinkDatasetsCommandDTOBase.prototype.x6r = function () {
-    return this.p6v_1;
+  CatalogueLinkDatasetsCommandDTOBase.prototype.a6s = function () {
+    return this.s6v_1;
   };
   CatalogueLinkDatasetsCommandDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkDatasetsCommandDTOBase(id=' + this.o6v_1 + ', datasets=' + this.p6v_1 + ')';
+    return 'CatalogueLinkDatasetsCommandDTOBase(id=' + this.r6v_1 + ', datasets=' + this.s6v_1 + ')';
   };
   CatalogueLinkDatasetsCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.o6v_1);
-    result = imul(result, 31) + hashCode(this.p6v_1) | 0;
+    var result = getStringHashCode(this.r6v_1);
+    result = imul(result, 31) + hashCode(this.s6v_1) | 0;
     return result;
   };
   CatalogueLinkDatasetsCommandDTOBase.prototype.equals = function (other) {
@@ -78478,9 +78547,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkDatasetsCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkDatasetsCommandDTOBase ? other : THROW_CCE();
-    if (!(this.o6v_1 === tmp0_other_with_cast.o6v_1))
+    if (!(this.r6v_1 === tmp0_other_with_cast.r6v_1))
       return false;
-    if (!equals_1(this.p6v_1, tmp0_other_with_cast.p6v_1))
+    if (!equals_1(this.s6v_1, tmp0_other_with_cast.s6v_1))
       return false;
     return true;
   };
@@ -78493,7 +78562,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkDatasetsCommandDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.x6r();
+      return this.a6s();
     }
   });
   function Companion_90() {
@@ -78510,10 +78579,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('datasets', false);
-    this.q6v_1 = tmp0_serialDesc;
+    this.t6v_1 = tmp0_serialDesc;
   }
   $serializer_19.prototype.q3y = function () {
-    return this.q6v_1;
+    return this.t6v_1;
   };
   $serializer_19.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78529,7 +78598,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_19.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6v_1;
+    var tmp0_desc = this.t6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78563,15 +78632,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkedDatasetsEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_19.prototype.r6v = function (encoder, value) {
-    var tmp0_desc = this.q6v_1;
+  $serializer_19.prototype.u6v = function (encoder, value) {
+    var tmp0_desc = this.t6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.s6v_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.t6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.v6v_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.w6v_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_19.prototype.r3y = function (encoder, value) {
-    return this.r6v(encoder, value instanceof CatalogueLinkedDatasetsEventDTOBase ? value : THROW_CCE());
+    return this.u6v(encoder, value instanceof CatalogueLinkedDatasetsEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_17;
   function $serializer_getInstance_17() {
@@ -78581,10 +78650,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedDatasetsEventDTOBase_init_$Init$(seen1, id, datasets, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_17().q6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_17().t6v_1);
     }
-    $this.s6v_1 = id;
-    $this.t6v_1 = datasets;
+    $this.v6v_1 = id;
+    $this.w6v_1 = datasets;
     return $this;
   }
   function CatalogueLinkedDatasetsEventDTOBase_init_$Create$(seen1, id, datasets, serializationConstructorMarker) {
@@ -78592,21 +78661,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedDatasetsEventDTOBase(id, datasets) {
     Companion_getInstance_90();
-    this.s6v_1 = id;
-    this.t6v_1 = datasets;
+    this.v6v_1 = id;
+    this.w6v_1 = datasets;
   }
   CatalogueLinkedDatasetsEventDTOBase.prototype.y4s = function () {
-    return this.s6v_1;
+    return this.v6v_1;
   };
-  CatalogueLinkedDatasetsEventDTOBase.prototype.x6r = function () {
-    return this.t6v_1;
+  CatalogueLinkedDatasetsEventDTOBase.prototype.a6s = function () {
+    return this.w6v_1;
   };
   CatalogueLinkedDatasetsEventDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkedDatasetsEventDTOBase(id=' + this.s6v_1 + ', datasets=' + this.t6v_1 + ')';
+    return 'CatalogueLinkedDatasetsEventDTOBase(id=' + this.v6v_1 + ', datasets=' + this.w6v_1 + ')';
   };
   CatalogueLinkedDatasetsEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.s6v_1);
-    result = imul(result, 31) + hashCode(this.t6v_1) | 0;
+    var result = getStringHashCode(this.v6v_1);
+    result = imul(result, 31) + hashCode(this.w6v_1) | 0;
     return result;
   };
   CatalogueLinkedDatasetsEventDTOBase.prototype.equals = function (other) {
@@ -78615,9 +78684,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkedDatasetsEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkedDatasetsEventDTOBase ? other : THROW_CCE();
-    if (!(this.s6v_1 === tmp0_other_with_cast.s6v_1))
+    if (!(this.v6v_1 === tmp0_other_with_cast.v6v_1))
       return false;
-    if (!equals_1(this.t6v_1, tmp0_other_with_cast.t6v_1))
+    if (!equals_1(this.w6v_1, tmp0_other_with_cast.w6v_1))
       return false;
     return true;
   };
@@ -78630,7 +78699,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkedDatasetsEventDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.x6r();
+      return this.a6s();
     }
   });
   function CatalogueLinkThemesCommandDTO() {
@@ -78651,10 +78720,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('themes', false);
-    this.u6v_1 = tmp0_serialDesc;
+    this.x6v_1 = tmp0_serialDesc;
   }
   $serializer_20.prototype.q3y = function () {
-    return this.u6v_1;
+    return this.x6v_1;
   };
   $serializer_20.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78670,7 +78739,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_20.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.u6v_1;
+    var tmp0_desc = this.x6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78704,15 +78773,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkThemesCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_20.prototype.v6v = function (encoder, value) {
-    var tmp0_desc = this.u6v_1;
+  $serializer_20.prototype.y6v = function (encoder, value) {
+    var tmp0_desc = this.x6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.w6v_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_10()), value.x6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.z6v_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_10()), value.a6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_20.prototype.r3y = function (encoder, value) {
-    return this.v6v(encoder, value instanceof CatalogueLinkThemesCommandDTOBase ? value : THROW_CCE());
+    return this.y6v(encoder, value instanceof CatalogueLinkThemesCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_18;
   function $serializer_getInstance_18() {
@@ -78722,10 +78791,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkThemesCommandDTOBase_init_$Init$(seen1, id, themes, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_18().u6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_18().x6v_1);
     }
-    $this.w6v_1 = id;
-    $this.x6v_1 = themes;
+    $this.z6v_1 = id;
+    $this.a6w_1 = themes;
     return $this;
   }
   function CatalogueLinkThemesCommandDTOBase_init_$Create$(seen1, id, themes, serializationConstructorMarker) {
@@ -78733,21 +78802,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkThemesCommandDTOBase(id, themes) {
     Companion_getInstance_91();
-    this.w6v_1 = id;
-    this.x6v_1 = themes;
+    this.z6v_1 = id;
+    this.a6w_1 = themes;
   }
   CatalogueLinkThemesCommandDTOBase.prototype.y4s = function () {
-    return this.w6v_1;
+    return this.z6v_1;
   };
-  CatalogueLinkThemesCommandDTOBase.prototype.v6r = function () {
-    return this.x6v_1;
+  CatalogueLinkThemesCommandDTOBase.prototype.y6r = function () {
+    return this.a6w_1;
   };
   CatalogueLinkThemesCommandDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkThemesCommandDTOBase(id=' + this.w6v_1 + ', themes=' + this.x6v_1 + ')';
+    return 'CatalogueLinkThemesCommandDTOBase(id=' + this.z6v_1 + ', themes=' + this.a6w_1 + ')';
   };
   CatalogueLinkThemesCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.w6v_1);
-    result = imul(result, 31) + hashCode(this.x6v_1) | 0;
+    var result = getStringHashCode(this.z6v_1);
+    result = imul(result, 31) + hashCode(this.a6w_1) | 0;
     return result;
   };
   CatalogueLinkThemesCommandDTOBase.prototype.equals = function (other) {
@@ -78756,9 +78825,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkThemesCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkThemesCommandDTOBase ? other : THROW_CCE();
-    if (!(this.w6v_1 === tmp0_other_with_cast.w6v_1))
+    if (!(this.z6v_1 === tmp0_other_with_cast.z6v_1))
       return false;
-    if (!equals_1(this.x6v_1, tmp0_other_with_cast.x6v_1))
+    if (!equals_1(this.a6w_1, tmp0_other_with_cast.a6w_1))
       return false;
     return true;
   };
@@ -78771,7 +78840,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkThemesCommandDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   function Companion_92() {
@@ -78788,10 +78857,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('themes', false);
-    this.y6v_1 = tmp0_serialDesc;
+    this.b6w_1 = tmp0_serialDesc;
   }
   $serializer_21.prototype.q3y = function () {
-    return this.y6v_1;
+    return this.b6w_1;
   };
   $serializer_21.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78807,7 +78876,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_21.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.y6v_1;
+    var tmp0_desc = this.b6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78841,15 +78910,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueLinkedThemesEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_21.prototype.z6v = function (encoder, value) {
-    var tmp0_desc = this.y6v_1;
+  $serializer_21.prototype.c6w = function (encoder, value) {
+    var tmp0_desc = this.b6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.a6w_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_10()), value.b6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.d6w_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_10()), value.e6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_21.prototype.r3y = function (encoder, value) {
-    return this.z6v(encoder, value instanceof CatalogueLinkedThemesEventDTOBase ? value : THROW_CCE());
+    return this.c6w(encoder, value instanceof CatalogueLinkedThemesEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_19;
   function $serializer_getInstance_19() {
@@ -78859,10 +78928,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedThemesEventDTOBase_init_$Init$(seen1, id, themes, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_19().y6v_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_19().b6w_1);
     }
-    $this.a6w_1 = id;
-    $this.b6w_1 = themes;
+    $this.d6w_1 = id;
+    $this.e6w_1 = themes;
     return $this;
   }
   function CatalogueLinkedThemesEventDTOBase_init_$Create$(seen1, id, themes, serializationConstructorMarker) {
@@ -78870,21 +78939,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueLinkedThemesEventDTOBase(id, themes) {
     Companion_getInstance_92();
-    this.a6w_1 = id;
-    this.b6w_1 = themes;
+    this.d6w_1 = id;
+    this.e6w_1 = themes;
   }
   CatalogueLinkedThemesEventDTOBase.prototype.y4s = function () {
-    return this.a6w_1;
+    return this.d6w_1;
   };
-  CatalogueLinkedThemesEventDTOBase.prototype.v6r = function () {
-    return this.b6w_1;
+  CatalogueLinkedThemesEventDTOBase.prototype.y6r = function () {
+    return this.e6w_1;
   };
   CatalogueLinkedThemesEventDTOBase.prototype.toString = function () {
-    return 'CatalogueLinkedThemesEventDTOBase(id=' + this.a6w_1 + ', themes=' + this.b6w_1 + ')';
+    return 'CatalogueLinkedThemesEventDTOBase(id=' + this.d6w_1 + ', themes=' + this.e6w_1 + ')';
   };
   CatalogueLinkedThemesEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.a6w_1);
-    result = imul(result, 31) + hashCode(this.b6w_1) | 0;
+    var result = getStringHashCode(this.d6w_1);
+    result = imul(result, 31) + hashCode(this.e6w_1) | 0;
     return result;
   };
   CatalogueLinkedThemesEventDTOBase.prototype.equals = function (other) {
@@ -78893,9 +78962,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkedThemesEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkedThemesEventDTOBase ? other : THROW_CCE();
-    if (!(this.a6w_1 === tmp0_other_with_cast.a6w_1))
+    if (!(this.d6w_1 === tmp0_other_with_cast.d6w_1))
       return false;
-    if (!equals_1(this.b6w_1, tmp0_other_with_cast.b6w_1))
+    if (!equals_1(this.e6w_1, tmp0_other_with_cast.e6w_1))
       return false;
     return true;
   };
@@ -78908,7 +78977,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueLinkedThemesEventDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   function CatalogueSetImageCommandDTO() {
@@ -78934,10 +79003,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('datasets', true);
     tmp0_serialDesc.f49('catalogues', true);
     tmp0_serialDesc.f49('status', false);
-    this.c6w_1 = tmp0_serialDesc;
+    this.f6w_1 = tmp0_serialDesc;
   }
   $serializer_22.prototype.q3y = function () {
-    return this.c6w_1;
+    return this.f6w_1;
   };
   $serializer_22.prototype.u49 = function () {
     var tmp$ret$5;
@@ -78972,7 +79041,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$5;
   };
   $serializer_22.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.c6w_1;
+    var tmp0_desc = this.f6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79097,27 +79166,27 @@ if (typeof Math.imul === 'undefined') {
     tmp16_input.d42(tmp0_desc);
     return CatalogueDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, null);
   };
-  $serializer_22.prototype.d6w = function (encoder, value) {
-    var tmp0_desc = this.c6w_1;
+  $serializer_22.prototype.g6w = function (encoder, value) {
+    var tmp0_desc = this.f6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.e6w_1);
-    tmp1_output.q43(tmp0_desc, 1, value.f6w_1);
-    tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.g6w_1);
-    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.h6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.h6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.h6w_1);
+    tmp1_output.q43(tmp0_desc, 1, value.i6w_1);
+    tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.j6w_1);
+    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.k6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.k6w_1);
     }
-    tmp1_output.q43(tmp0_desc, 4, value.i6w_1);
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.j6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.j6w_1);
+    tmp1_output.q43(tmp0_desc, 4, value.l6w_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.m6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.m6w_1);
     }
-    tmp1_output.q43(tmp0_desc, 6, value.k6w_1);
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.l6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_11(), value.l6w_1);
+    tmp1_output.q43(tmp0_desc, 6, value.n6w_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.o6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_11(), value.o6w_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.m6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_10()), value.m6w_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.p6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_10()), value.p6w_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.n6w_1 == null)) {
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.q6w_1 == null)) {
       var tmp = getKClass(DatasetDTO);
       var tmp$ret$2;
       // Inline function 'kotlin.arrayOf' call
@@ -79128,16 +79197,16 @@ if (typeof Math.imul === 'undefined') {
       tmp$ret$0 = [];
       tmp$ret$1 = tmp$ret$0;
       tmp$ret$2 = tmp$ret$1;
-      tmp1_output.u43(tmp0_desc, 9, new ArrayListSerializer(PolymorphicSerializer_init_$Create$(tmp, tmp$ret$2)), value.n6w_1);
+      tmp1_output.u43(tmp0_desc, 9, new ArrayListSerializer(PolymorphicSerializer_init_$Create$(tmp, tmp$ret$2)), value.q6w_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.o6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 10, new ArrayListSerializer($serializer_getInstance_21()), value.o6w_1);
+    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.r6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 10, new ArrayListSerializer($serializer_getInstance_21()), value.r6w_1);
     }
-    tmp1_output.s43(tmp0_desc, 11, Companion_getInstance_84().r4k(), value.p6w_1);
+    tmp1_output.s43(tmp0_desc, 11, Companion_getInstance_84().r4k(), value.s6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_22.prototype.r3y = function (encoder, value) {
-    return this.d6w(encoder, value instanceof CatalogueDTOBase ? value : THROW_CCE());
+    return this.g6w(encoder, value instanceof CatalogueDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_20;
   function $serializer_getInstance_20() {
@@ -79147,38 +79216,38 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueDTOBase_init_$Init$(seen1, id, identifier, description, homepage, title, img, type, structure, themes, datasets, catalogues, status, serializationConstructorMarker, $this) {
     if (!(2135 === (2135 & seen1))) {
-      throwMissingFieldException(seen1, 2135, $serializer_getInstance_20().c6w_1);
+      throwMissingFieldException(seen1, 2135, $serializer_getInstance_20().f6w_1);
     }
-    $this.e6w_1 = id;
-    $this.f6w_1 = identifier;
-    $this.g6w_1 = description;
+    $this.h6w_1 = id;
+    $this.i6w_1 = identifier;
+    $this.j6w_1 = description;
     if (0 === (seen1 & 8))
-      $this.h6w_1 = null;
+      $this.k6w_1 = null;
     else
-      $this.h6w_1 = homepage;
-    $this.i6w_1 = title;
+      $this.k6w_1 = homepage;
+    $this.l6w_1 = title;
     if (0 === (seen1 & 32))
-      $this.j6w_1 = null;
-    else
-      $this.j6w_1 = img;
-    $this.k6w_1 = type;
-    if (0 === (seen1 & 128))
-      $this.l6w_1 = null;
-    else
-      $this.l6w_1 = structure;
-    if (0 === (seen1 & 256))
       $this.m6w_1 = null;
     else
-      $this.m6w_1 = themes;
-    if (0 === (seen1 & 512))
-      $this.n6w_1 = null;
-    else
-      $this.n6w_1 = datasets;
-    if (0 === (seen1 & 1024))
+      $this.m6w_1 = img;
+    $this.n6w_1 = type;
+    if (0 === (seen1 & 128))
       $this.o6w_1 = null;
     else
-      $this.o6w_1 = catalogues;
-    $this.p6w_1 = status;
+      $this.o6w_1 = structure;
+    if (0 === (seen1 & 256))
+      $this.p6w_1 = null;
+    else
+      $this.p6w_1 = themes;
+    if (0 === (seen1 & 512))
+      $this.q6w_1 = null;
+    else
+      $this.q6w_1 = datasets;
+    if (0 === (seen1 & 1024))
+      $this.r6w_1 = null;
+    else
+      $this.r6w_1 = catalogues;
+    $this.s6w_1 = status;
     return $this;
   }
   function CatalogueDTOBase_init_$Create$(seen1, id, identifier, description, homepage, title, img, type, structure, themes, datasets, catalogues, status, serializationConstructorMarker) {
@@ -79187,57 +79256,57 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDTOBase() {
   }
   CatalogueDTOBase.prototype.y4s = function () {
-    return this.e6w_1;
-  };
-  CatalogueDTOBase.prototype.k6e = function () {
-    return this.f6w_1;
-  };
-  CatalogueDTOBase.prototype.n6g = function () {
-    return this.g6w_1;
-  };
-  CatalogueDTOBase.prototype.t6r = function () {
     return this.h6w_1;
   };
-  CatalogueDTOBase.prototype.c6s = function () {
+  CatalogueDTOBase.prototype.k6e = function () {
     return this.i6w_1;
   };
-  CatalogueDTOBase.prototype.u6r = function () {
+  CatalogueDTOBase.prototype.n6g = function () {
     return this.j6w_1;
   };
-  CatalogueDTOBase.prototype.b52 = function () {
+  CatalogueDTOBase.prototype.w6r = function () {
     return this.k6w_1;
   };
-  CatalogueDTOBase.prototype.b6s = function () {
+  CatalogueDTOBase.prototype.f6s = function () {
     return this.l6w_1;
   };
-  CatalogueDTOBase.prototype.v6r = function () {
+  CatalogueDTOBase.prototype.x6r = function () {
     return this.m6w_1;
   };
-  CatalogueDTOBase.prototype.x6r = function () {
+  CatalogueDTOBase.prototype.b52 = function () {
     return this.n6w_1;
   };
-  CatalogueDTOBase.prototype.z6r = function () {
+  CatalogueDTOBase.prototype.e6s = function () {
     return this.o6w_1;
   };
-  CatalogueDTOBase.prototype.v32 = function () {
+  CatalogueDTOBase.prototype.y6r = function () {
     return this.p6w_1;
   };
+  CatalogueDTOBase.prototype.a6s = function () {
+    return this.q6w_1;
+  };
+  CatalogueDTOBase.prototype.c6s = function () {
+    return this.r6w_1;
+  };
+  CatalogueDTOBase.prototype.v32 = function () {
+    return this.s6w_1;
+  };
   CatalogueDTOBase.prototype.toString = function () {
-    return 'CatalogueDTOBase(id=' + this.e6w_1 + ', identifier=' + this.f6w_1 + ', description=' + this.g6w_1 + ', homepage=' + this.h6w_1 + ', title=' + this.i6w_1 + ', img=' + this.j6w_1 + ', type=' + this.k6w_1 + ', structure=' + this.l6w_1 + ', themes=' + this.m6w_1 + ', datasets=' + this.n6w_1 + ', catalogues=' + this.o6w_1 + ', status=' + this.p6w_1 + ')';
+    return 'CatalogueDTOBase(id=' + this.h6w_1 + ', identifier=' + this.i6w_1 + ', description=' + this.j6w_1 + ', homepage=' + this.k6w_1 + ', title=' + this.l6w_1 + ', img=' + this.m6w_1 + ', type=' + this.n6w_1 + ', structure=' + this.o6w_1 + ', themes=' + this.p6w_1 + ', datasets=' + this.q6w_1 + ', catalogues=' + this.r6w_1 + ', status=' + this.s6w_1 + ')';
   };
   CatalogueDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.e6w_1);
-    result = imul(result, 31) + getStringHashCode(this.f6w_1) | 0;
-    result = imul(result, 31) + (this.g6w_1 == null ? 0 : getStringHashCode(this.g6w_1)) | 0;
-    result = imul(result, 31) + (this.h6w_1 == null ? 0 : getStringHashCode(this.h6w_1)) | 0;
+    var result = getStringHashCode(this.h6w_1);
     result = imul(result, 31) + getStringHashCode(this.i6w_1) | 0;
     result = imul(result, 31) + (this.j6w_1 == null ? 0 : getStringHashCode(this.j6w_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.k6w_1) | 0;
-    result = imul(result, 31) + (this.l6w_1 == null ? 0 : this.l6w_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.m6w_1 == null ? 0 : hashCode(this.m6w_1)) | 0;
-    result = imul(result, 31) + (this.n6w_1 == null ? 0 : hashCode(this.n6w_1)) | 0;
-    result = imul(result, 31) + (this.o6w_1 == null ? 0 : hashCode(this.o6w_1)) | 0;
-    result = imul(result, 31) + this.p6w_1.hashCode() | 0;
+    result = imul(result, 31) + (this.k6w_1 == null ? 0 : getStringHashCode(this.k6w_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.l6w_1) | 0;
+    result = imul(result, 31) + (this.m6w_1 == null ? 0 : getStringHashCode(this.m6w_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.n6w_1) | 0;
+    result = imul(result, 31) + (this.o6w_1 == null ? 0 : this.o6w_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.p6w_1 == null ? 0 : hashCode(this.p6w_1)) | 0;
+    result = imul(result, 31) + (this.q6w_1 == null ? 0 : hashCode(this.q6w_1)) | 0;
+    result = imul(result, 31) + (this.r6w_1 == null ? 0 : hashCode(this.r6w_1)) | 0;
+    result = imul(result, 31) + this.s6w_1.hashCode() | 0;
     return result;
   };
   CatalogueDTOBase.prototype.equals = function (other) {
@@ -79246,29 +79315,29 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDTOBase ? other : THROW_CCE();
-    if (!(this.e6w_1 === tmp0_other_with_cast.e6w_1))
-      return false;
-    if (!(this.f6w_1 === tmp0_other_with_cast.f6w_1))
-      return false;
-    if (!(this.g6w_1 == tmp0_other_with_cast.g6w_1))
-      return false;
-    if (!(this.h6w_1 == tmp0_other_with_cast.h6w_1))
+    if (!(this.h6w_1 === tmp0_other_with_cast.h6w_1))
       return false;
     if (!(this.i6w_1 === tmp0_other_with_cast.i6w_1))
       return false;
     if (!(this.j6w_1 == tmp0_other_with_cast.j6w_1))
       return false;
-    if (!(this.k6w_1 === tmp0_other_with_cast.k6w_1))
+    if (!(this.k6w_1 == tmp0_other_with_cast.k6w_1))
       return false;
-    if (!equals_1(this.l6w_1, tmp0_other_with_cast.l6w_1))
+    if (!(this.l6w_1 === tmp0_other_with_cast.l6w_1))
       return false;
-    if (!equals_1(this.m6w_1, tmp0_other_with_cast.m6w_1))
+    if (!(this.m6w_1 == tmp0_other_with_cast.m6w_1))
       return false;
-    if (!equals_1(this.n6w_1, tmp0_other_with_cast.n6w_1))
+    if (!(this.n6w_1 === tmp0_other_with_cast.n6w_1))
       return false;
     if (!equals_1(this.o6w_1, tmp0_other_with_cast.o6w_1))
       return false;
-    if (!this.p6w_1.equals(tmp0_other_with_cast.p6w_1))
+    if (!equals_1(this.p6w_1, tmp0_other_with_cast.p6w_1))
+      return false;
+    if (!equals_1(this.q6w_1, tmp0_other_with_cast.q6w_1))
+      return false;
+    if (!equals_1(this.r6w_1, tmp0_other_with_cast.r6w_1))
+      return false;
+    if (!this.s6w_1.equals(tmp0_other_with_cast.s6w_1))
       return false;
     return true;
   };
@@ -79293,19 +79362,19 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.t6r();
+      return this.w6r();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.c6s();
+      return this.f6s();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'img', {
     configurable: true,
     get: function () {
-      return this.u6r();
+      return this.x6r();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'type', {
@@ -79317,25 +79386,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueDTOBase.prototype, 'structure', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.x6r();
+      return this.a6s();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'catalogues', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   Object.defineProperty(CatalogueDTOBase.prototype, 'status', {
@@ -79357,10 +79426,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('structure', true);
     tmp0_serialDesc.f49('themes', true);
     tmp0_serialDesc.f49('status', true);
-    this.q6w_1 = tmp0_serialDesc;
+    this.t6w_1 = tmp0_serialDesc;
   }
   $serializer_23.prototype.q3y = function () {
-    return this.q6w_1;
+    return this.t6w_1;
   };
   $serializer_23.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79376,7 +79445,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_23.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6w_1;
+    var tmp0_desc = this.t6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79466,35 +79535,35 @@ if (typeof Math.imul === 'undefined') {
     tmp14_input.d42(tmp0_desc);
     return CatalogueRefDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, null);
   };
-  $serializer_23.prototype.r6w = function (encoder, value) {
-    var tmp0_desc = this.q6w_1;
+  $serializer_23.prototype.u6w = function (encoder, value) {
+    var tmp0_desc = this.t6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.s6w_1);
-    tmp1_output.q43(tmp0_desc, 1, value.t6w_1);
-    tmp1_output.q43(tmp0_desc, 2, value.u6w_1);
-    tmp1_output.q43(tmp0_desc, 3, value.v6w_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.w6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.w6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.v6w_1);
+    tmp1_output.q43(tmp0_desc, 1, value.w6w_1);
+    tmp1_output.q43(tmp0_desc, 2, value.x6w_1);
+    tmp1_output.q43(tmp0_desc, 3, value.y6w_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.z6w_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.z6w_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.x6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.x6w_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.a6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.a6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.y6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.y6w_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.b6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.b6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.z6w_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_11(), value.z6w_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.c6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_11(), value.c6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.a6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_10()), value.a6x_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.d6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_10()), value.d6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.b6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 9, Companion_getInstance_84().r4k(), value.b6x_1);
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.e6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 9, Companion_getInstance_84().r4k(), value.e6x_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_23.prototype.r3y = function (encoder, value) {
-    return this.r6w(encoder, value instanceof CatalogueRefDTOBase ? value : THROW_CCE());
+    return this.u6w(encoder, value instanceof CatalogueRefDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_21;
   function $serializer_getInstance_21() {
@@ -79504,36 +79573,36 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueRefDTOBase_init_$Init$(seen1, id, identifier, title, type, description, homepage, img, structure, themes, status, serializationConstructorMarker, $this) {
     if (!(15 === (15 & seen1))) {
-      throwMissingFieldException(seen1, 15, $serializer_getInstance_21().q6w_1);
+      throwMissingFieldException(seen1, 15, $serializer_getInstance_21().t6w_1);
     }
-    $this.s6w_1 = id;
-    $this.t6w_1 = identifier;
-    $this.u6w_1 = title;
-    $this.v6w_1 = type;
+    $this.v6w_1 = id;
+    $this.w6w_1 = identifier;
+    $this.x6w_1 = title;
+    $this.y6w_1 = type;
     if (0 === (seen1 & 16))
-      $this.w6w_1 = null;
-    else
-      $this.w6w_1 = description;
-    if (0 === (seen1 & 32))
-      $this.x6w_1 = null;
-    else
-      $this.x6w_1 = homepage;
-    if (0 === (seen1 & 64))
-      $this.y6w_1 = null;
-    else
-      $this.y6w_1 = img;
-    if (0 === (seen1 & 128))
       $this.z6w_1 = null;
     else
-      $this.z6w_1 = structure;
-    if (0 === (seen1 & 256))
+      $this.z6w_1 = description;
+    if (0 === (seen1 & 32))
       $this.a6x_1 = null;
     else
-      $this.a6x_1 = themes;
-    if (0 === (seen1 & 512))
+      $this.a6x_1 = homepage;
+    if (0 === (seen1 & 64))
       $this.b6x_1 = null;
     else
-      $this.b6x_1 = status;
+      $this.b6x_1 = img;
+    if (0 === (seen1 & 128))
+      $this.c6x_1 = null;
+    else
+      $this.c6x_1 = structure;
+    if (0 === (seen1 & 256))
+      $this.d6x_1 = null;
+    else
+      $this.d6x_1 = themes;
+    if (0 === (seen1 & 512))
+      $this.e6x_1 = null;
+    else
+      $this.e6x_1 = status;
     return $this;
   }
   function CatalogueRefDTOBase_init_$Create$(seen1, id, identifier, title, type, description, homepage, img, structure, themes, status, serializationConstructorMarker) {
@@ -79542,49 +79611,49 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueRefDTOBase() {
   }
   CatalogueRefDTOBase.prototype.y4s = function () {
-    return this.s6w_1;
-  };
-  CatalogueRefDTOBase.prototype.k6e = function () {
-    return this.t6w_1;
-  };
-  CatalogueRefDTOBase.prototype.c6s = function () {
-    return this.u6w_1;
-  };
-  CatalogueRefDTOBase.prototype.b52 = function () {
     return this.v6w_1;
   };
-  CatalogueRefDTOBase.prototype.n6g = function () {
+  CatalogueRefDTOBase.prototype.k6e = function () {
     return this.w6w_1;
   };
-  CatalogueRefDTOBase.prototype.t6r = function () {
+  CatalogueRefDTOBase.prototype.f6s = function () {
     return this.x6w_1;
   };
-  CatalogueRefDTOBase.prototype.u6r = function () {
+  CatalogueRefDTOBase.prototype.b52 = function () {
     return this.y6w_1;
   };
-  CatalogueRefDTOBase.prototype.b6s = function () {
+  CatalogueRefDTOBase.prototype.n6g = function () {
     return this.z6w_1;
   };
-  CatalogueRefDTOBase.prototype.v6r = function () {
+  CatalogueRefDTOBase.prototype.w6r = function () {
     return this.a6x_1;
   };
-  CatalogueRefDTOBase.prototype.v32 = function () {
+  CatalogueRefDTOBase.prototype.x6r = function () {
     return this.b6x_1;
   };
+  CatalogueRefDTOBase.prototype.e6s = function () {
+    return this.c6x_1;
+  };
+  CatalogueRefDTOBase.prototype.y6r = function () {
+    return this.d6x_1;
+  };
+  CatalogueRefDTOBase.prototype.v32 = function () {
+    return this.e6x_1;
+  };
   CatalogueRefDTOBase.prototype.toString = function () {
-    return 'CatalogueRefDTOBase(id=' + this.s6w_1 + ', identifier=' + this.t6w_1 + ', title=' + this.u6w_1 + ', type=' + this.v6w_1 + ', description=' + this.w6w_1 + ', homepage=' + this.x6w_1 + ', img=' + this.y6w_1 + ', structure=' + this.z6w_1 + ', themes=' + this.a6x_1 + ', status=' + this.b6x_1 + ')';
+    return 'CatalogueRefDTOBase(id=' + this.v6w_1 + ', identifier=' + this.w6w_1 + ', title=' + this.x6w_1 + ', type=' + this.y6w_1 + ', description=' + this.z6w_1 + ', homepage=' + this.a6x_1 + ', img=' + this.b6x_1 + ', structure=' + this.c6x_1 + ', themes=' + this.d6x_1 + ', status=' + this.e6x_1 + ')';
   };
   CatalogueRefDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.s6w_1);
-    result = imul(result, 31) + getStringHashCode(this.t6w_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.u6w_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.v6w_1) | 0;
-    result = imul(result, 31) + (this.w6w_1 == null ? 0 : getStringHashCode(this.w6w_1)) | 0;
-    result = imul(result, 31) + (this.x6w_1 == null ? 0 : getStringHashCode(this.x6w_1)) | 0;
-    result = imul(result, 31) + (this.y6w_1 == null ? 0 : getStringHashCode(this.y6w_1)) | 0;
-    result = imul(result, 31) + (this.z6w_1 == null ? 0 : this.z6w_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.a6x_1 == null ? 0 : hashCode(this.a6x_1)) | 0;
-    result = imul(result, 31) + (this.b6x_1 == null ? 0 : this.b6x_1.hashCode()) | 0;
+    var result = getStringHashCode(this.v6w_1);
+    result = imul(result, 31) + getStringHashCode(this.w6w_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.x6w_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.y6w_1) | 0;
+    result = imul(result, 31) + (this.z6w_1 == null ? 0 : getStringHashCode(this.z6w_1)) | 0;
+    result = imul(result, 31) + (this.a6x_1 == null ? 0 : getStringHashCode(this.a6x_1)) | 0;
+    result = imul(result, 31) + (this.b6x_1 == null ? 0 : getStringHashCode(this.b6x_1)) | 0;
+    result = imul(result, 31) + (this.c6x_1 == null ? 0 : this.c6x_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.d6x_1 == null ? 0 : hashCode(this.d6x_1)) | 0;
+    result = imul(result, 31) + (this.e6x_1 == null ? 0 : this.e6x_1.hashCode()) | 0;
     return result;
   };
   CatalogueRefDTOBase.prototype.equals = function (other) {
@@ -79593,25 +79662,25 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueRefDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueRefDTOBase ? other : THROW_CCE();
-    if (!(this.s6w_1 === tmp0_other_with_cast.s6w_1))
-      return false;
-    if (!(this.t6w_1 === tmp0_other_with_cast.t6w_1))
-      return false;
-    if (!(this.u6w_1 === tmp0_other_with_cast.u6w_1))
-      return false;
     if (!(this.v6w_1 === tmp0_other_with_cast.v6w_1))
       return false;
-    if (!(this.w6w_1 == tmp0_other_with_cast.w6w_1))
+    if (!(this.w6w_1 === tmp0_other_with_cast.w6w_1))
       return false;
-    if (!(this.x6w_1 == tmp0_other_with_cast.x6w_1))
+    if (!(this.x6w_1 === tmp0_other_with_cast.x6w_1))
       return false;
-    if (!(this.y6w_1 == tmp0_other_with_cast.y6w_1))
+    if (!(this.y6w_1 === tmp0_other_with_cast.y6w_1))
       return false;
-    if (!equals_1(this.z6w_1, tmp0_other_with_cast.z6w_1))
+    if (!(this.z6w_1 == tmp0_other_with_cast.z6w_1))
       return false;
-    if (!equals_1(this.a6x_1, tmp0_other_with_cast.a6x_1))
+    if (!(this.a6x_1 == tmp0_other_with_cast.a6x_1))
       return false;
-    if (!equals_1(this.b6x_1, tmp0_other_with_cast.b6x_1))
+    if (!(this.b6x_1 == tmp0_other_with_cast.b6x_1))
+      return false;
+    if (!equals_1(this.c6x_1, tmp0_other_with_cast.c6x_1))
+      return false;
+    if (!equals_1(this.d6x_1, tmp0_other_with_cast.d6x_1))
+      return false;
+    if (!equals_1(this.e6x_1, tmp0_other_with_cast.e6x_1))
       return false;
     return true;
   };
@@ -79630,7 +79699,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.c6s();
+      return this.f6s();
     }
   });
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'type', {
@@ -79648,25 +79717,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.t6r();
+      return this.w6r();
     }
   });
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'img', {
     configurable: true,
     get: function () {
-      return this.u6r();
+      return this.x6r();
     }
   });
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'structure', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.v6r();
+      return this.y6r();
     }
   });
   Object.defineProperty(CatalogueRefDTOBase.prototype, 'status', {
@@ -79738,10 +79807,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQuery', this, 2);
     tmp0_serialDesc.f49('id', true);
     tmp0_serialDesc.f49('identifier', true);
-    this.c6x_1 = tmp0_serialDesc;
+    this.f6x_1 = tmp0_serialDesc;
   }
   $serializer_24.prototype.q3y = function () {
-    return this.c6x_1;
+    return this.f6x_1;
   };
   $serializer_24.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79757,7 +79826,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_24.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.c6x_1;
+    var tmp0_desc = this.f6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79791,19 +79860,19 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueGetQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_24.prototype.d6x = function (encoder, value) {
-    var tmp0_desc = this.c6x_1;
+  $serializer_24.prototype.g6x = function (encoder, value) {
+    var tmp0_desc = this.f6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    if (tmp1_output.y43(tmp0_desc, 0) ? true : !(value.e6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 0, StringSerializer_getInstance(), value.e6x_1);
+    if (tmp1_output.y43(tmp0_desc, 0) ? true : !(value.h6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 0, StringSerializer_getInstance(), value.h6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.f6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.f6x_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.i6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.i6x_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_24.prototype.r3y = function (encoder, value) {
-    return this.d6x(encoder, value instanceof CatalogueGetQuery ? value : THROW_CCE());
+    return this.g6x(encoder, value instanceof CatalogueGetQuery ? value : THROW_CCE());
   };
   var $serializer_instance_22;
   function $serializer_getInstance_22() {
@@ -79813,16 +79882,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueGetQuery_init_$Init$(seen1, id, identifier, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_22().c6x_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_22().f6x_1);
     }
     if (0 === (seen1 & 1))
-      $this.e6x_1 = null;
+      $this.h6x_1 = null;
     else
-      $this.e6x_1 = id;
+      $this.h6x_1 = id;
     if (0 === (seen1 & 2))
-      $this.f6x_1 = null;
+      $this.i6x_1 = null;
     else
-      $this.f6x_1 = identifier;
+      $this.i6x_1 = identifier;
     return $this;
   }
   function CatalogueGetQuery_init_$Create$(seen1, id, identifier, serializationConstructorMarker) {
@@ -79830,21 +79899,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueGetQuery(id, identifier) {
     Companion_getInstance_93();
-    this.e6x_1 = id;
-    this.f6x_1 = identifier;
+    this.h6x_1 = id;
+    this.i6x_1 = identifier;
   }
   CatalogueGetQuery.prototype.y4s = function () {
-    return this.e6x_1;
+    return this.h6x_1;
   };
   CatalogueGetQuery.prototype.k6e = function () {
-    return this.f6x_1;
+    return this.i6x_1;
   };
   CatalogueGetQuery.prototype.toString = function () {
-    return 'CatalogueGetQuery(id=' + this.e6x_1 + ', identifier=' + this.f6x_1 + ')';
+    return 'CatalogueGetQuery(id=' + this.h6x_1 + ', identifier=' + this.i6x_1 + ')';
   };
   CatalogueGetQuery.prototype.hashCode = function () {
-    var result = this.e6x_1 == null ? 0 : getStringHashCode(this.e6x_1);
-    result = imul(result, 31) + (this.f6x_1 == null ? 0 : getStringHashCode(this.f6x_1)) | 0;
+    var result = this.h6x_1 == null ? 0 : getStringHashCode(this.h6x_1);
+    result = imul(result, 31) + (this.i6x_1 == null ? 0 : getStringHashCode(this.i6x_1)) | 0;
     return result;
   };
   CatalogueGetQuery.prototype.equals = function (other) {
@@ -79853,9 +79922,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueGetQuery))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueGetQuery ? other : THROW_CCE();
-    if (!(this.e6x_1 == tmp0_other_with_cast.e6x_1))
+    if (!(this.h6x_1 == tmp0_other_with_cast.h6x_1))
       return false;
-    if (!(this.f6x_1 == tmp0_other_with_cast.f6x_1))
+    if (!(this.i6x_1 == tmp0_other_with_cast.i6x_1))
       return false;
     return true;
   };
@@ -79884,10 +79953,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_23 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResult', this, 1);
     tmp0_serialDesc.f49('item', false);
-    this.g6x_1 = tmp0_serialDesc;
+    this.j6x_1 = tmp0_serialDesc;
   }
   $serializer_25.prototype.q3y = function () {
-    return this.g6x_1;
+    return this.j6x_1;
   };
   $serializer_25.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79903,7 +79972,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_25.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.g6x_1;
+    var tmp0_desc = this.j6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79930,14 +79999,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return CatalogueGetResult_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_25.prototype.h6x = function (encoder, value) {
-    var tmp0_desc = this.g6x_1;
+  $serializer_25.prototype.k6x = function (encoder, value) {
+    var tmp0_desc = this.j6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.u43(tmp0_desc, 0, $serializer_getInstance_20(), value.i6x_1);
+    tmp1_output.u43(tmp0_desc, 0, $serializer_getInstance_20(), value.l6x_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_25.prototype.r3y = function (encoder, value) {
-    return this.h6x(encoder, value instanceof CatalogueGetResult ? value : THROW_CCE());
+    return this.k6x(encoder, value instanceof CatalogueGetResult ? value : THROW_CCE());
   };
   var $serializer_instance_23;
   function $serializer_getInstance_23() {
@@ -79947,9 +80016,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueGetResult_init_$Init$(seen1, item, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_23().g6x_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_23().j6x_1);
     }
-    $this.i6x_1 = item;
+    $this.l6x_1 = item;
     return $this;
   }
   function CatalogueGetResult_init_$Create$(seen1, item, serializationConstructorMarker) {
@@ -79957,16 +80026,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueGetResult(item) {
     Companion_getInstance_94();
-    this.i6x_1 = item;
+    this.l6x_1 = item;
   }
   CatalogueGetResult.prototype.o6g = function () {
-    return this.i6x_1;
+    return this.l6x_1;
   };
   CatalogueGetResult.prototype.toString = function () {
-    return 'CatalogueGetResult(item=' + this.i6x_1 + ')';
+    return 'CatalogueGetResult(item=' + this.l6x_1 + ')';
   };
   CatalogueGetResult.prototype.hashCode = function () {
-    return this.i6x_1 == null ? 0 : this.i6x_1.hashCode();
+    return this.l6x_1 == null ? 0 : this.l6x_1.hashCode();
   };
   CatalogueGetResult.prototype.equals = function (other) {
     if (this === other)
@@ -79974,7 +80043,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueGetResult))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueGetResult ? other : THROW_CCE();
-    if (!equals_1(this.i6x_1, tmp0_other_with_cast.i6x_1))
+    if (!equals_1(this.l6x_1, tmp0_other_with_cast.l6x_1))
       return false;
     return true;
   };
@@ -79989,41 +80058,41 @@ if (typeof Math.imul === 'undefined') {
   function CataloguePageResultDTO() {
   }
   function CataloguePageQuery(catalogueId, parentIdentifier, title, status, offset, limit) {
-    this.l6x_1 = catalogueId;
-    this.m6x_1 = parentIdentifier;
-    this.n6x_1 = title;
-    this.o6x_1 = status;
-    this.p6x_1 = offset;
-    this.q6x_1 = limit;
+    this.o6x_1 = catalogueId;
+    this.p6x_1 = parentIdentifier;
+    this.q6x_1 = title;
+    this.r6x_1 = status;
+    this.s6x_1 = offset;
+    this.t6x_1 = limit;
   }
-  CataloguePageQuery.prototype.j6x = function () {
-    return this.l6x_1;
-  };
-  CataloguePageQuery.prototype.k6x = function () {
-    return this.m6x_1;
-  };
-  CataloguePageQuery.prototype.c6s = function () {
-    return this.n6x_1;
-  };
-  CataloguePageQuery.prototype.v32 = function () {
+  CataloguePageQuery.prototype.m6x = function () {
     return this.o6x_1;
   };
-  CataloguePageQuery.prototype.p4u = function () {
+  CataloguePageQuery.prototype.n6x = function () {
     return this.p6x_1;
   };
-  CataloguePageQuery.prototype.q4u = function () {
+  CataloguePageQuery.prototype.f6s = function () {
     return this.q6x_1;
   };
+  CataloguePageQuery.prototype.v32 = function () {
+    return this.r6x_1;
+  };
+  CataloguePageQuery.prototype.p4u = function () {
+    return this.s6x_1;
+  };
+  CataloguePageQuery.prototype.q4u = function () {
+    return this.t6x_1;
+  };
   CataloguePageQuery.prototype.toString = function () {
-    return 'CataloguePageQuery(catalogueId=' + this.l6x_1 + ', parentIdentifier=' + this.m6x_1 + ', title=' + this.n6x_1 + ', status=' + this.o6x_1 + ', offset=' + this.p6x_1 + ', limit=' + this.q6x_1 + ')';
+    return 'CataloguePageQuery(catalogueId=' + this.o6x_1 + ', parentIdentifier=' + this.p6x_1 + ', title=' + this.q6x_1 + ', status=' + this.r6x_1 + ', offset=' + this.s6x_1 + ', limit=' + this.t6x_1 + ')';
   };
   CataloguePageQuery.prototype.hashCode = function () {
-    var result = this.l6x_1 == null ? 0 : getStringHashCode(this.l6x_1);
-    result = imul(result, 31) + (this.m6x_1 == null ? 0 : getStringHashCode(this.m6x_1)) | 0;
-    result = imul(result, 31) + (this.n6x_1 == null ? 0 : getStringHashCode(this.n6x_1)) | 0;
-    result = imul(result, 31) + (this.o6x_1 == null ? 0 : getStringHashCode(this.o6x_1)) | 0;
-    result = imul(result, 31) + (this.p6x_1 == null ? 0 : this.p6x_1) | 0;
-    result = imul(result, 31) + (this.q6x_1 == null ? 0 : this.q6x_1) | 0;
+    var result = this.o6x_1 == null ? 0 : getStringHashCode(this.o6x_1);
+    result = imul(result, 31) + (this.p6x_1 == null ? 0 : getStringHashCode(this.p6x_1)) | 0;
+    result = imul(result, 31) + (this.q6x_1 == null ? 0 : getStringHashCode(this.q6x_1)) | 0;
+    result = imul(result, 31) + (this.r6x_1 == null ? 0 : getStringHashCode(this.r6x_1)) | 0;
+    result = imul(result, 31) + (this.s6x_1 == null ? 0 : this.s6x_1) | 0;
+    result = imul(result, 31) + (this.t6x_1 == null ? 0 : this.t6x_1) | 0;
     return result;
   };
   CataloguePageQuery.prototype.equals = function (other) {
@@ -80032,36 +80101,36 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CataloguePageQuery))
       return false;
     var tmp0_other_with_cast = other instanceof CataloguePageQuery ? other : THROW_CCE();
-    if (!(this.l6x_1 == tmp0_other_with_cast.l6x_1))
-      return false;
-    if (!(this.m6x_1 == tmp0_other_with_cast.m6x_1))
-      return false;
-    if (!(this.n6x_1 == tmp0_other_with_cast.n6x_1))
-      return false;
     if (!(this.o6x_1 == tmp0_other_with_cast.o6x_1))
       return false;
     if (!(this.p6x_1 == tmp0_other_with_cast.p6x_1))
       return false;
     if (!(this.q6x_1 == tmp0_other_with_cast.q6x_1))
       return false;
+    if (!(this.r6x_1 == tmp0_other_with_cast.r6x_1))
+      return false;
+    if (!(this.s6x_1 == tmp0_other_with_cast.s6x_1))
+      return false;
+    if (!(this.t6x_1 == tmp0_other_with_cast.t6x_1))
+      return false;
     return true;
   };
   Object.defineProperty(CataloguePageQuery.prototype, 'catalogueId', {
     configurable: true,
     get: function () {
-      return this.j6x();
+      return this.m6x();
     }
   });
   Object.defineProperty(CataloguePageQuery.prototype, 'parentIdentifier', {
     configurable: true,
     get: function () {
-      return this.k6x();
+      return this.n6x();
     }
   });
   Object.defineProperty(CataloguePageQuery.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.c6s();
+      return this.f6s();
     }
   });
   Object.defineProperty(CataloguePageQuery.prototype, 'status', {
@@ -80083,21 +80152,21 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function CataloguePageResult(items, total) {
-    this.r6x_1 = items;
-    this.s6x_1 = total;
+    this.u6x_1 = items;
+    this.v6x_1 = total;
   }
   CataloguePageResult.prototype.x4t = function () {
-    return this.r6x_1;
+    return this.u6x_1;
   };
   CataloguePageResult.prototype.w4t = function () {
-    return this.s6x_1;
+    return this.v6x_1;
   };
   CataloguePageResult.prototype.toString = function () {
-    return 'CataloguePageResult(items=' + this.r6x_1 + ', total=' + this.s6x_1 + ')';
+    return 'CataloguePageResult(items=' + this.u6x_1 + ', total=' + this.v6x_1 + ')';
   };
   CataloguePageResult.prototype.hashCode = function () {
-    var result = hashCode(this.r6x_1);
-    result = imul(result, 31) + this.s6x_1 | 0;
+    var result = hashCode(this.u6x_1);
+    result = imul(result, 31) + this.v6x_1 | 0;
     return result;
   };
   CataloguePageResult.prototype.equals = function (other) {
@@ -80106,9 +80175,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CataloguePageResult))
       return false;
     var tmp0_other_with_cast = other instanceof CataloguePageResult ? other : THROW_CCE();
-    if (!equals_1(this.r6x_1, tmp0_other_with_cast.r6x_1))
+    if (!equals_1(this.u6x_1, tmp0_other_with_cast.u6x_1))
       return false;
-    if (!(this.s6x_1 === tmp0_other_with_cast.s6x_1))
+    if (!(this.v6x_1 === tmp0_other_with_cast.v6x_1))
       return false;
     return true;
   };
@@ -80140,10 +80209,10 @@ if (typeof Math.imul === 'undefined') {
   function $serializer_26() {
     $serializer_instance_24 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListQuery', this, 0);
-    this.t6x_1 = tmp0_serialDesc;
+    this.w6x_1 = tmp0_serialDesc;
   }
   $serializer_26.prototype.q3y = function () {
-    return this.t6x_1;
+    return this.w6x_1;
   };
   $serializer_26.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80158,7 +80227,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_26.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.t6x_1;
+    var tmp0_desc = this.w6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80175,13 +80244,13 @@ if (typeof Math.imul === 'undefined') {
     tmp4_input.d42(tmp0_desc);
     return CatalogueRefListQuery_init_$Create$(tmp3_bitMask0, null);
   };
-  $serializer_26.prototype.u6x = function (encoder, value) {
-    var tmp0_desc = this.t6x_1;
+  $serializer_26.prototype.x6x = function (encoder, value) {
+    var tmp0_desc = this.w6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_26.prototype.r3y = function (encoder, value) {
-    return this.u6x(encoder, value instanceof CatalogueRefListQuery ? value : THROW_CCE());
+    return this.x6x(encoder, value instanceof CatalogueRefListQuery ? value : THROW_CCE());
   };
   var $serializer_instance_24;
   function $serializer_getInstance_24() {
@@ -80191,7 +80260,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueRefListQuery_init_$Init$(seen1, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_24().t6x_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_24().w6x_1);
     }
     return $this;
   }
@@ -80215,10 +80284,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListResult', this, 2);
     tmp0_serialDesc.f49('items', false);
     tmp0_serialDesc.f49('total', false);
-    this.v6x_1 = tmp0_serialDesc;
+    this.y6x_1 = tmp0_serialDesc;
   }
   $serializer_27.prototype.q3y = function () {
-    return this.v6x_1;
+    return this.y6x_1;
   };
   $serializer_27.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80234,7 +80303,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_27.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.v6x_1;
+    var tmp0_desc = this.y6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80268,15 +80337,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return CatalogueRefListResult_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_27.prototype.w6x = function (encoder, value) {
-    var tmp0_desc = this.v6x_1;
+  $serializer_27.prototype.z6x = function (encoder, value) {
+    var tmp0_desc = this.y6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer($serializer_getInstance_21()), value.x6x_1);
-    tmp1_output.l43(tmp0_desc, 1, value.y6x_1);
+    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer($serializer_getInstance_21()), value.a6y_1);
+    tmp1_output.l43(tmp0_desc, 1, value.b6y_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_27.prototype.r3y = function (encoder, value) {
-    return this.w6x(encoder, value instanceof CatalogueRefListResult ? value : THROW_CCE());
+    return this.z6x(encoder, value instanceof CatalogueRefListResult ? value : THROW_CCE());
   };
   var $serializer_instance_25;
   function $serializer_getInstance_25() {
@@ -80286,10 +80355,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueRefListResult_init_$Init$(seen1, items, total, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_25().v6x_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_25().y6x_1);
     }
-    $this.x6x_1 = items;
-    $this.y6x_1 = total;
+    $this.a6y_1 = items;
+    $this.b6y_1 = total;
     return $this;
   }
   function CatalogueRefListResult_init_$Create$(seen1, items, total, serializationConstructorMarker) {
@@ -80297,21 +80366,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueRefListResult(items, total) {
     Companion_getInstance_96();
-    this.x6x_1 = items;
-    this.y6x_1 = total;
+    this.a6y_1 = items;
+    this.b6y_1 = total;
   }
   CatalogueRefListResult.prototype.x4t = function () {
-    return this.x6x_1;
+    return this.a6y_1;
   };
   CatalogueRefListResult.prototype.w4t = function () {
-    return this.y6x_1;
+    return this.b6y_1;
   };
   CatalogueRefListResult.prototype.toString = function () {
-    return 'CatalogueRefListResult(items=' + this.x6x_1 + ', total=' + this.y6x_1 + ')';
+    return 'CatalogueRefListResult(items=' + this.a6y_1 + ', total=' + this.b6y_1 + ')';
   };
   CatalogueRefListResult.prototype.hashCode = function () {
-    var result = hashCode(this.x6x_1);
-    result = imul(result, 31) + this.y6x_1 | 0;
+    var result = hashCode(this.a6y_1);
+    result = imul(result, 31) + this.b6y_1 | 0;
     return result;
   };
   CatalogueRefListResult.prototype.equals = function (other) {
@@ -80320,9 +80389,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueRefListResult))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueRefListResult ? other : THROW_CCE();
-    if (!equals_1(this.x6x_1, tmp0_other_with_cast.x6x_1))
+    if (!equals_1(this.a6y_1, tmp0_other_with_cast.a6y_1))
       return false;
-    if (!(this.y6x_1 === tmp0_other_with_cast.y6x_1))
+    if (!(this.b6y_1 === tmp0_other_with_cast.b6y_1))
       return false;
     return true;
   };
@@ -80340,56 +80409,56 @@ if (typeof Math.imul === 'undefined') {
   });
   function CatalogueClient$catalogueCreate$ref($boundThis) {
     var l = function () {
-      return $boundThis.z6x();
+      return $boundThis.c6y();
     };
     l.callableName = 'catalogueCreate';
     return l;
   }
   function CatalogueClient$catalogueLinkCatalogues$ref($boundThis) {
     var l = function () {
-      return $boundThis.a6y();
+      return $boundThis.d6y();
     };
     l.callableName = 'catalogueLinkCatalogues';
     return l;
   }
   function CatalogueClient$catalogueLinkDatasets$ref($boundThis) {
     var l = function () {
-      return $boundThis.b6y();
+      return $boundThis.e6y();
     };
     l.callableName = 'catalogueLinkDatasets';
     return l;
   }
   function CatalogueClient$catalogueLinkThemes$ref($boundThis) {
     var l = function () {
-      return $boundThis.c6y();
+      return $boundThis.f6y();
     };
     l.callableName = 'catalogueLinkThemes';
     return l;
   }
   function CatalogueClient$catalogueDelete$ref($boundThis) {
     var l = function () {
-      return $boundThis.d6y();
+      return $boundThis.g6y();
     };
     l.callableName = 'catalogueDelete';
     return l;
   }
   function CatalogueClient$cataloguePage$ref($boundThis) {
     var l = function () {
-      return $boundThis.e6y();
+      return $boundThis.h6y();
     };
     l.callableName = 'cataloguePage';
     return l;
   }
   function CatalogueClient$catalogueGet$ref($boundThis) {
     var l = function () {
-      return $boundThis.f6y();
+      return $boundThis.i6y();
     };
     l.callableName = 'catalogueGet';
     return l;
   }
   function CatalogueClient$catalogueRefList$ref($boundThis) {
     var l = function () {
-      return $boundThis.g6y();
+      return $boundThis.j6y();
     };
     l.callableName = 'catalogueRefList';
     return l;
@@ -80397,10 +80466,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueClient(client) {
     this.client = client;
   }
-  CatalogueClient.prototype.h6y = function () {
+  CatalogueClient.prototype.k6y = function () {
     return this.client;
   };
-  CatalogueClient.prototype.z6x = function () {
+  CatalogueClient.prototype.c6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80508,7 +80577,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.a6y = function () {
+  CatalogueClient.prototype.d6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80616,7 +80685,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.b6y = function () {
+  CatalogueClient.prototype.e6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80724,7 +80793,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.c6y = function () {
+  CatalogueClient.prototype.f6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80832,7 +80901,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.d6y = function () {
+  CatalogueClient.prototype.g6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -80940,7 +81009,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.e6y = function () {
+  CatalogueClient.prototype.h6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81048,7 +81117,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.f6y = function () {
+  CatalogueClient.prototype.i6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81156,7 +81225,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  CatalogueClient.prototype.g6y = function () {
+  CatalogueClient.prototype.j6y = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81268,17 +81337,17 @@ if (typeof Math.imul === 'undefined') {
     return f2SupplierSingle(catalogueClient$slambda_0(urlBase, null));
   }
   function catalogueClient$slambda($urlBase, resultContinuation) {
-    this.q6y_1 = $urlBase;
+    this.t6y_1 = $urlBase;
     CoroutineImpl.call(this, resultContinuation);
   }
-  catalogueClient$slambda.prototype.r6y = function ($cont) {
+  catalogueClient$slambda.prototype.u6y = function ($cont) {
     var tmp = this.yg($cont);
     tmp.gg_1 = Unit_getInstance();
     tmp.hg_1 = null;
     return tmp.xg();
   };
   catalogueClient$slambda.prototype.w56 = function ($cont) {
-    return this.r6y($cont);
+    return this.u6y($cont);
   };
   catalogueClient$slambda.prototype.xg = function () {
     var suspendResult = this.gg_1;
@@ -81289,7 +81358,7 @@ if (typeof Math.imul === 'undefined') {
           case 0:
             this.fg_1 = 2;
             this.eg_1 = 1;
-            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.q6y_1), this);
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.t6y_1), this);
             if (suspendResult === get_COROUTINE_SUSPENDED()) {
               return suspendResult;
             }
@@ -81312,13 +81381,13 @@ if (typeof Math.imul === 'undefined') {
      while (true);
   };
   catalogueClient$slambda.prototype.yg = function (completion) {
-    var i = new catalogueClient$slambda(this.q6y_1, completion);
+    var i = new catalogueClient$slambda(this.t6y_1, completion);
     return i;
   };
   function catalogueClient$slambda_0($urlBase, resultContinuation) {
     var i = new catalogueClient$slambda($urlBase, resultContinuation);
     var l = function ($cont) {
-      return i.r6y($cont);
+      return i.u6y($cont);
     };
     l.$arity = 0;
     return l;
@@ -83006,6 +83075,20 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$f2$requirement = $cccev$f2.requirement || ($cccev$f2.requirement = {});
     var $cccev$f2$requirement$domain = $cccev$f2$requirement.domain || ($cccev$f2$requirement.domain = {});
     var $cccev$f2$requirement$domain$query = $cccev$f2$requirement$domain.query || ($cccev$f2$requirement$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$skos = $city$smartb$registry$dsl.skos || ($city$smartb$registry$dsl.skos = {});
+    var $city$smartb$registry$dsl$skos$domain = $city$smartb$registry$dsl$skos.domain || ($city$smartb$registry$dsl$skos.domain = {});
+    var $city$smartb$registry$dsl$skos$domain$model = $city$smartb$registry$dsl$skos$domain.model || ($city$smartb$registry$dsl$skos$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$structure = $city$smartb$registry$s2.structure || ($city$smartb$registry$s2.structure = {});
+    var $city$smartb$registry$s2$structure$domain = $city$smartb$registry$s2$structure.domain || ($city$smartb$registry$s2$structure.domain = {});
+    var $city$smartb$registry$s2$structure$domain$model = $city$smartb$registry$s2$structure$domain.model || ($city$smartb$registry$s2$structure$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

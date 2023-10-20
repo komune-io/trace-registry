@@ -2681,6 +2681,23 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.dsl.skos.domain.model {
+    interface SkosConceptDTO {
+        readonly id: string;
+        readonly type: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly broader?: string;
+
+    }
+}
+export namespace city.smartb.registry.s2.structure.domain.model {
+    interface StructureDto {
+        readonly type: string;
+        readonly definitions: Record<string, string>;
+
+    }
+}
 export namespace city.smartb.registry.dsl.dcat.domain.model {
     interface DcatApCatalogue extends city.smartb.registry.dsl.dcat.domain.model.CataloguedResource {
         readonly identifier: string;
@@ -2692,7 +2709,7 @@ export namespace city.smartb.registry.dsl.dcat.domain.model {
         readonly services?: city.smartb.registry.dsl.dcat.domain.model.DataService[];
         readonly catalogues?: city.smartb.registry.dsl.dcat.domain.model.DcatApCatalogue[];
         readonly catalogueRecords?: city.smartb.registry.dsl.dcat.domain.model.DcatCatalogueRecord[];
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto/* Nullable<city.smartb.registry.s2.structure.domain.model.Structure> */;
         readonly title: string;
         readonly type: string;
         readonly accessRights?: string;
@@ -3168,7 +3185,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto/* Nullable<city.smartb.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
         readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConcept[];
         readonly catalogues?: string[];
@@ -3180,7 +3197,7 @@ export namespace city.smartb.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto/* Nullable<city.smartb.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
         readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConcept[];
         readonly catalogues?: string[];
@@ -3254,8 +3271,8 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly title: string;
         readonly img?: string;
         readonly type: string;
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
-        readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto;
+        readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConceptDTO[];
         readonly datasets?: city.smartb.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly catalogues?: city.smartb.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.catalogue.domain.automate.CatalogueState */;
@@ -3269,8 +3286,8 @@ export namespace city.smartb.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly homepage?: string;
         readonly img?: string;
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
-        readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto;
+        readonly themes?: city.smartb.registry.dsl.skos.domain.model.SkosConceptDTO[];
         readonly status?: s2.dsl.automate.S2State/* Nullable<city.smartb.registry.s2.catalogue.domain.automate.CatalogueState> */;
 
     }

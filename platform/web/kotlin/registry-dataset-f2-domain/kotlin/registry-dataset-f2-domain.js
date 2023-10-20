@@ -1581,6 +1581,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(RequirementListChildrenByTypeResultDTO, 'RequirementListChildrenByTypeResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListQueryDTO, 'RequirementListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListResultDTO, 'RequirementListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(StructureDto, 'StructureDto', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
   setMetadataFor(DataService, 'DataService', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -58143,6 +58145,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function RequirementListResultDTO() {
   }
+  function SkosConceptDTO() {
+  }
+  function StructureDto() {
+  }
   function DcatApCatalogue() {
   }
   function CataloguedResource() {
@@ -59847,6 +59853,20 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$f2$requirement = $cccev$f2.requirement || ($cccev$f2.requirement = {});
     var $cccev$f2$requirement$domain = $cccev$f2$requirement.domain || ($cccev$f2$requirement.domain = {});
     var $cccev$f2$requirement$domain$query = $cccev$f2$requirement$domain.query || ($cccev$f2$requirement$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$skos = $city$smartb$registry$dsl.skos || ($city$smartb$registry$dsl.skos = {});
+    var $city$smartb$registry$dsl$skos$domain = $city$smartb$registry$dsl$skos.domain || ($city$smartb$registry$dsl$skos.domain = {});
+    var $city$smartb$registry$dsl$skos$domain$model = $city$smartb$registry$dsl$skos$domain.model || ($city$smartb$registry$dsl$skos$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$structure = $city$smartb$registry$s2.structure || ($city$smartb$registry$s2.structure = {});
+    var $city$smartb$registry$s2$structure$domain = $city$smartb$registry$s2$structure.domain || ($city$smartb$registry$s2$structure.domain = {});
+    var $city$smartb$registry$s2$structure$domain$model = $city$smartb$registry$s2$structure$domain.model || ($city$smartb$registry$s2$structure$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

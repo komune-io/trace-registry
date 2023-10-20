@@ -2681,6 +2681,23 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.dsl.skos.domain.model {
+    interface SkosConceptDTO {
+        readonly id: string;
+        readonly type: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly broader?: string;
+
+    }
+}
+export namespace city.smartb.registry.s2.structure.domain.model {
+    interface StructureDto {
+        readonly type: string;
+        readonly definitions: Record<string, string>;
+
+    }
+}
 export namespace city.smartb.registry.dsl.dcat.domain.model {
     interface DcatApCatalogue extends city.smartb.registry.dsl.dcat.domain.model.CataloguedResource {
         readonly identifier: string;
@@ -2692,7 +2709,7 @@ export namespace city.smartb.registry.dsl.dcat.domain.model {
         readonly services?: city.smartb.registry.dsl.dcat.domain.model.DataService[];
         readonly catalogues?: city.smartb.registry.dsl.dcat.domain.model.DcatApCatalogue[];
         readonly catalogueRecords?: city.smartb.registry.dsl.dcat.domain.model.DcatCatalogueRecord[];
-        readonly structure?: city.smartb.registry.s2.structure.domain.model.Structure;
+        readonly structure?: city.smartb.registry.s2.structure.domain.model.StructureDto/* Nullable<city.smartb.registry.s2.structure.domain.model.Structure> */;
         readonly title: string;
         readonly type: string;
         readonly accessRights?: string;

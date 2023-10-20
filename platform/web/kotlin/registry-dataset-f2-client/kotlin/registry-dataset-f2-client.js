@@ -1932,10 +1932,12 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(RequirementListChildrenByTypeResultDTO, 'RequirementListChildrenByTypeResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListQueryDTO, 'RequirementListQueryDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(RequirementListResultDTO, 'RequirementListResultDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
+  setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor($serializer_12, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
   setMetadataFor(SkosConceptScheme, 'SkosConceptScheme', classMeta, undefined, undefined, undefined, {0: $serializer_getInstance_10}, []);
   setMetadataFor($serializer_13, '$serializer', objectMeta, undefined, [GeneratedSerializer], undefined, undefined, []);
-  setMetadataFor(SkosConcept, 'SkosConcept', classMeta, undefined, undefined, undefined, {0: $serializer_getInstance_11}, []);
+  setMetadataFor(SkosConcept, 'SkosConcept', classMeta, undefined, [SkosConceptDTO], undefined, {0: $serializer_getInstance_11}, []);
+  setMetadataFor(StructureDto, 'StructureDto', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta, undefined, undefined, undefined, undefined, []);
   setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, undefined, [CataloguedResource], undefined, undefined, []);
   setMetadataFor(DataService, 'DataService', interfaceMeta, undefined, undefined, undefined, undefined, []);
@@ -76932,6 +76934,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function RequirementListResultDTO() {
   }
+  function SkosConceptDTO() {
+  }
   function $serializer_12() {
     $serializer_instance_10 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.dsl.skos.domain.model.SkosConceptScheme', this, 6);
@@ -76941,10 +76945,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('definition', false);
     tmp0_serialDesc.f49('hasTopConcept', false);
     tmp0_serialDesc.f49('concepts', false);
-    this.i6r_1 = tmp0_serialDesc;
+    this.l6r_1 = tmp0_serialDesc;
   }
   $serializer_12.prototype.q3y = function () {
-    return this.i6r_1;
+    return this.l6r_1;
   };
   $serializer_12.prototype.u49 = function () {
     var tmp$ret$2;
@@ -76960,7 +76964,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_12.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6r_1;
+    var tmp0_desc = this.l6r_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77022,21 +77026,21 @@ if (typeof Math.imul === 'undefined') {
     tmp10_input.d42(tmp0_desc);
     return SkosConceptScheme_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, null);
   };
-  $serializer_12.prototype.j6r = function (encoder, value) {
-    var tmp0_desc = this.i6r_1;
+  $serializer_12.prototype.m6r = function (encoder, value) {
+    var tmp0_desc = this.l6r_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6r_1);
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.l6r_1 === 'skos:ConceptScheme')) {
-      tmp1_output.q43(tmp0_desc, 1, value.l6r_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6r_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.o6r_1 === 'skos:ConceptScheme')) {
+      tmp1_output.q43(tmp0_desc, 1, value.o6r_1);
     }
-    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.m6r_1);
-    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.n6r_1);
-    tmp1_output.q43(tmp0_desc, 4, value.o6r_1);
-    tmp1_output.s43(tmp0_desc, 5, new ArrayListSerializer($serializer_getInstance_11()), value.p6r_1);
+    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.p6r_1);
+    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.q6r_1);
+    tmp1_output.q43(tmp0_desc, 4, value.r6r_1);
+    tmp1_output.s43(tmp0_desc, 5, new ArrayListSerializer($serializer_getInstance_11()), value.s6r_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_12.prototype.r3y = function (encoder, value) {
-    return this.j6r(encoder, value instanceof SkosConceptScheme ? value : THROW_CCE());
+    return this.m6r(encoder, value instanceof SkosConceptScheme ? value : THROW_CCE());
   };
   var $serializer_instance_10;
   function $serializer_getInstance_10() {
@@ -77046,17 +77050,17 @@ if (typeof Math.imul === 'undefined') {
   }
   function SkosConceptScheme_init_$Init$(seen1, id, type, prefLabel, definition, hasTopConcept, concepts, serializationConstructorMarker, $this) {
     if (!(61 === (61 & seen1))) {
-      throwMissingFieldException(seen1, 61, $serializer_getInstance_10().i6r_1);
+      throwMissingFieldException(seen1, 61, $serializer_getInstance_10().l6r_1);
     }
-    $this.k6r_1 = id;
+    $this.n6r_1 = id;
     if (0 === (seen1 & 2))
-      $this.l6r_1 = 'skos:ConceptScheme';
+      $this.o6r_1 = 'skos:ConceptScheme';
     else
-      $this.l6r_1 = type;
-    $this.m6r_1 = prefLabel;
-    $this.n6r_1 = definition;
-    $this.o6r_1 = hasTopConcept;
-    $this.p6r_1 = concepts;
+      $this.o6r_1 = type;
+    $this.p6r_1 = prefLabel;
+    $this.q6r_1 = definition;
+    $this.r6r_1 = hasTopConcept;
+    $this.s6r_1 = concepts;
     return $this;
   }
   function SkosConceptScheme_init_$Create$(seen1, id, type, prefLabel, definition, hasTopConcept, concepts, serializationConstructorMarker) {
@@ -77065,15 +77069,15 @@ if (typeof Math.imul === 'undefined') {
   function SkosConceptScheme() {
   }
   SkosConceptScheme.prototype.toString = function () {
-    return 'SkosConceptScheme(id=' + this.k6r_1 + ', type=' + this.l6r_1 + ', prefLabel=' + this.m6r_1 + ', definition=' + this.n6r_1 + ', hasTopConcept=' + this.o6r_1 + ', concepts=' + this.p6r_1 + ')';
+    return 'SkosConceptScheme(id=' + this.n6r_1 + ', type=' + this.o6r_1 + ', prefLabel=' + this.p6r_1 + ', definition=' + this.q6r_1 + ', hasTopConcept=' + this.r6r_1 + ', concepts=' + this.s6r_1 + ')';
   };
   SkosConceptScheme.prototype.hashCode = function () {
-    var result = getStringHashCode(this.k6r_1);
-    result = imul(result, 31) + getStringHashCode(this.l6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.m6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.n6r_1) | 0;
+    var result = getStringHashCode(this.n6r_1);
     result = imul(result, 31) + getStringHashCode(this.o6r_1) | 0;
     result = imul(result, 31) + hashCode(this.p6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.q6r_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.r6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.s6r_1) | 0;
     return result;
   };
   SkosConceptScheme.prototype.equals = function (other) {
@@ -77082,17 +77086,17 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SkosConceptScheme))
       return false;
     var tmp0_other_with_cast = other instanceof SkosConceptScheme ? other : THROW_CCE();
-    if (!(this.k6r_1 === tmp0_other_with_cast.k6r_1))
-      return false;
-    if (!(this.l6r_1 === tmp0_other_with_cast.l6r_1))
-      return false;
-    if (!equals_1(this.m6r_1, tmp0_other_with_cast.m6r_1))
-      return false;
-    if (!equals_1(this.n6r_1, tmp0_other_with_cast.n6r_1))
+    if (!(this.n6r_1 === tmp0_other_with_cast.n6r_1))
       return false;
     if (!(this.o6r_1 === tmp0_other_with_cast.o6r_1))
       return false;
     if (!equals_1(this.p6r_1, tmp0_other_with_cast.p6r_1))
+      return false;
+    if (!equals_1(this.q6r_1, tmp0_other_with_cast.q6r_1))
+      return false;
+    if (!(this.r6r_1 === tmp0_other_with_cast.r6r_1))
+      return false;
+    if (!equals_1(this.s6r_1, tmp0_other_with_cast.s6r_1))
       return false;
     return true;
   };
@@ -77104,10 +77108,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('prefLabels', false);
     tmp0_serialDesc.f49('definitions', false);
     tmp0_serialDesc.f49('broader', true);
-    this.q6r_1 = tmp0_serialDesc;
+    this.t6r_1 = tmp0_serialDesc;
   }
   $serializer_13.prototype.q3y = function () {
-    return this.q6r_1;
+    return this.t6r_1;
   };
   $serializer_13.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77123,7 +77127,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_13.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6r_1;
+    var tmp0_desc = this.t6r_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77178,22 +77182,22 @@ if (typeof Math.imul === 'undefined') {
     tmp9_input.d42(tmp0_desc);
     return SkosConcept_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, null);
   };
-  $serializer_13.prototype.r6r = function (encoder, value) {
-    var tmp0_desc = this.q6r_1;
+  $serializer_13.prototype.u6r = function (encoder, value) {
+    var tmp0_desc = this.t6r_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.s6r_1);
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.t6r_1 === 'skos:Concept')) {
-      tmp1_output.q43(tmp0_desc, 1, value.t6r_1);
+    tmp1_output.q43(tmp0_desc, 0, value.v6r_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.w6r_1 === 'skos:Concept')) {
+      tmp1_output.q43(tmp0_desc, 1, value.w6r_1);
     }
-    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.u6r_1);
-    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.v6r_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.w6r_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.w6r_1);
+    tmp1_output.s43(tmp0_desc, 2, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.x6r_1);
+    tmp1_output.s43(tmp0_desc, 3, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), value.y6r_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.z6r_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.z6r_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_13.prototype.r3y = function (encoder, value) {
-    return this.r6r(encoder, value instanceof SkosConcept ? value : THROW_CCE());
+    return this.u6r(encoder, value instanceof SkosConcept ? value : THROW_CCE());
   };
   var $serializer_instance_11;
   function $serializer_getInstance_11() {
@@ -77203,19 +77207,19 @@ if (typeof Math.imul === 'undefined') {
   }
   function SkosConcept_init_$Init$(seen1, id, type, prefLabels, definitions, broader, serializationConstructorMarker, $this) {
     if (!(13 === (13 & seen1))) {
-      throwMissingFieldException(seen1, 13, $serializer_getInstance_11().q6r_1);
+      throwMissingFieldException(seen1, 13, $serializer_getInstance_11().t6r_1);
     }
-    $this.s6r_1 = id;
+    $this.v6r_1 = id;
     if (0 === (seen1 & 2))
-      $this.t6r_1 = 'skos:Concept';
+      $this.w6r_1 = 'skos:Concept';
     else
-      $this.t6r_1 = type;
-    $this.u6r_1 = prefLabels;
-    $this.v6r_1 = definitions;
+      $this.w6r_1 = type;
+    $this.x6r_1 = prefLabels;
+    $this.y6r_1 = definitions;
     if (0 === (seen1 & 16))
-      $this.w6r_1 = null;
+      $this.z6r_1 = null;
     else
-      $this.w6r_1 = broader;
+      $this.z6r_1 = broader;
     return $this;
   }
   function SkosConcept_init_$Create$(seen1, id, type, prefLabels, definitions, broader, serializationConstructorMarker) {
@@ -77223,15 +77227,30 @@ if (typeof Math.imul === 'undefined') {
   }
   function SkosConcept() {
   }
+  SkosConcept.prototype.y4s = function () {
+    return this.v6r_1;
+  };
+  SkosConcept.prototype.b52 = function () {
+    return this.w6r_1;
+  };
+  SkosConcept.prototype.i6r = function () {
+    return this.x6r_1;
+  };
+  SkosConcept.prototype.j6r = function () {
+    return this.y6r_1;
+  };
+  SkosConcept.prototype.k6r = function () {
+    return this.z6r_1;
+  };
   SkosConcept.prototype.toString = function () {
-    return 'SkosConcept(id=' + this.s6r_1 + ', type=' + this.t6r_1 + ', prefLabels=' + this.u6r_1 + ', definitions=' + this.v6r_1 + ', broader=' + this.w6r_1 + ')';
+    return 'SkosConcept(id=' + this.v6r_1 + ', type=' + this.w6r_1 + ', prefLabels=' + this.x6r_1 + ', definitions=' + this.y6r_1 + ', broader=' + this.z6r_1 + ')';
   };
   SkosConcept.prototype.hashCode = function () {
-    var result = getStringHashCode(this.s6r_1);
-    result = imul(result, 31) + getStringHashCode(this.t6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.u6r_1) | 0;
-    result = imul(result, 31) + hashCode(this.v6r_1) | 0;
-    result = imul(result, 31) + (this.w6r_1 == null ? 0 : getStringHashCode(this.w6r_1)) | 0;
+    var result = getStringHashCode(this.v6r_1);
+    result = imul(result, 31) + getStringHashCode(this.w6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.x6r_1) | 0;
+    result = imul(result, 31) + hashCode(this.y6r_1) | 0;
+    result = imul(result, 31) + (this.z6r_1 == null ? 0 : getStringHashCode(this.z6r_1)) | 0;
     return result;
   };
   SkosConcept.prototype.equals = function (other) {
@@ -77240,18 +77259,50 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SkosConcept))
       return false;
     var tmp0_other_with_cast = other instanceof SkosConcept ? other : THROW_CCE();
-    if (!(this.s6r_1 === tmp0_other_with_cast.s6r_1))
+    if (!(this.v6r_1 === tmp0_other_with_cast.v6r_1))
       return false;
-    if (!(this.t6r_1 === tmp0_other_with_cast.t6r_1))
+    if (!(this.w6r_1 === tmp0_other_with_cast.w6r_1))
       return false;
-    if (!equals_1(this.u6r_1, tmp0_other_with_cast.u6r_1))
+    if (!equals_1(this.x6r_1, tmp0_other_with_cast.x6r_1))
       return false;
-    if (!equals_1(this.v6r_1, tmp0_other_with_cast.v6r_1))
+    if (!equals_1(this.y6r_1, tmp0_other_with_cast.y6r_1))
       return false;
-    if (!(this.w6r_1 == tmp0_other_with_cast.w6r_1))
+    if (!(this.z6r_1 == tmp0_other_with_cast.z6r_1))
       return false;
     return true;
   };
+  Object.defineProperty(SkosConcept.prototype, 'id', {
+    configurable: true,
+    get: function () {
+      return this.y4s();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'type', {
+    configurable: true,
+    get: function () {
+      return this.b52();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'prefLabels', {
+    configurable: true,
+    get: function () {
+      return this.i6r();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'definitions', {
+    configurable: true,
+    get: function () {
+      return this.j6r();
+    }
+  });
+  Object.defineProperty(SkosConcept.prototype, 'broader', {
+    configurable: true,
+    get: function () {
+      return this.k6r();
+    }
+  });
+  function StructureDto() {
+  }
   function DcatApCatalogue() {
   }
   function CataloguedResource() {
@@ -77272,10 +77323,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_12 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.dsl.dcat.domain.model.Agent', this, 1);
     tmp0_serialDesc.f49('identifier', false);
-    this.f6u_1 = tmp0_serialDesc;
+    this.i6u_1 = tmp0_serialDesc;
   }
   $serializer_14.prototype.q3y = function () {
-    return this.f6u_1;
+    return this.i6u_1;
   };
   $serializer_14.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77291,7 +77342,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_14.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.f6u_1;
+    var tmp0_desc = this.i6u_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77318,14 +77369,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return Agent_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_14.prototype.g6u = function (encoder, value) {
-    var tmp0_desc = this.f6u_1;
+  $serializer_14.prototype.j6u = function (encoder, value) {
+    var tmp0_desc = this.i6u_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.h6u_1);
+    tmp1_output.q43(tmp0_desc, 0, value.k6u_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_14.prototype.r3y = function (encoder, value) {
-    return this.g6u(encoder, value instanceof Agent_0 ? value : THROW_CCE());
+    return this.j6u(encoder, value instanceof Agent_0 ? value : THROW_CCE());
   };
   var $serializer_instance_12;
   function $serializer_getInstance_12() {
@@ -77335,9 +77386,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function Agent_init_$Init$(seen1, identifier, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_12().f6u_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_12().i6u_1);
     }
-    $this.h6u_1 = identifier;
+    $this.k6u_1 = identifier;
     return $this;
   }
   function Agent_init_$Create$(seen1, identifier, serializationConstructorMarker) {
@@ -77346,10 +77397,10 @@ if (typeof Math.imul === 'undefined') {
   function Agent_0() {
   }
   Agent_0.prototype.toString = function () {
-    return 'Agent(identifier=' + this.h6u_1 + ')';
+    return 'Agent(identifier=' + this.k6u_1 + ')';
   };
   Agent_0.prototype.hashCode = function () {
-    return getStringHashCode(this.h6u_1);
+    return getStringHashCode(this.k6u_1);
   };
   Agent_0.prototype.equals = function (other) {
     if (this === other)
@@ -77357,7 +77408,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Agent_0))
       return false;
     var tmp0_other_with_cast = other instanceof Agent_0 ? other : THROW_CCE();
-    if (!(this.h6u_1 === tmp0_other_with_cast.h6u_1))
+    if (!(this.k6u_1 === tmp0_other_with_cast.k6u_1))
       return false;
     return true;
   };
@@ -77365,10 +77416,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_13 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.dsl.dcat.domain.model.Activity', this, 1);
     tmp0_serialDesc.f49('identifier', false);
-    this.i6u_1 = tmp0_serialDesc;
+    this.l6u_1 = tmp0_serialDesc;
   }
   $serializer_15.prototype.q3y = function () {
-    return this.i6u_1;
+    return this.l6u_1;
   };
   $serializer_15.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77384,7 +77435,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_15.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6u_1;
+    var tmp0_desc = this.l6u_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77411,14 +77462,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return Activity_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_15.prototype.j6u = function (encoder, value) {
-    var tmp0_desc = this.i6u_1;
+  $serializer_15.prototype.m6u = function (encoder, value) {
+    var tmp0_desc = this.l6u_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6u_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6u_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_15.prototype.r3y = function (encoder, value) {
-    return this.j6u(encoder, value instanceof Activity ? value : THROW_CCE());
+    return this.m6u(encoder, value instanceof Activity ? value : THROW_CCE());
   };
   var $serializer_instance_13;
   function $serializer_getInstance_13() {
@@ -77428,9 +77479,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function Activity_init_$Init$(seen1, identifier, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_13().i6u_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_13().l6u_1);
     }
-    $this.k6u_1 = identifier;
+    $this.n6u_1 = identifier;
     return $this;
   }
   function Activity_init_$Create$(seen1, identifier, serializationConstructorMarker) {
@@ -77439,10 +77490,10 @@ if (typeof Math.imul === 'undefined') {
   function Activity() {
   }
   Activity.prototype.toString = function () {
-    return 'Activity(identifier=' + this.k6u_1 + ')';
+    return 'Activity(identifier=' + this.n6u_1 + ')';
   };
   Activity.prototype.hashCode = function () {
-    return getStringHashCode(this.k6u_1);
+    return getStringHashCode(this.n6u_1);
   };
   Activity.prototype.equals = function (other) {
     if (this === other)
@@ -77450,7 +77501,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof Activity))
       return false;
     var tmp0_other_with_cast = other instanceof Activity ? other : THROW_CCE();
-    if (!(this.k6u_1 === tmp0_other_with_cast.k6u_1))
+    if (!(this.n6u_1 === tmp0_other_with_cast.n6u_1))
       return false;
     return true;
   };
@@ -77463,10 +77514,10 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_84 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.l6u_1 = lazy_0(tmp_0, DatasetState$Companion$$cachedSerializer$delegate$_anonymous__un6pnn);
+    tmp.o6u_1 = lazy_0(tmp_0, DatasetState$Companion$$cachedSerializer$delegate$_anonymous__un6pnn);
   }
   Companion_84.prototype.r4k = function () {
-    return this.l6u_1.p();
+    return this.o6u_1.p();
   };
   Companion_84.prototype.f4a = function (typeParamsSerializers) {
     return this.r4k();
@@ -77492,10 +77543,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.o6u_1 = position;
+    this.r6u_1 = position;
   }
   DatasetState.prototype.n47 = function () {
-    return this.o6u_1;
+    return this.r6u_1;
   };
   Object.defineProperty(DatasetState.prototype, 'position', {
     configurable: true,
@@ -77514,16 +77565,16 @@ if (typeof Math.imul === 'undefined') {
   function DatasetDeleteCommandDTO() {
   }
   function DatasetDeleteCommand(id) {
-    this.p6u_1 = id;
+    this.s6u_1 = id;
   }
   DatasetDeleteCommand.prototype.y4s = function () {
-    return this.p6u_1;
+    return this.s6u_1;
   };
   DatasetDeleteCommand.prototype.toString = function () {
-    return 'DatasetDeleteCommand(id=' + this.p6u_1 + ')';
+    return 'DatasetDeleteCommand(id=' + this.s6u_1 + ')';
   };
   DatasetDeleteCommand.prototype.hashCode = function () {
-    return getStringHashCode(this.p6u_1);
+    return getStringHashCode(this.s6u_1);
   };
   DatasetDeleteCommand.prototype.equals = function (other) {
     if (this === other)
@@ -77531,7 +77582,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetDeleteCommand ? other : THROW_CCE();
-    if (!(this.p6u_1 === tmp0_other_with_cast.p6u_1))
+    if (!(this.s6u_1 === tmp0_other_with_cast.s6u_1))
       return false;
     return true;
   };
@@ -77582,10 +77633,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('version', true);
     tmp0_serialDesc.f49('versionNotes', true);
     tmp0_serialDesc.f49('length', true);
-    this.q6u_1 = tmp0_serialDesc;
+    this.t6u_1 = tmp0_serialDesc;
   }
   $serializer_16.prototype.q3y = function () {
-    return this.q6u_1;
+    return this.t6u_1;
   };
   $serializer_16.prototype.u49 = function () {
     var tmp$ret$2;
@@ -77601,7 +77652,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_16.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6u_1;
+    var tmp0_desc = this.t6u_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -77754,64 +77805,64 @@ if (typeof Math.imul === 'undefined') {
     tmp23_input.d42(tmp0_desc);
     return DatasetCreateCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, null);
   };
-  $serializer_16.prototype.r6u = function (encoder, value) {
-    var tmp0_desc = this.q6u_1;
+  $serializer_16.prototype.u6u = function (encoder, value) {
+    var tmp0_desc = this.t6u_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.s6u_1);
-    tmp1_output.q43(tmp0_desc, 1, value.t6u_1);
-    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.u6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.u6u_1);
+    tmp1_output.q43(tmp0_desc, 0, value.v6u_1);
+    tmp1_output.q43(tmp0_desc, 1, value.w6u_1);
+    if (tmp1_output.y43(tmp0_desc, 2) ? true : !(value.x6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 2, StringSerializer_getInstance(), value.x6u_1);
     }
-    tmp1_output.q43(tmp0_desc, 3, value.v6u_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.w6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.w6u_1);
+    tmp1_output.q43(tmp0_desc, 3, value.y6u_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.z6u_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.z6u_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.x6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, $serializer_getInstance_13(), value.x6u_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.a6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, $serializer_getInstance_13(), value.a6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.y6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.y6u_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.b6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.b6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.z6u_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer($serializer_getInstance_10()), value.z6u_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.c6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, new ArrayListSerializer($serializer_getInstance_10()), value.c6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.a6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, $serializer_getInstance_12(), value.a6v_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.d6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, $serializer_getInstance_12(), value.d6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.b6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.b6v_1);
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.e6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 9, StringSerializer_getInstance(), value.e6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.c6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.c6v_1);
+    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.f6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.f6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.d6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 11, new ArrayListSerializer(StringSerializer_getInstance()), value.d6v_1);
+    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.g6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 11, new ArrayListSerializer(StringSerializer_getInstance()), value.g6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.e6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 12, $serializer_getInstance_12(), value.e6v_1);
+    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.h6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 12, $serializer_getInstance_12(), value.h6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.f6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 13, new ArrayListSerializer($serializer_getInstance_11()), value.f6v_1);
+    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.i6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 13, new ArrayListSerializer($serializer_getInstance_11()), value.i6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.g6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 14, new ArrayListSerializer(StringSerializer_getInstance()), value.g6v_1);
+    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.j6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 14, new ArrayListSerializer(StringSerializer_getInstance()), value.j6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.h6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.h6v_1);
+    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.k6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 15, StringSerializer_getInstance(), value.k6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.i6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.i6v_1);
+    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.l6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.l6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.j6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.j6v_1);
+    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.m6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.m6v_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.k6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 18, IntSerializer_getInstance(), value.k6v_1);
+    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.n6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 18, IntSerializer_getInstance(), value.n6v_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_16.prototype.r3y = function (encoder, value) {
-    return this.r6u(encoder, value instanceof DatasetCreateCommandDTOBase ? value : THROW_CCE());
+    return this.u6u(encoder, value instanceof DatasetCreateCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_14;
   function $serializer_getInstance_14() {
@@ -77821,75 +77872,75 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetCreateCommandDTOBase_init_$Init$(seen1, identifier, title, description, type, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, theme, keywords, landingPage, version, versionNotes, length, serializationConstructorMarker, $this) {
     if (!(11 === (11 & seen1))) {
-      throwMissingFieldException(seen1, 11, $serializer_getInstance_14().q6u_1);
+      throwMissingFieldException(seen1, 11, $serializer_getInstance_14().t6u_1);
     }
-    $this.s6u_1 = identifier;
-    $this.t6u_1 = title;
+    $this.v6u_1 = identifier;
+    $this.w6u_1 = title;
     if (0 === (seen1 & 4))
-      $this.u6u_1 = null;
-    else
-      $this.u6u_1 = description;
-    $this.v6u_1 = type;
-    if (0 === (seen1 & 16))
-      $this.w6u_1 = null;
-    else
-      $this.w6u_1 = temporalResolution;
-    if (0 === (seen1 & 32))
       $this.x6u_1 = null;
     else
-      $this.x6u_1 = wasGeneratedBy;
-    if (0 === (seen1 & 64))
-      $this.y6u_1 = null;
-    else
-      $this.y6u_1 = accessRights;
-    if (0 === (seen1 & 128))
+      $this.x6u_1 = description;
+    $this.y6u_1 = type;
+    if (0 === (seen1 & 16))
       $this.z6u_1 = null;
     else
-      $this.z6u_1 = conformsTo;
-    if (0 === (seen1 & 256))
+      $this.z6u_1 = temporalResolution;
+    if (0 === (seen1 & 32))
       $this.a6v_1 = null;
     else
-      $this.a6v_1 = creator;
-    if (0 === (seen1 & 512))
+      $this.a6v_1 = wasGeneratedBy;
+    if (0 === (seen1 & 64))
       $this.b6v_1 = null;
     else
-      $this.b6v_1 = releaseDate;
-    if (0 === (seen1 & 1024))
+      $this.b6v_1 = accessRights;
+    if (0 === (seen1 & 128))
       $this.c6v_1 = null;
     else
-      $this.c6v_1 = updateDate;
-    if (0 === (seen1 & 2048))
+      $this.c6v_1 = conformsTo;
+    if (0 === (seen1 & 256))
       $this.d6v_1 = null;
     else
-      $this.d6v_1 = language;
-    if (0 === (seen1 & 4096))
+      $this.d6v_1 = creator;
+    if (0 === (seen1 & 512))
       $this.e6v_1 = null;
     else
-      $this.e6v_1 = publisher;
-    if (0 === (seen1 & 8192))
+      $this.e6v_1 = releaseDate;
+    if (0 === (seen1 & 1024))
       $this.f6v_1 = null;
     else
-      $this.f6v_1 = theme;
-    if (0 === (seen1 & 16384))
+      $this.f6v_1 = updateDate;
+    if (0 === (seen1 & 2048))
       $this.g6v_1 = null;
     else
-      $this.g6v_1 = keywords;
-    if (0 === (seen1 & 32768))
+      $this.g6v_1 = language;
+    if (0 === (seen1 & 4096))
       $this.h6v_1 = null;
     else
-      $this.h6v_1 = landingPage;
-    if (0 === (seen1 & 65536))
+      $this.h6v_1 = publisher;
+    if (0 === (seen1 & 8192))
       $this.i6v_1 = null;
     else
-      $this.i6v_1 = version;
-    if (0 === (seen1 & 131072))
+      $this.i6v_1 = theme;
+    if (0 === (seen1 & 16384))
       $this.j6v_1 = null;
     else
-      $this.j6v_1 = versionNotes;
-    if (0 === (seen1 & 262144))
+      $this.j6v_1 = keywords;
+    if (0 === (seen1 & 32768))
       $this.k6v_1 = null;
     else
-      $this.k6v_1 = length;
+      $this.k6v_1 = landingPage;
+    if (0 === (seen1 & 65536))
+      $this.l6v_1 = null;
+    else
+      $this.l6v_1 = version;
+    if (0 === (seen1 & 131072))
+      $this.m6v_1 = null;
+    else
+      $this.m6v_1 = versionNotes;
+    if (0 === (seen1 & 262144))
+      $this.n6v_1 = null;
+    else
+      $this.n6v_1 = length;
     return $this;
   }
   function DatasetCreateCommandDTOBase_init_$Create$(seen1, identifier, title, description, type, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, theme, keywords, landingPage, version, versionNotes, length, serializationConstructorMarker) {
@@ -77897,51 +77948,42 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetCreateCommandDTOBase(identifier, title, description, type, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, theme, keywords, landingPage, version, versionNotes, length) {
     Companion_getInstance_85();
-    this.s6u_1 = identifier;
-    this.t6u_1 = title;
-    this.u6u_1 = description;
-    this.v6u_1 = type;
-    this.w6u_1 = temporalResolution;
-    this.x6u_1 = wasGeneratedBy;
-    this.y6u_1 = accessRights;
-    this.z6u_1 = conformsTo;
-    this.a6v_1 = creator;
-    this.b6v_1 = releaseDate;
-    this.c6v_1 = updateDate;
-    this.d6v_1 = language;
-    this.e6v_1 = publisher;
-    this.f6v_1 = theme;
-    this.g6v_1 = keywords;
-    this.h6v_1 = landingPage;
-    this.i6v_1 = version;
-    this.j6v_1 = versionNotes;
-    this.k6v_1 = length;
+    this.v6u_1 = identifier;
+    this.w6u_1 = title;
+    this.x6u_1 = description;
+    this.y6u_1 = type;
+    this.z6u_1 = temporalResolution;
+    this.a6v_1 = wasGeneratedBy;
+    this.b6v_1 = accessRights;
+    this.c6v_1 = conformsTo;
+    this.d6v_1 = creator;
+    this.e6v_1 = releaseDate;
+    this.f6v_1 = updateDate;
+    this.g6v_1 = language;
+    this.h6v_1 = publisher;
+    this.i6v_1 = theme;
+    this.j6v_1 = keywords;
+    this.k6v_1 = landingPage;
+    this.l6v_1 = version;
+    this.m6v_1 = versionNotes;
+    this.n6v_1 = length;
   }
   DatasetCreateCommandDTOBase.prototype.k6e = function () {
-    return this.s6u_1;
-  };
-  DatasetCreateCommandDTOBase.prototype.g6s = function () {
-    return this.t6u_1;
-  };
-  DatasetCreateCommandDTOBase.prototype.n6g = function () {
-    return this.u6u_1;
-  };
-  DatasetCreateCommandDTOBase.prototype.b52 = function () {
     return this.v6u_1;
   };
-  DatasetCreateCommandDTOBase.prototype.r6t = function () {
+  DatasetCreateCommandDTOBase.prototype.j6s = function () {
     return this.w6u_1;
   };
-  DatasetCreateCommandDTOBase.prototype.s6t = function () {
+  DatasetCreateCommandDTOBase.prototype.n6g = function () {
     return this.x6u_1;
   };
-  DatasetCreateCommandDTOBase.prototype.h6s = function () {
+  DatasetCreateCommandDTOBase.prototype.b52 = function () {
     return this.y6u_1;
   };
-  DatasetCreateCommandDTOBase.prototype.i6s = function () {
+  DatasetCreateCommandDTOBase.prototype.u6t = function () {
     return this.z6u_1;
   };
-  DatasetCreateCommandDTOBase.prototype.l6i = function () {
+  DatasetCreateCommandDTOBase.prototype.v6t = function () {
     return this.a6v_1;
   };
   DatasetCreateCommandDTOBase.prototype.k6s = function () {
@@ -77950,7 +77992,7 @@ if (typeof Math.imul === 'undefined') {
   DatasetCreateCommandDTOBase.prototype.l6s = function () {
     return this.c6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.m6s = function () {
+  DatasetCreateCommandDTOBase.prototype.l6i = function () {
     return this.d6v_1;
   };
   DatasetCreateCommandDTOBase.prototype.n6s = function () {
@@ -77959,44 +78001,53 @@ if (typeof Math.imul === 'undefined') {
   DatasetCreateCommandDTOBase.prototype.o6s = function () {
     return this.f6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.r6s = function () {
+  DatasetCreateCommandDTOBase.prototype.p6s = function () {
     return this.g6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.s6s = function () {
+  DatasetCreateCommandDTOBase.prototype.q6s = function () {
     return this.h6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.l34 = function () {
+  DatasetCreateCommandDTOBase.prototype.r6s = function () {
     return this.i6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.d6t = function () {
+  DatasetCreateCommandDTOBase.prototype.u6s = function () {
     return this.j6v_1;
   };
-  DatasetCreateCommandDTOBase.prototype.h9 = function () {
+  DatasetCreateCommandDTOBase.prototype.v6s = function () {
     return this.k6v_1;
   };
+  DatasetCreateCommandDTOBase.prototype.l34 = function () {
+    return this.l6v_1;
+  };
+  DatasetCreateCommandDTOBase.prototype.g6t = function () {
+    return this.m6v_1;
+  };
+  DatasetCreateCommandDTOBase.prototype.h9 = function () {
+    return this.n6v_1;
+  };
   DatasetCreateCommandDTOBase.prototype.toString = function () {
-    return 'DatasetCreateCommandDTOBase(identifier=' + this.s6u_1 + ', title=' + this.t6u_1 + ', description=' + this.u6u_1 + ', type=' + this.v6u_1 + ', temporalResolution=' + this.w6u_1 + ', wasGeneratedBy=' + this.x6u_1 + ', accessRights=' + this.y6u_1 + ', conformsTo=' + this.z6u_1 + ', creator=' + this.a6v_1 + ', releaseDate=' + this.b6v_1 + ', updateDate=' + this.c6v_1 + ', language=' + this.d6v_1 + ', publisher=' + this.e6v_1 + ', theme=' + this.f6v_1 + ', keywords=' + this.g6v_1 + ', landingPage=' + this.h6v_1 + ', version=' + this.i6v_1 + ', versionNotes=' + this.j6v_1 + ', length=' + this.k6v_1 + ')';
+    return 'DatasetCreateCommandDTOBase(identifier=' + this.v6u_1 + ', title=' + this.w6u_1 + ', description=' + this.x6u_1 + ', type=' + this.y6u_1 + ', temporalResolution=' + this.z6u_1 + ', wasGeneratedBy=' + this.a6v_1 + ', accessRights=' + this.b6v_1 + ', conformsTo=' + this.c6v_1 + ', creator=' + this.d6v_1 + ', releaseDate=' + this.e6v_1 + ', updateDate=' + this.f6v_1 + ', language=' + this.g6v_1 + ', publisher=' + this.h6v_1 + ', theme=' + this.i6v_1 + ', keywords=' + this.j6v_1 + ', landingPage=' + this.k6v_1 + ', version=' + this.l6v_1 + ', versionNotes=' + this.m6v_1 + ', length=' + this.n6v_1 + ')';
   };
   DatasetCreateCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.s6u_1);
-    result = imul(result, 31) + getStringHashCode(this.t6u_1) | 0;
-    result = imul(result, 31) + (this.u6u_1 == null ? 0 : getStringHashCode(this.u6u_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.v6u_1) | 0;
-    result = imul(result, 31) + (this.w6u_1 == null ? 0 : getStringHashCode(this.w6u_1)) | 0;
-    result = imul(result, 31) + (this.x6u_1 == null ? 0 : this.x6u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.y6u_1 == null ? 0 : getStringHashCode(this.y6u_1)) | 0;
-    result = imul(result, 31) + (this.z6u_1 == null ? 0 : hashCode(this.z6u_1)) | 0;
+    var result = getStringHashCode(this.v6u_1);
+    result = imul(result, 31) + getStringHashCode(this.w6u_1) | 0;
+    result = imul(result, 31) + (this.x6u_1 == null ? 0 : getStringHashCode(this.x6u_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.y6u_1) | 0;
+    result = imul(result, 31) + (this.z6u_1 == null ? 0 : getStringHashCode(this.z6u_1)) | 0;
     result = imul(result, 31) + (this.a6v_1 == null ? 0 : this.a6v_1.hashCode()) | 0;
     result = imul(result, 31) + (this.b6v_1 == null ? 0 : getStringHashCode(this.b6v_1)) | 0;
-    result = imul(result, 31) + (this.c6v_1 == null ? 0 : getStringHashCode(this.c6v_1)) | 0;
-    result = imul(result, 31) + (this.d6v_1 == null ? 0 : hashCode(this.d6v_1)) | 0;
-    result = imul(result, 31) + (this.e6v_1 == null ? 0 : this.e6v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.f6v_1 == null ? 0 : hashCode(this.f6v_1)) | 0;
+    result = imul(result, 31) + (this.c6v_1 == null ? 0 : hashCode(this.c6v_1)) | 0;
+    result = imul(result, 31) + (this.d6v_1 == null ? 0 : this.d6v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.e6v_1 == null ? 0 : getStringHashCode(this.e6v_1)) | 0;
+    result = imul(result, 31) + (this.f6v_1 == null ? 0 : getStringHashCode(this.f6v_1)) | 0;
     result = imul(result, 31) + (this.g6v_1 == null ? 0 : hashCode(this.g6v_1)) | 0;
-    result = imul(result, 31) + (this.h6v_1 == null ? 0 : getStringHashCode(this.h6v_1)) | 0;
-    result = imul(result, 31) + (this.i6v_1 == null ? 0 : getStringHashCode(this.i6v_1)) | 0;
-    result = imul(result, 31) + (this.j6v_1 == null ? 0 : getStringHashCode(this.j6v_1)) | 0;
-    result = imul(result, 31) + (this.k6v_1 == null ? 0 : this.k6v_1) | 0;
+    result = imul(result, 31) + (this.h6v_1 == null ? 0 : this.h6v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.i6v_1 == null ? 0 : hashCode(this.i6v_1)) | 0;
+    result = imul(result, 31) + (this.j6v_1 == null ? 0 : hashCode(this.j6v_1)) | 0;
+    result = imul(result, 31) + (this.k6v_1 == null ? 0 : getStringHashCode(this.k6v_1)) | 0;
+    result = imul(result, 31) + (this.l6v_1 == null ? 0 : getStringHashCode(this.l6v_1)) | 0;
+    result = imul(result, 31) + (this.m6v_1 == null ? 0 : getStringHashCode(this.m6v_1)) | 0;
+    result = imul(result, 31) + (this.n6v_1 == null ? 0 : this.n6v_1) | 0;
     return result;
   };
   DatasetCreateCommandDTOBase.prototype.equals = function (other) {
@@ -78005,43 +78056,43 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetCreateCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetCreateCommandDTOBase ? other : THROW_CCE();
-    if (!(this.s6u_1 === tmp0_other_with_cast.s6u_1))
-      return false;
-    if (!(this.t6u_1 === tmp0_other_with_cast.t6u_1))
-      return false;
-    if (!(this.u6u_1 == tmp0_other_with_cast.u6u_1))
-      return false;
     if (!(this.v6u_1 === tmp0_other_with_cast.v6u_1))
       return false;
-    if (!(this.w6u_1 == tmp0_other_with_cast.w6u_1))
+    if (!(this.w6u_1 === tmp0_other_with_cast.w6u_1))
       return false;
-    if (!equals_1(this.x6u_1, tmp0_other_with_cast.x6u_1))
+    if (!(this.x6u_1 == tmp0_other_with_cast.x6u_1))
       return false;
-    if (!(this.y6u_1 == tmp0_other_with_cast.y6u_1))
+    if (!(this.y6u_1 === tmp0_other_with_cast.y6u_1))
       return false;
-    if (!equals_1(this.z6u_1, tmp0_other_with_cast.z6u_1))
+    if (!(this.z6u_1 == tmp0_other_with_cast.z6u_1))
       return false;
     if (!equals_1(this.a6v_1, tmp0_other_with_cast.a6v_1))
       return false;
     if (!(this.b6v_1 == tmp0_other_with_cast.b6v_1))
       return false;
-    if (!(this.c6v_1 == tmp0_other_with_cast.c6v_1))
+    if (!equals_1(this.c6v_1, tmp0_other_with_cast.c6v_1))
       return false;
     if (!equals_1(this.d6v_1, tmp0_other_with_cast.d6v_1))
       return false;
-    if (!equals_1(this.e6v_1, tmp0_other_with_cast.e6v_1))
+    if (!(this.e6v_1 == tmp0_other_with_cast.e6v_1))
       return false;
-    if (!equals_1(this.f6v_1, tmp0_other_with_cast.f6v_1))
+    if (!(this.f6v_1 == tmp0_other_with_cast.f6v_1))
       return false;
     if (!equals_1(this.g6v_1, tmp0_other_with_cast.g6v_1))
       return false;
-    if (!(this.h6v_1 == tmp0_other_with_cast.h6v_1))
+    if (!equals_1(this.h6v_1, tmp0_other_with_cast.h6v_1))
       return false;
-    if (!(this.i6v_1 == tmp0_other_with_cast.i6v_1))
+    if (!equals_1(this.i6v_1, tmp0_other_with_cast.i6v_1))
       return false;
-    if (!(this.j6v_1 == tmp0_other_with_cast.j6v_1))
+    if (!equals_1(this.j6v_1, tmp0_other_with_cast.j6v_1))
       return false;
     if (!(this.k6v_1 == tmp0_other_with_cast.k6v_1))
+      return false;
+    if (!(this.l6v_1 == tmp0_other_with_cast.l6v_1))
+      return false;
+    if (!(this.m6v_1 == tmp0_other_with_cast.m6v_1))
+      return false;
+    if (!(this.n6v_1 == tmp0_other_with_cast.n6v_1))
       return false;
     return true;
   };
@@ -78054,7 +78105,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.g6s();
+      return this.j6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'description', {
@@ -78072,25 +78123,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'temporalResolution', {
     configurable: true,
     get: function () {
-      return this.r6t();
+      return this.u6t();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'wasGeneratedBy', {
     configurable: true,
     get: function () {
-      return this.s6t();
+      return this.v6t();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'accessRights', {
     configurable: true,
     get: function () {
-      return this.h6s();
+      return this.k6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'conformsTo', {
     configurable: true,
     get: function () {
-      return this.i6s();
+      return this.l6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'creator', {
@@ -78102,43 +78153,43 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'releaseDate', {
     configurable: true,
     get: function () {
-      return this.k6s();
+      return this.n6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'updateDate', {
     configurable: true,
     get: function () {
-      return this.l6s();
+      return this.o6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'language', {
     configurable: true,
     get: function () {
-      return this.m6s();
+      return this.p6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'publisher', {
     configurable: true,
     get: function () {
-      return this.n6s();
+      return this.q6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'theme', {
     configurable: true,
     get: function () {
-      return this.o6s();
+      return this.r6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'keywords', {
     configurable: true,
     get: function () {
-      return this.r6s();
+      return this.u6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'landingPage', {
     configurable: true,
     get: function () {
-      return this.s6s();
+      return this.v6s();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'version', {
@@ -78150,7 +78201,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'versionNotes', {
     configurable: true,
     get: function () {
-      return this.d6t();
+      return this.g6t();
     }
   });
   Object.defineProperty(DatasetCreateCommandDTOBase.prototype, 'length', {
@@ -78191,10 +78242,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('version', false);
     tmp0_serialDesc.f49('versionNotes', false);
     tmp0_serialDesc.f49('length', false);
-    this.l6v_1 = tmp0_serialDesc;
+    this.o6v_1 = tmp0_serialDesc;
   }
   $serializer_17.prototype.q3y = function () {
-    return this.l6v_1;
+    return this.o6v_1;
   };
   $serializer_17.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78210,7 +78261,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_17.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.l6v_1;
+    var tmp0_desc = this.o6v_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78370,35 +78421,35 @@ if (typeof Math.imul === 'undefined') {
     tmp24_input.d42(tmp0_desc);
     return DatasetCreatedEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, tmp23_local19, null);
   };
-  $serializer_17.prototype.m6v = function (encoder, value) {
-    var tmp0_desc = this.l6v_1;
+  $serializer_17.prototype.p6v = function (encoder, value) {
+    var tmp0_desc = this.o6v_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.n6v_1);
-    tmp1_output.q43(tmp0_desc, 1, value.o6v_1);
-    tmp1_output.q43(tmp0_desc, 2, value.p6v_1);
-    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.q6v_1);
-    tmp1_output.q43(tmp0_desc, 4, value.r6v_1);
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.s6v_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, new ArrayListSerializer($serializer_getInstance_11()), value.s6v_1);
+    tmp1_output.q43(tmp0_desc, 0, value.q6v_1);
+    tmp1_output.q43(tmp0_desc, 1, value.r6v_1);
+    tmp1_output.q43(tmp0_desc, 2, value.s6v_1);
+    tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.t6v_1);
+    tmp1_output.q43(tmp0_desc, 4, value.u6v_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.v6v_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, new ArrayListSerializer($serializer_getInstance_11()), value.v6v_1);
     }
-    tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.t6v_1);
-    tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_13(), value.u6v_1);
-    tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.v6v_1);
-    tmp1_output.u43(tmp0_desc, 9, new ArrayListSerializer($serializer_getInstance_10()), value.w6v_1);
-    tmp1_output.u43(tmp0_desc, 10, $serializer_getInstance_12(), value.x6v_1);
-    tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.y6v_1);
-    tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.z6v_1);
-    tmp1_output.u43(tmp0_desc, 13, new ArrayListSerializer(StringSerializer_getInstance()), value.a6w_1);
-    tmp1_output.u43(tmp0_desc, 14, $serializer_getInstance_12(), value.b6w_1);
-    tmp1_output.u43(tmp0_desc, 15, new ArrayListSerializer(StringSerializer_getInstance()), value.c6w_1);
-    tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.d6w_1);
-    tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.e6w_1);
-    tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.f6w_1);
-    tmp1_output.u43(tmp0_desc, 19, IntSerializer_getInstance(), value.g6w_1);
+    tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.w6v_1);
+    tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_13(), value.x6v_1);
+    tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.y6v_1);
+    tmp1_output.u43(tmp0_desc, 9, new ArrayListSerializer($serializer_getInstance_10()), value.z6v_1);
+    tmp1_output.u43(tmp0_desc, 10, $serializer_getInstance_12(), value.a6w_1);
+    tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.b6w_1);
+    tmp1_output.u43(tmp0_desc, 12, StringSerializer_getInstance(), value.c6w_1);
+    tmp1_output.u43(tmp0_desc, 13, new ArrayListSerializer(StringSerializer_getInstance()), value.d6w_1);
+    tmp1_output.u43(tmp0_desc, 14, $serializer_getInstance_12(), value.e6w_1);
+    tmp1_output.u43(tmp0_desc, 15, new ArrayListSerializer(StringSerializer_getInstance()), value.f6w_1);
+    tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.g6w_1);
+    tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.h6w_1);
+    tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.i6w_1);
+    tmp1_output.u43(tmp0_desc, 19, IntSerializer_getInstance(), value.j6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_17.prototype.r3y = function (encoder, value) {
-    return this.m6v(encoder, value instanceof DatasetCreatedEventDTOBase ? value : THROW_CCE());
+    return this.p6v(encoder, value instanceof DatasetCreatedEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_15;
   function $serializer_getInstance_15() {
@@ -78408,31 +78459,31 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetCreatedEventDTOBase_init_$Init$(seen1, id, identifier, title, description, type, theme, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, keywords, landingPage, version, versionNotes, length, serializationConstructorMarker, $this) {
     if (!(1048543 === (1048543 & seen1))) {
-      throwMissingFieldException(seen1, 1048543, $serializer_getInstance_15().l6v_1);
+      throwMissingFieldException(seen1, 1048543, $serializer_getInstance_15().o6v_1);
     }
-    $this.n6v_1 = id;
-    $this.o6v_1 = identifier;
-    $this.p6v_1 = title;
-    $this.q6v_1 = description;
-    $this.r6v_1 = type;
+    $this.q6v_1 = id;
+    $this.r6v_1 = identifier;
+    $this.s6v_1 = title;
+    $this.t6v_1 = description;
+    $this.u6v_1 = type;
     if (0 === (seen1 & 32))
-      $this.s6v_1 = null;
+      $this.v6v_1 = null;
     else
-      $this.s6v_1 = theme;
-    $this.t6v_1 = temporalResolution;
-    $this.u6v_1 = wasGeneratedBy;
-    $this.v6v_1 = accessRights;
-    $this.w6v_1 = conformsTo;
-    $this.x6v_1 = creator;
-    $this.y6v_1 = releaseDate;
-    $this.z6v_1 = updateDate;
-    $this.a6w_1 = language;
-    $this.b6w_1 = publisher;
-    $this.c6w_1 = keywords;
-    $this.d6w_1 = landingPage;
-    $this.e6w_1 = version;
-    $this.f6w_1 = versionNotes;
-    $this.g6w_1 = length;
+      $this.v6v_1 = theme;
+    $this.w6v_1 = temporalResolution;
+    $this.x6v_1 = wasGeneratedBy;
+    $this.y6v_1 = accessRights;
+    $this.z6v_1 = conformsTo;
+    $this.a6w_1 = creator;
+    $this.b6w_1 = releaseDate;
+    $this.c6w_1 = updateDate;
+    $this.d6w_1 = language;
+    $this.e6w_1 = publisher;
+    $this.f6w_1 = keywords;
+    $this.g6w_1 = landingPage;
+    $this.h6w_1 = version;
+    $this.i6w_1 = versionNotes;
+    $this.j6w_1 = length;
     return $this;
   }
   function DatasetCreatedEventDTOBase_init_$Create$(seen1, id, identifier, title, description, type, theme, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, keywords, landingPage, version, versionNotes, length, serializationConstructorMarker) {
@@ -78440,58 +78491,49 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetCreatedEventDTOBase(id, identifier, title, description, type, theme, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, releaseDate, updateDate, language, publisher, keywords, landingPage, version, versionNotes, length) {
     Companion_getInstance_86();
-    this.n6v_1 = id;
-    this.o6v_1 = identifier;
-    this.p6v_1 = title;
-    this.q6v_1 = description;
-    this.r6v_1 = type;
-    this.s6v_1 = theme;
-    this.t6v_1 = temporalResolution;
-    this.u6v_1 = wasGeneratedBy;
-    this.v6v_1 = accessRights;
-    this.w6v_1 = conformsTo;
-    this.x6v_1 = creator;
-    this.y6v_1 = releaseDate;
-    this.z6v_1 = updateDate;
-    this.a6w_1 = language;
-    this.b6w_1 = publisher;
-    this.c6w_1 = keywords;
-    this.d6w_1 = landingPage;
-    this.e6w_1 = version;
-    this.f6w_1 = versionNotes;
-    this.g6w_1 = length;
+    this.q6v_1 = id;
+    this.r6v_1 = identifier;
+    this.s6v_1 = title;
+    this.t6v_1 = description;
+    this.u6v_1 = type;
+    this.v6v_1 = theme;
+    this.w6v_1 = temporalResolution;
+    this.x6v_1 = wasGeneratedBy;
+    this.y6v_1 = accessRights;
+    this.z6v_1 = conformsTo;
+    this.a6w_1 = creator;
+    this.b6w_1 = releaseDate;
+    this.c6w_1 = updateDate;
+    this.d6w_1 = language;
+    this.e6w_1 = publisher;
+    this.f6w_1 = keywords;
+    this.g6w_1 = landingPage;
+    this.h6w_1 = version;
+    this.i6w_1 = versionNotes;
+    this.j6w_1 = length;
   }
   DatasetCreatedEventDTOBase.prototype.y4s = function () {
-    return this.n6v_1;
-  };
-  DatasetCreatedEventDTOBase.prototype.k6e = function () {
-    return this.o6v_1;
-  };
-  DatasetCreatedEventDTOBase.prototype.g6s = function () {
-    return this.p6v_1;
-  };
-  DatasetCreatedEventDTOBase.prototype.n6g = function () {
     return this.q6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.b52 = function () {
+  DatasetCreatedEventDTOBase.prototype.k6e = function () {
     return this.r6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.o6s = function () {
+  DatasetCreatedEventDTOBase.prototype.j6s = function () {
     return this.s6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.r6t = function () {
+  DatasetCreatedEventDTOBase.prototype.n6g = function () {
     return this.t6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.s6t = function () {
+  DatasetCreatedEventDTOBase.prototype.b52 = function () {
     return this.u6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.h6s = function () {
+  DatasetCreatedEventDTOBase.prototype.r6s = function () {
     return this.v6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.i6s = function () {
+  DatasetCreatedEventDTOBase.prototype.u6t = function () {
     return this.w6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.l6i = function () {
+  DatasetCreatedEventDTOBase.prototype.v6t = function () {
     return this.x6v_1;
   };
   DatasetCreatedEventDTOBase.prototype.k6s = function () {
@@ -78500,51 +78542,60 @@ if (typeof Math.imul === 'undefined') {
   DatasetCreatedEventDTOBase.prototype.l6s = function () {
     return this.z6v_1;
   };
-  DatasetCreatedEventDTOBase.prototype.m6s = function () {
+  DatasetCreatedEventDTOBase.prototype.l6i = function () {
     return this.a6w_1;
   };
   DatasetCreatedEventDTOBase.prototype.n6s = function () {
     return this.b6w_1;
   };
-  DatasetCreatedEventDTOBase.prototype.r6s = function () {
+  DatasetCreatedEventDTOBase.prototype.o6s = function () {
     return this.c6w_1;
   };
-  DatasetCreatedEventDTOBase.prototype.s6s = function () {
+  DatasetCreatedEventDTOBase.prototype.p6s = function () {
     return this.d6w_1;
   };
-  DatasetCreatedEventDTOBase.prototype.l34 = function () {
+  DatasetCreatedEventDTOBase.prototype.q6s = function () {
     return this.e6w_1;
   };
-  DatasetCreatedEventDTOBase.prototype.d6t = function () {
+  DatasetCreatedEventDTOBase.prototype.u6s = function () {
     return this.f6w_1;
   };
-  DatasetCreatedEventDTOBase.prototype.h9 = function () {
+  DatasetCreatedEventDTOBase.prototype.v6s = function () {
     return this.g6w_1;
   };
+  DatasetCreatedEventDTOBase.prototype.l34 = function () {
+    return this.h6w_1;
+  };
+  DatasetCreatedEventDTOBase.prototype.g6t = function () {
+    return this.i6w_1;
+  };
+  DatasetCreatedEventDTOBase.prototype.h9 = function () {
+    return this.j6w_1;
+  };
   DatasetCreatedEventDTOBase.prototype.toString = function () {
-    return 'DatasetCreatedEventDTOBase(id=' + this.n6v_1 + ', identifier=' + this.o6v_1 + ', title=' + this.p6v_1 + ', description=' + this.q6v_1 + ', type=' + this.r6v_1 + ', theme=' + this.s6v_1 + ', temporalResolution=' + this.t6v_1 + ', wasGeneratedBy=' + this.u6v_1 + ', accessRights=' + this.v6v_1 + ', conformsTo=' + this.w6v_1 + ', creator=' + this.x6v_1 + ', releaseDate=' + this.y6v_1 + ', updateDate=' + this.z6v_1 + ', language=' + this.a6w_1 + ', publisher=' + this.b6w_1 + ', keywords=' + this.c6w_1 + ', landingPage=' + this.d6w_1 + ', version=' + this.e6w_1 + ', versionNotes=' + this.f6w_1 + ', length=' + this.g6w_1 + ')';
+    return 'DatasetCreatedEventDTOBase(id=' + this.q6v_1 + ', identifier=' + this.r6v_1 + ', title=' + this.s6v_1 + ', description=' + this.t6v_1 + ', type=' + this.u6v_1 + ', theme=' + this.v6v_1 + ', temporalResolution=' + this.w6v_1 + ', wasGeneratedBy=' + this.x6v_1 + ', accessRights=' + this.y6v_1 + ', conformsTo=' + this.z6v_1 + ', creator=' + this.a6w_1 + ', releaseDate=' + this.b6w_1 + ', updateDate=' + this.c6w_1 + ', language=' + this.d6w_1 + ', publisher=' + this.e6w_1 + ', keywords=' + this.f6w_1 + ', landingPage=' + this.g6w_1 + ', version=' + this.h6w_1 + ', versionNotes=' + this.i6w_1 + ', length=' + this.j6w_1 + ')';
   };
   DatasetCreatedEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.n6v_1);
-    result = imul(result, 31) + getStringHashCode(this.o6v_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.p6v_1) | 0;
-    result = imul(result, 31) + (this.q6v_1 == null ? 0 : getStringHashCode(this.q6v_1)) | 0;
+    var result = getStringHashCode(this.q6v_1);
     result = imul(result, 31) + getStringHashCode(this.r6v_1) | 0;
-    result = imul(result, 31) + (this.s6v_1 == null ? 0 : hashCode(this.s6v_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.s6v_1) | 0;
     result = imul(result, 31) + (this.t6v_1 == null ? 0 : getStringHashCode(this.t6v_1)) | 0;
-    result = imul(result, 31) + (this.u6v_1 == null ? 0 : this.u6v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.v6v_1 == null ? 0 : getStringHashCode(this.v6v_1)) | 0;
-    result = imul(result, 31) + (this.w6v_1 == null ? 0 : hashCode(this.w6v_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.u6v_1) | 0;
+    result = imul(result, 31) + (this.v6v_1 == null ? 0 : hashCode(this.v6v_1)) | 0;
+    result = imul(result, 31) + (this.w6v_1 == null ? 0 : getStringHashCode(this.w6v_1)) | 0;
     result = imul(result, 31) + (this.x6v_1 == null ? 0 : this.x6v_1.hashCode()) | 0;
     result = imul(result, 31) + (this.y6v_1 == null ? 0 : getStringHashCode(this.y6v_1)) | 0;
-    result = imul(result, 31) + (this.z6v_1 == null ? 0 : getStringHashCode(this.z6v_1)) | 0;
-    result = imul(result, 31) + (this.a6w_1 == null ? 0 : hashCode(this.a6w_1)) | 0;
-    result = imul(result, 31) + (this.b6w_1 == null ? 0 : this.b6w_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.c6w_1 == null ? 0 : hashCode(this.c6w_1)) | 0;
-    result = imul(result, 31) + (this.d6w_1 == null ? 0 : getStringHashCode(this.d6w_1)) | 0;
-    result = imul(result, 31) + (this.e6w_1 == null ? 0 : getStringHashCode(this.e6w_1)) | 0;
-    result = imul(result, 31) + (this.f6w_1 == null ? 0 : getStringHashCode(this.f6w_1)) | 0;
-    result = imul(result, 31) + (this.g6w_1 == null ? 0 : this.g6w_1) | 0;
+    result = imul(result, 31) + (this.z6v_1 == null ? 0 : hashCode(this.z6v_1)) | 0;
+    result = imul(result, 31) + (this.a6w_1 == null ? 0 : this.a6w_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.b6w_1 == null ? 0 : getStringHashCode(this.b6w_1)) | 0;
+    result = imul(result, 31) + (this.c6w_1 == null ? 0 : getStringHashCode(this.c6w_1)) | 0;
+    result = imul(result, 31) + (this.d6w_1 == null ? 0 : hashCode(this.d6w_1)) | 0;
+    result = imul(result, 31) + (this.e6w_1 == null ? 0 : this.e6w_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.f6w_1 == null ? 0 : hashCode(this.f6w_1)) | 0;
+    result = imul(result, 31) + (this.g6w_1 == null ? 0 : getStringHashCode(this.g6w_1)) | 0;
+    result = imul(result, 31) + (this.h6w_1 == null ? 0 : getStringHashCode(this.h6w_1)) | 0;
+    result = imul(result, 31) + (this.i6w_1 == null ? 0 : getStringHashCode(this.i6w_1)) | 0;
+    result = imul(result, 31) + (this.j6w_1 == null ? 0 : this.j6w_1) | 0;
     return result;
   };
   DatasetCreatedEventDTOBase.prototype.equals = function (other) {
@@ -78553,45 +78604,45 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetCreatedEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetCreatedEventDTOBase ? other : THROW_CCE();
-    if (!(this.n6v_1 === tmp0_other_with_cast.n6v_1))
-      return false;
-    if (!(this.o6v_1 === tmp0_other_with_cast.o6v_1))
-      return false;
-    if (!(this.p6v_1 === tmp0_other_with_cast.p6v_1))
-      return false;
-    if (!(this.q6v_1 == tmp0_other_with_cast.q6v_1))
+    if (!(this.q6v_1 === tmp0_other_with_cast.q6v_1))
       return false;
     if (!(this.r6v_1 === tmp0_other_with_cast.r6v_1))
       return false;
-    if (!equals_1(this.s6v_1, tmp0_other_with_cast.s6v_1))
+    if (!(this.s6v_1 === tmp0_other_with_cast.s6v_1))
       return false;
     if (!(this.t6v_1 == tmp0_other_with_cast.t6v_1))
       return false;
-    if (!equals_1(this.u6v_1, tmp0_other_with_cast.u6v_1))
+    if (!(this.u6v_1 === tmp0_other_with_cast.u6v_1))
       return false;
-    if (!(this.v6v_1 == tmp0_other_with_cast.v6v_1))
+    if (!equals_1(this.v6v_1, tmp0_other_with_cast.v6v_1))
       return false;
-    if (!equals_1(this.w6v_1, tmp0_other_with_cast.w6v_1))
+    if (!(this.w6v_1 == tmp0_other_with_cast.w6v_1))
       return false;
     if (!equals_1(this.x6v_1, tmp0_other_with_cast.x6v_1))
       return false;
     if (!(this.y6v_1 == tmp0_other_with_cast.y6v_1))
       return false;
-    if (!(this.z6v_1 == tmp0_other_with_cast.z6v_1))
+    if (!equals_1(this.z6v_1, tmp0_other_with_cast.z6v_1))
       return false;
     if (!equals_1(this.a6w_1, tmp0_other_with_cast.a6w_1))
       return false;
-    if (!equals_1(this.b6w_1, tmp0_other_with_cast.b6w_1))
+    if (!(this.b6w_1 == tmp0_other_with_cast.b6w_1))
       return false;
-    if (!equals_1(this.c6w_1, tmp0_other_with_cast.c6w_1))
+    if (!(this.c6w_1 == tmp0_other_with_cast.c6w_1))
       return false;
-    if (!(this.d6w_1 == tmp0_other_with_cast.d6w_1))
+    if (!equals_1(this.d6w_1, tmp0_other_with_cast.d6w_1))
       return false;
-    if (!(this.e6w_1 == tmp0_other_with_cast.e6w_1))
+    if (!equals_1(this.e6w_1, tmp0_other_with_cast.e6w_1))
       return false;
-    if (!(this.f6w_1 == tmp0_other_with_cast.f6w_1))
+    if (!equals_1(this.f6w_1, tmp0_other_with_cast.f6w_1))
       return false;
     if (!(this.g6w_1 == tmp0_other_with_cast.g6w_1))
+      return false;
+    if (!(this.h6w_1 == tmp0_other_with_cast.h6w_1))
+      return false;
+    if (!(this.i6w_1 == tmp0_other_with_cast.i6w_1))
+      return false;
+    if (!(this.j6w_1 == tmp0_other_with_cast.j6w_1))
       return false;
     return true;
   };
@@ -78610,7 +78661,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.g6s();
+      return this.j6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'description', {
@@ -78628,31 +78679,31 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'theme', {
     configurable: true,
     get: function () {
-      return this.o6s();
+      return this.r6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'temporalResolution', {
     configurable: true,
     get: function () {
-      return this.r6t();
+      return this.u6t();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'wasGeneratedBy', {
     configurable: true,
     get: function () {
-      return this.s6t();
+      return this.v6t();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'accessRights', {
     configurable: true,
     get: function () {
-      return this.h6s();
+      return this.k6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'conformsTo', {
     configurable: true,
     get: function () {
-      return this.i6s();
+      return this.l6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'creator', {
@@ -78664,37 +78715,37 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'releaseDate', {
     configurable: true,
     get: function () {
-      return this.k6s();
+      return this.n6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'updateDate', {
     configurable: true,
     get: function () {
-      return this.l6s();
+      return this.o6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'language', {
     configurable: true,
     get: function () {
-      return this.m6s();
+      return this.p6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'publisher', {
     configurable: true,
     get: function () {
-      return this.n6s();
+      return this.q6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'keywords', {
     configurable: true,
     get: function () {
-      return this.r6s();
+      return this.u6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'landingPage', {
     configurable: true,
     get: function () {
-      return this.s6s();
+      return this.v6s();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'version', {
@@ -78706,7 +78757,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'versionNotes', {
     configurable: true,
     get: function () {
-      return this.d6t();
+      return this.g6t();
     }
   });
   Object.defineProperty(DatasetCreatedEventDTOBase.prototype, 'length', {
@@ -78720,16 +78771,16 @@ if (typeof Math.imul === 'undefined') {
   function DatasetDeletedEventDTO() {
   }
   function DatasetDeletedEventDTOBase(id) {
-    this.h6w_1 = id;
+    this.k6w_1 = id;
   }
   DatasetDeletedEventDTOBase.prototype.y4s = function () {
-    return this.h6w_1;
+    return this.k6w_1;
   };
   DatasetDeletedEventDTOBase.prototype.toString = function () {
-    return 'DatasetDeletedEventDTOBase(id=' + this.h6w_1 + ')';
+    return 'DatasetDeletedEventDTOBase(id=' + this.k6w_1 + ')';
   };
   DatasetDeletedEventDTOBase.prototype.hashCode = function () {
-    return getStringHashCode(this.h6w_1);
+    return getStringHashCode(this.k6w_1);
   };
   DatasetDeletedEventDTOBase.prototype.equals = function (other) {
     if (this === other)
@@ -78737,7 +78788,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetDeletedEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetDeletedEventDTOBase ? other : THROW_CCE();
-    if (!(this.h6w_1 === tmp0_other_with_cast.h6w_1))
+    if (!(this.k6w_1 === tmp0_other_with_cast.k6w_1))
       return false;
     return true;
   };
@@ -78765,10 +78816,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.command.DatasetLinkDatasetsCommandDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('datasets', false);
-    this.i6w_1 = tmp0_serialDesc;
+    this.l6w_1 = tmp0_serialDesc;
   }
   $serializer_18.prototype.q3y = function () {
-    return this.i6w_1;
+    return this.l6w_1;
   };
   $serializer_18.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78784,7 +78835,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_18.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6w_1;
+    var tmp0_desc = this.l6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78818,15 +78869,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetLinkDatasetsCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_18.prototype.j6w = function (encoder, value) {
-    var tmp0_desc = this.i6w_1;
+  $serializer_18.prototype.m6w = function (encoder, value) {
+    var tmp0_desc = this.l6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.k6w_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.l6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.n6w_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.o6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_18.prototype.r3y = function (encoder, value) {
-    return this.j6w(encoder, value instanceof DatasetLinkDatasetsCommandDTOBase ? value : THROW_CCE());
+    return this.m6w(encoder, value instanceof DatasetLinkDatasetsCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_16;
   function $serializer_getInstance_16() {
@@ -78836,10 +78887,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkDatasetsCommandDTOBase_init_$Init$(seen1, id, datasets, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_16().i6w_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_16().l6w_1);
     }
-    $this.k6w_1 = id;
-    $this.l6w_1 = datasets;
+    $this.n6w_1 = id;
+    $this.o6w_1 = datasets;
     return $this;
   }
   function DatasetLinkDatasetsCommandDTOBase_init_$Create$(seen1, id, datasets, serializationConstructorMarker) {
@@ -78847,21 +78898,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkDatasetsCommandDTOBase(id, datasets) {
     Companion_getInstance_87();
-    this.k6w_1 = id;
-    this.l6w_1 = datasets;
+    this.n6w_1 = id;
+    this.o6w_1 = datasets;
   }
   DatasetLinkDatasetsCommandDTOBase.prototype.y4s = function () {
-    return this.k6w_1;
+    return this.n6w_1;
   };
-  DatasetLinkDatasetsCommandDTOBase.prototype.b6s = function () {
-    return this.l6w_1;
+  DatasetLinkDatasetsCommandDTOBase.prototype.e6s = function () {
+    return this.o6w_1;
   };
   DatasetLinkDatasetsCommandDTOBase.prototype.toString = function () {
-    return 'DatasetLinkDatasetsCommandDTOBase(id=' + this.k6w_1 + ', datasets=' + this.l6w_1 + ')';
+    return 'DatasetLinkDatasetsCommandDTOBase(id=' + this.n6w_1 + ', datasets=' + this.o6w_1 + ')';
   };
   DatasetLinkDatasetsCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.k6w_1);
-    result = imul(result, 31) + hashCode(this.l6w_1) | 0;
+    var result = getStringHashCode(this.n6w_1);
+    result = imul(result, 31) + hashCode(this.o6w_1) | 0;
     return result;
   };
   DatasetLinkDatasetsCommandDTOBase.prototype.equals = function (other) {
@@ -78870,9 +78921,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetLinkDatasetsCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetLinkDatasetsCommandDTOBase ? other : THROW_CCE();
-    if (!(this.k6w_1 === tmp0_other_with_cast.k6w_1))
+    if (!(this.n6w_1 === tmp0_other_with_cast.n6w_1))
       return false;
-    if (!equals_1(this.l6w_1, tmp0_other_with_cast.l6w_1))
+    if (!equals_1(this.o6w_1, tmp0_other_with_cast.o6w_1))
       return false;
     return true;
   };
@@ -78885,7 +78936,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetLinkDatasetsCommandDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   function Companion_88() {
@@ -78902,10 +78953,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.command.DatasetLinkedDatasetsEventDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('datasets', false);
-    this.m6w_1 = tmp0_serialDesc;
+    this.p6w_1 = tmp0_serialDesc;
   }
   $serializer_19.prototype.q3y = function () {
-    return this.m6w_1;
+    return this.p6w_1;
   };
   $serializer_19.prototype.u49 = function () {
     var tmp$ret$2;
@@ -78921,7 +78972,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_19.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.m6w_1;
+    var tmp0_desc = this.p6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -78955,15 +79006,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetLinkedDatasetsEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_19.prototype.n6w = function (encoder, value) {
-    var tmp0_desc = this.m6w_1;
+  $serializer_19.prototype.q6w = function (encoder, value) {
+    var tmp0_desc = this.p6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.o6w_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.p6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.r6w_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer(StringSerializer_getInstance()), value.s6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_19.prototype.r3y = function (encoder, value) {
-    return this.n6w(encoder, value instanceof DatasetLinkedDatasetsEventDTOBase ? value : THROW_CCE());
+    return this.q6w(encoder, value instanceof DatasetLinkedDatasetsEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_17;
   function $serializer_getInstance_17() {
@@ -78973,10 +79024,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkedDatasetsEventDTOBase_init_$Init$(seen1, id, datasets, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_17().m6w_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_17().p6w_1);
     }
-    $this.o6w_1 = id;
-    $this.p6w_1 = datasets;
+    $this.r6w_1 = id;
+    $this.s6w_1 = datasets;
     return $this;
   }
   function DatasetLinkedDatasetsEventDTOBase_init_$Create$(seen1, id, datasets, serializationConstructorMarker) {
@@ -78984,21 +79035,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkedDatasetsEventDTOBase(id, datasets) {
     Companion_getInstance_88();
-    this.o6w_1 = id;
-    this.p6w_1 = datasets;
+    this.r6w_1 = id;
+    this.s6w_1 = datasets;
   }
   DatasetLinkedDatasetsEventDTOBase.prototype.y4s = function () {
-    return this.o6w_1;
+    return this.r6w_1;
   };
-  DatasetLinkedDatasetsEventDTOBase.prototype.b6s = function () {
-    return this.p6w_1;
+  DatasetLinkedDatasetsEventDTOBase.prototype.e6s = function () {
+    return this.s6w_1;
   };
   DatasetLinkedDatasetsEventDTOBase.prototype.toString = function () {
-    return 'DatasetLinkedDatasetsEventDTOBase(id=' + this.o6w_1 + ', datasets=' + this.p6w_1 + ')';
+    return 'DatasetLinkedDatasetsEventDTOBase(id=' + this.r6w_1 + ', datasets=' + this.s6w_1 + ')';
   };
   DatasetLinkedDatasetsEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.o6w_1);
-    result = imul(result, 31) + hashCode(this.p6w_1) | 0;
+    var result = getStringHashCode(this.r6w_1);
+    result = imul(result, 31) + hashCode(this.s6w_1) | 0;
     return result;
   };
   DatasetLinkedDatasetsEventDTOBase.prototype.equals = function (other) {
@@ -79007,9 +79058,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetLinkedDatasetsEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetLinkedDatasetsEventDTOBase ? other : THROW_CCE();
-    if (!(this.o6w_1 === tmp0_other_with_cast.o6w_1))
+    if (!(this.r6w_1 === tmp0_other_with_cast.r6w_1))
       return false;
-    if (!equals_1(this.p6w_1, tmp0_other_with_cast.p6w_1))
+    if (!equals_1(this.s6w_1, tmp0_other_with_cast.s6w_1))
       return false;
     return true;
   };
@@ -79022,7 +79073,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetLinkedDatasetsEventDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   function DatasetLinkThemesCommandDTO() {
@@ -79043,10 +79094,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.command.DatasetLinkThemesCommandDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('themes', false);
-    this.q6w_1 = tmp0_serialDesc;
+    this.t6w_1 = tmp0_serialDesc;
   }
   $serializer_20.prototype.q3y = function () {
-    return this.q6w_1;
+    return this.t6w_1;
   };
   $serializer_20.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79062,7 +79113,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_20.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6w_1;
+    var tmp0_desc = this.t6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79096,15 +79147,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetLinkThemesCommandDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_20.prototype.r6w = function (encoder, value) {
-    var tmp0_desc = this.q6w_1;
+  $serializer_20.prototype.u6w = function (encoder, value) {
+    var tmp0_desc = this.t6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.s6w_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_11()), value.t6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.v6w_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_11()), value.w6w_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_20.prototype.r3y = function (encoder, value) {
-    return this.r6w(encoder, value instanceof DatasetLinkThemesCommandDTOBase ? value : THROW_CCE());
+    return this.u6w(encoder, value instanceof DatasetLinkThemesCommandDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_18;
   function $serializer_getInstance_18() {
@@ -79114,10 +79165,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkThemesCommandDTOBase_init_$Init$(seen1, id, themes, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_18().q6w_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_18().t6w_1);
     }
-    $this.s6w_1 = id;
-    $this.t6w_1 = themes;
+    $this.v6w_1 = id;
+    $this.w6w_1 = themes;
     return $this;
   }
   function DatasetLinkThemesCommandDTOBase_init_$Create$(seen1, id, themes, serializationConstructorMarker) {
@@ -79125,21 +79176,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkThemesCommandDTOBase(id, themes) {
     Companion_getInstance_89();
-    this.s6w_1 = id;
-    this.t6w_1 = themes;
+    this.v6w_1 = id;
+    this.w6w_1 = themes;
   }
   DatasetLinkThemesCommandDTOBase.prototype.y4s = function () {
-    return this.s6w_1;
+    return this.v6w_1;
   };
-  DatasetLinkThemesCommandDTOBase.prototype.z6r = function () {
-    return this.t6w_1;
+  DatasetLinkThemesCommandDTOBase.prototype.c6s = function () {
+    return this.w6w_1;
   };
   DatasetLinkThemesCommandDTOBase.prototype.toString = function () {
-    return 'DatasetLinkThemesCommandDTOBase(id=' + this.s6w_1 + ', themes=' + this.t6w_1 + ')';
+    return 'DatasetLinkThemesCommandDTOBase(id=' + this.v6w_1 + ', themes=' + this.w6w_1 + ')';
   };
   DatasetLinkThemesCommandDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.s6w_1);
-    result = imul(result, 31) + hashCode(this.t6w_1) | 0;
+    var result = getStringHashCode(this.v6w_1);
+    result = imul(result, 31) + hashCode(this.w6w_1) | 0;
     return result;
   };
   DatasetLinkThemesCommandDTOBase.prototype.equals = function (other) {
@@ -79148,9 +79199,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetLinkThemesCommandDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetLinkThemesCommandDTOBase ? other : THROW_CCE();
-    if (!(this.s6w_1 === tmp0_other_with_cast.s6w_1))
+    if (!(this.v6w_1 === tmp0_other_with_cast.v6w_1))
       return false;
-    if (!equals_1(this.t6w_1, tmp0_other_with_cast.t6w_1))
+    if (!equals_1(this.w6w_1, tmp0_other_with_cast.w6w_1))
       return false;
     return true;
   };
@@ -79163,7 +79214,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetLinkThemesCommandDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function Companion_90() {
@@ -79180,10 +79231,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.command.DatasetLinkedThemesEventDTOBase', this, 2);
     tmp0_serialDesc.f49('id', false);
     tmp0_serialDesc.f49('themes', false);
-    this.u6w_1 = tmp0_serialDesc;
+    this.x6w_1 = tmp0_serialDesc;
   }
   $serializer_21.prototype.q3y = function () {
-    return this.u6w_1;
+    return this.x6w_1;
   };
   $serializer_21.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79199,7 +79250,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_21.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.u6w_1;
+    var tmp0_desc = this.x6w_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79233,15 +79284,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetLinkedThemesEventDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_21.prototype.v6w = function (encoder, value) {
-    var tmp0_desc = this.u6w_1;
+  $serializer_21.prototype.y6w = function (encoder, value) {
+    var tmp0_desc = this.x6w_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.w6w_1);
-    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_11()), value.x6w_1);
+    tmp1_output.q43(tmp0_desc, 0, value.z6w_1);
+    tmp1_output.s43(tmp0_desc, 1, new ArrayListSerializer($serializer_getInstance_11()), value.a6x_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_21.prototype.r3y = function (encoder, value) {
-    return this.v6w(encoder, value instanceof DatasetLinkedThemesEventDTOBase ? value : THROW_CCE());
+    return this.y6w(encoder, value instanceof DatasetLinkedThemesEventDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_19;
   function $serializer_getInstance_19() {
@@ -79251,10 +79302,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkedThemesEventDTOBase_init_$Init$(seen1, id, themes, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_19().u6w_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_19().x6w_1);
     }
-    $this.w6w_1 = id;
-    $this.x6w_1 = themes;
+    $this.z6w_1 = id;
+    $this.a6x_1 = themes;
     return $this;
   }
   function DatasetLinkedThemesEventDTOBase_init_$Create$(seen1, id, themes, serializationConstructorMarker) {
@@ -79262,21 +79313,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetLinkedThemesEventDTOBase(id, themes) {
     Companion_getInstance_90();
-    this.w6w_1 = id;
-    this.x6w_1 = themes;
+    this.z6w_1 = id;
+    this.a6x_1 = themes;
   }
   DatasetLinkedThemesEventDTOBase.prototype.y4s = function () {
-    return this.w6w_1;
+    return this.z6w_1;
   };
-  DatasetLinkedThemesEventDTOBase.prototype.z6r = function () {
-    return this.x6w_1;
+  DatasetLinkedThemesEventDTOBase.prototype.c6s = function () {
+    return this.a6x_1;
   };
   DatasetLinkedThemesEventDTOBase.prototype.toString = function () {
-    return 'DatasetLinkedThemesEventDTOBase(id=' + this.w6w_1 + ', themes=' + this.x6w_1 + ')';
+    return 'DatasetLinkedThemesEventDTOBase(id=' + this.z6w_1 + ', themes=' + this.a6x_1 + ')';
   };
   DatasetLinkedThemesEventDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.w6w_1);
-    result = imul(result, 31) + hashCode(this.x6w_1) | 0;
+    var result = getStringHashCode(this.z6w_1);
+    result = imul(result, 31) + hashCode(this.a6x_1) | 0;
     return result;
   };
   DatasetLinkedThemesEventDTOBase.prototype.equals = function (other) {
@@ -79285,9 +79336,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetLinkedThemesEventDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetLinkedThemesEventDTOBase ? other : THROW_CCE();
-    if (!(this.w6w_1 === tmp0_other_with_cast.w6w_1))
+    if (!(this.z6w_1 === tmp0_other_with_cast.z6w_1))
       return false;
-    if (!equals_1(this.x6w_1, tmp0_other_with_cast.x6w_1))
+    if (!equals_1(this.a6x_1, tmp0_other_with_cast.a6x_1))
       return false;
     return true;
   };
@@ -79300,7 +79351,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetLinkedThemesEventDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   function DatasetSetImageCommandDTO() {
@@ -79324,10 +79375,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('display', true);
     tmp0_serialDesc.f49('themes', true);
     tmp0_serialDesc.f49('status', true);
-    this.z6w_1 = tmp0_serialDesc;
+    this.c6x_1 = tmp0_serialDesc;
   }
   $serializer_22.prototype.q3y = function () {
-    return this.z6w_1;
+    return this.c6x_1;
   };
   $serializer_22.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79343,7 +79394,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_22.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.z6w_1;
+    var tmp0_desc = this.c6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79433,35 +79484,35 @@ if (typeof Math.imul === 'undefined') {
     tmp14_input.d42(tmp0_desc);
     return DatasetRefDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, null);
   };
-  $serializer_22.prototype.a6x = function (encoder, value) {
-    var tmp0_desc = this.z6w_1;
+  $serializer_22.prototype.d6x = function (encoder, value) {
+    var tmp0_desc = this.c6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.b6x_1);
-    tmp1_output.q43(tmp0_desc, 1, value.c6x_1);
-    tmp1_output.q43(tmp0_desc, 2, value.d6x_1);
-    tmp1_output.q43(tmp0_desc, 3, value.e6x_1);
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.f6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.f6x_1);
+    tmp1_output.q43(tmp0_desc, 0, value.e6x_1);
+    tmp1_output.q43(tmp0_desc, 1, value.f6x_1);
+    tmp1_output.q43(tmp0_desc, 2, value.g6x_1);
+    tmp1_output.q43(tmp0_desc, 3, value.h6x_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.i6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, StringSerializer_getInstance(), value.i6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.g6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.g6x_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.j6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.j6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.h6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.h6x_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.k6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, StringSerializer_getInstance(), value.k6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.i6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, StringSerializer_getInstance(), value.i6x_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.l6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, StringSerializer_getInstance(), value.l6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.j6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_11()), value.j6x_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.m6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, new ArrayListSerializer($serializer_getInstance_11()), value.m6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.k6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 9, Companion_getInstance_84().r4k(), value.k6x_1);
+    if (tmp1_output.y43(tmp0_desc, 9) ? true : !(value.n6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 9, Companion_getInstance_84().r4k(), value.n6x_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_22.prototype.r3y = function (encoder, value) {
-    return this.a6x(encoder, value instanceof DatasetRefDTOBase ? value : THROW_CCE());
+    return this.d6x(encoder, value instanceof DatasetRefDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_20;
   function $serializer_getInstance_20() {
@@ -79471,36 +79522,36 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetRefDTOBase_init_$Init$(seen1, id, identifier, title, type, description, homepage, img, display, themes, status, serializationConstructorMarker, $this) {
     if (!(15 === (15 & seen1))) {
-      throwMissingFieldException(seen1, 15, $serializer_getInstance_20().z6w_1);
+      throwMissingFieldException(seen1, 15, $serializer_getInstance_20().c6x_1);
     }
-    $this.b6x_1 = id;
-    $this.c6x_1 = identifier;
-    $this.d6x_1 = title;
-    $this.e6x_1 = type;
+    $this.e6x_1 = id;
+    $this.f6x_1 = identifier;
+    $this.g6x_1 = title;
+    $this.h6x_1 = type;
     if (0 === (seen1 & 16))
-      $this.f6x_1 = null;
-    else
-      $this.f6x_1 = description;
-    if (0 === (seen1 & 32))
-      $this.g6x_1 = null;
-    else
-      $this.g6x_1 = homepage;
-    if (0 === (seen1 & 64))
-      $this.h6x_1 = null;
-    else
-      $this.h6x_1 = img;
-    if (0 === (seen1 & 128))
       $this.i6x_1 = null;
     else
-      $this.i6x_1 = display;
-    if (0 === (seen1 & 256))
+      $this.i6x_1 = description;
+    if (0 === (seen1 & 32))
       $this.j6x_1 = null;
     else
-      $this.j6x_1 = themes;
-    if (0 === (seen1 & 512))
+      $this.j6x_1 = homepage;
+    if (0 === (seen1 & 64))
       $this.k6x_1 = null;
     else
-      $this.k6x_1 = status;
+      $this.k6x_1 = img;
+    if (0 === (seen1 & 128))
+      $this.l6x_1 = null;
+    else
+      $this.l6x_1 = display;
+    if (0 === (seen1 & 256))
+      $this.m6x_1 = null;
+    else
+      $this.m6x_1 = themes;
+    if (0 === (seen1 & 512))
+      $this.n6x_1 = null;
+    else
+      $this.n6x_1 = status;
     return $this;
   }
   function DatasetRefDTOBase_init_$Create$(seen1, id, identifier, title, type, description, homepage, img, display, themes, status, serializationConstructorMarker) {
@@ -79509,49 +79560,49 @@ if (typeof Math.imul === 'undefined') {
   function DatasetRefDTOBase() {
   }
   DatasetRefDTOBase.prototype.y4s = function () {
-    return this.b6x_1;
-  };
-  DatasetRefDTOBase.prototype.k6e = function () {
-    return this.c6x_1;
-  };
-  DatasetRefDTOBase.prototype.g6s = function () {
-    return this.d6x_1;
-  };
-  DatasetRefDTOBase.prototype.b52 = function () {
     return this.e6x_1;
   };
-  DatasetRefDTOBase.prototype.n6g = function () {
+  DatasetRefDTOBase.prototype.k6e = function () {
     return this.f6x_1;
   };
-  DatasetRefDTOBase.prototype.x6r = function () {
+  DatasetRefDTOBase.prototype.j6s = function () {
     return this.g6x_1;
   };
-  DatasetRefDTOBase.prototype.y6r = function () {
+  DatasetRefDTOBase.prototype.b52 = function () {
     return this.h6x_1;
   };
-  DatasetRefDTOBase.prototype.y6w = function () {
+  DatasetRefDTOBase.prototype.n6g = function () {
     return this.i6x_1;
   };
-  DatasetRefDTOBase.prototype.z6r = function () {
+  DatasetRefDTOBase.prototype.a6s = function () {
     return this.j6x_1;
   };
-  DatasetRefDTOBase.prototype.v32 = function () {
+  DatasetRefDTOBase.prototype.b6s = function () {
     return this.k6x_1;
   };
+  DatasetRefDTOBase.prototype.b6x = function () {
+    return this.l6x_1;
+  };
+  DatasetRefDTOBase.prototype.c6s = function () {
+    return this.m6x_1;
+  };
+  DatasetRefDTOBase.prototype.v32 = function () {
+    return this.n6x_1;
+  };
   DatasetRefDTOBase.prototype.toString = function () {
-    return 'DatasetRefDTOBase(id=' + this.b6x_1 + ', identifier=' + this.c6x_1 + ', title=' + this.d6x_1 + ', type=' + this.e6x_1 + ', description=' + this.f6x_1 + ', homepage=' + this.g6x_1 + ', img=' + this.h6x_1 + ', display=' + this.i6x_1 + ', themes=' + this.j6x_1 + ', status=' + this.k6x_1 + ')';
+    return 'DatasetRefDTOBase(id=' + this.e6x_1 + ', identifier=' + this.f6x_1 + ', title=' + this.g6x_1 + ', type=' + this.h6x_1 + ', description=' + this.i6x_1 + ', homepage=' + this.j6x_1 + ', img=' + this.k6x_1 + ', display=' + this.l6x_1 + ', themes=' + this.m6x_1 + ', status=' + this.n6x_1 + ')';
   };
   DatasetRefDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.b6x_1);
-    result = imul(result, 31) + getStringHashCode(this.c6x_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.d6x_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.e6x_1) | 0;
-    result = imul(result, 31) + (this.f6x_1 == null ? 0 : getStringHashCode(this.f6x_1)) | 0;
-    result = imul(result, 31) + (this.g6x_1 == null ? 0 : getStringHashCode(this.g6x_1)) | 0;
-    result = imul(result, 31) + (this.h6x_1 == null ? 0 : getStringHashCode(this.h6x_1)) | 0;
+    var result = getStringHashCode(this.e6x_1);
+    result = imul(result, 31) + getStringHashCode(this.f6x_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.g6x_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.h6x_1) | 0;
     result = imul(result, 31) + (this.i6x_1 == null ? 0 : getStringHashCode(this.i6x_1)) | 0;
-    result = imul(result, 31) + (this.j6x_1 == null ? 0 : hashCode(this.j6x_1)) | 0;
-    result = imul(result, 31) + (this.k6x_1 == null ? 0 : this.k6x_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.j6x_1 == null ? 0 : getStringHashCode(this.j6x_1)) | 0;
+    result = imul(result, 31) + (this.k6x_1 == null ? 0 : getStringHashCode(this.k6x_1)) | 0;
+    result = imul(result, 31) + (this.l6x_1 == null ? 0 : getStringHashCode(this.l6x_1)) | 0;
+    result = imul(result, 31) + (this.m6x_1 == null ? 0 : hashCode(this.m6x_1)) | 0;
+    result = imul(result, 31) + (this.n6x_1 == null ? 0 : this.n6x_1.hashCode()) | 0;
     return result;
   };
   DatasetRefDTOBase.prototype.equals = function (other) {
@@ -79560,25 +79611,25 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetRefDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetRefDTOBase ? other : THROW_CCE();
-    if (!(this.b6x_1 === tmp0_other_with_cast.b6x_1))
-      return false;
-    if (!(this.c6x_1 === tmp0_other_with_cast.c6x_1))
-      return false;
-    if (!(this.d6x_1 === tmp0_other_with_cast.d6x_1))
-      return false;
     if (!(this.e6x_1 === tmp0_other_with_cast.e6x_1))
       return false;
-    if (!(this.f6x_1 == tmp0_other_with_cast.f6x_1))
+    if (!(this.f6x_1 === tmp0_other_with_cast.f6x_1))
       return false;
-    if (!(this.g6x_1 == tmp0_other_with_cast.g6x_1))
+    if (!(this.g6x_1 === tmp0_other_with_cast.g6x_1))
       return false;
-    if (!(this.h6x_1 == tmp0_other_with_cast.h6x_1))
+    if (!(this.h6x_1 === tmp0_other_with_cast.h6x_1))
       return false;
     if (!(this.i6x_1 == tmp0_other_with_cast.i6x_1))
       return false;
-    if (!equals_1(this.j6x_1, tmp0_other_with_cast.j6x_1))
+    if (!(this.j6x_1 == tmp0_other_with_cast.j6x_1))
       return false;
-    if (!equals_1(this.k6x_1, tmp0_other_with_cast.k6x_1))
+    if (!(this.k6x_1 == tmp0_other_with_cast.k6x_1))
+      return false;
+    if (!(this.l6x_1 == tmp0_other_with_cast.l6x_1))
+      return false;
+    if (!equals_1(this.m6x_1, tmp0_other_with_cast.m6x_1))
+      return false;
+    if (!equals_1(this.n6x_1, tmp0_other_with_cast.n6x_1))
       return false;
     return true;
   };
@@ -79597,7 +79648,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetRefDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.g6s();
+      return this.j6s();
     }
   });
   Object.defineProperty(DatasetRefDTOBase.prototype, 'type', {
@@ -79615,25 +79666,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetRefDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.x6r();
+      return this.a6s();
     }
   });
   Object.defineProperty(DatasetRefDTOBase.prototype, 'img', {
     configurable: true,
     get: function () {
-      return this.y6r();
+      return this.b6s();
     }
   });
   Object.defineProperty(DatasetRefDTOBase.prototype, 'display', {
     configurable: true,
     get: function () {
-      return this.y6w();
+      return this.b6x();
     }
   });
   Object.defineProperty(DatasetRefDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   Object.defineProperty(DatasetRefDTOBase.prototype, 'status', {
@@ -79671,10 +79722,10 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.f49('status', false);
     tmp0_serialDesc.f49('homepage', true);
     tmp0_serialDesc.f49('display', true);
-    this.l6x_1 = tmp0_serialDesc;
+    this.o6x_1 = tmp0_serialDesc;
   }
   $serializer_23.prototype.q3y = function () {
-    return this.l6x_1;
+    return this.o6x_1;
   };
   $serializer_23.prototype.u49 = function () {
     var tmp$ret$2;
@@ -79690,7 +79741,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_23.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.l6x_1;
+    var tmp0_desc = this.o6x_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -79892,81 +79943,81 @@ if (typeof Math.imul === 'undefined') {
     tmp30_input.d42(tmp0_desc);
     return DatasetDTOBase_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, tmp6_local2, tmp7_local3, tmp8_local4, tmp9_local5, tmp10_local6, tmp11_local7, tmp12_local8, tmp13_local9, tmp14_local10, tmp15_local11, tmp16_local12, tmp17_local13, tmp18_local14, tmp19_local15, tmp20_local16, tmp21_local17, tmp22_local18, tmp23_local19, tmp24_local20, tmp25_local21, tmp26_local22, tmp27_local23, tmp28_local24, tmp29_local25, null);
   };
-  $serializer_23.prototype.m6x = function (encoder, value) {
-    var tmp0_desc = this.l6x_1;
+  $serializer_23.prototype.p6x = function (encoder, value) {
+    var tmp0_desc = this.o6x_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.n6x_1);
-    tmp1_output.q43(tmp0_desc, 1, value.o6x_1);
-    tmp1_output.q43(tmp0_desc, 2, value.p6x_1);
-    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.q6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.q6x_1);
+    tmp1_output.q43(tmp0_desc, 0, value.q6x_1);
+    tmp1_output.q43(tmp0_desc, 1, value.r6x_1);
+    tmp1_output.q43(tmp0_desc, 2, value.s6x_1);
+    if (tmp1_output.y43(tmp0_desc, 3) ? true : !(value.t6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 3, StringSerializer_getInstance(), value.t6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.r6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 4, $serializer_getInstance_13(), value.r6x_1);
+    if (tmp1_output.y43(tmp0_desc, 4) ? true : !(value.u6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 4, $serializer_getInstance_13(), value.u6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.s6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.s6x_1);
+    if (tmp1_output.y43(tmp0_desc, 5) ? true : !(value.v6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 5, StringSerializer_getInstance(), value.v6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.t6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 6, new ArrayListSerializer($serializer_getInstance_10()), value.t6x_1);
+    if (tmp1_output.y43(tmp0_desc, 6) ? true : !(value.w6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 6, new ArrayListSerializer($serializer_getInstance_10()), value.w6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.u6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_12(), value.u6x_1);
+    if (tmp1_output.y43(tmp0_desc, 7) ? true : !(value.x6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 7, $serializer_getInstance_12(), value.x6x_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.v6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.v6x_1);
+    if (tmp1_output.y43(tmp0_desc, 8) ? true : !(value.y6x_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 8, StringSerializer_getInstance(), value.y6x_1);
     }
-    tmp1_output.q43(tmp0_desc, 9, value.w6x_1);
-    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.x6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.x6x_1);
+    tmp1_output.q43(tmp0_desc, 9, value.z6x_1);
+    if (tmp1_output.y43(tmp0_desc, 10) ? true : !(value.a6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 10, StringSerializer_getInstance(), value.a6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.y6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.y6x_1);
+    if (tmp1_output.y43(tmp0_desc, 11) ? true : !(value.b6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 11, StringSerializer_getInstance(), value.b6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.z6x_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 12, new ArrayListSerializer(StringSerializer_getInstance()), value.z6x_1);
+    if (tmp1_output.y43(tmp0_desc, 12) ? true : !(value.c6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 12, new ArrayListSerializer(StringSerializer_getInstance()), value.c6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.a6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 13, $serializer_getInstance_12(), value.a6y_1);
+    if (tmp1_output.y43(tmp0_desc, 13) ? true : !(value.d6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 13, $serializer_getInstance_12(), value.d6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.b6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 14, new ArrayListSerializer($serializer_getInstance_11()), value.b6y_1);
+    if (tmp1_output.y43(tmp0_desc, 14) ? true : !(value.e6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 14, new ArrayListSerializer($serializer_getInstance_11()), value.e6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.c6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 15, new ArrayListSerializer(StringSerializer_getInstance()), value.c6y_1);
+    if (tmp1_output.y43(tmp0_desc, 15) ? true : !(value.f6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 15, new ArrayListSerializer(StringSerializer_getInstance()), value.f6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.d6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.d6y_1);
+    if (tmp1_output.y43(tmp0_desc, 16) ? true : !(value.g6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 16, StringSerializer_getInstance(), value.g6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.e6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.e6y_1);
+    if (tmp1_output.y43(tmp0_desc, 17) ? true : !(value.h6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 17, StringSerializer_getInstance(), value.h6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.f6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.f6y_1);
+    if (tmp1_output.y43(tmp0_desc, 18) ? true : !(value.i6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 18, StringSerializer_getInstance(), value.i6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.g6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 19, IntSerializer_getInstance(), value.g6y_1);
+    if (tmp1_output.y43(tmp0_desc, 19) ? true : !(value.j6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 19, IntSerializer_getInstance(), value.j6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.h6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 20, StringSerializer_getInstance(), value.h6y_1);
+    if (tmp1_output.y43(tmp0_desc, 20) ? true : !(value.k6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 20, StringSerializer_getInstance(), value.k6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.i6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer($serializer_getInstance_20()), value.i6y_1);
+    if (tmp1_output.y43(tmp0_desc, 21) ? true : !(value.l6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 21, new ArrayListSerializer($serializer_getInstance_20()), value.l6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.j6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 22, new ArrayListSerializer($serializer_getInstance_11()), value.j6y_1);
+    if (tmp1_output.y43(tmp0_desc, 22) ? true : !(value.m6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 22, new ArrayListSerializer($serializer_getInstance_11()), value.m6y_1);
     }
-    tmp1_output.s43(tmp0_desc, 23, Companion_getInstance_84().r4k(), value.k6y_1);
-    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.l6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 24, StringSerializer_getInstance(), value.l6y_1);
+    tmp1_output.s43(tmp0_desc, 23, Companion_getInstance_84().r4k(), value.n6y_1);
+    if (tmp1_output.y43(tmp0_desc, 24) ? true : !(value.o6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 24, StringSerializer_getInstance(), value.o6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 25) ? true : !(value.m6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 25, StringSerializer_getInstance(), value.m6y_1);
+    if (tmp1_output.y43(tmp0_desc, 25) ? true : !(value.p6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 25, StringSerializer_getInstance(), value.p6y_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_23.prototype.r3y = function (encoder, value) {
-    return this.m6x(encoder, value instanceof DatasetDTOBase ? value : THROW_CCE());
+    return this.p6x(encoder, value instanceof DatasetDTOBase ? value : THROW_CCE());
   };
   var $serializer_instance_21;
   function $serializer_getInstance_21() {
@@ -79976,97 +80027,97 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDTOBase_init_$Init$(seen1, id, identifier, type, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, description, title, releaseDate, updateDate, language, publisher, theme, keywords, landingPage, version, versionNotes, length, img, datasets, themes, status, homepage, display, serializationConstructorMarker, $this) {
     if (!(8389127 === (8389127 & seen1))) {
-      throwMissingFieldException(seen1, 8389127, $serializer_getInstance_21().l6x_1);
+      throwMissingFieldException(seen1, 8389127, $serializer_getInstance_21().o6x_1);
     }
-    $this.n6x_1 = id;
-    $this.o6x_1 = identifier;
-    $this.p6x_1 = type;
+    $this.q6x_1 = id;
+    $this.r6x_1 = identifier;
+    $this.s6x_1 = type;
     if (0 === (seen1 & 8))
-      $this.q6x_1 = null;
-    else
-      $this.q6x_1 = temporalResolution;
-    if (0 === (seen1 & 16))
-      $this.r6x_1 = null;
-    else
-      $this.r6x_1 = wasGeneratedBy;
-    if (0 === (seen1 & 32))
-      $this.s6x_1 = null;
-    else
-      $this.s6x_1 = accessRights;
-    if (0 === (seen1 & 64))
       $this.t6x_1 = null;
     else
-      $this.t6x_1 = conformsTo;
-    if (0 === (seen1 & 128))
+      $this.t6x_1 = temporalResolution;
+    if (0 === (seen1 & 16))
       $this.u6x_1 = null;
     else
-      $this.u6x_1 = creator;
-    if (0 === (seen1 & 256))
+      $this.u6x_1 = wasGeneratedBy;
+    if (0 === (seen1 & 32))
       $this.v6x_1 = null;
     else
-      $this.v6x_1 = description;
-    $this.w6x_1 = title;
-    if (0 === (seen1 & 1024))
+      $this.v6x_1 = accessRights;
+    if (0 === (seen1 & 64))
+      $this.w6x_1 = null;
+    else
+      $this.w6x_1 = conformsTo;
+    if (0 === (seen1 & 128))
       $this.x6x_1 = null;
     else
-      $this.x6x_1 = releaseDate;
-    if (0 === (seen1 & 2048))
+      $this.x6x_1 = creator;
+    if (0 === (seen1 & 256))
       $this.y6x_1 = null;
     else
-      $this.y6x_1 = updateDate;
-    if (0 === (seen1 & 4096))
-      $this.z6x_1 = null;
-    else
-      $this.z6x_1 = language;
-    if (0 === (seen1 & 8192))
+      $this.y6x_1 = description;
+    $this.z6x_1 = title;
+    if (0 === (seen1 & 1024))
       $this.a6y_1 = null;
     else
-      $this.a6y_1 = publisher;
-    if (0 === (seen1 & 16384))
+      $this.a6y_1 = releaseDate;
+    if (0 === (seen1 & 2048))
       $this.b6y_1 = null;
     else
-      $this.b6y_1 = theme;
-    if (0 === (seen1 & 32768))
+      $this.b6y_1 = updateDate;
+    if (0 === (seen1 & 4096))
       $this.c6y_1 = null;
     else
-      $this.c6y_1 = keywords;
-    if (0 === (seen1 & 65536))
+      $this.c6y_1 = language;
+    if (0 === (seen1 & 8192))
       $this.d6y_1 = null;
     else
-      $this.d6y_1 = landingPage;
-    if (0 === (seen1 & 131072))
+      $this.d6y_1 = publisher;
+    if (0 === (seen1 & 16384))
       $this.e6y_1 = null;
     else
-      $this.e6y_1 = version;
-    if (0 === (seen1 & 262144))
+      $this.e6y_1 = theme;
+    if (0 === (seen1 & 32768))
       $this.f6y_1 = null;
     else
-      $this.f6y_1 = versionNotes;
-    if (0 === (seen1 & 524288))
+      $this.f6y_1 = keywords;
+    if (0 === (seen1 & 65536))
       $this.g6y_1 = null;
     else
-      $this.g6y_1 = length;
-    if (0 === (seen1 & 1048576))
+      $this.g6y_1 = landingPage;
+    if (0 === (seen1 & 131072))
       $this.h6y_1 = null;
     else
-      $this.h6y_1 = img;
-    if (0 === (seen1 & 2097152))
+      $this.h6y_1 = version;
+    if (0 === (seen1 & 262144))
       $this.i6y_1 = null;
     else
-      $this.i6y_1 = datasets;
-    if (0 === (seen1 & 4194304))
+      $this.i6y_1 = versionNotes;
+    if (0 === (seen1 & 524288))
       $this.j6y_1 = null;
     else
-      $this.j6y_1 = themes;
-    $this.k6y_1 = status;
-    if (0 === (seen1 & 16777216))
+      $this.j6y_1 = length;
+    if (0 === (seen1 & 1048576))
+      $this.k6y_1 = null;
+    else
+      $this.k6y_1 = img;
+    if (0 === (seen1 & 2097152))
       $this.l6y_1 = null;
     else
-      $this.l6y_1 = homepage;
-    if (0 === (seen1 & 33554432))
+      $this.l6y_1 = datasets;
+    if (0 === (seen1 & 4194304))
       $this.m6y_1 = null;
     else
-      $this.m6y_1 = display;
+      $this.m6y_1 = themes;
+    $this.n6y_1 = status;
+    if (0 === (seen1 & 16777216))
+      $this.o6y_1 = null;
+    else
+      $this.o6y_1 = homepage;
+    if (0 === (seen1 & 33554432))
+      $this.p6y_1 = null;
+    else
+      $this.p6y_1 = display;
     return $this;
   }
   function DatasetDTOBase_init_$Create$(seen1, id, identifier, type, temporalResolution, wasGeneratedBy, accessRights, conformsTo, creator, description, title, releaseDate, updateDate, language, publisher, theme, keywords, landingPage, version, versionNotes, length, img, datasets, themes, status, homepage, display, serializationConstructorMarker) {
@@ -80075,42 +80126,33 @@ if (typeof Math.imul === 'undefined') {
   function DatasetDTOBase() {
   }
   DatasetDTOBase.prototype.y4s = function () {
-    return this.n6x_1;
-  };
-  DatasetDTOBase.prototype.k6e = function () {
-    return this.o6x_1;
-  };
-  DatasetDTOBase.prototype.b52 = function () {
-    return this.p6x_1;
-  };
-  DatasetDTOBase.prototype.r6t = function () {
     return this.q6x_1;
   };
-  DatasetDTOBase.prototype.s6t = function () {
+  DatasetDTOBase.prototype.k6e = function () {
     return this.r6x_1;
   };
-  DatasetDTOBase.prototype.h6s = function () {
+  DatasetDTOBase.prototype.b52 = function () {
     return this.s6x_1;
   };
-  DatasetDTOBase.prototype.i6s = function () {
+  DatasetDTOBase.prototype.u6t = function () {
     return this.t6x_1;
   };
-  DatasetDTOBase.prototype.l6i = function () {
+  DatasetDTOBase.prototype.v6t = function () {
     return this.u6x_1;
   };
-  DatasetDTOBase.prototype.n6g = function () {
+  DatasetDTOBase.prototype.k6s = function () {
     return this.v6x_1;
   };
-  DatasetDTOBase.prototype.g6s = function () {
+  DatasetDTOBase.prototype.l6s = function () {
     return this.w6x_1;
   };
-  DatasetDTOBase.prototype.k6s = function () {
+  DatasetDTOBase.prototype.l6i = function () {
     return this.x6x_1;
   };
-  DatasetDTOBase.prototype.l6s = function () {
+  DatasetDTOBase.prototype.n6g = function () {
     return this.y6x_1;
   };
-  DatasetDTOBase.prototype.m6s = function () {
+  DatasetDTOBase.prototype.j6s = function () {
     return this.z6x_1;
   };
   DatasetDTOBase.prototype.n6s = function () {
@@ -80119,69 +80161,78 @@ if (typeof Math.imul === 'undefined') {
   DatasetDTOBase.prototype.o6s = function () {
     return this.b6y_1;
   };
-  DatasetDTOBase.prototype.r6s = function () {
+  DatasetDTOBase.prototype.p6s = function () {
     return this.c6y_1;
   };
-  DatasetDTOBase.prototype.s6s = function () {
+  DatasetDTOBase.prototype.q6s = function () {
     return this.d6y_1;
   };
-  DatasetDTOBase.prototype.l34 = function () {
+  DatasetDTOBase.prototype.r6s = function () {
     return this.e6y_1;
   };
-  DatasetDTOBase.prototype.d6t = function () {
+  DatasetDTOBase.prototype.u6s = function () {
     return this.f6y_1;
   };
-  DatasetDTOBase.prototype.h9 = function () {
+  DatasetDTOBase.prototype.v6s = function () {
     return this.g6y_1;
   };
-  DatasetDTOBase.prototype.y6r = function () {
+  DatasetDTOBase.prototype.l34 = function () {
     return this.h6y_1;
   };
-  DatasetDTOBase.prototype.b6s = function () {
+  DatasetDTOBase.prototype.g6t = function () {
     return this.i6y_1;
   };
-  DatasetDTOBase.prototype.z6r = function () {
+  DatasetDTOBase.prototype.h9 = function () {
     return this.j6y_1;
   };
-  DatasetDTOBase.prototype.v32 = function () {
+  DatasetDTOBase.prototype.b6s = function () {
     return this.k6y_1;
   };
-  DatasetDTOBase.prototype.x6r = function () {
+  DatasetDTOBase.prototype.e6s = function () {
     return this.l6y_1;
   };
-  DatasetDTOBase.prototype.y6w = function () {
+  DatasetDTOBase.prototype.c6s = function () {
     return this.m6y_1;
   };
+  DatasetDTOBase.prototype.v32 = function () {
+    return this.n6y_1;
+  };
+  DatasetDTOBase.prototype.a6s = function () {
+    return this.o6y_1;
+  };
+  DatasetDTOBase.prototype.b6x = function () {
+    return this.p6y_1;
+  };
   DatasetDTOBase.prototype.toString = function () {
-    return 'DatasetDTOBase(id=' + this.n6x_1 + ', identifier=' + this.o6x_1 + ', type=' + this.p6x_1 + ', temporalResolution=' + this.q6x_1 + ', wasGeneratedBy=' + this.r6x_1 + ', accessRights=' + this.s6x_1 + ', conformsTo=' + this.t6x_1 + ', creator=' + this.u6x_1 + ', description=' + this.v6x_1 + ', title=' + this.w6x_1 + ', releaseDate=' + this.x6x_1 + ', updateDate=' + this.y6x_1 + ', language=' + this.z6x_1 + ', publisher=' + this.a6y_1 + ', theme=' + this.b6y_1 + ', keywords=' + this.c6y_1 + ', landingPage=' + this.d6y_1 + ', version=' + this.e6y_1 + ', versionNotes=' + this.f6y_1 + ', length=' + this.g6y_1 + ', img=' + this.h6y_1 + ', datasets=' + this.i6y_1 + ', themes=' + this.j6y_1 + ', status=' + this.k6y_1 + ', homepage=' + this.l6y_1 + ', display=' + this.m6y_1 + ')';
+    return 'DatasetDTOBase(id=' + this.q6x_1 + ', identifier=' + this.r6x_1 + ', type=' + this.s6x_1 + ', temporalResolution=' + this.t6x_1 + ', wasGeneratedBy=' + this.u6x_1 + ', accessRights=' + this.v6x_1 + ', conformsTo=' + this.w6x_1 + ', creator=' + this.x6x_1 + ', description=' + this.y6x_1 + ', title=' + this.z6x_1 + ', releaseDate=' + this.a6y_1 + ', updateDate=' + this.b6y_1 + ', language=' + this.c6y_1 + ', publisher=' + this.d6y_1 + ', theme=' + this.e6y_1 + ', keywords=' + this.f6y_1 + ', landingPage=' + this.g6y_1 + ', version=' + this.h6y_1 + ', versionNotes=' + this.i6y_1 + ', length=' + this.j6y_1 + ', img=' + this.k6y_1 + ', datasets=' + this.l6y_1 + ', themes=' + this.m6y_1 + ', status=' + this.n6y_1 + ', homepage=' + this.o6y_1 + ', display=' + this.p6y_1 + ')';
   };
   DatasetDTOBase.prototype.hashCode = function () {
-    var result = getStringHashCode(this.n6x_1);
-    result = imul(result, 31) + getStringHashCode(this.o6x_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.p6x_1) | 0;
-    result = imul(result, 31) + (this.q6x_1 == null ? 0 : getStringHashCode(this.q6x_1)) | 0;
-    result = imul(result, 31) + (this.r6x_1 == null ? 0 : this.r6x_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s6x_1 == null ? 0 : getStringHashCode(this.s6x_1)) | 0;
-    result = imul(result, 31) + (this.t6x_1 == null ? 0 : hashCode(this.t6x_1)) | 0;
+    var result = getStringHashCode(this.q6x_1);
+    result = imul(result, 31) + getStringHashCode(this.r6x_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.s6x_1) | 0;
+    result = imul(result, 31) + (this.t6x_1 == null ? 0 : getStringHashCode(this.t6x_1)) | 0;
     result = imul(result, 31) + (this.u6x_1 == null ? 0 : this.u6x_1.hashCode()) | 0;
     result = imul(result, 31) + (this.v6x_1 == null ? 0 : getStringHashCode(this.v6x_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.w6x_1) | 0;
-    result = imul(result, 31) + (this.x6x_1 == null ? 0 : getStringHashCode(this.x6x_1)) | 0;
+    result = imul(result, 31) + (this.w6x_1 == null ? 0 : hashCode(this.w6x_1)) | 0;
+    result = imul(result, 31) + (this.x6x_1 == null ? 0 : this.x6x_1.hashCode()) | 0;
     result = imul(result, 31) + (this.y6x_1 == null ? 0 : getStringHashCode(this.y6x_1)) | 0;
-    result = imul(result, 31) + (this.z6x_1 == null ? 0 : hashCode(this.z6x_1)) | 0;
-    result = imul(result, 31) + (this.a6y_1 == null ? 0 : this.a6y_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.b6y_1 == null ? 0 : hashCode(this.b6y_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.z6x_1) | 0;
+    result = imul(result, 31) + (this.a6y_1 == null ? 0 : getStringHashCode(this.a6y_1)) | 0;
+    result = imul(result, 31) + (this.b6y_1 == null ? 0 : getStringHashCode(this.b6y_1)) | 0;
     result = imul(result, 31) + (this.c6y_1 == null ? 0 : hashCode(this.c6y_1)) | 0;
-    result = imul(result, 31) + (this.d6y_1 == null ? 0 : getStringHashCode(this.d6y_1)) | 0;
-    result = imul(result, 31) + (this.e6y_1 == null ? 0 : getStringHashCode(this.e6y_1)) | 0;
-    result = imul(result, 31) + (this.f6y_1 == null ? 0 : getStringHashCode(this.f6y_1)) | 0;
-    result = imul(result, 31) + (this.g6y_1 == null ? 0 : this.g6y_1) | 0;
+    result = imul(result, 31) + (this.d6y_1 == null ? 0 : this.d6y_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.e6y_1 == null ? 0 : hashCode(this.e6y_1)) | 0;
+    result = imul(result, 31) + (this.f6y_1 == null ? 0 : hashCode(this.f6y_1)) | 0;
+    result = imul(result, 31) + (this.g6y_1 == null ? 0 : getStringHashCode(this.g6y_1)) | 0;
     result = imul(result, 31) + (this.h6y_1 == null ? 0 : getStringHashCode(this.h6y_1)) | 0;
-    result = imul(result, 31) + (this.i6y_1 == null ? 0 : hashCode(this.i6y_1)) | 0;
-    result = imul(result, 31) + (this.j6y_1 == null ? 0 : hashCode(this.j6y_1)) | 0;
-    result = imul(result, 31) + this.k6y_1.hashCode() | 0;
-    result = imul(result, 31) + (this.l6y_1 == null ? 0 : getStringHashCode(this.l6y_1)) | 0;
-    result = imul(result, 31) + (this.m6y_1 == null ? 0 : getStringHashCode(this.m6y_1)) | 0;
+    result = imul(result, 31) + (this.i6y_1 == null ? 0 : getStringHashCode(this.i6y_1)) | 0;
+    result = imul(result, 31) + (this.j6y_1 == null ? 0 : this.j6y_1) | 0;
+    result = imul(result, 31) + (this.k6y_1 == null ? 0 : getStringHashCode(this.k6y_1)) | 0;
+    result = imul(result, 31) + (this.l6y_1 == null ? 0 : hashCode(this.l6y_1)) | 0;
+    result = imul(result, 31) + (this.m6y_1 == null ? 0 : hashCode(this.m6y_1)) | 0;
+    result = imul(result, 31) + this.n6y_1.hashCode() | 0;
+    result = imul(result, 31) + (this.o6y_1 == null ? 0 : getStringHashCode(this.o6y_1)) | 0;
+    result = imul(result, 31) + (this.p6y_1 == null ? 0 : getStringHashCode(this.p6y_1)) | 0;
     return result;
   };
   DatasetDTOBase.prototype.equals = function (other) {
@@ -80190,57 +80241,57 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetDTOBase))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetDTOBase ? other : THROW_CCE();
-    if (!(this.n6x_1 === tmp0_other_with_cast.n6x_1))
+    if (!(this.q6x_1 === tmp0_other_with_cast.q6x_1))
       return false;
-    if (!(this.o6x_1 === tmp0_other_with_cast.o6x_1))
+    if (!(this.r6x_1 === tmp0_other_with_cast.r6x_1))
       return false;
-    if (!(this.p6x_1 === tmp0_other_with_cast.p6x_1))
+    if (!(this.s6x_1 === tmp0_other_with_cast.s6x_1))
       return false;
-    if (!(this.q6x_1 == tmp0_other_with_cast.q6x_1))
-      return false;
-    if (!equals_1(this.r6x_1, tmp0_other_with_cast.r6x_1))
-      return false;
-    if (!(this.s6x_1 == tmp0_other_with_cast.s6x_1))
-      return false;
-    if (!equals_1(this.t6x_1, tmp0_other_with_cast.t6x_1))
+    if (!(this.t6x_1 == tmp0_other_with_cast.t6x_1))
       return false;
     if (!equals_1(this.u6x_1, tmp0_other_with_cast.u6x_1))
       return false;
     if (!(this.v6x_1 == tmp0_other_with_cast.v6x_1))
       return false;
-    if (!(this.w6x_1 === tmp0_other_with_cast.w6x_1))
+    if (!equals_1(this.w6x_1, tmp0_other_with_cast.w6x_1))
       return false;
-    if (!(this.x6x_1 == tmp0_other_with_cast.x6x_1))
+    if (!equals_1(this.x6x_1, tmp0_other_with_cast.x6x_1))
       return false;
     if (!(this.y6x_1 == tmp0_other_with_cast.y6x_1))
       return false;
-    if (!equals_1(this.z6x_1, tmp0_other_with_cast.z6x_1))
+    if (!(this.z6x_1 === tmp0_other_with_cast.z6x_1))
       return false;
-    if (!equals_1(this.a6y_1, tmp0_other_with_cast.a6y_1))
+    if (!(this.a6y_1 == tmp0_other_with_cast.a6y_1))
       return false;
-    if (!equals_1(this.b6y_1, tmp0_other_with_cast.b6y_1))
+    if (!(this.b6y_1 == tmp0_other_with_cast.b6y_1))
       return false;
     if (!equals_1(this.c6y_1, tmp0_other_with_cast.c6y_1))
       return false;
-    if (!(this.d6y_1 == tmp0_other_with_cast.d6y_1))
+    if (!equals_1(this.d6y_1, tmp0_other_with_cast.d6y_1))
       return false;
-    if (!(this.e6y_1 == tmp0_other_with_cast.e6y_1))
+    if (!equals_1(this.e6y_1, tmp0_other_with_cast.e6y_1))
       return false;
-    if (!(this.f6y_1 == tmp0_other_with_cast.f6y_1))
+    if (!equals_1(this.f6y_1, tmp0_other_with_cast.f6y_1))
       return false;
     if (!(this.g6y_1 == tmp0_other_with_cast.g6y_1))
       return false;
     if (!(this.h6y_1 == tmp0_other_with_cast.h6y_1))
       return false;
-    if (!equals_1(this.i6y_1, tmp0_other_with_cast.i6y_1))
+    if (!(this.i6y_1 == tmp0_other_with_cast.i6y_1))
       return false;
-    if (!equals_1(this.j6y_1, tmp0_other_with_cast.j6y_1))
+    if (!(this.j6y_1 == tmp0_other_with_cast.j6y_1))
       return false;
-    if (!this.k6y_1.equals(tmp0_other_with_cast.k6y_1))
+    if (!(this.k6y_1 == tmp0_other_with_cast.k6y_1))
       return false;
-    if (!(this.l6y_1 == tmp0_other_with_cast.l6y_1))
+    if (!equals_1(this.l6y_1, tmp0_other_with_cast.l6y_1))
       return false;
-    if (!(this.m6y_1 == tmp0_other_with_cast.m6y_1))
+    if (!equals_1(this.m6y_1, tmp0_other_with_cast.m6y_1))
+      return false;
+    if (!this.n6y_1.equals(tmp0_other_with_cast.n6y_1))
+      return false;
+    if (!(this.o6y_1 == tmp0_other_with_cast.o6y_1))
+      return false;
+    if (!(this.p6y_1 == tmp0_other_with_cast.p6y_1))
       return false;
     return true;
   };
@@ -80265,25 +80316,25 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetDTOBase.prototype, 'temporalResolution', {
     configurable: true,
     get: function () {
-      return this.r6t();
+      return this.u6t();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'wasGeneratedBy', {
     configurable: true,
     get: function () {
-      return this.s6t();
+      return this.v6t();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'accessRights', {
     configurable: true,
     get: function () {
-      return this.h6s();
+      return this.k6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'conformsTo', {
     configurable: true,
     get: function () {
-      return this.i6s();
+      return this.l6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'creator', {
@@ -80301,49 +80352,49 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetDTOBase.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.g6s();
+      return this.j6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'releaseDate', {
     configurable: true,
     get: function () {
-      return this.k6s();
+      return this.n6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'updateDate', {
     configurable: true,
     get: function () {
-      return this.l6s();
+      return this.o6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'language', {
     configurable: true,
     get: function () {
-      return this.m6s();
+      return this.p6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'publisher', {
     configurable: true,
     get: function () {
-      return this.n6s();
+      return this.q6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'theme', {
     configurable: true,
     get: function () {
-      return this.o6s();
+      return this.r6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'keywords', {
     configurable: true,
     get: function () {
-      return this.r6s();
+      return this.u6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'landingPage', {
     configurable: true,
     get: function () {
-      return this.s6s();
+      return this.v6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'version', {
@@ -80355,7 +80406,7 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetDTOBase.prototype, 'versionNotes', {
     configurable: true,
     get: function () {
-      return this.d6t();
+      return this.g6t();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'length', {
@@ -80367,19 +80418,19 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetDTOBase.prototype, 'img', {
     configurable: true,
     get: function () {
-      return this.y6r();
+      return this.b6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'datasets', {
     configurable: true,
     get: function () {
-      return this.b6s();
+      return this.e6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'themes', {
     configurable: true,
     get: function () {
-      return this.z6r();
+      return this.c6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'status', {
@@ -80391,13 +80442,13 @@ if (typeof Math.imul === 'undefined') {
   Object.defineProperty(DatasetDTOBase.prototype, 'homepage', {
     configurable: true,
     get: function () {
-      return this.x6r();
+      return this.a6s();
     }
   });
   Object.defineProperty(DatasetDTOBase.prototype, 'display', {
     configurable: true,
     get: function () {
-      return this.y6w();
+      return this.b6x();
     }
   });
   function DatasetPolicies() {
@@ -80462,10 +80513,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_22 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetDataQuery', this, 1);
     tmp0_serialDesc.f49('id', false);
-    this.n6y_1 = tmp0_serialDesc;
+    this.q6y_1 = tmp0_serialDesc;
   }
   $serializer_24.prototype.q3y = function () {
-    return this.n6y_1;
+    return this.q6y_1;
   };
   $serializer_24.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80481,7 +80532,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_24.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.n6y_1;
+    var tmp0_desc = this.q6y_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80508,14 +80559,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return DatasetDataQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_24.prototype.o6y = function (encoder, value) {
-    var tmp0_desc = this.n6y_1;
+  $serializer_24.prototype.r6y = function (encoder, value) {
+    var tmp0_desc = this.q6y_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.q43(tmp0_desc, 0, value.p6y_1);
+    tmp1_output.q43(tmp0_desc, 0, value.s6y_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_24.prototype.r3y = function (encoder, value) {
-    return this.o6y(encoder, value instanceof DatasetDataQuery ? value : THROW_CCE());
+    return this.r6y(encoder, value instanceof DatasetDataQuery ? value : THROW_CCE());
   };
   var $serializer_instance_22;
   function $serializer_getInstance_22() {
@@ -80525,9 +80576,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDataQuery_init_$Init$(seen1, id, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_22().n6y_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_22().q6y_1);
     }
-    $this.p6y_1 = id;
+    $this.s6y_1 = id;
     return $this;
   }
   function DatasetDataQuery_init_$Create$(seen1, id, serializationConstructorMarker) {
@@ -80535,16 +80586,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDataQuery(id) {
     Companion_getInstance_91();
-    this.p6y_1 = id;
+    this.s6y_1 = id;
   }
   DatasetDataQuery.prototype.y4s = function () {
-    return this.p6y_1;
+    return this.s6y_1;
   };
   DatasetDataQuery.prototype.toString = function () {
-    return 'DatasetDataQuery(id=' + this.p6y_1 + ')';
+    return 'DatasetDataQuery(id=' + this.s6y_1 + ')';
   };
   DatasetDataQuery.prototype.hashCode = function () {
-    return getStringHashCode(this.p6y_1);
+    return getStringHashCode(this.s6y_1);
   };
   DatasetDataQuery.prototype.equals = function (other) {
     if (this === other)
@@ -80552,7 +80603,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetDataQuery))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetDataQuery ? other : THROW_CCE();
-    if (!(this.p6y_1 === tmp0_other_with_cast.p6y_1))
+    if (!(this.s6y_1 === tmp0_other_with_cast.s6y_1))
       return false;
     return true;
   };
@@ -80575,10 +80626,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_23 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetDataResult', this, 1);
     tmp0_serialDesc.f49('items', false);
-    this.q6y_1 = tmp0_serialDesc;
+    this.t6y_1 = tmp0_serialDesc;
   }
   $serializer_25.prototype.q3y = function () {
-    return this.q6y_1;
+    return this.t6y_1;
   };
   $serializer_25.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80594,7 +80645,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_25.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.q6y_1;
+    var tmp0_desc = this.t6y_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80621,14 +80672,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return DatasetDataResult_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_25.prototype.r6y = function (encoder, value) {
-    var tmp0_desc = this.q6y_1;
+  $serializer_25.prototype.u6y = function (encoder, value) {
+    var tmp0_desc = this.t6y_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer(JsonElementSerializer_getInstance()), value.s6y_1);
+    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer(JsonElementSerializer_getInstance()), value.v6y_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_25.prototype.r3y = function (encoder, value) {
-    return this.r6y(encoder, value instanceof DatasetDataResult ? value : THROW_CCE());
+    return this.u6y(encoder, value instanceof DatasetDataResult ? value : THROW_CCE());
   };
   var $serializer_instance_23;
   function $serializer_getInstance_23() {
@@ -80638,9 +80689,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDataResult_init_$Init$(seen1, items, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_23().q6y_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_23().t6y_1);
     }
-    $this.s6y_1 = items;
+    $this.v6y_1 = items;
     return $this;
   }
   function DatasetDataResult_init_$Create$(seen1, items, serializationConstructorMarker) {
@@ -80648,16 +80699,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDataResult(items) {
     Companion_getInstance_92();
-    this.s6y_1 = items;
+    this.v6y_1 = items;
   }
   DatasetDataResult.prototype.x4t = function () {
-    return this.s6y_1;
+    return this.v6y_1;
   };
   DatasetDataResult.prototype.toString = function () {
-    return 'DatasetDataResult(items=' + this.s6y_1 + ')';
+    return 'DatasetDataResult(items=' + this.v6y_1 + ')';
   };
   DatasetDataResult.prototype.hashCode = function () {
-    return hashCode(this.s6y_1);
+    return hashCode(this.v6y_1);
   };
   DatasetDataResult.prototype.equals = function (other) {
     if (this === other)
@@ -80665,7 +80716,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetDataResult))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetDataResult ? other : THROW_CCE();
-    if (!equals_1(this.s6y_1, tmp0_other_with_cast.s6y_1))
+    if (!equals_1(this.v6y_1, tmp0_other_with_cast.v6y_1))
       return false;
     return true;
   };
@@ -80693,10 +80744,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetGetQuery', this, 2);
     tmp0_serialDesc.f49('id', true);
     tmp0_serialDesc.f49('identifier', true);
-    this.t6y_1 = tmp0_serialDesc;
+    this.w6y_1 = tmp0_serialDesc;
   }
   $serializer_26.prototype.q3y = function () {
-    return this.t6y_1;
+    return this.w6y_1;
   };
   $serializer_26.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80712,7 +80763,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_26.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.t6y_1;
+    var tmp0_desc = this.w6y_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80746,19 +80797,19 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetGetQuery_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_26.prototype.u6y = function (encoder, value) {
-    var tmp0_desc = this.t6y_1;
+  $serializer_26.prototype.x6y = function (encoder, value) {
+    var tmp0_desc = this.w6y_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    if (tmp1_output.y43(tmp0_desc, 0) ? true : !(value.v6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 0, StringSerializer_getInstance(), value.v6y_1);
+    if (tmp1_output.y43(tmp0_desc, 0) ? true : !(value.y6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 0, StringSerializer_getInstance(), value.y6y_1);
     }
-    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.w6y_1 == null)) {
-      tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.w6y_1);
+    if (tmp1_output.y43(tmp0_desc, 1) ? true : !(value.z6y_1 == null)) {
+      tmp1_output.u43(tmp0_desc, 1, StringSerializer_getInstance(), value.z6y_1);
     }
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_26.prototype.r3y = function (encoder, value) {
-    return this.u6y(encoder, value instanceof DatasetGetQuery ? value : THROW_CCE());
+    return this.x6y(encoder, value instanceof DatasetGetQuery ? value : THROW_CCE());
   };
   var $serializer_instance_24;
   function $serializer_getInstance_24() {
@@ -80768,16 +80819,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetGetQuery_init_$Init$(seen1, id, identifier, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_24().t6y_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_24().w6y_1);
     }
     if (0 === (seen1 & 1))
-      $this.v6y_1 = null;
+      $this.y6y_1 = null;
     else
-      $this.v6y_1 = id;
+      $this.y6y_1 = id;
     if (0 === (seen1 & 2))
-      $this.w6y_1 = null;
+      $this.z6y_1 = null;
     else
-      $this.w6y_1 = identifier;
+      $this.z6y_1 = identifier;
     return $this;
   }
   function DatasetGetQuery_init_$Create$(seen1, id, identifier, serializationConstructorMarker) {
@@ -80785,21 +80836,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetGetQuery(id, identifier) {
     Companion_getInstance_93();
-    this.v6y_1 = id;
-    this.w6y_1 = identifier;
+    this.y6y_1 = id;
+    this.z6y_1 = identifier;
   }
   DatasetGetQuery.prototype.y4s = function () {
-    return this.v6y_1;
+    return this.y6y_1;
   };
   DatasetGetQuery.prototype.k6e = function () {
-    return this.w6y_1;
+    return this.z6y_1;
   };
   DatasetGetQuery.prototype.toString = function () {
-    return 'DatasetGetQuery(id=' + this.v6y_1 + ', identifier=' + this.w6y_1 + ')';
+    return 'DatasetGetQuery(id=' + this.y6y_1 + ', identifier=' + this.z6y_1 + ')';
   };
   DatasetGetQuery.prototype.hashCode = function () {
-    var result = this.v6y_1 == null ? 0 : getStringHashCode(this.v6y_1);
-    result = imul(result, 31) + (this.w6y_1 == null ? 0 : getStringHashCode(this.w6y_1)) | 0;
+    var result = this.y6y_1 == null ? 0 : getStringHashCode(this.y6y_1);
+    result = imul(result, 31) + (this.z6y_1 == null ? 0 : getStringHashCode(this.z6y_1)) | 0;
     return result;
   };
   DatasetGetQuery.prototype.equals = function (other) {
@@ -80808,9 +80859,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetGetQuery))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetGetQuery ? other : THROW_CCE();
-    if (!(this.v6y_1 == tmp0_other_with_cast.v6y_1))
+    if (!(this.y6y_1 == tmp0_other_with_cast.y6y_1))
       return false;
-    if (!(this.w6y_1 == tmp0_other_with_cast.w6y_1))
+    if (!(this.z6y_1 == tmp0_other_with_cast.z6y_1))
       return false;
     return true;
   };
@@ -80839,10 +80890,10 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_25 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetGetResult', this, 1);
     tmp0_serialDesc.f49('item', false);
-    this.x6y_1 = tmp0_serialDesc;
+    this.a6z_1 = tmp0_serialDesc;
   }
   $serializer_27.prototype.q3y = function () {
-    return this.x6y_1;
+    return this.a6z_1;
   };
   $serializer_27.prototype.u49 = function () {
     var tmp$ret$2;
@@ -80858,7 +80909,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_27.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.x6y_1;
+    var tmp0_desc = this.a6z_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -80885,14 +80936,14 @@ if (typeof Math.imul === 'undefined') {
     tmp5_input.d42(tmp0_desc);
     return DatasetGetResult_init_$Create$(tmp3_bitMask0, tmp4_local0, null);
   };
-  $serializer_27.prototype.y6y = function (encoder, value) {
-    var tmp0_desc = this.x6y_1;
+  $serializer_27.prototype.b6z = function (encoder, value) {
+    var tmp0_desc = this.a6z_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.u43(tmp0_desc, 0, $serializer_getInstance_21(), value.z6y_1);
+    tmp1_output.u43(tmp0_desc, 0, $serializer_getInstance_21(), value.c6z_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_27.prototype.r3y = function (encoder, value) {
-    return this.y6y(encoder, value instanceof DatasetGetResult ? value : THROW_CCE());
+    return this.b6z(encoder, value instanceof DatasetGetResult ? value : THROW_CCE());
   };
   var $serializer_instance_25;
   function $serializer_getInstance_25() {
@@ -80902,9 +80953,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetGetResult_init_$Init$(seen1, item, serializationConstructorMarker, $this) {
     if (!(1 === (1 & seen1))) {
-      throwMissingFieldException(seen1, 1, $serializer_getInstance_25().x6y_1);
+      throwMissingFieldException(seen1, 1, $serializer_getInstance_25().a6z_1);
     }
-    $this.z6y_1 = item;
+    $this.c6z_1 = item;
     return $this;
   }
   function DatasetGetResult_init_$Create$(seen1, item, serializationConstructorMarker) {
@@ -80912,16 +80963,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetGetResult(item) {
     Companion_getInstance_94();
-    this.z6y_1 = item;
+    this.c6z_1 = item;
   }
   DatasetGetResult.prototype.o6g = function () {
-    return this.z6y_1;
+    return this.c6z_1;
   };
   DatasetGetResult.prototype.toString = function () {
-    return 'DatasetGetResult(item=' + this.z6y_1 + ')';
+    return 'DatasetGetResult(item=' + this.c6z_1 + ')';
   };
   DatasetGetResult.prototype.hashCode = function () {
-    return this.z6y_1 == null ? 0 : this.z6y_1.hashCode();
+    return this.c6z_1 == null ? 0 : this.c6z_1.hashCode();
   };
   DatasetGetResult.prototype.equals = function (other) {
     if (this === other)
@@ -80929,7 +80980,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetGetResult))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetGetResult ? other : THROW_CCE();
-    if (!equals_1(this.z6y_1, tmp0_other_with_cast.z6y_1))
+    if (!equals_1(this.c6z_1, tmp0_other_with_cast.c6z_1))
       return false;
     return true;
   };
@@ -80944,36 +80995,36 @@ if (typeof Math.imul === 'undefined') {
   function DatasetPageResultDTO() {
   }
   function DatasetPageQuery(datasetId, title, status, offset, limit) {
-    this.b6z_1 = datasetId;
-    this.c6z_1 = title;
-    this.d6z_1 = status;
-    this.e6z_1 = offset;
-    this.f6z_1 = limit;
+    this.e6z_1 = datasetId;
+    this.f6z_1 = title;
+    this.g6z_1 = status;
+    this.h6z_1 = offset;
+    this.i6z_1 = limit;
   }
-  DatasetPageQuery.prototype.a6z = function () {
-    return this.b6z_1;
-  };
-  DatasetPageQuery.prototype.g6s = function () {
-    return this.c6z_1;
-  };
-  DatasetPageQuery.prototype.v32 = function () {
-    return this.d6z_1;
-  };
-  DatasetPageQuery.prototype.p4u = function () {
+  DatasetPageQuery.prototype.d6z = function () {
     return this.e6z_1;
   };
-  DatasetPageQuery.prototype.q4u = function () {
+  DatasetPageQuery.prototype.j6s = function () {
     return this.f6z_1;
   };
+  DatasetPageQuery.prototype.v32 = function () {
+    return this.g6z_1;
+  };
+  DatasetPageQuery.prototype.p4u = function () {
+    return this.h6z_1;
+  };
+  DatasetPageQuery.prototype.q4u = function () {
+    return this.i6z_1;
+  };
   DatasetPageQuery.prototype.toString = function () {
-    return 'DatasetPageQuery(datasetId=' + this.b6z_1 + ', title=' + this.c6z_1 + ', status=' + this.d6z_1 + ', offset=' + this.e6z_1 + ', limit=' + this.f6z_1 + ')';
+    return 'DatasetPageQuery(datasetId=' + this.e6z_1 + ', title=' + this.f6z_1 + ', status=' + this.g6z_1 + ', offset=' + this.h6z_1 + ', limit=' + this.i6z_1 + ')';
   };
   DatasetPageQuery.prototype.hashCode = function () {
-    var result = this.b6z_1 == null ? 0 : getStringHashCode(this.b6z_1);
-    result = imul(result, 31) + (this.c6z_1 == null ? 0 : getStringHashCode(this.c6z_1)) | 0;
-    result = imul(result, 31) + (this.d6z_1 == null ? 0 : getStringHashCode(this.d6z_1)) | 0;
-    result = imul(result, 31) + (this.e6z_1 == null ? 0 : this.e6z_1) | 0;
-    result = imul(result, 31) + (this.f6z_1 == null ? 0 : this.f6z_1) | 0;
+    var result = this.e6z_1 == null ? 0 : getStringHashCode(this.e6z_1);
+    result = imul(result, 31) + (this.f6z_1 == null ? 0 : getStringHashCode(this.f6z_1)) | 0;
+    result = imul(result, 31) + (this.g6z_1 == null ? 0 : getStringHashCode(this.g6z_1)) | 0;
+    result = imul(result, 31) + (this.h6z_1 == null ? 0 : this.h6z_1) | 0;
+    result = imul(result, 31) + (this.i6z_1 == null ? 0 : this.i6z_1) | 0;
     return result;
   };
   DatasetPageQuery.prototype.equals = function (other) {
@@ -80982,28 +81033,28 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetPageQuery))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetPageQuery ? other : THROW_CCE();
-    if (!(this.b6z_1 == tmp0_other_with_cast.b6z_1))
-      return false;
-    if (!(this.c6z_1 == tmp0_other_with_cast.c6z_1))
-      return false;
-    if (!(this.d6z_1 == tmp0_other_with_cast.d6z_1))
-      return false;
     if (!(this.e6z_1 == tmp0_other_with_cast.e6z_1))
       return false;
     if (!(this.f6z_1 == tmp0_other_with_cast.f6z_1))
+      return false;
+    if (!(this.g6z_1 == tmp0_other_with_cast.g6z_1))
+      return false;
+    if (!(this.h6z_1 == tmp0_other_with_cast.h6z_1))
+      return false;
+    if (!(this.i6z_1 == tmp0_other_with_cast.i6z_1))
       return false;
     return true;
   };
   Object.defineProperty(DatasetPageQuery.prototype, 'datasetId', {
     configurable: true,
     get: function () {
-      return this.a6z();
+      return this.d6z();
     }
   });
   Object.defineProperty(DatasetPageQuery.prototype, 'title', {
     configurable: true,
     get: function () {
-      return this.g6s();
+      return this.j6s();
     }
   });
   Object.defineProperty(DatasetPageQuery.prototype, 'status', {
@@ -81025,21 +81076,21 @@ if (typeof Math.imul === 'undefined') {
     }
   });
   function DatasetPageResult(items, total) {
-    this.g6z_1 = items;
-    this.h6z_1 = total;
+    this.j6z_1 = items;
+    this.k6z_1 = total;
   }
   DatasetPageResult.prototype.x4t = function () {
-    return this.g6z_1;
+    return this.j6z_1;
   };
   DatasetPageResult.prototype.w4t = function () {
-    return this.h6z_1;
+    return this.k6z_1;
   };
   DatasetPageResult.prototype.toString = function () {
-    return 'DatasetPageResult(items=' + this.g6z_1 + ', total=' + this.h6z_1 + ')';
+    return 'DatasetPageResult(items=' + this.j6z_1 + ', total=' + this.k6z_1 + ')';
   };
   DatasetPageResult.prototype.hashCode = function () {
-    var result = hashCode(this.g6z_1);
-    result = imul(result, 31) + this.h6z_1 | 0;
+    var result = hashCode(this.j6z_1);
+    result = imul(result, 31) + this.k6z_1 | 0;
     return result;
   };
   DatasetPageResult.prototype.equals = function (other) {
@@ -81048,9 +81099,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetPageResult))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetPageResult ? other : THROW_CCE();
-    if (!equals_1(this.g6z_1, tmp0_other_with_cast.g6z_1))
+    if (!equals_1(this.j6z_1, tmp0_other_with_cast.j6z_1))
       return false;
-    if (!(this.h6z_1 === tmp0_other_with_cast.h6z_1))
+    if (!(this.k6z_1 === tmp0_other_with_cast.k6z_1))
       return false;
     return true;
   };
@@ -81082,10 +81133,10 @@ if (typeof Math.imul === 'undefined') {
   function $serializer_28() {
     $serializer_instance_26 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetRefListQuery', this, 0);
-    this.i6z_1 = tmp0_serialDesc;
+    this.l6z_1 = tmp0_serialDesc;
   }
   $serializer_28.prototype.q3y = function () {
-    return this.i6z_1;
+    return this.l6z_1;
   };
   $serializer_28.prototype.u49 = function () {
     var tmp$ret$2;
@@ -81100,7 +81151,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_28.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.i6z_1;
+    var tmp0_desc = this.l6z_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -81117,13 +81168,13 @@ if (typeof Math.imul === 'undefined') {
     tmp4_input.d42(tmp0_desc);
     return DatasetRefListQuery_init_$Create$(tmp3_bitMask0, null);
   };
-  $serializer_28.prototype.j6z = function (encoder, value) {
-    var tmp0_desc = this.i6z_1;
+  $serializer_28.prototype.m6z = function (encoder, value) {
+    var tmp0_desc = this.l6z_1;
     var tmp1_output = encoder.c42(tmp0_desc);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_28.prototype.r3y = function (encoder, value) {
-    return this.j6z(encoder, value instanceof DatasetRefListQuery ? value : THROW_CCE());
+    return this.m6z(encoder, value instanceof DatasetRefListQuery ? value : THROW_CCE());
   };
   var $serializer_instance_26;
   function $serializer_getInstance_26() {
@@ -81133,7 +81184,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetRefListQuery_init_$Init$(seen1, serializationConstructorMarker, $this) {
     if (!(0 === (0 & seen1))) {
-      throwMissingFieldException(seen1, 0, $serializer_getInstance_26().i6z_1);
+      throwMissingFieldException(seen1, 0, $serializer_getInstance_26().l6z_1);
     }
     return $this;
   }
@@ -81157,10 +81208,10 @@ if (typeof Math.imul === 'undefined') {
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('city.smartb.registry.f2.dataset.domain.query.DatasetRefListResult', this, 2);
     tmp0_serialDesc.f49('items', false);
     tmp0_serialDesc.f49('total', false);
-    this.k6z_1 = tmp0_serialDesc;
+    this.n6z_1 = tmp0_serialDesc;
   }
   $serializer_29.prototype.q3y = function () {
-    return this.k6z_1;
+    return this.n6z_1;
   };
   $serializer_29.prototype.u49 = function () {
     var tmp$ret$2;
@@ -81176,7 +81227,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp$ret$2;
   };
   $serializer_29.prototype.s3y = function (decoder) {
-    var tmp0_desc = this.k6z_1;
+    var tmp0_desc = this.n6z_1;
     var tmp1_flag = true;
     var tmp2_index = 0;
     var tmp3_bitMask0 = 0;
@@ -81210,15 +81261,15 @@ if (typeof Math.imul === 'undefined') {
     tmp6_input.d42(tmp0_desc);
     return DatasetRefListResult_init_$Create$(tmp3_bitMask0, tmp4_local0, tmp5_local1, null);
   };
-  $serializer_29.prototype.l6z = function (encoder, value) {
-    var tmp0_desc = this.k6z_1;
+  $serializer_29.prototype.o6z = function (encoder, value) {
+    var tmp0_desc = this.n6z_1;
     var tmp1_output = encoder.c42(tmp0_desc);
-    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer($serializer_getInstance_20()), value.m6z_1);
-    tmp1_output.l43(tmp0_desc, 1, value.n6z_1);
+    tmp1_output.s43(tmp0_desc, 0, new ArrayListSerializer($serializer_getInstance_20()), value.p6z_1);
+    tmp1_output.l43(tmp0_desc, 1, value.q6z_1);
     tmp1_output.d42(tmp0_desc);
   };
   $serializer_29.prototype.r3y = function (encoder, value) {
-    return this.l6z(encoder, value instanceof DatasetRefListResult ? value : THROW_CCE());
+    return this.o6z(encoder, value instanceof DatasetRefListResult ? value : THROW_CCE());
   };
   var $serializer_instance_27;
   function $serializer_getInstance_27() {
@@ -81228,10 +81279,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetRefListResult_init_$Init$(seen1, items, total, serializationConstructorMarker, $this) {
     if (!(3 === (3 & seen1))) {
-      throwMissingFieldException(seen1, 3, $serializer_getInstance_27().k6z_1);
+      throwMissingFieldException(seen1, 3, $serializer_getInstance_27().n6z_1);
     }
-    $this.m6z_1 = items;
-    $this.n6z_1 = total;
+    $this.p6z_1 = items;
+    $this.q6z_1 = total;
     return $this;
   }
   function DatasetRefListResult_init_$Create$(seen1, items, total, serializationConstructorMarker) {
@@ -81239,21 +81290,21 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetRefListResult(items, total) {
     Companion_getInstance_96();
-    this.m6z_1 = items;
-    this.n6z_1 = total;
+    this.p6z_1 = items;
+    this.q6z_1 = total;
   }
   DatasetRefListResult.prototype.x4t = function () {
-    return this.m6z_1;
+    return this.p6z_1;
   };
   DatasetRefListResult.prototype.w4t = function () {
-    return this.n6z_1;
+    return this.q6z_1;
   };
   DatasetRefListResult.prototype.toString = function () {
-    return 'DatasetRefListResult(items=' + this.m6z_1 + ', total=' + this.n6z_1 + ')';
+    return 'DatasetRefListResult(items=' + this.p6z_1 + ', total=' + this.q6z_1 + ')';
   };
   DatasetRefListResult.prototype.hashCode = function () {
-    var result = hashCode(this.m6z_1);
-    result = imul(result, 31) + this.n6z_1 | 0;
+    var result = hashCode(this.p6z_1);
+    result = imul(result, 31) + this.q6z_1 | 0;
     return result;
   };
   DatasetRefListResult.prototype.equals = function (other) {
@@ -81262,9 +81313,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof DatasetRefListResult))
       return false;
     var tmp0_other_with_cast = other instanceof DatasetRefListResult ? other : THROW_CCE();
-    if (!equals_1(this.m6z_1, tmp0_other_with_cast.m6z_1))
+    if (!equals_1(this.p6z_1, tmp0_other_with_cast.p6z_1))
       return false;
-    if (!(this.n6z_1 === tmp0_other_with_cast.n6z_1))
+    if (!(this.q6z_1 === tmp0_other_with_cast.q6z_1))
       return false;
     return true;
   };
@@ -81282,56 +81333,56 @@ if (typeof Math.imul === 'undefined') {
   });
   function DatasetClient$datasetCreate$ref($boundThis) {
     var l = function () {
-      return $boundThis.o6z();
+      return $boundThis.r6z();
     };
     l.callableName = 'datasetCreate';
     return l;
   }
   function DatasetClient$datasetLinkDatasets$ref($boundThis) {
     var l = function () {
-      return $boundThis.p6z();
+      return $boundThis.s6z();
     };
     l.callableName = 'datasetLinkDatasets';
     return l;
   }
   function DatasetClient$datasetLinkThemes$ref($boundThis) {
     var l = function () {
-      return $boundThis.q6z();
+      return $boundThis.t6z();
     };
     l.callableName = 'datasetLinkThemes';
     return l;
   }
   function DatasetClient$datasetDelete$ref($boundThis) {
     var l = function () {
-      return $boundThis.r6z();
+      return $boundThis.u6z();
     };
     l.callableName = 'datasetDelete';
     return l;
   }
   function DatasetClient$datasetPage$ref($boundThis) {
     var l = function () {
-      return $boundThis.s6z();
+      return $boundThis.v6z();
     };
     l.callableName = 'datasetPage';
     return l;
   }
   function DatasetClient$datasetGet$ref($boundThis) {
     var l = function () {
-      return $boundThis.t6z();
+      return $boundThis.w6z();
     };
     l.callableName = 'datasetGet';
     return l;
   }
   function DatasetClient$datasetRefList$ref($boundThis) {
     var l = function () {
-      return $boundThis.u6z();
+      return $boundThis.x6z();
     };
     l.callableName = 'datasetRefList';
     return l;
   }
   function DatasetClient$datasetData$ref($boundThis) {
     var l = function () {
-      return $boundThis.v6z();
+      return $boundThis.y6z();
     };
     l.callableName = 'datasetData';
     return l;
@@ -81339,10 +81390,10 @@ if (typeof Math.imul === 'undefined') {
   function DatasetClient(client) {
     this.client = client;
   }
-  DatasetClient.prototype.w6z = function () {
+  DatasetClient.prototype.z6z = function () {
     return this.client;
   };
-  DatasetClient.prototype.o6z = function () {
+  DatasetClient.prototype.r6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81450,7 +81501,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.p6z = function () {
+  DatasetClient.prototype.s6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81558,7 +81609,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.q6z = function () {
+  DatasetClient.prototype.t6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81666,7 +81717,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.r6z = function () {
+  DatasetClient.prototype.u6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81774,7 +81825,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.s6z = function () {
+  DatasetClient.prototype.v6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81882,7 +81933,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.t6z = function () {
+  DatasetClient.prototype.w6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -81990,7 +82041,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.u6z = function () {
+  DatasetClient.prototype.x6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -82098,7 +82149,7 @@ if (typeof Math.imul === 'undefined') {
     tmp$ret$10 = tmp0_function.function(tmp1_function, queryTypeInfo, responseTypeInfo);
     return tmp$ret$10;
   };
-  DatasetClient.prototype.v6z = function () {
+  DatasetClient.prototype.y6z = function () {
     var tmp$ret$10;
     // Inline function 'f2.client.function' call
     var tmp0_function = this.client;
@@ -82210,17 +82261,17 @@ if (typeof Math.imul === 'undefined') {
     return f2SupplierSingle(datasetClient$slambda_0(urlBase, null));
   }
   function datasetClient$slambda($urlBase, resultContinuation) {
-    this.f70_1 = $urlBase;
+    this.i70_1 = $urlBase;
     CoroutineImpl.call(this, resultContinuation);
   }
-  datasetClient$slambda.prototype.g70 = function ($cont) {
+  datasetClient$slambda.prototype.j70 = function ($cont) {
     var tmp = this.yg($cont);
     tmp.gg_1 = Unit_getInstance();
     tmp.hg_1 = null;
     return tmp.xg();
   };
   datasetClient$slambda.prototype.w56 = function ($cont) {
-    return this.g70($cont);
+    return this.j70($cont);
   };
   datasetClient$slambda.prototype.xg = function () {
     var suspendResult = this.gg_1;
@@ -82231,7 +82282,7 @@ if (typeof Math.imul === 'undefined') {
           case 0:
             this.fg_1 = 2;
             this.eg_1 = 1;
-            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.f70_1), this);
+            suspendResult = await_0(get_4(F2ClientBuilder_getInstance(), this.i70_1), this);
             if (suspendResult === get_COROUTINE_SUSPENDED()) {
               return suspendResult;
             }
@@ -82254,13 +82305,13 @@ if (typeof Math.imul === 'undefined') {
      while (true);
   };
   datasetClient$slambda.prototype.yg = function (completion) {
-    var i = new datasetClient$slambda(this.f70_1, completion);
+    var i = new datasetClient$slambda(this.i70_1, completion);
     return i;
   };
   function datasetClient$slambda_0($urlBase, resultContinuation) {
     var i = new datasetClient$slambda($urlBase, resultContinuation);
     var l = function ($cont) {
-      return i.g70($cont);
+      return i.j70($cont);
     };
     l.$arity = 0;
     return l;
@@ -83950,6 +84001,20 @@ if (typeof Math.imul === 'undefined') {
     var $cccev$f2$requirement = $cccev$f2.requirement || ($cccev$f2.requirement = {});
     var $cccev$f2$requirement$domain = $cccev$f2$requirement.domain || ($cccev$f2$requirement.domain = {});
     var $cccev$f2$requirement$domain$query = $cccev$f2$requirement$domain.query || ($cccev$f2$requirement$domain.query = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$skos = $city$smartb$registry$dsl.skos || ($city$smartb$registry$dsl.skos = {});
+    var $city$smartb$registry$dsl$skos$domain = $city$smartb$registry$dsl$skos.domain || ($city$smartb$registry$dsl$skos.domain = {});
+    var $city$smartb$registry$dsl$skos$domain$model = $city$smartb$registry$dsl$skos$domain.model || ($city$smartb$registry$dsl$skos$domain.model = {});
+    var $city = _.city || (_.city = {});
+    var $city$smartb = $city.smartb || ($city.smartb = {});
+    var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
+    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
+    var $city$smartb$registry$s2$structure = $city$smartb$registry$s2.structure || ($city$smartb$registry$s2.structure = {});
+    var $city$smartb$registry$s2$structure$domain = $city$smartb$registry$s2$structure.domain || ($city$smartb$registry$s2$structure.domain = {});
+    var $city$smartb$registry$s2$structure$domain$model = $city$smartb$registry$s2$structure$domain.model || ($city$smartb$registry$s2$structure$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

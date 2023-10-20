@@ -1,6 +1,6 @@
 {
   "name": "registry-commons",
-  "version": "0.0.0-next",
+  "version": "0.0.0-experimental-SNAPSHOT",
   "main": "kotlin/registry-commons.js",
   "devDependencies": {},
   "dependencies": {

@@ -2681,4 +2681,14 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
 }
+export namespace city.smartb.registry.dsl.skos.domain.model {
+    interface SkosConceptDTO {
+        readonly id: string;
+        readonly type: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly broader?: string;
+
+    }
+}
 export as namespace registry_skos;
