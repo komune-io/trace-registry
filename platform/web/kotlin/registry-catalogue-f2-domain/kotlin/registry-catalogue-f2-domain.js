@@ -43,6 +43,12 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
+  }});
+}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -52,12 +58,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
-  }});
-}
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -59968,45 +59968,45 @@ if (typeof Math.imul === 'undefined') {
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});
-    var $city$smartb$registry$s2 = $city$smartb$registry.s2 || ($city$smartb$registry.s2 = {});
-    var $city$smartb$registry$s2$catalogue = $city$smartb$registry$s2.catalogue || ($city$smartb$registry$s2.catalogue = {});
-    var $city$smartb$registry$s2$catalogue$domain = $city$smartb$registry$s2$catalogue.domain || ($city$smartb$registry$s2$catalogue.domain = {});
-    var $city$smartb$registry$s2$catalogue$domain$model = $city$smartb$registry$s2$catalogue$domain.model || ($city$smartb$registry$s2$catalogue$domain.model = {});
+    var $city$smartb$registry$dsl = $city$smartb$registry.dsl || ($city$smartb$registry.dsl = {});
+    var $city$smartb$registry$dsl$dcat = $city$smartb$registry$dsl.dcat || ($city$smartb$registry$dsl.dcat = {});
+    var $city$smartb$registry$dsl$dcat$domain = $city$smartb$registry$dsl$dcat.domain || ($city$smartb$registry$dsl$dcat.domain = {});
+    var $city$smartb$registry$dsl$dcat$domain$model = $city$smartb$registry$dsl$dcat$domain.model || ($city$smartb$registry$dsl$dcat$domain.model = {});
     var $city = _.city || (_.city = {});
     var $city$smartb = $city.smartb || ($city.smartb = {});
     var $city$smartb$registry = $city$smartb.registry || ($city$smartb.registry = {});

@@ -1,6 +1,6 @@
 {
   "name": "registry-asset-pool-f2-client",
-  "version": "0.0.0-experimental-SNAPSHOT",
+  "version": "0.0.0-next",
   "main": "kotlin/registry-asset-pool-f2-client.js",
   "devDependencies": {},
   "dependencies": {

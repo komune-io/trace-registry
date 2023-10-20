@@ -1,6 +1,6 @@
 {
   "name": "registry-asset-domain",
-  "version": "0.0.0-experimental-SNAPSHOT",
+  "version": "0.0.0-next",
   "main": "kotlin/registry-asset-domain.js",
   "devDependencies": {},
   "dependencies": {
