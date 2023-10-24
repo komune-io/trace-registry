@@ -57,7 +57,7 @@ export namespace f2.dsl.cqrs.error {
         get code(): number;
         get requestId(): Nullable<string>;
         toString(): string;
-        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.error.F2Error;
+        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.error.F2Error;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.error.F2Error>;
@@ -98,7 +98,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(total: number, items: OBJECT[]);
         get total(): number;
         get items(): OBJECT[];
-        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items?: OBJECT[], serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.Page<OBJECT>;
+        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.Page<OBJECT>;
         
     }
     namespace Page {
@@ -122,7 +122,7 @@ export namespace f2.dsl.cqrs.page {
     class PageQuery implements f2.dsl.cqrs.page.PageQueryDTO {
         constructor(pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO);
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPaginationDTO>;
-        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PageQuery;
+        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQuery;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PageQuery>;
@@ -132,7 +132,7 @@ export namespace f2.dsl.cqrs.page {
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPagination>;
         get total(): number;
         get items(): OBJECT[];
-        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items?: OBJECT[], serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
+        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
         
     }
     namespace PageQueryResult {
@@ -161,7 +161,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(offset: number, limit: number);
         get offset(): number;
         get limit(): number;
-        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.OffsetPagination;
+        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.OffsetPagination;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.OffsetPagination>;
@@ -170,7 +170,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(page?: number, size?: number);
         get page(): Nullable<number>;
         get size(): Nullable<number>;
-        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PagePagination;
+        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PagePagination;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PagePagination>;
@@ -431,8 +431,8 @@ export namespace city.smartb.im.f2.privilege.domain.role.command {
         readonly description: string;
         readonly targets: string[];
         readonly locale: Record<string, string>;
-        readonly bindings?: Record<string, string>[];
-        readonly permissions?: string[];
+        readonly bindings?: any/* Nullable<Record<string, string>[]> */;
+        readonly permissions?: any/* Nullable<string>[] */;
 
     }
     interface RoleDefinedEventDTO extends f2.dsl.cqrs.Event {
@@ -487,9 +487,9 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: string[];
+        readonly roles?: any/* Nullable<string>[] */;
         readonly parentOrganizationId?: string;
-        readonly attributes?: Record<string, string>;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly status?: string;
 
     }
@@ -514,8 +514,8 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: Record<string, string>;
-        readonly userAttributes?: Record<string, string>;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly userAttributes?: any/* Nullable<Record<string, string>> */;
 
     }
     interface OrganizationDisabledEventDTO extends f2.dsl.cqrs.Event {
@@ -531,8 +531,8 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: string[];
-        readonly attributes?: Record<string, string>;
+        readonly roles?: any/* Nullable<string>[] */;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly status?: string;
 
     }
@@ -567,7 +567,7 @@ export namespace city.smartb.im.f2.organization.domain.model {
         readonly status: string;
         readonly disabledBy?: string;
         readonly creationDate: number;
-        readonly disabledDate?: number;
+        readonly disabledDate?: any/* Nullable<number> */;
 
     }
 }
@@ -622,9 +622,9 @@ export namespace city.smartb.im.f2.organization.domain.query {
     interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
         readonly name?: string;
         readonly role?: string;
-        readonly roles?: string[];
-        readonly attributes?: Record<string, string>;
-        readonly status?: string[];
+        readonly roles?: any/* Nullable<string>[] */;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly status?: any/* Nullable<string>[] */;
         readonly withDisabled?: boolean;
         readonly offset?: number;
         readonly limit?: number;
@@ -656,7 +656,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly phone?: string;
         readonly roles: string[];
         readonly memberOf?: string;
-        readonly attributes?: Record<string, string>;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly isEmailVerified: boolean;
         readonly isPasswordTemporary: boolean;
         readonly sendResetPassword: boolean;
@@ -683,7 +683,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: Record<string, string>;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
 
     }
     interface UserDisabledEventDTO extends f2.dsl.cqrs.Event {
@@ -709,7 +709,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly phone?: string;
         readonly roles: string[];
-        readonly attributes?: Record<string, string>;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
 
     }
     interface UserUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -754,7 +754,7 @@ export namespace city.smartb.im.f2.user.domain.model {
         readonly enabled: boolean;
         readonly disabledBy?: string;
         readonly creationDate: number;
-        readonly disabledDate?: number;
+        readonly disabledDate?: any/* Nullable<number> */;
 
     }
 }
@@ -806,8 +806,8 @@ export namespace city.smartb.im.f2.user.domain.query {
         readonly name?: string;
         readonly email?: string;
         readonly role?: string;
-        readonly roles?: string[];
-        readonly attributes?: Record<string, string>;
+        readonly roles?: any/* Nullable<string>[] */;
+        readonly attributes?: any/* Nullable<Record<string, string>> */;
         readonly withDisabled: boolean;
         readonly offset?: number;
         readonly limit?: number;
@@ -989,11 +989,11 @@ export namespace ssm.chaincode.dsl.model {
         readonly session: string;
         readonly public: string;
         readonly iteration: number;
-        readonly private?: Record<string, string>;
+        readonly private?: any/* Nullable<Record<string, string>> */;
 
     }
     class SsmContext implements ssm.chaincode.dsl.model.SsmContextDTO {
-        constructor(session: string, _public: string, iteration: number, _private?: Record<string, string>);
+        constructor(session: string, _public: string, iteration: number, _private?: any/* Nullable<Record<string, string>> */);
         get session(): string;
         get public(): string;
         get iteration(): number;
@@ -1002,7 +1002,7 @@ export namespace ssm.chaincode.dsl.model {
         component2(): string;
         component3(): number;
         component4(): Nullable<any>/* Nullable<Record<string, string>> */;
-        copy(session?: string, _public?: string, iteration?: number, _private?: Record<string, string>): ssm.chaincode.dsl.model.SsmContext;
+        copy(session?: string, _public?: string, iteration?: number, _private?: any/* Nullable<Record<string, string>> */): ssm.chaincode.dsl.model.SsmContext;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1046,13 +1046,13 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmSessionDTO extends ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: Record<string, string>;
+        readonly roles?: any/* Nullable<Record<string, string>> */;
         readonly public?: any;
-        readonly private?: Record<string, string>;
+        readonly private?: any/* Nullable<Record<string, string>> */;
 
     }
     class SsmSession implements ssm.chaincode.dsl.model.SsmSessionDTO {
-        constructor(ssm: string, session: string, roles: Record<string, string>, _public: string, _private?: Record<string, string>);
+        constructor(ssm: string, session: string, roles: Record<string, string>, _public: string, _private?: any/* Nullable<Record<string, string>> */);
         get ssm(): string;
         get session(): string;
         get roles(): Record<string, string>;
@@ -1064,16 +1064,16 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmSessionStateDTO extends ssm.chaincode.dsl.model.SsmSessionDTO, ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: Record<string, string>;
+        readonly roles?: any/* Nullable<Record<string, string>> */;
         readonly public?: any;
-        readonly private?: Record<string, string>;
+        readonly private?: any/* Nullable<Record<string, string>> */;
         readonly origin?: ssm.chaincode.dsl.model.SsmTransitionDTO;
         readonly current: number;
         readonly iteration: number;
 
     }
     class SsmSessionState implements ssm.chaincode.dsl.model.SsmSessionStateDTO {
-        constructor(ssm?: string, session: string, roles?: Record<string, string>, _public?: any, _private?: Record<string, string>, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
+        constructor(ssm?: string, session: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
         get ssm(): Nullable<string>;
         get session(): string;
         get roles(): Nullable<any>/* Nullable<Record<string, string>> */;
@@ -1090,7 +1090,7 @@ export namespace ssm.chaincode.dsl.model {
         component6(): Nullable<ssm.chaincode.dsl.model.SsmTransition>;
         component7(): number;
         component8(): number;
-        copy(ssm?: string, session?: string, roles?: Record<string, string>, _public?: any, _private?: Record<string, string>, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
+        copy(ssm?: string, session?: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1140,7 +1140,7 @@ export namespace ssm.chaincode.dsl.model {
 }
 export namespace ssm.chaincode.dsl.model {
     interface WithPrivate {
-        readonly private?: Record<string, string>;
+        readonly private?: any/* Nullable<Record<string, string>> */;
 
     }
 }
@@ -1321,7 +1321,7 @@ export namespace s2.dsl.automate {
         isAvailableInitTransition(command: f2.dsl.cqrs.Message): boolean;
         isFinalState(state: s2.dsl.automate.S2State): boolean;
         isSameState(from?: s2.dsl.automate.S2State, to: s2.dsl.automate.S2State): boolean;
-        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2Automate;
+        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Automate;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Automate>;
@@ -1411,7 +1411,7 @@ export namespace s2.dsl.automate {
         get role(): s2.dsl.automate.S2RoleValue;
         get action(): s2.dsl.automate.S2TransitionValue;
         get result(): Nullable<s2.dsl.automate.S2TransitionValue>;
-        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2Transition;
+        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Transition;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Transition>;
@@ -1419,7 +1419,7 @@ export namespace s2.dsl.automate {
     class S2TransitionValue {
         constructor(name: string);
         get name(): string;
-        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2TransitionValue;
+        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2TransitionValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2TransitionValue>;
@@ -1427,7 +1427,7 @@ export namespace s2.dsl.automate {
     class S2RoleValue {
         constructor(name: string);
         get name(): string;
-        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2RoleValue;
+        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2RoleValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2RoleValue>;
@@ -1436,7 +1436,7 @@ export namespace s2.dsl.automate {
         constructor(name: string, position: number);
         get name(): string;
         get position(): number;
-        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2StateValue;
+        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2StateValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2StateValue>;
@@ -1532,7 +1532,7 @@ export namespace cccev.dsl.model {
     }
     class CoreLocationLocation {
         constructor();
-        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.CoreLocationLocation;
+        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.CoreLocationLocation;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.CoreLocationLocation>;
@@ -1542,7 +1542,7 @@ export namespace cccev.dsl.model {
         get duration(): Nullable<string>;
         get endTime(): Nullable<number>;
         get startTime(): Nullable<number>;
-        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.PeriodOfTime;
+        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.PeriodOfTime;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.PeriodOfTime>;
@@ -1556,7 +1556,7 @@ export namespace cccev.dsl.model {
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
 
     }
 }
@@ -1625,7 +1625,7 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
@@ -1635,7 +1635,7 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -1706,7 +1706,7 @@ export namespace cccev.s2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: number;
+        readonly validityPeriodConstraint?: any/* Nullable<number> */;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.EvidenceTypeEvent {
@@ -1714,7 +1714,7 @@ export namespace cccev.s2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: number;
+        readonly validityPeriodConstraint?: any/* Nullable<number> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -1755,7 +1755,7 @@ export namespace cccev.s2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: string[];
+        readonly isDerivedFrom?: any/* Nullable<string>[] */;
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
@@ -1917,9 +1917,9 @@ export namespace cccev.s2.certification.domain.model {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly startDate?: number;
-        readonly endDate?: number;
-        readonly estimatedEndDate?: number;
+        readonly startDate?: any/* Nullable<number> */;
+        readonly endDate?: any/* Nullable<number> */;
+        readonly estimatedEndDate?: any/* Nullable<number> */;
         readonly creator?: string;
         readonly executor?: string;
         readonly validator?: string;
@@ -1927,7 +1927,7 @@ export namespace cccev.s2.certification.domain.model {
         readonly issuable: boolean;
         readonly verifiable: boolean;
         readonly verifier?: string;
-        readonly verificationDate?: number;
+        readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
         readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
@@ -2054,7 +2054,7 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptCreatedEventDTO {
@@ -2064,7 +2064,7 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -2078,7 +2078,7 @@ export namespace cccev.f2.concept.domain.model {
         readonly unit?: cccev.f2.unit.domain.model.DataUnitDTO;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
 
     }
 }
@@ -2092,7 +2092,7 @@ export namespace cccev.f2.concept.domain.model {
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
+        readonly dependsOn?: any/* Nullable<string>[] */;
 
     }
 }
@@ -2135,7 +2135,7 @@ export namespace cccev.f2.certification.domain.command {
         readonly url?: string;
         readonly isConformantTo: string[];
         readonly supportsConcept: string[];
-        readonly metadata?: Record<string, string>;
+        readonly metadata?: any/* Nullable<Record<string, string>> */;
         readonly vectorize?: boolean;
 
     }
@@ -2227,9 +2227,9 @@ export namespace cccev.f2.certification.domain.model {
         readonly identifier: string;
         readonly name: string;
         readonly description?: string;
-        readonly startDate?: number;
-        readonly endDate?: number;
-        readonly estimatedEndDate?: number;
+        readonly startDate?: any/* Nullable<number> */;
+        readonly endDate?: any/* Nullable<number> */;
+        readonly estimatedEndDate?: any/* Nullable<number> */;
         readonly creator?: string;
         readonly executor?: string;
         readonly validator?: string;
@@ -2237,7 +2237,7 @@ export namespace cccev.f2.certification.domain.model {
         readonly issuable: boolean;
         readonly verifiable: boolean;
         readonly verifier?: string;
-        readonly verificationDate?: number;
+        readonly verificationDate?: any/* Nullable<number> */;
         readonly requirements: string[];
         readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
         readonly supportedValues: Record<string, Nullable<string>>;
@@ -2321,7 +2321,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: number;
+        readonly validityPeriodConstraint?: any/* Nullable<number> */;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreatedEventDTO {
@@ -2329,7 +2329,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: number;
+        readonly validityPeriodConstraint?: any/* Nullable<number> */;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -2340,7 +2340,7 @@ export namespace cccev.f2.evidence.type.domain.model {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: number;
+        readonly validityPeriodConstraint?: any/* Nullable<number> */;
 
     }
 }
@@ -2492,7 +2492,7 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: string[];
+        readonly isDerivedFrom?: any/* Nullable<string>[] */;
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
@@ -2523,7 +2523,7 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: string[];
+        readonly isDerivedFrom?: any/* Nullable<string>[] */;
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
@@ -2554,7 +2554,7 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: string[];
+        readonly isDerivedFrom?: any/* Nullable<string>[] */;
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
@@ -2598,7 +2598,7 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: string[];
+        readonly isDerivedFrom?: any/* Nullable<string>[] */;
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
@@ -2665,7 +2665,7 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
     interface RequirementListChildrenByTypeResultDTO {
-        readonly items?: cccev.f2.requirement.domain.model.RequirementDTO[];
+        readonly items?: any/* Nullable<cccev.f2.requirement.domain.model.RequirementDTO>[] */;
 
     }
 }
@@ -2935,27 +2935,27 @@ export namespace city.smartb.registry.f2.project.domain.model {
         readonly name?: string;
         readonly country?: string;
         readonly indicator: string;
-        readonly creditingPeriodStartDate?: number;
-        readonly creditingPeriodEndDate?: number;
+        readonly creditingPeriodStartDate?: any/* Nullable<number> */;
+        readonly creditingPeriodEndDate?: any/* Nullable<number> */;
         readonly description?: string;
-        readonly dueDate?: number;
+        readonly dueDate?: any/* Nullable<number> */;
         readonly estimatedReductions?: string;
         readonly localization?: string;
         readonly proponent?: city.smartb.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.s2.project.domain.model.OrganizationRef> */;
         readonly type?: number;
         readonly referenceYear?: string;
-        readonly registrationDate?: number;
+        readonly registrationDate?: any/* Nullable<number> */;
         readonly vintage: string[];
         readonly slug?: string;
         readonly vvb?: city.smartb.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.s2.project.domain.model.OrganizationRef> */;
         readonly assessor?: city.smartb.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<city.smartb.registry.s2.project.domain.model.OrganizationRef> */;
         readonly location?: city.smartb.registry.s2.commons.model.GeoLocationDTO;
-        readonly activities?: string[];
+        readonly activities?: any/* Nullable<string>[] */;
         readonly certification?: city.smartb.registry.s2.project.domain.model.CertificationRefDTO;
         readonly status: s2.dsl.automate.S2State/* city.smartb.registry.s2.project.domain.automate.ProjectState */;
-        readonly creationDate: number;
-        readonly lastModificationDate: number;
-        readonly sdgs?: number[];
+        readonly creationDate?: any/* Nullable<number> */;
+        readonly lastModificationDate?: any/* Nullable<number> */;
+        readonly sdgs?: any/* Nullable<number>[] */;
         readonly assetPools: string[];
         readonly isPrivate: boolean;
         s2State(): s2.dsl.automate.S2State/* city.smartb.registry.s2.project.domain.automate.ProjectState */;
@@ -3012,7 +3012,7 @@ export namespace city.smartb.registry.f2.project.domain.query {
         readonly referenceYear?: string;
         readonly vintage?: string;
         readonly origin?: string;
-        readonly dueDate?: number;
+        readonly dueDate?: any/* Nullable<number> */;
         readonly status?: string;
 
     }

@@ -1,45 +1,46 @@
-import {CircularProgress} from "@mui/material";
-import {Document, Page, pdfjs} from "react-pdf";
-import {useEffect, useState} from "react";
+import { Document, DocumentProps, Page, PageProps, pdfjs } from "react-pdf";
+import { useCallback, useState } from "react";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
+import { LoadingPdf } from "../MultiFilePdfDisplayer/LoadingPdf";
+import type { PDFDocumentProxy } from 'pdfjs-dist'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
+    'pdfjs-dist/build/pdf.worker.min.js',
+    import.meta.url,
 ).toString()
 
-interface PdfDisplayerProps {
-    file?: string
+interface PdfDisplayerProps extends DocumentProps {
+    parentWidth: number
+    pagesNumber?: number
+    getPageProps?: (pageNumber: number) => PageProps
 }
 
 export const PdfDisplayer = (props: PdfDisplayerProps) => {
-    const { file } = props
+    const { file, parentWidth, getPageProps, pagesNumber, onLoadSuccess,  ...other } = props
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [numPages, setNumPages] = useState(0)
 
-    useEffect(() => {
-        setIsLoading(false);
-    }, [file]);
-
-    return (
-        isLoading ? (
-            <CircularProgress />
-        ) : (
-                file ? (
-                    <Document
-                        file={file}
-                        loading={<CircularProgress />}
-                    >
-                        <Page
-                            pageNumber={1}
-                            className="pdfPage"
-                            loading={<CircularProgress />}
-                        />
-                    </Document>
-                ) : (
-                    <CircularProgress />
-                )
-        )
+    const onDocumentLoadSuccess = useCallback(
+        (pdf: PDFDocumentProxy) => {
+            setNumPages(pdf.numPages)
+        },
+        [],
     )
+
+
+    return !!file ? (
+        <Document loading={<LoadingPdf parentWidth={parentWidth} />} file={file} onLoadSuccess={onLoadSuccess ?? onDocumentLoadSuccess} {...other}>
+            {Array.from({ length: pagesNumber ?? numPages }, (_, index) => (
+                <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    loading={<LoadingPdf parentWidth={parentWidth} />}
+                    width={parentWidth}
+                    className="pdfPage"
+                    {...(getPageProps ? getPageProps(index + 1) : {})}
+                />
+            ))}
+        </Document>
+    ) : <LoadingPdf parentWidth={parentWidth} />
 }

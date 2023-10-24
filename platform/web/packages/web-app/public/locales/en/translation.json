@@ -36,6 +36,8 @@
   "useMyPosition": "Use my position",
   "progress": "Progress",
   "projectList": "Project list",
+  "viewSelectedDocs": "View Selected Documents",
+  "navigateThroughDocs": "Navigate through documents",
   "id": "ID",
   "type": "Type",
   "types": "Types",
@@ -82,6 +84,7 @@
   "standard": "Standard",
   "program": "Program",
   "methodologie": "Methodologie",
+  "switchTo": "Switch to",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

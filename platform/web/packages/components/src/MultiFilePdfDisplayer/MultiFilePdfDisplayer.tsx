@@ -1,56 +1,36 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Document, Page, pdfjs } from 'react-pdf'
+import { useCallback, useEffect, useRef } from 'react'
+import { pdfjs } from 'react-pdf'
 import { LoadingPdf } from './LoadingPdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import type { PDFPageProxy } from 'pdfjs-dist';
 import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 import { Stack } from '@mui/material'
-import { useMultiFilePagination } from './useMultiFilePagination'
 import { CustomTextRenderer } from 'react-pdf/dist/cjs/shared/types'
+import { PdfDisplayer } from '../PdfDisplayer'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
     import.meta.url
 ).toString()
 
-interface MultiPagePdfDisplayerProps {
+interface MultiFilePdfDisplayerProps {
     files?: { name: string, file: any }[]
     parentWidth: number
     reference?: string
     setQuote: (quote: string, fileName: string, pageNumber: number) => void
     isLoading?: boolean
+    pagesNumberPerDocument: number[]
+    onDocumentLoadSuccess: (pdf: any, docIndex: number) => void
+    setPageRef:  (index: number, docName: string, ref: (HTMLCanvasElement | null)) => void
+
 }
 
-export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
-    const { files, parentWidth, reference, isLoading = false, setQuote } = props
+export const MultiFilePdfDisplayer = (props: MultiFilePdfDisplayerProps) => {
+    const { files, parentWidth, reference, isLoading = false, setQuote, pagesNumberPerDocument, onDocumentLoadSuccess, setPageRef } = props
 
-    const [currentLoadingPage, setCurrentLoadingPage] = useState(1)
+    
     const paragraphs = useRef<{ text: string, elementsIds: string[] }[]>([])
-
-    const {
-        numPages,
-        setPageRef,
-        onDocumentLoadSuccess,
-        pagesNumberPerDocument,
-        pagination
-    } = useMultiFilePagination(files)
-
-    useEffect(() => {
-        const loadNextPages = () => {
-            setCurrentLoadingPage((prevPage) => {
-                const nextPage = prevPage + 5
-                if (nextPage > numPages) {
-                    return numPages
-                } else {
-                    return nextPage
-                }
-            })
-        }
-        if (currentLoadingPage <= numPages) {
-            loadNextPages()
-        }
-    }, [currentLoadingPage, numPages])
 
 
 
@@ -119,31 +99,24 @@ export const MultiPagePdfDisplayer = (props: MultiPagePdfDisplayerProps) => {
     if (isLoading) return <LoadingPdf parentWidth={parentWidth} />
     return (
         <Stack
-            sx={{
-                overflow: "hidden"
-            }}
         >
-            {files && pagination}
             {files ? (
                 <Stack display="flex" flexDirection="column">
-                    {files.map(((document, indexDoc) => (
-                        <Document key={`doc_${indexDoc}`} file={document.file} onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, indexDoc)}>
-                            {Array.from({ length: pagesNumberPerDocument[indexDoc] }, (_, index) => (
-                                <Page
-                                    onMouseUp={() => onSelectQuote(document.name, index + 1)}
-                                    key={`page_${index + 1}`}
-                                    pageNumber={index + 1}
-                                    loading={<LoadingPdf parentWidth={parentWidth} />}
-                                    onLoadSuccess={onPageLoadSuccess}
-                                    width={parentWidth}
-                                    className="pdfPage"
-                                    canvasRef={(ref) => setPageRef(index, indexDoc, ref)}
-                                    customTextRenderer={addIdOnTextElement}
-                                />
-                            ))}
-                        </Document>
-                    ))
-                    )}
+                    {files.map((document, indexDoc) => (
+                        <PdfDisplayer 
+                        file={document.file}
+                        key={`doc_${indexDoc}`}
+                        pagesNumber={pagesNumberPerDocument[indexDoc]}
+                        onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, indexDoc)}
+                        parentWidth={parentWidth}
+                        getPageProps={(pageNumber) => ({
+                            onMouseUp: () => onSelectQuote(document.name, pageNumber),
+                            onLoadSuccess: onPageLoadSuccess,
+                            canvasRef: (ref) => setPageRef(pageNumber, document.name, ref),
+                            customTextRenderer: addIdOnTextElement
+                        })}
+                        />
+                    ))}
                 </Stack>
             ) : (
                 <LoadingPdf parentWidth={parentWidth} />

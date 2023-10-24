@@ -2,6 +2,7 @@ import {Stack} from '@mui/material'
 import {PdfDisplayer} from "components";
 import {config} from "domain-components/src/config";
 import {Transaction} from "domain-components";
+import {useElementSize} from "@mantine/hooks"
 
 export interface TransactionPdfCertificateProps {
     transaction? : Transaction
@@ -9,8 +10,10 @@ export interface TransactionPdfCertificateProps {
 
 export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps) => {
     const { transaction } = props
+    const { ref, width } = useElementSize();
     return (
         <Stack
+        ref={ref}
             alignItems="center"
             direction="column"
             flexGrow={1}
@@ -21,7 +24,7 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
                 }
             }}
         >
-            {transaction && <PdfDisplayer file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>}
+            {transaction && <PdfDisplayer parentWidth={width} file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>}
        </Stack>
     )
 }
