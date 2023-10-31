@@ -48,7 +48,7 @@ export const ProjectView = (_: ProjectViewProps) => {
             component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading} />)
         }]
         const hasActivity = !!project?.activities && project?.activities.length !== 0
-        const hasDocument = (fileListQuery.data?.items?.length ?? 0) > 0
+        const hasDocument = /* (fileListQuery.data?.items?.length ?? 0) > 0 */ true
         const hasAssetPools = !!project?.assetPools && project?.assetPools.length !== 0
         hasActivity && tabs.push({
             key: 'activities',

@@ -6,6 +6,7 @@ import { DocumentsSwitch } from "../DocumentsSwitch";
 import { useState, useEffect, useMemo, useCallback } from "react"
 
 
+
 export interface DocumentsViewerProps {
     files?: { name: string, file: any }[]
     reference?: string
@@ -15,6 +16,7 @@ export interface DocumentsViewerProps {
 
 export const DocumentsViewer = (props: DocumentsViewerProps) => {
     const { files } = props
+
     const [displayedFile, setDisplayedFile] = useState<{ name: string, file: any } | undefined>(undefined)
 
     useEffect(() => {
