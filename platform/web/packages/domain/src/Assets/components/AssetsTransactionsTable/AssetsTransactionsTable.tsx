@@ -22,7 +22,7 @@ function useTransactionColumn() {
             date: generators.date({
                 header: t("transactionDate"),
                 getCellProps: (registry) => ({
-                    date: registry.date
+                    value: registry.date
                 })
             }),
 

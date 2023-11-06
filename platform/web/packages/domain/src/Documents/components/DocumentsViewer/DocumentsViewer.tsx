@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
 import { MultiFilePdfDisplayer, useMultiFilePagination } from "components";
-import { useElementSize } from "@mantine/hooks";
+import { useDebouncedValue, useElementSize } from "@mantine/hooks";
 import { DocumentsThumbnails } from "../DocumentsThumbnails";
 import { DocumentsSwitch } from "../DocumentsSwitch";
 import { useState, useEffect, useMemo, useCallback } from "react"
@@ -35,6 +35,10 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
 
     const { ref, width } = useElementSize();
 
+    const [debouncedWidth] = useDebouncedValue(width, 400);
+
+    console.log(width)
+
     const {
         pagesNumberPerDocument,
         onDocumentLoadSuccess,
@@ -55,6 +59,7 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                 bgcolor="#F0EDE6"
                 flexGrow={1}
                 flexBasis={0}
+                ref={ref}
                 sx={{
                     overflow: "auto",
                     position: "relative",
@@ -76,7 +81,6 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                     files={filesToSwitch}
                 />}
                 <Box
-                    ref={ref}
                     sx={{
                         padding: (theme) => theme.spacing(2, 1.5),
                         width: "100%",
@@ -89,7 +93,7 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
                         onDocumentLoadSuccess={onDocumentLoadSuccess}
                         pagesNumberPerDocument={pagesNumberPerDocument}
                         setPageRef={setPageRef}
-                        parentWidth={width - 24}
+                        parentWidth={debouncedWidth - 24}
                     />
                 </Box>
             </Box>

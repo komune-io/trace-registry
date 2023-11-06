@@ -44,6 +44,7 @@ export const DocumentsList = (props: DocumentsListProps) => {
             rowSelection
         },
         enableRowSelection: true,
+        RowSelectionPosition: "end",
         onRowSelectionChange: onRowSelectionChange,
         getRowId: (row) => row.name
     })

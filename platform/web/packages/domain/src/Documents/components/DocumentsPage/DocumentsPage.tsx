@@ -1,13 +1,10 @@
 import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-components";
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback } from "react";
-import { FilePath } from "../../api/query";
-import { /* useParams, */ useSearchParams } from "react-router-dom";
+import { FilePath, useProjectFilesQuery } from "../../api/query";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Row, RowSelectionState } from '@tanstack/react-table';
 import qs from 'qs';
-import pdd from "./pdd.pdf"
-import pdf from "./pdf2.pdf"
-import dummyPdf from "./dummy.pdf"
 
 export interface DocumentsPageProps {
     isLoading?: boolean
@@ -15,24 +12,14 @@ export interface DocumentsPageProps {
 }
 
 export const DocumentsPage = (props: DocumentsPageProps) => {
-    const { isLoading = false, /* files */ } = props
-    // const { projectId } = useParams()
+    const { isLoading = false, files } = props
+    const { projectId } = useParams()
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const fileList = /* files */[{
-        name: "Pdf 1",
-        file: pdd
-    }, {
-        name: "Pdf 2",
-        file: pdf
-    }, {
-        name: "Pdf 3",
-        file: dummyPdf
-    }]
-
+    const fileList = files
 
     const selectedFiles = useMemo(() => (qs.parse(searchParams.toString()).files ?? []) as string[], [searchParams])
     const isPreviewMode = useMemo(() => selectedFiles.length !== 0, [selectedFiles])
@@ -57,16 +44,15 @@ export const DocumentsPage = (props: DocumentsPageProps) => {
         }
     }, [rowSelection, isPreviewMode])
 
-    // const downloadedFiles = useProjectFilesQuery(
-    //   selectedFiles?.map((fileName) => (
-    //     { id: projectId!, path: fileList?.find((file) => file.name === fileName)! })
-    //   ), { enabled: !!selectedFiles })   
+    const downloadedFiles = useProjectFilesQuery(
+      selectedFiles?.map((fileName) => (
+        { id: projectId!, path: fileList?.find((file) => file.name === fileName)! })
+      ), { enabled: !!selectedFiles })   
 
     const filteredDownloadedFiles = useMemo(
-        () => /* downloadedFiles.data */selectedFiles?.map(
-            // (file, index) => ({ name: selectedFiles[index], file })
-            (name) => ({ name, file: fileList.find((file) => file.name === name)?.file })
-        ), [/* downloadedFiles.data */fileList, selectedFiles])
+        () => downloadedFiles.data?.map(
+            (file, index) => ({ name: selectedFiles[index], file })
+        ), [downloadedFiles.data])
 
     const onSetQuote = useCallback(
         (quote: string, fileName: string, pageNumber: number) => {

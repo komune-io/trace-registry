@@ -71,7 +71,7 @@ function useProductColumn() {
             endDate: generators.date({
                 header: t("endDate"),
                 getCellProps: (registry) => ({
-                    date: registry.creditingPeriodEndDate
+                    value: registry.creditingPeriodEndDate
                 })
             }),
 
