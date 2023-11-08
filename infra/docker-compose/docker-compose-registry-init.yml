@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   tr-registry-script:
-    container_name: tr-registry-script
+    container_name: registry-script
     image: smartbcity/tr-registry-script:next
     environment:
       - registry_script_retry_max=5

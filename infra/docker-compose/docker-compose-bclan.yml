@@ -2,19 +2,19 @@ version: '3.7'
 
 services:
   ca.bc-coop.bclan:
-    container_name: verr-ca-bclan
+    container_name: registry-ca-bclan
     image: smartbcity/commune-sandbox-ca:2.3.3-0.8.2-2
     networks:
       - net
 
   orderer.bclan:
-    container_name: verr-orderer
+    container_name: registry-orderer
     image: smartbcity/commune-sandbox-orderer:2.3.3-0.8.2-2
     networks:
       - net
 
   couchdb.bc-coop.bclan:
-    container_name: verr-couchdb
+    container_name: registry-couchdb
     image: couchdb:3.1.2
     environment:
       - COUCHDB_USER=${BCLAN_COUCH_USER}
@@ -27,7 +27,7 @@ services:
       - orderer.bclan
 
   peer0.bc-coop.bclan:
-    container_name: verr-peer0-bclan
+    container_name: registry-peer0-bclan
     image: smartbcity/commune-sandbox-peer:2.3.3-0.8.2-2
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -42,7 +42,7 @@ services:
       - net
 
   coop-rest-java:
-    container_name: verr-coop-rest-bclan
+    container_name: registry-coop-rest-bclan
     image: smartbcity/commune-sandbox-ssm-rest:2.3.3-0.8.2-2
     environment:
       - i2_jwt-issuer-uri=

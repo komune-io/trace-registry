@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   kb-api:
-    container_name: kb-api
+    container_name: registry-kb-api
     image: smartbcity/kb:${KB_VERSION}
     ports:
       - "9999:9999"

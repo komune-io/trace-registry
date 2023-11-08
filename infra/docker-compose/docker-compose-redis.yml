@@ -2,7 +2,7 @@ version: "3.7"
 services:
   redis:
     image: redis/redis-stack:6.2.6-v0
-    container_name: verr-redis
+    container_name: registry-redis
     ports:
       - 6379:6379
       - 8011:8001
@@ -13,7 +13,7 @@ services:
 
   redisinsight:
     image: redislabs/redisinsight:latest
-    container_name: verr-redisinsight
+    container_name: registry-redisinsight
     ports:
       - '8001:8001'
     networks:

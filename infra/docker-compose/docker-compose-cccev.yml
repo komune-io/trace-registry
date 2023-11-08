@@ -3,14 +3,14 @@ version: '3.7'
 services:
   cccev-gateway:
     image: smartbcity/cccev-gateway:${CONNECT_CCCEV_VERSION}
-    container_name: cccev-gateway
+    container_name: registry-cccev-gateway
     environment:
       - ssm_couchdb_url=${BCLAN_COUCH_URL}
       - ssm_couchdb_username=${BCLAN_COUCH_USER}
       - ssm_couchdb_password=${BCLAN_COUCH_PASS}
       - ssm_chaincode_url=${BCLAN_CHAINCODE_URL}
-      - fs_url=http://fs-gateway:8090
-      - spring_neo4j_uri=neo4j://cccev-neo4j:7687
+      - fs_url=http://registry-fs:8090
+      - spring_neo4j_uri=neo4j://registry-neo4j:7687
       - spring_neo4j_authentication_username=neo4j
       - spring_neo4j_authentication_password=smartbsmartb
     ports:
@@ -21,7 +21,7 @@ services:
       - neo4j
   neo4j:
     image: neo4j:5.5.0
-    container_name: cccev-neo4j
+    container_name: registry-neo4j
     environment:
       - NEO4J_AUTH=neo4j/smartbsmartb
     networks:
