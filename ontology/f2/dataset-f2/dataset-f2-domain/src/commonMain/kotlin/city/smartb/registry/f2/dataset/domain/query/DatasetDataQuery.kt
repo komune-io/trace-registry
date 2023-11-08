@@ -2,10 +2,9 @@ package city.smartb.registry.f2.dataset.domain.query
 
 import city.smartb.registry.s2.dataset.domain.automate.DatasetId
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 
 
 /**
@@ -47,13 +46,13 @@ interface DatasetDataResultDTO {
     /**
      * List of paths of all the files uploaded for the dataset.
      */
-    val items: List<JsonElement>
+    val items: List<Any>
 }
 
 /**
  * @d2 inherit
  */
-@Serializable
+//@Serializable
 data class DatasetDataResult(
-    override val items: List<JsonElement>
+    override val items: List<Any>
 ): DatasetDataResultDTO

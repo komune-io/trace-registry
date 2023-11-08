@@ -3,6 +3,7 @@ package city.smartb.registry.script.init.catalogue
 import city.smartb.registry.dsl.dcat.domain.model.CatalogueBuilder
 import city.smartb.registry.dsl.dcat.domain.model.catalogue
 import city.smartb.registry.dsl.dcat.domain.model.dataService
+import city.smartb.registry.s2.dataset.domain.model.DatasetTypes
 import city.smartb.registry.s2.structure.domain.model.Structure
 
 fun catalogueStandards(debug: String) = catalogue {
@@ -40,12 +41,12 @@ fun CatalogueBuilder.datasetBase(parentIdentifier: String) {
         dataset {
             identifier = "${parentIdentifier}-documents"
             title = "Documents"
-            type = "document"
+            type = DatasetTypes.DOCUMENTS
         }
         dataset {
             identifier = "${parentIdentifier}-activities"
             title = "Activities"
-            type = "activity"
+            type = DatasetTypes.ACTIVITIES
         }
     }
 }

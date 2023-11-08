@@ -113,7 +113,7 @@ class ProjectEndpoint(
         @RequestBody query: ProjectDownloadFileQuery,
         response: ServerHttpResponse
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
-        logger.info("assetCertificateDownload: $query")
+        logger.info("projectDownloadFile: $query")
         query.path
     }
 

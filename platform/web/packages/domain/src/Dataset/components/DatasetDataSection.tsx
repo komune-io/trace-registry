@@ -12,11 +12,11 @@ interface DatasetDataSectionProps {
 export const DatasetDataSection = (props: DatasetDataSectionProps) => {
     const { item, isLoading } = props
     const fileListQuery = useDatasetDataQuery({ query: { id: item.id! } })
-    if(item.type === "document" ) {
+    if(item.type === "documents" ) {
         return (
             <DocumentsPage isLoading={isLoading || fileListQuery.isLoading} files={fileListQuery.data?.items as FilePath[]} />
         )
-    } else if(item.type === "activity" ) {
+    } else if(item.type === "activities" ) {
         return (
             <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items as  Activity[]} />
         )

@@ -91,7 +91,7 @@ class DatasetEndpoint(
     @PermitAll
     @Bean
     override fun datasetData(): DatasetDataFunction = f2Function { query ->
-        logger.info("datasetRefList: $query")
+        logger.info("datasetData: $query")
         val items = dataProvider.retrieve(datasetId = query.id)
         DatasetDataResult(items = items)
     }
@@ -170,4 +170,3 @@ class DatasetEndpoint(
 
 
 }
-
