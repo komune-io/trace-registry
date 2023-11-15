@@ -1,20 +1,32 @@
 import { Divider, Stack, Typography } from '@mui/material'
+import {Chip} from "@smartb/g2"
 
 export interface TitleDividerProps {
     title: string
+    status?: {
+        label: string
+        color: string
+    }
 }
 
 export const TitleDivider = (props: TitleDividerProps) => {
-    const {title} = props
+    const { title, status } = props
     return (
         <Stack
             gap={2}
         >
-            <Typography
-                variant="h5"
+            <Stack
+                gap={2}
+                direction="row"
+                justifyContent="space-between"
             >
-                {title}
-            </Typography>
+                <Typography
+                    variant="h5"
+                >
+                    {title}
+                </Typography>
+                {status && <Chip {...status} />}
+            </Stack>
             <Divider
             />
         </Stack>

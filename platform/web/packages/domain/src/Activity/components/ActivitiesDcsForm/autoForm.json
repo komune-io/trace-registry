@@ -1,0 +1,93 @@
+{
+  "sections": [
+    {
+      "id": "section_0",
+      "label": "Evidence list",
+      "fields": [
+        {
+          "name": "evidence_0",
+          "type": "documentHandler",
+          "label": "Document X :",
+          "properties": {
+            "isRequired": true,
+            "fileTypesAllowed": ["pdf", "jpg", "png"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "section_1",
+      "label": "Requirements",
+      "fields": [
+        {
+          "name": "name",
+          "type": "textField",
+          "label": "Project Name",
+          "properties": {
+            "readOnly": true
+          }
+        },
+        {
+          "name": "cardNumber",
+          "type": "textField",
+          "label": "Card number",
+          "conditions": [
+            {
+              "expression": "#cardNumber?.size < 6",
+              "type": "validator",
+              "error": "Your card number must have 6 digits minimum"
+            }
+          ]
+        },
+        {
+          "name": "cfcNumber",
+          "type": "textField",
+          "label": "Cfc number",
+          "properties": {
+            "textFieldType": "number"
+          }
+        },
+        {
+          "name": "cccNumber",
+          "type": "textField",
+          "label": "Ccc number",
+          "properties": {
+            "textFieldType": "number"
+          },
+          "conditions": [
+            {
+              "expression": "!!#cfcNumber",
+              "type": "display"
+            }
+          ]
+        },
+        {
+          "name": "country",
+          "type": "select",
+          "label": "Province",
+          "required": true,
+          "options": [
+            {
+              "key": "TAN",
+              "label": "Tanzania"
+            },
+            {
+              "key": "FRA",
+              "label": "France"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "orientation": "horizontal"
+      },
+      "conditions": [
+        {
+          "expression": "#country == 'TAN'",
+          "type": "error",
+          "message": "If your project is based in Tanzania you will need a local authorization proof"
+        }
+      ]
+    }
+  ]
+}

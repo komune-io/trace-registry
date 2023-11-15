@@ -1,5 +1,5 @@
-import { useAuth, KeycloackService } from "@smartb/g2"
-import { Roles, userEffectiveRoles } from "./roles";
+import {useAuth, KeycloackService, AuthedUser} from "@smartb/g2"
+import {Permissions, mutablePermissions, usePermissionListQuery, useRoleListQuery,} from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 
 type StaticServices = {
@@ -13,7 +13,7 @@ type StaticServices = {
     }
 }
 
-const staticServices: KeycloackService<StaticServices, Roles> = {
+const staticServices: KeycloackService<StaticServices, Permissions> = {
     hasUserRouteAuth: (_, services, params) => {
         const { route = "", authorizedUserId, authorizedUserOrgId } = params ?? {}
         const currentUser = services.getUser()
@@ -21,28 +21,40 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
         const isAuthedOrgId = !!authorizedUserOrgId && currentUser?.memberOf === authorizedUserOrgId
         const authorizations = routesAuthorizations[route]
         if (authorizations === "open") return true
-        else return checkRelations(authorizations, isAuthedUserId, isAuthedOrgId, services.hasRole)
+        else return checkRelations(authorizations, currentUser, isAuthedUserId, isAuthedOrgId, services.hasRole)
     }
 }
 
-export const useExtendedAuth = () => useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices, {})
+export const useExtendedAuth = () =>  {
+    const auth = useAuth<StaticServices, Permissions>(mutablePermissions, staticServices, {})
+    const permissionsQuery = usePermissionListQuery({query:{}})
+    const rolesQuery = useRoleListQuery({query:{}})
+    return {
+        ...auth,
+        roles: rolesQuery.data?.items,
+        permissions: permissionsQuery.data?.items
+    }
+}
 
-const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
+const matches = (authorization: RoutesRoles, currentUser: AuthedUser | undefined, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: (Permissions)[]) => boolean) => {
     if (authorization === "currentUser") {
         return isAuthedUserId
     }
     if (authorization === "memberOf") {
         return isAuthedOrgId
     }
+    if (authorization === "hasOrganization") {
+        return !!currentUser?.memberOf
+    }
     return hasRole([authorization])
 }
 
-const checkRelations = (authorizations: RoutesRoles[] | RoutesRoles[][], isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
+const checkRelations = (authorizations: RoutesRoles[] | RoutesRoles[][], currentUser: AuthedUser | undefined, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: (Permissions)[]) => boolean) => {
     return authorizations.some((roles: any) => {
         if (Array.isArray(roles)) {
-            return roles.every(role => matches(role, isAuthedUserId, isAuthedOrgId, hasRole))
+            return roles.every(role => matches(role, currentUser, isAuthedUserId, isAuthedOrgId, hasRole))
         } else {
-            return matches(roles, isAuthedUserId, isAuthedOrgId, hasRole)
+            return matches(roles, currentUser, isAuthedUserId, isAuthedOrgId, hasRole)
         }
     })
 }

@@ -5,6 +5,8 @@ import { useActivityStepPageQuery } from '../../api';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {isDynastyInGraph} from "../../graph";
 import {ActivitiesStepSummary} from "../ActivityStepSummary/ActivitiesStepSummary";
+import { useExtendedAuth } from 'components';
+import { ActivitiesDcsForm } from '../ActivitiesDcsForm/ActivitiesDcsForm';
 
 export interface ActivitiesSummaryProps {
   activities: Activity[]
@@ -20,6 +22,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const selectedActivity = searchParams.get("selectedActivity")
   const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
   const nodes = useNodes();
+  const {keycloak} = useExtendedAuth()
 
   useEffect(() => {
     //This useEffect will select the node saved in the url if not already selected
@@ -65,6 +68,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
 
   const isactivityStepPageQueryLoading = activityStepPageQuery.isLoading && !!selectedNode?.identifier
   const steps = activityStepPageQuery.data?.items ?? []
+  if (keycloak.isAuthenticated) return <ActivitiesDcsForm />
   return (
     <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || isactivityStepPageQueryLoading} steps={steps} />
   )
