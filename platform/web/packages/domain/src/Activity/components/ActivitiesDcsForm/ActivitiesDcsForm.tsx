@@ -1,7 +1,7 @@
 import { TitleDivider } from 'components'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { AutoForm, autoFormFormatter } from '@smartb/g2'
+import { AutoForm, Button, autoFormFormatter } from '@smartb/g2'
 import json from './autoForm.json'
 
 export const ActivitiesDcsForm = () => {
@@ -23,9 +23,13 @@ export const ActivitiesDcsForm = () => {
           color: "#18159D"
         }}
       />
-      <Typography sx={{color: "#666560"}} >This activity involves identifying the project and its location.</Typography>
-      {/* @ts-ignore */}
-      <AutoForm formData={autoFormFormatter(json)} />
+      <Typography sx={{ color: "#666560" }} >This activity involves identifying the project and its location.</Typography>
+
+      <AutoForm
+        /* @ts-ignore */
+        formData={autoFormFormatter(json)}
+        getFormActions={(formState) => <Button sx={{alignSelf: "flex-end"}} onClick={formState.submitForm} >{t("submitForValidation")}</Button>}
+      />
     </Stack>
   )
 }

@@ -39,18 +39,31 @@ export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, 
     )
 }
 
-export const permissions = [
-    "im_user_read",
-    "im_user_write",
-    "im_organization_read",
-    "im_organization_write_own",
-    "im_organization_write",
-    "im_role_read",
-    "im_role_write",
-    "im_apikey_read",
-    "im_apikey_write"
+export const userAdminRoles = [
+    "tr_orchestrator_admin",
+    "tr_project_manager_admin",
+    "tr_stakeholder_admin"
 ] as const
 
-export type Permissions = typeof permissions[number]
+export const userBaseRoles = [
+    "tr_orchestrator_user",
+    "tr_project_manager_user",
+    "tr_stakeholder_user",
+] as const
 
-export const mutablePermissions: Permissions[] = [...permissions]
+export const userRoles = [
+    "super_admin",
+    ...userAdminRoles,
+    ...userBaseRoles
+] as const
+
+export const orgRoles = [
+    "tr_orchestrator",
+    "tr_project_manager",
+    "tr_stakeholder"
+] as const
+
+
+export const userEffectiveRoles = [...userRoles, ...orgRoles]
+export type Roles = typeof userEffectiveRoles[number]
+

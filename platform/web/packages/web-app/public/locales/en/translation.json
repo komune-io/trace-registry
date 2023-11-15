@@ -85,6 +85,7 @@
   "program": "Program",
   "methodologie": "Methodologie",
   "switchTo": "Switch to",
+  "submitForValidation": "Submit for validation",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -154,6 +155,7 @@
     "makePublic": "Make it public",
     "editVisibility": "Edit project visibility",
     "editVisibilityDescription": "The visibility configuration allows you to control the accessibility of project activities and documents. \nIn public mode, all users can view the project's activities and documents. \nHowever, in private mode, only individuals within your organization will have access to the project.",
+    "identification": "Identification of the project",
     "types": {
       "1": "Agriculture Forestry and Other Land Use",
       "2": "Waste handling and disposal",

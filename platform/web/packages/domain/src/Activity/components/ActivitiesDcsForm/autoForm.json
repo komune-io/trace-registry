@@ -7,9 +7,10 @@
         {
           "name": "evidence_0",
           "type": "documentHandler",
-          "label": "Document X :",
+          "label": "A document",
           "properties": {
             "isRequired": true,
+            "outterLabel": "Document X :",
             "fileTypesAllowed": ["pdf", "jpg", "png"]
           }
         }
@@ -53,13 +54,7 @@
           "label": "Ccc number",
           "properties": {
             "textFieldType": "number"
-          },
-          "conditions": [
-            {
-              "expression": "!!#cfcNumber",
-              "type": "display"
-            }
-          ]
+          }
         },
         {
           "name": "country",
