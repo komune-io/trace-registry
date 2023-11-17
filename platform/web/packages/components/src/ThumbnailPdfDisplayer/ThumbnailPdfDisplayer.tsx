@@ -65,6 +65,7 @@ export const ThumbnailPdfDisplayer = (props: ThumbnailPdfDisplayerProps) => {
                             gap={0.5}
                             alignItems="center"
                             key={`thumbnail_${index}`}
+                            id={`thumbnail-${index+1}`}
                         >
                             <Box
                                 sx={isVisiblePage(index + 1) ? {
