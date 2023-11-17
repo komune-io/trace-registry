@@ -37,7 +37,6 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                 const containerRect = ref.current.getBoundingClientRect()
                 const thumbnailRect = visibleThumbnail.getBoundingClientRect()
                 const offset = containerRect.height / 2 - thumbnailRect.height / 2
-                console.log("hello world!")
 
                 ref.current.scrollTo({
                     top: thumbnailRect.top - containerRect.top + ref.current.scrollTop - offset,
