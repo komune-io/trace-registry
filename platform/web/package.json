@@ -24,7 +24,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
-    "@smartb/g2": "1.0.0-alpha.182",
+    "@smartb/g2": "1.0.0-alpha.183",
     "@smartb/privilege-domain": "0.15.0-experimental.1695388358212",
     "react-infinite-scroll-component": "^6.1.0",
     "@mantine/hooks": "^6.0.13",

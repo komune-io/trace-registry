@@ -86,6 +86,7 @@
   "methodologie": "Methodologie",
   "switchTo": "Switch to",
   "submitForValidation": "Submit for validation",
+  "nextSteps": "Next steps",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

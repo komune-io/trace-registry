@@ -6,7 +6,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import {isDynastyInGraph} from "../../graph";
 import {ActivitiesStepSummary} from "../ActivityStepSummary/ActivitiesStepSummary";
 import { useExtendedAuth } from 'components';
-import { ActivitiesDcsForm } from '../ActivitiesDcsForm/ActivitiesDcsForm';
+import { ActivitiesDcsForm } from '../ActivitiesDcsForm';
+import { ActivitiesNextSteps } from '../ActivitiesNextSteps';
 
 export interface ActivitiesSummaryProps {
   activities: Activity[]
@@ -68,7 +69,10 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
 
   const isactivityStepPageQueryLoading = activityStepPageQuery.isLoading && !!selectedNode?.identifier
   const steps = activityStepPageQuery.data?.items ?? []
-  if (keycloak.isAuthenticated) return <ActivitiesDcsForm />
+  if (keycloak.isAuthenticated) {
+    if (!splat) return <ActivitiesNextSteps />
+    else return <ActivitiesDcsForm />
+  }
   return (
     <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || isactivityStepPageQueryLoading} steps={steps} />
   )

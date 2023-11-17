@@ -29,6 +29,7 @@ export const ActivitiesDcsForm = () => {
         /* @ts-ignore */
         formData={autoFormFormatter(json)}
         getFormActions={(formState) => <Button sx={{alignSelf: "flex-end"}} onClick={formState.submitForm} >{t("submitForValidation")}</Button>}
+        onSubmit={(command) => console.log(JSON.stringify(command))}
       />
     </Stack>
   )
