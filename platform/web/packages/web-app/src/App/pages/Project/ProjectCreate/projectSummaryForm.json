@@ -8,13 +8,13 @@
         {
           "name": "name",
           "type": "textField",
-          "label": "Project Name",
+          "label": "Project name",
           "required": true
         },
         {
           "name": "description",
           "type": "textField",
-          "label": "Project Name",
+          "label": "Project description",
           "required": true,
           "properties": {
             "multiline": true,
@@ -64,7 +64,10 @@
           "required": true,
           "properties": {
             "placeholder": "Choose a program",
-            "options": []
+            "options": [{
+              "key": "1",
+              "label": "Program 1"
+            }]
           }
         }
       ]

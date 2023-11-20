@@ -1,14 +1,17 @@
-import { Stepper, Section, StepItem, AutoForm, Actions, FormComposableState, autoFormFormatter } from '@smartb/g2'
+import { Stepper, Section, StepItem, AutoForm, Actions, FormComposableState, autoFormFormatter, CommandWithFile } from '@smartb/g2'
 import { useTranslation } from 'react-i18next'
 import { useMemo, useCallback } from 'react'
 import { AppPage } from 'template'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import summaryForm from "./projectSummaryForm.json"
+import locationForm from "./projectLocationForm.json"
 import { useRoutesDefinition } from 'components'
+import { ArrowBackRounded } from '@mui/icons-material'
 
 
 const forms = [
-    summaryForm
+    summaryForm,
+    locationForm
 ]
 
 export const ProjectCreate = () => {
@@ -16,6 +19,7 @@ export const ProjectCreate = () => {
     const activeStep = Number(step)
     const { t } = useTranslation()
     const {projectsCreateStep} = useRoutesDefinition()
+    const navigate = useNavigate()
 
     const steps = useMemo((): StepItem[] => [{
         key: "summary",
@@ -33,6 +37,8 @@ export const ProjectCreate = () => {
         actions={[{
             key: "goBack",
             label: t("goBack"),
+            variant: "text",
+            startIcon: <ArrowBackRounded />,
             showIf: () => activeStep > 0,
             component: Link,
             componentProps: {
@@ -45,6 +51,15 @@ export const ProjectCreate = () => {
         }]} 
         />
     ) , [t, activeStep])
+
+    const onSubmit = useCallback(
+      (command: CommandWithFile<any>) => {
+        console.log(command)
+        navigate(projectsCreateStep(`${activeStep + 1}`))
+      },
+      [navigate, activeStep],
+    )
+    
 
     return (
         <AppPage
@@ -63,7 +78,7 @@ export const ProjectCreate = () => {
             >
                 <AutoForm
                     formData={autoFormFormatter(forms[activeStep])}
-                    onSubmit={(command) => console.log(command)}
+                    onSubmit={onSubmit}
                     getFormActions={getActions}
                 />
             </Section>

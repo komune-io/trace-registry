@@ -87,6 +87,8 @@
   "switchTo": "Switch to",
   "newProject": "New project",
   "createAProject": "Create a project",
+  "goBack": "Go back",
+  "next": "Next",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
