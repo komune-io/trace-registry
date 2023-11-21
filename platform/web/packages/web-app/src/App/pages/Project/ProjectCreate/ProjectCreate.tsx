@@ -5,13 +5,15 @@ import { AppPage } from 'template'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import summaryForm from "./projectSummaryForm.json"
 import locationForm from "./projectLocationForm.json"
+import financialDetailsForm from "./financialDetailsForm.json"
 import { useRoutesDefinition } from 'components'
 import { ArrowBackRounded } from '@mui/icons-material'
 
 
 const forms = [
     summaryForm,
-    locationForm
+    locationForm,
+    financialDetailsForm
 ]
 
 export const ProjectCreate = () => {

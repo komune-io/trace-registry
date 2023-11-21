@@ -1,0 +1,43 @@
+{
+  "sections": [
+    {
+      "id": "reduction",
+      "fields": [
+        {
+          "name": "estimated Co2 Reduction (T)",
+          "type": "textField",
+          "required": true
+        }
+      ]
+    },{
+      "id": "details",
+      "label": "Financial details",
+      "description": "Provide information about the financial aspects of your project. Include the budget, funding sources, and any financial projections. Be transparent about how funds will be allocated to achieve project objectives.",
+      "fields": [
+        {
+          "name": "budget",
+          "type": "textField",
+          "label": "Estimated budget",
+          "required": true,
+          "properties": {
+            "textFieldType": "number"
+          },
+          "conditions": [{
+            "expression": "#budget < 0",
+            "error": "Your budget should be above 0"
+          }]
+        },
+        {
+          "name": "fundingSource",
+          "type": "textField",
+          "label": "Source of funding",
+          "required": true,
+          "properties": {
+            "multiline": true,
+            "rows": 4
+          }
+        }
+      ]
+    }
+  ]
+}
