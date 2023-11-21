@@ -4,9 +4,13 @@
       "id": "reduction",
       "fields": [
         {
-          "name": "estimated Co2 Reduction (T)",
+          "name": "reduction",
+          "label": "estimated Co2 Reduction (T)",
           "type": "textField",
-          "required": true
+          "required": true,
+          "properties": {
+            "textFieldType": "number"
+          }
         }
       ]
     },{
@@ -17,7 +21,7 @@
         {
           "name": "budget",
           "type": "textField",
-          "label": "Estimated budget",
+          "label": "Estimated budget ($)",
           "required": true,
           "properties": {
             "textFieldType": "number"
