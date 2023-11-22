@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { ThumbnailPdfDisplayer } from 'components';
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import {useElementSize} from "@mantine/hooks"
 
 export interface DocumentsThumbnailsProps {
@@ -12,8 +12,7 @@ export interface DocumentsThumbnailsProps {
 
 export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
     const { visiblePages, file, isLoading, goToPage } = props
-    const [isThumbnailClicked, setThumbnailClicked] = useState(false);
-
+    const isThumbnailClickedRef = useRef(false);
     const isVisiblePage = useCallback(
         (pageNum: number) => {
             return visiblePages.some(
@@ -26,7 +25,7 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
 
     useEffect(() => {
         const scrollToVisibleThumbnail = () => {
-            if(!isThumbnailClicked) {
+            if(!isThumbnailClickedRef.current) {
                 if(!visiblePages || visiblePages.length === 0 ||  !ref.current) return
 
                 const pageNumber = visiblePages[0].pageNumber
@@ -34,24 +33,17 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
 
                 if(!visibleThumbnail) return
                 
-                const containerRect = ref.current.getBoundingClientRect()
-                const thumbnailRect = visibleThumbnail.getBoundingClientRect()
-                const offset = containerRect.height / 2 - thumbnailRect.height / 2
-
-                ref.current.scrollTo({
-                    top: thumbnailRect.top - containerRect.top + ref.current.scrollTop - offset,
-                    behavior: 'smooth',
-                });
+                visibleThumbnail.scrollIntoView({ behavior: 'auto', block: 'center' })
             }
         }
         scrollToVisibleThumbnail();
-        setTimeout(() => { setThumbnailClicked(false); }, 1000);
-    }, [visiblePages, isThumbnailClicked])
+        setTimeout(() => { isThumbnailClickedRef.current = false }, 1000);
+    }, [visiblePages])
 
 
     const goToPageAndNotify = useCallback((pageNumber: number) => {
         goToPage(pageNumber, file?.name ?? "")
-        setThumbnailClicked(true);
+        isThumbnailClickedRef.current = true;
     }, [goToPage, file?.name])
 
     const { ref, width } = useElementSize();
@@ -91,8 +83,7 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                 sx={{
                     bgcolor: "#F0EDE6",
                     padding: (theme) => theme.spacing(1),
-                    flexGrow: 1,
-                    overflowY: 'scroll'
+                    flexGrow: 1
                 }}
             >
                 <ThumbnailPdfDisplayer
