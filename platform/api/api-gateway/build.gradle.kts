@@ -13,9 +13,11 @@ dependencies {
     implementation(project(":platform:f2:asset-order-f2:asset-order-f2-api"))
     implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-api"))
     implementation(project(":platform:f2:chat-f2:chat-f2-api"))
+    implementation(project(":platform:f2:dcs-f2:dcs-f2-api"))
+    implementation(project(":platform:f2:project-f2:project-f2-api"))
+
     implementation(project(":ontology:f2:catalogue-f2:catalogue-f2-api"))
     implementation(project(":ontology:f2:dataset-f2:dataset-f2-api"))
-    implementation(project(":platform:f2:project-f2:project-f2-api"))
 
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
