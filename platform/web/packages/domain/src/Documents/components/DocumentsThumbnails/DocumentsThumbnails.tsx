@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { ThumbnailPdfDisplayer } from 'components';
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import {useElementSize} from "@mantine/hooks"
 
 export interface DocumentsThumbnailsProps {
@@ -12,7 +12,7 @@ export interface DocumentsThumbnailsProps {
 
 export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
     const { visiblePages, file, isLoading, goToPage } = props
-
+    const isThumbnailClickedRef = useRef(false);
     const isVisiblePage = useCallback(
         (pageNum: number) => {
             return visiblePages.some(
@@ -21,6 +21,30 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
         },
         [visiblePages, file]
     )
+
+
+    useEffect(() => {
+        const scrollToVisibleThumbnail = () => {
+            if(!isThumbnailClickedRef.current) {
+                if(!visiblePages || visiblePages.length === 0 ||  !ref.current) return
+
+                const pageNumber = visiblePages[0].pageNumber
+                const visibleThumbnail = document.getElementById(`thumbnail-${pageNumber}`)
+
+                if(!visibleThumbnail) return
+                
+                visibleThumbnail.scrollIntoView({ behavior: 'auto', block: 'center' })
+            }
+        }
+        scrollToVisibleThumbnail();
+        setTimeout(() => { isThumbnailClickedRef.current = false }, 1000);
+    }, [visiblePages])
+
+
+    const goToPageAndNotify = useCallback((pageNumber: number) => {
+        goToPage(pageNumber, file?.name ?? "")
+        isThumbnailClickedRef.current = true;
+    }, [goToPage, file?.name])
 
     const { ref, width } = useElementSize();
 
@@ -65,7 +89,7 @@ export const DocumentsThumbnails = (props: DocumentsThumbnailsProps) => {
                 <ThumbnailPdfDisplayer
                     file={file?.file}
                     isLoading={isLoading ? isLoading : false}
-                    goToPage={(number) => goToPage(number, file?.name ?? "")}
+                    goToPage={goToPageAndNotify}
                     isVisiblePage={isVisiblePage}
                     width={width - 28}
                 />

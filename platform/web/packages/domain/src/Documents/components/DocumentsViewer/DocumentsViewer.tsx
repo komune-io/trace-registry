@@ -37,7 +37,6 @@ export const DocumentsViewer = (props: DocumentsViewerProps) => {
 
     const [debouncedWidth] = useDebouncedValue(width, 400);
 
-    console.log(width)
 
     const {
         pagesNumberPerDocument,
