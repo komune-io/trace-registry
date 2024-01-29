@@ -7,8 +7,8 @@ dependencies {
 	implementation(project(":platform:f2:activity-f2:activity-f2-api"))
 	implementation(project(":platform:f2:asset-order-f2:asset-order-f2-api"))
 	implementation(project(":platform:f2:asset-pool-f2:asset-pool-f2-api"))
+	implementation(project(":platform:f2:dcs-f2:dcs-f2-api"))
 	implementation(project(":platform:f2:project-f2:project-f2-api"))
-
 
 
 	implementation(project(":ontology:f2:catalogue-f2:catalogue-f2-api"))
@@ -26,4 +26,6 @@ dependencies {
 	implementation(project(":platform:api:api-commons"))
 
 	Dependencies.Jvm.s2Bdd(::api)
+	implementation("io.github.origin-energy:java-snapshot-testing-core:${Versions.javaSnapshotTesting}")
+	implementation("io.github.origin-energy:java-snapshot-testing-plugin-jackson:${Versions.javaSnapshotTesting}")
 }
