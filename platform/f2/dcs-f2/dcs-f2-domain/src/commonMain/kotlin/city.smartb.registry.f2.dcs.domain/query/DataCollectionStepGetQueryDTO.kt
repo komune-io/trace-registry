@@ -3,8 +3,11 @@ package city.smartb.registry.f2.dcs.domain.query
 import cccev.s2.requirement.domain.RequirementIdentifier
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStep
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStepDTO
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+
+typealias DataCollectionStepGetFunction = F2Function<DataCollectionStepGetQuery, DataCollectionStepGetResult>
 
 @JsExport
 interface DataCollectionStepGetQueryDTO {

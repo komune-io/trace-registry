@@ -1,6 +1,5 @@
 package city.smartb.registry.f2.dcs.api.converter
 
-import cccev.dsl.model.Code
 import cccev.dsl.model.DataUnit
 import cccev.dsl.model.DataUnitOption
 import cccev.dsl.model.DataUnitType
@@ -14,6 +13,7 @@ import cccev.dsl.model.constraint
 import cccev.dsl.model.criterion
 import cccev.dsl.model.informationRequirement
 import cccev.f2.unit.domain.model.DataUnitTypeValues
+import city.smartb.registry.f2.dcs.api.model.DcsCode
 import city.smartb.registry.f2.dcs.api.validator.DcsValidator
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStep
 import city.smartb.registry.f2.dcs.domain.model.DataCondition
@@ -23,11 +23,6 @@ import city.smartb.registry.f2.dcs.domain.model.DataFieldOption
 import city.smartb.registry.f2.dcs.domain.model.DataSection
 
 object DcsToCccevConverter {
-    sealed class DcsCode: Code() {
-        object DataCollectionStep: DcsCode()
-        object Section: DcsCode()
-    }
-
     fun convert(dcs: DataCollectionStep): Requirement {
         DcsValidator.check(dcs)
 
