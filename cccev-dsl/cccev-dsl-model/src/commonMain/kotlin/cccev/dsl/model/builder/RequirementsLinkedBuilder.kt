@@ -61,7 +61,14 @@ class CriterionBuilder : AbstractRequirementBuilder<Criterion>() {
         isDerivedFrom = isDerivedFrom,
         hasRequirement = hasRequirement,
         hasQualifiedRelation = hasQualifiedRelation,
-        isRequirementOf = isRequirementOf
+        isRequirementOf = isRequirementOf,
+        enablingCondition = enablingCondition,
+        enablingConditionDependencies = enablingConditionDependencies,
+        required = required,
+        validatingCondition = validatingCondition,
+        validatingConditionDependencies = validatingConditionDependencies,
+        order = order,
+        properties = properties,
     )
 }
 
@@ -72,18 +79,23 @@ class InformationRequirementBuilder : RequirementBuilder<InformationRequirement>
         identifier = identifier,
         name = name,
         type = type,
-
         hasConcept = hasConcept,
         hasEvidenceTypeList = hasEvidenceTypeList,
-
         isDerivedFrom = isDerivedFrom,
         hasRequirement = hasRequirement,
         hasQualifiedRelation = hasQualifiedRelation,
-        isRequirementOf = isRequirementOf
+        isRequirementOf = isRequirementOf,
+        enablingCondition = enablingCondition,
+        enablingConditionDependencies = enablingConditionDependencies,
+        required = required,
+        validatingCondition = validatingCondition,
+        validatingConditionDependencies = validatingConditionDependencies,
+        order = order,
+        properties = properties,
     )
 }
 
-class ConstraintBuilder : RequirementBuilder<Constraint>, AbstractRequirementBuilder<Constraint>() {
+class ConstraintBuilder: RequirementBuilder<Constraint>, AbstractRequirementBuilder<Constraint>() {
     override fun build() = Constraint(
         description = description,
         identifier = identifier,
@@ -94,6 +106,13 @@ class ConstraintBuilder : RequirementBuilder<Constraint>, AbstractRequirementBui
         isDerivedFrom = isDerivedFrom,
         hasRequirement = hasRequirement,
         hasQualifiedRelation = hasQualifiedRelation,
-        isRequirementOf = isRequirementOf
+        isRequirementOf = isRequirementOf,
+        enablingCondition = enablingCondition,
+        enablingConditionDependencies = enablingConditionDependencies,
+        required = required,
+        validatingCondition = validatingCondition,
+        validatingConditionDependencies = validatingConditionDependencies,
+        order = order,
+        properties = properties,
     )
 }

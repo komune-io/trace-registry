@@ -29,6 +29,13 @@ class RequirementF2AggregateService(
             hasConcept = command.hasConcept,
             hasEvidenceTypeList = command.hasEvidenceTypeList,
             hasQualifiedRelation = command.hasQualifiedRelation,
+            enablingCondition = command.enablingCondition,
+            enablingConditionDependencies = command.enablingConditionDependencies,
+            required = command.required,
+            validatingCondition = command.validatingCondition,
+            validatingConditionDependencies = command.validatingConditionDependencies,
+            order = command.order,
+            properties = command.properties,
         ).let { requirementAggregateService.create(it) }
     }
 
@@ -44,6 +51,12 @@ class RequirementF2AggregateService(
             hasConcept = command.hasConcept,
             hasEvidenceTypeList = command.hasEvidenceTypeList,
             hasQualifiedRelation = command.hasQualifiedRelation,
+            enablingConditionDependencies = command.enablingConditionDependencies,
+            required = command.required,
+            validatingCondition = command.validatingCondition,
+            validatingConditionDependencies = command.validatingConditionDependencies,
+            order = command.order,
+            properties = command.properties,
         ).let { requirementAggregateService.create(it) }
     }
 
@@ -59,6 +72,12 @@ class RequirementF2AggregateService(
             hasConcept = command.hasConcept,
             hasEvidenceTypeList = command.hasEvidenceTypeList,
             hasQualifiedRelation = command.hasQualifiedRelation,
+            enablingConditionDependencies = command.enablingConditionDependencies,
+            required = command.required,
+            validatingCondition = command.validatingCondition,
+            validatingConditionDependencies = command.validatingConditionDependencies,
+            order = command.order,
+            properties = command.properties,
         ).let { requirementAggregateService.create(it) }
     }
 

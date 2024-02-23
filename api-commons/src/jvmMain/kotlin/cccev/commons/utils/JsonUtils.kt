@@ -11,6 +11,10 @@ val jsonMapper = ObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     .registerKotlinModule()
 
+inline fun <reified T> String.parseJsonTo(): T {
+    return this.parseJsonTo(T::class.java)
+}
+
 fun <T> String.parseJsonTo(targetClass: Class<T>): T {
     return this.parseTo(targetClass)
 }

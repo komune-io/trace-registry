@@ -4,9 +4,9 @@ import cccev.dsl.model.Code
 import cccev.dsl.model.informationRequirement
 
 object Methodology {
-    object LocalConsultation: Code
-    object REDDPlus: Code
-    object VERRAVCS: Code
+    object LocalConsultation: Code()
+    object REDDPlus: Code()
+    object VERRAVCS: Code()
 }
 
 val LocalConsultation = informationRequirement {

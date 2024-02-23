@@ -97,7 +97,8 @@ class DataUnitCreateSteps: En, CccevCucumberStepsDefinition() {
             identifier = params.identifier,
             description = params.description,
             notation = params.notation,
-            type = params.type
+            type = params.type,
+            options = null
         )
         dataUnitAggregateService.create(command).id
     }

@@ -1,20 +1,19 @@
-package cccev.f2.unit.api.model
+package cccev.projection.api.entity.unit
 
-import cccev.f2.unit.domain.model.DataUnitDTOBase
-import cccev.f2.unit.domain.model.DataUnitOptionDTOBase
 import cccev.s2.unit.domain.model.DataUnit
 import cccev.s2.unit.domain.model.DataUnitOption
 
-fun DataUnit.toDTO() = DataUnitDTOBase(
+fun DataUnitEntity.toDataUnit() = DataUnit(
     id = id,
+    identifier = identifier,
     name = name,
     description = description,
     notation = notation,
-    type = type.name,
-    options = options?.map(DataUnitOption::toDTO)
+    type = type,
+    options = options?.map { it.toDataUnitOption() }
 )
 
-fun DataUnitOption.toDTO() = DataUnitOptionDTOBase(
+fun DataUnitOptionEntity.toDataUnitOption() = DataUnitOption(
     id = id,
     identifier = identifier,
     name = name,

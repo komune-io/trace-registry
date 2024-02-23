@@ -2,8 +2,8 @@ package cccev.s2.concept.domain
 
 import cccev.s2.concept.domain.command.InformationConceptCreateCommand
 import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
-import kotlin.js.JsExport
-import kotlin.js.JsName
+import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
+import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -11,6 +11,8 @@ import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
 import s2.dsl.automate.model.WithS2Id
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 /**
  * Unique identifier of an information concept.
@@ -26,6 +28,10 @@ val s2InformationConcept = s2Sourcing {
 	name = "InformationConceptS2"
 	init<InformationConceptCreateCommand, InformationConceptCreatedEvent> {
 		to = InformationConceptState.EXISTS
+		role = EditorRole
+	}
+	selfTransaction<InformationConceptUpdateCommand, InformationConceptUpdatedEvent> {
+		states += InformationConceptState.EXISTS
 		role = EditorRole
 	}
 }

@@ -4,6 +4,8 @@ import cccev.s2.concept.api.InformationConceptAggregateService
 import cccev.s2.concept.api.InformationConceptFinderService
 import cccev.s2.concept.domain.command.InformationConceptCreateCommand
 import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
+import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
+import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
 import cccev.s2.unit.api.DataUnitFinderService
 import cccev.s2.unit.domain.DataUnitId
 import org.springframework.stereotype.Service
@@ -18,6 +20,11 @@ class InformationConceptF2AggregateService(
         checkConceptsExist(command.dependsOn)
         checkUnitExists(command.hasUnit)
         return informationConceptAggregateService.create(command)
+    }
+
+    suspend fun update(command: InformationConceptUpdateCommand): InformationConceptUpdatedEvent {
+        checkConceptsExist(command.dependsOn)
+        return informationConceptAggregateService.update(command)
     }
 
     private suspend fun checkConceptsExist(ids: Collection<DataUnitId>?) {

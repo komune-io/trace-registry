@@ -2,6 +2,7 @@ package cccev.f2.unit.client
 
 import cccev.f2.unit.domain.DataUnitApi
 import cccev.f2.unit.domain.command.DataUnitCreateFunction
+import cccev.f2.unit.domain.command.DataUnitUpdateFunction
 import cccev.f2.unit.domain.query.DataUnitGetByIdentifierFunction
 import cccev.f2.unit.domain.query.DataUnitGetFunction
 import f2.client.F2Client
@@ -21,4 +22,5 @@ open class DataUnitClient constructor(private val client: F2Client): DataUnitApi
             = client.function(this::dataUnitGetByIdentifier.name)
 
     override fun dataUnitCreate(): DataUnitCreateFunction  = client.function(this::dataUnitCreate.name)
+    override fun dataUnitUpdate(): DataUnitUpdateFunction  = client.function(this::dataUnitUpdate.name)
 }

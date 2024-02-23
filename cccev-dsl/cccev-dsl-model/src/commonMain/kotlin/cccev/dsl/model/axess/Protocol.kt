@@ -4,9 +4,9 @@ import cccev.dsl.model.Code
 import cccev.dsl.model.informationRequirement
 
 object ProtocolStep {
-    object Preparation: Code
-    object Validation: Code
-    object Certification: Code
+    object Preparation: Code()
+    object Validation: Code()
+    object Certification: Code()
 }
 
 

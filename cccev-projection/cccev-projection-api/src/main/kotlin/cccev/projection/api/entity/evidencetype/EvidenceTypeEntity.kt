@@ -1,6 +1,5 @@
 package cccev.projection.api.entity.evidencetype
 
-import cccev.projection.api.entity.NodeLabel
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeState
 import org.springframework.data.annotation.CreatedDate
@@ -11,7 +10,7 @@ import org.springframework.data.neo4j.core.schema.Node
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Node(NodeLabel.EVIDENCE_TYPE)
+@Node(EvidenceTypeEntity.LABEL)
 data class EvidenceTypeEntity(
     @Id
     var id: EvidenceTypeId,
@@ -27,6 +26,10 @@ data class EvidenceTypeEntity(
     var description: String,
     var validityPeriodConstraint: Long? = null
 ):  WithS2Id<EvidenceTypeId>, WithS2State<EvidenceTypeState> {
+    companion object {
+        const val LABEL = "EvidenceType"
+    }
+
     override fun s2Id() = id
     override fun s2State() = status
 }

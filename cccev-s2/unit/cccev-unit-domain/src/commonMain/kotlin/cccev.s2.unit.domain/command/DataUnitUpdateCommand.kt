@@ -1,33 +1,32 @@
 package cccev.s2.unit.domain.command
 
 import cccev.s2.unit.domain.D2DataUnitPage
+import cccev.s2.unit.domain.DataUnitCommand
 import cccev.s2.unit.domain.DataUnitEvent
 import cccev.s2.unit.domain.DataUnitId
-import cccev.s2.unit.domain.DataUnitIdentifier
-import cccev.s2.unit.domain.DataUnitInitCommand
 import cccev.s2.unit.domain.DataUnitState
 import cccev.s2.unit.domain.model.DataUnitOption
-import cccev.s2.unit.domain.model.DataUnitType
 import kotlinx.serialization.Serializable
 
 /**
- * Create a new data unit.
+ * Update a data unit.
  * @d2 function
  * @parent [D2DataUnitPage]
  */
-interface DataUnitCreateFunction
+interface DataUnitUpdateFunction
 
 /**
  * @d2 command
- * @parent [DataUnitCreateFunction]
+ * @parent [DataUnitUpdateFunction]
  */
 @Serializable
-data class DataUnitCreateCommand(
+data class DataUnitUpdateCommand(
     /**
-     * The identifier of the data unit.
+     * The id of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.name]
      */
-    val identifier: DataUnitIdentifier,
+    override val id: DataUnitId,
+
     /**
      * The name of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.name]
@@ -47,28 +46,20 @@ data class DataUnitCreateCommand(
     val notation: String? = null,
 
     /**
-     * The type of data used for this data unit.
-     * @example [cccev.s2.unit.domain.model.DataUnit.type]
-     */
-    val type: DataUnitType,
-
-    /**
      * @ref [cccev.s2.unit.domain.model.DataUnit.options]
      */
     val options: List<DataUnitOption>?
-): DataUnitInitCommand
+): DataUnitCommand
 
 /**
  * @d2 inherit
  */
 @Serializable
-data class DataUnitCreatedEvent(
+data class DataUnitUpdatedEvent(
     val id: DataUnitId,
-    val identifier: DataUnitIdentifier,
     val name: String,
     val description: String,
     val notation: String?,
-    val type: DataUnitType,
     val options: List<DataUnitOption>?,
     val status: DataUnitState
 ): DataUnitEvent {

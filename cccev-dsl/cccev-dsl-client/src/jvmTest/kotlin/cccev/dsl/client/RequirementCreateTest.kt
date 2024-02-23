@@ -10,8 +10,8 @@ class RequirementCreateTest {
 //    @Test
     fun shouldCreateLocalConsultation(): Unit = runBlocking {
         val client = CCCEVClient("http://localhost:8083")
-        client.graphClient.create(LocalConsultationProtocolPreparationRequirements.asFlow()).onEach {
-            println("Created requirement: ${it}")
+        client.graphClient.save(LocalConsultationProtocolPreparationRequirements.asFlow()).onEach {
+            println("Created requirement: $it}")
         }.collect()
     }
 }

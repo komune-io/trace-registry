@@ -4,7 +4,7 @@ import cccev.f2.unit.domain.D2DataUnitF2Page
 import cccev.s2.unit.domain.DataUnitId
 import cccev.s2.unit.domain.DataUnitIdentifier
 import cccev.s2.unit.domain.DataUnitOptionIdentifier
-import cccev.s2.unit.domain.command.DataUnitCreatedEvent
+import cccev.s2.unit.domain.command.DataUnitUpdatedEvent
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import f2.dsl.fnc.F2Function
@@ -12,23 +12,23 @@ import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
- * Create a new data unit.
+ * Update a new data unit.
  * @d2 function
  * @parent [D2DataUnitF2Page]
  */
-typealias DataUnitCreateFunction = F2Function<DataUnitCreateCommandDTOBase, DataUnitCreatedEvent>
+typealias DataUnitUpdateFunction = F2Function<DataUnitUpdateCommandDTOBase, DataUnitUpdatedEvent>
 
 /**
  * @d2 command
- * @parent [DataUnitCreateFunction]
+ * @parent [DataUnitUpdateFunction]
  */
 @JsExport
-interface DataUnitCreateCommandDTO {
+interface DataUnitUpdateCommandDTO {
     /**
-     * The identifier of the data unit.
-     * @example [cccev.s2.unit.domain.model.DataUnit.identifier)
+     * The id of the data unit.
+     * @example [cccev.s2.unit.domain.model.DataUnit.id]
      */
-    val identifier: DataUnitIdentifier
+    val id: DataUnitId
 
     /**
      * The name of the data unit.
@@ -55,11 +55,24 @@ interface DataUnitCreateCommandDTO {
      */
     val type: String
 
-    val options: List<DataUnitOptionCreateCommandDTO>?
+    val options: List<DataUnitOptionUpdateCommandDTO>?
 }
 
+/**
+ * @d2 inherit
+ */
+@Serializable
+data class DataUnitUpdateCommandDTOBase(
+    override val id: DataUnitId,
+    override val name: String,
+    override val description: String,
+    override val notation: String? = null,
+    override val type: String,
+    override val options: List<DataUnitOptionUpdateCommandDTOBase>?
+): DataUnitUpdateCommandDTO
+
 @JsExport
-interface DataUnitOptionCreateCommandDTO {
+interface DataUnitOptionUpdateCommandDTO {
     val identifier: DataUnitOptionIdentifier
     val name: String
     val value: String
@@ -68,41 +81,28 @@ interface DataUnitOptionCreateCommandDTO {
     val color: String?
 }
 
-/**
- * @d2 inherit
- */
 @Serializable
-data class DataUnitCreateCommandDTOBase(
-    override val identifier: DataUnitIdentifier,
-    override val name: String,
-    override val description: String,
-    override val notation: String? = null,
-    override val type: String,
-    override val options: List<DataUnitOptionCreateCommandDTOBase>?
-): DataUnitCreateCommandDTO
-
-@Serializable
-data class DataUnitOptionCreateCommandDTOBase(
+data class DataUnitOptionUpdateCommandDTOBase(
     override val identifier: DataUnitOptionIdentifier,
     override val name: String,
     override val value: String,
     override val order: Int,
     override val icon: FilePath?,
     override val color: String?
-): DataUnitOptionCreateCommandDTO
+): DataUnitOptionUpdateCommandDTO
 
 /**
  * @d2 event
- * @parent [DataUnitCreateFunction]
+ * @parent [DataUnitUpdateFunction]
  */
 @JsExport
-interface DataUnitCreatedEventDTO {
+interface DataUnitUpdatedEventDTO {
     val id: DataUnitId
     val identifier: DataUnitIdentifier
 }
 
 @Serializable
-data class DataUnitCreatedEventDTOBase(
+data class DataUnitUpdatedEventDTOBase(
     override val id: DataUnitId,
     override val identifier: DataUnitIdentifier
-): DataUnitCreatedEventDTO
+): DataUnitUpdatedEventDTO

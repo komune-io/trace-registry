@@ -23,22 +23,29 @@ typealias RequirementId = String
 
 sealed interface Requirement {
     val description: String?
-    val identifier: RequirementIdentifier?
+    val identifier: RequirementIdentifier
     val isDerivedFrom: List<ReferenceFramework>?
     val name: String?
     val type: Code?
+    val kind: String
     val hasRequirement: List<Requirement>?
     var isRequirementOf: List<Requirement>?
     var hasQualifiedRelation: Map<String, List<Requirement>>?
-
     val hasConcept: List<InformationConcept>?
     val hasEvidenceTypeList: List<EvidenceTypeListBase>?
+    val enablingCondition: String?
+    val enablingConditionDependencies: List<InformationConceptIdentifier>
+    val required: Boolean
+    val validatingCondition: String?
+    val validatingConditionDependencies: List<InformationConceptIdentifier>
+    val order: Int?
+    val properties: Map<String, String>?
 }
 
 @Serializable
 open class Criterion(
     override val description: String? = null,
-    override val identifier: RequirementIdentifier? = null,
+    override val identifier: RequirementIdentifier,
     override val name: String? = null,
     override val type: Code? = null,
     val bias: Double? = null,
@@ -51,7 +58,15 @@ open class Criterion(
     override val isDerivedFrom: List<ReferenceFramework>? = emptyList(),
     override var isRequirementOf: List<Requirement>? = emptyList(),
     override var hasQualifiedRelation: Map<String, List<Requirement>>? = emptyMap(),
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptIdentifier>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptIdentifier>,
+    override val order: Int?,
+    override val properties: Map<String, String>?,
 ) : Requirement {
+    override val kind: String = "CRITERION"
     override fun toString(): String {
         return "Criterion(" +
                 "description=$description, " +
@@ -75,7 +90,7 @@ open class Criterion(
 @Serializable
 open class InformationRequirement(
     override val description: String? = null,
-    override val identifier: RequirementIdentifier? = null,
+    override val identifier: RequirementIdentifier,
     override val name: String? = null,
     override val type: Code? = null,
     override val hasConcept: List<InformationConcept>? = emptyList(),
@@ -84,7 +99,15 @@ open class InformationRequirement(
     override val isDerivedFrom: List<ReferenceFramework>? = emptyList(),
     override var isRequirementOf: List<Requirement>? = emptyList(),
     override var hasQualifiedRelation: Map<String, List<Requirement>>? = emptyMap(),
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptIdentifier>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptIdentifier>,
+    override val order: Int?,
+    override val properties: Map<String, String>?,
 ) : Requirement {
+    override val kind: String = "INFORMATION"
     override fun toString(): String {
         return "InformationRequirement(" +
                 "description=$description, " +
@@ -104,7 +127,7 @@ open class InformationRequirement(
 @Serializable
 open class Constraint(
     override val description: String? = null,
-    override val identifier: RequirementIdentifier? = null,
+    override val identifier: RequirementIdentifier,
     override val name: String? = null,
     override val type: Code? = null,
     override val hasConcept: List<InformationConcept>? = emptyList(),
@@ -113,7 +136,15 @@ open class Constraint(
     override val isDerivedFrom: List<ReferenceFramework>? = emptyList(),
     override var isRequirementOf: List<Requirement>? = emptyList(),
     override var hasQualifiedRelation: Map<String, List<Requirement>>? = emptyMap(),
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptIdentifier>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptIdentifier>,
+    override val order: Int?,
+    override val properties: Map<String, String>?,
 ) : Requirement {
+    override val kind: String = "CONSTRAINT"
     override fun toString(): String {
         return "Constraint(" +
                 "description=$description, " +
@@ -130,14 +161,37 @@ open class Constraint(
     }
 }
 
+@Serializable
+open class RequirementRef(
+    override val identifier: RequirementIdentifier
+): Requirement {
+    override val description: String? = null
+    override val isDerivedFrom: List<ReferenceFramework>? = null
+    override val name: String? = null
+    override val type: Code? = null
+    override val hasRequirement: List<Requirement>? = null
+    override var isRequirementOf: List<Requirement>? = null
+    override var hasQualifiedRelation: Map<String, List<Requirement>>? = null
+    override val hasConcept: List<InformationConcept>? = null
+    override val hasEvidenceTypeList: List<EvidenceTypeListBase>? = null
+    override val enablingCondition: String? = null
+    override val enablingConditionDependencies: List<InformationConceptIdentifier> = emptyList()
+    override val required: Boolean = true
+    override val validatingCondition: String? = null
+    override val validatingConditionDependencies: List<InformationConceptIdentifier> = emptyList()
+    override val order: Int? = null
+    override val properties: Map<String, String>? = null
+    override val kind: String = "REFERENCE"
+}
+
 /**
  * Custom requirement which is considered validated when at least K of its N sub-requirements are met
  * where K is defined by the property [minRequirementsToMeet] and N is the size of the list [hasRequirement]
  * TODO more meaningful name
  */
 open class PartialRequirement(
+    override val identifier: RequirementIdentifier,
     override val description: String?,
-    override val identifier: RequirementIdentifier?,
     override val name: String?,
     override val type: Code?,
     val minRequirementsToMeet: Int,
@@ -147,7 +201,16 @@ open class PartialRequirement(
     override val isDerivedFrom: List<ReferenceFramework>? = emptyList(),
     override var isRequirementOf: List<Requirement>? = emptyList(),
     override var hasQualifiedRelation: Map<String, List<Requirement>>? = emptyMap(),
-) : Requirement
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptIdentifier>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptIdentifier>,
+    override val order: Int?,
+    override val properties: Map<String, String>?,
+): Requirement {
+    override val kind: String = "PARTIAL"
+}
 
 fun criterion(init: CriterionBuilder.() -> Unit): Criterion = CriterionBuilder().apply(init).build()
 
@@ -155,3 +218,5 @@ fun informationRequirement(init: InformationRequirementBuilder.() -> Unit): Info
     InformationRequirementBuilder().apply(init).build()
 
 fun constraint(init: ConstraintBuilder.() -> Unit): Constraint = ConstraintBuilder().apply(init).build()
+
+fun requirementRef(identifier: RequirementIdentifier) = RequirementRef(identifier)

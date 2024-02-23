@@ -1,14 +1,12 @@
 package cccev.f2.concept.api.service
 
-import cccev.commons.model.SimpleCache
 import cccev.f2.concept.api.model.toDTO
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.unit.api.service.DataUnitF2FinderService
-import cccev.s2.concept.api.InformationConceptFinderService
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.model.InformationConcept
 import cccev.s2.certification.api.CertificationAggregateService
 import cccev.s2.certification.api.CertificationFinderService
+import cccev.s2.concept.api.InformationConceptFinderService
+import cccev.s2.concept.domain.InformationConceptId
 import org.springframework.stereotype.Service
 
 @Service
@@ -63,13 +61,4 @@ class InformationConceptF2FinderService(
 //        val evidenceTypes = parent.hasEvidenceTypeList?.toDTOs(request.evidences).orEmpty()
 //        return map { ic -> ic.toRequestDTO(evidenceTypes, request.supportedValues[ic.identifier]) }
 //    }
-
-    private suspend fun Collection<InformationConcept>.toDTOs(cache: Cache = Cache()) = map { it.toDTO(cache) }
-    private suspend fun InformationConcept.toDTO(cache: Cache = Cache()) = toDTO {
-        it?.let {  cache.units.get(it) }
-    }
-
-    private inner class Cache {
-        val units = SimpleCache(dataUnitF2FinderService::get)
-    }
 }

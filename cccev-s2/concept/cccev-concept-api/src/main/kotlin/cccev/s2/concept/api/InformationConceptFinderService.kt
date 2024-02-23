@@ -1,7 +1,7 @@
 package cccev.s2.concept.api
 
 import cccev.projection.api.entity.concept.InformationConceptRepository
-import cccev.s2.concept.api.entity.toInformationConcept
+import cccev.projection.api.entity.concept.toInformationConcept
 import cccev.s2.concept.domain.InformationConceptFinder
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.concept.domain.model.InformationConcept

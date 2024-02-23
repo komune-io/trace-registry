@@ -1,7 +1,5 @@
 package cccev.projection.api.entity.requirement
 
-import cccev.projection.api.entity.NodeLabel
-import cccev.projection.api.entity.Relation
 import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.evidencetypelist.EvidenceTypeListEntity
 import cccev.projection.api.entity.framework.FrameworkEntity
@@ -17,7 +15,7 @@ import org.springframework.data.neo4j.core.schema.Relationship
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Node(NodeLabel.REQUIREMENT)
+@Node(RequirementEntity.LABEL)
 data class RequirementEntity(
     @Id
     val id: RequirementId,
@@ -33,17 +31,36 @@ data class RequirementEntity(
     val name: String? = null,
     val description: String? = null,
     val type: String? = null,
-    @Relationship(type = Relation.IS_DERIVED_FROM)
+    @Relationship(IS_DERIVED_FROM)
     val isDerivedFrom: MutableList<FrameworkEntity> = mutableListOf(),
     @Relationship
     val hasQualifiedRelation: MutableMap<String, MutableList<RequirementEntity>> = mutableMapOf(),
-    @Relationship(type = Relation.HAS_CONCEPT)
+    @Relationship(HAS_CONCEPT)
     val hasConcept: MutableList<InformationConceptEntity> = mutableListOf(),
-    @Relationship(type = Relation.HAS_EVIDENCE_TYPE_LIST)
+    @Relationship(HAS_EVIDENCE_TYPE_LIST)
     val hasEvidenceTypeList: MutableList<EvidenceTypeListEntity> = mutableListOf(),
+    val enablingCondition: String? = null,
+    @Relationship(CONDITION_ENABLING)
+    val enablingConditionDependencies: List<InformationConceptEntity> = emptyList(),
+    val required: Boolean = true,
+    val validatingCondition: String? = null,
+    @Relationship(CONDITION_VALIDATION)
+    val validatingConditionDependencies: List<InformationConceptEntity> = emptyList(),
+    val order: Int? = null,
+    val properties: String? = null, // json
 ): WithS2Id<RequirementId>, WithS2State<RequirementState> {
+    companion object {
+        const val LABEL = "Requirement"
+        const val IS_DERIVED_FROM = "IS_DERIVED_FROM"
+        const val HAS_REQUIREMENT = "HAS_REQUIREMENT"
+        const val HAS_CONCEPT = "HAS_CONCEPT"
+        const val HAS_EVIDENCE_TYPE_LIST = "HAS_EVIDENCE_TYPE_LIST"
+        const val CONDITION_ENABLING = "CONDITION_ENABLING"
+        const val CONDITION_VALIDATION = "CONDITION_VALIDATION"
+    }
+
     override fun s2Id() = id
     override fun s2State() = status
 
-    fun hasRequirement() = hasQualifiedRelation[Relation.HAS_REQUIREMENT].orEmpty()
+    fun hasRequirement() = hasQualifiedRelation[HAS_REQUIREMENT].orEmpty()
 }

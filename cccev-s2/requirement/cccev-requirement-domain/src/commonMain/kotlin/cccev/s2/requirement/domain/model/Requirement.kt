@@ -2,7 +2,7 @@ package cccev.s2.requirement.domain.model
 
 import cccev.dsl.model.EvidenceTypeListId
 import cccev.dsl.model.FrameworkId
-import cccev.dsl.model.InformationConceptId
+import cccev.s2.concept.domain.model.InformationConcept
 import cccev.s2.requirement.domain.D2RequirementPage
 import cccev.s2.requirement.domain.RequirementId
 import cccev.s2.requirement.domain.RequirementState
@@ -13,6 +13,10 @@ import s2.dsl.automate.model.WithS2State
 typealias RequirementIdentifier = String
 
 /**
+ * A requirement is considered fulfilled when:
+ *  - all InformationConcepts in `hasConcept` have a value
+ *  - at least one EvidenceTypeList in `hasEvidenceTypeList` is entirely fulfilled
+ *  - `validatingCondition` expression returns true (if a condition is specified)
  * @d2 model
  * @parent [D2RequirementPage]
  * @order 10
@@ -44,10 +48,7 @@ data class Requirement(
 
     /**
      * Description of the requirement. <br/>
-     * If the requirement is a constraint, this field must contain an expression returning a boolean.
-     * For now, this expression will be evaluated using a Kotlin engine. <br />
-     * The expression may contain known information concepts, identified by their id. They must be declared in the `hasConcept` field.
-     * @example "altitudeInMeters >= 6000"
+     * @example "The high clouds must be higher thant 6000m"
      */
     val description: String? = null,
 
@@ -87,10 +88,10 @@ data class Requirement(
     var hasQualifiedRelation: Map<String, List<RequirementId>>? = emptyMap(),
 
     /**
-     * Concepts used by the requirement
+     * Concepts required for the requirement to be fulfilled.
      * @example [["altitudeInMeters"]]
      */
-    val hasConcept: List<InformationConceptId> = emptyList(),
+    val hasConcept: List<InformationConcept> = emptyList(),
 
     /**
      * Evidences that must be provided for the requirement to be validated. <br/>
@@ -98,6 +99,51 @@ data class Requirement(
      * @example [["dc006198-067e-4a58-8672-7d5377ae022b"]]
      */
     val hasEvidenceTypeList: List<EvidenceTypeListId> = emptyList(),
+
+    /**
+     * Condition that determines if the requirement is enabled or not. A disabled requirement will not be evaluated. \
+     * No condition means that the requirement is always enabled. \
+     * The condition should be written as a SpEL (Spring Expression Language) expression that returns a boolean.
+     * @example "#nbHighClouds > 0"
+     */
+    val enablingCondition: String? = null,
+
+    /**
+     * Concepts used in the `enablingCondition` expression.
+     * @example [["nbHighClouds"]]
+     */
+    val enablingConditionDependencies: List<InformationConcept> = emptyList(),
+
+    /**
+     * True if the requirement must be fulfilled for its parent to be validated. \
+     * This value is only check if the requirement is enabled. (see [`enablingCondition`][cccev.s2.requirement.domain.model.Requirement.enablingCondition])
+     */
+    val required: Boolean = true,
+
+    /**
+     * Condition that determines if the requirement is fulfilled or not. \
+     * No condition means that the requirement is fulfilled as soon as all its [concepts][cccev.s2.requirement.domain.model.Requirement.hasConcept] have a value. \
+     * The condition should be written as a SpEL (Spring Expression Language) expression that returns a boolean.
+     * @example "#altitudeInMeters > 6000"
+     */
+    val validatingCondition: String? = null,
+
+    /**
+     * Concepts used in the `validatingCondition` expression.
+     * @example [["altitudeInMeters"]]
+     */
+    val validatingConditionDependencies: List<InformationConcept> = emptyList(),
+
+    /**
+     * Optional arbitrary order in which the requirement should appear when it is used.
+     * @example 0
+     */
+    val order: Int? = null,
+
+    /**
+     * Optional arbitrary properties.
+     */
+    val properties: Map<String, String>? = null,
 
     /**
      * The state of the requirement.

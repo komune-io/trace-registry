@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     Dependencies.Jvm.junit(::jvmTestImplementation)
+    Dependencies.Mpp.fs(::commonMainApi)
 }
 
 tasks.withType<Test>().configureEach {

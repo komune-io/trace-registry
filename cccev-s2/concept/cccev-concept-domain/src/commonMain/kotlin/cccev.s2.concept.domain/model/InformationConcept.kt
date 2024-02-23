@@ -3,7 +3,7 @@ package cccev.s2.concept.domain.model
 import cccev.s2.concept.domain.D2InformationConceptPage
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.concept.domain.InformationConceptIdentifier
-import cccev.s2.unit.domain.DataUnitId
+import cccev.s2.unit.domain.model.DataUnit
 import kotlinx.serialization.Serializable
 
 /**
@@ -30,9 +30,8 @@ data class InformationConcept(
 
     /**
      * The data unit used for this information concept.
-     * @example [cccev.s2.unit.domain.model.DataUnit.id]
      */
-    val unitId: DataUnitId? = null,
+    val unit: DataUnit? = null,
 
     /**
      * The description of this information concept.

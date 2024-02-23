@@ -1,7 +1,5 @@
 package cccev.projection.api.entity.evidencetypelist
 
-import cccev.projection.api.entity.NodeLabel
-import cccev.projection.api.entity.Relation
 import cccev.projection.api.entity.evidencetype.EvidenceTypeEntity
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.evidence.type.domain.EvidenceTypeListState
@@ -14,7 +12,7 @@ import org.springframework.data.neo4j.core.schema.Relationship
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Node(NodeLabel.EVIDENCE_TYPE_LIST)
+@Node(EvidenceTypeListEntity.LABEL)
 data class EvidenceTypeListEntity(
     @Id
     val id: EvidenceTypeListId,
@@ -28,9 +26,14 @@ data class EvidenceTypeListEntity(
     val identifier: String? = null,
     val name: String,
     val description: String,
-    @Relationship(Relation.SPECIFIES_EVIDENCE_TYPE)
+    @Relationship(SPECIFIES_EVIDENCE_TYPE)
     val specifiesEvidenceType: List<EvidenceTypeEntity>
 ): WithS2Id<EvidenceTypeListId>, WithS2State<EvidenceTypeListState> {
+    companion object {
+        const val LABEL = "EvidenceTypeList"
+        const val SPECIFIES_EVIDENCE_TYPE = "SPECIFIES_EVIDENCE_TYPE"
+    }
+
     override fun s2Id() = id
     override fun s2State() = status
 }

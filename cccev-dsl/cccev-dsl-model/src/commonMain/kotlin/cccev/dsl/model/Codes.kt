@@ -1,9 +1,13 @@
 @file:Suppress("MatchingDeclarationName")
 package cccev.dsl.model
 
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 @JsExport
-@JsName("Code")
-interface Code
+@Serializable
+open class Code {
+    override fun toString(): String {
+        return this::class.simpleName ?: "Unknown"
+    }
+}

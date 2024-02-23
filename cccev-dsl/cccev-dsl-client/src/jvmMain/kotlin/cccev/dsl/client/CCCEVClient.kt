@@ -1,13 +1,13 @@
 package cccev.dsl.client
 
+import cccev.f2.certification.client.CertificationClient
+import cccev.f2.certification.client.certificationClient
 import cccev.f2.concept.client.InformationConceptClient
 import cccev.f2.concept.client.informationConceptClient
 import cccev.f2.evidence.type.client.EvidenceTypeClient
 import cccev.f2.evidence.type.client.evidenceTypeClient
 import cccev.f2.framework.client.FrameworkClient
 import cccev.f2.framework.client.frameworkClient
-import cccev.f2.certification.client.CertificationClient
-import cccev.f2.certification.client.certificationClient
 import cccev.f2.unit.client.DataUnitClient
 import cccev.f2.unit.client.dataUnitClient
 import cccev.s2.requirement.client.RequirementClient
@@ -48,7 +48,6 @@ class CCCEVClient(
                 frameworkClient = frameworkClient,
                 CCCEVGraphClient(evidenceTypeClient = evidenceTypeClient,
                     informationConceptClient = informationConceptClient,
-                    certificationClient = certificationClient,
                     requirementClient = requirementClient,
                     dataUnitClient = dataUnitClient,
                     frameworkClient = frameworkClient

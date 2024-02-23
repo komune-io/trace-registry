@@ -19,8 +19,8 @@ import cccev.s2.requirement.domain.command.RequirementRemovedEvidenceTypeListsEv
 import cccev.s2.requirement.domain.command.RequirementRemovedRequirementsEvent
 import cccev.s2.requirement.domain.command.RequirementUpdateCommand
 import cccev.s2.requirement.domain.command.RequirementUpdatedEvent
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class RequirementAggregateService(
@@ -30,6 +30,7 @@ class RequirementAggregateService(
     override suspend fun create(command: RequirementCreateCommand) = automate.init(command) {
         RequirementCreatedEvent(
             id = UUID.randomUUID().toString(),
+            status = RequirementState.CREATED,
             identifier = command.identifier,
             kind = command.kind,
             name = command.name,
@@ -40,7 +41,13 @@ class RequirementAggregateService(
             hasConcept = command.hasConcept,
             hasEvidenceTypeList = command.hasEvidenceTypeList,
             hasQualifiedRelation = command.hasQualifiedRelation,
-            status = RequirementState.CREATED
+            enablingCondition = command.enablingCondition,
+            enablingConditionDependencies = command.enablingConditionDependencies,
+            required = command.required,
+            validatingCondition = command.validatingCondition,
+            validatingConditionDependencies = command.validatingConditionDependencies,
+            order = command.order,
+            properties = command.properties,
         )
     }
 
@@ -48,7 +55,19 @@ class RequirementAggregateService(
         RequirementUpdatedEvent(
             id = command.id,
             name = command.name,
-            description = command.description
+            description = command.description,
+            type = command.type,
+            hasConcept = command.hasConcept,
+            hasEvidenceTypeList = command.hasEvidenceTypeList,
+            hasRequirement = command.hasRequirement,
+            hasQualifiedRelation = command.hasQualifiedRelation,
+            enablingCondition = command.enablingCondition,
+            enablingConditionDependencies = command.enablingConditionDependencies,
+            required = command.required,
+            validatingCondition = command.validatingCondition,
+            validatingConditionDependencies = command.validatingConditionDependencies,
+            order = command.order,
+            properties = command.properties
         )
     }
 

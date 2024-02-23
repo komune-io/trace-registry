@@ -27,7 +27,6 @@ class EnvironmentCleanerSteps(
 //    }
 
     private fun cleanDb() = runBlocking {
-        neo4jTemplate.query("MATCH ()-[r]-() DELETE r").run()
-        neo4jTemplate.query("MATCH (n) DELETE n").run()
+        neo4jTemplate.query("MATCH (n) DETACH DELETE n").run()
     }
 }

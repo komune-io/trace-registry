@@ -1,8 +1,9 @@
 package cccev.dsl.model
 
+import city.smartb.fs.s2.file.domain.model.FilePath
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 @JsExport
 @JsName("DataUnitDTO")
@@ -12,15 +13,28 @@ interface DataUnitDTO {
     val description: String
     val notation: String?
     val type: DataUnitType
+    val options: List<DataUnitOption>?
 }
+
 @Serializable
 open class DataUnit(
     override val identifier: String,
     override val name: String,
     override val description: String,
     override val notation: String? = null,
-    override val type: DataUnitType
+    override val type: DataUnitType,
+    override val options: List<DataUnitOption>? = null
 ): DataUnitDTO
+
+@Serializable
+open class DataUnitOption(
+    val identifier: String,
+    val name: String,
+    val value: String,
+    val order: Int,
+    val icon: FilePath?,
+    val color: String?
+)
 
 @Suppress("EnumNaming")
 enum class DataUnitType {

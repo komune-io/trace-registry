@@ -2,9 +2,9 @@ package cccev.f2.unit.domain.model
 
 import cccev.f2.unit.domain.D2DataUnitF2Page
 import cccev.s2.unit.domain.DataUnitId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * See [cccev.s2.unit.domain.model.DataUnit]
@@ -44,6 +44,8 @@ interface DataUnitDTO {
      * @example [cccev.s2.unit.domain.model.DataUnit.type]
      */
     val type: String
+
+    val options: List<DataUnitOptionDTO>?
 }
 
 /**
@@ -55,5 +57,6 @@ data class DataUnitDTOBase(
     override val name: String,
     override val description: String,
     override val notation: String? = null,
-    override val type: String
+    override val type: String,
+    override val options: List<DataUnitOptionDTOBase>?
 ): DataUnitDTO

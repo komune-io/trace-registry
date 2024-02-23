@@ -14,8 +14,8 @@ import cccev.s2.requirement.domain.command.RequirementRemoveRequirementsCommand
 import cccev.s2.requirement.domain.command.RequirementRemovedConceptsEvent
 import cccev.s2.requirement.domain.command.RequirementRemovedEvidenceTypeListsEvent
 import cccev.s2.requirement.domain.command.RequirementRemovedRequirementsEvent
-import kotlin.js.JsExport
-import kotlin.js.JsName
+import cccev.s2.requirement.domain.command.RequirementUpdateCommand
+import cccev.s2.requirement.domain.command.RequirementUpdatedEvent
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
@@ -24,6 +24,8 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.WithId
 import s2.dsl.automate.builder.s2Sourcing
 import s2.dsl.automate.model.WithS2Id
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 /**
  * @d2 hidden
@@ -41,6 +43,10 @@ val s2Requirement = s2Sourcing {
 	name = "RequirementS2"
 	init<RequirementCreateCommand, RequirementCreatedEvent> {
 		to = RequirementState.CREATED
+		role = EditorRole
+	}
+	selfTransaction<RequirementUpdateCommand, RequirementUpdatedEvent> {
+		states += RequirementState.CREATED
 		role = EditorRole
 	}
 	selfTransaction<RequirementAddRequirementsCommand, RequirementAddedRequirementsEvent> {

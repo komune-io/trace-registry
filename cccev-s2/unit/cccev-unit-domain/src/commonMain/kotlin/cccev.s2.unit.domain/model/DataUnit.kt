@@ -2,6 +2,7 @@ package cccev.s2.unit.domain.model
 
 import cccev.s2.unit.domain.D2DataUnitPage
 import cccev.s2.unit.domain.DataUnitId
+import cccev.s2.unit.domain.DataUnitIdentifier
 import kotlinx.serialization.Serializable
 
 /**
@@ -13,9 +14,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DataUnit(
     /**
-     * Unique identifier of this data unit.
+     * Unique id of this data unit.
      */
     val id: DataUnitId,
+
+    val identifier: DataUnitIdentifier,
 
     /**
      * The name of this data unit.
@@ -39,5 +42,11 @@ data class DataUnit(
      * The type of data used for this data unit.
      * @example "NUMBER"
      */
-    val type: DataUnitType
+    val type: DataUnitType,
+
+    /**
+     * Optional list of available options for the DataUnit. If options are specified, they will be considered as the only accepted values.
+     * @example null
+     */
+    val options: List<DataUnitOption>?
 )

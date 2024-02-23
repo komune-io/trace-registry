@@ -5,6 +5,7 @@ import cccev.f2.concept.api.service.InformationConceptF2FinderService
 import cccev.f2.concept.domain.D2InformationConceptF2Page
 import cccev.f2.concept.domain.InformationConceptApi
 import cccev.f2.concept.domain.command.InformationConceptCreateFunction
+import cccev.f2.concept.domain.command.InformationConceptUpdateFunction
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierFunction
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierResultDTOBase
 import cccev.f2.concept.domain.query.InformationConceptGetFunction
@@ -52,5 +53,11 @@ class InformationConceptEndpoint(
     override fun conceptCreate(): InformationConceptCreateFunction = f2Function { command ->
         logger.info("conceptCreate: $command")
         informationConceptF2AggregateService.create(command)
+    }
+
+    @Bean
+    override fun conceptUpdate(): InformationConceptUpdateFunction = f2Function { command ->
+        logger.info("conceptUpdate: $command")
+        informationConceptF2AggregateService.update(command)
     }
 }

@@ -1,7 +1,6 @@
 package cccev.projection.api.entity.framework
 
 import cccev.dsl.model.FrameworkId
-import cccev.projection.api.entity.NodeLabel
 import cccev.s2.framework.domain.FrameworkState
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -11,7 +10,7 @@ import org.springframework.data.neo4j.core.schema.Node
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Node(NodeLabel.FRAMEWORK)
+@Node(FrameworkEntity.LABEL)
 data class FrameworkEntity(
     @Id
     val id: FrameworkId,
@@ -25,7 +24,11 @@ data class FrameworkEntity(
     val status: FrameworkState,
     val name: String
 ): WithS2Id<FrameworkId>, WithS2State<FrameworkState> {
-    override fun s2Id() = id
 
+    companion object {
+        const val LABEL = "Framework"
+    }
+
+    override fun s2Id() = id
     override fun s2State(): FrameworkState = status
 }

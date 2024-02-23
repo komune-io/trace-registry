@@ -5,8 +5,10 @@ import cccev.s2.concept.domain.InformationConceptAggregate
 import cccev.s2.concept.domain.InformationConceptState
 import cccev.s2.concept.domain.command.InformationConceptCreateCommand
 import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
-import java.util.UUID
+import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
+import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class InformationConceptAggregateService(
@@ -19,6 +21,17 @@ class InformationConceptAggregateService(
             identifier = command.identifier,
             name = command.name,
             hasUnit = command.hasUnit,
+            description = command.description,
+            expressionOfExpectedValue = command.expressionOfExpectedValue,
+            dependsOn = command.dependsOn,
+        )
+    }
+
+    override suspend fun update(command: InformationConceptUpdateCommand) = automate.transition(command) {
+        InformationConceptUpdatedEvent(
+            id = command.id,
+            status = InformationConceptState.EXISTS,
+            name = command.name,
             description = command.description,
             expressionOfExpectedValue = command.expressionOfExpectedValue,
             dependsOn = command.dependsOn,

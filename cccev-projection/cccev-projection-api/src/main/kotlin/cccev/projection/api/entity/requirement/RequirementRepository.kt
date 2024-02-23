@@ -1,7 +1,5 @@
 package cccev.projection.api.entity.requirement
 
-import cccev.projection.api.entity.NodeLabel
-import cccev.projection.api.entity.Relation
 import cccev.projection.api.entity.SnapRepositoryBase
 import cccev.s2.requirement.domain.RequirementId
 import cccev.s2.requirement.domain.model.RequirementIdentifier
@@ -19,15 +17,15 @@ interface RequirementRepository: ReactiveNeo4jRepository<RequirementEntity, Requ
 
     // TODO also fetch other relations (info concepts, evidence type lists, ...) or it won't be filled in the entities
     @Query("" +
-            "MATCH (root:${NodeLabel.REQUIREMENT}) WHERE root.identifier IN \$ids\n" +
-            "OPTIONAL MATCH (root)-[hr:${Relation.HAS_REQUIREMENT}*1..]->(child:${NodeLabel.REQUIREMENT} {type: \$type})" +
+            "MATCH (root:${RequirementEntity.LABEL}) WHERE root.identifier IN \$ids\n" +
+            "OPTIONAL MATCH (root)-[hr:${RequirementEntity.HAS_REQUIREMENT}*1..]->(child:${RequirementEntity.LABEL} {type: \$type})" +
             "OPTIONAL MATCH (root)-[r]->(other)" +
             "RETURN root, collect(hr), collect(child), collect(r), collect(other)"
     )
     fun findByIdentifierWithChildrenOfType(ids: Collection<RequirementIdentifier>, type: String): Flux<RequirementEntity>
     @Query("" +
-            "MATCH (root:${NodeLabel.REQUIREMENT}) WHERE root.id IN \$ids\n" +
-            "OPTIONAL MATCH (root)-[hr:${Relation.HAS_REQUIREMENT}*1..]->(child:${NodeLabel.REQUIREMENT} {type: \$type})" +
+            "MATCH (root:${RequirementEntity.LABEL}) WHERE root.id IN \$ids\n" +
+            "OPTIONAL MATCH (root)-[hr:${RequirementEntity.HAS_REQUIREMENT}*1..]->(child:${RequirementEntity.LABEL} {type: \$type})" +
             "OPTIONAL MATCH (root)-[r]->(other)" +
             "RETURN root, collect(hr), collect(child)"
     )
@@ -35,9 +33,9 @@ interface RequirementRepository: ReactiveNeo4jRepository<RequirementEntity, Requ
 
     // TODO also fetch other relations (info concepts, evidence type lists, ...) or it won't be filled in the entity
     @Query("" +
-            "MATCH (root:${NodeLabel.REQUIREMENT} WHERE root.identifier IN \$ids)" +
-            "-[hr:${Relation.HAS_REQUIREMENT}*1..]->" +
-            "(child:${NodeLabel.REQUIREMENT} {type: \$type})\n" +
+            "MATCH (root:${RequirementEntity.LABEL} WHERE root.identifier IN \$ids)" +
+            "-[hr:${RequirementEntity.HAS_REQUIREMENT}*1..]->" +
+            "(child:${RequirementEntity.LABEL} {type: \$type})\n" +
             "RETURN child, collect(hr)"
     )
     fun findAllChildrenOfType(ids: Collection<RequirementIdentifier>, type: String): Flux<RequirementEntity>

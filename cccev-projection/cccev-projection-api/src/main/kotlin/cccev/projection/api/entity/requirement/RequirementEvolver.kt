@@ -1,6 +1,7 @@
 package cccev.projection.api.entity.requirement
 
-import cccev.projection.api.entity.Relation
+import cccev.commons.utils.toJson
+import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.concept.InformationConceptRepository
 import cccev.projection.api.entity.evidencetypelist.EvidenceTypeListRepository
 import cccev.projection.api.entity.framework.FrameworkRepository
@@ -39,37 +40,73 @@ class RequirementEvolver(
 
 	private suspend fun create(event: RequirementCreatedEvent): RequirementEntity {
 		val hasQualifiedRelation = event.hasQualifiedRelation
-			.plus(Relation.HAS_REQUIREMENT to event.hasRequirement)
+			.plus(RequirementEntity.HAS_REQUIREMENT to event.hasRequirement)
 			.mapValues { (_, requirementIds) ->
 				requirementRepository.findAllById(requirementIds).collectList().awaitSingle()
 			}
 
-		val concepts = informationConceptRepository.findAllById(event.hasConcept).collectList().awaitSingle()
+		val conceptIds = event.hasConcept.toSet() + event.enablingConditionDependencies + event.validatingConditionDependencies
+		val concepts = informationConceptRepository.findAllById(conceptIds)
+			.collectList().awaitSingle()
+			.associateBy(InformationConceptEntity::id)
 		val evidenceTypeLists = evidenceTypeListRepository.findAllById(event.hasEvidenceTypeList).collectList().awaitSingle()
 		val frameworks = frameworkRepository.findAllById(event.isDerivedFrom ?: emptyList()).collectList().awaitSingle()
 
 		return RequirementEntity(
-				id = event.id,
-				identifier = event.identifier,
-				kind = event.kind,
-				name = event.name,
-				description = event.description,
-				type = event.type,
-				isDerivedFrom = frameworks,
-				hasQualifiedRelation = hasQualifiedRelation.toMutableMap(),
-				hasConcept = concepts,
-				hasEvidenceTypeList = evidenceTypeLists,
-				status = event.status
+			id = event.id,
+			identifier = event.identifier,
+			status = event.status,
+			kind = event.kind,
+			name = event.name,
+			description = event.description,
+			type = event.type,
+			isDerivedFrom = frameworks,
+			hasQualifiedRelation = hasQualifiedRelation.toMutableMap(),
+			hasConcept = event.hasConcept.mapNotNull { concepts[it] }.toMutableList(),
+			hasEvidenceTypeList = evidenceTypeLists,
+			enablingCondition = event.enablingCondition,
+			enablingConditionDependencies = event.enablingConditionDependencies.mapNotNull { concepts[it] }.toMutableList(),
+			required = event.required,
+			validatingCondition = event.validatingCondition,
+			validatingConditionDependencies = event.validatingConditionDependencies.mapNotNull { concepts[it] }.toMutableList(),
+			order = event.order,
+			properties = event.properties?.toJson()
 		)
 	}
 
-	private fun RequirementEntity.update(event: RequirementUpdatedEvent) = copy (
-		name = event.name,
-		description = event.description
-	)
+	private suspend fun RequirementEntity.update(event: RequirementUpdatedEvent): RequirementEntity {
+		val hasQualifiedRelation = event.hasQualifiedRelation
+			.plus(RequirementEntity.HAS_REQUIREMENT to event.hasRequirement)
+			.mapValues { (_, requirementIds) ->
+				requirementRepository.findAllById(requirementIds).collectList().awaitSingle()
+			}
+
+		val conceptIds = event.hasConcept.toSet() + event.enablingConditionDependencies + event.validatingConditionDependencies
+		val concepts = informationConceptRepository.findAllById(conceptIds)
+			.collectList().awaitSingle()
+			.associateBy(InformationConceptEntity::id)
+		val evidenceTypeLists = evidenceTypeListRepository.findAllById(event.hasEvidenceTypeList).collectList().awaitSingle()
+
+		return copy(
+			id = event.id,
+			name = event.name,
+			description = event.description,
+			type = event.type,
+			hasQualifiedRelation = hasQualifiedRelation.toMutableMap(),
+			hasConcept = event.hasConcept.mapNotNull { concepts[it] }.toMutableList(),
+			hasEvidenceTypeList = evidenceTypeLists,
+			enablingCondition = event.enablingCondition,
+			enablingConditionDependencies = event.enablingConditionDependencies.mapNotNull { concepts[it] }.toMutableList(),
+			required = event.required,
+			validatingCondition = event.validatingCondition,
+			validatingConditionDependencies = event.validatingConditionDependencies.mapNotNull { concepts[it] }.toMutableList(),
+			order = event.order,
+			properties = event.properties?.toJson()
+		)
+	}
 
 	private suspend fun RequirementEntity.addRequirements(event: RequirementAddedRequirementsEvent) = apply {
-		val children = hasQualifiedRelation.getOrPut(Relation.HAS_REQUIREMENT, ::mutableListOf)
+		val children = hasQualifiedRelation.getOrPut(RequirementEntity.HAS_REQUIREMENT, ::mutableListOf)
 		val currentChildrenIds = children.map { it.id }.toSet()
 
 		val newRequirements = event.requirementIds.filter { it !in currentChildrenIds }
@@ -79,7 +116,7 @@ class RequirementEvolver(
 	}
 
 	private suspend fun RequirementEntity.removeRequirements(event: RequirementRemovedRequirementsEvent) = apply {
-		hasQualifiedRelation[Relation.HAS_REQUIREMENT]?.let { hasRequirement ->
+		hasQualifiedRelation[RequirementEntity.HAS_REQUIREMENT]?.let { hasRequirement ->
 			hasRequirement.removeIf { it.id in event.requirementIds }
 		}
 	}

@@ -5,4 +5,5 @@ plugins {
 }
 
 dependencies {
+	Dependencies.Mpp.fs(::commonMainApi)
 }

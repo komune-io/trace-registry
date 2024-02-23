@@ -1,7 +1,5 @@
 package cccev.projection.api.entity.certification
 
-import cccev.projection.api.entity.NodeLabel
-import cccev.projection.api.entity.Relation
 import cccev.projection.api.entity.concept.InformationConceptEntity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -13,7 +11,7 @@ import s2.dsl.automate.model.WithS2Id
 
 typealias SupportedValueId = String
 
-@Node(NodeLabel.SUPPORTED_VALUE)
+@Node(SupportedValueEntity.LABEL)
 data class SupportedValueEntity(
     @Id
     val id: SupportedValueId,
@@ -24,10 +22,13 @@ data class SupportedValueEntity(
     @LastModifiedDate
     val lastModificationDate: Long = 0,
     var value: String? = null,
-    @Relationship(Relation.PROVIDES_VALUE_FOR)
+    @Relationship(PROVIDES_VALUE_FOR)
     val providesValueFor: InformationConceptEntity
 ): WithS2Id<SupportedValueId> {
+    companion object {
+        const val LABEL = "SupportedValue"
+        const val PROVIDES_VALUE_FOR = "PROVIDES_VALUE_FOR"
+    }
 
     override fun s2Id() = id
-
 }

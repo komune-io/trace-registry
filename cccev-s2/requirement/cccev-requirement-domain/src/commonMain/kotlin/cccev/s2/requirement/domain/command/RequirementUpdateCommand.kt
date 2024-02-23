@@ -1,12 +1,14 @@
 package cccev.s2.requirement.domain.command
 
+import cccev.s2.concept.domain.InformationConceptId
+import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.requirement.domain.D2RequirementPage
 import cccev.s2.requirement.domain.RequirementCommand
 import cccev.s2.requirement.domain.RequirementEvent
 import cccev.s2.requirement.domain.RequirementId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Update a requirement.
@@ -39,6 +41,19 @@ interface RequirementUpdateCommandDTO: RequirementCommand {
      */
     val description: String?
 
+    val type: String?
+    val hasConcept: List<InformationConceptId>
+    val hasEvidenceTypeList: List<EvidenceTypeListId>
+    val hasRequirement: List<RequirementId>
+    val hasQualifiedRelation: Map<String, List<RequirementId>>
+    val enablingCondition: String?
+    val enablingConditionDependencies: List<InformationConceptId>
+    val required: Boolean
+    val validatingCondition: String?
+    val validatingConditionDependencies: List<InformationConceptId>
+    val order: Int?
+    val properties: Map<String, String>?
+
 //    /**
 //     * Sub-requirements that must be fulfilled for the requirement to be validated.
 //     * @example [cccev.s2.requirement.domain.model.Requirement.hasRequirement]
@@ -68,9 +83,18 @@ data class RequirementUpdateCommand(
     override val id: RequirementId,
     override val name: String? = null,
     override val description: String? = null,
-//    override val hasRequirement: List<RequirementId>,
-//    override val hasConcept: List<InformationConceptId>,
-//    override val hasEvidenceTypeList: List<EvidenceTypeListId>
+    override val type: String?,
+    override val hasConcept: List<InformationConceptId>,
+    override val hasEvidenceTypeList: List<EvidenceTypeListId>,
+    override val hasRequirement: List<RequirementId>,
+    override val hasQualifiedRelation: Map<String, List<RequirementId>>,
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptId>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptId>,
+    override val order: Int?,
+    override val properties: Map<String, String>?
 ): RequirementUpdateCommandDTO
 
 @JsExport
@@ -82,6 +106,18 @@ interface RequirementUpdatedEventDTO: RequirementEvent {
     override val id: RequirementId
     val name: String?
     val description: String?
+    val type: String?
+    val hasConcept: List<InformationConceptId>
+    val hasEvidenceTypeList: List<EvidenceTypeListId>
+    val hasRequirement: List<RequirementId>
+    val hasQualifiedRelation: Map<String, List<RequirementId>>
+    val enablingCondition: String?
+    val enablingConditionDependencies: List<InformationConceptId>
+    val required: Boolean
+    val validatingCondition: String?
+    val validatingConditionDependencies: List<InformationConceptId>
+    val order: Int?
+    val properties: Map<String, String>?
 }
 
 /**
@@ -93,6 +129,18 @@ data class RequirementUpdatedEvent(
     override val id: RequirementId,
     override val name: String? = null,
     override val description: String? = null,
+    override val type: String?,
+    override val hasConcept: List<InformationConceptId>,
+    override val hasEvidenceTypeList: List<EvidenceTypeListId>,
+    override val hasRequirement: List<RequirementId>,
+    override val hasQualifiedRelation: Map<String, List<RequirementId>>,
+    override val enablingCondition: String?,
+    override val enablingConditionDependencies: List<InformationConceptId>,
+    override val required: Boolean,
+    override val validatingCondition: String?,
+    override val validatingConditionDependencies: List<InformationConceptId>,
+    override val order: Int?,
+    override val properties: Map<String, String>?,
 ): RequirementUpdatedEventDTO {
     override fun s2Id() = id
 }

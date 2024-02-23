@@ -3,6 +3,7 @@ package cccev.projection.api.entity.concept
 import cccev.projection.api.entity.unit.DataUnitRepository
 import cccev.s2.concept.domain.InformationConceptEvent
 import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
+import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -17,6 +18,7 @@ class InformationConceptEvolver(
 		event: InformationConceptEvent, model: InformationConceptEntity?
 	): InformationConceptEntity? = when (event) {
 		is InformationConceptCreatedEvent -> created(event)
+		is InformationConceptUpdatedEvent -> model?.updated(event)
 		else -> TODO()
 	}
 
@@ -37,6 +39,19 @@ class InformationConceptEvolver(
 			expressionOfExpectedValue = event.expressionOfExpectedValue,
 			dependsOn = concepts,
 			status = event.status
+		)
+	}
+
+	private suspend fun InformationConceptEntity.updated(event: InformationConceptUpdatedEvent): InformationConceptEntity {
+		val dependencies = event.dependsOn?.let { dependsOn ->
+			informationConceptRepository.findAllById(dependsOn).collectList().awaitSingle()
+		} ?: emptyList()
+		return copy(
+			name = event.name,
+			description = event.description,
+			expressionOfExpectedValue = event.expressionOfExpectedValue,
+			dependsOn = dependencies,
+			status = event.status,
 		)
 	}
 }

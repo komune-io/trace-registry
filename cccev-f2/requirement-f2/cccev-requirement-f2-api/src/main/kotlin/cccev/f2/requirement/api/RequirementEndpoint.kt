@@ -42,7 +42,7 @@ class RequirementEndpoint(
 
     @Bean
     override fun requirementGetByIdentifier(): RequirementGetByIdentifierFunction = f2Function { query ->
-        logger.info("requirementGetByIdentifierFunction: $query")
+        logger.info("requirementGetByIdentifier: $query")
         requirementF2FinderService.getOrNullByIdentifier(query.identifier).let(::RequirementGetByIdentifierResultDTOBase)
     }
 
@@ -55,6 +55,7 @@ class RequirementEndpoint(
 
     @Bean
     override fun requirementsList(): RequirementListQueryFunction = f2Function { query ->
+        logger.info("requirementsList: $query")
         requirementF2FinderService.list(
             isRequirementOf = query.parentId,
             concept = query.conceptId,
@@ -93,7 +94,14 @@ class RequirementEndpoint(
                 hasRequirement = command.hasRequirement,
                 hasConcept = command.hasConcept,
                 hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation
+                hasQualifiedRelation = command.hasQualifiedRelation,
+                enablingCondition = command.enablingCondition,
+                enablingConditionDependencies = command.enablingConditionDependencies,
+                required = command.required,
+                validatingCondition = command.validatingCondition,
+                validatingConditionDependencies = command.validatingConditionDependencies,
+                order = command.order,
+                properties = command.properties
             ))
             RequirementKind.CRITERION ->  requirementF2AggregateService.create(CriterionCreateCommandDTOBase(
                 identifier = command.identifier,
@@ -104,7 +112,14 @@ class RequirementEndpoint(
                 hasRequirement = command.hasRequirement,
                 hasConcept = command.hasConcept,
                 hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation
+                hasQualifiedRelation = command.hasQualifiedRelation,
+                enablingCondition = command.enablingCondition,
+                enablingConditionDependencies = command.enablingConditionDependencies,
+                required = command.required,
+                validatingCondition = command.validatingCondition,
+                validatingConditionDependencies = command.validatingConditionDependencies,
+                order = command.order,
+                properties = command.properties
             ))
             RequirementKind.INFORMATION -> requirementF2AggregateService.create(InformationRequirementCreateCommandDTOBase(
                 identifier = command.identifier,
@@ -115,7 +130,14 @@ class RequirementEndpoint(
                 hasRequirement = command.hasRequirement,
                 hasConcept = command.hasConcept,
                 hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation
+                hasQualifiedRelation = command.hasQualifiedRelation,
+                enablingCondition = command.enablingCondition,
+                enablingConditionDependencies = command.enablingConditionDependencies,
+                required = command.required,
+                validatingCondition = command.validatingCondition,
+                validatingConditionDependencies = command.validatingConditionDependencies,
+                order = command.order,
+                properties = command.properties
             ))
         }
     }

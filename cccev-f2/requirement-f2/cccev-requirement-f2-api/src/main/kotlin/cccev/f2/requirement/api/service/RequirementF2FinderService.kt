@@ -46,12 +46,10 @@ class RequirementF2FinderService(
 
     private suspend fun Flow<Requirement>.toDTOs(cache: Cache = Cache()) = map { it.toDTO(cache) }
     private suspend fun Requirement.toDTO(cache: Cache = Cache()): RequirementDTOBase = toDTO(
-        getConcept = cache.concepts::get,
         getEvidenceTypeList = cache.evidenceTypeLists::get,
     )
 
     private inner class Cache {
-        val concepts = SimpleCache(informationConceptF2FinderService::get)
         val evidenceTypeLists = SimpleCache(evidenceTypeF2FinderService::getList)
     }
 }

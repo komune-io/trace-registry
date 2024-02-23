@@ -3,8 +3,8 @@ package cccev.s2.requirement.api
 import cccev.dsl.model.EvidenceTypeId
 import cccev.projection.api.entity.requirement.RequirementEntity
 import cccev.projection.api.entity.requirement.RequirementRepository
+import cccev.projection.api.entity.requirement.toRequirement
 import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.requirement.api.entity.toRequirement
 import cccev.s2.requirement.domain.RequirementFinder
 import cccev.s2.requirement.domain.RequirementId
 import cccev.s2.requirement.domain.model.Requirement

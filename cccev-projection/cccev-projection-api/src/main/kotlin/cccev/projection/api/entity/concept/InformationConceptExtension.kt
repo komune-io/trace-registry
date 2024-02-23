@@ -1,13 +1,13 @@
-package cccev.s2.concept.api.entity
+package cccev.projection.api.entity.concept
 
-import cccev.projection.api.entity.concept.InformationConceptEntity
+import cccev.projection.api.entity.unit.toDataUnit
 import cccev.s2.concept.domain.model.InformationConcept
 
 fun InformationConceptEntity.toInformationConcept() = InformationConcept(
     id = id,
     identifier = identifier,
     name = name,
-    unitId = hasUnit?.id,
+    unit = hasUnit?.toDataUnit(),
     description = description,
     expressionOfExpectedValue = expressionOfExpectedValue,
     dependsOn = dependsOn?.map { it.id }

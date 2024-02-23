@@ -6,9 +6,8 @@ import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.model.RequestInformationConceptDTOBase
 import cccev.f2.evidence.api.model.toEvidenceTypeListChoices
 import cccev.f2.evidence.domain.model.EvidenceTypeListDTO
-import cccev.f2.unit.domain.model.DataUnitDTOBase
+import cccev.f2.unit.api.model.toDTO
 import cccev.s2.concept.domain.model.InformationConcept
-import cccev.s2.unit.domain.DataUnitId
 import java.util.UUID
 
 // TODO move to request-f2 module?
@@ -30,13 +29,11 @@ fun InformationConceptBase.toRequestDTO(
     )
 )
 
-suspend fun InformationConcept.toDTO(
-    getUnit: suspend (DataUnitId?) -> DataUnitDTOBase?
-) = InformationConceptDTOBase(
+fun InformationConcept.toDTO() = InformationConceptDTOBase(
     id = id,
     identifier = identifier,
     name = name,
-    unit = getUnit(unitId),
+    unit = unit?.toDTO(),
     description = description,
     expressionOfExpectedValue = expressionOfExpectedValue,
     dependsOn = dependsOn

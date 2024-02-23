@@ -22,6 +22,13 @@ interface RequirementDTO {
     val hasQualifiedRelation: Map<String, List<RequirementId>>
     val hasConcept: List<InformationConceptDTO>
     val hasEvidenceTypeList: List<EvidenceTypeListDTO>
+    val enablingCondition: String?
+    val enablingConditionDependencies: List<InformationConceptDTO>
+    val required: Boolean
+    val validatingCondition: String?
+    val validatingConditionDependencies: List<InformationConceptDTO>
+    val order: Int?
+    val properties: Map<String, String>?
 }
 
 @Serializable
@@ -35,5 +42,12 @@ data class RequirementDTOBase(
     override val hasRequirement: List<RequirementDTOBase> = emptyList(),
     override val hasQualifiedRelation: Map<String, List<RequirementId>> = emptyMap(),
     override val hasConcept: List<InformationConceptDTOBase> = emptyList(),
-    override val hasEvidenceTypeList: List<EvidenceTypeListDTOBase> = emptyList()
+    override val hasEvidenceTypeList: List<EvidenceTypeListDTOBase> = emptyList(),
+    override val enablingCondition: String? = null,
+    override val enablingConditionDependencies: List<InformationConceptDTOBase> = emptyList(),
+    override val required: Boolean = true,
+    override val validatingCondition: String? = null,
+    override val validatingConditionDependencies: List<InformationConceptDTOBase> = emptyList(),
+    override val order: Int? = null,
+    override val properties: Map<String, String>? = null,
 ): RequirementDTO

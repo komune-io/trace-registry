@@ -1,11 +1,9 @@
 package cccev.projection.api
 
-import cccev.projection.api.entity.Relation
 import cccev.projection.api.entity.requirement.RequirementEntity
 import cccev.projection.api.entity.requirement.RequirementRepository
 import cccev.s2.requirement.domain.RequirementState
 import cccev.s2.requirement.domain.model.RequirementKind
-import java.util.UUID
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -14,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.UUID
 
 @SpringBootTest(classes = [Neo4jTestApplication::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -47,7 +46,7 @@ class Neo4jTest {
             status = RequirementState.CREATED,
 //            hasRequirement = listOf("PoP", "PoP2")
             hasQualifiedRelation = mutableMapOf(
-                Relation.HAS_REQUIREMENT to mutableListOf(
+                RequirementEntity.HAS_REQUIREMENT to mutableListOf(
                 RequirementEntity(
                     kind = RequirementKind.INFORMATION,
                     identifier = "PoP",
@@ -55,7 +54,7 @@ class Neo4jTest {
                     name = "ProtocolOfProtocol",
                     status = RequirementState.CREATED,
                     hasQualifiedRelation = mutableMapOf(
-                        Relation.HAS_REQUIREMENT to  mutableListOf(
+                        RequirementEntity.HAS_REQUIREMENT to  mutableListOf(
                             RequirementEntity(
                                 kind = RequirementKind.INFORMATION,
                                 identifier = "PoPinP",
