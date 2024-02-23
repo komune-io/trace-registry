@@ -91,6 +91,12 @@ include(
 )
 
 include(
+    "platform:f2:dcs-f2:dcs-f2-api",
+    "platform:f2:dcs-f2:dcs-f2-client",
+    "platform:f2:dcs-f2:dcs-f2-domain",
+)
+
+include(
 	"platform:infra:cccev",
 	"platform:infra:fs",
 	"platform:infra:im",

@@ -57,7 +57,8 @@ class DataUnitCreateSteps: En, city.smartb.registry.ver.test.VerCucumberStepsDef
             name = params.name,
             description = "",
             notation = params.notation,
-            type = params.type.name
+            type = params.type.name,
+            options = null
         )
         command.invokeWith(cccevClient.dataUnitClient.dataUnitCreate()).id
     }

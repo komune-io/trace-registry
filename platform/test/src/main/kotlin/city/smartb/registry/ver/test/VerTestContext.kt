@@ -1,5 +1,6 @@
 package city.smartb.registry.ver.test
 
+import au.com.origin.snapshots.SnapshotVerifier
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.unit.domain.DataUnitId
@@ -31,4 +32,6 @@ class VerTestContext: TestContext() {
 
     val organizations = testEntities<TestContextKey, Organization>("Organization")
     val users = testEntities<TestContextKey, AuthedUser>("User")
+
+    lateinit var snapshotVerifier: SnapshotVerifier
 }

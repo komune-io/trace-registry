@@ -3,8 +3,8 @@ package city.smartb.registry.f2.activity.domain.model
 import cccev.dsl.model.Code
 import city.smartb.registry.s2.project.domain.model.CertificationRef
 import city.smartb.registry.s2.project.domain.model.CertificationRefDTO
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * @d2 hidden
@@ -52,7 +52,7 @@ data class Activity(
     override val progression: Double,
 ): ActivityDTO
 
-sealed class RequirementType(val identifier: String): Code {
+sealed class RequirementType(val identifier: String): Code() {
     object Activity: RequirementType("activity")
     object Step: RequirementType("step")
 }
