@@ -8,7 +8,6 @@ plugins {
 dependencies {
     commonMainApi(project(Modules.cccev.f2.concept.domain))
     commonMainApi(project(Modules.cccev.f2.evidence.domain))
-    commonMainApi(project(Modules.cccev.s2.certification.domain))
     commonMainApi("io.ktor:ktor-http:2.2.4")
 
     Dependencies.Mpp.fs(::commonMainApi)

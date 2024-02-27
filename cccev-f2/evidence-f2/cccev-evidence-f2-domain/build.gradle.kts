@@ -6,5 +6,4 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(project(Modules.cccev.s2.certification.domain))
 }

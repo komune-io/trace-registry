@@ -11,4 +11,4 @@ import kotlin.js.JsName
  */
 @JsExport
 @JsName("CertificationDTO")
-interface CertificationDTO: cccev.s2.certification.domain.model.CertificationDTO
+interface CertificationDTO//: cccev.s2.certification.domain.model.CertificationDTO

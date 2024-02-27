@@ -178,11 +178,6 @@ object Modules {
 			const val domain = ":cccev-projection:cccev-projection-domain"
 		}
 		object s2 {
-			object certification {
-				const val api = ":cccev-s2:certification:cccev-certification-api"
-				const val domain = ":cccev-s2:certification:cccev-certification-domain"
-				const val task = ":cccev-s2:certification:cccev-certification-task"
-			}
 			object concept {
 				const val api = ":cccev-s2:concept:cccev-concept-api"
 				const val domain = ":cccev-s2:concept:cccev-concept-domain"

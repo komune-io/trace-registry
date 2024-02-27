@@ -1,9 +1,9 @@
 package cccev.f2.concept.domain.query
 
+import cccev.core.certification.model.CertificationId
 import cccev.dsl.model.EvidenceTypeId
 import cccev.dsl.model.RequirementId
 import cccev.f2.concept.domain.model.RequestInformationConceptDTO
-import cccev.s2.certification.domain.model.CertificationId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName

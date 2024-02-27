@@ -1,11 +1,11 @@
 package cccev.core.certification.entity
 
+import cccev.core.certification.model.CertificationId
+import cccev.core.certification.model.RequirementCertificationId
 import cccev.infra.neo4j.session
 import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.requirement.RequirementEntity
 import cccev.projection.api.entity.unit.DataUnitEntity
-import cccev.s2.certification.domain.model.CertificationId
-import cccev.s2.certification.domain.model.RequirementCertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service

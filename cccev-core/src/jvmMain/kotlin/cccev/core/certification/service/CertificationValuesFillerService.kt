@@ -5,12 +5,12 @@ import cccev.core.certification.entity.CertificationRepository
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.entity.SupportedValue
 import cccev.core.certification.entity.isFulfilled
+import cccev.core.certification.model.CertificationId
+import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.concept.InformationConceptRepository2
 import cccev.infra.neo4j.session
 import cccev.infra.neo4j.transaction
 import cccev.projection.api.entity.concept.InformationConceptEntity
-import cccev.s2.certification.domain.model.CertificationId
-import cccev.s2.certification.domain.model.RequirementCertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.unit.domain.model.DataUnitType
 import f2.spring.exception.NotFoundException

@@ -1,21 +1,15 @@
 package cccev.f2.certification.client
 
-import cccev.f2.certification.domain.command.CertificationAddEvidenceFunction
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import f2.client.F2Client
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.get
-import f2.client.ktor.http.HttpF2Client
-import f2.dsl.fnc.F2Function
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
-import io.ktor.client.call.body
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.request.forms.formData
-import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
-import kotlinx.coroutines.flow.map
 
 actual fun F2Client.certificationClient(): F2SupplierSingle<CertificationClient> = f2SupplierSingle {
     CertificationClient(this)
@@ -29,18 +23,18 @@ actual fun certificationClient(
     )
 }
 
-fun CertificationClient.certificationAddEvidence(): CertificationAddEvidenceFunction = F2Function { msgs ->
-    msgs.map { (cmd, file) ->
-        val httpF2Client = (client as HttpF2Client)
-        httpF2Client.httpClient.submitFormWithBinaryData(
-            url = "${httpF2Client.urlBase}/certificationAddEvidence",
-            formData = FormDataBodyBuilder().apply {
-                param("command", cmd)
-                file("file", file, cmd.name)
-            }.toFormData()
-        ).body()
-    }
-}
+//fun CertificationClient.certificationAddEvidence(): CertificationAddEvidenceFunction = F2Function { msgs ->
+//    msgs.map { (cmd, file) ->
+//        val httpF2Client = (client as HttpF2Client)
+//        httpF2Client.httpClient.submitFormWithBinaryData(
+//            url = "${httpF2Client.urlBase}/certificationAddEvidence",
+//            formData = FormDataBodyBuilder().apply {
+//                param("command", cmd)
+//                file("file", file, cmd.name)
+//            }.toFormData()
+//        ).body()
+//    }
+//}
 
 class FormDataBodyBuilder {
     private val formParts = mutableListOf<FormPart<*>>()

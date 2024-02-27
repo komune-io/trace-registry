@@ -1,8 +1,8 @@
 package cccev.core.certification.entity
 
+import cccev.core.certification.model.RequirementCertificationId
 import cccev.infra.neo4j.EntityBase
 import cccev.projection.api.entity.requirement.RequirementEntity
-import cccev.s2.certification.domain.model.RequirementCertificationId
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship

@@ -1,6 +1,6 @@
 package cccev.core.certification.command
 
-import cccev.s2.certification.domain.model.CertificationId
+import cccev.core.certification.model.CertificationId
 import cccev.s2.requirement.domain.RequirementId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
