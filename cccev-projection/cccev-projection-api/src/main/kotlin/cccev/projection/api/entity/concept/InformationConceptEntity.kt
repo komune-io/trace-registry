@@ -14,23 +14,28 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 @Node(InformationConceptEntity.LABEL)
+@org.neo4j.ogm.annotation.NodeEntity(InformationConceptEntity.LABEL)
 data class InformationConceptEntity(
     @Id
-    var id: InformationConceptId,
-    var status: InformationConceptState,
+    @org.neo4j.ogm.annotation.Id
+    var id: InformationConceptId = "",
+    var status: InformationConceptState = InformationConceptState.EXISTS,
     @Version
+    @org.neo4j.ogm.annotation.Version
     var version: Long = 0,
     @CreatedDate
     var creationDate: Long = 0,
     @LastModifiedDate
     var lastModificationDate: Long = 0,
-    var identifier: InformationConceptIdentifier? = null,
-    var name: String,
+    var identifier: InformationConceptIdentifier = "",
+    var name: String = "",
     @Relationship(HAS_UNIT)
+    @org.neo4j.ogm.annotation.Relationship(HAS_UNIT)
     var hasUnit: DataUnitEntity? = null,
     var description: String? = null,
     var expressionOfExpectedValue: String? = null,
     @Relationship(DEPENDS_ON)
+    @org.neo4j.ogm.annotation.Relationship(DEPENDS_ON)
     var dependsOn: List<InformationConceptEntity>? = null,
 ): WithS2Id<InformationConceptId>, WithS2State<InformationConceptState> {
 

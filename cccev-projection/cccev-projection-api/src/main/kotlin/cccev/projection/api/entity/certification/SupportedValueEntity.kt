@@ -5,13 +5,12 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 import org.springframework.data.neo4j.core.schema.Id
-import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 import s2.dsl.automate.model.WithS2Id
 
 typealias SupportedValueId = String
 
-@Node(SupportedValueEntity.LABEL)
+//@Node(SupportedValueEntity.LABEL)
 data class SupportedValueEntity(
     @Id
     val id: SupportedValueId,

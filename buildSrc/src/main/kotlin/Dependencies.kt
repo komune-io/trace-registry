@@ -24,6 +24,7 @@ object Versions {
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val awaitility = "4.1.1"
 	const val datafaker = "1.8.1"
+	const val neo4jOgm = "4.0.9"
 }
 
 object Repo {
@@ -72,6 +73,19 @@ object Dependencies {
 		}
 		fun junit(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope).also {
 			scope.add("org.awaitility:awaitility:${Versions.awaitility}")
+		}
+
+		fun neo4j(scope: Scope) = scope.add(
+			"org.neo4j:neo4j-ogm-core:${Versions.neo4jOgm}",
+			"org.neo4j:neo4j-ogm-bolt-driver:${Versions.neo4jOgm}"
+		)
+
+		object Fs {
+			fun client(scope: Scope) = scope.add(
+				"city.smartb.fs:fs-file-client:${Versions.fs}",
+				"city.smartb.fs:fs-spring-utils:${Versions.fs}",
+				"io.ktor:ktor-utils:${Versions.ktor}"
+			)
 		}
 
 		object Spring {
@@ -165,6 +179,7 @@ object Modules {
 		}
 		object infra {
 			const val fs = ":cccev-infra:fs"
+			const val neo4j = ":cccev-infra:neo4j"
 		}
 		object projection {
 			const val api = ":cccev-projection:cccev-projection-api"
@@ -201,6 +216,7 @@ object Modules {
 				const val domain = ":cccev-s2:unit:cccev-unit-domain"
 			}
 		}
+		const val core = ":cccev-core"
 		const val test = ":cccev-test"
 
 		private const val BASE = ":im-commons:im-commons"

@@ -32,7 +32,7 @@ class InformationConceptEvolver(
 
 		return InformationConceptEntity(
 			id = event.id,
-			identifier = event.identifier,
+			identifier = event.identifier ?: event.id.replace(Regex("[^a-zA-Z0-9]"), "_"),
 			name = event.name,
 			hasUnit = unit,
 			description = event.description,

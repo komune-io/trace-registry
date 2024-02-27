@@ -10,11 +10,14 @@ import org.springframework.data.annotation.Version
 import org.springframework.data.neo4j.core.schema.Node
 
 @Node(DataUnitOptionEntity.LABEL)
+@org.neo4j.ogm.annotation.NodeEntity(DataUnitOptionEntity.LABEL)
 data class DataUnitOptionEntity(
     @Id
+    @org.neo4j.ogm.annotation.Id
     val id: DataUnitOptionId,
     val identifier: DataUnitOptionIdentifier,
     @Version
+    @org.neo4j.ogm.annotation.Version
     var version: Long = 0,
     @CreatedDate
     var creationDate: Long = 0,
