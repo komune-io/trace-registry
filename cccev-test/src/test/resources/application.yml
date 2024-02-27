@@ -5,6 +5,10 @@ spring:
       username: neo4j
       password: smartbsmartb
 
+logging:
+  level:
+    org.neo4j.ogm.drivers.bolt.response.BoltResponse: ERROR
+
 fs:
   url: http://localhost:8090
 

@@ -11,7 +11,7 @@ object Framework {
 
 object PluginVersions {
 	const val kotlin = FixersPluginVersions.kotlin
-	const val springBoot = FixersPluginVersions.springBoot
+	const val springBoot = FixersPluginVersions.springBoot //"3.2.2"
 	val fixers = Framework.fixers
 	val d2 = Framework.fixers
 }
@@ -24,6 +24,8 @@ object Versions {
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val awaitility = "4.1.1"
 	const val datafaker = "1.8.1"
+	const val javaSnapshotTesting = "4.0.7"
+	const val jsonAssert = "1.5.1"
 	const val neo4jOgm = "4.0.9"
 }
 
@@ -36,7 +38,6 @@ object Repo {
 
 object Dependencies {
 	object Jvm {
-
 		fun s2Bdd(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-test-bdd:${Framework.fixers}",
 			"org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}"
@@ -52,15 +53,6 @@ object Dependencies {
 			"city.smartb.f2:f2-spring-boot-starter-function-http:${Framework.fixers}",
 			"city.smartb.f2:f2-spring-boot-openapi:${Framework.fixers}"
 		)
-
-		object Fs {
-			fun client(scope: Scope) = scope.add(
-				"city.smartb.fs:fs-file-client:${Versions.fs}",
-				"city.smartb.fs:fs-spring-utils:${Versions.fs}",
-				"io.ktor:ktor-utils:${Versions.ktor}"
-			)
-		}
-
 
 		fun s2EventSouringBc(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-sourcing-ssm:${Framework.fixers}",

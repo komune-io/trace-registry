@@ -1,7 +1,7 @@
 package cccev.core.certification.entity
 
+import cccev.core.certification.model.SupportedValueId
 import cccev.infra.neo4j.EntityBase
-import cccev.projection.api.entity.certification.SupportedValueId
 import cccev.projection.api.entity.concept.InformationConceptEntity
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity

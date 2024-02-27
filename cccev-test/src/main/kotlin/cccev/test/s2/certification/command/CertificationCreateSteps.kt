@@ -1,20 +1,16 @@
 package cccev.test.s2.certification.command
 
-import cccev.projection.api.entity.certification.CertificationRepository
-import cccev.s2.certification.api.CertificationAggregateService
-import cccev.s2.certification.domain.CertificationState
-import cccev.s2.certification.domain.command.CertificationCreateCommand
+import au.com.origin.snapshots.Expect
+import cccev.core.certification.CertificationAggregateService
+import cccev.core.certification.command.CertificationCreateCommand
+import cccev.core.certification.entity.CertificationRepository
 import cccev.test.CccevCucumberStepsDefinition
-import cccev.test.s2.certification.data.certification
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import kotlinx.coroutines.reactor.awaitSingleOrNull
-import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
-import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
+import kotlin.reflect.jvm.javaMethod
 
 class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
 
@@ -28,7 +24,6 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
 
     init {
         DataTableType(::certificationCreateParams)
-        DataTableType(::certificationAssertParams)
 
         When("I create a certification") {
             step {
@@ -61,70 +56,36 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
             }
         }
 
-        Then("The certification should be created") {
+        Then("The certification should match the snapshot {string}") { snapshot: String ->
             step {
-                val certificationId = context.certificationIds.lastUsed
-                AssertionBdd.certification(certificationRepository).assertThatId(certificationId).hasFields(
-                    identifier = command.identifier,
-                    status = CertificationState.CREATED,
-                    name = command.name,
-                    description = command.description,
-                    requirements = command.requirements
-                )
-            }
-        }
+                val start = System.currentTimeMillis()
+                val certification = certificationRepository.loadAllCertificationGraphById(context.certificationIds.lastUsed)
+                println("Certification fetch took ${System.currentTimeMillis() - start}ms")
 
-        Then("The certification should be created:") { params: CertificationAssertParams ->
-            step {
-                val certificationId = context.certificationIds.safeGet(params.identifier)
-                val certification = certificationRepository.findById(certificationId).awaitSingleOrNull()
-                Assertions.assertThat(certification).isNotNull
-
-                AssertionBdd.certification(certificationRepository).assertThat(certification!!).hasFields(
-                    status = CertificationState.CREATED,
-                    name = params.name ?: certification.name,
-                    description = params.description ?: certification.description,
-                    requirements = params.requirements?.map(context.requirementIds::safeGet) ?: certification.requirements.map { it.id }
-                )
+                Expect.of(context.snapshotVerifier, ::snapshot.javaMethod)
+                    .scenario(snapshot)
+                    .toMatchSnapshot(certification)
             }
         }
     }
 
+    private fun snapshot() {}
+
     private suspend fun createCertification(params: CertificationCreateParams) = context.certificationIds.register(params.identifier) {
         command = CertificationCreateCommand(
-            identifier = "${params.identifier}_${UUID.randomUUID()}",
-            name = params.name,
-            description = params.description,
-            requirements = params.requirements.map(context.requirementIds::safeGet),
+            id = params.identifier,
+            requirementIdentifiers = params.requirements
         )
         certificationAggregateService.create(command).id
     }
 
     private fun certificationCreateParams(entry: Map<String, String>?) = CertificationCreateParams(
         identifier = entry?.get("identifier").orRandom(),
-        name = entry?.get("name").orRandom(),
-        description = entry?.get("description"),
         requirements = entry?.extractList("requirements").orEmpty()
     )
 
     private data class CertificationCreateParams(
         val identifier: TestContextKey,
-        val name: String,
-        val description: String?,
-        val requirements: List<TestContextKey>,
-    )
-
-    private fun certificationAssertParams(entry: Map<String, String>) = CertificationAssertParams(
-        identifier = entry["identifier"] ?: context.certificationIds.lastUsedKey,
-        name = entry["name"],
-        description = entry["description"],
-        requirements = entry.extractList("requirements")
-    )
-
-    private data class CertificationAssertParams(
-        val identifier: TestContextKey,
-        val name: String?,
-        val description: String?,
-        val requirements: List<TestContextKey>?,
+        val requirements: List<TestContextKey>
     )
 }

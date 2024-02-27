@@ -1,12 +1,12 @@
 package cccev.test
 
+import au.com.origin.snapshots.SnapshotVerifier
+import cccev.core.certification.model.CertificationId
+import cccev.core.certification.model.EvidenceId
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.framework.domain.FrameworkId
-import cccev.s2.certification.domain.model.EvidenceId
-import cccev.s2.certification.domain.model.Certification
-import cccev.s2.certification.domain.model.CertificationId
 import cccev.s2.requirement.domain.RequirementId
 import cccev.s2.unit.domain.DataUnitId
 import org.springframework.stereotype.Component
@@ -25,6 +25,8 @@ class CccevTestContext: TestContext() {
     val requirementIds = testEntities<TestContextKey, RequirementId>("Requirement")
     val unitIds = testEntities<TestContextKey, DataUnitId>("DataUnit")
 
+    lateinit var snapshotVerifier: SnapshotVerifier
+
     final var fetched = FetchContext()
         private set
 
@@ -33,6 +35,6 @@ class CccevTestContext: TestContext() {
     }
 
     class FetchContext {
-        lateinit var certification: Certification
+//        lateinit var certification: Certification
     }
 }
