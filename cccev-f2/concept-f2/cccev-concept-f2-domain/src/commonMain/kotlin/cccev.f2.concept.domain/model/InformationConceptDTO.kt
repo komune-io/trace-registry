@@ -5,9 +5,8 @@ import cccev.f2.unit.domain.model.DataUnitDTO
 import cccev.f2.unit.domain.model.DataUnitDTOBase
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.concept.domain.InformationConceptIdentifier
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * See [cccev.s2.concept.domain.model.InformationConcept]
@@ -16,7 +15,6 @@ import kotlinx.serialization.Serializable
  * @order 10
  */
 @JsExport
-@JsName("InformationConceptDTO")
 interface InformationConceptDTO {
     /**
      * Unique id of this information concept.
@@ -47,8 +45,8 @@ interface InformationConceptDTO {
 
     /**
      * Expression to evaluate in order to auto-compute the SupportedValue associated with this information concept, if applicable. <br />
-     * For now, the expression will be evaluated using a Kotlin engine. <br />
-     * The expression may contain other known information concepts, identified by their id. They must be declared in the `dependsOn` field.
+     * The expression should be written in SpEL (Spring Expression Language). <br />
+     * The expression may contain other known information concepts, identified by their identifier. They must be declared in the `dependsOn` field.
      * @example [cccev.s2.concept.domain.model.InformationConcept.expressionOfExpectedValue]
      */
     val expressionOfExpectedValue: String?
@@ -57,7 +55,7 @@ interface InformationConceptDTO {
      * A list of information concepts this one depends on for auto-computation, if applicable.
      * @example [cccev.s2.concept.domain.model.InformationConcept.dependsOn]
      */
-    val dependsOn: List<InformationConceptId>?
+    val dependsOn: List<InformationConceptIdentifier>?
 }
 
 /**

@@ -32,13 +32,16 @@ class CertificationEndpoint(
     @Bean
     override fun certificationGet(): CertificationGetFunction = f2Function { query ->
         logger.info("certificationGet: $query")
-        certificationF2FinderService.getOrNull(query.id).let(::CertificationGetResultDTOBase)
-    }
-
-    @Bean
-    override fun certificationGetByIdentifier(): CertificationGetByIdentifierFunction = f2Function { query ->
-        logger.info("certificationGetByIdentifier: $query")
-        certificationF2FinderService.getOrNullByIdentifier(query.identifier).let(::CertificationGetByIdentifierResultDTOBase)
+        val graph = certificationF2FinderService.getFlat(query.id)
+        CertificationGetResult(
+            certification = graph.certifications[query.id],
+            requirementCertifications = graph.requirementCertifications,
+            requirements = graph.requirements,
+            concepts = graph.concepts,
+            units = graph.units,
+            unitOptions = graph.unitOptions,
+            values = graph.values
+        )
     }
 
 //    /** Download an evidence of a certification */

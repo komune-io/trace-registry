@@ -7,6 +7,7 @@ plugins {
 dependencies {
     api(project(Modules.cccev.f2.requirement.domain))
 
+    api(project(Modules.cccev.f2.commons))
     implementation(project(Modules.cccev.f2.concept.api))
     implementation(project(Modules.cccev.f2.evidenceType.api))
 

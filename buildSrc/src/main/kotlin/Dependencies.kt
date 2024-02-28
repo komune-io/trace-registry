@@ -133,6 +133,7 @@ object Modules {
 			const val model = ":cccev-dsl:cccev-dsl-model"
 		}
 		object f2 {
+			const val commons = ":cccev-f2:cccev-f2-commons"
 			object certification {
 				const val api = ":cccev-f2:certification-f2:cccev-certification-f2-api"
 				const val client = ":cccev-f2:certification-f2:cccev-certification-f2-client"

@@ -26,6 +26,7 @@ include(
 )
 
 include(
+	"cccev-f2:cccev-f2-commons",
 	"cccev-f2:certification-f2:cccev-certification-f2-api",
 	"cccev-f2:certification-f2:cccev-certification-f2-client",
 	"cccev-f2:certification-f2:cccev-certification-f2-domain",

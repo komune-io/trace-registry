@@ -10,11 +10,6 @@ import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.core.certification.command.CertificationRemoveRequirementsCommand
 import cccev.core.certification.command.CertificationRemovedRequirementsEvent
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.s2.file.domain.features.command.FileUploadedEvent
-import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.fs.spring.utils.contentByteArray
-import city.smartb.fs.spring.utils.toUploadCommand
-import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -34,20 +29,8 @@ class CertificationF2AggregateService(
         return certificationAggregateService.removeRequirements(command)
     }
 
-    suspend fun addValues(command: CertificationAddValuesCommand): CertificationAddedValuesEvent {
-        return certificationAggregateService.addValues(command)
-    }
-
-    suspend fun addEvidence(command: CertificationAddEvidenceCommandDTOBase, file: FilePart?): CertificationAddedEvidenceEvent {
-        val filePath = file?.upload(command.id, CertificationFsPath.DIR_EVIDENCE, command.metadata, command?.vectorize)?.path
-        return CertificationAddEvidenceCommand(
-            id = command.id,
-            name = command.name,
-            file = filePath,
-            url = command.url,
-            isConformantTo = command.isConformantTo,
-            supportsConcept = command.supportsConcept,
-        ).let { certificationAggregateService.addEvidence(it) }
+    suspend fun addValues(command: CertificationFillValuesCommand): CertificationAddedValuesEvent {
+        return certificationAggregateService.fillValues(command)
     }
 
 //    suspend fun addEvidence(command: CertificationAddEvidenceCommandDTOBase, file: FilePart?): CertificationAddedEvidenceEvent {

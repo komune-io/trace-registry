@@ -10,5 +10,5 @@ fun InformationConceptEntity.toInformationConcept() = InformationConcept(
     unit = hasUnit?.toDataUnit(),
     description = description,
     expressionOfExpectedValue = expressionOfExpectedValue,
-    dependsOn = dependsOn?.map { it.id }
+    dependsOn = dependsOn?.map { it.identifier }
 )

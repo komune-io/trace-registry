@@ -6,4 +6,6 @@ plugins {
 }
 
 dependencies {
+    commonMainApi(project(Modules.cccev.dsl.model))
+    commonMainApi(project(Modules.cccev.core))
 }

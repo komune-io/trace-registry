@@ -1,18 +1,16 @@
 package cccev.f2.certification.api.service
 
-import cccev.f2.concept.api.service.InformationConceptF2FinderService
-import cccev.s2.certification.api.CertificationFinderService
-import cccev.s2.certification.domain.model.Certification
-import cccev.s2.certification.domain.model.CertificationId
-import cccev.s2.certification.domain.model.CertificationIdentifier
+import cccev.core.certification.CertificationFinderService
+import cccev.core.certification.entity.Certification
+import cccev.core.certification.model.CertificationId
+import cccev.f2.certification.api.model.flattenTo
+import cccev.f2.commons.FlatGraph
 import org.springframework.stereotype.Service
 
 @Service
 class CertificationF2FinderService(
-    private val informationConceptF2FinderService: InformationConceptF2FinderService,
     private val certificationFinderService: CertificationFinderService,
 ) {
-
     suspend fun getOrNull(id: CertificationId): Certification? {
         return certificationFinderService.getOrNull(id)
     }
@@ -21,12 +19,10 @@ class CertificationF2FinderService(
         return certificationFinderService.get(id)
     }
 
-    suspend fun getOrNullByIdentifier(identifier: CertificationIdentifier): Certification? {
-        return certificationFinderService.getOrNullByIdentifier(identifier)
-    }
-
-    suspend fun getByIdentifier(identifier: CertificationIdentifier): Certification {
-        return certificationFinderService.getByIdentifier(identifier)
+    suspend fun getFlat(id: CertificationId): FlatGraph {
+        val graph = FlatGraph()
+        certificationFinderService.getOrNull(id)?.flattenTo(graph)
+        return graph
     }
 
 //    object Score {
