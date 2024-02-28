@@ -59,7 +59,7 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
         Then("The certification should match the snapshot {string}") { snapshot: String ->
             step {
                 val start = System.currentTimeMillis()
-                val certification = certificationRepository.loadAllCertificationGraphById(context.certificationIds.lastUsed)
+                val certification = certificationRepository.findById(context.certificationIds.lastUsed)
                 println("Certification fetch took ${System.currentTimeMillis() - start}ms")
 
                 Expect.of(context.snapshotVerifier, ::snapshot.javaMethod)
@@ -69,7 +69,7 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
         }
     }
 
-    private fun snapshot() {}
+    private fun snapshot() { /* do nothing */ }
 
     private suspend fun createCertification(params: CertificationCreateParams) = context.certificationIds.register(params.identifier) {
         command = CertificationCreateCommand(

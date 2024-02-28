@@ -19,7 +19,7 @@ interface DataUnitOptionDTO {
 }
 
 @Serializable
-data class DataUnitOptionDTOBase(
+data class DataUnitOption(
     override val id: DataUnitOptionId,
     override val identifier: DataUnitOptionIdentifier,
     override val name: String,

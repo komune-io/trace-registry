@@ -7,6 +7,7 @@ import cccev.core.certification.command.CertificationCreateCommand
 import cccev.core.certification.command.CertificationCreatedEvent
 import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.core.certification.command.CertificationRemoveRequirementsCommand
+import cccev.core.certification.command.CertificationRemovedRequirementsEvent
 import cccev.core.certification.entity.Certification
 import cccev.core.certification.entity.CertificationRepository
 import cccev.core.certification.entity.RequirementCertification
@@ -87,7 +88,7 @@ class CertificationAggregateService(
                 throw NotFoundException("RequirementCertification [${command.parentId}] in Certification", command.id)
             }
 
-            val parentRequirementCertification = certificationRepository.findRequirementCertificationById(command.parentId, depth = 0)
+            val parentRequirementCertification = session.load(RequirementCertification::class.java, command.parentId as String, 0)
                 ?: throw NotFoundException("RequirementCertification", command.parentId)
             parentRequirementCertification.subCertifications.addAll(requirementCertifications)
             certificationRepository.save(parentRequirementCertification)
@@ -100,7 +101,9 @@ class CertificationAggregateService(
         ).also(applicationEventPublisher::publishEvent)
     }
 
-    suspend fun removeRequirements(command: CertificationRemoveRequirementsCommand) {}
+    suspend fun removeRequirements(command: CertificationRemoveRequirementsCommand): CertificationRemovedRequirementsEvent {
+        TODO()
+    }
 
     private suspend fun RequirementEntity.toEmptyCertification(): RequirementCertification = RequirementCertification().apply {
         id = UUID.randomUUID().toString()

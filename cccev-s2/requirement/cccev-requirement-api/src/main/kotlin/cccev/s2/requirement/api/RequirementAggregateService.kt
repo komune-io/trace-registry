@@ -28,10 +28,11 @@ class RequirementAggregateService(
 ): RequirementAggregate {
 
     override suspend fun create(command: RequirementCreateCommand) = automate.init(command) {
+        val id = UUID.randomUUID().toString()
         RequirementCreatedEvent(
-            id = UUID.randomUUID().toString(),
+            id = id,
             status = RequirementState.CREATED,
-            identifier = command.identifier,
+            identifier = command.identifier ?: id,
             kind = command.kind,
             name = command.name,
             description = command.description,

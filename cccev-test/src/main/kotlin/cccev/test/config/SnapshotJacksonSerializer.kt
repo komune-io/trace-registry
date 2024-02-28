@@ -11,20 +11,20 @@ class SnapshotJacksonSerializer: JacksonSnapshotSerializer() {
         objectMapper.addMixIn(Any::class.java, IgnoreChangingFields::class.java)
     }
 
-    internal abstract class IgnoreChangingFields {
+    interface IgnoreChangingFields {
         @get:JsonIgnore
-        abstract val id: String?
+        val id: String?
 
         @get:JsonIgnore
-        abstract val identifier: String?
+        val identifier: String?
 
         @get:JsonIgnore
-        abstract val creationDate: Long?
+        val creationDate: Long?
 
         @get:JsonIgnore
-        abstract val lastModificationDate: Long?
+        val lastModificationDate: Long?
 
         @get:JsonIgnore
-        abstract val version: Long?
+        val version: Long?
     }
 }

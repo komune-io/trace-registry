@@ -15,13 +15,14 @@ import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import java.util.UUID
 
 @Node(RequirementEntity.LABEL)
 @NodeEntity(RequirementEntity.LABEL)
 data class RequirementEntity(
     @Id
     @org.neo4j.ogm.annotation.Id
-    val id: RequirementId,
+    val id: RequirementId = UUID.randomUUID().toString(),
     @Version
     @org.neo4j.ogm.annotation.Version
     var version: Long = 0,
@@ -29,9 +30,9 @@ data class RequirementEntity(
     var creationDate: Long = 0,
     @LastModifiedDate
     var lastModificationDate: Long = 0,
-    val status: RequirementState,
-    val identifier: String? = null,
-    val kind: RequirementKind,
+    val status: RequirementState = RequirementState.CREATED,
+    val identifier: String = id,
+    val kind: RequirementKind = RequirementKind.CRITERION,
     val name: String? = null,
     val description: String? = null,
     val type: String? = null,
@@ -77,11 +78,4 @@ data class RequirementEntity(
     override fun s2State() = status
 
     fun hasRequirement() = hasQualifiedRelation[HAS_REQUIREMENT].orEmpty()
-
-    // default constructor for neo4j ogm
-    constructor(): this(
-        id = "",
-        status = RequirementState.CREATED,
-        kind = RequirementKind.CRITERION,
-    )
 }

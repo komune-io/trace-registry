@@ -20,18 +20,21 @@ class InformationConceptRepository2(
         session.queryForObject(
             InformationConceptEntity::class.java,
             "MATCH (ic:${InformationConceptEntity.LABEL} {identifier: \$identifier})" +
-                    "\nOPTIONAL MATCH (ic)-[depends_on:${InformationConceptEntity.DEPENDS_ON}*0..]->(dep:${InformationConceptEntity.LABEL})\n" +
-                    "\nOPTIONAL MATCH (ic)-[has_unit:${InformationConceptEntity.HAS_UNIT}]->(du:${DataUnitEntity.LABEL})\n" +
-                    "\nOPTIONAL MATCH (du)-[has_option:${DataUnitEntity.HAS_OPTION}]->(duo:${DataUnitOptionEntity.LABEL})\n" +
-                    "\nOPTIONAL MATCH (dep)-[has_unit_dep:${InformationConceptEntity.HAS_UNIT}]->(du_dep:${DataUnitEntity.LABEL})\n" +
-                    "\nOPTIONAL MATCH (du_dep)-[has_option_dep:${DataUnitEntity.HAS_OPTION}]->(duo_dep:${DataUnitOptionEntity.LABEL})\n" +
+                    "\nOPTIONAL MATCH (ic)" +
+                    "-[depends_on:${InformationConceptEntity.DEPENDS_ON}*0..]->(dep:${InformationConceptEntity.LABEL})" +
+                    "\nOPTIONAL MATCH (ic)-[has_unit:${InformationConceptEntity.HAS_UNIT}]->(du:${DataUnitEntity.LABEL})" +
+                    "\nOPTIONAL MATCH (du)-[has_option:${DataUnitEntity.HAS_OPTION}]->(duo:${DataUnitOptionEntity.LABEL})" +
+                    "\nOPTIONAL MATCH (dep)-[has_unit_dep:${InformationConceptEntity.HAS_UNIT}]->(du_dep:${DataUnitEntity.LABEL})" +
+                    "\nOPTIONAL MATCH (du_dep)-[has_option_dep:${DataUnitEntity.HAS_OPTION}]->(duo_dep:${DataUnitOptionEntity.LABEL})" +
                     "\nRETURN ic, collect(depends_on), collect(dep), collect(has_unit), collect(du), collect(has_option), collect(duo), " +
                     "collect(has_unit_dep), collect(du_dep), collect(has_option_dep), collect(duo_dep)",
             mapOf("identifier" to identifier)
         )
     }
 
-    suspend fun findDependingOn(identifier: InformationConceptIdentifier): List<InformationConceptEntity> = sessionFactory.session { session ->
+    suspend fun findDependingOn(
+        identifier: InformationConceptIdentifier
+    ): List<InformationConceptEntity> = sessionFactory.session { session ->
         session.query(
             "MATCH (ic:${InformationConceptEntity.LABEL})" +
                     "-[:${InformationConceptEntity.DEPENDS_ON}]->(:${InformationConceptEntity.LABEL} {identifier: \$identifier})" +

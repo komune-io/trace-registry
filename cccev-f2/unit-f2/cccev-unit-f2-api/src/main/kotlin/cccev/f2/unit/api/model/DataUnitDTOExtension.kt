@@ -14,7 +14,7 @@ fun DataUnit.toDTO() = DataUnitDTOBase(
     options = options?.map(DataUnitOption::toDTO)
 )
 
-fun DataUnitOption.toDTO() = DataUnitOptionDTOBase(
+fun DataUnitOption.toDTO() = cccev.f2.unit.domain.model.DataUnitOption(
     id = id,
     identifier = identifier,
     name = name,

@@ -12,9 +12,12 @@ class RequirementRepository2(
     private val sessionFactory: SessionFactory
 ) {
 
-    suspend fun loadRequirementOnlyGraph(rootRequirementIdentifier: RequirementIdentifier): RequirementEntity? = sessionFactory.session { session ->
+    suspend fun loadRequirementOnlyGraph(
+        rootRequirementIdentifier: RequirementIdentifier
+    ): RequirementEntity? = sessionFactory.session { session ->
         val query = """
-            MATCH (root:${RequirementEntity.LABEL})-[has_requirement:${RequirementEntity.HAS_REQUIREMENT}*0..]->(children:${RequirementEntity.LABEL})
+            MATCH (root:${RequirementEntity.LABEL})
+            -[has_requirement:${RequirementEntity.HAS_REQUIREMENT}*0..]->(children:${RequirementEntity.LABEL})
             WHERE root.${RequirementEntity::identifier.name} = ${'$'}identifier
             RETURN root, collect(has_requirement), collect(children)
         """.trimIndent()
