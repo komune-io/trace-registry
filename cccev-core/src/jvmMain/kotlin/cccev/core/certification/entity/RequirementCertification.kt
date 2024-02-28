@@ -1,14 +1,14 @@
 package cccev.core.certification.entity
 
 import cccev.core.certification.model.RequirementCertificationId
-import cccev.infra.neo4j.EntityBase
 import cccev.projection.api.entity.requirement.RequirementEntity
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
+import org.neo4j.ogm.annotation.Version
 
 @NodeEntity(RequirementCertification.LABEL)
-class RequirementCertification: EntityBase() {
+class RequirementCertification {
     companion object {
         const val LABEL = "RequirementCertification"
 
@@ -49,4 +49,9 @@ class RequirementCertification: EntityBase() {
      * and all its sub-requirements are fulfilled or disabled.
      */
     var isFulfilled: Boolean = false
+
+    @Version
+    var version: Long? = null
+
+    var creationDate: Long = System.currentTimeMillis()
 }
