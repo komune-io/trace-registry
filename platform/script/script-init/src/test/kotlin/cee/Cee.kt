@@ -11,14 +11,14 @@ val cee = ReferenceFramework(
 
 @Serializable
 object FicheCode {
-	object SecteurActivite: Code
-	object Denomination: Code
-	object ConditionsDelivranceCertificats: Code
-	object DureeVieConventionnelle: Code
-	object MontantCertificatsCumac: Code
-	object Annexe1: Code
+	object SecteurActivite: Code()
+	object Denomination: Code()
+	object ConditionsDelivranceCertificats: Code()
+	object DureeVieConventionnelle: Code()
+	object MontantCertificatsCumac: Code()
+	object Annexe1: Code()
 }
 
-object FicheCee: Code
-object DossierCee: Code
-object DeclarationHonneur: Code
+object FicheCee: Code()
+object DossierCee: Code()
+object DeclarationHonneur: Code()

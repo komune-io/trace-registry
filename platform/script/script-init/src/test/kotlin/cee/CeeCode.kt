@@ -4,4 +4,4 @@ package cee
 
 import cccev.dsl.model.Code
 
-object CerfaCode: Code
+object CerfaCode: Code()

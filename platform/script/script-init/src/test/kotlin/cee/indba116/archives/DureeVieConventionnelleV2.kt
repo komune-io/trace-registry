@@ -52,7 +52,14 @@ object DureeVieConventionnelleV2 {
                     )
                 )
             )
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
@@ -74,7 +81,14 @@ object DureeVieConventionnelleV2 {
                     )
                 )
             )
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object DureeVieConventionnelleSansDispositifGestionEclairage: DureeVieConventionnelleConstraint(
@@ -106,7 +120,14 @@ object DureeVieConventionnelleV2 {
         ),
         hasConcept = listOf(
             NombreTypesDispositifGestionEclairage
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
 
@@ -117,6 +138,13 @@ object DureeVieConventionnelleV2 {
         type = FicheCode.DureeVieConventionnelle,
         hasConcept = listOf(
             DateTravaux
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 }

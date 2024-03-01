@@ -6,7 +6,6 @@ import city.smartb.registry.s2.project.domain.error.IllegalSdgError
 import city.smartb.registry.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.s2.project.domain.model.Project
 import f2.dsl.cqrs.error.asException
-import kotlinx.datetime.toJavaLocalTime
 
 fun ProjectEntity.toProject() = Project(
     id = id,
@@ -33,7 +32,7 @@ fun ProjectEntity.toProject() = Project(
     lastModificationDate = lastModifiedDate,
     activities = activities,
     sdgs = sdgs,
-    certification = request,
+    certificationId = certificationId,
     assetPools = assetPools.toList(),
     isPrivate = privacy
 )

@@ -29,7 +29,7 @@ fun Project.toDTO() = ProjectDTOBase(
     lastModificationDate = lastModificationDate,
     activities = activities,
     sdgs = sdgs,
-    certification = certification,
+    certificationId = certificationId,
     assetPools = assetPools,
     isPrivate = isPrivate
 )

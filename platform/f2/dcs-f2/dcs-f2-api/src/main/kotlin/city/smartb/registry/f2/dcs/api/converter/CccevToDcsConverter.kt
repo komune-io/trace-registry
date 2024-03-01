@@ -1,7 +1,7 @@
 package city.smartb.registry.f2.dcs.api.converter
 
 import cccev.f2.requirement.domain.model.RequirementDTOBase
-import cccev.f2.unit.domain.model.DataUnitOptionDTOBase
+import cccev.f2.unit.domain.model.DataUnitOption
 import cccev.s2.requirement.domain.model.RequirementKind
 import city.smartb.registry.f2.dcs.api.model.DcsCode
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStep
@@ -62,7 +62,7 @@ object CccevToDcsConverter {
         )
     }
 
-    private fun convertFieldOption(option: DataUnitOptionDTOBase) = DataFieldOption(
+    private fun convertFieldOption(option: DataUnitOption) = DataFieldOption(
         key = option.identifier,
         label = option.name,
         icon = option.icon,

@@ -30,7 +30,7 @@ city.smartb.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
                   "budget"
                 ],
                 "error": "Your budget should be above 0",
-                "expression": "#budget < 0",
+                "expression": "#budget >= 0",
                 "type": "validator"
               }
             ],

@@ -1,23 +1,22 @@
 package city.smartb.registry.f2.project.domain.model
 
+import cccev.core.certification.model.CertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.s2.commons.model.GeoLocation
 import city.smartb.registry.s2.commons.model.GeoLocationDTO
 import city.smartb.registry.s2.project.domain.automate.ProjectState
 import city.smartb.registry.s2.project.domain.model.ActivityIdentifier
-import city.smartb.registry.s2.project.domain.model.CertificationRef
-import city.smartb.registry.s2.project.domain.model.CertificationRefDTO
 import city.smartb.registry.s2.project.domain.model.DateTime
 import city.smartb.registry.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.s2.project.domain.model.ProjectId
 import city.smartb.registry.s2.project.domain.model.ProjectIdentifier
 import city.smartb.registry.s2.project.domain.model.SdgNumber
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 
 @JsExport
@@ -148,7 +147,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
     /**
      * Link to a cccev request.
      */
-    val certification: CertificationRefDTO?
+    val certificationId: CertificationId?
 
     /**
      * Status of the project
@@ -215,7 +214,7 @@ data class ProjectDTOBase(
     override val status: ProjectState,
     override val activities: List<ActivityIdentifier>?,
     override var sdgs: List<SdgNumber>?,
-    override val certification: CertificationRef?,
+    override val certificationId: CertificationId?,
     override val assetPools: List<AssetPoolId>,
     override val isPrivate: Boolean
 ): ProjectDTO {

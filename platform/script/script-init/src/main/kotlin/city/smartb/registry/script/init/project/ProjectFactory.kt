@@ -15,12 +15,12 @@ import city.smartb.registry.s2.project.domain.model.ProjectId
 import city.smartb.registry.script.init.actor.Actor
 import city.smartb.registry.script.init.utils.asyncExecution
 import f2.dsl.fnc.invokeWith
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 import net.datafaker.providers.base.Address
+import java.util.concurrent.TimeUnit
 
 class ProjectFactory(url: String, accessToken: String) {
     val faker = Faker()
@@ -61,9 +61,9 @@ fun createRandomProject(url: String, accessToken: Actor, countRange: IntRange = 
 
 private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(activityClient: ActivityClient): List<ProjectCreatedEventDTOBase> =
     asyncExecution { project ->
-        project.certification?.let { certification ->
-            val fulfilledEvent = ActivityStepFulfillCommandDTOBase(
-                certificationIdentifier = certification.identifier,
+        project.certificationId?.let { certificationId ->
+            ActivityStepFulfillCommandDTOBase(
+                certificationId = certificationId,
                 identifier = "B101",
                 value = "Yahuma Sud"
             ).invokeWith(activityClient.activityStepFulfill())

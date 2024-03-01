@@ -1,15 +1,15 @@
 package city.smartb.registry.f2.activity.domain.command
 
-import cccev.s2.certification.domain.model.CertificationIdentifier
+import cccev.core.certification.model.CertificationId
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import city.smartb.registry.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Fulfill an activity step by providing a value.
@@ -29,7 +29,7 @@ interface ActivityStepFulfillCommandDTO {
     /**
      * Identifier of the certification containing the activities to fulfill.
      */
-    val certificationIdentifier: CertificationIdentifier
+    val certificationId: CertificationId
 
     /**
      * Identifier of the activity step to fulfill.
@@ -48,7 +48,7 @@ interface ActivityStepFulfillCommandDTO {
  */
 @Serializable
 data class ActivityStepFulfillCommandDTOBase(
-    override val certificationIdentifier: CertificationIdentifier,
+    override val certificationId: CertificationId,
     override val identifier: ActivityStepIdentifier,
     override val value: String?,
 ): ActivityStepFulfillCommandDTO

@@ -1,6 +1,6 @@
 package city.smartb.registry.f2.activity.domain.query
 
-import cccev.s2.certification.domain.model.CertificationIdentifier
+import cccev.core.certification.model.CertificationId
 import city.smartb.registry.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.f2.activity.domain.model.ActivityStepDTO
 import f2.dsl.cqrs.page.PageDTO
@@ -30,7 +30,7 @@ interface ActivityStepPageQueryDTO {
     /**
      * Name of the activity
      */
-    val certificationIdentifier: String
+    val certificationId: CertificationId
     val offset: Int?
     val limit: Int?
 }
@@ -40,7 +40,7 @@ interface ActivityStepPageQueryDTO {
  */
 data class ActivityStepPageQuery(
     override val activityIdentifier: ActivityIdentifier,
-    override val certificationIdentifier: CertificationIdentifier,
+    override val certificationId: CertificationId,
     override val offset: Int?,
     override val limit: Int?,
 ): ActivityStepPageQueryDTO

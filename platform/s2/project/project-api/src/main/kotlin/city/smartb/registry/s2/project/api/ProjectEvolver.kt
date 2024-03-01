@@ -10,9 +10,6 @@ import city.smartb.registry.s2.project.domain.command.ProjectChangedPrivacyEvent
 import city.smartb.registry.s2.project.domain.command.ProjectCreatedEvent
 import city.smartb.registry.s2.project.domain.command.ProjectDeletedEvent
 import city.smartb.registry.s2.project.domain.command.ProjectUpdatedEvent
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 
@@ -50,7 +47,7 @@ class ProjectEvolver: View<ProjectEvent, ProjectEntity> {
 		assessor = event.assessor?.toEntity()
 		location = event.location?.toRedisGeoLocation(id)
 		activities = event.activities
-		request = event.certification
+		certificationId = event.certificationId
 		privacy = event.isPrivate ?: true
 		createdDate = event.date
 		lastModifiedDate = event.date

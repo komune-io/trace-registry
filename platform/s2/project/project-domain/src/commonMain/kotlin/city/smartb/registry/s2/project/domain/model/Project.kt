@@ -1,11 +1,12 @@
 package city.smartb.registry.s2.project.domain.model
 
+import cccev.core.certification.model.CertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.s2.commons.model.GeoLocation
 import city.smartb.registry.s2.project.domain.automate.ProjectState
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 typealias ProjectId = String
 typealias ProjectIdentifier = String
@@ -50,7 +51,7 @@ data class Project(
     val status: ProjectState,
     val activities: List<ActivityIdentifier>?,
     var sdgs: List<SdgNumber>?,
-    val certification: CertificationRef?,
+    val certificationId: CertificationId?,
     val assetPools: List<AssetPoolId>,
     val isPrivate: Boolean
 )

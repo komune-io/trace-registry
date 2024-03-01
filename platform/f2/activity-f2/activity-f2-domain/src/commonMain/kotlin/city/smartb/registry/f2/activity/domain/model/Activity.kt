@@ -1,8 +1,7 @@
 package city.smartb.registry.f2.activity.domain.model
 
+import cccev.core.certification.model.CertificationId
 import cccev.dsl.model.Code
-import city.smartb.registry.s2.project.domain.model.CertificationRef
-import city.smartb.registry.s2.project.domain.model.CertificationRefDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -27,7 +26,7 @@ typealias ActivityIdentifier = String
 @JsExport
 interface ActivityDTO {
     val identifier: ActivityIdentifier
-    val certification: CertificationRefDTO?
+    val certificationId: CertificationId?
     val name: String?
     val type: String?
     val description: String?
@@ -43,7 +42,7 @@ interface ActivityDTO {
 @Serializable
 data class Activity(
     override val identifier: ActivityIdentifier,
-    override val certification: CertificationRef?,
+    override val certificationId: CertificationId?,
     override val name: String?,
     override val type: String?,
     override val description: String?,
