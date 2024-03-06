@@ -26,8 +26,8 @@ open class CertificationClient constructor(val client: F2Client) : Certification
         = client.function(this::certificationAddRequirements.name)
     override fun certificationRemoveRequirements(): CertificationRemoveRequirementsFunction
         = client.function(this::certificationRemoveRequirements.name)
-    override fun certificationAddValues(): CertificationFillValuesFunction
-        = client.function(this::certificationAddValues.name)
+    override fun certificationFillValues(): CertificationFillValuesFunction
+        = client.function(this::certificationFillValues.name)
 //    override fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction
 //        = client.function(this::certificationRemoveEvidence.name)
 }

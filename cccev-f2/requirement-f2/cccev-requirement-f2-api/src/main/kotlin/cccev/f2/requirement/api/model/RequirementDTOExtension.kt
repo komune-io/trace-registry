@@ -1,11 +1,9 @@
 package cccev.f2.requirement.api.model
 
 import cccev.commons.utils.parseJsonTo
-import cccev.commons.utils.toJson
-import cccev.f2.commons.FlatGraph
+import cccev.f2.commons.CertificationFlatGraph
 import cccev.f2.concept.api.model.flattenTo
 import cccev.f2.concept.api.model.toDTO
-import cccev.f2.concept.api.model.unflatten
 import cccev.f2.evidence.type.domain.model.EvidenceTypeListDTOBase
 import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.model.RequirementFlat
@@ -14,8 +12,6 @@ import cccev.s2.concept.domain.model.InformationConcept
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.requirement.domain.model.Requirement
 import cccev.s2.requirement.domain.model.RequirementIdentifier
-import cccev.s2.requirement.domain.model.RequirementKind
-import f2.spring.exception.NotFoundException
 
 suspend fun Requirement.toDTO(
     getEvidenceTypeList: suspend (EvidenceTypeListId) -> EvidenceTypeListDTOBase
@@ -36,10 +32,10 @@ suspend fun Requirement.toDTO(
     validatingCondition = validatingCondition,
     validatingConditionDependencies = validatingConditionDependencies.map { it.toDTO() },
     order = order,
-    properties = properties,
+    properties = properties
 )
 
-fun RequirementEntity.flattenTo(graph: FlatGraph): RequirementIdentifier {
+fun RequirementEntity.flattenTo(graph: CertificationFlatGraph): RequirementIdentifier {
     graph.requirements[identifier] = RequirementFlat(
         id = id,
         identifier = identifier,
@@ -59,41 +55,4 @@ fun RequirementEntity.flattenTo(graph: FlatGraph): RequirementIdentifier {
         properties = properties?.parseJsonTo<Map<String, String>>(),
     )
     return identifier
-}
-
-fun RequirementFlat.unflatten(graph: FlatGraph): RequirementEntity {
-    val subRequirements = hasRequirement.map {
-        graph.requirements[it]?.unflatten(graph)
-            ?: throw NotFoundException("Requirement", it)
-    }
-
-    return RequirementEntity(
-        id = id,
-        identifier = identifier,
-        kind = RequirementKind.valueOf(kind),
-        description = description,
-        type = type,
-        name = name,
-        hasQualifiedRelation = mutableMapOf(RequirementEntity.HAS_REQUIREMENT to subRequirements.toMutableList()),
-        hasConcept = hasConcept.map {
-            graph.concepts[it]?.unflatten(graph)
-                ?: throw NotFoundException("InformationConcept", it)
-        }.toMutableList(),
-        hasEvidenceTypeList = mutableListOf(), // TODO
-        enablingCondition = enablingCondition,
-        enablingConditionDependencies = enablingConditionDependencies.map {
-            graph.concepts[it]?.unflatten(graph)
-                ?: throw NotFoundException("InformationConcept", it)
-        },
-        required = required,
-        validatingCondition = validatingCondition,
-        validatingConditionDependencies = validatingConditionDependencies.map {
-            graph.concepts[it]?.unflatten(graph)
-                ?: throw NotFoundException("InformationConcept", it)
-        },
-        order = order,
-        properties = properties?.toJson(),
-    ).also { requirement ->
-        requirement.hasRequirementTmp = subRequirements.toMutableList()
-    }
 }

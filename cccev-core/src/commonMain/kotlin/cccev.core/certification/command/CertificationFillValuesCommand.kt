@@ -5,13 +5,11 @@ import cccev.core.certification.model.RequirementCertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * @d2 command
  */
 @JsExport
-@JsName("CertificationFillValuesCommandDTO")
 interface CertificationFillValuesCommandDTO {
     /**
      * Id of the certification for which to fill the values.
@@ -47,8 +45,7 @@ data class CertificationFillValuesCommand(
  * @d2 event
  */
 @JsExport
-@JsName("CertificationAddedValuesEventDTO")
-interface CertificationAddedValuesEventDTO {
+interface CertificationFilledValuesEventDTO {
     /**
      * Id of the certification to which the values have been added.
      */
@@ -64,7 +61,7 @@ interface CertificationAddedValuesEventDTO {
  * @d2 inherit
  */
 @Serializable
-data class CertificationAddedValuesEvent(
+data class CertificationFilledValuesEvent(
     override val id: CertificationId,
     override val rootRequirementCertificationId: RequirementCertificationId?
-): CertificationAddedValuesEventDTO
+): CertificationFilledValuesEventDTO

@@ -16,7 +16,7 @@ interface CertificationCommandApi {
     fun certificationRemoveRequirements(): CertificationRemoveRequirementsFunction
 
     /** Add values to a request */
-    fun certificationAddValues(): CertificationFillValuesFunction
+    fun certificationFillValues(): CertificationFillValuesFunction
 
     /** Remove an evidence from a request */
 //    fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction

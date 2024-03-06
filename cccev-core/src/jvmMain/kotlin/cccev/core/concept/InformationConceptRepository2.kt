@@ -17,8 +17,7 @@ class InformationConceptRepository2(
     }
 
     suspend fun findByIdentifier(identifier: InformationConceptIdentifier): InformationConceptEntity? = sessionFactory.session { session ->
-        session.queryForObject(
-            InformationConceptEntity::class.java,
+        session.query(
             "MATCH (ic:${InformationConceptEntity.LABEL} {identifier: \$identifier})" +
                     "\nOPTIONAL MATCH (ic)" +
                     "-[depends_on:${InformationConceptEntity.DEPENDS_ON}*0..]->(dep:${InformationConceptEntity.LABEL})" +
@@ -29,7 +28,8 @@ class InformationConceptRepository2(
                     "\nRETURN ic, collect(depends_on), collect(dep), collect(has_unit), collect(du), collect(has_option), collect(duo), " +
                     "collect(has_unit_dep), collect(du_dep), collect(has_option_dep), collect(duo_dep)",
             mapOf("identifier" to identifier)
-        )
+        ).map { it["ic"] as InformationConceptEntity }
+            .firstOrNull()
     }
 
     suspend fun findDependingOn(

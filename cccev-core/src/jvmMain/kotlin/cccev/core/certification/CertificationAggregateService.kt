@@ -2,10 +2,10 @@ package cccev.core.certification
 
 import cccev.core.certification.command.CertificationAddRequirementsCommand
 import cccev.core.certification.command.CertificationAddedRequirementsEvent
-import cccev.core.certification.command.CertificationAddedValuesEvent
 import cccev.core.certification.command.CertificationCreateCommand
 import cccev.core.certification.command.CertificationCreatedEvent
 import cccev.core.certification.command.CertificationFillValuesCommand
+import cccev.core.certification.command.CertificationFilledValuesEvent
 import cccev.core.certification.command.CertificationRemoveRequirementsCommand
 import cccev.core.certification.command.CertificationRemovedRequirementsEvent
 import cccev.core.certification.entity.Certification
@@ -55,14 +55,14 @@ class CertificationAggregateService(
             .also(applicationEventPublisher::publishEvent)
     }
 
-    suspend fun fillValues(command: CertificationFillValuesCommand): CertificationAddedValuesEvent {
+    suspend fun fillValues(command: CertificationFillValuesCommand): CertificationFilledValuesEvent {
         val context = CertificationValuesFillerService.Context(
             certificationId = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId
         )
         certificationValuesFillerService.fillValues(command.values, context)
 
-        return CertificationAddedValuesEvent(
+        return CertificationFilledValuesEvent(
             id = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId
         )

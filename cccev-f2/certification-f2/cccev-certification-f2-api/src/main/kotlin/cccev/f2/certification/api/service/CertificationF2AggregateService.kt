@@ -3,10 +3,10 @@ package cccev.f2.certification.api.service
 import cccev.core.certification.CertificationAggregateService
 import cccev.core.certification.command.CertificationAddRequirementsCommand
 import cccev.core.certification.command.CertificationAddedRequirementsEvent
-import cccev.core.certification.command.CertificationAddedValuesEvent
 import cccev.core.certification.command.CertificationCreateCommand
 import cccev.core.certification.command.CertificationCreatedEvent
 import cccev.core.certification.command.CertificationFillValuesCommand
+import cccev.core.certification.command.CertificationFilledValuesEvent
 import cccev.core.certification.command.CertificationRemoveRequirementsCommand
 import cccev.core.certification.command.CertificationRemovedRequirementsEvent
 import city.smartb.fs.s2.file.client.FileClient
@@ -29,7 +29,7 @@ class CertificationF2AggregateService(
         return certificationAggregateService.removeRequirements(command)
     }
 
-    suspend fun addValues(command: CertificationFillValuesCommand): CertificationAddedValuesEvent {
+    suspend fun fillValues(command: CertificationFillValuesCommand): CertificationFilledValuesEvent {
         return certificationAggregateService.fillValues(command)
     }
 

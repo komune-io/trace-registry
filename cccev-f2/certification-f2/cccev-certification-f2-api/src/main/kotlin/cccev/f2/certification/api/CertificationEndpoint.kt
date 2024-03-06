@@ -32,15 +32,15 @@ class CertificationEndpoint(
     @Bean
     override fun certificationGet(): CertificationGetFunction = f2Function { query ->
         logger.info("certificationGet: $query")
-        val graph = certificationF2FinderService.getFlat(query.id)
+        val graph = certificationF2FinderService.getFlatOrNull(query.id)
         CertificationGetResult(
-            certification = graph.certifications[query.id],
-            requirementCertifications = graph.requirementCertifications,
-            requirements = graph.requirements,
-            concepts = graph.concepts,
-            units = graph.units,
-            unitOptions = graph.unitOptions,
-            values = graph.values
+            certification = graph?.certification,
+            requirementCertifications = graph?.requirementCertifications.orEmpty(),
+            requirements = graph?.requirements.orEmpty(),
+            concepts = graph?.concepts.orEmpty(),
+            units = graph?.units.orEmpty(),
+            unitOptions = graph?.unitOptions.orEmpty(),
+            supportedValues = graph?.supportedValues.orEmpty()
         )
     }
 
@@ -76,9 +76,9 @@ class CertificationEndpoint(
     }
 
     @Bean
-    override fun certificationAddValues(): CertificationFillValuesFunction = f2Function { command ->
-        logger.info("certificationAddValues: $command")
-        certificationF2AggregateService.addValues(command)
+    override fun certificationFillValues(): CertificationFillValuesFunction = f2Function { command ->
+        logger.info("certificationFillValues: $command")
+        certificationF2AggregateService.fillValues(command)
     }
 
 //    /** Add an evidence to a certification */

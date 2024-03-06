@@ -93,7 +93,7 @@ interface CertificationGetResultDTO {
     /**
      * A map by id of the supported values contained in the fetched certification.
      */
-    val values: Map<SupportedValueId, SupportedValueFlatDTO>
+    val supportedValues: Map<SupportedValueId, SupportedValueFlatDTO>
 }
 
 /**
@@ -107,5 +107,5 @@ data class CertificationGetResult(
     override val concepts: Map<InformationConceptIdentifier, InformationConceptFlat>,
     override val units: Map<DataUnitIdentifier, DataUnitFlat>,
     override val unitOptions: Map<DataUnitOptionIdentifier, DataUnitOption>,
-    override val values: Map<SupportedValueId, SupportedValueFlat>
+    override val supportedValues: Map<SupportedValueId, SupportedValueFlat>
 ): CertificationGetResultDTO

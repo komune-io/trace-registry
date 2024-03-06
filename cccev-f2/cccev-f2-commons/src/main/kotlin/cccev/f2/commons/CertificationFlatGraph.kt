@@ -1,6 +1,5 @@
 package cccev.f2.commons
 
-import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.certification.model.SupportedValueId
 import cccev.f2.certification.domain.model.CertificationFlat
@@ -15,12 +14,12 @@ import cccev.s2.requirement.domain.model.RequirementIdentifier
 import cccev.s2.unit.domain.DataUnitIdentifier
 import cccev.s2.unit.domain.DataUnitOptionIdentifier
 
-data class FlatGraph(
-    val certifications: MutableMap<CertificationId, CertificationFlat> = mutableMapOf(),
-    val requirementCertifications: MutableMap<RequirementCertificationId, RequirementCertificationFlat> = mutableMapOf(),
-    val requirements: MutableMap<RequirementIdentifier, RequirementFlat> = mutableMapOf(),
-    val concepts: MutableMap<InformationConceptIdentifier, InformationConceptFlat> = mutableMapOf(),
-    val units: MutableMap<DataUnitIdentifier, DataUnitFlat> = mutableMapOf(),
-    val unitOptions: MutableMap<DataUnitOptionIdentifier, DataUnitOption> = mutableMapOf(),
-    val values: MutableMap<SupportedValueId, SupportedValueFlat> = mutableMapOf()
-)
+class CertificationFlatGraph {
+    lateinit var certification: CertificationFlat
+    val requirementCertifications: MutableMap<RequirementCertificationId, RequirementCertificationFlat> = mutableMapOf()
+    val requirements: MutableMap<RequirementIdentifier, RequirementFlat> = mutableMapOf()
+    val concepts: MutableMap<InformationConceptIdentifier, InformationConceptFlat> = mutableMapOf()
+    val units: MutableMap<DataUnitIdentifier, DataUnitFlat> = mutableMapOf()
+    val unitOptions: MutableMap<DataUnitOptionIdentifier, DataUnitOption> = mutableMapOf()
+    val supportedValues: MutableMap<SupportedValueId, SupportedValueFlat> = mutableMapOf()
+}
