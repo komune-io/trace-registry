@@ -51,15 +51,7 @@ class ActivityF2ExecutorService(
             this.description = description
             this.type = type
         }
-        val result = cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
-
-        // TODO add requirement to existing certification instead of recreating one
-//        CertificationCreateCommand(
-//            id = id,
-//            name = name,
-//            description = null,
-//            requirements = listOf(result.id)
-//        ).invokeWith(cccevClient.certificationClient.certificationCreate())
+        cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
 
         return identifier
     }

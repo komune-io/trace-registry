@@ -13,7 +13,7 @@ suspend fun InformationConceptDTOBase.toStep(certification: CertificationFlatGra
 //            file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
 //        }
 //    }
-    val value = certification?.values
+    val value = certification?.supportedValues
         ?.values
         ?.firstOrNull { it.conceptIdentifier == identifier }
         ?.value
