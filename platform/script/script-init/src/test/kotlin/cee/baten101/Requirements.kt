@@ -27,7 +27,14 @@ object ResistanceThermiqueMinimale: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         ResistanceThermique
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object BesoinPareVapeur: InformationRequirement(
@@ -41,6 +48,13 @@ object BesoinPareVapeur: InformationRequirement(
         de protéger les matériaux d'isolation thermique contre les transferts d'humidité pour garantir la performance de l'ouvrage.
     """.trimIndent(),
     type = FicheCode.ConditionsDelivranceCertificats,
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DateTravauxRegles: Criterion(
@@ -56,7 +70,14 @@ object DateTravauxRegles: Criterion(
     hasRequirement = listOf(
         DateDevisContrainte,
         DatePrecedentsTravauxMemeBatimentContrainte
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DateDevisContrainte: Constraint(
@@ -70,7 +91,14 @@ object DateDevisContrainte: Constraint(
     hasConcept = listOf(
         DateDevis,
         DateTravaux
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DatePrecedentsTravauxMemeBatimentContrainte: Constraint(
@@ -84,7 +112,14 @@ object DatePrecedentsTravauxMemeBatimentContrainte: Constraint(
     hasConcept = listOf(
         DatePrecedentsTravauxMemeBatiment,
         DateTravaux
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DatePrecedentsTravauxContrainte: Constraint(
@@ -95,7 +130,14 @@ object DatePrecedentsTravauxContrainte: Constraint(
     hasConcept = listOf(
         DureeVieConventionnelleLuminaire,
         DateTravaux
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object CalculCertificatsCumac: Constraint(
@@ -108,5 +150,12 @@ object CalculCertificatsCumac: Constraint(
         CumacPerM2Isolant,
         FacteurCorrectif,
         SurfaceIsolant
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )

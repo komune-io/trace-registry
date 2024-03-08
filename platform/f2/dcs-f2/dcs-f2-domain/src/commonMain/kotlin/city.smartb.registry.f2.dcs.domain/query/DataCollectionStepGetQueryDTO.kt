@@ -1,5 +1,7 @@
 package city.smartb.registry.f2.dcs.domain.query
 
+import cccev.core.certification.model.CertificationId
+import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.requirement.domain.RequirementIdentifier
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStep
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStepDTO
@@ -12,21 +14,23 @@ typealias DataCollectionStepGetFunction = F2Function<DataCollectionStepGetQuery,
 @JsExport
 interface DataCollectionStepGetQueryDTO {
     val identifier: RequirementIdentifier
+    val certificationId: CertificationId?
 }
 
 @Serializable
 data class DataCollectionStepGetQuery(
-    override val identifier: RequirementIdentifier
+    override val identifier: RequirementIdentifier,
+    override val certificationId: CertificationId?
 ): DataCollectionStepGetQueryDTO
 
 @JsExport
 interface DataCollectionStepGetResultDTO {
     val structure: DataCollectionStepDTO
-    val values: Map<String, String>
+    val values: Map<InformationConceptIdentifier, String?>
 }
 
 @Serializable
 data class DataCollectionStepGetResult(
     override val structure: DataCollectionStep,
-    override val values: Map<String, String>
+    override val values: Map<InformationConceptIdentifier, String?>
 ): DataCollectionStepGetResultDTO

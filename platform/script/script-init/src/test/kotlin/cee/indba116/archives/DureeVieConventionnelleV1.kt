@@ -48,7 +48,14 @@ object DureeVieConventionnelleV1 {
                     )
                 )
             )
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
@@ -70,7 +77,14 @@ object DureeVieConventionnelleV1 {
                     )
                 )
             )
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object DureeVieConventionnelleConditionnelle: PartialRequirement(
@@ -87,7 +101,14 @@ object DureeVieConventionnelleV1 {
             DureeVieConventionnelleAvec1DispositifGestionEclairage,
             DureeVieConventionnelleAvec2DispositifsGestionEclairage
         ),
-        minRequirementsToMeet = 1
+        minRequirementsToMeet = 1,
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object DureeVieConventionnelleSansDispositifGestionEclairage: Constraint(
@@ -101,7 +122,14 @@ object DureeVieConventionnelleV1 {
         ),
         hasConcept = listOf(
             DateTravaux
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object DureeVieConventionnelleAvec1DispositifGestionEclairage: Constraint(
@@ -115,7 +143,14 @@ object DureeVieConventionnelleV1 {
         ),
         hasConcept = listOf(
             DateTravaux
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object DureeVieConventionnelleAvec2DispositifsGestionEclairage: Constraint(
@@ -129,7 +164,14 @@ object DureeVieConventionnelleV1 {
         ),
         hasConcept = listOf(
             DateTravaux
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     open class NombreTypesDispositifGestionEclairageConstraint(count: Int, name: String): Constraint(
@@ -139,7 +181,14 @@ object DureeVieConventionnelleV1 {
         type = FicheCode.DureeVieConventionnelle,
         hasConcept = listOf(
             NombreTypesDispositifGestionEclairage
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 
     object AucunDispositifGestionEclairage: NombreTypesDispositifGestionEclairageConstraint(
@@ -164,6 +213,13 @@ object DureeVieConventionnelleV1 {
         type = FicheCode.DureeVieConventionnelle,
         hasConcept = listOf(
             DateTravaux
-        )
+        ),
+        enablingCondition = null,
+        enablingConditionDependencies = emptyList(),
+        required = true,
+        validatingCondition = null,
+        validatingConditionDependencies = emptyList(),
+        order = null,
+        properties = null
     )
 }

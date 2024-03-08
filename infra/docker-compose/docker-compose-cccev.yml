@@ -24,6 +24,7 @@ services:
     container_name: cccev-neo4j
     environment:
       - NEO4J_AUTH=neo4j/smartbsmartb
+      - NEO4J_PLUGINS=["apoc"]
     networks:
       - net
     ports:

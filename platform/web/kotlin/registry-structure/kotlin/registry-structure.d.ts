@@ -1496,9 +1496,48 @@ export namespace city.smartb.registry.s2.commons.model {
 
     }
 }
-export namespace cccev.dsl.model {
-    interface Code {
+export namespace city.smartb.fs.s2.file.domain.features.query {
+    interface FileAskQuestionQueryDTO {
+        readonly question: string;
+        readonly history: city.smartb.fs.s2.file.domain.model.ChatMessageDTO[];
+        readonly metadata: city.smartb.fs.s2.file.domain.model.ChatMetadataDTO;
 
+    }
+    interface FileAskQuestionResultDTO {
+        readonly item: string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface ChatMessageDTO {
+        readonly content: string;
+        readonly type: string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface ChatMetadataDTO {
+        readonly targetedFiles: string[];
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface FilePathDTO {
+        readonly objectType: string;
+        readonly objectId: string;
+        readonly directory: string;
+        readonly name: string;
+
+    }
+}
+export namespace cccev.dsl.model {
+    class Code {
+        constructor();
+        toString(): string;
+        static Code_init_$Create$(seen1: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.Code;
+        
+        static get $serializer(): {
+        } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.Code>;
     }
 }
 export namespace cccev.dsl.model {
@@ -1552,7 +1591,7 @@ export namespace cccev.dsl.model {
     interface InformationConcept {
         readonly identifier: string;
         readonly name: string;
-        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly unit: cccev.dsl.model.DataUnitDTO;
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
@@ -1576,6 +1615,7 @@ export namespace cccev.dsl.model {
         readonly description: string;
         readonly notation?: string;
         readonly type: cccev.dsl.model.DataUnitType;
+        readonly options?: cccev.dsl.model.DataUnitOption[];
 
     }
 }
@@ -1588,19 +1628,6 @@ export namespace cccev.s2.unit.domain {
 
     }
     interface DataUnitEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string> {
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.unit.domain.command {
-    interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.DataUnitEvent {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description: string;
-        readonly notation?: string;
-        readonly type: cccev.s2.unit.domain.model.DataUnitType;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.unit.domain.DataUnitState */;
         s2Id(): string;
 
     }
@@ -1633,6 +1660,26 @@ export namespace cccev.s2.concept.domain.command {
         readonly identifier?: string;
         readonly name: string;
         readonly hasUnit?: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.s2.concept.domain.command {
+    interface InformationConceptUpdateCommandDTO extends cccev.s2.concept.domain.InformationConceptCommand {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+
+    }
+    interface InformationConceptUpdatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
+        readonly id: string;
+        readonly name: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
         readonly dependsOn?: string[];
@@ -1760,6 +1807,13 @@ export namespace cccev.s2.requirement.domain.command {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -1770,179 +1824,87 @@ export namespace cccev.s2.requirement.domain.command {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementUpdatedEventDTO extends cccev.s2.requirement.domain.RequirementEvent {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         s2Id(): string;
 
     }
 }
-export namespace city.smartb.fs.s2.file.domain.features.query {
-    interface FileAskQuestionQueryDTO {
-        readonly question: string;
-        readonly history: city.smartb.fs.s2.file.domain.model.ChatMessageDTO[];
-        readonly metadata: city.smartb.fs.s2.file.domain.model.ChatMetadataDTO;
-
-    }
-    interface FileAskQuestionResultDTO {
-        readonly item: string;
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface ChatMessageDTO {
-        readonly content: string;
-        readonly type: string;
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface ChatMetadataDTO {
-        readonly targetedFiles: string[];
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface FilePathDTO {
-        readonly objectType: string;
-        readonly objectId: string;
-        readonly directory: string;
-        readonly name: string;
-
-    }
-}
-export namespace cccev.s2.certification.domain {
-    interface CertificationInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface CertificationCommand extends s2.dsl.automate.S2Command<string> {
+export namespace cccev.core.certification.command {
+    interface CertificationAddRequirementsCommandDTO {
         readonly id: string;
+        readonly parentId?: string;
+        readonly requirementIdentifiers: string[];
 
     }
-    interface CertificationEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string>, s2.dsl.automate.WithId<string> {
-        s2Id(): string;
+    interface CertificationAddedRequirementsEventDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.core.certification.command {
+    interface CertificationCreateCommandDTO {
+        readonly id?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationCreatedEventDTO {
         readonly id: string;
 
     }
 }
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+export namespace cccev.core.certification.command {
+    interface CertificationFillValuesCommandDTO {
         readonly id: string;
-        readonly evidenceId: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
         readonly values: Record<string, Nullable<string>>;
 
     }
-    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+    interface CertificationFilledValuesEventDTO {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-        s2Id(): string;
+        readonly rootRequirementCertificationId?: string;
 
     }
 }
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationCreateCommandDTO extends cccev.s2.certification.domain.CertificationInitCommand {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-
-    }
-    interface CertificationCreatedEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-    interface CertificationRemovedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly evidenceId: string;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
+export namespace cccev.core.certification.command {
+    interface CertificationRemoveRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: string[];
 
     }
-    interface CertificationRemovedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+    interface CertificationRemovedRequirementsEventDTO {
         readonly id: string;
         readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.model {
-    interface CertificationDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly startDate?: number;
-        readonly endDate?: number;
-        readonly estimatedEndDate?: number;
-        readonly creator?: string;
-        readonly executor?: string;
-        readonly validator?: string;
-        readonly isPublic: boolean;
-        readonly issuable: boolean;
-        readonly verifiable: boolean;
-        readonly verifier?: string;
-        readonly verificationDate?: number;
-        readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
-
-    }
-}
-export namespace cccev.s2.certification.domain.model {
-    interface EvidenceDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
 
     }
 }
@@ -1995,17 +1957,46 @@ export namespace cccev.f2.unit.domain.command {
         readonly description: string;
         readonly notation?: string;
         readonly type: string;
+        readonly options?: cccev.f2.unit.domain.command.DataUnitOptionCreateCommandDTO[];
 
     }
-    interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.command.DataUnitCreatedEventDTO {
+    interface DataUnitOptionCreateCommandDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
+
+    }
+    interface DataUnitCreatedEventDTO {
         readonly id: string;
         readonly identifier: string;
+
+    }
+}
+export namespace cccev.f2.unit.domain.command {
+    interface DataUnitUpdateCommandDTO {
+        readonly id: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
-        readonly type: cccev.s2.unit.domain.model.DataUnitType;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.unit.domain.DataUnitState */;
-        s2Id(): string;
+        readonly type: string;
+        readonly options?: cccev.f2.unit.domain.command.DataUnitOptionUpdateCommandDTO[];
+
+    }
+    interface DataUnitOptionUpdateCommandDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
+
+    }
+    interface DataUnitUpdatedEventDTO {
+        readonly id: string;
+        readonly identifier: string;
 
     }
 }
@@ -2016,6 +2007,31 @@ export namespace cccev.f2.unit.domain.model {
         readonly description: string;
         readonly notation?: string;
         readonly type: string;
+        readonly options?: cccev.f2.unit.domain.model.DataUnitOptionDTO[];
+
+    }
+}
+export namespace cccev.f2.unit.domain.model {
+    interface DataUnitFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly description: string;
+        readonly notation?: string;
+        readonly type: string;
+        readonly optionIdentifiers?: string[];
+
+    }
+}
+export namespace cccev.f2.unit.domain.model {
+    interface DataUnitOptionDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
 
     }
 }
@@ -2070,6 +2086,26 @@ export namespace cccev.f2.concept.domain.command {
 
     }
 }
+export namespace cccev.f2.concept.domain.command {
+    interface InformationConceptUpdateCommandDTO extends cccev.s2.concept.domain.command.InformationConceptUpdateCommandDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+
+    }
+    interface InformationConceptUpdatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptUpdatedEventDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
+        s2Id(): string;
+
+    }
+}
 export namespace cccev.f2.concept.domain.model {
     interface InformationConceptDTO {
         readonly id: string;
@@ -2083,12 +2119,24 @@ export namespace cccev.f2.concept.domain.model {
     }
 }
 export namespace cccev.f2.concept.domain.model {
+    interface InformationConceptFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly unitIdentifier?: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+
+    }
+}
+export namespace cccev.f2.concept.domain.model {
     interface RequestInformationConceptDTO extends cccev.dsl.model.InformationConcept {
         readonly evidenceTypeChoices: cccev.f2.evidence.domain.model.EvidenceTypeListChoicesDTO;
         readonly supportedValue: cccev.dsl.model.SupportedValueDTO;
         readonly identifier: string;
         readonly name: string;
-        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly unit: cccev.dsl.model.DataUnitDTO;
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
@@ -2125,161 +2173,6 @@ export namespace cccev.f2.concept.domain.query {
     }
     interface InformationConceptGetResultDTO {
         readonly item?: cccev.f2.concept.domain.model.InformationConceptDTO;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddEvidenceCommandDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        readonly metadata?: Record<string, string>;
-        readonly vectorize?: boolean;
-
-    }
-    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationAddRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationAddedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.command.CertificationAddValuesCommandDTO {
-        readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-
-    }
-    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.command.CertificationAddedValuesEventDTO {
-        readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestCreateCommandDTO extends cccev.s2.certification.domain.command.CertificationCreateCommandDTO {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-
-    }
-    interface RequestCreatedEventDTO extends cccev.s2.certification.domain.command.CertificationCreatedEventDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveEvidenceCommandDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-    interface RequestRemovedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedEvidenceEventDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface RequestRemovedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.model {
-    interface CertificationDTO extends cccev.s2.certification.domain.model.CertificationDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly startDate?: number;
-        readonly endDate?: number;
-        readonly estimatedEndDate?: number;
-        readonly creator?: string;
-        readonly executor?: string;
-        readonly validator?: string;
-        readonly isPublic: boolean;
-        readonly issuable: boolean;
-        readonly verifiable: boolean;
-        readonly verifier?: string;
-        readonly verificationDate?: number;
-        readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
-
-    }
-}
-export namespace cccev.f2.certification.domain.model {
-    interface EvidenceDTO extends cccev.s2.certification.domain.model.EvidenceDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationDownloadEvidenceQueryDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface CertificationGetByIdentifierResultDTO {
-        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface CertificationGetResultDTO {
-        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
 
     }
 }
@@ -2483,6 +2376,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface ConstraintCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2497,6 +2397,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2514,6 +2421,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface CriterionCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2528,6 +2442,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2545,6 +2466,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface InformationRequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2559,6 +2487,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2589,6 +2524,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2603,6 +2545,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2613,12 +2562,36 @@ export namespace cccev.f2.requirement.domain.command {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementUpdatedEventDTO extends cccev.s2.requirement.domain.command.RequirementUpdatedEventDTO {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         s2Id(): string;
 
     }
@@ -2635,6 +2608,34 @@ export namespace cccev.f2.requirement.domain.model {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: cccev.f2.concept.domain.model.InformationConceptDTO[];
         readonly hasEvidenceTypeList: cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: cccev.f2.concept.domain.model.InformationConceptDTO[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: cccev.f2.concept.domain.model.InformationConceptDTO[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
+
+    }
+}
+export namespace cccev.f2.requirement.domain.model {
+    interface RequirementFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly kind: string;
+        readonly description?: string;
+        readonly type?: string;
+        readonly name?: string;
+        readonly hasRequirement: string[];
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
 }
@@ -2678,6 +2679,100 @@ export namespace cccev.f2.requirement.domain.query {
     }
     interface RequirementListResultDTO {
         readonly requirements: cccev.f2.requirement.domain.model.RequirementDTO[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationAddRequirementsCommandDTO extends cccev.core.certification.command.CertificationAddRequirementsCommandDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationAddedRequirementsEventDTO extends cccev.core.certification.command.CertificationAddedRequirementsEventDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationCreateCommandDTO extends cccev.core.certification.command.CertificationCreateCommandDTO {
+        readonly id?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationCreatedEventDTO extends cccev.core.certification.command.CertificationCreatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationFillValuesCommandDTO extends cccev.core.certification.command.CertificationFillValuesCommandDTO {
+        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
+        readonly values: Record<string, Nullable<string>>;
+
+    }
+    interface CertificationFilledValuesEventDTO extends cccev.core.certification.command.CertificationFilledValuesEventDTO {
+        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationRemoveRequirementsCommandDTO extends cccev.core.certification.command.CertificationRemoveRequirementsCommandDTO {
+        readonly id: string;
+        readonly requirementIds: string[];
+
+    }
+    interface CertificationRemovedRequirementsEventDTO extends cccev.core.certification.command.CertificationRemovedRequirementsEventDTO {
+        readonly id: string;
+        readonly requirementIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface CertificationFlatDTO {
+        readonly id: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface RequirementCertificationFlatDTO {
+        readonly id: string;
+        readonly requirementIdentifier: string;
+        readonly subCertificationIds: string[];
+        readonly valueIds: string[];
+        readonly isEnabled: boolean;
+        readonly isValidated: boolean;
+        readonly hasAllValues: boolean;
+        readonly isFulfilled: boolean;
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface SupportedValueFlatDTO {
+        readonly id: string;
+        readonly value?: string;
+        readonly conceptIdentifier: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.query {
+    interface CertificationGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface CertificationGetResultDTO {
+        readonly certification?: cccev.f2.certification.domain.model.CertificationFlatDTO;
+        readonly requirementCertifications: Record<string, cccev.f2.certification.domain.model.RequirementCertificationFlatDTO>;
+        readonly requirements: Record<string, cccev.f2.requirement.domain.model.RequirementFlatDTO>;
+        readonly concepts: Record<string, cccev.f2.concept.domain.model.InformationConceptFlatDTO>;
+        readonly units: Record<string, cccev.f2.unit.domain.model.DataUnitFlatDTO>;
+        readonly unitOptions: Record<string, cccev.f2.unit.domain.model.DataUnitOptionDTO>;
+        readonly supportedValues: Record<string, cccev.f2.certification.domain.model.SupportedValueFlatDTO>;
 
     }
 }

@@ -1,15 +1,12 @@
 package city.smartb.registry.f2.activity.api
 
+import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.certification.client.certificationAddEvidence
-import cccev.f2.certification.domain.command.CertificationAddEvidenceCommandDTOBase
-import cccev.f2.certification.domain.query.CertificationGetByIdentifierQueryDTOBase
-import cccev.s2.certification.domain.command.CertificationAddValuesCommand
+import cccev.dsl.client.model.toCertificationFlatGraph
+import cccev.f2.certification.domain.query.CertificationGetQuery
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.spring.utils.contentByteArray
 import city.smartb.fs.spring.utils.serveFile
 import city.smartb.registry.api.commons.exception.NotFoundException
-import city.smartb.registry.f2.activity.api.model.getEvidence
 import city.smartb.registry.f2.activity.api.service.ActivityF2ExecutorService
 import city.smartb.registry.f2.activity.api.service.ActivityF2FinderService
 import city.smartb.registry.f2.activity.api.service.ActivityPoliciesEnforcer
@@ -83,7 +80,7 @@ class ActivityEndpoint(
                 limit = query.limit ?: 1000
             ),
             activityIdentifier = query.activityIdentifier,
-            certificationIdentifier = query.certificationIdentifier
+            certificationId = query.certificationId
         )
     }
 
@@ -112,22 +109,24 @@ class ActivityEndpoint(
         logger.info("activityStepFulfill: $cmd")
         activityPoliciesEnforcer.checkCanFulfillStep()
 
-        val certification = CertificationGetByIdentifierQueryDTOBase(
-            identifier = cmd.certificationIdentifier
-        ).invokeWith(cccevClient.certificationClient.certificationGetByIdentifier()).item
-            ?: throw NotFoundException("Certification with identifier", cmd.certificationIdentifier)
+        val certificationGraph = CertificationGetQuery(
+            id = cmd.certificationId
+        ).invokeWith(cccevClient.certificationClient.certificationGet())
+            .toCertificationFlatGraph()
+            ?: throw NotFoundException("Certification with identifier", cmd.certificationId)
 
-        val step = activityF2FinderService.getStep(cmd.identifier, certification)
+        val step = activityF2FinderService.getStep(cmd.identifier, certificationGraph)
             ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
         val value = step.hasConcept?.let { concept ->
-            val result = CertificationAddValuesCommand(
-                id = certification.id,
+            CertificationFillValuesCommand(
+                id = certificationGraph.certification.id,
+                rootRequirementCertificationId = null,
                 values = mapOf(
                     concept.id to cmd.value,
                 )
-            ).invokeWith(cccevClient.certificationClient.certificationAddValues())
-            result.values[concept.id]
+            ).invokeWith(cccevClient.certificationClient.certificationFillValues())
+            cmd.value
         }
 
         ActivityStepFulfilledEventDTOBase(
@@ -145,27 +144,28 @@ class ActivityEndpoint(
         logger.info("activityStepEvidenceFulfill: $cmd")
         activityPoliciesEnforcer.checkCanFulfillEvidenceStep()
 
-        val certification = certificateService.get(cmd.certificationIdentifier)
+        val certificationGraph = certificateService.getGraph(cmd.certificationId)
 
-        val step = activityF2FinderService.getStep(cmd.identifier, certification)
+        val step = activityF2FinderService.getStep(cmd.identifier, certificationGraph)
             ?: throw NotFoundException("Step with identifier", cmd.identifier)
 
-        val part = file?.let {
-            (CertificationAddEvidenceCommandDTOBase(
-                id = certification.id,
-                name = file.filename(),
-                url = null,
-                isConformantTo = emptyList(),
-                supportsConcept = listOf(step.id),
-                metadata = mapOf("isPublic" to cmd.isPublic.toString(), "certificationId" to certification.id),
-                vectorize = true
-            ) to file.contentByteArray()).invokeWith(
-                cccevClient.certificationClient.certificationAddEvidence()
-            )
-        }
+        // TODO wait until evidences are reimplemented in cccev
+//        val part = file?.let {
+//            (CertificationAddEvidenceCommandDTOBase(
+//                id = certification.id,
+//                name = file.filename(),
+//                url = null,
+//                isConformantTo = emptyList(),
+//                supportsConcept = listOf(step.id),
+//                metadata = mapOf("isPublic" to cmd.isPublic.toString(), "certificationId" to certification.id),
+//                vectorize = true
+//            ) to file.contentByteArray()).invokeWith(
+//                cccevClient.certificationClient.certificationAddEvidence()
+//            )
+//        }
 
         return ActivityStepEvidenceFulfilledEventDTOBase(
-            file = part?.file,
+            file = null, //part?.file,
             identifier = cmd.identifier,
         )
     }
@@ -177,13 +177,15 @@ class ActivityEndpoint(
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("assetCertificateDownload: $query")
 
-        certificateService.getOrNull(query.certificationIdentifier)
-            ?.getEvidence(query.evidenceId)
-            ?.file
-            ?.takeIf { path ->
-                val file = fsService.getFile(path)
-                file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
-            }
+        // TODO wait until evidences are reimplemented in cccev
+//        certificateService.getOrNull(query.certificationId)
+//            ?.getEvidence(query.evidenceId)
+//            ?.file
+//            ?.takeIf { path ->
+//                val file = fsService.getFile(path)
+//                file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
+//            }
+        null
     }
 
 }

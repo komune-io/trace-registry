@@ -33,7 +33,7 @@
           "conditions": [{
             "identifier": "positiveBudget",
             "type": "validator",
-            "expression": "#budget < 0",
+            "expression": "#budget >= 0",
             "dependencies": ["budget"],
             "error": "Your budget should be above 0"
           }]

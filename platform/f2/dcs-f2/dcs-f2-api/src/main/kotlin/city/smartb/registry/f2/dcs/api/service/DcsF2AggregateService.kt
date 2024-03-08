@@ -1,12 +1,17 @@
 package city.smartb.registry.f2.dcs.api.service
 
+import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.dsl.client.CCCEVClient
 import city.smartb.registry.f2.dcs.api.converter.DcsToCccevConverter
 import city.smartb.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
 import city.smartb.registry.f2.dcs.domain.command.DataCollectionStepDefinedEvent
+import city.smartb.registry.f2.dcs.domain.command.DataCollectionStepFillCommand
+import city.smartb.registry.f2.dcs.domain.command.DataCollectionStepFilledEvent
 import city.smartb.registry.f2.dcs.domain.model.DataCollectionStep
+import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,5 +30,19 @@ class DcsF2AggregateService(
         cccevClient.graphClient.save(flowOf(cccev)).collect()
 
         return DataCollectionStepDefinedEvent(dcs.identifier)
+    }
+
+    // TODO save evidences when reimplemented in cccev
+    suspend fun fill(command: DataCollectionStepFillCommand, evidences: Map<String, FilePart>): DataCollectionStepFilledEvent {
+        CertificationFillValuesCommand(
+            id = command.certificationId,
+            rootRequirementCertificationId = null,
+            values = command.values
+        ).invokeWith(cccevClient.certificationClient.certificationFillValues())
+
+        return DataCollectionStepFilledEvent(
+            identifier = command.identifier,
+            certificationId = command.certificationId
+        )
     }
 }

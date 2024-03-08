@@ -2,12 +2,10 @@ package city.smartb.registry.f2.activity.api.service
 
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.informationRequirement
-import cccev.s2.certification.domain.command.CertificationCreateCommand
 import city.smartb.registry.f2.activity.domain.command.ActivityCreateCommandDTOBase
 import city.smartb.registry.f2.activity.domain.command.ActivityStepCreateCommandDTOBase
 import city.smartb.registry.f2.activity.domain.model.ActivityIdentifier
 import city.smartb.registry.f2.activity.domain.model.RequirementType
-import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -53,14 +51,7 @@ class ActivityF2ExecutorService(
             this.description = description
             this.type = type
         }
-        val result = cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
-
-        CertificationCreateCommand(
-            identifier = identifier,
-            name = name,
-            description = null,
-            requirements = listOf(result.id)
-        ).invokeWith(cccevClient.certificationClient.certificationCreate())
+        cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
 
         return identifier
     }

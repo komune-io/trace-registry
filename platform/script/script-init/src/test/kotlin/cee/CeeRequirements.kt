@@ -14,7 +14,14 @@ class SecteurApplication(
     description = "Le secteur d'application de la fiche.",
     type = FicheCode.SecteurActivite,
     identifier = "secteurApplication",
-    hasRequirement = requirements.asList()
+    hasRequirement = requirements.asList(),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 class Denomination(
@@ -25,7 +32,14 @@ class Denomination(
     description = description,
     type = FicheCode.SecteurActivite,
     identifier = "denomination",
-    hasRequirement = requirements.asList()
+    hasRequirement = requirements.asList(),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 class ConditionsDelivranceCertificats(
@@ -35,7 +49,14 @@ class ConditionsDelivranceCertificats(
     description = "La liste des critères à valider",
     type = FicheCode.ConditionsDelivranceCertificats,
     identifier = "conditionsDelivranceCertificats",
-    hasRequirement = requirements.asList()
+    hasRequirement = requirements.asList(),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 class DureeVieConventionnelle(
@@ -68,7 +89,14 @@ class DureeVieConventionnelle(
                 )
             )
         )
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
@@ -89,7 +117,14 @@ object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequiremen
                 )
             )
         )
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 class MontantCertificatsCumac(
@@ -99,7 +134,14 @@ class MontantCertificatsCumac(
     description = "Montant en kWh/W en fonction du nombre de types dispositif de gestion de l'éclairage",
     type = FicheCode.MontantCertificatsCumac,
     identifier = "montantCertificatsCumac",
-    hasRequirement = requirements.asList()
+    hasRequirement = requirements.asList(),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object EstProfessionnelInformationRequirement: InformationRequirement(
@@ -109,5 +151,12 @@ object EstProfessionnelInformationRequirement: InformationRequirement(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasEvidenceTypeList = listOf(
         CertificatProfessionnel
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )

@@ -57,7 +57,7 @@ export namespace f2.dsl.cqrs.error {
         get code(): number;
         get requestId(): Nullable<string>;
         toString(): string;
-        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.error.F2Error;
+        static F2Error_init_$Create$(seen1: number, message?: string, id?: string, timestamp?: string, code: number, requestId?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.error.F2Error;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.error.F2Error>;
@@ -98,7 +98,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(total: number, items: OBJECT[]);
         get total(): number;
         get items(): OBJECT[];
-        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.Page<OBJECT>;
+        static Page_init_$Create$<OBJECT>(seen1: number, total: number, items?: OBJECT[], serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.Page<OBJECT>;
         
     }
     namespace Page {
@@ -122,7 +122,7 @@ export namespace f2.dsl.cqrs.page {
     class PageQuery implements f2.dsl.cqrs.page.PageQueryDTO {
         constructor(pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO);
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPaginationDTO>;
-        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQuery;
+        static PageQuery_init_$Create$(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PageQuery;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PageQuery>;
@@ -132,7 +132,7 @@ export namespace f2.dsl.cqrs.page {
         get pagination(): Nullable<f2.dsl.cqrs.page.OffsetPagination>;
         get total(): number;
         get items(): OBJECT[];
-        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items?: any/* Nullable<OBJECT>[] */, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
+        static PageQueryResult_init_$Create$<OBJECT>(seen1: number, pagination?: f2.dsl.cqrs.page.OffsetPagination, total: number, items?: OBJECT[], serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PageQueryResult<OBJECT>;
         
     }
     namespace PageQueryResult {
@@ -161,7 +161,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(offset: number, limit: number);
         get offset(): number;
         get limit(): number;
-        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.OffsetPagination;
+        static OffsetPagination_init_$Create$(seen1: number, offset: number, limit: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.OffsetPagination;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.OffsetPagination>;
@@ -170,7 +170,7 @@ export namespace f2.dsl.cqrs.page {
         constructor(page?: number, size?: number);
         get page(): Nullable<number>;
         get size(): Nullable<number>;
-        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): f2.dsl.cqrs.page.PagePagination;
+        static PagePagination_init_$Create$(seen1: number, page?: number, size?: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): f2.dsl.cqrs.page.PagePagination;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<f2.dsl.cqrs.page.PagePagination>;
@@ -431,8 +431,8 @@ export namespace city.smartb.im.f2.privilege.domain.role.command {
         readonly description: string;
         readonly targets: string[];
         readonly locale: Record<string, string>;
-        readonly bindings?: any/* Nullable<Record<string, string>[]> */;
-        readonly permissions?: any/* Nullable<string>[] */;
+        readonly bindings?: Record<string, string>[];
+        readonly permissions?: string[];
 
     }
     interface RoleDefinedEventDTO extends f2.dsl.cqrs.Event {
@@ -487,9 +487,9 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
+        readonly roles?: string[];
         readonly parentOrganizationId?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes?: Record<string, string>;
         readonly status?: string;
 
     }
@@ -514,8 +514,8 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-        readonly userAttributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes?: Record<string, string>;
+        readonly userAttributes?: Record<string, string>;
 
     }
     interface OrganizationDisabledEventDTO extends f2.dsl.cqrs.Event {
@@ -531,8 +531,8 @@ export namespace city.smartb.im.f2.organization.domain.command {
         readonly description?: string;
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly website?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly roles?: string[];
+        readonly attributes?: Record<string, string>;
         readonly status?: string;
 
     }
@@ -567,7 +567,7 @@ export namespace city.smartb.im.f2.organization.domain.model {
         readonly status: string;
         readonly disabledBy?: string;
         readonly creationDate: number;
-        readonly disabledDate?: any/* Nullable<number> */;
+        readonly disabledDate?: number;
 
     }
 }
@@ -622,9 +622,9 @@ export namespace city.smartb.im.f2.organization.domain.query {
     interface OrganizationPageQueryDTO extends f2.dsl.cqrs.Query {
         readonly name?: string;
         readonly role?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
-        readonly status?: any/* Nullable<string>[] */;
+        readonly roles?: string[];
+        readonly attributes?: Record<string, string>;
+        readonly status?: string[];
         readonly withDisabled?: boolean;
         readonly offset?: number;
         readonly limit?: number;
@@ -656,7 +656,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly phone?: string;
         readonly roles: string[];
         readonly memberOf?: string;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes?: Record<string, string>;
         readonly isEmailVerified: boolean;
         readonly isPasswordTemporary: boolean;
         readonly sendResetPassword: boolean;
@@ -683,7 +683,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly id: string;
         readonly disabledBy?: string;
         readonly anonymize: boolean;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes?: Record<string, string>;
 
     }
     interface UserDisabledEventDTO extends f2.dsl.cqrs.Event {
@@ -709,7 +709,7 @@ export namespace city.smartb.im.f2.user.domain.command {
         readonly address?: city.smartb.im.commons.model.AddressDTO;
         readonly phone?: string;
         readonly roles: string[];
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly attributes?: Record<string, string>;
 
     }
     interface UserUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -754,7 +754,7 @@ export namespace city.smartb.im.f2.user.domain.model {
         readonly enabled: boolean;
         readonly disabledBy?: string;
         readonly creationDate: number;
-        readonly disabledDate?: any/* Nullable<number> */;
+        readonly disabledDate?: number;
 
     }
 }
@@ -806,8 +806,8 @@ export namespace city.smartb.im.f2.user.domain.query {
         readonly name?: string;
         readonly email?: string;
         readonly role?: string;
-        readonly roles?: any/* Nullable<string>[] */;
-        readonly attributes?: any/* Nullable<Record<string, string>> */;
+        readonly roles?: string[];
+        readonly attributes?: Record<string, string>;
         readonly withDisabled: boolean;
         readonly offset?: number;
         readonly limit?: number;
@@ -989,11 +989,11 @@ export namespace ssm.chaincode.dsl.model {
         readonly session: string;
         readonly public: string;
         readonly iteration: number;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private?: Record<string, string>;
 
     }
     class SsmContext implements ssm.chaincode.dsl.model.SsmContextDTO {
-        constructor(session: string, _public: string, iteration: number, _private?: any/* Nullable<Record<string, string>> */);
+        constructor(session: string, _public: string, iteration: number, _private?: Record<string, string>);
         get session(): string;
         get public(): string;
         get iteration(): number;
@@ -1002,7 +1002,7 @@ export namespace ssm.chaincode.dsl.model {
         component2(): string;
         component3(): number;
         component4(): Nullable<any>/* Nullable<Record<string, string>> */;
-        copy(session?: string, _public?: string, iteration?: number, _private?: any/* Nullable<Record<string, string>> */): ssm.chaincode.dsl.model.SsmContext;
+        copy(session?: string, _public?: string, iteration?: number, _private?: Record<string, string>): ssm.chaincode.dsl.model.SsmContext;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1046,13 +1046,13 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmSessionDTO extends ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: any/* Nullable<Record<string, string>> */;
+        readonly roles?: Record<string, string>;
         readonly public?: any;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private?: Record<string, string>;
 
     }
     class SsmSession implements ssm.chaincode.dsl.model.SsmSessionDTO {
-        constructor(ssm: string, session: string, roles: Record<string, string>, _public: string, _private?: any/* Nullable<Record<string, string>> */);
+        constructor(ssm: string, session: string, roles: Record<string, string>, _public: string, _private?: Record<string, string>);
         get ssm(): string;
         get session(): string;
         get roles(): Record<string, string>;
@@ -1064,16 +1064,16 @@ export namespace ssm.chaincode.dsl.model {
     interface SsmSessionStateDTO extends ssm.chaincode.dsl.model.SsmSessionDTO, ssm.chaincode.dsl.model.WithPrivate {
         readonly ssm?: string;
         readonly session: string;
-        readonly roles?: any/* Nullable<Record<string, string>> */;
+        readonly roles?: Record<string, string>;
         readonly public?: any;
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private?: Record<string, string>;
         readonly origin?: ssm.chaincode.dsl.model.SsmTransitionDTO;
         readonly current: number;
         readonly iteration: number;
 
     }
     class SsmSessionState implements ssm.chaincode.dsl.model.SsmSessionStateDTO {
-        constructor(ssm?: string, session: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
+        constructor(ssm?: string, session: string, roles?: Record<string, string>, _public?: any, _private?: Record<string, string>, origin?: ssm.chaincode.dsl.model.SsmTransition, current: number, iteration: number);
         get ssm(): Nullable<string>;
         get session(): string;
         get roles(): Nullable<any>/* Nullable<Record<string, string>> */;
@@ -1090,7 +1090,7 @@ export namespace ssm.chaincode.dsl.model {
         component6(): Nullable<ssm.chaincode.dsl.model.SsmTransition>;
         component7(): number;
         component8(): number;
-        copy(ssm?: string, session?: string, roles?: any/* Nullable<Record<string, string>> */, _public?: any, _private?: any/* Nullable<Record<string, string>> */, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
+        copy(ssm?: string, session?: string, roles?: Record<string, string>, _public?: any, _private?: Record<string, string>, origin?: ssm.chaincode.dsl.model.SsmTransition, current?: number, iteration?: number): ssm.chaincode.dsl.model.SsmSessionState;
         toString(): string;
         hashCode(): number;
         equals(other?: any): boolean;
@@ -1140,7 +1140,7 @@ export namespace ssm.chaincode.dsl.model {
 }
 export namespace ssm.chaincode.dsl.model {
     interface WithPrivate {
-        readonly private?: any/* Nullable<Record<string, string>> */;
+        readonly private?: Record<string, string>;
 
     }
 }
@@ -1321,7 +1321,7 @@ export namespace s2.dsl.automate {
         isAvailableInitTransition(command: f2.dsl.cqrs.Message): boolean;
         isFinalState(state: s2.dsl.automate.S2State): boolean;
         isSameState(from?: s2.dsl.automate.S2State, to: s2.dsl.automate.S2State): boolean;
-        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Automate;
+        static S2Automate_init_$Create$(seen1: number, name?: string, version?: string, transitions?: Array<s2.dsl.automate.S2Transition>, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2Automate;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Automate>;
@@ -1411,7 +1411,7 @@ export namespace s2.dsl.automate {
         get role(): s2.dsl.automate.S2RoleValue;
         get action(): s2.dsl.automate.S2TransitionValue;
         get result(): Nullable<s2.dsl.automate.S2TransitionValue>;
-        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2Transition;
+        static S2Transition_init_$Create$(seen1: number, from?: s2.dsl.automate.S2StateValue, to?: s2.dsl.automate.S2StateValue, role?: s2.dsl.automate.S2RoleValue, action?: s2.dsl.automate.S2TransitionValue, result?: s2.dsl.automate.S2TransitionValue, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2Transition;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2Transition>;
@@ -1419,7 +1419,7 @@ export namespace s2.dsl.automate {
     class S2TransitionValue {
         constructor(name: string);
         get name(): string;
-        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2TransitionValue;
+        static S2TransitionValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2TransitionValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2TransitionValue>;
@@ -1427,7 +1427,7 @@ export namespace s2.dsl.automate {
     class S2RoleValue {
         constructor(name: string);
         get name(): string;
-        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2RoleValue;
+        static S2RoleValue_init_$Create$(seen1: number, name?: string, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2RoleValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2RoleValue>;
@@ -1436,7 +1436,7 @@ export namespace s2.dsl.automate {
         constructor(name: string, position: number);
         get name(): string;
         get position(): number;
-        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): s2.dsl.automate.S2StateValue;
+        static S2StateValue_init_$Create$(seen1: number, name?: string, position: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): s2.dsl.automate.S2StateValue;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<s2.dsl.automate.S2StateValue>;
@@ -1496,9 +1496,48 @@ export namespace city.smartb.registry.s2.commons.model {
 
     }
 }
-export namespace cccev.dsl.model {
-    interface Code {
+export namespace city.smartb.fs.s2.file.domain.features.query {
+    interface FileAskQuestionQueryDTO {
+        readonly question: string;
+        readonly history: city.smartb.fs.s2.file.domain.model.ChatMessageDTO[];
+        readonly metadata: city.smartb.fs.s2.file.domain.model.ChatMetadataDTO;
 
+    }
+    interface FileAskQuestionResultDTO {
+        readonly item: string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface ChatMessageDTO {
+        readonly content: string;
+        readonly type: string;
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface ChatMetadataDTO {
+        readonly targetedFiles: string[];
+
+    }
+}
+export namespace city.smartb.fs.s2.file.domain.model {
+    interface FilePathDTO {
+        readonly objectType: string;
+        readonly objectId: string;
+        readonly directory: string;
+        readonly name: string;
+
+    }
+}
+export namespace cccev.dsl.model {
+    class Code {
+        constructor();
+        toString(): string;
+        static Code_init_$Create$(seen1: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.Code;
+        
+        static get $serializer(): {
+        } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.Code>;
     }
 }
 export namespace cccev.dsl.model {
@@ -1532,7 +1571,7 @@ export namespace cccev.dsl.model {
     }
     class CoreLocationLocation {
         constructor();
-        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.CoreLocationLocation;
+        static CoreLocationLocation_init_$Create$(seen1: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.CoreLocationLocation;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.CoreLocationLocation>;
@@ -1542,7 +1581,7 @@ export namespace cccev.dsl.model {
         get duration(): Nullable<string>;
         get endTime(): Nullable<number>;
         get startTime(): Nullable<number>;
-        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker?: any/* Nullable<kotlinx.serialization.internal.SerializationConstructorMarker> */): cccev.dsl.model.PeriodOfTime;
+        static PeriodOfTime_init_$Create$(seen1: number, duration?: string, endTime?: number, startTime?: number, serializationConstructorMarker?: kotlinx.serialization.internal.SerializationConstructorMarker): cccev.dsl.model.PeriodOfTime;
         
         static get $serializer(): {
         } & kotlinx.serialization.internal.GeneratedSerializer<cccev.dsl.model.PeriodOfTime>;
@@ -1552,11 +1591,11 @@ export namespace cccev.dsl.model {
     interface InformationConcept {
         readonly identifier: string;
         readonly name: string;
-        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly unit: cccev.dsl.model.DataUnitDTO;
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
 
     }
 }
@@ -1576,6 +1615,7 @@ export namespace cccev.dsl.model {
         readonly description: string;
         readonly notation?: string;
         readonly type: cccev.dsl.model.DataUnitType;
+        readonly options?: cccev.dsl.model.DataUnitOption[];
 
     }
 }
@@ -1588,19 +1628,6 @@ export namespace cccev.s2.unit.domain {
 
     }
     interface DataUnitEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string> {
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.unit.domain.command {
-    interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.DataUnitEvent {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description: string;
-        readonly notation?: string;
-        readonly type: cccev.s2.unit.domain.model.DataUnitType;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.unit.domain.DataUnitState */;
         s2Id(): string;
 
     }
@@ -1625,7 +1652,7 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
@@ -1635,7 +1662,27 @@ export namespace cccev.s2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.s2.concept.domain.command {
+    interface InformationConceptUpdateCommandDTO extends cccev.s2.concept.domain.InformationConceptCommand {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+
+    }
+    interface InformationConceptUpdatedEventDTO extends cccev.s2.concept.domain.InformationConceptEvent {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -1706,7 +1753,7 @@ export namespace cccev.s2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint?: number;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.EvidenceTypeEvent {
@@ -1714,7 +1761,7 @@ export namespace cccev.s2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint?: number;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -1755,11 +1802,18 @@ export namespace cccev.s2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
+        readonly isDerivedFrom?: string[];
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -1770,179 +1824,87 @@ export namespace cccev.s2.requirement.domain.command {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementUpdatedEventDTO extends cccev.s2.requirement.domain.RequirementEvent {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         s2Id(): string;
 
     }
 }
-export namespace city.smartb.fs.s2.file.domain.features.query {
-    interface FileAskQuestionQueryDTO {
-        readonly question: string;
-        readonly history: city.smartb.fs.s2.file.domain.model.ChatMessageDTO[];
-        readonly metadata: city.smartb.fs.s2.file.domain.model.ChatMetadataDTO;
-
-    }
-    interface FileAskQuestionResultDTO {
-        readonly item: string;
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface ChatMessageDTO {
-        readonly content: string;
-        readonly type: string;
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface ChatMetadataDTO {
-        readonly targetedFiles: string[];
-
-    }
-}
-export namespace city.smartb.fs.s2.file.domain.model {
-    interface FilePathDTO {
-        readonly objectType: string;
-        readonly objectId: string;
-        readonly directory: string;
-        readonly name: string;
-
-    }
-}
-export namespace cccev.s2.certification.domain {
-    interface CertificationInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface CertificationCommand extends s2.dsl.automate.S2Command<string> {
+export namespace cccev.core.certification.command {
+    interface CertificationAddRequirementsCommandDTO {
         readonly id: string;
+        readonly parentId?: string;
+        readonly requirementIdentifiers: string[];
 
     }
-    interface CertificationEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.model.WithS2Id<string>, s2.dsl.automate.WithId<string> {
-        s2Id(): string;
+    interface CertificationAddedRequirementsEventDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.core.certification.command {
+    interface CertificationCreateCommandDTO {
+        readonly id?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationCreatedEventDTO {
         readonly id: string;
 
     }
 }
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+export namespace cccev.core.certification.command {
+    interface CertificationFillValuesCommandDTO {
         readonly id: string;
-        readonly evidenceId: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
         readonly values: Record<string, Nullable<string>>;
 
     }
-    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+    interface CertificationFilledValuesEventDTO {
         readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-        s2Id(): string;
+        readonly rootRequirementCertificationId?: string;
 
     }
 }
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationCreateCommandDTO extends cccev.s2.certification.domain.CertificationInitCommand {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-
-    }
-    interface CertificationCreatedEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-    interface CertificationRemovedEvidenceEventDTO extends cccev.s2.certification.domain.CertificationEvent {
-        readonly id: string;
-        readonly evidenceId: string;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.command {
-    interface CertificationRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.CertificationCommand {
+export namespace cccev.core.certification.command {
+    interface CertificationRemoveRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: string[];
 
     }
-    interface CertificationRemovedRequirementsEventDTO extends cccev.s2.certification.domain.CertificationEvent {
+    interface CertificationRemovedRequirementsEventDTO {
         readonly id: string;
         readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.s2.certification.domain.model {
-    interface CertificationDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly startDate?: any/* Nullable<number> */;
-        readonly endDate?: any/* Nullable<number> */;
-        readonly estimatedEndDate?: any/* Nullable<number> */;
-        readonly creator?: string;
-        readonly executor?: string;
-        readonly validator?: string;
-        readonly isPublic: boolean;
-        readonly issuable: boolean;
-        readonly verifiable: boolean;
-        readonly verifier?: string;
-        readonly verificationDate?: any/* Nullable<number> */;
-        readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
-
-    }
-}
-export namespace cccev.s2.certification.domain.model {
-    interface EvidenceDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
 
     }
 }
@@ -1995,17 +1957,46 @@ export namespace cccev.f2.unit.domain.command {
         readonly description: string;
         readonly notation?: string;
         readonly type: string;
+        readonly options?: cccev.f2.unit.domain.command.DataUnitOptionCreateCommandDTO[];
 
     }
-    interface DataUnitCreatedEventDTO extends cccev.s2.unit.domain.command.DataUnitCreatedEventDTO {
+    interface DataUnitOptionCreateCommandDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
+
+    }
+    interface DataUnitCreatedEventDTO {
         readonly id: string;
         readonly identifier: string;
+
+    }
+}
+export namespace cccev.f2.unit.domain.command {
+    interface DataUnitUpdateCommandDTO {
+        readonly id: string;
         readonly name: string;
         readonly description: string;
         readonly notation?: string;
-        readonly type: cccev.s2.unit.domain.model.DataUnitType;
-        readonly status: s2.dsl.automate.S2State/* cccev.s2.unit.domain.DataUnitState */;
-        s2Id(): string;
+        readonly type: string;
+        readonly options?: cccev.f2.unit.domain.command.DataUnitOptionUpdateCommandDTO[];
+
+    }
+    interface DataUnitOptionUpdateCommandDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
+
+    }
+    interface DataUnitUpdatedEventDTO {
+        readonly id: string;
+        readonly identifier: string;
 
     }
 }
@@ -2016,6 +2007,31 @@ export namespace cccev.f2.unit.domain.model {
         readonly description: string;
         readonly notation?: string;
         readonly type: string;
+        readonly options?: cccev.f2.unit.domain.model.DataUnitOptionDTO[];
+
+    }
+}
+export namespace cccev.f2.unit.domain.model {
+    interface DataUnitFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly description: string;
+        readonly notation?: string;
+        readonly type: string;
+        readonly optionIdentifiers?: string[];
+
+    }
+}
+export namespace cccev.f2.unit.domain.model {
+    interface DataUnitOptionDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly value: string;
+        readonly order: number;
+        readonly icon?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
+        readonly color?: string;
 
     }
 }
@@ -2054,7 +2070,7 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
 
     }
     interface InformationConceptCreatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptCreatedEventDTO {
@@ -2064,7 +2080,27 @@ export namespace cccev.f2.concept.domain.command {
         readonly hasUnit?: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
+        readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
+        s2Id(): string;
+
+    }
+}
+export namespace cccev.f2.concept.domain.command {
+    interface InformationConceptUpdateCommandDTO extends cccev.s2.concept.domain.command.InformationConceptUpdateCommandDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
+
+    }
+    interface InformationConceptUpdatedEventDTO extends cccev.s2.concept.domain.command.InformationConceptUpdatedEventDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
         readonly status: s2.dsl.automate.S2State/* cccev.s2.concept.domain.InformationConceptState */;
         s2Id(): string;
 
@@ -2078,7 +2114,19 @@ export namespace cccev.f2.concept.domain.model {
         readonly unit?: cccev.f2.unit.domain.model.DataUnitDTO;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
+
+    }
+}
+export namespace cccev.f2.concept.domain.model {
+    interface InformationConceptFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly unitIdentifier?: string;
+        readonly description?: string;
+        readonly expressionOfExpectedValue?: string;
+        readonly dependsOn?: string[];
 
     }
 }
@@ -2088,11 +2136,11 @@ export namespace cccev.f2.concept.domain.model {
         readonly supportedValue: cccev.dsl.model.SupportedValueDTO;
         readonly identifier: string;
         readonly name: string;
-        readonly unit?: cccev.dsl.model.DataUnitDTO;
+        readonly unit: cccev.dsl.model.DataUnitDTO;
         readonly type?: cccev.dsl.model.Code;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: any/* Nullable<string>[] */;
+        readonly dependsOn?: string[];
 
     }
 }
@@ -2125,161 +2173,6 @@ export namespace cccev.f2.concept.domain.query {
     }
     interface InformationConceptGetResultDTO {
         readonly item?: cccev.f2.concept.domain.model.InformationConceptDTO;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddEvidenceCommandDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        readonly metadata?: any/* Nullable<Record<string, string>> */;
-        readonly vectorize?: boolean;
-
-    }
-    interface CertificationAddedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationAddedEvidenceEventDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationAddRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationAddedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface CertificationAddValuesCommandDTO extends cccev.s2.certification.domain.command.CertificationAddValuesCommandDTO {
-        readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-
-    }
-    interface CertificationAddedValuesEventDTO extends cccev.s2.certification.domain.command.CertificationAddedValuesEventDTO {
-        readonly id: string;
-        readonly values: Record<string, Nullable<string>>;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestCreateCommandDTO extends cccev.s2.certification.domain.command.CertificationCreateCommandDTO {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-
-    }
-    interface RequestCreatedEventDTO extends cccev.s2.certification.domain.command.CertificationCreatedEventDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly requirements: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestRemoveEvidenceCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveEvidenceCommandDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-    interface RequestRemovedEvidenceEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedEvidenceEventDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.command {
-    interface RequestRemoveRequirementsCommandDTO extends cccev.s2.certification.domain.command.CertificationRemoveRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface RequestRemovedRequirementsEventDTO extends cccev.s2.certification.domain.command.CertificationRemovedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-        s2Id(): string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.model {
-    interface CertificationDTO extends cccev.s2.certification.domain.model.CertificationDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly startDate?: any/* Nullable<number> */;
-        readonly endDate?: any/* Nullable<number> */;
-        readonly estimatedEndDate?: any/* Nullable<number> */;
-        readonly creator?: string;
-        readonly executor?: string;
-        readonly validator?: string;
-        readonly isPublic: boolean;
-        readonly issuable: boolean;
-        readonly verifiable: boolean;
-        readonly verifier?: string;
-        readonly verificationDate?: any/* Nullable<number> */;
-        readonly requirements: string[];
-        readonly evidences: Record<string, cccev.s2.certification.domain.model.EvidenceDTO>[];
-        readonly supportedValues: Record<string, Nullable<string>>;
-        readonly requirementStats: Record<string, cccev.s2.certification.domain.model.RequirementStatsDTO>;
-
-    }
-}
-export namespace cccev.f2.certification.domain.model {
-    interface EvidenceDTO extends cccev.s2.certification.domain.model.EvidenceDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly file?: city.smartb.fs.s2.file.domain.model.FilePathDTO;
-        readonly url?: string;
-        readonly isConformantTo: string[];
-        readonly supportsConcept: string[];
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationDownloadEvidenceQueryDTO {
-        readonly id: string;
-        readonly evidenceId: string;
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface CertificationGetByIdentifierResultDTO {
-        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
-
-    }
-}
-export namespace cccev.f2.certification.domain.query {
-    interface CertificationGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface CertificationGetResultDTO {
-        readonly item?: cccev.s2.certification.domain.model.CertificationDTO;
 
     }
 }
@@ -2321,7 +2214,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint?: number;
 
     }
     interface EvidenceTypeCreatedEventDTO extends cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreatedEventDTO {
@@ -2329,7 +2222,7 @@ export namespace cccev.f2.evidence.type.domain.command.type {
         readonly identifier?: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint?: number;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.evidence.type.domain.EvidenceTypeState */;
         s2Id(): string;
 
@@ -2340,7 +2233,7 @@ export namespace cccev.f2.evidence.type.domain.model {
         readonly id: string;
         readonly name: string;
         readonly description: string;
-        readonly validityPeriodConstraint?: any/* Nullable<number> */;
+        readonly validityPeriodConstraint?: number;
 
     }
 }
@@ -2483,6 +2376,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface ConstraintCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2492,11 +2392,18 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
+        readonly isDerivedFrom?: string[];
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2514,6 +2421,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface CriterionCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2523,11 +2437,18 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
+        readonly isDerivedFrom?: string[];
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2545,6 +2466,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface InformationRequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2554,11 +2482,18 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
+        readonly isDerivedFrom?: string[];
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2589,6 +2524,13 @@ export namespace cccev.f2.requirement.domain.command {
         readonly hasEvidenceTypeList: string[];
         readonly hasRequirement: string[];
         hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementCreatedEventDTO extends cccev.s2.requirement.domain.command.RequirementCreatedEventDTO {
@@ -2598,11 +2540,18 @@ export namespace cccev.f2.requirement.domain.command {
         readonly name?: string;
         readonly description?: string;
         readonly type?: string;
-        readonly isDerivedFrom?: any/* Nullable<string>[] */;
+        readonly isDerivedFrom?: string[];
         readonly hasRequirement: string[];
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: string[];
         readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         readonly status: s2.dsl.automate.S2State/* cccev.s2.requirement.domain.RequirementState */;
         s2Id(): string;
 
@@ -2613,12 +2562,36 @@ export namespace cccev.f2.requirement.domain.command {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
     interface RequirementUpdatedEventDTO extends cccev.s2.requirement.domain.command.RequirementUpdatedEventDTO {
         readonly id: string;
         readonly name?: string;
         readonly description?: string;
+        readonly type?: string;
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly hasRequirement: string[];
+        readonly hasQualifiedRelation: Record<string, string>[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
         s2Id(): string;
 
     }
@@ -2635,6 +2608,34 @@ export namespace cccev.f2.requirement.domain.model {
         readonly hasQualifiedRelation: Record<string, string>[];
         readonly hasConcept: cccev.f2.concept.domain.model.InformationConceptDTO[];
         readonly hasEvidenceTypeList: cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: cccev.f2.concept.domain.model.InformationConceptDTO[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: cccev.f2.concept.domain.model.InformationConceptDTO[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
+
+    }
+}
+export namespace cccev.f2.requirement.domain.model {
+    interface RequirementFlatDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly kind: string;
+        readonly description?: string;
+        readonly type?: string;
+        readonly name?: string;
+        readonly hasRequirement: string[];
+        readonly hasConcept: string[];
+        readonly hasEvidenceTypeList: string[];
+        readonly enablingCondition?: string;
+        readonly enablingConditionDependencies: string[];
+        readonly required: boolean;
+        readonly validatingCondition?: string;
+        readonly validatingConditionDependencies: string[];
+        readonly order?: number;
+        readonly properties?: Record<string, string>;
 
     }
 }
@@ -2665,7 +2666,7 @@ export namespace cccev.f2.requirement.domain.query {
 
     }
     interface RequirementListChildrenByTypeResultDTO {
-        readonly items?: any/* Nullable<cccev.f2.requirement.domain.model.RequirementDTO>[] */;
+        readonly items?: cccev.f2.requirement.domain.model.RequirementDTO[];
 
     }
 }
@@ -2678,6 +2679,100 @@ export namespace cccev.f2.requirement.domain.query {
     }
     interface RequirementListResultDTO {
         readonly requirements: cccev.f2.requirement.domain.model.RequirementDTO[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationAddRequirementsCommandDTO extends cccev.core.certification.command.CertificationAddRequirementsCommandDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationAddedRequirementsEventDTO extends cccev.core.certification.command.CertificationAddedRequirementsEventDTO {
+        readonly id: string;
+        readonly parentId?: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationCreateCommandDTO extends cccev.core.certification.command.CertificationCreateCommandDTO {
+        readonly id?: string;
+        readonly requirementIdentifiers: string[];
+
+    }
+    interface CertificationCreatedEventDTO extends cccev.core.certification.command.CertificationCreatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationFillValuesCommandDTO extends cccev.core.certification.command.CertificationFillValuesCommandDTO {
+        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
+        readonly values: Record<string, Nullable<string>>;
+
+    }
+    interface CertificationFilledValuesEventDTO extends cccev.core.certification.command.CertificationFilledValuesEventDTO {
+        readonly id: string;
+        readonly rootRequirementCertificationId?: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.command {
+    interface CertificationRemoveRequirementsCommandDTO extends cccev.core.certification.command.CertificationRemoveRequirementsCommandDTO {
+        readonly id: string;
+        readonly requirementIds: string[];
+
+    }
+    interface CertificationRemovedRequirementsEventDTO extends cccev.core.certification.command.CertificationRemovedRequirementsEventDTO {
+        readonly id: string;
+        readonly requirementIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface CertificationFlatDTO {
+        readonly id: string;
+        readonly requirementCertificationIds: string[];
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface RequirementCertificationFlatDTO {
+        readonly id: string;
+        readonly requirementIdentifier: string;
+        readonly subCertificationIds: string[];
+        readonly valueIds: string[];
+        readonly isEnabled: boolean;
+        readonly isValidated: boolean;
+        readonly hasAllValues: boolean;
+        readonly isFulfilled: boolean;
+
+    }
+}
+export namespace cccev.f2.certification.domain.model {
+    interface SupportedValueFlatDTO {
+        readonly id: string;
+        readonly value?: string;
+        readonly conceptIdentifier: string;
+
+    }
+}
+export namespace cccev.f2.certification.domain.query {
+    interface CertificationGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface CertificationGetResultDTO {
+        readonly certification?: cccev.f2.certification.domain.model.CertificationFlatDTO;
+        readonly requirementCertifications: Record<string, cccev.f2.certification.domain.model.RequirementCertificationFlatDTO>;
+        readonly requirements: Record<string, cccev.f2.requirement.domain.model.RequirementFlatDTO>;
+        readonly concepts: Record<string, cccev.f2.concept.domain.model.InformationConceptFlatDTO>;
+        readonly units: Record<string, cccev.f2.unit.domain.model.DataUnitFlatDTO>;
+        readonly unitOptions: Record<string, cccev.f2.unit.domain.model.DataUnitOptionDTO>;
+        readonly supportedValues: Record<string, cccev.f2.certification.domain.model.SupportedValueFlatDTO>;
 
     }
 }
@@ -2742,7 +2837,7 @@ export namespace cccev.f2.certification.client {
     }
 }
 export namespace cccev.f2.certification.client {
-    function requestClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
+    function certificationClient(urlBase: string): f2.dsl.fnc.F2SupplierSingle<cccev.f2.certification.client.CertificationClient>;
 }
 export namespace cccev.s2.requirement.client {
     class RequirementClient /* implements cccev.f2.requirement.domain.RequirementApi */ {
@@ -2856,13 +2951,6 @@ export namespace city.smartb.registry.s2.project.domain.command {
     }
 }
 export namespace city.smartb.registry.s2.project.domain.model {
-    interface CertificationRefDTO {
-        readonly id: string;
-        readonly identifier: string;
-
-    }
-}
-export namespace city.smartb.registry.s2.project.domain.model {
     interface OrganizationRefDTO {
         readonly id: string;
         readonly name: string;
@@ -2898,7 +2986,7 @@ export namespace city.smartb.registry.f2.activity.domain.command {
 }
 export namespace city.smartb.registry.f2.activity.domain.command {
     interface ActivityStepFulfillCommandDTO {
-        readonly certificationIdentifier: string;
+        readonly certificationId: string;
         readonly identifier: string;
         readonly value?: string;
 
@@ -2912,7 +3000,7 @@ export namespace city.smartb.registry.f2.activity.domain.command {
 }
 export namespace city.smartb.registry.f2.activity.domain.command {
     interface ActivityStepEvidenceFulfillCommandDTO {
-        readonly certificationIdentifier: string;
+        readonly certificationId: string;
         readonly identifier: string;
         readonly url?: string;
         readonly isPublic?: boolean;
@@ -2927,7 +3015,7 @@ export namespace city.smartb.registry.f2.activity.domain.command {
 export namespace city.smartb.registry.f2.activity.domain.model {
     interface ActivityDTO {
         readonly identifier: string;
-        readonly certification?: city.smartb.registry.s2.project.domain.model.CertificationRefDTO;
+        readonly certificationId?: string;
         readonly name?: string;
         readonly type?: string;
         readonly description?: string;
@@ -2941,7 +3029,7 @@ export namespace city.smartb.registry.f2.activity.domain.model {
     interface ActivityFileDTO {
         readonly name: string;
         readonly content: Int8Array;
-        readonly metadata?: any/* Nullable<Record<string, string>> */;
+        readonly metadata?: Record<string, string>;
 
     }
 }
@@ -2953,7 +3041,6 @@ export namespace city.smartb.registry.f2.activity.domain.model {
         readonly description?: string;
         readonly hasConcept?: cccev.f2.concept.domain.model.InformationConceptDTO;
         readonly value?: string;
-        readonly evidences: cccev.s2.certification.domain.model.EvidenceDTO[];
         readonly completed: boolean;
 
     }
@@ -2982,7 +3069,7 @@ export namespace city.smartb.registry.f2.activity.domain.query {
 }
 export namespace city.smartb.registry.f2.activity.domain.query {
     interface ActivityStepEvidenceDownloadQueryDTO {
-        readonly certificationIdentifier: string;
+        readonly certificationId: string;
         readonly evidenceId: string;
 
     }
@@ -2990,7 +3077,7 @@ export namespace city.smartb.registry.f2.activity.domain.query {
 export namespace city.smartb.registry.f2.activity.domain.query {
     interface ActivityStepPageQueryDTO {
         readonly activityIdentifier: string;
-        readonly certificationIdentifier: string;
+        readonly certificationId: string;
         readonly offset?: number;
         readonly limit?: number;
 

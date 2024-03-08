@@ -1,18 +1,18 @@
 package city.smartb.registry.s2.project.domain.command
 
+import cccev.core.certification.model.CertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.s2.commons.model.GeoLocation
 import city.smartb.registry.s2.project.domain.automate.ProjectEvent
 import city.smartb.registry.s2.project.domain.automate.ProjectInitCommand
 import city.smartb.registry.s2.project.domain.model.ActivityIdentifier
-import city.smartb.registry.s2.project.domain.model.CertificationRef
 import city.smartb.registry.s2.project.domain.model.DateTime
 import city.smartb.registry.s2.project.domain.model.OrganizationRef
 import city.smartb.registry.s2.project.domain.model.ProjectId
 import city.smartb.registry.s2.project.domain.model.SdgNumber
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Create a project
@@ -114,7 +114,7 @@ data class ProjectCreatedEvent(
     override var activities: List<ActivityIdentifier>? = null,
     override var subContinent: String? = null,
     override var sdgs: List<SdgNumber>? = null,
-    var certification: CertificationRef? = null,
+    var certificationId: CertificationId? = null,
 ): ProjectCreatedEventDTO {
     override fun s2Id() = id
 }

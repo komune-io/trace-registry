@@ -25,7 +25,14 @@ object EstBatimentIndustriel: Constraint(
     type = FicheCode.SecteurActivite,
     hasConcept = listOf(
         SecteurActivite
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DenominationTypeUsageNonMouvementOuIntrusion: Constraint(
@@ -38,7 +45,14 @@ object DenominationTypeUsageNonMouvementOuIntrusion: Constraint(
     type = FicheCode.Denomination,
     hasConcept = listOf(
         UsageLuminaire
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DureeDeVie25DegresAvecChuteFluxLumineuxInferieur20Pourcents: Constraint(
@@ -48,7 +62,14 @@ object DureeDeVie25DegresAvecChuteFluxLumineuxInferieur20Pourcents: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         DureeDeVieLuminaire
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object EfficaciteLumineuseMinimale: Constraint(
@@ -61,7 +82,14 @@ object EfficaciteLumineuseMinimale: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         EfficaciteLumineuse
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object FacteurPuissanceMinimal: Constraint(
@@ -71,7 +99,14 @@ object FacteurPuissanceMinimal: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         FacteurPuissance
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object TauxDistorsionHarmoniqueValide: Criterion(
@@ -85,7 +120,14 @@ object TauxDistorsionHarmoniqueValide: Criterion(
     hasRequirement = listOf(
         TauxDistorsionHarmoniqueMaximal,
         TauxDistorsionHarmoniqueCalculSelonNorme
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object TauxDistorsionHarmoniqueMaximal: Constraint(
@@ -95,7 +137,14 @@ object TauxDistorsionHarmoniqueMaximal: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         TauxDistorsionHarmonique
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object TauxDistorsionHarmoniqueCalculSelonNorme: Constraint(
@@ -105,7 +154,14 @@ object TauxDistorsionHarmoniqueCalculSelonNorme: Constraint(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasConcept = listOf(
         TauxDistorsionHarmoniqueNormeCalcul
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
@@ -121,7 +177,14 @@ object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
     type = FicheCode.ConditionsDelivranceCertificats,
     hasEvidenceTypeList = listOf(
         EtudeDimensionnementEclairagePrealable
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object DatePrecedentsTravauxContrainte: Constraint(
@@ -132,7 +195,14 @@ object DatePrecedentsTravauxContrainte: Constraint(
     hasConcept = listOf(
         DureeVieConventionnelleLuminaire,
         DateTravaux
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )
 
 object CalculCertificatsCumac: Constraint(
@@ -144,5 +214,12 @@ object CalculCertificatsCumac: Constraint(
         CumacParWatt,
         Cumac,
         Puissance
-    )
+    ),
+    enablingCondition = null,
+    enablingConditionDependencies = emptyList(),
+    required = true,
+    validatingCondition = null,
+    validatingConditionDependencies = emptyList(),
+    order = null,
+    properties = null
 )

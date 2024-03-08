@@ -31,8 +31,10 @@ class DcsDefineF2Steps: En, VerCucumberStepsDefinition() {
                 val savedRequirements = RequirementGetByIdentifierQueryDTOBase(identifier = command.identifier)
                     .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
                     .item
-                val savedDcs = DataCollectionStepGetQuery(identifier = command.identifier)
-                    .invokeWith(dcsEndpoint.dataCollectionStepGet())
+                val savedDcs = DataCollectionStepGetQuery(
+                    identifier = command.identifier,
+                    certificationId = null
+                ).invokeWith(dcsEndpoint.dataCollectionStepGet())
                     .structure
 
                 checkSavedRequirements(scenario, savedRequirements)

@@ -1,10 +1,10 @@
 package city.smartb.registry.s2.project.api.entity
 
+import cccev.core.certification.model.CertificationId
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import city.smartb.registry.s2.asset.domain.automate.AssetPoolId
 import city.smartb.registry.s2.project.domain.automate.ProjectState
 import city.smartb.registry.s2.project.domain.model.ActivityIdentifier
-import city.smartb.registry.s2.project.domain.model.CertificationRef
 import city.smartb.registry.s2.project.domain.model.DateTime
 import city.smartb.registry.s2.project.domain.model.OrganizationRefDTO
 import city.smartb.registry.s2.project.domain.model.ProjectId
@@ -14,8 +14,6 @@ import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
-import java.util.Date
-import kotlinx.datetime.LocalDateTime
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.domain.geo.GeoLocation
 import s2.dsl.automate.model.WithS2Id
@@ -84,7 +82,7 @@ open class ProjectEntity: WithS2Id<ProjectId>,WithS2State<ProjectState>  {
 
     var location: GeoLocation<String>? = null
     var activities: List<ActivityIdentifier>? = null
-    var request: CertificationRef? = null
+    var certificationId: CertificationId? = null
     var sdgs: List<SdgNumber>? = null
 
     @Indexed

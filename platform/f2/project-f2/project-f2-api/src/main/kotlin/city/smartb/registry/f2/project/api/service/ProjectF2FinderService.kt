@@ -1,8 +1,7 @@
 package city.smartb.registry.f2.project.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.certification.domain.query.CertificationGetQueryDTOBase
-import cccev.s2.certification.domain.model.Evidence
+import cccev.f2.certification.domain.query.CertificationGetQuery
 import city.smartb.fs.s2.file.domain.model.FilePath
 import city.smartb.im.commons.model.OrganizationId
 import city.smartb.registry.f2.project.api.model.toDTO
@@ -72,18 +71,21 @@ class ProjectF2FinderService(
     suspend fun listFiles(id: ProjectId): List<FilePath> {
         val project = projectFinderService.get(id)
 
-        val certificationId = project.certification?.id
+        val certificationId = project.certificationId
             ?: return emptyList()
 
-        val certification = CertificationGetQueryDTOBase(
+        val certification = CertificationGetQuery(
             id = certificationId
-        ).invokeWith(cccevClient.certificationClient.certificationGet()).item
+        ).invokeWith(cccevClient.certificationClient.certificationGet())
+            .certification
 
-        return certification?.evidences
-            .orEmpty()
-            .values
-            .flatten()
-            .mapNotNull(Evidence::file)
+        // TODO wait until evidences are reimplemented in cccev
+//        return certification?.evidences
+//            .orEmpty()
+//            .values
+//            .flatten()
+//            .mapNotNull(Evidence::file)
+        return emptyList()
     }
 
     private suspend fun Project.toDTOWithVintage() = toDTO().apply {
