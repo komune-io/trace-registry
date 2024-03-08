@@ -6,6 +6,7 @@ const strictRoutesAuthorizations = {
     "projects": "open",
     "projects/:projectId/view/:tab?/*": "open",
     "projects/:projectId/transactions/:transactionId/view": "open",
+    "projects/create/:step": "open",
     "transactions/:transactionId": "open",
     "transactions": "open",
     "catalogues": "open",

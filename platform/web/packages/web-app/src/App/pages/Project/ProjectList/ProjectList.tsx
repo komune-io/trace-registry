@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { Header } from '@smartb/g2'
+import { Header, LinkButton } from '@smartb/g2'
+import { useExtendedAuth, useRoutesDefinition } from 'components';
 import { useProjectPageQuery, useProjectFilters, ProjectTable } from 'domain-components'
 import { Fragment, useMemo } from "react"
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,8 @@ export const ProjectList = () => {
         query: submittedFilters
     })
     const { t } = useTranslation()
+    const {keycloak} = useExtendedAuth()
+    const {projectsCreateStep} = useRoutesDefinition()
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
@@ -26,6 +29,15 @@ export const ProjectList = () => {
         >
             <AppPage
                 flexContent
+                headerProps={{
+                    content: [
+                      {
+                        rightPart: [
+                          keycloak.isAuthenticated ? <LinkButton to={projectsCreateStep("0")} key="create" >{t("newProject")}</LinkButton> : undefined
+                        ]
+                      }
+                    ]
+                  }}
             >
                 <Box alignSelf="center">
                     <Typography sx={{ marginBottom: "5px" }} align="center" variant="h4">{t("projects.registry")}</Typography>

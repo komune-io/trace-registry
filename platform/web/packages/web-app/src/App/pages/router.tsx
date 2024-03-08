@@ -2,6 +2,7 @@ import {PageRoute} from "App/routes";
 import {ProjectList, ProjectView} from "./Project";
 import {TransactionView} from "./Transaction/TransactionView/TransactionView";
 import {TransactionList} from "./Transaction/TransactionList/TransactionList";
+import { ProjectCreate } from "./Project/ProjectCreate/ProjectCreate";
 
 export const registryPages: PageRoute[] = [
   {
@@ -15,6 +16,10 @@ export const registryPages: PageRoute[] = [
   {
     path: "projects/:projectId/view/:tab?/*",
     element: <ProjectView />
+  },
+  {
+    path: "projects/create/:step",
+    element: <ProjectCreate />
   },
   {
     path: "projects/:projectId/transactions/:transactionId/view",
