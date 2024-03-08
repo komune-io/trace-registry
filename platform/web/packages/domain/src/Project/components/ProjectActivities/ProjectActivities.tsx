@@ -20,6 +20,6 @@ export const ProjectActivities = (props: ProjectActivitiesProps) => {
   const activities = activityPageQuery.data?.items ?? []
   
   return (
-      <ActivitiesSection items={activities} isLoading={isLoading}/>
+      <ActivitiesSection project={project} items={activities} isLoading={isLoading}/>
   )
 }

@@ -18,4 +18,5 @@ export * from "./Breadcrumbs"
 export * from "./ThumbnailPdfDisplayer"
 export * from "./InteractiveChipList"
 export * from "./TableCellFileName"
+export * from "./SubtitledLinkTicket"
 
