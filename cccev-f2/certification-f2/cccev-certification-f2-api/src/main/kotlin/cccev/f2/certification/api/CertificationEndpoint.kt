@@ -3,29 +3,16 @@ package cccev.f2.certification.api
 import cccev.f2.certification.api.service.CertificationF2AggregateService
 import cccev.f2.certification.api.service.CertificationF2FinderService
 import cccev.f2.certification.domain.CertificationApi
-import cccev.f2.certification.domain.command.CertificationAddEvidenceCommandDTOBase
 import cccev.f2.certification.domain.command.CertificationAddRequirementsFunction
-import cccev.f2.certification.domain.command.CertificationAddValuesFunction
 import cccev.f2.certification.domain.command.CertificationCreateFunction
-import cccev.f2.certification.domain.command.CertificationRemoveEvidenceFunction
+import cccev.f2.certification.domain.command.CertificationFillValuesFunction
 import cccev.f2.certification.domain.command.CertificationRemoveRequirementsFunction
-import cccev.f2.certification.domain.query.CertificationDownloadEvidenceQueryDTOBase
-import cccev.f2.certification.domain.query.CertificationGetByIdentifierFunction
-import cccev.f2.certification.domain.query.CertificationGetByIdentifierResultDTOBase
 import cccev.f2.certification.domain.query.CertificationGetFunction
-import cccev.f2.certification.domain.query.CertificationGetResultDTOBase
-import cccev.s2.certification.domain.command.CertificationAddedEvidenceEvent
+import cccev.f2.certification.domain.query.CertificationGetResult
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.spring.utils.serveFile
 import f2.dsl.fnc.f2Function
-import f2.spring.exception.NotFoundException
 import org.springframework.context.annotation.Bean
-import org.springframework.http.codec.multipart.FilePart
-import org.springframework.http.server.reactive.ServerHttpResponse
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
 
@@ -45,27 +32,30 @@ class CertificationEndpoint(
     @Bean
     override fun certificationGet(): CertificationGetFunction = f2Function { query ->
         logger.info("certificationGet: $query")
-        certificationF2FinderService.getOrNull(query.id).let(::CertificationGetResultDTOBase)
+        val graph = certificationF2FinderService.getFlatOrNull(query.id)
+        CertificationGetResult(
+            certification = graph?.certification,
+            requirementCertifications = graph?.requirementCertifications.orEmpty(),
+            requirements = graph?.requirements.orEmpty(),
+            concepts = graph?.concepts.orEmpty(),
+            units = graph?.units.orEmpty(),
+            unitOptions = graph?.unitOptions.orEmpty(),
+            supportedValues = graph?.supportedValues.orEmpty()
+        )
     }
 
-    @Bean
-    override fun certificationGetByIdentifier(): CertificationGetByIdentifierFunction = f2Function { query ->
-        logger.info("certificationGetByIdentifier: $query")
-        certificationF2FinderService.getOrNullByIdentifier(query.identifier).let(::CertificationGetByIdentifierResultDTOBase)
-    }
-
-    /** Download an evidence of a certification */
-    @PostMapping("/certificationDownloadEvidence")
-    suspend fun certificationDownloadEvidence(
-        @RequestBody query: CertificationDownloadEvidenceQueryDTOBase,
-    ) = serveFile(fileClient) {
-        logger.info("certificationDownloadEvidence: $query")
-        val certification = certificationF2FinderService.get(query.id)
-        val evidence = certification.evidences.values.flatten().firstOrNull { it.id == query.evidenceId }
-            ?: throw NotFoundException("Evidence", query.evidenceId)
-
-        evidence.file
-    }
+//    /** Download an evidence of a certification */
+//    @PostMapping("/certificationDownloadEvidence")
+//    suspend fun certificationDownloadEvidence(
+//        @RequestBody query: CertificationDownloadEvidenceQueryDTOBase,
+//    ) = serveFile(fileClient) {
+//        logger.info("certificationDownloadEvidence: $query")
+//        val certification = certificationF2FinderService.get(query.id)
+//        val evidence = certification.evidences.values.flatten().firstOrNull { it.id == query.evidenceId }
+//            ?: throw NotFoundException("Evidence", query.evidenceId)
+//
+//        evidence.file
+//    }
 
     @Bean
     override fun certificationCreate(): CertificationCreateFunction = f2Function { command ->
@@ -86,24 +76,24 @@ class CertificationEndpoint(
     }
 
     @Bean
-    override fun certificationAddValues(): CertificationAddValuesFunction = f2Function { command ->
-        logger.info("certificationAddValues: $command")
-        certificationF2AggregateService.addValues(command)
+    override fun certificationFillValues(): CertificationFillValuesFunction = f2Function { command ->
+        logger.info("certificationFillValues: $command")
+        certificationF2AggregateService.fillValues(command)
     }
 
-    /** Add an evidence to a certification */
-    @PostMapping("/certificationAddEvidence")
-    suspend fun certificationAddEvidence(
-        @RequestPart("command") command: CertificationAddEvidenceCommandDTOBase,
-        @RequestPart("file", required = false) file: FilePart?,
-    ): CertificationAddedEvidenceEvent {
-        logger.info("certificationAddEvidence: $command")
-        return certificationF2AggregateService.addEvidence(command, file)
-    }
+//    /** Add an evidence to a certification */
+//    @PostMapping("/certificationAddEvidence")
+//    suspend fun certificationAddEvidence(
+//        @RequestPart("command") command: CertificationAddEvidenceCommandDTOBase,
+//        @RequestPart("file", required = false) file: FilePart?,
+//    ): CertificationAddedEvidenceEvent {
+//        logger.info("certificationAddEvidence: $command")
+//        return certificationF2AggregateService.addEvidence(command, file)
+//    }
 
-    @Bean
-    override fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction = f2Function { command ->
-        logger.info("certificationRemoveEvidence: $command")
-        certificationF2AggregateService.removeEvidence(command)
-    }
+//    @Bean
+//    override fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction = f2Function { command ->
+//        logger.info("certificationRemoveEvidence: $command")
+//        certificationF2AggregateService.removeEvidence(command)
+//    }
 }

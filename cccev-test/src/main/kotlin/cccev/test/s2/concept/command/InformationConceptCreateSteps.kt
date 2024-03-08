@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
 
 class InformationConceptCreateSteps: En, CccevCucumberStepsDefinition() {
 
@@ -95,7 +94,7 @@ class InformationConceptCreateSteps: En, CccevCucumberStepsDefinition() {
 
     private suspend fun createInformationConcept(params: InformationConceptCreateParams) = context.conceptIds.register(params.identifier) {
         command = InformationConceptCreateCommand(
-            identifier = "${params.identifier}_${UUID.randomUUID()}",
+            identifier = params.identifier,
             name = params.name,
             hasUnit = context.unitIds[params.unit] ?: params.unit,
             description = params.description,

@@ -11,6 +11,8 @@ dependencies {
     commonMainApi(project(Modules.cccev.f2.requirement.client))
     commonMainApi(project(Modules.cccev.f2.unit.client))
     commonMainApi(project(Modules.cccev.dsl.model))
+
+    jvmMainApi(project(Modules.cccev.f2.commons))
 }
 
 tasks.withType<Test>().configureEach {

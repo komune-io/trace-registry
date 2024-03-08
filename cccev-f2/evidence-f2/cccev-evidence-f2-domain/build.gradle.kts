@@ -6,5 +6,6 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(project(Modules.cccev.s2.certification.domain))
+    commonMainApi(project(Modules.cccev.dsl.model))
+    commonMainApi(project(Modules.cccev.core))
 }

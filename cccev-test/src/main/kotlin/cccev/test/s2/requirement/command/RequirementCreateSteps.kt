@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
 import s2.bdd.data.parser.extractList
-import java.util.UUID
 
 class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
 
@@ -107,7 +106,7 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
 
     private suspend fun createRequirement(params: RequirementCreateParams) = context.requirementIds.register(params.identifier) {
         command = RequirementCreateCommand(
-            identifier = "${params.identifier}_${UUID.randomUUID()}",
+            identifier = params.identifier,
             kind = params.kind,
             name = params.name,
             description = params.description,
@@ -117,6 +116,8 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             hasQualifiedRelation = emptyMap(),
             hasConcept = params.hasConcept.map { context.conceptIds[it] ?: it },
             hasEvidenceTypeList = params.hasEvidenceTypeList.map { context.evidenceTypeListIds[it] ?: it },
+            validatingCondition = params.validatingCondition,
+            validatingConditionDependencies = params.validatingConditionDependencies.map { context.conceptIds[it] ?: it }
         )
         requirementAggregateService.create(command).id
     }
@@ -135,6 +136,8 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             hasEvidenceTypeList = entry?.extractList("hasEvidenceTypeList").orEmpty(),
             isRequirementOf = entry?.extractList("isRequirementOf").orEmpty(),
             hasQualifiedRelation = entry?.extractList("hasQualifiedRelation").orEmpty(),
+            validatingCondition = entry?.get("validatingCondition"),
+            validatingConditionDependencies = entry?.extractList("validatingConditionDependencies").orEmpty()
         )
     }
 
@@ -150,6 +153,8 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         val hasEvidenceTypeList: List<TestContextKey>,
         val isRequirementOf: List<TestContextKey>,
         val hasQualifiedRelation: List<TestContextKey>,
+        val validatingCondition: String?,
+        val validatingConditionDependencies: List<TestContextKey>
     )
 
     private fun requirementAssertParams(entry: Map<String, String>) = RequirementAssertParams(

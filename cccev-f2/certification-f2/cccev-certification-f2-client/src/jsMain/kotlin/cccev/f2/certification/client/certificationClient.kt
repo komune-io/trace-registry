@@ -9,7 +9,6 @@ import f2.dsl.fnc.f2SupplierSingle
 import kotlinx.coroutines.await
 
 @JsExport
-@JsName("requestClient")
 actual fun certificationClient(urlBase: String): F2SupplierSingle<CertificationClient> = f2SupplierSingle {
     F2ClientBuilder.get(urlBase)
         .await()

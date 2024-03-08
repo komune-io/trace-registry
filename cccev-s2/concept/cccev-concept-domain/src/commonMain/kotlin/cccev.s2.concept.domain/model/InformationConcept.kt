@@ -51,5 +51,5 @@ data class InformationConcept(
      * A list of information concepts this one depends on for auto-computation, if applicable.
      * @example [["height", "groundAltitude"]]
      */
-    val dependsOn: List<InformationConceptId>? = emptyList()
+    val dependsOn: List<InformationConceptIdentifier>? = emptyList()
 )

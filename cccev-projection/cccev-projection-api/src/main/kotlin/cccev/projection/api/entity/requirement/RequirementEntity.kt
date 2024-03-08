@@ -6,6 +6,7 @@ import cccev.projection.api.entity.framework.FrameworkEntity
 import cccev.s2.requirement.domain.RequirementId
 import cccev.s2.requirement.domain.RequirementState
 import cccev.s2.requirement.domain.model.RequirementKind
+import org.neo4j.ogm.annotation.NodeEntity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
@@ -14,37 +15,47 @@ import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import java.util.UUID
 
 @Node(RequirementEntity.LABEL)
+@NodeEntity(RequirementEntity.LABEL)
 data class RequirementEntity(
     @Id
-    val id: RequirementId,
+    @org.neo4j.ogm.annotation.Id
+    val id: RequirementId = UUID.randomUUID().toString(),
     @Version
+    @org.neo4j.ogm.annotation.Version
     var version: Long = 0,
     @CreatedDate
     var creationDate: Long = 0,
     @LastModifiedDate
     var lastModificationDate: Long = 0,
-    val status: RequirementState,
-    val identifier: String? = null,
-    val kind: RequirementKind,
+    val status: RequirementState = RequirementState.CREATED,
+    val identifier: String = id,
+    val kind: RequirementKind = RequirementKind.CRITERION,
     val name: String? = null,
     val description: String? = null,
     val type: String? = null,
     @Relationship(IS_DERIVED_FROM)
+    @org.neo4j.ogm.annotation.Relationship(IS_DERIVED_FROM)
     val isDerivedFrom: MutableList<FrameworkEntity> = mutableListOf(),
     @Relationship
+    @org.neo4j.ogm.annotation.Transient
     val hasQualifiedRelation: MutableMap<String, MutableList<RequirementEntity>> = mutableMapOf(),
     @Relationship(HAS_CONCEPT)
+    @org.neo4j.ogm.annotation.Relationship(HAS_CONCEPT)
     val hasConcept: MutableList<InformationConceptEntity> = mutableListOf(),
     @Relationship(HAS_EVIDENCE_TYPE_LIST)
+    @org.neo4j.ogm.annotation.Relationship(HAS_EVIDENCE_TYPE_LIST)
     val hasEvidenceTypeList: MutableList<EvidenceTypeListEntity> = mutableListOf(),
     val enablingCondition: String? = null,
     @Relationship(CONDITION_ENABLING)
+    @org.neo4j.ogm.annotation.Relationship(CONDITION_ENABLING)
     val enablingConditionDependencies: List<InformationConceptEntity> = emptyList(),
     val required: Boolean = true,
     val validatingCondition: String? = null,
     @Relationship(CONDITION_VALIDATION)
+    @org.neo4j.ogm.annotation.Relationship(CONDITION_VALIDATION)
     val validatingConditionDependencies: List<InformationConceptEntity> = emptyList(),
     val order: Int? = null,
     val properties: String? = null, // json
@@ -58,6 +69,10 @@ data class RequirementEntity(
         const val CONDITION_ENABLING = "CONDITION_ENABLING"
         const val CONDITION_VALIDATION = "CONDITION_VALIDATION"
     }
+
+    @Relationship(HAS_REQUIREMENT)
+    @org.neo4j.ogm.annotation.Relationship(HAS_REQUIREMENT)
+    var hasRequirementTmp: MutableList<RequirementEntity> = mutableListOf()
 
     override fun s2Id() = id
     override fun s2State() = status

@@ -1,27 +1,15 @@
 package cccev.f2.certification.api.service
 
-import cccev.f2.certification.domain.command.CertificationAddEvidenceCommandDTOBase
-import cccev.s2.certification.api.CertificationAggregateService
-import cccev.s2.certification.domain.command.CertificationAddEvidenceCommand
-import cccev.s2.certification.domain.command.CertificationAddRequirementsCommand
-import cccev.s2.certification.domain.command.CertificationAddValuesCommand
-import cccev.s2.certification.domain.command.CertificationAddedEvidenceEvent
-import cccev.s2.certification.domain.command.CertificationAddedRequirementsEvent
-import cccev.s2.certification.domain.command.CertificationAddedValuesEvent
-import cccev.s2.certification.domain.command.CertificationCreateCommand
-import cccev.s2.certification.domain.command.CertificationCreatedEvent
-import cccev.s2.certification.domain.command.CertificationRemoveEvidenceCommand
-import cccev.s2.certification.domain.command.CertificationRemoveRequirementsCommand
-import cccev.s2.certification.domain.command.CertificationRemovedEvidenceEvent
-import cccev.s2.certification.domain.command.CertificationRemovedRequirementsEvent
-import cccev.s2.certification.domain.model.CertificationId
-import cccev.s2.certification.domain.utils.CertificationFsPath
+import cccev.core.certification.CertificationAggregateService
+import cccev.core.certification.command.CertificationAddRequirementsCommand
+import cccev.core.certification.command.CertificationAddedRequirementsEvent
+import cccev.core.certification.command.CertificationCreateCommand
+import cccev.core.certification.command.CertificationCreatedEvent
+import cccev.core.certification.command.CertificationFillValuesCommand
+import cccev.core.certification.command.CertificationFilledValuesEvent
+import cccev.core.certification.command.CertificationRemoveRequirementsCommand
+import cccev.core.certification.command.CertificationRemovedRequirementsEvent
 import city.smartb.fs.s2.file.client.FileClient
-import city.smartb.fs.s2.file.domain.features.command.FileUploadedEvent
-import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.fs.spring.utils.contentByteArray
-import city.smartb.fs.spring.utils.toUploadCommand
-import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -41,44 +29,44 @@ class CertificationF2AggregateService(
         return certificationAggregateService.removeRequirements(command)
     }
 
-    suspend fun addValues(command: CertificationAddValuesCommand): CertificationAddedValuesEvent {
-        return certificationAggregateService.addValues(command)
+    suspend fun fillValues(command: CertificationFillValuesCommand): CertificationFilledValuesEvent {
+        return certificationAggregateService.fillValues(command)
     }
 
-    suspend fun addEvidence(command: CertificationAddEvidenceCommandDTOBase, file: FilePart?): CertificationAddedEvidenceEvent {
-        val filePath = file?.upload(command.id, CertificationFsPath.DIR_EVIDENCE, command.metadata, command?.vectorize)?.path
-        return CertificationAddEvidenceCommand(
-            id = command.id,
-            name = command.name,
-            file = filePath,
-            url = command.url,
-            isConformantTo = command.isConformantTo,
-            supportsConcept = command.supportsConcept,
-        ).let { certificationAggregateService.addEvidence(it) }
-    }
+//    suspend fun addEvidence(command: CertificationAddEvidenceCommandDTOBase, file: FilePart?): CertificationAddedEvidenceEvent {
+//        val filePath = file?.upload(command.id, CertificationFsPath.DIR_EVIDENCE, command.metadata, command?.vectorize)?.path
+//        return CertificationAddEvidenceCommand(
+//            id = command.id,
+//            name = command.name,
+//            file = filePath,
+//            url = command.url,
+//            isConformantTo = command.isConformantTo,
+//            supportsConcept = command.supportsConcept,
+//        ).let { certificationAggregateService.addEvidence(it) }
+//    }
+//
+//    suspend fun removeEvidence(command: CertificationRemoveEvidenceCommand): CertificationRemovedEvidenceEvent {
+//        return certificationAggregateService.removeEvidence(command)
+//    }
 
-    suspend fun removeEvidence(command: CertificationRemoveEvidenceCommand): CertificationRemovedEvidenceEvent {
-        return certificationAggregateService.removeEvidence(command)
-    }
-
-    private suspend fun FilePart.upload(
-        certificationId: CertificationId,
-        directory: String,
-        metadata: Map<String, String>?,
-        vectorize: Boolean?
-    ): FileUploadedEvent {
-        val path = FilePath(
-            objectType = CertificationFsPath.OBJECT_TYPE,
-            objectId = certificationId,
-            directory = directory,
-            name = filename(),
-        )
-        return fileClient.fileUpload(
-            command = path.toUploadCommand(
-                metadata = metadata ?: emptyMap(),
-                vectorize = vectorize ?: false
-            ),
-            file = contentByteArray()
-        )
-    }
+//    private suspend fun FilePart.upload(
+//        certificationId: CertificationId,
+//        directory: String,
+//        metadata: Map<String, String>?,
+//        vectorize: Boolean?
+//    ): FileUploadedEvent {
+//        val path = FilePath(
+//            objectType = CertificationFsPath.OBJECT_TYPE,
+//            objectId = certificationId,
+//            directory = directory,
+//            name = filename(),
+//        )
+//        return fileClient.fileUpload(
+//            command = path.toUploadCommand(
+//                metadata = metadata ?: emptyMap(),
+//                vectorize = vectorize ?: false
+//            ),
+//            file = contentByteArray()
+//        )
+//    }
 }

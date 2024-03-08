@@ -14,22 +14,26 @@ import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
 @Node(DataUnitEntity.LABEL)
+@org.neo4j.ogm.annotation.NodeEntity(DataUnitEntity.LABEL)
 data class DataUnitEntity(
     @Id
-    val id: DataUnitId,
-    val identifier: DataUnitIdentifier,
+    @org.neo4j.ogm.annotation.Id
+    val id: DataUnitId = "",
+    val identifier: DataUnitIdentifier = "",
     @Version
+    @org.neo4j.ogm.annotation.Version
     var version: Long = 0,
     @CreatedDate
     var creationDate: Long = 0,
     @LastModifiedDate
     var lastModificationDate: Long = 0,
-    val status: DataUnitState,
-    val name: String,
-    val description: String,
+    val status: DataUnitState = DataUnitState.EXISTS,
+    val name: String = "",
+    val description: String = "",
     val notation: String? = null,
-    val type: DataUnitType,
+    val type: DataUnitType = DataUnitType.STRING,
     @Relationship(HAS_OPTION)
+    @org.neo4j.ogm.annotation.Relationship(HAS_OPTION)
     val options: MutableList<DataUnitOptionEntity>? = null,
 ): WithS2Id<DataUnitId>, WithS2State<DataUnitState> {
 

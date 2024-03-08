@@ -32,7 +32,7 @@ data class Requirement(
      * A custom identifier for the requirement
      * @example "cloudAlt"
      */
-    val identifier: RequirementIdentifier? = null,
+    val identifier: RequirementIdentifier,
 
     /**
      * Subtype used for the requirement.

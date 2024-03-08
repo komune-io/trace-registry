@@ -58,5 +58,5 @@ data class DataUnitDTOBase(
     override val description: String,
     override val notation: String? = null,
     override val type: String,
-    override val options: List<DataUnitOptionDTOBase>?
+    override val options: List<DataUnitOption>?
 ): DataUnitDTO

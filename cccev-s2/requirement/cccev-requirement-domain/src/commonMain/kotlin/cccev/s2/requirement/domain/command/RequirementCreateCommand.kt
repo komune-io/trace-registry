@@ -232,7 +232,7 @@ interface RequirementCreatedEventDTO: RequirementEvent {
 @Serializable
 data class RequirementCreatedEvent(
     override val id: RequirementId,
-    override val identifier: RequirementIdentifier? = null,
+    override val identifier: RequirementIdentifier,
     override val kind: RequirementKind,
     override val name: String? = null,
     override val description: String? = null,

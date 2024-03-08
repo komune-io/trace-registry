@@ -1,5 +1,6 @@
 package cccev.f2.evidence.domain.features.query
 
+import cccev.core.certification.model.CertificationId
 import cccev.dsl.model.EvidenceTypeId
 import cccev.dsl.model.EvidenceTypeListId
 import cccev.dsl.model.InformationConceptId
@@ -8,11 +9,10 @@ import cccev.f2.evidence.domain.model.EvidenceTypeListChoicesDTO
 import cccev.f2.evidence.domain.model.EvidenceTypeListChoicesDTOBase
 import cccev.f2.evidence.domain.model.EvidenceTypeListDTO
 import cccev.f2.evidence.domain.model.EvidenceTypeListDTOBase
-import cccev.s2.certification.domain.model.CertificationId
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get evidence type lists

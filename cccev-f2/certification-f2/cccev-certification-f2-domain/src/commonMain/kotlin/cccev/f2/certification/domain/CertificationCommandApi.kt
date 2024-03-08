@@ -1,9 +1,8 @@
 package cccev.f2.certification.domain
 
 import cccev.f2.certification.domain.command.CertificationAddRequirementsFunction
-import cccev.f2.certification.domain.command.CertificationAddValuesFunction
 import cccev.f2.certification.domain.command.CertificationCreateFunction
-import cccev.f2.certification.domain.command.CertificationRemoveEvidenceFunction
+import cccev.f2.certification.domain.command.CertificationFillValuesFunction
 import cccev.f2.certification.domain.command.CertificationRemoveRequirementsFunction
 
 interface CertificationCommandApi {
@@ -17,8 +16,8 @@ interface CertificationCommandApi {
     fun certificationRemoveRequirements(): CertificationRemoveRequirementsFunction
 
     /** Add values to a request */
-    fun certificationAddValues(): CertificationAddValuesFunction
+    fun certificationFillValues(): CertificationFillValuesFunction
 
     /** Remove an evidence from a request */
-    fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction
+//    fun certificationRemoveEvidence(): CertificationRemoveEvidenceFunction
 }
