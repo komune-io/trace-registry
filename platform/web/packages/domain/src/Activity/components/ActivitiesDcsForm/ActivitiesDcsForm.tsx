@@ -1,11 +1,21 @@
 import { TitleDivider } from 'components'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { AutoForm, Button, autoFormFormatter } from '@smartb/g2'
+import { AutoForm, Button, CommandWithFile, autoFormFormatter } from '@smartb/g2'
 import json from './autoForm.json'
+import { Project } from '../../../Project'
 
-export const ActivitiesDcsForm = () => {
+export interface ActivitiesDcsFormProps {
+  project?: Project
+}
+
+export const ActivitiesDcsForm = (props: ActivitiesDcsFormProps) => {
+  const { project } = props
   const { t } = useTranslation()
+
+  //@ts-ignore
+  const formData = autoFormFormatter(json)
+
   return (
     <Stack
       sx={{
@@ -26,11 +36,21 @@ export const ActivitiesDcsForm = () => {
       <Typography sx={{ color: "#666560" }} >This activity involves identifying the project and its location.</Typography>
 
       <AutoForm
-        /* @ts-ignore */
-        formData={autoFormFormatter(json)}
-        getFormActions={(formState) => <Button sx={{alignSelf: "flex-end"}} onClick={formState.submitForm} >{t("submitForValidation")}</Button>}
-        onSubmit={(command) => console.log(JSON.stringify(command))}
+        formData={formData}
+        getFormActions={(formState) => <Button sx={{ alignSelf: "flex-end" }} onClick={formState.submitForm} >{t("submitForValidation")}</Button>}
+        onSubmit={(command) => console.log(formatDcsCommand(command, project))}
       />
     </Stack>
   )
+}
+
+const formatDcsCommand = (command: CommandWithFile<any>, project?: Project) => {
+  return {
+    files: command.files,
+    command: {
+      values: command.command,
+      // identifier: formData.identifier
+      certificationId: project?.certification?.id
+    }
+  }
 }

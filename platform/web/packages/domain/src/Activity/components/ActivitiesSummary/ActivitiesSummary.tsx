@@ -8,14 +8,16 @@ import {ActivitiesStepSummary} from "../ActivityStepSummary/ActivitiesStepSummar
 import { useExtendedAuth } from 'components';
 import { ActivitiesDcsForm } from '../ActivitiesDcsForm';
 import { ActivitiesNextSteps } from '../ActivitiesNextSteps';
+import { Project } from '../../../Project';
 
 export interface ActivitiesSummaryProps {
   activities: Activity[]
   isLoading?: boolean
+  project?: Project
 }
 
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
-  const { isLoading, activities } = props
+  const { isLoading, activities, project } = props
   const reactFlowStore = useStoreApi();
   const [searchParams, setSearchParams] = useSearchParams();
   const { "*": splat } = useParams();
@@ -71,7 +73,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const steps = activityStepPageQuery.data?.items ?? []
   if (keycloak.isAuthenticated) {
     if (!splat) return <ActivitiesNextSteps />
-    else return <ActivitiesDcsForm />
+    else return <ActivitiesDcsForm project={project} />
   }
   return (
     <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || isactivityStepPageQueryLoading} steps={steps} />
