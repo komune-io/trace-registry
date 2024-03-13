@@ -1,8 +1,8 @@
 package cccev.test.s2.requirement.data
 
-import cccev.s2.requirement.domain.model.RequirementKind
-import kotlin.reflect.jvm.jvmName
+import cccev.core.requirement.model.RequirementKind
 import s2.bdd.data.parser.EntryParser
+import kotlin.reflect.jvm.jvmName
 
 private val dataUnitTypeParser = EntryParser(
     parseErrorMessage = "Requirement kind must be in ${RequirementKind::class.jvmName} values",

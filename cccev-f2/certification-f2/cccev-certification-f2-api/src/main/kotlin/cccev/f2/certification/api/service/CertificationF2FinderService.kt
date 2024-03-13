@@ -3,9 +3,6 @@ package cccev.f2.certification.api.service
 import cccev.core.certification.CertificationFinderService
 import cccev.core.certification.entity.Certification
 import cccev.core.certification.model.CertificationId
-import cccev.f2.certification.api.model.flatten
-import cccev.f2.commons.CertificationFlatGraph
-import f2.spring.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,15 +15,6 @@ class CertificationF2FinderService(
 
     suspend fun get(id: CertificationId): Certification {
         return certificationFinderService.get(id)
-    }
-
-    suspend fun getFlatOrNull(id: CertificationId): CertificationFlatGraph? {
-        return certificationFinderService.getOrNull(id)?.flatten()
-    }
-
-    suspend fun getFlat(id: CertificationId): CertificationFlatGraph {
-        return getFlatOrNull(id)
-            ?: throw NotFoundException("Certification", id)
     }
 
 //    object Score {

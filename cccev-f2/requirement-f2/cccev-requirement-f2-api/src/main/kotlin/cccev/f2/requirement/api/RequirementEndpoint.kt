@@ -1,13 +1,12 @@
 package cccev.f2.requirement.api
 
+import cccev.f2.commons.CccevFlatGraph
+import cccev.f2.requirement.api.model.flattenTo
 import cccev.f2.requirement.api.service.RequirementF2AggregateService
 import cccev.f2.requirement.api.service.RequirementF2FinderService
 import cccev.f2.requirement.domain.RequirementApi
-import cccev.f2.requirement.domain.command.ConstraintCreateCommandDTOBase
 import cccev.f2.requirement.domain.command.ConstraintCreateFunction
-import cccev.f2.requirement.domain.command.CriterionCreateCommandDTOBase
 import cccev.f2.requirement.domain.command.CriterionCreateFunction
-import cccev.f2.requirement.domain.command.InformationRequirementCreateCommandDTOBase
 import cccev.f2.requirement.domain.command.InformationRequirementCreateFunction
 import cccev.f2.requirement.domain.command.RequirementAddRequirementsFunction
 import cccev.f2.requirement.domain.command.RequirementCreateFunction
@@ -16,13 +15,7 @@ import cccev.f2.requirement.domain.query.RequirementGetByIdentifierFunction
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierResultDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetFunction
 import cccev.f2.requirement.domain.query.RequirementGetResultDTOBase
-import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeFunction
-import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeResultDTOBase
-import cccev.f2.requirement.domain.query.RequirementListQueryFunction
-import cccev.f2.requirement.domain.query.RequirementListResult
-import cccev.s2.requirement.domain.model.RequirementKind
 import f2.dsl.fnc.f2Function
-import kotlinx.coroutines.flow.toList
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import s2.spring.utils.logger.Logger
@@ -37,30 +30,25 @@ class RequirementEndpoint(
     @Bean
     override fun requirementGet(): RequirementGetFunction = f2Function { query ->
         logger.info("requirementGet: $query")
-        requirementF2FinderService.getOrNull(query.id).let(::RequirementGetResultDTOBase)
+        val requirement = requirementF2FinderService.getOrNull(query.id)
+        val graph = CccevFlatGraph().also { requirement?.flattenTo(it) }
+
+        RequirementGetResultDTOBase(
+            item = graph.requirements[requirement?.identifier],
+            graph = graph
+        )
     }
 
     @Bean
     override fun requirementGetByIdentifier(): RequirementGetByIdentifierFunction = f2Function { query ->
         logger.info("requirementGetByIdentifier: $query")
-        requirementF2FinderService.getOrNullByIdentifier(query.identifier).let(::RequirementGetByIdentifierResultDTOBase)
-    }
+        val requirement = requirementF2FinderService.getOrNullByIdentifier(query.identifier)
+        val graph = CccevFlatGraph().also { requirement?.flattenTo(it) }
 
-    @Bean
-    override fun requirementListChildrenByType(): RequirementListChildrenByTypeFunction = f2Function { query ->
-        logger.info("requirementListChildrenByTypeFunction $query")
-        requirementF2FinderService.listByIdsAndType(query.identifiers, query.type)
-            .let(::RequirementListChildrenByTypeResultDTOBase)
-    }
-
-    @Bean
-    override fun requirementsList(): RequirementListQueryFunction = f2Function { query ->
-        logger.info("requirementsList: $query")
-        requirementF2FinderService.list(
-            isRequirementOf = query.parentId,
-            concept = query.conceptId,
-            evidenceType = query.evidenceTypeId
-        ).toList().let(::RequirementListResult)
+        RequirementGetByIdentifierResultDTOBase(
+            item = graph.requirements[requirement?.identifier],
+            graph = graph
+        )
     }
 
     @Bean
@@ -84,62 +72,7 @@ class RequirementEndpoint(
     @Bean
     override fun requirementCreate(): RequirementCreateFunction = f2Function { command ->
         logger.info("requirementCreate: $command")
-        when (RequirementKind.valueOf(command.kind)) {
-            RequirementKind.CONSTRAINT -> requirementF2AggregateService.create(ConstraintCreateCommandDTOBase(
-                identifier = command.identifier,
-                name = command.name,
-                description = command.description,
-                type = command.type,
-                isDerivedFrom = command.isDerivedFrom,
-                hasRequirement = command.hasRequirement,
-                hasConcept = command.hasConcept,
-                hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation,
-                enablingCondition = command.enablingCondition,
-                enablingConditionDependencies = command.enablingConditionDependencies,
-                required = command.required,
-                validatingCondition = command.validatingCondition,
-                validatingConditionDependencies = command.validatingConditionDependencies,
-                order = command.order,
-                properties = command.properties
-            ))
-            RequirementKind.CRITERION ->  requirementF2AggregateService.create(CriterionCreateCommandDTOBase(
-                identifier = command.identifier,
-                name = command.name,
-                description = command.description,
-                type = command.type,
-                isDerivedFrom = command.isDerivedFrom,
-                hasRequirement = command.hasRequirement,
-                hasConcept = command.hasConcept,
-                hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation,
-                enablingCondition = command.enablingCondition,
-                enablingConditionDependencies = command.enablingConditionDependencies,
-                required = command.required,
-                validatingCondition = command.validatingCondition,
-                validatingConditionDependencies = command.validatingConditionDependencies,
-                order = command.order,
-                properties = command.properties
-            ))
-            RequirementKind.INFORMATION -> requirementF2AggregateService.create(InformationRequirementCreateCommandDTOBase(
-                identifier = command.identifier,
-                name = command.name,
-                description = command.description,
-                type = command.type,
-                isDerivedFrom = command.isDerivedFrom,
-                hasRequirement = command.hasRequirement,
-                hasConcept = command.hasConcept,
-                hasEvidenceTypeList = command.hasEvidenceTypeList,
-                hasQualifiedRelation = command.hasQualifiedRelation,
-                enablingCondition = command.enablingCondition,
-                enablingConditionDependencies = command.enablingConditionDependencies,
-                required = command.required,
-                validatingCondition = command.validatingCondition,
-                validatingConditionDependencies = command.validatingConditionDependencies,
-                order = command.order,
-                properties = command.properties
-            ))
-        }
+        requirementF2AggregateService.create(command)
     }
 
     @Bean

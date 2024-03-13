@@ -1,11 +1,11 @@
 package cccev.f2.requirement.domain.command
 
+import cccev.core.requirement.command.RequirementCreatedEvent
+import cccev.core.requirement.model.RequirementId
+import cccev.core.requirement.model.RequirementKind
 import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.framework.domain.FrameworkId
-import cccev.s2.requirement.domain.RequirementId
-import cccev.s2.requirement.domain.command.RequirementCreatedEvent
-import cccev.s2.requirement.domain.model.RequirementKind
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -27,7 +27,6 @@ data class InformationRequirementCreateCommandDTOBase(
     override val hasRequirement: List<RequirementId> = emptyList(),
     override val hasConcept: List<InformationConceptId> = emptyList(),
     override val hasEvidenceTypeList: List<EvidenceTypeListId> = emptyList(),
-    override var hasQualifiedRelation: Map<String, List<RequirementId>> = emptyMap(),
     override val enablingCondition: String?,
     override val enablingConditionDependencies: List<InformationConceptId>,
     override val required: Boolean,
@@ -41,4 +40,4 @@ data class InformationRequirementCreateCommandDTOBase(
 
 @JsExport
 @JsName("InformationRequirementCreatedEventDTO")
-interface InformationRequirementCreatedEventDTO: cccev.s2.requirement.domain.command.RequirementCreatedEventDTO
+interface InformationRequirementCreatedEventDTO: cccev.core.requirement.command.RequirementCreatedEventDTO

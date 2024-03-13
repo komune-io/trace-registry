@@ -1,26 +1,24 @@
 package cccev.dsl.client.model
 
-import cccev.commons.utils.toJson
 import cccev.core.certification.entity.Certification
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.entity.SupportedValue
+import cccev.core.requirement.entity.Requirement
+import cccev.core.requirement.model.RequirementKind
 import cccev.f2.certification.domain.model.CertificationFlat
 import cccev.f2.certification.domain.model.RequirementCertificationFlat
 import cccev.f2.certification.domain.model.SupportedValueFlat
-import cccev.f2.certification.domain.query.CertificationGetResult
-import cccev.f2.commons.CertificationFlatGraph
+import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.domain.model.InformationConceptFlat
 import cccev.f2.requirement.domain.model.RequirementFlat
 import cccev.f2.unit.domain.model.DataUnitFlat
 import cccev.projection.api.entity.concept.InformationConceptEntity
-import cccev.projection.api.entity.requirement.RequirementEntity
 import cccev.projection.api.entity.unit.DataUnitEntity
 import cccev.projection.api.entity.unit.DataUnitOptionEntity
-import cccev.s2.requirement.domain.model.RequirementKind
 import cccev.s2.unit.domain.model.DataUnitType
 import f2.spring.exception.NotFoundException
 
-fun CertificationFlat.unflatten(graph: CertificationFlatGraph): Certification {
+fun CertificationFlat.unflatten(graph: CccevFlatGraph): Certification {
     return Certification().also { certification ->
         certification.id = id
         requirementCertificationIds.forEach { requirementCertificationId ->
@@ -33,7 +31,7 @@ fun CertificationFlat.unflatten(graph: CertificationFlatGraph): Certification {
     }
 }
 
-fun RequirementCertificationFlat.unflatten(graph: CertificationFlatGraph): RequirementCertification {
+fun RequirementCertificationFlat.unflatten(graph: CccevFlatGraph): RequirementCertification {
     return RequirementCertification().also { requirementCertification ->
         requirementCertification.id = id
         requirementCertification.requirement = graph.requirements[requirementIdentifier]
@@ -63,7 +61,7 @@ fun RequirementCertificationFlat.unflatten(graph: CertificationFlatGraph): Requi
     }
 }
 
-fun SupportedValueFlat.unflatten(graph: CertificationFlatGraph): SupportedValue {
+fun SupportedValueFlat.unflatten(graph: CccevFlatGraph): SupportedValue {
     return SupportedValue().also { supportedValue ->
         supportedValue.id = id
         supportedValue.value = value
@@ -73,7 +71,7 @@ fun SupportedValueFlat.unflatten(graph: CertificationFlatGraph): SupportedValue 
     }
 }
 
-fun InformationConceptFlat.unflatten(graph: CertificationFlatGraph): InformationConceptEntity {
+fun InformationConceptFlat.unflatten(graph: CccevFlatGraph): InformationConceptEntity {
     return InformationConceptEntity().also { concept ->
         concept.id = id
         concept.identifier = identifier
@@ -91,44 +89,42 @@ fun InformationConceptFlat.unflatten(graph: CertificationFlatGraph): Information
     }
 }
 
-fun RequirementFlat.unflatten(graph: CertificationFlatGraph): RequirementEntity {
+fun RequirementFlat.unflatten(graph: CccevFlatGraph): Requirement {
     val subRequirements = hasRequirement.map {
         graph.requirements[it]?.unflatten(graph)
             ?: throw NotFoundException("Requirement", it)
     }
 
-    return RequirementEntity(
-        id = id,
-        identifier = identifier,
-        kind = RequirementKind.valueOf(kind),
-        description = description,
-        type = type,
-        name = name,
-        hasQualifiedRelation = mutableMapOf(RequirementEntity.HAS_REQUIREMENT to subRequirements.toMutableList()),
-        hasConcept = hasConcept.map {
+    return Requirement().also { requirement ->
+        requirement.id = id
+        requirement.identifier = identifier
+        requirement.kind = RequirementKind.valueOf(kind)
+        requirement.description = description
+        requirement.type = type
+        requirement.name = name
+        requirement.hasRequirement = subRequirements.toMutableList()
+        requirement.hasConcept = hasConcept.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
-        }.toMutableList(),
-        hasEvidenceTypeList = mutableListOf(), // TODO
-        enablingCondition = enablingCondition,
-        enablingConditionDependencies = enablingConditionDependencies.map {
+        }.toMutableList()
+        requirement.hasEvidenceTypeList = mutableListOf() // TODO
+        requirement.enablingCondition = enablingCondition
+        requirement.enablingConditionDependencies = enablingConditionDependencies.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
-        },
-        required = required,
-        validatingCondition = validatingCondition,
-        validatingConditionDependencies = validatingConditionDependencies.map {
+        }
+        requirement.required = required
+        requirement.validatingCondition = validatingCondition
+        requirement.validatingConditionDependencies = validatingConditionDependencies.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
-        },
-        order = order,
-        properties = properties?.toJson(),
-    ).also { requirement ->
-        requirement.hasRequirementTmp = subRequirements.toMutableList()
+        }
+        requirement.order = order
+        requirement.properties = properties
     }
 }
 
-fun DataUnitFlat.unflatten(graph: CertificationFlatGraph): DataUnitEntity {
+fun DataUnitFlat.unflatten(graph: CccevFlatGraph): DataUnitEntity {
     return DataUnitEntity(
         id = id,
         identifier = identifier,
@@ -144,7 +140,7 @@ fun DataUnitFlat.unflatten(graph: CertificationFlatGraph): DataUnitEntity {
     )
 }
 
-fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CertificationFlatGraph): DataUnitOptionEntity {
+fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CccevFlatGraph): DataUnitOptionEntity {
     return DataUnitOptionEntity(
         id = id,
         identifier = identifier,
@@ -154,16 +150,4 @@ fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CertificationFlat
         icon = icon,
         color = color
     )
-}
-
-fun CertificationGetResult.toCertificationFlatGraph() = certification?.let {
-    CertificationFlatGraph().also { graph ->
-        graph.certification = it
-        graph.requirementCertifications.putAll(requirementCertifications)
-        graph.requirements.putAll(requirements)
-        graph.concepts.putAll(concepts)
-        graph.units.putAll(units)
-        graph.unitOptions.putAll(unitOptions)
-        graph.supportedValues.putAll(supportedValues)
-    }
 }

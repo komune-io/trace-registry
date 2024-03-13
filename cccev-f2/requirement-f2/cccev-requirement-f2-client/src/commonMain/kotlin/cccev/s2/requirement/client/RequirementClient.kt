@@ -9,8 +9,6 @@ import cccev.f2.requirement.domain.command.RequirementCreateFunction
 import cccev.f2.requirement.domain.command.RequirementUpdateFunction
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierFunction
 import cccev.f2.requirement.domain.query.RequirementGetFunction
-import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeFunction
-import cccev.f2.requirement.domain.query.RequirementListQueryFunction
 import f2.client.F2Client
 import f2.client.function
 import f2.dsl.fnc.F2SupplierSingle
@@ -22,20 +20,17 @@ expect fun requirementClient(urlBase: String): F2SupplierSingle<RequirementClien
 
 @JsExport
 @JsName("RequirementClient")
-open class RequirementClient constructor(private val client: F2Client) : RequirementApi {
-    override fun requirementGet(): RequirementGetFunction  = client.function(this::requirementGet.name)
+open class RequirementClient constructor(private val client: F2Client): RequirementApi {
+    override fun requirementGet(): RequirementGetFunction = client.function(this::requirementGet.name)
     override fun requirementGetByIdentifier(): RequirementGetByIdentifierFunction
         = client.function(this::requirementGetByIdentifier.name)
 
-    override fun requirementsList(): RequirementListQueryFunction = client.function(this::requirementsList.name)
-    override fun requirementListChildrenByType(): RequirementListChildrenByTypeFunction
-        = client.function(this::requirementListChildrenByType.name)
-    override fun constraintCreate(): ConstraintCreateFunction  = client.function(this::constraintCreate.name)
-    override fun criterionCreate(): CriterionCreateFunction  = client.function(this::criterionCreate.name)
+    override fun constraintCreate(): ConstraintCreateFunction = client.function(this::constraintCreate.name)
+    override fun criterionCreate(): CriterionCreateFunction = client.function(this::criterionCreate.name)
     override fun informationRequirementCreate(): InformationRequirementCreateFunction
-        = client.function(this::informationRequirementCreate.name)
-    override fun requirementCreate(): RequirementCreateFunction  = client.function(this::requirementCreate.name)
-    override fun requirementUpdate(): RequirementUpdateFunction  = client.function(this::requirementUpdate.name)
+       = client.function(this::informationRequirementCreate.name)
+    override fun requirementCreate(): RequirementCreateFunction = client.function(this::requirementCreate.name)
+    override fun requirementUpdate(): RequirementUpdateFunction = client.function(this::requirementUpdate.name)
     override fun requirementAddRequirements(): RequirementAddRequirementsFunction
-        = client.function(this::requirementAddRequirements.name)
+       = client.function(this::requirementAddRequirements.name)
 }

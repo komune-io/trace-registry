@@ -1,7 +1,12 @@
 package cccev.dsl.client
 
+import cccev.core.requirement.command.RequirementAddRequirementsCommand
+import cccev.core.requirement.command.RequirementUpdateCommand
+import cccev.core.requirement.model.RequirementId
+import cccev.core.requirement.model.RequirementIdentifier
 import cccev.dsl.client.graph.InformationConceptGraphInitializer
 import cccev.dsl.client.graph.RequirementGraphInitializer
+import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.DataUnitDTO
 import cccev.dsl.model.EvidenceTypeBase
 import cccev.dsl.model.EvidenceTypeListBase
@@ -10,6 +15,7 @@ import cccev.dsl.model.InformationConceptRef
 import cccev.dsl.model.ReferenceFramework
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementRef
+import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.client.InformationConceptClient
 import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
 import cccev.f2.evidence.type.client.EvidenceTypeClient
@@ -18,7 +24,6 @@ import cccev.f2.evidence.type.domain.query.EvidenceTypeListGetByIdentifierQueryD
 import cccev.f2.framework.client.FrameworkClient
 import cccev.f2.framework.domain.query.FrameworkGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.command.RequirementCreateCommandDTOBase
-import cccev.f2.requirement.domain.model.RequirementDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.unit.client.DataUnitClient
 import cccev.f2.unit.domain.command.DataUnitCreateCommandDTOBase
@@ -36,10 +41,6 @@ import cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreateCommand
 import cccev.s2.framework.domain.FrameworkId
 import cccev.s2.framework.domain.command.FrameworkCreateCommand
 import cccev.s2.requirement.client.RequirementClient
-import cccev.s2.requirement.domain.RequirementId
-import cccev.s2.requirement.domain.command.RequirementAddRequirementsCommand
-import cccev.s2.requirement.domain.command.RequirementUpdateCommand
-import cccev.s2.requirement.domain.model.RequirementIdentifier
 import cccev.s2.unit.domain.DataUnitId
 import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.FlowPreview
@@ -60,7 +61,7 @@ class CCCEVGraphClient(
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer(informationConceptClient)
     private val requirementGraphInitializer = RequirementGraphInitializer(requirementClient)
 
-    suspend fun save(graph: Flow<Requirement>): Flow<RequirementDTOBase> {
+    suspend fun save(graph: Flow<Requirement>): Flow<cccev.core.requirement.entity.Requirement> {
         val context = Context()
         val requirements = graph.flatCollect()
 
@@ -81,7 +82,7 @@ class CCCEVGraphClient(
     }
 
     @Deprecated("Use save instead", ReplaceWith("save"))
-    suspend fun create(requirements: Flow<Requirement>): Flow<RequirementDTOBase> {
+    suspend fun create(requirements: Flow<Requirement>): Flow<cccev.core.requirement.entity.Requirement> {
         return save(requirements)
     }
 
@@ -96,7 +97,6 @@ class CCCEVGraphClient(
 
             hasRequirement?.forEach { emitAll(it.flatten()) }
             isRequirementOf?.forEach { emitAll(it.flatten()) }
-            hasQualifiedRelation?.values?.flatten()?.forEach { emitAll(it.flatten()) }
             emit(this@flatten)
         }
 
@@ -138,10 +138,11 @@ class CCCEVGraphClient(
         context.processedRequirements.putAllNew(processedRequirements)
     }
 
-    private suspend fun Requirement.save(context: Context): RequirementDTOBase {
-        val existingRequirement = RequirementGetByIdentifierQueryDTOBase(identifier)
+    private suspend fun Requirement.save(context: Context): cccev.core.requirement.entity.Requirement {
+        val getResult = RequirementGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(requirementClient.requirementGetByIdentifier())
-            .item
+
+        val existingRequirement = getResult.item?.unflatten(getResult.graph as CccevFlatGraph)
 
         if (this is RequirementRef) {
             return existingRequirement
@@ -163,7 +164,9 @@ class CCCEVGraphClient(
         }
         return RequirementGetByIdentifierQueryDTOBase(
             identifier = this.identifier
-        ).invokeWith(requirementClient.requirementGetByIdentifier()).item!!
+        ).invokeWith(requirementClient.requirementGetByIdentifier()).let {
+            it.item!!.unflatten(it.graph as CccevFlatGraph)
+        }
     }
 
     private suspend fun createRequirement(
@@ -179,9 +182,6 @@ class CCCEVGraphClient(
             hasEvidenceTypeList = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
                 .orEmpty(),
             hasRequirement = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
-            hasQualifiedRelation = requirement.hasQualifiedRelation?.mapValues { (_, requirements) ->
-                requirements.map { context.processedRequirements[it.identifier]!! }
-            }.orEmpty(),
             kind = requirement.kind,
             type = requirement.type?.toString(),
             enablingCondition = requirement.enablingCondition,
@@ -207,9 +207,6 @@ class CCCEVGraphClient(
             hasEvidenceTypeList = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
                 .orEmpty(),
             hasRequirement = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
-            hasQualifiedRelation = requirement.hasQualifiedRelation?.mapValues { (_, requirements) ->
-                requirements.map { context.processedRequirements[it.identifier]!! }
-            }.orEmpty(),
             type = requirement.type?.toString(),
             enablingCondition = requirement.enablingCondition,
             enablingConditionDependencies = requirement.enablingConditionDependencies.map { context.processedConcepts[it]!! },
@@ -362,6 +359,6 @@ class CCCEVGraphClient(
         val processedRequirements = mutableMapOf<RequirementIdentifier, RequirementId>()
         val processedUnits = mutableMapOf<String, DataUnitId>()
 
-        val resultRequirements = mutableListOf<RequirementDTOBase>()
+        val resultRequirements = mutableListOf<cccev.core.requirement.entity.Requirement>()
     }
 }

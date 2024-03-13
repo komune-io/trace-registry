@@ -3,10 +3,10 @@ package cccev.f2.certification.api.model
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.model.RequirementCertificationId
 import cccev.f2.certification.domain.model.RequirementCertificationFlat
-import cccev.f2.commons.CertificationFlatGraph
+import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.requirement.api.model.flattenTo
 
-fun RequirementCertification.flattenTo(graph: CertificationFlatGraph): RequirementCertificationId {
+fun RequirementCertification.flattenTo(graph: CccevFlatGraph): RequirementCertificationId {
     graph.requirementCertifications[id] = RequirementCertificationFlat(
         id = id,
         requirementIdentifier = requirement.flattenTo(graph),

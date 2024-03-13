@@ -1,8 +1,8 @@
 package cccev.test.s2.requirement.command
 
-import cccev.projection.api.entity.requirement.RequirementRepository
-import cccev.s2.requirement.api.RequirementAggregateService
-import cccev.s2.requirement.domain.command.RequirementAddConceptsCommand
+import cccev.core.requirement.RequirementAggregateService
+import cccev.core.requirement.command.RequirementAddConceptsCommand
+import cccev.core.requirement.entity.RequirementRepository
 import cccev.test.CccevCucumberStepsDefinition
 import cccev.test.s2.requirement.data.requirement
 import io.cucumber.java8.En

@@ -1,16 +1,14 @@
 package cccev.test.s2.requirement.command
 
-import cccev.projection.api.entity.requirement.RequirementRepository
-import cccev.s2.requirement.api.RequirementAggregateService
-import cccev.s2.requirement.domain.RequirementState
-import cccev.s2.requirement.domain.command.RequirementCreateCommand
-import cccev.s2.requirement.domain.model.RequirementKind
+import cccev.core.requirement.RequirementAggregateService
+import cccev.core.requirement.command.RequirementCreateCommand
+import cccev.core.requirement.entity.RequirementRepository
+import cccev.core.requirement.model.RequirementKind
 import cccev.test.CccevCucumberStepsDefinition
 import cccev.test.s2.requirement.data.extractRequirementKind
 import cccev.test.s2.requirement.data.requirement
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import net.datafaker.Faker
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
@@ -67,7 +65,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             step {
                 val requirementId = context.requirementIds.lastUsed
                 AssertionBdd.requirement(requirementRepository).assertThatId(requirementId).hasFields(
-                    status = RequirementState.CREATED,
                     kind = command.kind,
                     name = command.name,
                     description = command.description,
@@ -83,11 +80,10 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         Then("The requirement should be created:") { params: RequirementAssertParams ->
             step {
                 val requirementId = context.requirementIds.safeGet(params.identifier)
-                val requirement = requirementRepository.findById(requirementId).awaitSingleOrNull()
+                val requirement = requirementRepository.findById(requirementId)
                 Assertions.assertThat(requirement).isNotNull
 
                 AssertionBdd.requirement(requirementRepository).assertThat(requirement!!).hasFields(
-                    status = RequirementState.CREATED,
                     kind = params.kind ?: requirement.kind,
                     name = params.name ?: requirement.name,
                     description = params.description ?: requirement.description,
@@ -95,7 +91,7 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
                     isDerivedFrom = params.isDerivedFrom?.map(context.frameworkIds::safeGet)
                         ?: requirement.isDerivedFrom.map { it.id },
                     hasRequirement = params.hasRequirement?.map(context.requirementIds::safeGet)
-                        ?: requirement.hasRequirement().map { it.id },
+                        ?: requirement.hasRequirement.map { it.id },
                     hasConcept = params.hasConcept?.map(context.conceptIds::safeGet) ?: requirement.hasConcept.map { it.id },
                     hasEvidenceTypeList = params.hasEvidenceTypeList?.map(context.evidenceTypeListIds::safeGet)
                         ?: requirement.hasEvidenceTypeList.map { it.id },
@@ -113,7 +109,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             type = params.type,
             isDerivedFrom = params.isDerivedFrom.map { context.frameworkIds[it] ?: it },
             hasRequirement = params.hasRequirement.map { context.requirementIds[it] ?: it },
-            hasQualifiedRelation = emptyMap(),
             hasConcept = params.hasConcept.map { context.conceptIds[it] ?: it },
             hasEvidenceTypeList = params.hasEvidenceTypeList.map { context.evidenceTypeListIds[it] ?: it },
             validatingCondition = params.validatingCondition,

@@ -1,6 +1,6 @@
 package cccev.f2.unit.api.model
 
-import cccev.f2.commons.CertificationFlatGraph
+import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.unit.domain.model.DataUnitDTOBase
 import cccev.f2.unit.domain.model.DataUnitFlat
 import cccev.projection.api.entity.unit.DataUnitEntity
@@ -30,7 +30,7 @@ fun DataUnitOption.toDTO() = cccev.f2.unit.domain.model.DataUnitOption(
     color = color,
 )
 
-fun DataUnitEntity.flattenTo(graph: CertificationFlatGraph): DataUnitIdentifier {
+fun DataUnitEntity.flattenTo(graph: CccevFlatGraph): DataUnitIdentifier {
     graph.units[identifier] = DataUnitFlat(
         id = id,
         identifier = identifier,
@@ -43,7 +43,7 @@ fun DataUnitEntity.flattenTo(graph: CertificationFlatGraph): DataUnitIdentifier 
     return identifier
 }
 
-fun DataUnitOptionEntity.flattenTo(graph: CertificationFlatGraph): DataUnitOptionIdentifier {
+fun DataUnitOptionEntity.flattenTo(graph: CccevFlatGraph): DataUnitOptionIdentifier {
     graph.unitOptions[identifier] = this.toDataUnitOption().toDTO()
     return identifier
 }

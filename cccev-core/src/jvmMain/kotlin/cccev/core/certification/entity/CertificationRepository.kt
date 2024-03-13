@@ -2,9 +2,9 @@ package cccev.core.certification.entity
 
 import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.RequirementCertificationId
+import cccev.core.requirement.entity.Requirement
 import cccev.infra.neo4j.session
 import cccev.projection.api.entity.concept.InformationConceptEntity
-import cccev.projection.api.entity.requirement.RequirementEntity
 import cccev.projection.api.entity.unit.DataUnitEntity
 import cccev.s2.concept.domain.InformationConceptIdentifier
 import org.neo4j.ogm.session.SessionFactory
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class CertificationRepository(
     private val sessionFactory: SessionFactory
 ) {
-    suspend fun findById(id: String): Certification? = sessionFactory.session { session ->
+    suspend fun findById(id: CertificationId): Certification? = sessionFactory.session { session ->
         session.queryForObject(
             Certification::class.java,
             "MATCH (c:${Certification.LABEL} {id: \$id})" +
@@ -49,14 +49,14 @@ class CertificationRepository(
                         "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
                     } else { "" }) +
                     "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
-                    "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${RequirementEntity.LABEL})" +
+                    "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
                     "-->(:${InformationConceptEntity.LABEL} {identifier: \$icId})" +
                     "\nOPTIONAL MATCH (rc)" +
                     "-[uses_value:${RequirementCertification.USES_VALUE}]->(sv:${SupportedValue.LABEL})" +
                     "-[provides_value_for:${SupportedValue.PROVIDES_VALUE_FOR}]->(ic:${InformationConceptEntity.LABEL})" +
                     "\nOPTIONAL MATCH (rc)" +
                     "-[is_certified_by:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(dependency:${RequirementCertification.LABEL})" +
-                    "-[dependency_certifies:${RequirementCertification.CERTIFIES}]->(dependency_requirement:${RequirementEntity.LABEL})" +
+                    "-[dependency_certifies:${RequirementCertification.CERTIFIES}]->(dependency_requirement:${Requirement.LABEL})" +
                     "\nOPTIONAL MATCH (r)-[r_uses_concept]->(r_ic:${InformationConceptEntity.LABEL})" +
                     "\nRETURN rc, collect(certifies), collect(r), collect(is_certified_by), collect(dependency), collect(uses_value), " +
                     "collect(sv), collect(provides_value_for), collect(ic), collect(r_uses_concept), collect(r_ic), " +
@@ -73,9 +73,9 @@ class CertificationRepository(
                     "<-[:${RequirementCertification.IS_CERTIFIED_BY}]-(parent:${RequirementCertification.LABEL})" +
                     "\nMATCH (parent)" +
                     "-[is_certified_by:${RequirementCertification.IS_CERTIFIED_BY}]->(child:${RequirementCertification.LABEL})" +
-                    "\nMATCH (parent)-[certifies:${RequirementCertification.CERTIFIES}]->(r:${RequirementEntity.LABEL})" +
-                    "\nOPTIONAL MATCH (r)-[r_has_concept:${RequirementEntity.HAS_CONCEPT}]->(r_ic:${InformationConceptEntity.LABEL})" +
-                    "\nMATCH (child)-[child_certifies:${RequirementCertification.CERTIFIES}]->(child_r:${RequirementEntity.LABEL})" +
+                    "\nMATCH (parent)-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
+                    "\nOPTIONAL MATCH (r)-[r_has_concept:${Requirement.HAS_CONCEPT}]->(r_ic:${InformationConceptEntity.LABEL})" +
+                    "\nMATCH (child)-[child_certifies:${RequirementCertification.CERTIFIES}]->(child_r:${Requirement.LABEL})" +
                     "\nOPTIONAL MATCH (rc)" +
                     "-[uses_value:${RequirementCertification.USES_VALUE}]->(sv:${SupportedValue.LABEL})" +
                     "-[provides_value_for:${SupportedValue.PROVIDES_VALUE_FOR}]->(ic:${InformationConceptEntity.LABEL})" +

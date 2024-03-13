@@ -1,10 +1,10 @@
 package cccev.f2.requirement.domain.model
 
+import cccev.core.requirement.model.RequirementId
 import cccev.f2.concept.domain.model.InformationConceptDTO
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.evidence.type.domain.model.EvidenceTypeListDTO
 import cccev.f2.evidence.type.domain.model.EvidenceTypeListDTOBase
-import cccev.s2.requirement.domain.RequirementId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName

@@ -1,5 +1,6 @@
 package cccev.f2.certification.api
 
+import cccev.f2.certification.api.model.flattenTo
 import cccev.f2.certification.api.service.CertificationF2AggregateService
 import cccev.f2.certification.api.service.CertificationF2FinderService
 import cccev.f2.certification.domain.CertificationApi
@@ -9,6 +10,7 @@ import cccev.f2.certification.domain.command.CertificationFillValuesFunction
 import cccev.f2.certification.domain.command.CertificationRemoveRequirementsFunction
 import cccev.f2.certification.domain.query.CertificationGetFunction
 import cccev.f2.certification.domain.query.CertificationGetResult
+import cccev.f2.commons.CccevFlatGraph
 import city.smartb.fs.s2.file.client.FileClient
 import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
@@ -32,15 +34,17 @@ class CertificationEndpoint(
     @Bean
     override fun certificationGet(): CertificationGetFunction = f2Function { query ->
         logger.info("certificationGet: $query")
-        val graph = certificationF2FinderService.getFlatOrNull(query.id)
+        val graph = CccevFlatGraph().also {
+            certificationF2FinderService.getOrNull(query.id)?.flattenTo(it)
+        }
         CertificationGetResult(
-            certification = graph?.certification,
-            requirementCertifications = graph?.requirementCertifications.orEmpty(),
-            requirements = graph?.requirements.orEmpty(),
-            concepts = graph?.concepts.orEmpty(),
-            units = graph?.units.orEmpty(),
-            unitOptions = graph?.unitOptions.orEmpty(),
-            supportedValues = graph?.supportedValues.orEmpty()
+            certification = graph.certifications[query.id],
+            requirementCertifications = graph.requirementCertifications,
+            requirements = graph.requirements,
+            concepts = graph.concepts,
+            units = graph.units,
+            unitOptions = graph.unitOptions,
+            supportedValues = graph.supportedValues
         )
     }
 

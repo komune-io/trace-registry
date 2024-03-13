@@ -2,7 +2,7 @@ package cccev.f2.concept.api.model
 
 import cccev.dsl.model.InformationConceptBase
 import cccev.dsl.model.SupportedValue
-import cccev.f2.commons.CertificationFlatGraph
+import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import cccev.f2.concept.domain.model.InformationConceptFlat
 import cccev.f2.concept.domain.model.RequestInformationConceptDTOBase
@@ -44,7 +44,7 @@ fun InformationConcept.toDTO() = InformationConceptDTOBase(
     dependsOn = dependsOn
 )
 
-fun InformationConceptEntity.flattenTo(graph: CertificationFlatGraph): InformationConceptIdentifier {
+fun InformationConceptEntity.flattenTo(graph: CccevFlatGraph): InformationConceptIdentifier {
     graph.concepts[identifier] = InformationConceptFlat(
         id = id,
         identifier = identifier,

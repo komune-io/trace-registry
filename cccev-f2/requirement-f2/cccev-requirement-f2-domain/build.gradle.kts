@@ -9,5 +9,5 @@ dependencies {
     commonMainApi(project(Modules.cccev.f2.concept.domain))
     commonMainApi(project(Modules.cccev.f2.evidenceType.domain))
     commonMainApi(project(Modules.cccev.f2.framework.domain))
-    commonMainApi(project(Modules.cccev.s2.requirement.domain))
+    commonMainApi(project(Modules.cccev.core))
 }

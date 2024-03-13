@@ -16,6 +16,15 @@ class InformationConceptRepository2(
         session.load(InformationConceptEntity::class.java, id, depth)
     }
 
+    suspend fun findShallowByIdentifier(identifier: InformationConceptIdentifier): InformationConceptEntity? = sessionFactory.session { session ->
+        session.queryForObject(
+            InformationConceptEntity::class.java,
+            "MATCH (ic:${InformationConceptEntity.LABEL} {identifier: \$identifier})" +
+                    "\nRETURN ic",
+            mapOf("identifier" to identifier)
+        )
+    }
+
     suspend fun findByIdentifier(identifier: InformationConceptIdentifier): InformationConceptEntity? = sessionFactory.session { session ->
         session.query(
             "MATCH (ic:${InformationConceptEntity.LABEL} {identifier: \$identifier})" +

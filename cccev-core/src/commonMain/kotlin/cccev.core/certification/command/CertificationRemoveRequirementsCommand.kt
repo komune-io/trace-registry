@@ -1,7 +1,7 @@
 package cccev.core.certification.command
 
 import cccev.core.certification.model.CertificationId
-import cccev.s2.requirement.domain.RequirementId
+import cccev.core.requirement.model.RequirementId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName

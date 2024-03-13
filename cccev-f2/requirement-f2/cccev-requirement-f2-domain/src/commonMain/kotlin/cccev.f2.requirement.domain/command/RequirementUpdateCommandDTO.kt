@@ -1,7 +1,7 @@
 package cccev.f2.requirement.domain.command
 
-import cccev.s2.requirement.domain.command.RequirementUpdateCommand
-import cccev.s2.requirement.domain.command.RequirementUpdatedEvent
+import cccev.core.requirement.command.RequirementUpdateCommand
+import cccev.core.requirement.command.RequirementUpdatedEvent
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -10,8 +10,8 @@ typealias RequirementUpdateFunction = F2Function<RequirementUpdateCommand, Requi
 
 @JsExport
 @JsName("RequirementUpdateCommandDTO")
-interface RequirementUpdateCommandDTO: cccev.s2.requirement.domain.command.RequirementUpdateCommandDTO
+interface RequirementUpdateCommandDTO: cccev.core.requirement.command.RequirementUpdateCommandDTO
 
 @JsExport
 @JsName("RequirementUpdatedEventDTO")
-interface RequirementUpdatedEventDTO: cccev.s2.requirement.domain.command.RequirementUpdatedEventDTO
+interface RequirementUpdatedEventDTO: cccev.core.requirement.command.RequirementUpdatedEventDTO

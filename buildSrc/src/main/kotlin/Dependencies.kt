@@ -195,10 +195,6 @@ object Modules {
 				const val api = ":cccev-s2:framework:cccev-framework-api"
 				const val domain = ":cccev-s2:framework:cccev-framework-domain"
 			}
-			object requirement {
-				const val api = ":cccev-s2:requirement:cccev-requirement-api"
-				const val domain = ":cccev-s2:requirement:cccev-requirement-domain"
-			}
 			object unit {
 				const val api = ":cccev-s2:unit:cccev-unit-api"
 				const val domain = ":cccev-s2:unit:cccev-unit-domain"
