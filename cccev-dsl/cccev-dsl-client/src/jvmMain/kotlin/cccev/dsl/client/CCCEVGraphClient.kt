@@ -17,7 +17,6 @@ import cccev.dsl.model.EvidenceTypeBase
 import cccev.dsl.model.EvidenceTypeListBase
 import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.InformationConceptRef
-import cccev.dsl.model.ReferenceFramework
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementRef
 import cccev.f2.commons.CccevFlatGraph
@@ -26,8 +25,6 @@ import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBa
 import cccev.f2.evidence.type.client.EvidenceTypeClient
 import cccev.f2.evidence.type.domain.query.EvidenceTypeGetByIdentifierQueryDTOBase
 import cccev.f2.evidence.type.domain.query.EvidenceTypeListGetByIdentifierQueryDTOBase
-import cccev.f2.framework.client.FrameworkClient
-import cccev.f2.framework.domain.query.FrameworkGetByIdentifierQueryDTOBase
 import cccev.f2.requirement.domain.command.RequirementCreateCommandDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.unit.client.DataUnitClient
@@ -38,8 +35,6 @@ import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.evidence.type.domain.command.list.EvidenceTypeListCreateCommand
 import cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreateCommand
-import cccev.s2.framework.domain.FrameworkId
-import cccev.s2.framework.domain.command.FrameworkCreateCommand
 import cccev.s2.requirement.client.RequirementClient
 import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.FlowPreview
@@ -55,7 +50,6 @@ class CCCEVGraphClient(
     private val informationConceptClient: InformationConceptClient,
     private val requirementClient: RequirementClient,
     private val dataUnitClient: DataUnitClient,
-    private val frameworkClient: FrameworkClient,
 ) {
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer(informationConceptClient)
     private val requirementGraphInitializer = RequirementGraphInitializer(requirementClient)
@@ -119,13 +113,6 @@ class CCCEVGraphClient(
         val processedRequirements = requirementGraphInitializer.initialize(this) { requirement, dependencies ->
             context.processedRequirements.putAllNew(dependencies)
 
-            requirement.isDerivedFrom?.forEach { framework ->
-                if (framework.identifier !in context.processedFrameworks) {
-                    val frameworkId = framework.getOrCreate()
-                    context.processedFrameworks[framework.identifier] = frameworkId
-                }
-            }
-
             requirement.hasEvidenceTypeList?.forEach { etl ->
                 initEvidenceTypeList(etl, context)
             }
@@ -176,7 +163,6 @@ class CCCEVGraphClient(
             identifier = requirement.identifier,
             name = requirement.name,
             description = requirement.description,
-            isDerivedFrom = requirement.isDerivedFrom?.map { context.processedFrameworks[it.identifier]!! }.orEmpty(),
             hasConcept = requirement.hasConcept?.map { context.processedConcepts[it.identifier]!! }.orEmpty(),
             hasEvidenceTypeList = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
                 .orEmpty(),
@@ -232,16 +218,6 @@ class CCCEVGraphClient(
             val evidenceTypeListId = etl.save(context)
             context.processedEvidenceTypeLists[etl.identifier] = evidenceTypeListId
         }
-    }
-
-    private suspend fun ReferenceFramework.getOrCreate(): FrameworkId {
-        return FrameworkGetByIdentifierQueryDTOBase(
-            identifier = identifier
-        ).invokeWith(frameworkClient.frameworkGetByIdentifier()).item?.id
-            ?: FrameworkCreateCommand(
-            identifier = identifier,
-            name = name
-        ).invokeWith(frameworkClient.frameworkCreate()).id
     }
 
     private suspend fun DataUnitDTO.save(): DataUnitId {
@@ -356,7 +332,6 @@ class CCCEVGraphClient(
         val processedConcepts = mutableMapOf<String, InformationConceptId>()
         val processedEvidenceTypes = mutableMapOf<String, EvidenceTypeId>()
         val processedEvidenceTypeLists = mutableMapOf<String, EvidenceTypeListId>()
-        val processedFrameworks = mutableMapOf<String, FrameworkId>()
         val processedRequirements = mutableMapOf<RequirementIdentifier, RequirementId>()
         val processedUnits = mutableMapOf<String, DataUnitId>()
 

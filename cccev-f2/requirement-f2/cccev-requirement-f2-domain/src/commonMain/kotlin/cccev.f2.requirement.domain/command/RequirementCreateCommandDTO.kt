@@ -4,7 +4,6 @@ import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.command.RequirementCreatedEvent
 import cccev.core.requirement.model.RequirementId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
-import cccev.s2.framework.domain.FrameworkId
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -20,7 +19,6 @@ interface RequirementCreateCommandDTO {
     val name: String?
     val description: String?
     val type: String?
-    val isDerivedFrom: List<FrameworkId>
     val hasConcept: List<InformationConceptId>
     val hasEvidenceTypeList: List<EvidenceTypeListId>
     val hasRequirement: List<RequirementId>
@@ -40,7 +38,6 @@ data class RequirementCreateCommandDTOBase(
     override val name: String? = null,
     override val description: String? = null,
     override val type: String? = null,
-    override val isDerivedFrom: List<FrameworkId> = emptyList(),
     override val hasRequirement: List<RequirementId> = emptyList(),
     override val hasConcept: List<InformationConceptId> = emptyList(),
     override val hasEvidenceTypeList: List<EvidenceTypeListId> = emptyList(),

@@ -153,11 +153,6 @@ object Modules {
 				const val client = ":cccev-f2:evidence-type-f2:cccev-evidence-type-f2-client"
 				const val domain = ":cccev-f2:evidence-type-f2:cccev-evidence-type-f2-domain"
 			}
-			object framework {
-				const val api = ":cccev-f2:framework-f2:cccev-framework-f2-api"
-				const val client = ":cccev-f2:framework-f2:cccev-framework-f2-client"
-				const val domain = ":cccev-f2:framework-f2:cccev-framework-f2-domain"
-			}
 			object requirement {
 				const val api = ":cccev-f2:requirement-f2:cccev-requirement-f2-api"
 				const val client = ":cccev-f2:requirement-f2:cccev-requirement-f2-client"
@@ -185,10 +180,6 @@ object Modules {
 			object evidenceType {
 				const val api = ":cccev-s2:evidence-type:cccev-evidence-type-api"
 				const val domain = ":cccev-s2:evidence-type:cccev-evidence-type-domain"
-			}
-			object framework {
-				const val api = ":cccev-s2:framework:cccev-framework-api"
-				const val domain = ":cccev-s2:framework:cccev-framework-domain"
 			}
 		}
 		const val core = ":cccev-core"

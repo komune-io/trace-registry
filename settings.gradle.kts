@@ -38,9 +38,6 @@ include(
 	"cccev-f2:evidence-type-f2:cccev-evidence-type-f2-api",
 	"cccev-f2:evidence-type-f2:cccev-evidence-type-f2-client",
 	"cccev-f2:evidence-type-f2:cccev-evidence-type-f2-domain",
-	"cccev-f2:framework-f2:cccev-framework-f2-api",
-	"cccev-f2:framework-f2:cccev-framework-f2-client",
-	"cccev-f2:framework-f2:cccev-framework-f2-domain",
 	"cccev-f2:requirement-f2:cccev-requirement-f2-api",
 	"cccev-f2:requirement-f2:cccev-requirement-f2-client",
 	"cccev-f2:requirement-f2:cccev-requirement-f2-domain",
@@ -61,10 +58,5 @@ include(
 
 include(
 	"cccev-s2:evidence-type:cccev-evidence-type-api",
-	"cccev-s2:evidence-type:cccev-evidence-type-domain",
-	"cccev-s2:framework:cccev-framework-api",
-	"cccev-s2:framework:cccev-framework-domain",
-	"cccev-s2:certification:cccev-certification-api",
-	"cccev-s2:certification:cccev-certification-domain",
-	"cccev-s2:certification:cccev-certification-tasks",
+	"cccev-s2:evidence-type:cccev-evidence-type-domain"
 )

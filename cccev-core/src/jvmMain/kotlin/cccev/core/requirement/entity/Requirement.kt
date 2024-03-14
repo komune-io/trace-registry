@@ -6,7 +6,6 @@ import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
 import cccev.projection.api.entity.evidencetypelist.EvidenceTypeListEntity
-import cccev.projection.api.entity.framework.FrameworkEntity
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -16,7 +15,6 @@ import org.neo4j.ogm.annotation.Version
 class Requirement {
     companion object {
         const val LABEL = "Requirement"
-        const val IS_DERIVED_FROM = "IS_DERIVED_FROM"
         const val HAS_REQUIREMENT = "HAS_REQUIREMENT"
         const val HAS_CONCEPT = "HAS_CONCEPT"
         const val HAS_EVIDENCE_TYPES = "HAS_EVIDENCE_TYPES"
@@ -36,9 +34,6 @@ class Requirement {
     var description: String? = null
 
     var type: String? = null
-
-    @Relationship(IS_DERIVED_FROM)
-    var isDerivedFrom: MutableList<FrameworkEntity> = mutableListOf()
 
     @Relationship(HAS_REQUIREMENT)
     var hasRequirement: MutableList<Requirement> = mutableListOf()

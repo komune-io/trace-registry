@@ -6,7 +6,6 @@ import cccev.core.requirement.entity.RequirementRepository
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
-import cccev.s2.framework.domain.FrameworkId
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionApiEntity
@@ -29,7 +28,6 @@ class AssertionRequirement(
             name: String? = requirement.name,
             description: String? = requirement.description,
             type: String? = requirement.type,
-            isDerivedFrom: List<FrameworkId> = requirement.isDerivedFrom.map { it.id },
             hasRequirement: List<RequirementId> = requirement.hasRequirement.map { it.id },
             hasConcept: List<InformationConceptId> = requirement.hasConcept.map { it.id },
             hasEvidenceTypeList: List<EvidenceTypeListId> = requirement.hasEvidenceTypeList.map { it.id },
@@ -39,7 +37,6 @@ class AssertionRequirement(
             Assertions.assertThat(requirement.name).isEqualTo(name)
             Assertions.assertThat(requirement.description).isEqualTo(description)
             Assertions.assertThat(requirement.type).isEqualTo(type)
-            Assertions.assertThat(requirement.isDerivedFrom.map { it.id }).containsExactlyInAnyOrderElementsOf(isDerivedFrom)
             Assertions.assertThat(requirement.hasRequirement.map { it.id }).containsExactlyInAnyOrderElementsOf(hasRequirement)
             Assertions.assertThat(requirement.hasConcept.map { it.id }).containsExactlyInAnyOrderElementsOf(hasConcept)
             Assertions.assertThat(requirement.hasEvidenceTypeList.map { it.id }).containsExactlyInAnyOrderElementsOf(hasEvidenceTypeList)

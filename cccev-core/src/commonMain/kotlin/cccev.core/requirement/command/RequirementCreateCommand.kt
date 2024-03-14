@@ -5,7 +5,6 @@ import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
 import cccev.dsl.model.EvidenceTypeListId
-import cccev.dsl.model.FrameworkId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -55,11 +54,6 @@ data class RequirementCreateCommand(
      * @ref [cccev.core.requirement.model.Requirement.type]
      */
     val type: String? = null,
-
-    /**
-     * @ref [cccev.core.requirement.model.Requirement.isDerivedFrom]
-     */
-    val isDerivedFrom: List<FrameworkId> = emptyList(),
 
     /**
      * Sub-requirements that must be fulfilled for the requirement to be validated.

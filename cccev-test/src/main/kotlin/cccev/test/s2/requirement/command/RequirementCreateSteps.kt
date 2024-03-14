@@ -69,7 +69,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
                     name = command.name,
                     description = command.description,
                     type = command.type,
-                    isDerivedFrom = command.isDerivedFrom,
                     hasRequirement = command.hasRequirement,
                     hasConcept = command.hasConcept,
                     hasEvidenceTypeList = command.hasEvidenceTypeList,
@@ -88,8 +87,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
                     name = params.name ?: requirement.name,
                     description = params.description ?: requirement.description,
                     type = params.type ?: requirement.type,
-                    isDerivedFrom = params.isDerivedFrom?.map(context.frameworkIds::safeGet)
-                        ?: requirement.isDerivedFrom.map { it.id },
                     hasRequirement = params.hasRequirement?.map(context.requirementIds::safeGet)
                         ?: requirement.hasRequirement.map { it.id },
                     hasConcept = params.hasConcept?.map(context.conceptIds::safeGet) ?: requirement.hasConcept.map { it.id },
@@ -107,7 +104,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             name = params.name,
             description = params.description,
             type = params.type,
-            isDerivedFrom = params.isDerivedFrom.map { context.frameworkIds[it] ?: it },
             hasRequirement = params.hasRequirement.map { context.requirementIds[it] ?: it },
             hasConcept = params.hasConcept.map { context.conceptIds[it] ?: it },
             hasEvidenceTypeList = params.hasEvidenceTypeList.map { context.evidenceTypeListIds[it] ?: it },
@@ -125,7 +121,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             name = entry?.get("name") ?: fakerRestaurant.name(),
             description = entry?.get("description") ?: fakerRestaurant.description(),
             type = entry?.get("type") ?: fakerRestaurant.type(),
-            isDerivedFrom = entry?.extractList("isDerivedFrom").orEmpty(),
             hasRequirement = entry?.extractList("hasRequirement").orEmpty(),
             hasConcept = entry?.extractList("hasConcept").orEmpty(),
             hasEvidenceTypeList = entry?.extractList("hasEvidenceTypeList").orEmpty(),
@@ -142,7 +137,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         val name: String,
         val description: String,
         val type: String,
-        val isDerivedFrom: List<TestContextKey>,
         val hasRequirement: List<TestContextKey>,
         val hasConcept: List<TestContextKey>,
         val hasEvidenceTypeList: List<TestContextKey>,
@@ -158,7 +152,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         name = entry["name"],
         description = entry["description"],
         type = entry["type"],
-        isDerivedFrom = entry.extractList("isDerivedFrom"),
         hasRequirement = entry.extractList("hasRequirement"),
         hasConcept = entry.extractList("hasConcept"),
         hasEvidenceTypeList = entry.extractList("hasEvidenceTypeList")
@@ -170,7 +163,6 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         val name: String?,
         val description: String?,
         val type: String?,
-        val isDerivedFrom: List<TestContextKey>?,
         val hasRequirement: List<TestContextKey>?,
         val hasConcept: List<TestContextKey>?,
         val hasEvidenceTypeList: List<TestContextKey>?

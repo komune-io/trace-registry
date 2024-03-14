@@ -22,7 +22,6 @@ class RequirementF2AggregateService(
             name = command.name,
             description = command.description,
             type = command.type,
-            isDerivedFrom = command.isDerivedFrom,
             hasRequirement = command.hasRequirement,
             hasConcept = command.hasConcept,
             hasEvidenceTypeList = command.hasEvidenceTypeList,

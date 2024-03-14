@@ -8,7 +8,6 @@ import cccev.core.requirement.model.RequirementId
 import cccev.core.unit.model.DataUnitId
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
-import cccev.s2.framework.domain.FrameworkId
 import org.springframework.stereotype.Component
 import s2.bdd.data.TestContext
 import s2.bdd.data.TestContextKey
@@ -17,7 +16,6 @@ import s2.bdd.data.TestContextKey
 class CccevTestContext: TestContext() {
 
     val conceptIds = testEntities<TestContextKey, InformationConceptId>("InformationConcept")
-    val frameworkIds = testEntities<TestContextKey, FrameworkId>("Framework")
     val evidenceIds = testEntities<TestContextKey, EvidenceId>("Evidence")
     val evidenceTypeIds = testEntities<TestContextKey, EvidenceTypeId>("EvidenceType")
     val evidenceTypeListIds = testEntities<TestContextKey, EvidenceTypeListId>("EvidenceTypeList")

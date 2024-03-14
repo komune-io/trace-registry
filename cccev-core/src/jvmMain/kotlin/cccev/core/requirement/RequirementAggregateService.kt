@@ -19,7 +19,6 @@ import cccev.infra.neo4j.findSafeShallowAllById
 import cccev.infra.neo4j.removeRelation
 import cccev.infra.neo4j.removeSeveredRelations
 import cccev.infra.neo4j.transaction
-import cccev.projection.api.entity.framework.FrameworkEntity
 import f2.spring.exception.NotFoundException
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.context.ApplicationEventPublisher
@@ -39,7 +38,6 @@ class RequirementAggregateService(
             .associateBy(InformationConcept::id)
 
 //        val evidenceTypeLists = evidenceTypeListRepository.findAllById(command.hasEvidenceTypeList).collectList().awaitSingle()
-        val frameworks = session.findSafeShallowAllById<FrameworkEntity>(command.isDerivedFrom, "Framework")
 
         val requirement = Requirement().apply {
             id = UUID.randomUUID().toString()
@@ -48,7 +46,6 @@ class RequirementAggregateService(
             name = command.name
             description = command.description
             type = command.type
-            isDerivedFrom = frameworks.toMutableList()
             hasRequirement = subRequirements.toMutableList()
             hasConcept = command.hasConcept.mapNotNull { concepts[it] }.toMutableList()
 //            hasEvidenceTypeList = evidenceTypeLists
