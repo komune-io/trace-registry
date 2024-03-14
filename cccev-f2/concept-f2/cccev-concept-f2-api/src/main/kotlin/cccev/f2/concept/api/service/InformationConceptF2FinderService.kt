@@ -1,29 +1,28 @@
 package cccev.f2.concept.api.service
 
-import cccev.f2.concept.api.model.toDTO
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.s2.concept.api.InformationConceptFinderService
-import cccev.s2.concept.domain.InformationConceptId
+import cccev.core.concept.InformationConceptFinderService
+import cccev.core.concept.entity.InformationConcept
+import cccev.core.concept.model.InformationConceptId
 import org.springframework.stereotype.Service
 
 @Service
 class InformationConceptF2FinderService(
     private val informationConceptFinderService: InformationConceptFinderService,
 ) {
-    suspend fun getOrNull(id: InformationConceptId): InformationConceptDTOBase? {
-        return informationConceptFinderService.getOrNull(id)?.toDTO()
+    suspend fun getOrNull(id: InformationConceptId): InformationConcept? {
+        return informationConceptFinderService.getOrNull(id)
     }
 
-    suspend fun get(id: InformationConceptId): InformationConceptDTOBase {
-        return informationConceptFinderService.get(id).toDTO()
+    suspend fun get(id: InformationConceptId): InformationConcept {
+        return informationConceptFinderService.get(id)
     }
 
-    suspend fun getByIdentifierOrNull(identifier: InformationConceptId): InformationConceptDTOBase? {
-        return informationConceptFinderService.getByIdentifierOrNull(identifier)?.toDTO()
+    suspend fun getByIdentifierOrNull(identifier: InformationConceptId): InformationConcept? {
+        return informationConceptFinderService.getByIdentifierOrNull(identifier)
     }
 
-    suspend fun getByIdentifier(identifier: InformationConceptId): InformationConceptDTOBase {
-        return informationConceptFinderService.getByIdentifier(identifier).toDTO()
+    suspend fun getByIdentifier(identifier: InformationConceptId): InformationConcept {
+        return informationConceptFinderService.getByIdentifier(identifier)
     }
 
     // TODO move to request-f2 module?

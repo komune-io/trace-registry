@@ -1,8 +1,8 @@
 package cccev.f2.concept.domain.model
 
+import cccev.core.concept.model.InformationConceptId
+import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.f2.concept.domain.D2InformationConceptF2Page
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.unit.domain.DataUnitIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -33,7 +33,7 @@ interface InformationConceptFlatDTO {
     /**
      * @ref [InformationConceptDTO.unit]
      */
-    val unitIdentifier: DataUnitIdentifier?
+    val unitIdentifier: DataUnitIdentifier
 
     /**
      * @ref [InformationConceptDTO.description]
@@ -48,7 +48,7 @@ interface InformationConceptFlatDTO {
     /**
      * @ref [InformationConceptDTO.dependsOn]
      */
-    val dependsOn: List<InformationConceptIdentifier>?
+    val dependsOn: List<InformationConceptIdentifier>
 }
 
 /**
@@ -62,5 +62,5 @@ data class InformationConceptFlat(
     override val unitIdentifier: DataUnitIdentifier,
     override val description: String?,
     override val expressionOfExpectedValue: String?,
-    override val dependsOn: List<InformationConceptIdentifier>?
+    override val dependsOn: List<InformationConceptIdentifier>
 ): InformationConceptFlatDTO

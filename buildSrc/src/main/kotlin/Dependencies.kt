@@ -127,7 +127,6 @@ object Modules {
 	}
 
 	object cccev {
-
 		object dsl {
 			const val client = ":cccev-dsl:cccev-dsl-client"
 			const val model = ":cccev-dsl:cccev-dsl-model"
@@ -179,10 +178,6 @@ object Modules {
 			const val domain = ":cccev-projection:cccev-projection-domain"
 		}
 		object s2 {
-			object concept {
-				const val api = ":cccev-s2:concept:cccev-concept-api"
-				const val domain = ":cccev-s2:concept:cccev-concept-domain"
-			}
 			object evidence {
 				const val api = ":cccev-s2:evidence:cccev-evidence-api"
 				const val domain = ":cccev-s2:evidence:cccev-evidence-domain"

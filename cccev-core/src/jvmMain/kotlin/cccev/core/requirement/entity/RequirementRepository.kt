@@ -1,9 +1,9 @@
 package cccev.core.requirement.entity
 
+import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementIdentifier
 import cccev.infra.neo4j.session
-import cccev.projection.api.entity.concept.InformationConceptEntity
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
 
@@ -53,7 +53,7 @@ class RequirementRepository(
             java.lang.Boolean::class.java,
             "RETURN EXISTS( " +
                     "(:${Requirement.LABEL} {identifier: \$identifier})" +
-                    "-[:${Requirement.HAS_CONCEPT}]->(:${InformationConceptEntity.LABEL})" +
+                    "-[:${Requirement.HAS_CONCEPT}]->(:${InformationConcept.LABEL})" +
                     ")",
             mapOf("identifier" to requirementIdentifier)
         ).booleanValue()

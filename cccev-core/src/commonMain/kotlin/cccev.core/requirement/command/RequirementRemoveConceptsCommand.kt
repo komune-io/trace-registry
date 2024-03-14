@@ -1,7 +1,7 @@
 package cccev.core.requirement.command
 
+import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.model.RequirementId
-import cccev.s2.concept.domain.InformationConceptId
 import kotlinx.serialization.Serializable
 
 /**

@@ -3,6 +3,7 @@ package cccev.f2.commons
 import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.certification.model.SupportedValueId
+import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.core.requirement.model.RequirementIdentifier
 import cccev.f2.certification.domain.model.CertificationFlat
 import cccev.f2.certification.domain.model.CertificationFlatDTO
@@ -18,7 +19,6 @@ import cccev.f2.unit.domain.model.DataUnitFlat
 import cccev.f2.unit.domain.model.DataUnitFlatDTO
 import cccev.f2.unit.domain.model.DataUnitOption
 import cccev.f2.unit.domain.model.DataUnitOptionDTO
-import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.unit.domain.DataUnitIdentifier
 import cccev.s2.unit.domain.DataUnitOptionIdentifier
 import kotlinx.serialization.Serializable

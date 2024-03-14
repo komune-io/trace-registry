@@ -1,9 +1,9 @@
 package cccev.f2.requirement.domain.command
 
+import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.command.RequirementCreatedEvent
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
-import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.framework.domain.FrameworkId
 import f2.dsl.fnc.F2Function

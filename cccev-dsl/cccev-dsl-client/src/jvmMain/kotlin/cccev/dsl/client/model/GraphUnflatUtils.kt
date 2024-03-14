@@ -3,6 +3,7 @@ package cccev.dsl.client.model
 import cccev.core.certification.entity.Certification
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.entity.SupportedValue
+import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.model.RequirementKind
 import cccev.f2.certification.domain.model.CertificationFlat
@@ -12,7 +13,6 @@ import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.domain.model.InformationConceptFlat
 import cccev.f2.requirement.domain.model.RequirementFlat
 import cccev.f2.unit.domain.model.DataUnitFlat
-import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.unit.DataUnitEntity
 import cccev.projection.api.entity.unit.DataUnitOptionEntity
 import cccev.s2.unit.domain.model.DataUnitType
@@ -71,21 +71,21 @@ fun SupportedValueFlat.unflatten(graph: CccevFlatGraph): SupportedValue {
     }
 }
 
-fun InformationConceptFlat.unflatten(graph: CccevFlatGraph): InformationConceptEntity {
-    return InformationConceptEntity().also { concept ->
+fun InformationConceptFlat.unflatten(graph: CccevFlatGraph): InformationConcept {
+    return InformationConcept().also { concept ->
         concept.id = id
         concept.identifier = identifier
         concept.name = name
-        concept.hasUnit = graph.units[unitIdentifier]
+        concept.unit = graph.units[unitIdentifier]
             ?.unflatten(graph)
             ?: throw NotFoundException("DataUnit", unitIdentifier)
         concept.description = description
         concept.expressionOfExpectedValue = expressionOfExpectedValue
-        concept.dependsOn = dependsOn?.map { dependencyIdentifier ->
+        concept.dependencies = dependsOn.map { dependencyIdentifier ->
             graph.concepts[dependencyIdentifier]
                 ?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", dependencyIdentifier)
-        }
+        }.toMutableList()
     }
 }
 
@@ -112,13 +112,13 @@ fun RequirementFlat.unflatten(graph: CccevFlatGraph): Requirement {
         requirement.enablingConditionDependencies = enablingConditionDependencies.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
-        }
+        }.toMutableList()
         requirement.required = required
         requirement.validatingCondition = validatingCondition
         requirement.validatingConditionDependencies = validatingConditionDependencies.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
-        }
+        }.toMutableList()
         requirement.order = order
         requirement.properties = properties
     }

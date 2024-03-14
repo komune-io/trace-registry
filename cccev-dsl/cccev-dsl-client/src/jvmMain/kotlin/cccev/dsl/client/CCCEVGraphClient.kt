@@ -1,5 +1,8 @@
 package cccev.dsl.client
 
+import cccev.core.concept.command.InformationConceptCreateCommand
+import cccev.core.concept.command.InformationConceptUpdateCommand
+import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.command.RequirementAddRequirementsCommand
 import cccev.core.requirement.command.RequirementUpdateCommand
 import cccev.core.requirement.model.RequirementId
@@ -31,9 +34,6 @@ import cccev.f2.unit.domain.command.DataUnitOptionCreateCommandDTOBase
 import cccev.f2.unit.domain.command.DataUnitOptionUpdateCommandDTOBase
 import cccev.f2.unit.domain.command.DataUnitUpdateCommandDTOBase
 import cccev.f2.unit.domain.query.DataUnitGetByIdentifierQueryDTOBase
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
-import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.evidence.type.domain.command.list.EvidenceTypeListCreateCommand
@@ -303,10 +303,10 @@ class CCCEVGraphClient(
             return InformationConceptCreateCommand(
                 identifier = identifier,
                 name = name,
-                hasUnit = context.processedUnits[unit?.identifier],
+                hasUnit = context.processedUnits[unit.identifier]!!,
                 description = description,
                 expressionOfExpectedValue = expressionOfExpectedValue,
-                dependsOn = dependsOn?.map { context.processedConcepts[it]!! }
+                dependsOn = dependsOn.map { context.processedConcepts[it]!! }
             ).invokeWith(informationConceptClient.conceptCreate()).id
         }
 
@@ -315,7 +315,7 @@ class CCCEVGraphClient(
             name = name,
             description = description,
             expressionOfExpectedValue = expressionOfExpectedValue,
-            dependsOn = dependsOn?.map { context.processedConcepts[it]!! }
+            dependsOn = dependsOn.map { context.processedConcepts[it]!! }
         ).invokeWith(informationConceptClient.conceptUpdate()).id
     }
 

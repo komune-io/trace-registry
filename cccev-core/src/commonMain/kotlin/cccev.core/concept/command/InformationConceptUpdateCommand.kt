@@ -1,13 +1,9 @@
-package cccev.s2.concept.domain.command
+package cccev.core.concept.command
 
-import cccev.s2.concept.domain.D2InformationConceptPage
-import cccev.s2.concept.domain.InformationConceptCommand
-import cccev.s2.concept.domain.InformationConceptEvent
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.InformationConceptState
+import cccev.core.concept.D2InformationConceptPage
+import cccev.core.concept.model.InformationConceptId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Update an information concept.
@@ -18,13 +14,12 @@ import kotlin.js.JsName
 interface InformationConceptUpdateFunction
 
 @JsExport
-@JsName("InformationConceptUpdateCommandDTO")
-interface InformationConceptUpdateCommandDTO: InformationConceptCommand {
+interface InformationConceptUpdateCommandDTO {
     /**
      * Id of the information concept.
      * @example [cccev.s2.concept.domain.model.InformationConcept.id]
      */
-    override val id: InformationConceptId
+    val id: InformationConceptId
 
     /**
      * The name of the information concept.
@@ -50,7 +45,7 @@ interface InformationConceptUpdateCommandDTO: InformationConceptCommand {
      * A list of information concepts the one depends on for auto-computation, if applicable.
      * @example [cccev.s2.concept.domain.model.InformationConcept.dependsOn]
      */
-    val dependsOn: List<InformationConceptId>?
+    val dependsOn: List<InformationConceptId>
 }
 
 /**
@@ -61,9 +56,9 @@ interface InformationConceptUpdateCommandDTO: InformationConceptCommand {
 data class InformationConceptUpdateCommand(
     override val id: InformationConceptId,
     override val name: String,
-    override val description: String? = null,
-    override val expressionOfExpectedValue: String? = null,
-    override val dependsOn: List<InformationConceptId>? = emptyList()
+    override val description: String?,
+    override val expressionOfExpectedValue: String?,
+    override val dependsOn: List<InformationConceptId>
 ): InformationConceptUpdateCommandDTO
 
 /**
@@ -71,37 +66,11 @@ data class InformationConceptUpdateCommand(
  * @parent [InformationConceptUpdateFunction]
  */
 @JsExport
-@JsName("InformationConceptUpdatedEventDTO")
-interface InformationConceptUpdatedEventDTO: InformationConceptEvent {
+interface InformationConceptUpdatedEventDTO {
     /**
-     * Identifier of the created information concept.
+     * Id of the created information concept.
      */
     val id: InformationConceptId
-
-    /**
-     * @ref [InformationConceptUpdateCommandDTO.name]
-     */
-    val name: String
-
-    /**
-     * @ref [InformationConceptUpdateCommandDTO.description]
-     */
-    val description: String?
-
-    /**
-     * @ref [InformationConceptUpdateCommandDTO.expressionOfExpectedValue]
-     */
-    val expressionOfExpectedValue: String?
-
-    /**
-     * @ref [InformationConceptUpdateCommandDTO.dependsOn]
-     */
-    val dependsOn: List<InformationConceptId>?
-
-    /**
-     * Status of the information concept
-     */
-    val status: InformationConceptState
 }
 
 /**
@@ -110,11 +79,4 @@ interface InformationConceptUpdatedEventDTO: InformationConceptEvent {
 @Serializable
 data class InformationConceptUpdatedEvent(
     override val id: InformationConceptId,
-    override val name: String,
-    override val description: String? = null,
-    override val expressionOfExpectedValue: String? = null,
-    override val dependsOn: List<InformationConceptId>? = emptyList(),
-    override val status: InformationConceptState
-): InformationConceptUpdatedEventDTO {
-    override fun s2Id() = id
-}
+): InformationConceptUpdatedEventDTO

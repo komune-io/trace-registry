@@ -2,7 +2,7 @@
 //
 //import cccev.s2.certification.domain.command.CertificationAddedEvidenceEvent
 //import cccev.s2.certification.domain.model.CertificationId
-//import cccev.s2.concept.domain.InformationConceptId
+//import cccev.core.concept.model.InformationConceptId
 //import cccev.s2.evidence.type.domain.EvidenceTypeId
 //import f2.dsl.fnc.F2Function
 //import kotlinx.serialization.Serializable

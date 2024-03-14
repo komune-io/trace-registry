@@ -1,41 +1,39 @@
 package cccev.test.s2.concept.data
 
-import cccev.projection.api.entity.concept.InformationConceptEntity
-import cccev.projection.api.entity.concept.InformationConceptRepository
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.InformationConceptState
+import cccev.core.concept.entity.InformationConcept
+import cccev.core.concept.entity.InformationConceptRepository
+import cccev.core.concept.model.InformationConceptId
 import cccev.s2.unit.domain.DataUnitId
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
-import s2.bdd.repository.AssertionCrudEntity
+import s2.bdd.repository.AssertionApiEntity
 
 fun AssertionBdd.informationConcept(conceptRepository: InformationConceptRepository) = AssertionInformationConcept(conceptRepository)
 
 class AssertionInformationConcept(
-    override val repository: InformationConceptRepository
-): AssertionCrudEntity<InformationConceptEntity, InformationConceptId, AssertionInformationConcept.InformationConceptAssert>() {
+    private val repository: InformationConceptRepository
+): AssertionApiEntity<InformationConcept, InformationConceptId, AssertionInformationConcept.InformationConceptAssert>() {
 
-    override suspend fun assertThat(entity: InformationConceptEntity) = InformationConceptAssert(entity)
+    override suspend fun findById(id: InformationConceptId) = repository.findById(id)
+    override suspend fun assertThat(entity: InformationConcept) = InformationConceptAssert(entity)
 
     inner class InformationConceptAssert(
-        private val concept: InformationConceptEntity
+        private val concept: InformationConcept
     ) {
         fun hasFields(
             id: InformationConceptId = concept.id,
-            status: InformationConceptState = concept.status,
             name: String = concept.name,
-            hasUnit: DataUnitId? = concept.hasUnit?.id,
+            unit: DataUnitId? = concept.unit.id,
             description: String? = concept.description,
             expressionOfExpectedValue: String? = concept.expressionOfExpectedValue,
-            dependsOn: List<InformationConceptId>? = concept.dependsOn?.map { it.id }
+            dependencies: List<InformationConceptId>? = concept.dependencies.map { it.id }
         ) = also {
             Assertions.assertThat(concept.id).isEqualTo(id)
-            Assertions.assertThat(concept.status).isEqualTo(status)
             Assertions.assertThat(concept.name).isEqualTo(name)
-            Assertions.assertThat(concept.hasUnit?.id).isEqualTo(hasUnit)
+            Assertions.assertThat(concept.unit.id).isEqualTo(unit)
             Assertions.assertThat(concept.description).isEqualTo(description)
             Assertions.assertThat(concept.expressionOfExpectedValue).isEqualTo(expressionOfExpectedValue)
-            Assertions.assertThat(concept.dependsOn?.map { it.id }).containsExactlyInAnyOrderElementsOf(dependsOn)
+            Assertions.assertThat(concept.dependencies.map { it.id }).containsExactlyInAnyOrderElementsOf(dependencies)
         }
     }
 }

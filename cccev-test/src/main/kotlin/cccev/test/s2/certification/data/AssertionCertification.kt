@@ -7,7 +7,7 @@
 //import cccev.s2.certification.domain.model.CertificationId
 //import cccev.s2.certification.domain.model.CertificationIdentifier
 //import cccev.s2.certification.domain.model.EvidenceId
-//import cccev.s2.concept.domain.InformationConceptId
+//import cccev.core.concept.model.InformationConceptId
 //import cccev.s2.evidence.type.domain.EvidenceTypeId
 //import cccev.core.requirement.model.RequirementId
 //import city.smartb.fs.s2.file.domain.model.FilePath

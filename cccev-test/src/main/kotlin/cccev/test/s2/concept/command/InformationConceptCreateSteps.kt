@@ -1,14 +1,12 @@
 package cccev.test.s2.concept.command
 
-import cccev.projection.api.entity.concept.InformationConceptRepository
-import cccev.s2.concept.api.InformationConceptAggregateService
-import cccev.s2.concept.domain.InformationConceptState
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
+import cccev.core.concept.InformationConceptAggregateService
+import cccev.core.concept.command.InformationConceptCreateCommand
+import cccev.core.concept.entity.InformationConceptRepository
 import cccev.test.CccevCucumberStepsDefinition
 import cccev.test.s2.concept.data.informationConcept
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
@@ -64,12 +62,11 @@ class InformationConceptCreateSteps: En, CccevCucumberStepsDefinition() {
             step {
                 val conceptId = context.conceptIds.lastUsed
                 AssertionBdd.informationConcept(informationConceptRepository).assertThatId(conceptId).hasFields(
-                    status = InformationConceptState.EXISTS,
                     name = command.name,
-                    hasUnit = command.hasUnit,
+                    unit = command.hasUnit,
                     description = command.description,
                     expressionOfExpectedValue = command.expressionOfExpectedValue,
-                    dependsOn = command.dependsOn,
+                    dependencies = command.dependsOn,
                 )
             }
         }
@@ -77,16 +74,15 @@ class InformationConceptCreateSteps: En, CccevCucumberStepsDefinition() {
         Then("The information concept should be created:") { params: InformationConceptAssertParams ->
             step {
                 val conceptId = context.conceptIds.safeGet(params.identifier)
-                val concept = informationConceptRepository.findById(conceptId).awaitSingleOrNull()
+                val concept = informationConceptRepository.findById(conceptId)
                 Assertions.assertThat(concept).isNotNull
 
                 AssertionBdd.informationConcept(informationConceptRepository).assertThat(concept!!).hasFields(
-                    status = InformationConceptState.EXISTS,
                     name = params.name ?: concept.name,
-                    hasUnit = params.unit?.let(context.unitIds::safeGet) ?: concept.hasUnit?.id,
+                    unit = params.unit?.let(context.unitIds::safeGet) ?: concept.unit.id,
                     description = params.description ?: concept.description,
                     expressionOfExpectedValue = params.expressionOfExpectedValue.parseNullableOrDefault(concept.expressionOfExpectedValue),
-                    dependsOn = params.dependsOn ?: concept.dependsOn?.map { it.id },
+                    dependencies = params.dependsOn ?: concept.dependencies.map { it.id },
                 )
             }
         }

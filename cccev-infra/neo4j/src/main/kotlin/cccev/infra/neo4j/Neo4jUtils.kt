@@ -57,6 +57,11 @@ inline fun <reified E: Any> Session.checkNotExists(id: String, label: String) {
     }
 }
 
+inline fun <reified E: Any> Session.findSafeShallowById(id: String, label: String): E {
+    return load(E::class.java, id, 0)
+        ?: throw NotFoundException(label, id)
+}
+
 suspend inline fun <reified E: Any> Session.findSafeShallowAllById(ids: Collection<String>, label: String) = ids.mapAsync { id ->
     load(E::class.java, id, 0)
         ?: throw NotFoundException(label, id)
@@ -69,4 +74,33 @@ fun Session.removeRelation(originLabel: String, originId: String, relationLabel:
     """.trimIndent()
 
     query(query, mapOf("originId" to originId, "targetId" to targetId))
+}
+
+suspend fun Session.removeRelations(
+    originLabel: String,
+    originId: String,
+    relationLabel: String,
+    targetLabel: String,
+    targetIds: Collection<String>
+) {
+    targetIds.mapAsync { targetId ->
+        removeRelation(originLabel, originId, relationLabel, targetLabel, targetId)
+    }
+}
+
+suspend fun Session.removeSeveredRelations(
+    originLabel: String,
+    originId: String,
+    relationLabel: String,
+    targetLabel: String,
+    currentTargetIds: Collection<String>,
+    newTargetIds: Set<String>
+) {
+    removeRelations(
+        originLabel,
+        originId,
+        relationLabel,
+        targetLabel,
+        currentTargetIds.filter { it !in newTargetIds }
+    )
 }

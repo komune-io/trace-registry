@@ -1,13 +1,13 @@
 package cccev.f2.concept.domain.query
 
+import cccev.core.concept.model.InformationConceptId
 import cccev.f2.concept.domain.D2InformationConceptF2Page
-import cccev.f2.concept.domain.model.InformationConceptDTO
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.s2.concept.domain.InformationConceptId
+import cccev.f2.concept.domain.model.InformationConceptFlat
+import cccev.f2.concept.domain.model.InformationConceptFlatDTO
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get an information concept by its id.
@@ -44,16 +44,15 @@ data class InformationConceptGetQueryDTOBase(
 @JsExport
 @JsName("InformationConceptGetResultDTO")
 interface InformationConceptGetResultDTO {
-    /**
-     * The retrieved information concept.
-     */
-    val item: InformationConceptDTO?
+    val item: InformationConceptFlatDTO?
+    val graph: Any // TODO CccevFlatGraphDTO
 }
 
 /**
  * @d2 inherit
  */
-@Serializable
+//@Serializable
 data class InformationConceptGetResultDTOBase(
-    override val item: InformationConceptDTOBase? = null
+    override val item: InformationConceptFlat?,
+    override val graph: Any // TODO CccevFlatGraph
 ): InformationConceptGetResultDTO

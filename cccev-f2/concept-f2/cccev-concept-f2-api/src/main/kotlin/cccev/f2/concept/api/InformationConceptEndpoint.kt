@@ -1,5 +1,7 @@
 package cccev.f2.concept.api
 
+import cccev.f2.commons.CccevFlatGraph
+import cccev.f2.concept.api.model.flattenTo
 import cccev.f2.concept.api.service.InformationConceptF2AggregateService
 import cccev.f2.concept.api.service.InformationConceptF2FinderService
 import cccev.f2.concept.domain.D2InformationConceptF2Page
@@ -29,13 +31,25 @@ class InformationConceptEndpoint(
     @Bean
     override fun conceptGet(): InformationConceptGetFunction = f2Function { query ->
         logger.info("conceptGet: $query")
-        informationConceptF2FinderService.getOrNull(query.id).let(::InformationConceptGetResultDTOBase)
+        val concept = informationConceptF2FinderService.getOrNull(query.id)
+        val graph = CccevFlatGraph().also { concept?.flattenTo(it) }
+
+        InformationConceptGetResultDTOBase(
+            item = graph.concepts[concept?.identifier],
+            graph = graph
+        )
     }
 
     @Bean
     override fun conceptGetByIdentifier(): InformationConceptGetByIdentifierFunction = f2Function { query ->
         logger.info("conceptGetByIdentifier: $query")
-        informationConceptF2FinderService.getByIdentifierOrNull(query.identifier).let(::InformationConceptGetByIdentifierResultDTOBase)
+        val concept = informationConceptF2FinderService.getByIdentifierOrNull(query.identifier)
+        val graph = CccevFlatGraph().also { concept?.flattenTo(it) }
+
+        InformationConceptGetByIdentifierResultDTOBase(
+            item = graph.concepts[concept?.identifier],
+            graph = graph
+        )
     }
 
     // TODO move to request-f2 module?

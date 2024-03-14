@@ -17,7 +17,6 @@ dependencies {
 	implementation(project(Modules.cccev.f2.unit.api))
 
 	// TODO SHOULD BE DELETED
-	implementation(project(Modules.cccev.s2.concept.api))
 	implementation(project(Modules.cccev.s2.evidenceType.api))
 	implementation(project(Modules.cccev.s2.framework.api))
 	implementation(project(Modules.cccev.s2.unit.api))

@@ -1,6 +1,7 @@
 package cccev.core.requirement
 
 import cccev.commons.utils.mapAsync
+import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.command.RequirementAddConceptsCommand
 import cccev.core.requirement.command.RequirementAddRequirementsCommand
 import cccev.core.requirement.command.RequirementAddedConceptsEvent
@@ -16,8 +17,8 @@ import cccev.core.requirement.command.RequirementUpdatedEvent
 import cccev.core.requirement.entity.Requirement
 import cccev.infra.neo4j.findSafeShallowAllById
 import cccev.infra.neo4j.removeRelation
+import cccev.infra.neo4j.removeSeveredRelations
 import cccev.infra.neo4j.transaction
-import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.framework.FrameworkEntity
 import f2.spring.exception.NotFoundException
 import org.neo4j.ogm.session.SessionFactory
@@ -34,8 +35,8 @@ class RequirementAggregateService(
         val subRequirements = session.findSafeShallowAllById<Requirement>(command.hasRequirement, "Requirement")
 
         val conceptIds = command.hasConcept.toSet() + command.enablingConditionDependencies + command.validatingConditionDependencies
-        val concepts = session.findSafeShallowAllById<InformationConceptEntity>(conceptIds, "InformationConcept")
-            .associateBy(InformationConceptEntity::id)
+        val concepts = session.findSafeShallowAllById<InformationConcept>(conceptIds, "InformationConcept")
+            .associateBy(InformationConcept::id)
 
 //        val evidenceTypeLists = evidenceTypeListRepository.findAllById(command.hasEvidenceTypeList).collectList().awaitSingle()
         val frameworks = session.findSafeShallowAllById<FrameworkEntity>(command.isDerivedFrom, "Framework")
@@ -59,6 +60,7 @@ class RequirementAggregateService(
             order = command.order
             properties = command.properties
         }
+        session.save(requirement)
 
         RequirementCreatedEvent(requirement.id)
             .also(applicationEventPublisher::publishEvent)
@@ -69,34 +71,26 @@ class RequirementAggregateService(
             ?: throw NotFoundException("Requirement", command.id)
 
         val subRequirements = session.findSafeShallowAllById<Requirement>(command.hasRequirement, "Requirement")
-        requirement.hasRequirement.mapAsync {
-            if (it.id !in command.hasRequirement) {
-                session.removeRelation(Requirement.LABEL, command.id, Requirement.HAS_REQUIREMENT, Requirement.LABEL, it.id)
-            }
-        }
-
         val conceptIds = command.hasConcept.toSet() + command.enablingConditionDependencies + command.validatingConditionDependencies
-        val concepts = session.findSafeShallowAllById<InformationConceptEntity>(conceptIds, "InformationConcept")
-            .associateBy(InformationConceptEntity::id)
-        requirement.hasConcept.mapAsync {
-            if (it.id !in command.hasConcept) {
-                session.removeRelation(Requirement.LABEL, command.id, Requirement.HAS_CONCEPT, InformationConceptEntity.LABEL, it.id)
-            }
-        }
-        requirement.enablingConditionDependencies.mapAsync {
-            if (it.id !in command.enablingConditionDependencies) {
-                session.removeRelation(
-                    Requirement.LABEL, command.id, Requirement.ENABLING_DEPENDS_ON, InformationConceptEntity.LABEL, it.id
-                )
-            }
-        }
-        requirement.validatingConditionDependencies.mapAsync {
-            if (it.id !in command.validatingConditionDependencies) {
-                session.removeRelation(
-                    Requirement.LABEL, command.id, Requirement.VALIDATION_DEPENDS_ON, InformationConceptEntity.LABEL, it.id
-                )
-            }
-        }
+        val concepts = session.findSafeShallowAllById<InformationConcept>(conceptIds, "InformationConcept")
+            .associateBy(InformationConcept::id)
+
+        session.removeSeveredRelations(
+            Requirement.LABEL, command.id, Requirement.HAS_REQUIREMENT, Requirement.LABEL,
+            requirement.hasRequirement.map { it.id }, command.hasRequirement.toSet()
+        )
+        session.removeSeveredRelations(
+            Requirement.LABEL, command.id, Requirement.HAS_CONCEPT, InformationConcept.LABEL,
+            requirement.hasConcept.map { it.id }, command.hasConcept.toSet()
+        )
+        session.removeSeveredRelations(
+            Requirement.LABEL, command.id, Requirement.ENABLING_DEPENDS_ON, InformationConcept.LABEL,
+            requirement.enablingConditionDependencies.map { it.id }, command.enablingConditionDependencies.toSet()
+        )
+        session.removeSeveredRelations(
+            Requirement.LABEL, command.id, Requirement.VALIDATION_DEPENDS_ON, InformationConcept.LABEL,
+            requirement.validatingConditionDependencies.map { it.id }, command.validatingConditionDependencies.toSet()
+        )
 
 //        val evidenceTypeLists = evidenceTypeListRepository.findAllById(command.hasEvidenceTypeList).collectList().awaitSingle()
 
@@ -149,7 +143,7 @@ class RequirementAggregateService(
         val requirement = session.load(Requirement::class.java, command.id as String, 0)
             ?: throw NotFoundException("Requirement", command.id)
 
-        val concepts = session.findSafeShallowAllById<InformationConceptEntity>(command.conceptIds, "InformationConcept")
+        val concepts = session.findSafeShallowAllById<InformationConcept>(command.conceptIds, "InformationConcept")
 
         requirement.hasConcept.addAll(concepts)
         session.save(requirement)
@@ -163,7 +157,7 @@ class RequirementAggregateService(
             ?: throw NotFoundException("Requirement", command.id)
 
         command.conceptIds.mapAsync { conceptId ->
-            session.removeRelation(Requirement.LABEL, command.id, Requirement.HAS_CONCEPT, InformationConceptEntity.LABEL, conceptId)
+            session.removeRelation(Requirement.LABEL, command.id, Requirement.HAS_CONCEPT, InformationConcept.LABEL, conceptId)
         }
 
         RequirementRemovedConceptsEvent(command.id)

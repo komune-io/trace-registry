@@ -3,8 +3,8 @@ package cccev.test
 import au.com.origin.snapshots.SnapshotVerifier
 import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.EvidenceId
+import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.model.RequirementId
-import cccev.s2.concept.domain.InformationConceptId
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.framework.domain.FrameworkId

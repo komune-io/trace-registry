@@ -1,4 +1,4 @@
-package cccev.s2.concept.domain
+package cccev.core.concept
 
 /**
  * An InformationConcept represents a piece of information on which Requirements can be applied,
@@ -8,9 +8,3 @@ package cccev.s2.concept.domain
  * @title Core/Information Concept
  */
 interface D2InformationConceptPage
-
-/**
- * @d2 service
- * @parent [D2InformationConceptPage]
- */
-interface D2InformationConceptService: InformationConceptAggregate, InformationConceptFinder

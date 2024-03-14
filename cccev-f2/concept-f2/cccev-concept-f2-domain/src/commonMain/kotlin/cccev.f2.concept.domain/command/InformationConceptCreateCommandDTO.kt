@@ -1,8 +1,8 @@
 package cccev.f2.concept.domain.command
 
+import cccev.core.concept.command.InformationConceptCreateCommand
+import cccev.core.concept.command.InformationConceptCreatedEvent
 import cccev.f2.concept.domain.D2InformationConceptF2Page
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
-import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -20,7 +20,7 @@ typealias InformationConceptCreateFunction = F2Function<InformationConceptCreate
  */
 @JsExport
 @JsName("InformationConceptCreateCommandDTO")
-interface InformationConceptCreateCommandDTO: cccev.s2.concept.domain.command.InformationConceptCreateCommandDTO
+interface InformationConceptCreateCommandDTO: cccev.core.concept.command.InformationConceptCreateCommandDTO
 
 /**
  * @d2 event
@@ -28,4 +28,4 @@ interface InformationConceptCreateCommandDTO: cccev.s2.concept.domain.command.In
  */
 @JsExport
 @JsName("InformationConceptCreatedEventDTO")
-interface InformationConceptCreatedEventDTO: cccev.s2.concept.domain.command.InformationConceptCreatedEventDTO
+interface InformationConceptCreatedEventDTO: cccev.core.concept.command.InformationConceptCreatedEventDTO

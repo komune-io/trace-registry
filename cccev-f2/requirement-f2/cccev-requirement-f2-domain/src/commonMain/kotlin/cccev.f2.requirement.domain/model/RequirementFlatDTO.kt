@@ -1,8 +1,8 @@
 package cccev.f2.requirement.domain.model
 
+import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementIdentifier
-import cccev.s2.concept.domain.InformationConceptIdentifier
 import cccev.s2.evidence.type.domain.EvidenceTypeListIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport

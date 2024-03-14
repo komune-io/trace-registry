@@ -1,11 +1,11 @@
 package cccev.f2.concept.api.service
 
-import cccev.s2.concept.api.InformationConceptAggregateService
-import cccev.s2.concept.api.InformationConceptFinderService
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
-import cccev.s2.concept.domain.command.InformationConceptCreatedEvent
-import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
-import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
+import cccev.core.concept.InformationConceptAggregateService
+import cccev.core.concept.InformationConceptFinderService
+import cccev.core.concept.command.InformationConceptCreateCommand
+import cccev.core.concept.command.InformationConceptCreatedEvent
+import cccev.core.concept.command.InformationConceptUpdateCommand
+import cccev.core.concept.command.InformationConceptUpdatedEvent
 import cccev.s2.unit.api.DataUnitFinderService
 import cccev.s2.unit.domain.DataUnitId
 import org.springframework.stereotype.Service

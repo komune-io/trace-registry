@@ -1,8 +1,8 @@
 package cccev.f2.concept.domain.command
 
+import cccev.core.concept.command.InformationConceptUpdateCommand
+import cccev.core.concept.command.InformationConceptUpdatedEvent
 import cccev.f2.concept.domain.D2InformationConceptF2Page
-import cccev.s2.concept.domain.command.InformationConceptUpdateCommand
-import cccev.s2.concept.domain.command.InformationConceptUpdatedEvent
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -20,7 +20,7 @@ typealias InformationConceptUpdateFunction = F2Function<InformationConceptUpdate
  */
 @JsExport
 @JsName("InformationConceptUpdateCommandDTO")
-interface InformationConceptUpdateCommandDTO: cccev.s2.concept.domain.command.InformationConceptUpdateCommandDTO
+interface InformationConceptUpdateCommandDTO: cccev.core.concept.command.InformationConceptUpdateCommandDTO
 
 /**
  * @d2 event
@@ -28,4 +28,4 @@ interface InformationConceptUpdateCommandDTO: cccev.s2.concept.domain.command.In
  */
 @JsExport
 @JsName("InformationConceptUpdatedEventDTO")
-interface InformationConceptUpdatedEventDTO: cccev.s2.concept.domain.command.InformationConceptUpdatedEventDTO
+interface InformationConceptUpdatedEventDTO: cccev.core.concept.command.InformationConceptUpdatedEventDTO

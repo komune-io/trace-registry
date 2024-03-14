@@ -1,11 +1,11 @@
 package cccev.core.requirement.command
 
+import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
 import cccev.dsl.model.EvidenceTypeListId
 import cccev.dsl.model.FrameworkId
-import cccev.s2.concept.domain.InformationConceptId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName

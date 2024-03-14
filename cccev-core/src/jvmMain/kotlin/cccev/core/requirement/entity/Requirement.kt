@@ -2,9 +2,9 @@ package cccev.core.requirement.entity
 
 import cccev.commons.utils.parseJsonTo
 import cccev.commons.utils.toJson
+import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
-import cccev.projection.api.entity.concept.InformationConceptEntity
 import cccev.projection.api.entity.evidencetypelist.EvidenceTypeListEntity
 import cccev.projection.api.entity.framework.FrameworkEntity
 import org.neo4j.ogm.annotation.Id
@@ -44,7 +44,7 @@ class Requirement {
     var hasRequirement: MutableList<Requirement> = mutableListOf()
 
     @Relationship(HAS_CONCEPT)
-    var hasConcept: MutableList<InformationConceptEntity> = mutableListOf()
+    var hasConcept: MutableList<InformationConcept> = mutableListOf()
 
     @Relationship(HAS_EVIDENCE_TYPES)
     var hasEvidenceTypeList: MutableList<EvidenceTypeListEntity> = mutableListOf()
@@ -52,14 +52,14 @@ class Requirement {
     var enablingCondition: String? = null
 
     @Relationship(ENABLING_DEPENDS_ON)
-    var enablingConditionDependencies: List<InformationConceptEntity> = emptyList()
+    var enablingConditionDependencies: MutableList<InformationConcept> = mutableListOf()
 
     var required: Boolean = true
 
     var validatingCondition: String? = null
 
     @Relationship(VALIDATION_DEPENDS_ON)
-    var validatingConditionDependencies: List<InformationConceptEntity> = emptyList()
+    var validatingConditionDependencies: MutableList<InformationConcept> = mutableListOf()
 
     var order: Int? = null
 
