@@ -1,14 +1,13 @@
 package cccev.f2.unit.domain.query
 
+import cccev.core.unit.model.DataUnitIdentifier
 import cccev.f2.unit.domain.D2DataUnitF2Page
-import cccev.f2.unit.domain.model.DataUnitDTO
-import cccev.f2.unit.domain.model.DataUnitDTOBase
-import cccev.s2.unit.domain.DataUnitId
-import cccev.s2.unit.domain.DataUnitIdentifier
+import cccev.f2.unit.domain.model.DataUnitFlat
+import cccev.f2.unit.domain.model.DataUnitFlatDTO
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get a data unit by its id.
@@ -45,16 +44,15 @@ data class DataUnitGetByIdentifierQueryDTOBase(
 @JsExport
 @JsName("DataUnitGetByIdentifierResultDTO")
 interface DataUnitGetByIdentifierResultDTO {
-    /**
-     * The retrieved data unit.
-     */
-    val item: DataUnitDTO?
+    val item: DataUnitFlatDTO?
+    val graph: Any // TODO CccevFlatGraphDTO
 }
 
 /**
  * @d2 inherit
  */
-@Serializable
+//@Serializable
 data class DataUnitGetByIdentifierResultDTOBase(
-    override val item: DataUnitDTOBase? = null
+    override val item: DataUnitFlat?,
+    override val graph: Any // TODO CccevFlatGraph
 ): DataUnitGetByIdentifierResultDTO

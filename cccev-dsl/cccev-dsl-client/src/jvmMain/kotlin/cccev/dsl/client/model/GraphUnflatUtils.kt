@@ -6,6 +6,9 @@ import cccev.core.certification.entity.SupportedValue
 import cccev.core.concept.entity.InformationConcept
 import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.model.RequirementKind
+import cccev.core.unit.entity.DataUnit
+import cccev.core.unit.entity.DataUnitOption
+import cccev.core.unit.model.DataUnitType
 import cccev.f2.certification.domain.model.CertificationFlat
 import cccev.f2.certification.domain.model.RequirementCertificationFlat
 import cccev.f2.certification.domain.model.SupportedValueFlat
@@ -13,9 +16,6 @@ import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.domain.model.InformationConceptFlat
 import cccev.f2.requirement.domain.model.RequirementFlat
 import cccev.f2.unit.domain.model.DataUnitFlat
-import cccev.projection.api.entity.unit.DataUnitEntity
-import cccev.projection.api.entity.unit.DataUnitOptionEntity
-import cccev.s2.unit.domain.model.DataUnitType
 import f2.spring.exception.NotFoundException
 
 fun CertificationFlat.unflatten(graph: CccevFlatGraph): Certification {
@@ -124,30 +124,30 @@ fun RequirementFlat.unflatten(graph: CccevFlatGraph): Requirement {
     }
 }
 
-fun DataUnitFlat.unflatten(graph: CccevFlatGraph): DataUnitEntity {
-    return DataUnitEntity(
-        id = id,
-        identifier = identifier,
-        name = name,
-        description = description,
-        notation = notation,
-        type = DataUnitType.valueOf(type),
-        options = optionIdentifiers?.map {
+fun DataUnitFlat.unflatten(graph: CccevFlatGraph): DataUnit {
+    return DataUnit().also { unit ->
+        unit.id = id
+        unit.identifier = identifier
+        unit.name = name
+        unit.description = description
+        unit.notation = notation
+        unit.type = DataUnitType.valueOf(type)
+        unit.options = optionIdentifiers.map {
             graph.unitOptions[it]
                 ?.unflatten(graph)
                 ?: throw NotFoundException("DataUnitOption", it)
-        }?.toMutableList()
-    )
+        }.toMutableList()
+    }
 }
 
-fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CccevFlatGraph): DataUnitOptionEntity {
-    return DataUnitOptionEntity(
-        id = id,
-        identifier = identifier,
-        name = name,
-        value = value,
-        order = order,
-        icon = icon,
-        color = color
-    )
+fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CccevFlatGraph): DataUnitOption {
+    return DataUnitOption().also { option ->
+        option.id = id
+        option.identifier = identifier
+        option.name = name
+        option.value = value
+        option.order = order
+        option.icon = icon
+        option.color = color
+    }
 }

@@ -1,9 +1,9 @@
 package cccev.f2.unit.domain.model
 
+import cccev.core.unit.model.DataUnitId
+import cccev.core.unit.model.DataUnitIdentifier
+import cccev.core.unit.model.DataUnitOptionIdentifier
 import cccev.f2.unit.domain.D2DataUnitF2Page
-import cccev.s2.unit.domain.DataUnitId
-import cccev.s2.unit.domain.DataUnitIdentifier
-import cccev.s2.unit.domain.DataUnitOptionIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -48,7 +48,7 @@ interface DataUnitFlatDTO {
     /**
      * @ref [DataUnitDTO.options]
      */
-    val optionIdentifiers: List<DataUnitOptionIdentifier>?
+    val optionIdentifiers: List<DataUnitOptionIdentifier>
 }
 
 /**
@@ -62,5 +62,5 @@ data class DataUnitFlat(
     override val description: String,
     override val notation: String? = null,
     override val type: String,
-    override val optionIdentifiers: List<DataUnitOptionIdentifier>?
+    override val optionIdentifiers: List<DataUnitOptionIdentifier>
 ): DataUnitFlatDTO

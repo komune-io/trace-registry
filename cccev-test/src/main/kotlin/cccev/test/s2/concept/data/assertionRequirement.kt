@@ -3,7 +3,7 @@ package cccev.test.s2.concept.data
 import cccev.core.concept.entity.InformationConcept
 import cccev.core.concept.entity.InformationConceptRepository
 import cccev.core.concept.model.InformationConceptId
-import cccev.s2.unit.domain.DataUnitId
+import cccev.core.unit.model.DataUnitId
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionApiEntity

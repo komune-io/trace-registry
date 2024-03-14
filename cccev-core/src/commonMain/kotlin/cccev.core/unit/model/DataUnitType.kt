@@ -1,6 +1,6 @@
-package cccev.s2.unit.domain.model
+package cccev.core.unit.model
 
-import cccev.s2.unit.domain.D2DataUnitPage
+import cccev.core.unit.D2DataUnitPage
 
 /**
  * Type of a data. <br/>

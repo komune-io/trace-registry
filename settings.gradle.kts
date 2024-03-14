@@ -60,8 +60,6 @@ include(
 )
 
 include(
-	"cccev-s2:concept:cccev-concept-api",
-	"cccev-s2:concept:cccev-concept-domain",
 	"cccev-s2:evidence-type:cccev-evidence-type-api",
 	"cccev-s2:evidence-type:cccev-evidence-type-domain",
 	"cccev-s2:framework:cccev-framework-api",
@@ -69,8 +67,4 @@ include(
 	"cccev-s2:certification:cccev-certification-api",
 	"cccev-s2:certification:cccev-certification-domain",
 	"cccev-s2:certification:cccev-certification-tasks",
-	"cccev-s2:requirement:cccev-requirement-api",
-	"cccev-s2:requirement:cccev-requirement-domain",
-	"cccev-s2:unit:cccev-unit-api",
-	"cccev-s2:unit:cccev-unit-domain"
 )

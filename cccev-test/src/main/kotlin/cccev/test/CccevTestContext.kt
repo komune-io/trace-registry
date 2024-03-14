@@ -5,10 +5,10 @@ import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.EvidenceId
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.model.RequirementId
+import cccev.core.unit.model.DataUnitId
 import cccev.s2.evidence.type.domain.EvidenceTypeId
 import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import cccev.s2.framework.domain.FrameworkId
-import cccev.s2.unit.domain.DataUnitId
 import org.springframework.stereotype.Component
 import s2.bdd.data.TestContext
 import s2.bdd.data.TestContextKey

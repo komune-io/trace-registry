@@ -1,4 +1,4 @@
-package cccev.f2.unit.domain.model
+package cccev.core.unit.command
 
 import cccev.core.unit.model.DataUnitOptionId
 import cccev.core.unit.model.DataUnitOptionIdentifier
@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 @JsExport
-interface DataUnitOptionDTO {
-    val id: DataUnitOptionId
+interface DataUnitOptionCommandDTO {
+    val id: DataUnitOptionId?
     val identifier: DataUnitOptionIdentifier
     val name: String
     val value: String
@@ -19,12 +19,12 @@ interface DataUnitOptionDTO {
 }
 
 @Serializable
-data class DataUnitOption(
-    override val id: DataUnitOptionId,
+data class DataUnitOptionCommand(
+    override val id: DataUnitOptionId?,
     override val identifier: DataUnitOptionIdentifier,
     override val name: String,
     override val value: String,
     override val order: Int,
     override val icon: FilePath?,
     override val color: String?
-): DataUnitOptionDTO
+): DataUnitOptionCommandDTO

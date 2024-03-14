@@ -2,7 +2,7 @@ package cccev.core.concept.entity
 
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.concept.model.InformationConceptIdentifier
-import cccev.projection.api.entity.unit.DataUnitEntity
+import cccev.core.unit.entity.DataUnit
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -26,7 +26,7 @@ class InformationConcept {
     var description: String? = null
 
     @Relationship(HAS_UNIT)
-    lateinit var unit: DataUnitEntity
+    lateinit var unit: DataUnit
 
     var expressionOfExpectedValue: String? = null
 

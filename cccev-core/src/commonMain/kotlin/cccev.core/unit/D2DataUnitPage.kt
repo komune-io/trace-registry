@@ -1,4 +1,4 @@
-package cccev.s2.unit.domain
+package cccev.core.unit
 
 /**
  * A DataUnit represents the type or unit of a specific value.
@@ -8,9 +8,3 @@ package cccev.s2.unit.domain
  * @title Core/Data Unit
  */
 interface D2DataUnitPage
-
-/**
- * @d2 service
- * @parent [D2DataUnitPage]
- */
-interface D2DataUnitService: DataUnitAggregate, DataUnitFinder

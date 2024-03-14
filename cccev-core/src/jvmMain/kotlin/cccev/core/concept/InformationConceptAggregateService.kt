@@ -5,11 +5,11 @@ import cccev.core.concept.command.InformationConceptCreatedEvent
 import cccev.core.concept.command.InformationConceptUpdateCommand
 import cccev.core.concept.command.InformationConceptUpdatedEvent
 import cccev.core.concept.entity.InformationConcept
+import cccev.core.unit.entity.DataUnit
 import cccev.infra.neo4j.findSafeShallowAllById
 import cccev.infra.neo4j.findSafeShallowById
 import cccev.infra.neo4j.removeSeveredRelations
 import cccev.infra.neo4j.transaction
-import cccev.projection.api.entity.unit.DataUnitEntity
 import f2.spring.exception.NotFoundException
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.context.ApplicationEventPublisher
@@ -23,7 +23,7 @@ class InformationConceptAggregateService(
 ) {
     suspend fun create(command: InformationConceptCreateCommand) = sessionFactory.transaction { session, _ ->
         val dependencies = session.findSafeShallowAllById<InformationConcept>(command.dependsOn, InformationConcept.LABEL)
-        val unit = session.findSafeShallowById<DataUnitEntity>(command.hasUnit, DataUnitEntity.LABEL)
+        val unit = session.findSafeShallowById<DataUnit>(command.hasUnit, DataUnit.LABEL)
 
         val concept = InformationConcept().apply {
             id = UUID.randomUUID().toString()

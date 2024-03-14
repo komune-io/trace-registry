@@ -10,9 +10,9 @@ import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.concept.entity.InformationConcept
 import cccev.core.concept.entity.InformationConceptRepository
 import cccev.core.concept.model.InformationConceptIdentifier
+import cccev.core.unit.model.DataUnitType
 import cccev.infra.neo4j.session
 import cccev.infra.neo4j.transaction
-import cccev.s2.unit.domain.model.DataUnitType
 import f2.spring.exception.NotFoundException
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate

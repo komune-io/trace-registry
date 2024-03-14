@@ -1,6 +1,6 @@
 package cccev.f2.unit.domain.model
 
-import cccev.s2.unit.domain.model.DataUnitType
+import cccev.core.unit.model.DataUnitType
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

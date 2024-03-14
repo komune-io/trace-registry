@@ -1,12 +1,11 @@
 package cccev.f2.unit.domain.command
 
+import cccev.core.unit.command.DataUnitCreatedEvent
+import cccev.core.unit.command.DataUnitOptionCommand
+import cccev.core.unit.command.DataUnitOptionCommandDTO
+import cccev.core.unit.model.DataUnitId
+import cccev.core.unit.model.DataUnitIdentifier
 import cccev.f2.unit.domain.D2DataUnitF2Page
-import cccev.s2.unit.domain.DataUnitId
-import cccev.s2.unit.domain.DataUnitIdentifier
-import cccev.s2.unit.domain.DataUnitOptionIdentifier
-import cccev.s2.unit.domain.command.DataUnitCreatedEvent
-import city.smartb.fs.s2.file.domain.model.FilePath
-import city.smartb.fs.s2.file.domain.model.FilePathDTO
 import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -50,22 +49,12 @@ interface DataUnitCreateCommandDTO {
 
     /**
      * The type of data used for this data unit. <br/>
-     * See [cccev.s2.unit.domain.model.DataUnitType]
+     * See [cccev.core.unit.model.DataUnitType]
      * @example [cccev.s2.unit.domain.model.DataUnit.type]
      */
     val type: String
 
-    val options: List<DataUnitOptionCreateCommandDTO>?
-}
-
-@JsExport
-interface DataUnitOptionCreateCommandDTO {
-    val identifier: DataUnitOptionIdentifier
-    val name: String
-    val value: String
-    val order: Int
-    val icon: FilePathDTO?
-    val color: String?
+    val options: List<DataUnitOptionCommandDTO>?
 }
 
 /**
@@ -78,18 +67,8 @@ data class DataUnitCreateCommandDTOBase(
     override val description: String,
     override val notation: String? = null,
     override val type: String,
-    override val options: List<DataUnitOptionCreateCommandDTOBase>?
+    override val options: List<DataUnitOptionCommand>?
 ): DataUnitCreateCommandDTO
-
-@Serializable
-data class DataUnitOptionCreateCommandDTOBase(
-    override val identifier: DataUnitOptionIdentifier,
-    override val name: String,
-    override val value: String,
-    override val order: Int,
-    override val icon: FilePath?,
-    override val color: String?
-): DataUnitOptionCreateCommandDTO
 
 /**
  * @d2 event

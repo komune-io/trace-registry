@@ -6,8 +6,8 @@ import cccev.core.concept.command.InformationConceptCreateCommand
 import cccev.core.concept.command.InformationConceptCreatedEvent
 import cccev.core.concept.command.InformationConceptUpdateCommand
 import cccev.core.concept.command.InformationConceptUpdatedEvent
-import cccev.s2.unit.api.DataUnitFinderService
-import cccev.s2.unit.domain.DataUnitId
+import cccev.core.unit.DataUnitFinderService
+import cccev.core.unit.model.DataUnitId
 import org.springframework.stereotype.Service
 
 @Service

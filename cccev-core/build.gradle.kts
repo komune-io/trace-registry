@@ -7,7 +7,6 @@ plugins {
 
 dependencies {
 	commonMainApi(project(Modules.cccev.s2.evidenceType.domain))
-	commonMainApi(project(Modules.cccev.s2.unit.domain))
 	Dependencies.Mpp.fs(::commonMainApi)
 
 	jvmMainApi(project(Modules.api.commons))

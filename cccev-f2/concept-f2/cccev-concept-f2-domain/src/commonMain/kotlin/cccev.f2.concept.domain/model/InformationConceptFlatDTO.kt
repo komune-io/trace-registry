@@ -2,8 +2,8 @@ package cccev.f2.concept.domain.model
 
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.concept.model.InformationConceptIdentifier
+import cccev.core.unit.model.DataUnitIdentifier
 import cccev.f2.concept.domain.D2InformationConceptF2Page
-import cccev.s2.unit.domain.DataUnitIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 

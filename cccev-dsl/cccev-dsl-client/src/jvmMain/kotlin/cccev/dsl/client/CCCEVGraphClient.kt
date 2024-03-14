@@ -7,6 +7,8 @@ import cccev.core.requirement.command.RequirementAddRequirementsCommand
 import cccev.core.requirement.command.RequirementUpdateCommand
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementIdentifier
+import cccev.core.unit.command.DataUnitOptionCommand
+import cccev.core.unit.model.DataUnitId
 import cccev.dsl.client.graph.InformationConceptGraphInitializer
 import cccev.dsl.client.graph.RequirementGraphInitializer
 import cccev.dsl.client.model.unflatten
@@ -30,8 +32,6 @@ import cccev.f2.requirement.domain.command.RequirementCreateCommandDTOBase
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
 import cccev.f2.unit.client.DataUnitClient
 import cccev.f2.unit.domain.command.DataUnitCreateCommandDTOBase
-import cccev.f2.unit.domain.command.DataUnitOptionCreateCommandDTOBase
-import cccev.f2.unit.domain.command.DataUnitOptionUpdateCommandDTOBase
 import cccev.f2.unit.domain.command.DataUnitUpdateCommandDTOBase
 import cccev.f2.unit.domain.query.DataUnitGetByIdentifierQueryDTOBase
 import cccev.s2.evidence.type.domain.EvidenceTypeId
@@ -41,7 +41,6 @@ import cccev.s2.evidence.type.domain.command.type.EvidenceTypeCreateCommand
 import cccev.s2.framework.domain.FrameworkId
 import cccev.s2.framework.domain.command.FrameworkCreateCommand
 import cccev.s2.requirement.client.RequirementClient
-import cccev.s2.unit.domain.DataUnitId
 import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -258,7 +257,8 @@ class CCCEVGraphClient(
                 notation = notation,
                 type = type.name.uppercase(),
                 options = options?.map { option ->
-                    DataUnitOptionUpdateCommandDTOBase(
+                    DataUnitOptionCommand(
+                        id = null,
                         identifier = option.identifier,
                         name = option.name,
                         value = option.value,
@@ -277,7 +277,8 @@ class CCCEVGraphClient(
             notation = notation,
             type = type.name.uppercase(),
             options = options?.map { option ->
-                DataUnitOptionCreateCommandDTOBase(
+                DataUnitOptionCommand(
+                    id = null,
                     identifier = option.identifier,
                     name = option.name,
                     value = option.value,

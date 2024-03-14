@@ -5,8 +5,8 @@ import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.concept.entity.InformationConcept
 import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.core.requirement.entity.Requirement
+import cccev.core.unit.entity.DataUnit
 import cccev.infra.neo4j.session
-import cccev.projection.api.entity.unit.DataUnitEntity
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
 
@@ -98,7 +98,7 @@ class CertificationRepository(
                     "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
                     "-[uses_value:${RequirementCertification.USES_VALUE}]->(sv:${SupportedValue.LABEL})" +
                     "-[provides_value_for:${SupportedValue.PROVIDES_VALUE_FOR}]->(ic:${InformationConcept.LABEL})" +
-                    "-[has_unit:${InformationConcept.HAS_UNIT}]->(du:${DataUnitEntity.LABEL})" +
+                    "-[has_unit:${InformationConcept.HAS_UNIT}]->(du:${DataUnit.LABEL})" +
                     "\nRETURN sv, collect(provides_value_for), collect(ic), collect(has_unit), collect(du)",
             mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId)
         ).map { it["sv"] as SupportedValue }

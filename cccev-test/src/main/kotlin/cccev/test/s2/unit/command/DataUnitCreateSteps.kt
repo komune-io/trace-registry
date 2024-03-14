@@ -1,16 +1,14 @@
 package cccev.test.s2.unit.command
 
-import cccev.projection.api.entity.unit.DataUnitRepository
-import cccev.s2.unit.api.DataUnitAggregateService
-import cccev.s2.unit.domain.DataUnitState
-import cccev.s2.unit.domain.command.DataUnitCreateCommand
-import cccev.s2.unit.domain.model.DataUnitType
+import cccev.core.unit.DataUnitAggregateService
+import cccev.core.unit.command.DataUnitCreateCommand
+import cccev.core.unit.entity.DataUnitRepository
+import cccev.core.unit.model.DataUnitType
 import cccev.test.CccevCucumberStepsDefinition
 import cccev.test.s2.unit.data.dataUnit
 import cccev.test.s2.unit.data.extractDataUnitType
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
@@ -65,7 +63,6 @@ class DataUnitCreateSteps: En, CccevCucumberStepsDefinition() {
             step {
                 val unitId = context.unitIds.lastUsed
                 AssertionBdd.dataUnit(dataUnitRepository).assertThatId(unitId).hasFields(
-                    status = DataUnitState.EXISTS,
                     name = command.name,
                     description = command.description,
                     notation = command.notation,
@@ -77,11 +74,10 @@ class DataUnitCreateSteps: En, CccevCucumberStepsDefinition() {
         Then("The data unit should be created:") { params: DataUnitAssertParams ->
             step {
                 val unitId = context.unitIds.safeGet(params.identifier)
-                val unit = dataUnitRepository.findById(unitId).awaitSingleOrNull()
+                val unit = dataUnitRepository.findById(unitId)
                 Assertions.assertThat(unit).isNotNull
 
                 AssertionBdd.dataUnit(dataUnitRepository).assertThat(unit!!).hasFields(
-                    status = DataUnitState.EXISTS,
                     name = params.name ?: unit.name,
                     description = params.description ?: unit.description,
                     notation = params.notation.parseNullableOrDefault(unit.notation),
@@ -98,7 +94,7 @@ class DataUnitCreateSteps: En, CccevCucumberStepsDefinition() {
             description = params.description,
             notation = params.notation,
             type = params.type,
-            options = null
+            options = emptyList()
         )
         dataUnitAggregateService.create(command).id
     }

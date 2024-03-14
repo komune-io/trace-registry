@@ -1,24 +1,26 @@
-package cccev.f2.unit.api.service
+package cccev.core.unit
 
-import cccev.core.unit.DataUnitFinderService
 import cccev.core.unit.entity.DataUnit
+import cccev.core.unit.entity.DataUnitRepository
 import cccev.core.unit.model.DataUnitId
 import cccev.core.unit.model.DataUnitIdentifier
+import f2.spring.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class DataUnitF2FinderService(
-    private val dataUnitFinderService: DataUnitFinderService
+class DataUnitFinderService(
+    private val dataUnitRepository: DataUnitRepository
 ) {
     suspend fun getOrNull(id: DataUnitId): DataUnit? {
-        return dataUnitFinderService.getOrNull(id)
+        return dataUnitRepository.findById(id)
     }
 
     suspend fun get(id: DataUnitId): DataUnit {
-        return dataUnitFinderService.get(id)
+        return getOrNull(id)
+            ?: throw NotFoundException("DataUnit", id)
     }
 
     suspend fun getByIdentifierOrNull(id: DataUnitIdentifier): DataUnit? {
-        return dataUnitFinderService.getByIdentifierOrNull(id)
+        return dataUnitRepository.findByIdentifier(id)
     }
 }

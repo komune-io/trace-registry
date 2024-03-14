@@ -1,11 +1,7 @@
-package cccev.s2.unit.domain.command
+package cccev.core.unit.command
 
-import cccev.s2.unit.domain.D2DataUnitPage
-import cccev.s2.unit.domain.DataUnitCommand
-import cccev.s2.unit.domain.DataUnitEvent
-import cccev.s2.unit.domain.DataUnitId
-import cccev.s2.unit.domain.DataUnitState
-import cccev.s2.unit.domain.model.DataUnitOption
+import cccev.core.unit.D2DataUnitPage
+import cccev.core.unit.model.DataUnitId
 import kotlinx.serialization.Serializable
 
 /**
@@ -25,7 +21,7 @@ data class DataUnitUpdateCommand(
      * The id of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.name]
      */
-    override val id: DataUnitId,
+    val id: DataUnitId,
 
     /**
      * The name of the data unit.
@@ -48,20 +44,13 @@ data class DataUnitUpdateCommand(
     /**
      * @ref [cccev.s2.unit.domain.model.DataUnit.options]
      */
-    val options: List<DataUnitOption>?
-): DataUnitCommand
+    val options: List<DataUnitOptionCommand>
+)
 
 /**
  * @d2 inherit
  */
 @Serializable
 data class DataUnitUpdatedEvent(
-    val id: DataUnitId,
-    val name: String,
-    val description: String,
-    val notation: String?,
-    val options: List<DataUnitOption>?,
-    val status: DataUnitState
-): DataUnitEvent {
-    override fun s2Id() = id
-}
+    val id: DataUnitId
+)

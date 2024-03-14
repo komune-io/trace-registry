@@ -1,16 +1,14 @@
 package cccev.f2.unit.api.service
 
+import cccev.core.unit.DataUnitAggregateService
+import cccev.core.unit.command.DataUnitCreateCommand
+import cccev.core.unit.command.DataUnitCreatedEvent
+import cccev.core.unit.command.DataUnitUpdateCommand
+import cccev.core.unit.command.DataUnitUpdatedEvent
+import cccev.core.unit.model.DataUnitType
 import cccev.f2.unit.domain.command.DataUnitCreateCommandDTOBase
 import cccev.f2.unit.domain.command.DataUnitUpdateCommandDTOBase
-import cccev.s2.unit.api.DataUnitAggregateService
-import cccev.s2.unit.domain.command.DataUnitCreateCommand
-import cccev.s2.unit.domain.command.DataUnitCreatedEvent
-import cccev.s2.unit.domain.command.DataUnitUpdateCommand
-import cccev.s2.unit.domain.command.DataUnitUpdatedEvent
-import cccev.s2.unit.domain.model.DataUnitOption
-import cccev.s2.unit.domain.model.DataUnitType
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class DataUnitF2AggregateService(
@@ -23,17 +21,7 @@ class DataUnitF2AggregateService(
             notation = command.notation,
             identifier = command.identifier,
             type = DataUnitType.valueOf(command.type),
-            options = command.options?.map { option ->
-                DataUnitOption(
-                    id = UUID.randomUUID().toString(),
-                    identifier = option.identifier,
-                    name = option.name,
-                    value = option.value,
-                    order = option.order,
-                    icon = option.icon,
-                    color = option.color,
-                )
-            }
+            options = command.options.orEmpty()
         ).let { dataUnitAggregateService.create(it) }
     }
 
@@ -43,17 +31,7 @@ class DataUnitF2AggregateService(
             name = command.name,
             description = command.description,
             notation = command.notation,
-            options = command.options?.map { option ->
-                DataUnitOption(
-                    id = UUID.randomUUID().toString(),
-                    identifier = option.identifier,
-                    name = option.name,
-                    value = option.value,
-                    order = option.order,
-                    icon = option.icon,
-                    color = option.color,
-                )
-            }
+            options = command.options.orEmpty()
         ).let { dataUnitAggregateService.update(it) }
     }
 }

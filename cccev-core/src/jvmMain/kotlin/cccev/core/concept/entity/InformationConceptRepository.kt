@@ -2,8 +2,8 @@ package cccev.core.concept.entity
 
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.concept.model.InformationConceptIdentifier
+import cccev.core.unit.entity.DataUnit
 import cccev.infra.neo4j.session
-import cccev.projection.api.entity.unit.DataUnitEntity
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
 
@@ -50,7 +50,7 @@ class InformationConceptRepository(
                     "-[:${InformationConcept.DEPENDS_ON}]->(:${InformationConcept.LABEL} {identifier: \$identifier})" +
                     "\nMATCH (ic:${InformationConcept.LABEL})" +
                     "-[depends_on:${InformationConcept.DEPENDS_ON}]->(dep:${InformationConcept.LABEL})" +
-                    "MATCH (ic)-[has_unit:${InformationConcept.HAS_UNIT}]->(du:${DataUnitEntity.LABEL})\n" +
+                    "MATCH (ic)-[has_unit:${InformationConcept.HAS_UNIT}]->(du:${DataUnit.LABEL})\n" +
                     "\nRETURN ic, collect(depends_on), collect(dep), collect(has_unit), collect(du)",
             mapOf("identifier" to identifier)
         ).map { it["ic"] as InformationConcept }

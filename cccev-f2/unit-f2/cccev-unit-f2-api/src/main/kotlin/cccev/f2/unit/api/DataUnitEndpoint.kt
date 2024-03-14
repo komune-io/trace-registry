@@ -1,5 +1,7 @@
 package cccev.f2.unit.api
 
+import cccev.f2.commons.CccevFlatGraph
+import cccev.f2.unit.api.model.flattenTo
 import cccev.f2.unit.api.service.DataUnitF2AggregateService
 import cccev.f2.unit.api.service.DataUnitF2FinderService
 import cccev.f2.unit.domain.D2DataUnitF2Page
@@ -29,13 +31,25 @@ class DataUnitEndpoint(
     @Bean
     override fun dataUnitGet(): DataUnitGetFunction = f2Function { query ->
         logger.info("dataUnitGet: $query")
-        dataUnitF2FinderService.getOrNull(query.id).let(::DataUnitGetResultDTOBase)
+        val unit = dataUnitF2FinderService.getOrNull(query.id)
+        val graph = CccevFlatGraph().also { unit?.flattenTo(it) }
+
+        DataUnitGetResultDTOBase(
+            item = graph.units[unit?.identifier],
+            graph = graph
+        )
     }
 
     @Bean
     override fun dataUnitGetByIdentifier(): DataUnitGetByIdentifierFunction = f2Function { query ->
         logger.info("dataUnitGet: $query")
-        dataUnitF2FinderService.getOrNullByIdentifier(query.identifier).let(::DataUnitGetByIdentifierResultDTOBase)
+        val unit = dataUnitF2FinderService.getByIdentifierOrNull(query.identifier)
+        val graph = CccevFlatGraph().also { unit?.flattenTo(it) }
+
+        DataUnitGetByIdentifierResultDTOBase(
+            item = graph.units[unit?.identifier],
+            graph = graph
+        )
     }
 
     @Bean

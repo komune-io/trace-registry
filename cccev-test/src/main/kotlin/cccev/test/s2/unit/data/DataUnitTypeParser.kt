@@ -1,8 +1,8 @@
 package cccev.test.s2.unit.data
 
-import cccev.s2.unit.domain.model.DataUnitType
-import kotlin.reflect.jvm.jvmName
+import cccev.core.unit.model.DataUnitType
 import s2.bdd.data.parser.EntryParser
+import kotlin.reflect.jvm.jvmName
 
 private val dataUnitTypeParser = EntryParser(
     parseErrorMessage = "DataUnit type must be in ${DataUnitType::class.jvmName} values",
