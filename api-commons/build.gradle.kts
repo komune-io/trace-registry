@@ -6,7 +6,7 @@ plugins {
 dependencies {
     Dependencies.Jvm.coroutines(::jvmMainApi)
     Dependencies.Jvm.f2(::jvmMainApi)
-    Dependencies.Jvm.s2EventSouringBc(::jvmMainApi)
+    Dependencies.Jvm.s2Logger(::jvmMainApi)
 
     Dependencies.Jvm.Spring.tx(::jvmMainApi)
 }

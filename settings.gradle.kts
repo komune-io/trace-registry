@@ -50,13 +50,3 @@ include(
 	"cccev-infra:fs",
 	"cccev-infra:neo4j",
 )
-
-include(
-	"cccev-projection:cccev-projection-api",
-	"cccev-projection:cccev-projection-domain"
-)
-
-include(
-	"cccev-s2:evidence-type:cccev-evidence-type-api",
-	"cccev-s2:evidence-type:cccev-evidence-type-domain"
-)

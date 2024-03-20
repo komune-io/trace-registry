@@ -1,4 +1,4 @@
-package cccev.s2.evidence.type.domain
+package cccev.core.evidencetype
 
 /**
  * An EvidenceType represents the type of evidence used to support a requirement or information.
@@ -9,9 +9,3 @@ package cccev.s2.evidence.type.domain
  * @title Core/Evidence Type
  */
 interface D2EvidenceTypePage
-
-/**
- * @d2 service
- * @parent [D2EvidenceTypePage]
- */
-interface D2EvidenceTypeService: EvidenceTypeAggregate, EvidenceTypeFinder

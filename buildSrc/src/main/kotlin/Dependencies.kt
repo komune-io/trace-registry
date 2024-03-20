@@ -54,10 +54,10 @@ object Dependencies {
 			"city.smartb.f2:f2-spring-boot-openapi:${Framework.fixers}"
 		)
 
-		fun s2EventSouringBc(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-spring-boot-starter-sourcing-ssm:${Framework.fixers}",
+		fun s2Logger(scope: Scope) = scope.add(
 			"city.smartb.s2:s2-spring-boot-starter-utils-logger:${Framework.fixers}"
 		)
+
 		fun jackson(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope)
 		fun coroutines(scope: Scope) = FixersDependencies.Jvm.Kotlin.coroutines(scope)
 		fun cucumber(scope: Scope) = FixersDependencies.Jvm.Test.cucumber(scope).also {
@@ -81,7 +81,6 @@ object Dependencies {
 		}
 
 		object Spring {
-			fun dataCommons(scope: Scope) = FixersDependencies.Jvm.Spring.dataCommons(scope)
 			fun tx(scope: Scope) = FixersDependencies.Jvm.Test.junit(scope).also {
 				scope.add("org.springframework:spring-tx:${FixersVersions.Spring.framework}")
 			}
@@ -110,11 +109,6 @@ object Dependencies {
 
 		fun fs(scope: Scope) = scope.add(
 			"city.smartb.fs:fs-file-domain:${Versions.fs}"
-		)
-
-		fun s2(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-automate-core:${Framework.fixers}",
-			"city.smartb.s2:s2-automate-dsl:${Framework.fixers}"
 		)
 	}
 }
@@ -167,20 +161,6 @@ object Modules {
 		object infra {
 			const val fs = ":cccev-infra:fs"
 			const val neo4j = ":cccev-infra:neo4j"
-		}
-		object projection {
-			const val api = ":cccev-projection:cccev-projection-api"
-			const val domain = ":cccev-projection:cccev-projection-domain"
-		}
-		object s2 {
-			object evidence {
-				const val api = ":cccev-s2:evidence:cccev-evidence-api"
-				const val domain = ":cccev-s2:evidence:cccev-evidence-domain"
-			}
-			object evidenceType {
-				const val api = ":cccev-s2:evidence-type:cccev-evidence-type-api"
-				const val domain = ":cccev-s2:evidence-type:cccev-evidence-type-domain"
-			}
 		}
 		const val core = ":cccev-core"
 		const val test = ":cccev-test"

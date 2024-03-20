@@ -15,9 +15,6 @@ dependencies {
     implementation(project(Modules.cccev.f2.requirement.api))
     implementation(project(Modules.cccev.f2.unit.api))
 
-    //TODO s2 dependencies should be removed
-    implementation(project(Modules.cccev.s2.evidenceType.api))
-
     implementation(project(Modules.api.commons))
     implementation(project(Modules.api.config))
 
