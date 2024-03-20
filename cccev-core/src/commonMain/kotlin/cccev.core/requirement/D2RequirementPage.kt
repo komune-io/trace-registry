@@ -17,6 +17,6 @@ package cccev.core.requirement
  *
  * See https://semiceu.github.io/CCCEV/releases/2.00/#Requirement
  * @d2 page
- * @title Core/Requirement
+ * @title Requirement
  */
 interface D2RequirementPage

@@ -18,7 +18,7 @@ class DataUnit {
     @Id
     lateinit var id: DataUnitId
 
-    var identifier: DataUnitIdentifier = id
+    lateinit var identifier: DataUnitIdentifier
 
     lateinit var name: String
 
@@ -32,7 +32,7 @@ class DataUnit {
     var options: MutableList<DataUnitOption> = mutableListOf()
 
     @Version
-    var version: Long = 0
+    var version: Long? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

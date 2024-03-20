@@ -125,51 +125,14 @@ object Modules {
 			const val client = ":cccev-dsl:cccev-dsl-client"
 			const val model = ":cccev-dsl:cccev-dsl-model"
 		}
-		object f2 {
-			const val commons = ":cccev-f2:cccev-f2-commons"
-			object certification {
-				const val api = ":cccev-f2:certification-f2:cccev-certification-f2-api"
-				const val client = ":cccev-f2:certification-f2:cccev-certification-f2-client"
-				const val domain = ":cccev-f2:certification-f2:cccev-certification-f2-domain"
-			}
-			object concept {
-				const val api = ":cccev-f2:concept-f2:cccev-concept-f2-api"
-				const val client = ":cccev-f2:concept-f2:cccev-concept-f2-client"
-				const val domain = ":cccev-f2:concept-f2:cccev-concept-f2-domain"
-			}
-			object evidence {
-				const val api = ":cccev-f2:evidence-f2:cccev-evidence-f2-api"
-				const val client = ":cccev-f2:evidence-f2:cccev-evidence-f2-client"
-				const val domain = ":cccev-f2:evidence-f2:cccev-evidence-f2-domain"
-			}
-			object evidenceType {
-				const val api = ":cccev-f2:evidence-type-f2:cccev-evidence-type-f2-api"
-				const val client = ":cccev-f2:evidence-type-f2:cccev-evidence-type-f2-client"
-				const val domain = ":cccev-f2:evidence-type-f2:cccev-evidence-type-f2-domain"
-			}
-			object requirement {
-				const val api = ":cccev-f2:requirement-f2:cccev-requirement-f2-api"
-				const val client = ":cccev-f2:requirement-f2:cccev-requirement-f2-client"
-				const val domain = ":cccev-f2:requirement-f2:cccev-requirement-f2-domain"
-			}
-			object unit {
-				const val api = ":cccev-f2:unit-f2:cccev-unit-f2-api"
-				const val client = ":cccev-f2:unit-f2:cccev-unit-f2-client"
-				const val domain = ":cccev-f2:unit-f2:cccev-unit-f2-domain"
-			}
-		}
 		object infra {
 			const val fs = ":cccev-infra:fs"
 			const val neo4j = ":cccev-infra:neo4j"
 		}
+
+		const val client = ":cccev-client"
 		const val core = ":cccev-core"
+		const val f2 = ":cccev-f2"
 		const val test = ":cccev-test"
-
-		private const val BASE = ":im-commons:im-commons"
-		const val api = "$BASE-api"
-		const val auth = "$BASE-auth"
-		const val domain = "$BASE-domain"
 	}
-
-
 }

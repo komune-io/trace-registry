@@ -5,6 +5,6 @@ package cccev.core.unit
  * It can be used to describe a variety of different types of data, such as physical measurements (e.g., meters, square meters, hours),
  * dates, numbers, or units of power and weight (e.g., watts, kilograms).
  * @d2 page
- * @title Core/Data Unit
+ * @title Data Unit
  */
 interface D2DataUnitPage

@@ -4,9 +4,9 @@ import cccev.core.concept.model.InformationConceptId
 import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Update a requirement.
@@ -14,10 +14,13 @@ import kotlin.js.JsName
  * @parent [D2RequirementPage]
  * @order 10
  */
-interface RequirementUpdateFunction
+typealias RequirementUpdateFunction = F2Function<RequirementUpdateCommand, RequirementUpdatedEvent>
 
+/**
+ * @d2 command
+ * @parent [RequirementUpdateFunction]
+ */
 @JsExport
-@JsName("RequirementUpdateCommandDTO")
 interface RequirementUpdateCommandDTO {
     /**
      * Identifier of the requirement to update.
@@ -50,8 +53,7 @@ interface RequirementUpdateCommandDTO {
 }
 
 /**
- * @d2 command
- * @parent [RequirementUpdateFunction]
+ * @d2 inherit
  */
 @Serializable
 data class RequirementUpdateCommand(
@@ -71,8 +73,11 @@ data class RequirementUpdateCommand(
     override val properties: Map<String, String>?
 ): RequirementUpdateCommandDTO
 
+/**
+ * @d2 event
+ * @parent [RequirementUpdateFunction]
+ */
 @JsExport
-@JsName("RequirementUpdatedEventDTO")
 interface RequirementUpdatedEventDTO {
     /**
      * Identifier of the updated requirement.
@@ -81,8 +86,7 @@ interface RequirementUpdatedEventDTO {
 }
 
 /**
- * @d2 event
- * @parent [RequirementUpdateFunction]
+ * @d2 inherit
  */
 @Serializable
 data class RequirementUpdatedEvent(

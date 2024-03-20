@@ -5,9 +5,9 @@ import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Create a new requirement.
@@ -15,99 +15,123 @@ import kotlin.js.JsName
  * @parent [D2RequirementPage]
  * @order 10
  */
-interface RequirementCreateFunction
+typealias RequirementCreateFunction = F2Function<RequirementCreateCommand, RequirementCreatedEvent>
 
 /**
  * @d2 command
  * @parent [RequirementCreateFunction]
  */
-@Serializable
-data class RequirementCreateCommand(
+interface RequirementCreateCommandDTO {
     /**
      * A custom identifier for the requirement
      * @example [cccev.core.requirement.model.Requirement.identifier]
      */
-    val identifier: String? = null,
+    val identifier: String?
 
     /**
      * Subtype used for the requirement.
      * @example [cccev.core.requirement.model.Requirement.kind]
      */
-    val kind: RequirementKind,
+    val kind: RequirementKind
 
     /**
      * Name of the requirement.
      * @example [cccev.core.requirement.model.Requirement.name]
      */
-    val name: String? = null,
+    val name: String?
 
     /**
      * Description of the requirement.
      * @example [cccev.core.requirement.model.Requirement.description]
      */
-    val description: String? = null,
+    val description: String?
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.type]
      */
-    val type: String? = null,
+    val type: String?
 
     /**
      * Sub-requirements that must be fulfilled for the requirement to be validated.
      * @example [cccev.core.requirement.model.Requirement.hasRequirement]
      */
-    val subRequirementIds: List<RequirementId> = emptyList(),
+    val subRequirementIds: List<RequirementId>
 
     /**
      * Concepts used by the requirement
      * @example [cccev.core.requirement.model.Requirement.hasConcept]
      */
-    val conceptIds: List<InformationConceptId> = emptyList(),
+    val conceptIds: List<InformationConceptId>
 
     /**
      * Evidences that must be provided for the requirement to be validated. <br/>
      * @example [cccev.core.requirement.model.Requirement.hasEvidenceTypeList]
      */
-    val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
+    val evidenceTypeIds: List<EvidenceTypeId>
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.enablingCondition]
      */
-    val enablingCondition: String? = null,
+    val enablingCondition: String?
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.enablingConditionDependencies]
      */
-    val enablingConditionDependencies: List<InformationConceptId> = emptyList(),
+    val enablingConditionDependencies: List<InformationConceptId>
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.required]
      */
-    val required: Boolean = true,
+    val required: Boolean
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.validatingCondition]
      */
-    val validatingCondition: String? = null,
+    val validatingCondition: String?
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.validatingConditionDependencies]
      */
-    val validatingConditionDependencies: List<InformationConceptId> = emptyList(),
+    val validatingConditionDependencies: List<InformationConceptId>
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.order]
      */
-    val order: Int? = null,
+    val order: Int?
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.properties]
      */
+    val properties: Map<String, String>?
+}
+
+/**
+ * @d2 inherit
+ */
+@Serializable
+data class RequirementCreateCommand(
+    val identifier: String? = null,
+    val kind: RequirementKind,
+    val name: String? = null,
+    val description: String? = null,
+    val type: String? = null,
+    val subRequirementIds: List<RequirementId> = emptyList(),
+    val conceptIds: List<InformationConceptId> = emptyList(),
+    val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
+    val enablingCondition: String? = null,
+    val enablingConditionDependencies: List<InformationConceptId> = emptyList(),
+    val required: Boolean = true,
+    val validatingCondition: String? = null,
+    val validatingConditionDependencies: List<InformationConceptId> = emptyList(),
+    val order: Int? = null,
     val properties: Map<String, String>? = null,
 )
 
+/**
+ * @d2 event
+ * @parent [RequirementCreateFunction]
+ */
 @JsExport
-@JsName("RequirementCreatedEventDTO")
 interface RequirementCreatedEventDTO {
     /**
      * Id of the created requirement
@@ -116,8 +140,7 @@ interface RequirementCreatedEventDTO {
 }
 
 /**
- * @d2 event
- * @parent [RequirementCreateFunction]
+ * @d2 inherit
  */
 @Serializable
 data class RequirementCreatedEvent(

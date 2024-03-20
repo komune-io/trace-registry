@@ -5,6 +5,6 @@ package cccev.core.concept
  * and provided by an Evidence or auto-computed from other InformationConcepts. <br />
  * See https://semiceu.github.io/CCCEV/releases/2.00/#Information%20Concept
  * @d2 page
- * @title Core/Information Concept
+ * @title Information Concept
  */
 interface D2InformationConceptPage

@@ -4,6 +4,7 @@ import cccev.core.unit.D2DataUnitPage
 import cccev.core.unit.model.DataUnitId
 import cccev.core.unit.model.DataUnitIdentifier
 import cccev.core.unit.model.DataUnitType
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @d2 function
  * @parent [D2DataUnitPage]
  */
-interface DataUnitCreateFunction
+typealias DataUnitCreateFunction = F2Function<DataUnitCreateCommand, DataUnitCreatedEvent>
 
 /**
  * @d2 command

@@ -6,6 +6,6 @@ package cccev.core.evidencetype
  * such as test results, documentation, certification, or expert judgment. <br/>
  * See https://semiceu.github.io/CCCEV/releases/2.00/#Evidence%20Type
  * @d2 page
- * @title Core/Evidence Type
+ * @title Evidence Type
  */
 interface D2EvidenceTypePage

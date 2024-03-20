@@ -2,9 +2,17 @@ package cccev.core.evidencetype.command
 
 import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.core.evidencetype.model.EvidenceTypeId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+
+/**
+ * Create an evidence type
+ * @d2 function
+ * @parent [D2EvidenceTypePage]
+ */
+typealias EvidenceTypeCreateFunction = F2Function<EvidenceTypeCreateCommand, EvidenceTypeCreatedEvent>
 
 /**
  * @d2 command

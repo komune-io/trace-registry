@@ -2,9 +2,9 @@ package cccev.core.requirement.command
 
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Add a list of sub-requirement to a requirement.
@@ -12,10 +12,13 @@ import kotlin.js.JsName
  * @parent [D2RequirementPage]
  * @order 30
  */
-interface RequirementAddRequirementsFunction
+typealias RequirementAddRequirementsFunction = F2Function<RequirementAddRequirementsCommand, RequirementAddedRequirementsEvent>
 
+/**
+ * @d2 command
+ * @parent [RequirementAddRequirementsFunction]
+ */
 @JsExport
-@JsName("RequirementAddRequirementsCommandDTO")
 interface RequirementAddRequirementsCommandDTO {
     /**
      * Id of the requirement to add sub-requirements to.
@@ -30,8 +33,7 @@ interface RequirementAddRequirementsCommandDTO {
 }
 
 /**
- * @d2 command
- * @parent [RequirementAddRequirementsFunction]
+ * @d2 inherit
  */
 @Serializable
 data class RequirementAddRequirementsCommand(
@@ -39,8 +41,11 @@ data class RequirementAddRequirementsCommand(
     override val requirementIds: List<RequirementId> = emptyList()
 ): RequirementAddRequirementsCommandDTO
 
+/**
+ * @d2 event
+ * @parent [RequirementAddRequirementsFunction]
+ */
 @JsExport
-@JsName("RequirementAddedRequirementsEventDTO")
 interface RequirementAddedRequirementsEventDTO {
     /** @ref [RequirementAddRequirementsCommand.id] */
     val id: RequirementId
@@ -50,8 +55,7 @@ interface RequirementAddedRequirementsEventDTO {
 }
 
 /**
- * @d2 event
- * @parent [RequirementAddRequirementsFunction]
+ * @d2 inherit
  */
 @Serializable
 data class RequirementAddedRequirementsEvent(

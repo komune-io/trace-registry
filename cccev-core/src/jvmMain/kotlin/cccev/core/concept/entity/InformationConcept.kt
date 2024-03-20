@@ -19,7 +19,7 @@ class InformationConcept {
     @Id
     lateinit var id: InformationConceptId
 
-    var identifier: InformationConceptIdentifier = id
+    lateinit var identifier: InformationConceptIdentifier
 
     lateinit var name: String
 
@@ -34,7 +34,7 @@ class InformationConcept {
     var dependencies: MutableList<InformationConcept> = mutableListOf()
 
     @Version
-    var version: Long = 0
+    var version: Long? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

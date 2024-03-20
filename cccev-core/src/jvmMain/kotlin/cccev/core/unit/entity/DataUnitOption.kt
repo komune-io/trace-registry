@@ -34,7 +34,7 @@ class DataUnitOption {
     var color: String? = null
 
     @Version
-    var version: Long = 0
+    var version: Long? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

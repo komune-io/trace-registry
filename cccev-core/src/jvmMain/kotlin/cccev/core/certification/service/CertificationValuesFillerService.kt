@@ -61,7 +61,7 @@ class CertificationValuesFillerService(
             ?: throw NotFoundException("InformationConcept", informationConceptIdentifier)
 
         // will throw if conversion is impossible
-        value.convertTo(informationConcept.unit?.type ?: DataUnitType.STRING)
+        value.convertTo(informationConcept.unit.type)
 
         val supportedValue = SupportedValue().apply {
             this.id = UUID.randomUUID().toString()
@@ -104,7 +104,7 @@ class CertificationValuesFillerService(
     private suspend fun List<InformationConcept>.computeValues(context: Context) {
         val computableConcepts = this.filter { concept ->
             concept.expressionOfExpectedValue != null
-                    && concept.dependencies.orEmpty().all { it.identifier in context.knownValues }
+                    && concept.dependencies.all { it.identifier in context.knownValues }
         }
 
         val expressionContext = StandardEvaluationContext().apply {
@@ -119,7 +119,7 @@ class CertificationValuesFillerService(
             )
 
             val value = spelParser.parseExpression(concept.expressionOfExpectedValue!!)
-                .getValue(expressionContext, concept.unit!!.type.klass())
+                .getValue(expressionContext, concept.unit.type.klass())
                 .also { context.knownValues[concept.identifier] = it }
                 .let {
                     SupportedValue().apply {
@@ -138,10 +138,7 @@ class CertificationValuesFillerService(
         var changed: Boolean
 
         val mappedValues = values.associate {
-            val parsedValue = it.concept.unit?.type?.let { type ->
-                it.value.convertTo(type)
-            }
-            it.concept.identifier to parsedValue
+            it.concept.identifier to it.value.convertTo(it.concept.unit.type)
         }
 
         hasAllValues = requirement.concepts.all { mappedValues[it.identifier] != null }

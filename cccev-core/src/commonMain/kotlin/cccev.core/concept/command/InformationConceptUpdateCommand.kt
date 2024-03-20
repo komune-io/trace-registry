@@ -2,6 +2,7 @@ package cccev.core.concept.command
 
 import cccev.core.concept.D2InformationConceptPage
 import cccev.core.concept.model.InformationConceptId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -11,8 +12,12 @@ import kotlin.js.JsExport
  * @parent [D2InformationConceptPage]
  * @order 20
  */
-interface InformationConceptUpdateFunction
+typealias InformationConceptUpdateFunction = F2Function<InformationConceptUpdateCommand, InformationConceptUpdatedEvent>
 
+/**
+ * @d2 command
+ * @parent [InformationConceptUpdateFunction]
+ */
 @JsExport
 interface InformationConceptUpdateCommandDTO {
     /**
@@ -49,8 +54,7 @@ interface InformationConceptUpdateCommandDTO {
 }
 
 /**
- * @d2 command
- * @parent [InformationConceptUpdateFunction]
+ * @d2 inherit
  */
 @Serializable
 data class InformationConceptUpdateCommand(
