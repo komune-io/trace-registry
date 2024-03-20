@@ -163,10 +163,10 @@ class CCCEVGraphClient(
             identifier = requirement.identifier,
             name = requirement.name,
             description = requirement.description,
-            hasConcept = requirement.hasConcept?.map { context.processedConcepts[it.identifier]!! }.orEmpty(),
-            hasEvidenceTypeList = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
+            conceptIds = requirement.hasConcept?.map { context.processedConcepts[it.identifier]!! }.orEmpty(),
+            evidenceTypeIds = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
                 .orEmpty(),
-            hasRequirement = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
+            subRequirementIds = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
             kind = requirement.kind,
             type = requirement.type?.toString(),
             enablingCondition = requirement.enablingCondition,
@@ -188,10 +188,10 @@ class CCCEVGraphClient(
             id = id,
             name = requirement.name,
             description = requirement.description,
-            hasConcept = requirement.hasConcept?.map { context.processedConcepts[it.identifier]!! }.orEmpty(),
-            hasEvidenceTypeList = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
+            conceptIds = requirement.hasConcept?.map { context.processedConcepts[it.identifier]!! }.orEmpty(),
+            evidenceTypeIds = requirement.hasEvidenceTypeList?.map { context.processedEvidenceTypeLists[it.identifier]!! }
                 .orEmpty(),
-            hasRequirement = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
+            subRequirementIds = requirement.hasRequirement?.map { context.processedRequirements[it.identifier]!! }.orEmpty(),
             type = requirement.type?.toString(),
             enablingCondition = requirement.enablingCondition,
             enablingConditionDependencies = requirement.enablingConditionDependencies.map { context.processedConcepts[it]!! },

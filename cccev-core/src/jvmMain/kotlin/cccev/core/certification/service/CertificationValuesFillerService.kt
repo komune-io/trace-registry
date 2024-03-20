@@ -144,7 +144,7 @@ class CertificationValuesFillerService(
             it.concept.identifier to parsedValue
         }
 
-        hasAllValues = requirement.hasConcept.all { mappedValues[it.identifier] != null }
+        hasAllValues = requirement.concepts.all { mappedValues[it.identifier] != null }
             .also { changed = it != hasAllValues }
 
         isEnabled = evaluateBooleanExpression(

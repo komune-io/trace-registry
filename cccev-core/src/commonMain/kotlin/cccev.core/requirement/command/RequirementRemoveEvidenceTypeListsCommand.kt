@@ -1,8 +1,8 @@
 package cccev.core.requirement.command
 
+import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
-import cccev.s2.evidence.type.domain.EvidenceTypeListId
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,13 +11,13 @@ import kotlinx.serialization.Serializable
  * @parent [D2RequirementPage]
  * @order 80
  */
-interface RequirementRemoveEvidenceTypeListsFunction
+interface RequirementRemoveEvidenceTypesFunction
 
 /**
  * @d2 command
- * @parent [RequirementRemoveEvidenceTypeListsFunction]
+ * @parent [RequirementRemoveEvidenceTypesFunction]
  */
-data class RequirementRemoveEvidenceTypeListsCommand(
+data class RequirementRemoveEvidenceTypesCommand(
     /**
      * Id of the requirement to remove evidence type lists from.
      */
@@ -26,18 +26,18 @@ data class RequirementRemoveEvidenceTypeListsCommand(
     /**
      * Ids of the evidence type lists to remove.
      */
-    val evidenceTypeListIds: List<EvidenceTypeListId> = emptyList()
+    val evidenceTypeIds: List<EvidenceTypeId> = emptyList()
 )
 
 /**
  * @d2 event
- * @parent [RequirementRemoveEvidenceTypeListsFunction]
+ * @parent [RequirementRemoveEvidenceTypesFunction]
  */
 @Serializable
-data class RequirementRemovedEvidenceTypeListsEvent(
-    /** @ref [RequirementRemoveEvidenceTypeListsCommand.id] */
+data class RequirementRemovedEvidenceTypesEvent(
+    /** @ref [RequirementRemoveEvidenceTypesCommand.id] */
     val id: RequirementId,
 
-    /** @ref [RequirementRemoveEvidenceTypeListsCommand.evidenceTypeListIds] */
-    val evidenceTypeListIds: List<EvidenceTypeListId> = emptyList()
+    /** @ref [RequirementRemoveEvidenceTypesCommand.evidenceTypeIds] */
+    val evidenceTypeIds: List<EvidenceTypeId> = emptyList()
 )

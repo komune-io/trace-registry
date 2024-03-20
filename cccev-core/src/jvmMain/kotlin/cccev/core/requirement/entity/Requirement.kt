@@ -3,9 +3,9 @@ package cccev.core.requirement.entity
 import cccev.commons.utils.parseJsonTo
 import cccev.commons.utils.toJson
 import cccev.core.concept.entity.InformationConcept
+import cccev.core.evidencetype.entity.EvidenceType
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
-import cccev.projection.api.entity.evidencetypelist.EvidenceTypeListEntity
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -17,7 +17,7 @@ class Requirement {
         const val LABEL = "Requirement"
         const val HAS_REQUIREMENT = "HAS_REQUIREMENT"
         const val HAS_CONCEPT = "HAS_CONCEPT"
-        const val HAS_EVIDENCE_TYPES = "HAS_EVIDENCE_TYPES"
+        const val HAS_EVIDENCE_TYPE = "HAS_EVIDENCE_TYPE"
         const val ENABLING_DEPENDS_ON = "ENABLING_DEPENDS_ON"
         const val VALIDATION_DEPENDS_ON = "VALIDATION_DEPENDS_ON"
     }
@@ -25,7 +25,7 @@ class Requirement {
     @Id
     lateinit var id: RequirementId
 
-    var identifier: String = id
+    lateinit var identifier: String
 
     lateinit var kind: RequirementKind
 
@@ -36,13 +36,13 @@ class Requirement {
     var type: String? = null
 
     @Relationship(HAS_REQUIREMENT)
-    var hasRequirement: MutableList<Requirement> = mutableListOf()
+    var subRequirements: MutableList<Requirement> = mutableListOf()
 
     @Relationship(HAS_CONCEPT)
-    var hasConcept: MutableList<InformationConcept> = mutableListOf()
+    var concepts: MutableList<InformationConcept> = mutableListOf()
 
-    @Relationship(HAS_EVIDENCE_TYPES)
-    var hasEvidenceTypeList: MutableList<EvidenceTypeListEntity> = mutableListOf()
+    @Relationship(HAS_EVIDENCE_TYPE)
+    var evidenceTypes: MutableList<EvidenceType> = mutableListOf()
 
     var enablingCondition: String? = null
 
@@ -64,7 +64,7 @@ class Requirement {
         set(value) { propertiesJson = value?.toJson() }
 
     @Version
-    var version: Long = 0
+    var version: Long? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

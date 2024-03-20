@@ -1,10 +1,10 @@
 package cccev.core.requirement.command
 
 import cccev.core.concept.model.InformationConceptId
+import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementKind
-import cccev.dsl.model.EvidenceTypeListId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -42,10 +42,7 @@ data class RequirementCreateCommand(
     val name: String? = null,
 
     /**
-     * Description of the requirement. <br/>
-     * If the requirement is a constraint, this field must contain an expression returning a boolean.
-     * For now, this expression will be evaluated using a Kotlin engine. <br />
-     * The expression may contain known information concepts, identified by their id. They must be declared in the `hasConcept` field.
+     * Description of the requirement.
      * @example [cccev.core.requirement.model.Requirement.description]
      */
     val description: String? = null,
@@ -59,20 +56,19 @@ data class RequirementCreateCommand(
      * Sub-requirements that must be fulfilled for the requirement to be validated.
      * @example [cccev.core.requirement.model.Requirement.hasRequirement]
      */
-    val hasRequirement: List<RequirementId> = emptyList(),
+    val subRequirementIds: List<RequirementId> = emptyList(),
 
     /**
      * Concepts used by the requirement
      * @example [cccev.core.requirement.model.Requirement.hasConcept]
      */
-    val hasConcept: List<InformationConceptId> = emptyList(),
+    val conceptIds: List<InformationConceptId> = emptyList(),
 
     /**
      * Evidences that must be provided for the requirement to be validated. <br/>
-     * This list represents an OR-relation, i.e. only one of the specified evidence lists has to be fully provided.
      * @example [cccev.core.requirement.model.Requirement.hasEvidenceTypeList]
      */
-    val hasEvidenceTypeList: List<EvidenceTypeListId> = emptyList(),
+    val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
 
     /**
      * @ref [cccev.core.requirement.model.Requirement.enablingCondition]

@@ -4,6 +4,7 @@ import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.model.RequirementIdentifier
 import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.api.model.flattenTo
+import cccev.f2.evidence.type.api.model.flattenTo
 import cccev.f2.requirement.domain.model.RequirementFlat
 
 fun Requirement.flattenTo(graph: CccevFlatGraph): RequirementIdentifier {
@@ -14,9 +15,9 @@ fun Requirement.flattenTo(graph: CccevFlatGraph): RequirementIdentifier {
         description = description,
         type = type,
         name = name,
-        hasRequirement = hasRequirement.map { it.flattenTo(graph) },
-        hasConcept = hasConcept.map { it.flattenTo(graph) },
-        hasEvidenceTypeList = emptyList(), // TODO
+        subRequirementIds = subRequirements.map { it.flattenTo(graph) },
+        conceptIdentifiers = concepts.map { it.flattenTo(graph) },
+        evidenceTypeIds = evidenceTypes.map { it.flattenTo(graph) },
         enablingCondition = enablingCondition,
         enablingConditionDependencies = enablingConditionDependencies.map { it.flattenTo(graph) },
         required = required,

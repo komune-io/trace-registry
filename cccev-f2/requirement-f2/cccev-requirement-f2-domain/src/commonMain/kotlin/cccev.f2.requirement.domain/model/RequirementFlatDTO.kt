@@ -3,7 +3,7 @@ package cccev.f2.requirement.domain.model
 import cccev.core.concept.model.InformationConceptIdentifier
 import cccev.core.requirement.model.RequirementId
 import cccev.core.requirement.model.RequirementIdentifier
-import cccev.s2.evidence.type.domain.EvidenceTypeListIdentifier
+import cccev.dsl.model.EvidenceTypeListId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -15,9 +15,9 @@ interface RequirementFlatDTO {
     val description: String?
     val type: String?
     val name: String?
-    val hasRequirement: List<RequirementId>
-    val hasConcept: List<InformationConceptIdentifier>
-    val hasEvidenceTypeList: List<EvidenceTypeListIdentifier>
+    val subRequirementIds: List<RequirementId>
+    val conceptIdentifiers: List<InformationConceptIdentifier>
+    val evidenceTypeIds: List<EvidenceTypeListId>
     val enablingCondition: String?
     val enablingConditionDependencies: List<InformationConceptIdentifier>
     val required: Boolean
@@ -35,9 +35,9 @@ data class RequirementFlat(
     override val description: String?,
     override val type: String?,
     override val name: String?,
-    override val hasRequirement: List<RequirementId>,
-    override val hasConcept: List<InformationConceptIdentifier>,
-    override val hasEvidenceTypeList: List<EvidenceTypeListIdentifier>,
+    override val subRequirementIds: List<RequirementId>,
+    override val conceptIdentifiers: List<InformationConceptIdentifier>,
+    override val evidenceTypeIds: List<EvidenceTypeListId>,
     override val enablingCondition: String?,
     override val enablingConditionDependencies: List<InformationConceptIdentifier>,
     override val required: Boolean,

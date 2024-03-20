@@ -105,7 +105,7 @@ class CertificationAggregateService(
     private suspend fun Requirement.toEmptyCertification(): RequirementCertification = RequirementCertification().apply {
         id = UUID.randomUUID().toString()
         requirement = this@toEmptyCertification
-        hasRequirement.forEach { requirement ->
+        subRequirements.forEach { requirement ->
             subCertifications.add(requirement.toEmptyCertification())
         }
         isEnabled = enablingCondition == null

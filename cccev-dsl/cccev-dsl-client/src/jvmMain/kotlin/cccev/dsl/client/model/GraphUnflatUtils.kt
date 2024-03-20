@@ -4,6 +4,7 @@ import cccev.core.certification.entity.Certification
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.entity.SupportedValue
 import cccev.core.concept.entity.InformationConcept
+import cccev.core.evidencetype.entity.EvidenceType
 import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.model.RequirementKind
 import cccev.core.unit.entity.DataUnit
@@ -14,6 +15,7 @@ import cccev.f2.certification.domain.model.RequirementCertificationFlat
 import cccev.f2.certification.domain.model.SupportedValueFlat
 import cccev.f2.commons.CccevFlatGraph
 import cccev.f2.concept.domain.model.InformationConceptFlat
+import cccev.f2.evidence.type.domain.model.EvidenceTypeFlat
 import cccev.f2.requirement.domain.model.RequirementFlat
 import cccev.f2.unit.domain.model.DataUnitFlat
 import f2.spring.exception.NotFoundException
@@ -90,7 +92,7 @@ fun InformationConceptFlat.unflatten(graph: CccevFlatGraph): InformationConcept 
 }
 
 fun RequirementFlat.unflatten(graph: CccevFlatGraph): Requirement {
-    val subRequirements = hasRequirement.map {
+    val subRequirements = subRequirementIds.map {
         graph.requirements[it]?.unflatten(graph)
             ?: throw NotFoundException("Requirement", it)
     }
@@ -102,12 +104,15 @@ fun RequirementFlat.unflatten(graph: CccevFlatGraph): Requirement {
         requirement.description = description
         requirement.type = type
         requirement.name = name
-        requirement.hasRequirement = subRequirements.toMutableList()
-        requirement.hasConcept = hasConcept.map {
+        requirement.subRequirements = subRequirements.toMutableList()
+        requirement.concepts = conceptIdentifiers.map {
             graph.concepts[it]?.unflatten(graph)
                 ?: throw NotFoundException("InformationConcept", it)
         }.toMutableList()
-        requirement.hasEvidenceTypeList = mutableListOf() // TODO
+        requirement.evidenceTypes = evidenceTypeIds.map {
+            graph.evidenceTypes[it]?.unflatten(graph)
+                ?: throw NotFoundException("EvidenceType", it)
+        }.toMutableList()
         requirement.enablingCondition = enablingCondition
         requirement.enablingConditionDependencies = enablingConditionDependencies.map {
             graph.concepts[it]?.unflatten(graph)
@@ -133,8 +138,7 @@ fun DataUnitFlat.unflatten(graph: CccevFlatGraph): DataUnit {
         unit.notation = notation
         unit.type = DataUnitType.valueOf(type)
         unit.options = optionIdentifiers.map {
-            graph.unitOptions[it]
-                ?.unflatten(graph)
+            graph.unitOptions[it]?.unflatten(graph)
                 ?: throw NotFoundException("DataUnitOption", it)
         }.toMutableList()
     }
@@ -149,5 +153,16 @@ fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CccevFlatGraph): 
         option.order = order
         option.icon = icon
         option.color = color
+    }
+}
+
+fun EvidenceTypeFlat.unflatten(graph: CccevFlatGraph): EvidenceType {
+    return EvidenceType().also { evidenceType ->
+        evidenceType.id = id
+        evidenceType.name = name
+        evidenceType.concepts = conceptIdentifiers.map {
+            graph.concepts[it]?.unflatten(graph)
+                ?: throw NotFoundException("InformationConcept", it)
+        }.toMutableList()
     }
 }
