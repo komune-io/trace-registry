@@ -1,13 +1,13 @@
 package cccev.f2.evidence.type.domain.query
 
+import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.f2.evidence.type.domain.D2EvidenceTypeF2Page
-import cccev.f2.evidence.type.domain.model.EvidenceTypeDTO
-import cccev.f2.evidence.type.domain.model.EvidenceTypeDTOBase
-import cccev.s2.evidence.type.domain.EvidenceTypeId
+import cccev.f2.evidence.type.domain.model.EvidenceTypeFlat
+import cccev.f2.evidence.type.domain.model.EvidenceTypeFlatDTO
 import f2.dsl.fnc.F2Function
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get a data unit by its id.
@@ -44,16 +44,15 @@ data class EvidenceTypeGetQueryDTOBase(
 @JsExport
 @JsName("EvidenceTypeGetResultDTO")
 interface EvidenceTypeGetResultDTO {
-    /**
-     * The retrieved data unit.
-     */
-    val item: EvidenceTypeDTO?
+    val item: EvidenceTypeFlatDTO?
+    val graph: Any // TODO CccevFlatGraphDTO
 }
 
 /**
  * @d2 inherit
  */
-@Serializable
+//@Serializable
 data class EvidenceTypeGetResultDTOBase(
-    override val item: EvidenceTypeDTOBase? = null
+    override val item: EvidenceTypeFlat?,
+    override val graph: Any // TODO CccevFlatGraphDTO
 ): EvidenceTypeGetResultDTO

@@ -4,6 +4,7 @@ import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.RequirementCertificationId
 import cccev.core.certification.model.SupportedValueId
 import cccev.core.concept.model.InformationConceptIdentifier
+import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.model.RequirementIdentifier
 import cccev.core.unit.model.DataUnitIdentifier
 import cccev.core.unit.model.DataUnitOptionIdentifier
@@ -15,6 +16,8 @@ import cccev.f2.certification.domain.model.SupportedValueFlat
 import cccev.f2.certification.domain.model.SupportedValueFlatDTO
 import cccev.f2.concept.domain.model.InformationConceptFlat
 import cccev.f2.concept.domain.model.InformationConceptFlatDTO
+import cccev.f2.evidence.type.domain.model.EvidenceTypeFlat
+import cccev.f2.evidence.type.domain.model.EvidenceTypeFlatDTO
 import cccev.f2.requirement.domain.model.RequirementFlat
 import cccev.f2.requirement.domain.model.RequirementFlatDTO
 import cccev.f2.unit.domain.model.DataUnitFlat
@@ -30,6 +33,7 @@ interface CccevFlatGraphDTO {
     val requirementCertifications: Map<RequirementCertificationId, RequirementCertificationFlatDTO>
     val requirements: Map<RequirementIdentifier, RequirementFlatDTO>
     val concepts: Map<InformationConceptIdentifier, InformationConceptFlatDTO>
+    val evidenceTypes: Map<EvidenceTypeId, EvidenceTypeFlatDTO>
     val units: Map<DataUnitIdentifier, DataUnitFlatDTO>
     val unitOptions: Map<DataUnitOptionIdentifier, DataUnitOptionDTO>
     val supportedValues: Map<SupportedValueId, SupportedValueFlatDTO>
@@ -41,6 +45,7 @@ class CccevFlatGraph: CccevFlatGraphDTO {
     override val requirementCertifications: MutableMap<RequirementCertificationId, RequirementCertificationFlat> = mutableMapOf()
     override val requirements: MutableMap<RequirementIdentifier, RequirementFlat> = mutableMapOf()
     override val concepts: MutableMap<InformationConceptIdentifier, InformationConceptFlat> = mutableMapOf()
+    override val evidenceTypes: MutableMap<EvidenceTypeId, EvidenceTypeFlat> = mutableMapOf()
     override val units: MutableMap<DataUnitIdentifier, DataUnitFlat> = mutableMapOf()
     override val unitOptions: MutableMap<DataUnitOptionIdentifier, DataUnitOption> = mutableMapOf()
     override val supportedValues: MutableMap<SupportedValueId, SupportedValueFlat> = mutableMapOf()

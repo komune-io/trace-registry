@@ -8,4 +8,5 @@ dependencies {
     api(project(Modules.cccev.f2.commons))
     api(project(Modules.cccev.f2.evidenceType.domain))
     implementation(project(Modules.cccev.core))
+    implementation(project(Modules.cccev.f2.concept.api))
 }
