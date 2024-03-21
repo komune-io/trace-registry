@@ -1,7 +1,10 @@
 package cccev.f2.requirement
 
+import cccev.core.requirement.command.RequirementAddConceptsFunction
 import cccev.core.requirement.command.RequirementAddRequirementsFunction
 import cccev.core.requirement.command.RequirementCreateFunction
+import cccev.core.requirement.command.RequirementRemoveConceptsFunction
+import cccev.core.requirement.command.RequirementRemoveRequirementsFunction
 import cccev.core.requirement.command.RequirementUpdateFunction
 import cccev.f2.requirement.query.RequirementGetByIdentifierFunction
 import cccev.f2.requirement.query.RequirementGetFunction
@@ -21,6 +24,15 @@ interface RequirementCommandApi {
 
     /** Add sub-requirements to a requirement */
     fun requirementAddRequirements(): RequirementAddRequirementsFunction
+
+    /** Remove sub-requirements from a requirement */
+    fun requirementRemoveRequirements(): RequirementRemoveRequirementsFunction
+
+    /** Add information concepts to a requirement */
+    fun requirementAddConcepts(): RequirementAddConceptsFunction
+
+    /** Remove information concepts from a requirement */
+    fun requirementRemoveConcepts(): RequirementRemoveConceptsFunction
 }
 
 interface RequirementQueryApi {

@@ -1,7 +1,10 @@
 package cccev.client
 
+import cccev.core.requirement.command.RequirementAddConceptsFunction
 import cccev.core.requirement.command.RequirementAddRequirementsFunction
 import cccev.core.requirement.command.RequirementCreateFunction
+import cccev.core.requirement.command.RequirementRemoveConceptsFunction
+import cccev.core.requirement.command.RequirementRemoveRequirementsFunction
 import cccev.core.requirement.command.RequirementUpdateFunction
 import cccev.f2.requirement.RequirementApi
 import cccev.f2.requirement.query.RequirementGetByIdentifierFunction
@@ -23,5 +26,11 @@ open class RequirementClient constructor(private val client: F2Client): Requirem
     override fun requirementCreate(): RequirementCreateFunction = client.function(this::requirementCreate.name)
     override fun requirementUpdate(): RequirementUpdateFunction = client.function(this::requirementUpdate.name)
     override fun requirementAddRequirements(): RequirementAddRequirementsFunction
-       = client.function(this::requirementAddRequirements.name)
+        = client.function(this::requirementAddRequirements.name)
+
+    override fun requirementRemoveRequirements(): RequirementRemoveRequirementsFunction
+        = client.function(this::requirementRemoveRequirements.name)
+
+    override fun requirementAddConcepts(): RequirementAddConceptsFunction = client.function(this::requirementAddConcepts.name)
+    override fun requirementRemoveConcepts(): RequirementRemoveConceptsFunction = client.function(this::requirementRemoveConcepts.name)
 }

@@ -3,6 +3,7 @@ package cccev.core.requirement.command
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @parent [D2RequirementPage]
  * @order 50
  */
-interface RequirementAddConceptsFunction
+typealias RequirementAddConceptsFunction = F2Function<RequirementAddConceptsCommand, RequirementAddedConceptsEvent>
 
 /**
  * @d2 command

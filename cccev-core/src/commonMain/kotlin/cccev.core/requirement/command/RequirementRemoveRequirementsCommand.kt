@@ -1,6 +1,7 @@
 package cccev.core.requirement.command
 
 import cccev.core.requirement.D2RequirementPage import cccev.core.requirement.model.RequirementId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 
 /**
@@ -9,7 +10,7 @@ import kotlinx.serialization.Serializable
  * @parent [D2RequirementPage]
  * @order 40
  */
-interface RequirementRemoveRequirementsFunction
+typealias RequirementRemoveRequirementsFunction = F2Function<RequirementRemoveRequirementsCommand, RequirementRemovedRequirementsEvent>
 
 /**
  * @d2 command

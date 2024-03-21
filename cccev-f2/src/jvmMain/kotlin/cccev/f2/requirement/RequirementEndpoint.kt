@@ -2,8 +2,11 @@ package cccev.f2.requirement
 
 import cccev.core.requirement.RequirementAggregateService
 import cccev.core.requirement.RequirementFinderService
+import cccev.core.requirement.command.RequirementAddConceptsFunction
 import cccev.core.requirement.command.RequirementAddRequirementsFunction
 import cccev.core.requirement.command.RequirementCreateFunction
+import cccev.core.requirement.command.RequirementRemoveConceptsFunction
+import cccev.core.requirement.command.RequirementRemoveRequirementsFunction
 import cccev.core.requirement.command.RequirementUpdateFunction
 import cccev.f2.CccevFlatGraph
 import cccev.f2.requirement.model.flattenTo
@@ -63,5 +66,23 @@ class RequirementEndpoint(
     override fun requirementAddRequirements(): RequirementAddRequirementsFunction = f2Function { command ->
         logger.info("requirementAddRequirements: $command")
         requirementAggregateService.addRequirements(command)
+    }
+
+    @Bean
+    override fun requirementRemoveRequirements(): RequirementRemoveRequirementsFunction = f2Function { command ->
+        logger.info("requirementRemoveRequirements: $command")
+        requirementAggregateService.removeRequirements(command)
+    }
+
+    @Bean
+    override fun requirementAddConcepts(): RequirementAddConceptsFunction = f2Function { command ->
+        logger.info("requirementAddConcepts: $command")
+        requirementAggregateService.addConcepts(command)
+    }
+
+    @Bean
+    override fun requirementRemoveConcepts(): RequirementRemoveConceptsFunction = f2Function { command ->
+        logger.info("requirementRemoveConcepts: $command")
+        requirementAggregateService.removeConcepts(command)
     }
 }
