@@ -15,6 +15,7 @@ import cccev.core.certification.entity.isFulfilled
 import cccev.core.certification.service.CertificationValuesFillerService
 import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.entity.RequirementRepository
+import cccev.core.requirement.model.RequirementIdentifier
 import cccev.infra.neo4j.checkNotExists
 import cccev.infra.neo4j.session
 import f2.spring.exception.NotFoundException
@@ -102,15 +103,22 @@ class CertificationAggregateService(
         TODO()
     }
 
-    private suspend fun Requirement.toEmptyCertification(): RequirementCertification = RequirementCertification().apply {
-        id = UUID.randomUUID().toString()
-        requirement = this@toEmptyCertification
-        subRequirements.forEach { requirement ->
-            subCertifications.add(requirement.toEmptyCertification())
-        }
-        isEnabled = enablingCondition == null
-        isValidated = validatingCondition == null
-        hasAllValues = !requirementRepository.hasAnyConcept(identifier)
-        isFulfilled = isFulfilled()
+    private suspend fun Requirement.toEmptyCertification(
+        existingCertifications: MutableMap<RequirementIdentifier, RequirementCertification> = mutableMapOf()
+    ): RequirementCertification {
+        return existingCertifications[identifier]
+            ?: RequirementCertification().also { certification ->
+                existingCertifications[identifier] = certification
+
+                certification.id = UUID.randomUUID().toString()
+                certification.requirement = this
+                subRequirements.forEach { requirement ->
+                    certification.subCertifications.add(requirement.toEmptyCertification(existingCertifications))
+                }
+                certification.isEnabled = enablingCondition == null
+                certification.isValidated = validatingCondition == null
+                certification.hasAllValues = !requirementRepository.hasAnyConcept(identifier)
+                certification.isFulfilled = certification.isFulfilled()
+            }
     }
 }
