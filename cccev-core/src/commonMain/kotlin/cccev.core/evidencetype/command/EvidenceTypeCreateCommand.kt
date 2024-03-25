@@ -42,7 +42,7 @@ interface EvidenceTypeCreateCommandDTO {
  */
 @Serializable
 data class EvidenceTypeCreateCommand(
-    override val id: EvidenceTypeId?,
+    override val id: EvidenceTypeId? = null,
     override val name: String,
     override val conceptIdentifiers: List<InformationConceptIdentifier> = emptyList()
 ): EvidenceTypeCreateCommandDTO

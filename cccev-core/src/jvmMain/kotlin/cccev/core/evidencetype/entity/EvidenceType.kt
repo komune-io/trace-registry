@@ -19,7 +19,7 @@ class EvidenceType {
     lateinit var name: String
 
     @Relationship(SUPPORTS_CONCEPT)
-    lateinit var concepts: MutableList<InformationConcept>
+    var concepts: MutableList<InformationConcept> = mutableListOf()
 
     @Version
     var version: Long? = null

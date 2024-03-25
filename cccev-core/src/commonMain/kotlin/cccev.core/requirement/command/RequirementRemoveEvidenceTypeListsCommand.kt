@@ -3,6 +3,7 @@ package cccev.core.requirement.command
 import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.D2RequirementPage
 import cccev.core.requirement.model.RequirementId
+import f2.dsl.fnc.F2Function
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @parent [D2RequirementPage]
  * @order 80
  */
-interface RequirementRemoveEvidenceTypesFunction
+typealias RequirementRemoveEvidenceTypesFunction = F2Function<RequirementRemoveEvidenceTypesCommand, RequirementRemovedEvidenceTypesEvent>
 
 /**
  * @d2 command

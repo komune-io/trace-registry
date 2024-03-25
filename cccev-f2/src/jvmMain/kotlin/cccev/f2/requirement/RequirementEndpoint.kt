@@ -3,9 +3,11 @@ package cccev.f2.requirement
 import cccev.core.requirement.RequirementAggregateService
 import cccev.core.requirement.RequirementFinderService
 import cccev.core.requirement.command.RequirementAddConceptsFunction
+import cccev.core.requirement.command.RequirementAddEvidenceTypesFunction
 import cccev.core.requirement.command.RequirementAddRequirementsFunction
 import cccev.core.requirement.command.RequirementCreateFunction
 import cccev.core.requirement.command.RequirementRemoveConceptsFunction
+import cccev.core.requirement.command.RequirementRemoveEvidenceTypesFunction
 import cccev.core.requirement.command.RequirementRemoveRequirementsFunction
 import cccev.core.requirement.command.RequirementUpdateFunction
 import cccev.f2.CccevFlatGraph
@@ -84,5 +86,17 @@ class RequirementEndpoint(
     override fun requirementRemoveConcepts(): RequirementRemoveConceptsFunction = f2Function { command ->
         logger.info("requirementRemoveConcepts: $command")
         requirementAggregateService.removeConcepts(command)
+    }
+
+    @Bean
+    override fun requirementAddEvidenceTypes(): RequirementAddEvidenceTypesFunction = f2Function { command ->
+        logger.info("requirementAddEvidenceTypes: $command")
+        requirementAggregateService.addEvidenceTypes(command)
+    }
+
+    @Bean
+    override fun requirementRemoveEvidenceTypes(): RequirementRemoveEvidenceTypesFunction = f2Function { command ->
+        logger.info("requirementRemoveEvidenceTypes: $command")
+        requirementAggregateService.removeEvidenceTypes(command)
     }
 }

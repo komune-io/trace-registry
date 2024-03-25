@@ -1,17 +1,17 @@
-Feature: RequirementRemoveEvidenceTypeLists
+Feature: RequirementRemoveEvidenceTypes
 
-  Scenario: I want to remove evidence type lists from a requirement
-    Given Some evidence type lists are created:
+  Scenario: I want to remove evidence types from a requirement
+    Given Some evidence types are created:
       | identifier |
-      | etl1       |
-      | etl2       |
+      | et1       |
+      | et2       |
     And A requirement is created:
-      | hasEvidenceTypeList |
-      | etl1, etl2          |
-    When I remove evidence type lists from the requirement:
-      | evidenceTypeLists |
-      | etl1              |
-    Then The requirement should not contain the evidence type lists
-    And The requirement should contain the evidence type lists:
-      | evidenceTypeLists |
-      | etl2              |
+      | hasEvidenceType |
+      | et1, et2      |
+    When I remove evidence types from the requirement:
+      | evidenceTypes |
+      | et1          |
+    Then The requirement should not contain the evidence types
+    And The requirement should contain the evidence types:
+      | evidenceTypes |
+      | et2           |

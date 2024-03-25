@@ -1,9 +1,11 @@
 package cccev.f2.requirement
 
 import cccev.core.requirement.command.RequirementAddConceptsFunction
+import cccev.core.requirement.command.RequirementAddEvidenceTypesFunction
 import cccev.core.requirement.command.RequirementAddRequirementsFunction
 import cccev.core.requirement.command.RequirementCreateFunction
 import cccev.core.requirement.command.RequirementRemoveConceptsFunction
+import cccev.core.requirement.command.RequirementRemoveEvidenceTypesFunction
 import cccev.core.requirement.command.RequirementRemoveRequirementsFunction
 import cccev.core.requirement.command.RequirementUpdateFunction
 import cccev.f2.requirement.query.RequirementGetByIdentifierFunction
@@ -33,6 +35,12 @@ interface RequirementCommandApi {
 
     /** Remove information concepts from a requirement */
     fun requirementRemoveConcepts(): RequirementRemoveConceptsFunction
+
+    /** Add evidence types to a requirement */
+    fun requirementAddEvidenceTypes(): RequirementAddEvidenceTypesFunction
+
+    /** Remove evidence types from a requirement */
+    fun requirementRemoveEvidenceTypes(): RequirementRemoveEvidenceTypesFunction
 }
 
 interface RequirementQueryApi {
