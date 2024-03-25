@@ -27,7 +27,12 @@ data class RequirementAddEvidenceTypesCommand(
     /**
      * Ids of the evidence types to add.
      */
-    val evidenceTypeIds: List<EvidenceTypeId> = emptyList()
+    val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
+
+    /**
+     * New condition that must be met for the evidences to be considered valid. (in SpEL)
+     */
+    val evidenceValidatingCondition: String?
 )
 
 /**

@@ -59,7 +59,8 @@ class RequirementRemoveEvidenceTypesSteps: En, CccevCucumberStepsDefinition() {
     private suspend fun removeEvidenceTypes(params: RequirementRemoveEvidenceTypesParams) {
         command = RequirementRemoveEvidenceTypesCommand(
             id = context.requirementIds[params.identifier] ?: params.identifier,
-            evidenceTypeIds = params.evidenceTypes.map { context.evidenceTypeIds[it] ?: it }
+            evidenceTypeIds = params.evidenceTypes.map { context.evidenceTypeIds[it] ?: it },
+            evidenceValidatingCondition = null
         )
         command.invokeWith(requirementEndpoint.requirementRemoveEvidenceTypes())
     }

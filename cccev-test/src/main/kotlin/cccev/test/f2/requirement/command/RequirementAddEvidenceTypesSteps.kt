@@ -59,7 +59,8 @@ class RequirementAddEvidenceTypesSteps: En, CccevCucumberStepsDefinition() {
     private suspend fun addEvidenceTypes(params: RequirementAddEvidenceTypesParams) {
         command = RequirementAddEvidenceTypesCommand(
             id = context.requirementIds[params.identifier] ?: params.identifier,
-            evidenceTypeIds = params.evidenceTypes.map { context.evidenceTypeIds[it] ?: it }
+            evidenceTypeIds = params.evidenceTypes.map { context.evidenceTypeIds[it] ?: it },
+            evidenceValidatingCondition = null
         )
         command.invokeWith(requirementEndpoint.requirementAddEvidenceTypes())
     }

@@ -94,6 +94,8 @@ interface RequirementCreateCommandDTO {
      */
     val validatingConditionDependencies: List<InformationConceptId>
 
+    val evidenceValidatingCondition: String?
+
     /**
      * @ref [cccev.core.requirement.model.Requirement.order]
      */
@@ -110,22 +112,23 @@ interface RequirementCreateCommandDTO {
  */
 @Serializable
 data class RequirementCreateCommand(
-    val identifier: String? = null,
-    val kind: RequirementKind,
-    val name: String? = null,
-    val description: String? = null,
-    val type: String? = null,
-    val subRequirementIds: List<RequirementId> = emptyList(),
-    val conceptIds: List<InformationConceptId> = emptyList(),
-    val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
-    val enablingCondition: String? = null,
-    val enablingConditionDependencies: List<InformationConceptId> = emptyList(),
-    val required: Boolean = true,
-    val validatingCondition: String? = null,
-    val validatingConditionDependencies: List<InformationConceptId> = emptyList(),
-    val order: Int? = null,
-    val properties: Map<String, String>? = null,
-)
+    override val identifier: String? = null,
+    override val kind: RequirementKind,
+    override val name: String? = null,
+    override val description: String? = null,
+    override val type: String? = null,
+    override val subRequirementIds: List<RequirementId> = emptyList(),
+    override val conceptIds: List<InformationConceptId> = emptyList(),
+    override val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
+    override val enablingCondition: String? = null,
+    override val enablingConditionDependencies: List<InformationConceptId> = emptyList(),
+    override val required: Boolean = true,
+    override val validatingCondition: String? = null,
+    override val validatingConditionDependencies: List<InformationConceptId> = emptyList(),
+    override val evidenceValidatingCondition: String? = null,
+    override val order: Int? = null,
+    override val properties: Map<String, String>? = null,
+): RequirementCreateCommandDTO
 
 /**
  * @d2 event

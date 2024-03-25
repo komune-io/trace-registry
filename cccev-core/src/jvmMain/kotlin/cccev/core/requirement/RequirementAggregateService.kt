@@ -59,6 +59,7 @@ class RequirementAggregateService(
             requirement.required = command.required
             requirement.validatingCondition = command.validatingCondition
             requirement.validatingConditionDependencies = command.validatingConditionDependencies.mapNotNull { concepts[it] }.toMutableList()
+            requirement.evidenceValidatingCondition = command.evidenceValidatingCondition
             requirement.order = command.order
             requirement.properties = command.properties
         }
@@ -112,6 +113,7 @@ class RequirementAggregateService(
             r.required = command.required
             r.validatingCondition = command.validatingCondition
             r.validatingConditionDependencies = command.validatingConditionDependencies.mapNotNull { concepts[it] }.toMutableList()
+            r.evidenceValidatingCondition = command.evidenceValidatingCondition
             r.order = command.order
             r.properties = command.properties
         }
@@ -177,6 +179,7 @@ class RequirementAggregateService(
         val evidenceTypes = session.findSafeShallowAllById<EvidenceType>(command.evidenceTypeIds, "EvidenceType")
 
         requirement.evidenceTypes.addAll(evidenceTypes)
+        requirement.evidenceValidatingCondition = command.evidenceValidatingCondition
         session.save(requirement)
 
         RequirementAddedEvidenceTypesEvent(command.id)
@@ -184,12 +187,15 @@ class RequirementAggregateService(
     }
 
     suspend fun removeEvidenceTypes(command: RequirementRemoveEvidenceTypesCommand) = sessionFactory.transaction { session, _ ->
-        session.load(Requirement::class.java, command.id as String, 0)
+        val requirement = session.load(Requirement::class.java, command.id as String, 0)
             ?: throw NotFoundException("Requirement", command.id)
 
         command.evidenceTypeIds.mapAsync { evidenceTypeId ->
             session.removeRelation(Requirement.LABEL, command.id, Requirement.HAS_EVIDENCE_TYPE, EvidenceType.LABEL, evidenceTypeId)
         }
+        requirement.evidenceValidatingCondition = command.evidenceValidatingCondition
+        session.save(requirement)
+
 
         RequirementRemovedEvidenceTypesEvent(command.id, command.evidenceTypeIds)
             .also(applicationEventPublisher::publishEvent)

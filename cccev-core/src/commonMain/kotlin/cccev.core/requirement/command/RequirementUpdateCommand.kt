@@ -48,6 +48,7 @@ interface RequirementUpdateCommandDTO {
     val required: Boolean
     val validatingCondition: String?
     val validatingConditionDependencies: List<InformationConceptId>
+    val evidenceValidatingCondition: String?
     val order: Int?
     val properties: Map<String, String>?
 }
@@ -58,8 +59,8 @@ interface RequirementUpdateCommandDTO {
 @Serializable
 data class RequirementUpdateCommand(
     override val id: RequirementId,
-    override val name: String? = null,
-    override val description: String? = null,
+    override val name: String?,
+    override val description: String?,
     override val type: String?,
     override val conceptIds: List<InformationConceptId>,
     override val evidenceTypeIds: List<EvidenceTypeId>,
@@ -69,6 +70,7 @@ data class RequirementUpdateCommand(
     override val required: Boolean,
     override val validatingCondition: String?,
     override val validatingConditionDependencies: List<InformationConceptId>,
+    override val evidenceValidatingCondition: String?,
     override val order: Int?,
     override val properties: Map<String, String>?
 ): RequirementUpdateCommandDTO

@@ -56,6 +56,8 @@ class Requirement {
     @Relationship(VALIDATION_DEPENDS_ON)
     var validatingConditionDependencies: MutableList<InformationConcept> = mutableListOf()
 
+    var evidenceValidatingCondition: String? = null
+
     var order: Int? = null
 
     private var propertiesJson: String? = null
