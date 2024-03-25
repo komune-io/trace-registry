@@ -47,7 +47,7 @@ class CertificationValuesFillerService(
         }
 
         certificationRepository.findAllSupportedValues(context.certificationId, context.rootRequirementCertificationId)
-            .forEach { context.knownValues[it.concept.identifier] = it.value.convertTo(it.concept.unit!!.type) }
+            .forEach { context.knownValues[it.concept.identifier] = it.value.convertTo(it.concept.unit.type) }
 
         computeValuesOfConsumersOf(values.keys, context)
     }
