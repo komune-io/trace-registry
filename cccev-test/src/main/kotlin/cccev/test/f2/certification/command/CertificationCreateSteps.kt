@@ -1,17 +1,24 @@
 package cccev.test.f2.certification.command
 
-import au.com.origin.snapshots.Expect
+import cccev.commons.utils.mapAsync
 import cccev.core.certification.command.CertificationCreateCommand
 import cccev.core.certification.entity.CertificationRepository
+import cccev.f2.CccevFlatGraph
 import cccev.f2.certification.CertificationEndpoint
+import cccev.f2.certification.model.flattenTo
 import cccev.test.CccevCucumberStepsDefinition
+import cccev.test.CertificationKey
+import cccev.test.RequirementKey
+import cccev.test.SupportedValueKey
+import cccev.test.f2.certification.data.requirementCertification
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
-import s2.bdd.data.TestContextKey
+import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.parser.extractList
-import kotlin.reflect.jvm.javaMethod
+import s2.bdd.data.parser.safeExtract
 
 class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
 
@@ -25,6 +32,7 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
 
     init {
         DataTableType(::certificationCreateParams)
+        DataTableType(::requirementCertificationAssertParams)
 
         When("I create a certification") {
             step {
@@ -57,27 +65,48 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
             }
         }
 
-        Then("The certification should match the snapshot {string}") { snapshot: String ->
+        Then("The requirement certifications should be created:") { dataTable: DataTable ->
             step {
-                val start = System.currentTimeMillis()
-                val certification = certificationRepository.findById(context.certificationIds.lastUsed)
-                println("Certification fetch took ${System.currentTimeMillis() - start}ms")
-
-                Expect.of(context.snapshotVerifier, ::snapshot.javaMethod)
-                    .scenario(snapshot)
-                    .toMatchSnapshot(certification)
+                dataTable.asList(RequirementCertificationAssertParams::class.java)
+                    .mapAsync(::assertRequirementCertification)
             }
         }
     }
 
-    private fun snapshot() { /* do nothing */ }
-
-    private suspend fun createCertification(params: CertificationCreateParams) = context.certificationIds.register(params.identifier) {
+    private suspend fun createCertification(params: CertificationCreateParams) {
         command = CertificationCreateCommand(
             id = params.identifier,
             requirementIdentifiers = params.requirements
         )
-        command.invokeWith(certificationEndpoint.certificationCreate()).id
+        val certificationId = command.invokeWith(certificationEndpoint.certificationCreate()).id
+        context.certificationIds[params.identifier] = certificationId
+
+        val graph = CccevFlatGraph()
+        certificationRepository.findById(certificationId)!!.flattenTo(graph)
+
+        graph.requirementCertifications.forEach { (_, requirementCertification) ->
+            val key = params.identifier to requirementCertification.requirementIdentifier
+            context.requirementCertificationIds[key] = requirementCertification.id
+        }
+    }
+
+    private suspend fun assertRequirementCertification(params: RequirementCertificationAssertParams) {
+        val requirementCertificationId = context.requirementCertificationIds.safeGet(params.certification to params.requirement)
+        val requirementCertification = certificationRepository.findRequirementCertificationById(requirementCertificationId)
+
+        Assertions.assertThat(requirementCertification).isNotNull()
+        AssertionBdd.requirementCertification(certificationRepository).assertThat(requirementCertification!!)
+            .hasFields(
+                subCertificationIds = params.subCertifications?.map {
+                    context.requirementCertificationIds.safeGet(params.certification to it)
+                } ?: requirementCertification.subCertifications.map { it.id },
+                values = params.values?.map { context.supportedValueIds.safeGet(it) }
+                    ?: requirementCertification.values.map { it.id },
+                isEnabled = params.isEnabled ?: requirementCertification.isEnabled,
+                isValidated = params.isValidated ?: requirementCertification.isValidated,
+                hasAllValues = params.hasAllValues ?: requirementCertification.hasAllValues,
+                isFulfilled = params.isFulfilled ?: requirementCertification.isFulfilled
+            )
     }
 
     private fun certificationCreateParams(entry: Map<String, String>?) = CertificationCreateParams(
@@ -85,8 +114,30 @@ class CertificationCreateSteps: En, CccevCucumberStepsDefinition() {
         requirements = entry?.extractList("requirements").orEmpty()
     )
 
+    private fun requirementCertificationAssertParams(entry: Map<String, String>) = RequirementCertificationAssertParams(
+        certification = entry["certification"] ?: context.certificationIds.lastUsedKey,
+        requirement = entry.safeExtract("requirement"),
+        subCertifications = entry.extractList("subCertifications").orEmpty().takeIf { "subCertifications" in entry },
+        values = entry.extractList("values").orEmpty().takeIf { "values" in entry },
+        isEnabled = entry["isEnabled"]?.toBoolean(),
+        isValidated = entry["isValidated"]?.toBoolean(),
+        hasAllValues = entry["hasAllValues"]?.toBoolean(),
+        isFulfilled = entry["isFulfilled"]?.toBoolean()
+    )
+
     private data class CertificationCreateParams(
-        val identifier: TestContextKey,
-        val requirements: List<TestContextKey>
+        val identifier: CertificationKey,
+        val requirements: List<RequirementKey>
+    )
+
+    private data class RequirementCertificationAssertParams(
+        val certification: CertificationKey,
+        val requirement: RequirementKey,
+        val subCertifications: List<RequirementKey>?,
+        val values: List<SupportedValueKey>?,
+        val isEnabled: Boolean?,
+        val isValidated: Boolean?,
+        val hasAllValues: Boolean?,
+        val isFulfilled: Boolean?
     )
 }

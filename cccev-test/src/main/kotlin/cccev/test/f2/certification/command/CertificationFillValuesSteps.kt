@@ -25,7 +25,7 @@ class CertificationFillValuesSteps: En, CccevCucumberStepsDefinition() {
                 dataTable.asList(CertificationFillValuesParams::class.java)
                     .groupBy(CertificationFillValuesParams::identifier)
                     .forEach { (identifier, params) ->
-                        fullValues(identifier, params.associate { it.concept to it.value })
+                        fillValues(identifier, params.associate { it.concept to it.value })
                     }
             }
         }
@@ -35,13 +35,13 @@ class CertificationFillValuesSteps: En, CccevCucumberStepsDefinition() {
                 dataTable.asList(CertificationFillValuesParams::class.java)
                     .groupBy(CertificationFillValuesParams::identifier)
                     .forEach { (identifier, params) ->
-                        fullValues(identifier, params.associate { it.concept to it.value })
+                        fillValues(identifier, params.associate { it.concept to it.value })
                     }
             }
         }
     }
 
-    private suspend fun fullValues(identifier: TestContextKey, values: Map<TestContextKey, String?>) {
+    private suspend fun fillValues(identifier: TestContextKey, values: Map<TestContextKey, String?>) {
         command = CertificationFillValuesCommand(
             id = context.certificationIds[identifier] ?: identifier,
             rootRequirementCertificationId = null,

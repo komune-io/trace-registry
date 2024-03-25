@@ -1,8 +1,9 @@
 package cccev.test
 
-import au.com.origin.snapshots.SnapshotVerifier
 import cccev.core.certification.model.CertificationId
 import cccev.core.certification.model.EvidenceId
+import cccev.core.certification.model.RequirementCertificationId
+import cccev.core.certification.model.SupportedValueId
 import cccev.core.concept.model.InformationConceptId
 import cccev.core.evidencetype.model.EvidenceTypeId
 import cccev.core.requirement.model.RequirementId
@@ -11,17 +12,27 @@ import org.springframework.stereotype.Component
 import s2.bdd.data.TestContext
 import s2.bdd.data.TestContextKey
 
+typealias InformationConceptKey = TestContextKey
+typealias EvidenceTypeKey = TestContextKey
+typealias RequirementKey = TestContextKey
+typealias DataUnitKey = TestContextKey
+
+typealias EvidenceKey = TestContextKey
+typealias CertificationKey = TestContextKey
+typealias SupportedValueKey = TestContextKey
+
 @Component
 class CccevTestContext: TestContext() {
 
-    val conceptIds = testEntities<TestContextKey, InformationConceptId>("InformationConcept")
-    val evidenceIds = testEntities<TestContextKey, EvidenceId>("Evidence")
-    val evidenceTypeIds = testEntities<TestContextKey, EvidenceTypeId>("EvidenceType")
-    val certificationIds = testEntities<TestContextKey, CertificationId>("Request")
-    val requirementIds = testEntities<TestContextKey, RequirementId>("Requirement")
-    val unitIds = testEntities<TestContextKey, DataUnitId>("DataUnit")
+    val conceptIds = testEntities<InformationConceptKey, InformationConceptId>("InformationConcept")
+    val evidenceTypeIds = testEntities<EvidenceTypeKey, EvidenceTypeId>("EvidenceType")
+    val requirementIds = testEntities<RequirementKey, RequirementId>("Requirement")
+    val unitIds = testEntities<DataUnitKey, DataUnitId>("DataUnit")
 
-    lateinit var snapshotVerifier: SnapshotVerifier
+    val evidenceIds = testEntities<EvidenceKey, EvidenceId>("Evidence")
+    val certificationIds = testEntities<CertificationKey, CertificationId>("Request")
+    val requirementCertificationIds = testEntities<Pair<CertificationKey, RequirementKey>, RequirementCertificationId>("RequirementCertification")
+    val supportedValueIds = testEntities<SupportedValueKey, SupportedValueId>("SupportedValue")
 
     final var fetched = FetchContext()
         private set
