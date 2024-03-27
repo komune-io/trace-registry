@@ -104,3 +104,8 @@ suspend fun Session.removeSeveredRelations(
         currentTargetIds.filter { it !in newTargetIds }
     )
 }
+
+fun String.returnWholeEntity(identifier: String) = this +
+        "\nOPTIONAL MATCH ($identifier)-[${identifier}_rels*]->(${identifier}_child)" +
+        "\nUNWIND COALESCE(${identifier}_rels, [NULL]) as ${identifier}_rel" +
+        "\nRETURN $identifier, collect(distinct ${identifier}_rel), collect(distinct ${identifier}_child)"
