@@ -110,6 +110,7 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             evidenceTypeIds = params.hasEvidenceType.map { context.evidenceTypeIds[it] ?: it },
             validatingCondition = params.validatingCondition,
             validatingConditionDependencies = params.validatingConditionDependencies.map { context.conceptIds[it] ?: it },
+            evidenceValidatingCondition = params.evidenceValidatingCondition,
             properties = mapOf("blblbl" to "ok")
         )
         command.invokeWith(requirementEndpoint.requirementCreate()).id
@@ -129,7 +130,8 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
             isRequirementOf = entry?.extractList("isRequirementOf").orEmpty(),
             hasQualifiedRelation = entry?.extractList("hasQualifiedRelation").orEmpty(),
             validatingCondition = entry?.get("validatingCondition"),
-            validatingConditionDependencies = entry?.extractList("validatingConditionDependencies").orEmpty()
+            validatingConditionDependencies = entry?.extractList("validatingConditionDependencies").orEmpty(),
+            evidenceValidatingCondition = entry?.get("evidenceValidatingCondition")
         )
     }
 
@@ -145,7 +147,8 @@ class RequirementCreateSteps: En, CccevCucumberStepsDefinition() {
         val isRequirementOf: List<TestContextKey>,
         val hasQualifiedRelation: List<TestContextKey>,
         val validatingCondition: String?,
-        val validatingConditionDependencies: List<TestContextKey>
+        val validatingConditionDependencies: List<TestContextKey>,
+        val evidenceValidatingCondition: String?
     )
 
     private fun requirementAssertParams(entry: Map<String, String>) = RequirementAssertParams(

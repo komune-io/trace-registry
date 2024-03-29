@@ -29,6 +29,7 @@ class AssertionRequirementCertification(
             isEnabled: Boolean = certification.isEnabled,
             isValidated: Boolean = certification.isValidated,
             hasAllValues: Boolean = certification.hasAllValues,
+            areEvidencesProvided: Boolean = certification.areEvidencesProvided,
             isFulfilled: Boolean = certification.isFulfilled
         ) = also {
             Assertions.assertThat(certification.id).isEqualTo(id)
@@ -38,6 +39,7 @@ class AssertionRequirementCertification(
             Assertions.assertThat(certification.isEnabled).isEqualTo(isEnabled)
             Assertions.assertThat(certification.isValidated).isEqualTo(isValidated)
             Assertions.assertThat(certification.hasAllValues).isEqualTo(hasAllValues)
+            Assertions.assertThat(certification.areEvidencesProvided).isEqualTo(areEvidencesProvided)
             Assertions.assertThat(certification.isFulfilled).isEqualTo(isFulfilled)
         }
     }

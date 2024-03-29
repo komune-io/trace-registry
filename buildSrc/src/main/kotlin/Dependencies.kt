@@ -26,7 +26,7 @@ object Versions {
 	const val datafaker = "1.8.1"
 	const val javaSnapshotTesting = "4.0.7"
 	const val jsonAssert = "1.5.1"
-	const val neo4jOgm = "4.0.3"
+	const val neo4jOgm = "4.0.10"
 }
 
 object Repo {

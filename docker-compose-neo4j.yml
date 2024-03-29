@@ -11,3 +11,4 @@ services:
       - 7474:7474  # browser interface (localhost:7474)
     volumes:
       - ./infra/dev/neo4j/data:/data
+    restart: always
