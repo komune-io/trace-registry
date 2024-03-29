@@ -63,10 +63,10 @@ class CertificationValuesFillerService(
         // will throw if conversion is impossible
         value.convertTo(informationConcept.unit.type)
 
-        val supportedValue = SupportedValue().apply {
-            this.id = UUID.randomUUID().toString()
-            this.value = value
-            this.concept = informationConcept
+        val supportedValue = SupportedValue().also { supportedValue ->
+            supportedValue.id = UUID.randomUUID().toString()
+            supportedValue.value = value
+            supportedValue.concept = informationConcept
         }
 
         this.fillValue(informationConceptIdentifier, supportedValue)
@@ -87,6 +87,11 @@ class CertificationValuesFillerService(
 
             session.save(requirementCertification, 2)
         }.forEach { it.updateFulfillment() }
+
+        certificationRepository.findSupportingEvidenceFor(supportedValue.id)?.let { evidence ->
+            supportedValue.evidences.add(evidence)
+            session.save(supportedValue, 1)
+        }
     }
 
     private suspend fun computeValuesOfConsumersOf(
@@ -122,10 +127,10 @@ class CertificationValuesFillerService(
                 .getValue(expressionContext, concept.unit.type.klass())
                 .also { context.knownValues[concept.identifier] = it }
                 .let {
-                    SupportedValue().apply {
-                        id = UUID.randomUUID().toString()
-                        this.value = it.toString()
-                        this.concept = concept
+                    SupportedValue().also { supportedValue ->
+                        supportedValue.id = UUID.randomUUID().toString()
+                        supportedValue.value = it.toString()
+                        supportedValue.concept = concept
                     }
                 }
 

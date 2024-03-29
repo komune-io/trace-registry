@@ -1,6 +1,8 @@
 package cccev.core.certification
 
+import cccev.core.certification.command.CertificationAddEvidenceCommand
 import cccev.core.certification.command.CertificationAddRequirementsCommand
+import cccev.core.certification.command.CertificationAddedEvidenceEvent
 import cccev.core.certification.command.CertificationAddedRequirementsEvent
 import cccev.core.certification.command.CertificationCreateCommand
 import cccev.core.certification.command.CertificationCreatedEvent
@@ -12,12 +14,16 @@ import cccev.core.certification.entity.Certification
 import cccev.core.certification.entity.CertificationRepository
 import cccev.core.certification.entity.RequirementCertification
 import cccev.core.certification.entity.isFulfilled
+import cccev.core.certification.model.CertificationFsPath
+import cccev.core.certification.service.CertificationEvidenceService
 import cccev.core.certification.service.CertificationValuesFillerService
 import cccev.core.requirement.entity.Requirement
 import cccev.core.requirement.entity.RequirementRepository
 import cccev.core.requirement.model.RequirementIdentifier
 import cccev.infra.neo4j.checkNotExists
 import cccev.infra.neo4j.session
+import city.smartb.fs.s2.file.client.FileClient
+import city.smartb.fs.spring.utils.toUploadCommand
 import f2.spring.exception.NotFoundException
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.context.ApplicationEventPublisher
@@ -27,8 +33,10 @@ import java.util.UUID
 @Service("CertificationAggregateService2")
 class CertificationAggregateService(
     private val applicationEventPublisher: ApplicationEventPublisher,
+    private val certificationEvidenceService: CertificationEvidenceService,
     private val certificationRepository: CertificationRepository,
     private val certificationValuesFillerService: CertificationValuesFillerService,
+    private val fileClient: FileClient,
     private val requirementRepository: RequirementRepository,
     private val sessionFactory: SessionFactory
 ) {
@@ -63,7 +71,30 @@ class CertificationAggregateService(
         return CertificationFilledValuesEvent(
             id = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId
+        ).also(applicationEventPublisher::publishEvent)
+    }
+
+    suspend fun addEvidence(command: CertificationAddEvidenceCommand, file: ByteArray, filename: String?): CertificationAddedEvidenceEvent {
+        val path = command.filePath
+            ?: CertificationFsPath.pathEvidenceType(command.id, command.evidenceTypeId)
+                .copy(name = filename ?: System.currentTimeMillis().toString())
+
+        val evidenceId = certificationEvidenceService.addEvidence(
+            command = command,
+            filePath = path
         )
+
+        fileClient.fileUpload(
+            command = path.toUploadCommand(vectorize = command.vectorize),
+            file = file
+        )
+
+        return CertificationAddedEvidenceEvent(
+            id = command.id,
+            rootRequirementCertificationId = command.rootRequirementCertificationId,
+            evidenceId = evidenceId,
+            filePath = path
+        ).also(applicationEventPublisher::publishEvent)
     }
 
     suspend fun addRequirements(
@@ -118,6 +149,7 @@ class CertificationAggregateService(
                 certification.isEnabled = enablingCondition == null
                 certification.isValidated = validatingCondition == null
                 certification.hasAllValues = !requirementRepository.hasAnyConcept(identifier)
+                certification.areEvidencesProvided = evidenceValidatingCondition == null
                 certification.isFulfilled = certification.isFulfilled()
             }
     }

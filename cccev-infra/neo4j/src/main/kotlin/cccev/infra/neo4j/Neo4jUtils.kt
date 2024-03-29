@@ -57,6 +57,15 @@ inline fun <reified E: Any> Session.checkNotExists(id: String, label: String) {
     }
 }
 
+inline fun <reified E: Any> Session.findById(id: String, label: String): E? {
+    return query(
+        "MATCH (e:$label {id: \$id})"
+            .returnWholeEntity("e"),
+        mapOf("id" to id)
+    ).map { it["e"] as E }
+        .firstOrNull()
+}
+
 inline fun <reified E: Any> Session.findSafeShallowById(id: String, label: String): E {
     return load(E::class.java, id, 0)
         ?: throw NotFoundException(label, id)
