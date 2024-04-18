@@ -28,7 +28,7 @@ allprojects {
 subprojects {
 	tasks {
 		register("documenter", Copy::class) {
-			from("build/smartb-d2-documenter") {
+			from("build/komune-d2-documenter") {
 				include("**/*.json")
 			}
 
@@ -46,7 +46,7 @@ fixers {
 		id = "registry"
 		name = "Registry"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environmental assets registries of the market."
-		url = "https://gitlab.smartb.city/framwork/registry/program"
+		url = "https://github.com/komune-io/registry/program"
 	}
 	d2 {
 		outputDirectory = file("storybook/stories/d2/")

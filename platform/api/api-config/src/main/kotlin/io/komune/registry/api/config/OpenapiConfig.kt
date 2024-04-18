@@ -16,6 +16,6 @@ class OpenapiConfig {
             .components(Components())
             .info(
                 Info().title(api.title ?: "").version(api.version)
-                    .license(License().name("Apache 2.0").url("https://smartb.city")));
+                    .license(License().name("Apache 2.0").url("https://komune.io")));
     }
 }

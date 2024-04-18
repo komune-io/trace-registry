@@ -123,7 +123,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
         title = entry?.get("title") ?: "My Catalogue",
         description = entry?.get("description") ?: "My Catalogue description",
         status = entry?.get("status") ?: "ACTIVE",
-        homepage = entry?.get("homepage") ?: "https://www.smartb.city",
+        homepage = entry?.get("homepage") ?: "https://www.komune.io",
         type = entry?.get("type") ?: "Catalogue",
         display = entry?.get("display") ?: "grid",
     )

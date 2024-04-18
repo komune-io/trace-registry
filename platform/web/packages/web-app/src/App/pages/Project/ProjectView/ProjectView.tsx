@@ -1,4 +1,4 @@
-import { Button, LinkButton } from '@smartb/g2'
+import { Button, LinkButton } from '@komune-io/g2'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {

@@ -9,7 +9,3 @@ dependencies {
 
     Dependencies.Jvm.f2(::implementation)
 }
-
-tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    imageName.set("smartbcity/tr-registry-script:${this.project.version}")
-}

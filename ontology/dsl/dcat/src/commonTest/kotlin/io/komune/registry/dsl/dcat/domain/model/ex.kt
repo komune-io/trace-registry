@@ -25,7 +25,7 @@ val catalogue1 = catalogue {
     }
     catalogues {
         catalogue {
-            identifier = "http://registry.smartb.city/catalogues/standard/catalogues/verra"
+            identifier = "http://registry.komune.io/catalogues/standard/catalogues/verra"
         }
         catalogue {
             identifier = "http://example.com/catalogue2"
@@ -34,7 +34,7 @@ val catalogue1 = catalogue {
 }
 
 val verra =  catalogue {
-    identifier = "http://registry.smartb.city/catalogues/standard/catalogues/verra"
+    identifier = "http://registry.komune.io/catalogues/standard/catalogues/verra"
     type = "Standard"
     title = "Verra"
     description = """Verra, formerly known as Verified Carbon Standard (VCS), is a leading global standard 
@@ -42,7 +42,7 @@ val verra =  catalogue {
     homepage = "https://verra.org/"
     themes {
         theme {
-            id = "http://registry.smartb.city/catalogues/standard/themes/ForestryAndLandUse"
+            id = "http://registry.komune.io/catalogues/standard/themes/ForestryAndLandUse"
             prefLabels {
                 "en" toThat "Forestry and Land Use"
                 "fr" toThat "Foresterie et utilisation des terres"
@@ -51,7 +51,7 @@ val verra =  catalogue {
     }
     catalogues {
         catalogue {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram"
             title = "The Plastic Waste Reduction Program"
             type = "Program"
         }
@@ -62,7 +62,7 @@ val verra =  catalogue {
 //    }
     datasets {
         dataset {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/datasets/documents"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/datasets/documents"
             title = "Vera Standard Documents Dataset"
             type = "documents"
             description = """
@@ -73,7 +73,7 @@ val verra =  catalogue {
 }
 
 val verraCat =  catalogue {
-    identifier = "http://registry.smartb.city/catalogues/standard/catalogues/verra"
+    identifier = "http://registry.komune.io/catalogues/standard/catalogues/verra"
     type = "Standard"
     title = "Verra"
     img = "URL"
@@ -82,7 +82,7 @@ val verraCat =  catalogue {
     homepage = "https://verra.org/"
     themes {
         theme {
-            id = "http://registry.smartb.city/catalogues/standard/themes/ForestryAndLandUse"
+            id = "http://registry.komune.io/catalogues/standard/themes/ForestryAndLandUse"
             prefLabels {
                 "en" toThat "Forestry and Land Use"
                 "fr" toThat "Foresterie et utilisation des terres"
@@ -92,7 +92,7 @@ val verraCat =  catalogue {
 
     datasets {
         dataset {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/datasets/documents"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/datasets/documents"
             title = "Vera Standard Documents Dataset"
             type = "documents"
             description = """
@@ -100,7 +100,7 @@ val verraCat =  catalogue {
             """.trimIndent()
         }
         dataset {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/datasets/documents"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/datasets/documents"
             title = "Catalogue"
             type = "projects"
             description = """
@@ -112,7 +112,7 @@ val verraCat =  catalogue {
 }
 
 val PlasticWasteReductionProgram =  catalogue {
-    identifier = "http://registry.smartb.city/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram"
+    identifier = "http://registry.komune.io/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram"
     type = "Program"
     title = "The Plastic Waste Reduction Program"
     description = """The Plastic Waste Reduction Program (Plastic Program) enables the robust impact assessment of new or scaled-up waste collection and recycling projects.
@@ -120,7 +120,7 @@ val PlasticWasteReductionProgram =  catalogue {
     homepage = "https://verra.org/programs/verified-carbon-standard/vcs-program-details"
     themes {
         theme {
-            id = "http://registry.smartb.city/catalogues/standard/themes/CollectionRecycling"
+            id = "http://registry.komune.io/catalogues/standard/themes/CollectionRecycling"
             prefLabels {
                 "en" toThat "Collection, Recycling"
                 "fr" toThat "Collecte, recyclage"
@@ -129,14 +129,14 @@ val PlasticWasteReductionProgram =  catalogue {
     }
     catalogues {
         catalogue {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram/catalogue"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram/catalogue"
             title = "The Plastic Waste Reduction Program"
             type = "Methodologies"
         }
     }
     datasets {
         dataset {
-            identifier = "http://registry.smartb.city/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram/datasets/documents"
+            identifier = "http://registry.komune.io/catalogues/standard/verra/catalogues/PlasticWasteReductionProgram/datasets/documents"
             title = "Verra Standard Documents Dataset"
             type = "documents"
             description = """

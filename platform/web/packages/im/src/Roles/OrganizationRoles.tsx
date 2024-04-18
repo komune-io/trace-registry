@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material'
-import { Chip } from '@smartb/g2'
+import { Chip } from '@komune-io/g2'
 import { useTranslation } from 'react-i18next'
 import { OrgRoles, orgRolesColors } from 'components'
 

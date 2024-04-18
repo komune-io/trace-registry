@@ -1,10 +1,10 @@
-import { QueryParams, useQueryRequest, useFetchBinary } from "@smartb/g2-utils"
+import { QueryParams, useQueryRequest, useFetchBinary } from "@komune-io/g2-utils"
 import { city } from "registry-project-f2-domain"
 import { city as chat } from "registry-chat-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {useCallback} from "react"
-import {request} from "@smartb/g2-utils";
+import {request} from "@komune-io/g2-utils";
 import { Message } from "components";
 
 export interface ProjectListFilesQuery extends io.komune.registry.f2.project.domain.query.ProjectListFilesQueryDTO  { }
@@ -18,8 +18,8 @@ export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQue
   )
 }
 
-export interface ChatAskQuestionQuery extends chat.smartb.registry.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
-export interface ChatAskQuestionResult extends chat.smartb.registry.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
+export interface ChatAskQuestionQuery extends chat.komune.registry.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
+export interface ChatAskQuestionResult extends chat.komune.registry.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
 
 export const askQuestion = async (message: string, history: Message[], targetedFiles?: string[], projectId?: string) => {
   const res = await request<ChatAskQuestionResult[]>({

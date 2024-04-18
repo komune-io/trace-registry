@@ -1,4 +1,4 @@
-import { Router } from "@smartb/g2";
+import { Router } from "@komune-io/g2";
 import { Route } from "react-router-dom";
 import { Routes } from "components";
 import { App } from "App";

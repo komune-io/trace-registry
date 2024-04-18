@@ -1,4 +1,4 @@
-import { QueryParams, useQueryRequest } from "@smartb/g2"
+import { QueryParams, useQueryRequest } from "@komune-io/g2"
 import {city} from "registry-dataset-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 

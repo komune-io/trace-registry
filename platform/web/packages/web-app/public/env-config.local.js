@@ -6,7 +6,7 @@ window._env_ = {
     keycloak: {
       realm: "sb-dev",
       clientId: "im-dev-web",
-      url: "https://auth.dev.connect.smart-b.io/"
+      url: "https://auth.dev.connect.komune.io/"
     }
   }
 };

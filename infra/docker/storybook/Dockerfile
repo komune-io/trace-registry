@@ -9,12 +9,12 @@ COPY storybook ./storybook
 
 WORKDIR /app/storybook
 
-ARG CI_NPM_AUTH_TOKEN
-RUN echo -e "\
-access=public \n\
- @smartb:registry=https://gitlab.smartb.city/api/v4/projects/127/packages/npm/ \n\
-//gitlab.smartb.city/api/v4/projects/127/packages/npm/:_authToken=${CI_NPM_AUTH_TOKEN} \n\
-" > .npmrc
+ARG NPM_AUTH_TOKEN
+RUN printf "\
+@komune-io:registry=https://npm.pkg.github.com\n\
+//npm.pkg.github.com/:_authToken=%s\n\
+" "${NPM_AUTH_TOKEN}" > .npmrc
+
 
 RUN yarn install
 ENV PATH /app/storybook/node_modules/.bin:$PATH
@@ -27,6 +27,16 @@ FROM nginx:1.23.2-alpine
 
 COPY --from=build /app/storybook/storybook-static /var/www
 COPY infra/docker/storybook/nginx.conf /etc/nginx/nginx.conf
+
+LABEL org.opencontainers.image.source="https://github.com/komune-io/trace-registry"
+
+RUN chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d
+
+RUN touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/run/nginx.pid
+USER nginx
 
 EXPOSE 80
 

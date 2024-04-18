@@ -1,5 +1,5 @@
 import {Stack} from '@mui/material'
-import {Header} from '@smartb/g2'
+import {Header} from '@komune-io/g2'
 import {Fragment, useCallback, useMemo, useState} from "react";
 import {Row} from '@tanstack/react-table';
 import {Offset, OffsetPagination} from "template";

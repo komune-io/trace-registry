@@ -1,4 +1,4 @@
-const baseUrl = "https://api.registry.smartb.network/cccev/docs"
+const baseUrl = "https://api.registry.komune.io/cccev/docs"
 
 module.exports = {
   stories: [

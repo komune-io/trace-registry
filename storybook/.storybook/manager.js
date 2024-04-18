@@ -6,7 +6,7 @@ addons.setConfig({
     theme:  create({
         base: "light",
         brandTitle: "SmartB Verified Emission Reduction",
-        brandUrl: "https://api.registry.smartb.network/docs/ver",
+        brandUrl: "https://api.registry.komune.io/docs/ver",
         brandImage: logo,
         brandTarget: "_self",
         appBg: "#FFFEFB",

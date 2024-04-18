@@ -1,0 +1,7 @@
+
+POST https://api.registry.komune.io/ver/projectDelete
+Content-Type: application/json
+
+{
+  "id": "fc9e98b1-2a59-40ca-82b7-f2cc8fc1d311"
+}

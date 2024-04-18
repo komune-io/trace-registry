@@ -6,7 +6,7 @@ import {
     useAssetTransactionGetQuery,
 } from "domain-components";
 import {AppPage} from "template";
-import {Button, Section} from "@smartb/g2";
+import {Button, Section} from "@komune-io/g2";
 import {useRoutesDefinition} from "components";
 import {ArrowBackIosNewRounded} from "@mui/icons-material";
 import {Stack} from "@mui/material";

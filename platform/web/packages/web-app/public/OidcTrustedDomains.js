@@ -9,9 +9,9 @@ const trustedDomains = {
         //the application root
         'http://localhost:5173', 
         //the keycloak server
-        "https://auth.dev.connect.smart-b.io", 
+        "https://auth.dev.connect.komune.io",
         //the api
-        "https://dev.trace.smart-b.io/ver"
+        "https://dev.trace.komune.io/ver"
     ],
     config_classic: ['http://localhost:5173'],
     config_without_silent_login: ['http://localhost:5173'],
@@ -27,5 +27,5 @@ trustedDomains.config_show_access_token = { domains: ['http://localhost:5173'], 
 // This example defines domains used by OIDC server separately from domains to which access tokens will be injected.
 trustedDomains.config_separate_oidc_access_token_domains = {
     oidcDomains: ['http://localhost:5173'],
-    accessTokenDomains: ["https://auth.dev.connect.smart-b.io"],
+    accessTokenDomains: ["https://auth.dev.connect.komune.io"],
 };

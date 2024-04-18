@@ -1,5 +1,5 @@
 import {Box, Divider, Stack, Typography} from '@mui/material'
-import {useFormComposable} from '@smartb/g2'
+import {useFormComposable} from '@komune-io/g2'
 
 import {useTranslation} from 'react-i18next'
 import {ArrowUpwardRounded, CompareArrowsRounded, DownloadRounded} from "@mui/icons-material";

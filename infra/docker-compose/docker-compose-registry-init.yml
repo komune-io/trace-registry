@@ -7,7 +7,7 @@ services:
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000
-      - registry_script_init_auth_url=https://auth.dev.connect.smart-b.io/realms/sb-dev
+      - registry_script_init_auth_url=https://auth.dev.connect.komune.io/realms/sb-dev
       - registry_script_init_cccev_url=http://${CCCEV_HOST_NAME}:${CCCEV_PORT}
       - registry_script_init_orchestrator_name=Smartb
       - registry_script_init_orchestrator_clientId=tr-registry-script-api

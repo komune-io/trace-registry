@@ -1,5 +1,5 @@
 import React from 'react'
-import { MenuItem, StandAloneAppLayout, UserMenuProps } from '@smartb/g2'
+import { MenuItem, StandAloneAppLayout, UserMenuProps } from '@komune-io/g2'
 import { Link, LinkProps } from "react-router-dom";
 
 interface AppProps {

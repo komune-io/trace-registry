@@ -1,5 +1,5 @@
 import {getProjectTypesOptions, useCustomFilters} from 'components'
-import {FilterComposableField} from '@smartb/g2'
+import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
 import {ProjectPageQuery} from "../../api";

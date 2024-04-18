@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { ColumnFactory, useTable, StatusTag } from '@smartb/g2'
+import { ColumnFactory, useTable, StatusTag } from '@komune-io/g2'
 import { Row } from '@tanstack/react-table';
 import { Project } from '../../model'
 import { useCallback, useMemo } from "react"

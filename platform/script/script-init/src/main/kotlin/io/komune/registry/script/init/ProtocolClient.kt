@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 
 fun main(): Unit = runBlocking {
-//    val url = "https://api.registry.smartb.network/cccev"
+//    val url = "https://api.registry.komune.io/cccev"
     val url = "http://localhost:8083"
     initRequirement(url)
 }

@@ -1,5 +1,5 @@
 import {Box, Divider, Typography} from '@mui/material'
-import {ColumnFactory, useTable} from '@smartb/g2'
+import {ColumnFactory, useTable} from '@komune-io/g2'
 import {Row} from '@tanstack/react-table';
 import {useCallback, useMemo} from "react"
 import {OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult} from "template";

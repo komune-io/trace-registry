@@ -1,7 +1,7 @@
 import { getOrgRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components"
 import { Stack, Typography } from '@mui/material'
-import { Action, Page, Section, LinkButton } from '@smartb/g2'
-import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride, Organization } from '@smartb/g2-i2-v2'
+import { Action, Page, Section, LinkButton } from '@komune-io/g2'
+import { AutomatedOrganizationFactory, MyOrganization, useOrganizationFormState, OrganizationFactoryFieldsOverride, Organization } from '@komune-io/g2-i2-v2'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'

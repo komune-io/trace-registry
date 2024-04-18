@@ -4,12 +4,11 @@ WORKDIR /app
 
 COPY platform/web ./
 
-ARG CI_NPM_AUTH_TOKEN
-RUN echo -e "\
-access=public \n\
- @smartb:registry=https://gitlab.smartb.city/api/v4/projects/127/packages/npm/ \n\
-//gitlab.smartb.city/api/v4/projects/127/packages/npm/:_authToken=${CI_NPM_AUTH_TOKEN} \n\
-" > .npmrc
+ARG NPM_AUTH_TOKEN
+RUN printf "\
+@komune-io:registry=https://npm.pkg.github.com\n\
+//npm.pkg.github.com/:_authToken=%s\n\
+" "${NPM_AUTH_TOKEN}" > .npmrc
 
 ARG VERSION
 ENV VITE_APP_VERSION=$VERSION
@@ -22,6 +21,16 @@ FROM nginx:1.23.3-alpine
 
 COPY --from=build /app/packages/web-app/dist /var/www
 COPY infra/docker/ver-web-app/nginx.conf /etc/nginx/nginx.conf
+
+LABEL org.opencontainers.image.source="https://github.com/komune-io/trace-registry"
+
+RUN chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d
+
+RUN touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/run/nginx.pid
+USER nginx
 
 EXPOSE 80
 

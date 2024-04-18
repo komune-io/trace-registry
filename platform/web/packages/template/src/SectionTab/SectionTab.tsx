@@ -1,6 +1,6 @@
-import { Section } from '@smartb/g2'
+import { Section } from '@komune-io/g2'
 import {ReactNode, useMemo} from 'react'
-import {HeaderTab} from "@smartb/g2-layout/dist/Header/Header";
+import {HeaderTab} from "@komune-io/g2-layout/dist/Header/Header";
 import {SxProps} from "@mui/system";
 import {Theme} from "@mui/material/styles";
 

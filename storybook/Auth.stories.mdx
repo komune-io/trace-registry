@@ -30,7 +30,7 @@ export CLIENT_SECRET="your_client_secret"
 curl -X POST \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" \
-  https://auth.connect.smart-b.io/realms/sb-dev/protocol/openid-connect/token
+  https://auth.connect.komune.io/realms/sb-dev/protocol/openid-connect/token
 ```
 
 Replace `YOUR_CLIENT_ID` and `YOUR_CLIENT_SECRET` with your actual `clientId` and `clientSecret`.
@@ -63,7 +63,7 @@ To use the access token, include it in the header of your API requests. This typ
 ```bash
 export YOUR_ACCESS_TOKEN="your_access_token"
 
-curl -X POST https://trace.smart-b.io/ver/assetTransfer \
+curl -X POST https://trace.komune.io/ver/assetTransfer \
      -H "Content-Type: application/json" \
      -H "Authorization: Bearer $YOUR_ACCESS_TOKEN" \
      -d '{

@@ -1,5 +1,5 @@
 import { Skeleton, Stack, StackProps, Typography } from '@mui/material'
-import {Chip, LimitedList, Option} from "@smartb/g2"
+import {Chip, LimitedList, Option} from "@komune-io/g2"
 
 
 export interface DescriptedLimitedChipListProps extends StackProps {

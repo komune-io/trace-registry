@@ -1,5 +1,5 @@
 import { Stack, StackProps, Typography } from '@mui/material'
-import { Option } from '@smartb/g2'
+import { Option } from '@komune-io/g2'
 import { InteractiveChipList } from 'components'
 import  { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

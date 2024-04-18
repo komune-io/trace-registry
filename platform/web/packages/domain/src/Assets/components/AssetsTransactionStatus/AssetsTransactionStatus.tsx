@@ -1,4 +1,4 @@
-import {Option, StatusTag} from '@smartb/g2'
+import {Option, StatusTag} from '@komune-io/g2'
 import {TransactionStatusValues} from "../../model";
 import {useTranslation} from "react-i18next";
 

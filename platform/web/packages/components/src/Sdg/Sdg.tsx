@@ -1,10 +1,10 @@
 import { sdgIcons } from "./images";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "@smartb/g2-notifications";
+import { Tooltip } from "@komune-io/g2-notifications";
 import { styled } from '@mui/material/styles';
 import React from "react";
 import { TFunction } from "i18next";
-import { Option } from "@smartb/g2";
+import { Option } from "@komune-io/g2";
 
 export type Size = "small" | "medium" | "large" | "extraLarge";
 

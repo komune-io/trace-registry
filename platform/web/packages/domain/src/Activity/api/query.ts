@@ -1,7 +1,7 @@
 import {city} from "registry-activity-f2-domain";
-import {QueryParams, useQueryRequest} from "@smartb/g2-utils";
+import {QueryParams, useQueryRequest} from "@komune-io/g2-utils";
 import {useNoAuthenticatedRequest} from "../../config";
-import {useFetchBinary} from "@smartb/g2";
+import {useFetchBinary} from "@komune-io/g2";
 
 export interface ActivityPageQuery extends io.komune.registry.f2.activity.domain.query.ActivityPageQueryDTO { }
 export interface ActivityPageResult extends io.komune.registry.f2.activity.domain.query.ActivityPageResultDTO { }

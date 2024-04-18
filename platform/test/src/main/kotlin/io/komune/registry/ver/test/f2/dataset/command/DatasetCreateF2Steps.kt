@@ -119,7 +119,7 @@ class DatasetCreateF2Steps: En, VerCucumberStepsDefinition() {
         title = entry?.get("title") ?: "My Dataset",
         description = entry?.get("description") ?: "My Dataset description",
         status = entry?.get("status") ?: "ACTIVE",
-        homepage = entry?.get("homepage") ?: "https://www.smartb.city",
+        homepage = entry?.get("homepage") ?: "https://www.komune.io",
         type = entry?.get("type") ?: "Dataset",
         display = entry?.get("display") ?: "grid",
     )

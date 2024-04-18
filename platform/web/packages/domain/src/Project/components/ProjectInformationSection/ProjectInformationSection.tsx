@@ -1,4 +1,4 @@
-import { useFormComposable } from '@smartb/g2'
+import { useFormComposable } from '@komune-io/g2'
 import { Stack } from '@mui/material'
 import {
     Project,

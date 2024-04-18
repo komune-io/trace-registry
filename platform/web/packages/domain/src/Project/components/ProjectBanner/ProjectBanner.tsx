@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { FormComposable, FormComposableField, FormComposableState } from '@smartb/g2'
+import { FormComposable, FormComposableField, FormComposableState } from '@komune-io/g2'
 import { getSdgsOptions, Sdg, ProjectType, getProjectTypesOptions } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

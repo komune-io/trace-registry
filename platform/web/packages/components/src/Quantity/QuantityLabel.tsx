@@ -1,4 +1,4 @@
-import {formatNumber} from "@smartb/g2";
+import {formatNumber} from "@komune-io/g2";
 import {useTranslation} from "react-i18next";
 
 export interface QuantityLabelProps {

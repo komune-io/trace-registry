@@ -36,7 +36,7 @@ class CeeTest {
     fun createBaten101() = runBlocking {
         val mapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
 
-        val url = "https://api.registry.smartb.network/cccev"
+        val url = "https://api.registry.komune.io/cccev"
         val client = CCCEVClient(url)
 //        client.createGraph(
 //            flowOf(BAT_EN_101)
@@ -60,7 +60,7 @@ class CeeTest {
         }
         val r: Requirement = json.decodeFromString(ex)
 
-        val url = "https://api.registry.smartb.network/cccev"
+        val url = "https://api.registry.komune.io/cccev"
         val client = CCCEVClient(url)
         client.graphClient.create(
             flowOf(r)
