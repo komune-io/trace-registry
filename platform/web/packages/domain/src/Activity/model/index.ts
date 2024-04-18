@@ -2,8 +2,8 @@ import {city} from "registry-activity-f2-domain"
 import {cccev} from "registry-activity-f2-domain"
 
 export type ActivityId = string
-export interface Activity extends city.smartb.registry.f2.activity.domain.model.ActivityDTO {}
-export interface ActivityStep extends city.smartb.registry.f2.activity.domain.model.ActivityStepDTO {}
+export interface Activity extends io.komune.registry.f2.activity.domain.model.ActivityDTO {}
+export interface ActivityStep extends io.komune.registry.f2.activity.domain.model.ActivityStepDTO {}
 export interface Evidence extends cccev.s2.certification.domain.model.EvidenceDTO {}
 
 export const activitiesExample: Activity[] = [

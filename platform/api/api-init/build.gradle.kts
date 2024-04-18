@@ -1,6 +1,6 @@
 plugins {
     id("org.springframework.boot")
-    id("city.smartb.fixers.gradle.kotlin.jvm")
+    id("io.komune.fixers.gradle.kotlin.jvm")
     kotlin("plugin.spring")
 }
 
@@ -11,7 +11,7 @@ dependencies {
 //    implementation(project(":platform:s2:asset:asset-api"))
     implementation(project(":platform:s2:project:project-api"))
 
-    implementation("city.smartb.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
+//    implementation("io.komune.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
 
     Dependencies.Jvm.s2Bdd(::testImplementation)
     Dependencies.Mpp.documenter(::testImplementation)

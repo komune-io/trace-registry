@@ -6,13 +6,13 @@ plugins {
 
 	id("org.springframework.boot") version PluginVersions.springBoot apply false
 
-	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
-	id("city.smartb.fixers.gradle.sonar") version PluginVersions.fixers
-	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
+	id("io.komune.fixers.gradle.config") version PluginVersions.fixers
+//	id("io.komune.fixers.gradle.check") version PluginVersions.fixers
+	id("io.komune.fixers.gradle.d2") version PluginVersions.fixers
 }
 
 allprojects {
-	group = "city.smartb.registry"
+	group = "io.komune.registry"
 	version = System.getenv("VERSION") ?: "experimental-SNAPSHOT"
 	repositories {
 		mavenLocal()

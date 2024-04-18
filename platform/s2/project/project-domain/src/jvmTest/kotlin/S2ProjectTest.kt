@@ -1,10 +1,10 @@
-package city.smartb.registry.s2.activity.domain
+package io.komune.registry.s2.activity.domain
 
-import city.smartb.registry.s2.commons.model.GeoLocation
-import city.smartb.registry.s2.project.domain.automate.ProjectState
-import city.smartb.registry.s2.project.domain.automate.s2Project
-import city.smartb.registry.s2.project.domain.model.OrganizationRef
-import city.smartb.registry.s2.project.domain.model.Project
+import io.komune.registry.s2.commons.model.GeoLocation
+import io.komune.registry.s2.project.domain.automate.ProjectState
+import io.komune.registry.s2.project.domain.automate.s2Project
+import io.komune.registry.s2.project.domain.model.OrganizationRef
+import io.komune.registry.s2.project.domain.model.Project
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.datafaker.Faker

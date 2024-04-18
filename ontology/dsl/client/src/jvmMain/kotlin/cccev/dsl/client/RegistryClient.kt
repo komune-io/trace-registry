@@ -1,8 +1,8 @@
 package cccev.dsl.client
 
-import city.smartb.registry.f2.catalogue.client.CatalogueClient
-import city.smartb.registry.f2.catalogue.client.catalogueClient
-import city.smartb.registry.f2.dataset.client.datasetClient
+import io.komune.registry.f2.catalogue.client.CatalogueClient
+import io.komune.registry.f2.catalogue.client.catalogueClient
+import io.komune.registry.f2.dataset.client.datasetClient
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.get
 import f2.client.ktor.http.F2ClientConfigLambda
