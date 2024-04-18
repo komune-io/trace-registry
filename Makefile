@@ -1,25 +1,27 @@
 .PHONY: docker docs dev dev-down dev-up dev-bclan dev-redis dev-cccev dev-bclan-down dev-bclan-up dev-bclan-log dev-redis-down dev-redis-up dev-redis-log dev-cccev-pull dev-cccev-down dev-cccev-up dev-cccev-log
 
-GATEWAY_NAME	   	:= smartbcity/registry-program-ver-gateway
+DOCKER_REPOSITORY = ghcr.io/
+
+GATEWAY_NAME	   	:= ${DOCKER_REPOSITORY}komune-io/registry-program-ver-gateway
 GATEWAY_IMG	    	:= ${GATEWAY_NAME}:${VERSION}
 GATEWAY_PACKAGE	   	:= platform:api:api-gateway
 
-SCRIPT_NAME	   		:= smartbcity/tr-registry-script
+SCRIPT_NAME	   		:= ${DOCKER_REPOSITORY}komune-io/tr-registry-script
 SCRIPT_IMG	    	:= ${SCRIPT_NAME}:${VERSION}
 SCRIPT_PACKAGE	   	:= platform:script:script-gateway
 
 FRONT_VER_DOCKERFILE	:= infra/docker/ver-web-app/Dockerfile
-FRONT_VER_NAME	    	:= smartbcity/registry-program-ver-web
+FRONT_VER_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/registry-program-ver-web
 FRONT_VER_IMG	    	:= ${FRONT_VER_NAME}:${VERSION}
 FRONT_VER_LATEST		:= ${FRONT_VER_NAME}:latest
 
 FRONT_CERT_DOCKERFILE	:= infra/docker/registry-certificate-web/Dockerfile
-FRONT_CERT_NAME	    	:= smartbcity/registry-certificate-web
+FRONT_CERT_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/registry-certificate-web
 FRONT_CERT_IMG	    	:= ${FRONT_CERT_NAME}:${VERSION}
 FRONT_CERT_LATEST		:= ${FRONT_CERT_NAME}:latest
 
 STORYBOOK_DOCKERFILE	:= infra/docker/storybook/Dockerfile
-STORYBOOK_NAME	   	 	:= smartbcity/registry-program-ver-storybook
+STORYBOOK_NAME	   	 	:= ${DOCKER_REPOSITORY}komune-io/registry-program-ver-storybook
 STORYBOOK_IMG	    	:= ${STORYBOOK_NAME}:${VERSION}
 
 libs: package-kotlin
