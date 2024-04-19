@@ -46,7 +46,7 @@ docker-script-publish:
 
 ## web
 docker-web-lint:
-	docker run --rm -i hadolint/hadolint < Dockerfile
+	docker run --rm -i hadolint/hadolint < infra/docker/ver-web-app/Dockerfile
 
 docker-web-build:
 	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
@@ -56,7 +56,7 @@ docker-web-publish:
 
 ## registry-certificate
 docker-registry-certificate-web-lint:
-	docker run --rm -i hadolint/hadolint < Dockerfile
+	docker run --rm -i hadolint/hadolint < infra/docker/registry-certificate-web/Dockerfile
 
 docker-registry-certificate-web-build:
 	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_CERT_DOCKERFILE} -t ${FRONT_CERT_IMG} .

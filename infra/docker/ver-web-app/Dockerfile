@@ -17,7 +17,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 ENV NODE_OPTIONS=--max_old_space_size=4096
 RUN yarn workspace web-app build
 
-FROM nginx:1.23.3-alpine
+FROM nginx:1.25.5-alpine
 
 COPY --from=build /app/packages/web-app/dist /var/www
 COPY infra/docker/ver-web-app/nginx.conf /etc/nginx/nginx.conf
