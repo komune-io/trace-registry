@@ -1,5 +1,5 @@
-import {ThemeContextProvider} from "@komune-ui/g2-themes";
-import {StorybookCanvas} from "@komune-ui/g2-storybook-documentation";
+import { ThemeContextProvider } from "@komune-io/g2-themes";
+import { StorybookCanvas } from "@komune-io/g2-storybook-documentation";
 
 import "./default.css";
 
@@ -19,14 +19,7 @@ const defaultTheme = {
 export const parameters = {
   docs: {
     container: StorybookCanvas
-  },
-  options: {
-    storySort: {
-      order: [
-        'Getting started','Authentication'
-      ],
-    },
-  },
+  }
 };
 
 export const withThemeProvider = (Story) => {
