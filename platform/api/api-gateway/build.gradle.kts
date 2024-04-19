@@ -22,7 +22,3 @@ dependencies {
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
 }
-
-tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    imageName.set("${System.getenv("IMAGE_NAME")}:${this.project.version}")
-}
