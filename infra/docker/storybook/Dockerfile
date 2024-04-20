@@ -1,7 +1,10 @@
 #### Stage 1: Build the react application
-FROM node:lts as build
+FROM node:21.7-alpine3.19 as build
 
 WORKDIR /app
+
+COPY *.md ./
+COPY storybook ./storybook
 
 WORKDIR /app/storybook
 
@@ -11,15 +14,11 @@ RUN printf "\
 //npm.pkg.github.com/:_authToken=%s\n\
 " "${NPM_AUTH_TOKEN}" > .npmrc
 
-COPY *.md ./
-COPY storybook ./storybook
 
-RUN yarn install
-ENV PATH /app/storybook/node_modules/.bin:$PATH
-ENV STORYBOOK_DISABLE_TELEMETRY=1
-ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN yarn build-storybook
-#RUN npx sb extract
+RUN if [ ! -d "./storybook-static" ]; then \
+      yarn install --frozen-lockfile --ignore-scripts && \
+      yarn build-storybook; \
+    fi
 
 FROM nginx:1.23.2-alpine
 

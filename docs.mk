@@ -1,3 +1,4 @@
+VERSION = $(shell cat VERSION)
 DOCKER_REPOSITORY = ghcr.io/
 
 STORYBOOK_DOCKERFILE	:= ./infra/docker/storybook/Dockerfile
