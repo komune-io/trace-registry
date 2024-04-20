@@ -82,7 +82,7 @@ class ActivityF2FinderService(
         return InformationConceptGetByIdentifierQueryDTOBase(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item
-            ?.toStep(certification, fsService)
+            ?.toStep(certification)
     }
 
 
@@ -130,7 +130,7 @@ class ActivityF2FinderService(
     ): List<ActivityStep> {
         val certification = certificateService.getGraphOrNull(certificationId)
         return map { concept ->
-            concept.toStep(certification, fsService)
+            concept.toStep(certification)
         }.sortedBy { it.identifier }
     }
 

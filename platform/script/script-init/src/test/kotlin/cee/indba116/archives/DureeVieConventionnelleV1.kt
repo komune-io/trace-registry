@@ -1,6 +1,6 @@
 package cee.indba116.archives
 
-import cccev.dsl.cee.indba116.NombreTypesDispositifGestionEclairage
+import cee.indba116.NombreTypesDispositifGestionEclairage
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.EvidenceTypeBase
 import cccev.dsl.model.EvidenceTypeListBase
@@ -59,7 +59,8 @@ object DureeVieConventionnelleV1 {
     )
 
     object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
-        description = "Le bénériciaire n'a jamais bénéficié de crédits CEE pour la même opération et dans les même conditions",
+        description = "Le bénériciaire n'a jamais bénéficié de crédits CEE " +
+                "pour la même opération et dans les même conditions",
         identifier = "aucunPrecedentDossierPourMemeOperationEtConditions",
         name = "Aucun précédent dossier pour meme operation et conditions",
         type = FicheCode.DureeVieConventionnelle,
@@ -133,7 +134,8 @@ object DureeVieConventionnelleV1 {
     )
 
     object DureeVieConventionnelleAvec1DispositifGestionEclairage: Constraint(
-        description = "14 ans avec un dispositif de gestion de l’éclairage (détection de présence ou variation de lumière)",
+        description = "14 ans avec un dispositif de gestion de l’éclairage " +
+                "(détection de présence ou variation de lumière)",
         identifier = "dureeVieConventionnelleAvec1DispositifGestionEclairage",
         name = "14 ans avec 1 dispositif de gestion de l’éclairage",
         type = FicheCode.ConditionsDelivranceCertificats,
@@ -154,7 +156,8 @@ object DureeVieConventionnelleV1 {
     )
 
     object DureeVieConventionnelleAvec2DispositifsGestionEclairage: Constraint(
-        description = "16 ans avec deux dispositifs de gestion de l’éclairage (détection de présence et variation de lumière)",
+        description = "16 ans avec deux dispositifs de gestion de l’éclairage " +
+                "(détection de présence et variation de lumière)",
         identifier = "dureeVieConventionnelleAvec2DispositifsGestionEclairage",
         name = "16 ans avec 2 dispositifs de gestion de l’éclairage",
         type = FicheCode.ConditionsDelivranceCertificats,

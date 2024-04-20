@@ -15,7 +15,6 @@ import net.datafaker.Faker
 class AssetFactory(url: String, accessToken: String) {
     val faker = Faker()
     val assetPoolClient = assetPoolClient(url, accessToken)
-
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
     val subContinents = listOf("South Asia",
@@ -41,7 +40,7 @@ suspend fun createAssetPool(
 ): AssetPoolId {
 
     val helperOrchestrator = AssetFactory(verUrl, orchestrator.accessToken.access_token)
-    val helperProjectManager = AssetFactory(verUrl, projectManager.accessToken.access_token)
+//    val helperProjectManager = AssetFactory(verUrl, projectManager.accessToken.access_token)
     val helperIssuer = AssetFactory(verUrl, issuer.accessToken.access_token)
     val helperOffseter = AssetFactory(verUrl, offsetter.accessToken.access_token)
 
@@ -51,14 +50,24 @@ suspend fun createAssetPool(
 
 
     val assetPoolId = assetPoolCreateCommand().invokeWith(assetPoolClient.assetPoolCreate()).id
-    val assetIssue = assetIssueCommand(assetPoolId = assetPoolId, to = issuer).invokeWith(assetPoolClient.assetIssue())
-    val assetTransfer = assetTransferCommand(assetPoolId, from = issuer, to = offsetter).invokeWith(assetClientIssuer.assetTransfer())
-    val assetOffset1 = assetOffsetCommand(assetPoolId, from = offsetter, to = UUID.randomUUID().toString()).invokeWith(assetClientOffseter.assetOffset())
-
+    val assetIssue = assetIssueCommand(
+        assetPoolId = assetPoolId, to = issuer
+    ).invokeWith(assetPoolClient.assetIssue())
+    println(assetIssue)
+    val assetTransfer = assetTransferCommand(
+        assetPoolId, from = issuer, to = offsetter
+    ).invokeWith(assetClientIssuer.assetTransfer())
+    println(assetTransfer)
+    val assetOffset1 = assetOffsetCommand(
+        assetPoolId, from = offsetter, to = UUID.randomUUID().toString()
+    ).invokeWith(assetClientOffseter.assetOffset())
+    println(assetOffset1)
     return assetPoolId
 }
 
-private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double = 0.001): AssetPoolCreateCommandDTOBase {
+private fun assetPoolCreateCommand(
+    vintage: String = "2013", granularity: Double = 0.001
+): AssetPoolCreateCommandDTOBase {
     println("assetPoolCommand")
     return AssetPoolCreateCommandDTOBase(
         vintage = vintage,
@@ -67,7 +76,9 @@ private fun assetPoolCreateCommand(vintage: String = "2013", granularity: Double
     )
 }
 
-private fun assetIssueCommand(assetPoolId: AssetPoolId, to: Actor, quantity: Double = 10000.0): AssetIssueCommandDTOBase {
+private fun assetIssueCommand(
+    assetPoolId: AssetPoolId, to: Actor, quantity: Double = 10000.0
+): AssetIssueCommandDTOBase {
     println("assetIssueCommand, assetPoolId: $assetPoolId")
     return AssetIssueCommandDTOBase(
         id = assetPoolId,
@@ -86,7 +97,9 @@ private fun assetTransferCommand(assetPoolId: AssetPoolId, from: Actor, to: Acto
     )
 }
 
-private fun assetOffsetCommand(assetPoolId: AssetPoolId, from: Actor, to: String, quantity: Double = 0.123): AssetOffsetCommandDTOBase {
+private fun assetOffsetCommand(
+    assetPoolId: AssetPoolId, from: Actor, to: String, quantity: Double = 0.123
+): AssetOffsetCommandDTOBase {
     println("assetOffset1Command, assetPoolId: $assetPoolId")
     return AssetOffsetCommandDTOBase(
         id = assetPoolId,

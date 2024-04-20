@@ -1,4 +1,4 @@
-package s2.bdd.step.exceptions
+package io.komune.registry.ver.test.exceptions
 
 import f2.spring.exception.ForbiddenAccessException
 import io.cucumber.java8.En

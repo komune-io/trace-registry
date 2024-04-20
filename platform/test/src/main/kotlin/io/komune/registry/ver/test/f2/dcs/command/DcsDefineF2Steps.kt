@@ -26,7 +26,9 @@ class DcsDefineF2Steps: En, VerCucumberStepsDefinition() {
     init {
         When("I define and fetch a DCS with the scenario {string}") { scenario: String ->
             step {
-                val command = parseFile<DataCollectionStepDefineCommand>("classpath:io.komune.registry.ver.test/f2/dcs/data/${scenario}.json")
+                val command = parseFile<DataCollectionStepDefineCommand>(
+                    "classpath:io.komune.registry.ver.test/f2/dcs/data/${scenario}.json"
+                )
                 command.invokeWith(dcsEndpoint.dataCollectionStepDefine())
                 val savedRequirements = RequirementGetByIdentifierQueryDTOBase(identifier = command.identifier)
                     .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())

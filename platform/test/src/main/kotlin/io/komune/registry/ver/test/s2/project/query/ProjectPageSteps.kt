@@ -79,7 +79,8 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
 
         Assertions.assertThat(projectPage).allSatisfy { provider ->
             val providerParams = paramsMap[provider.id]
-            Assertions.assertThat(providerParams).withFailMessage("Project[${provider.id}] should not be returns").isNull()
+            Assertions.assertThat(providerParams)
+                .withFailMessage("Project[${provider.id}] should not be returns").isNull()
         }
     }
     private fun assertProject(params: Collection<ProjectPageAssertParams>) {
@@ -91,7 +92,9 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
             Assertions.assertThat(providerParams).isNotNull
             providerParams!!.name?.let { Assertions.assertThat(provider.name).isEqualTo(it) }
             providerParams.proponent?.let { Assertions.assertThat(provider.proponent?.name).isEqualTo(it) }
-            providerParams.estimatedReductions?.let { Assertions.assertThat(provider.estimatedReductions).isEqualTo(it) }
+            providerParams.estimatedReductions?.let {
+                Assertions.assertThat(provider.estimatedReductions).isEqualTo(it)
+            }
             providerParams.referenceYear?.let { Assertions.assertThat(provider.referenceYear).isEqualTo(it) }
             providerParams.dueDate?.let { Assertions.assertThat(provider.dueDate).isEqualTo(it) }
             providerParams.status?.let { Assertions.assertThat(provider.status.name).isEqualTo(it) }

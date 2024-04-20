@@ -13,14 +13,15 @@ class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
     init {
         DataTableType(::defineOrganizationParams)
 
-        Given("An organization is defined:") { params: io.komune.registry.ver.test.auth.DefineOrganizationSteps.DefineOrganizationParams ->
+        Given("An organization is defined:") { params: DefineOrganizationParams ->
             step {
                 defineOrganization(params)
             }
         }
     }
 
-    private fun defineOrganization(params: io.komune.registry.ver.test.auth.DefineOrganizationSteps.DefineOrganizationParams) = context.organizations.register(params.identifier) {
+    private fun defineOrganization(params: DefineOrganizationParams)
+        = context.organizations.register(params.identifier) {
         Organization(
             id = UUID.randomUUID().toString(),
             siret = null,
@@ -40,7 +41,7 @@ class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
     }
 
     private fun defineOrganizationParams(entry: Map<String, String>) =
-        io.komune.registry.ver.test.auth.DefineOrganizationSteps.DefineOrganizationParams(
+        DefineOrganizationParams(
             identifier = entry["identifier"] ?: UUID.randomUUID().toString(),
             roles = entry.extractList("roles").orEmpty()
         )

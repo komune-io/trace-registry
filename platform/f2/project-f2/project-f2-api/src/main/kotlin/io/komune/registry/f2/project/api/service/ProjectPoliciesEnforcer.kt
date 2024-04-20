@@ -16,7 +16,8 @@ class ProjectPoliciesEnforcer(
         } ?: true
     }
 
-    suspend fun checkGetByIdentifier(identifier: ProjectIdentifier) = check("get a project by identifier") { authedUser ->
+    suspend fun checkGetByIdentifier(identifier: ProjectIdentifier)
+        = check("get a project by identifier") { authedUser ->
         projectF2FinderService.getOrNullByIdentifier(identifier)?.let {
             ProjectPolicies.canGet(authedUser, it)
         } ?: true

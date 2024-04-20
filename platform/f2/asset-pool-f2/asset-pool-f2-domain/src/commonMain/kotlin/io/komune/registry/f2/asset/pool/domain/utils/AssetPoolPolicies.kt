@@ -14,6 +14,7 @@ import s2.dsl.automate.extention.canExecuteTransitionAnd
 
 @JsExport
 object AssetPoolPolicies {
+    @Suppress("FunctionOnlyReturningConstant")
     fun canList(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
@@ -25,21 +26,27 @@ object AssetPoolPolicies {
         )
     }
 
-    fun canHold(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolHoldCommand>(assetPool) {
+    fun canHold(
+        authedUser: AuthedUserDTO, assetPool: AssetPoolDTO
+    ): Boolean = canTransitionAnd<AssetPoolHoldCommand>(assetPool) {
         authedUser.hasOneOfRoles(
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
         )
     }
 
-    fun canResume(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolResumeCommand>(assetPool) {
+    fun canResume(
+        authedUser: AuthedUserDTO, assetPool: AssetPoolDTO
+    ): Boolean = canTransitionAnd<AssetPoolResumeCommand>(assetPool) {
         authedUser.hasOneOfRoles(
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
         )
     }
 
-    fun canClose(authedUser: AuthedUserDTO, assetPool: AssetPoolDTO): Boolean = canTransitionAnd<AssetPoolCloseCommand>(assetPool) {
+    fun canClose(
+        authedUser: AuthedUserDTO, assetPool: AssetPoolDTO
+    ): Boolean = canTransitionAnd<AssetPoolCloseCommand>(assetPool) {
         authedUser.hasOneOfRoles(
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
@@ -82,7 +89,9 @@ object AssetPoolPolicies {
         )
     }
 
-    private inline fun <reified C: AssetPoolCommand> canTransitionAnd(assetPool: AssetPoolDTO?, hasAccess: () -> Boolean): Boolean {
+    private inline fun <reified C: AssetPoolCommand> canTransitionAnd(
+        assetPool: AssetPoolDTO?, hasAccess: () -> Boolean
+    ): Boolean {
         return assetPool != null && s2AssetPool.canExecuteTransitionAnd<C>(assetPool, hasAccess)
     }
 

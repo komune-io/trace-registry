@@ -22,8 +22,8 @@ class ActivityCreateSteps: En, VerCucumberStepsDefinition() {
 
     @Autowired
     private lateinit var activityAggregateService: ActivityEndpoint
-    @Autowired
-    private lateinit var activityF2FinderService: ActivityF2FinderService
+//    @Autowired
+//    private lateinit var activityF2FinderService: ActivityF2FinderService
 
 //    @Autowired
 //    private lateinit var activityRepository: ActivityRepository
@@ -67,7 +67,7 @@ class ActivityCreateSteps: En, VerCucumberStepsDefinition() {
 
         Then("The activity should be created") {
             step {
-                val activityId = context.activityIds.lastUsed
+//                val activityId = context.activityIds.lastUsed
 //                AssertionBdd.activity(activityF2FinderService).assertThatId(activityId).hasFields(
 //                    name = command.name,
 //                    description = command.description,
@@ -78,7 +78,7 @@ class ActivityCreateSteps: En, VerCucumberStepsDefinition() {
 
         Then("The activity should be created:") { params: ActivityAssertParams ->
             step {
-                val activityId = context.activityIds.safeGet(params.identifier)
+//                val activityId = context.activityIds.safeGet(params.identifier)
 //                AssertionBdd.activity(activityF2FinderService).exists(activityId)
 
 //                AssertionBdd.activity(activityF2FinderService).assertThatId(activityId).hasFields(
@@ -115,13 +115,13 @@ class ActivityCreateSteps: En, VerCucumberStepsDefinition() {
         val description: String,
     )
 
-    private suspend fun createActivities(params: List<ActivityCreateParams>) = coroutineScope {
-        params.asFlow().map {
-            async {
-                createActivity(it)
-            }
-        }.toList().awaitAll()
-    }
+//    private suspend fun createActivities(params: List<ActivityCreateParams>) = coroutineScope {
+//        params.asFlow().map {
+//            async {
+//                createActivity(it)
+//            }
+//        }.toList().awaitAll()
+//    }
 
     private fun activityAssertParams(entry: Map<String, String>) = ActivityAssertParams(
             identifier = entry["identifier"] ?: context.activityIds.lastUsedKey,

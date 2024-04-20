@@ -55,6 +55,8 @@ class AssetPoolAutomateConfig(
 		}
 	}
 
+
+	@Suppress("UnusedPrivateMember")
 	private fun forceReload() {
 		repository.deleteAll()
 	}

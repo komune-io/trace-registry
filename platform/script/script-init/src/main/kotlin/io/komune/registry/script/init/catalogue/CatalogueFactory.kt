@@ -25,7 +25,9 @@ class CatalogueFactory(
     val dcatGraphClient = DCatGraphClient(catalogueClient, datasetsClient)
 }
 
-fun createRandomCatalogue(url: String, accessToken: Actor, countRange: IntRange = 1..2): List<CatalogueId> = runBlocking {
+fun createRandomCatalogue(
+    url: String, accessToken: Actor, countRange: IntRange = 1..2
+): List<CatalogueId> = runBlocking {
     val helper = CatalogueFactory(url, accessToken.accessToken.access_token)
     val dcatGraphClient = helper.dcatGraphClient
 
@@ -42,10 +44,12 @@ fun createRandomCatalogue(url: String, accessToken: Actor, countRange: IntRange 
 //        .map { it.id }
 }
 
-private suspend fun List<CatalogueCreateCommandDTOBase>.createCatalogues(catalogueClient: CatalogueClient): List<CatalogueCreatedEventDTOBase> =
-    asyncExecution(8) { catalogueCreateCommand ->
-        println("Catalogue Creation[${catalogueCreateCommand.identifier}]: ${catalogueCreateCommand}...")
-        val created = catalogueClient.catalogueCreate().invoke(flowOf(catalogueCreateCommand))
-        println("Catalogue[${catalogueCreateCommand.identifier}] Created.")
-        created.first()
-    }
+//private suspend fun List<CatalogueCreateCommandDTOBase>.createCatalogues(
+//    catalogueClient: CatalogueClient
+//): List<CatalogueCreatedEventDTOBase> =
+//    asyncExecution(size = 8) { catalogueCreateCommand ->
+//        println("Catalogue Creation[${catalogueCreateCommand.identifier}]: ${catalogueCreateCommand}...")
+//        val created = catalogueClient.catalogueCreate().invoke(flowOf(catalogueCreateCommand))
+//        println("Catalogue[${catalogueCreateCommand.identifier}] Created.")
+//        created.first()
+//    }

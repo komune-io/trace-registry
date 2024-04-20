@@ -82,13 +82,20 @@ class ProjectEndpoint(
             identifier = query.identifier?.let { ExactMatch(it) },
             name = query.name?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             dueDate = query.dueDate?.let { ExactMatch(it) },
-            estimatedReductions = query.estimatedReductions?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            proponent = query.proponent?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            referenceYear = query.referenceYear?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
-            status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) } ?: ExactMatch(ProjectState.STAMPED),
+            estimatedReductions = query.estimatedReductions
+                ?.ifEmpty { null }
+                ?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            proponent = query.proponent?.ifEmpty { null }
+                ?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            referenceYear = query.referenceYear?.ifEmpty { null }
+                ?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            status = query.status?.let { ExactMatch(ProjectState.valueOf(it)) }
+                ?: ExactMatch(ProjectState.STAMPED),
             type = query.type?.let(::ExactMatch),
-            assetPools = query.vintage?.ifEmpty { null }?.let { CollectionMatch(getAssetPoolIdsWithVintage(it)) },
-            origin = query.origin?.ifEmpty { null }?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            assetPools = query.vintage?.ifEmpty { null }
+                ?.let { CollectionMatch(getAssetPoolIdsWithVintage(it)) },
+            origin = query.origin?.ifEmpty { null }
+                ?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             offset = pagination,
             privateOrganizationId = projectPoliciesEnforcer.privateOrganizationId()
         ).let { page ->

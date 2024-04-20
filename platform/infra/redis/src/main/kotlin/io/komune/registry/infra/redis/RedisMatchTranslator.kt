@@ -131,7 +131,8 @@ private fun <E> match(x: MetamodelField<E, String>, matcher: StringMatch): Predi
                 StringMatchCondition.STARTS_WITH -> x.startsWith(matcher.value)
                 StringMatchCondition.ENDS_WITH -> x.endsWith(matcher.value)
                 StringMatchCondition.CONTAINS -> throw IllegalArgumentException(
-                    "Field [${x.searchAlias}] must be annotated with @Searchable in order to check if it contains a substring"
+                    "Field [${x.searchAlias}] must be annotated with " +
+                            "@Searchable in order to check if it contains a substring"
                 )
             }
             else -> throw IllegalArgumentException(

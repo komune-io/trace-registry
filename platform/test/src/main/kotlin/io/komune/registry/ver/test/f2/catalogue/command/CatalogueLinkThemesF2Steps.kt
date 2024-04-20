@@ -47,7 +47,8 @@ class CatalogueLinkThemesF2Steps: En, VerCucumberStepsDefinition() {
 
     }
 
-    private suspend fun linkThemesToCatalogue(params: ThemeLinkParams) = context.catalogueIds.register(params.identifier) {
+    private suspend fun linkThemesToCatalogue(params: ThemeLinkParams)
+        = context.catalogueIds.register(params.identifier) {
         linkThemesCommand = CatalogueLinkThemesCommandDTOBase(
             id = context.catalogueIds.safeGet(params.identifier),
             themes = params.themes

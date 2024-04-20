@@ -56,6 +56,7 @@ class OrderAutomateConfig(
 		}
 	}
 
+	@Suppress("UnusedPrivateMember")
 	private fun forceReload() {
 		repository.deleteAll()
 	}

@@ -19,7 +19,9 @@ import kotlin.js.JsName
  * @order 110
  */
 typealias ActivityStepEvidenceFulfillFunction
-        = F2Function<Pair<ActivityStepEvidenceFulfillCommandDTOBase, ActivityFile>, ActivityStepEvidenceFulfilledEventDTOBase>
+        = F2Function<
+            Pair<ActivityStepEvidenceFulfillCommandDTOBase, ActivityFile>, ActivityStepEvidenceFulfilledEventDTOBase
+        >
 
 
 

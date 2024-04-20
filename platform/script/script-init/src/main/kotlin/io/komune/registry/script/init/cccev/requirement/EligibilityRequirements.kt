@@ -25,7 +25,9 @@ private fun eligibilityStepSingle(init: InformationConceptBuilder.() -> Unit) =
         unit = XSDString
     }.apply(init).build()
 
-fun InformationConceptListBuilder.eligibilityStep(init: InformationConceptBuilder.() -> Unit) = +eligibilityStepSingle(init)
+fun InformationConceptListBuilder.eligibilityStep(
+    init: InformationConceptBuilder.() -> Unit
+) = +eligibilityStepSingle(init)
 
 
 val SurveyOfEligibility = eligibilityActivity {
@@ -97,7 +99,8 @@ val FirstDocumentation = eligibilityActivity {
         eligibilityStep {
             identifier = "B201"
             name = "RCCM"
-            description = "Obtaining the Registre de Commerce et du Crédit Mobilier (RCCM) registration number for the project."
+            description = "Obtaining the Registre de Commerce et du Crédit Mobilier " +
+                    " (RCCM) registration number for the project."
         }
         eligibilityStep {
             identifier = "B202"
@@ -115,7 +118,8 @@ val FirstDocumentation = eligibilityActivity {
 val FirstEstimate = eligibilityActivity {
     identifier = "B30"
     name = "First emissions estimate"
-    description = "An initial estimation of the baseline emissions of the project, used as a reference for measuring emissions reductions."
+    description = "An initial estimation of the baseline emissions of the project, " +
+            "used as a reference for measuring emissions reductions."
     isRequirementOf {
         +Activities.Eligibility
     }
@@ -130,7 +134,8 @@ val FirstEstimate = eligibilityActivity {
 val ThirdPartyAudit = eligibilityActivity {
     identifier = "B40"
     name = "Third-party audit"
-    description = "An independent review of the project's emissions data and reduction claims by a third-party organization to ensure accuracy and credibility."
+    description = "An independent review of the project's emissions data and reduction claims " +
+            "by a third-party organization to ensure accuracy and credibility."
     isRequirementOf {
         +Activities.Eligibility
     }
@@ -145,7 +150,8 @@ val ThirdPartyAudit = eligibilityActivity {
 val Validation = eligibilityActivity {
     identifier = "B50"
     name = "Validation"
-    description = "A formal process of verifying that the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
+    description = "A formal process of verifying that the project meets the criteria or " +
+            "conditions set out in the project protocol and is eligible to receive certification."
     isRequirementOf {
         +Activities.Eligibility
     }

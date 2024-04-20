@@ -31,7 +31,9 @@ class DcsF2FinderService(
             ?: throw NotFoundException("DataCollectionStep with identifier", identifier)
     }
 
-    suspend fun getValues(identifier: RequirementIdentifier, certificationId: CertificationId): Map<InformationConceptIdentifier, String?> {
+    suspend fun getValues(
+        identifier: RequirementIdentifier, certificationId: CertificationId
+    ): Map<InformationConceptIdentifier, String?> {
         val certificationGraph = CertificationGetQuery(certificationId)
             .invokeWith(cccevClient.certificationClient.certificationGet())
             .toCertificationFlatGraph()

@@ -52,7 +52,8 @@ class CatalogueLinkDatasetsF2Steps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun linkDatasetsToCatalogue(params: CatalogueLinkDatasetsParams) = context.catalogueIds.register(params.identifier) {
+    private suspend fun linkDatasetsToCatalogue(params: CatalogueLinkDatasetsParams)
+        = context.catalogueIds.register(params.identifier) {
         linkDatasetsCommand = CatalogueLinkDatasetsCommandDTOBase(
             id = context.catalogueIds.safeGet(params.identifier),
             datasets = params.datasets

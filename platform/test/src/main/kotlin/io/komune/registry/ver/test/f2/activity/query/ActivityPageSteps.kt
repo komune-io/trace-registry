@@ -70,7 +70,9 @@ class ActivityPageSteps: En, VerCucumberStepsDefinition() {
 
         Assertions.assertThat(activityPage).allSatisfy { provider ->
             val providerParams = paramsMap[provider.identifier]
-            Assertions.assertThat(providerParams).withFailMessage("Activity[${provider.identifier}] should not be returns").isNull()
+            Assertions.assertThat(providerParams)
+                .withFailMessage("Activity[${provider.identifier}] should not be returns")
+                .isNull()
         }
     }
     private fun assertActivity(params: Collection<ActivityPageAssertParams>) {

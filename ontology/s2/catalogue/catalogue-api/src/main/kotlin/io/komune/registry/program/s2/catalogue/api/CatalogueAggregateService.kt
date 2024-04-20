@@ -66,7 +66,9 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent = automate.transition(cmd) {
+	override suspend fun linkThemes(
+		cmd: CatalogueLinkThemesCommand
+	): CatalogueLinkedThemesEvent = automate.transition(cmd) {
 		CatalogueLinkedThemesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),

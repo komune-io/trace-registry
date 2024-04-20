@@ -49,7 +49,6 @@ class ActivityEndpoint(
     private val activityF2FinderService: ActivityF2FinderService,
     private val activityPoliciesEnforcer: ActivityPoliciesEnforcer,
     private val fileClient: FileClient,
-    private val fsService: FsService,
 ): ActivityApi {
 
     private val logger by Logger()

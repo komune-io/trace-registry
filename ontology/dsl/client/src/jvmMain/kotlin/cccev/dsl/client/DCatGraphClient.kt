@@ -33,7 +33,6 @@ class DCatGraphClient(
     private val datasetClient: F2SupplierSingle<DatasetClient>,
 ) {
 
-    private val logger = LoggerFactory.getLogger(DCatGraphClient::class.java)
     @Suppress("ComplexMethod", "LongMethod")
     suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<DCatApCatalogueModel> {
         val visitedCatalogueIdentifiers = mutableSetOf<CatalogueIdentifier>()

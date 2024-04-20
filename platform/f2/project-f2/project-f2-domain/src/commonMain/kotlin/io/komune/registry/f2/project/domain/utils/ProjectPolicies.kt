@@ -51,7 +51,9 @@ object ProjectPolicies {
      * User can update the given project
      */
     @Suppress("FunctionOnlyReturningConstant")
-    fun canUpdate(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean = canTransitionAnd<ProjectUpdateCommand>(project) {
+    fun canUpdate(
+        authedUser: AuthedUserDTO, project: ProjectDTO
+    ): Boolean = canTransitionAnd<ProjectUpdateCommand>(project) {
         authedUser.hasOneOfRoles(
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
@@ -62,11 +64,15 @@ object ProjectPolicies {
      * User can delete the given project
      */
     @Suppress("FunctionOnlyReturningConstant")
-    fun canDelete(authedUser: AuthedUserDTO, project: ProjectDTO): Boolean = canTransitionAnd<ProjectDeleteCommand>(project) {
+    fun canDelete(
+        authedUser: AuthedUserDTO, project: ProjectDTO
+    ): Boolean = canTransitionAnd<ProjectDeleteCommand>(project) {
         authedUser.hasOneOfRoles( Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER, )
     }
 
-    private inline fun <reified C: ProjectCommand> canTransitionAnd(project: ProjectDTO?, hasAccess: () -> Boolean): Boolean {
+    private inline fun <reified C: ProjectCommand> canTransitionAnd(
+        project: ProjectDTO?, hasAccess: () -> Boolean
+    ): Boolean {
         return project != null && s2Project.canExecuteTransitionAnd<C>(project, hasAccess)
     }
 

@@ -8,7 +8,8 @@ import io.komune.registry.script.init.cccev.ver.ReferenceFramework
 val loiStep = informationRequirement {
     identifier = "A10"
     name = "Letter of Intent (LOI)"
-    description = "A preliminary document indicating the intention of the project developers to participate in a VERs project and comply with its requirements."
+    description = "A preliminary document indicating the intention of the project developers to " +
+            "participate in a VERs project and comply with its requirements."
     isRequirementOf {
         +Activities.LOI
     }

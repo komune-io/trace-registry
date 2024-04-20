@@ -47,7 +47,8 @@ object AssetPolicies {
     }
 
     private fun canWriteOrder(authedUser: AuthedUserDTO, order: OrderDTO): Boolean {
-        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER) || order.by == authedUser.memberOf
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+                || order.by == authedUser.memberOf
     }
 
     private inline fun <reified C: OrderCommand> canTransitionAnd(order: OrderDTO?, hasAccess: () -> Boolean): Boolean {

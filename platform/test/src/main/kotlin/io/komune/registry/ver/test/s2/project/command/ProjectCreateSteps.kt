@@ -181,13 +181,13 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
         var sdgs: List<SdgNumber>?
     )
 
-    private suspend fun createProjects(params: List<ProjectCreateParams>) = coroutineScope {
-        params.asFlow().map {
-            async {
-                createProject(it)
-            }
-        }.toList().awaitAll()
-    }
+//    private suspend fun createProjects(params: List<ProjectCreateParams>) = coroutineScope {
+//        params.asFlow().map {
+//            async {
+//                createProject(it)
+//            }
+//        }.toList().awaitAll()
+//    }
 
     private fun projectAssertParams(entry: Map<String, String>) = ProjectAssertParams(
             identifier = entry["identifier"] ?: context.projectIds.lastUsedKey,

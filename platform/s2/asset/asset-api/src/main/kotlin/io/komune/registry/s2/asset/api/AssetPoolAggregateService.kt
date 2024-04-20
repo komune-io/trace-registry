@@ -84,7 +84,9 @@ class AssetPoolAggregateService(
 		)
 	}
 
-	override suspend fun emitTransaction(command: AssetPoolEmitTransactionCommand) = poolAutomate.transition(command) { pool ->
+	override suspend fun emitTransaction(
+		command: AssetPoolEmitTransactionCommand
+	) = poolAutomate.transition(command) { pool ->
 		if (command.quantity < 0) {
 			throw NegativeTransactionException(command.quantity)
 		}

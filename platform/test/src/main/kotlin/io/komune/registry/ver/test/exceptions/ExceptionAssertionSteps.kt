@@ -35,7 +35,6 @@ class ExceptionAssertionSteps: En, S2CucumberStepsDefinition()  {
         }
     }
 
-    @Suppress("MagicNumber")
     private fun Int.toExceptionClass() = when (this) {
         400 -> MessageConverterException::class
         403 -> ForbiddenAccessException::class

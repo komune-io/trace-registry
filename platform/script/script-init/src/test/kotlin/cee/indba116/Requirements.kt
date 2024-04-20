@@ -1,16 +1,5 @@
 package cee.indba116
 
-import cccev.dsl.cee.indba116.Cumac
-import cccev.dsl.cee.indba116.CumacParWatt
-import cccev.dsl.cee.indba116.DureeDeVieLuminaire
-import cccev.dsl.cee.indba116.DureeVieConventionnelleLuminaire
-import cccev.dsl.cee.indba116.EfficaciteLumineuse
-import cccev.dsl.cee.indba116.FacteurPuissance
-import cccev.dsl.cee.indba116.Puissance
-import cccev.dsl.cee.indba116.SecteurActivite
-import cccev.dsl.cee.indba116.TauxDistorsionHarmonique
-import cccev.dsl.cee.indba116.TauxDistorsionHarmoniqueNormeCalcul
-import cccev.dsl.cee.indba116.UsageLuminaire
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.Criterion
 import cccev.dsl.model.InformationRequirement
@@ -188,7 +177,8 @@ object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
 )
 
 object DatePrecedentsTravauxContrainte: Constraint(
-    description = "${DateTravaux.identifier} - ${DatePrecedentsTravaux.identifier} >= ${DureeVieConventionnelleLuminaire.identifier} ans",
+    description = "${DateTravaux.identifier} - ${DatePrecedentsTravaux.identifier} " +
+            ">= ${DureeVieConventionnelleLuminaire.identifier} ans",
     identifier = "datePrecedentsTravaux",
     name = "Date des précédents travaux",
     type = FicheCode.DureeVieConventionnelle,

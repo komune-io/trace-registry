@@ -16,7 +16,8 @@ import kotlin.js.JsName
  * @child [io.komune.registry.s2.project.domain.command.ProjectChangedPrivacyEventDTO]
  * @order 20
  */
-typealias ProjectChangePrivacyFunction = F2Function<ProjectChangePrivacyCommandDTOBase, ProjectChangedPrivacyEventDTOBase>
+typealias ProjectChangePrivacyFunction
+        = F2Function<ProjectChangePrivacyCommandDTOBase, ProjectChangedPrivacyEventDTOBase>
 
 @JsExport
 @JsName("ProjectChangePrivacyCommandDTO")

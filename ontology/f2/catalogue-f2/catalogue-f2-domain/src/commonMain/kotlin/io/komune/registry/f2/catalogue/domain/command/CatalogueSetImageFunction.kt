@@ -12,7 +12,9 @@ import kotlinx.serialization.Serializable
  * @parent [import io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  * @order 10
  */
-typealias CatalogueSetImageFunction = F2Function<Pair<CatalogueSetImageCommandDTOBase, CatalogueFile>, CatalogueSetImageEventDTOBase>
+typealias CatalogueSetImageFunction = F2Function<
+            Pair<CatalogueSetImageCommandDTOBase, CatalogueFile>, CatalogueSetImageEventDTOBase
+        >
 
 @JsExport
 interface CatalogueSetImageCommandDTO{

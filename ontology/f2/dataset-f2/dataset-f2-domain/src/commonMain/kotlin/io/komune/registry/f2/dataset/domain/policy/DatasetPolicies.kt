@@ -13,9 +13,11 @@ object DatasetPolicies {
     /**
      * User can list the activities
      */
+    @Suppress("FunctionOnlyReturningConstant")
     fun canPage(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
+    @Suppress("FunctionOnlyReturningConstant")
     fun canPageSteps(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
@@ -27,6 +29,7 @@ object DatasetPolicies {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 
+    @Suppress("FunctionOnlyReturningConstant")
     fun canDelete(authedUser: AuthedUserDTO): Boolean {
         return true
     }

@@ -6,7 +6,8 @@ import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-typealias ActivityStepEvidenceDownloadFunction = F2Function<ActivityStepEvidenceDownloadQuery, ActivityStepEvidenceDownloadResult>
+typealias ActivityStepEvidenceDownloadFunction =
+		F2Function<ActivityStepEvidenceDownloadQuery, ActivityStepEvidenceDownloadResult>
 
 @JsExport
 @JsName("ActivityStepEvidenceDownloadQueryDTO")

@@ -26,7 +26,6 @@ class ProjectFactory(url: String, accessToken: String) {
     val faker = Faker()
     val activityClient = activityClient(url, accessToken)
     val projectClient = projectClient(url, accessToken)
-
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
     val subContinents = listOf("South Asia",
@@ -43,7 +42,9 @@ class ProjectFactory(url: String, accessToken: String) {
     )
 }
 
-fun createRandomProject(url: String, accessToken: Actor, countRange: IntRange = 1..2): List<ProjectId> = runBlocking {
+fun createRandomProject(
+    url: String, accessToken: Actor, countRange: IntRange = 1..2
+): List<ProjectId> = runBlocking {
     val helper = ProjectFactory(url, accessToken.accessToken.access_token)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
@@ -59,7 +60,9 @@ fun createRandomProject(url: String, accessToken: Actor, countRange: IntRange = 
         .map { it.id }
 }
 
-private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(activityClient: ActivityClient): List<ProjectCreatedEventDTOBase> =
+private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(
+    activityClient: ActivityClient
+): List<ProjectCreatedEventDTOBase> =
     asyncExecution { project ->
         project.certificationId?.let { certificationId ->
             ActivityStepFulfillCommandDTOBase(
@@ -71,15 +74,19 @@ private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(activity
         project
     }
 
-private suspend fun List<ProjectCreateCommand>.createProjects(projectClient: ProjectClient): List<ProjectCreatedEventDTOBase> =
-    asyncExecution(8) { projectCreateCommand ->
+private suspend fun List<ProjectCreateCommand>.createProjects(
+    projectClient: ProjectClient
+): List<ProjectCreatedEventDTOBase> =
+    asyncExecution( size = 8) { projectCreateCommand ->
         println("Project Creation[${projectCreateCommand.identifier}]: ${projectCreateCommand}...")
         val created = projectClient.projectCreate().invoke(flowOf(projectCreateCommand))
         println("Project[${projectCreateCommand.identifier}] Created.")
         created.first()
     }
 
-fun addAssetPoolToProject(url: String, accessToken: Actor, projectId: ProjectId, assetPoolId: AssetPoolId): Unit = runBlocking {
+fun addAssetPoolToProject(
+    url: String, accessToken: Actor, projectId: ProjectId, assetPoolId: AssetPoolId
+): Unit = runBlocking {
     val helper = ProjectFactory(url, accessToken.accessToken.access_token)
     val projectClient = helper.projectClient.invoke()
     projectClient.projectAddAssetPool().invoke(flowOf(

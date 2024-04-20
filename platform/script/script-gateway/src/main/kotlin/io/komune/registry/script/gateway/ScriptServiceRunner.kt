@@ -41,7 +41,7 @@ class ScriptServiceRunner(
         }
 
         if (!success) {
-            throw RuntimeException()
+            throw RuntimeException("runScript failed")
         }
     }
 }

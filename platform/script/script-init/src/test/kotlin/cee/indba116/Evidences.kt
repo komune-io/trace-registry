@@ -1,10 +1,8 @@
-package cccev.dsl.cee.indba116
+package cee.indba116
 
 import cccev.dsl.model.Evidence
 import cccev.dsl.model.SupportedValue
 import cee.CertificatCerfa
-import cee.indba116.Annexe1AvecDetailsEquipementDocument
-import cee.indba116.EtudeDimensionnementEclairagePrealableDocument
 
 object Annexe1 {
     object Document: Evidence(

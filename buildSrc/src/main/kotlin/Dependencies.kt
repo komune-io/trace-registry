@@ -35,11 +35,8 @@ object Versions {
 
 object Repo {
 	val snapshot: List<String> = listOf(
-		// For redis-om-spring staging
+		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
 		"https://s01.oss.sonatype.org/content/repositories/snapshots",
-		// For fixers
-		"https://oss.sonatype.org/service/local/repositories/releases/content",
-		"https://oss.sonatype.org/content/repositories/snapshots",
 	)
 }
 

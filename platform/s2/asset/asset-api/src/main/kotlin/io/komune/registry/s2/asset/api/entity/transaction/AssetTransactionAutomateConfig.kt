@@ -26,11 +26,12 @@ class AssetTransactionAutomateConfig(
     evolver: AssetTransactionEvolver,
     assetTransactionSnapRepository: AssetTransactionSnapRepository,
     private val repository: AssetTransactionRepository
-): S2SourcingSsmAdapter<AssetTransactionEntity, AssetTransactionState, AssetTransactionEvent, AssetTransactionId, TransactionAutomateExecutor>(
-	aggregate,
-	evolver,
-	assetTransactionSnapRepository
-) {
+): S2SourcingSsmAdapter<
+		AssetTransactionEntity,
+		AssetTransactionState,
+		AssetTransactionEvent,
+		AssetTransactionId,
+		TransactionAutomateExecutor>(aggregate, evolver, assetTransactionSnapRepository) {
 	private val logger = LoggerFactory.getLogger(AssetTransactionAutomateConfig::class.java)
 
 	override fun afterPropertiesSet() {
@@ -79,4 +80,6 @@ class AssetTransactionAutomateConfig(
 }
 
 @Service
-class TransactionAutomateExecutor: S2AutomateDeciderSpring<AssetTransactionEntity, AssetTransactionState, AssetTransactionEvent, AssetTransactionId>()
+class TransactionAutomateExecutor: S2AutomateDeciderSpring<
+		AssetTransactionEntity, AssetTransactionState, AssetTransactionEvent, AssetTransactionId
+	>()

@@ -1,4 +1,4 @@
-package cccev.dsl.cee.indba116
+package cee.indba116
 
 import cccev.dsl.model.Duration
 import cccev.dsl.model.InformationConceptBase
@@ -7,10 +7,6 @@ import cccev.dsl.model.XSDInt
 import cccev.dsl.model.XSDString
 import cee.FicheCode
 import cee.KWhCumac
-import cee.indba116.KWhCumacPerW
-import cee.indba116.LumenPerW
-import cee.indba116.Variation
-import cee.indba116.Watt
 
 object SecteurActivite: InformationConceptBase(
     identifier = "secteurActivite",
@@ -41,7 +37,8 @@ object EfficaciteLumineuse: InformationConceptBase(
     name = "Efficacité lumineuse",
     unit = LumenPerW,
     type = FicheCode.ConditionsDelivranceCertificats,
-    description = "Flux lumineux total sortant du luminaire divisé par la puissance totale du luminaire auxiliaire d’alimentation compris"
+    description = "Flux lumineux total sortant du luminaire divisé par la puissance totale du luminaire " +
+            "auxiliaire d’alimentation compris"
 )
 
 object FacteurPuissance: InformationConceptBase(

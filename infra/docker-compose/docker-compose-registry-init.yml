@@ -3,7 +3,7 @@ version: "3.7"
 services:
   tr-registry-script:
     container_name: tr-registry-script
-    image: ${DOCKER_REPOSITORY}komune-io/tr-registry-script:next
+    image: ${DOCKER_REPOSITORY}komune-io/tr-registry-script:${TRACE_VERSION}
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000

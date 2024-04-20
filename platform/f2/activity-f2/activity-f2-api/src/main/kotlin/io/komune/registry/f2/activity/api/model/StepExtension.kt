@@ -5,7 +5,10 @@ import cccev.f2.concept.domain.model.InformationConceptDTOBase
 import io.komune.registry.f2.activity.domain.model.ActivityStep
 import io.komune.registry.infra.fs.FsService
 
-suspend fun InformationConceptDTOBase.toStep(certification: CertificationFlatGraph?, fsService: FsService): ActivityStep {
+suspend fun InformationConceptDTOBase.toStep(
+    certification: CertificationFlatGraph?,
+//    fsService: FsService
+): ActivityStep {
     // TODO wait until evidences are reimplemented in cccev
 //    val evidences = certification?.evidences?.get(id).orEmpty().mapNotNull { evidence ->
 //        val file = evidence.file?.let {fsService.getFile(it)}

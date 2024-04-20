@@ -82,7 +82,9 @@ class DatasetLinkF2Steps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun linkDatasetsToDataset(params: DatasetLinkParams) = context.datasetIds.register(params.identifier) {
+    private suspend fun linkDatasetsToDataset(
+        params: DatasetLinkParams
+    ) = context.datasetIds.register(params.identifier) {
         linkDatasetsCommand = DatasetLinkDatasetsCommandDTOBase(
             id = context.datasetIds.safeGet(params.identifier),
             datasets = params.datasets

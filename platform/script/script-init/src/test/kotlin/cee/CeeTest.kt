@@ -18,14 +18,16 @@ class CeeTest {
 
 //    @Test
     fun baten101() {
-        val mapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
+        val mapper = jacksonObjectMapper()
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
 
         println(mapper.writeValueAsString(BAT_EN_101))
     }
 
 //    @Test
     fun indba116() {
-        val mapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
+        val mapper = jacksonObjectMapper()
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
 
         println(mapper.writeValueAsString(IND_BA_116))
     }
@@ -34,7 +36,8 @@ class CeeTest {
 
 //    @Test
     fun createBaten101() = runBlocking {
-        val mapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
+        val mapper = jacksonObjectMapper()
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
 
         val url = "https://api.registry.komune.io/cccev"
         val client = CCCEVClient(url)
@@ -68,7 +71,7 @@ class CeeTest {
             println("Created requirement: ${it.identifier}")
         }.collect()
     }
-
+    @Suppress("MaxLineLength")
     val ex = """
         {
         	"identifier": "BAT-TH-104",
@@ -139,7 +142,7 @@ class CeeTest {
         							"notation": "m²",
         							"type": "number"
         						},
-        						"description": "Surface du bâtiment, chauffée par les radiateurs nouvellement équipés de robinets thermostatiques (m²)"
+        						"description": "Surface du bâtiment, chauffée par les radiateurs nouvellementéquipés de robinets thermostatiques (m²)",
         					}
         				]
         			}]
@@ -147,6 +150,4 @@ class CeeTest {
         	]
         }
     """.trimIndent()
-
-
 }

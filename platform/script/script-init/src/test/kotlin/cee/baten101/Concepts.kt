@@ -1,6 +1,6 @@
-package cccev.dsl.cee.baten101
+package cee.baten101
 
-import cccev.dsl.cee.indba116.NombreTypesDispositifGestionEclairage
+import cee.indba116.NombreTypesDispositifGestionEclairage
 import cccev.dsl.model.InformationConceptBase
 import cccev.dsl.model.SquareMeter
 import cccev.dsl.model.XSDDate
@@ -35,7 +35,7 @@ object SurfaceIsolant: InformationConceptBase(
 object CumacPerM2Isolant: InformationConceptBase(
     identifier = "cumacPerM2Isolant",
     name = "Montant en kWh cumac par m2 d'isolant",
-    unit = kWhCumacPerSquareMeter,
+    unit = KwhCumacPerSquareMeter,
     type = FicheCode.ConditionsDelivranceCertificats,
     description = "Montant en kWh/m2 en fonction de la zone climatique",
     expressionOfExpectedValue = "{H1: 25, H2: 30, H3: 34}.get(${NombreTypesDispositifGestionEclairage.identifier})",

@@ -91,7 +91,9 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
 
                 AssertionBdd.transaction(assetTransactionRepository).assertThat(transaction!!).hasFields(
                     poolId = context.assetPoolIds.safeGet(params.pool),
-                    from = params.from.parseNullableOrDefault(transaction.from) { context.organizations.safeGet(it).id },
+                    from = params.from.parseNullableOrDefault(transaction.from) {
+                        context.organizations.safeGet(it).id
+                    },
                     to = params.to.parseNullableOrDefault(transaction.to) { context.organizations.safeGet(it).id },
                     by = params.by?.let { context.organizations.safeGet(it).id } ?: transaction.by,
                     quantity = params.quantity ?: transaction.quantity,
@@ -116,7 +118,8 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun emitTransaction(params: AssetPoolEmitTransactionParams) = context.transactionIds.register(params.identifier) {
+    private suspend fun emitTransaction(params: AssetPoolEmitTransactionParams)
+        = context.transactionIds.register(params.identifier) {
         command = AssetPoolEmitTransactionCommand(
             id = context.assetPoolIds[params.pool] ?: params.pool,
             from = params.from,

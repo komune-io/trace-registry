@@ -52,7 +52,8 @@ class InformationConceptCreateSteps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun createConcept(params: InformationConceptCreateParams) = context.cccevConceptIds.register(params.identifier) {
+    private suspend fun createConcept(params: InformationConceptCreateParams)
+        = context.cccevConceptIds.register(params.identifier) {
         command = InformationConceptCreateCommand(
             identifier = "${params.identifier}_${UUID.randomUUID()}",
             name = params.name,

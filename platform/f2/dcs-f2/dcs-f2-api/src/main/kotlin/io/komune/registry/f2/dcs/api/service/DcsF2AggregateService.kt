@@ -33,7 +33,9 @@ class DcsF2AggregateService(
     }
 
     // TODO save evidences when reimplemented in cccev
-    suspend fun fill(command: DataCollectionStepFillCommand, evidences: Map<String, FilePart>): DataCollectionStepFilledEvent {
+    suspend fun fill(
+        command: DataCollectionStepFillCommand, evidences: Map<String, FilePart>
+    ): DataCollectionStepFilledEvent {
         CertificationFillValuesCommand(
             id = command.certificationId,
             rootRequirementCertificationId = null,

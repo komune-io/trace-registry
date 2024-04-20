@@ -12,7 +12,9 @@ import kotlinx.serialization.Serializable
  * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
  * @order 10
  */
-typealias DatasetSetImageFunction = F2Function<Pair<DatasetSetImageCommandDTOBase, DatasetFile>, DatasetSetImageEventDTOBase>
+typealias DatasetSetImageFunction = F2Function<
+        Pair<DatasetSetImageCommandDTOBase, DatasetFile>, DatasetSetImageEventDTOBase
+        >
 
 @JsExport
 interface DatasetSetImageCommandDTO{

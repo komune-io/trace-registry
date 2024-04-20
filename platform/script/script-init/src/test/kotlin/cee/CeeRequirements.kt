@@ -100,13 +100,15 @@ class DureeVieConventionnelle(
 )
 
 object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
-    description = "Le bénériciaire n'a jamais bénéficié de crédits CEE pour la même opération et dans les même conditions",
+    description = "Le bénériciaire n'a jamais bénéficié de crédits CEE pour " +
+            "la même opération et dans les même conditions",
     identifier = "aucunPrecedentDossierPourMemeOperationEtConditions",
     name = "Aucun précédent dossier pour meme operation et conditions",
     type = FicheCode.DureeVieConventionnelle,
     hasEvidenceTypeList = listOf(
         EvidenceTypeListBase(
-            description = "Déclare sur l'honneur ne jamais avoir bénéficié de crédits CEE avec la même fiche et dans les mêmes conditions",
+            description = "Déclare sur l'honneur ne jamais avoir bénéficié de crédits " +
+                    "CEE avec la même fiche et dans les mêmes conditions",
             identifier = "declarationHonneurDureeVieConventionnelle",
             name = "Declaration honneur durée vie conventionnelle",
             specifiesEvidenceType = listOf(

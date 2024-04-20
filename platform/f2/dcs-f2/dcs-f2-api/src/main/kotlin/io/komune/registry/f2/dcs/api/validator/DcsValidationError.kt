@@ -12,7 +12,8 @@ sealed class DcsValidationError(
     data class IllegalIdentifier(val identifier: String, val char: Char, val position: Int): DcsValidationError(
         type = "ILLEGAL_IDENTIFIER",
         message = if (position == 0) {
-            "Illegal identifier [$identifier]: first character must be either a letter [a-zA-Z] or underscore '_' (found '$char')"
+            "Illegal identifier [$identifier]: first character must be either " +
+                    "a letter [a-zA-Z] or underscore '_' (found '$char')"
         } else {
             "Illegal identifier [$identifier]: illegal character '$char' found at position $position " +
                     "(only legal characters are letters [a-zA-Z], numbers [0-9] or underscore '_')"

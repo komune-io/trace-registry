@@ -6,9 +6,7 @@ import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import org.springframework.stereotype.Service
 
 @Service
-class DatasetPoliciesEnforcer(
-    private val datasetF2FinderService: DatasetF2FinderService
-): PolicyEnforcer() {
+class DatasetPoliciesEnforcer: PolicyEnforcer() {
     suspend fun checkPage() = check("page activities") { authedUser ->
         DatasetPolicies.canPage(authedUser)
     }

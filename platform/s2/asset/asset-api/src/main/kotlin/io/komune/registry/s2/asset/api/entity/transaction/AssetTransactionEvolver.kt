@@ -8,12 +8,16 @@ import s2.sourcing.dsl.view.View
 
 @Service
 class AssetTransactionEvolver: View<AssetTransactionEvent, AssetTransactionEntity> {
-    override suspend fun evolve(event: AssetTransactionEvent, model: AssetTransactionEntity?): AssetTransactionEntity? = when (event) {
+    override suspend fun evolve(
+        event: AssetTransactionEvent, model: AssetTransactionEntity?
+    ): AssetTransactionEntity? = when (event) {
         is TransactionEmittedEvent -> emit(event)
         else -> TODO()
     }
 
-    private suspend fun emit(event: TransactionEmittedEvent) = AssetTransactionEntity().apply {
+    private suspend fun emit(
+        event: TransactionEmittedEvent
+    ) = AssetTransactionEntity().apply {
         id = event.id
         status = AssetTransactionState.EMITTED
         poolId = event.poolId

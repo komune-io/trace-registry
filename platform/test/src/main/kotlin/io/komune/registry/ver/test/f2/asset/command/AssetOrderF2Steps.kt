@@ -29,7 +29,7 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
         DataTableType(::placeOrderParams)
         DataTableType(::pageOrderParams)
 
-        When("I place an order via API:") { params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PlaceOrderParams ->
+        When("I place an order via API:") { params: PlaceOrderParams ->
             step {
                 placeOrder(params)
             }
@@ -49,14 +49,14 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
             }
         }
 
-        Then("The order page should contain the order:") { params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PageOrderParams ->
+        Then("The order page should contain the order:") { params: PageOrderParams ->
             step {
                 val page = pageOrder(params)
                 Assertions.assertThat(page.items).allMatch { it.by == params.by }
             }
         }
 
-        Then("The order page shouldn't contain the order:") { params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PageOrderParams ->
+        Then("The order page shouldn't contain the order:") { params: PageOrderParams ->
             step {
                 val page = pageOrder(params)
                 Assertions.assertThat(page.items).noneMatch { it.by == params.by }
@@ -64,7 +64,7 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun placeOrder(params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PlaceOrderParams) = context.orderIds.register(params.identifier) {
+    private suspend fun placeOrder(params: PlaceOrderParams) = context.orderIds.register(params.identifier) {
         command = AssetOrderPlaceCommandDTOBase(
             from = params.from,
             to = params.to,
@@ -77,13 +77,13 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
         event.id
     }
 
-    private suspend fun getOrder(params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.GetOrderParams): AssetOrderGetResultDTOBase {
+    private suspend fun getOrder(params: GetOrderParams): AssetOrderGetResultDTOBase {
         return AssetOrderGetQueryDTOBase(
             id = params.id
         ).invokeWith(assetEndpoint.assetOrderGet())
     }
 
-    private suspend fun pageOrder(params: io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PageOrderParams): AssetOrderPageResult {
+    private suspend fun pageOrder(params: PageOrderParams): AssetOrderPageResult {
         return AssetOrderPageQueryDTOBase(
             offset = params.offset,
             limit = params.limit,
@@ -97,7 +97,7 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
     }
 
     private fun placeOrderParams(entry: Map<String, String>?) =
-        io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PlaceOrderParams(
+        PlaceOrderParams(
             identifier = entry?.get("identifier").orRandom(),
             from = entry?.get("from") ?: "SmartB",
             to = entry?.get("to") ?: "Inc. Inpark",
@@ -118,7 +118,7 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
     )
 
     private fun getOrderParams(entry: Map<String, String>?) =
-        io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.GetOrderParams(
+        GetOrderParams(
             id = entry?.get("id") ?: context.orderIds.lastUsed,
         )
 
@@ -127,7 +127,7 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
     )
 
     private fun pageOrderParams(entry: Map<String, String>?) =
-        io.komune.registry.ver.test.f2.asset.command.AssetOrderF2Steps.PageOrderParams(
+        PageOrderParams(
             offset = entry?.get("offset")?.toInt() ?: 0,
             limit = entry?.get("limit")?.toInt() ?: 10,
             status = entry?.get("status"),

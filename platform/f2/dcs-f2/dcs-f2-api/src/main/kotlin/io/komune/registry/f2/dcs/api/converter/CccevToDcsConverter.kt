@@ -22,7 +22,9 @@ object CccevToDcsConverter {
             label = cccev.name.orEmpty(),
             description = cccev.description,
             properties = cccev.properties,
-            sections = cccev.hasRequirement.filter { it.type == DcsCode.Section.toString() }.map(CccevToDcsConverter::convertSection)
+            sections = cccev.hasRequirement
+                .filter { it.type == DcsCode.Section.toString() }
+                .map(CccevToDcsConverter::convertSection)
         )
     }
 

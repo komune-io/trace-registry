@@ -25,6 +25,7 @@ actual fun projectClient(
     ProjectClient(
         F2ClientBuilder.get(urlBase) {
             install(HttpTimeout) {
+                @Suppress()
                 requestTimeoutMillis = 60000
             }
             install(Logging) {

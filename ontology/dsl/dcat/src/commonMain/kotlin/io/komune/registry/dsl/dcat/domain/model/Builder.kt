@@ -49,7 +49,8 @@ class CatalogueBuilder {
 
 
     fun catalogueRecords(block: CATALOGRECORDS.() -> Unit) = catalogueRecords.addAll(CATALOGRECORDS().apply(block))
-    fun CATALOGRECORDS.catalogueRecord(block: CatalogRecordBuilder.() -> Unit) = add(CatalogRecordBuilder().apply(block).build())
+    fun CATALOGRECORDS.catalogueRecord(block: CatalogRecordBuilder.() -> Unit)
+        = add(CatalogRecordBuilder().apply(block).build())
 
     fun build() = DCatApCatalogueModel(
         identifier = identifier,
@@ -87,13 +88,15 @@ class DatasetBuilder {
     var wasGeneratedBy: Activity? = null
 
     fun distributions(block: DISTRIBUTIONS.() -> Unit) = distributions.addAll(DISTRIBUTIONS().apply(block))
-    fun DISTRIBUTIONS.distribution(block: DistributionBuilder.() -> Unit) = add(DistributionBuilder().apply(block).build())
+    fun DISTRIBUTIONS.distribution(block: DistributionBuilder.() -> Unit)
+        = add(DistributionBuilder().apply(block).build())
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo.addAll(CONFORMSTO().apply(block))
-    fun CONFORMSTO.conformsTo(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
+    fun CONFORMSTO.conformsTo(block: SkosConceptSchemeBuilder.() -> Unit)
+        = add(SkosConceptSchemeBuilder().apply(block).build())
 
     fun build() = DcatDatasetModel(
         identifier = identifier!!,
@@ -127,7 +130,8 @@ class DataServiceBuilder {
 }
 
 
-fun catalogRecord(block: CatalogRecordBuilder.() -> Unit): DcatCatalogueRecord = CatalogRecordBuilder().apply(block).build()
+fun catalogRecord(block: CatalogRecordBuilder.() -> Unit): DcatCatalogueRecord
+    = CatalogRecordBuilder().apply(block).build()
 
 @DCatDsl
 class CatalogRecordBuilder {
@@ -144,10 +148,13 @@ class CatalogRecordBuilder {
 //    }
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo?.addAll(CONFORMSTO().apply(block))
-    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
+    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit)
+        = add(SkosConceptSchemeBuilder().apply(block).build())
 
 
-    fun build() = DcatCatalogRecordModel(identifier!!, title!!, description, listingDate, updateDate, primaryTopic, conformsTo)
+    fun build() = DcatCatalogRecordModel(
+        identifier!!, title!!, description, listingDate, updateDate, primaryTopic, conformsTo
+    )
 }
 
 fun distribution(block: DistributionBuilder.() -> Unit): DcatDistribution = DistributionBuilder().apply(block).build()
@@ -173,7 +180,8 @@ class DistributionBuilder {
     }
 
     fun conformsTo(block: CONFORMSTO.() -> Unit) = conformsTo.addAll(CONFORMSTO().apply(block))
-    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit) = add(SkosConceptSchemeBuilder().apply(block).build())
+    fun CONFORMSTO.conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit)
+        = add(SkosConceptSchemeBuilder().apply(block).build())
 
     fun checksum(block: ChecksumBuilder.() -> Unit) {
         checksum = ChecksumBuilder().apply(block).build()
@@ -291,7 +299,8 @@ class ActivityBuilder {
     fun build() = Activity(identifier)
 }
 
-fun licenseDocument(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument = LicenseDocumentBuilder().apply(block).build()
+fun licenseDocument(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument
+    = LicenseDocumentBuilder().apply(block).build()
 
 @DCatDsl
 class LicenseDocumentBuilder {

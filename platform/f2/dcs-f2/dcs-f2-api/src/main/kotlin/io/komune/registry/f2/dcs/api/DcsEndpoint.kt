@@ -61,8 +61,9 @@ class DcsEndpoint(
 
         logger.info("dataCollectionStepFill: $command")
 
-        val evidences = parts.mapValues { (_, potentialFiles) -> potentialFiles.firstOrNull { it is FilePart } as FilePart? }
-            .filterValues { file -> file != null } as Map<String, FilePart>
+        val evidences = parts.mapValues {
+            (_, potentialFiles) -> potentialFiles.firstOrNull { it is FilePart } as FilePart?
+        }.filterValues { file -> file != null } as Map<String, FilePart>
 
         // TODO dcsPoliciesEnforcer.checkFill()
         return dcsF2AggregateService.fill(command, evidences)

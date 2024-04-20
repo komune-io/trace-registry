@@ -6,7 +6,8 @@ import io.komune.registry.s2.structure.domain.model.Structure
 fun cdm(debug: String) = catalogue {
     identifier = "cdm${debug}"
     homepage =
-        "https://unfccc.int/process-and-meetings/the-kyoto-protocol/mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism"
+        "https://unfccc.int/process-and-meetings/the-kyoto-protocol/" +
+                "mechanisms-under-the-kyoto-protocol/the-clean-development-mechanism"
     title = "CDM"
     type = "standard"
     structure = Structure("item")

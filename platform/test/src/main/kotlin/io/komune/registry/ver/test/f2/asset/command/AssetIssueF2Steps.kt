@@ -53,6 +53,7 @@ class AssetIssueF2Steps: En, VerCucumberStepsDefinition() {
             to = params.receiver,
             quantity = params.quantity
         )
+        @Suppress("ForbiddenComment")
         // TODO: Fix that
 //        command.invokeWith(assetEndpoint.assetIssue()).transactionId
         val event = command.invokeWith(assetPoolEndpoint.assetIssue())

@@ -60,7 +60,8 @@ object Activities {
         identifier = "P1"
         name = "Eligibility"
         description =
-            "This activity involves assessing whether the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification."
+            "This activity involves assessing whether the project meets the criteria or conditions " +
+                    "set out in the project protocol and is eligible to receive certification."
         type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
@@ -74,7 +75,8 @@ object Activities {
         identifier = "P0"
         name = "LOI"
         description =
-            "Stands for Letter of Intent. This activity involves the submission of a letter expressing the intention to develop and implement a VERs project."
+            "Stands for Letter of Intent. This activity involves the submission of a letter " +
+                    "expressing the intention to develop and implement a VERs project."
         type = RequirementType.Activity
         isDerivedFrom {
             +ReferenceFramework.AxessImpact

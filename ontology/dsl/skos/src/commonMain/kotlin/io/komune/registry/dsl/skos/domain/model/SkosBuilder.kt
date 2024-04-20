@@ -23,7 +23,8 @@ class SkosConceptBuilder {
 
 typealias PREFLABELS = HashMap<String, String>
 typealias DEFINITIONS = HashMap<String, String>
-fun conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit): SkosConceptScheme = SkosConceptSchemeBuilder().apply(block).build()
+fun conceptScheme(block: SkosConceptSchemeBuilder.() -> Unit): SkosConceptScheme
+    = SkosConceptSchemeBuilder().apply(block).build()
 class SkosConceptSchemeBuilder {
     var id: String? = null
     var type: String = "skos:ConceptScheme"

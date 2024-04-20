@@ -6,9 +6,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import org.springframework.stereotype.Service
 
 @Service
-class CataloguePoliciesEnforcer(
-    private val catalogueF2FinderService: CatalogueF2FinderService
-): PolicyEnforcer() {
+class CataloguePoliciesEnforcer: PolicyEnforcer() {
     suspend fun checkPage() = check("page activities") { authedUser ->
         CataloguePolicies.canPage(authedUser)
     }
