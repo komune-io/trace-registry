@@ -49,6 +49,16 @@ services:
       - orderer.bclan
       - couchdb.bc-coop.bclan
 
+  coop-rest-java:
+    container_name: coop-rest-bclan-${DOCKER_NETWORK}
+    image: ghcr.io/komune-io/c2-sandbox-ssm-gateway:${FIXERS_VERSION}
+    environment:
+      - i2_jwt-issuer-uri=
+    ports:
+      - "9090:9090"
+    networks:
+      - net
+
 networks:
   net:
     name: ${DOCKER_NETWORK}
