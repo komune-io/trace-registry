@@ -19,8 +19,8 @@ promote:
 
 # Storybook
 build-storybook:
-	@#yarn --cwd storybook install --frozen-lockfile --ignore-scripts
-	@#yarn --cwd storybook build-storybook
+	@yarn --cwd storybook install --frozen-lockfile --ignore-scripts
+	@yarn --cwd storybook build-storybook
 	@docker build --no-cache  --platform=linux/amd64 \
 		--build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} \
 		-f ${STORYBOOK_DOCKERFILE} \
