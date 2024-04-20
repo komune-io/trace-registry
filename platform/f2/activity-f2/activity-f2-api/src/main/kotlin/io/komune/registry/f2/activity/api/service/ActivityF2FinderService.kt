@@ -31,7 +31,6 @@ class ActivityF2FinderService(
     private val certificateService: CertificateService,
     private val cccevClient: CCCEVClient,
     private val projectFinderService: ProjectFinderService,
-    private val fsService: FsService,
 ) {
 
     suspend fun get(
