@@ -1,10 +1,12 @@
+VERSION = $(shell cat VERSION)
+
 .PHONY: lint build
 
 lint:
 	./gradlew detekt
 
 build:
-	VERSION=${VERSION} ./gradlew build publishToMavenLocal publish --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
+	VERSION=${VERSION} ./gradlew build publishToMavenLocal --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
 
 publish:
 	@echo "No publish task"
