@@ -1,4 +1,4 @@
-import {FormComposable, FormComposableField, useFormComposable} from '@smartb/g2'
+import {FormComposable, FormComposableField, useFormComposable} from '@komune-io/g2'
 import {Divider, Stack, Typography} from '@mui/material'
 import {useMemo} from "react";
 import {useTranslation} from "react-i18next";

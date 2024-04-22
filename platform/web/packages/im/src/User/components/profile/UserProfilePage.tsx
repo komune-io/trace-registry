@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
-import { Action, i2Config, Page, Section, LinkButton } from '@smartb/g2';
-import { AutomatedUserFactory, MyProfile, useGetOrganizationRefs, User, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@smartb/g2-i2-v2';
+import { Action, i2Config, Page, Section, LinkButton } from '@komune-io/g2';
+import { AutomatedUserFactory, MyProfile, useGetOrganizationRefs, User, userExistsByEmail, useUserFormState,UserFactoryFieldsOverride } from '@komune-io/g2-i2-v2';
 import { getUserRolesOptions, useChainedValidation, useExtendedAuth, useRoutesDefinition } from "components";
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';

@@ -1,6 +1,6 @@
 package cee.indba116.archives
 
-import cccev.dsl.cee.indba116.NombreTypesDispositifGestionEclairage
+import cee.indba116.NombreTypesDispositifGestionEclairage
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.EvidenceTypeBase
 import cccev.dsl.model.EvidenceTypeListBase
@@ -63,7 +63,8 @@ object DureeVieConventionnelleV2 {
     )
 
     object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
-        description = "Le bénériciaire n'a jamais bénéficié de crédits CEE pour la même opération et dans les même conditions",
+        description = "Le bénériciaire n'a jamais bénéficié de crédits " +
+                "CEE pour la même opération et dans les même conditions",
         identifier = "aucunPrecedentDossierPourMemeOperationEtConditions",
         name = "Aucun précédent dossier pour meme operation et conditions",
         type = FicheCode.DureeVieConventionnelle,
@@ -110,7 +111,9 @@ object DureeVieConventionnelleV2 {
     )
 
 
-    open class DureeVieConventionnelleConstraint(nombreDispositifGestionEclairage: Int, name: String, yearsCount: Int): Constraint(
+    open class DureeVieConventionnelleConstraint(
+        nombreDispositifGestionEclairage: Int, name: String, yearsCount: Int
+    ): Constraint(
         description = "${NombreTypesDispositifGestionEclairage.identifier} == $nombreDispositifGestionEclairage",
         identifier = "${nombreDispositifGestionEclairage}TypesDispositifGestionEclairage",
         name = name,

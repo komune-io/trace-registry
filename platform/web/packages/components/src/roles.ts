@@ -1,4 +1,4 @@
-import { Option } from "@smartb/g2"
+import { Option } from "@komune-io/g2"
 import { TFunction } from "i18next"
 
 export const userAdminRoles = [

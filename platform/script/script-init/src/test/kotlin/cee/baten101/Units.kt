@@ -1,4 +1,4 @@
-package cccev.dsl.cee.baten101
+package cee.baten101
 
 import cccev.dsl.model.DataUnit
 import cccev.dsl.model.DataUnitType
@@ -12,7 +12,7 @@ object SquareMeterKelvinPerWatt: DataUnit(
     type = DataUnitType.number
 )
 
-object kWhCumacPerSquareMeter: DataUnit(
+object KwhCumacPerSquareMeter: DataUnit(
     identifier = "kwhPerSquareMeter",
     name = "Killowatt-heure Cumac par mètre carré",
     description = "Killowatt-heure Cumac par mètre carré",

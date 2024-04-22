@@ -8,9 +8,9 @@ registry:
       delayMillis: 10000
     init:
       auth:
-        url: https://auth.dev.connect.smart-b.io/realms/sb-dev
+        url: https://auth.dev.connect.komune.io/realms/sb-dev
       im:
-        url: http://dev.connect.smart-b.io/im
+        url: http://dev.connect.komune.io/im
       cccev:
         url: http://localhost:8083
 #      registry:

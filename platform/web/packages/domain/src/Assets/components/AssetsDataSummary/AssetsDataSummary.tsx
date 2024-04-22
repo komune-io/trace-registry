@@ -1,4 +1,4 @@
-import {FormComposable, FormComposableField, FormComposableState} from "@smartb/g2";
+import {FormComposable, FormComposableField, FormComposableState} from "@komune-io/g2";
 import {Stack} from "@mui/material";
 import React, {useMemo} from "react";
 import {QuantityFormatter} from "components";

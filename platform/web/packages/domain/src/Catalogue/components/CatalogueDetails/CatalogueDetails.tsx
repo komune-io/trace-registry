@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, Option, useFormComposable } from '@smartb/g2'
+import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue } from '../../model'

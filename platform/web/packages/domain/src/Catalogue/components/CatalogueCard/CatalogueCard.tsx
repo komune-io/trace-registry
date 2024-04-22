@@ -3,7 +3,7 @@ import { Catalogue } from '../../model'
 import { DescriptedLimitedChipList, useRoutesDefinition } from 'components'
 import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
-import { LinkButton, Option } from '@smartb/g2'
+import { LinkButton, Option } from '@komune-io/g2'
 import { t } from 'i18next'
 import {config} from "../../../config";
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'

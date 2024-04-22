@@ -5,7 +5,7 @@ import {
   KeycloakProvider,
   g2Config,
   ThemeContextProvider
-} from "@smartb/g2";
+} from "@komune-io/g2";
 import { languages } from "i18n";
 import { theme } from "Themes";
 import { QueryClient } from '@tanstack/react-query'

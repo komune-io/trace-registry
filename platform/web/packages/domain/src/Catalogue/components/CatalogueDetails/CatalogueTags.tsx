@@ -1,4 +1,4 @@
-import { Option, LimitedList, Chip } from '@smartb/g2'
+import { Option, LimitedList, Chip } from '@komune-io/g2'
 
 export interface CatalogueTagsProps {
     values: Option[]

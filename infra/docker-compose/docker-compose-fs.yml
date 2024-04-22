@@ -2,7 +2,7 @@ version: "3.7"
 services:
   verr-fs:
     container_name: verr-fs
-    image: smartbcity/fs-gateway:${CONNECT_FS_VERSION}
+    image: ${DOCKER_REPOSITORY}komune-io/fs-gateway:${CONNECT_FS_VERSION}
     environment:
       - fs_s3_internal-url=http://minio:9000
       - fs_s3_external-url=http://localhost:9000

@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
-import { Organization, requiredString } from "@smartb/g2-i2-v2"
+import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
+import { Organization, requiredString } from "@komune-io/g2-i2-v2"
 import { useEffect, useMemo } from 'react'
 
 

@@ -1,7 +1,7 @@
 import { typeIcons, typeIconsColor } from "./images";
 import { useMemo } from "react";
 import { TFunction } from "i18next";
-import { Option } from "@smartb/g2";
+import { Option } from "@komune-io/g2";
 import { Box, Stack, StackProps, SvgIcon, SvgIconProps, Typography, TypographyProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
 

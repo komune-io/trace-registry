@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { TableV2, useTable, ColumnFactory } from "@smartb/g2";
+import { TableV2, useTable, ColumnFactory } from "@komune-io/g2";
 import { FilePath } from "../../api";
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next";

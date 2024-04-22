@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import { Chat } from "components";
-import { Button } from "@smartb/g2";
+import { Button } from "@komune-io/g2";
 import {  askQuestion } from "../../api/query";
 import { useTranslation } from "react-i18next";
 

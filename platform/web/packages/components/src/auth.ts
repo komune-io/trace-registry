@@ -1,4 +1,4 @@
-import { useAuth, KeycloackService } from "@smartb/g2"
+import { useAuth, KeycloackService } from "@komune-io/g2"
 import { Roles, userEffectiveRoles } from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 

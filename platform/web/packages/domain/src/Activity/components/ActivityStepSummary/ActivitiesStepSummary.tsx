@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {Activity, ActivityStep, Evidence} from '../../model'
-import { FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
+import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { Box, Divider, Skeleton, Stack, Typography } from '@mui/material'
 import {useProductEvidenceDownloadQuery} from "../../api";
 

@@ -2,8 +2,8 @@ import React from "react";
 import {
   AppProvider,
   G2ConfigBuilder
-} from "@smartb/g2-providers";
-import { ThemeContextProvider } from "@smartb/g2-themes";
+} from "@komune-io/g2-providers";
+import { ThemeContextProvider } from "@komune-io/g2-themes";
 import { Typography } from "@mui/material";
 import { languages } from "i18n";
 import { theme } from "Themes";

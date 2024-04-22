@@ -1,5 +1,5 @@
 import { Chip, Stack } from '@mui/material'
-import { Option } from '@smartb/g2'
+import { Option } from '@komune-io/g2'
 import { useMemo } from 'react'
 
 export interface InteractiveChipList {

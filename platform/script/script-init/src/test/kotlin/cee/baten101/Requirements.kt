@@ -1,12 +1,7 @@
 package cee.baten101
 
-import cccev.dsl.cee.baten101.CumacPerM2Isolant
-import cccev.dsl.cee.baten101.DatePrecedentsTravauxMemeBatiment
-import cccev.dsl.cee.baten101.FacteurCorrectif
-import cccev.dsl.cee.baten101.ResistanceThermique
-import cccev.dsl.cee.baten101.SurfaceIsolant
-import cccev.dsl.cee.indba116.Cumac
-import cccev.dsl.cee.indba116.DureeVieConventionnelleLuminaire
+import cee.indba116.Cumac
+import cee.indba116.DureeVieConventionnelleLuminaire
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.Criterion
 import cccev.dsl.model.InformationRequirement
@@ -141,7 +136,8 @@ object DatePrecedentsTravauxContrainte: Constraint(
 )
 
 object CalculCertificatsCumac: Constraint(
-    description = "${CumacPerM2Isolant.identifier} * ${FacteurCorrectif.identifier} * ${SurfaceIsolant.identifier} = ${Cumac.identifier}",
+    description = "${CumacPerM2Isolant.identifier} * ${FacteurCorrectif.identifier} *" +
+            " ${SurfaceIsolant.identifier} = ${Cumac.identifier}",
     identifier = "calculCertificatsCumac",
     name = "Montant de certificats en kWh cumac",
     type = FicheCode.MontantCertificatsCumac,

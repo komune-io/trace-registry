@@ -3,7 +3,7 @@ import { Catalogue, CatalogueRef } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { TitleDivider, useRoutesDefinition } from 'components'
 import { CatalogueGrid } from '../CatalogueGrid'
-import { LinkButton } from '@smartb/g2'
+import { LinkButton } from '@komune-io/g2'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 import {useCataloguePageQuery} from "../../api";
 

@@ -3,11 +3,11 @@ version: "3.7"
 services:
   tr-registry-script:
     container_name: tr-registry-script
-    image: smartbcity/tr-registry-script:next
+    image: ${DOCKER_REPOSITORY}komune-io/tr-registry-script:${TRACE_VERSION}
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000
-      - registry_script_init_auth_url=https://auth.dev.connect.smart-b.io/realms/sb-dev
+      - registry_script_init_auth_url=https://auth.dev.connect.komune.io/realms/sb-dev
       - registry_script_init_cccev_url=http://${CCCEV_HOST_NAME}:${CCCEV_PORT}
       - registry_script_init_orchestrator_name=Smartb
       - registry_script_init_orchestrator_clientId=tr-registry-script-api

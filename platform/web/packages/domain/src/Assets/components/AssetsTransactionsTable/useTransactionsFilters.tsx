@@ -1,5 +1,5 @@
 import {useCustomFilters} from 'components'
-import {FilterComposableField, Option} from '@smartb/g2'
+import {FilterComposableField, Option} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
 import {AssetTransactionPageQuery, TransactionTypeValues} from "domain-components";

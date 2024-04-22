@@ -1,6 +1,6 @@
-import {  FormComposable, FormComposableField, useFormComposable } from '@smartb/g2'
+import {  FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { useEffect, useMemo } from 'react'
-import { requiredString, User } from '@smartb/g2-i2-v2'
+import { requiredString, User } from '@komune-io/g2-i2-v2'
 
 export interface UserDomainDetailsProps {
     readOnly?: boolean

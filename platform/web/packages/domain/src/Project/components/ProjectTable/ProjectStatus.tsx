@@ -1,4 +1,4 @@
-import { StatusTag } from '@smartb/g2'
+import { StatusTag } from '@komune-io/g2'
 
 export interface ProjectStatusProps {
     value: string

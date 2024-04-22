@@ -6,13 +6,13 @@ plugins {
 
 	id("org.springframework.boot") version PluginVersions.springBoot apply false
 
-	id("city.smartb.fixers.gradle.config") version PluginVersions.fixers
-	id("city.smartb.fixers.gradle.sonar") version PluginVersions.fixers
-	id("city.smartb.fixers.gradle.d2") version PluginVersions.fixers
+	id("io.komune.fixers.gradle.config") version PluginVersions.fixers
+	id("io.komune.fixers.gradle.check") version PluginVersions.fixers
+	id("io.komune.fixers.gradle.d2") version PluginVersions.fixers
 }
 
 allprojects {
-	group = "city.smartb.registry"
+	group = "io.komune.registry"
 	version = System.getenv("VERSION") ?: "experimental-SNAPSHOT"
 	repositories {
 		mavenLocal()
@@ -21,14 +21,12 @@ allprojects {
 			maven { url = uri(it) }
 		}
 	}
-
-
 }
 
 subprojects {
 	tasks {
 		register("documenter", Copy::class) {
-			from("build/smartb-d2-documenter") {
+			from("build/komune-d2-documenter") {
 				include("**/*.json")
 			}
 
@@ -46,7 +44,7 @@ fixers {
 		id = "registry"
 		name = "Registry"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environmental assets registries of the market."
-		url = "https://gitlab.smartb.city/framwork/registry/program"
+		url = "https://github.com/komune-io/registry/program"
 	}
 	d2 {
 		outputDirectory = file("storybook/stories/d2/")

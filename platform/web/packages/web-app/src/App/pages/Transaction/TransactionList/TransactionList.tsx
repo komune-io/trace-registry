@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { Header } from '@smartb/g2'
+import { Header } from '@komune-io/g2'
 import {
   AssetsTransactionsTable, Transaction,
   useAssetTransactionPage, useTransactionsFilters

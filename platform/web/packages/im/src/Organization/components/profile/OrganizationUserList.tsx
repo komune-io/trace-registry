@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
-import { Action } from '@smartb/g2'
-import { AutomatedUserTable } from '@smartb/g2-i2-v2'
+import { Action } from '@komune-io/g2'
+import { AutomatedUserTable } from '@komune-io/g2-i2-v2'
 import { useRoutesDefinition } from "components"
 import { useTranslation } from 'react-i18next'
 import { useUserListPage } from '../../../User/hooks'

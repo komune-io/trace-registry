@@ -47,19 +47,20 @@ object Annexe1AvecDetailsEquipementDocument: EvidenceTypeBase(
 object Annexe1AvecReferencesEquipement: EvidenceTypeListBase(
     identifier = "annexe1References",
     name = """
-        A défaut, la preuve de réalisation de l’opération mentionne : 
-        - la mise en place d’un nombre donné de luminaires, identifiés par leur marque et référence ; 
-        - la puissance de ces luminaires ; 
-        - les marque et référence du dispositif de gestion de l’éclairage lorsqu’il est mis en place en précisant s’il s’agit 
-        d’une détection de présence et/ou d’un système de variation de lumière tenant compte des apports de lumière du 
-        jour. 
-        Elle est complétée dans ce cas par un document issu du fabricant indiquant que les équipements de marque et 
-        référence installés sont des luminaires à modules LED. Ce document précise la durée de vie des luminaires 
-        calculée à 25°C, leur chute de flux lumineux à l’issue de leur durée de vie, leur efficacité lumineuse, auxiliaire 
-        d'alimentation compris, leur facteur de puissance et leur taux de distorsion harmonique selon la norme EN 61000- 
-        3-2. 
+    A défaut, la preuve de réalisation de l’opération mentionne : 
+    - la mise en place d’un nombre donné de luminaires, identifiés par leur marque et référence ; 
+    - la puissance de ces luminaires ; 
+    - les marque et référence du dispositif de gestion de l’éclairage lorsqu’il est mis en place en précisant s’il 
+    s’agit d’une détection de présence et/ou d’un système de variation de lumière tenant compte des apports de lumière 
+    du jour. 
+    Elle est complétée dans ce cas par un document issu du fabricant indiquant que les équipements de marque et 
+    référence installés sont des luminaires à modules LED. Ce document précise la durée de vie des luminaires 
+    calculée à 25°C, leur chute de flux lumineux à l’issue de leur durée de vie, leur efficacité lumineuse, auxiliaire 
+    d'alimentation compris, leur facteur de puissance et leur taux de distorsion harmonique selon la norme EN 61000- 
+    3-2. 
     """.trimIndent(),
-    description = "Annexe 1 avec marques et références des équipements installés, complétée par les fiches constructeur",
+    description = "Annexe 1 avec marques et références des équipements installés, " +
+            "complétée par les fiches constructeur",
     specifiesEvidenceType = listOf(
         Annexe1AvecReferencesEquipementDocument,
         Annexe1FicheConstructeur

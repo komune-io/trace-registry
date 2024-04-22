@@ -1,10 +1,10 @@
-import { QueryParams, useQueryRequest } from "@smartb/g2"
+import { QueryParams, useQueryRequest } from "@komune-io/g2"
 import {city} from "registry-catalogue-f2-domain"
 import { useNoAuthenticatedRequest } from "../../config"
 
-export interface CatalogueGetQuery extends city.smartb.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO {}
+export interface CatalogueGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO {}
 
-export interface CatalogueGetResult extends city.smartb.registry.f2.catalogue.domain.query.CatalogueGetResultDTO {}
+export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetResultDTO {}
 
 export const useCatalogueGetQuery = (params: QueryParams<CatalogueGetQuery, CatalogueGetResult>) => {
     const requestProps = useNoAuthenticatedRequest()
@@ -13,9 +13,9 @@ export const useCatalogueGetQuery = (params: QueryParams<CatalogueGetQuery, Cata
     )
 }
 
-export interface CataloguePageQuery extends city.smartb.registry.f2.catalogue.domain.query.CataloguePageQueryDTO {}
+export interface CataloguePageQuery extends io.komune.registry.f2.catalogue.domain.query.CataloguePageQueryDTO {}
 
-export interface CataloguePageResult extends city.smartb.registry.f2.catalogue.domain.query.CataloguePageResultDTO {}
+export interface CataloguePageResult extends io.komune.registry.f2.catalogue.domain.query.CataloguePageResultDTO {}
 
 export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, CataloguePageResult>) => {
     const requestProps = useNoAuthenticatedRequest()
@@ -25,9 +25,9 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
 }
 
 
-export interface CatalogueRefListQuery extends city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListQueryDTO {}
+export interface CatalogueRefListQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefListQueryDTO {}
 
-export interface CatalogueRefListResult extends city.smartb.registry.f2.catalogue.domain.query.CatalogueRefListResultDTO {}
+export interface CatalogueRefListResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResultDTO {}
 
 export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefListQuery, CatalogueRefListResult>) => {
     const requestProps = useNoAuthenticatedRequest()

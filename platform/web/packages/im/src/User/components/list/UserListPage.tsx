@@ -1,5 +1,5 @@
-import { Page, Section, LinkButton } from "@smartb/g2"
-import { AutomatedUserTable } from "@smartb/g2-i2-v2"
+import { Page, Section, LinkButton } from "@komune-io/g2"
+import { AutomatedUserTable } from "@komune-io/g2-i2-v2"
 import { Typography } from "@mui/material";
 import { useRoutesDefinition } from "components";
 import { useTranslation } from "react-i18next";

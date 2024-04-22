@@ -1,6 +1,6 @@
 import { NavigateNextRounded } from '@mui/icons-material'
 import { Breadcrumbs as MuiBreadcrumbs, BreadcrumbsProps as MuiBreadcrumbsProps, Typography } from '@mui/material'
-import { Link } from '@smartb/g2'
+import { Link } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { Link as RouterLink } from "react-router-dom"
 

@@ -1,7 +1,7 @@
-import {ConfirmationPopUpVariant} from "@smartb/g2-layout/dist/PopUp/ConfirmationPopUp";
+import {ConfirmationPopUpVariant} from "@komune-io/g2-layout/dist/PopUp/ConfirmationPopUp";
 import {useTranslation} from "react-i18next";
 import React, {useCallback, useMemo, useState} from "react";
-import {ConfirmationPopUp} from "@smartb/g2";
+import {ConfirmationPopUp} from "@komune-io/g2";
 import {Typography} from "@mui/material";
 
 export interface UseConfirmationPopUpProps {

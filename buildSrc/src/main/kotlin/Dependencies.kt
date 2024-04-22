@@ -1,12 +1,12 @@
-import city.smartb.gradle.dependencies.FixersDependencies
-import city.smartb.gradle.dependencies.FixersPluginVersions
-import city.smartb.gradle.dependencies.FixersVersions
-import city.smartb.gradle.dependencies.Scope
-import city.smartb.gradle.dependencies.add
+import io.komune.gradle.dependencies.FixersDependencies
+import io.komune.gradle.dependencies.FixersPluginVersions
+import io.komune.gradle.dependencies.FixersVersions
+import io.komune.gradle.dependencies.Scope
+import io.komune.gradle.dependencies.add
 
 object Framework {
 	val fixers = FixersPluginVersions.fixers
-	val connect = "0.15.0"
+	val connect = "0.15.0-SNAPSHOT"
 }
 
 object PluginVersions {
@@ -30,15 +30,13 @@ object Versions {
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.0"
 	const val html2pdf = "5.0.0"
+	const val javaSnapshotTesting = "4.0.7"
 }
 
 object Repo {
 	val snapshot: List<String> = listOf(
-		// For redis-om-spring staging
+		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
 		"https://s01.oss.sonatype.org/content/repositories/snapshots",
-		// For fixers
-		"https://oss.sonatype.org/service/local/repositories/releases/content",
-		"https://oss.sonatype.org/content/repositories/snapshots",
 	)
 }
 
@@ -59,55 +57,55 @@ object Dependencies {
 		)
 
 		fun s2Bdd(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-test-bdd:${Versions.s2}",
+			"io.komune.s2:s2-test-bdd:${Versions.s2}",
 			"org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}"
 		).also(::cucumber)
 			.also(::junit)
 
 		fun f2(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
+			"io.komune.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
 		)
 		fun f2OpenApi(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-spring-boot-openapi:${Versions.f2}"
+			"io.komune.f2:f2-spring-boot-openapi:${Versions.f2}"
 		)
 
 		fun f2Auth(scope: Scope) = scope.add(
-			"city.smartb.im:f2-spring-boot-starter-auth-tenant:${Versions.im}",
-			"city.smartb.im:im-commons-auth:${Versions.im}"
+			"io.komune.im:f2-spring-boot-starter-auth-tenant:${Versions.im}",
+			"io.komune.im:im-commons-auth:${Versions.im}"
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"city.smartb.im:im-organization-client:${Versions.im}",
-			"city.smartb.im:im-user-client:${Versions.im}",
-			"city.smartb.im:im-apikey-client:${Versions.im}",
+			"io.komune.im:im-organization-client:${Versions.im}",
+			"io.komune.im:im-user-client:${Versions.im}",
+			"io.komune.im:im-apikey-client:${Versions.im}",
 		)
 
 		object Cccev {
 			fun client(scope: Scope) = scope.add(
-				"city.smartb.cccev:cccev-dsl-client:${Versions.cccev}",
+				"io.komune.cccev:cccev-dsl-client:${Versions.cccev}",
 			)
 			fun dsl(scope: Scope) = scope.add(
-				"city.smartb.cccev:cccev-dsl-model:${Versions.cccev}",
+				"io.komune.cccev:cccev-dsl-model:${Versions.cccev}",
 			)
 		}
 
 		object Im {
 			object Client {
 				fun organization(scope: Scope) = scope.add(
-					"city.smartb.im:im-organization-client:${Versions.fs}",
+					"io.komune.im:im-organization-client:${Versions.fs}",
 					"io.ktor:ktor-utils:${Versions.ktor}"
 				)
 
 				fun userClient(scope: Scope) = scope.add(
-					"city.smartb.im:im-user-client:${Versions.fs}",
+					"io.komune.im:im-user-client:${Versions.fs}",
 					"io.ktor:ktor-utils:${Versions.ktor}"
 				)
 			}
 		}
 		object Fs {
 			fun client(scope: Scope) = scope.add(
-				"city.smartb.fs:fs-file-client:${Versions.fs}",
-				"city.smartb.fs:fs-spring-utils:${Versions.fs}",
+				"io.komune.fs:fs-file-client:${Versions.fs}",
+				"io.komune.fs:fs-spring-utils:${Versions.fs}",
 				"io.ktor:ktor-utils:${Versions.ktor}"
 			)
 		}
@@ -123,11 +121,11 @@ object Dependencies {
 		}
 
 		fun s2StoringData(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",
+			"io.komune.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",
 		)
 
 		fun s2SourcingSsm(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
+			"io.komune.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
 		)
 		object Test {
 			fun dataFaker(scope: Scope) = scope.add(
@@ -138,12 +136,12 @@ object Dependencies {
 
 	object Mpp {
 		fun f2(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-dsl-function:${Versions.f2}",
-			"city.smartb.f2:f2-dsl-cqrs:${Versions.f2}"
+			"io.komune.f2:f2-dsl-function:${Versions.f2}",
+			"io.komune.f2:f2-dsl-cqrs:${Versions.f2}"
 		)
 
 		fun f2Client(scope: Scope) = scope.add(
-			"city.smartb.f2:f2-client-ktor:${Versions.f2}",
+			"io.komune.f2:f2-client-ktor:${Versions.f2}",
 			"io.ktor:ktor-client-auth:${Versions.ktor}",
 			"io.ktor:ktor-client-logging:${Versions.ktor}",
 		).also {
@@ -151,12 +149,12 @@ object Dependencies {
 		}
 
 		fun fs(scope: Scope) = scope.add(
-			"city.smartb.fs:fs-file-domain:${Versions.fs}"
+			"io.komune.fs:fs-file-domain:${Versions.fs}"
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"city.smartb.im:im-organization-domain:${Versions.im}",
-			"city.smartb.im:im-user-domain:${Versions.im}"
+			"io.komune.im:im-organization-domain:${Versions.im}",
+			"io.komune.im:im-user-domain:${Versions.im}"
 		)
 
 		fun bignum(scope: Scope) = scope.add(
@@ -165,12 +163,12 @@ object Dependencies {
 
 
 		fun s2(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-automate-dsl:${Versions.s2}",
-			"city.smartb.s2:s2-event-sourcing-dsl:${Versions.s2}"
+			"io.komune.s2:s2-automate-dsl:${Versions.s2}",
+			"io.komune.s2:s2-event-sourcing-dsl:${Versions.s2}"
 		)
 
 		fun documenter(scope: Scope) = scope.add(
-			"city.smartb.s2:s2-automate-documenter:${Versions.s2}",
+			"io.komune.s2:s2-automate-documenter:${Versions.s2}",
 		)
 
 		fun test(scope: Scope) = scope.add(
@@ -178,13 +176,13 @@ object Dependencies {
 		)
 
 		fun cccevDomain(scope: Scope) = scope.add(
-			"city.smartb.cccev:cccev-certification-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-concept-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-evidence-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-evidence-type-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-framework-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-requirement-f2-domain:${Versions.cccev}",
-			"city.smartb.cccev:cccev-unit-f2-domain:${Versions.cccev}"
+			"io.komune.cccev:cccev-certification-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-concept-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-evidence-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-evidence-type-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-framework-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-requirement-f2-domain:${Versions.cccev}",
+			"io.komune.cccev:cccev-unit-f2-domain:${Versions.cccev}"
 		)
 	}
 }

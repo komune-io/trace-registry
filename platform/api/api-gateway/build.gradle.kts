@@ -1,6 +1,6 @@
 plugins {
     id("org.springframework.boot")
-    id("city.smartb.fixers.gradle.kotlin.jvm")
+    id("io.komune.fixers.gradle.kotlin.jvm")
     kotlin("plugin.spring")
     kotlin("kapt")
 }
@@ -21,8 +21,4 @@ dependencies {
 
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
-}
-
-tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootBuildImage> {
-    imageName.set("${System.getenv("IMAGE_NAME")}:${this.project.version}")
 }

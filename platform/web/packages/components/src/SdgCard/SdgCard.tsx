@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { Select, Option } from "@smartb/g2-forms";
+import { Select, Option } from "@komune-io/g2-forms";
 import { Fragment, useCallback, useMemo, useState } from "react";
-import { Tooltip } from "@smartb/g2-notifications";
+import { Tooltip } from "@komune-io/g2-notifications";
 import { Sdg, Size } from "../Sdg/Sdg";
 import { useTranslation } from "react-i18next";
 

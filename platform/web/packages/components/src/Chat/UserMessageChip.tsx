@@ -1,4 +1,4 @@
-import {Chip, ChipProps} from '@smartb/g2'
+import {Chip, ChipProps} from '@komune-io/g2'
 
 export const UserMessageChip = (props: ChipProps) => {
   return (
