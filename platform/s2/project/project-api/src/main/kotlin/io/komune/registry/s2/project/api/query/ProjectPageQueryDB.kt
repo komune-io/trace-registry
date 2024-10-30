@@ -28,11 +28,19 @@ class ProjectPageQueryDB(
 
     companion object {
         private val FIELD_PROPONENT_NAME = TextField<ProjectEntity, String>(
-            SearchFieldAccessor("proponent_name", "$.proponent.name",ProjectEntity::class.java.getDeclaredField("proponent")),
+            SearchFieldAccessor(
+                "proponent_name",
+                "$.proponent.name",
+                ProjectEntity::class.java.getDeclaredField("proponent")
+            ),
             true
         )
         private val FIELD_PROPONENT_ID = TextTagField<ProjectEntity, String>(
-            SearchFieldAccessor("proponent_id","$.proponent.id", ProjectEntity::class.java.getDeclaredField("proponent")),
+            SearchFieldAccessor(
+                "proponent_id",
+                "$.proponent.id",
+                ProjectEntity::class.java.getDeclaredField("proponent")
+            ),
             true
         )
     }

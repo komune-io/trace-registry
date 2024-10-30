@@ -25,9 +25,6 @@ import io.ktor.client.plugins.logging.Logging
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-//expect fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient>
-//expect fun datasetClient(urlBase: String, accessToken: String): F2SupplierSingle<DatasetClient>
-
 fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient> = f2SupplierSingle {
     DatasetClient(this)
 }
