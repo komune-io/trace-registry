@@ -1,7 +1,7 @@
 package io.komune.registry.ver.test.cccev.concept
 
 import cccev.dsl.client.CCCEVClient
-import cccev.s2.concept.domain.command.InformationConceptCreateCommand
+import cccev.f2.concept.command.InformationConceptCreateCommand
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -60,7 +60,7 @@ class InformationConceptCreateSteps: En, VerCucumberStepsDefinition() {
             description = "",
             hasUnit = context.cccevUnitIds.safeGet(params.unit),
             expressionOfExpectedValue = null,
-            dependsOn = null
+            dependsOn = emptyList()
         )
         context.cccevConceptIdentifiers[params.identifier] = command.identifier!!
         command.invokeWith(cccevClient.informationConceptClient.conceptCreate()).id

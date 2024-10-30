@@ -2,8 +2,9 @@ package io.komune.registry.ver.test.f2.dcs.command
 
 import au.com.origin.snapshots.Expect
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.requirement.domain.model.RequirementDTOBase
-import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
+import cccev.dsl.client.model.unflatten
+import cccev.dsl.model.Requirement
+import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
 import io.komune.registry.api.commons.utils.parseFile
 import io.komune.registry.f2.dcs.api.DcsEndpoint
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
@@ -30,9 +31,9 @@ class DcsDefineF2Steps: En, VerCucumberStepsDefinition() {
                     "classpath:io.komune.registry.ver.test/f2/dcs/data/${scenario}.json"
                 )
                 command.invokeWith(dcsEndpoint.dataCollectionStepDefine())
-                val savedRequirements = RequirementGetByIdentifierQueryDTOBase(identifier = command.identifier)
+                val savedRequirements = RequirementGetByIdentifierQuery(identifier = command.identifier)
                     .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-                    .item
+                    .unflatten()
                 val savedDcs = DataCollectionStepGetQuery(
                     identifier = command.identifier,
                     certificationId = null
@@ -45,7 +46,7 @@ class DcsDefineF2Steps: En, VerCucumberStepsDefinition() {
         }
     }
 
-    private fun checkSavedRequirements(scenario: String, requirement: RequirementDTOBase?) {
+    private fun checkSavedRequirements(scenario: String, requirement: Requirement?) {
         Expect.of(context.snapshotVerifier, ::checkSavedRequirements.javaMethod)
             .scenario(scenario)
             .toMatchSnapshot(requirement)

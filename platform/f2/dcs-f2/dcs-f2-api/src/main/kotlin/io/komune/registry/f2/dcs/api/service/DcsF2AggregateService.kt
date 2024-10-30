@@ -1,7 +1,7 @@
 package io.komune.registry.f2.dcs.api.service
 
-import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.certification.command.CertificationFillValuesCommand
 import io.komune.registry.f2.dcs.api.converter.DcsToCccevConverter
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefinedEvent
@@ -27,6 +27,7 @@ class DcsF2AggregateService(
             properties = command.properties,
         )
         val cccev = DcsToCccevConverter.convert(dcs)
+
         cccevClient.graphClient.save(flowOf(cccev)).collect()
 
         return DataCollectionStepDefinedEvent(dcs.identifier)

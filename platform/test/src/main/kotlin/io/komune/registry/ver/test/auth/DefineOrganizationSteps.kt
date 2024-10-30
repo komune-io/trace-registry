@@ -43,7 +43,7 @@ class DefineOrganizationSteps: En, VerCucumberStepsDefinition() {
     private fun defineOrganizationParams(entry: Map<String, String>) =
         DefineOrganizationParams(
             identifier = entry["identifier"] ?: UUID.randomUUID().toString(),
-            roles = entry.extractList("roles").orEmpty()
+            roles = entry.extractList<String>("roles").orEmpty()
         )
 
     private data class DefineOrganizationParams(

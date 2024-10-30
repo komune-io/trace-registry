@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dcs.domain.query
 
-import cccev.core.certification.model.CertificationId
-import cccev.s2.concept.domain.InformationConceptIdentifier
-import cccev.s2.requirement.domain.RequirementIdentifier
+import cccev.dsl.model.CertificationId
+import cccev.dsl.model.InformationConceptIdentifier
+import cccev.dsl.model.RequirementIdentifier
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStepDTO
 import f2.dsl.fnc.F2Function

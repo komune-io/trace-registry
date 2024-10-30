@@ -1,6 +1,6 @@
 package io.komune.registry.script.init.actor
 
-import io.komune.im.apikey.client.ApiKeyClient
+import f2.dsl.fnc.invoke
 import io.komune.im.apikey.domain.command.ApiKeyOrganizationAddKeyCommand
 import io.komune.im.commons.auth.ImRole
 import io.komune.im.f2.organization.client.OrganizationClient
@@ -8,14 +8,17 @@ import io.komune.im.f2.organization.domain.command.OrganizationCreateCommand
 import io.komune.im.f2.organization.domain.model.OrganizationStatus
 import io.komune.im.f2.organization.domain.query.OrganizationGetQuery
 import f2.dsl.fnc.invokeWith
+import io.komune.im.f2.apikey.client.ApiKeyClient
+import io.komune.im.f2.apikey.client.apiKeyClient
+import io.komune.im.f2.organization.client.organizationClient
 import java.util.UUID
 
 class ActorBuilder(private val imUrl: String, private val authUrl: String,  orchestrator: Actor){
 
-    val organizationClient = OrganizationClient(imUrl) {
+    val organizationClient = organizationClient(imUrl) {
         orchestrator.accessToken.access_token
     }
-    val apikeyClient = ApiKeyClient(imUrl) {
+    val apikeyClient = apiKeyClient(imUrl) {
         orchestrator.accessToken.access_token
     }
 
@@ -24,22 +27,20 @@ class ActorBuilder(private val imUrl: String, private val authUrl: String,  orch
         name: String? =  null
     ): Actor {
 
-        val projectManagerCreated = organizationClient.organizationCreate(listOf(
+        val projectManagerCreated = organizationClient.organizationCreate().invoke(
             OrganizationCreateCommand(
                 name = "${name ?: type.name}-${UUID.randomUUID()}",
                 roles = type.organizationRoles,
                 status = OrganizationStatus.VALIDATED.name
             )
-        )).first()
+        )
 
 
-        val projectManager = organizationClient.organizationGet(
-            listOf(
+        val projectManager = organizationClient.organizationGet().invoke(
                 OrganizationGetQuery(
                     id = projectManagerCreated.id,
                 )
-            )
-        ).first()
+        )
 
         val projectManagerKey = ApiKeyOrganizationAddKeyCommand(
             organizationId = projectManagerCreated.id,

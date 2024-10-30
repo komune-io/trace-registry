@@ -1,13 +1,13 @@
 package io.komune.registry.f2.activity.api.model
 
-import cccev.f2.commons.CertificationFlatGraph
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
+import cccev.dsl.model.Certification
+import cccev.dsl.model.InformationConcept
 import io.komune.registry.f2.activity.domain.model.ActivityStep
 import io.komune.registry.infra.fs.FsService
 
-suspend fun InformationConceptDTOBase.toStep(
-    certification: CertificationFlatGraph?,
-//    fsService: FsService
+suspend fun InformationConcept.toStep(
+    certification: Certification?,
+    fsService: FsService
 ): ActivityStep {
     // TODO wait until evidences are reimplemented in cccev
 //    val evidences = certification?.evidences?.get(id).orEmpty().mapNotNull { evidence ->
@@ -16,9 +16,9 @@ suspend fun InformationConceptDTOBase.toStep(
 //            file?.metadata?.get(ActivityStepEvidenceFulfillCommandDTOBase::isPublic.name.lowercase()).toBoolean()
 //        }
 //    }
-    val value = certification?.supportedValues
-        ?.values
-        ?.firstOrNull { it.conceptIdentifier == identifier }
+    val value = certification?.requirementCertifications
+        ?.flatMap { it.values }
+        ?.firstOrNull { it.providesValueFor == identifier }
         ?.value
 
     return ActivityStep(

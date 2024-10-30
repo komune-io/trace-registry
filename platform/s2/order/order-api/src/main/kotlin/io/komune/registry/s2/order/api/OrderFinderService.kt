@@ -1,5 +1,10 @@
 package io.komune.registry.s2.order.api
 
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
+import f2.spring.exception.NotFoundException
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.order.api.entity.OrderRepository
@@ -9,11 +14,6 @@ import io.komune.registry.s2.order.domain.OrderFinder
 import io.komune.registry.s2.order.domain.OrderId
 import io.komune.registry.s2.order.domain.OrderState
 import io.komune.registry.s2.order.domain.model.Order
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.map
-import f2.spring.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service

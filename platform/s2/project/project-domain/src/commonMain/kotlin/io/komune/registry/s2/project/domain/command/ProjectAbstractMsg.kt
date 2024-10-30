@@ -1,6 +1,6 @@
 package io.komune.registry.s2.project.domain.command
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.domain.model.ActivityIdentifier
 import io.komune.registry.s2.project.domain.model.DateTime

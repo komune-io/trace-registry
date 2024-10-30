@@ -1,10 +1,6 @@
 package io.komune.registry.f2.dcs.domain.model
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
-import io.komune.registry.f2.dcs.domain.model.DataCondition
-import io.komune.registry.f2.dcs.domain.model.DataConditionDTO
-import io.komune.registry.f2.dcs.domain.model.DataFieldOption
-import io.komune.registry.f2.dcs.domain.model.DataFieldOptionDTO
+import cccev.dsl.model.InformationConceptIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 

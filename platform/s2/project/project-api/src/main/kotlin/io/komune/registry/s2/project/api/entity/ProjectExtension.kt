@@ -1,11 +1,11 @@
 package io.komune.registry.s2.project.api.entity
 
+import f2.dsl.cqrs.error.asException
 import io.komune.registry.infra.redis.toGeoLocation
 import io.komune.registry.s2.project.domain.command.ProjectAbstractMsg
 import io.komune.registry.s2.project.domain.error.IllegalSdgError
 import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.Project
-import f2.dsl.cqrs.error.asException
 
 fun ProjectEntity.toProject() = Project(
     id = id,

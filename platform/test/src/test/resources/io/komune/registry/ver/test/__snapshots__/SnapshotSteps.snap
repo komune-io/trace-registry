@@ -220,3 +220,28 @@ SnapshotSteps.checkSavedRequirements[financialDetails]=[
     "validatingConditionDependencies": [ ]
   }
 ]
+
+
+io.komune.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
+  {
+    "label": "Financial details",
+    "sections": [ ]
+  }
+]
+
+
+io.komune.registry.ver.test.SnapshotSteps.checkSavedRequirements[financialDetails]=[
+  {
+    "enablingConditionDependencies": [ ],
+    "hasConcept": [ ],
+    "hasEvidenceTypeList": [ ],
+    "hasRequirement": [ ],
+    "isDerivedFrom": [ ],
+    "isRequirementOf": [ ],
+    "name": "Financial details",
+    "required": true,
+    "type": "DataCollectionStep",
+    "validatingConditionDependencies": [ ],
+    "kind": "CRITERION"
+  }
+]

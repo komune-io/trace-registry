@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dcs.api.converter
 
-import cccev.f2.requirement.domain.model.RequirementDTOBase
-import cccev.f2.unit.domain.model.DataUnitOption
-import cccev.s2.requirement.domain.model.RequirementKind
+import cccev.dsl.model.DataUnitOption
+import cccev.dsl.model.Requirement
+import cccev.f2.requirement.model.RequirementKind
 import io.komune.registry.f2.dcs.api.model.DcsCode
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.model.DataCondition
@@ -12,8 +12,8 @@ import io.komune.registry.f2.dcs.domain.model.DataFieldOption
 import io.komune.registry.f2.dcs.domain.model.DataSection
 
 object CccevToDcsConverter {
-    fun convert(cccev: RequirementDTOBase): DataCollectionStep {
-        if (cccev.type != DcsCode.DataCollectionStep.toString()) {
+    fun convert(cccev: Requirement): DataCollectionStep {
+        if (cccev.type.toString() != DcsCode.DataCollectionStep.toString()) {
             throw IllegalArgumentException("Root requirement must be of type DataCollectionStep")
         }
 
@@ -23,33 +23,33 @@ object CccevToDcsConverter {
             description = cccev.description,
             properties = cccev.properties,
             sections = cccev.hasRequirement
-                .filter { it.type == DcsCode.Section.toString() }
-                .map(CccevToDcsConverter::convertSection)
+                ?.filter { it.type.toString() == DcsCode.Section.toString() }
+                ?.map(CccevToDcsConverter::convertSection) ?: emptyList()
         )
     }
 
-    private fun convertSection(section: RequirementDTOBase): DataSection {
+    private fun convertSection(section: Requirement): DataSection {
         return DataSection(
             identifier = section.identifier.orEmpty(),
             label = section.name.orEmpty(),
             description = section.description,
             properties = section.properties,
-            fields = section.hasRequirement.filter { it.kind == RequirementKind.INFORMATION.name }.map(
+            fields = section.hasRequirement?.filter { it.kind == RequirementKind.INFORMATION.name }?.map(
                 CccevToDcsConverter::convertField
-            )
+            ) ?: emptyList()
         )
     }
 
-    private fun convertField(fieldRequirement: RequirementDTOBase): DataField {
-        val concept = fieldRequirement.hasConcept.first()
-        val unit = concept.unit
-            ?: throw IllegalArgumentException("Concept ${concept.identifier} must have a data unit")
-
-        val conditions = buildList(fieldRequirement.hasRequirement.size + 1) {
+    private fun convertField(fieldRequirement: Requirement): DataField {
+        val concept = fieldRequirement.hasConcept?.first()
+        val unit = concept?.unit
+            ?: throw IllegalArgumentException("Concept ${concept?.identifier} must have a data unit")
+        val hasRequirement = fieldRequirement.hasRequirement ?: emptyList()
+        val conditions = buildList(hasRequirement.size + 1) {
             extractDisplayCondition(fieldRequirement)
                 ?.let { add(it) }
 
-            fieldRequirement.hasRequirement
+            hasRequirement
                 .filter { it.kind == RequirementKind.CONSTRAINT.name }
                 .forEach { add(convertValidator(it)) }
         }
@@ -60,7 +60,7 @@ object CccevToDcsConverter {
             properties = fieldRequirement.properties,
             options = unit.options?.map(CccevToDcsConverter::convertFieldOption),
             type = fieldRequirement.properties?.get(RequirementPropertyKeys.FIELD_TYPE)!!,
-            dataType = unit.type,
+            dataType = unit.type.toString(),
             required = fieldRequirement.required,
             conditions = conditions
         )
@@ -73,23 +73,23 @@ object CccevToDcsConverter {
         color = option.color
     )
 
-    private fun extractDisplayCondition(field: RequirementDTOBase): DataCondition? {
+    private fun extractDisplayCondition(field: Requirement): DataCondition? {
         return field.enablingCondition?.let {
             DataCondition(
                 identifier = field.identifier.orEmpty(),
                 type = DataConditionTypeValues.display(),
                 expression = field.enablingCondition!!,
-                dependencies = field.enablingConditionDependencies.map { it.identifier!! },
+                dependencies = field.enablingConditionDependencies,
                 error = null
             )
         }
     }
 
-    private fun convertValidator(constraint: RequirementDTOBase) = DataCondition(
+    private fun convertValidator(constraint: Requirement) = DataCondition(
         identifier = constraint.identifier.orEmpty(),
         type = DataConditionTypeValues.validator(),
         expression = constraint.validatingCondition!!,
-        dependencies = constraint.validatingConditionDependencies.map { it.identifier!! },
+        dependencies = constraint.validatingConditionDependencies,
         error = constraint.description
     )
 }

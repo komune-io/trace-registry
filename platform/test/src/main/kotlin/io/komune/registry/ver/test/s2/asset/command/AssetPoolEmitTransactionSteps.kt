@@ -6,7 +6,6 @@ import io.komune.registry.s2.asset.api.entity.transaction.AssetTransactionReposi
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.ver.test.s2.asset.data.assetPool
-import io.komune.registry.ver.test.s2.asset.data.extractTransactionType
 import io.komune.registry.ver.test.s2.asset.data.transaction
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -18,6 +17,8 @@ import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
+import s2.bdd.data.parser.extract
+import s2.bdd.data.parser.extractList
 import s2.bdd.data.parser.safeExtract
 
 class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
@@ -138,7 +139,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         to = entry?.get("to"),
         by = entry?.get("by").orRandom(),
         quantity = (entry?.get("quantity")?.toDouble() ?: 666.0).toBigDecimal(),
-        type = entry?.extractTransactionType("type") ?: AssetTransactionType.ISSUED,
+        type = entry?.extract<AssetTransactionType>("type") ?: AssetTransactionType.ISSUED,
     )
 
     private data class AssetPoolEmitTransactionParams(
@@ -158,7 +159,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
         to = entry["to"],
         by = entry["by"],
         quantity = entry["quantity"]?.toDouble()?.toBigDecimal(),
-        type = entry.extractTransactionType("type"),
+        type = entry.extract<AssetTransactionType>("type")
     )
 
     private data class TransactionAssertParams(
@@ -174,7 +175,7 @@ class AssetPoolEmitTransactionSteps: En, VerCucumberStepsDefinition() {
     private fun walletAssertParams(entry: Map<String, String>) = WalletAssertParams(
         identifier = entry["identifier"] ?: context.assetPoolIds.lastUsedKey,
         owner = entry.safeExtract("owner"),
-        value = entry.safeExtract("value").toDouble().toBigDecimal()
+        value = entry.safeExtract<BigDecimal>("value")
     )
 
     private data class WalletAssertParams(

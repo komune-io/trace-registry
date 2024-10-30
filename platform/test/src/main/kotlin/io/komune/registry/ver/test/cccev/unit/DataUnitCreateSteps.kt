@@ -1,8 +1,8 @@
 package io.komune.registry.ver.test.cccev.unit
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.unit.domain.command.DataUnitCreateCommandDTOBase
-import cccev.s2.unit.domain.model.DataUnitType
+import cccev.dsl.model.DataUnitType
+import cccev.f2.unit.command.DataUnitCreateCommand
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -15,7 +15,7 @@ class DataUnitCreateSteps: En, VerCucumberStepsDefinition() {
     @Autowired
     private lateinit var cccevClient: CCCEVClient
 
-    private lateinit var command: DataUnitCreateCommandDTOBase
+    private lateinit var command: DataUnitCreateCommand
 
     init {
         DataTableType(::dataUnitCreateParams)
@@ -53,13 +53,13 @@ class DataUnitCreateSteps: En, VerCucumberStepsDefinition() {
     }
 
     private suspend fun createUnit(params: DataUnitCreateParams) = context.cccevUnitIds.register(params.identifier) {
-        command = DataUnitCreateCommandDTOBase(
+        command = DataUnitCreateCommand(
             identifier = params.identifier,
             name = params.name,
             description = "",
             notation = params.notation,
-            type = params.type.name,
-            options = null
+            type = params.type,
+            options = emptyList()
         )
         command.invokeWith(cccevClient.dataUnitClient.dataUnitCreate()).id
     }

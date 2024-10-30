@@ -1,8 +1,6 @@
 package io.komune.registry.f2.dcs.domain.model
 
-import cccev.s2.requirement.domain.RequirementIdentifier
-import io.komune.registry.f2.dcs.domain.model.DataField
-import io.komune.registry.f2.dcs.domain.model.DataFieldDTO
+import cccev.dsl.model.RequirementIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 

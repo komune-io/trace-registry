@@ -1,6 +1,6 @@
 package io.komune.registry.f2.dcs.api.validator
 
-import cccev.f2.unit.domain.model.DataUnitTypeValues
+import cccev.f2.unit.model.DataUnitTypeValues
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.model.DataCondition
 import io.komune.registry.f2.dcs.domain.model.DataConditionTypeValues

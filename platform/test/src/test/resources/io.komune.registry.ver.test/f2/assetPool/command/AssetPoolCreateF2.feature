@@ -2,6 +2,15 @@ Feature: AssetPoolCreateF2
 
   Background:
     Given A data unit is created in cccev
+    Given An organization is defined:
+      | roles           |
+      | tr_orchestrator_user |
+    And A user is defined:
+      | identifier |
+      | orch       |
+    And I am authenticated as:
+      | identifier |
+      | orch       |
 
   Scenario: I want to create an asset pool via API
     Given A concept is created in cccev:

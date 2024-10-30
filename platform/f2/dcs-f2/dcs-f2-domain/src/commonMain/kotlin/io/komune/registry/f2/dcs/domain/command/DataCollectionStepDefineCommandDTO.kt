@@ -1,6 +1,6 @@
 package io.komune.registry.f2.dcs.domain.command
 
-import cccev.s2.requirement.domain.RequirementIdentifier
+import cccev.dsl.model.RequirementIdentifier
 import io.komune.registry.f2.dcs.domain.model.DataSection
 import io.komune.registry.f2.dcs.domain.model.DataSectionDTO
 import f2.dsl.fnc.F2Function

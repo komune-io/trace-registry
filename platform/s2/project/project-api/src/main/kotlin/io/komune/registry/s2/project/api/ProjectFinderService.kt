@@ -1,5 +1,11 @@
 package io.komune.registry.s2.project.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
 import io.komune.im.commons.model.OrganizationId
 import io.komune.registry.api.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.FieldCriterion
@@ -14,12 +20,6 @@ import io.komune.registry.s2.project.domain.model.Project
 import io.komune.registry.s2.project.domain.model.ProjectCriterionField
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.map
 import org.springframework.stereotype.Service
 
 @Service

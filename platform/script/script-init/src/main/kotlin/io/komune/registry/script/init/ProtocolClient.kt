@@ -35,7 +35,7 @@ suspend fun initRequirement(url: String) {
             level = LogLevel.ALL
         }
     }
-    client.graphClient.create(
+    client.graphClient.save(
         buildList<Requirement> {
             add(ActivitiesAxess)
             addAll(EligibilityRequirements)
@@ -56,7 +56,7 @@ suspend fun initIndicatorsCarbon(url: String) {
         }
         install(Logging)
     }
-    client.graphClient.create(
+    client.graphClient.save(
         buildList<Requirement> {
             add(IndicatorsCarbon)
         }.asFlow()

@@ -1,9 +1,10 @@
 package io.komune.registry.f2.asset.pool.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.client.model.unflatten
+import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.InformationConceptIdentifier
+import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.asset.pool.api.model.toDTO
 import io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTOBase
@@ -23,6 +24,7 @@ class AssetPoolF2FinderService(
     private val assetPoolFinderService: AssetPoolFinderService,
     private val cccevClient: CCCEVClient
 ) {
+
     suspend fun get(id: AssetPoolId): AssetPoolDTOBase {
         return assetPoolFinderService.get(id).toDTO()
     }
@@ -48,11 +50,11 @@ class AssetPoolF2FinderService(
     )
 
     private inner class Cache {
-        val concepts = SimpleCache<InformationConceptIdentifier, InformationConceptDTOBase> { identifier ->
-            InformationConceptGetByIdentifierQueryDTOBase(
+        val concepts = SimpleCache<InformationConceptIdentifier, InformationConcept> { identifier ->
+            InformationConceptGetByIdentifierQuery(
                 identifier = identifier
             ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
-                .item!!
+                .unflatten()
         }
     }
 }

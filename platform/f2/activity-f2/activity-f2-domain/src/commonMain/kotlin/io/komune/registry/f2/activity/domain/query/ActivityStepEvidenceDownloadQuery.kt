@@ -1,6 +1,6 @@
 package io.komune.registry.f2.activity.domain.query
 
-import cccev.core.certification.model.CertificationId
+import cccev.dsl.model.CertificationId
 import cccev.dsl.model.EvidenceId
 import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport

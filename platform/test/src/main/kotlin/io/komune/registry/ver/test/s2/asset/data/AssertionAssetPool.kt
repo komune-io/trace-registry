@@ -1,6 +1,6 @@
 package io.komune.registry.ver.test.s2.asset.data
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolEntity
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolRepository
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId

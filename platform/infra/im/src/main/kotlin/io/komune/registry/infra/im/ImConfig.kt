@@ -1,8 +1,9 @@
 package io.komune.registry.infra.im
 
-import io.komune.im.commons.http.HttpClientBuilderJvm
+import f2.client.domain.AuthRealmClientSecret
 import io.komune.im.f2.organization.client.OrganizationClient
-import kotlinx.serialization.Serializable
+import io.komune.im.f2.organization.client.organizationClient
+import kotlinx.coroutines.runBlocking
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,8 +13,17 @@ import org.springframework.context.annotation.Configuration
 class ImConfig {
 
     @Bean
-    fun organizationClient(
+    fun organizationClientBean(
         properties: ImProperties
-    ) = OrganizationClient(properties.url, HttpClientBuilderJvm) { properties.generateTokenFunction()().access_token }
+    ): OrganizationClient = runBlocking {
+        val auth = AuthRealmClientSecret(
+            serverUrl = properties.auth.url,
+            realmId = properties.auth.realm,
+            redirectUrl = null,
+            clientId = properties.auth.clientId,
+            clientSecret = properties.auth.clientSecret
+        )
 
+        organizationClient(properties.url) { auth }.invoke()
+    }
 }

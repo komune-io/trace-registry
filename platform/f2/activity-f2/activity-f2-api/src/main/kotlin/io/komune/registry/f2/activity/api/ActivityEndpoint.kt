@@ -1,16 +1,14 @@
 package io.komune.registry.f2.activity.api
 
-import cccev.core.certification.command.CertificationFillValuesCommand
 import cccev.dsl.client.CCCEVClient
-import cccev.dsl.client.model.toCertificationFlatGraph
-import cccev.f2.certification.domain.query.CertificationGetQuery
+import cccev.dsl.client.model.unflatten
+import cccev.f2.certification.command.CertificationFillValuesCommand
+import cccev.f2.certification.query.CertificationGetQuery
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
-import io.komune.registry.api.commons.exception.NotFoundException
 import io.komune.registry.f2.activity.api.service.ActivityF2ExecutorService
 import io.komune.registry.f2.activity.api.service.ActivityF2FinderService
 import io.komune.registry.f2.activity.api.service.ActivityPoliciesEnforcer
-import io.komune.registry.f2.activity.api.service.CertificateService
 import io.komune.registry.f2.activity.domain.ActivityApi
 import io.komune.registry.f2.activity.domain.command.ActivityCreateFunction
 import io.komune.registry.f2.activity.domain.command.ActivityCreatedEventDTOBase
@@ -19,14 +17,16 @@ import io.komune.registry.f2.activity.domain.command.ActivityStepCreatedEventDTO
 import io.komune.registry.f2.activity.domain.command.ActivityStepEvidenceFulfillCommandDTOBase
 import io.komune.registry.f2.activity.domain.command.ActivityStepEvidenceFulfilledEventDTOBase
 import io.komune.registry.f2.activity.domain.command.ActivityStepFulfillFunction
-import io.komune.registry.f2.activity.domain.command.ActivityStepFulfilledEventDTOBase
 import io.komune.registry.f2.activity.domain.query.ActivityPageFunction
 import io.komune.registry.f2.activity.domain.query.ActivityStepEvidenceDownloadQuery
 import io.komune.registry.f2.activity.domain.query.ActivityStepPageFunction
-import io.komune.registry.infra.fs.FsService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
+import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.f2.activity.api.service.CertificateService
+import io.komune.registry.f2.activity.domain.command.ActivityStepFulfilledEventDTOBase
+import io.komune.registry.infra.fs.FsService
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -111,7 +111,7 @@ class ActivityEndpoint(
         val certificationGraph = CertificationGetQuery(
             id = cmd.certificationId
         ).invokeWith(cccevClient.certificationClient.certificationGet())
-            .toCertificationFlatGraph()
+            .unflatten()
             ?: throw NotFoundException("Certification with identifier", cmd.certificationId)
 
         val step = activityF2FinderService.getStep(cmd.identifier, certificationGraph)
@@ -119,7 +119,7 @@ class ActivityEndpoint(
 
         val value = step.hasConcept?.let { concept ->
             CertificationFillValuesCommand(
-                id = certificationGraph.certification.id,
+                id = certificationGraph.id,
                 rootRequirementCertificationId = null,
                 values = mapOf(
                     concept.id to cmd.value,
@@ -150,7 +150,7 @@ class ActivityEndpoint(
 
         // TODO wait until evidences are reimplemented in cccev
 //        val part = file?.let {
-//            (CertificationAddEvidenceCommandDTOBase(
+//            (CertificationAddEvidenceCommand(
 //                id = certification.id,
 //                name = file.filename(),
 //                url = null,

@@ -1,6 +1,6 @@
 package io.komune.registry.f2.activity.domain.query
 
-import cccev.core.certification.model.CertificationId
+import cccev.dsl.model.CertificationId
 import io.komune.registry.f2.activity.domain.model.ActivityIdentifier
 import io.komune.registry.f2.activity.domain.model.ActivityStepDTO
 import f2.dsl.cqrs.page.PageDTO

@@ -1,15 +1,15 @@
 package io.komune.registry.f2.activity.api.service
 
-import cccev.core.certification.model.CertificationId
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.commons.CertificationFlatGraph
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
-import cccev.f2.requirement.domain.model.RequirementDTOBase
-import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
-import cccev.f2.requirement.domain.query.RequirementGetQueryDTOBase
-import cccev.f2.requirement.domain.query.RequirementListChildrenByTypeQueryDTOBase
-import cccev.s2.requirement.domain.RequirementId
+import cccev.dsl.client.model.unflatten
+import cccev.dsl.model.Certification
+import cccev.dsl.model.CertificationId
+import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.RequirementId
+import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
+import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
+import cccev.f2.requirement.query.RequirementGetQuery
+import cccev.dsl.model.Requirement
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.activity.api.model.toActivities
 import io.komune.registry.f2.activity.api.model.toActivity
@@ -20,10 +20,10 @@ import io.komune.registry.f2.activity.domain.model.ActivityStep
 import io.komune.registry.f2.activity.domain.model.ActivityStepIdentifier
 import io.komune.registry.f2.activity.domain.query.ActivityPageResult
 import io.komune.registry.f2.activity.domain.query.ActivityStepPageResult
-import io.komune.registry.infra.fs.FsService
 import io.komune.registry.s2.project.api.ProjectFinderService
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.invokeWith
+import io.komune.registry.infra.fs.FsService
 import org.springframework.stereotype.Service
 
 @Service
@@ -31,16 +31,17 @@ class ActivityF2FinderService(
     private val certificateService: CertificateService,
     private val cccevClient: CCCEVClient,
     private val projectFinderService: ProjectFinderService,
+    private val fsService: FsService,
 ) {
 
     suspend fun get(
         identifier: ActivityIdentifier,
         certificationId: CertificationId?,
     ): Activity? {
-        return RequirementGetByIdentifierQueryDTOBase(identifier)
+        return RequirementGetByIdentifierQuery(identifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-            .item
-            ?.toActivity(certificationId)
+            .unflatten()
+            .toActivity(certificationId)
     }
 
     suspend fun page(
@@ -50,15 +51,16 @@ class ActivityF2FinderService(
         val cache = Cache()
 
         val project = projectFinderService.get(projectId)
-        val requirements = project.activities?.let { identifiers ->
-            RequirementListChildrenByTypeQueryDTOBase(
-                identifiers = identifiers,
-                type = "Activity"
-            ).invokeWith(cccevClient.requirementClient.requirementListChildrenByType())
-        }?.items
+
+        val requirements = project.activities?.map { identifier ->
+            RequirementGetByIdentifierQuery(
+                identifier = identifier
+            ).invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
+                .unflatten()
+        }
             ?.onEach { requirement ->
                 cache.requirements.register(requirement.id, requirement)
-                requirement.hasRequirement.forEach {
+                requirement.hasRequirement?.forEach {
                     cache.requirements.register(it.id, it)
                 }
             }
@@ -76,12 +78,12 @@ class ActivityF2FinderService(
 
     suspend fun getStep(
         identifier: ActivityStepIdentifier,
-        certification: CertificationFlatGraph?,
+        certification: Certification?,
     ): ActivityStep? {
-        return InformationConceptGetByIdentifierQueryDTOBase(identifier)
+        return InformationConceptGetByIdentifierQuery(identifier)
             .invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
-            .item
-            ?.toStep(certification)
+            .unflatten()
+            .toStep(certification, fsService)
     }
 
 
@@ -90,10 +92,10 @@ class ActivityF2FinderService(
         certificationId: CertificationId,
         activityIdentifier: ActivityIdentifier
     ): ActivityStepPageResult {
-        val requirement = RequirementGetByIdentifierQueryDTOBase(activityIdentifier)
+        val requirement = RequirementGetByIdentifierQuery(activityIdentifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-        val steps = requirement.item
-            ?.hasConcept
+        val steps = requirement.unflatten()
+            .hasConcept
             ?.toSteps(certificationId)
             .orEmpty()
 
@@ -103,7 +105,7 @@ class ActivityF2FinderService(
         )
     }
 
-    private suspend fun Collection<RequirementDTOBase>.toActivities(
+    private suspend fun Collection<Requirement>.toActivities(
         certificationId: CertificationId?,
         cache: Cache = Cache()
     ): List<Activity> {
@@ -113,7 +115,7 @@ class ActivityF2FinderService(
             getRequirement = cache.requirements::get
         )
     }
-    private suspend fun RequirementDTOBase.toActivity(
+    private suspend fun Requirement.toActivity(
         certificationId: CertificationId?,
         cache: Cache = Cache()
     ): Activity {
@@ -124,21 +126,21 @@ class ActivityF2FinderService(
         )
     }
 
-    private suspend fun Collection<InformationConceptDTOBase>.toSteps(
+    private suspend fun Collection<InformationConcept>.toSteps(
         certificationId: CertificationId
     ): List<ActivityStep> {
-        val certification = certificateService.getGraphOrNull(certificationId)
+        val certification = certificateService.get(certificationId)
         return map { concept ->
-            concept.toStep(certification)
+            concept.toStep(certification, fsService)
         }.sortedBy { it.identifier }
     }
 
 
     private inner class Cache {
-        val requirements = SimpleCache<RequirementId, RequirementDTOBase> { requirementId ->
-            RequirementGetQueryDTOBase(requirementId)
+        val requirements = SimpleCache<RequirementId, Requirement> { requirementId ->
+            RequirementGetQuery(requirementId)
                 .invokeWith(cccevClient.requirementClient.requirementGet())
-                .item!!
+                .unflatten()
         }
     }
 }

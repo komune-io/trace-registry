@@ -1,6 +1,6 @@
 package io.komune.registry.ver.test.s2.project.command
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.api.ProjectAggregateService
 import io.komune.registry.s2.project.api.entity.ProjectRepository
@@ -140,9 +140,9 @@ class ProjectUpdateSteps: En, VerCucumberStepsDefinition() {
         vvb = null, //entry?.get("vvb")?.toOrganizationRef(),
         assessor = null, //entry?.get("assessor")?.toOrganizationRef(),
         location = null, //entry?.get("location")?.toGeoLocation(),
-        activities = entry?.extractList("activities").orEmpty(),
+        activities = entry?.extractList<ActivityIdentifier>("activities").orEmpty(),
         subContinent = entry?.get("subContinent")?.orRandom(),
-        sdgs = entry?.extractList("sdgs")?.map { it.toInt() }.orEmpty(),
+        sdgs = entry?.extractList<ActivityIdentifier>("sdgs")?.map { it.toInt() }.orEmpty(),
     )
 
     private data class ProjectUpdateParams(

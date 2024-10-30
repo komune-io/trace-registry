@@ -149,10 +149,10 @@ class ProjectCreateSteps: En, VerCucumberStepsDefinition() {
             vvb = null, //entry?.get("vvb")?.toOrganizationRef(),
             assessor = null, //entry?.get("assessor")?.toOrganizationRef(),
             location = null, //entry?.get("location")?.toGeoLocation(),
-            activities = entry?.extractList("activities").orEmpty(),
+            activities = entry?.extractList<TestContextKey>("activities").orEmpty(),
             subContinent = entry?.get("subContinent")?.orRandom(),
-            sdgs = entry?.extractList("sdgs")?.map { it.toInt() }.orEmpty(),
-            isPrivate = entry?.get("isPrivate")?.toBoolean(),
+            sdgs = entry?.extractList<SdgNumber>("sdgs")?.map { it.toInt() }.orEmpty(),
+            isPrivate = entry?.get("isPrivate")?.toBoolean() ?: false,
         )
 
     private data class ProjectCreateParams(

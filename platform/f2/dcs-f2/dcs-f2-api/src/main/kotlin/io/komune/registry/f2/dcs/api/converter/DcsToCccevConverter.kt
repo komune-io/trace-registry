@@ -12,7 +12,7 @@ import cccev.dsl.model.builder.informationConcept
 import cccev.dsl.model.constraint
 import cccev.dsl.model.criterion
 import cccev.dsl.model.informationRequirement
-import cccev.f2.unit.domain.model.DataUnitTypeValues
+import cccev.f2.unit.model.DataUnitTypeValues
 import io.komune.registry.f2.dcs.api.model.DcsCode
 import io.komune.registry.f2.dcs.api.validator.DcsValidator
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
@@ -30,7 +30,7 @@ object DcsToCccevConverter {
             identifier = dcs.identifier
             name = dcs.label
             description = dcs.description
-            type = DcsCode.DataCollectionStep
+            type = DcsCode.DataCollectionStep.toString()
             properties = dcs.properties
             hasRequirement {
                 dcs.sections.forEachIndexed { i, section ->
@@ -45,7 +45,7 @@ object DcsToCccevConverter {
             identifier = section.identifier
             name = section.label
             description = section.description
-            type = DcsCode.Section
+            type = DcsCode.Section.toString()
             order = position
             properties = section.properties
             hasRequirement {
@@ -113,17 +113,17 @@ object DcsToCccevConverter {
     }
 
     private fun typeToGenericUnit(type: String) = when (unitType(type)) {
-        DataUnitType.boolean -> XSDBoolean
-        DataUnitType.date -> XSDDate
-        DataUnitType.number -> XSDDouble
-        DataUnitType.string -> XSDString
+        DataUnitType.BOOLEAN -> XSDBoolean
+        DataUnitType.DATE -> XSDDate
+        DataUnitType.NUMBER -> XSDDouble
+        DataUnitType.STRING -> XSDString
     }
 
     private fun unitType(type: String) = when (type) {
-        DataUnitTypeValues.boolean() -> DataUnitType.boolean
-        DataUnitTypeValues.date() -> DataUnitType.date
-        DataUnitTypeValues.number() -> DataUnitType.number
-        DataUnitTypeValues.string() -> DataUnitType.string
-        else -> DataUnitType.string
+        DataUnitTypeValues.boolean() -> DataUnitType.BOOLEAN
+        DataUnitTypeValues.date() -> DataUnitType.DATE
+        DataUnitTypeValues.number() -> DataUnitType.NUMBER
+        DataUnitTypeValues.string() -> DataUnitType.STRING
+        else -> DataUnitType.STRING
     }
 }

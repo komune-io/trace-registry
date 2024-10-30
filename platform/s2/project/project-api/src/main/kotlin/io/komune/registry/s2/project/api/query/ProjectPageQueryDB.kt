@@ -1,5 +1,13 @@
 package io.komune.registry.s2.project.api.query
 
+import com.redis.om.spring.metamodel.MetamodelField
+import com.redis.om.spring.metamodel.SearchFieldAccessor
+import com.redis.om.spring.metamodel.indexed.TextField
+import com.redis.om.spring.metamodel.indexed.TextTagField
+import com.redis.om.spring.search.stream.EntityStream
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.infra.redis.PageQueryDB
 import io.komune.registry.infra.redis.criterion
 import io.komune.registry.infra.redis.match
@@ -11,14 +19,6 @@ import io.komune.registry.s2.project.domain.automate.ProjectState
 import io.komune.registry.s2.project.domain.model.ProjectCriterionField
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
-import com.redis.om.spring.metamodel.MetamodelField
-import com.redis.om.spring.metamodel.SearchFieldAccessor
-import com.redis.om.spring.metamodel.indexed.TextField
-import com.redis.om.spring.metamodel.indexed.TextTagField
-import com.redis.om.spring.search.stream.EntityStream
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -28,11 +28,11 @@ class ProjectPageQueryDB(
 
     companion object {
         private val FIELD_PROPONENT_NAME = TextField<ProjectEntity, String>(
-            SearchFieldAccessor("proponent_name", ProjectEntity::class.java.getDeclaredField("proponent")),
+            SearchFieldAccessor("proponent_name", "$.proponent.name",ProjectEntity::class.java.getDeclaredField("proponent")),
             true
         )
         private val FIELD_PROPONENT_ID = TextTagField<ProjectEntity, String>(
-            SearchFieldAccessor("proponent_id", ProjectEntity::class.java.getDeclaredField("proponent")),
+            SearchFieldAccessor("proponent_id","$.proponent.id", ProjectEntity::class.java.getDeclaredField("proponent")),
             true
         )
     }
