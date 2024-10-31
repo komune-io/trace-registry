@@ -10,13 +10,31 @@ import io.komune.registry.f2.asset.order.domain.command.AssetOrderUpdateFunction
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderGetFunction
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageFunction
 import f2.client.F2Client
+import f2.client.domain.AuthRealm
 import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect fun F2Client.assetClient(): F2SupplierSingle<AssetClient>
-expect fun assetClient(urlBase: String, accessToken: String): F2SupplierSingle<AssetClient>
+fun F2Client.assetClient(): F2SupplierSingle<AssetClient> = f2SupplierSingle {
+    AssetClient(this)
+}
+
+fun assetClient(
+    urlBase: String,
+    getAuth: suspend () -> AuthRealm,
+): F2SupplierSingle<AssetClient> = f2SupplierSingle {
+    AssetClient(
+        F2ClientBuilder.get(urlBase) {
+            install(F2Auth) {
+                this.getAuth = getAuth
+            }
+        }
+    )
+}
 
 @JsName("AssetClient")
 @JsExport

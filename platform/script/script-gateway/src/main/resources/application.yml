@@ -8,7 +8,8 @@ registry:
       delayMillis: 10000
     init:
       auth:
-        url: https://auth.dev.connect.komune.io/realms/sb-dev
+        realmId: sb-dev
+        url: https://auth.dev.connect.komune.io
       im:
         url: http://dev.connect.komune.io/im
       cccev:

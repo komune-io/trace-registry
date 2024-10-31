@@ -7,7 +7,7 @@ object Methodology {
     val VM0011 = informationRequirement {
         identifier = "VM0011"
         name = "VM0011"
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
         isDerivedFrom {
             +ReferenceFramework.Verra
             +ReferenceFramework.REDDPlus

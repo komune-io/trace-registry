@@ -8,7 +8,10 @@ fun main() = runBlocking {
 //    val cccev = "https://dev.trace.komune.io/cccev"
 //    val registry = "https://dev.trace.komune.io/ver"
     val properties = RegistryScriptInitProperties(
-        auth = ServiceProperties("https://auth.dev.connect.komune.io/realms/sb-dev"),
+        auth = AuthProperties(
+            url = "https://auth.dev.connect.komune.io",
+            realmId = "sb-dev"
+        ),
         im = ServiceProperties("https://dev.connect.komune.io/im"),
         cccev = ServiceProperties(cccev),
         registry = ServiceProperties(registry),

@@ -4,6 +4,7 @@ import io.komune.registry.f2.asset.pool.client.assetPoolClient
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.script.init.actor.Actor
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import f2.client.domain.AuthRealm
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
 import io.komune.registry.f2.asset.pool.domain.command.AssetOffsetCommandDTOBase
@@ -12,9 +13,9 @@ import io.komune.registry.f2.asset.pool.domain.command.AssetTransferCommandDTOBa
 import java.util.UUID
 import net.datafaker.Faker
 
-class AssetFactory(url: String, accessToken: String) {
+class AssetFactory(url: String, authRealm: AuthRealm) {
     val faker = Faker()
-    val assetPoolClient = assetPoolClient(url, accessToken)
+    val assetPoolClient = assetPoolClient(url, { authRealm })
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
     val subContinents = listOf("South Asia",
@@ -39,10 +40,10 @@ suspend fun createAssetPool(
     offsetter: Actor,
 ): AssetPoolId {
 
-    val helperOrchestrator = AssetFactory(verUrl, orchestrator.accessToken.access_token)
-//    val helperProjectManager = AssetFactory(verUrl, projectManager.accessToken.access_token)
-    val helperIssuer = AssetFactory(verUrl, issuer.accessToken.access_token)
-    val helperOffseter = AssetFactory(verUrl, offsetter.accessToken.access_token)
+    val helperOrchestrator = AssetFactory(verUrl, orchestrator.authRealm)
+//    val helperProjectManager = AssetFactory(verUrl, projectManager.authRealm)
+    val helperIssuer = AssetFactory(verUrl, issuer.authRealm)
+    val helperOffseter = AssetFactory(verUrl, offsetter.authRealm)
 
     val assetPoolClient = helperOrchestrator.assetPoolClient.invoke()
     val assetClientIssuer = helperIssuer.assetPoolClient.invoke()

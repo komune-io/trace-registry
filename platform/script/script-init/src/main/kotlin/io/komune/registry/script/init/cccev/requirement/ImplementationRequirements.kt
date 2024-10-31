@@ -22,7 +22,7 @@ fun implementationActivity(init: InformationRequirementBuilder.() -> Unit) =
         isDerivedFrom {
             +ReferenceFramework.AxessImpact
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 
 

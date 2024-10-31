@@ -1,5 +1,6 @@
 package io.komune.registry.script.init.project
 
+import f2.client.domain.AuthRealm
 import io.komune.registry.f2.activity.client.ActivityClient
 import io.komune.registry.f2.activity.client.activityClient
 import io.komune.registry.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
@@ -22,10 +23,10 @@ import net.datafaker.Faker
 import net.datafaker.providers.base.Address
 import java.util.concurrent.TimeUnit
 
-class ProjectFactory(url: String, accessToken: String) {
+class ProjectFactory(url: String, authRealm: AuthRealm) {
     val faker = Faker()
-    val activityClient = activityClient(url, accessToken)
-    val projectClient = projectClient(url, accessToken)
+    val activityClient = activityClient(url, { authRealm })
+    val projectClient = projectClient(url, { authRealm })
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
     val subContinents = listOf("South Asia",
@@ -45,7 +46,7 @@ class ProjectFactory(url: String, accessToken: String) {
 fun createRandomProject(
     url: String, accessToken: Actor, countRange: IntRange = 1..2
 ): List<ProjectId> = runBlocking {
-    val helper = ProjectFactory(url, accessToken.accessToken.access_token)
+    val helper = ProjectFactory(url, accessToken.authRealm)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
     val faker = helper.faker
@@ -87,7 +88,7 @@ private suspend fun List<ProjectCreateCommand>.createProjects(
 fun addAssetPoolToProject(
     url: String, accessToken: Actor, projectId: ProjectId, assetPoolId: AssetPoolId
 ): Unit = runBlocking {
-    val helper = ProjectFactory(url, accessToken.accessToken.access_token)
+    val helper = ProjectFactory(url, accessToken.authRealm)
     val projectClient = helper.projectClient.invoke()
     projectClient.projectAddAssetPool().invoke(flowOf(
         ProjectAddAssetPoolCommand(id = projectId, poolId = assetPoolId)

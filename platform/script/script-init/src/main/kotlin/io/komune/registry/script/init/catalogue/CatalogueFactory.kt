@@ -1,6 +1,7 @@
 package io.komune.registry.script.init.catalogue
 
 import cccev.dsl.client.DCatGraphClient
+import f2.client.domain.AuthRealm
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
@@ -17,18 +18,18 @@ import net.datafaker.Faker
 
 class CatalogueFactory(
     private val url: String,
-    private val accessToken: String
+    private val authRealm: AuthRealm
 ) {
     val faker = Faker()
-    val catalogueClient = catalogueClient(url, accessToken)
-    val datasetsClient = datasetClient(url, accessToken)
+    val catalogueClient = catalogueClient(url, { authRealm })
+    val datasetsClient = datasetClient(url, { authRealm })
     val dcatGraphClient = DCatGraphClient(catalogueClient, datasetsClient)
 }
 
 fun createRandomCatalogue(
-    url: String, accessToken: Actor, countRange: IntRange = 1..2
+    url: String, actor: Actor, countRange: IntRange = 1..2
 ): List<CatalogueId> = runBlocking {
-    val helper = CatalogueFactory(url, accessToken.accessToken.access_token)
+    val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
     val items = flowOf(catalogueStandards(""))

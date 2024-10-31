@@ -1,5 +1,12 @@
 package io.komune.registry.f2.dataset.client
 
+import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
+import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
@@ -9,19 +16,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
-import f2.client.F2Client
-import f2.client.function
-import f2.client.ktor.F2ClientBuilder
-import f2.dsl.fnc.F2SupplierSingle
-import f2.dsl.fnc.f2SupplierSingle
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -30,26 +24,16 @@ fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient> = f2SupplierSingle
 }
 
 
-fun datasetClient(urlBase: String, accessToken: String): F2SupplierSingle<DatasetClient> = f2SupplierSingle {
-    DatasetClient(
-        F2ClientBuilder.get(urlBase) {
-            install(HttpTimeout) {
-                requestTimeoutMillis = 60000
-            }
-            install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.HEADERS
-            }
-            install(Auth) {
-                bearer {
-                    loadTokens {
-                        BearerTokens(accessToken, "")
-                    }
+fun datasetClient(urlBase: String, getAuth: suspend () -> AuthRealm): F2SupplierSingle<DatasetClient> =
+    f2SupplierSingle {
+        DatasetClient(
+            F2ClientBuilder.get(urlBase) {
+                install(F2Auth) {
+                    this.getAuth = getAuth
                 }
             }
-        }
-    )
-}
+        )
+    }
 
 
 @JsExport
