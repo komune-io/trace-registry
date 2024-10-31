@@ -6,13 +6,14 @@ import cccev.dsl.model.EvidenceTypeListBase
 import cccev.dsl.model.InformationRequirement
 import cccev.dsl.model.PartialRequirement
 import cccev.dsl.model.Requirement
+import java.util.UUID
 
 class SecteurApplication(
     vararg requirements: Requirement,
 ): Criterion(
     name = "Secteur d’application",
     description = "Le secteur d'application de la fiche.",
-    type = FicheCode.SecteurActivite,
+    type = FicheCode.SecteurActivite.toString(),
     identifier = "secteurApplication",
     hasRequirement = requirements.asList(),
     enablingCondition = null,
@@ -21,7 +22,18 @@ class SecteurApplication(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasEvidenceTypeList = emptyList(),
+    weightingType = null,
+    hasConcept = emptyList(),
+    bias = null,
+    weight = null,
+    weightingConsiderationDescription = null,
+    id = UUID.randomUUID().toString()
 )
 
 class Denomination(
@@ -30,7 +42,7 @@ class Denomination(
 ): Criterion(
     name = "Dénomination",
     description = description,
-    type = FicheCode.SecteurActivite,
+    type = FicheCode.SecteurActivite.toString(),
     identifier = "denomination",
     hasRequirement = requirements.asList(),
     enablingCondition = null,
@@ -39,7 +51,18 @@ class Denomination(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasEvidenceTypeList = emptyList(),
+    weightingType = null,
+    hasConcept = emptyList(),
+    bias = null,
+    weight = null,
+    weightingConsiderationDescription = null,
+    id = UUID.randomUUID().toString()
 )
 
 class ConditionsDelivranceCertificats(
@@ -47,7 +70,7 @@ class ConditionsDelivranceCertificats(
 ): Criterion(
     name = "Conditions pour la délivrance de certificats",
     description = "La liste des critères à valider",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     identifier = "conditionsDelivranceCertificats",
     hasRequirement = requirements.asList(),
     enablingCondition = null,
@@ -56,7 +79,18 @@ class ConditionsDelivranceCertificats(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    // TODO Clean That
+    properties = null,
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasEvidenceTypeList = emptyList(),
+    weightingType = null,
+    hasConcept = emptyList(),
+    bias = null,
+    weight = null,
+    weightingConsiderationDescription = null,
+    id = UUID.randomUUID().toString()
 )
 
 class DureeVieConventionnelle(
@@ -70,7 +104,7 @@ class DureeVieConventionnelle(
         Par conséquent, les CEE ne peuvent être délivrés à un même bénéficiaire qui renouvelle une opération d'économies d'énergie 
         ayant déjà fait l'objet d'une délivrance de CEE dans les mêmes conditions, durant la durée de vie conventionnelle de l'opération.
     """.trimIndent(),
-    type = FicheCode.DureeVieConventionnelle,
+    type = FicheCode.DureeVieConventionnelle.toString(),
     identifier = "dureeVieConventionnelle",
     minRequirementsToMeet = 1,
     hasRequirement = requirements.asList().plus(
@@ -85,7 +119,10 @@ class DureeVieConventionnelle(
                 EvidenceTypeBase(
                     evidenceTypeClassification = DossierCee,
                     identifier = "dossierCee",
-                    name = "Précédent dossier CEE"
+                    name = "Précédent dossier CEE",
+                    // TODO Clean That
+                    supportConcept = emptyList(),
+
                 )
             )
         )
@@ -96,7 +133,12 @@ class DureeVieConventionnelle(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )
 
 object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
@@ -104,7 +146,7 @@ object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequiremen
             "la même opération et dans les même conditions",
     identifier = "aucunPrecedentDossierPourMemeOperationEtConditions",
     name = "Aucun précédent dossier pour meme operation et conditions",
-    type = FicheCode.DureeVieConventionnelle,
+    type = FicheCode.DureeVieConventionnelle.toString(),
     hasEvidenceTypeList = listOf(
         EvidenceTypeListBase(
             description = "Déclare sur l'honneur ne jamais avoir bénéficié de crédits " +
@@ -115,7 +157,9 @@ object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequiremen
                 EvidenceTypeBase(
                     evidenceTypeClassification = DeclarationHonneur,
                     identifier = "declarationHonneurDureeVieConventionnelle",
-                    name = "Déclaration honneur durée vie conventionnelle"
+                    name = "Déclaration honneur durée vie conventionnelle",
+                    // TODO Clean That
+                    supportConcept = emptyList(),
                 )
             )
         )
@@ -126,7 +170,13 @@ object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequiremen
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )
 
 class MontantCertificatsCumac(
@@ -134,7 +184,7 @@ class MontantCertificatsCumac(
 ): Criterion(
     name = "Montant de certificats en kWh cumac",
     description = "Montant en kWh/W en fonction du nombre de types dispositif de gestion de l'éclairage",
-    type = FicheCode.MontantCertificatsCumac,
+    type = FicheCode.MontantCertificatsCumac.toString(),
     identifier = "montantCertificatsCumac",
     hasRequirement = requirements.asList(),
     enablingCondition = null,
@@ -143,14 +193,20 @@ class MontantCertificatsCumac(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )
 
 object EstProfessionnelInformationRequirement: InformationRequirement(
     description = "La mise en place est réalisée par un professionnel.",
     identifier = "estProfessionnel",
     name = "CertificatProfessionel",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasEvidenceTypeList = listOf(
         CertificatProfessionnel
     ),
@@ -160,5 +216,11 @@ object EstProfessionnelInformationRequirement: InformationRequirement(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )

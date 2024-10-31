@@ -49,6 +49,10 @@ fixers {
 	d2 {
 		outputDirectory = file("storybook/stories/d2/")
 	}
+	sonar {
+		organization = "komune-io"
+		projectKey = "komune-io_trace-registry"
+	}
 	kt2Ts {
 		additionalCleaning = mapOf(
 			".d.ts" to listOf(

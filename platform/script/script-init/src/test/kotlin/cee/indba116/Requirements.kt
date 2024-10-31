@@ -6,12 +6,13 @@ import cccev.dsl.model.InformationRequirement
 import cee.DatePrecedentsTravaux
 import cee.DateTravaux
 import cee.FicheCode
+import java.util.UUID
 
 object EstBatimentIndustriel: Constraint(
     description = "${SecteurActivite.identifier} == Industriel",
     identifier = "BAT-IND",
     name = "Secteur d'application",
-    type = FicheCode.SecteurActivite,
+    type = FicheCode.SecteurActivite.toString(),
     hasConcept = listOf(
         SecteurActivite
     ),
@@ -21,7 +22,12 @@ object EstBatimentIndustriel: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object DenominationTypeUsageNonMouvementOuIntrusion: Constraint(
@@ -31,7 +37,7 @@ object DenominationTypeUsageNonMouvementOuIntrusion: Constraint(
 		Les installations d'éclairage destinées à assurer la protection des biens lorsqu'elles sont asservies à des dispositifs
 		de détection de mouvement ou d'intrusion ne sont pas éligibles. 
 	""".trimIndent(),
-    type = FicheCode.Denomination,
+    type = FicheCode.Denomination.toString(),
     hasConcept = listOf(
         UsageLuminaire
     ),
@@ -41,14 +47,19 @@ object DenominationTypeUsageNonMouvementOuIntrusion: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object DureeDeVie25DegresAvecChuteFluxLumineuxInferieur20Pourcents: Constraint(
     description = "${DureeDeVieLuminaire.identifier} >= 50000 heures",
     identifier = "dureeVie25CEtChuteMax20P",
     name = "Durée de vie calculée à 25°C >= 50 000 heures avec une chute du flux lumineux <= 20%",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasConcept = listOf(
         DureeDeVieLuminaire
     ),
@@ -58,7 +69,12 @@ object DureeDeVie25DegresAvecChuteFluxLumineuxInferieur20Pourcents: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object EfficaciteLumineuseMinimale: Constraint(
@@ -68,7 +84,7 @@ object EfficaciteLumineuseMinimale: Constraint(
 		efficacité lumineuse (flux lumineux total sortant du luminaire divisé par 
 		la puissance totale du luminaire auxiliaire d’alimentation compris) >= 110 lm/W
 	""".trimIndent(),
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasConcept = listOf(
         EfficaciteLumineuse
     ),
@@ -78,14 +94,19 @@ object EfficaciteLumineuseMinimale: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object FacteurPuissanceMinimal: Constraint(
     description = "${FacteurPuissance.identifier} > 0.9",
     identifier = "facteurPuissanceMinimal",
     name = "facteur de puissance > 0,9 quelle que soit la puissance",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasConcept = listOf(
         FacteurPuissance
     ),
@@ -95,7 +116,12 @@ object FacteurPuissanceMinimal: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object TauxDistorsionHarmoniqueValide: Criterion(
@@ -105,7 +131,7 @@ object TauxDistorsionHarmoniqueValide: Criterion(
         conformité à la norme EN 61000-3-2 au niveau harmonique avec un taux de distorsion harmonique sur le 
         courant inférieur à 25 %
     """.trimIndent(),
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasRequirement = listOf(
         TauxDistorsionHarmoniqueMaximal,
         TauxDistorsionHarmoniqueCalculSelonNorme
@@ -116,14 +142,20 @@ object TauxDistorsionHarmoniqueValide: Criterion(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )
 
 object TauxDistorsionHarmoniqueMaximal: Constraint(
     description = "${TauxDistorsionHarmonique.identifier} < 25%",
     identifier = "tauxDistorsionHarmoniqueMaximal",
     name = "taux de distorsion harmonique sur le courant inférieur à 25 %",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasConcept = listOf(
         TauxDistorsionHarmonique
     ),
@@ -133,14 +165,19 @@ object TauxDistorsionHarmoniqueMaximal: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object TauxDistorsionHarmoniqueCalculSelonNorme: Constraint(
     description = "${TauxDistorsionHarmoniqueNormeCalcul.identifier} == EN 61000-3-2",
     identifier = "tauxDistorsionHarmoniqueNorme",
     name = "le taux de distorsion harmonique sur le courant est déterminé conformément à la norme EN 61000-3-2.",
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasConcept = listOf(
         TauxDistorsionHarmoniqueNormeCalcul
     ),
@@ -150,7 +187,12 @@ object TauxDistorsionHarmoniqueCalculSelonNorme: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
@@ -163,7 +205,7 @@ object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
         maîtrise des consommations d’énergie, indique les caractéristiques, le nombre et l’implantation des nouveaux 
         luminaires et dimensionne les économies d’énergie attendues. 
     """.trimIndent(),
-    type = FicheCode.ConditionsDelivranceCertificats,
+    type = FicheCode.ConditionsDelivranceCertificats.toString(),
     hasEvidenceTypeList = listOf(
         EtudeDimensionnementEclairagePrealable
     ),
@@ -173,7 +215,13 @@ object EtudeDimensionnementEclairagePrealableInfo: InformationRequirement(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    hasConcept = emptyList(),
+    id = UUID.randomUUID().toString()
 )
 
 object DatePrecedentsTravauxContrainte: Constraint(
@@ -181,7 +229,7 @@ object DatePrecedentsTravauxContrainte: Constraint(
             ">= ${DureeVieConventionnelleLuminaire.identifier} ans",
     identifier = "datePrecedentsTravaux",
     name = "Date des précédents travaux",
-    type = FicheCode.DureeVieConventionnelle,
+    type = FicheCode.DureeVieConventionnelle.toString(),
     hasConcept = listOf(
         DureeVieConventionnelleLuminaire,
         DateTravaux
@@ -192,14 +240,19 @@ object DatePrecedentsTravauxContrainte: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )
 
 object CalculCertificatsCumac: Constraint(
     description = "${CumacParWatt.identifier} * ${Puissance.identifier} = ${Cumac.identifier}",
     identifier = "calculCertificatsCumac",
     name = "Montant de certificats en kWh cumac",
-    type = FicheCode.MontantCertificatsCumac,
+    type = FicheCode.MontantCertificatsCumac.toString(),
     hasConcept = listOf(
         CumacParWatt,
         Cumac,
@@ -211,5 +264,10 @@ object CalculCertificatsCumac: Constraint(
     validatingCondition = null,
     validatingConditionDependencies = emptyList(),
     order = null,
-    properties = null
+    properties = null,
+    // TODO Clean That
+    isDerivedFrom = emptyList(),
+    isRequirementOf = emptyList(),
+    evidenceValidatingCondition = null,
+    id = UUID.randomUUID().toString()
 )

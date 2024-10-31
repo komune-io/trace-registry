@@ -11,6 +11,7 @@ import io.komune.registry.f2.asset.order.domain.query.AssetOrderGetFunction
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageFunction
 import f2.client.F2Client
 import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
 import f2.client.function
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
@@ -25,7 +26,7 @@ fun F2Client.assetClient(): F2SupplierSingle<AssetClient> = f2SupplierSingle {
 
 fun assetClient(
     urlBase: String,
-    getAuth: suspend () -> AuthRealm,
+    getAuth: AuthRealmProvider,
 ): F2SupplierSingle<AssetClient> = f2SupplierSingle {
     AssetClient(
         F2ClientBuilder.get(urlBase) {
@@ -38,7 +39,7 @@ fun assetClient(
 
 @JsName("AssetClient")
 @JsExport
-open class AssetClient constructor(private val client: F2Client) : AssetOrderApi {
+open class AssetClient(private val client: F2Client) : AssetOrderApi {
     override fun assetOrderGet(): AssetOrderGetFunction = client.function(this::assetOrderGet.name)
     override fun assetOrderPage(): AssetOrderPageFunction = client.function(this::assetOrderPage.name)
     override fun assetOrderPlace(): AssetOrderPlaceFunction = client.function(this::assetOrderPlace.name)

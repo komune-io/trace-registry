@@ -9,7 +9,7 @@ object SquareMeterKelvinPerWatt: DataUnit(
     name = "Mètre carré kelvin par watt",
     description = "Mètre carré kelvin par watt",
     notation = "m²K/W",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )
 
 object KwhCumacPerSquareMeter: DataUnit(
@@ -17,5 +17,5 @@ object KwhCumacPerSquareMeter: DataUnit(
     name = "Killowatt-heure Cumac par mètre carré",
     description = "Killowatt-heure Cumac par mètre carré",
     notation = "kWh Cumac/m²",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )

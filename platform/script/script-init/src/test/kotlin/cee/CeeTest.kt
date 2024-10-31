@@ -65,7 +65,7 @@ class CeeTest {
 
         val url = "https://api.registry.komune.io/cccev"
         val client = CCCEVClient(url)
-        client.graphClient.create(
+        client.graphClient.save(
             flowOf(r)
         ).onEach {
             println("Created requirement: ${it.identifier}")
@@ -142,7 +142,7 @@ class CeeTest {
         							"notation": "m²",
         							"type": "number"
         						},
-        						"description": "Surface du bâtiment, chauffée par les radiateurs nouvellementéquipés de robinets thermostatiques (m²)",
+        						"description": "Surface du bâtiment, chauffée par les radiateurs nouvellementéquipés de robinets thermostatiques (m²)"
         					}
         				]
         			}]

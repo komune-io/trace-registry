@@ -19,7 +19,8 @@ object EtudeDimensionnementEclairagePrealable: EvidenceTypeListBase(
 object EtudeDimensionnementEclairagePrealableDocument: EvidenceTypeBase(
     identifier = "etudeDimensionnementEclairagePrealableDoc",
     name = "Etude préalable dimensionnement éclairage",
-    evidenceTypeClassification = Etude
+    evidenceTypeClassification = Etude,
+    supportConcept = emptyList()
 )
 
 object Annexe1AvecDetailsEquipement: EvidenceTypeListBase(
@@ -41,7 +42,8 @@ object Annexe1AvecDetailsEquipement: EvidenceTypeListBase(
 object Annexe1AvecDetailsEquipementDocument: EvidenceTypeBase(
     identifier = "annexe1DetailleeDoc",
     name = "Annexe 1 avec détails équipements",
-    evidenceTypeClassification = FicheCode.Annexe1
+    evidenceTypeClassification = FicheCode.Annexe1,
+    supportConcept = emptyList()
 )
 
 object Annexe1AvecReferencesEquipement: EvidenceTypeListBase(
@@ -70,11 +72,13 @@ object Annexe1AvecReferencesEquipement: EvidenceTypeListBase(
 object Annexe1AvecReferencesEquipementDocument: EvidenceTypeBase(
     identifier = "annexe1ReferencesDoc",
     name = "Annexe 1 avec références équipements",
-    evidenceTypeClassification = FicheCode.Annexe1
+    evidenceTypeClassification = FicheCode.Annexe1,
+    supportConcept = emptyList()
 )
 
 object Annexe1FicheConstructeur: EvidenceTypeBase(
     identifier = "annexe1References",
     name = "Fiches constructeur",
-    evidenceTypeClassification = FicheCode.Annexe1
+    evidenceTypeClassification = FicheCode.Annexe1,
+    supportConcept = emptyList()
 )

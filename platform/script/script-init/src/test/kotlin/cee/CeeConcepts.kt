@@ -2,13 +2,15 @@ package cee
 
 import cccev.dsl.model.InformationConceptBase
 import cccev.dsl.model.XSDDate
+import java.util.UUID
 
 object DateTravaux: InformationConceptBase(
     identifier = "dateTravaux",
     name = "Date Travaux",
     unit = XSDDate,
     type = FicheCode.ConditionsDelivranceCertificats,
-    description = "Date de travaux"
+    description = "Date de travaux",
+    id = UUID.randomUUID().toString()
 )
 
 object DatePrecedentsTravaux: InformationConceptBase(
@@ -16,7 +18,8 @@ object DatePrecedentsTravaux: InformationConceptBase(
     name = "Date Précédents Travaux",
     unit = XSDDate,
     type = FicheCode.ConditionsDelivranceCertificats,
-    description = "Date des précédents travaux"
+    description = "Date des précédents travaux",
+    id = UUID.randomUUID().toString()
 )
 
 object DateDevis: InformationConceptBase(
@@ -24,5 +27,6 @@ object DateDevis: InformationConceptBase(
     name = "Date Devis",
     unit = XSDDate,
     type = FicheCode.ConditionsDelivranceCertificats,
-    description = "Date de devis"
+    description = "Date de devis",
+    id = UUID.randomUUID().toString()
 )

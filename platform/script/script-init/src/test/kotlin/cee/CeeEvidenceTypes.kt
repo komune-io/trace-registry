@@ -20,5 +20,6 @@ object CertificatCerfa: EvidenceTypeBase(
     evidenceTypeClassification = CerfaCode,
     validityPeriodConstraint = PeriodOfTime(
         duration = "10 ans"
-    )
+    ),
+    supportConcept = emptyList()
 )

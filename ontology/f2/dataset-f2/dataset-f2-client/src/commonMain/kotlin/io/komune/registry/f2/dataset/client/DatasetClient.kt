@@ -2,6 +2,7 @@ package io.komune.registry.f2.dataset.client
 
 import f2.client.F2Client
 import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
 import f2.client.function
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
@@ -24,7 +25,7 @@ fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient> = f2SupplierSingle
 }
 
 
-fun datasetClient(urlBase: String, getAuth: suspend () -> AuthRealm): F2SupplierSingle<DatasetClient> =
+fun datasetClient(urlBase: String, getAuth: AuthRealmProvider): F2SupplierSingle<DatasetClient> =
     f2SupplierSingle {
         DatasetClient(
             F2ClientBuilder.get(urlBase) {

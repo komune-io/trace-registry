@@ -9,5 +9,5 @@ object KWhCumac: DataUnit(
     name = "Kilowatt-Heure CUMAC",
     description = "kilowatt-heures cumulés et actualisés",
     notation = "kWh Cumac",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )

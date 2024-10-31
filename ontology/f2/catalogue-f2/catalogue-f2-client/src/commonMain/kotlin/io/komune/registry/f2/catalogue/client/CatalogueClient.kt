@@ -11,6 +11,7 @@ import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import f2.client.F2Client
 import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
 import f2.client.function
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
@@ -25,7 +26,7 @@ fun F2Client.catalogueClient(): F2SupplierSingle<CatalogueClient> = f2SupplierSi
 
 fun catalogueClient(
     urlBase: String,
-    getAuth: suspend () -> AuthRealm
+    getAuth: AuthRealmProvider
 ): F2SupplierSingle<CatalogueClient> = f2SupplierSingle {
     CatalogueClient(
         F2ClientBuilder.get(urlBase) {

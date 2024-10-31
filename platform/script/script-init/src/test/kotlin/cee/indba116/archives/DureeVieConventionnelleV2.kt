@@ -11,6 +11,7 @@ import cee.DateTravaux
 import cee.DeclarationHonneur
 import cee.DossierCee
 import cee.FicheCode
+import java.util.UUID
 
 object DureeVieConventionnelleV2 {
 
@@ -33,7 +34,7 @@ object DureeVieConventionnelleV2 {
             ayant déjà fait l'objet d'une délivrance de CEE dans les mêmes conditions, 
             durant la durée de vie conventionnelle de l'opération.
         """.trimIndent(),
-        type = FicheCode.DureeVieConventionnelle,
+        type = FicheCode.DureeVieConventionnelle.toString(),
         identifier = "dureeVieConventionnelle",
         minRequirementsToMeet = 1,
         hasRequirement = requirements.asList().plus(
@@ -48,7 +49,8 @@ object DureeVieConventionnelleV2 {
                     EvidenceTypeBase(
                         identifier = "dossierCee",
                         name = "Précédent dossier CEE",
-                        evidenceTypeClassification = DossierCee
+                        evidenceTypeClassification = DossierCee,
+                        supportConcept = emptyList()
                     )
                 )
             )
@@ -59,7 +61,13 @@ object DureeVieConventionnelleV2 {
         validatingCondition = null,
         validatingConditionDependencies = emptyList(),
         order = null,
-        properties = null
+        properties = null,
+        // TODO Clean That
+        isDerivedFrom = emptyList(),
+        isRequirementOf = emptyList(),
+        evidenceValidatingCondition = null,
+        hasConcept = emptyList(),
+        id = UUID.randomUUID().toString()
     )
 
     object AucunPrecedentDossierPourMemeOperationEtConditions: InformationRequirement(
@@ -67,7 +75,7 @@ object DureeVieConventionnelleV2 {
                 "CEE pour la même opération et dans les même conditions",
         identifier = "aucunPrecedentDossierPourMemeOperationEtConditions",
         name = "Aucun précédent dossier pour meme operation et conditions",
-        type = FicheCode.DureeVieConventionnelle,
+        type = FicheCode.DureeVieConventionnelle.toString(),
         hasEvidenceTypeList = listOf(
             EvidenceTypeListBase(
                 description = "Déclare sur l'honneur ne jamais avoir bénéficié de crédits CEE " +
@@ -78,7 +86,8 @@ object DureeVieConventionnelleV2 {
                     EvidenceTypeBase(
                         identifier = "declarationHonneurDureeVieConventionnelle",
                         name = "Declaration honneur durée vie conventionnelle",
-                        evidenceTypeClassification = DeclarationHonneur
+                        evidenceTypeClassification = DeclarationHonneur,
+                        supportConcept = emptyList()
                     )
                 )
             )
@@ -89,7 +98,13 @@ object DureeVieConventionnelleV2 {
         validatingCondition = null,
         validatingConditionDependencies = emptyList(),
         order = null,
-        properties = null
+        properties = null,
+        // TODO Clean That
+        isDerivedFrom = emptyList(),
+        isRequirementOf = emptyList(),
+        evidenceValidatingCondition = null,
+        hasConcept = emptyList(),
+        id = UUID.randomUUID().toString()
     )
 
     object DureeVieConventionnelleSansDispositifGestionEclairage: DureeVieConventionnelleConstraint(
@@ -117,7 +132,7 @@ object DureeVieConventionnelleV2 {
         description = "${NombreTypesDispositifGestionEclairage.identifier} == $nombreDispositifGestionEclairage",
         identifier = "${nombreDispositifGestionEclairage}TypesDispositifGestionEclairage",
         name = name,
-        type = FicheCode.DureeVieConventionnelle,
+        type = FicheCode.DureeVieConventionnelle.toString(),
         hasRequirement = listOf(
             DatePrecedentsTravaux(yearsCount)
         ),
@@ -130,7 +145,12 @@ object DureeVieConventionnelleV2 {
         validatingCondition = null,
         validatingConditionDependencies = emptyList(),
         order = null,
-        properties = null
+        properties = null,
+        // TODO Clean That
+        isDerivedFrom = emptyList(),
+        isRequirementOf = emptyList(),
+        evidenceValidatingCondition = null,
+        id = UUID.randomUUID().toString()
     )
 
 
@@ -138,7 +158,7 @@ object DureeVieConventionnelleV2 {
         description = "now - ${DateTravaux.identifier} >= $yearsCount ans",
         identifier = "${yearsCount}AnsDepuisPrecedentsTravaux",
         name = "$yearsCount ans depuis les précédents travaux",
-        type = FicheCode.DureeVieConventionnelle,
+        type = FicheCode.DureeVieConventionnelle.toString(),
         hasConcept = listOf(
             DateTravaux
         ),
@@ -148,6 +168,11 @@ object DureeVieConventionnelleV2 {
         validatingCondition = null,
         validatingConditionDependencies = emptyList(),
         order = null,
-        properties = null
+        properties = null,
+        // TODO Clean That
+        isDerivedFrom = emptyList(),
+        isRequirementOf = emptyList(),
+        evidenceValidatingCondition = null,
+        id = UUID.randomUUID().toString()
     )
 }
