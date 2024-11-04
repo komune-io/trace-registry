@@ -6,6 +6,12 @@ ACTIONS = up down logs log pull stop kill help
 include $(DOCKER_COMPOSE_ENV)
 export
 
+dev-envsubst:
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/init.json > $(DOCKER_COMPOSE_PATH)/config/build/init.json
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-create.json > $(DOCKER_COMPOSE_PATH)/config/build/space-create.json
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-config.json > $(DOCKER_COMPOSE_PATH)/config/build/space-config.json
+
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_INIT_FILE),$(MAKECMDGOALS)))
@@ -15,9 +21,6 @@ dev:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
 	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_FILE)"
-
-dev-envsubst:
-	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build
 
 exec-common:
 	@if ! docker network ls | grep -q $(DOCKER_NETWORK); then \

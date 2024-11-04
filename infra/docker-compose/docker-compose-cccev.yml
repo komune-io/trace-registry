@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   cccev-gateway:
-    image: ${DOCKER_REPOSITORY}komune-io/cccev-gateway:${CONNECT_CCCEV_VERSION}
+    image: ${DOCKER_REPOSITORY}cccev-gateway:${CONNECT_CCCEV_VERSION}
     container_name: cccev-gateway
     environment:
       - ssm_couchdb_url=${BCLAN_COUCH_URL}
