@@ -63,6 +63,7 @@ object Dependencies {
 
 		fun f2(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
+			"org.springframework.boot:spring-boot-starter-logging:${Versions.springBoot}"
 		)
 		fun f2OpenApi(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-openapi:${Versions.f2}"

@@ -15,10 +15,10 @@ class InitScript(
     private val properties: io.komune.registry.script.init.RegistryScriptInitProperties
 ) {
     suspend fun run(
-        project: Boolean = false,
-        asset: Boolean = false,
-        cccev: Boolean = false,
-        catalogue: Boolean = false
+        project: Boolean = true,
+        asset: Boolean = true,
+        cccev: Boolean = true,
+        catalogue: Boolean = true
     ) {
         val authRealm = AuthRealmClientSecret(
             clientId = properties.orchestrator.clientId,
