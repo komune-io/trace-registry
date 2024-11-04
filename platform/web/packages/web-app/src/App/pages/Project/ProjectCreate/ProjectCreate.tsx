@@ -1,4 +1,4 @@
-import { Stepper, Section, StepItem, AutoForm, Actions, FormComposableState, autoFormFormatter, CommandWithFile } from '@smartb/g2'
+import { Stepper, Section, StepItem, AutoForm, Actions, FormComposableState, autoFormFormatter, CommandWithFile } from '@komune-io/g2'
 import { useTranslation } from 'react-i18next'
 import { useMemo, useCallback, useRef,useEffect } from 'react'
 import { AppPage } from 'template'

@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { Header, LinkButton } from '@smartb/g2'
+import { Header, LinkButton } from '@komune-io/g2'
 import { useExtendedAuth, useRoutesDefinition } from 'components';
 import { useProjectPageQuery, useProjectFilters, ProjectTable } from 'domain-components'
 import { Fragment, useMemo } from "react"

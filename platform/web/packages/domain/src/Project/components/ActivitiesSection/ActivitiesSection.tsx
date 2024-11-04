@@ -3,14 +3,16 @@ import 'reactflow/dist/style.css';
 import {Activity} from "../../../Activity";
 import { ActivitiesSummary, ActivitiesGraph } from "../../../Activity";
 import { ReactFlowProvider } from 'reactflow';
+import { Project } from '../../model';
 
 export interface ActivitiesSectionProps {
   isLoading?: boolean
-  items: Activity[],
+  items: Activity[]
+  project?: Project
 }
 
 export const ActivitiesSection = (props: ActivitiesSectionProps) => {
-  const { isLoading, items } = props
+  const { isLoading, items, project } = props
 
   return (
     <Stack
@@ -22,7 +24,7 @@ export const ActivitiesSection = (props: ActivitiesSectionProps) => {
     >
       <ReactFlowProvider>
         <ActivitiesGraph activities={items} />
-        <ActivitiesSummary isLoading={isLoading} activities={items} />
+        <ActivitiesSummary project={project} isLoading={isLoading} activities={items} />
       </ReactFlowProvider>
     </Stack>
   )

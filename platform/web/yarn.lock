@@ -1133,6 +1133,14 @@
     "@komune-io/g2-themes" "0.6.1"
     "@komune-io/g2-utils" "0.6.1"
 
+"@komune-io/im-privilege-domain@0.20.0":
+  version "0.20.0"
+  resolved "https://registry.npmjs.org/@komune-io/im-privilege-domain/-/im-privilege-domain-0.20.0.tgz#c8e02060351055c7e4b3bba8d6188f675379a6b1"
+  integrity sha512-CBFAt0JHflMpKHlk3egu28viFTJ4WA83nx9eB2Ma9tWTLgarbNZCCtt1KoMVBhB4kSYGfmhAyPubCueMpP3ctQ==
+  dependencies:
+    "@js-joda/core" "3.2.0"
+    format-util "^1.0.5"
+
 "@lexical/clipboard@0.17.1", "@lexical/clipboard@^0.17.1":
   version "0.17.1"
   resolved "https://registry.npmjs.org/@lexical/clipboard/-/clipboard-0.17.1.tgz#816b2559e60c5cfb5df5c6a4d1d1dcd850662d14"
@@ -3719,7 +3727,7 @@ find-root@^1.1.0:
 
 format-util@^1.0.5:
   version "1.0.5"
-  resolved "https://registry.npmjs.org/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
+  resolved "https://registry.yarnpkg.com/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
   integrity sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==
 
 format@^0.2.0:
@@ -6098,7 +6106,7 @@ space-separated-tokens@^2.0.0:
 
 spel2js@^0.2.8:
   version "0.2.8"
-  resolved "https://registry.npmjs.org/spel2js/-/spel2js-0.2.8.tgz#3ba3b291e5c6bae5c9f703e839294969b61fc691"
+  resolved "https://registry.yarnpkg.com/spel2js/-/spel2js-0.2.8.tgz#3ba3b291e5c6bae5c9f703e839294969b61fc691"
   integrity sha512-dzYq+v4YV7SPIdNrmvFAUjc0HcgI7b0yoMw7kzOBmlj/GjdOb/+8dVn1I7nLuOS5X2SW+LK3tf2SVkXRjCkWBA==
 
 static-browser-server@1.0.3:

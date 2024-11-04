@@ -1,5 +1,5 @@
 import { useAuth, KeycloackService } from "@komune-io/g2"
-import { Roles, userEffectiveRoles } from "./roles";
+import {Roles, userEffectiveRoles, usePermissionListQuery, useRoleListQuery,} from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 
 type StaticServices = {
@@ -25,9 +25,18 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
     }
 }
 
-export const useExtendedAuth = () => useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices, {})
+export const useExtendedAuth = () =>  {
+    const auth = useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices, {})
+    const permissionsQuery = usePermissionListQuery({query:{}})
+    const rolesQuery = useRoleListQuery({query:{}})
+    return {
+        ...auth,
+        roles: rolesQuery.data?.items,
+        permissions: permissionsQuery.data?.items
+    }
+}
 
-const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
+const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: (Roles)[]) => boolean) => {
     if (authorization === "currentUser") {
         return isAuthedUserId
     }
@@ -37,7 +46,7 @@ const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOr
     return hasRole([authorization])
 }
 
-const checkRelations = (authorizations: RoutesRoles[] | RoutesRoles[][], isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: Roles[]) => boolean) => {
+const checkRelations = (authorizations: RoutesRoles[] | RoutesRoles[][], isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: (Roles)[]) => boolean) => {
     return authorizations.some((roles: any) => {
         if (Array.isArray(roles)) {
             return roles.every(role => matches(role, isAuthedUserId, isAuthedOrgId, hasRole))

@@ -89,6 +89,8 @@
   "createAProject": "Create a project",
   "goBack": "Go back",
   "next": "Next",
+  "submitForValidation": "Submit for validation",
+  "nextSteps": "Next steps",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -161,6 +163,7 @@
     "summary": "Project summary",
     "location": "project location",
     "financialDetails": "Financial details",
+    "identification": "Identification of the project",
     "types": {
       "1": "Agriculture Forestry and Other Land Use",
       "2": "Waste handling and disposal",

@@ -1,5 +1,43 @@
-import { Option } from "@komune-io/g2"
-import { TFunction } from "i18next"
+import { QueryParams, imConfig, useQueryRequest } from "@komune-io/g2"
+import { io } from "@komune-io/im-privilege-domain"
+import { useMemo } from "react"
+import { useOidcAccessToken } from '@axa-fr/react-oidc'
+
+export interface Role extends io.komune.im.f2.privilege.domain.role.model.RoleDTO { }
+
+export interface Permission extends io.komune.im.f2.privilege.domain.permission.model.PermissionDTO { }
+
+export const RoleTargetValues = io.komune.im.f2.privilege.domain.role.model.RoleTargetValues
+
+export interface RoleListQuery extends io.komune.im.f2.privilege.domain.role.query.RoleListQueryDTO { }
+
+export interface RoleListResult extends io.komune.im.f2.privilege.domain.role.query.RoleListResultDTO { }
+
+export const useRoleListQuery = (params: QueryParams<RoleListQuery, RoleListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: imConfig().url,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<RoleListQuery, RoleListResult>(
+        "roleList", requestProps, params
+    )
+}
+
+export interface PermissionListQuery extends io.komune.im.f2.privilege.domain.permission.query.PermissionListQueryDTO { }
+
+export interface PermissionListResult extends io.komune.im.f2.privilege.domain.permission.query.PermissionListResultDTO { }
+
+export const usePermissionListQuery = (params: QueryParams<PermissionListQuery, PermissionListResult>) => {
+    const { accessToken } = useOidcAccessToken()
+    const requestProps = useMemo(() => ({
+        url: imConfig().url,
+        jwt: accessToken
+    }), [accessToken])
+    return useQueryRequest<PermissionListQuery, PermissionListResult>(
+        "permissionList", requestProps, params
+    )
+}
 
 export const userAdminRoles = [
     "tr_orchestrator_admin",
@@ -19,72 +57,13 @@ export const userRoles = [
     ...userBaseRoles
 ] as const
 
-
-
-export type UserRoles = typeof userRoles[number]
-
-export const mutableUserRoles: UserRoles[] = [...userRoles]
-
-export const userRolesColors: { [roles in UserRoles]: string } = {
-    "super_admin": "#d1b00a",
-    "tr_orchestrator_admin": "#E56643",
-    'tr_orchestrator_user': "#3041DC",
-    "tr_project_manager_admin": "#E56643",
-    "tr_project_manager_user": "#3041DC",
-    "tr_stakeholder_admin": "#E56643",
-    "tr_stakeholder_user": "#3041DC",
-}
-
-export const getUserRolesOptions = (t: TFunction, orgRole?: OrgRoles, withSuperAdmin: boolean = false) => {
-
-    const roles: Option[] = []
-    if (withSuperAdmin) {
-        roles.push({
-            key: "super_admin",
-            label: t(`roles.super_admin`) as string,
-            color: userRolesColors["super_admin"]
-        })
-    }
-    const admin = orgRole ? orgRole + "_admin" as UserRoles : "admin" as UserRoles
-    roles.push({
-        key: admin,
-        label: t(`roles.admin`) as string,
-        color: userRolesColors[admin]
-    })
-    const user =  orgRole ? orgRole + "_user" as UserRoles: "user" as UserRoles
-    roles.push({
-        key: user,
-        label: t(`roles.user`) as string,
-        color: userRolesColors[user]
-    })
-    return roles
-}
-
 export const orgRoles = [
     "tr_orchestrator",
     "tr_project_manager",
     "tr_stakeholder"
 ] as const
 
-export type OrgRoles = typeof orgRoles[number]
-
-const mutableOrgRoles: OrgRoles[] = [...orgRoles]
-
-export const orgRolesColors: { [roles in OrgRoles]: string } = {
-    "tr_orchestrator": "#27848f",
-    "tr_project_manager": "#27848f",
-    "tr_stakeholder": "#27848f"
-}
-
-export const getOrgRolesOptions = (t: TFunction) => {
-    return mutableOrgRoles.map(role => ({
-        key: role,
-        label: t("organizationRoles." + role),
-        color: orgRolesColors[role]
-    })
-    )
-}
 
 export const userEffectiveRoles = [...userRoles, ...orgRoles]
-
 export type Roles = typeof userEffectiveRoles[number]
+

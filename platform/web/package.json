@@ -25,6 +25,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@komune-io/g2": "0.6.1",
+    "@komune-io/im-privilege-domain": "0.20.0",
     "react-infinite-scroll-component": "^6.1.0",
     "@mantine/hooks": "^7.6.2",
     "d3-hierarchy": "^3.1.2",
