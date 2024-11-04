@@ -1,0 +1,52 @@
+{
+  "sections": [
+    {
+      "id": "location",
+      "label": "projectLocation",
+      "description": "Specify the precise geographical details of your project. \n You can mark the exact location directly on the map, or fill the form to indicate where your project will take place. Additionally, provide any relevant location-related details within the description to enhance the understanding of your project's context.",
+      "fields": [
+        {
+          "name": "location",
+          "type": "map",
+          "properties": {
+            "draggableMarkerPlugin": {
+              "enable": true
+            }
+          },
+          "required": true
+        },
+        {
+          "name": "city",
+          "type": "textField",
+          "label": "City",
+          "required": true
+        },
+        {
+          "name": "country",
+          "type": "textField",
+          "label": "Country",
+          "required": true
+        },
+        {
+          "name": "region",
+          "type": "autoComplete",
+          "label": "Region",
+          "options": [{
+            "key": "FRA",
+            "label": "France"
+          }],
+          "required": true
+        },
+        {
+          "name": "locationDescription",
+          "type": "textField",
+          "label": "Location description (optional)",
+          "properties": {
+            "multiline": true,
+            "rows": 4
+          }
+        }
+      ]
+    }
+  ]
+}
