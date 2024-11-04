@@ -14,6 +14,7 @@ test-pre:
 	sudo echo "127.0.0.1 orderer.bclan" | sudo tee -a /etc/hosts
 	@make dev pull
 	@make dev up
+	@make dev c2-sandbox log
 	@make dev c2-sandbox-ssm logs
 	@make dev up
 	@make dev c2-sandbox-ssm logs
