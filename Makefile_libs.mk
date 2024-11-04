@@ -21,7 +21,7 @@ test-pre:
 	@make dev c2-sandbox-ssm logs
 
 test:
-	./gradlew test
+	./gradlew test --info
 
 publish:
 	@echo "No publish task"
