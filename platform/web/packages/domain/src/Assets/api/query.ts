@@ -1,5 +1,5 @@
 import {QueryParams, useQueryRequest} from "@komune-io/g2-utils"
-import {city} from "registry-asset-pool-f2-domain"
+import {io} from "registry-platform-api-api-js-export";
 import {useNoAuthenticatedRequest} from "../../config"
 
 export interface AssetTransactionPageQuery extends io.komune.registry.f2.asset.pool.domain.query.AssetTransactionPageQueryDTO { }

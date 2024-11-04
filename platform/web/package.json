@@ -19,24 +19,24 @@
     "@types/qs": "^6.9.8"
   },
   "dependencies": {
-    "@emotion/css": "^11.10.6",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.12",
-    "@komune-io/g2": "0.5.0",
+    "@emotion/css": "^11.11.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
+    "@komune-io/g2": "0.6.1",
     "react-infinite-scroll-component": "^6.1.0",
-    "@mantine/hooks": "^6.0.13",
+    "@mantine/hooks": "^7.6.2",
     "d3-hierarchy": "^3.1.2",
-    "i18next": "^22.4.11",
+    "i18next": "^23.10.1",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
     "react-pdf": "^7.1.2",
-    "@tanstack/react-query": "^4.32.5",
-    "@axa-fr/oidc-client": "^7.6.0",
-    "react-router-dom": "^6.8.2",
+    "@tanstack/react-query": "^5.28.6",
+    "@axa-fr/oidc-client": "7.22.4",
+    "react-router-dom": "^6.22.3",
     "reactflow": "^11.6.1",
     "vite-plugin-checker": "^0.5.6",
     "uuid": "^9.0.0"
@@ -48,7 +48,8 @@
   "scripts": {
     "start": "yarn workspace web-app start",
     "type": "yarn workspace web-app type",
-    "build": "yarn workspace web-app build"
+    "build": "yarn workspace web-app build",
+    "postinstall": "node ./node_modules/@axa-fr/react-oidc/bin/copy-service-worker-files.mjs packages/web-app/public"
   },
   "npmClient": "yarn",
   "useWorkspaces": true

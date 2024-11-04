@@ -17,7 +17,7 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
         [v.identifier]: v.value,
         ...(v.evidences?.reduce((a: any, e: Evidence) =>({
             ...a,
-            [e.id]: e.name + "Uploaded"
+            [e.identifier]: e.name + "Uploaded"
         }), {}))
     }), {}), [steps])
 
@@ -36,12 +36,12 @@ export const ActivitiesStepSummary = (props: ActivitiesSummaryFormProps) => {
             const evidences = (it.evidences ?? []).map((evidence: Evidence) => {
                 const productEvidenceDownloadUrl = async () => {
                     return await productEvidenceDownloadQuery({
-                        evidenceId: evidence.id,
-                        certificationIdentifier: activity?.certification?.identifier ?? "",
+                        evidenceId: evidence.identifier,
+                        certificationId: activity?.certificationId ?? "",
                     })
                 }
                 return ({
-                    name: evidence.id,
+                    name: evidence.identifier,
                     type: 'documentHandler',
                     fullRow: true,
                     label: evidence.name,

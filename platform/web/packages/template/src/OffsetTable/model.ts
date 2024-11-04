@@ -1,4 +1,4 @@
-import {f2} from "registry-project-f2-domain"
+import {f2} from "registry-platform-api-api-js-export";
 
 export interface PageQuery extends f2.dsl.cqrs.page.PageQueryDTO {}
 export interface PageQueryResult<MODEL> extends f2.dsl.cqrs.page.PageQueryResultDTO<MODEL> {}

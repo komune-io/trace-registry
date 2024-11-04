@@ -1,5 +1,5 @@
 import { QueryParams, useQueryRequest } from "@komune-io/g2"
-import {city} from "registry-dataset-f2-domain"
+import {io} from "registry-platform-api-api-js-export";
 import { useNoAuthenticatedRequest } from "../../config"
 
 export interface DatasetDataQuery extends io.komune.registry.f2.dataset.domain.query.DatasetDataQueryDTO {}

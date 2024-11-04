@@ -1,10 +1,9 @@
-import {city} from "registry-activity-f2-domain"
-import {cccev} from "registry-activity-f2-domain"
+import {io, cccev} from "registry-platform-api-api-js-export";
 
 export type ActivityId = string
 export interface Activity extends io.komune.registry.f2.activity.domain.model.ActivityDTO {}
 export interface ActivityStep extends io.komune.registry.f2.activity.domain.model.ActivityStepDTO {}
-export interface Evidence extends cccev.s2.certification.domain.model.EvidenceDTO {}
+export interface Evidence extends cccev.dsl.model.EvidenceDTO {}
 
 export const activitiesExample: Activity[] = [
   {

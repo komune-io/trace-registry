@@ -1,7 +1,7 @@
 import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-components";
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback } from "react";
-import { FilePath, useProjectFilesQuery } from "../../api/query";
+import { FilePath, useProjectFilesQuery } from "../../api";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Row, RowSelectionState } from '@tanstack/react-table';
 import qs from 'qs';
@@ -46,8 +46,10 @@ export const DocumentsPage = (props: DocumentsPageProps) => {
 
     const downloadedFiles = useProjectFilesQuery(
       selectedFiles?.map((fileName) => (
-        { id: projectId!, path: fileList?.find((file) => file.name === fileName)! })
-      ), { enabled: !!selectedFiles })   
+        { id: projectId!, path: fileList?.find((file) => file.name === fileName)! }
+     )),
+      { enabled: !!selectedFiles }
+    )
 
     const filteredDownloadedFiles = useMemo(
         () => downloadedFiles.data?.map(

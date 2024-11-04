@@ -1,4 +1,4 @@
-import { city } from "registry-asset-pool-f2-domain"
+import {io} from "registry-platform-api-api-js-export";
 
 
 export interface Transaction extends io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTO {}

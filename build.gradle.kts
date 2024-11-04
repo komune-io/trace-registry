@@ -54,6 +54,8 @@ fixers {
 		projectKey = "komune-io_trace-registry"
 	}
 	kt2Ts {
+		inputDirectory = "build/js/packages/registry-platform-api-api-js-export"
+		outputDirectory = "platform/web/kotlin/registry-platform-api-api-js-export"
 		additionalCleaning = mapOf(
 			".d.ts" to listOf(
           		Regex("""com\.ionspin\.kotlin\.bignum\.decimal\.BigDecimal""") to "number",

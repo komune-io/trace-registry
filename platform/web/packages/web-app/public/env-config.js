@@ -1,12 +1,12 @@
 window._env_ = {
   platform: {
-    url: "https://dev.trace.komune.io/ver"
+    url: "http://localhost:8070"
   },
   config: {
     keycloak: {
-      realm: "sb-dev",
-      clientId: "im-dev-web",
-      url: "https://auth.dev.connect.komune.io/"
-    }
+      realm: "registry-local",
+      clientId: "registry-platform-web",
+      url: "http://localhost:8080"
+    },
   }
 };

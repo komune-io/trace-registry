@@ -31,7 +31,7 @@ export const AssetsTransactionDetails = (props: ProjectTransactionDetailsProps) 
             label: t('offsetDate'),
             params: {
                 // @ts-ignore
-                orientation: "horizontal"
+                // orientation: "horizontal"
             }
         },
         {
