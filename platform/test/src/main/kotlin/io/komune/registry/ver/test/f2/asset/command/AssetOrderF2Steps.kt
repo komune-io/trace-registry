@@ -99,9 +99,9 @@ class AssetOrderF2Steps: En, VerCucumberStepsDefinition() {
     private fun placeOrderParams(entry: Map<String, String>?) =
         PlaceOrderParams(
             identifier = entry?.get("identifier").orRandom(),
-            from = entry?.get("from") ?: "SmartB",
+            from = entry?.get("from") ?: "Komune",
             to = entry?.get("to") ?: "Inc. Inpark",
-            by = entry?.get("by") ?: "SmartB",
+            by = entry?.get("by") ?: "Komune",
             poolId = entry?.get("poolId"),
             quantity = (entry?.get("quantity")?.toDouble() ?: 100.0).toBigDecimal(),
             type = entry?.get("type") ?: AssetTransactionType.ISSUED.name,

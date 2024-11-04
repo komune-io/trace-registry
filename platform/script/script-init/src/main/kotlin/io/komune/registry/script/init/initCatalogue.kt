@@ -14,7 +14,7 @@ fun main() = runBlocking {
         registry = ServiceProperties(registry),
         nbProject = 30,
         orchestrator = ApiKeyProperties(
-            name = "Smartb",
+            name = "Komune",
             clientId = "tr-komune-registry-script-api-key",
             clientSecret = "703ece3d-82bc-4747-8840-96c1c3431079"
         )

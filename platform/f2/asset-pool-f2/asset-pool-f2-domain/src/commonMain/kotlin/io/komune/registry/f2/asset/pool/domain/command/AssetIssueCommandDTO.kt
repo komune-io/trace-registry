@@ -29,7 +29,7 @@ interface AssetIssueCommandDTO: AbstractAssetTransactionCommand {
 
     /**
      * New owner of the issued assets.
-     * @example "SmartB"
+     * @example "Komune"
      */
     override val to: String
 

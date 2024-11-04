@@ -16,12 +16,12 @@ Feature: AssetOrderF2
   Scenario: I want to place an order via API
     When I place an order via API:
       | by     | quantity | type   |
-      | SmartB | 100      | OFFSET |
+      | Komune | 100      | OFFSET |
     Then The order should be created
     Then The order page should contain the order
     Then The order page should contain the order:
       | by     |
-      | SmartB |
+      | Komune |
     Then The order page shouldn't contain the order:
       | by   |
       | Test |

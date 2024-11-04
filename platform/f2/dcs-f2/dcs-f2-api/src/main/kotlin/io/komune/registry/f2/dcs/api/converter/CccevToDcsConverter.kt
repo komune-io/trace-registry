@@ -18,7 +18,7 @@ object CccevToDcsConverter {
         }
 
         return DataCollectionStep(
-            identifier = cccev.identifier.orEmpty(),
+            identifier = cccev.identifier,
             label = cccev.name.orEmpty(),
             description = cccev.description,
             properties = cccev.properties,
@@ -30,7 +30,7 @@ object CccevToDcsConverter {
 
     private fun convertSection(section: Requirement): DataSection {
         return DataSection(
-            identifier = section.identifier.orEmpty(),
+            identifier = section.identifier,
             label = section.name.orEmpty(),
             description = section.description,
             properties = section.properties,
@@ -41,7 +41,7 @@ object CccevToDcsConverter {
     }
 
     private fun convertField(fieldRequirement: Requirement): DataField {
-        val concept = fieldRequirement.hasConcept?.first()
+        val concept = fieldRequirement.hasConcept?.firstOrNull()
         val unit = concept?.unit
             ?: throw IllegalArgumentException("Concept ${concept?.identifier} must have a data unit")
         val hasRequirement = fieldRequirement.hasRequirement ?: emptyList()
@@ -79,7 +79,7 @@ object CccevToDcsConverter {
                 identifier = field.identifier.orEmpty(),
                 type = DataConditionTypeValues.display(),
                 expression = field.enablingCondition!!,
-                dependencies = field.enablingConditionDependencies,
+                dependencies = field.enablingConditionDependencies.orEmpty(),
                 error = null
             )
         }
@@ -89,7 +89,7 @@ object CccevToDcsConverter {
         identifier = constraint.identifier.orEmpty(),
         type = DataConditionTypeValues.validator(),
         expression = constraint.validatingCondition!!,
-        dependencies = constraint.validatingConditionDependencies,
+        dependencies = constraint.validatingConditionDependencies.orEmpty(),
         error = constraint.description
     )
 }
