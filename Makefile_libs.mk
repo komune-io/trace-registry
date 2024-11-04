@@ -16,6 +16,7 @@ test-pre:
 	@make dev up
 	@make dev c2-sandbox log
 	@make dev c2-sandbox-ssm logs
+	@sleep 10
 	@make dev up
 	@make dev c2-sandbox-ssm logs
 
