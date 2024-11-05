@@ -8,13 +8,13 @@ fun main() = runBlocking {
 //    val cccev = "https://dev.trace.komune.io/cccev"
 //    val registry = "https://dev.trace.komune.io/ver"
     val properties = RegistryScriptInitProperties(
-        auth = ServiceProperties("https://auth.dev.connect.komune.io/realms/sb-dev"),
+        auth = AuthProperties(realmId = "sb-dev", url ="https://auth.dev.connect.komune.io"),
         im = ServiceProperties("https://dev.connect.komune.io/im"),
         cccev = ServiceProperties(cccev),
         registry = ServiceProperties(registry),
         nbProject = 30,
         orchestrator = ApiKeyProperties(
-            name = "Smartb",
+            name = "Komune",
             clientId = "tr-komune-registry-script-api-key",
             clientSecret = "703ece3d-82bc-4747-8840-96c1c3431079"
         )

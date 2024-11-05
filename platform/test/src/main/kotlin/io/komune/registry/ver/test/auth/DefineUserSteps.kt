@@ -32,7 +32,7 @@ class DefineUserSteps: En, VerCucumberStepsDefinition() {
     private fun defineUserParams(entry: Map<String, String>) = DefineUserParams(
         identifier = entry["identifier"] ?: UUID.randomUUID().toString(),
         memberOf = entry["memberOf"] ?: context.organizations.lastUsedKey,
-        roles = entry.extractList("roles").orEmpty()
+        roles = entry.extractList<String>("roles").orEmpty()
     )
 
     private data class DefineUserParams(

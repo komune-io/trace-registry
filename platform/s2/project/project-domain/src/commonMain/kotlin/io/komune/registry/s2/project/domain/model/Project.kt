@@ -1,12 +1,12 @@
 package io.komune.registry.s2.project.domain.model
 
-import cccev.core.certification.model.CertificationId
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.CertificationId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
+import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.domain.automate.ProjectState
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias ProjectId = String
 typealias ProjectIdentifier = String

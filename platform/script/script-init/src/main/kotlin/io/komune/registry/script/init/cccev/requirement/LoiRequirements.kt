@@ -16,7 +16,7 @@ val loiStep = informationRequirement {
     isDerivedFrom {
         +ReferenceFramework.AxessImpact
     }
-    type = RequirementType.Step
+    type = RequirementType.Step.identifier
 }
 
 val LOIRequirements = buildList {

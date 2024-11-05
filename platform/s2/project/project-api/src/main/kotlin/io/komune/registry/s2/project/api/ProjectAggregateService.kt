@@ -1,8 +1,9 @@
 package io.komune.registry.s2.project.api
 
-import cccev.core.certification.command.CertificationCreateCommand
-import cccev.core.certification.command.CertificationCreatedEvent
 import cccev.dsl.client.CCCEVClient
+import cccev.f2.certification.command.CertificationCreateCommand
+import cccev.f2.certification.command.CertificationCreatedEvent
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.s2.project.api.config.ProjectAutomateExecutor
 import io.komune.registry.s2.project.api.entity.applyCmd
 import io.komune.registry.s2.project.domain.ProjectAggregate
@@ -18,9 +19,8 @@ import io.komune.registry.s2.project.domain.command.ProjectDeleteCommand
 import io.komune.registry.s2.project.domain.command.ProjectDeletedEvent
 import io.komune.registry.s2.project.domain.command.ProjectUpdateCommand
 import io.komune.registry.s2.project.domain.command.ProjectUpdatedEvent
-import f2.dsl.fnc.invokeWith
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class ProjectAggregateService(

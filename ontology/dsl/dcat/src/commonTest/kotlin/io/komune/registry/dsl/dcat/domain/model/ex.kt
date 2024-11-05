@@ -1,9 +1,5 @@
 package io.komune.registry.dsl.dcat.domain.model
 
-import io.komune.registry.dsl.dcat.domain.model.catalogue
-import io.komune.registry.dsl.dcat.domain.model.location
-import io.komune.registry.dsl.dcat.domain.model.periodOfTime
-import io.komune.registry.dsl.dcat.domain.model.toThat
 import io.komune.registry.dsl.skos.domain.model.concept
 import io.komune.registry.dsl.skos.domain.model.conceptScheme
 

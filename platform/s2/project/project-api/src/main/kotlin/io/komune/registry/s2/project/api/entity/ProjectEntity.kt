@@ -1,8 +1,12 @@
 package io.komune.registry.s2.project.api.entity
 
-import cccev.core.certification.model.CertificationId
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.CertificationId
+import com.redis.om.spring.annotations.Document
+import com.redis.om.spring.annotations.Indexed
+import com.redis.om.spring.annotations.Searchable
+import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
+import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
 import io.komune.registry.s2.project.domain.automate.ProjectState
 import io.komune.registry.s2.project.domain.model.ActivityIdentifier
 import io.komune.registry.s2.project.domain.model.DateTime
@@ -10,10 +14,6 @@ import io.komune.registry.s2.project.domain.model.OrganizationRefDTO
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
 import io.komune.registry.s2.project.domain.model.SdgNumber
-import com.redis.om.spring.annotations.Document
-import com.redis.om.spring.annotations.Indexed
-import com.redis.om.spring.annotations.Searchable
-import com.redis.om.spring.annotations.TagIndexed
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.domain.geo.GeoLocation
 import s2.dsl.automate.model.WithS2Id

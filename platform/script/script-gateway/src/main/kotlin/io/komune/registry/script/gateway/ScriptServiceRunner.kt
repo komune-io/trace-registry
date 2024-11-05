@@ -21,7 +21,7 @@ class ScriptServiceRunner(
 
     override fun run(vararg args: String?) = runBlocking {
         try {
-            val initScript = io.komune.registry.script.init.InitScript(properties)
+            val initScript = InitScript(properties)
             runScript("Init", initScript::run)
         } catch (_: RuntimeException) {
         } finally {

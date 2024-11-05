@@ -1,4 +1,4 @@
-import {city} from "registry-catalogue-f2-domain"
+import {io} from "registry-platform-api-api-js-export";
 
 export interface Catalogue extends io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO {
 }

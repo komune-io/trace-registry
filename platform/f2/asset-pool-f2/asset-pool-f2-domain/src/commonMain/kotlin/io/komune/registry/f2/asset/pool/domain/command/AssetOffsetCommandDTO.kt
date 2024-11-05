@@ -28,7 +28,7 @@ interface AssetOffsetCommandDTO {
 
     /**
      * Owner of the assets to offset.
-     * @example "SmartBetter"
+     * @example "Komuneetter"
      */
     val from: String
 

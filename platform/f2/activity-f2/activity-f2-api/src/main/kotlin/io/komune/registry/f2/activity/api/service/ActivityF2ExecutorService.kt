@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service
 class ActivityF2ExecutorService(
     private val cccevClient: CCCEVClient
 ) {
+
     suspend fun createActivity(cmd: ActivityCreateCommandDTOBase): ActivityIdentifier = coroutineScope {
+
         buildList {
             add(
                 async { createActivity(cmd.identifier, cmd.name, cmd.description, RequirementType.Activity) }
@@ -49,9 +51,9 @@ class ActivityF2ExecutorService(
             this.identifier = identifier
             this.name = name
             this.description = description
-            this.type = type
+            this.type = type.identifier
         }
-        cccevClient.graphClient.create( flowOf(requirement) ).toList().first()
+        cccevClient.graphClient.save(flowOf(requirement) ).toList().first()
 
         return identifier
     }

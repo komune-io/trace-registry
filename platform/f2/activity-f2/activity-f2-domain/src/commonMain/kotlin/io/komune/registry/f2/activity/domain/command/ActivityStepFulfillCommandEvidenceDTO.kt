@@ -1,6 +1,6 @@
 package io.komune.registry.f2.activity.domain.command
 
-import cccev.core.certification.model.CertificationId
+import cccev.dsl.model.CertificationId
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.s2.file.domain.model.FilePathDTO
 import io.komune.registry.f2.activity.domain.model.ActivityFile

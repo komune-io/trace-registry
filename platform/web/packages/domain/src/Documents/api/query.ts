@@ -1,11 +1,11 @@
 import { QueryParams, useQueryRequest, useFetchBinary } from "@komune-io/g2-utils"
-import { city } from "registry-project-f2-domain"
-import { city as chat } from "registry-chat-f2-domain"
+import {io} from "registry-platform-api-api-js-export";
 import { useNoAuthenticatedRequest } from "../../config"
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {useCallback} from "react"
 import {request} from "@komune-io/g2-utils";
 import { Message } from "components";
+import {QueryOptions} from "@komune-io/g2";
 
 export interface ProjectListFilesQuery extends io.komune.registry.f2.project.domain.query.ProjectListFilesQueryDTO  { }
 export interface ProjectListFilesResult extends io.komune.registry.f2.project.domain.query.ProjectListFilesResultDTO  { }
@@ -18,8 +18,8 @@ export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQue
   )
 }
 
-export interface ChatAskQuestionQuery extends chat.komune.registry.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
-export interface ChatAskQuestionResult extends chat.komune.registry.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
+export interface ChatAskQuestionQuery extends io.komune.registry.f2.chat.domain.query.ChatAskQuestionQueryDTO  { }
+export interface ChatAskQuestionResult extends io.komune.registry.f2.chat.domain.query.ChatAskQuestionResultDTO  { }
 
 export const askQuestion = async (message: string, history: Message[], targetedFiles?: string[], projectId?: string) => {
   const res = await request<ChatAskQuestionResult[]>({
@@ -45,7 +45,10 @@ export const useProjectDownloadFileQuery = (): (query?: (ProjectDownloadFileQuer
   return useFetchBinary<ProjectDownloadFileQuery>("projectDownloadFile", requestProps)
 }
 
-export const useProjectFilesQuery = (queries: (ProjectDownloadFileQuery | undefined)[], options?: UseQueryOptions<(string | undefined)[]>) => {
+type ProjectDownloadFileQueries = (ProjectDownloadFileQuery | undefined)[]
+type ProjectDownloadFileResults = (String | undefined)[]
+
+export const useProjectFilesQuery = (queries: ProjectDownloadFileQueries, options?: QueryOptions<ProjectDownloadFileQueries, ProjectDownloadFileResults>) => {
   const download = useProjectDownloadFileQuery()
   const getAllFiles = useCallback(
     async () => {
@@ -57,11 +60,11 @@ export const useProjectFilesQuery = (queries: (ProjectDownloadFileQuery | undefi
   )
   
   return {
-    ...useQuery<(string | undefined)[], unknown, (string | undefined)[]>(
-      ["projectFiles", queries],
-      getAllFiles,
-      options
-    ),
+    ... useQuery({
+      queryKey: ["projectFiles", queries],
+      queryFn: getAllFiles,
+      ...options
+    }),
     key: "projectFiles",
   }
 }

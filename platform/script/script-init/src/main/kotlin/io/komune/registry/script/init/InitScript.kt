@@ -1,5 +1,6 @@
 package io.komune.registry.script.init
 
+import f2.client.domain.AuthRealmClientSecret
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.script.init.actor.Actor
 import io.komune.registry.script.init.actor.ActorAuth
@@ -14,16 +15,20 @@ class InitScript(
     private val properties: io.komune.registry.script.init.RegistryScriptInitProperties
 ) {
     suspend fun run(
-        project: Boolean = false,
-        asset: Boolean = false,
-        cccev: Boolean = false,
-        catalogue: Boolean = false
+        project: Boolean = true,
+        asset: Boolean = true,
+        cccev: Boolean = true,
+        catalogue: Boolean = true
     ) {
+        val authRealm = AuthRealmClientSecret(
+            clientId = properties.orchestrator.clientId,
+            clientSecret = properties.orchestrator.clientSecret,
+            serverUrl = properties.auth.url,
+            realmId = properties.auth.realmId
+        )
         val accessTokenOrchestrator= ActorAuth.getActor(
-            properties.auth.url,
             properties.orchestrator.name,
-            properties.orchestrator.clientId,
-            properties.orchestrator.clientSecret
+            authRealm
         )
 
         if(cccev) {

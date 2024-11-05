@@ -1,13 +1,13 @@
 package io.komune.registry.f2.asset.pool.api.model
 
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTOBase
 import io.komune.registry.s2.asset.domain.model.AssetPool
 import io.komune.registry.s2.asset.domain.model.AssetPoolStatsBase
 
 suspend fun AssetPool.toDTO(
-    getInformationConcept: suspend (InformationConceptIdentifier) -> InformationConceptDTOBase
+    getInformationConcept: suspend (InformationConceptIdentifier) -> InformationConcept
 ) = AssetPoolDTOBase(
     id = id,
     status = status.name,

@@ -6,7 +6,7 @@ import io.komune.gradle.dependencies.add
 
 object Framework {
 	val fixers = FixersPluginVersions.fixers
-	val connect = "0.15.0-SNAPSHOT"
+	val connect = "0.21.0-SNAPSHOT"
 }
 
 object PluginVersions {
@@ -28,7 +28,7 @@ object Versions {
 	const val datafaker = "1.8.1"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val ktor = FixersVersions.Kotlin.ktor
-	const val redisOm = "0.8.0"
+	const val redisOm = "0.8.9"
 	const val html2pdf = "5.0.0"
 	const val javaSnapshotTesting = "4.0.7"
 }
@@ -58,19 +58,19 @@ object Dependencies {
 
 		fun s2Bdd(scope: Scope) = scope.add(
 			"io.komune.s2:s2-test-bdd:${Versions.s2}",
-			"org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}"
 		).also(::cucumber)
 			.also(::junit)
 
 		fun f2(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
+			"org.springframework.boot:spring-boot-starter-logging:${Versions.springBoot}"
 		)
 		fun f2OpenApi(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-openapi:${Versions.f2}"
 		)
 
 		fun f2Auth(scope: Scope) = scope.add(
-			"io.komune.im:f2-spring-boot-starter-auth-tenant:${Versions.im}",
+			"io.komune.f2:f2-spring-boot-starter-auth-tenant:${Versions.im}",
 			"io.komune.im:im-commons-auth:${Versions.im}"
 		)
 
@@ -84,6 +84,7 @@ object Dependencies {
 			fun client(scope: Scope) = scope.add(
 				"io.komune.cccev:cccev-dsl-client:${Versions.cccev}",
 			)
+
 			fun dsl(scope: Scope) = scope.add(
 				"io.komune.cccev:cccev-dsl-model:${Versions.cccev}",
 			)
@@ -119,10 +120,6 @@ object Dependencies {
 			scope.add(redisOm)
 			kapt.add(redisOm)
 		}
-
-		fun s2StoringData(scope: Scope) = scope.add(
-			"io.komune.s2:s2-spring-boot-starter-storing-data:${Versions.s2}",
-		)
 
 		fun s2SourcingSsm(scope: Scope) = scope.add(
 			"io.komune.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
@@ -176,13 +173,7 @@ object Dependencies {
 		)
 
 		fun cccevDomain(scope: Scope) = scope.add(
-			"io.komune.cccev:cccev-certification-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-concept-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-evidence-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-evidence-type-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-framework-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-requirement-f2-domain:${Versions.cccev}",
-			"io.komune.cccev:cccev-unit-f2-domain:${Versions.cccev}"
+			"io.komune.cccev:cccev-f2-domain:${Versions.cccev}",
 		)
 	}
 }

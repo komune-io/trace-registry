@@ -15,17 +15,39 @@ import io.komune.registry.f2.asset.pool.domain.query.AssetStatsGetFunction
 import io.komune.registry.f2.asset.pool.domain.query.AssetTransactionGetFunction
 import io.komune.registry.f2.asset.pool.domain.query.AssetTransactionPageFunction
 import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
 import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
+import io.ktor.client.plugins.HttpTimeout
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect fun F2Client.assetPoolClient(): F2SupplierSingle<AssetPoolClient>
-expect fun assetPoolClient(urlBase: String, accessToken: String): F2SupplierSingle<AssetPoolClient>
+
+fun assetPoolClient(
+    urlBase: String,
+    getAuth: AuthRealmProvider,
+): F2SupplierSingle<AssetPoolClient> = f2SupplierSingle {
+    AssetPoolClient(
+        F2ClientBuilder.get(urlBase) {
+            install(F2Auth) {
+                this.getAuth = getAuth
+            }
+        }
+    )
+}
+
+fun F2Client.assetPoolClient(): F2SupplierSingle<AssetPoolClient> = f2SupplierSingle {
+    AssetPoolClient(this)
+}
+
 
 @JsName("AssetPoolClient")
 @JsExport
-open class AssetPoolClient constructor(private val client: F2Client) : AssetPoolApi {
+open class AssetPoolClient(private val client: F2Client) : AssetPoolApi {
     override fun assetPoolCreate(): AssetPoolCreateFunction = client.function(this::assetPoolCreate.name)
     override fun assetPoolHold(): AssetPoolHoldFunction = client.function(this::assetPoolHold.name)
     override fun assetPoolResume(): AssetPoolResumeFunction = client.function(this::assetPoolResume.name)

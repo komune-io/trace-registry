@@ -1,7 +1,8 @@
 package io.komune.registry.f2.activity.domain.model
 
-import cccev.f2.concept.domain.model.InformationConceptDTO
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
+import cccev.dsl.model.Evidence
+import cccev.dsl.model.EvidenceDTO
+import cccev.dsl.model.InformationConcept
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -23,9 +24,9 @@ interface ActivityStepDTO {
     val identifier: ActivityStepIdentifier
     val name: String?
     val description: String?
-    val hasConcept: InformationConceptDTO?
+    val hasConcept: InformationConcept?
     val value: String?
-//    val evidences: List<EvidenceDTO> // TODO
+    val evidences: List<EvidenceDTO> // TODO
     val completed: Boolean
 }
 
@@ -35,8 +36,8 @@ class ActivityStep(
     override val identifier: ActivityStepIdentifier,
     override val name: String?,
     override val description: String?,
-    override val hasConcept: InformationConceptDTOBase?,
+    override val hasConcept: InformationConcept?,
     override val value: String?,
-//    override val evidences: List<Evidence>,
+    override val evidences: List<Evidence>,
     override val completed: Boolean,
 ): ActivityStepDTO

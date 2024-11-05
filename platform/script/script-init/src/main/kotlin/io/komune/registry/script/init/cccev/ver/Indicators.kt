@@ -14,7 +14,7 @@ object Indicators {
             name = "Ton",
             description = "",
             notation = "t",
-            type = DataUnitType.number
+            type = DataUnitType.NUMBER
         )
     }
 }

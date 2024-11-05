@@ -1,30 +1,30 @@
 package io.komune.registry.f2.activity.api.model
 
-import cccev.core.certification.entity.Certification
-import cccev.f2.requirement.domain.model.RequirementDTO
-import cccev.f2.requirement.domain.model.RequirementDTOBase
-import cccev.s2.requirement.domain.RequirementId
+import cccev.dsl.model.Certification
+import cccev.dsl.model.Requirement
+import cccev.dsl.model.RequirementId
 import io.komune.registry.f2.activity.domain.model.Activity
 
-suspend fun Collection<RequirementDTO>.toActivities(
+suspend fun Collection<Requirement>.toActivities(
     certification: Certification?,
-    getRequirement: suspend (RequirementId) -> RequirementDTOBase
+    getRequirement: suspend (RequirementId) -> Requirement
 ): List<Activity> {
-    return distinctBy(RequirementDTO::id)
+    return distinctBy(Requirement::identifier)
         .map  { it.toActivity(certification, getRequirement) }
         .sortedBy { it.identifier }
 }
 
-suspend fun RequirementDTO.toActivity(
+suspend fun Requirement.toActivity(
     certification: Certification?,
-    getRequirement: suspend (RequirementId) -> RequirementDTOBase
+    getRequirement: suspend (RequirementId) -> Requirement
 ) = Activity(
-    identifier = identifier ?: "",
+    identifier = identifier,
     certificationId = certification?.id,
     name = name,
     description = description,
     type = type,
-    hasQualifiedRelation = hasQualifiedRelation.values.flatten().mapNotNull { getRequirement(it).identifier },
-    hasRequirement = hasRequirement.toActivities(certification, getRequirement),
+//    hasQualifiedRelation = hasQualifiedRelation.values.flatten().mapNotNull { getRequirement(it).identifier },
+    hasQualifiedRelation = emptyList(),
+    hasRequirement = hasRequirement?.toActivities(certification, getRequirement) ?: emptyList(),
     progression = 0.0 //certification?.requirementStats?.get(id)?.completion ?: 0.0 // TODO
 )

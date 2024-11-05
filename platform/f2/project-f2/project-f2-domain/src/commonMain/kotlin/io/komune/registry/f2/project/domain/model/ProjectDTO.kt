@@ -1,7 +1,6 @@
 package io.komune.registry.f2.project.domain.model
 
-import cccev.core.certification.model.CertificationId
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.commons.model.GeoLocationDTO
@@ -18,6 +17,7 @@ import s2.dsl.automate.model.WithS2State
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
+typealias CertificationId = String
 
 @JsExport
 @JsName("ProjectDTO")

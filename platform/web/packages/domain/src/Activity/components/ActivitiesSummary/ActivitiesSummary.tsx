@@ -5,14 +5,19 @@ import { useActivityStepPageQuery } from '../../api';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {isDynastyInGraph} from "../../graph";
 import {ActivitiesStepSummary} from "../ActivityStepSummary/ActivitiesStepSummary";
+import { useExtendedAuth } from 'components';
+import { ActivitiesDcsForm } from '../ActivitiesDcsForm';
+import { ActivitiesNextSteps } from '../ActivitiesNextSteps';
+import { Project } from '../../../Project';
 
 export interface ActivitiesSummaryProps {
   activities: Activity[]
   isLoading?: boolean
+  project?: Project
 }
 
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
-  const { isLoading, activities } = props
+  const { isLoading, activities, project } = props
   const reactFlowStore = useStoreApi();
   const [searchParams, setSearchParams] = useSearchParams();
   const { "*": splat } = useParams();
@@ -20,6 +25,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
   const selectedActivity = searchParams.get("selectedActivity")
   const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
   const nodes = useNodes();
+  const {keycloak} = useExtendedAuth()
 
   useEffect(() => {
     //This useEffect will select the node saved in the url if not already selected
@@ -53,7 +59,7 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
 
   const activityStepPageQuery = useActivityStepPageQuery({
     query: {
-      certificationIdentifier: selectedNode?.certification?.identifier ?? "",
+      certificationId: selectedNode?.certificationId ?? "",
       activityIdentifier: selectedNode?.identifier ?? "",
       limit: undefined,
       offset: undefined,
@@ -65,6 +71,10 @@ export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
 
   const isactivityStepPageQueryLoading = activityStepPageQuery.isLoading && !!selectedNode?.identifier
   const steps = activityStepPageQuery.data?.items ?? []
+  if (keycloak.isAuthenticated) {
+    if (!splat) return <ActivitiesNextSteps />
+    else return <ActivitiesDcsForm project={project} />
+  }
   return (
     <ActivitiesStepSummary activity={selectedNode} isLoading={isLoading || isactivityStepPageQueryLoading} steps={steps} />
   )

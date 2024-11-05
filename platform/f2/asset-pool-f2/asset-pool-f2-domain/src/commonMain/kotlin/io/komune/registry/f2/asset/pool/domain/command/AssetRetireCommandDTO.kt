@@ -27,7 +27,7 @@ interface AssetRetireCommandDTO {
 
     /**
      * Owner of the assets to retire.
-     * @example "SmartB"
+     * @example "Komune"
      */
     val from: String
 

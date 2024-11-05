@@ -8,7 +8,8 @@ registry:
       delayMillis: 10000
     init:
       auth:
-        url: https://auth.dev.connect.komune.io/realms/sb-dev
+        realmId: sb-dev
+        url: https://auth.dev.connect.komune.io
       im:
         url: http://dev.connect.komune.io/im
       cccev:
@@ -16,7 +17,7 @@ registry:
 #      registry:
 #        url: https://localhost:8070/ver
       orchestrator:
-        name: Smartb
+        name: Komune
         clientId: tr-registry-script-api
         clientSecret: 703ece3d-82bc-4747-8840-96c1c3431079
       nbProject: 25

@@ -1,11 +1,12 @@
 package io.komune.registry.s2.asset.domain.command.pool
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
 import io.komune.registry.s2.asset.domain.automate.AssetPoolEvent
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolInitCommand
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import kotlinx.serialization.Serializable
+
+typealias InformationConceptIdentifier = String
 
 data class AssetPoolCreateCommand(
     val vintage: String?,

@@ -1,12 +1,15 @@
 name: Dev
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, labeled]
   push:
     branches:
       - main
       - 'release/*'
+    tags:
+      - '*'
 
 jobs:
   libs:
@@ -15,7 +18,7 @@ jobs:
       contents: read
       packages: write
     with:
-      make-file: 'libs.mk'
+      make-file: 'Makefile_libs.mk'
     secrets:
       GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
       GPG_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
@@ -31,7 +34,7 @@ jobs:
       packages: write
     with:
       with-docker-registry-login: 'true'
-      make-file: 'docker.mk'
+      make-file: 'Makefile_docker.mk'
     secrets:
       GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
       GPG_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
@@ -51,6 +54,7 @@ jobs:
       with-chromatic: false
       storybook-dir: storybook
       storybook-static-dir: storybook-static
+      make-file: 'Makefile_docs.mk'
     secrets:
       NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

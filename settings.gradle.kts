@@ -15,6 +15,7 @@ include(
 	"platform:api:api-config",
 	"platform:api:api-gateway",
 	"platform:api:api-init",
+	"platform:api:api-js-export",
 )
 
 include(

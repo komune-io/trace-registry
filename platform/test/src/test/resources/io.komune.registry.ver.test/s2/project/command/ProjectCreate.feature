@@ -13,8 +13,8 @@ Feature: ProjectCreate
       | p3         | Project3 | The description 1|
       | p4         | Project4 | The description 1|
     When I create a project:
-      | identifier  | name        | description      |
-      | p5          | Project5    | The description 5|
+      | identifier  | name        | description      |isPrivate |
+      | p5          | Project5    | The description 5|true      |
     Then The project should be created:
       | identifier  | name        | description      |isPrivate |
       | p5          | Project5    | The description 5|true |

@@ -24,7 +24,7 @@ fun localConsultationProtocolActivity(init: InformationRequirementBuilder.() -> 
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 fun localConsultationProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
     InformationRequirementBuilder().apply {
@@ -35,7 +35,7 @@ fun localConsultationProtocolValidationActivity(init: InformationRequirementBuil
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 
 val LocalConsultationPreparation = localConsultationProtocolActivity {
@@ -54,7 +54,7 @@ val LocalConsultationPreparation = localConsultationProtocolActivity {
     isDerivedFrom {
         +ReferenceFramework.REDDPlus
     }
-    type = RequirementType.Activity
+    type = RequirementType.Activity.identifier
     hasConcept {
         localConsultationStep {
             identifier = "D100"

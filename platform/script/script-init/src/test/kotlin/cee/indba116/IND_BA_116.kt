@@ -12,7 +12,7 @@ import cee.SecteurApplication
 val IND_BA_116 = criterion {
 	identifier = "IND-BA-116"
 	name = "Luminaires à modules LED"
-	type = FicheCee
+	type = FicheCee.toString()
 	+SecteurApplication(
 		EstBatimentIndustriel
 	)

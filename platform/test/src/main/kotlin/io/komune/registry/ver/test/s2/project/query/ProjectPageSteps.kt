@@ -83,6 +83,7 @@ class ProjectPageSteps: En, VerCucumberStepsDefinition() {
                 .withFailMessage("Project[${provider.id}] should not be returns").isNull()
         }
     }
+
     private fun assertProject(params: Collection<ProjectPageAssertParams>) {
         val paramsMap = params.associateBy { context.projectIds.safeGet(it.identifier) }
 

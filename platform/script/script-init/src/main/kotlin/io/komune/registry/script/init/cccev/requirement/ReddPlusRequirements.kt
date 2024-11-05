@@ -24,7 +24,7 @@ fun reddPlusProtocolPreparationActivity(init: InformationRequirementBuilder.() -
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 
 fun reddPlusProtocolValidationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -36,7 +36,7 @@ fun reddPlusProtocolValidationActivity(init: InformationRequirementBuilder.() ->
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 
 fun reddPlusProtocolCertificationActivity(init: InformationRequirementBuilder.() -> Unit) =
@@ -48,7 +48,7 @@ fun reddPlusProtocolCertificationActivity(init: InformationRequirementBuilder.()
         isDerivedFrom {
             +ReferenceFramework.REDDPlus
         }
-        type = RequirementType.Activity
+        type = RequirementType.Activity.identifier
     }.apply(init).build()
 
 

@@ -1,11 +1,11 @@
 package io.komune.registry.s2.asset.api.entity.pool
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.InformationConceptIdentifier
+import com.redis.om.spring.annotations.Document
+import com.redis.om.spring.annotations.Searchable
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.commons.model.BigDecimalAsString
-import com.redis.om.spring.annotations.Document
-import com.redis.om.spring.annotations.Searchable
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State

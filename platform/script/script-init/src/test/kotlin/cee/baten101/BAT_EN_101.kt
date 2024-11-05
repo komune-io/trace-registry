@@ -12,7 +12,7 @@ import cee.SecteurApplication
 val BAT_EN_101 = criterion {
     identifier = "BAT-EN-101"
     name = "Isolation de combles ou de toitures"
-    type = FicheCee
+    type = FicheCee.toString()
     +SecteurApplication(
     )
     +Denomination(

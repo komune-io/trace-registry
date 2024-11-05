@@ -1,14 +1,14 @@
 package io.komune.registry.s2.project.domain
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
 import io.komune.im.commons.model.OrganizationId
 import io.komune.registry.s2.project.domain.automate.ProjectState
 import io.komune.registry.s2.project.domain.model.Project
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
 
 interface ProjectFinder {
     suspend fun getOrNull(id: ProjectId): Project?

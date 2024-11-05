@@ -1,0 +1,47 @@
+services:
+  im-keycloak:
+    image: ${DOCKER_REPOSITORY}im-keycloak:${VERSION_IM}
+    container_name: ${KC_HOSTNAME}
+    environment:
+      KC_DB_URL: 'jdbc:postgresql://im-keycloak-postgres/im-keycloak'
+      KC_DB_PASSWORD: admin
+      KC_DB_USERNAME: admin
+      KC_DB_SCHEMA: public
+      KC_HOSTNAME: localhost
+      KEYCLOAK_ADMIN: ${KC_ROOT_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KC_ROOT_PASS}
+      PROXY_ADDRESS_FORWARDING: "true"
+      JDBC_PARAMS: "ssl=false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+    ports:
+      - '8080:8080'
+    networks:
+      - net
+    depends_on:
+      - im-keycloak-postgres
+
+  im-keycloak-postgres:
+    image: postgres
+    container_name: im-keycloak-postgres
+    environment:
+      POSTGRES_DB: im-keycloak
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+  connect-fake-smtp:
+    container_name: ${SMTP_HOST}
+    image: reachfive/fake-smtp-server:latest
+    ports:
+      - "${SMTP_PORT}:1025"
+      - "1080:1080"
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

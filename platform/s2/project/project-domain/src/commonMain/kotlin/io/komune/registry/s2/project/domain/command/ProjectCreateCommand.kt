@@ -1,7 +1,7 @@
 package io.komune.registry.s2.project.domain.command
 
-import cccev.core.certification.model.CertificationId
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.dsl.model.CertificationId
+import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.domain.automate.ProjectEvent
 import io.komune.registry.s2.project.domain.automate.ProjectInitCommand
@@ -10,9 +10,9 @@ import io.komune.registry.s2.project.domain.model.DateTime
 import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.SdgNumber
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Create a project

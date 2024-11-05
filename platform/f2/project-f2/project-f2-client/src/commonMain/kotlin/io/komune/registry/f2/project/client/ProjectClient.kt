@@ -11,17 +11,36 @@ import io.komune.registry.f2.project.domain.query.ProjectGetFunction
 import io.komune.registry.f2.project.domain.query.ProjectListFilesFunction
 import io.komune.registry.f2.project.domain.query.ProjectPageFunction
 import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
 import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect fun F2Client.projectClient(): F2SupplierSingle<ProjectClient>
-expect fun projectClient(urlBase: String, accessToken: String): F2SupplierSingle<ProjectClient>
+fun F2Client.projectClient(): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
+    ProjectClient(this)
+}
+
+fun projectClient(
+    urlBase: String,
+    getAuth: AuthRealmProvider,
+): F2SupplierSingle<ProjectClient> = f2SupplierSingle {
+    ProjectClient(
+        F2ClientBuilder.get(urlBase) {
+            install(F2Auth) {
+                this.getAuth = getAuth
+            }
+        }
+    )
+}
 
 @JsName("ProjectClient")
 @JsExport
-open class ProjectClient constructor(private val client: F2Client) : ProjectApi {
+open class ProjectClient(private val client: F2Client) : ProjectApi {
     override fun projectCreate(): ProjectCreateFunction = client.function(this::projectCreate.name)
     override fun projectUpdate(): ProjectUpdateFunction = client.function(this::projectUpdate.name)
     override fun projectAddAssetPool(): ProjectAddAssetPoolFunction = client.function(this::projectAddAssetPool.name)

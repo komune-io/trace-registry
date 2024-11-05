@@ -1,9 +1,9 @@
 package io.komune.registry.ver.test
 
 import au.com.origin.snapshots.SnapshotVerifier
-import cccev.s2.concept.domain.InformationConceptId
-import cccev.s2.concept.domain.InformationConceptIdentifier
-import cccev.s2.unit.domain.DataUnitId
+import cccev.dsl.model.DataUnitId
+import cccev.dsl.model.InformationConceptId
+import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.im.f2.organization.domain.model.Organization
 import io.komune.registry.f2.activity.domain.model.ActivityId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId

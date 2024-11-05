@@ -1,5 +1,7 @@
 package io.komune.registry.s2.asset.api
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.spring.utils.toUploadCommand
@@ -28,8 +30,6 @@ import io.komune.registry.s2.asset.domain.command.transaction.AssetTransactionEm
 import io.komune.registry.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.respectsGranularity
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import java.util.UUID
 import org.springframework.stereotype.Service
 

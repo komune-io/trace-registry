@@ -1,8 +1,8 @@
 package io.komune.registry.s2.asset.domain.model
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
+import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.BigDecimalAsString
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable

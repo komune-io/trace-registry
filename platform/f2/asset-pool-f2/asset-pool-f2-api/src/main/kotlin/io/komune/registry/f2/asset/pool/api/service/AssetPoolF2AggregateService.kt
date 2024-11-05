@@ -1,8 +1,8 @@
 package io.komune.registry.f2.asset.pool.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
-import cccev.f2.concept.domain.query.InformationConceptGetByIdentifierQueryDTOBase
+import cccev.f2.concept.model.InformationConceptFlat
+import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.asset.pool.domain.command.AbstractAssetTransactionCommand
 import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
@@ -26,6 +26,7 @@ import io.komune.registry.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import f2.dsl.fnc.invokeWith
+import io.komune.registry.s2.project.domain.command.ProjectAddAssetPoolCommand
 import org.springframework.stereotype.Service
 
 @Service
@@ -38,29 +39,18 @@ class AssetPoolF2AggregateService(
     suspend fun create(command: AssetPoolCreateCommandDTOBase): AssetPoolCreatedEvent {
         val indicator = findCoeIndicateur(command.indicator)
         val event = AssetPoolCreateCommand(
-            indicator = indicator.identifier!!,
+            indicator = indicator.identifier,
             vintage = command.vintage,
             granularity = command.granularity,
             metadata = emptyMap()
-//            metadata = mapOf(
-//                "project" to project.name,
-//                "project_id" to project.id,
-//                "certifiedBy" to project.vvb?.name
-//            )
         ).let { assetPoolAggregateService.create(it) }
-
-
-        // TODO Create endpoint ProjectAddAssetPool to do that
-//        ProjectAddAssetPoolCommand(
-//            id = project.id,
-//            poolId = event.id
-//        ).let { projectAggregateService.addAssetPool(it) }
 
         return event
     }
-    private suspend fun findCoeIndicateur(indicator: String): InformationConceptDTOBase {
-        return InformationConceptGetByIdentifierQueryDTOBase(
-            identifier = indicator
+
+    private suspend fun findCoeIndicateur(identifier: String): InformationConceptFlat {
+        return InformationConceptGetByIdentifierQuery(
+            identifier = identifier
         ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
             .item!!
     }

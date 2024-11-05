@@ -5,7 +5,7 @@ Feature: AssetIssueF2
     And A concept is created in cccev
     And An organization is defined:
       | identifier | roles           |
-      | SmartB     | tr_orchestrator_user |
+      | Komune     | tr_orchestrator_user |
     And A user is defined:
       | identifier |
       | orch       |
@@ -17,10 +17,10 @@ Feature: AssetIssueF2
     And An asset pool is created
     When I issue assets via API:
       | receiver | quantity |
-      | SmartB   | 666      |
+      | Komune   | 666      |
     Then The transaction should be emitted:
       | from | to     | quantity | type   |
-      | null | SmartB | 666      | ISSUED |
+      | null | Komune | 666      | ISSUED |
     And The wallets of the asset pool should be updated:
       | owner  | value |
-      | SmartB | 666   |
+      | Komune | 666   |

@@ -8,7 +8,7 @@ object LumenPerW: DataUnit(
     name = "Lumen par Watt",
     description = "Lumen par Watt",
     notation = "lm/W",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )
 
 object Variation: DataUnit(
@@ -16,7 +16,7 @@ object Variation: DataUnit(
     name = "Variation",
     description = "Variation d'une valeur à une autre",
     notation = "%",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )
 
 object KWhCumacPerW: DataUnit(
@@ -24,7 +24,7 @@ object KWhCumacPerW: DataUnit(
     name = "Kilowatt-heures Cumac par Watt",
     description = "Kilowatt-heures cumulés et actualisés par Watt",
     notation = "kWh Cumac/W",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )
 
 object Watt: DataUnit(
@@ -32,5 +32,5 @@ object Watt: DataUnit(
     name = "Watt",
     description = "Watt",
     notation = "W",
-    type = DataUnitType.number
+    type = DataUnitType.NUMBER
 )

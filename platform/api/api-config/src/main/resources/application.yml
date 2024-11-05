@@ -22,7 +22,7 @@ im:
 
 f2:
   tenant:
-    issuer-base-uri: https://auth.dev.connect.komune.io
+    issuer-base-uri: http://localhost:8080
 
 ssm:
   signer:

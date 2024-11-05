@@ -1,5 +1,6 @@
 package io.komune.registry.s2.asset.api.entity.pool
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import io.komune.registry.s2.asset.api.entity.transaction.AssetTransactionRepository
 import io.komune.registry.s2.asset.domain.automate.AssetPoolEvent
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
@@ -10,7 +11,6 @@ import io.komune.registry.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumedEvent
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolUpdatedEvent
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 

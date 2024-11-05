@@ -26,6 +26,9 @@ dependencies {
 	implementation(project(":platform:api:api-commons"))
 
 	Dependencies.Jvm.s2Bdd(::api)
+	implementation("org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}") {
+		exclude(group = "org.skyscreamer", module = "jsonassert")
+	}
 	implementation("io.github.origin-energy:java-snapshot-testing-core:${Versions.javaSnapshotTesting}")
 	implementation("io.github.origin-energy:java-snapshot-testing-plugin-jackson:${Versions.javaSnapshotTesting}")
 }

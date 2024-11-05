@@ -1,5 +1,13 @@
 package io.komune.registry.f2.dataset.client
 
+import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.domain.AuthRealmProvider
+import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
+import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
@@ -9,14 +17,25 @@ import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
-import f2.client.F2Client
-import f2.client.function
-import f2.dsl.fnc.F2SupplierSingle
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
-expect fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient>
-expect fun datasetClient(urlBase: String, accessToken: String): F2SupplierSingle<DatasetClient>
+fun F2Client.datasetClient(): F2SupplierSingle<DatasetClient> = f2SupplierSingle {
+    DatasetClient(this)
+}
+
+
+fun datasetClient(urlBase: String, getAuth: AuthRealmProvider): F2SupplierSingle<DatasetClient> =
+    f2SupplierSingle {
+        DatasetClient(
+            F2ClientBuilder.get(urlBase) {
+                install(F2Auth) {
+                    this.getAuth = getAuth
+                }
+            }
+        )
+    }
+
 
 @JsExport
 @JsName("DatasetClient")

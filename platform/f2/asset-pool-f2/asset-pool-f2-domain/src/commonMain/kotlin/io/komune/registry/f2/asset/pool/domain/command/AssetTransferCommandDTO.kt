@@ -28,13 +28,13 @@ interface AssetTransferCommandDTO {
 
     /**
      * Previous owner of the transferred assets
-     * @example "SmartB"
+     * @example "Komune"
      */
     val from: String
 
     /**
      * New owner of the transferred assets.
-     * @example "SmartBetter"
+     * @example "Komuneetter"
      */
     val to: String
 

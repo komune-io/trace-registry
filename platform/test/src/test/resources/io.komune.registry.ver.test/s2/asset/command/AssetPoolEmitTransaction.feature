@@ -8,22 +8,22 @@ Feature: AssetPoolEmitTransaction
     Given An asset pool is created
     When I emit a transaction:
       | type   | to     | quantity |
-      | ISSUED | SmartB | 666      |
+      | ISSUED | Komune | 666      |
     Then The transaction should be emitted
     When I emit a transaction:
       | type        | from   | to                | quantity |
-      | TRANSFERRED | SmartB | Monsstrai Company | 66       |
+      | TRANSFERRED | Komune | Monsstrai Company | 66       |
     Then The transaction should be emitted
     And The wallets of the asset pool should be updated:
       | owner             | value |
-      | SmartB            | 600   |
+      | Komune            | 600   |
       | Monsstrai Company | 66    |
 
   Scenario: I want to receive an error when emitting a transaction with a negative quantity
     Given An asset pool is created
     When I emit a transaction:
       | type   | to     | quantity |
-      | ISSUED | SmartB | -100     |
+      | ISSUED | Komune | -100     |
     Then An exception should be thrown:
       | code |
       | 1000 |
@@ -32,7 +32,7 @@ Feature: AssetPoolEmitTransaction
     Given An asset pool is created
     When I emit a transaction:
       | type        | from   | to                | quantity |
-      | TRANSFERRED | SmartB | Monsstrai Company | 100      |
+      | TRANSFERRED | Komune | Monsstrai Company | 100      |
     Then An exception should be thrown:
       | code |
       | 1001 |
@@ -43,7 +43,7 @@ Feature: AssetPoolEmitTransaction
       | 0.01        |
     When I emit a transaction:
       | type   | to     | quantity |
-      | ISSUED | SmartB | 100.001  |
+      | ISSUED | Komune | 100.001  |
     Then An exception should be thrown:
       | code |
       | 1002 |
@@ -54,17 +54,17 @@ Feature: AssetPoolEmitTransaction
       | 0.05        |
     When I emit a transaction:
       | type   | to     | quantity |
-      | ISSUED | SmartB | 100.05   |
+      | ISSUED | Komune | 100.05   |
     Then The transaction should be emitted
     And The wallets of the asset pool should be updated:
       | owner  | value  |
-      | SmartB | 100.05 |
+      | Komune | 100.05 |
     When I emit a transaction:
       | type   | to     | quantity |
-      | ISSUED | SmartB | 100.04   |
+      | ISSUED | Komune | 100.04   |
     Then An exception should be thrown:
       | code |
       | 1002 |
     And The wallets of the asset pool should be updated:
       | owner  | value  |
-      | SmartB | 100.05 |
+      | Komune | 100.05 |

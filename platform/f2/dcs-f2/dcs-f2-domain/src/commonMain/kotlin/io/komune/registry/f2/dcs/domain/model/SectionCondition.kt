@@ -1,7 +1,7 @@
 package io.komune.registry.f2.dcs.domain.model
 
-import cccev.s2.concept.domain.InformationConceptIdentifier
-import cccev.s2.requirement.domain.RequirementIdentifier
+import cccev.dsl.model.InformationConceptIdentifier
+import cccev.dsl.model.RequirementIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 

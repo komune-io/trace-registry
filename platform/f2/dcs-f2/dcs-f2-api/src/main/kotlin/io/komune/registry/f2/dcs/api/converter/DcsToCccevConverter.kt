@@ -12,7 +12,7 @@ import cccev.dsl.model.builder.informationConcept
 import cccev.dsl.model.constraint
 import cccev.dsl.model.criterion
 import cccev.dsl.model.informationRequirement
-import cccev.f2.unit.domain.model.DataUnitTypeValues
+import cccev.f2.unit.model.DataUnitTypeValues
 import io.komune.registry.f2.dcs.api.model.DcsCode
 import io.komune.registry.f2.dcs.api.validator.DcsValidator
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
@@ -25,12 +25,11 @@ import io.komune.registry.f2.dcs.domain.model.DataSection
 object DcsToCccevConverter {
     fun convert(dcs: DataCollectionStep): Requirement {
         DcsValidator.check(dcs)
-
         return criterion {
             identifier = dcs.identifier
             name = dcs.label
             description = dcs.description
-            type = DcsCode.DataCollectionStep
+            type = DcsCode.DataCollectionStep.toString()
             properties = dcs.properties
             hasRequirement {
                 dcs.sections.forEachIndexed { i, section ->
@@ -45,7 +44,7 @@ object DcsToCccevConverter {
             identifier = section.identifier
             name = section.label
             description = section.description
-            type = DcsCode.Section
+            type = DcsCode.Section.toString()
             order = position
             properties = section.properties
             hasRequirement {
@@ -67,8 +66,10 @@ object DcsToCccevConverter {
                     identifier = "",
                     name = "${field.name}_options",
                     type = unitType(field.dataType),
-                    options = options.mapIndexed { i, option -> convert(option, unitIdentifier, i) },
-                    description = "",
+                    options = options
+                        .mapIndexed { i, option -> convert(option, unitIdentifier, i) }
+                        .takeIf { it.isNotEmpty() },
+                    description = null,
                     notation = null
                 )
             } ?: typeToGenericUnit(field.dataType)
@@ -87,7 +88,7 @@ object DcsToCccevConverter {
             properties = field.properties.orEmpty() + (RequirementPropertyKeys.FIELD_TYPE to field.type)
             hasConcept = mutableListOf(concept)
             enablingCondition = displayCondition?.expression
-            enablingConditionDependencies = displayCondition?.dependencies.orEmpty()
+            enablingConditionDependencies = displayCondition?.dependencies ?: emptyList()
             hasRequirement {
                 validationConditions.forEach {
                     +buildConstraint(it)
@@ -108,22 +109,22 @@ object DcsToCccevConverter {
     private fun buildConstraint(condition: DataCondition) = constraint {
         identifier = condition.identifier
         validatingCondition = condition.expression
-        validatingConditionDependencies = condition.dependencies
+        validatingConditionDependencies = condition.dependencies ?: emptyList()
         description = condition.error
     }
 
     private fun typeToGenericUnit(type: String) = when (unitType(type)) {
-        DataUnitType.boolean -> XSDBoolean
-        DataUnitType.date -> XSDDate
-        DataUnitType.number -> XSDDouble
-        DataUnitType.string -> XSDString
+        DataUnitType.BOOLEAN -> XSDBoolean
+        DataUnitType.DATE -> XSDDate
+        DataUnitType.NUMBER -> XSDDouble
+        DataUnitType.STRING -> XSDString
     }
 
     private fun unitType(type: String) = when (type) {
-        DataUnitTypeValues.boolean() -> DataUnitType.boolean
-        DataUnitTypeValues.date() -> DataUnitType.date
-        DataUnitTypeValues.number() -> DataUnitType.number
-        DataUnitTypeValues.string() -> DataUnitType.string
-        else -> DataUnitType.string
+        DataUnitTypeValues.boolean() -> DataUnitType.BOOLEAN
+        DataUnitTypeValues.date() -> DataUnitType.DATE
+        DataUnitTypeValues.number() -> DataUnitType.NUMBER
+        DataUnitTypeValues.string() -> DataUnitType.STRING
+        else -> DataUnitType.STRING
     }
 }

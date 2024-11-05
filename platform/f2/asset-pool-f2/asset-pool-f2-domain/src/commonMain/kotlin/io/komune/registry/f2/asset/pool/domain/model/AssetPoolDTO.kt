@@ -1,7 +1,6 @@
 package io.komune.registry.f2.asset.pool.domain.model
 
-import cccev.f2.concept.domain.model.InformationConceptDTO
-import cccev.f2.concept.domain.model.InformationConceptDTOBase
+import cccev.dsl.model.InformationConcept
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.model.AssetPoolStats
@@ -20,7 +19,7 @@ interface AssetPoolDTO: WithS2State<AssetPoolState> {
     val id: AssetPoolId
     val status: String
     val vintage: String?
-    val indicator: InformationConceptDTO
+    val indicator: InformationConcept
     val granularity: Double
     val wallets: Map<String, BigDecimalAsNumber>
     val stats: AssetPoolStats
@@ -35,7 +34,7 @@ data class AssetPoolDTOBase(
     override val id: AssetPoolId,
     override val status: String,
     override val vintage: String?,
-    override val indicator: InformationConceptDTOBase,
+    override val indicator: InformationConcept,
     override val granularity: Double,
     override val wallets: Map<String, BigDecimalAsNumber>,
     override val stats: AssetPoolStatsBase,

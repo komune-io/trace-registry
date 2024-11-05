@@ -1,7 +1,7 @@
 package io.komune.registry.f2.project.api.service
 
 import cccev.dsl.client.CCCEVClient
-import cccev.f2.certification.domain.query.CertificationGetQuery
+import cccev.f2.certification.query.CertificationGetQuery
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.im.commons.model.OrganizationId
 import io.komune.registry.f2.project.api.model.toDTO

@@ -1,14 +1,13 @@
 package io.komune.registry.f2.dcs.api.service
 
-import cccev.core.certification.entity.RequirementCertification
-import cccev.core.certification.model.CertificationId
 import cccev.dsl.client.CCCEVClient
-import cccev.dsl.client.model.toCertificationFlatGraph
 import cccev.dsl.client.model.unflatten
+import cccev.dsl.model.CertificationId
+import cccev.dsl.model.InformationConceptIdentifier
+import cccev.dsl.model.RequirementCertification
 import cccev.dsl.model.RequirementIdentifier
-import cccev.f2.certification.domain.query.CertificationGetQuery
-import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase
-import cccev.s2.concept.domain.InformationConceptIdentifier
+import cccev.f2.certification.query.CertificationGetQuery
+import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
 import io.komune.registry.f2.dcs.api.converter.CccevToDcsConverter
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import f2.dsl.fnc.invokeWith
@@ -20,10 +19,10 @@ class DcsF2FinderService(
     private val cccevClient: CCCEVClient
 ) {
     suspend fun getOrNull(identifier: RequirementIdentifier): DataCollectionStep? {
-        return RequirementGetByIdentifierQueryDTOBase(identifier = identifier)
+        return RequirementGetByIdentifierQuery(identifier = identifier)
             .invokeWith(cccevClient.requirementClient.requirementGetByIdentifier())
-            .item
-            ?.let { CccevToDcsConverter.convert(it) }
+            .unflatten()
+            .let { CccevToDcsConverter.convert(it) }
     }
 
     suspend fun get(identifier: RequirementIdentifier): DataCollectionStep {
@@ -34,15 +33,13 @@ class DcsF2FinderService(
     suspend fun getValues(
         identifier: RequirementIdentifier, certificationId: CertificationId
     ): Map<InformationConceptIdentifier, String?> {
-        val certificationGraph = CertificationGetQuery(certificationId)
+        val certification = CertificationGetQuery(certificationId)
             .invokeWith(cccevClient.certificationClient.certificationGet())
-            .toCertificationFlatGraph()
+            .unflatten()
             ?: throw NotFoundException("Certification", certificationId)
 
-        val dcsCertification = certificationGraph.requirementCertifications
-            .values
-            .firstOrNull { it.requirementIdentifier == identifier }
-            ?.unflatten(certificationGraph)
+        val dcsCertification = certification.requirementCertifications
+            .firstOrNull { it.requirement.identifier == identifier }
             ?: throw NotFoundException("RequirementCertification of Requirement", identifier)
 
         return dcsCertification.allValues()
@@ -50,7 +47,7 @@ class DcsF2FinderService(
 
     private fun RequirementCertification.allValues(): Map<InformationConceptIdentifier, String?> {
         val valuesMap = mutableMapOf<InformationConceptIdentifier, String?>()
-        values.forEach { valuesMap[it.concept.identifier] = it.value }
+        values.forEach { valuesMap[it.providesValueFor] = it.value }
         subCertifications.forEach { valuesMap.putAll(it.allValues()) }
         return valuesMap
     }
