@@ -15,8 +15,7 @@ io.komune.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
             "required": true,
             "type": "textField"
           }
-        ],
-        "label": ""
+        ]
       },
       {
         "description": "Provide information about the financial aspects of your project. Include the budget, funding sources, and any financial projections. Be transparent about how funds will be allocated to achieve project objectives.",
@@ -25,7 +24,7 @@ io.komune.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
             "conditions": [
               {
                 "dependencies": [
-                  "dc2564f5-ffc8-4709-8c8e-ae8f116907ed"
+                  "budget"
                 ],
                 "error": "Your budget should be above 0",
                 "expression": "#budget >= 0",
@@ -115,7 +114,7 @@ io.komune.registry.ver.test.SnapshotSteps.checkSavedRequirements[financialDetail
                 "required": true,
                 "validatingCondition": "#budget >= 0",
                 "validatingConditionDependencies": [
-                  "dc2564f5-ffc8-4709-8c8e-ae8f116907ed"
+                  "budget"
                 ],
                 "kind": "CONSTRAINT"
               }

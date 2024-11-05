@@ -25,7 +25,6 @@ import io.komune.registry.f2.dcs.domain.model.DataSection
 object DcsToCccevConverter {
     fun convert(dcs: DataCollectionStep): Requirement {
         DcsValidator.check(dcs)
-
         return criterion {
             identifier = dcs.identifier
             name = dcs.label
@@ -67,8 +66,10 @@ object DcsToCccevConverter {
                     identifier = "",
                     name = "${field.name}_options",
                     type = unitType(field.dataType),
-                    options = options.mapIndexed { i, option -> convert(option, unitIdentifier, i) },
-                    description = "",
+                    options = options
+                        .mapIndexed { i, option -> convert(option, unitIdentifier, i) }
+                        .takeIf { it.isNotEmpty() },
+                    description = null,
                     notation = null
                 )
             } ?: typeToGenericUnit(field.dataType)
@@ -87,7 +88,7 @@ object DcsToCccevConverter {
             properties = field.properties.orEmpty() + (RequirementPropertyKeys.FIELD_TYPE to field.type)
             hasConcept = mutableListOf(concept)
             enablingCondition = displayCondition?.expression
-            enablingConditionDependencies = displayCondition?.dependencies.orEmpty()
+            enablingConditionDependencies = displayCondition?.dependencies ?: emptyList()
             hasRequirement {
                 validationConditions.forEach {
                     +buildConstraint(it)
@@ -108,7 +109,7 @@ object DcsToCccevConverter {
     private fun buildConstraint(condition: DataCondition) = constraint {
         identifier = condition.identifier
         validatingCondition = condition.expression
-        validatingConditionDependencies = condition.dependencies
+        validatingConditionDependencies = condition.dependencies ?: emptyList()
         description = condition.error
     }
 

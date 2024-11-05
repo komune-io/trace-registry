@@ -31,7 +31,7 @@ object CccevToDcsConverter {
     private fun convertSection(section: Requirement): DataSection {
         return DataSection(
             identifier = section.identifier,
-            label = section.name.orEmpty(),
+            label = section.name,
             description = section.description,
             properties = section.properties,
             fields = section.hasRequirement?.filter { it.kind == RequirementKind.INFORMATION.name }?.map(
@@ -52,10 +52,10 @@ object CccevToDcsConverter {
             hasRequirement
                 .filter { it.kind == RequirementKind.CONSTRAINT.name }
                 .forEach { add(convertValidator(it)) }
-        }
+        }.takeIf { it.isNotEmpty() }
 
         return DataField(
-            name = concept.identifier.orEmpty(),
+            name = concept.identifier,
             label = concept.name,
             properties = fieldRequirement.properties,
             options = unit.options?.map(CccevToDcsConverter::convertFieldOption),
@@ -76,20 +76,20 @@ object CccevToDcsConverter {
     private fun extractDisplayCondition(field: Requirement): DataCondition? {
         return field.enablingCondition?.let {
             DataCondition(
-                identifier = field.identifier.orEmpty(),
+                identifier = field.identifier,
                 type = DataConditionTypeValues.display(),
                 expression = field.enablingCondition!!,
-                dependencies = field.enablingConditionDependencies.orEmpty(),
+                dependencies = field.enablingConditionDependencies?.map { it },
                 error = null
             )
         }
     }
 
     private fun convertValidator(constraint: Requirement) = DataCondition(
-        identifier = constraint.identifier.orEmpty(),
+        identifier = constraint.identifier,
         type = DataConditionTypeValues.validator(),
         expression = constraint.validatingCondition!!,
-        dependencies = constraint.validatingConditionDependencies.orEmpty(),
+        dependencies = constraint.validatingConditionDependencies?.map { it },
         error = constraint.description
     )
 }
