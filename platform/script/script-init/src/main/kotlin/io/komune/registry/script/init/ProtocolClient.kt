@@ -10,10 +10,6 @@ import io.komune.registry.script.init.cccev.requirement.VerraVcsRequirement
 import io.komune.registry.script.init.cccev.ver.ActivitiesAxess
 import io.komune.registry.script.init.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach

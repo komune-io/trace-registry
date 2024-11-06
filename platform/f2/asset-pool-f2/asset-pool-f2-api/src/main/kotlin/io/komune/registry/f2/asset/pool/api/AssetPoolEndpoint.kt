@@ -1,5 +1,10 @@
 package io.komune.registry.f2.asset.pool.api
 
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.api.commons.utils.anyNotNull
@@ -25,6 +30,7 @@ import io.komune.registry.f2.asset.pool.domain.command.AssetRetiredEventDTOBase
 import io.komune.registry.f2.asset.pool.domain.command.AssetTransferFunction
 import io.komune.registry.f2.asset.pool.domain.command.AssetTransferredEventDTOBase
 import io.komune.registry.f2.asset.pool.domain.query.AssetCertificateDownloadQuery
+import io.komune.registry.f2.asset.pool.domain.query.AssetPoolGetFunction
 import io.komune.registry.f2.asset.pool.domain.query.AssetPoolGetResultDTOBase
 import io.komune.registry.f2.asset.pool.domain.query.AssetPoolPageFunction
 import io.komune.registry.f2.asset.pool.domain.query.AssetPoolPageResult
@@ -36,12 +42,6 @@ import io.komune.registry.f2.asset.pool.domain.query.AssetTransactionPageResultD
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
-import io.komune.registry.f2.asset.pool.domain.query.AssetPoolGetFunction
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

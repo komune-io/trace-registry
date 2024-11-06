@@ -1,12 +1,12 @@
 package io.komune.registry.f2.asset.pool.domain.query
 
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTO
 import io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTOBase
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import io.komune.registry.s2.project.domain.model.ProjectId
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
 /**

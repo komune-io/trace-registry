@@ -3,11 +3,11 @@ package io.komune.registry.f2.dcs.domain.query
 import cccev.dsl.model.CertificationId
 import cccev.dsl.model.InformationConceptIdentifier
 import cccev.dsl.model.RequirementIdentifier
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStepDTO
-import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias DataCollectionStepGetFunction = F2Function<DataCollectionStepGetQuery, DataCollectionStepGetResult>
 

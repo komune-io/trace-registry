@@ -1,22 +1,18 @@
 package io.komune.registry.program.s2.dataset.api
 
-import io.komune.registry.api.commons.exception.NotFoundException
-import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
-import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
-import io.komune.registry.program.s2.dataset.api.entity.toDataset
-import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.DatasetFinder
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
-import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
+import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
+import io.komune.registry.program.s2.dataset.api.entity.toDataset
+import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
+import io.komune.registry.s2.dataset.domain.DatasetFinder
+import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
 
 @Service

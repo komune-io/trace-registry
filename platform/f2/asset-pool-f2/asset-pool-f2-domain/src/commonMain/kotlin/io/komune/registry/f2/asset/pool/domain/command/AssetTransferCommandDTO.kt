@@ -1,9 +1,9 @@
 package io.komune.registry.f2.asset.pool.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.BigDecimalAsNumber
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

@@ -1,5 +1,9 @@
 package io.komune.registry.f2.catalogue.api.service
 
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
+import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
@@ -7,10 +11,6 @@ import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
-import f2.dsl.cqrs.page.OffsetPagination
 import org.springframework.stereotype.Service
 
 @Service

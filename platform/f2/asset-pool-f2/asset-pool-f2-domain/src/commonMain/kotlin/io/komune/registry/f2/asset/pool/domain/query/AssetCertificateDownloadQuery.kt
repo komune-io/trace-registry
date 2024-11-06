@@ -1,7 +1,7 @@
 package io.komune.registry.f2.asset.pool.domain.query
 
-import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import f2.dsl.fnc.F2Function
+import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

@@ -1,7 +1,5 @@
 package io.komune.registry.f2.chat.client
 
-import io.komune.registry.f2.chat.domain.ChatApi
-import io.komune.registry.f2.chat.domain.query.ChatAskQuestionFunction
 import f2.client.F2Client
 import f2.client.domain.AuthRealm
 import f2.client.function
@@ -9,6 +7,8 @@ import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
+import io.komune.registry.f2.chat.domain.ChatApi
+import io.komune.registry.f2.chat.domain.query.ChatAskQuestionFunction
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

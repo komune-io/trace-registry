@@ -1,6 +1,8 @@
 package cccev.dsl.client
 
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.dsl.dcat.domain.model.DCatApCatalogueModel
+import io.komune.registry.dsl.dcat.domain.model.DcatDataset
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueSetImageFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
@@ -8,25 +10,21 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueFile
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import io.komune.registry.dsl.dcat.domain.model.DcatDataset
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import f2.dsl.fnc.F2SupplierSingle
-import f2.dsl.fnc.invokeWith
 import java.io.File
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import org.slf4j.LoggerFactory
 
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,

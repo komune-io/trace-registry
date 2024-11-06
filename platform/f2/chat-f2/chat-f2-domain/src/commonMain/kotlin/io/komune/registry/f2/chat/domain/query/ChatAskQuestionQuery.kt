@@ -1,11 +1,11 @@
 package io.komune.registry.f2.chat.domain.query
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.chat.domain.model.ChatMessage
 import io.komune.registry.f2.chat.domain.model.ChatMessageDTO
 import io.komune.registry.f2.chat.domain.model.ChatMetadata
 import io.komune.registry.f2.chat.domain.model.ChatMetadataDTO
 import io.komune.registry.s2.project.domain.model.ProjectId
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

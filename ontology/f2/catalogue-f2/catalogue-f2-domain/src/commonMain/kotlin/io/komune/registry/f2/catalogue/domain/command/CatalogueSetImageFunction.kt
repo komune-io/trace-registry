@@ -1,8 +1,8 @@
 package io.komune.registry.f2.catalogue.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

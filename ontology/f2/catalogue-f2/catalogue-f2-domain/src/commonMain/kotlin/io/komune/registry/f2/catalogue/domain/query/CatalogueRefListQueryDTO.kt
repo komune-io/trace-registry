@@ -1,8 +1,8 @@
 package io.komune.registry.f2.catalogue.domain.query
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

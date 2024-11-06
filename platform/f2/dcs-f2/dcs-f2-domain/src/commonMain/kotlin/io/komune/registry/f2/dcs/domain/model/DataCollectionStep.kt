@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dcs.domain.model
 
 import cccev.dsl.model.RequirementIdentifier
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface DataCollectionStepDTO {

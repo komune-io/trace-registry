@@ -1,5 +1,11 @@
 package io.komune.registry.f2.project.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.project.api.service.ProjectF2FinderService
@@ -24,12 +30,6 @@ import io.komune.registry.s2.asset.api.AssetPoolFinderService
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.project.api.ProjectAggregateService
 import io.komune.registry.s2.project.domain.automate.ProjectState
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource

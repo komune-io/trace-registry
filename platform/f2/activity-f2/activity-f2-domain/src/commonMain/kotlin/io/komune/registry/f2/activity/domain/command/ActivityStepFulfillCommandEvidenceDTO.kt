@@ -1,16 +1,16 @@
 package io.komune.registry.f2.activity.domain.command
 
 import cccev.dsl.model.CertificationId
+import f2.dsl.cqrs.Event
+import f2.dsl.fnc.F2Function
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.s2.file.domain.model.FilePathDTO
 import io.komune.registry.f2.activity.domain.model.ActivityFile
 import io.komune.registry.f2.activity.domain.model.ActivityIdentifier
 import io.komune.registry.f2.activity.domain.model.ActivityStepIdentifier
-import f2.dsl.cqrs.Event
-import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Fulfill an activity step by providing a value.

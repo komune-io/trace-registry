@@ -5,11 +5,13 @@ import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.Certification
 import cccev.dsl.model.CertificationId
 import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementId
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
 import cccev.f2.requirement.query.RequirementGetQuery
-import cccev.dsl.model.Requirement
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.activity.api.model.toActivities
 import io.komune.registry.f2.activity.api.model.toActivity
@@ -20,10 +22,8 @@ import io.komune.registry.f2.activity.domain.model.ActivityStep
 import io.komune.registry.f2.activity.domain.model.ActivityStepIdentifier
 import io.komune.registry.f2.activity.domain.query.ActivityPageResult
 import io.komune.registry.f2.activity.domain.query.ActivityStepPageResult
-import io.komune.registry.s2.project.api.ProjectFinderService
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.invokeWith
 import io.komune.registry.infra.fs.FsService
+import io.komune.registry.s2.project.api.ProjectFinderService
 import org.springframework.stereotype.Service
 
 @Service

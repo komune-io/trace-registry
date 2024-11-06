@@ -1,5 +1,9 @@
 package io.komune.registry.program.s2.dataset.api.entity
 
+import com.redis.om.spring.annotations.Document
+import com.redis.om.spring.annotations.Indexed
+import com.redis.om.spring.annotations.Searchable
+import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
@@ -8,10 +12,6 @@ import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import com.redis.om.spring.annotations.Document
-import com.redis.om.spring.annotations.Indexed
-import com.redis.om.spring.annotations.Searchable
-import com.redis.om.spring.annotations.TagIndexed
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State

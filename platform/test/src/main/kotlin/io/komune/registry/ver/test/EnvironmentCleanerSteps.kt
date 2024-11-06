@@ -1,9 +1,9 @@
 package io.komune.registry.ver.test
 
+import io.cucumber.java8.En
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolRepository
 import io.komune.registry.s2.asset.api.entity.transaction.AssetTransactionRepository
 import io.komune.registry.s2.project.api.entity.ProjectRepository
-import io.cucumber.java8.En
 import kotlinx.coroutines.runBlocking
 import s2.bdd.data.TestContext
 

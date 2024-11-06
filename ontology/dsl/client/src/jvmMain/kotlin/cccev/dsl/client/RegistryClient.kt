@@ -1,12 +1,10 @@
 package cccev.dsl.client
 
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.common.F2ClientConfigLambda
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.dataset.client.datasetClient
-import f2.client.ktor.F2ClientBuilder
-import f2.client.ktor.common.F2ClientConfigLambda
-import f2.dsl.fnc.F2SupplierSingle
-import kotlinx.serialization.json.Json
 
 class RegistryClient(
     val catalogueClient: CatalogueClient,

@@ -1,5 +1,8 @@
 package io.komune.registry.f2.dcs.api
 
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.JsonMappingException
+import f2.dsl.fnc.f2Function
 import io.komune.registry.api.commons.utils.parseJsonTo
 import io.komune.registry.f2.dcs.api.service.DcsF2AggregateService
 import io.komune.registry.f2.dcs.api.service.DcsF2FinderService
@@ -9,9 +12,6 @@ import io.komune.registry.f2.dcs.domain.command.DataCollectionStepFillCommand
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepFilledEvent
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetFunction
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetResult
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
-import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus

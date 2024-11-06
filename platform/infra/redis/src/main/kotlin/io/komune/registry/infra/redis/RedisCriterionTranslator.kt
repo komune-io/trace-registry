@@ -1,12 +1,12 @@
 package io.komune.registry.infra.redis
 
+import com.redis.om.spring.metamodel.MetamodelField
+import com.redis.om.spring.search.stream.SearchStream
 import io.komune.registry.s2.commons.model.AndCriterion
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.CriterionField
 import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.OrCriterion
-import com.redis.om.spring.metamodel.MetamodelField
-import com.redis.om.spring.search.stream.SearchStream
 import java.util.function.Predicate
 import java.util.function.Predicate.not
 

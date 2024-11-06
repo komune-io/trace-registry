@@ -1,6 +1,5 @@
 package io.komune.registry.api.config
 
-import io.komune.registry.s2.commons.model.BigDecimalAsNumber
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -8,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import io.komune.registry.s2.commons.model.BigDecimalAsNumber
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder

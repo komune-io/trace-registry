@@ -1,5 +1,12 @@
 package io.komune.registry.f2.project.client
 
+import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
+import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.project.domain.ProjectApi
 import io.komune.registry.f2.project.domain.command.ProjectAddAssetPoolFunction
 import io.komune.registry.f2.project.domain.command.ProjectChangePrivacyFunction
@@ -10,13 +17,6 @@ import io.komune.registry.f2.project.domain.query.ProjectGetByIdentifierFunction
 import io.komune.registry.f2.project.domain.query.ProjectGetFunction
 import io.komune.registry.f2.project.domain.query.ProjectListFilesFunction
 import io.komune.registry.f2.project.domain.query.ProjectPageFunction
-import f2.client.F2Client
-import f2.client.domain.AuthRealm
-import f2.client.function
-import f2.client.ktor.F2ClientBuilder
-import f2.client.ktor.http.plugin.F2Auth
-import f2.dsl.fnc.F2SupplierSingle
-import f2.dsl.fnc.f2SupplierSingle
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

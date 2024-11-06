@@ -8,10 +8,10 @@ import cccev.dsl.model.RequirementCertification
 import cccev.dsl.model.RequirementIdentifier
 import cccev.f2.certification.query.CertificationGetQuery
 import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
-import io.komune.registry.f2.dcs.api.converter.CccevToDcsConverter
-import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import f2.dsl.fnc.invokeWith
 import f2.spring.exception.NotFoundException
+import io.komune.registry.f2.dcs.api.converter.CccevToDcsConverter
+import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import org.springframework.stereotype.Service
 
 @Service

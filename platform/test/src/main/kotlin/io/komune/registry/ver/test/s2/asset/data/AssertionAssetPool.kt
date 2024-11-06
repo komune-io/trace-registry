@@ -1,11 +1,11 @@
 package io.komune.registry.ver.test.s2.asset.data
 
 import cccev.dsl.model.InformationConceptIdentifier
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolEntity
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolRepository
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionBlockingCrudEntity

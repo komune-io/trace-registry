@@ -1,10 +1,10 @@
 package io.komune.registry.f2.project.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.project.domain.command.ProjectUpdateCommand
 import io.komune.registry.s2.project.domain.command.ProjectUpdateCommandDTO
 import io.komune.registry.s2.project.domain.command.ProjectUpdatedEvent
 import io.komune.registry.s2.project.domain.command.ProjectUpdatedEventDTO
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

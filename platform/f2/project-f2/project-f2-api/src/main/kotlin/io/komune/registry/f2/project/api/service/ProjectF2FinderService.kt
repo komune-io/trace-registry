@@ -2,6 +2,12 @@ package io.komune.registry.f2.project.api.service
 
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.certification.query.CertificationGetQuery
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
+import f2.dsl.fnc.invokeWith
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.im.commons.model.OrganizationId
 import io.komune.registry.f2.project.api.model.toDTO
@@ -12,12 +18,6 @@ import io.komune.registry.s2.project.domain.automate.ProjectState
 import io.komune.registry.s2.project.domain.model.Project
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.map
-import f2.dsl.fnc.invokeWith
 import org.springframework.stereotype.Service
 
 @Service

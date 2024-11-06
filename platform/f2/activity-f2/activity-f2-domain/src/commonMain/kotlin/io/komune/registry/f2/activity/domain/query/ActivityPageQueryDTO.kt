@@ -1,8 +1,8 @@
 package io.komune.registry.f2.activity.domain.query
 
-import io.komune.registry.f2.activity.domain.model.ActivityDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.activity.domain.model.ActivityDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

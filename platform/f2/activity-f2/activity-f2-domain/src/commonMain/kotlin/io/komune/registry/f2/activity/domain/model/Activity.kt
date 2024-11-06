@@ -2,8 +2,8 @@ package io.komune.registry.f2.activity.domain.model
 
 import cccev.dsl.model.CertificationId
 import cccev.dsl.model.Code
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 hidden

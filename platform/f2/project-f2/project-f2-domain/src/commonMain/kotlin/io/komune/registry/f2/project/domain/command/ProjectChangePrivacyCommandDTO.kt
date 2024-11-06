@@ -1,10 +1,10 @@
 package io.komune.registry.f2.project.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.project.domain.command.ProjectChangePrivacyCommand
 import io.komune.registry.s2.project.domain.command.ProjectChangePrivacyCommandDTO
 import io.komune.registry.s2.project.domain.command.ProjectChangedPrivacyEvent
 import io.komune.registry.s2.project.domain.command.ProjectChangedPrivacyEventDTO
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

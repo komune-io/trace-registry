@@ -1,26 +1,15 @@
 package io.komune.registry.script.init.catalogue
 
 import cccev.dsl.client.DCatGraphClient
-import cccev.dsl.client.RegistryClient
 import f2.client.domain.AuthRealm
 import f2.client.ktor.F2ClientBuilder
-import f2.client.ktor.common.F2ClientConfigLambda
-import f2.client.ktor.common.applyConfig
 import f2.client.ktor.http.plugin.F2Auth
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.script.init.actor.Actor
-import io.komune.registry.script.init.utils.asyncExecution
-import io.ktor.client.plugins.logging.DEFAULT
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking

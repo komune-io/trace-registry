@@ -1,5 +1,12 @@
 package io.komune.registry.f2.catalogue.client
 
+import f2.client.F2Client
+import f2.client.domain.AuthRealm
+import f2.client.function
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
+import f2.dsl.fnc.F2SupplierSingle
+import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -9,13 +16,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunctio
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
-import f2.client.F2Client
-import f2.client.domain.AuthRealm
-import f2.client.function
-import f2.client.ktor.F2ClientBuilder
-import f2.client.ktor.http.plugin.F2Auth
-import f2.dsl.fnc.F2SupplierSingle
-import f2.dsl.fnc.f2SupplierSingle
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger

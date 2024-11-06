@@ -1,16 +1,16 @@
 package io.komune.registry.ver.test.f2.catalogue.command
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import f2.dsl.fnc.invokeWith
+import io.cucumber.java8.En
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.ver.test.f2.catalogue.data.catalogue
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import f2.dsl.fnc.invokeWith
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
+import io.komune.registry.ver.test.f2.catalogue.data.catalogue
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

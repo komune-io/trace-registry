@@ -1,9 +1,9 @@
 package io.komune.registry.f2.project.domain.query
 
-import io.komune.registry.f2.project.domain.model.ProjectDTO
 import f2.dsl.cqrs.page.OffsetPaginationDTO
 import f2.dsl.cqrs.page.PageQueryResultDTO
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.project.domain.model.ProjectDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

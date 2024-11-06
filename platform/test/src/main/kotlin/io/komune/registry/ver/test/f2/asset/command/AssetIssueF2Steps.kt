@@ -1,13 +1,13 @@
 package io.komune.registry.ver.test.f2.asset.command
 
-import io.komune.registry.f2.asset.pool.api.AssetPoolEndpoint
-import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
-import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.f2.asset.pool.api.AssetPoolEndpoint
+import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
+import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey
 

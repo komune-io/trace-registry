@@ -2,20 +2,19 @@ package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.s2.dataset.domain.DatasetAggregate
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import java.util.UUID
-import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service

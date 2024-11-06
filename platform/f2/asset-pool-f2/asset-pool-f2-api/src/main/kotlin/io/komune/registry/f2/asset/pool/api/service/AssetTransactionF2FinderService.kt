@@ -1,5 +1,11 @@
 package io.komune.registry.f2.asset.pool.api.service
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.andMatchOfNotNull
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.asset.pool.api.model.toDTO
 import io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTOBase
@@ -13,12 +19,6 @@ import io.komune.registry.s2.commons.model.BigDecimalAsString
 import io.komune.registry.s2.project.api.ProjectFinderService
 import io.komune.registry.s2.project.domain.model.Project
 import io.komune.registry.s2.project.domain.model.ProjectId
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.andMatchOfNotNull
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.map
 import org.springframework.stereotype.Service
 
 @Service

@@ -1,18 +1,15 @@
 package io.komune.registry.f2.dataset.api.service
 
-import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
-import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
+import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
-import f2.dsl.cqrs.page.OffsetPagination
 import org.springframework.stereotype.Service
 
 @Service

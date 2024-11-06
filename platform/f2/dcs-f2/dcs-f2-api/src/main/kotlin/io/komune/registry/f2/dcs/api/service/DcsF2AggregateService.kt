@@ -2,13 +2,13 @@ package io.komune.registry.f2.dcs.api.service
 
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.certification.command.CertificationFillValuesCommand
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.dcs.api.converter.DcsToCccevConverter
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefinedEvent
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepFillCommand
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepFilledEvent
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
-import f2.dsl.fnc.invokeWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import org.springframework.http.codec.multipart.FilePart

@@ -1,6 +1,8 @@
 package io.komune.registry.ver.test.s2.project.command
 
 import cccev.dsl.model.InformationConceptIdentifier
+import io.cucumber.datatable.DataTable
+import io.cucumber.java8.En
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.api.ProjectAggregateService
 import io.komune.registry.s2.project.api.entity.ProjectRepository
@@ -11,8 +13,6 @@ import io.komune.registry.s2.project.domain.model.ActivityIdentifier
 import io.komune.registry.s2.project.domain.model.DateTime
 import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.SdgNumber
-import io.cucumber.datatable.DataTable
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
