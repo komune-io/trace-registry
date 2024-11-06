@@ -3,8 +3,8 @@ window._env_ = {
     url: "http://localhost:8070"
   },
   config: {
-    i2: {
-      url: "https://dev.connect.smart-b.io/im", 
+    im: {
+      url: "http://localhost:8009",
     },
     keycloak: {
       realm: "registry-local",
