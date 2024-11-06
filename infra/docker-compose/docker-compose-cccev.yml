@@ -1,6 +1,5 @@
-version: '3.7'
-
 services:
+
   cccev-gateway:
     image: ${DOCKER_REPOSITORY}cccev-gateway:${CONNECT_CCCEV_VERSION}
     container_name: cccev-gateway
@@ -19,6 +18,7 @@ services:
       - net
     depends_on:
       - neo4j
+
   neo4j:
     image: neo4j:5.5.0
     container_name: cccev-neo4j

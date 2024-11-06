@@ -12,6 +12,16 @@
                 "query-groups",
                 "manage-realm"
             ]
+        },{
+            "clientId": "tr-registry-script-api",
+            "clientSecret": "secret",
+            "roles": ["tr_orchestrator_admin"],
+            "realmManagementRoles": [
+                "manage-users",
+                "view-users",
+                "query-groups",
+                "manage-realm"
+            ]
         }
     ],
     "webClients": [
