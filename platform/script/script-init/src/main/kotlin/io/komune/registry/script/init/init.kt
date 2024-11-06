@@ -2,7 +2,7 @@ package io.komune.registry.script.init
 
 import kotlinx.coroutines.runBlocking
 
-fun main() = runBlocking {
+fun main(): Unit = runBlocking {
     val registry = "http://localhost:8070"
     val cccev = "http://localhost:8083"
 //    val cccev = "https://dev.trace.komune.io/cccev"
@@ -22,7 +22,7 @@ fun main() = runBlocking {
             clientSecret = "703ece3d-82bc-4747-8840-96c1c3431079"
         )
     )
-    io.komune.registry.script.init.InitScript(properties).run(
+    InitScript(properties).run(
         project = false,
         asset = false,
         cccev = false,

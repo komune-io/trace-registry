@@ -30,10 +30,6 @@ suspend fun initRequirement(url: String) {
         install(HttpTimeout) {
             requestTimeoutMillis = 60000
         }
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.ALL
-        }
     }
     client.graphClient.save(
         buildList<Requirement> {
@@ -54,7 +50,6 @@ suspend fun initIndicatorsCarbon(url: String) {
         install(HttpTimeout) {
             requestTimeoutMillis = 60000
         }
-        install(Logging)
     }
     client.graphClient.save(
         buildList<Requirement> {

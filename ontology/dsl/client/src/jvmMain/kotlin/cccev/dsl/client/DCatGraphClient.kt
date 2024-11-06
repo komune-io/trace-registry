@@ -29,8 +29,8 @@ import kotlinx.coroutines.flow.map
 import org.slf4j.LoggerFactory
 
 class DCatGraphClient(
-    private val catalogueClient: F2SupplierSingle<CatalogueClient>,
-    private val datasetClient: F2SupplierSingle<DatasetClient>,
+    private val catalogueClient: CatalogueClient,
+    private val datasetClient: DatasetClient,
 ) {
 
     @Suppress("ComplexMethod", "LongMethod")
@@ -79,12 +79,12 @@ class DCatGraphClient(
         val identifier = catalogue.identifier
         val existingCatalogue = CatalogueGetQuery(
             identifier = identifier
-        ).invokeWith(catalogueClient().catalogueGet()).item
+        ).invokeWith(catalogueClient.catalogueGet()).item
         if(existingCatalogue != null) {
             createdCatalogues[catalogue.identifier] = existingCatalogue.id
             return CatalogueGetQuery(
                 id =  existingCatalogue.id
-            ).invokeWith(catalogueClient().catalogueGet()).item?.toDsl()!!
+            ).invokeWith(catalogueClient.catalogueGet()).item?.toDsl()!!
         }
 
         val catalogueId = createCatalogue(
@@ -101,7 +101,7 @@ class DCatGraphClient(
         }
         return CatalogueGetQuery(
             id = catalogueId
-        ).invokeWith(catalogueClient().catalogueGet()).item?.toDsl()!!
+        ).invokeWith(catalogueClient.catalogueGet()).item?.toDsl()!!
     }
 
     private suspend fun DCatGraphClient.linkCatalogues(
@@ -112,7 +112,7 @@ class DCatGraphClient(
         CatalogueLinkCataloguesCommandDTOBase(
             id = createdCatalogues[parent.identifier]!!,
             catalogues = catalogueId
-        ).invokeWith(catalogueClient().catalogueLinkCatalogues())
+        ).invokeWith(catalogueClient.catalogueLinkCatalogues())
         println("Linked catalogue ${parent.identifier} to ${catalogueId}")
     }
 
@@ -131,7 +131,7 @@ class DCatGraphClient(
             structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
-        ).invokeWith(catalogueClient().catalogueCreate()).id.also {
+        ).invokeWith(catalogueClient.catalogueCreate()).id.also {
             println("Created catalogue ${catalogue.identifier} with id ${it}")
         }.also { catalogueId ->
             catalogue.img?.let { img ->
@@ -141,7 +141,7 @@ class DCatGraphClient(
                 ) to CatalogueFile(
                     name = img,
                     content = ff
-                )).invokeWith( catalogueClient().catalogueSetImageFunction())
+                )).invokeWith( catalogueClient.catalogueSetImageFunction())
             }
 
 
@@ -159,7 +159,7 @@ class DCatGraphClient(
 //    }
 
     private suspend fun DcatDataset.getOrCreate(): DatasetId {
-        val client = datasetClient()
+        val client = datasetClient
         return DatasetGetQuery(
             identifier = identifier
         ).invokeWith(client.datasetGet()).item?.id
@@ -167,7 +167,7 @@ class DCatGraphClient(
     }
 
     suspend fun linkDatasetToCatalogue(catalogueId: String, datasets: List<DatasetId>) {
-        val client = catalogueClient()
+        val client = catalogueClient
         println("Linking catalogue ${catalogueId} to datasets ${datasets}")
         CatalogueLinkDatasetsCommandDTOBase(
             id = catalogueId,

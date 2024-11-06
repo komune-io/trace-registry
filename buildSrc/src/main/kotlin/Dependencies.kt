@@ -30,7 +30,7 @@ object Versions {
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.9"
 	const val html2pdf = "5.0.0"
-	const val javaSnapshotTesting = "4.0.7"
+	const val javaSnapshotTesting = "4.0.8"
 }
 
 object Repo {
@@ -60,6 +60,11 @@ object Dependencies {
 			"io.komune.s2:s2-test-bdd:${Versions.s2}",
 		).also(::cucumber)
 			.also(::junit)
+
+		fun javaSnapshotTesting(scope: Scope) = scope.add(
+			"io.github.origin-energy:java-snapshot-testing-core:${Versions.javaSnapshotTesting}",
+			"io.github.origin-energy:java-snapshot-testing-plugin-jackson:${Versions.javaSnapshotTesting}"
+		)
 
 		fun f2(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-starter-function-http:${Versions.f2}",
