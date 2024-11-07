@@ -86,7 +86,7 @@ export const getNodesAnEdgesOfActivities = (activities: Activity[], ancestors: A
                     x: 0,
                     y: 0
                 },
-                type: "Activity",
+                type: "activity",
                 sourcePosition: Position.Right,
                 targetPosition: Position.Left,
                 selectable: false
@@ -123,7 +123,7 @@ export const toNodes = (
                 x: 0,
                 y: 0
             },
-            type: obj.type || "Activity",
+            type: obj.type?.toLowerCase() || "activity",
             sourcePosition: !!obj.hasQualifiedRelation && obj.hasQualifiedRelation.length > 0 ? Position.Bottom : undefined,
             targetPosition: level !== 0 ? Position.Top : (ancestor ? Position.Left : undefined),
         })
