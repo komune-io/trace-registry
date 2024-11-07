@@ -1,7 +1,7 @@
 // Domains used by OIDC server must be also declared here
 const trustedDomains = {
     default: {
-        oidcDomains: ['http://localhost:8080'],
+        oidcDomains: ['http://im-keycloak:8080'],
         accessTokenDomains: ['http://localhost:8071'],
     },
 };

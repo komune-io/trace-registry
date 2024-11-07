@@ -17,16 +17,16 @@ fs:
   url: http://localhost:8090
 
 im:
-  url: https://dev.connect.komune.io/im
+  url: http://localhost:8009
   auth:
-    url: https://auth.dev.connect.komune.io
-    realm: sb-dev
-    clientId: tr-komune-registry-script-api-key
-    clientSecret: 703ece3d-82bc-4747-8840-96c1c3431079
+    url: http://im-keycloak:8080
+    realm: registry-local
+    clientId: tr-registry-script-api
+    clientSecret: secret
 
 f2:
   tenant:
-    issuer-base-uri: http://localhost:8080
+    issuer-base-uri: http://im-keycloak:8080
 
 ssm:
   signer:
@@ -63,21 +63,3 @@ spring:
     authentication:
       username: neo4j
       password: komunekomune
-
----
-spring:
-  config:
-    activate:
-      on-profile: local
-
-#i2:
-#  issuers:
-#    -
-#      name: local
-#      authUrl: http://localhost:8080/auth/
-#      realm: alveole
-#      web:
-#        clientId: alveole-web
-#      im:
-#        clientId: alveole-api
-#        clientSecret: 41a03e55-93c1-488d-9696-8df23e86a2a5

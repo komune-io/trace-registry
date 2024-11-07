@@ -6,7 +6,7 @@
 #  -d 'client_id=im-root-platform'
 #  -d 'client_secret=F5R6ON8VqtnYrr0L9cYzz2FoYcgw9Rdj'
 #  -d 'grant_type=client_credentials'
-POST http://localhost:8080/realms/registry-local/protocol/openid-connect/token
+POST http://im-keycloak:8080/realms/registry-local/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id = tr-registry-script-api &

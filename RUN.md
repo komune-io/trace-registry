@@ -3,7 +3,7 @@
 ## Config
 * Config hosts `/etc/hosts`
 ```
-127.0.0.1       keycloak-it
+127.0.0.1       im-keycloak
 ```
 
 ## Dependencies

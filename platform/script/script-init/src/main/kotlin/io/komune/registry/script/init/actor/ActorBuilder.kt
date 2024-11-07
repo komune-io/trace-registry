@@ -20,7 +20,9 @@ class ActorBuilder(
 ){
 
     fun organizationClient() = runBlocking {
-        organizationClient(imUrl) { actor.authRealm }.invoke()
+        organizationClient(imUrl) {
+            actor.authRealm
+        }.invoke()
     }
     fun apikeyClient() =  runBlocking {
         apiKeyClient(imUrl) {

@@ -12,6 +12,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
+import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
@@ -64,6 +65,7 @@ typealias DatasetIdentifier = String
  * @order 1
  * @title States
  */
+@JsExport
 @Serializable
 enum class DatasetState(override val position: Int): S2State {
     /**
