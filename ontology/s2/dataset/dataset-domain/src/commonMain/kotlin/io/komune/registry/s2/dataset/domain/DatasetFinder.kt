@@ -1,13 +1,12 @@
 package io.komune.registry.s2.dataset.domain
 
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
 
 interface DatasetFinder {
     suspend fun getOrNull(id: DatasetId): DatasetModel?

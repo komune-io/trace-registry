@@ -1,12 +1,12 @@
 package io.komune.registry.ver.test.f2.activity.query
 
 
-import io.komune.registry.f2.activity.api.ActivityEndpoint
-import io.komune.registry.f2.activity.domain.model.ActivityDTO
-import io.komune.registry.f2.activity.domain.query.ActivityPageQuery
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.f2.activity.api.ActivityEndpoint
+import io.komune.registry.f2.activity.domain.model.ActivityDTO
+import io.komune.registry.f2.activity.domain.query.ActivityPageQuery
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dataset.domain.query
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

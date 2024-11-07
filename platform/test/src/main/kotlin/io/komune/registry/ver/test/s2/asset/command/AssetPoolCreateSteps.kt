@@ -1,13 +1,13 @@
 package io.komune.registry.ver.test.s2.asset.command
 
+import io.cucumber.datatable.DataTable
+import io.cucumber.java8.En
 import io.komune.registry.s2.asset.api.AssetPoolAggregateService
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolRepository
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolCreateCommand
-import io.komune.registry.ver.test.s2.asset.data.assetPool
-import io.cucumber.datatable.DataTable
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
+import io.komune.registry.ver.test.s2.asset.data.assetPool
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

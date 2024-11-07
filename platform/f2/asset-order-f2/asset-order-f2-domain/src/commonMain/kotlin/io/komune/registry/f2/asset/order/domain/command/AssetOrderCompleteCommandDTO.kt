@@ -1,8 +1,8 @@
 package io.komune.registry.f2.asset.order.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import io.komune.registry.s2.order.domain.OrderId
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 
 /**

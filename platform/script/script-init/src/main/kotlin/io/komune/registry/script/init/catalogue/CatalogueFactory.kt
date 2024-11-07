@@ -2,28 +2,44 @@ package io.komune.registry.script.init.catalogue
 
 import cccev.dsl.client.DCatGraphClient
 import f2.client.domain.AuthRealm
+import f2.client.ktor.F2ClientBuilder
+import f2.client.ktor.http.plugin.F2Auth
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
+import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.script.init.actor.Actor
-import io.komune.registry.script.init.utils.asyncExecution
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 
 class CatalogueFactory(
-    private val url: String,
-    private val authRealm: AuthRealm
+    val catalogueClient: CatalogueClient,
+    val datasetClient: DatasetClient,
+    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, datasetClient)
 ) {
     val faker = Faker()
-    val catalogueClient = catalogueClient(url, { authRealm })
-    val datasetsClient = datasetClient(url, { authRealm })
-    val dcatGraphClient = DCatGraphClient(catalogueClient, datasetsClient)
+
+    companion object {
+        suspend operator fun invoke(
+            url: String,
+            authRealm: AuthRealm,
+        ): CatalogueFactory {
+            val f2Client = F2ClientBuilder.get(url) {
+                install(F2Auth) {
+                    this.getAuth = { authRealm }
+                }
+            }
+            val catalogueClient = f2Client.catalogueClient().invoke()
+            val datasetClient = f2Client.datasetClient().invoke()
+            return CatalogueFactory(
+                catalogueClient = catalogueClient,
+                datasetClient = datasetClient
+            )
+        }
+    }
 }
 
 fun createRandomCatalogue(

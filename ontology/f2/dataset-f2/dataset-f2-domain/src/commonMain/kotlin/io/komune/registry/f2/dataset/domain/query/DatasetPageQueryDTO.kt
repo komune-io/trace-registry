@@ -1,11 +1,10 @@
 package io.komune.registry.f2.dataset.domain.query
 
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

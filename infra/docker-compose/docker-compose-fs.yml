@@ -1,15 +1,15 @@
-version: "3.7"
 services:
+
   verr-fs:
     container_name: verr-fs
     image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
     environment:
+      - f2_tenant_issuer-base-uri=${KC_HOST_URL}
       - fs_s3_internal-url=http://minio:9000
       - fs_s3_external-url=http://localhost:9000
       - fs_s3_bucket=certification
       - fs_init_buckets=certification
 #      - fs_kb_url=${KB_HOST_NAME}
-      - debug=true
     ports:
       - "8090:8090"
     networks:

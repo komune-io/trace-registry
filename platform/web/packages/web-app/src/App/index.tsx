@@ -13,6 +13,8 @@ export const App = () => {
   const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout, keycloak.login, t)
   return (
     <StandAloneAppLayout
+      defaultCloseButton={false}
+      defaultOpenButton={false}
     drawerProps={{
       sx: {
         "& .MuiListItemButton-root.Mui-selected": {

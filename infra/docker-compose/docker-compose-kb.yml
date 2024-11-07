@@ -1,6 +1,5 @@
-version: "3.7"
-
 services:
+
   kb-api:
     container_name: kb-api
     image: ${DOCKER_REPOSITORY}kb:${KB_VERSION}

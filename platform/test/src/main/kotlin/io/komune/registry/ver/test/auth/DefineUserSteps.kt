@@ -1,7 +1,7 @@
 package io.komune.registry.ver.test.auth
 
-import io.komune.im.f2.privilege.domain.role.model.Role
 import io.cucumber.java8.En
+import io.komune.im.f2.privilege.domain.role.model.Role
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import java.util.UUID
 import s2.bdd.auth.AuthedUser

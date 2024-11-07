@@ -1,10 +1,10 @@
 package io.komune.registry.f2.project.domain.command
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.project.domain.command.ProjectDeleteCommand
 import io.komune.registry.s2.project.domain.command.ProjectDeleteCommandDTO
 import io.komune.registry.s2.project.domain.command.ProjectDeletedEvent
 import io.komune.registry.s2.project.domain.command.ProjectDeletedEventDTO
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

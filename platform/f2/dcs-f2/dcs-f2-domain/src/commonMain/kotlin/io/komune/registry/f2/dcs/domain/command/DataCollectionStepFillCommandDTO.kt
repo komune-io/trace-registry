@@ -4,8 +4,8 @@ import cccev.dsl.model.CertificationId
 import cccev.dsl.model.InformationConceptIdentifier
 import cccev.dsl.model.RequirementIdentifier
 import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias DataCollectionStepFillFunction = F2Function<DataCollectionStepFillCommand, DataCollectionStepFilledEvent>
 

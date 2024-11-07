@@ -2,14 +2,14 @@ package io.komune.registry.script.init.actor
 
 import f2.client.domain.AuthRealmClientSecret
 import f2.dsl.fnc.invoke
+import f2.dsl.fnc.invokeWith
 import io.komune.im.apikey.domain.command.ApiKeyOrganizationAddKeyCommand
 import io.komune.im.commons.auth.ImRole
+import io.komune.im.f2.apikey.client.apiKeyClient
+import io.komune.im.f2.organization.client.organizationClient
 import io.komune.im.f2.organization.domain.command.OrganizationCreateCommand
 import io.komune.im.f2.organization.domain.model.OrganizationStatus
 import io.komune.im.f2.organization.domain.query.OrganizationGetQuery
-import f2.dsl.fnc.invokeWith
-import io.komune.im.f2.apikey.client.apiKeyClient
-import io.komune.im.f2.organization.client.organizationClient
 import java.util.UUID
 import kotlinx.coroutines.runBlocking
 
@@ -20,7 +20,9 @@ class ActorBuilder(
 ){
 
     fun organizationClient() = runBlocking {
-        organizationClient(imUrl) { actor.authRealm }.invoke()
+        organizationClient(imUrl) {
+            actor.authRealm
+        }.invoke()
     }
     fun apikeyClient() =  runBlocking {
         apiKeyClient(imUrl) {

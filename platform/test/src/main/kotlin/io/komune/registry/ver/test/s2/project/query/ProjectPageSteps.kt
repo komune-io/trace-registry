@@ -1,11 +1,11 @@
 package io.komune.registry.ver.test.s2.project.query
 
-import io.komune.registry.f2.project.api.ProjectEndpoint
-import io.komune.registry.f2.project.domain.model.ProjectDTO
-import io.komune.registry.f2.project.domain.query.ProjectPageQuery
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.f2.project.api.ProjectEndpoint
+import io.komune.registry.f2.project.domain.model.ProjectDTO
+import io.komune.registry.f2.project.domain.query.ProjectPageQuery
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

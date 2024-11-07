@@ -12,7 +12,7 @@ import io.komune.registry.script.init.project.addAssetPoolToProject
 import io.komune.registry.script.init.project.createRandomProject
 
 class InitScript(
-    private val properties: io.komune.registry.script.init.RegistryScriptInitProperties
+    private val properties: RegistryScriptInitProperties
 ) {
     suspend fun run(
         project: Boolean = true,
@@ -33,8 +33,8 @@ class InitScript(
 
         if(cccev) {
             properties.cccev?.url?.let { url ->
-                io.komune.registry.script.init.initRequirement(url)
-                io.komune.registry.script.init.initIndicatorsCarbon(url)
+                initRequirement(url)
+                initIndicatorsCarbon(url)
             }
         }
 

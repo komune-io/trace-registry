@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.domain.dto
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
+import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDto
@@ -37,7 +38,7 @@ data class CatalogueDTOBase(
     override val type: String,
     override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
-    override val datasets: List<DatasetDTO>? = null,
+    override val datasets: List<DatasetDTOBase>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
     override val status: CatalogueState,
 ): CatalogueDTO

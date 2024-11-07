@@ -1,7 +1,5 @@
 package cee.baten101
 
-import cee.indba116.Cumac
-import cee.indba116.DureeVieConventionnelleLuminaire
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.Criterion
 import cccev.dsl.model.InformationRequirement
@@ -9,6 +7,8 @@ import cee.DateDevis
 import cee.DatePrecedentsTravaux
 import cee.DateTravaux
 import cee.FicheCode
+import cee.indba116.Cumac
+import cee.indba116.DureeVieConventionnelleLuminaire
 import java.util.UUID
 
 object ResistanceThermiqueMinimale: Constraint(

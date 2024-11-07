@@ -1,6 +1,5 @@
 package cee.indba116.archives
 
-import cee.indba116.NombreTypesDispositifGestionEclairage
 import cccev.dsl.model.Constraint
 import cccev.dsl.model.EvidenceTypeBase
 import cccev.dsl.model.EvidenceTypeListBase
@@ -11,6 +10,7 @@ import cee.DateTravaux
 import cee.DeclarationHonneur
 import cee.DossierCee
 import cee.FicheCode
+import cee.indba116.NombreTypesDispositifGestionEclairage
 import java.util.UUID
 
 object DureeVieConventionnelleV2 {

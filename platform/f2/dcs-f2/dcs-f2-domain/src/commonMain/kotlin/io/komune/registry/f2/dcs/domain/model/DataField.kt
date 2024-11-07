@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dcs.domain.model
 
 import cccev.dsl.model.InformationConceptIdentifier
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface DataFieldDTO {

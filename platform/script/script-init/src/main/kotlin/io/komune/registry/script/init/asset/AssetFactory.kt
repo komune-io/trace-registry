@@ -1,15 +1,15 @@
 package io.komune.registry.script.init.asset
 
-import io.komune.registry.f2.asset.pool.client.assetPoolClient
-import io.komune.registry.s2.asset.domain.automate.AssetPoolId
-import io.komune.registry.script.init.actor.Actor
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.client.domain.AuthRealm
 import f2.dsl.fnc.invokeWith
+import io.komune.registry.f2.asset.pool.client.assetPoolClient
 import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
 import io.komune.registry.f2.asset.pool.domain.command.AssetOffsetCommandDTOBase
 import io.komune.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTOBase
 import io.komune.registry.f2.asset.pool.domain.command.AssetTransferCommandDTOBase
+import io.komune.registry.s2.asset.domain.automate.AssetPoolId
+import io.komune.registry.script.init.actor.Actor
 import java.util.UUID
 import net.datafaker.Faker
 

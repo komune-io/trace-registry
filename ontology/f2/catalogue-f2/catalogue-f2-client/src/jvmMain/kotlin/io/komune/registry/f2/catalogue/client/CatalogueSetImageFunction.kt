@@ -1,9 +1,9 @@
 package io.komune.registry.f2.catalogue.client
 
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageFunction
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import f2.client.ktor.http.HttpF2Client
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageFunction
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.request.forms.formData

@@ -1,4 +1,5 @@
 services:
+
   ca.bc-coop.bclan:
     container_name: ca-bclan-${DOCKER_NETWORK}
     image: ghcr.io/komune-io/c2-sandbox-ca:${FIXERS_VERSION}

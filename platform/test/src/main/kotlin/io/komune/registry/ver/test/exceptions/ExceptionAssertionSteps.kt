@@ -1,14 +1,14 @@
 package io.komune.registry.ver.test.exceptions
 
-import io.komune.registry.api.commons.exception.ExceptionCodes
-import io.komune.registry.s2.asset.api.exception.GranularityTooSmallException
-import io.komune.registry.s2.asset.api.exception.NegativeTransactionException
-import io.komune.registry.s2.asset.api.exception.NotEnoughAssetsException
 import f2.spring.exception.ConflictException
 import f2.spring.exception.ForbiddenAccessException
 import f2.spring.exception.MessageConverterException
 import f2.spring.exception.NotFoundException
 import io.cucumber.java8.En
+import io.komune.registry.api.commons.exception.ExceptionCodes
+import io.komune.registry.s2.asset.api.exception.GranularityTooSmallException
+import io.komune.registry.s2.asset.api.exception.NegativeTransactionException
+import io.komune.registry.s2.asset.api.exception.NotEnoughAssetsException
 import s2.bdd.S2CucumberStepsDefinition
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.assertion.exceptions

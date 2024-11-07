@@ -2,8 +2,8 @@ package io.komune.registry.f2.dcs.domain.model
 
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.s2.file.domain.model.FilePathDTO
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface DataFieldOptionDTO {

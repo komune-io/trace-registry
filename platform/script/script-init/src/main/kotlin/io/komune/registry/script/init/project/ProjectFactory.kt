@@ -1,6 +1,7 @@
 package io.komune.registry.script.init.project
 
 import f2.client.domain.AuthRealm
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.activity.client.ActivityClient
 import io.komune.registry.f2.activity.client.activityClient
 import io.komune.registry.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
@@ -15,13 +16,12 @@ import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.script.init.actor.Actor
 import io.komune.registry.script.init.utils.asyncExecution
-import f2.dsl.fnc.invokeWith
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 import net.datafaker.providers.base.Address
-import java.util.concurrent.TimeUnit
 
 class ProjectFactory(url: String, authRealm: AuthRealm) {
     val faker = Faker()

@@ -1,12 +1,12 @@
 package cee.baten101
 
-import cee.indba116.NombreTypesDispositifGestionEclairage
 import cccev.dsl.model.InformationConceptBase
 import cccev.dsl.model.SquareMeter
 import cccev.dsl.model.XSDDate
 import cccev.dsl.model.XSDDouble
 import cccev.dsl.model.XSDString
 import cee.FicheCode
+import cee.indba116.NombreTypesDispositifGestionEclairage
 import java.util.UUID
 
 object ResistanceThermique: InformationConceptBase(

@@ -1,5 +1,8 @@
 package io.komune.registry.ver.test.f2.asset.command
 
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import f2.dsl.fnc.invokeWith
+import io.cucumber.java8.En
 import io.komune.registry.f2.asset.order.api.AssetEndpoint
 import io.komune.registry.f2.asset.order.domain.command.AssetOrderPlaceCommandDTOBase
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderGetQueryDTOBase
@@ -10,9 +13,6 @@ import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.BigDecimalAsString
 import io.komune.registry.s2.order.domain.OrderId
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
-import f2.dsl.fnc.invokeWith
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

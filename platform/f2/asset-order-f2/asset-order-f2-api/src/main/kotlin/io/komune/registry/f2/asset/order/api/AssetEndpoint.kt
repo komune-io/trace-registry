@@ -1,5 +1,8 @@
 package io.komune.registry.f2.asset.order.api
 
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.asset.order.api.service.AssetF2AggregateService
 import io.komune.registry.f2.asset.order.api.service.AssetOrderF2FinderService
 import io.komune.registry.f2.asset.order.api.service.AssetPoliciesEnforcer
@@ -17,9 +20,6 @@ import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageFunction
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageResult
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.order.domain.OrderState
-import f2.dsl.cqrs.filter.ExactMatch
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

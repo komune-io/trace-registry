@@ -1,9 +1,9 @@
 package io.komune.registry.f2.catalogue.domain.query
 
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

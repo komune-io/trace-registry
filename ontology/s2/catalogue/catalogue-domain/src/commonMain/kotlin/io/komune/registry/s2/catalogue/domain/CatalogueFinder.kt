@@ -1,13 +1,13 @@
 package io.komune.registry.s2.catalogue.domain
 
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
-import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 
 interface CatalogueFinder {
     suspend fun getOrNull(id: CatalogueId): CatalogueModel?

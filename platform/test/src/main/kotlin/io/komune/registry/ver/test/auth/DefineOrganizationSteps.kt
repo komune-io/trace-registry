@@ -1,8 +1,8 @@
 package io.komune.registry.ver.test.auth
 
+import io.cucumber.java8.En
 import io.komune.im.f2.organization.domain.model.Organization
 import io.komune.im.f2.organization.domain.model.OrganizationStatus
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import java.util.UUID
 import s2.bdd.data.TestContextKey

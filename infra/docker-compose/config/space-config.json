@@ -12,6 +12,16 @@
                 "query-groups",
                 "manage-realm"
             ]
+        },{
+            "clientId": "tr-registry-script-api",
+            "clientSecret": "secret",
+            "roles": ["tr_orchestrator_admin"],
+            "realmManagementRoles": [
+                "manage-users",
+                "view-users",
+                "query-groups",
+                "manage-realm"
+            ]
         }
     ],
     "webClients": [
@@ -21,6 +31,18 @@
         }
     ],
     "permissions": [
+        {
+            "name": "fs_file_read",
+            "description": "Ability to read files from the filesystem."
+        },
+        {
+            "name": "fs_file_write",
+            "description": "Ability to write or modify files in the filesystem."
+        },
+        {
+            "name": "fs_policy_write",
+            "description": "Ability to write or change policies in the filesystem."
+        },
         {
             "name": "tr_project_read",
             "description": "Ability to view project data"
@@ -41,7 +63,8 @@
             "bindings": {
                 "USER": ["tr_orchestrator_user", "tr_orchestrator_admin"],
                 "API_KEY": ["tr_orchestrator_user", "tr_orchestrator_admin"]
-            }
+            },
+            "permissions": ["feat_im_all", "feat_im_own"]
         },
         {
             "name": "tr_orchestrator_user",
@@ -66,8 +89,84 @@
                 "im_user_read", "im_user_write",
                 "im_role_read",  "im_role_write",
                 "im_apikey_read", "im_apikey_write",
-                "tr_project_read", "tr_project_write"
+                "tr_project_read", "tr_project_write",
+                "feat_im_all", "feat_im_own"
             ]
+        },
+        {
+            "name": "tr_project_manager_user",
+            "description": "Basic user role for project manager org",
+            "targets": ["USER", "API_KEY"],
+            "locale": {
+                "fr": "Utilisateur",
+                "en": "User"
+            },
+            "permissions": ["im_user_read", "im_role_read"]
+        },
+        {
+            "name": "tr_project_manager_admin",
+            "description": "Admin user role for project manager org",
+            "targets": ["USER", "API_KEY"],
+            "locale": {
+                "fr": "Administrateur",
+                "en": "Administrator"
+            },
+            "permissions": [
+                "im_organization_write_own",
+                "im_user_read", "im_user_write",
+                "im_role_read",
+                "im_apikey_read", "im_apikey_write"
+            ]
+        },
+        {
+            "name": "tr_project_manager",
+            "description": "Main organization role for project manager",
+            "targets": ["ORGANIZATION"],
+            "locale": {
+                "fr": "Gestionnaire de projet",
+                "en": "Project Manager"
+            },
+            "bindings": {
+                "USER": ["tr_project_manager_user", "tr_project_manager_admin"],
+                "API_KEY": ["tr_project_manager_user", "tr_project_manager_admin"]
+            }
+        },
+        {
+            "name": "tr_stakeholder_user",
+            "description": "Basic user role for stakeholder org",
+            "targets": ["USER", "API_KEY"],
+            "locale": {
+                "fr": "Utilisateur",
+                "en": "User"
+            },
+            "permissions": ["im_user_read", "im_role_read"]
+        },
+        {
+            "name": "tr_stakeholder_admin",
+            "description": "Admin user role for stakeholder org",
+            "targets": ["USER", "API_KEY"],
+            "locale": {
+                "fr": "Administrateur",
+                "en": "Administrator"
+            },
+            "permissions": [
+                "im_organization_write_own",
+                "im_user_read", "im_user_write",
+                "im_role_read"
+            ]
+        },
+        {
+            "name": "tr_stakeholder",
+            "description": "Main organization role for stakeholder",
+            "targets": ["ORGANIZATION"],
+            "locale": {
+                "fr": "Partie prenante",
+                "en": "Stakeholder"
+            },
+            "bindings": {
+                "USER": ["tr_stakeholder_user", "tr_stakeholder_admin"],
+                "API_KEY": ["tr_stakeholder_user", "tr_stakeholder_admin"]
+            }
         }
     ],
     "organizations": [

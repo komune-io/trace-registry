@@ -1,5 +1,6 @@
 package io.komune.registry.f2.chat.api
 
+import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.features.query.FileAskQuestionQuery
 import io.komune.fs.s2.file.domain.model.FileAskMessage
@@ -7,7 +8,6 @@ import io.komune.fs.s2.file.domain.model.FileAskMetadata
 import io.komune.registry.f2.chat.domain.ChatApi
 import io.komune.registry.f2.chat.domain.query.ChatAskQuestionFunction
 import io.komune.registry.f2.chat.domain.query.ChatAskQuestionResult
-import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

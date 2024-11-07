@@ -1,7 +1,6 @@
 package io.komune.registry.script.init.actor
 
 import f2.client.domain.AuthRealm
-import f2.client.domain.AuthRealmClientSecret
 
 object ActorAuth {
     fun getActor(

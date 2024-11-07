@@ -17,7 +17,7 @@ export interface ActivitiesGraphProps {
 }
 
 const nodeTypes = {
-  Activity: ActivityGraphNode,
+  activity: ActivityGraphNode,
 };
 
 export const ActivitiesGraph = (props: ActivitiesGraphProps) => {

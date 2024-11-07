@@ -1,14 +1,5 @@
 package io.komune.registry.program.s2.catalogue.api
 
-import io.komune.registry.api.commons.exception.NotFoundException
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.program.s2.catalogue.api.entity.toCatalogue
-import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.CatalogueFinder
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
-import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.StringMatch
@@ -16,6 +7,15 @@ import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
+import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.program.s2.catalogue.api.entity.toCatalogue
+import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
+import io.komune.registry.s2.catalogue.domain.CatalogueFinder
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import org.springframework.stereotype.Service
 
 @Service

@@ -5,6 +5,11 @@ import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.InformationConceptIdentifier
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
+import f2.dsl.fnc.invokeWith
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.asset.pool.api.model.toDTO
 import io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTOBase
@@ -12,11 +17,6 @@ import io.komune.registry.s2.asset.api.AssetPoolFinderService
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.model.AssetPool
-import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.cqrs.page.PageDTO
-import f2.dsl.cqrs.page.map
-import f2.dsl.fnc.invokeWith
 import org.springframework.stereotype.Service
 
 @Service

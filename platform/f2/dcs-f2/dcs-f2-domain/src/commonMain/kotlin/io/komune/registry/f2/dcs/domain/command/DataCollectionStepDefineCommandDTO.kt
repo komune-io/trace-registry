@@ -1,11 +1,11 @@
 package io.komune.registry.f2.dcs.domain.command
 
 import cccev.dsl.model.RequirementIdentifier
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dcs.domain.model.DataSection
 import io.komune.registry.f2.dcs.domain.model.DataSectionDTO
-import f2.dsl.fnc.F2Function
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias DataCollectionStepDefineFunction = F2Function<DataCollectionStepDefineCommand, DataCollectionStepDefinedEvent>
 

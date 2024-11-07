@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.api
 
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.spring.utils.serveFile
@@ -23,8 +25,6 @@ import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
-import f2.dsl.cqrs.page.OffsetPagination
-import f2.dsl.fnc.f2Function
 import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean

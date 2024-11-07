@@ -1,9 +1,9 @@
 package io.komune.registry.f2.asset.order.domain.query
 
+import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.asset.order.domain.model.OrderDTO
 import io.komune.registry.f2.asset.order.domain.model.OrderDTOBase
 import io.komune.registry.s2.asset.domain.command.pool.OrderId
-import f2.dsl.fnc.F2Function
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

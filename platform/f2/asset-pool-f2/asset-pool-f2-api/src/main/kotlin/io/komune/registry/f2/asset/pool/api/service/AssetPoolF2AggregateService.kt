@@ -3,6 +3,7 @@ package io.komune.registry.f2.asset.pool.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.model.InformationConceptFlat
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
+import f2.dsl.fnc.invokeWith
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.asset.pool.domain.command.AbstractAssetTransactionCommand
 import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase
@@ -25,8 +26,6 @@ import io.komune.registry.s2.asset.domain.command.pool.AssetPoolHeldEvent
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolHoldCommand
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumeCommand
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumedEvent
-import f2.dsl.fnc.invokeWith
-import io.komune.registry.s2.project.domain.command.ProjectAddAssetPoolCommand
 import org.springframework.stereotype.Service
 
 @Service

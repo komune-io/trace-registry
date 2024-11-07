@@ -11,11 +11,11 @@ import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.ProjectId
 import io.komune.registry.s2.project.domain.model.ProjectIdentifier
 import io.komune.registry.s2.project.domain.model.SdgNumber
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 typealias CertificationId = String
 

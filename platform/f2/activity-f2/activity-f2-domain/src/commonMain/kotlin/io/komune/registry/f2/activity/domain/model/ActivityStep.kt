@@ -3,8 +3,8 @@ package io.komune.registry.f2.activity.domain.model
 import cccev.dsl.model.Evidence
 import cccev.dsl.model.EvidenceDTO
 import cccev.dsl.model.InformationConcept
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 hidden

@@ -1,8 +1,8 @@
 package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * @d2 command

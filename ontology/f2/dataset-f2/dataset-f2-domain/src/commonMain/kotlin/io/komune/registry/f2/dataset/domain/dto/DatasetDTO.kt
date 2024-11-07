@@ -3,6 +3,7 @@ package io.komune.registry.f2.dataset.domain.dto
 import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
+import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import kotlin.js.JsExport
@@ -67,8 +68,7 @@ data class DatasetDTOBase(
     override val status: DatasetState,
     override val homepage: String? = null,
     override val display: String? = null,
-
-    ): DatasetDTO
+): DatasetDTO
 
 @JsExport
 interface DatasetRefDTO {
@@ -80,7 +80,7 @@ interface DatasetRefDTO {
     val homepage: String?
     val img: String?
     val display: String?
-    val themes: List<SkosConcept>?
+    val themes: List<SkosConceptDTO>?
     val status: DatasetState?
 }
 

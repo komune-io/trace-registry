@@ -1,12 +1,12 @@
 package io.komune.registry.ver.test.f2.assetPool.command
 
+import f2.dsl.fnc.invokeWith
+import io.cucumber.datatable.DataTable
+import io.cucumber.java8.En
 import io.komune.registry.f2.asset.pool.api.AssetPoolEndpoint
 import io.komune.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTOBase
 import io.komune.registry.f2.asset.pool.domain.query.AssetPoolPageQueryDTOBase
 import io.komune.registry.f2.asset.pool.domain.query.AssetPoolPageResult
-import f2.dsl.fnc.invokeWith
-import io.cucumber.datatable.DataTable
-import io.cucumber.java8.En
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired

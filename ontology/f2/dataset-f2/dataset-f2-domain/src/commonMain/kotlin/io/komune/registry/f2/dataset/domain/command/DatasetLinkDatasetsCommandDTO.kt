@@ -1,8 +1,8 @@
 package io.komune.registry.f2.dataset.domain.command
 
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
+import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

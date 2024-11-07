@@ -2,7 +2,6 @@ package io.komune.registry.f2.catalogue.domain.policy
 
 import io.komune.im.commons.auth.AuthedUserDTO
 import io.komune.im.commons.auth.hasOneOfRoles
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.s2.commons.auth.Roles
 import kotlin.js.JsExport
 import kotlin.js.JsName

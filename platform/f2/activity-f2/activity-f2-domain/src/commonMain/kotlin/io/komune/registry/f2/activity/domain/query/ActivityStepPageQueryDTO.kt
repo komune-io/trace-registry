@@ -1,10 +1,10 @@
 package io.komune.registry.f2.activity.domain.query
 
 import cccev.dsl.model.CertificationId
-import io.komune.registry.f2.activity.domain.model.ActivityIdentifier
-import io.komune.registry.f2.activity.domain.model.ActivityStepDTO
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.activity.domain.model.ActivityIdentifier
+import io.komune.registry.f2.activity.domain.model.ActivityStepDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

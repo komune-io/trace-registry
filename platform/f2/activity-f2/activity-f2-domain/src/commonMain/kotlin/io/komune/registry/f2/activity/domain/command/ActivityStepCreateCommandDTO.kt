@@ -1,9 +1,9 @@
 package io.komune.registry.f2.activity.domain.command
 
 import cccev.dsl.model.InformationConcept
-import io.komune.registry.f2.activity.domain.model.ActivityStepIdentifier
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.activity.domain.model.ActivityStepIdentifier
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable

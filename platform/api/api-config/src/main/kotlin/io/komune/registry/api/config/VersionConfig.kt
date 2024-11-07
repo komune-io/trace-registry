@@ -22,7 +22,7 @@ class VersionConfig {
     fun apiData(): Api {
         val pack = VersionConfig::class.java.`package`
         return Api(
-            title = "Voluntary Emissions Reductions Api",
+            title = "Registry Api",
             version = pack.implementationVersion ?: "dev"
         )
     }

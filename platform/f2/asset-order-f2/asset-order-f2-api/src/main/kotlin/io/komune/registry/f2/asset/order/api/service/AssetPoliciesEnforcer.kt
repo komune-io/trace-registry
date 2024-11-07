@@ -3,7 +3,6 @@ package io.komune.registry.f2.asset.order.api.service
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.asset.order.domain.utils.AssetPolicies
 import io.komune.registry.s2.order.domain.OrderId
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
