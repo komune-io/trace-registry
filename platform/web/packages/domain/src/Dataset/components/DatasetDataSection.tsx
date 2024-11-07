@@ -14,11 +14,11 @@ export const DatasetDataSection = (props: DatasetDataSectionProps) => {
     const fileListQuery = useDatasetDataQuery({ query: { id: item.id! } })
     if(item.type === "document" ) {
         return (
-            <DocumentsPage isLoading={isLoading || fileListQuery.isLoading} files={fileListQuery.data?.items as FilePath[]} />
+            <DocumentsPage isLoading={isLoading || fileListQuery.isLoading} files={fileListQuery.data?.items ?? [] as FilePath[]} />
         )
-    } else if(item.type === "activity" ) {
+    } else if(item.type === "activity" && fileListQuery.data?.items) {
         return (
-            <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items as  Activity[]} />
+            <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items ?? [] as  Activity[]} />
         )
     } else if(item.type === "table" ) {
         return (

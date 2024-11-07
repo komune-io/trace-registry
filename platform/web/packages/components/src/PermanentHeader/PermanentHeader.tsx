@@ -2,12 +2,13 @@ import { Box, IconButton } from "@mui/material"
 import { Link } from "react-router-dom"
 import { TraceIcon } from "../Icons";
 import { Menu } from "@mui/icons-material";
+import {ElementType} from "react";
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
 }
 
-export const PermanentHeader = (props: PermanentHeaderProps) => {
+export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: PermanentHeaderProps) => {
     const {toggleOpenDrawer} = props
     return (
         <Box

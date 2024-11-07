@@ -17,13 +17,14 @@ export interface ActivitiesSummaryProps {
 }
 
 export const ActivitiesSummary = (props: ActivitiesSummaryProps) => {
-  const { isLoading, activities, project } = props
+  const { isLoading, activities = [], project } = props
   const reactFlowStore = useStoreApi();
   const [searchParams, setSearchParams] = useSearchParams();
   const { "*": splat } = useParams();
   const activityDinasty = useMemo(() => !!splat ? splat.split("/") : undefined, [splat])
   const selectedActivity = searchParams.get("selectedActivity")
-  const [selectedNode, setSelectedNode] = useState<Activity>(activities[0])
+
+  const [selectedNode, setSelectedNode] = useState<Activity | undefined>((activities.length) > 0 ? activities[0] : undefined)
   const nodes = useNodes();
   const {keycloak} = useExtendedAuth()
 

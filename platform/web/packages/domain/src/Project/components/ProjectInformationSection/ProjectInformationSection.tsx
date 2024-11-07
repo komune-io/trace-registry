@@ -4,7 +4,6 @@ import {
     Project,
     ProjectBanner,
     ProjectDetails,
-    ProjectProtocolesLocation,
 } from 'domain-components'
 
 export interface ProjectInformationSectionProps {
@@ -31,7 +30,7 @@ export const ProjectInformationSection = (props: ProjectInformationSectionProps)
         <ProjectBanner formState={formState} />
         <Stack direction="row" gap={7}>
             <ProjectDetails formState={formState} />
-            <ProjectProtocolesLocation formState={formState} />
+            {/*<ProjectProtocolesLocation formState={formState} />*/}
         </Stack>
       </>
     )
