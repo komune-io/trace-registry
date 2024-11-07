@@ -10,12 +10,13 @@ export interface TransactionPdfCertificateProps {
 
 export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps) => {
     const { transaction } = props
-    const { ref, width } = useElementSize();
+    const { ref } = useElementSize();
     return (
         <Stack
-        ref={ref}
+            ref={ref}
             alignItems="center"
             direction="column"
+
             flexGrow={1}
             flexBasis={1}
             sx={{
@@ -24,7 +25,7 @@ export const TransactionPdfCertificate = (props: TransactionPdfCertificateProps)
                 }
             }}
         >
-            {transaction && <PdfDisplayer parentWidth={width} file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>}
+            {transaction && <PdfDisplayer parentWidth={800} file={`${config().platform.url}/assetCertificateDownload?transactionId=${transaction?.id}`}/>}
        </Stack>
     )
 }

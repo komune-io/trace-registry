@@ -17,17 +17,17 @@ class InitScript(
     suspend fun run(
         project: Boolean = true,
         asset: Boolean = true,
-        cccev: Boolean = true,
-        catalogue: Boolean = true
+        cccev: Boolean = false,
+        catalogue: Boolean = false
     ) {
         val authRealm = AuthRealmClientSecret(
-            clientId = properties.orchestrator.clientId,
-            clientSecret = properties.orchestrator.clientSecret,
+            clientId = properties.admin.clientId,
+            clientSecret = properties.admin.clientSecret,
             serverUrl = properties.auth.url,
             realmId = properties.auth.realmId
         )
-        val accessTokenOrchestrator= ActorAuth.getActor(
-            properties.orchestrator.name,
+        val accessTokenAdmin= ActorAuth.getActor(
+            properties.admin.name,
             authRealm
         )
 
@@ -40,32 +40,33 @@ class InitScript(
 
         if(catalogue) {
             properties.registry?.url?.let { url ->
-                createRandomCatalogue(url, accessTokenOrchestrator)
+                createRandomCatalogue(url, accessTokenAdmin)
             }
         }
 
-        initRegistry(accessTokenOrchestrator, project, asset)
+        initRegistry(accessTokenAdmin, project, asset)
     }
 
     private suspend fun initRegistry(
-        accessTokenOrchestrator: Actor,
+        accessTokenAdmin: Actor,
         project: Boolean,
         asset: Boolean
     ) {
         properties.registry?.url?.let { url ->
-            val actorFactory = ActorBuilder(properties.im.url, properties.auth.url, accessTokenOrchestrator)
+            val actorFactory = ActorBuilder(properties.im.url, properties.auth.url, accessTokenAdmin)
+            val orchestrator = actorFactory.create(ActorType.ORCHESTRATOR)
             val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
             val offseter = actorFactory.create(ActorType.OFFSETTER)
             val issuer = actorFactory.create(ActorType.ISSUER)
             if (project) {
                 val projectIds = createRandomProject(
                     url,
-                    accessTokenOrchestrator,
+                    accessTokenAdmin,
                     countRange = 0..properties.nbProject
                 )
 
                 projectIds.forEach { projectId ->
-                    initAsset(asset, url, accessTokenOrchestrator, projectManager, issuer, offseter, projectId)
+                    initAsset(asset, url, orchestrator, projectManager, issuer, offseter, projectId)
                 }
             }
         }

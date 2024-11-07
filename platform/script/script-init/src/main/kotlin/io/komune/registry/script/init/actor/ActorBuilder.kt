@@ -63,7 +63,7 @@ class ActorBuilder(
             clientId = clientProjectManager,
             clientSecret = secretProjectManager,
             serverUrl = authUrl,
-            realmId = projectManagerCreated.id
+            realmId = actor.authRealm.realmId
         )
         val accessTokenProjectManager =
             ActorAuth.getActor(nameProjectManager, authRealm)

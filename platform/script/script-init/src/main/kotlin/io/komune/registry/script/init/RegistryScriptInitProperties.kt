@@ -10,7 +10,7 @@ class RegistryScriptInitProperties(
     val cccev: ServiceProperties?,
     val im: ServiceProperties,
     val nbProject: Int,
-    val orchestrator: ApiKeyProperties
+    val admin: ApiKeyProperties
 )
 
 class AuthProperties(
