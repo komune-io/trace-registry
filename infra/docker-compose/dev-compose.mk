@@ -11,6 +11,8 @@ dev-envsubst:
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/init.json > $(DOCKER_COMPOSE_PATH)/config/build/init.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-create.json > $(DOCKER_COMPOSE_PATH)/config/build/space-create.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-config.json > $(DOCKER_COMPOSE_PATH)/config/build/space-config.json
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/OidcTrustedDomains.js
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/env-config.js
 
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
