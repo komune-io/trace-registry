@@ -17,10 +17,6 @@ export const CatalogueBreadcrumbs = () => {
     const refs = refsQuery.data?.items
 
     const crumbs = useMemo(() => [
-        {
-            label: t("standards"),
-            url: catalogues()
-        },
         ...ids.map((id, index): Crumb => ({
             label: refs?.find((ref) => ref.identifier === id)?.title ?? id,
             url: cataloguesAll(undefined, ...ids.slice(0, index + 1))
