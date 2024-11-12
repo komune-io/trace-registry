@@ -54,10 +54,11 @@ class ProjectAggregateService(
 
 	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
 		return activities?.let { activityIdentifiers ->
-			CertificationCreateCommand(
+			val created = CertificationCreateCommand(
 				id = identifier ?: id,
 				requirementIdentifiers = activityIdentifiers
 			).invokeWith(cccevClient.certificationClient.certificationCreate())
+			created
 		}
 	}
 

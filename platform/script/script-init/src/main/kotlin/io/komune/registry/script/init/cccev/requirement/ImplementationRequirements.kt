@@ -20,7 +20,7 @@ fun implementationActivity(init: InformationRequirementBuilder.() -> Unit) =
             +Activities.Implementation
         }
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         type = RequirementType.Activity.identifier
     }.apply(init).build()

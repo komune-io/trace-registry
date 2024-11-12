@@ -43,9 +43,9 @@ class ProjectFactory(url: String, authRealm: AuthRealm) {
     )
 }
 
-fun createRandomProject(
+suspend fun createRandomProject(
     url: String, accessTokenAdmin: Actor, countRange: IntRange = 1..2
-): List<ProjectId> = runBlocking {
+): List<ProjectId> {
     val helper = ProjectFactory(url, accessTokenAdmin.authRealm)
     val projectClient = helper.projectClient.invoke()
     val activityClient = helper.activityClient.invoke()
@@ -53,7 +53,7 @@ fun createRandomProject(
     val subContinents = helper.subContinents
     val address =  faker.address()
     val years =  helper.years
-    (countRange).map { count ->
+    return (countRange).map { count ->
         randomProject(faker, address, subContinents, years, count)
     }
         .createProjects(projectClient)

@@ -7,7 +7,7 @@ import io.komune.registry.script.init.cccev.requirement.ImplementationRequiremen
 import io.komune.registry.script.init.cccev.requirement.LocalConsultationRequirements
 import io.komune.registry.script.init.cccev.requirement.ReddPlusRequirement
 import io.komune.registry.script.init.cccev.requirement.VerraVcsRequirement
-import io.komune.registry.script.init.cccev.ver.ActivitiesAxess
+import io.komune.registry.script.init.cccev.ver.ActivitiesVerraProject
 import io.komune.registry.script.init.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
 import kotlinx.coroutines.flow.asFlow
@@ -29,7 +29,7 @@ suspend fun initRequirement(url: String) {
     }
     client.graphClient.save(
         buildList<Requirement> {
-            add(ActivitiesAxess)
+            add(ActivitiesVerraProject)
             addAll(EligibilityRequirements)
             addAll(ImplementationRequirements)
             addAll(LocalConsultationRequirements)

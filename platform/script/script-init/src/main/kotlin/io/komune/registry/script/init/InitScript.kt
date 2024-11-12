@@ -7,7 +7,8 @@ import io.komune.registry.script.init.actor.ActorAuth
 import io.komune.registry.script.init.actor.ActorBuilder
 import io.komune.registry.script.init.actor.ActorType
 import io.komune.registry.script.init.asset.createAssetPool
-import io.komune.registry.script.init.catalogue.createRandomCatalogue
+import io.komune.registry.script.init.catalogue.create100MCatalogue
+import io.komune.registry.script.init.catalogue.createStandardsCatalogue
 import io.komune.registry.script.init.project.addAssetPoolToProject
 import io.komune.registry.script.init.project.createRandomProject
 
@@ -17,8 +18,8 @@ class InitScript(
     suspend fun run(
         project: Boolean = true,
         asset: Boolean = true,
-        cccev: Boolean = false,
-        catalogue: Boolean = false
+        cccev: Boolean = true,
+        catalogue: Boolean = true
     ) {
         val authRealm = AuthRealmClientSecret(
             clientId = properties.admin.clientId,
@@ -30,7 +31,6 @@ class InitScript(
             properties.admin.name,
             authRealm
         )
-
         if(cccev) {
             properties.cccev?.url?.let { url ->
                 initRequirement(url)
@@ -40,40 +40,53 @@ class InitScript(
 
         if(catalogue) {
             properties.registry?.url?.let { url ->
-                createRandomCatalogue(url, accessTokenAdmin)
+                createStandardsCatalogue(url, accessTokenAdmin)
+                create100MCatalogue(url, accessTokenAdmin, "")
             }
         }
 
-        initRegistry(accessTokenAdmin, project, asset)
+        val projectIds: List<ProjectId>? = if (project) {
+            properties.registry?.url?.let { url ->
+                initRegistry(url, accessTokenAdmin)
+            }
+        } else null
+
+        if(asset) {
+            properties.registry?.url?.let { url ->
+             initAsset(accessTokenAdmin, url, projectIds)
+            }
+        }
     }
 
     private suspend fun initRegistry(
+        url: String,
         accessTokenAdmin: Actor,
-        project: Boolean,
-        asset: Boolean
+    ): List<ProjectId> {
+        return createRandomProject(
+            url,
+            accessTokenAdmin,
+            countRange = 0..properties.nbProject
+        )
+    }
+
+    private suspend fun InitScript.initAsset(
+        accessTokenAdmin: Actor,
+        url: String,
+        projectIds: List<ProjectId>?
     ) {
-        properties.registry?.url?.let { url ->
+        if(!projectIds.isNullOrEmpty()) {
             val actorFactory = ActorBuilder(properties.im.url, properties.auth.url, accessTokenAdmin)
             val orchestrator = actorFactory.create(ActorType.ORCHESTRATOR)
             val projectManager = actorFactory.create(ActorType.PROJECT_MANAGER)
             val offseter = actorFactory.create(ActorType.OFFSETTER)
             val issuer = actorFactory.create(ActorType.ISSUER)
-            if (project) {
-                val projectIds = createRandomProject(
-                    url,
-                    accessTokenAdmin,
-                    countRange = 0..properties.nbProject
-                )
-
-                projectIds.forEach { projectId ->
-                    initAsset(asset, url, orchestrator, projectManager, issuer, offseter, projectId)
-                }
+            projectIds.forEach { projectId ->
+                initAsset(url, orchestrator, projectManager, issuer, offseter, projectId)
             }
         }
     }
 
     private suspend fun initAsset(
-        asset: Boolean,
         url: String,
         accessTokenOrchestrator: Actor,
         projectManager: Actor,
@@ -81,23 +94,21 @@ class InitScript(
         offseter: Actor,
         projectId: ProjectId
     ) {
-        if (asset) {
-            val shouldCreatePool = (0..2).shuffled().first() == 1
-            if (shouldCreatePool) {
-                val assetPoolId = createAssetPool(
-                    url,
-                    orchestrator = accessTokenOrchestrator,
-                    projectManager = projectManager,
-                    issuer = issuer,
-                    offsetter = offseter
-                )
-                addAssetPoolToProject(
-                    url,
-                    accessTokenOrchestrator,
-                    projectId,
-                    assetPoolId
-                )
-            }
+        val shouldCreatePool = (0..2).shuffled().first() == 1
+        if (shouldCreatePool) {
+            val assetPoolId = createAssetPool(
+                url,
+                orchestrator = accessTokenOrchestrator,
+                projectManager = projectManager,
+                issuer = issuer,
+                offsetter = offseter
+            )
+            addAssetPoolToProject(
+                url,
+                accessTokenOrchestrator,
+                projectId,
+                assetPoolId
+            )
         }
     }
 }

@@ -14,7 +14,7 @@ fun eligibilityActivity(init: InformationRequirementBuilder.() -> Unit) =
             +Activities.Eligibility
         }
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         type = RequirementType.Activity.identifier
     }.apply(init).build()
