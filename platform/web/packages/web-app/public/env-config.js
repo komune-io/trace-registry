@@ -6,6 +6,9 @@ window._env_ = {
     im: {
       url: "http://localhost:8009",
     },
+    admin: {
+      url: "http://localhost:81",
+    },
     keycloak: {
       realm: "registry-local",
       clientId: "registry-platform-web",
