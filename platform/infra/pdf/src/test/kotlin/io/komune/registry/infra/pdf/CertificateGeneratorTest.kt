@@ -11,9 +11,9 @@ class CertificateGeneratorTest {
 //        val certifiedBy = "Sustainable Future Group"
 //        val project = "Certicongo"
         val result = CertificateGenerator.fillPendingCertificate("lala", 1002020, "lala", BigDecimal.TEN, "lala")
-        val pdf = File("certificate.pdf")
-            pdf.writeBytes(result)
-            println(pdf.writeBytes(result))
+        val pdf = File("build/certificate.pdf")
+        pdf.writeBytes(result)
+        println(pdf.writeBytes(result))
         println(pdf.absolutePath)
     }
 }
