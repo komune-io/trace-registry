@@ -59,8 +59,6 @@ jobs:
       on-tag: 'publish_promote'
       make-file: 'Makefile_docs.mk'
     secrets:
-      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
       DOCKER_PUBLISH_USERNAME: ${{ github.actor }}
       DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
