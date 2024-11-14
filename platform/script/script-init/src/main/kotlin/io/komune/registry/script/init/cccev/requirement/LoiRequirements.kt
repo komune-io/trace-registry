@@ -14,7 +14,7 @@ val loiStep = informationRequirement {
         +Activities.LOI
     }
     isDerivedFrom {
-        +ReferenceFramework.AxessImpact
+        +ReferenceFramework.VerraProject
     }
     type = RequirementType.Step.identifier
 }

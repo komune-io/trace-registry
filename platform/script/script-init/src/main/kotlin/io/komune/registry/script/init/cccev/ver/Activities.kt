@@ -12,7 +12,7 @@ object Activities {
         description = ""
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
     }
 
@@ -22,7 +22,7 @@ object Activities {
         description = ""
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         hasQualifiedRelation(QUALIFIED_RELATION) {
             +Certification
@@ -35,7 +35,7 @@ object Activities {
         description = ""
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         hasQualifiedRelation(QUALIFIED_RELATION) {
             +ProtocolValidation
@@ -49,7 +49,7 @@ object Activities {
             "This activity involves the actual implementation of the project according to the project protocol."
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         hasQualifiedRelation(QUALIFIED_RELATION) {
             +ProtocolPreparation
@@ -64,7 +64,7 @@ object Activities {
                     "set out in the project protocol and is eligible to receive certification."
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         hasQualifiedRelation(QUALIFIED_RELATION) {
             +Implementation
@@ -79,7 +79,7 @@ object Activities {
                     "expressing the intention to develop and implement a VERs project."
         type = RequirementType.Activity.identifier
         isDerivedFrom {
-            +ReferenceFramework.AxessImpact
+            +ReferenceFramework.VerraProject
         }
         hasQualifiedRelation(QUALIFIED_RELATION) {
             +Eligibility
@@ -87,10 +87,10 @@ object Activities {
     }
 }
 
-val ActivitiesAxess = informationRequirement {
-    identifier = "AXESS"
-    name = "Axess Activityies"
-    description = "Axess activities"
+val ActivitiesVerraProject = informationRequirement {
+    identifier = "VERRA_PROJECT"
+    name = "Verra Project Activityies"
+    description = "Verra Project activities"
     hasRequirement {
         +Activities.LOI
         +Activities.Eligibility

@@ -42,28 +42,50 @@ class CatalogueFactory(
     }
 }
 
-fun createRandomCatalogue(
+fun createStandardsCatalogue(
     url: String, actor: Actor, countRange: IntRange = 1..2
 ): List<CatalogueId> = runBlocking {
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
-    val items = flowOf(catalogueStandards(""))
-//    val items = flowOf(catalogueStandards("-${UUID.randomUUID()}"))
-    dcatGraphClient.create(items).toList().onEach {
+    val itemsStandards = flowOf(catalogueStandards(""))
+    dcatGraphClient.create(itemsStandards).toList().onEach {
         println("Catalogue[${it.identifier}] Created.")
     }.map { it.identifier }
 
+}
+
+fun create100MCatalogue(
+    url: String,
+    actor: Actor,
+    debug: String
+): List<CatalogueId> = runBlocking {
+    val helper = CatalogueFactory(url, actor.authRealm)
+    val dcatGraphClient = helper.dcatGraphClient
+
+    val itemsCentMillion = flowOf(catalogueCentMillion(debug))
+    dcatGraphClient.create(itemsCentMillion).toList().onEach {
+        println("Catalogue[${it.identifier}] Created.")
+    }.map { it.identifier }
+
+}
+
+//fun createRandomCatalogue(
+//    url: String, actor: Actor, countRange: IntRange = 1..2
+//): List<CatalogueId> = runBlocking {
+//    val helper = CatalogueFactory(url, actor.authRealm)
+//    val dcatGraphClient = helper.dcatGraphClient
+//
 //    (countRange).map { count ->
 //        randomCatalogue(faker)
 //    }
 //        .createCatalogues(catalogueClient)
 //        .map { it.id }
-}
-
+//}
+//
 //private suspend fun List<CatalogueCreateCommandDTOBase>.createCatalogues(
 //    catalogueClient: CatalogueClient
-//): List<CatalogueCreatedEventDTOBase> =
+//): List<Unit> =
 //    asyncExecution(size = 8) { catalogueCreateCommand ->
 //        println("Catalogue Creation[${catalogueCreateCommand.identifier}]: ${catalogueCreateCommand}...")
 //        val created = catalogueClient.catalogueCreate().invoke(flowOf(catalogueCreateCommand))

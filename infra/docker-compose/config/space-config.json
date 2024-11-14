@@ -28,6 +28,10 @@
         {
             "clientId": "${KC_WEB_CLIENT_ID}",
             "webUrl": "http://localhost:5173"
+        },
+        {
+            "clientId": "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
+            "webUrl": "http://localhost:81"
         }
     ],
     "permissions": [
@@ -85,6 +89,7 @@
                 "en": "Administrator"
             },
             "permissions": [
+                "fs_file_read","fs_file_write", "fs_policy_write",
                 "im_organization_read", "im_organization_write",
                 "im_user_read", "im_user_write",
                 "im_role_read",  "im_role_write",

@@ -32,7 +32,7 @@ class ActorBuilder(
 
     suspend fun create(
         type: ActorType,
-        name: String? =  null
+        name: String? =  null,
     ): Actor {
 
         val projectManagerCreated = organizationClient().organizationCreate().invoke(
@@ -42,7 +42,6 @@ class ActorBuilder(
                 status = OrganizationStatus.VALIDATED.name
             )
         )
-
 
         val projectManager = organizationClient().organizationGet().invoke(
                 OrganizationGetQuery(
@@ -63,7 +62,7 @@ class ActorBuilder(
             clientId = clientProjectManager,
             clientSecret = secretProjectManager,
             serverUrl = authUrl,
-            realmId = projectManagerCreated.id
+            realmId = actor.authRealm.realmId
         )
         val accessTokenProjectManager =
             ActorAuth.getActor(nameProjectManager, authRealm)

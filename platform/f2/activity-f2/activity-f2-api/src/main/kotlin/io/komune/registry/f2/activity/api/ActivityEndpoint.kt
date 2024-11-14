@@ -121,7 +121,7 @@ class ActivityEndpoint(
                 id = certificationGraph.id,
                 rootRequirementCertificationId = null,
                 values = mapOf(
-                    concept.id to cmd.value,
+                    concept.identifier to cmd.value,
                 )
             ).invokeWith(cccevClient.certificationClient.certificationFillValues())
             cmd.value
