@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import {AccountCircle, Login, Logout, TravelExplore} from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { StandardIcon, useExtendedAuth, useRoutesDefinition } from "components";
+import {g2Config} from "@komune-io/g2";
 
 interface MenuItem {
     key: string,
@@ -42,7 +43,9 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
-    const {projects, catalogues} = useRoutesDefinition()
+    const {projects, cataloguesAll} = useRoutesDefinition()
+    const standards = cataloguesAll(undefined, "standards")
+    const objectif100m = cataloguesAll(undefined, "objectif100m")
     const menu: MenuItem[] = useMemo(() => [
      {
         key: "Registry",
@@ -52,10 +55,16 @@ export const useMenu = (t: TFunction) => {
         isSelected: location.pathname === "/" || location.pathname.includes(projects())
     },{
         key: "catalogues",
-        to: catalogues(),
+        to: standards,
         label:  t("exploreStandards"),
         icon: <StandardIcon />,
-        isSelected: location.pathname.includes(catalogues())
+        isSelected: location.pathname.includes(standards)
+    },{
+        key: "objectif100m",
+        to: cataloguesAll(undefined, "objectif100m"),
+        label: "Objectif 100m",
+        icon: <StandardIcon />,
+        isSelected: location.pathname.includes(objectif100m)
     }], [t, service.hasUserRouteAuth, location.pathname])
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -63,9 +72,11 @@ export const useMenu = (t: TFunction) => {
 export const useUserMenu = (logout: () => void, login: () => void, t: TFunction) => {
     const location = useLocation()
     const {service} = useExtendedAuth()
+    // @ts-ignore
+    const adminUrl = g2Config().admin.url
     const loggedMenu: MenuItem[] = useMemo(() => [{
         key: "profil",
-        to: "https://dev.connect.komune.io/myProfil",
+        to: `${adminUrl}/myProfil`,
         label: t("profil"),
         icon: <AccountCircle />
     }, {

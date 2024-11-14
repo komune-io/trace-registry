@@ -3,7 +3,7 @@ import {
     CatalogueBreadcrumbs,
     CatalogueGrid, Catalogue,
     useCatalogueFilters,
-    useCataloguePageQuery,
+    useCataloguePageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, FixedPagination } from 'template'

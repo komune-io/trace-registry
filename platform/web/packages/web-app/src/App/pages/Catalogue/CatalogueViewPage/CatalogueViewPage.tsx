@@ -22,8 +22,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
 
-    const { cataloguesAll} = useRoutesDefinition()
-
+    const { cataloguesAll } = useRoutesDefinition()
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
         navigate(cataloguesAll(value, ...ids))
     }, [ids])

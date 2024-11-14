@@ -8,11 +8,14 @@ import locationForm from "./projectLocationForm.json"
 import financialDetailsForm from "./financialDetailsForm.json"
 import { useRoutesDefinition } from 'components'
 import { ArrowBackRounded } from '@mui/icons-material'
+import {BackAutoFormData} from "@komune-io/g2-composable";
 
 
-const forms = [
+const forms: BackAutoFormData[] = [
+  // @ts-ignore
     summaryForm,
     locationForm,
+    // @ts-ignore
     financialDetailsForm
 ]
 
@@ -91,7 +94,6 @@ export const ProjectCreate = () => {
                 }}
             >
                 <AutoForm
-                //@ts-ignore
                     formData={autoFormFormatter(forms[activeStep])}
                     onSubmit={onSubmit}
                     getFormActions={getActions}

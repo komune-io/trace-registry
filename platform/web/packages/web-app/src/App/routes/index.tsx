@@ -7,7 +7,6 @@ import {useMemo} from "react"
 import { catalogPages } from "App/pages/Catalogue";
 
 
-
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
 export const AppRouter = () => {

@@ -29,9 +29,9 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
             {
                 catalogue?.catalogues?.map((subCatalogue, index) => (
                    <MustUsedCatalogueSection
-                            key={index}
-                            catalogue={subCatalogue}
-                        />
+                     key={index}
+                     catalogue={subCatalogue}
+                   />
                 ))
             }
         </>
