@@ -6,7 +6,7 @@ lint:
 	./gradlew detekt
 
 build:
-	VERSION=${VERSION} ./gradlew build publishToMavenLocal --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
+	VERSION=${VERSION} ./gradlew build --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
 
 test-pre:
 	sudo echo "127.0.0.1 ca.bc-coop.bclan" | sudo tee -a /etc/hosts
