@@ -44,7 +44,7 @@ data class ProjectDownloadFileQuery(
 ): ProjectDownloadFileQueryDTO
 
 /**
- * @d2 inherit
- * @parent [ProjectDownloadFileFunction]
+ * @d2 result
+ * @parent [io.komune.registry.f2.project.domain.D2ProjectF2Page]
  */
 typealias ProjectDownloadFileResult = ByteArray

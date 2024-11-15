@@ -3,26 +3,12 @@ package io.komune.registry.s2.order.domain.command
 import io.komune.registry.s2.order.domain.OrderCommand
 import io.komune.registry.s2.order.domain.OrderEvent
 import io.komune.registry.s2.order.domain.OrderId
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 
-/**
- * @d2 command
- */
-@JsExport
-interface OrderDeleteCommandDTO: OrderCommand {
-    /**
-     * Id of the order to delete.
-     */
-    override val id: OrderId
-}
-
-/**
- * @d2 inherit
- */
+@Serializable
 data class OrderDeleteCommand(
     override val id: OrderId
-): OrderDeleteCommandDTO
+): OrderCommand
 
 @Serializable
 data class OrderDeletedEvent(

@@ -9,7 +9,7 @@ import kotlin.js.JsExport
 /**
  * Retire assets from a pool, removing them from the circulation.
  * @d2 function
- * @parent [io.komune.registry.f2.asset.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  * @order 130
  */
 typealias AssetRetireFunction = F2Function<AssetRetireCommandDTOBase, AssetRetiredEventDTOBase>

@@ -10,11 +10,15 @@ import kotlinx.serialization.Serializable
 
 /**
  * @d2 command
+ * @parent [D2ProjectUpdateFunction]
  */
 @JsExport
 @JsName("ProjectAddAssetPoolCommandDTO")
 interface ProjectAddAssetPoolCommandDTO: ProjectCommand
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class ProjectAddAssetPoolCommand(
     override val id: ProjectId,
@@ -36,6 +40,9 @@ interface ProjectAddedAssetPoolEventDTO: ProjectEvent {
     val poolId: AssetPoolId
 }
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class ProjectAddedAssetPoolEvent(
     override val id: ProjectId,

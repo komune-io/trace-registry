@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 /**
  * Get an Asset Pool by id.
  * @d2 function
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 10
  */
 typealias AssetOrderGetFunction = F2Function<AssetOrderGetQueryDTOBase, AssetOrderGetResultDTOBase>

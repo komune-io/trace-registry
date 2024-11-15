@@ -22,6 +22,9 @@ interface OrderPlaceCommandDTO: OrderInitCommand {
     val type: AssetTransactionType
 }
 
+/**
+ * @d2 inherit
+ */
 data class OrderPlaceCommand(
     override val from: String?,
     override val to: String?,

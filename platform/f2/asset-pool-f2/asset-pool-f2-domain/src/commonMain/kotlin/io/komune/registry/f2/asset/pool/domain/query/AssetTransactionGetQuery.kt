@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 /**
  * Get a Transaction by id.
  * @d2 function
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  */
 typealias AssetTransactionGetFunction = F2Function<AssetTransactionGetQuery, AssetTransactionGetResult>
 

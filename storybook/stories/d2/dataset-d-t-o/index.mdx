@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+import DatasetDTODesc from './desc.mdx'
+import DatasetDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<DatasetDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={DatasetDTOVisualJson}
+      language={"json"}
+      title={"Dataset"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

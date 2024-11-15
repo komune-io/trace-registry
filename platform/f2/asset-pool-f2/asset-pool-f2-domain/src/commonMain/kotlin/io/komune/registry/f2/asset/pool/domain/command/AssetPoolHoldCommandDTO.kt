@@ -10,6 +10,7 @@ import kotlin.js.JsExport
  * Put an asset on hold, disabling new transactions to be emitted.
  * @d2 function
  * @order 20
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  * @child [io.komune.registry.s2.asset.domain.command.pool.AssetPoolHoldCommandDTO]
  */
 typealias AssetPoolHoldFunction = F2Function<AssetPoolHoldCommandDTOBase, AssetPoolHeldEventDTOBase>

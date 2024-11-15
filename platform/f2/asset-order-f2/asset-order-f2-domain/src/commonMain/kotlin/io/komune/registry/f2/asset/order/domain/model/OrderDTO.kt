@@ -12,7 +12,7 @@ import s2.dsl.automate.model.WithS2State
 
 /**
  * @d2 model
- * @parent [import io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 100
  */
 @JsExport

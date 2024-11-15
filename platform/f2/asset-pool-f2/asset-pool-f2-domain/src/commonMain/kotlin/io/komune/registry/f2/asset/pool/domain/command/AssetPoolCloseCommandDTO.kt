@@ -10,6 +10,7 @@ import kotlin.js.JsExport
  * Close an asset pool, definitely disabling any new transaction to be emitted.
  * @d2 function
  * @order 40
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  * @child [io.komune.registry.s2.asset.domain.command.pool.AssetPoolCloseCommandDTO]
  */
 typealias AssetPoolCloseFunction = F2Function<AssetPoolCloseCommandDTOBase, AssetPoolClosedEventDTOBase>

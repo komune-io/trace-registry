@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 /**
  * Offset assets from a pool.
  * @d2 function
- * @parent [io.komune.registry.f2.asset.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  * @order 120
  */
 typealias AssetOffsetFunction = F2Function<AssetOffsetCommandDTOBase, AssetOffsettedEventDTOBase>

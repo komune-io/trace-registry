@@ -11,9 +11,9 @@ import kotlin.js.JsName
 /**
  * Update a project
  * @d2 function
- * @parent [import io.komune.registry.f2.project.domain.D2ProjectF2Page]
- * @child [import io.komune.registry.s2.project.domain.command.ProjectUpdateCommandDTO]
- * @child [import io.komune.registry.s2.project.domain.command.ProjectUpdatedEventDTO]
+ * @parent [io.komune.registry.f2.project.domain.D2ProjectF2Page]
+ * @child [io.komune.registry.s2.project.domain.command.ProjectUpdateCommandDTO]
+ * @child [io.komune.registry.s2.project.domain.command.ProjectUpdatedEventDTO]
  * @order 20
  */
 typealias ProjectUpdateFunction = F2Function<ProjectUpdateCommandDTOBase, ProjectUpdatedEventDTOBase>

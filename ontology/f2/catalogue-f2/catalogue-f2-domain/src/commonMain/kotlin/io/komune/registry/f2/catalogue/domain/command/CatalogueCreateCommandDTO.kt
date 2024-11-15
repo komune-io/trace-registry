@@ -31,12 +31,12 @@ interface CatalogueCreateCommandDTO {
     val identifier: CatalogueIdentifier
 
     /**
-     * @ref [io.komune.registry.f2.catalogue.domain.model.CatalogueDTO.name]
+     * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
      */
     val title: String
 
     /**
-     * @ref [io.komune.registry.f2.catalogue.domain.model.CatalogueDTO.description]
+     * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.description]
      */
     val description: String?
 

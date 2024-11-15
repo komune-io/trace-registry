@@ -9,11 +9,21 @@ import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 
 
+/**
+ * Link themes to a dataset.
+ * @d2 function
+ * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
+ * @order 10
+ */
 typealias DatasetLinkThemesFunction = F2Function<
         DatasetLinkThemesCommandDTOBase,
         DatasetLinkedThemesEventDTOBase
         >
 
+/**
+ * @d2 command
+ * @parent [DatasetLinkThemesFunction]
+ */
 @JsExport
 @JsName("DatasetLinkThemesCommandDTO")
 interface DatasetLinkThemesCommandDTO {
@@ -21,7 +31,9 @@ interface DatasetLinkThemesCommandDTO {
     val themes: List<SkosConcept>
 }
 
-
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class DatasetLinkThemesCommandDTOBase(
     override val id: DatasetId,
@@ -29,6 +41,10 @@ data class DatasetLinkThemesCommandDTOBase(
 ): DatasetLinkThemesCommandDTO
 
 
+/**
+ * @d2 event
+ * @parent [DatasetLinkThemesFunction]
+ */
 @JsExport
 @JsName("DatasetLinkThemesEventDTO")
 interface DatasetLinkedThemesEventDTO: Event {
@@ -37,6 +53,9 @@ interface DatasetLinkedThemesEventDTO: Event {
     val themes: List<SkosConcept>
 }
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class DatasetLinkedThemesEventDTOBase(
     override val id: DatasetId,

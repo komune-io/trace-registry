@@ -1,0 +1,189 @@
+import { DocsTable } from '@komune-io/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetOrderGet
+
+
+
+Get an asset order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOrderGetQueryDTO`](#asset-order-get)  
+Result: [`AssetOrderGetResultDTO`](#asset-order-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderPage
+
+
+
+get a Page of asset orders.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOrderPageQueryDTO`](#asset-order-page)  
+Result: [`AssetOrderPageResultDTO`](#asset-order-page)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /assetOrderPlace
+
+
+
+Place a transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`OrderPlaceCommandDTO`](#asset-order-place)  
+Result: [`AssetOrderPlacedEventDTO`](#asset-order-place)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderSubmit
+
+
+
+Submit a draft transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`OrderSubmitCommandDTO`](#asset-order-submit)  
+Result: [`AssetOrderSubmittedEventDTO`](#asset-order-submit)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderUpdate
+
+
+
+Update a transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`OrderUpdateCommandDTO`](#asset-order-update)  
+Result: [`AssetOrderUpdatedEventDTO`](#asset-order-update)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderCancel
+
+
+
+Cancel a transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOrderCancelCommandDTO`](#asset-order-cancel)  
+Result: [`AssetOrderCanceledEventDTO`](#asset-order-cancel)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderComplete
+
+
+
+Validate a transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOrderCompleteCommandDTO`](#asset-order-complete)  
+Result: [`AssetOrderCompletedEventDTO`](#asset-order-complete)
+  </div>
+
+  <div>
+
+  
+
+#### POST /assetOrderDelete
+
+
+
+Delete a transaction order.
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`AssetOrderDeleteCommandDTO`](#asset-order-delete)  
+Result: [`AssetOrderDeletedEventDTO`](#asset-order-delete)
+  </div>
+</DocsTable>

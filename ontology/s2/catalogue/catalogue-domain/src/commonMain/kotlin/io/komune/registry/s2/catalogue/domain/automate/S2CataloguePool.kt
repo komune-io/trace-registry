@@ -65,9 +65,10 @@ typealias CatalogueIdentifier = String
 
 /**
  * @d2 automate
- * @visual automate platform/api/api-init/build/s2-documenter/Catalog.json
+ * @visual automate platform/api/api-init/build/s2-documenter/Catalogue.json
  * @order 1
- * @title States
+ * @title Catalogue States
+ * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  */
 @Serializable
 enum class CatalogueState(override val position: Int): S2State {

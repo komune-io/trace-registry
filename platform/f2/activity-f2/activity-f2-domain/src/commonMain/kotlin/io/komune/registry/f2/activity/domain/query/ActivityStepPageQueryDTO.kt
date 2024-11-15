@@ -11,7 +11,7 @@ import kotlin.js.JsName
 /**
  * Get page of activity
  * @d2 function
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 100
  */
 typealias ActivityStepPageFunction = F2Function<ActivityStepPageQuery, ActivityStepPageResult>

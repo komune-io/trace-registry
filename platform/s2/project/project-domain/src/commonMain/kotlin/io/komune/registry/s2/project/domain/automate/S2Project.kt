@@ -47,10 +47,10 @@ val s2Project = s2Sourcing {
 }
 
 /**
- * @d2 model
+ * @d2 automate
  * @visual automate platform/s2/project/project-domain/build/s2-documenter/ProjectS2.json
  * @order 1
- * @title States
+ * @title Project States
  */
 @Serializable
 enum class ProjectState(override val position: Int): S2State {

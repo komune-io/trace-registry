@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * Get page of AssetPools.
  * @d2 function
  * @order 10
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  */
 typealias AssetPoolPageFunction = F2Function<AssetPoolPageQueryDTOBase, AssetPoolPageResult>
 

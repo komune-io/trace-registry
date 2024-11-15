@@ -1,0 +1,184 @@
+import { SsmViewer } from '@komune-io/g2-s2'
+
+<SsmViewer
+  automate={{
+    "name": "OrderS2",
+    "version": null,
+    "transitions": [
+        {
+            "from": null,
+            "to": {
+                "name": "OrderState",
+                "position": 0
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderPlaceCommand"
+            },
+            "result": {
+                "name": "OrderPlacedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 0
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 1
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderSubmitCommand"
+            },
+            "result": {
+                "name": "OrderSubmittedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 1
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 2
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderPendCommand"
+            },
+            "result": {
+                "name": "OrderPendedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 0
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 0
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderUpdateCommand"
+            },
+            "result": {
+                "name": "OrderUpdatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 1
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 1
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderUpdateCommand"
+            },
+            "result": {
+                "name": "OrderUpdatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 2
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 2
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderUpdateCommand"
+            },
+            "result": {
+                "name": "OrderUpdatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 2
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 3
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderCompleteCommand"
+            },
+            "result": {
+                "name": "OrderCompletedEvent"
+            }
+        },
+        {
+            "from": null,
+            "to": {
+                "name": "OrderState",
+                "position": 4
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderCancelCommand"
+            },
+            "result": {
+                "name": "OrderCanceledEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "OrderState",
+                "position": 4
+            },
+            "to": {
+                "name": "OrderState",
+                "position": 5
+            },
+            "role": {
+                "name": "Role"
+            },
+            "action": {
+                "name": "OrderDeleteCommand"
+            },
+            "result": {
+                "name": "OrderDeletedEvent"
+            }
+        }
+    ]
+}}
+  style={
+    {
+      width: "100%",
+      height: "300px",
+      border: "1px solid #eeedea",
+      borderRadius: "6px",
+      backgroundColor: "#fffefb"
+    }
+  }
+/>

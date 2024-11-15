@@ -1,0 +1,130 @@
+import { SsmViewer } from '@komune-io/g2-s2'
+
+<SsmViewer
+  automate={{
+    "name": "Dataset",
+    "version": null,
+    "transitions": [
+        {
+            "from": null,
+            "to": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetCreateCommand"
+            },
+            "result": {
+                "name": "DatasetCreatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "to": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetSetImageCommand"
+            },
+            "result": {
+                "name": "DatasetSetImageEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "to": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetLinkDatasetsCommand"
+            },
+            "result": {
+                "name": "DatasetLinkedDatasetsEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "to": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetLinkThemesCommand"
+            },
+            "result": {
+                "name": "DatasetLinkedThemesEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "to": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetUpdateCommand"
+            },
+            "result": {
+                "name": "DatasetUpdatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "DatasetState",
+                "position": 0
+            },
+            "to": {
+                "name": "DatasetState",
+                "position": 1
+            },
+            "role": {
+                "name": "DatasetRole"
+            },
+            "action": {
+                "name": "DatasetDeleteCommand"
+            },
+            "result": {
+                "name": "DatasetDeletedEvent"
+            }
+        }
+    ]
+}}
+  style={
+    {
+      width: "100%",
+      height: "300px",
+      border: "1px solid #eeedea",
+      borderRadius: "6px",
+      backgroundColor: "#fffefb"
+    }
+  }
+/>

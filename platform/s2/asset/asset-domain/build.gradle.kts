@@ -9,4 +9,9 @@ dependencies {
 
 	Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
+	Dependencies.Mpp.documenter(::jvmTestImplementation)
+}
+
+tasks.withType<Test>().configureEach {
+	useJUnitPlatform()
 }

@@ -1,0 +1,209 @@
+import { DocsTable } from '@komune-io/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectGetByIdentifier
+
+
+
+Get a project by identifier
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectGetByIdentifierQueryDTO`](#project-get)  
+Result: [`ProjectGetByIdentifierResultDTO`](#project-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectGet
+
+
+
+Get a project by id
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectGetQueryDTO`](#project-get)  
+Result: [`ProjectGetResultDTO`](#project-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectPage
+
+
+
+Get a page of projects
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectPageQueryDTO`](#project-page)  
+Result: [`ProjectPageResultDTO`](#project-page)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectListFiles
+
+
+
+List all files of a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectListFilesQueryDTO`](#project-list-files)  
+Result: [`ProjectListFilesResultDTO`](#project-list-files)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /projectCreate
+
+
+
+Create a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectCreateCommandDTO`](#project-create)  
+Result: [`ProjectCreatedEventDTO`](#project-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectUpdate
+
+
+
+Update a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectUpdateCommandDTO`](#project-update)  
+Result: `ProjectUpdatedEventDTO`
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectAddAssetPool
+
+
+
+Update a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: `ProjectAddAssetPoolCommandDTO`  
+Result: `ProjectAddedAssetPoolEventDTO`
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectChangePrivacy
+
+
+
+Update a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectChangePrivacyCommandDTO`](#project-change-privacy)  
+Result: `ProjectChangedPrivacyEventDTO`
+  </div>
+
+  <div>
+
+  
+
+#### POST /projectDelete
+
+
+
+Delete a project
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`ProjectDeleteCommandDTO`](#project-delete)  
+Result: [`ProjectDeletedEventDTO`](#project-delete)
+  </div>
+</DocsTable>

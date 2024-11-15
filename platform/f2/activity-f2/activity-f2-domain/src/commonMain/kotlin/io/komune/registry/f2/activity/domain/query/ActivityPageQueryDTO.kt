@@ -9,7 +9,7 @@ import kotlin.js.JsName
 /**
  * Get a page of activities.
  * @d2 function
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 10
  */
 typealias ActivityPageFunction = F2Function<ActivityPageQuery, ActivityPageResult>

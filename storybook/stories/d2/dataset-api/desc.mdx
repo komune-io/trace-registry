@@ -1,0 +1,165 @@
+import { DocsTable } from '@komune-io/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /datasetPage
+
+
+
+Get a page of dataset
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetPageQueryDTO`](#dataset-page)  
+Result: [`DatasetPageResultDTO`](#dataset-page)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetGet
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetGetQueryDTO`](#dataset-get)  
+Result: [`DatasetGetResultDTO`](#dataset-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetRefList
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetRefListQueryDTO`](#dataset-ref-list)  
+Result: [`DatasetRefListResultDTO`](#dataset-ref-list)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetData
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetDataQueryDTO`](#dataset-data)  
+Result: [`DatasetDataResultDTO`](#dataset-data)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /datasetCreate
+
+
+
+Create a dataset
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetCreateCommandDTO`](#dataset-create)  
+Result: [`DatasetCreatedEventDTO`](#dataset-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetLinkDatasets
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetLinkDatasetsCommandDTO`](#dataset-link-datasets)  
+Result: [`DatasetLinkedDatasetsEventDTO`](#dataset-link-datasets)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetLinkThemes
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`DatasetLinkThemesCommandDTO`](#dataset-link-themes)  
+Result: [`DatasetLinkedThemesEventDTO`](#dataset-link-themes)
+  </div>
+
+  <div>
+
+  
+
+#### POST /datasetDelete
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: `DatasetDeleteCommand`  
+Result: [`DatasetDeletedEventDTO`](#dataset-delete)
+  </div>
+</DocsTable>

@@ -1,0 +1,149 @@
+import { SsmViewer } from '@komune-io/g2-s2'
+
+<SsmViewer
+  automate={{
+    "name": "Catalogue",
+    "version": null,
+    "transitions": [
+        {
+            "from": null,
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueCreateCommand"
+            },
+            "result": {
+                "name": "CatalogueCreatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueSetImageCommand"
+            },
+            "result": {
+                "name": "CatalogueSetImageEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueLinkCataloguesCommand"
+            },
+            "result": {
+                "name": "CatalogueLinkedCataloguesEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueLinkThemesCommand"
+            },
+            "result": {
+                "name": "CatalogueLinkedThemesEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueLinkDatasetsCommand"
+            },
+            "result": {
+                "name": "CatalogueLinkedDatasetsEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueUpdateCommand"
+            },
+            "result": {
+                "name": "CatalogueUpdatedEvent"
+            }
+        },
+        {
+            "from": {
+                "name": "CatalogueState",
+                "position": 0
+            },
+            "to": {
+                "name": "CatalogueState",
+                "position": 1
+            },
+            "role": {
+                "name": "CatalogueRole"
+            },
+            "action": {
+                "name": "CatalogueDeleteCommand"
+            },
+            "result": {
+                "name": "CatalogueDeletedEvent"
+            }
+        }
+    ]
+}}
+  style={
+    {
+      width: "100%",
+      height: "300px",
+      border: "1px solid #eeedea",
+      borderRadius: "6px",
+      backgroundColor: "#fffefb"
+    }
+  }
+/>

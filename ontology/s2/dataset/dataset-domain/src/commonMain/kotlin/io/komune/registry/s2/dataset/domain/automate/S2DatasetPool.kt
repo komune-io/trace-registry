@@ -19,8 +19,7 @@ import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
 
 val s2Dataset = s2Sourcing {
-    // TODO Change to real name
-    name = "Dataset-0.0.1"
+    name = "Dataset"
     init<DatasetCreateCommand, DatasetCreatedEvent> {
         to = DatasetState.ACTIVE
         role = DatasetRole.Issuer
@@ -61,9 +60,10 @@ typealias DatasetIdentifier = String
 
 /**
  * @d2 automate
- * @visual automate platform/api/api-init/build/s2-documenter/Catalog.json
+ * @visual automate platform/api/api-init/build/s2-documenter/Dataset.json
  * @order 1
- * @title States
+ * @title Dataset States
+ * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
  */
 @JsExport
 @Serializable

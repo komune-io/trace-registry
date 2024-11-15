@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 /**
  * Fulfill an activity step by providing a value.
  * @d2 function
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 110
  */
 typealias ActivityStepFulfillFunction = F2Function<ActivityStepFulfillCommandDTOBase, ActivityStepFulfilledEventDTOBase>
