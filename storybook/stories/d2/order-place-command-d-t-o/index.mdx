@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+import OrderPlaceCommandDTODesc from './desc.mdx'
+import OrderPlaceCommandDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<OrderPlaceCommandDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={OrderPlaceCommandDTOVisualJson}
+      language={"json"}
+      title={"Command"}
+    />
+  }
+  rightContainerProps={{}}
+/>

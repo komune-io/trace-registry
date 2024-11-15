@@ -1,0 +1,10 @@
+{
+  "question" : "Where does the project take place?",
+  "history" : [ {
+    "content" : "What is the goal of the project?",
+    "type" : "HUMAN"
+  }, {
+    "content" : "Banana4All is an innovative initiative that aims to revolutionize the banana industry... ",
+    "type" : "AI"
+  } ]
+}

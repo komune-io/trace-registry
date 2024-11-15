@@ -1,0 +1,16 @@
+import AssetRetiredEventDTODesc from './desc.mdx'
+import AssetRetiredEventDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<AssetRetiredEventDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={AssetRetiredEventDTOVisualJson}
+      language={"json"}
+      title={"Event"}
+    />
+  }
+  rightContainerProps={{}}
+/>

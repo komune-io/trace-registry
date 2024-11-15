@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+import ProjectDTOBaseDesc from './desc.mdx'
+import ProjectDTOBaseVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<ProjectDTOBaseDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ProjectDTOBaseVisualJson}
+      language={"json"}
+      title={"ProjectDTOBase"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

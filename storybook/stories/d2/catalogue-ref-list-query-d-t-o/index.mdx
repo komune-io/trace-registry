@@ -1,0 +1,16 @@
+import CatalogueRefListQueryDTODesc from './desc.mdx'
+import CatalogueRefListQueryDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<CatalogueRefListQueryDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={CatalogueRefListQueryDTOVisualJson}
+      language={"json"}
+      title={"Query"}
+    />
+  }
+  rightContainerProps={{}}
+/>

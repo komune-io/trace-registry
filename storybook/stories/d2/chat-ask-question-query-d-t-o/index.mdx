@@ -1,0 +1,16 @@
+import ChatAskQuestionQueryDTODesc from './desc.mdx'
+import ChatAskQuestionQueryDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<ChatAskQuestionQueryDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ChatAskQuestionQueryDTOVisualJson}
+      language={"json"}
+      title={"Query"}
+    />
+  }
+  rightContainerProps={{}}
+/>

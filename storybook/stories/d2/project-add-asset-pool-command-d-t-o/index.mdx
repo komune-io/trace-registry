@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+import ProjectAddAssetPoolCommandDTODesc from './desc.mdx'
+import ProjectAddAssetPoolCommandDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<ProjectAddAssetPoolCommandDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={ProjectAddAssetPoolCommandDTOVisualJson}
+      language={"json"}
+      title={"Command"}
+    />
+  }
+  rightContainerProps={{}}
+/>

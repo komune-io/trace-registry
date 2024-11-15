@@ -1,0 +1,16 @@
+import CatalogueLinkedThemesEventDTODesc from './desc.mdx'
+import CatalogueLinkedThemesEventDTOVisualJson from './visualJson.json'
+import { CodeHighlighter, SegmentedContainer } from '@komune-io/g2-documentation'
+
+<SegmentedContainer
+  leftElement={<CatalogueLinkedThemesEventDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={CatalogueLinkedThemesEventDTOVisualJson}
+      language={"json"}
+      title={"Event"}
+    />
+  }
+  rightContainerProps={{}}
+/>

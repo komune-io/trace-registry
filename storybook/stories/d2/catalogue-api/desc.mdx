@@ -1,0 +1,165 @@
+import { DocsTable } from '@komune-io/g2-documentation'
+
+
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Queries
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /cataloguePage
+
+
+
+Get a page of catalogue
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CataloguePageQueryDTO`](#catalogue-page)  
+Result: [`CataloguePageResultDTO`](#catalogue-page)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueGet
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueGetQueryDTO`](#catalogue-get)  
+Result: [`CatalogueGetResultDTO`](#catalogue-get)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueRefList
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueRefListQueryDTO`](#catalogue-ref-list)  
+Result: [`CatalogueRefListResultDTO`](#catalogue-ref-list)
+  </div>
+</DocsTable>
+
+<div
+  class={"spacer"}
+/>
+
+
+
+## Commands
+
+<DocsTable
+  gridColumnNumber={2}
+>
+
+  <div>
+
+  
+
+#### POST /catalogueCreate
+
+
+
+Create a catalogue
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueCreateCommandDTO`](#catalogue-create)  
+Result: [`CatalogueCreatedEventDTO`](#catalogue-create)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueLinkCatalogues
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueLinkCataloguesCommandDTO`](#catalogue-link-catalogues)  
+Result: [`CatalogueLinkedCataloguesEventDTO`](#catalogue-link-catalogues)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueLinkDatasets
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueLinkDatasetsCommandDTO`](#catalogue-link-datasets)  
+Result: [`CatalogueLinkedDatasetsEventDTO`](#catalogue-link-datasets)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueLinkThemes
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: [`CatalogueLinkThemesCommandDTO`](#catalogue-link-themes)  
+Result: [`CatalogueLinkedThemesEventDTO`](#catalogue-link-themes)
+  </div>
+
+  <div>
+
+  
+
+#### POST /catalogueDelete
+
+*Content-Type: application/json*
+  </div>
+
+  <div>
+
+    
+Body: `CatalogueDeleteCommand`  
+Result: [`CatalogueDeletedEventDTO`](#catalogue-delete)
+  </div>
+</DocsTable>
