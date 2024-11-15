@@ -9,7 +9,7 @@ import kotlin.js.JsExport
 /**
  * Place a transaction order.
  * @d2 function
- * @parent [import io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 150
  * @child [OrderPlaceCommandDTO]
  */

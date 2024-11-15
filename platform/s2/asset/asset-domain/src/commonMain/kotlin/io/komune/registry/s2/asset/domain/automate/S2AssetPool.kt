@@ -61,9 +61,10 @@ typealias AssetPoolId = String
 
 /**
  * @d2 automate
- * @visual automate platform/api/api-init/build/s2-documenter/AssetPool.json
+ * @visual automate platform/s2/asset/asset-domain/build/s2-documenter/AssetPool.json
  * @order 1
  * @title States
+ * @parent [io.komune.registry.s2.asset.domain.S2AssetTest]
  */
 @Serializable
 enum class AssetPoolState(override val position: Int): S2State {

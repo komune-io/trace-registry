@@ -61,9 +61,10 @@ typealias DatasetIdentifier = String
 
 /**
  * @d2 automate
- * @visual automate platform/api/api-init/build/s2-documenter/Catalog.json
+ * @visual automate platform/api/api-init/build/s2-documenter/Dataset-0.0.1.json
  * @order 1
  * @title States
+ * @parent [io.komune.registry.s2.dataset.domain.D2DatasetF2Page]
  */
 @JsExport
 @Serializable

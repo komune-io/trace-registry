@@ -1,4 +1,4 @@
-package io.komune.registry.f2.asset.order.domain
+package io.komune.registry.f2.asset.pool.domain
 
 /**
  * Voluntary Emission Reductions (VER) asset pool is a collection of carbon offset credits generated through voluntary projects
@@ -6,14 +6,5 @@ package io.komune.registry.f2.asset.order.domain
  * governments, or individuals to offset their carbon footprint and showcase their commitment to sustainability.
  * @d2 page
  * @title API/Asset
- * @child [io.komune.registry.s2.asset.domain.automate.AssetPoolState]
- * @child [io.komune.registry.s2.asset.domain.automate.AssetTransactionState]
- * @child [io.komune.registry.s2.order.domain.OrderState]
  */
-interface D2AssetF2Page
-
-/**
- * @d2 api
- * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
- */
-interface D2AssetOrderAPi: AssetOrderApi
+interface D2AssetPoolF2Page

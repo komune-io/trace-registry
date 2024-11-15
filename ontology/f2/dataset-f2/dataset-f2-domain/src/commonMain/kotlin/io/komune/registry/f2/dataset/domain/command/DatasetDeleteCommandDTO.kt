@@ -9,26 +9,41 @@ import kotlin.js.JsName
 /**
  * Delete a dataset
  * @d2 function
- * @parent
+ * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
  */
 typealias DatasetDeleteFunction = F2Function<DatasetDeleteCommand, DatasetDeletedEventDTOBase>
 
-
+/**
+ * @d2 command
+ * @parent [DatasetDeleteFunction]
+ */
 @JsExport
 @JsName("DatasetDeleteCommandDTO")
-interface DatasetDeleteCommandDTO: io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommandDTO
+interface DatasetDeleteCommandDTO {
+    val id: DatasetId
+}
 
-
+/**
+ * @d2 event
+ * @parent [DatasetDeleteFunction]
+ */
 @JsExport
 @JsName("DatasetDeletedEventDTO")
 interface DatasetDeletedEventDTO {
     val id: DatasetId
 }
 
+/**
+ * @d2 inherit
+ */
 data class DatasetDeleteCommandDTOBase(
     override val id: DatasetId
 ): DatasetDeleteCommandDTO
 
+
+/**
+ * @d2 inherit
+ */
 data class DatasetDeletedEventDTOBase(
     override val id: DatasetId
 ): DatasetDeletedEventDTO

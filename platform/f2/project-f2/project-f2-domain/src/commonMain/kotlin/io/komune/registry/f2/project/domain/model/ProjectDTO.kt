@@ -186,6 +186,7 @@ interface ProjectDTO: WithS2State<ProjectState>, WithS2Id<ProjectId> {
 
 /**
  * @d2 model
+ * @parent [io.komune.registry.f2.project.domain.D2ProjectF2Page]
  */
 @Serializable
 data class ProjectDTOBase(

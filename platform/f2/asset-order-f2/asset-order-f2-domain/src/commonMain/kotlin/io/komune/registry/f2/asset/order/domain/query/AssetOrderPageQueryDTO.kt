@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 /**
  * Get page of AssetOrders.
  * @d2 function
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 10
  */
 typealias AssetOrderPageFunction = F2Function<AssetOrderPageQueryDTOBase, AssetOrderPageResult>

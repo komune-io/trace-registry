@@ -73,7 +73,7 @@ typealias OrderId = String
 
 /**
  * @d2 automate
- * @visual automate platform/api/api-init/build/s2-documenter/Order.json
+ * @visual automate platform/s2/order/order-domain/build/s2-documenter/OrderS2.json
  * @order 1
  * @title States
  */

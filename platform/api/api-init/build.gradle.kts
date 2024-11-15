@@ -10,6 +10,8 @@ dependencies {
 
 //    implementation(project(":platform:s2:asset:asset-api"))
     implementation(project(":platform:s2:project:project-api"))
+    implementation(project(":ontology:s2:catalogue:catalogue-api"))
+    implementation(project(":ontology:s2:dataset:dataset-api"))
 
     Dependencies.Jvm.s2Bdd(::testImplementation)
     Dependencies.Mpp.documenter(::testImplementation)

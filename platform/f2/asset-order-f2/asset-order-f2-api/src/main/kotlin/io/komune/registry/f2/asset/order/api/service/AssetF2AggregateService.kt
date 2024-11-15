@@ -17,7 +17,9 @@ import io.komune.registry.s2.asset.api.AssetPoolAggregateService
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolEmitTransactionCommand
 import io.komune.registry.s2.order.api.OrderAggregateService
 import io.komune.registry.s2.order.api.OrderFinderService
+import io.komune.registry.s2.order.domain.command.OrderCancelCommand
 import io.komune.registry.s2.order.domain.command.OrderCompleteCommand
+import io.komune.registry.s2.order.domain.command.OrderDeleteCommand
 import org.springframework.stereotype.Service
 
 @Service
@@ -43,7 +45,7 @@ class AssetF2AggregateService(
     }
 
     suspend fun cancelOrder(command: AssetOrderCancelCommandDTOBase): AssetOrderCanceledEventDTOBase {
-        return orderAggregateService.cancel(command)
+        return orderAggregateService.cancel(OrderCancelCommand(command.id))
             .let { AssetOrderCanceledEventDTOBase(it.id) }
     }
 
@@ -77,7 +79,7 @@ class AssetF2AggregateService(
     }
 
     suspend fun deleteOrder(command: AssetOrderDeleteCommandDTOBase): AssetOrderDeletedEventDTOBase {
-        return orderAggregateService.delete(command)
+        return orderAggregateService.delete(OrderDeleteCommand(command.id))
             .let { AssetOrderDeletedEventDTOBase(it.id) }
     }
 

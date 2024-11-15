@@ -33,12 +33,12 @@ interface DatasetCreateCommandDTO {
     val identifier: DatasetIdentifier
 
     /**
-     * @ref [io.komune.registry.f2.dataset.domain.model.DatasetDTO.name]
+     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
      */
     val title: String
 
     /**
-     * @ref [io.komune.registry.f2.dataset.domain.model.DatasetDTO.description]
+     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.description]
      */
     val description: String?
 
@@ -103,12 +103,12 @@ interface DatasetCreatedEventDTO: Event {
     val identifier: DatasetIdentifier
 
     /**
-     * @ref [io.komune.registry.f2.dataset.domain.model.DatasetDTO.name]
+     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
      */
     val title: String
 
     /**
-     * @ref [io.komune.registry.f2.dataset.domain.model.DatasetDTO.description]
+     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.description]
      */
     val description: String?
 

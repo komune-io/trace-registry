@@ -8,12 +8,21 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 
-
+/**
+ * Represents a function that links themes to a catalogue.
+ * @d2 function
+ * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
+ */
 typealias CatalogueLinkThemesFunction = F2Function<
         CatalogueLinkThemesCommandDTOBase,
         CatalogueLinkedThemesEventDTOBase
         >
 
+/**
+ * Represents a command that links themes to a catalogue.
+ * @d2 command
+ * @parent [CatalogueLinkThemesFunction]
+ */
 @JsExport
 @JsName("CatalogueLinkThemesCommandDTO")
 interface CatalogueLinkThemesCommandDTO {
@@ -22,13 +31,20 @@ interface CatalogueLinkThemesCommandDTO {
 }
 
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class CatalogueLinkThemesCommandDTOBase(
     override val id: CatalogueId,
     override val themes: List<SkosConcept>
 ): CatalogueLinkThemesCommandDTO
 
-
+/**
+ * Represents an event that links themes to a catalogue.
+ * @d2 event
+ * @parent [CatalogueLinkThemesFunction]
+ */
 @JsExport
 @JsName("CatalogueLinkThemesEventDTO")
 interface CatalogueLinkedThemesEventDTO: Event {
@@ -37,6 +53,9 @@ interface CatalogueLinkedThemesEventDTO: Event {
     val themes: List<SkosConcept>
 }
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class CatalogueLinkedThemesEventDTOBase(
     override val id: CatalogueId,

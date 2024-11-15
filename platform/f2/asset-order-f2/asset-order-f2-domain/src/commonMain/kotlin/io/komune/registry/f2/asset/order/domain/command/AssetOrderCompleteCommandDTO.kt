@@ -8,7 +8,7 @@ import kotlin.js.JsExport
 /**
  * Complete a transaction order and emit the actual transaction.
  * @d2 function
- * @parent [import io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 160
  */
 typealias AssetOrderCompleteFunction = F2Function<AssetOrderCompleteCommandDTOBase, AssetOrderCompletedEventDTOBase>

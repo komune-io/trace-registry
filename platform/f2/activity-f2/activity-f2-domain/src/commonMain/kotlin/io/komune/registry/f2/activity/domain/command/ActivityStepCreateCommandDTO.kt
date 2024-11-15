@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 /**
  * Create an activity step.
  * @d2 function
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 100
  */
 typealias ActivityStepCreateFunction = F2Function<ActivityStepCreateCommandDTOBase, ActivityStepCreatedEventDTOBase>
@@ -29,17 +29,17 @@ interface ActivityStepCreateCommandDTO {
     val identifier: ActivityStepIdentifier
 
     /**
-     * @ref [import io.komune.registry.f2.activity.domain.model.ActivityStepDTO.name]
+     * @ref [io.komune.registry.f2.activity.domain.model.ActivityStepDTO.name]
      */
     val name: String
 
     /**
-     * @ref [import io.komune.registry.f2.activity.domain.model.ActivityStepDTO.description]
+     * @ref [io.komune.registry.f2.activity.domain.model.ActivityStepDTO.description]
      */
     val description: String?
 
     /**
-     * @ref [import io.komune.registry.f2.activity.domain.model.ActivityStepDTO.hasConcept]
+     * @ref [io.komune.registry.f2.activity.domain.model.ActivityStepDTO.hasConcept]
      */
     val hasConcept: InformationConcept?
 }

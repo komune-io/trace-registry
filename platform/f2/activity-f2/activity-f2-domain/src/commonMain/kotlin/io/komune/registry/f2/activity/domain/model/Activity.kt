@@ -20,7 +20,7 @@ typealias ActivityIdentifier = String
 /**
  * TODO describe all properties with examples
  * @d2 model
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 10
  */
 @JsExport

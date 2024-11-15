@@ -14,6 +14,9 @@ import kotlinx.serialization.Serializable
 @JsName("ProjectChangePrivacyCommandDTO")
 interface ProjectChangePrivacyCommandDTO: ProjectCommand
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class ProjectChangePrivacyCommand(
     override val id: ProjectId,
@@ -35,6 +38,9 @@ interface ProjectChangedPrivacyEventDTO: ProjectEvent {
     val isPrivate: Boolean
 }
 
+/**
+ * @d2 inherit
+ */
 @Serializable
 data class ProjectChangedPrivacyEvent(
     override val id: ProjectId,

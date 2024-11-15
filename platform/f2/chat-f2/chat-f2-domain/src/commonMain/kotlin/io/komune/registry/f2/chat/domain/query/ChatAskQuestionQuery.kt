@@ -37,9 +37,7 @@ interface ChatAskQuestionQueryDTO {
      *  "content": "What is the goal of the project?",
      *  "type": "HUMAN"
      * }, {
-     *  "content": "Banana4All is an innovative initiative that aims to revolutionize the banana industry by focusing on making it more
-     *  efficient and reducing its ecological impact. The project combines cutting-edge technologies, sustainable practices, and community
-     *  engagement to create a holistic approach towards a greener and more sustainable banana industry.",
+     *  "content": "Banana4All is an innovative initiative that aims to revolutionize the banana industry... ",
      *  "type": "AI"
      * }]]
      */

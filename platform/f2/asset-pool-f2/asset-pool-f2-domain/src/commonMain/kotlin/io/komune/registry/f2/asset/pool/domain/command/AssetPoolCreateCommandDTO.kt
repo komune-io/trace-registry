@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 /**
  * Create an AssetPool
  * @d2 function
- * @parent [io.komune.registry.f2.asset.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.pool.domain.D2AssetPoolF2Page]
  * @order 10
  */
 typealias AssetPoolCreateFunction = F2Function<AssetPoolCreateCommandDTOBase, AssetPoolCreatedEventDTOBase>
@@ -27,7 +27,7 @@ interface AssetPoolCreateCommandDTO {
 
     /**
      * Indicator of the assets issued inside the pool
-     * @example carbon
+     * @example "carbon"
      */
     val indicator: String
 

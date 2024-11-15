@@ -11,7 +11,7 @@ import kotlinx.serialization.json.JsonElement
 /**
  * List all files of a project.
  * @d2 function
- * @parent [io.komune.registry.f2.project.domain.D2DatasetF2Page]
+ * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
  * @order 30
  */
 typealias DatasetDataFunction = F2Function<DatasetDataQuery, DatasetDataResult>

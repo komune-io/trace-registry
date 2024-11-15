@@ -8,6 +8,7 @@ import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class DatasetUpdateCommand(
     override val id: DatasetId,
     val title: String,

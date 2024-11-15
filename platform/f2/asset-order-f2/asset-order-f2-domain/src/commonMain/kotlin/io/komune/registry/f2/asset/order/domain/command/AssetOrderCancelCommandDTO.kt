@@ -3,25 +3,35 @@ package io.komune.registry.f2.asset.order.domain.command
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.order.domain.OrderId
 import io.komune.registry.s2.order.domain.command.OrderCancelCommand
-import io.komune.registry.s2.order.domain.command.OrderCancelCommandDTO
 import kotlin.js.JsExport
 
 /**
  * Cancel a transaction order.
  * @d2 function
- * @parent [import io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 150
  * @child [OrderCancelCommandDTO]
  */
 typealias AssetOrderCancelFunction = F2Function<AssetOrderCancelCommandDTOBase, AssetOrderCanceledEventDTOBase>
 
+/**
+ * @d2 command
+ * @parent [AssetOrderCancelFunction]
+ */
 @JsExport
-interface AssetOrderCancelCommandDTO: OrderCancelCommandDTO
+interface AssetOrderCancelCommandDTO {
+    /**
+     * Id of the order to cancel.
+     */
+    val id: OrderId
+}
 
 /**
  * @d2 inherit
  */
-typealias AssetOrderCancelCommandDTOBase = OrderCancelCommand
+data class AssetOrderCancelCommandDTOBase(
+    override val id: OrderId
+): AssetOrderCancelCommandDTO
 
 /**
  * @d2 event

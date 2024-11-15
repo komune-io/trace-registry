@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 /**
  * Create an activity.
  * @d2 function
- * @parent [import io.komune.registry.f2.activity.domain.D2ActivityF2Page]
+ * @parent [io.komune.registry.f2.activity.domain.D2ActivityF2Page]
  * @order 10
  */
 typealias ActivityCreateFunction = F2Function<ActivityCreateCommandDTOBase, ActivityCreatedEventDTOBase>
@@ -28,12 +28,12 @@ interface ActivityCreateCommandDTO {
     val identifier: ActivityIdentifier
 
     /**
-     * @ref [import io.komune.registry.f2.activity.domain.model.ActivityDTO.name]
+     * @ref [io.komune.registry.f2.activity.domain.model.ActivityDTO.name]
      */
     val name: String
 
     /**
-     * @ref [import io.komune.registry.f2.activity.domain.model.ActivityDTO.description]
+     * @ref [io.komune.registry.f2.activity.domain.model.ActivityDTO.description]
      */
     val description: String?
 

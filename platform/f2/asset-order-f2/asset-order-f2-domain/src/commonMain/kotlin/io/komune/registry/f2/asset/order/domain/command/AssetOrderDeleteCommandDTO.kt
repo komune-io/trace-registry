@@ -2,27 +2,36 @@ package io.komune.registry.f2.asset.order.domain.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.order.domain.OrderId
-import io.komune.registry.s2.order.domain.command.OrderDeleteCommand
-import io.komune.registry.s2.order.domain.command.OrderDeleteCommandDTO
 import io.komune.registry.s2.order.domain.command.OrderSubmitCommandDTO
 import kotlin.js.JsExport
 
 /**
  * Delete a transaction order.
  * @d2 function
- * @parent [import io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
+ * @parent [io.komune.registry.f2.asset.order.domain.D2AssetF2Page]
  * @order 150
  * @child [OrderSubmitCommandDTO]
  */
 typealias AssetOrderDeleteFunction = F2Function<AssetOrderDeleteCommandDTOBase, AssetOrderDeletedEventDTOBase>
 
+/**
+ * @d2 command
+ * @parent [AssetOrderDeleteFunction]
+ */
 @JsExport
-interface AssetOrderDeleteCommandDTO: OrderDeleteCommandDTO
+interface AssetOrderDeleteCommandDTO {
+    /**
+     * Id of the order to delete.
+     */
+    val id: OrderId
+}
 
 /**
  * @d2 inherit
  */
-typealias AssetOrderDeleteCommandDTOBase = OrderDeleteCommand
+class AssetOrderDeleteCommandDTOBase (
+    override val id: OrderId
+): AssetOrderDeleteCommandDTO
 
 /**
  * @d2 event

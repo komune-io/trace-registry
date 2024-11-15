@@ -71,6 +71,7 @@ class S2ProjectTest {
 
         println(json.encodeToString(project))
     }
+
     @Test
     fun s2Documenter() {
         S2Documenter()
