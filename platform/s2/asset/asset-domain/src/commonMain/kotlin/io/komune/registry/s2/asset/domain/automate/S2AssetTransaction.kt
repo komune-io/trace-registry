@@ -30,7 +30,6 @@ typealias AssetTransactionId = String
  * @d2 automate
  * @visual platform/s2/asset/asset-domain/build/s2-documenter/AssetTransactionS2.json
  * @order 100
- * @parent [io.komune.registry.s2.asset.domain.S2AssetTest]
  * @title Transaction States
  */
 @Serializable

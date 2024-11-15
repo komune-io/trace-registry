@@ -3,7 +3,6 @@ package io.komune.registry.s2.asset.domain.model
 /**
  * @d2 model
  * @order 110
- * @parent [io.komune.registry.s2.asset.domain.S2AssetTest]
  */
 enum class AssetTransactionType {
     /**
