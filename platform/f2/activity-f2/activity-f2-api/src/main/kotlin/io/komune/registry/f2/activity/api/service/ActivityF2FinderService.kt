@@ -5,6 +5,7 @@ import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.Certification
 import cccev.dsl.model.CertificationId
 import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.InformationConceptDTO
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementId
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
@@ -126,7 +127,7 @@ class ActivityF2FinderService(
         )
     }
 
-    private suspend fun Collection<InformationConcept>.toSteps(
+    private suspend fun List<InformationConceptDTO>.toSteps(
         certificationId: CertificationId
     ): List<ActivityStep> {
         val certification = certificateService.get(certificationId)

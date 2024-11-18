@@ -1,6 +1,6 @@
 package cee.baten101
 
-import cccev.dsl.model.InformationConceptBase
+import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.SquareMeter
 import cccev.dsl.model.XSDDate
 import cccev.dsl.model.XSDDouble
@@ -9,7 +9,7 @@ import cee.FicheCode
 import cee.indba116.NombreTypesDispositifGestionEclairage
 import java.util.UUID
 
-object ResistanceThermique: InformationConceptBase(
+object ResistanceThermique: InformationConcept(
     identifier = "resistanceThermique",
     name = "Résistance Thermique",
     unit = SquareMeterKelvinPerWatt,
@@ -18,7 +18,7 @@ object ResistanceThermique: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object DatePrecedentsTravauxMemeBatiment: InformationConceptBase(
+object DatePrecedentsTravauxMemeBatiment: InformationConcept(
     identifier = "datePrecedentsTravauxMemeBatiment",
     name = "Résistance Thermique",
     unit = XSDDate,
@@ -27,7 +27,7 @@ object DatePrecedentsTravauxMemeBatiment: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object SurfaceIsolant: InformationConceptBase(
+object SurfaceIsolant: InformationConcept(
     identifier = "surfaceIsolant",
     name = "Surface Isolant",
     unit = SquareMeter,
@@ -36,7 +36,7 @@ object SurfaceIsolant: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object CumacPerM2Isolant: InformationConceptBase(
+object CumacPerM2Isolant: InformationConcept(
     identifier = "cumacPerM2Isolant",
     name = "Montant en kWh cumac par m2 d'isolant",
     unit = KwhCumacPerSquareMeter,
@@ -47,7 +47,7 @@ object CumacPerM2Isolant: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object FacteurCorrectif: InformationConceptBase(
+object FacteurCorrectif: InformationConcept(
     identifier = "facteurCorrectif",
     name = "Facteur correctif",
     unit = XSDDouble,
@@ -67,7 +67,7 @@ object FacteurCorrectif: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object ZoneClimatique: InformationConceptBase(
+object ZoneClimatique: InformationConcept(
     identifier = "zoneClimatique",
     name = "Zone Climatique",
     unit = XSDString,
@@ -76,7 +76,7 @@ object ZoneClimatique: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object SecteurActivite: InformationConceptBase(
+object SecteurActivite: InformationConcept(
     identifier = "secteurActivite",
     name = "Secteur d'activité",
     unit = XSDString,

@@ -1,10 +1,10 @@
 package cee
 
-import cccev.dsl.model.InformationConceptBase
+import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.XSDDate
 import java.util.UUID
 
-object DateTravaux: InformationConceptBase(
+object DateTravaux: InformationConcept(
     identifier = "dateTravaux",
     name = "Date Travaux",
     unit = XSDDate,
@@ -13,7 +13,7 @@ object DateTravaux: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object DatePrecedentsTravaux: InformationConceptBase(
+object DatePrecedentsTravaux: InformationConcept(
     identifier = "datePrecedentsTravaux",
     name = "Date Précédents Travaux",
     unit = XSDDate,
@@ -22,7 +22,7 @@ object DatePrecedentsTravaux: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object DateDevis: InformationConceptBase(
+object DateDevis: InformationConcept(
     identifier = "dateDevis",
     name = "Date Devis",
     unit = XSDDate,
