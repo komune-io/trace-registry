@@ -3,10 +3,11 @@ package io.komune.registry.f2.activity.api.model
 import cccev.dsl.model.Certification
 import cccev.dsl.model.Evidence
 import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.InformationConceptDTO
 import io.komune.registry.f2.activity.domain.model.ActivityStep
 import io.komune.registry.infra.fs.FsService
 
-suspend fun InformationConcept.toStep(
+suspend fun InformationConceptDTO.toStep(
     certification: Certification?,
     fsService: FsService
 ): ActivityStep {
@@ -30,6 +31,6 @@ suspend fun InformationConcept.toStep(
         value = value,
         evidences = evidences,
         completed = value != null,
-        hasConcept = this
+        hasConcept = this as InformationConcept
     )
 }

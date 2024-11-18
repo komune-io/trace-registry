@@ -65,7 +65,7 @@ class ProjectAggregateService(
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
 		cmd.checkType()
 		ProjectUpdatedEvent(
-			id = UUID.randomUUID().toString(),
+			id = cmd.id,
 			date = System.currentTimeMillis(),
 			status = ProjectState.STAMPED,
 			identifier = cmd.identifier,

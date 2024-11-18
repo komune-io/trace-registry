@@ -3,6 +3,7 @@ package io.komune.registry.f2.asset.pool.api.service
 import cccev.dsl.client.CCCEVClient
 import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.InformationConceptDTO
 import cccev.dsl.model.InformationConceptIdentifier
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import f2.dsl.cqrs.filter.Match
@@ -50,7 +51,7 @@ class AssetPoolF2FinderService(
     )
 
     private inner class Cache {
-        val concepts = SimpleCache<InformationConceptIdentifier, InformationConcept> { identifier ->
+        val concepts = SimpleCache<InformationConceptIdentifier, InformationConceptDTO> { identifier ->
             InformationConceptGetByIdentifierQuery(
                 identifier = identifier
             ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())

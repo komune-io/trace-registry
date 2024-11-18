@@ -1,7 +1,7 @@
 package cee.indba116
 
 import cccev.dsl.model.Duration
-import cccev.dsl.model.InformationConceptBase
+import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.Ratio
 import cccev.dsl.model.XSDInt
 import cccev.dsl.model.XSDString
@@ -9,7 +9,7 @@ import cee.FicheCode
 import cee.KWhCumac
 import java.util.UUID
 
-object SecteurActivite: InformationConceptBase(
+object SecteurActivite: InformationConcept(
     identifier = "secteurActivite",
     name = "Secteur d'activité",
     unit = XSDString,
@@ -18,7 +18,7 @@ object SecteurActivite: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object UsageLuminaire: InformationConceptBase(
+object UsageLuminaire: InformationConcept(
     identifier = "usageLuminaire",
     name = "Usage Luminaire",
     unit = XSDString,
@@ -27,7 +27,7 @@ object UsageLuminaire: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object DureeDeVieLuminaire: InformationConceptBase(
+object DureeDeVieLuminaire: InformationConcept(
     identifier = "dureeVieLuminaire",
     name = "Durée de vie luminaire",
     unit = Duration.Hour,
@@ -36,7 +36,7 @@ object DureeDeVieLuminaire: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object EfficaciteLumineuse: InformationConceptBase(
+object EfficaciteLumineuse: InformationConcept(
     identifier = "efficaciteLumineuse",
     name = "Efficacité lumineuse",
     unit = LumenPerW,
@@ -46,7 +46,7 @@ object EfficaciteLumineuse: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object FacteurPuissance: InformationConceptBase(
+object FacteurPuissance: InformationConcept(
     identifier = "facteurPuissance",
     name = "Facteur de puissance",
     unit = Ratio,
@@ -55,7 +55,7 @@ object FacteurPuissance: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object TauxDistorsionHarmonique: InformationConceptBase(
+object TauxDistorsionHarmonique: InformationConcept(
     identifier = "tauxDistorsionHarmonique",
     name = "Taux de distorsion harmonique",
     unit = Variation,
@@ -64,7 +64,7 @@ object TauxDistorsionHarmonique: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-open class Norme(identifier: String = "norme"): InformationConceptBase(
+open class Norme(identifier: String = "norme"): InformationConcept(
     identifier = identifier,
     name = "Norme",
     unit = XSDString,
@@ -75,7 +75,7 @@ open class Norme(identifier: String = "norme"): InformationConceptBase(
 
 object TauxDistorsionHarmoniqueNormeCalcul: Norme("tauxDistorsionHarmoniqueNormeCalcul")
 
-object NombreTypesDispositifGestionEclairage: InformationConceptBase(
+object NombreTypesDispositifGestionEclairage: InformationConcept(
     identifier = "nombreTypesDispositifGestionEclairage",
     name = "Nombre Types Dispositif Gestion Eclairage",
     unit = XSDInt,
@@ -84,7 +84,7 @@ object NombreTypesDispositifGestionEclairage: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object DureeVieConventionnelleLuminaire: InformationConceptBase(
+object DureeVieConventionnelleLuminaire: InformationConcept(
     identifier = "dureeVieConventionnelleLuminaire",
     name = "Durée de vie conventionnelle Luminaire",
     unit = Duration.Year,
@@ -95,7 +95,7 @@ object DureeVieConventionnelleLuminaire: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object CumacParWatt: InformationConceptBase(
+object CumacParWatt: InformationConcept(
     identifier = "cumacParWatt",
     name = "Montant en kWh par Watt",
     unit = KWhCumacPerW,
@@ -106,7 +106,7 @@ object CumacParWatt: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object Puissance: InformationConceptBase(
+object Puissance: InformationConcept(
     identifier = "puissance",
     name = "Puissance",
     unit = Watt,
@@ -115,7 +115,7 @@ object Puissance: InformationConceptBase(
     id = UUID.randomUUID().toString()
 )
 
-object Cumac: InformationConceptBase(
+object Cumac: InformationConcept(
     identifier = "kWhCumac",
     name = "kWh Cumac",
     unit = KWhCumac,
