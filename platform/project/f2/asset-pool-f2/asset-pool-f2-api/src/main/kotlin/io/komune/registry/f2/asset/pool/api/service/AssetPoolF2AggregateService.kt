@@ -1,8 +1,5 @@
 package io.komune.registry.f2.asset.pool.api.service
 
-import cccev.f2.concept.model.InformationConceptFlat
-import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
-import f2.dsl.fnc.invokeWith
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.asset.pool.domain.command.AbstractAssetTransactionCommand
 import io.komune.registry.f2.asset.pool.domain.command.AssetIssueCommandDTOBase

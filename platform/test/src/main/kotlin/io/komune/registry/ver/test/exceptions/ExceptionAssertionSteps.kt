@@ -5,7 +5,7 @@ import f2.spring.exception.ForbiddenAccessException
 import f2.spring.exception.MessageConverterException
 import f2.spring.exception.NotFoundException
 import io.cucumber.java8.En
-import io.komune.registry.api.commons.exception.ExceptionCodes
+import io.komune.registry.s2.commons.exception.ExceptionCodes
 import io.komune.registry.s2.asset.api.exception.GranularityTooSmallException
 import io.komune.registry.s2.asset.api.exception.NegativeTransactionException
 import io.komune.registry.s2.asset.api.exception.NotEnoughAssetsException

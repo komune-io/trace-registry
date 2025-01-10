@@ -10,7 +10,7 @@ dependencies {
 
 	implementation(project(":platform:infra:redis"))
 
-	implementation(project(":platform:api:api-commons"))
+	implementation(project(":platform:commons"))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2SourcingSsm(::implementation)

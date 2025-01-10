@@ -6,7 +6,7 @@ import cccev.dsl.model.Certification
 import cccev.dsl.model.CertificationId
 import cccev.f2.certification.query.CertificationGetQuery
 import f2.dsl.fnc.invokeWith
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service

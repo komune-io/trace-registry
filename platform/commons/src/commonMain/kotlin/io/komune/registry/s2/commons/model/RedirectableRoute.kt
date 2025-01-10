@@ -1,4 +1,4 @@
-package io.komune.registry.api.commons.model
+package io.komune.registry.s2.commons.model
 
 import kotlin.js.JsExport
 import kotlin.js.JsName

@@ -1,9 +1,5 @@
 package io.komune.registry.ver.test.s2.asset.command
 
-import cccev.dsl.model.DataUnit
-import cccev.dsl.model.DataUnitType
-import cccev.dsl.model.InformationConcept
-import cccev.dsl.model.builder.informationConcept
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.komune.registry.s2.asset.api.AssetPoolAggregateService
@@ -84,17 +80,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
 
                 AssertionBdd.assetPool(assetPoolRepository).assertThat(pool!!).hasFields(
                     vintage = params.vintage ?: pool.vintage,
-                    indicator = pool.indicator ?: informationConcept {
-                        identifier = "carbon"
-                        name = "Carbon"
-                        unit = DataUnit(
-                            identifier = "ton",
-                            name = "Ton",
-                            description = "",
-                            notation = "t",
-                            type = DataUnitType.NUMBER
-                        )
-                    } as InformationConcept,
+                    indicator = pool.indicator,
                     granularity = params.granularity ?: pool.granularity,
                 )
             }

@@ -7,7 +7,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
 import io.komune.im.commons.model.OrganizationId
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.orCriterionOf
 import io.komune.registry.s2.project.api.entity.ProjectEntity

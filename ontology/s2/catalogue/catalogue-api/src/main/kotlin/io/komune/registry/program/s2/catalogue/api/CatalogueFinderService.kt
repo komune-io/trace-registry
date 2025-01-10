@@ -7,7 +7,7 @@ import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toCatalogue
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB

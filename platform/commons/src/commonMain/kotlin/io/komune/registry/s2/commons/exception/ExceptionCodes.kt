@@ -1,5 +1,5 @@
 @file:Suppress("FunctionOnlyReturningConstant")
-package io.komune.registry.api.commons.exception
+package io.komune.registry.s2.commons.exception
 
 import kotlin.js.JsExport
 

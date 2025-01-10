@@ -1,8 +1,8 @@
-package io.komune.registry.api.commons.exception
+package io.komune.registry.s2.commons.exception
 
 import f2.dsl.cqrs.error.F2Error
 import f2.dsl.cqrs.exception.F2Exception
-import org.springframework.http.HttpStatus
+import io.ktor.http.HttpStatusCode
 
 class ConflictException(
     entity: String,
@@ -10,7 +10,7 @@ class ConflictException(
     value: String
 ): F2Exception(
     F2Error(
-        code = HttpStatus.CONFLICT.value(),
+        code = HttpStatusCode.Conflict.value,
         message = "$entity with $property [$value] already exists",
     ),
     cause = null

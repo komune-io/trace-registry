@@ -10,5 +10,5 @@ dependencies {
 	Dependencies.Mpp.bignum(::api)
 
 	implementation("com.itextpdf:html2pdf:${Versions.html2pdf}")
-	implementation(project(":platform:api:api-commons"))
+	implementation(project(":platform:commons"))
 }

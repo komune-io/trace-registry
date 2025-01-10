@@ -9,7 +9,7 @@ dependencies {
     implementation(project(":platform:project:s2:asset:asset-api"))
     implementation(project(":platform:project:s2:project:project-api"))
 
-    implementation(project(":platform:api:api-commons"))
+    implementation(project(":platform:commons"))
 
     implementation(project(":platform:infra:fs"))
     implementation(project(":platform:infra:im"))

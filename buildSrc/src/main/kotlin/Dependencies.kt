@@ -76,7 +76,6 @@ object Dependencies {
 
 		fun f2Auth(scope: Scope) = scope.add(
 			"io.komune.f2:f2-spring-boot-starter-auth-tenant:${Versions.im}",
-			"io.komune.im:im-commons-auth:${Versions.im}"
 		)
 
 		fun im(scope: Scope) = scope.add(
@@ -112,8 +111,9 @@ object Dependencies {
 			fun client(scope: Scope) = scope.add(
 				"io.komune.fs:fs-file-client:${Versions.fs}",
 				"io.komune.fs:fs-spring-utils:${Versions.fs}",
-				"io.ktor:ktor-utils:${Versions.ktor}"
-			)
+			).also {
+				Mpp.Ktor.utils(scope)
+			}
 		}
 
 		fun jackson(scope: Scope) = FixersDependencies.Jvm.Json.jackson(scope).add(
@@ -156,13 +156,20 @@ object Dependencies {
 
 		fun im(scope: Scope) = scope.add(
 			"io.komune.im:im-organization-domain:${Versions.im}",
-			"io.komune.im:im-user-domain:${Versions.im}"
+			"io.komune.im:im-user-domain:${Versions.im}",
+			"io.komune.im:im-commons-auth:${Versions.im}"
 		)
 
 		fun bignum(scope: Scope) = scope.add(
 			"com.ionspin.kotlin:bignum:${Versions.bignum}"
 		)
 
+		object Ktor {
+			fun utils(scope: Scope) = scope.add(
+				"io.ktor:ktor-utils:${Versions.ktor}",
+				"io.ktor:ktor-http:${Versions.ktor}"
+			)
+		}
 
 		fun s2(scope: Scope) = scope.add(
 			"io.komune.s2:s2-automate-dsl:${Versions.s2}",

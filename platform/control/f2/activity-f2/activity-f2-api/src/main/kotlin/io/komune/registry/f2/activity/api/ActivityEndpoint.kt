@@ -9,7 +9,7 @@ import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.f2.activity.api.service.ActivityF2ExecutorService
 import io.komune.registry.f2.activity.api.service.ActivityF2FinderService
 import io.komune.registry.f2.activity.api.service.ActivityPoliciesEnforcer

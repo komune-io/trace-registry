@@ -1,15 +1,15 @@
-package io.komune.registry.api.commons.exception
+package io.komune.registry.s2.commons.exception
 
 import f2.dsl.cqrs.error.F2Error
 import f2.dsl.cqrs.exception.F2Exception
-import org.springframework.http.HttpStatus
+import io.ktor.http.HttpStatusCode
 
 class NotFoundException(
     val name: String,
     val id: String
 ): F2Exception(
     error = F2Error(
-        code = HttpStatus.NOT_FOUND.value(),
+        code = HttpStatusCode.NotFound.value,
         message = "$name [$id] not found",
     ),
     cause = null

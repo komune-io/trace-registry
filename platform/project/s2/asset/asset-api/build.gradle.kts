@@ -13,7 +13,7 @@ dependencies {
 	implementation(project(":platform:infra:pdf"))
 	implementation(project(":platform:infra:fs"))
 
-	implementation(project(":platform:api:api-commons"))
+	implementation(project(":platform:commons"))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2SourcingSsm(::implementation)

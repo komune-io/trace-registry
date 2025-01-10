@@ -4,7 +4,7 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toDataset
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB

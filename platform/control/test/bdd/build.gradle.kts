@@ -24,8 +24,9 @@ dependencies {
 	implementation(project(":platform:infra:redis"))
 	implementation(project(":platform:control:infra:cccev"))
 
-	implementation(project(":platform:api:api-commons"))
+	implementation(project(":platform:commons"))
 
+	Dependencies.Jvm.f2Auth(::implementation)
 	Dependencies.Jvm.s2Bdd(::api)
 	implementation("org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}") {
 		exclude(group = "org.skyscreamer", module = "jsonassert")

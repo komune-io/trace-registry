@@ -11,7 +11,6 @@ pluginManagement {
 rootProject.name = "registry"
 
 include(
-	"platform:api:api-commons",
 	"platform:api:api-config",
 	"platform:api:api-gateway",
 	"platform:api:api-init",
