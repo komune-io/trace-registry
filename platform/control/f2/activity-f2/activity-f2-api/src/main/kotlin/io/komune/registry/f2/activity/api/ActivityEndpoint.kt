@@ -27,6 +27,7 @@ import io.komune.registry.f2.activity.domain.query.ActivityPageFunction
 import io.komune.registry.f2.activity.domain.query.ActivityStepEvidenceDownloadQuery
 import io.komune.registry.f2.activity.domain.query.ActivityStepPageFunction
 import jakarta.annotation.security.PermitAll
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
-import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
@@ -50,7 +50,7 @@ class ActivityEndpoint(
     private val fileClient: FileClient,
 ): ActivityApi {
 
-    private val logger by Logger()
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @PermitAll
     @Bean

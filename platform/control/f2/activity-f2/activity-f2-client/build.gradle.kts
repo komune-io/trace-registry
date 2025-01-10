@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:f2:activity-f2:activity-f2-domain"))
+	commonMainApi(project(":platform:control:f2:activity-f2:activity-f2-domain"))
 
 	Dependencies.Mpp.f2Client(::commonMainApi)
 }

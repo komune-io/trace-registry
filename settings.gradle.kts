@@ -62,12 +62,6 @@ include(
 )
 
 include(
-	"platform:f2:activity-f2:activity-f2-api",
-	"platform:f2:activity-f2:activity-f2-client",
-	"platform:f2:activity-f2:activity-f2-domain"
-)
-
-include(
 	"platform:f2:asset-order-f2:asset-order-f2-api",
 	"platform:f2:asset-order-f2:asset-order-f2-client",
 	"platform:f2:asset-order-f2:asset-order-f2-domain"
@@ -91,11 +85,7 @@ include(
     "platform:f2:chat-f2:chat-f2-domain",
 )
 
-include(
-    "platform:f2:dcs-f2:dcs-f2-api",
-    "platform:f2:dcs-f2:dcs-f2-client",
-    "platform:f2:dcs-f2:dcs-f2-domain",
-)
+
 
 include(
 	"platform:infra:cccev",
@@ -113,4 +103,18 @@ include(
 	"platform:s2:order:order-domain",
 	"platform:s2:project:project-api",
 	"platform:s2:project:project-domain",
+)
+
+// Controle
+include(
+	"platform:control:f2:dcs-f2:dcs-f2-api",
+	"platform:control:f2:dcs-f2:dcs-f2-client",
+	"platform:control:f2:dcs-f2:dcs-f2-domain",
+)
+
+
+include(
+	"platform:control:f2:activity-f2:activity-f2-api",
+	"platform:control:f2:activity-f2:activity-f2-client",
+	"platform:control:f2:activity-f2:activity-f2-domain"
 )

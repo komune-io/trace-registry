@@ -4,7 +4,11 @@ plugins {
 }
 
 dependencies {
-    api(project(":platform:f2:dcs-f2:dcs-f2-domain"))
+    api(project(":platform:control:f2:activity-f2:activity-f2-domain"))
+    implementation(project(":platform:s2:project:project-api"))
+
+    implementation(project(":platform:api:api-config"))
+
     implementation(project(":platform:infra:cccev"))
     implementation(project(":platform:infra:fs"))
 }

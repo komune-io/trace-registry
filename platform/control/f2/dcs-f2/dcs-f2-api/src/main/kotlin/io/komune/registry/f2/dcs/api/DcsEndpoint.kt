@@ -13,6 +13,7 @@ import io.komune.registry.f2.dcs.domain.command.DataCollectionStepFilledEvent
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetFunction
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetResult
 import jakarta.annotation.security.PermitAll
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import org.springframework.http.codec.multipart.FilePart
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.HttpClientErrorException
-import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
@@ -32,7 +32,7 @@ class DcsEndpoint(
     private val dcsF2AggregateService: DcsF2AggregateService,
     private val dcsF2FinderService: DcsF2FinderService
 ): DcsApi {
-    private val logger by Logger()
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @PermitAll
     @Bean
