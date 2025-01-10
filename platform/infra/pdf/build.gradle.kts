@@ -7,7 +7,6 @@ plugins {
 
 dependencies {
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
-	Dependencies.Jvm.Cccev.client(::api)
 	Dependencies.Mpp.bignum(::api)
 
 	implementation("com.itextpdf:html2pdf:${Versions.html2pdf}")

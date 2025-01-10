@@ -1,5 +1,9 @@
 package io.komune.registry.ver.test.s2.asset.command
 
+import cccev.dsl.model.DataUnit
+import cccev.dsl.model.DataUnitType
+import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.builder.informationConcept
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.komune.registry.s2.asset.api.AssetPoolAggregateService
@@ -7,6 +11,7 @@ import io.komune.registry.s2.asset.api.entity.pool.AssetPoolRepository
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.command.pool.AssetPoolCreateCommand
 import io.komune.registry.ver.test.VerCucumberStepsDefinition
+import io.komune.registry.ver.test.cccev.concept.informationConceptTest
 import io.komune.registry.ver.test.s2.asset.data.assetPool
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
@@ -79,7 +84,17 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
 
                 AssertionBdd.assetPool(assetPoolRepository).assertThat(pool!!).hasFields(
                     vintage = params.vintage ?: pool.vintage,
-                    indicator = params.indicator?.let(context.cccevConceptIdentifiers::safeGet) ?: pool.indicator,
+                    indicator = pool.indicator ?: informationConcept {
+                        identifier = "carbon"
+                        name = "Carbon"
+                        unit = DataUnit(
+                            identifier = "ton",
+                            name = "Ton",
+                            description = "",
+                            notation = "t",
+                            type = DataUnitType.NUMBER
+                        )
+                    } as InformationConcept,
                     granularity = params.granularity ?: pool.granularity,
                 )
             }
@@ -89,7 +104,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
         command = AssetPoolCreateCommand(
             vintage = params.vintage,
-            indicator = context.cccevConceptIdentifiers.safeGet(params.indicator),
+            indicator = informationConceptTest(params.indicator),
             granularity = params.granularity,
             metadata = emptyMap()
         )
@@ -99,7 +114,7 @@ class AssetPoolCreateSteps: En, VerCucumberStepsDefinition() {
     private fun assetPoolCreateParams(entry: Map<String, String>?) = AssetPoolCreateParams(
         identifier = entry?.get("identifier").orRandom(),
         vintage = entry?.get("vintage") ?: "2023",
-        indicator = entry?.get("indicator") ?: context.cccevConceptIds.lastUsedKey,
+        indicator = entry?.get("indicator") ?: "carbon",
         granularity = entry?.get("granularity")?.toDouble() ?: 1.0
     )
 

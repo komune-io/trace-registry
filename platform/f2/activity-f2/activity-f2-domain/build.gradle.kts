@@ -9,6 +9,5 @@ dependencies {
 
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }
-	Dependencies.Jvm.Cccev.client(::commonMainApi)
 	Dependencies.Jvm.Cccev.dsl(::commonMainApi)
 }

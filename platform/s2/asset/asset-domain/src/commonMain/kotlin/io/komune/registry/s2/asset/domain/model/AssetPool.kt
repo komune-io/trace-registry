@@ -1,5 +1,6 @@
 package io.komune.registry.s2.asset.domain.model
 
+import cccev.dsl.model.InformationConcept
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolState
 import io.komune.registry.s2.asset.domain.command.pool.InformationConceptIdentifier
@@ -11,7 +12,7 @@ data class AssetPool(
     val id: AssetPoolId,
     val status: AssetPoolState,
     val vintage: String?,
-    val indicator: InformationConceptIdentifier,
+    val indicator: InformationConcept,
     val granularity: Double,
     val wallets: Map<String, BigDecimalAsString>,
     val stats: AssetPoolStatsBase,

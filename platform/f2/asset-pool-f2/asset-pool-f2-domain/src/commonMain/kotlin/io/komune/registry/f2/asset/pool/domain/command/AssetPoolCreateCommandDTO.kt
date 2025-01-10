@@ -1,5 +1,6 @@
 package io.komune.registry.f2.asset.pool.domain.command
 
+import cccev.dsl.model.InformationConcept
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import kotlin.js.JsExport
@@ -29,7 +30,7 @@ interface AssetPoolCreateCommandDTO {
      * Indicator of the assets issued inside the pool
      * @example "carbon"
      */
-    val indicator: String
+    val indicator: InformationConcept
 
     /**
      *
@@ -43,9 +44,9 @@ interface AssetPoolCreateCommandDTO {
  */
 @Serializable
 data class AssetPoolCreateCommandDTOBase(
-        override val vintage: String,
-        override val indicator: String,
-        override val granularity: Double
+    override val vintage: String,
+    override val indicator: InformationConcept,
+    override val granularity: Double
 ): AssetPoolCreateCommandDTO
 
 /**

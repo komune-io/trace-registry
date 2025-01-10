@@ -2,7 +2,7 @@ package io.komune.registry.f2.dcs.api.converter
 
 import cccev.dsl.model.DataUnitOption
 import cccev.dsl.model.Requirement
-import cccev.f2.requirement.model.RequirementKind
+import cccev.dsl.model.RequirementKind
 import io.komune.registry.f2.dcs.api.model.DcsCode
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.model.DataCondition

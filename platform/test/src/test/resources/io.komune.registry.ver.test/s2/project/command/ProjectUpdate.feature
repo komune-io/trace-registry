@@ -1,8 +1,8 @@
 Feature: ProjectUpdate
 
   Background:
-    Given A data unit is created in cccev
-    And A concept is created in cccev
+#    Given A data unit is created in cccev
+#    And A concept is created in cccev
     And An asset pool is created
     And Some projects are created:
       | identifier | private |

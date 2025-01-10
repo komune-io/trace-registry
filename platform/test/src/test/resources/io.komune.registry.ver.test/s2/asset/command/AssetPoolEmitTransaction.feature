@@ -1,8 +1,8 @@
 Feature: AssetPoolEmitTransaction
 
   Background:
-    Given A data unit is created in cccev
-    And A concept is created in cccev
+#    Given A data unit is created in cccev
+#    And A concept is created in cccev
 
   Scenario: I want to emit transactions on an active asset pool
     Given An asset pool is created

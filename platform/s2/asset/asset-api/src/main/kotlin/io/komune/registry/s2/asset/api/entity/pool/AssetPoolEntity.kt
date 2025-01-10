@@ -1,6 +1,6 @@
 package io.komune.registry.s2.asset.api.entity.pool
 
-import cccev.dsl.model.InformationConceptIdentifier
+import cccev.dsl.model.InformationConcept
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Searchable
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
@@ -23,7 +23,7 @@ class AssetPoolEntity: WithS2Id<AssetPoolId>, WithS2State<AssetPoolState> {
     @Searchable(nostem=true)
     var vintage: String? = null
 
-    lateinit var indicator: InformationConceptIdentifier
+    lateinit var indicator: InformationConcept
 
     var granularity: Double = 1.0
 

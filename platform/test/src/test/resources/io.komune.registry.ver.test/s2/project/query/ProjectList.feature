@@ -140,8 +140,8 @@ Feature: ProjectList
       | p3         |
 
   Scenario: I want to fetch a page of projects by vintage
-    Given A data unit is created in cccev
-    And A concept is created in cccev
+#    Given A data unit is created in cccev
+#    And A concept is created in cccev
     And Some asset pools are created:
       | identifier | vintage |
       | a1         | 2021    |

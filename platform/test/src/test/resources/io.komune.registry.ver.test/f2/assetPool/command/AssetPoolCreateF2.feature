@@ -1,7 +1,7 @@
 Feature: AssetPoolCreateF2
 
   Background:
-    Given A data unit is created in cccev
+#    Given A data unit is created in cccev
     Given An organization is defined:
       | roles           |
       | tr_orchestrator_user |
@@ -13,9 +13,9 @@ Feature: AssetPoolCreateF2
       | orch       |
 
   Scenario: I want to create an asset pool via API
-    Given A concept is created in cccev:
-      | identifier |
-      | c1         |
+#    Given A concept is created in cccev:
+#      | identifier |
+#      | c1         |
     When I create an asset pool via API:
       | indicator | vintage | status |
       | c1        | 2024    | ACTIVE |

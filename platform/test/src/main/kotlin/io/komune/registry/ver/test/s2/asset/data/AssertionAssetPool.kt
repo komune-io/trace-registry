@@ -1,5 +1,6 @@
 package io.komune.registry.ver.test.s2.asset.data
 
+import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.InformationConceptIdentifier
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolEntity
@@ -25,14 +26,14 @@ class AssertionAssetPool(
             id: AssetPoolId = pool.id,
             status: AssetPoolState = pool.status,
             vintage: String? = pool.vintage,
-            indicator: InformationConceptIdentifier = pool.indicator,
+            indicator: InformationConcept = pool.indicator,
             granularity: Double = pool.granularity,
             wallets: MutableMap<String, BigDecimal> = pool.wallets,
         ) = also {
             Assertions.assertThat(pool.id).isEqualTo(id)
             Assertions.assertThat(pool.status).isEqualTo(status)
             Assertions.assertThat(pool.vintage).isEqualTo(vintage)
-            Assertions.assertThat(pool.indicator).isEqualTo(indicator)
+            Assertions.assertThat(pool.indicator.identifier).isEqualTo(indicator.identifier)
             Assertions.assertThat(pool.granularity).isEqualTo(granularity)
             Assertions.assertThat(pool.wallets).containsExactlyInAnyOrderEntriesOf(wallets)
         }

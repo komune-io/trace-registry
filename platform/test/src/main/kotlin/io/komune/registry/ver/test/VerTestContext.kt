@@ -1,9 +1,7 @@
 package io.komune.registry.ver.test
 
 import au.com.origin.snapshots.SnapshotVerifier
-import cccev.dsl.model.DataUnitId
 import cccev.dsl.model.InformationConceptId
-import cccev.dsl.model.InformationConceptIdentifier
 import io.komune.im.f2.organization.domain.model.Organization
 import io.komune.registry.f2.activity.domain.model.ActivityId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
@@ -27,8 +25,8 @@ class VerTestContext: TestContext() {
     val datasetIds = testEntities<TestContextKey, CatalogueId>("Catalogue")
 
     val cccevConceptIds = testEntities<TestContextKey, InformationConceptId>("CCCEV InformationConcept")
-    val cccevConceptIdentifiers = testEntities<TestContextKey, InformationConceptIdentifier>("CCCEV InformationConcept")
-    val cccevUnitIds = testEntities<TestContextKey, DataUnitId>("CCCEV DataUnit")
+//    val cccevConceptIdentifiers = testEntities<TestContextKey, InformationConceptIdentifier>("CCCEV InformationConcept")
+//    val cccevUnitIds = testEntities<TestContextKey, DataUnitId>("CCCEV DataUnit")
 
     val organizations = testEntities<TestContextKey, Organization>("Organization")
     val users = testEntities<TestContextKey, AuthedUser>("User")

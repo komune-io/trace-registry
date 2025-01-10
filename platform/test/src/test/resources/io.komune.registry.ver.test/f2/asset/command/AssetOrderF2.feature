@@ -1,7 +1,7 @@
 Feature: AssetOrderF2
   Background:
-    Given A data unit is created in cccev
-    And A concept is created in cccev
+#    Given A data unit is created in cccev
+#    And A concept is created in cccev
     And An asset pool is created
     Given An organization is defined:
       | roles           |

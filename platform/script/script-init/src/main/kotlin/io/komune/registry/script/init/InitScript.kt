@@ -34,7 +34,6 @@ class InitScript(
         if(cccev) {
             properties.cccev?.url?.let { url ->
                 initRequirement(url)
-                initIndicatorsCarbon(url)
             }
         }
 

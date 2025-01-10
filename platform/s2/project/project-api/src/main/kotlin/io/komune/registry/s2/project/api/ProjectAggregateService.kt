@@ -1,9 +1,5 @@
 package io.komune.registry.s2.project.api
 
-import cccev.dsl.client.CCCEVClient
-import cccev.f2.certification.command.CertificationCreateCommand
-import cccev.f2.certification.command.CertificationCreatedEvent
-import f2.dsl.fnc.invokeWith
 import io.komune.registry.s2.project.api.config.ProjectAutomateExecutor
 import io.komune.registry.s2.project.api.entity.applyCmd
 import io.komune.registry.s2.project.domain.ProjectAggregate
@@ -25,7 +21,7 @@ import org.springframework.stereotype.Service
 @Service
 class ProjectAggregateService(
     private val automate: ProjectAutomateExecutor,
-    private val cccevClient: CCCEVClient,
+//    private val cccevClient: CCCEVClient,
 ): ProjectAggregate {
 
 	override suspend fun create(cmd: ProjectCreateCommand): ProjectCreatedEvent = automate.init(cmd) {
@@ -38,29 +34,30 @@ class ProjectAggregateService(
 			indicator = cmd.indicator,
 			isPrivate = cmd.isPrivate
 		).applyCmd(cmd)
-			.applyCCCEVCertification()
+//			.applyCCCEVCertification()
 	}
 
 	private fun ProjectAbstractMsg.checkType() {
 		check(type != null && type!! > 0 && type!! <= 25) { "Project type is required" }
 	}
 
-	private suspend fun ProjectCreatedEvent.applyCCCEVCertification(): ProjectCreatedEvent {
-		val requestCreated = createCCCEVCertification()
-		return requestCreated?.let { event ->
-			copy(certificationId = event.id)
-		} ?: this
-	}
-
-	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
-		return activities?.let { activityIdentifiers ->
-			val created = CertificationCreateCommand(
-				id = identifier ?: id,
-				requirementIdentifiers = activityIdentifiers
-			).invokeWith(cccevClient.certificationClient.certificationCreate())
-			created
-		}
-	}
+	// TODO Migrate this to Control Points
+//	private suspend fun ProjectCreatedEvent.applyCCCEVCertification(): ProjectCreatedEvent {
+//		val requestCreated = createCCCEVCertification()
+//		return requestCreated?.let { event ->
+//			copy(certificationId = event.id)
+//		} ?: this
+//	}
+//
+//	private suspend fun ProjectCreatedEvent.createCCCEVCertification(): CertificationCreatedEvent? {
+//		return activities?.let { activityIdentifiers ->
+//			val created = CertificationCreateCommand(
+//				id = identifier ?: id,
+//				requirementIdentifiers = activityIdentifiers
+//			).invokeWith(cccevClient.certificationClient.certificationCreate())
+//			created
+//		}
+//	}
 
 	override suspend fun update(cmd: ProjectUpdateCommand): ProjectUpdatedEvent = automate.transition(cmd) {
 		cmd.checkType()

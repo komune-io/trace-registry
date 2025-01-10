@@ -9,7 +9,6 @@ dependencies {
 	commonMainApi(project(":platform:s2:commons"))
 
 	Dependencies.Mpp.im(::commonMainApi)
-	Dependencies.Jvm.Cccev.client(::commonMainImplementation)
 	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)
 	Dependencies.Mpp.documenter(::jvmTestImplementation)
 }

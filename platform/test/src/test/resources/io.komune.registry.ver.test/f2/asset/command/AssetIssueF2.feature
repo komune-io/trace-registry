@@ -1,8 +1,8 @@
 Feature: AssetIssueF2
 
   Background:
-    Given A data unit is created in cccev
-    And A concept is created in cccev
+#    Given A data unit is created in cccev
+#    And A concept is created in cccev
     And An organization is defined:
       | identifier | roles           |
       | Komune     | tr_orchestrator_user |

@@ -1,6 +1,5 @@
 package io.komune.registry.f2.asset.pool.api.service
 
-import cccev.dsl.client.CCCEVClient
 import cccev.f2.concept.model.InformationConceptFlat
 import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import f2.dsl.fnc.invokeWith
@@ -31,14 +30,14 @@ import org.springframework.stereotype.Service
 @Service
 class AssetPoolF2AggregateService(
     private val assetPoolAggregateService: AssetPoolAggregateService,
-    private val cccevClient: CCCEVClient,
+//    private val cccevClient: CCCEVClient,
     private val imService: ImService,
     private val assetPoolPoliciesEnforcer: AssetPoolPoliciesEnforcer,
 ) {
     suspend fun create(command: AssetPoolCreateCommandDTOBase): AssetPoolCreatedEvent {
-        val indicator = findCoeIndicateur(command.indicator)
+//        val indicator = findCoeIndicateur(command.indicator)
         val event = AssetPoolCreateCommand(
-            indicator = indicator.identifier,
+            indicator = command.indicator,
             vintage = command.vintage,
             granularity = command.granularity,
             metadata = emptyMap()
@@ -47,12 +46,12 @@ class AssetPoolF2AggregateService(
         return event
     }
 
-    private suspend fun findCoeIndicateur(identifier: String): InformationConceptFlat {
-        return InformationConceptGetByIdentifierQuery(
-            identifier = identifier
-        ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
-            .item!!
-    }
+//    private suspend fun findCoeIndicateur(identifier: String): InformationConceptFlat {
+//        return InformationConceptGetByIdentifierQuery(
+//            identifier = identifier
+//        ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
+//            .item!!
+//    }
 
     suspend fun hold(command: AssetPoolHoldCommandDTOBase): AssetPoolHeldEvent {
         return assetPoolAggregateService.hold(AssetPoolHoldCommand(command.id))

@@ -1,17 +1,9 @@
 package io.komune.registry.f2.asset.pool.api.service
 
-import cccev.dsl.client.CCCEVClient
-import cccev.dsl.client.model.unflatten
-import cccev.dsl.model.InformationConcept
-import cccev.dsl.model.InformationConceptDTO
-import cccev.dsl.model.InformationConceptIdentifier
-import cccev.f2.concept.query.InformationConceptGetByIdentifierQuery
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import f2.dsl.fnc.invokeWith
-import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.asset.pool.api.model.toDTO
 import io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTOBase
 import io.komune.registry.s2.asset.api.AssetPoolFinderService
@@ -23,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class AssetPoolF2FinderService(
     private val assetPoolFinderService: AssetPoolFinderService,
-    private val cccevClient: CCCEVClient
+//    private val cccevClient: CCCEVClient
 ) {
 
     suspend fun get(id: AssetPoolId): AssetPoolDTOBase {
@@ -43,19 +35,17 @@ class AssetPoolF2FinderService(
             status = status,
             vintage = vintage,
             offset = offset
-        ).map { it.toDTO() }
+        ).map { it.toCacheDTO() }
     }
 
-    private suspend fun AssetPool.toDTO(cache: Cache = Cache()) = toDTO(
-        getInformationConcept = cache.concepts::get
-    )
+    private suspend fun AssetPool.toCacheDTO(cache: Cache = Cache()) = this.toDTO()
 
     private inner class Cache {
-        val concepts = SimpleCache<InformationConceptIdentifier, InformationConceptDTO> { identifier ->
-            InformationConceptGetByIdentifierQuery(
-                identifier = identifier
-            ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
-                .unflatten()
-        }
+//        val concepts = SimpleCache<InformationConceptIdentifier, InformationConceptDTO> { identifier ->
+//            InformationConceptGetByIdentifierQuery(
+//                identifier = identifier
+//            ).invokeWith(cccevClient.informationConceptClient.conceptGetByIdentifier())
+//                .unflatten()
+//        }
     }
 }

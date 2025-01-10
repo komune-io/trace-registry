@@ -22,6 +22,7 @@ dependencies {
 
 	implementation(project(":platform:infra:im"))
 	implementation(project(":platform:infra:redis"))
+	implementation(project(":platform:infra:cccev"))
 
 	implementation(project(":platform:api:api-commons"))
 

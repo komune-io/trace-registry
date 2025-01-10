@@ -1,5 +1,9 @@
 package io.komune.registry.ver.test.f2.assetPool.command
 
+import cccev.dsl.model.DataUnit
+import cccev.dsl.model.DataUnitType
+import cccev.dsl.model.InformationConcept
+import cccev.dsl.model.builder.informationConcept
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -92,7 +96,17 @@ class AssetPoolCreateF2Steps: En, VerCucumberStepsDefinition() {
 
     private suspend fun createPool(params: AssetPoolCreateParams) = context.assetPoolIds.register(params.identifier) {
         command = AssetPoolCreateCommandDTOBase(
-            indicator = context.cccevConceptIdentifiers[params.indicator] ?: params.indicator,
+            indicator = informationConcept {
+                identifier = "carbon"
+                name = "Carbon"
+                unit = DataUnit(
+                    identifier = "ton",
+                    name = "Ton",
+                    description = "",
+                    notation = "t",
+                    type = DataUnitType.NUMBER
+                )
+            } as InformationConcept,
             vintage = params.vintage,
             granularity = params.granularity
         )
