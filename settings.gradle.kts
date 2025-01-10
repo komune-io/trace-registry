@@ -88,7 +88,6 @@ include(
 
 
 include(
-	"platform:infra:cccev",
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:pdf",
@@ -117,4 +116,9 @@ include(
 	"platform:control:f2:activity-f2:activity-f2-api",
 	"platform:control:f2:activity-f2:activity-f2-client",
 	"platform:control:f2:activity-f2:activity-f2-domain"
+)
+
+
+include(
+	"platform:control:infra:cccev"
 )

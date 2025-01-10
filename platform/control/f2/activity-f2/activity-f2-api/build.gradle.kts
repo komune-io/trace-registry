@@ -9,6 +9,6 @@ dependencies {
 
     implementation(project(":platform:api:api-config"))
 
-    implementation(project(":platform:infra:cccev"))
+    implementation(project(":platform:control:infra:cccev"))
     implementation(project(":platform:infra:fs"))
 }
