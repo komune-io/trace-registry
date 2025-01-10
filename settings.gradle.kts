@@ -52,10 +52,6 @@ include(
 )
 
 include(
-	"platform:test"
-)
-
-include(
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:pdf",
@@ -131,4 +127,15 @@ include(
 	"platform:project:f2:chat-f2:chat-f2-api",
 	"platform:project:f2:chat-f2:chat-f2-client",
 	"platform:project:f2:chat-f2:chat-f2-domain",
+)
+
+include(
+	"platform:project:test"
+)
+
+///////////////////////////////
+// Data
+///////////////////////////////
+include(
+	"platform:data:test"
 )
