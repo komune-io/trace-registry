@@ -75,7 +75,7 @@ object Dependencies {
 		)
 
 		fun f2Auth(scope: Scope) = scope.add(
-			"io.komune.f2:f2-spring-boot-starter-auth-tenant:${Versions.im}",
+			"io.komune.f2:f2-spring-boot-starter-auth-tenant:${Versions.f2}",
 		)
 
 		fun im(scope: Scope) = scope.add(
