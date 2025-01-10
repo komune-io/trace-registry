@@ -47,7 +47,6 @@ include(
 	"ontology:s2:dataset:dataset-domain",
 )
 
-
 include(
 	"platform:script:script-init",
 	"platform:script:script-gateway",
@@ -58,25 +57,22 @@ include(
 )
 
 include(
-    "platform:f2:chat-f2:chat-f2-api",
-    "platform:f2:chat-f2:chat-f2-client",
-    "platform:f2:chat-f2:chat-f2-domain",
-)
-
-
-
-include(
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:pdf",
 	"platform:infra:redis"
 )
 
+///////////////////////////////
+// Commons
+///////////////////////////////
 include(
-	"platform:s2:commons",
+	"platform:commons",
 )
 
-// Controle
+///////////////////////////////
+// Control
+///////////////////////////////
 include(
 	"platform:control:f2:dcs-f2:dcs-f2-api",
 	"platform:control:f2:dcs-f2:dcs-f2-client",
@@ -102,7 +98,6 @@ include(
 ///////////////////////////////
 // Project
 ///////////////////////////////
-
 include(
 	"platform:project:s2:asset:asset-api",
 	"platform:project:s2:asset:asset-domain",
@@ -131,4 +126,10 @@ include(
 	"platform:project:f2:project-f2:project-f2-api",
 	"platform:project:f2:project-f2:project-f2-client",
 	"platform:project:f2:project-f2:project-f2-domain",
+)
+
+include(
+	"platform:project:f2:chat-f2:chat-f2-api",
+	"platform:project:f2:chat-f2:chat-f2-client",
+	"platform:project:f2:chat-f2:chat-f2-domain",
 )

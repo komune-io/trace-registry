@@ -9,15 +9,15 @@ import io.komune.registry.f2.chat.domain.ChatApi
 import io.komune.registry.f2.chat.domain.query.ChatAskQuestionFunction
 import io.komune.registry.f2.chat.domain.query.ChatAskQuestionResult
 import jakarta.annotation.security.PermitAll
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import s2.spring.utils.logger.Logger
 
 @Configuration
 class ChatEndpoint(
     private val fileClient: FileClient
 ): ChatApi {
-    private val logger by Logger()
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @PermitAll
     @Bean

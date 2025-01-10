@@ -5,8 +5,6 @@ plugins {
 }
 
 dependencies {
-//	commonMainApi(project(":platform:s2:commons"))
-
 	commonMainApi(project(":ontology:dsl:dcat"))
 }
 

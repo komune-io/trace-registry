@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":platform:control:f2:activity-f2:activity-f2-api"))
     implementation(project(":platform:project:f2:asset-order-f2:asset-order-f2-api"))
     implementation(project(":platform:project:f2:asset-pool-f2:asset-pool-f2-api"))
-    implementation(project(":platform:f2:chat-f2:chat-f2-api"))
+    implementation(project(":platform:project:f2:chat-f2:chat-f2-api"))
     implementation(project(":platform:control:f2:dcs-f2:dcs-f2-api"))
     implementation(project(":platform:project:f2:project-f2:project-f2-api"))
 

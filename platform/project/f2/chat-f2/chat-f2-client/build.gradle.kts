@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:f2:chat-f2:chat-f2-domain"))
+	commonMainApi(project(":platform:project:f2:chat-f2:chat-f2-domain"))
 
 	Dependencies.Mpp.f2Client(::commonMainApi)
 }

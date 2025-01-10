@@ -6,4 +6,5 @@ plugins {
 
 dependencies {
     Dependencies.Mpp.bignum(::commonMainApi)
+    Dependencies.Mpp.s2(::commonMainImplementation)
 }
