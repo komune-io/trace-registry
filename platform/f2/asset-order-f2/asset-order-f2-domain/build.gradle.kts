@@ -5,5 +5,5 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:order:order-domain"))
+	commonMainApi(project(":platform:project:s2:order:order-domain"))
 }

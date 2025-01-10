@@ -6,9 +6,12 @@ plugins {
 }
 
 dependencies {
-	api(project(":platform:s2:order:order-domain"))
+	api(project(":platform:project:s2:order:order-domain"))
 
 	implementation(project((":platform:infra:redis")))
+
+//	Dependencies.Mpp.f2(::implementation)
+	implementation(project(":platform:api:api-commons"))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2SourcingSsm(::implementation)

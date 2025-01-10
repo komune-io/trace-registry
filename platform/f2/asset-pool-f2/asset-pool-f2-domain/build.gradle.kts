@@ -5,6 +5,6 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:asset:asset-domain"))
-	commonMainApi(project(":platform:s2:project:project-domain"))
+	commonMainApi(project(":platform:project:s2:asset:asset-domain"))
+	commonMainApi(project(":platform:project:s2:project:project-domain"))
 }

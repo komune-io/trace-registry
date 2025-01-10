@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     api(project(":platform:control:f2:activity-f2:activity-f2-domain"))
-    implementation(project(":platform:s2:project:project-api"))
+    implementation(project(":platform:project:s2:project:project-api"))
 
     implementation(project(":platform:api:api-config"))
 

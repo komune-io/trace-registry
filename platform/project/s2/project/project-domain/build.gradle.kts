@@ -5,11 +5,11 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:asset:asset-domain"))
+	commonMainApi(project(":platform:project:s2:asset:asset-domain"))
 	commonMainApi(project(":platform:s2:commons"))
 
-	Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
+	Dependencies.Jvm.Test.dataFaker(::jvmTestImplementation)
 	Dependencies.Mpp.documenter(::jvmTestImplementation)
 }
 

@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:project:project-domain"))
+	commonMainApi(project(":platform:project:s2:project:project-domain"))
 
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }

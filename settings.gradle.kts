@@ -91,13 +91,7 @@ include(
 )
 
 include(
-	"platform:s2:asset:asset-api",
-	"platform:s2:asset:asset-domain",
 	"platform:s2:commons",
-	"platform:s2:order:order-api",
-	"platform:s2:order:order-domain",
-	"platform:s2:project:project-api",
-	"platform:s2:project:project-domain",
 )
 
 // Controle
@@ -121,4 +115,17 @@ include(
 
 include(
 	"platform:control:test:bdd"
+)
+
+///////////////////////////////
+// Project
+///////////////////////////////
+
+include(
+	"platform:project:s2:asset:asset-api",
+	"platform:project:s2:asset:asset-domain",
+	"platform:project:s2:order:order-api",
+	"platform:project:s2:order:order-domain",
+	"platform:project:s2:project:project-api",
+	"platform:project:s2:project:project-domain",
 )

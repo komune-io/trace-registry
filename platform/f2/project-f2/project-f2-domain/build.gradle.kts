@@ -5,5 +5,5 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:s2:project:project-domain"))
+	commonMainApi(project(":platform:project:s2:project:project-domain"))
 }
