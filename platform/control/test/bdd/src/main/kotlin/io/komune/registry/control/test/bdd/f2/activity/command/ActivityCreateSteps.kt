@@ -1,11 +1,11 @@
-package io.komune.registry.ver.test.f2.activity.command
+package io.komune.registry.control.test.bdd.f2.activity.command
 
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.komune.registry.f2.activity.api.ActivityEndpoint
 import io.komune.registry.f2.activity.domain.command.ActivityCreateCommandDTOBase
-import io.komune.registry.ver.test.VerCucumberStepsDefinition
+import io.komune.registry.control.test.bdd.VerCucumberStepsDefinition
 import java.util.UUID
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey

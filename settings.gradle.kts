@@ -19,10 +19,6 @@ include(
 )
 
 include(
-	"platform:client:client-dsl",
-)
-
-include(
 	"ontology:dsl:client",
 	"ontology:dsl:dcat",
 	"ontology:dsl:skos",
@@ -121,4 +117,8 @@ include(
 
 include(
 	"platform:control:infra:cccev"
+)
+
+include(
+	"platform:control:test:bdd"
 )

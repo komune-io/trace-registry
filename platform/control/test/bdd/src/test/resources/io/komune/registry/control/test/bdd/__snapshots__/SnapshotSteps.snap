@@ -1,4 +1,4 @@
-io.komune.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
+io.komune.registry.control.test.bdd.SnapshotSteps.checkSavedDCS[financialDetails]=[
   {
     "label": "Financial details",
     "sections": [
@@ -61,7 +61,7 @@ io.komune.registry.ver.test.SnapshotSteps.checkSavedDCS[financialDetails]=[
 ]
 
 
-io.komune.registry.ver.test.SnapshotSteps.checkSavedRequirements[financialDetails]=[
+io.komune.registry.control.test.bdd.SnapshotSteps.checkSavedRequirements[financialDetails]=[
   {
     "hasRequirement": [
       {

@@ -1,4 +1,4 @@
-package io.komune.registry.ver.test.f2.dcs.command
+package io.komune.registry.control.test.bdd.f2.dcs.command
 
 import au.com.origin.snapshots.Expect
 import cccev.dsl.client.CCCEVClient
@@ -12,7 +12,7 @@ import io.komune.registry.f2.dcs.api.DcsEndpoint
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetQuery
-import io.komune.registry.ver.test.VerCucumberStepsDefinition
+import io.komune.registry.control.test.bdd.VerCucumberStepsDefinition
 import kotlin.reflect.jvm.javaMethod
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -28,7 +28,7 @@ class DcsDefineF2Steps: En, VerCucumberStepsDefinition() {
         When("I define and fetch a DCS with the scenario {string}") { scenario: String ->
             step {
                 val command = parseFile<DataCollectionStepDefineCommand>(
-                    "classpath:io.komune.registry.ver.test/f2/dcs/data/${scenario}.json"
+                    "classpath:io.komune.registry.control.test.bdd/f2/dcs/data/${scenario}.json"
                 )
                 command.invokeWith(dcsEndpoint.dataCollectionStepDefine())
                 val savedRequirements = RequirementGetByIdentifierQuery(identifier = command.identifier)
