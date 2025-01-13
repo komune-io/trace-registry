@@ -4,7 +4,7 @@ import f2.dsl.fnc.invoke
 import io.komune.im.f2.organization.client.OrganizationClient
 import io.komune.im.f2.organization.domain.model.Organization
 import io.komune.im.f2.organization.domain.query.OrganizationPageQuery
-import io.komune.registry.api.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.exception.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

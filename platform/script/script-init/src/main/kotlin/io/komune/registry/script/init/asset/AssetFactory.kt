@@ -1,5 +1,6 @@
 package io.komune.registry.script.init.asset
 
+import cccev.dsl.model.InformationConcept
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import f2.client.domain.AuthRealm
 import f2.dsl.fnc.invokeWith
@@ -10,6 +11,7 @@ import io.komune.registry.f2.asset.pool.domain.command.AssetPoolCreateCommandDTO
 import io.komune.registry.f2.asset.pool.domain.command.AssetTransferCommandDTOBase
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.script.init.actor.Actor
+import io.komune.registry.script.init.cccev.ver.Indicators
 import java.util.UUID
 import net.datafaker.Faker
 
@@ -72,7 +74,7 @@ private fun assetPoolCreateCommand(
     println("assetPoolCommand")
     return AssetPoolCreateCommandDTOBase(
         vintage = vintage,
-        indicator = "carbon",
+        indicator = Indicators.carbon as InformationConcept,
         granularity = granularity
     )
 }

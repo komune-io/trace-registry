@@ -1,4 +1,4 @@
-import cccev.dsl.client.CCCEVClient
+//import cccev.dsl.client.CCCEVClient
 import cccev.dsl.model.InformationRequirement
 import cccev.dsl.model.Requirement
 import cee.baten101.BAT_EN_101
@@ -35,11 +35,11 @@ class CeeTest {
 
 //    @Test
     fun createBaten101() = runBlocking {
-        val mapper = jacksonObjectMapper()
-            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
+//        val mapper = jacksonObjectMapper()
+//            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY).writerWithDefaultPrettyPrinter()
 
-        val url = "https://api.registry.komune.io/cccev"
-        val client = CCCEVClient(url)
+//        val url = "https://api.registry.komune.io/cccev"
+//        val client = CCCEVClient(url)
 //        client.createGraph(
 //            flowOf(BAT_EN_101)
 //        ).onEach {
@@ -50,25 +50,25 @@ class CeeTest {
 
 //    @Test
     fun tt() = runBlocking {
-        val json = Json {
-            explicitNulls = false
-            serializersModule = SerializersModule {
-                classDiscriminator = "class"
-                polymorphic(Requirement::class) {
-                    subclass(InformationRequirement::class, InformationRequirement.serializer())
-                    defaultDeserializer { InformationRequirement.serializer() }
-                }
-            }
-        }
-        val r: Requirement = json.decodeFromString(ex)
+//        val json = Json {
+//            explicitNulls = false
+//            serializersModule = SerializersModule {
+//                classDiscriminator = "class"
+//                polymorphic(Requirement::class) {
+//                    subclass(InformationRequirement::class, InformationRequirement.serializer())
+//                    defaultDeserializer { InformationRequirement.serializer() }
+//                }
+//            }
+//        }
+//        val r: Requirement = json.decodeFromString(ex)
 
-        val url = "https://api.registry.komune.io/cccev"
-        val client = CCCEVClient(url)
-        client.graphClient.save(
-            flowOf(r)
-        ).onEach {
-            println("Created requirement: ${it.identifier}")
-        }.collect()
+//        val url = "https://api.registry.komune.io/cccev"
+//        val client = CCCEVClient(url)
+//        client.graphClient.save(
+//            flowOf(r)
+//        ).onEach {
+//            println("Created requirement: ${it.identifier}")
+//        }.collect()
     }
     @Suppress("MaxLineLength")
     val ex = """

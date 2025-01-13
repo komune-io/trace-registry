@@ -8,8 +8,8 @@ dependencies {
     Dependencies.Jvm.f2(::implementation)
     implementation(project(":platform:api:api-config"))
 
-//    implementation(project(":platform:s2:asset:asset-api"))
-    implementation(project(":platform:s2:project:project-api"))
+//    implementation(project(":platform:project:s2:asset:asset-api"))
+    implementation(project(":platform:project:s2:project:project-api"))
     implementation(project(":ontology:s2:catalogue:catalogue-api"))
     implementation(project(":ontology:s2:dataset:dataset-api"))
 

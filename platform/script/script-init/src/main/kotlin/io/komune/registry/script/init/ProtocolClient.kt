@@ -8,26 +8,18 @@ import io.komune.registry.script.init.cccev.requirement.LocalConsultationRequire
 import io.komune.registry.script.init.cccev.requirement.ReddPlusRequirement
 import io.komune.registry.script.init.cccev.requirement.VerraVcsRequirement
 import io.komune.registry.script.init.cccev.ver.ActivitiesVerraProject
-import io.komune.registry.script.init.cccev.ver.IndicatorsCarbon
 import io.ktor.client.plugins.HttpTimeout
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.toList
 
-fun main(): Unit = runBlocking {
-//    val url = "https://api.registry.komune.io/cccev"
-    val url = "http://localhost:8083"
-    initRequirement(url)
-}
-
-suspend fun initRequirement(url: String) {
+suspend fun initRequirement(url: String): List<Requirement> {
     val client = CCCEVClient(url) {
         install(HttpTimeout) {
             requestTimeoutMillis = 60000
         }
     }
-    client.graphClient.save(
+    return client.graphClient.save(
         buildList<Requirement> {
             add(ActivitiesVerraProject)
             addAll(EligibilityRequirements)
@@ -38,20 +30,6 @@ suspend fun initRequirement(url: String) {
         }.asFlow()
     ).onEach {
         println("Created requirement: ${it}")
-    }.collect()
+    }.toList()
 }
 
-suspend fun initIndicatorsCarbon(url: String) {
-    val client = CCCEVClient(url) {
-        install(HttpTimeout) {
-            requestTimeoutMillis = 60000
-        }
-    }
-    client.graphClient.save(
-        buildList<Requirement> {
-            add(IndicatorsCarbon)
-        }.asFlow()
-    ).onEach {
-        println("Created requirement: ${it}")
-    }.collect()
-}

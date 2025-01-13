@@ -6,8 +6,7 @@ plugins {
 }
 
 dependencies {
-	implementation(project(":platform:api:api-commons"))
-	implementation(project(":platform:s2:commons"))
+	implementation(project(":platform:commons"))
 
 	Dependencies.Jvm.redisOm(::api, ::kapt)
 }

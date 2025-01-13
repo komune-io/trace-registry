@@ -10,5 +10,5 @@ dependencies {
 	Dependencies.Jvm.im(::implementation)
 	Dependencies.Mpp.im(::implementation)
 	Dependencies.Mpp.f2Client(::implementation)
-	implementation(project(":platform:api:api-commons"))
+	implementation(project(":platform:commons"))
 }

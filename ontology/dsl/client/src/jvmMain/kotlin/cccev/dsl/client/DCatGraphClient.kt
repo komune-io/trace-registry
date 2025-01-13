@@ -54,7 +54,7 @@ class DCatGraphClient(
                     catalogue,
                     createdCatalogues
                 )
-                val calalogueId = createdCatalogues[catalogue.identifier]!!
+                val catalogueId = createdCatalogues[catalogue.identifier]!!
 
                 catalogue.datasets?.mapNotNull { dataset ->
                     val datasetId = if (dataset.identifier !in createdDatasets) {
@@ -64,7 +64,7 @@ class DCatGraphClient(
                     } else createdDatasets[dataset.identifier]
                     datasetId
                 }?.takeIf { it.isNotEmpty() }?.let { datasetIds ->
-                    linkDatasetToCatalogue(calalogueId, datasetIds)
+                    linkDatasetToCatalogue(catalogueId, datasetIds)
                 }
                 catalogueIdentifier
             }

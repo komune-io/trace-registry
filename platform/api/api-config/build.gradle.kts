@@ -5,8 +5,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":platform:api:api-commons"))
-    implementation(project(":platform:s2:commons"))
+    implementation(project(":platform:commons"))
     Dependencies.Jvm.f2Auth(::api)
     Dependencies.Jvm.f2OpenApi(::implementation)
 }
