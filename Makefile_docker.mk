@@ -50,7 +50,7 @@ docker-web-lint:
 
 docker-web-build:
 	@docker build \
-		--build-arg NPM_AUTH_TOKEN=${NPM_PKG_GITHUB_TOKEN} \
+		--build-arg NPM_AUTH_TOKEN=${NPM_PKG_NPMJS_TOKEN} \
 		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
 		--build-arg VERSION=${VERSION} \
 		--no-cache \

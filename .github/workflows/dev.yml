@@ -26,7 +26,7 @@ jobs:
       contents: read
       packages: write
     with:
-      on-tag: 'publish_promote'
+      on-tag: 'publish promote'
       make-file: 'Makefile_docker.mk'
       with-docker-registry-login: 'true'
     secrets:
