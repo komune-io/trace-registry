@@ -49,7 +49,12 @@ docker-web-lint:
 	docker run --rm -i hadolint/hadolint < infra/docker/ver-web-app/Dockerfile
 
 docker-web-build:
-	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
+	@docker build \
+		--build-arg NPM_AUTH_TOKEN=${NPM_PKG_GITHUB_TOKEN} \
+		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
+		--build-arg VERSION=${VERSION} \
+		--no-cache \
+		-f ${FRONT_VER_DOCKERFILE} -t ${FRONT_VER_IMG} .
 
 docker-web-publish:
 	@docker push ${FRONT_VER_IMG}
