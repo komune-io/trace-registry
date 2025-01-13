@@ -18,35 +18,6 @@ include(
 )
 
 include(
-	"ontology:dsl:client",
-	"ontology:dsl:dcat",
-	"ontology:dsl:skos",
-	"ontology:dsl:structure",
-)
-
-include(
-	"ontology:f2:catalogue-f2:catalogue-f2-api",
-	"ontology:f2:catalogue-f2:catalogue-f2-client",
-	"ontology:f2:catalogue-f2:catalogue-f2-domain"
-)
-
-include(
-	"ontology:f2:dataset-f2:dataset-f2-api",
-	"ontology:f2:dataset-f2:dataset-f2-client",
-	"ontology:f2:dataset-f2:dataset-f2-domain"
-)
-
-include(
-	"ontology:s2:catalogue:catalogue-api",
-	"ontology:s2:catalogue:catalogue-domain",
-)
-
-include(
-	"ontology:s2:dataset:dataset-api",
-	"ontology:s2:dataset:dataset-domain",
-)
-
-include(
 	"platform:script:script-init",
 	"platform:script:script-gateway",
 )
@@ -138,4 +109,34 @@ include(
 ///////////////////////////////
 include(
 	"platform:data:test"
+)
+
+
+include(
+	"platform:data:dsl:client",
+	"platform:data:dsl:dcat",
+	"platform:data:dsl:skos",
+	"platform:data:dsl:structure",
+)
+
+include(
+	"platform:data:f2:catalogue-f2:catalogue-f2-api",
+	"platform:data:f2:catalogue-f2:catalogue-f2-client",
+	"platform:data:f2:catalogue-f2:catalogue-f2-domain"
+)
+
+include(
+	"platform:data:f2:dataset-f2:dataset-f2-api",
+	"platform:data:f2:dataset-f2:dataset-f2-client",
+	"platform:data:f2:dataset-f2:dataset-f2-domain"
+)
+
+include(
+	"platform:data:s2:catalogue:catalogue-api",
+	"platform:data:s2:catalogue:catalogue-domain",
+)
+
+include(
+	"platform:data:s2:dataset:dataset-api",
+	"platform:data:s2:dataset:dataset-domain",
 )

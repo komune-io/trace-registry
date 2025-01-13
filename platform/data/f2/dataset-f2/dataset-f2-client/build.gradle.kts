@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":ontology:f2:catalogue-f2:catalogue-f2-domain"))
+	commonMainApi(project(":platform:data:f2:dataset-f2:dataset-f2-domain"))
 
 	Dependencies.Mpp.f2(::commonMainApi)
 	Dependencies.Mpp.f2Client(::commonMainApi)

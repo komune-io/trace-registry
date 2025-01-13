@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":ontology:s2:dataset:dataset-domain"))
-	commonMainApi(project(":ontology:dsl:dcat"))
+	commonMainApi(project(":platform:data:s2:dataset:dataset-domain"))
+	commonMainApi(project(":platform:data:dsl:dcat"))
 
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }
