@@ -11,11 +11,11 @@ dependencies {
 	implementation(project(":platform:project:f2:project-f2:project-f2-api"))
 
 
-	implementation(project(":ontology:f2:catalogue-f2:catalogue-f2-api"))
-	implementation(project(":ontology:s2:catalogue:catalogue-api"))
+	implementation(project(":platform:data:f2:catalogue-f2:catalogue-f2-api"))
+	implementation(project(":platform:data:s2:catalogue:catalogue-api"))
 
-	implementation(project(":ontology:f2:dataset-f2:dataset-f2-api"))
-	implementation(project(":ontology:s2:dataset:dataset-api"))
+	implementation(project(":platform:data:f2:dataset-f2:dataset-f2-api"))
+	implementation(project(":platform:data:s2:dataset:dataset-api"))
 
 	implementation(project(":platform:project:s2:asset:asset-api"))
 	implementation(project(":platform:project:s2:project:project-api"))

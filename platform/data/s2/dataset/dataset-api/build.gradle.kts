@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-	api(project(":ontology:s2:catalogue:catalogue-domain"))
+	api(project(":platform:data:s2:dataset:dataset-domain"))
 
 	implementation(project(":platform:commons"))
 	implementation(project((":platform:infra:redis")))

@@ -16,8 +16,8 @@ dependencies {
     implementation(project(":platform:control:f2:dcs-f2:dcs-f2-api"))
     implementation(project(":platform:project:f2:project-f2:project-f2-api"))
 
-    implementation(project(":ontology:f2:catalogue-f2:catalogue-f2-api"))
-    implementation(project(":ontology:f2:dataset-f2:dataset-f2-api"))
+    implementation(project(":platform:data:f2:catalogue-f2:catalogue-f2-api"))
+    implementation(project(":platform:data:f2:dataset-f2:dataset-f2-api"))
 
     implementation(project(":platform:api:api-config"))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")

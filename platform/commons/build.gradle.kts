@@ -10,6 +10,5 @@ dependencies {
     Dependencies.Mpp.Ktor.utils(::commonMainImplementation)
     Dependencies.Mpp.bignum(::commonMainApi)
 
-    Dependencies.Jvm.Fs.client(::jvmMainImplementation)
     Dependencies.Jvm.jackson(::jvmMainApi)
 }

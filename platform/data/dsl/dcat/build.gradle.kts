@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":ontology:dsl:skos"))
-	commonMainApi(project(":ontology:dsl:structure"))
+	commonMainApi(project(":platform:data:dsl:skos"))
+	commonMainApi(project(":platform:data:dsl:structure"))
 }
 
 tasks.withType<Test>().configureEach {
