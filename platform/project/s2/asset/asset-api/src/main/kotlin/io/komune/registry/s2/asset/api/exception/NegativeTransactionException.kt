@@ -9,7 +9,7 @@ class NegativeTransactionException(
     quantity: BigDecimal
 ): F2HttpException(
     status = HttpStatus.BAD_REQUEST,
-    code = ExceptionCodes.negativeTransaction(),
+    code = ExceptionCodes.Asset.NEGATIVE_TRANSACTION,
     message = "Cannot emit a transaction with a negative quantity ($quantity)",
     cause = null
 )

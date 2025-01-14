@@ -10,7 +10,7 @@ class NotEnoughAssetsException(
     wallet: BigDecimal
 ): F2HttpException(
     status = HttpStatus.BAD_REQUEST,
-    code = ExceptionCodes.notEnoughAssets(),
+    code = ExceptionCodes.Asset.NOT_ENOUGH_ASSETS,
     message = "Not enough assets in the wallet ($wallet) to execute the transaction ($transaction).",
     cause = null
 )

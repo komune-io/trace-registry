@@ -23,6 +23,7 @@ include(
 )
 
 include(
+	"platform:infra:brevo",
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:pdf",
@@ -59,6 +60,14 @@ include(
 
 include(
 	"platform:control:test:bdd"
+)
+
+///////////////////////////////
+// Identity
+///////////////////////////////
+include(
+	"platform:identity:f2:user-f2:user-f2-api",
+	"platform:identity:f2:user-f2:user-f2-domain",
 )
 
 ///////////////////////////////
@@ -110,7 +119,6 @@ include(
 include(
 	"platform:data:test"
 )
-
 
 include(
 	"platform:data:dsl:client",

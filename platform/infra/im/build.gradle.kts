@@ -7,8 +7,8 @@ plugins {
 
 dependencies {
 	Dependencies.Jvm.Spring.autoConfigure(::implementation, ::kapt)
-	Dependencies.Jvm.im(::implementation)
-	Dependencies.Mpp.im(::implementation)
+	Dependencies.Jvm.im(::api)
+	Dependencies.Mpp.im(::api)
 	Dependencies.Mpp.f2Client(::implementation)
 	implementation(project(":platform:commons"))
 }

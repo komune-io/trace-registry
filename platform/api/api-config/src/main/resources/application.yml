@@ -44,6 +44,16 @@ ssm:
   chaincode:
     url: http://localhost:9090
 
+platform:
+  brevo:
+    token: secret
+    from: no-reply@kosm.io # TODO change
+    contact-list: 4
+    sandbox: false
+    debug:
+      enable: true
+      email: test@kosm.io
+
 ---
 spring:
   config:
@@ -63,3 +73,21 @@ spring:
     authentication:
       username: neo4j
       password: komunekomune
+
+platform:
+  brevo:
+    sandbox: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+platform:
+  brevo:
+    token: secret
+    contact-list: 3
+    debug:
+      enable: true
+      email: luc+wco2@kosm.io

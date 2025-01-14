@@ -5,10 +5,12 @@ import f2.spring.exception.ForbiddenAccessException
 import f2.spring.exception.MessageConverterException
 import f2.spring.exception.NotFoundException
 import io.cucumber.java8.En
-import io.komune.registry.s2.commons.exception.ExceptionCodes
+import io.komune.registry.api.commons.exception.UserEmailAlreadyExistsException
+import io.komune.registry.api.commons.exception.UserUnacceptedTermsException
 import io.komune.registry.s2.asset.api.exception.GranularityTooSmallException
 import io.komune.registry.s2.asset.api.exception.NegativeTransactionException
 import io.komune.registry.s2.asset.api.exception.NotEnoughAssetsException
+import io.komune.registry.s2.commons.exception.ExceptionCodes
 import s2.bdd.S2CucumberStepsDefinition
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.assertion.exceptions
@@ -40,9 +42,11 @@ class ExceptionAssertionSteps: En, S2CucumberStepsDefinition()  {
         403 -> ForbiddenAccessException::class
         404 -> NotFoundException::class
         409 -> ConflictException::class
-        ExceptionCodes.negativeTransaction() -> NegativeTransactionException::class
-        ExceptionCodes.notEnoughAssets() -> NotEnoughAssetsException::class
-        ExceptionCodes.granularityTooSmall() -> GranularityTooSmallException::class
+        ExceptionCodes.Asset.NEGATIVE_TRANSACTION -> NegativeTransactionException::class
+        ExceptionCodes.Asset.NOT_ENOUGH_ASSETS -> NotEnoughAssetsException::class
+        ExceptionCodes.Asset.GRANULARITY_TOO_SMALL -> GranularityTooSmallException::class
+        ExceptionCodes.User.EMAIL_EXISTS -> UserEmailAlreadyExistsException::class
+        ExceptionCodes.User.UNACCEPTED_TERMS -> UserUnacceptedTermsException::class
         else -> throw IllegalArgumentException("Unknown exception code [$this]")
     }
 
