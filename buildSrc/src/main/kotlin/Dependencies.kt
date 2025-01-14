@@ -80,9 +80,11 @@ object Dependencies {
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"io.komune.im:im-organization-client:${Versions.im}",
-			"io.komune.im:im-user-client:${Versions.im}",
 			"io.komune.im:im-apikey-client:${Versions.im}",
+			"io.komune.im:im-organization-client:${Versions.im}",
+			"io.komune.im:im-privilege-client:${Versions.im}",
+			"io.komune.im:im-space-client:${Versions.im}",
+			"io.komune.im:im-user-client:${Versions.im}",
 		)
 
 		object Cccev {
@@ -226,6 +228,52 @@ object Modules {
 		}
 	}
 
+	object data {
+		private const val BASE = ":data"
+
+		object dsl {
+			private const val BASE = "${data.BASE}:dsl"
+			const val client = "$BASE:client"
+			const val dcat = "$BASE:dcat"
+			const val skos = "$BASE:skos"
+			const val structure = "$BASE:structure"
+		}
+
+		object f2 {
+			private const val BASE = "${data.BASE}:f2"
+
+			object catalogue {
+				private const val BASE = "${f2.BASE}:catalogue-f2:catalogue-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object dataset {
+				private const val BASE = "${f2.BASE}:dataset-f2:dataset-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+		}
+
+		object s2 {
+			private const val BASE = "${data.BASE}:s2"
+
+			object catalogue {
+				private const val BASE = "${s2.BASE}:catalogue:catalogue"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object dataset {
+				private const val BASE = "${s2.BASE}:dataset:dataset"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+		}
+	}
+
 	object identity {
 		private const val BASE = ":platform:identity"
 
@@ -247,52 +295,6 @@ object Modules {
 		const val im = "$BASE:im"
 		const val pdf = "$BASE:pdf"
 		const val redis = "$BASE:redis"
-	}
-
-	object ontology {
-		private const val BASE = ":ontology"
-
-		object dsl {
-			private const val BASE = "${ontology.BASE}:dsl"
-			const val client = "$BASE:client"
-			const val dcat = "$BASE:dcat"
-			const val skos = "$BASE:skos"
-			const val structure = "$BASE:structure"
-		}
-
-		object f2 {
-			private const val BASE = "${ontology.BASE}:f2"
-
-			object catalogue {
-				private const val BASE = "${f2.BASE}:catalogue-f2:catalogue-f2"
-				const val api = "$BASE-api"
-				const val client = "$BASE-client"
-				const val domain = "$BASE-domain"
-			}
-
-			object dataset {
-				private const val BASE = "${f2.BASE}:dataset-f2:dataset-f2"
-				const val api = "$BASE-api"
-				const val client = "$BASE-client"
-				const val domain = "$BASE-domain"
-			}
-		}
-
-		object s2 {
-			private const val BASE = "${ontology.BASE}:s2"
-
-			object catalogue {
-				private const val BASE = "${s2.BASE}:catalogue:catalogue"
-				const val api = "$BASE-api"
-				const val domain = "$BASE-domain"
-			}
-
-			object dataset {
-				private const val BASE = "${s2.BASE}:dataset:dataset"
-				const val api = "$BASE-api"
-				const val domain = "$BASE-domain"
-			}
-		}
 	}
 
 	object project {

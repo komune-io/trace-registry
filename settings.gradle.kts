@@ -63,6 +63,14 @@ include(
 )
 
 ///////////////////////////////
+// Identity
+///////////////////////////////
+include(
+	"platform:identity:f2:user-f2:user-f2-api",
+	"platform:identity:f2:user-f2:user-f2-domain",
+)
+
+///////////////////////////////
 // Project
 ///////////////////////////////
 include(
@@ -111,7 +119,6 @@ include(
 include(
 	"platform:data:test"
 )
-
 
 include(
 	"platform:data:dsl:client",
