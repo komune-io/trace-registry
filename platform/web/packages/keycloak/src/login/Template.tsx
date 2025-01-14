@@ -8,8 +8,6 @@ import { Alert } from "@komune-io/g2"
 
 const Main = styled('main')(({ theme }) => ({
     flexGrow: 1,
-    width: "100vw",
-    height: '100vh',
     overflow: 'auto',
     display: "flex",
     background: theme.palette.background.default
@@ -33,7 +31,17 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                 flexBasis={0}
                 alignItems="center"
                 justifyContent="center"
-                padding={5}
+                sx={{
+                    px: {
+                        sm: 5,
+                        xs: 0
+                    },
+                    py: {
+                        sm: 5,
+                        xs: 0
+                    },
+                    width: "100%"
+                }}
                 gap={3}
             >
                  {/* <img
@@ -68,8 +76,18 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         display: "flex",
                         flexDirection: "column",
                         gap: 4,
-                        py: 4,
-                        px: 6
+                        px: {
+                            sm: 6,
+                            xs: 2
+                        },
+                        py: {
+                            sm: 4,
+                            xs: 2
+                        },
+                        boxShadow: {
+                            sm: 1,
+                            xs: 0
+                        }
                     }}
 
                 >
