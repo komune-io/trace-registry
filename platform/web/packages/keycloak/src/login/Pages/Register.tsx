@@ -34,26 +34,30 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
         onSubmit
     })
 
-    const fields = useMemo((): FormComposableField/* <keyof UserOnboardCommand> */[] => {
+    const fields = useMemo((): FormComposableField<keyof UserOnboardCommand>[] => {
         return [{
-            name: "firstName",
+            name: "givenName",
             type: "textField",
-            label: msgStr("firstName")
+            label: msgStr("firstName"),
+            required: true
         }, {
-            name: "lastName",
+            name: "familyName",
             type: "textField",
             label: msgStr("lastName"),
+            required: true
         }, {
-            name: "entreprise",
+            name: "organizationName",
             type: "textField",
             label: msgStr("entreprise"),
+            required: true
         }, {
-            name: "reason",
+            name: "joinReason",
             type: "textField",
             label: msgStr("whyJoinProgram"),
             params: {
                 multiline: true
-            }
+            },
+            required: true
         }, {
             name: "email",
             type: "textField",
@@ -71,7 +75,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             },
             validator: validators.password(t),
         }, {
-            name: "cgu",
+            name: "acceptTermsOfUse",
             type: "checkBox",
             //@ts-ignore
             label: <>
@@ -84,8 +88,9 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 {msgStr("privacyPolicy")}
                 </Link>
             </>,
+            required: true
         }, {
-            name: "charte",
+            name: "acceptChart100M",
             type: "checkBox",
             //@ts-ignore
             label: <>
@@ -94,22 +99,20 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 {msgStr("charter")}
                 </Link>
             </>,
+            required: true
         }, {
-            name: "newsletter",
+            name: "acceptChart100M",
             type: "checkBox",
             //@ts-ignore
             label: msgStr("wantNewsletter"),
+            required: true
         }
         ]
     }, [realm, msgStr, t])
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} headerNode={msg("registerTitle")}>
-            {success && <Typography
-                variant="subtitle2"
-            >
-                {msgStr("emailNeedValidation")}
-            </Typography>}
+            
             <FormComposable
                 fields={fields}
                 formState={formState}
@@ -121,6 +124,11 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                     }
                 }}
             />
+            {success && <Typography
+                variant="subtitle2"
+            >
+                {msgStr("emailNeedValidation")}
+            </Typography>}
             <Stack
                 gap={2}
                 alignItems="center"

@@ -8,5 +8,8 @@ window._env_ = {
         clientId: "raia-platform-web",
         url: "https://auth.connect.kosmio.dev/"
       },
+    },
+    theme: {
+      primaryColor: "#492161"
     }
   };

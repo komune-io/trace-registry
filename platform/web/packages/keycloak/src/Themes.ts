@@ -4,7 +4,8 @@ import { ThemeOptions } from "@mui/material";
 
 export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
-    primary: "#492161",
+    //@ts-ignore
+    primary: window._env_?.theme?.primaryColor ?? "#492161",
     secondary: "#EDF5F1",
     background: "#FAF8F3"
   },
