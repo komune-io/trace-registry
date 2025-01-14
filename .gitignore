@@ -1,5 +1,7 @@
 .gradle
 **/build/
+**/build_keycloak/
+**/dist/
 !gradle/wrapper/gradle-wrapper.jar
 .env
 storybook-static
