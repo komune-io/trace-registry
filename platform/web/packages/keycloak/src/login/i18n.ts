@@ -21,12 +21,21 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             alreadyHaveAccount: "Already have an account ?",
             signIn: "Sign in",
             signUp: "Sign up",
-            registerTitle: "Create an account",
+            registerTitle: "Welcome on board !",
             optionnal: "(optionnal)",
             signInTitle: "Log in to your account",
             dontHaveAccount: "Don't have an account ?",
             proceedWithAction: "Click here to proceed",
-            emailNeedValidation: "Your account has been created, a validation email has been sent to your email address. You must validate it before signing in the application."
+            emailNeedValidation: "Your account has been created, a validation email has been sent to your email address. You must validate it before signing in the application.",
+            entreprise: "Entreprise",
+            whyJoinProgram: "Why do you get involved in Objectif100M ?",
+            wantNewsletter: "I accept to receive mails from 100M",
+            iReadAndApprouve: "I have read and approved",
+            iReadAndAccept: "I have read and accepted the",
+            cgu: "general conditions of use",
+            and: "and",
+            privacyPolicy: "privacy policy",
+            charter: "the charter of 100 millions"
         },
         fr: {
             alphanumericalCharsOnly: "Caractère alphanumérique uniquement",
@@ -40,13 +49,22 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             resetPasswordSend: "Envoyer les instructions de renouvellement",
             alreadyHaveAccount: "Vous avez déjà un compte ?",
             signIn: "Se connecter",
-            registerTitle: "Créer un compte",
+            registerTitle: "Bienvenu(e) à bord !",
             optionnal: "(optionnel)",
-            signUp: "S'inscrire",
+            signUp: "Je m'inscris",
             signInTitle: "Connexion à votre compte",
             dontHaveAccount: "Vous n'avez pas de compte ?",
             proceedWithAction: "Click here to proceed",
-            emailNeedValidation: "Votre compte a été créé, un email de validation a été envoyé à votre adresse email. Vous devez le valider avant de pouvoir vous connecter à l'application."
+            emailNeedValidation: "Votre compte a été créé, un email de validation a été envoyé à votre adresse email. Vous devez le valider avant de pouvoir vous connecter à l'application.",
+            entreprise: "Entreprise",
+            whyJoinProgram: "Pourquoi rejoignez vous Objectif100M ?",
+            wantNewsletter: "J'accepte de recevoir les emails des 100M",
+            iReadAndApprouve: "J’ai lu et j'approuve",
+            iReadAndAccept: "J’ai lu et j’accepte les",
+            cgu: "conditions générales d’utilisation",
+            and: "et",
+            privacyPolicy: "la politique de confidentialité",
+            charter: "la charte des 100 millions"
         }
     })
     .build();

@@ -18,33 +18,42 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
     const { msg, msgStr } = i18n;
 
     const { t } = useTranslation()
-    
+
     const onSubmit = useCallback(
-      async (values: UserOnboardCommand) => {
-        const res = await onBoardCommand.mutateAsync(values)
-        if (res) {
-            setsuccess(true)
-        }
-      },
-      [onBoardCommand.mutateAsync],
+        async (values: UserOnboardCommand) => {
+            const res = await onBoardCommand.mutateAsync(values)
+            if (res) {
+                setsuccess(true)
+            }
+        },
+        [onBoardCommand.mutateAsync],
     )
-    
+
 
     const formState = useFormComposable({
         onSubmit
     })
 
-    const fields = useMemo((): FormComposableField<keyof UserOnboardCommand>[] => {
+    const fields = useMemo((): FormComposableField/* <keyof UserOnboardCommand> */[] => {
         return [{
-            //@ts-ignore
             name: "firstName",
             type: "textField",
-            label: msgStr("firstName") + " " + msgStr("optionnal"),
+            label: msgStr("firstName")
         }, {
-            //@ts-ignore
             name: "lastName",
             type: "textField",
-            label: msgStr("lastName") + " " + msgStr("optionnal") ,
+            label: msgStr("lastName"),
+        }, {
+            name: "entreprise",
+            type: "textField",
+            label: msgStr("entreprise"),
+        }, {
+            name: "reason",
+            type: "textField",
+            label: msgStr("whyJoinProgram"),
+            params: {
+                multiline: true
+            }
         }, {
             name: "email",
             type: "textField",
@@ -61,6 +70,35 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 textFieldType: "password",
             },
             validator: validators.password(t),
+        }, {
+            name: "cgu",
+            type: "checkBox",
+            //@ts-ignore
+            label: <>
+                {msgStr("iReadAndAccept")}{" "}
+                <Link>
+                {msgStr("cgu")}
+                </Link>
+                {" "}{msgStr("and")}{" "}
+                <Link>
+                {msgStr("privacyPolicy")}
+                </Link>
+            </>,
+        }, {
+            name: "charte",
+            type: "checkBox",
+            //@ts-ignore
+            label: <>
+                {msgStr("iReadAndApprouve")}{" "}
+                <Link>
+                {msgStr("charter")}
+                </Link>
+            </>,
+        }, {
+            name: "newsletter",
+            type: "checkBox",
+            //@ts-ignore
+            label: msgStr("wantNewsletter"),
         }
         ]
     }, [realm, msgStr, t])
@@ -68,13 +106,20 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} headerNode={msg("registerTitle")}>
             {success && <Typography
-            variant="subtitle2"
+                variant="subtitle2"
             >
                 {msgStr("emailNeedValidation")}
             </Typography>}
             <FormComposable
                 fields={fields}
                 formState={formState}
+                sx={{
+                    "& .MuiFormControlLabel-root": {
+                        flexDirection: "row-reverse",
+                        justifyContent: "space-between",
+                        width: "100%"
+                    }
+                }}
             />
             <Stack
                 gap={2}
@@ -100,11 +145,11 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 >
                     {`${msgStr("alreadyHaveAccount")} `}
                     <span
-                    style={{
-                        textDecoration: "underline"
-                    }}
+                        style={{
+                            textDecoration: "underline"
+                        }}
                     >
-                       {msgStr("signIn")}
+                        {msgStr("signIn")}
                     </span>
                 </Link>
             </Stack>
