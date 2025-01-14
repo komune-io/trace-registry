@@ -25,12 +25,13 @@ object Versions {
     val cccev = Framework.connect
 
 	const val bignum = "0.3.8"
+	const val brevo = "1.0.0"
 	const val datafaker = "1.8.1"
+	const val html2pdf = "5.0.0"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
+	const val javaSnapshotTesting = "4.0.8"
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.9"
-	const val html2pdf = "5.0.0"
-	const val javaSnapshotTesting = "4.0.8"
 }
 
 object Repo {
@@ -79,9 +80,11 @@ object Dependencies {
 		)
 
 		fun im(scope: Scope) = scope.add(
-			"io.komune.im:im-organization-client:${Versions.im}",
-			"io.komune.im:im-user-client:${Versions.im}",
 			"io.komune.im:im-apikey-client:${Versions.im}",
+			"io.komune.im:im-organization-client:${Versions.im}",
+			"io.komune.im:im-privilege-client:${Versions.im}",
+			"io.komune.im:im-space-client:${Versions.im}",
+			"io.komune.im:im-user-client:${Versions.im}",
 		)
 
 		object Cccev {
@@ -187,5 +190,168 @@ object Dependencies {
 		fun cccevDomain(scope: Scope) = scope.add(
 			"io.komune.cccev:cccev-f2-domain:${Versions.cccev}",
 		)
+	}
+}
+
+object Modules {
+	const val commons = ":platform:commons"
+
+	object api {
+		private const val BASE = ":platform:api:api"
+		const val config = "$BASE-config"
+	}
+
+	object control {
+		private const val BASE = ":platform:control"
+
+		object f2 {
+			private const val BASE = "${control.BASE}:f2"
+
+			object activity {
+				private const val BASE = "${f2.BASE}:activity-f2:activity-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object dcs {
+				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+		}
+
+		object infra {
+			private const val BASE = "${control.BASE}:infra"
+			const val cccev = "$BASE:cccev"
+		}
+	}
+
+	object data {
+		private const val BASE = ":data"
+
+		object dsl {
+			private const val BASE = "${data.BASE}:dsl"
+			const val client = "$BASE:client"
+			const val dcat = "$BASE:dcat"
+			const val skos = "$BASE:skos"
+			const val structure = "$BASE:structure"
+		}
+
+		object f2 {
+			private const val BASE = "${data.BASE}:f2"
+
+			object catalogue {
+				private const val BASE = "${f2.BASE}:catalogue-f2:catalogue-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object dataset {
+				private const val BASE = "${f2.BASE}:dataset-f2:dataset-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+		}
+
+		object s2 {
+			private const val BASE = "${data.BASE}:s2"
+
+			object catalogue {
+				private const val BASE = "${s2.BASE}:catalogue:catalogue"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object dataset {
+				private const val BASE = "${s2.BASE}:dataset:dataset"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+		}
+	}
+
+	object identity {
+		private const val BASE = ":platform:identity"
+
+		object f2 {
+			private const val BASE = "${identity.BASE}:f2"
+
+			object user {
+				private const val BASE = "${f2.BASE}:user-f2:user-f2"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+		}
+	}
+
+	object infra {
+		private const val BASE = ":platform:infra"
+		const val brevo = "$BASE:brevo"
+		const val fs = "$BASE:fs"
+		const val im = "$BASE:im"
+		const val pdf = "$BASE:pdf"
+		const val redis = "$BASE:redis"
+	}
+
+	object project {
+		private const val BASE = ":platform:project"
+
+		object f2 {
+			private const val BASE = "${Modules.project.BASE}:f2"
+
+			object assertOrder {
+				private const val BASE = "${f2.BASE}:assert-order-f2:assert-order-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object assetPool {
+				private const val BASE = "${f2.BASE}:asset-pool-f2:asset-pool-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object chat {
+				private const val BASE = "${f2.BASE}:chat-f2:chat-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object project {
+				private const val BASE = "${f2.BASE}:project-f2:project-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+		}
+
+		object s2 {
+			private const val BASE = "${Modules.project.BASE}:s2"
+
+			object asset {
+				private const val BASE = "${s2.BASE}:asset:asset"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object order {
+				private const val BASE = "${s2.BASE}:order:order"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object project {
+				private const val BASE = "${s2.BASE}:project:project"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+		}
 	}
 }

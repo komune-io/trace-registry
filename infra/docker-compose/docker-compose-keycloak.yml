@@ -31,6 +31,8 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+    volumes:
+      - ~/DockerVolumes/postgres/trace-registry/data:/var/lib/postgresql/data
     networks:
       - net
 
