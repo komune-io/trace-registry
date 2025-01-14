@@ -25,12 +25,13 @@ object Versions {
     val cccev = Framework.connect
 
 	const val bignum = "0.3.8"
+	const val brevo = "1.0.0"
 	const val datafaker = "1.8.1"
+	const val html2pdf = "5.0.0"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
+	const val javaSnapshotTesting = "4.0.8"
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.9"
-	const val html2pdf = "5.0.0"
-	const val javaSnapshotTesting = "4.0.8"
 }
 
 object Repo {

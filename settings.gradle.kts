@@ -23,6 +23,7 @@ include(
 )
 
 include(
+	"platform:infra:brevo",
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:pdf",
