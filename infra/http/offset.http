@@ -1,37 +1,11 @@
-# https://registry.trace.komune.io/projects/e53f091c-bb37-4840-ad82-b16c65224f44
-
-### projectPage
-#POST {{urlbase}}/projectPage
-#Content-Type: application/json
-#
-#{}
-#
-#> {% client.global.set("projectId", response.body[0].items[0].id); %}
-
-
-### projectGet
-#POST {{urlbase}}/projectGet
-#Content-Type: application/json
-#
-#{
-#  "id": "{{assetProjectId}}"
-#}
-
-### assetTransactionPage
-#POST {{urlbase}}/assetTransactionPage
-#Content-Type: application/json
-#
-#{
-#  "projectId": "{{assetProjectId}}"
-#}
 
 ### OAuth2 Token Phease
 POST {{urlAuth}}/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=client_credentials&client_id={{offseter_clientId}}&client_secret={{offseter_clientSecret}}
+grant_type=client_credentials&client_id={{clientId}}&client_secret={{clientSecret}}
 
-> {% client.global.set("offseter_accessToken", response.body.access_token); %}
+> {% client.global.set("accessToken", response.body.access_token); %}
 
 ### OAuth2 Token Issuer
 POST {{urlAuth}}/protocol/openid-connect/token

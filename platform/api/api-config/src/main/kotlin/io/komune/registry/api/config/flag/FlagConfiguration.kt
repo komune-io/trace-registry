@@ -1,6 +1,9 @@
 package io.komune.registry.api.config.flag
 
+import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2Function
+import f2.dsl.fnc.f2SupplierSingle
+import jakarta.annotation.security.PermitAll
 import java.net.URI
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.BeanFactory
@@ -16,11 +19,19 @@ import org.springframework.messaging.Message
 
 @EnableConfigurationProperties(FlagProperties::class)
 @Configuration(proxyBeanMethods = false)
-class FlagConfiguration(private val flagProperties: FlagProperties) {
+class FlagConfiguration(
+    private val flagProperties: FlagProperties
+) {
 
     @Bean
     fun customRouter(): MessageRoutingCallback {
         return FlagMessageRoutingCallback(flagProperties)
+    }
+
+    @PermitAll
+    @Bean
+    fun flagGet(): F2SupplierSingle<FlagProperties> = f2SupplierSingle {
+        flagProperties
     }
 
     @Bean
@@ -44,6 +55,11 @@ class FlagConfiguration(private val flagProperties: FlagProperties) {
     }
 
     @Bean
+    fun config(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+        return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
+    }
+
+    @Bean
     fun disabledFunction(flagProperties: FlagProperties) = f2Function<String, Boolean> {
         throw IllegalStateException("Function is disabled")
     }
@@ -61,6 +77,9 @@ class FlagMessageRoutingCallback(private val flagProperties: FlagProperties):  M
 
         // Define routing logic as a map for better readability
         val modulePrefixFlagMap = mapOf(
+            "config" to mapOf(
+                "flag" to true
+            ),
             "control" to mapOf(
                 "activity" to flagProperties.module.control,
                 "dcs" to flagProperties.module.control,

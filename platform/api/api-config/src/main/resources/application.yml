@@ -9,7 +9,8 @@ spring:
   cloud:
     function:
       http:
-        POST: project;data;control;identity
+        GET: about;flagGet
+        POST: project;data;control;identity;config
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/tr-registry-postgres
     username: postgres
