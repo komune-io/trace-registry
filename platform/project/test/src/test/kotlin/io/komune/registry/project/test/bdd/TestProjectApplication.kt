@@ -15,4 +15,4 @@ import org.springframework.test.context.ActiveProfiles
     scanBasePackages = ["io.komune.registry", "s2.bdd"],
     exclude = [WebSecurityConfig::class]
 )
-class TestApplication
+class TestProjectApplication

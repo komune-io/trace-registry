@@ -4,9 +4,9 @@ services:
     image: ${DOCKER_REPOSITORY}im-keycloak:${VERSION_IM}
     container_name: ${KC_HOSTNAME}
     environment:
-      KC_DB_URL: 'jdbc:postgresql://im-keycloak-postgres/im-keycloak'
-      KC_DB_PASSWORD: admin
-      KC_DB_USERNAME: admin
+      KC_DB_URL: 'jdbc:postgresql://${POSTGRES_HOSTNAME}/im-keycloak'
+      KC_DB_PASSWORD: ${POSTGRES_USER}
+      KC_DB_USERNAME: ${POSTGRES_PASS}
       KC_DB_SCHEMA: public
       KC_HOSTNAME: "${KC_HOST_URL}"
       KEYCLOAK_FRONTEND_URL: "${KC_HOST_URL}"
@@ -17,22 +17,6 @@ services:
       KC_HOSTNAME_STRICT_HTTPS: "false"
     ports:
       - '8080:8080'
-    networks:
-      - net
-    depends_on:
-      - im-keycloak-postgres
-
-  im-keycloak-postgres:
-    image: postgres
-    container_name: im-keycloak-postgres
-    environment:
-      POSTGRES_DB: im-keycloak
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5432:5432"
-    volumes:
-      - ~/DockerVolumes/postgres/trace-registry/data:/var/lib/postgresql/data
     networks:
       - net
 
