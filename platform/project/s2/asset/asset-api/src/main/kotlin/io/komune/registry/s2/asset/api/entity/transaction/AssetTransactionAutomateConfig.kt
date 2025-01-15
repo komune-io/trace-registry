@@ -14,11 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.sourcing.ssm.S2SourcingSsmAdapter
-import ssm.chaincode.dsl.model.Agent
-import ssm.chaincode.dsl.model.uri.ChaincodeUri
-import ssm.chaincode.dsl.model.uri.from
-import ssm.sdk.sign.extention.loadFromFile
+import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
 class AssetTransactionAutomateConfig(
@@ -26,7 +22,7 @@ class AssetTransactionAutomateConfig(
     evolver: AssetTransactionEvolver,
     assetTransactionSnapRepository: AssetTransactionSnapRepository,
     private val repository: AssetTransactionRepository
-): S2SourcingSsmAdapter<
+): S2SourcingSpringDataAdapter<
 		AssetTransactionEntity,
 		AssetTransactionState,
 		AssetTransactionEvent,
@@ -65,18 +61,9 @@ class AssetTransactionAutomateConfig(
 			}
 		}
 	}
-	override fun chaincodeUri(): ChaincodeUri {
-		return ChaincodeUri.from(
-			channelId = "sandbox",
-			chaincodeId = "ssm",
-		)
-	}
 
 	override fun entityType(): KClass<AssetTransactionEvent> = AssetTransactionEvent::class
 
-	override fun signerAgent(): Agent {
-		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
-	}
 }
 
 @Service

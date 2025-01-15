@@ -20,11 +20,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.sourcing.ssm.S2SourcingSsmAdapter
-import ssm.chaincode.dsl.model.Agent
-import ssm.chaincode.dsl.model.uri.ChaincodeUri
-import ssm.chaincode.dsl.model.uri.from
-import ssm.sdk.sign.extention.loadFromFile
+import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
 class OrderAutomateConfig(
@@ -32,7 +28,7 @@ class OrderAutomateConfig(
     evolver: OrderEvolver,
     orderSnapRepository: OrderSnapRepository,
     private val repository: OrderRepository
-): S2SourcingSsmAdapter<OrderEntity, OrderState, OrderEvent, OrderId, OrderAutomateExecutor>(
+): S2SourcingSpringDataAdapter<OrderEntity, OrderState, OrderEvent, OrderId, OrderAutomateExecutor>(
 	aggregate,
 	evolver,
 	orderSnapRepository
@@ -77,18 +73,9 @@ class OrderAutomateConfig(
 			}
 		}
 	}
-	override fun chaincodeUri(): ChaincodeUri {
-		return ChaincodeUri.from(
-			channelId = "sandbox",
-			chaincodeId = "ssm",
-		)
-	}
 
 	override fun entityType(): KClass<OrderEvent> = OrderEvent::class
 
-	override fun signerAgent(): Agent {
-		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
-	}
 }
 
 @Service

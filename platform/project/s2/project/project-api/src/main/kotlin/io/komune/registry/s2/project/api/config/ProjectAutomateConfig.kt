@@ -22,11 +22,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.sourcing.ssm.S2SourcingSsmAdapter
-import ssm.chaincode.dsl.model.Agent
-import ssm.chaincode.dsl.model.uri.ChaincodeUri
-import ssm.chaincode.dsl.model.uri.from
-import ssm.sdk.sign.extention.loadFromFile
+import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 
 @Configuration
 class ProjectAutomateConfig(
@@ -34,7 +30,7 @@ class ProjectAutomateConfig(
     evolver: ProjectEvolver,
     projectSnapRepository: ProjectSnapRepository,
     private val repository: ProjectRepository
-): S2SourcingSsmAdapter<ProjectEntity, ProjectState, ProjectEvent, ProjectId, ProjectAutomateExecutor>(
+): S2SourcingSpringDataAdapter<ProjectEntity, ProjectState, ProjectEvent, ProjectId, ProjectAutomateExecutor>(
 	aggregate,
 	evolver,
 	projectSnapRepository
@@ -71,18 +67,9 @@ class ProjectAutomateConfig(
 			}
 		}
 	}
-	override fun chaincodeUri(): ChaincodeUri {
-		return ChaincodeUri.from(
-			channelId = "sandbox",
-			chaincodeId = "ssm",
-		)
-	}
 
 	override fun entityType(): KClass<ProjectEvent> = ProjectEvent::class
 
-	override fun signerAgent(): Agent {
-		return Agent.loadFromFile("ssm-admin","user/ssm-admin")
-	}
 }
 
 @Service

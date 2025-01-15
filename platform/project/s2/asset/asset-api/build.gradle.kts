@@ -16,5 +16,5 @@ dependencies {
 	implementation(project(":platform:commons"))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
-	Dependencies.Jvm.s2SourcingSsm(::implementation)
+	Dependencies.Jvm.s2Sourcing(::implementation)
 }

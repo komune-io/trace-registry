@@ -8,4 +8,6 @@ dependencies {
     implementation(project(":platform:commons"))
     Dependencies.Jvm.f2Auth(::api)
     Dependencies.Jvm.f2OpenApi(::implementation)
+
+   Dependencies.Jvm.s2Sourcing(::api)
 }

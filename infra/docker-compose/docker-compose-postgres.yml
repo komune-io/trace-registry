@@ -1,0 +1,23 @@
+services:
+  tr-registry-postgres:
+    image: postgres
+    container_name: ${POSTGRES_HOSTNAME}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_REGISTRY_DB}, ${POSTGRES_KEYCLOAK_DB}
+    volumes:
+        - ./scripts:/docker-entrypoint-initdb.d
+        -  postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+volumes:
+    postgres_data:

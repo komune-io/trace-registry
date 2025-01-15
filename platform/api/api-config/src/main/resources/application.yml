@@ -4,12 +4,18 @@ server:
 logging:
   level:
     root: INFO
+    org.springframework.data.r2dbc: Debug
 
-#spring:
-#  webflux:
-#    multipart:
-#      maxInMemorySize: 20MB
-#      maxHeadersSize: 20MB
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/tr-registry-postgres
+    username: postgres
+    password: postgres
+    pool:
+      enabled: true
+      initial-size: 5
+      max-size: 10
+
 cccev:
   url: http://localhost:8083
 
@@ -28,22 +34,6 @@ f2:
   tenant:
     issuer-base-uri: http://im-keycloak:8080
 
-ssm:
-  signer:
-    user:
-      name: ssm-admin
-      key: user/ssm-admin
-    admin:
-      name: ssm-admin
-      key: user/ssm-admin
-  couchdb:
-    url: http://localhost:5984
-    username: couchdb
-    password: couchdb
-    serviceName: s2-sample-did
-  chaincode:
-    url: http://localhost:9090
-
 platform:
   brevo:
     token: secret
@@ -53,7 +43,6 @@ platform:
     debug:
       enable: true
       email: test@kosm.io
-
 ---
 spring:
   config:
@@ -68,11 +57,6 @@ spring:
   config:
     activate:
       on-profile: test
-  neo4j:
-    uri: neo4j://localhost:7687
-    authentication:
-      username: neo4j
-      password: komunekomune
 
 platform:
   brevo:
