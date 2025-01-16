@@ -11,7 +11,7 @@ import kotlin.js.JsName
  * Get a page of activities.
  * @d2 function
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
- * @order 10
+ * @order 30
  */
 typealias CataloguePageFunction = F2Function<CataloguePageQuery, CataloguePageResult>
 

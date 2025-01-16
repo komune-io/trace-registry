@@ -1063,8 +1063,12 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(DatasetPolicies, 'DatasetPolicies', objectMeta);
   setMetadataFor(DatasetDataQueryDTO, 'DatasetDataQueryDTO', interfaceMeta);
   setMetadataFor(DatasetDataResultDTO, 'DatasetDataResultDTO', interfaceMeta);
+  setMetadataFor(DatasetGetByIdentifierQueryDTO, 'DatasetGetByIdentifierQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetGetByIdentifierResultDTO, 'DatasetGetByIdentifierResultDTO', interfaceMeta);
   setMetadataFor(DatasetGetQueryDTO, 'DatasetGetQueryDTO', interfaceMeta);
   setMetadataFor(DatasetGetResultDTO, 'DatasetGetResultDTO', interfaceMeta);
+  setMetadataFor(DatasetListLanguagesQueryDTO, 'DatasetListLanguagesQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetListLanguagesResultDTO, 'DatasetListLanguagesResultDTO', interfaceMeta);
   setMetadataFor(DatasetPageQueryDTO, 'DatasetPageQueryDTO', interfaceMeta);
   setMetadataFor(DatasetPageResultDTO, 'DatasetPageResultDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(DatasetRefListQueryDTO, 'DatasetRefListQueryDTO', interfaceMeta);
@@ -1084,8 +1088,12 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta);
   setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta);
   setMetadataFor(CataloguePolicies, 'CataloguePolicies', objectMeta);
+  setMetadataFor(CatalogueGetByIdentifierQueryDTO, 'CatalogueGetByIdentifierQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueGetByIdentifierResultDTO, 'CatalogueGetByIdentifierResultDTO', interfaceMeta);
   setMetadataFor(CatalogueGetQueryDTO, 'CatalogueGetQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta);
+  setMetadataFor(CatalogueListLanguagesQueryDTO, 'CatalogueListLanguagesQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueListLanguagesResultDTO, 'CatalogueListLanguagesResultDTO', interfaceMeta);
   setMetadataFor(CataloguePageQueryDTO, 'CataloguePageQueryDTO', interfaceMeta);
   setMetadataFor(CataloguePageResultDTO, 'CataloguePageResultDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(CatalogueRefListQueryDTO, 'CatalogueRefListQueryDTO', interfaceMeta);
@@ -26408,9 +26416,17 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetDataResultDTO() {
   }
+  function DatasetGetByIdentifierQueryDTO() {
+  }
+  function DatasetGetByIdentifierResultDTO() {
+  }
   function DatasetGetQueryDTO() {
   }
   function DatasetGetResultDTO() {
+  }
+  function DatasetListLanguagesQueryDTO() {
+  }
+  function DatasetListLanguagesResultDTO() {
   }
   function DatasetPageQueryDTO() {
   }
@@ -26484,9 +26500,17 @@ if (typeof Math.imul === 'undefined') {
   function CataloguePolicies_getInstance() {
     return CataloguePolicies_instance;
   }
+  function CatalogueGetByIdentifierQueryDTO() {
+  }
+  function CatalogueGetByIdentifierResultDTO() {
+  }
   function CatalogueGetQueryDTO() {
   }
   function CatalogueGetResultDTO() {
+  }
+  function CatalogueListLanguagesQueryDTO() {
+  }
+  function CatalogueListLanguagesResultDTO() {
   }
   function CataloguePageQueryDTO() {
   }
@@ -29871,6 +29895,20 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
     var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
@@ -29924,6 +29962,20 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$policy = $io$komune$registry$f2$catalogue$domain.policy || ($io$komune$registry$f2$catalogue$domain.policy = {});
     defineProp($io$komune$registry$f2$catalogue$domain$policy, 'CataloguePolicies', CataloguePolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

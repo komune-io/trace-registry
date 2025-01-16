@@ -21,10 +21,13 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import jakarta.annotation.security.PermitAll
@@ -45,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController
 class CatalogueEndpoint(
     private val catalogueService: CatalogueAggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
@@ -173,5 +177,15 @@ class CatalogueEndpoint(
         }
         logger.info("servedFile: $catalogueId")
         return file
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = f2Function { query ->
+        logger.info("catalogueListLanguages: $query")
+        catalogueFinderService.listByIdentifier(query.identifier)
+            .map { it.language }
+            .distinct()
+            .let(::CatalogueListLanguagesResult)
     }
 }

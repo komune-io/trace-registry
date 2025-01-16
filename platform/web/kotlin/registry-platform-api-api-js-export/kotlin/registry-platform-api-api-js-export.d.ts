@@ -2425,7 +2425,7 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
         readonly description?: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2460,7 +2460,7 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
         readonly description?: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly identifier?: string;
@@ -2521,7 +2521,7 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
         readonly description?: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2568,7 +2568,7 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
         readonly description?: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2612,7 +2612,7 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
         readonly description?: string;
         readonly releaseDate?: string;
         readonly updateDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2703,7 +2703,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly title: string;
         readonly type: string;
         readonly description?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
         readonly source?: string;
         readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
@@ -2786,7 +2786,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly description?: string;
         readonly title: string;
         readonly releaseDate?: string;
-        readonly language?: string[];
+        readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2845,13 +2845,33 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetGetByIdentifierQueryDTO {
+        readonly identifier: string;
+        readonly language: string;
+
+    }
+    interface DatasetGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
     interface DatasetGetQueryDTO {
-        readonly id?: string;
-        readonly identifier?: string;
+        readonly id: string;
 
     }
     interface DatasetGetResultDTO {
         readonly item?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetListLanguagesQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface DatasetListLanguagesResultDTO {
+        readonly items: string[];
 
     }
 }
@@ -2886,6 +2906,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
+        readonly language: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
         readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
@@ -2965,6 +2986,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly homepage?: string;
         readonly title: string;
+        readonly language: string;
         readonly img?: string;
         readonly type: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
@@ -2986,6 +3008,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly identifier: string;
         readonly title: string;
         readonly type: string;
+        readonly language: string;
         readonly description?: string;
         readonly homepage?: string;
         readonly img?: string;
@@ -3009,13 +3032,33 @@ export declare namespace io.komune.registry.f2.catalogue.domain.policy {
     };
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CatalogueGetQueryDTO {
-        readonly id?: string;
+    interface CatalogueGetByIdentifierQueryDTO {
         readonly identifier?: string;
+        readonly language: string;
+
+    }
+    interface CatalogueGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueGetQueryDTO {
+        readonly id: string;
 
     }
     interface CatalogueGetResultDTO {
         readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueListLanguagesQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface CatalogueListLanguagesResultDTO {
+        readonly items: string[];
 
     }
 }

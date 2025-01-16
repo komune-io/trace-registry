@@ -54,4 +54,9 @@ class DatasetFinderService(
 			it.toDataset()
 		}
 	}
+
+	override suspend fun listByIdentifier(identifier: String): List<DatasetModel> {
+		return datasetRepository.findAllByIdentifier(identifier)
+			.map { it.toDataset() }
+	}
 }

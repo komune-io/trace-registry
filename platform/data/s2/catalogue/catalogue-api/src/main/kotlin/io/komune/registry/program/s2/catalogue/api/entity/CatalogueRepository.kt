@@ -8,5 +8,5 @@ import java.util.Optional
 @Repository
 interface CatalogueRepository: RedisRepository<CatalogueEntity, CatalogueId> {
     fun findByIdentifierAndLanguage(identifier: String, language: String): Optional<CatalogueEntity>
-    fun findByIdentifier(identifier: String): List<CatalogueEntity>
+    fun findAllByIdentifier(identifier: String): List<CatalogueEntity>
 }

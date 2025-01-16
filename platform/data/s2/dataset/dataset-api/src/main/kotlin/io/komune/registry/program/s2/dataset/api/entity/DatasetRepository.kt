@@ -8,4 +8,5 @@ import java.util.Optional
 @Repository
 interface DatasetRepository: RedisRepository<DatasetEntity, DatasetId> {
     fun findByIdentifierAndLanguage(identifier: String, language: String): Optional<DatasetEntity>
+    fun findAllByIdentifier(identifier: String): List<DatasetEntity>
 }

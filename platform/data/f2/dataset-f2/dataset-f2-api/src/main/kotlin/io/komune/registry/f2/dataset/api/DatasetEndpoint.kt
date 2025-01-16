@@ -23,10 +23,13 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
+import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
+import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
@@ -48,6 +51,7 @@ import org.springframework.web.bind.annotation.RestController
 class DatasetEndpoint(
     private val datasetService: DatasetAggregateService,
     private val datasetF2FinderService: DatasetF2FinderService,
+    private val datasetFinderService: DatasetFinderService,
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
@@ -174,5 +178,13 @@ class DatasetEndpoint(
         )
     }
 
-
+    @PermitAll
+    @Bean
+    override fun datasetListLanguages(): DatasetListLanguagesFunction = f2Function { query ->
+        logger.info("datasetListLanguages: $query")
+        datasetFinderService.listByIdentifier(query.identifier)
+            .map { it.language }
+            .distinct()
+            .let(::DatasetListLanguagesResult)
+    }
 }

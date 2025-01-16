@@ -53,7 +53,7 @@ class CatalogueFinderService(
 	): PageDTO<CatalogueModel> {
 
 		val parents = parentIdentifier?.value?.let { identifier ->
-			catalogueRepository.findByIdentifier(identifier).flatMap { it.catalogues }
+			catalogueRepository.findAllByIdentifier(identifier).flatMap { it.catalogues }
 		}?.let { catalogues ->
 			CollectionMatch(catalogues)
 		}
@@ -70,5 +70,10 @@ class CatalogueFinderService(
 		).map {
 			it.toCatalogue()
 		}
+	}
+
+	override suspend fun listByIdentifier(identifier: String): List<CatalogueModel> {
+		return catalogueRepository.findAllByIdentifier(identifier)
+			.map { it.toCatalogue() }
 	}
 }

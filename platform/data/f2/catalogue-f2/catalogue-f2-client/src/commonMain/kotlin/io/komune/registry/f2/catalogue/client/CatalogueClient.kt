@@ -13,7 +13,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.ktor.client.plugins.logging.DEFAULT
@@ -60,5 +62,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function(this::catalogueDelete.name)
     override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
     override fun catalogueGet(): CatalogueGetFunction = client.function(this::catalogueGet.name)
+    override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = client.function(this::catalogueGetByIdentifier.name)
     override fun catalogueRefList(): CatalogueRefListFunction = client.function(this::catalogueRefList.name)
+    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = client.function(this::catalogueListLanguages.name)
 }

@@ -13,7 +13,9 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import kotlin.js.JsExport
@@ -46,6 +48,8 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetDelete(): DatasetDeleteFunction = client.function(this::datasetDelete.name)
     override fun datasetPage(): DatasetPageFunction = client.function(this::datasetPage.name)
     override fun datasetGet(): DatasetGetFunction = client.function(this::datasetGet.name)
+    override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = client.function(this::datasetGetByIdentifier.name)
     override fun datasetRefList(): DatasetRefListFunction = client.function(this::datasetRefList.name)
     override fun datasetData(): DatasetDataFunction = client.function(this::datasetData.name)
+    override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function(this::datasetListLanguages.name)
 }
