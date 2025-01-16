@@ -41,10 +41,10 @@ f2:
 platform:
   flag:
     module:
-      control: false
+      control: true
       data: true
-      project: false
-      identity: false
+      project: true
+      identity: true
 
   brevo:
     token: secret

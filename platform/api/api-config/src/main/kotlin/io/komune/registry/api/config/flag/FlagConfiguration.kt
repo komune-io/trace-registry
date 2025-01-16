@@ -35,27 +35,52 @@ class FlagConfiguration(
     }
 
     @Bean
-    fun project(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+    fun project(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
         return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
     }
 
     @Bean
-    fun control(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+    fun control(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
         return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
     }
 
     @Bean
-    fun data(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+    fun data(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
         return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
     }
 
     @Bean
-    fun identity(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+    fun identity(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
         return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
     }
 
     @Bean
-    fun config(functionCatalog: FunctionCatalog, functionProperties: FunctionProperties, beanFactory: BeanFactory, callback: MessageRoutingCallback): RoutingFunction {
+    fun config(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
         return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
     }
 
@@ -65,7 +90,7 @@ class FlagConfiguration(
     }
 }
 
-class FlagMessageRoutingCallback(private val flagProperties: FlagProperties):  MessageRoutingCallback {
+class FlagMessageRoutingCallback(private val flagProperties: FlagProperties) : MessageRoutingCallback {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun routingResult(message: Message<*>): String {
@@ -98,7 +123,7 @@ class FlagMessageRoutingCallback(private val flagProperties: FlagProperties):  M
             ),
         )
 
-        val isEnable =  modulePrefixFlagMap[module]?.any { (prefix, functionFlag) ->
+        val isEnable = modulePrefixFlagMap[module]?.any { (prefix, functionFlag) ->
             functionName.startsWith(prefix) && functionFlag
         } ?: true
 
