@@ -16,7 +16,7 @@ sealed interface CataloguedResource {
     val description: String?
     val releaseDate: String?
     val updateDate: String?
-    val language: List<String>?
+    val language: String
     val publisher: Agent?
     val validator: Agent?
     val identifier: String?

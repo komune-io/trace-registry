@@ -40,7 +40,7 @@ class DCatApCatalogueModel(
     override val title: String,
     override val releaseDate: String? = null,
     override val updateDate: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val publisher: Agent? = null,
     override val validator: Agent? = null,
     override val theme: List<SkosConcept>? = null,
