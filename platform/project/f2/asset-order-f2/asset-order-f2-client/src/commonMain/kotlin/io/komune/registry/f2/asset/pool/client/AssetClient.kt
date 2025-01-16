@@ -39,12 +39,12 @@ fun assetClient(
 @JsName("AssetClient")
 @JsExport
 open class AssetClient(private val client: F2Client) : AssetOrderApi {
-    override fun assetOrderGet(): AssetOrderGetFunction = client.function(this::assetOrderGet.name)
-    override fun assetOrderPage(): AssetOrderPageFunction = client.function(this::assetOrderPage.name)
-    override fun assetOrderPlace(): AssetOrderPlaceFunction = client.function(this::assetOrderPlace.name)
-    override fun assetOrderCancel(): AssetOrderCancelFunction = client.function(this::assetOrderCancel.name)
-    override fun assetOrderComplete(): AssetOrderCompleteFunction = client.function(this::assetOrderComplete.name)
-    override fun assetOrderSubmit(): AssetOrderSubmitFunction = client.function(this::assetOrderSubmit.name)
-    override fun assetOrderUpdate(): AssetOrderUpdateFunction = client.function(this::assetOrderUpdate.name)
-    override fun assetOrderDelete(): AssetOrderDeleteFunction = client.function(this::assetOrderDelete.name)
+    override fun assetOrderGet(): AssetOrderGetFunction = client.function("project/${this::assetOrderGet.name}")
+    override fun assetOrderPage(): AssetOrderPageFunction = client.function("project/${this::assetOrderPage.name}")
+    override fun assetOrderPlace(): AssetOrderPlaceFunction = client.function("project/${this::assetOrderPlace.name}")
+    override fun assetOrderCancel(): AssetOrderCancelFunction = client.function("project/${this::assetOrderCancel.name}")
+    override fun assetOrderComplete(): AssetOrderCompleteFunction = client.function("project/${this::assetOrderComplete.name}")
+    override fun assetOrderSubmit(): AssetOrderSubmitFunction = client.function("project/${this::assetOrderSubmit.name}")
+    override fun assetOrderUpdate(): AssetOrderUpdateFunction = client.function("project/${this::assetOrderUpdate.name}")
+    override fun assetOrderDelete(): AssetOrderDeleteFunction = client.function("project/${this::assetOrderDelete.name}")
 }

@@ -1,7 +1,7 @@
 // Domains used by OIDC server must be also declared here
 const trustedDomains = {
     default: {
-        oidcDomains: ['http://im-keycloak:8080'],
+        oidcDomains: ['https://auth.connect.kosmio.dev','http://im-keycloak:8080'],
         accessTokenDomains: ['http://localhost:8071'],
     },
 };

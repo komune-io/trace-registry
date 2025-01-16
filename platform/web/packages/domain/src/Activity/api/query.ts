@@ -13,14 +13,14 @@ export interface ActivityStepEvidenceDownloadQuery extends io.komune.registry.f2
 export const useActivityPageQuery = (params: QueryParams<ActivityPageQuery, ActivityPageResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<ActivityPageQuery, ActivityPageResult>(
-    "activityPage", requestProps, params
+    "control/activityPage", requestProps, params
   )
 }
 
 export const useActivityStepPageQuery = (params: QueryParams<ActivityStepPageQuery, ActivityStepPageResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<ActivityStepPageQuery, ActivityStepPageResult>(
-    "activityStepPage", requestProps, params
+    "control/activityStepPage", requestProps, params
   )
 }
 

@@ -32,5 +32,5 @@ fun chatClient(
 @JsName("ChatClient")
 @JsExport
 open class ChatClient(private val client: F2Client) : ChatApi {
-    override fun chatAskQuestion(): ChatAskQuestionFunction = client.function(::chatAskQuestion.name)
+    override fun chatAskQuestion(): ChatAskQuestionFunction = client.function("project/${::chatAskQuestion.name}")
 }

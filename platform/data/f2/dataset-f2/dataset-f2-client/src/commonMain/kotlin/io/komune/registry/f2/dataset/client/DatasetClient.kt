@@ -40,12 +40,12 @@ fun datasetClient(urlBase: String, authRealmProvider: AuthRealmProvider): F2Supp
 @JsExport
 @JsName("DatasetClient")
 open class DatasetClient(val client: F2Client) : DatasetApi {
-    override fun datasetCreate(): DatasetCreateFunction = client.function(this::datasetCreate.name)
-    override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = client.function(this::datasetLinkDatasets.name)
-    override fun datasetLinkThemes(): DatasetLinkThemesFunction = client.function(this::datasetLinkThemes.name)
-    override fun datasetDelete(): DatasetDeleteFunction = client.function(this::datasetDelete.name)
-    override fun datasetPage(): DatasetPageFunction = client.function(this::datasetPage.name)
-    override fun datasetGet(): DatasetGetFunction = client.function(this::datasetGet.name)
-    override fun datasetRefList(): DatasetRefListFunction = client.function(this::datasetRefList.name)
-    override fun datasetData(): DatasetDataFunction = client.function(this::datasetData.name)
+    override fun datasetCreate(): DatasetCreateFunction = client.function("data/${this::datasetCreate.name}")
+    override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = client.function("data/${this::datasetLinkDatasets.name}")
+    override fun datasetLinkThemes(): DatasetLinkThemesFunction = client.function("data/${this::datasetLinkThemes.name}")
+    override fun datasetDelete(): DatasetDeleteFunction = client.function("data/${this::datasetDelete.name}")
+    override fun datasetPage(): DatasetPageFunction = client.function("data/${this::datasetPage.name}")
+    override fun datasetGet(): DatasetGetFunction = client.function("data/${this::datasetGet.name}")
+    override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
+    override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
 }
