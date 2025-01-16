@@ -17,7 +17,7 @@ export const AppPage = (props: AppPageProps) => {
                 content: [
                     {
                         leftPart: [
-                            title ? <Typography key="projectTitle" variant="h6">{title}</Typography> : undefined,
+                            title ? <Typography color="primary" key="projectTitle" variant="h6">{title}</Typography> : undefined,
                         ],
                         rightPart
                     }
@@ -25,6 +25,8 @@ export const AppPage = (props: AppPageProps) => {
                 ...headerProps,
                 sx: {
                     minHeight: "70px",
+                    background: "#F6F4F7",
+                    borderBottom: "#EDE9EF solid 1px",
                     ...headerProps?.sx
                 }
             }}

@@ -11,5 +11,9 @@ window._env_ = {
       clientId: "registry-platform-web",
       url: "http://im-keycloak:8080"
     },
+  },
+  theme: {
+    primaryColor: "#492161",
+    backgroundColor: "#FBFBFC"
   }
 };

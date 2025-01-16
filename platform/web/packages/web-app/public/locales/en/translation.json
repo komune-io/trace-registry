@@ -80,6 +80,7 @@
   "exploreStandards": "Explore standards",
   "exploreMethodologies": "Explore methodologies",
   "explorePrograms": "Explore programs",
+  "systems": "Systèmes",
   "standards": "Standards",
   "standard": "Standard",
   "program": "Program",
@@ -91,6 +92,7 @@
   "next": "Next",
   "submitForValidation": "Submit for validation",
   "nextSteps": "Next steps",
+  "search": "Search",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -222,6 +224,7 @@
     "mostUsedStandards": "Most used standard programs",
     "seeAllPrograms": "See all programs from this standard",
     "seeAllMethodologies": "See all methodologies from this program",
-    "sectoralScopes": "Sectoral scopes"
+    "sectoralScopes": "Sectoral scopes",
+    "presentation": "Browse our comprehensive library of sheets organized by category to discover dedicated solutions for reducing CO2 emissions. Find information tailored to your needs through thematic navigation or precise searches, and take concrete actions to achieve sustainable decarbonization."
   }
 }

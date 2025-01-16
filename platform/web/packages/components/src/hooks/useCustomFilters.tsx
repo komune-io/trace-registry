@@ -64,6 +64,7 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     return {
         component: component,
         submittedFilters,
-        setOffset
+        setOffset,
+        setAdditionalFilter
     }
 }

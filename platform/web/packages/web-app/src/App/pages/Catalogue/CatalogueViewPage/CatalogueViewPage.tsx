@@ -28,7 +28,6 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     }, [ids])
 
     const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
-        console.log(dataset.identifier)
         return {
             key: dataset.identifier,
             label: dataset.title,

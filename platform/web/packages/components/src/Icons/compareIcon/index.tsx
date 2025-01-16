@@ -1,4 +1,4 @@
-import { ReactComponent } from './compare.svg'
+import ReactComponent from './compare.svg?react'
 import { SvgIcon, SvgIconProps } from '@mui/material';
 export const CompareIcon = (props: SvgIconProps) => {
     const { sx, ...other } = props
