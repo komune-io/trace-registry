@@ -37,6 +37,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     lateinit var type: String
 
     @Searchable(nostem=true)
+    lateinit var language: String
+
+    @Searchable(nostem=true)
     var description: String? = null
 
     //    @TagIndexed

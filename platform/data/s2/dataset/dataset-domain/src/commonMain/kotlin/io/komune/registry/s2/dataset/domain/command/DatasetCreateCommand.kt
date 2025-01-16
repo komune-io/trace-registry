@@ -13,7 +13,7 @@ data class DatasetCreateCommand(
     val title: String,
     val type: String,
     val description: String? = null,
-    val language: List<String>? = null,
+    val language: String,
     val wasGeneratedBy: Activity? = null,
     val source: String? = null,
     val creator: Agent? = null,
@@ -39,7 +39,7 @@ sealed interface DatasetDataEvent : DatasetEvent {
     val title: String
     val type: String
     val description: String?
-    val language: List<String>?
+    val language: String
     val wasGeneratedBy: Activity?
     val source: String?
     val creator: Agent?
@@ -68,7 +68,7 @@ data class DatasetCreatedEvent(
     override val title: String,
     override val type: String,
     override val description: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val wasGeneratedBy: Activity? = null,
     override val source: String? = null,
     override val creator: Agent? = null,

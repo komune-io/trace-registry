@@ -4,10 +4,11 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import org.springframework.stereotype.Service
@@ -18,10 +19,9 @@ class CatalogueF2FinderService(
 ) {
 
     suspend fun getById(
-        id: CatalogueIdentifier,
-    ): CatalogueGetResult {
-        val item = catalogueFinderService.getOrNull(id)
-        return CatalogueGetResult(item?.toDTO(catalogueFinderService))
+        id: CatalogueId,
+    ): CatalogueDTOBase? {
+        return catalogueFinderService.getOrNull(id)?.toDTO(catalogueFinderService)
     }
     suspend fun getAllRefs(): CatalogueRefListResult {
         val items = catalogueFinderService.getAll().map { it.toSimpleRefDTO() }
@@ -29,9 +29,9 @@ class CatalogueF2FinderService(
     }
     suspend fun getByIdentifier(
         identifier: CatalogueIdentifier,
-    ): CatalogueGetResult? {
-        val item = catalogueFinderService.getOrNullByIdentifier(identifier)
-        return CatalogueGetResult(item?.toDTO(catalogueFinderService))
+        language: String,
+    ): CatalogueDTOBase? {
+        return catalogueFinderService.getOrNullByIdentifier(identifier, language)?.toDTO(catalogueFinderService)
     }
 
     suspend fun page(

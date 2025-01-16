@@ -16,7 +16,7 @@ data class DatasetModel(
     val img: String?,
     val type: String,
     val description: String?,
-    val language: Collection<String>?,
+    val language: String,
     val wasGeneratedBy: Activity?,
     val source: String?,
     val creator: Agent?,

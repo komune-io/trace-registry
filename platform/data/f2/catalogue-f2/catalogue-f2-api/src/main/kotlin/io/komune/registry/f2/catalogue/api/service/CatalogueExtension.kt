@@ -45,6 +45,7 @@ suspend fun CatalogueModel.toDTO(
         catalogues = cataloguesFetched,
         themes = themes,
         type = type,
+        language = language,
         structure = structure,
         homepage = homepage,
         img = img,
@@ -67,6 +68,7 @@ fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
         description = description,
         themes = themes,
         type = type,
+        language = language,
         structure = structure,
         homepage = homepage,
         img = img
@@ -78,6 +80,7 @@ fun CatalogueModel.toSimpleRefDTO(): CatalogueRefDTOBase {
         identifier = identifier,
         title = title,
         type = type,
+        language = language,
     )
 }
 
@@ -86,6 +89,7 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     title = title,
     description = description,
     type = type,
+    language = language,
     structure = structure,
     homepage = homepage,
     themes = themes?.toSet().orEmpty(),

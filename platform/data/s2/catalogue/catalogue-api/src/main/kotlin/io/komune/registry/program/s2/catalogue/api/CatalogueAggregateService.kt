@@ -17,7 +17,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class CatalogueAggregateService(
@@ -26,11 +25,12 @@ class CatalogueAggregateService(
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
 		CatalogueCreatedEvent(
-			id = UUID.randomUUID().toString(),
+			id = "${cmd.identifier}:${cmd.language}",
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
 			title = cmd.title,
 			type = cmd.type,
+			language = cmd.language,
 			description = cmd.description,
 			themes = cmd.themes,
 			homepage = cmd.homepage,
@@ -88,6 +88,7 @@ class CatalogueAggregateService(
 			date = System.currentTimeMillis(),
 			title = cmd.title,
 			type = cmd.type,
+			language = cmd.language,
 			description = cmd.description,
 			themes = cmd.themes,
 			homepage = cmd.homepage,

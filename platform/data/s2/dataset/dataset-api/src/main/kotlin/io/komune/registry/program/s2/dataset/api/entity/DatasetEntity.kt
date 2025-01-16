@@ -36,9 +36,11 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     @Indexed
     lateinit var type: String
 
+    @Searchable(nostem=true)
+    lateinit var language: String
+
     var description: String? = null
 
-    var language: List<String>? = null
     var wasGeneratedBy: Activity? = null
     var source: String? = null
     var creator: Agent? = null

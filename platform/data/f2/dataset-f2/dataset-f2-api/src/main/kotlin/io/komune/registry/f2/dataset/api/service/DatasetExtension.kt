@@ -38,7 +38,7 @@ suspend fun DatasetModel.toDTO(datasetFinderService: DatasetFinderService): Data
         accessRights = accessRights,
         conformsTo = conformsTo?.toList(),
         creator = creator,
-        language = language?.toList(),
+        language = language,
         publisher = publisher,
         theme = themes?.toList(),
         keywords = keywords?.toList(),

@@ -12,6 +12,7 @@ data class CatalogueCreateCommand(
     val identifier: CatalogueIdentifier,
     val title: String,
     val type: String,
+    val language: String,
     val description: String? = null,
     val themes: Set<SkosConcept> = emptySet(),
     val homepage: String? = null,
@@ -28,6 +29,7 @@ data class CatalogueCreateCommand(
 sealed interface CatalogueDataEvent : CatalogueEvent {
     val title: String
     val type: String
+    val language: String
     val description: String?
     val themes: Set<SkosConcept>
     val homepage: String?
@@ -47,6 +49,7 @@ data class CatalogueCreatedEvent(
     val identifier: CatalogueIdentifier,
     override val title: String,
     override val type: String,
+    override val language: String,
     override val description: String? = null,
     override val themes: Set<SkosConcept> = emptySet(),
     override val homepage: String? = null,

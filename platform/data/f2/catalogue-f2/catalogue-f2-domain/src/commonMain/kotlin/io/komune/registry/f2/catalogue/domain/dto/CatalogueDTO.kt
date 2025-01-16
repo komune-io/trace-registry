@@ -54,6 +54,11 @@ interface CatalogueDTO{
     val title: String
 
     /**
+     * Language of this version of the catalogue.
+     */
+    val language: String
+
+    /**
      * A URL to an image representing the catalogue. This image could be a logo, a cover image, or any visual
      * representation that provides context or branding for the catalogue.
      */
@@ -154,6 +159,7 @@ data class CatalogueDTOBase(
     override val title: String,
     override val img: String? = null,
     override val type: String,
+    override val language: String,
     override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
     override val datasets: List<DatasetDTOBase>? = null,
@@ -174,6 +180,7 @@ interface CatalogueRefDTO {
     val identifier: String
     val title: String
     val type: String
+    val language: String
     val description: String?
     val homepage: String?
     val img: String?
@@ -189,6 +196,7 @@ data class CatalogueRefDTOBase(
     override val identifier: String,
     override val title: String,
     override val type: String,
+    override val language: String,
     override val description: String? = null,
     override val homepage: String? = null,
     override val img: String? = null,

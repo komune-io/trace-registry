@@ -4,13 +4,12 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
- * Get a page of activities.
+ * Get a catalogue by id.
  * @d2 function
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  * @order 10
@@ -25,13 +24,9 @@ typealias CatalogueGetFunction = F2Function<CatalogueGetQuery, CatalogueGetResul
 @JsName("CatalogueGetQueryDTO")
 interface CatalogueGetQueryDTO {
     /**
-     * id of the catalogue
+     * Id of the catalogue to fetch.
      */
-    val id: CatalogueId?
-    /**
-     * id of the catalogue
-     */
-    val identifier: CatalogueId?
+    val id: CatalogueId
 }
 
 /**
@@ -39,8 +34,7 @@ interface CatalogueGetQueryDTO {
  */
 @Serializable
 data class CatalogueGetQuery(
-    override val id: CatalogueId? = null,
-    override val identifier: CatalogueIdentifier? = null,
+    override val id: CatalogueId,
 ): CatalogueGetQueryDTO
 
 /**

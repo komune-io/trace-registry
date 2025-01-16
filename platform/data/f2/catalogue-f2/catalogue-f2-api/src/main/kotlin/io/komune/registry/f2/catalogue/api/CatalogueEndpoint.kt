@@ -17,6 +17,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunct
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
@@ -71,11 +73,16 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        query.identifier?.let {
-            catalogueF2FinderService.getByIdentifier(it)
-        } ?: query.id?.let {
-            catalogueF2FinderService.getById(it)
-        } ?: CatalogueGetResult(null)
+        catalogueF2FinderService.getById(query.id)
+            .let(::CatalogueGetResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
+        logger.info("catalogueGetByIdentifier: $query")
+        catalogueF2FinderService.getByIdentifier(query.identifier, query.language)
+            .let(::CatalogueGetByIdentifierResult)
     }
 
     @PermitAll

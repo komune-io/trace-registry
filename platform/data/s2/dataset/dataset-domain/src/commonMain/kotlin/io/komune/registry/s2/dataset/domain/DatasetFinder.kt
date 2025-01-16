@@ -10,7 +10,7 @@ import io.komune.registry.s2.dataset.domain.model.DatasetModel
 
 interface DatasetFinder {
     suspend fun getOrNull(id: DatasetId): DatasetModel?
-    suspend fun getOrNullByIdentifier(id: DatasetIdentifier): DatasetModel?
+    suspend fun getOrNullByIdentifier(id: DatasetIdentifier, language: String): DatasetModel?
     suspend fun get(id: DatasetId): DatasetModel
     suspend fun page(
         id: Match<DatasetId>? = null,

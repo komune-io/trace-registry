@@ -17,6 +17,7 @@ data class CatalogueModel(
     val title: String,
     val img: String? = null,
     val type: String,
+    val language: String,
     var structure: Structure? = null,
     val themes: List<SkosConcept>? = null,
     val datasets: List<DatasetId>? = null,

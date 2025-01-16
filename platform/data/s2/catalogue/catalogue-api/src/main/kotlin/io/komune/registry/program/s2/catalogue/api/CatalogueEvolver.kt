@@ -61,6 +61,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title
 		type = event.type
+		language = event.language
 		description = event.description
 		themes = event.themes
 		homepage = event.homepage

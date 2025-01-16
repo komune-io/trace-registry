@@ -19,6 +19,8 @@ import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBas
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataResult
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
@@ -74,11 +76,16 @@ class DatasetEndpoint(
     @Bean
     override fun datasetGet(): DatasetGetFunction = f2Function { query ->
         logger.info("datasetGet: $query")
-        query.identifier?.let {
-            datasetF2FinderService.getByIdentifier(it)
-        } ?: query.id?.let {
-            datasetF2FinderService.getById(it)
-        } ?: DatasetGetResult(null)
+        datasetF2FinderService.getById(query.id)
+            .let(::DatasetGetResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = f2Function { query ->
+        logger.info("datasetGetByIdentifier: $query")
+        datasetF2FinderService.getByIdentifier(query.identifier, query.language)
+            .let(::DatasetGetByIdentifierResult)
     }
 
     @PermitAll

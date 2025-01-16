@@ -15,7 +15,6 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class DatasetAggregateService(
@@ -24,7 +23,7 @@ class DatasetAggregateService(
 
 	override suspend fun create(cmd: DatasetCreateCommand): DatasetCreatedEvent = automate.init(cmd) {
 		DatasetCreatedEvent(
-			id = UUID.randomUUID().toString(),
+			id = "${cmd.identifier}:${cmd.language}:${cmd.version.orEmpty()}",
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
 			title = cmd.title,

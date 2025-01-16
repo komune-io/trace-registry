@@ -93,9 +93,9 @@ interface DatasetDTO{
     val releaseDate: String?
 
     /**
-     * Represents languages used in the dataset. Each language is either a BCP 47 language tag or human-readable name.
+     * Language of this version of the dataset. It must be either a BCP 47 language tag or human-readable name.
      */
-    val language: List<String>?
+    val language: String
 
     /**
      * The agent responsible for making the dataset available.
@@ -235,7 +235,7 @@ data class DatasetDTOBase(
     override val description: String? = null,
     override val title: String,
     override val releaseDate: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
     override val keywords: List<String>? = null,

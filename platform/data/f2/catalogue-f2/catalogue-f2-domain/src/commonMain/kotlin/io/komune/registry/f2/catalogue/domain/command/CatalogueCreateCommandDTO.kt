@@ -42,6 +42,7 @@ interface CatalogueCreateCommandDTO {
     val description: String?
 
     val type: String
+    val language: String
     val structure: Structure?
     val homepage: String?
     val themes: List<SkosConcept>?
@@ -62,6 +63,7 @@ data class CatalogueCreateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val type: String,
+    override val language: String,
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,

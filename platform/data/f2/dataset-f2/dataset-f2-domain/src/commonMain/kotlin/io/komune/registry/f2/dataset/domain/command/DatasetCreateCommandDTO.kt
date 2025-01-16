@@ -47,7 +47,7 @@ interface DatasetCreateCommandDTO {
      */
     val description: String?
 
-    val language: List<String>?
+    val language: String
     val wasGeneratedBy: Activity?
     val source: String?
     val creator: Agent?
@@ -77,7 +77,7 @@ data class DatasetCreateCommandDTOBase(
     override val title: String,
     override val type: String,
     override val description: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val wasGeneratedBy: Activity? = null,
     override val source: String? = null,
     override val creator: Agent? = null,
