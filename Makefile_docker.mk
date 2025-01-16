@@ -21,8 +21,8 @@ FRONT_CERT_LATEST		:= ${FRONT_CERT_NAME}:latest
 
 POSTGRES_DOCKERFILE		:= infra/docker/postgres/Dockerfile
 POSTGRES_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/trace-registry-postgres
-POSTGRES_IMG	    	:= ${FRONT_VER_NAME}:${VERSION}
-POSTGRES_LATEST			:= ${FRONT_VER_NAME}:latest
+POSTGRES_IMG	    	:= ${POSTGRES_NAME}:${VERSION}
+POSTGRES_LATEST			:= ${POSTGRES_NAME}:latest
 
 
 .PHONY: lint build test publish promote
