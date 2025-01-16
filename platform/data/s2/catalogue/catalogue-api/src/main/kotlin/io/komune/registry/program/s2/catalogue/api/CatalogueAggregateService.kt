@@ -16,12 +16,12 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class CatalogueAggregateService(
-    private val automate: CatalogueAutomateExecutor,
+	private val automate: CatalogueAutomateExecutor,
 ): CatalogueAggregate {
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
@@ -29,13 +29,19 @@ class CatalogueAggregateService(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
-			description = cmd.description,
 			title = cmd.title,
-			catalogues = cmd.catalogues,
-			themes = cmd.themes,
 			type = cmd.type,
-			structure = cmd.structure,
+			description = cmd.description,
+			themes = cmd.themes,
 			homepage = cmd.homepage,
+			structure = cmd.structure,
+			catalogues = cmd.catalogues,
+			datasets = cmd.datasets,
+			creator = cmd.creator,
+			publisher = cmd.publisher,
+			validator = cmd.validator,
+			accessRights = cmd.accessRights,
+			license = cmd.license,
 		)
 	}
 
@@ -80,13 +86,19 @@ class CatalogueAggregateService(
 		CatalogueUpdatedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			identifier = cmd.identifier,
-			description = cmd.description,
 			title = cmd.title,
 			type = cmd.type,
-			structure = cmd.structure,
+			description = cmd.description,
+			themes = cmd.themes,
 			homepage = cmd.homepage,
-			img = cmd.img,
+			structure = cmd.structure,
+			catalogues = cmd.catalogues,
+			datasets = cmd.datasets,
+			creator = cmd.creator,
+			publisher = cmd.publisher,
+			validator = cmd.validator,
+			accessRights = cmd.accessRights,
+			license = cmd.license,
 		)
 	}
 

@@ -18,12 +18,14 @@ sealed interface CataloguedResource {
     val updateDate: String?
     val language: List<String>?
     val publisher: Agent?
+    val validator: Agent?
     val identifier: String?
     val theme: List<SkosConcept>?
     val relation: List<Relationship>?
     val qualifiedRelation: List<Relationship>?
     val keywords: List<String>?
     val landingPage: String?
+    val homepage: String?
     val qualifiedAttribution: List<Attribution>?
     val license: LicenseDocument?
     val rights: Rights?

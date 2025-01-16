@@ -9,7 +9,7 @@ import io.komune.registry.f2.dataset.api.data.DataProvider
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.api.service.toCommand
-import io.komune.registry.f2.dataset.api.service.toEvent
+import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
@@ -101,7 +101,7 @@ class DatasetEndpoint(
     override fun datasetCreate(): DatasetCreateFunction = f2Function { cmd ->
         logger.info("datasetCreate: $cmd")
         datasetPoliciesEnforcer.checkCreation()
-        datasetService.create(cmd.toCommand()).toEvent()
+        datasetService.create(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -109,14 +109,14 @@ class DatasetEndpoint(
     override fun datasetDelete(): DatasetDeleteFunction = f2Function { cmd ->
         logger.info("datasetDelete: $cmd")
         datasetPoliciesEnforcer.checkDelete(cmd.id)
-        datasetService.delete(cmd).toEvent()
+        datasetService.delete(cmd).toDTO()
     }
 
     @PermitAll
     @Bean
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { cmd ->
         datasetPoliciesEnforcer.checkLinkDatasets()
-        datasetService.linkDatasets(cmd.toCommand()).toEvent()
+        datasetService.linkDatasets(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -124,16 +124,16 @@ class DatasetEndpoint(
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { cmd ->
         logger.info("datasetLinkThemes: $cmd")
         datasetPoliciesEnforcer.checkLinkThemes()
-        datasetService.linkThemes(cmd.toCommand()).toEvent()
+        datasetService.linkThemes(cmd.toCommand()).toDTO()
     }
 
-    @PostMapping("/datasetSetImageFunction")
-    suspend fun datasetSetImageFunction(
+    @PostMapping("/datasetSetImage")
+    suspend fun datasetSetImage(
         @RequestPart("command") cmd: DatasetSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): DatasetSetImageEventDTOBase {
 
-        logger.info("datasetSetImageFunction: $cmd")
+        logger.info("datasetSetImage: $cmd")
         datasetPoliciesEnforcer.checkSetImg()
         val filePath = file?.let {
             fsService.uploadDatasetImg(
@@ -150,7 +150,6 @@ class DatasetEndpoint(
         return DatasetSetImageEventDTOBase(
             id = cmd.id,
             img = result.img,
-            date = result.date,
         )
     }
 
@@ -170,4 +169,3 @@ class DatasetEndpoint(
 
 
 }
-

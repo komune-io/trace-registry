@@ -7,7 +7,6 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
-import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
@@ -16,14 +15,13 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueF2FinderService(
     private val catalogueFinderService: CatalogueFinderService,
-    private val datasetF2FinderService: DatasetF2FinderService
 ) {
 
     suspend fun getById(
         id: CatalogueIdentifier,
     ): CatalogueGetResult {
         val item = catalogueFinderService.getOrNull(id)
-        return CatalogueGetResult(item?.toDTO(catalogueFinderService, datasetF2FinderService))
+        return CatalogueGetResult(item?.toDTO(catalogueFinderService))
     }
     suspend fun getAllRefs(): CatalogueRefListResult {
         val items = catalogueFinderService.getAll().map { it.toSimpleRefDTO() }
@@ -33,7 +31,7 @@ class CatalogueF2FinderService(
         identifier: CatalogueIdentifier,
     ): CatalogueGetResult? {
         val item = catalogueFinderService.getOrNullByIdentifier(identifier)
-        return CatalogueGetResult(item?.toDTO(catalogueFinderService, datasetF2FinderService))
+        return CatalogueGetResult(item?.toDTO(catalogueFinderService))
     }
 
     suspend fun page(
@@ -52,7 +50,7 @@ class CatalogueF2FinderService(
             offset = offset
         )
         return CataloguePageResult(
-            items = catalogues.items.toDTO(catalogueFinderService, datasetF2FinderService),
+            items = catalogues.items.toDTO(catalogueFinderService),
             total = catalogues.total
         )
     }

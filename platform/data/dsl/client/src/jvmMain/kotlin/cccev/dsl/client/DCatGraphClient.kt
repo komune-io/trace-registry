@@ -19,12 +19,12 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import java.io.File
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import java.io.File
 
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
@@ -176,23 +176,28 @@ class DCatGraphClient(
     private suspend fun DcatDataset.createDataset(client: DatasetClient): DatasetId {
         return DatasetCreateCommandDTOBase(
             identifier = identifier,
-            description = description,
-            type = type,
             title = title,
-            wasGeneratedBy = wasGeneratedBy,
-            accessRights = accessRights,
-            conformsTo = conformsTo,
-            creator = creator,
-            releaseDate = releaseDate,
-            updateDate = updateDate,
+            type = type,
+            description = description,
             language = language,
+            wasGeneratedBy = wasGeneratedBy,
+            source = source,
+            creator = creator,
             publisher = publisher,
+            validator = validator,
+            accessRights = accessRights,
+            license = license?.identifier,
+            temporalResolution = temporalResolution,
+            conformsTo = conformsTo,
+            format = format,
             theme = theme,
             keywords = keywords,
+            homepage = homepage,
             landingPage = landingPage,
             version = version,
             versionNotes = versionNotes,
             length = length,
+            releaseDate = releaseDate,
         ).invokeWith(client.datasetCreate()).id.also {
             println("Created dataset ${identifier} with id ${it}")
         }

@@ -16,6 +16,13 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         description = description,
         catalogues = catalogues.toList(),
         datasets = datasets.toList(),
-        themes = themes.toList()
+        themes = themes.toList(),
+        creator = creator,
+        publisher = publisher,
+        validator = validator,
+        accessRights = accessRights,
+        license = license,
+        issued = issued,
+        modified = modified,
     )
 }

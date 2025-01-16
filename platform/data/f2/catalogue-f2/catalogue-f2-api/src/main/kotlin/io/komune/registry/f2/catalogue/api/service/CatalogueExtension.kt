@@ -12,7 +12,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
-import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -27,20 +26,15 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 
 suspend fun List<CatalogueModel>.toDTO(
-    catalogueFinderService: CatalogueFinderService,
-    datasetF2FinderService: DatasetF2FinderService
+    catalogueFinderService: CatalogueFinderService
 ) = map {
-    it.toDTO(catalogueFinderService, datasetF2FinderService)
+    it.toDTO(catalogueFinderService)
 }
 suspend fun CatalogueModel.toDTO(
     catalogueFinderService: CatalogueFinderService,
-    datasetF2FinderService: DatasetF2FinderService
 ): CatalogueDTOBase {
     val cataloguesFetched = catalogues?.mapNotNull {
         catalogueFinderService.getOrNull(it)?.toRefDTO()
-    }
-    val datasetFetched = datasets?.mapNotNull {
-        datasetF2FinderService.getById(it).item
     }
     return CatalogueDTOBase(
         id = id,
@@ -54,7 +48,13 @@ suspend fun CatalogueModel.toDTO(
         structure = structure,
         homepage = homepage,
         img = img,
-        datasets = datasetFetched,
+        creator = creator,
+        publisher = publisher,
+        validator = validator,
+        accessRights = accessRights,
+        license = license,
+        issued = issued,
+        modified = modified,
     )
 }
 
@@ -85,23 +85,21 @@ fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
     identifier = identifier,
     title = title,
     description = description,
-    catalogues = catalogues,
-    themes = themes,
     type = type,
     structure = structure,
     homepage = homepage,
+    themes = themes?.toSet().orEmpty(),
+    catalogues = catalogues?.toSet().orEmpty(),
+    creator = creator,
+    publisher = publisher,
+    validator = validator,
+    accessRights = accessRights,
+    license = license
 )
 
-fun CatalogueCreatedEvent.toEvent() = CatalogueCreatedEventDTOBase(
+fun CatalogueCreatedEvent.toDTO() = CatalogueCreatedEventDTOBase(
     id = id,
     identifier = identifier,
-    title = title,
-    description = description,
-    catalogues = catalogues,
-    themes = themes,
-    type = type,
-    structure = structure,
-    homepage = homepage,
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
@@ -109,9 +107,8 @@ fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesC
     catalogues = catalogues
 )
 
-fun CatalogueLinkedCataloguesEvent.toEvent() = CatalogueLinkedCataloguesEventDTOBase(
+fun CatalogueLinkedCataloguesEvent.toDTO() = CatalogueLinkedCataloguesEventDTOBase(
     id = id,
-    catalogues = catalogues
 )
 
 fun CatalogueLinkDatasetsCommandDTOBase.toCommand() = CatalogueLinkDatasetsCommand(
@@ -119,9 +116,8 @@ fun CatalogueLinkDatasetsCommandDTOBase.toCommand() = CatalogueLinkDatasetsComma
     datasets = datasets
 )
 
-fun CatalogueLinkedDatasetsEvent.toEvent() = CatalogueLinkedDatasetsEventDTOBase(
+fun CatalogueLinkedDatasetsEvent.toDTO() = CatalogueLinkedDatasetsEventDTOBase(
     id = id,
-    datasets = datasets
 )
 
 fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
@@ -129,15 +125,14 @@ fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
     themes = themes
 )
 
-fun CatalogueLinkedThemesEvent.toEvent() = CatalogueLinkedThemesEventDTOBase(
+fun CatalogueLinkedThemesEvent.toDTO() = CatalogueLinkedThemesEventDTOBase(
     id = id,
-    themes = themes
 )
 
 fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
     id = id
 )
 
-fun CatalogueDeletedEvent.toEvent() = CatalogueDeletedEventDTOBase(
+fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
     id = id
 )

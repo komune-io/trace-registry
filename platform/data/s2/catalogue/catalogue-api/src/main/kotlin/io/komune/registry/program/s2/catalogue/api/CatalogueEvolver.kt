@@ -3,6 +3,7 @@ package io.komune.registry.program.s2.catalogue.api
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueDataEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
@@ -27,33 +28,22 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
 	private suspend fun create(event: CatalogueCreatedEvent) = CatalogueEntity().apply {
+		applyEvent(event)
 		id = event.id
-		title = event.title
-		identifier = event.identifier
-		type = event.type
-		structure = event.structure
-		description = event.description
-		homepage = event.homepage
-		themes = event.themes?.toHashSet() ?: emptySet()
-		catalogues = event.catalogues?.toHashSet() ?: emptySet()
-		lastUpdate = event.date
 		status = CatalogueState.ACTIVE
+		identifier = event.identifier
+		issued = event.date
 	}
 	private suspend fun CatalogueEntity.setImageEvent(event: CatalogueSetImageEvent) = apply {
 		img = event.img
-		lastUpdate = event.date
+		this.modified = event.date
 	}
 	private suspend fun CatalogueEntity.delete(event: CatalogueDeletedEvent) = apply {
 		status = CatalogueState.DELETED
-		lastUpdate = event.date
+		this.modified = event.date
 	}
 	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = apply {
-		title = event.title
-		identifier = event.identifier
-		type = event.type
-		structure = event.structure
-		description = event.description
-		lastUpdate = event.date
+		applyEvent(event)
 	}
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
@@ -68,4 +58,20 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		catalogues = catalogues + event.catalogues
 	}
 
+	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
+		title = event.title
+		type = event.type
+		description = event.description
+		themes = event.themes
+		homepage = event.homepage
+		structure = event.structure
+		catalogues = event.catalogues
+		datasets = event.datasets
+		creator = event.creator
+		publisher = event.publisher
+		validator = event.validator
+		accessRights = event.accessRights
+		license = event.license
+		modified = event.date
+	}
 }

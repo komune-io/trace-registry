@@ -14,8 +14,8 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class DatasetAggregateService(
@@ -27,24 +27,28 @@ class DatasetAggregateService(
 			id = UUID.randomUUID().toString(),
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
-			description = cmd.description,
 			title = cmd.title,
 			type = cmd.type,
-			accessRights = cmd.accessRights,
-			conformsTo = cmd.conformsTo,
-			creator = cmd.creator,
-			releaseDate = cmd.releaseDate,
-			updateDate = cmd.updateDate,
+			description = cmd.description,
 			language = cmd.language,
+			wasGeneratedBy = cmd.wasGeneratedBy,
+			source = cmd.source,
+			creator = cmd.creator,
 			publisher = cmd.publisher,
+			validator = cmd.validator,
+			accessRights = cmd.accessRights,
+			license = cmd.license,
+			temporalResolution = cmd.temporalResolution,
+			conformsTo = cmd.conformsTo,
+			format = cmd.format,
 			theme = cmd.theme,
 			keywords = cmd.keywords,
+			homepage = cmd.homepage,
 			landingPage = cmd.landingPage,
 			version = cmd.version,
 			versionNotes = cmd.versionNotes,
 			length = cmd.length,
-			temporalResolution = cmd.temporalResolution,
-			wasGeneratedBy = cmd.wasGeneratedBy,
+			releaseDate = cmd.releaseDate,
 		)
 	}
 
@@ -78,26 +82,28 @@ class DatasetAggregateService(
 		DatasetUpdatedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			identifier = cmd.identifier,
-			description = cmd.description,
 			title = cmd.title,
 			type = cmd.type,
-			accessRights = cmd.accessRights,
-			conformsTo = cmd.conformsTo,
-			creator = cmd.creator,
-			releaseDate = cmd.releaseDate,
-			updateDate = cmd.updateDate,
+			description = cmd.description,
 			language = cmd.language,
+			wasGeneratedBy = cmd.wasGeneratedBy,
+			source = cmd.source,
+			creator = cmd.creator,
 			publisher = cmd.publisher,
+			validator = cmd.validator,
+			accessRights = cmd.accessRights,
+			license = cmd.license,
+			temporalResolution = cmd.temporalResolution,
+			conformsTo = cmd.conformsTo,
+			format = cmd.format,
 			theme = cmd.theme,
 			keywords = cmd.keywords,
+			homepage = cmd.homepage,
 			landingPage = cmd.landingPage,
 			version = cmd.version,
 			versionNotes = cmd.versionNotes,
 			length = cmd.length,
-			temporalResolution = cmd.temporalResolution,
-			wasGeneratedBy = cmd.wasGeneratedBy,
-			img = cmd.img,
+			releaseDate = cmd.releaseDate,
 		)
 	}
 
