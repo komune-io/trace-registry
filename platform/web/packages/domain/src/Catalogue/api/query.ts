@@ -9,7 +9,7 @@ export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.doma
 export const useCatalogueGetQuery = (params: QueryParams<CatalogueGetQuery, CatalogueGetResult>) => {
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<CatalogueGetQuery, CatalogueGetResult>(
-      "catalogueGet", requestProps, params
+      "data/catalogueGet", requestProps, params
     )
 }
 
@@ -20,7 +20,7 @@ export interface CataloguePageResult extends io.komune.registry.f2.catalogue.dom
 export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, CataloguePageResult>) => {
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<CataloguePageQuery, CataloguePageResult>(
-      "cataloguePage", requestProps, params
+      "data/cataloguePage", requestProps, params
     )
 }
 
@@ -32,7 +32,7 @@ export interface CatalogueRefListResult extends io.komune.registry.f2.catalogue.
 export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefListQuery, CatalogueRefListResult>) => {
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<CatalogueRefListQuery, CatalogueRefListResult>(
-      "catalogueRefList", requestProps, params
+      "data/catalogueRefList", requestProps, params
     )
 }
 
