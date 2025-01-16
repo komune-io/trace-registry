@@ -1,7 +1,9 @@
 services:
   tr-registry-postgres:
-    image: postgres
+    image: postgres:16.6
     container_name: ${POSTGRES_HOSTNAME}
+    env_file:
+      - .env_dev
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}

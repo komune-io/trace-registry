@@ -3,6 +3,8 @@ services:
   cli-init-ssm.bc-coop.bclan:
     container_name: cli-init-ssm-bclan-${DOCKER_NETWORK}
     image: ghcr.io/komune-io/c2-sandbox-cli:${FIXERS_VERSION}
+    env_file:
+      - .env_dev
     command: /opt/c2-sandbox/chaincode/ssm/init.sh
     networks:
       - net

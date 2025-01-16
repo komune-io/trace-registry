@@ -3,6 +3,8 @@ services:
   im-keycloak:
     image: ${DOCKER_REPOSITORY}im-keycloak:${VERSION_IM}
     container_name: ${KC_HOSTNAME}
+    env_file:
+      - .env_dev
     environment:
       KC_DB_URL: 'jdbc:postgresql://${POSTGRES_HOSTNAME}/${POSTGRES_KEYCLOAK_DB}'
       KC_DB_PASSWORD: ${POSTGRES_USER}

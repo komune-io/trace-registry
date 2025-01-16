@@ -3,6 +3,8 @@ services:
   im-gateway:
     image: ${DOCKER_REPOSITORY}im-gateway:${VERSION_IM}
     container_name: registry-im
+    env_file:
+      - .env_dev
     environment:
       - f2_tenant_issuer-base-uri=${KC_HOST_URL}
       - connect_im_keycloak_url=${KC_HOST_URL}

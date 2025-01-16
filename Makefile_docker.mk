@@ -19,13 +19,19 @@ FRONT_CERT_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/trace-registry-certificate
 FRONT_CERT_IMG	    	:= ${FRONT_CERT_NAME}:${VERSION}
 FRONT_CERT_LATEST		:= ${FRONT_CERT_NAME}:latest
 
+POSTGRES_DOCKERFILE		:= infra/docker/postgres/Dockerfile
+POSTGRES_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/trace-registry-postgres
+POSTGRES_IMG	    	:= ${POSTGRES_NAME}:${VERSION}
+POSTGRES_LATEST			:= ${POSTGRES_NAME}:latest
+
+
 .PHONY: lint build test publish promote
 
-lint: docker-web-lint docker-registry-certificate-web-lint
+lint: docker-web-lint docker-registry-certificate-web-lint docker-postgres-lint
 
-build: docker-gateway-build docker-script-build docker-web-build #docker-registry-certificate-web-build
+build: docker-gateway-build docker-script-build docker-web-build docker-postgres-build #docker-registry-certificate-web-build
 
-publish: docker-gateway-publish docker-script-publish docker-web-publish #docker-registry-certificate-web-publish
+publish: docker-gateway-publish docker-script-publish docker-web-publish docker-postgres-publish #docker-registry-certificate-web-publish
 
 promote:
 	@echo "No promote task"
@@ -68,4 +74,14 @@ docker-registry-certificate-web-build:
 
 docker-registry-certificate-web-publish:
 	@docker push ${FRONT_CERT_IMG}
+
+## postgres
+docker-postgres-lint:
+	docker run --rm -i hadolint/hadolint < infra/docker/postgres/Dockerfile
+
+docker-postgres-build:
+	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${POSTGRES_DOCKERFILE} -t ${POSTGRES_IMG} .
+
+docker-postgres-publish:
+	@docker push ${POSTGRES_IMG}
 

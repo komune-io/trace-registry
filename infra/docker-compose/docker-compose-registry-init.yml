@@ -4,6 +4,8 @@ services:
     container_name: tr-registry-script
     image: ghcr.io/komune-io/tr-registry-script:${TRACE_VERSION}
 #    image: ${DOCKER_REPOSITORY}tr-registry-script:${TRACE_VERSION}
+    env_file:
+      - .env_dev
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000
