@@ -9,6 +9,6 @@ export interface DatasetDataResult extends io.komune.registry.f2.dataset.domain.
 export const useDatasetDataQuery = (params: QueryParams<DatasetDataQuery, DatasetDataResult>) => {
     const requestProps = useNoAuthenticatedRequest()
     return useQueryRequest<DatasetDataQuery, DatasetDataResult>(
-      "datasetData", requestProps, params
+      "data/datasetData", requestProps, params
     )
 }

@@ -78,7 +78,7 @@ private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(
 private suspend fun List<ProjectCreateCommand>.createProjects(
     projectClient: ProjectClient
 ): List<ProjectCreatedEventDTOBase> =
-    asyncExecution( size = 8) { projectCreateCommand ->
+    asyncExecution(size = 8) { projectCreateCommand ->
         println("Project Creation[${projectCreateCommand.identifier}]: ${projectCreateCommand}...")
         val created = projectClient.projectCreate().invoke(flowOf(projectCreateCommand))
         println("Project[${projectCreateCommand.identifier}] Created.")

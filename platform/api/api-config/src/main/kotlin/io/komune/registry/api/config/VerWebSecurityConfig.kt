@@ -1,6 +1,5 @@
 package io.komune.registry.api.config;
 
-//import io.komune.i2.spring.boot.auth.config.WebSecurityConfig
 import io.komune.f2.spring.boot.auth.config.WebSecurityConfig
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Configuration
@@ -26,10 +25,22 @@ class VerWebSecurityConfig: WebSecurityConfig(){
             .toTypedArray()
 
         if (permitAllBeans.isNotEmpty()) {
-            http.authorizeExchange()
-                .pathMatchers(*permitAllBeans)
-                .permitAll()
+            http.authorizeExchange { exchange ->
+                exchange.pathMatchers(*permitAllBeans).permitAll()
+            }
         }
-        super.addPermitAllRules(http)
+
+
+        val permitAllFunctionBeans = applicationContext.getBeanNamesForAnnotation(PermitAll::class.java)
+            .flatMap { bean -> listOf("$contextPath/$bean", "$contextPath/*/$bean"  )}
+            .toTypedArray()
+
+        if (permitAllFunctionBeans.isNotEmpty()) {
+//            logger.trace("Setting up permitAll for beans: ${permitAllFunctionBeans.joinToString()}")
+            http.authorizeExchange { exchange ->
+                exchange.pathMatchers(*permitAllFunctionBeans).permitAll()
+            }
+        }
     }
+
 }

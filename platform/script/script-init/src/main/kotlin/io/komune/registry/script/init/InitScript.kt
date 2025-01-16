@@ -46,7 +46,7 @@ class InitScript(
 
         val projectIds: List<ProjectId>? = if (project) {
             properties.registry?.url?.let { url ->
-                initRegistry(url, accessTokenAdmin)
+                initProject(url, accessTokenAdmin)
             }
         } else null
 
@@ -57,7 +57,7 @@ class InitScript(
         }
     }
 
-    private suspend fun initRegistry(
+    private suspend fun initProject(
         url: String,
         accessTokenAdmin: Actor,
     ): List<ProjectId> {

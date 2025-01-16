@@ -40,15 +40,15 @@ fun projectClient(
 @JsName("ProjectClient")
 @JsExport
 open class ProjectClient(private val client: F2Client) : ProjectApi {
-    override fun projectCreate(): ProjectCreateFunction = client.function(this::projectCreate.name)
-    override fun projectUpdate(): ProjectUpdateFunction = client.function(this::projectUpdate.name)
-    override fun projectAddAssetPool(): ProjectAddAssetPoolFunction = client.function(this::projectAddAssetPool.name)
-    override fun projectChangePrivacy(): ProjectChangePrivacyFunction = client.function(this::projectChangePrivacy.name)
-    override fun projectDelete(): ProjectDeleteFunction = client.function(this::projectDelete.name)
+    override fun projectCreate(): ProjectCreateFunction = client.function("project/${this::projectCreate.name}")
+    override fun projectUpdate(): ProjectUpdateFunction = client.function("project/${this::projectUpdate.name}")
+    override fun projectAddAssetPool(): ProjectAddAssetPoolFunction = client.function("project/${this::projectAddAssetPool.name}")
+    override fun projectChangePrivacy(): ProjectChangePrivacyFunction = client.function("project/${this::projectChangePrivacy.name}")
+    override fun projectDelete(): ProjectDeleteFunction = client.function("project/${this::projectDelete.name}")
     override fun projectGetByIdentifier(): ProjectGetByIdentifierFunction
-        = client.function(this::projectGetByIdentifier.name)
+        = client.function("project/${this::projectGetByIdentifier.name}")
 
-    override fun projectGet(): ProjectGetFunction = client.function(this::projectGet.name)
-    override fun projectPage(): ProjectPageFunction = client.function(this::projectPage.name)
-    override fun projectListFiles(): ProjectListFilesFunction = client.function(this::projectListFiles.name)
+    override fun projectGet(): ProjectGetFunction = client.function("project/${this::projectGet.name}")
+    override fun projectPage(): ProjectPageFunction = client.function("project/${this::projectPage.name}")
+    override fun projectListFiles(): ProjectListFilesFunction = client.function("project/${this::projectListFiles.name}")
 }

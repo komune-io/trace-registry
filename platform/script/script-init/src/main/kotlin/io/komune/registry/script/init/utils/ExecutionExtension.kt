@@ -3,6 +3,7 @@ package io.komune.registry.script.init.utils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.asFlow
 
 suspend inline fun <T, R> List<T>.asyncExecution(
     size: Int = 8,
