@@ -85,7 +85,7 @@ docker-postgres-build:
 		-f ${POSTGRES_DOCKERFILE} \
 		-t ${POSTGRES_IMG} .
 
-docker-keycloak-auth-publish:
+docker-postgres-publish:
 	@docker build --push \
 		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
 		--build-arg VERSION=${VERSION} \
