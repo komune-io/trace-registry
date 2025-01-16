@@ -1,6 +1,6 @@
 services:
   tr-registry-postgres:
-    image: postgres:16.6
+    image: ${DOCKER_REPOSITORY}trace-registry-postgres:1.3.0-SNAPSHOT
     container_name: ${POSTGRES_HOSTNAME}
     env_file:
       - .env_dev
@@ -9,7 +9,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
       POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_REGISTRY_DB}, ${POSTGRES_KEYCLOAK_DB}
     volumes:
-        - ./scripts:/docker-entrypoint-initdb.d
         -  postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"

@@ -20,7 +20,7 @@ FRONT_CERT_IMG	    	:= ${FRONT_CERT_NAME}:${VERSION}
 FRONT_CERT_LATEST		:= ${FRONT_CERT_NAME}:latest
 
 POSTGRES_DOCKERFILE		:= infra/docker/postgres/Dockerfile
-POSTGRES_NAME	    	:= ${DOCKER_REPOSITORY}komune-io/trace-registry-postgres
+POSTGRES_NAME	    	:= trace-registry-postgres
 POSTGRES_IMG	    	:= ${POSTGRES_NAME}:${VERSION}
 POSTGRES_LATEST			:= ${POSTGRES_NAME}:latest
 
@@ -33,8 +33,7 @@ build: docker-gateway-build docker-script-build docker-web-build docker-postgres
 
 publish: docker-gateway-publish docker-script-publish docker-web-publish docker-postgres-publish #docker-registry-certificate-web-publish
 
-promote:
-	@echo "No promote task"
+promote: docker-docker-promote
 
 ## gateway
 docker-gateway-build:
@@ -80,8 +79,22 @@ docker-postgres-lint:
 	docker run --rm -i hadolint/hadolint < infra/docker/postgres/Dockerfile
 
 docker-postgres-build:
-	@docker build --build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} --build-arg VERSION=${VERSION} --no-cache -f ${POSTGRES_DOCKERFILE} -t ${POSTGRES_IMG} .
+	@docker build --no-cache \
+		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
+		--build-arg VERSION=${VERSION} \
+		-f ${POSTGRES_DOCKERFILE} \
+		-t ${POSTGRES_IMG} .
 
-docker-postgres-publish:
-	@docker push ${POSTGRES_IMG}
+docker-keycloak-auth-publish:
+	@docker build --push \
+		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
+		--build-arg VERSION=${VERSION} \
+		-f ${POSTGRES_DOCKERFILE} \
+		-t ghcr.io/komune-io/${POSTGRES_IMG} .
 
+docker-docker-promote:
+	@docker buildx build --push \
+		--build-arg CI_NPM_AUTH_TOKEN=${CI_NPM_AUTH_TOKEN} \
+		--build-arg VERSION=${VERSION} \
+		-f ${POSTGRES_DOCKERFILE} \
+		-t docker.io/komune/${POSTGRES_IMG} .
