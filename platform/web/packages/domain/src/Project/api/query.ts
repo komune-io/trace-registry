@@ -8,7 +8,7 @@ export interface ProjectPageResult extends io.komune.registry.f2.project.domain.
 export const useProjectPageQuery = (params: QueryParams<ProjectPageQuery, ProjectPageResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<ProjectPageQuery, ProjectPageResult>(
-    "projectPage", requestProps, params
+    "project/projectPage", requestProps, params
   )
 }
 
@@ -19,6 +19,6 @@ export interface ProjectGetResult extends io.komune.registry.f2.project.domain.q
 export const useProjectGetQuery = (params: QueryParams<ProjectGetQuery, ProjectGetResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<ProjectGetQuery, ProjectGetResult>(
-    "projectGet", requestProps, params
+    "project/projectGet", requestProps, params
   )
 }

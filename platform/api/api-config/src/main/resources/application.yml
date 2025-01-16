@@ -5,11 +5,21 @@ logging:
   level:
     root: INFO
 
-#spring:
-#  webflux:
-#    multipart:
-#      maxInMemorySize: 20MB
-#      maxHeadersSize: 20MB
+spring:
+  cloud:
+    function:
+      http:
+        GET: about;flagGet
+        POST: project;data;control;identity;config
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/tr-registry-postgres
+    username: postgres
+    password: postgres
+    pool:
+      enabled: true
+      initial-size: 5
+      max-size: 10
+
 cccev:
   url: http://localhost:8083
 
@@ -28,23 +38,14 @@ f2:
   tenant:
     issuer-base-uri: http://im-keycloak:8080
 
-ssm:
-  signer:
-    user:
-      name: ssm-admin
-      key: user/ssm-admin
-    admin:
-      name: ssm-admin
-      key: user/ssm-admin
-  couchdb:
-    url: http://localhost:5984
-    username: couchdb
-    password: couchdb
-    serviceName: s2-sample-did
-  chaincode:
-    url: http://localhost:9090
-
 platform:
+  flag:
+    module:
+      control: true
+      data: true
+      project: true
+      identity: true
+
   brevo:
     token: secret
     from: no-reply@kosm.io # TODO change
@@ -53,7 +54,6 @@ platform:
     debug:
       enable: true
       email: test@kosm.io
-
 ---
 spring:
   config:
@@ -68,11 +68,6 @@ spring:
   config:
     activate:
       on-profile: test
-  neo4j:
-    uri: neo4j://localhost:7687
-    authentication:
-      username: neo4j
-      password: komunekomune
 
 platform:
   brevo:

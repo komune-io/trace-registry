@@ -14,7 +14,7 @@ export interface ProjectListFilesResult extends io.komune.registry.f2.project.do
 export const useProjectListFilesQuery = (params: QueryParams<ProjectListFilesQuery, ProjectListFilesResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<ProjectListFilesQuery, ProjectListFilesResult>(
-    "projectListFiles", requestProps, params
+    "project/projectListFiles", requestProps, params
   )
 }
 

@@ -32,6 +32,8 @@ object Versions {
 	const val javaSnapshotTesting = "4.0.8"
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.9"
+	const val r2dbcPostgresql = "1.0.7.RELEASE"
+	const val postgresql = "42.7.4"
 }
 
 object Repo {
@@ -129,9 +131,16 @@ object Dependencies {
 			kapt.add(redisOm)
 		}
 
-		fun s2SourcingSsm(scope: Scope) = scope.add(
-			"io.komune.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
+//		fun s2Sourcing(scope: Scope) = scope.add(
+//			"io.komune.s2:s2-spring-boot-starter-sourcing-ssm:${Versions.s2}",
+//		)
+
+		fun s2Sourcing(scope: Scope) = scope.add(
+			"io.komune.s2:s2-spring-boot-starter-sourcing-data-r2dbc:${Versions.s2}",
+			"org.postgresql:r2dbc-postgresql:${Versions.r2dbcPostgresql}",
+			"org.postgresql:postgresql:${Versions.postgresql}",
 		)
+
 		object Test {
 			fun dataFaker(scope: Scope) = scope.add(
 				"net.datafaker:datafaker:${Versions.datafaker}",

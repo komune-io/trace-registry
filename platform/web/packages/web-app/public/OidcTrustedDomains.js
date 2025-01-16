@@ -3,7 +3,6 @@ const trustedDomains = {
     default: {
         oidcDomains: [
             'http://im-keycloak:8080',
-            "https://registry.trace.kosmio.dev",
             "https://auth.connect.kosmio.dev"
             ],
         accessTokenDomains: [

@@ -1,3 +1,5 @@
+**/env-config.js
+
 .gradle
 **/build/
 **/build_keycloak/

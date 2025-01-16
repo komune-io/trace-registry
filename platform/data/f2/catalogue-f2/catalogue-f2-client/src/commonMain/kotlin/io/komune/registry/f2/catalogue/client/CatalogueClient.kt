@@ -51,14 +51,14 @@ fun catalogueClient(
 @JsExport
 @JsName("CatalogueClient")
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
-    override fun catalogueCreate(): CatalogueCreateFunction = client.function(this::catalogueCreate.name)
+    override fun catalogueCreate(): CatalogueCreateFunction = client.function("data/${this::catalogueCreate.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
-        = client.function(this::catalogueLinkCatalogues.name)
+        = client.function("data/${this::catalogueLinkCatalogues.name}")
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction
-        = client.function(this::catalogueLinkDatasets.name)
-    override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function(this::catalogueLinkThemes.name)
-    override fun catalogueDelete(): CatalogueDeleteFunction = client.function(this::catalogueDelete.name)
-    override fun cataloguePage(): CataloguePageFunction = client.function(this::cataloguePage.name)
-    override fun catalogueGet(): CatalogueGetFunction = client.function(this::catalogueGet.name)
-    override fun catalogueRefList(): CatalogueRefListFunction = client.function(this::catalogueRefList.name)
+        = client.function("data/${this::catalogueLinkDatasets.name}")
+    override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
+    override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
+    override fun cataloguePage(): CataloguePageFunction = client.function("data/${this::cataloguePage.name}")
+    override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
+    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
 }

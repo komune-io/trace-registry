@@ -12,5 +12,5 @@ dependencies {
 	implementation(project((":platform:infra:redis")))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
-	Dependencies.Jvm.s2SourcingSsm(::implementation)
+	Dependencies.Jvm.s2Sourcing(::implementation)
 }

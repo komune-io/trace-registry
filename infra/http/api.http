@@ -13,13 +13,31 @@ client_id = tr-registry-script-api &
 client_secret = secret &
 grant_type = client_credentials
 
+> {% client.global.set("accessToken", response.body.access_token); %}
+
+###
+POST {{urlAuth}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{clientId}}&client_secret={{clientSecret}}
+
+> {% client.global.set("accessToken", response.body.access_token); %}
+
 
 ### version
-GET {{urlbase}}/about
+GET {{urlBase}}/about
+
+### version
+GET {{urlBase}}/flagGet
+
+### flagGet
+POST {{urlBase}}/config/flagGet
+Content-Type: application/json
 
 ### activityGet
-POST {{urlbase}}/activityGet
+POST {{urlBase}}/control/activityGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -28,8 +46,9 @@ Content-Type: application/json
 ]
 
 ### activityPage
-POST {{urlbase}}/activityPage
+POST {{urlBase}}/control/activityPage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -39,8 +58,9 @@ Content-Type: application/json
 ]
 
 ### activityCreate
-POST {{urlbase}}/activityCreate
+POST {{urlBase}}/control/activityCreate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -70,8 +90,9 @@ Content-Type: application/json
 ]
 
 ### activityUpdate
-POST {{urlbase}}/activityUpdate
+POST {{urlBase}}/control/activityUpdate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -83,8 +104,9 @@ Content-Type: application/json
 ]
 
 ### assetCreate
-POST {{urlbase}}/assetCreate
+POST {{urlBase}}/project/assetCreate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -96,8 +118,9 @@ Content-Type: application/json
 ]
 
 ### assetUpdate
-POST {{urlbase}}/assetUpdate
+POST {{urlBase}}/project/assetUpdate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -109,8 +132,9 @@ Content-Type: application/json
 ]
 
 ### assetUpdate
-POST {{urlbase}}/assetUpdate
+POST {{urlBase}}/project/assetUpdate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -122,8 +146,9 @@ Content-Type: application/json
 ]
 
 ### assetGet
-POST {{urlbase}}/assetGet
+POST {{urlBase}}/project/assetGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -132,8 +157,9 @@ Content-Type: application/json
 ]
 
 ### assetPage
-POST {{urlbase}}/assetPage
+POST {{urlBase}}/project/assetPage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -144,8 +170,9 @@ Content-Type: application/json
 
 
 ### projectCreate
-POST {{urlbase}}/projectCreate
+POST {{urlBase}}/project/projectCreate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -156,8 +183,9 @@ Content-Type: application/json
 ]
 
 ### projectCreate2
-POST {{urlbase}}/projectCreate
+POST {{urlBase}}/project/projectCreate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -188,8 +216,9 @@ Content-Type: application/json
 ]
 
 ### projectUpdate
-POST {{urlbase}}/projectUpdate
+POST {{urlBase}}/project/projectUpdate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -201,8 +230,9 @@ Content-Type: application/json
 ]
 
 ### projectGet
-POST {{urlbase}}/projectGet
+POST {{urlBase}}/project/projectGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -211,8 +241,9 @@ Content-Type: application/json
 ]
 
 ### projectPage
-POST {{urlbase}}/projectPage
+POST {{urlBase}}/project/projectPage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -224,8 +255,9 @@ Content-Type: application/json
 
 
 ###
-POST{{urlbaseCCCEV}}/requirementListChildrenByType
+POST{{urlBaseCCCEV}}/requirementListChildrenByType
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "identifiers": ["P1", "P2", "P3", "P4", "P5"],
@@ -233,8 +265,9 @@ Content-Type: application/json
 }
 
 ###
-POST {{urlbase}}/activityStepEvidenceFulfill
+POST {{urlBase}}/control/activityStepEvidenceFulfill
 Content-Type: multipart/form-data; boundary=your_boundary
+Authorization: Bearer {{accessToken}}
 
 --your_boundary
 Content-Disposition: form-data; name="command"
@@ -254,9 +287,10 @@ Content-Type: application/pdf
 --your_boundary--
 
 ###
-POST {{urlbase}}/activityStepFulfill
+POST {{urlBase}}/control/activityStepFulfill
 Content-Disposition: form-data; name="command"
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
     "certificationIdentifier": "yahumasud",
@@ -266,8 +300,9 @@ Content-Type: application/json
 
 ###
 
-POST {{urlbase}}/assetTransactionPage
+POST {{urlBase}}/project/assetTransactionPage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "projectId": "e53f091c-bb37-4840-ad82-b16c65224f44"
@@ -275,8 +310,9 @@ Content-Type: application/json
 
 ###
 
-POST {{urlbase}}/assetPoolCreate
+POST {{urlBase}}/project/assetPoolCreate
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "projectId": "e53f091c-bb37-4840-ad82-b16c65224f44",
@@ -285,8 +321,9 @@ Content-Type: application/json
 }
 
 ### projectGet
-POST {{urlbase}}/projectGet
+POST {{urlBase}}/project/projectGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "id": "e53f091c-bb37-4840-ad82-b16c65224f44"
@@ -294,8 +331,9 @@ Content-Type: application/json
 
 ### assetIssue
 //4519f147-5a27-4474-9950-234c4aed87b6 poolId
-POST {{urlbase}}/projectGet
+POST {{urlBase}}/project/projectGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "poolId": "2ac68753-eb5e-4148-8dc2-40b741a350d4",
@@ -305,38 +343,45 @@ Content-Type: application/json
 
 
 ### cataloguePage
-POST {{urlbase}}/cataloguePage
+POST {{urlBase}}/data/cataloguePage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
 }
+
 ### cataloguePage
-POST {{urlbase}}/catalogueGet
+POST {{urlBase}}/data/catalogueGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "identifier": "standards"
 }
 
 ### cataloguePage
-POST {{urlbase}}/catalogueGet
+POST {{urlBase}}/data/catalogueGet
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "identifier": "verra"
 }
 
 ### cataloguePage
-POST {{urlbase}}/catalogueGet
+POST {{urlBase}}/data/cataloguePage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "identifier": "standards-verra-programs"
 }
 
+
 ### cataloguePage
-POST {{urlbase}}/cataloguePage
+POST {{urlBase}}/data/cataloguePage
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
   "parentIdentifier": "standards-verra-programs",

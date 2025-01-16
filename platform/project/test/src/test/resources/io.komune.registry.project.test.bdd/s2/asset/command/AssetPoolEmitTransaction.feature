@@ -26,7 +26,7 @@ Feature: AssetPoolEmitTransaction
       | ISSUED | Komune | -100     |
     Then An exception should be thrown:
       | code |
-      | 1000 |
+      | 1001 |
 
   Scenario: I want to receive an error when emitting a transaction without enough assets in my wallet
     Given An asset pool is created
@@ -35,7 +35,7 @@ Feature: AssetPoolEmitTransaction
       | TRANSFERRED | Komune | Monsstrai Company | 100      |
     Then An exception should be thrown:
       | code |
-      | 1001 |
+      | 1000 |
 
   Scenario: I want to receive an error when emitting a transaction with a quantity that does not respect the granularity specified in the asset pool (precision)
     Given An asset pool is created:

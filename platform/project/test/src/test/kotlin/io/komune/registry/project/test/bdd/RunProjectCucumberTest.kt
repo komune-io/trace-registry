@@ -10,4 +10,4 @@ import org.junit.platform.suite.api.Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("io.komune.registry.project.test.bdd")
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "io.komune.registry.project.test.bdd")
-class RunCucumberTest
+class RunProjectCucumberTest

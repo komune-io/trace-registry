@@ -36,9 +36,9 @@ fun activityClient(
 @JsExport
 @JsName("ActivityClient")
 open class ActivityClient(val client: F2Client) : ActivityApi {
-    override fun activityCreate(): ActivityCreateFunction = client.function(this::activityCreate.name)
-    override fun activityStepCreate(): ActivityStepCreateFunction = client.function(this::activityStepCreate.name)
-    override fun activityStepFulfill(): ActivityStepFulfillFunction = client.function(this::activityStepFulfill.name)
-    override fun activityPage(): ActivityPageFunction = client.function(this::activityPage.name)
-    override fun activityStepPage(): ActivityStepPageFunction = client.function(this::activityStepPage.name)
+    override fun activityCreate(): ActivityCreateFunction = client.function("control/${this::activityCreate.name}")
+    override fun activityStepCreate(): ActivityStepCreateFunction = client.function("control/${this::activityStepCreate.name}")
+    override fun activityStepFulfill(): ActivityStepFulfillFunction = client.function("control/${this::activityStepFulfill.name}")
+    override fun activityPage(): ActivityPageFunction = client.function("control/${this::activityPage.name}")
+    override fun activityStepPage(): ActivityStepPageFunction = client.function("control/${this::activityStepPage.name}")
 }
