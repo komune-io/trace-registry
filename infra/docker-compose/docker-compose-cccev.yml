@@ -3,6 +3,8 @@ services:
   cccev-gateway:
     image: ${DOCKER_REPOSITORY}cccev-gateway:${CONNECT_CCCEV_VERSION}
     container_name: cccev-gateway
+    env_file:
+      - .env_dev
     environment:
       - ssm_couchdb_url=${BCLAN_COUCH_URL}
       - ssm_couchdb_username=${BCLAN_COUCH_USER}
@@ -12,6 +14,7 @@ services:
       - spring_neo4j_uri=neo4j://cccev-neo4j:7687
       - spring_neo4j_authentication_username=neo4j
       - spring_neo4j_authentication_password=komunekomune
+    restart: on-failure
     ports:
       - ${CCCEV_PORT}:8083
     networks:
