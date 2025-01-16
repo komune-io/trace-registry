@@ -14,7 +14,8 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
-  drawerAbsolutePositionBreakpoint: "always"
+  drawerAbsolutePositionBreakpoint: "always",
+  shadows: ["", "0px 4px 8px 0px #E4DEE7"]
 };
 
 export const muiTheme: Partial<ThemeOptions> = {
@@ -32,9 +33,6 @@ export const muiTheme: Partial<ThemeOptions> = {
     },
     caption: {
       lineHeight: 1.35
-    },
-    button: {
-      fontWeight: 400,
     }
   },
   components: {

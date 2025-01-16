@@ -93,6 +93,7 @@
     "submitForValidation": "Soumettre pour validation",
     "nextSteps": "Prochaines étapes",
     "search": "Rechercher",
+    "explore": "Explorer",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -218,7 +219,7 @@
     },
     "catalogues": {
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
-        "verifiedProjects": "{{count}} projets vérifiés",
+        "verifiedProjects": "{{count}} fiches",
         "administrator": "Administrateur {{entity}}",
         "description": "Description de {{entity}}",
         "mostUsedStandards": "Programmes standards les plus utilisés",

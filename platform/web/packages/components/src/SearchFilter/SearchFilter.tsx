@@ -47,7 +47,6 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 maxWidth: 400,
                 width: "100%",
                 border: "2px solid #E4DEE7",
-                boxShadow: "0px 4px 8px 0px #E4DEE7",
                 borderRadius: 1.5,
                 ...rootProps?.sx
             }}
