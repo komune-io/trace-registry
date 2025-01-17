@@ -7,21 +7,22 @@ export interface TitleDividerProps {
         label: string
         color: string
     }
+    size?: "h5" | "h6" | "subtitle1"
 }
 
 export const TitleDivider = (props: TitleDividerProps) => {
-    const { title, status } = props
+    const { title, status, size = "h5" } = props
     return (
         <Stack
-            gap={2}
+            gap={size === "subtitle1" ? 1.5 : 2}
         >
             <Stack
-                gap={2}
+                gap={size === "subtitle1" ? 1.5 : 2}
                 direction="row"
                 justifyContent="space-between"
             >
                 <Typography
-                    variant="h5"
+                    variant={size}
                 >
                     {title}
                 </Typography>

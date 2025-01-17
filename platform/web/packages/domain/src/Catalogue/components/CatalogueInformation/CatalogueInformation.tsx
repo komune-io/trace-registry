@@ -1,9 +1,9 @@
 
+import { Stack } from '@mui/material';
 import { Catalogue } from '../../model'
-import { useTranslation } from 'react-i18next'
 import { CatalogueDetails } from '../CatalogueDetails'
-import { TitleDivider } from 'components'
-import {MustUsedCatalogueSection} from "../MustUsedCatalogueSection";
+import { CataloguePresentation } from '../CataloguePresentation';
+import { TitleDivider } from 'components';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -15,25 +15,29 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         catalogue,
         isLoading,
     } = props
-    const { t } = useTranslation()
 
     return (
         <>
-            <TitleDivider
-                title={t("catalogues.description", {entity: t(catalogue?.type ?? "standard")})}
-            />
-            <CatalogueDetails
+            <CataloguePresentation
                 catalogue={catalogue}
                 isLoading={isLoading}
             />
-            {
-                catalogue?.catalogues?.map((subCatalogue, index) => (
-                   <MustUsedCatalogueSection
-                     key={index}
-                     catalogue={subCatalogue}
-                   />
-                ))
-            }
+            <Stack
+                direction="row"
+                gap={3}
+            >
+                <Stack
+                    gap={5}
+                    flexGrow={1}
+                >
+                    <TitleDivider title='Approche Système' />
+                </Stack>
+                <CatalogueDetails
+                    catalogue={catalogue}
+                    isLoading={isLoading}
+                />
+            </Stack>
+
         </>
     )
 }

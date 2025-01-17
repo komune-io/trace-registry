@@ -1,10 +1,15 @@
 import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
+import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue } from '../../model'
-import {config} from "../../../config";
-import { CatalogueTags } from './CatalogueTags'
+import { TitleDivider } from 'components'
+
+type simplifiedReadonlyFields = Record<string, {
+    value: string,
+    label: string,
+    params?: any
+}>
 
 export interface CatalogueDetailsProps {
     catalogue?: Catalogue
@@ -14,12 +19,107 @@ export interface CatalogueDetailsProps {
 export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     const { catalogue, isLoading } = props
 
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
 
-    const initialValues = useMemo(() => ({
-        ...catalogue,
-        themes: catalogue?.themes?.map((theme: any) => theme.id)
+    const publicationValues = useMemo((): simplifiedReadonlyFields => ({
+        publisher: {
+            value: "Objectif 100M", //to find in catalogue
+            label: "Publicateur",
+        },
+        creationDate: {
+            value: new Date().toLocaleDateString(), //to find in catalogue
+            label: "Création",
+        },
+        updateDate: {
+            value: new Date().toLocaleDateString(), //to find in catalogue
+            label: "Mise à jour",
+        },
+        validator: {
+            value: "Nom Prénom", //to find in catalogue
+            label: "Validateur",
+        },
     }), [catalogue])
+
+    const classificationValues = useMemo((): simplifiedReadonlyFields => ({
+        access: {
+            value: "Public", //to find in catalogue
+            label: "Accès",
+        },
+        licence: {
+            value: "ODBL 1.0", //to find in catalogue
+            label: "Licence",
+            params: {
+                getReadOnlyTextUrl: () => "/" //put licence url
+            }
+        },
+    }), [catalogue])
+
+    const versionValues = useMemo((): simplifiedReadonlyFields => ({
+        version: {
+            value: "v1.8", //to find in catalogue
+            label: "Version",
+        },
+        lastVersion: {
+            value: "v1.79", //to find in catalogue
+            label: "Version précédente",
+        },
+        versionNote: {
+            value: "Lorem ipsum une note de version, j’ai par exemple corrigé trois fautes sur la fiche et ajouté de belles illustrations.", //to find in catalogue
+            label: "Version note",
+            params: {
+                orientation: "vertical",
+            }
+        },
+    }), [catalogue])
+
+    return (
+        <Stack
+            gap={3}
+            sx={{
+                width: "320px"
+            }}
+        >
+            <TitleDivider size='h6' title={t("informations")} />
+            <DetailsForm
+                isLoading={isLoading}
+                title='Publication'
+                values={publicationValues}
+            />
+            <DetailsForm
+                isLoading={isLoading}
+                title='Classification'
+                values={classificationValues}
+            />
+            <DetailsForm
+                isLoading={isLoading}
+                title='Version Management'
+                values={versionValues}
+            />
+        </Stack>
+    )
+}
+
+
+interface DetailsFormProps {
+    title: string
+    values: Record<string, {
+        value: string,
+        label: string,
+        params?: any
+    }>,
+    isLoading?: boolean
+}
+
+const DetailsForm = (props: DetailsFormProps) => {
+    const { title, values, isLoading } = props
+
+    const initialValues = useMemo(() => {
+        const res: Record<string, string> = {}
+        Object.keys(values).forEach((key) => {
+            res[key] = values[key].value
+        })
+        return res
+    }, [])
 
     const formState = useFormComposable({
         isLoading,
@@ -29,84 +129,26 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
         }
     })
 
-    const fields = useMemo((): FormComposableField<keyof Catalogue>[] => [
-        {
-            name: "description",
+    const fields = useMemo(() => Object.entries(values).map((value): FormComposableField => {
+        const [key, { label, params }] = value
+        return {
+            name: key,
             type: "textField",
-            params: {
-                multiline: true,
-                rows: 8,
-                className: "descriptionField"
-            }
-        }, {
-            name: "title",
-            label: t("catalogues.administrator", {entity: t(catalogue?.type ?? "standard")}),
-            type: "textField",
+            label,
             params: {
                 orientation: "horizontal",
-                getReadOnlyTextUrl: () => catalogue?.homepage
-            }
-        }, 
-        {
-            name: "themes",
-            label: t("catalogues.sectoralScopes"),
-            type: "select",
-            params: {
-                orientation: "horizontal",
-                readOnlyType: "customContainer",
-                readOnlyElement: CatalogueTags,
-                multiple: true,
-                options: catalogue?.themes?.map((theme: any): Option => ({
-                    key: theme.id, label: theme.prefLabels[i18n.resolvedLanguage ?? "en"], color: "#18159D"
-                }))
+                ...params
             }
         }
-    ], [t, catalogue, i18n.resolvedLanguage])
+    }), [values])
 
-    return (
-        <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="stretch"
-            gap={2}
-            sx={{
-                "& .catalogLogo": {
-                    width: "auto",
-                    height: "auto",
-                    maxWidth: "400px",
-                    maxHeight: "200px",
-                    flexShrink: 0,
-                    flexGrow: 1,
-                    objectFit: "contain"
-                }
-            }}
-        >
-            <FormComposable
-                sx={{
-                    flexGrow: 1,
-                    flexBasis: 0,
-                    "& .AruiForm-field": {
-                        justifyContent: "flex-start"
-                    },
-                    "& .AruiForm-field > *": {
-                        flexGrow: 1,
-                        flexBasis: 0
-                    },
-                    "& .descriptionField .AruiInputForm-readOnlyText": {
-                        whiteSpace: "pre-line"
-                    },
-                    "& .MuiInputLabel-root": {
-                        maxWidth: "250px"
-                    }
-                }}
-                formState={formState}
-                fields={fields}
-            />
-            {catalogue?.img && <img
-                className='catalogLogo'
-                src={`${config().platform.url}${catalogue.img}`}
-                alt="The standard logo"
-            />}
-        </Stack>
-    )
+    return <Stack
+        gap={1.5}
+    >
+        <TitleDivider size='subtitle1' title={title} />
+        <FormComposable
+            fields={fields}
+            formState={formState}
+        />
+    </Stack>
 }
