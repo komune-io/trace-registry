@@ -24,30 +24,30 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {
             value: "Objectif 100M", //to find in catalogue
-            label: "Publicateur",
+            label: t("publisher"),
         },
         creationDate: {
             value: new Date().toLocaleDateString(), //to find in catalogue
-            label: "Création",
+            label: t("creation"),
         },
         updateDate: {
             value: new Date().toLocaleDateString(), //to find in catalogue
-            label: "Mise à jour",
+            label: t("update"),
         },
         validator: {
             value: "Nom Prénom", //to find in catalogue
-            label: "Validateur",
+            label: t("validator"),
         },
     }), [catalogue])
 
     const classificationValues = useMemo((): simplifiedReadonlyFields => ({
         access: {
             value: "Public", //to find in catalogue
-            label: "Accès",
+            label: t("access"),
         },
         licence: {
             value: "ODBL 1.0", //to find in catalogue
-            label: "Licence",
+            label: t("licence"),
             params: {
                 getReadOnlyTextUrl: () => "/" //put licence url
             }
@@ -57,20 +57,20 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     const versionValues = useMemo((): simplifiedReadonlyFields => ({
         version: {
             value: "v1.8", //to find in catalogue
-            label: "Version",
+            label: t("version"),
         },
         lastVersion: {
             value: "v1.79", //to find in catalogue
-            label: "Version précédente",
+            label: t("lastVersion"),
         },
         versionNote: {
             value: "Lorem ipsum une note de version, j’ai par exemple corrigé trois fautes sur la fiche et ajouté de belles illustrations.", //to find in catalogue
-            label: "Version note",
+            label: t("versionNote"),
             params: {
                 orientation: "vertical",
             }
         },
-    }), [catalogue])
+    }), [catalogue, t])
 
     return (
         <Stack
@@ -82,17 +82,17 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             <TitleDivider size='h6' title={t("informations")} />
             <DetailsForm
                 isLoading={isLoading}
-                title='Publication'
+                title={t("publication")}
                 values={publicationValues}
             />
             <DetailsForm
                 isLoading={isLoading}
-                title='Classification'
+                title={t("classification")}
                 values={classificationValues}
             />
             <DetailsForm
                 isLoading={isLoading}
-                title='Version Management'
+                title={t("versionManagement")}
                 values={versionValues}
             />
         </Stack>
