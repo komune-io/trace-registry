@@ -11,13 +11,24 @@ services:
       - im_script_space_auth_clientSecret=${KC_IM_CLIENT_SECRET}
       - im_script_space_jsonCreate=file:/tmp/space-create.json
       - im_script_space_jsonConfig=file:/tmp/space-config.json
-    volumes:
-      - ./config/build/space-create.json:/tmp/space-create.json
-      - ./config/build/space-config.json:/tmp/space-config.json
+    configs:
+      - source: space_create_config
+        target: /tmp/space-create.json
+      - source: space_config_config
+        target: /tmp/space-config.json
     networks:
       - net
+    deploy:
+      restart_policy:
+        condition: none
 
 networks:
   net:
     name: ${DOCKER_NETWORK}
     external: true
+
+configs:
+  space_create_config:
+    file: ./config/build/space-create.json
+  space_config_config:
+    file: ./config/build/space-config.json
