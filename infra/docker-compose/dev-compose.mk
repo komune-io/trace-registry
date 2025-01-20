@@ -11,8 +11,12 @@ dev-envsubst:
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/init.json > $(DOCKER_COMPOSE_PATH)/config/build/init.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-create.json > $(DOCKER_COMPOSE_PATH)/config/build/space-create.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-config.json > $(DOCKER_COMPOSE_PATH)/config/build/space-config.json
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/OidcTrustedDomains.js
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/env-config.js
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/connect-admin
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/OidcTrustedDomains.js
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/env-config.js
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/registry
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/OidcTrustedDomains.js
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/env-config.js
 
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
@@ -23,6 +27,16 @@ dev:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
 	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_FILE)"
+
+registry:
+	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
+	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
+	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_FILE)"
+
+proxy:
+	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
+	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
+	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_PROXY_FILE)"
 
 exec-common:
 	@if [ "$(ACTION)" = "up" ]; then \
@@ -101,7 +115,7 @@ dev-service-action:
 	elif [ "$(ACTION)" = "pull" ]; then \
 		docker compose --env-file $(DOCKER_COMPOSE_ENV) -f $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml pull; \
 	elif [ "$(ACTION)" = "deploy" ]; then \
-		docker stack deploy --compose-file $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml $(DOCKER_NETWORK); \
+		docker stack deploy --detach=true --compose-file $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml $(DOCKER_NETWORK); \
 	elif [ "$(ACTION)" = "up" ]; then \
 		$(MAKE) --no-print-directory dev-service-action ACTION=deploy SERVICE=$(SERVICE); \
 	else \
