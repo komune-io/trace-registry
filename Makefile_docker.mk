@@ -31,11 +31,11 @@ KEYCLOAK_IMG	    	:= ${KEYCLOAK_NAME}:${VERSION}
 
 .PHONY: lint build test publish promote
 
-lint: docker-web-lint docker-registry-certificate-web-lint docker-postgres-lint
+lint: docker-web-lint docker-registry-certificate-web-lint docker-postgres-lint docker-keycloak-lint
 
-build: docker-gateway-build docker-script-build docker-web-build docker-postgres-build #docker-registry-certificate-web-build
+build: docker-gateway-build docker-script-build docker-web-build docker-postgres-build docker-keycloak-build #docker-registry-certificate-web-build
 
-publish: docker-gateway-publish docker-script-publish docker-web-publish docker-postgres-publish #docker-registry-certificate-web-publish
+publish: docker-gateway-publish docker-script-publish docker-web-publish docker-postgres-publish docker-keycloak-publish #docker-registry-certificate-web-publish
 
 promote: docker-docker-promote
 
