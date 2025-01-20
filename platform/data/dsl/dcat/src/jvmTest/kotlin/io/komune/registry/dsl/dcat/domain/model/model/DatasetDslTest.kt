@@ -12,6 +12,7 @@ class DatasetDslTest {
             identifier = "dataset1"
             title = "catalogues"
             type = "catalogues"
+            language = "fr"
             distributions {
                 distribution {
                     identifier = "distribution1"

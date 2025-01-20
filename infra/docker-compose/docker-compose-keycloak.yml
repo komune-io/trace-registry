@@ -2,27 +2,48 @@ services:
 
   im-keycloak:
     image: ${DOCKER_REPOSITORY}im-keycloak:${VERSION_IM}
-    container_name: ${KC_HOSTNAME}
+    container_name: ${KC_HOST_NAME}
+    env_file:
+      - .env_dev
     environment:
       KC_DB_URL: 'jdbc:postgresql://${POSTGRES_HOSTNAME}/${POSTGRES_KEYCLOAK_DB}'
       KC_DB_PASSWORD: ${POSTGRES_USER}
       KC_DB_USERNAME: ${POSTGRES_PASS}
       KC_DB_SCHEMA: public
-      KC_HOSTNAME: "${KC_HOST_URL}"
-      KEYCLOAK_FRONTEND_URL: "${KC_HOST_URL}"
+      KC_HOSTNAME: ${KC_URL}
+      KEYCLOAK_FRONTEND_URL: ${KC_URL}
       KEYCLOAK_ADMIN: ${KC_ROOT_USER}
       KEYCLOAK_ADMIN_PASSWORD: ${KC_ROOT_PASS}
       PROXY_ADDRESS_FORWARDING: "true"
       JDBC_PARAMS: "ssl=false"
-      KC_HOSTNAME_STRICT_HTTPS: "false"
+#      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "true"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.im-keycloak.loadbalancer.server.port: "8080"
+      traefik.http.routers.im-keycloak.rule: Host(`auth.connect.100m.kosmio.dev`)
+      traefik.http.routers.im-keycloak.entrypoints: websecure
+      traefik.http.routers.im-keycloak.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: 8080:8080 is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - '8080:8080'
+      - "8080:8080"
     networks:
       - net
 
   connect-fake-smtp:
     container_name: ${SMTP_HOST}
     image: reachfive/fake-smtp-server:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.connect-fake-smtp.loadbalancer.server.port: "1080"
+      traefik.http.routers.connect-fake-smtp.rule: Host(`smtp.connect.100m.kosmio.dev`)
+      traefik.http.routers.connect-fake-smtp.entrypoints: websecure
+      traefik.http.routers.connect-fake-smtp.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: 8080:8080 is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
     ports:
       - "${SMTP_PORT}:1025"
       - "1080:1080"

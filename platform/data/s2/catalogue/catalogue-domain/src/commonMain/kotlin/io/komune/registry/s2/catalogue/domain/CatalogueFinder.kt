@@ -11,7 +11,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 
 interface CatalogueFinder {
     suspend fun getOrNull(id: CatalogueId): CatalogueModel?
-    suspend fun getOrNullByIdentifier(id: CatalogueIdentifier): CatalogueModel?
+    suspend fun getOrNullByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel?
     suspend fun get(id: CatalogueId): CatalogueModel
     suspend fun page(
         id: Match<CatalogueId>? = null,
@@ -21,6 +21,7 @@ interface CatalogueFinder {
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>
+    suspend fun listByIdentifier(identifier: String): List<CatalogueModel>
 
     suspend fun getAll(): List<CatalogueModel>
 }

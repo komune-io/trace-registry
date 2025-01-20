@@ -3,14 +3,14 @@ package io.komune.registry.data.test.bdd.f2.catalogue.command
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
+import io.komune.registry.data.test.bdd.f2.catalogue.data.catalogue
 import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
-import io.komune.registry.data.test.bdd.f2.catalogue.data.catalogue
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
@@ -106,6 +106,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
             identifier = params.identifier,
             description = params.description,
             type = params.type,
+            language = params.language,
             structure = Structure(type = params.type),
             homepage = params.homepage,
             catalogues = emptyList(),
@@ -125,6 +126,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
         status = entry?.get("status") ?: "ACTIVE",
         homepage = entry?.get("homepage") ?: "https://www.komune.io",
         type = entry?.get("type") ?: "Catalogue",
+        language = entry?.get("language") ?: "en",
         display = entry?.get("display") ?: "grid",
     )
 
@@ -133,6 +135,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
         val title: TestContextKey,
         val description: String,
         val type: String,
+        val language: String,
         val display: String,
         val homepage: String,
         val status: String

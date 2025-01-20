@@ -13,21 +13,84 @@ on:
 
 jobs:
   libs:
-    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@main
+    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@0.22.0
     permissions:
       contents: read
     with:
       make-file: 'Makefile_libs.mk'
 
 
-  docker:
-    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@main
+  docker-web:
+    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@0.22.0
     permissions:
       contents: read
       packages: write
     with:
       on-tag: 'publish promote'
       make-file: 'Makefile_docker.mk'
+      make-lint-task: 'docker-web-lint'
+      make-build-task: 'docker-web-build'
+      make-publish-task: 'docker-web-publish'
+      with-docker-registry-login: 'true'
+    secrets:
+      PKG_GITHUB_USERNAME: ${{ github.actor }}
+      PKG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PUBLISH_USERNAME: ${{ github.actor }}
+      DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
+      DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
+
+  docker-gateway:
+    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@0.22.0
+    permissions:
+      contents: read
+      packages: write
+    with:
+      on-tag: 'publish promote'
+      make-file: 'Makefile_docker.mk'
+      make-lint-task: 'docker-gateway-lint'
+      make-build-task: 'docker-gateway-build'
+      make-publish-task: 'docker-gateway-publish'
+      with-docker-registry-login: 'true'
+    secrets:
+      PKG_GITHUB_USERNAME: ${{ github.actor }}
+      PKG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PUBLISH_USERNAME: ${{ github.actor }}
+      DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
+      DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
+
+  docker-postgres:
+    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@0.22.0
+    permissions:
+      contents: read
+      packages: write
+    with:
+      on-tag: 'publish promote'
+      make-file: 'Makefile_docker.mk'
+      make-lint-task: 'docker-postgres-lint'
+      make-build-task: 'docker-postgres-build'
+      make-publish-task: 'docker-postgres-publish'
+      with-docker-registry-login: 'true'
+    secrets:
+      PKG_GITHUB_USERNAME: ${{ github.actor }}
+      PKG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PUBLISH_USERNAME: ${{ github.actor }}
+      DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
+      DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
+
+  docker-keycloak:
+    uses: komune-io/fixers-gradle/.github/workflows/make-jvm-workflow.yml@0.22.0
+    permissions:
+      contents: read
+      packages: write
+    with:
+      on-tag: 'publish promote'
+      make-file: 'Makefile_docker.mk'
+      make-lint-task: 'docker-keycloak-lint'
+      make-build-task: 'docker-keycloak-build'
+      make-publish-task: 'docker-keycloak-publish'
       with-docker-registry-login: 'true'
     secrets:
       PKG_GITHUB_USERNAME: ${{ github.actor }}
@@ -38,7 +101,7 @@ jobs:
       DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
 
   docs:
-    uses: komune-io/fixers-gradle/.github/workflows/publish-storybook-workflow.yml@main
+    uses: komune-io/fixers-gradle/.github/workflows/publish-storybook-workflow.yml@0.22.0
     permissions:
       contents: read
       packages: write

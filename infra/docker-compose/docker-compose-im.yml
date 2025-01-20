@@ -3,12 +3,22 @@ services:
   im-gateway:
     image: ${DOCKER_REPOSITORY}im-gateway:${VERSION_IM}
     container_name: registry-im
+    env_file:
+      - .env_dev
     environment:
-      - f2_tenant_issuer-base-uri=${KC_HOST_URL}
-      - connect_im_keycloak_url=${KC_HOST_URL}
+      - f2_tenant_issuer-base-uri=${KC_URL}
+      - connect_im_keycloak_url=${KC_URL}
       - connect_im_keycloak_realm=${KC_ROOT_REALM}
       - connect_im_keycloak_clientId=${KC_IM_CLIENT_ID}
       - connect_im_keycloak_clientSecret=${KC_IM_CLIENT_SECRET}
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.im-gateway.loadbalancer.server.port: 8009
+      traefik.http.routers.im-gateway.rule: Host(`connect.100m.kosmio.dev`) && PathPrefix(`/im`)
+      traefik.http.routers.im-gateway.entrypoints: websecure
+      traefik.http.routers.im-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.test-stripprefix.stripprefix.prefixes: /im
+      traefik.docker.network: ${DOCKER_NETWORK}
     ports:
       - "8009:8009"
     networks:

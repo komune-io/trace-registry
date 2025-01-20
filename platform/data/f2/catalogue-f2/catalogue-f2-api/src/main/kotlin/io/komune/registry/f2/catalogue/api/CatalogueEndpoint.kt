@@ -8,7 +8,7 @@ import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.toCommand
-import io.komune.registry.f2.catalogue.api.service.toEvent
+import io.komune.registry.f2.catalogue.api.service.toDTO
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -17,12 +17,17 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunct
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import jakarta.annotation.security.PermitAll
@@ -43,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController
 class CatalogueEndpoint(
     private val catalogueService: CatalogueAggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
@@ -71,11 +77,16 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        query.identifier?.let {
-            catalogueF2FinderService.getByIdentifier(it)
-        } ?: query.id?.let {
-            catalogueF2FinderService.getById(it)
-        } ?: CatalogueGetResult(null)
+        catalogueF2FinderService.getById(query.id)
+            .let(::CatalogueGetResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
+        logger.info("catalogueGetByIdentifier: $query")
+        catalogueF2FinderService.getByIdentifier(query.identifier, query.language)
+            .let(::CatalogueGetByIdentifierResult)
     }
 
     @PermitAll
@@ -90,7 +101,7 @@ class CatalogueEndpoint(
     override fun catalogueCreate(): CatalogueCreateFunction = f2Function { cmd ->
         logger.info("catalogueCreate: $cmd")
         cataloguePoliciesEnforcer.checkCreation()
-        catalogueService.create(cmd.toCommand()).toEvent()
+        catalogueService.create(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -98,21 +109,21 @@ class CatalogueEndpoint(
     override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { cmd ->
         logger.info("catalogueDelete: $cmd")
         cataloguePoliciesEnforcer.checkDelete(cmd.id)
-        catalogueService.delete(cmd).toEvent()
+        catalogueService.delete(cmd).toDTO()
     }
 
     @PermitAll
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
         cataloguePoliciesEnforcer.checkLinkCatalogues()
-        catalogueService.linkCatalogues(cmd.toCommand()).toEvent()
+        catalogueService.linkCatalogues(cmd.toCommand()).toDTO()
     }
     @PermitAll
     @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->
         logger.info("catalogueLinkDatasets: $cmd")
         cataloguePoliciesEnforcer.checkLinkDatasets()
-        catalogueService.linkDatasets(cmd.toCommand()).toEvent()
+        catalogueService.linkDatasets(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -120,16 +131,15 @@ class CatalogueEndpoint(
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { cmd ->
         logger.info("catalogueLinkThemes: $cmd")
         cataloguePoliciesEnforcer.checkLinkThemes()
-        catalogueService.linkThemes(cmd.toCommand()).toEvent()
+        catalogueService.linkThemes(cmd.toCommand()).toDTO()
     }
 
-    @PostMapping("/catalogueSetImageFunction")
-    suspend fun catalogueSetImageFunction(
+    @PostMapping("/catalogueSetImage")
+    suspend fun catalogueSetImage(
         @RequestPart("command") cmd: CatalogueSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): CatalogueSetImageEventDTOBase {
-
-        logger.info("catalogueSetImageFunction: $cmd")
+        logger.info("catalogueSetImage: $cmd")
         cataloguePoliciesEnforcer.checkSetImg()
         val filePath = file?.let {
             fsService.uploadCatalogueImg(
@@ -168,5 +178,14 @@ class CatalogueEndpoint(
         logger.info("servedFile: $catalogueId")
         return file
     }
-}
 
+    @PermitAll
+    @Bean
+    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = f2Function { query ->
+        logger.info("catalogueListLanguages: $query")
+        catalogueFinderService.listByIdentifier(query.identifier)
+            .map { it.language }
+            .distinct()
+            .let(::CatalogueListLanguagesResult)
+    }
+}

@@ -31,36 +31,40 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     @Searchable(nostem=true)
     var title: String = ""
 
-    @Searchable(nostem=true)
-    var homepage: String? = null
-
     var img: FilePath? = null
 
     @Indexed
     lateinit var type: String
 
-    var temporalResolution: String? = null
-    var wasGeneratedBy: Activity? = null
-    var accessRights: String? = null
-    var conformsTo: List<SkosConceptScheme>? = null
-    var creator: Agent? = null
-    var description: String? = null
-    var releaseDate: String? = null
-    var updateDate: String? = null
-    var language: List<String>? = null
-    var publisher: Agent? = null
+    @Searchable(nostem=true)
+    lateinit var language: String
 
-    @TagIndexed
-    var theme: List<SkosConcept>? = null
+    var description: String? = null
+
+    var wasGeneratedBy: Activity? = null
+    var source: String? = null
+    var creator: Agent? = null
+    var publisher: Agent? = null
+    var validator: Agent? = null
+    var accessRights: String? = null
+    var license: String? = null
+    var temporalResolution: String? = null
+
+    var conformsTo: List<SkosConceptScheme>? = null
+    var format: String? = null
     @TagIndexed
     var keywords: List<String>? = null
+    @Searchable(nostem=true)
+    var homepage: String? = null
     var landingPage: String? = null
     var version: String? = null
     var versionNotes: String? = null
     var length: Int? = null
-
     var themes: Set<SkosConcept> = emptySet()
-    var lastUpdate: Long? = null
+
+    var issued: Long? = null
+    var modified: Long? = null
+    var releaseDate: String? = null
 
     override fun s2Id() = id
     override fun s2State() = status

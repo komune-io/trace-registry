@@ -8,9 +8,9 @@ import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Create a dataset.
@@ -38,26 +38,34 @@ interface DatasetCreateCommandDTO {
     val title: String
 
     /**
+     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.type]
+     */
+    val type: String
+
+    /**
      * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.description]
      */
     val description: String?
 
-    val type: String
-    val temporalResolution: String?
+    val language: String
     val wasGeneratedBy: Activity?
-    val accessRights: String?
-    val conformsTo: List<SkosConceptScheme>?
+    val source: String?
     val creator: Agent?
-    val releaseDate: String?
-    val updateDate: String?
-    val language: List<String>?
     val publisher: Agent?
+    val validator: Agent?
+    val accessRights: String?
+    val license: String?
+    val temporalResolution: String?
+    val conformsTo: List<SkosConceptScheme>?
+    val format: String?
     val theme: List<SkosConcept>?
     val keywords: List<String>?
     val landingPage: String?
+    val homepage: String?
     val version: String?
     val versionNotes: String?
     val length: Int?
+    val releaseDate: String?
 }
 
 /**
@@ -65,25 +73,29 @@ interface DatasetCreateCommandDTO {
  */
 @Serializable
 data class DatasetCreateCommandDTOBase(
-    override val identifier: DatasetIdentifier,
+    override val identifier: String,
     override val title: String,
-    override val description: String? = null,
     override val type: String,
-    override val temporalResolution: String? = null,
+    override val description: String? = null,
+    override val language: String,
     override val wasGeneratedBy: Activity? = null,
-    override val accessRights: String? = null,
-    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val source: String? = null,
     override val creator: Agent? = null,
-    override val releaseDate: String? = null,
-    override val updateDate: String? = null,
-    override val language: List<String>? = null,
     override val publisher: Agent? = null,
+    override val validator: Agent? = null,
+    override val accessRights: String? = null,
+    override val license: String? = null,
+    override val temporalResolution: String? = null,
+    override val conformsTo: List<SkosConceptScheme>? = null,
+    override val format: String? = null,
     override val theme: List<SkosConcept>? = null,
     override val keywords: List<String>? = null,
     override val landingPage: String? = null,
+    override val homepage: String? = null,
     override val version: String? = null,
     override val versionNotes: String? = null,
     override val length: Int? = null,
+    override val releaseDate: String? = null,
 ): DatasetCreateCommandDTO
 
 /**
@@ -97,37 +109,11 @@ interface DatasetCreatedEventDTO: Event {
      * Identifier of the created dataset.
      */
     val id: DatasetId
+
     /**
      * Identifier of the created dataset.
      */
     val identifier: DatasetIdentifier
-
-    /**
-     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
-     */
-    val title: String
-
-    /**
-     * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.description]
-     */
-    val description: String?
-
-    val type: String
-    val temporalResolution: String?
-    val wasGeneratedBy: Activity?
-    val accessRights: String?
-    val conformsTo: List<SkosConceptScheme>?
-    val creator: Agent?
-    val releaseDate: String?
-    val updateDate: String?
-    val language: List<String>?
-    val publisher: Agent?
-    val theme: List<SkosConcept>?
-    val keywords: List<String>?
-    val landingPage: String?
-    val version: String?
-    val versionNotes: String?
-    val length: Int?
 }
 
 /**
@@ -137,23 +123,4 @@ interface DatasetCreatedEventDTO: Event {
 data class DatasetCreatedEventDTOBase(
     override val id: DatasetId,
     override val identifier: DatasetIdentifier,
-    override val title: String,
-    override val description: String?,
-    override val type: String,
-    override val theme: List<SkosConcept>? = null,
-    override val temporalResolution: String?,
-    override val wasGeneratedBy: Activity?,
-    override val accessRights: String?,
-    override val conformsTo: List<SkosConceptScheme>?,
-    override val creator: Agent?,
-    override val releaseDate: String?,
-    override val updateDate: String?,
-    override val language: List<String>?,
-    override val publisher: Agent?,
-    override val keywords: List<String>?,
-    override val landingPage: String?,
-    override val version: String?,
-    override val versionNotes: String?,
-    override val length: Int?,
 ): DatasetCreatedEventDTO
-

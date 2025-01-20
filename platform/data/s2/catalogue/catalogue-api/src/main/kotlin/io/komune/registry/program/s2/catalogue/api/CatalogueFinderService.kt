@@ -7,7 +7,6 @@ import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toCatalogue
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
@@ -16,6 +15,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.commons.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -33,8 +33,10 @@ class CatalogueFinderService(
 		}
 	}
 
-	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier): CatalogueModel? {
-		return catalogueRepository.findByIdentifier(id).orElse(null)?.toCatalogue()
+	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel? {
+		return catalogueRepository.findByIdentifierAndLanguage(id, language)
+			.orElse(null)
+			?.toCatalogue()
 	}
 
 	override suspend fun get(id: CatalogueId): CatalogueModel {
@@ -51,7 +53,7 @@ class CatalogueFinderService(
 	): PageDTO<CatalogueModel> {
 
 		val parents = parentIdentifier?.value?.let { identifier ->
-			getOrNullByIdentifier(identifier)?.catalogues
+			catalogueRepository.findAllByIdentifier(identifier).flatMap { it.catalogues }
 		}?.let { catalogues ->
 			CollectionMatch(catalogues)
 		}
@@ -68,5 +70,10 @@ class CatalogueFinderService(
 		).map {
 			it.toCatalogue()
 		}
+	}
+
+	override suspend fun listByIdentifier(identifier: String): List<CatalogueModel> {
+		return catalogueRepository.findAllByIdentifier(identifier)
+			.map { it.toCatalogue() }
 	}
 }

@@ -1,7 +1,7 @@
 DOCKER_COMPOSE_PATH = infra/docker-compose
 DOCKER_COMPOSE_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 .PHONY: $(DOCKER_COMPOSE_FILE) $(ACTIONS)
-ACTIONS = up down logs log pull stop kill help
+ACTIONS = up down logs log pull stop kill deploy remove help
 
 include $(DOCKER_COMPOSE_ENV)
 export
@@ -11,8 +11,12 @@ dev-envsubst:
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/init.json > $(DOCKER_COMPOSE_PATH)/config/build/init.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-create.json > $(DOCKER_COMPOSE_PATH)/config/build/space-create.json
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-config.json > $(DOCKER_COMPOSE_PATH)/config/build/space-config.json
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/OidcTrustedDomains.js
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/env-config.js
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/connect-admin
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/OidcTrustedDomains.js
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/env-config.js
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/registry
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/OidcTrustedDomains.js
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/env-config.js
 
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
@@ -24,16 +28,33 @@ dev:
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
 	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_FILE)"
 
+registry:
+	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
+	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
+	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_FILE)"
+
+proxy:
+	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
+	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
+	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_PROXY_FILE)"
+
 exec-common:
-	@if ! docker network ls | grep -q $(DOCKER_NETWORK); then \
-		docker network create $(DOCKER_NETWORK); \
-	fi
 	@if [ "$(ACTION)" = "up" ]; then \
+  		if ! docker network ls | grep -q $(DOCKER_NETWORK); then \
+  			docker network create $(DOCKER_NETWORK); \
+  		fi; \
 		$(MAKE) --no-print-directory dev-envsubst; \
 	elif [ "$(ACTION)" = "down" ]; then \
 		$(MAKE) --no-print-directory dev-envsubst-clean; \
 	elif [ "$(ACTION)" = "kill" ]; then \
 		$(MAKE) --no-print-directory kill-containers; \
+	elif [ "$(ACTION)" = "deploy" ]; then \
+	  	if ! docker network ls | grep -q $(DOCKER_NETWORK); then \
+			docker network create --driver overlay --scope swarm $(DOCKER_NETWORK); \
+		fi; \
+		$(MAKE) --no-print-directory dev-envsubst; \
+	elif [ "$(ACTION)" = "remove" ]; then \
+		$(MAKE) --no-print-directory dev-envsubst-clean; \
 	elif [ "$(ACTION)" = "help" ]; then \
 		$(MAKE) --no-print-directory dev-help SERVICES_ALL="$(SERVICES_ALL)"; \
 	fi
@@ -61,7 +82,23 @@ kill-containers:
 		docker rm $$(docker ps -a -q); \
 	else \
 		echo "No containers to remove."; \
+	fi; \
+	if [ -n "$$(docker service ls -q)" ]; then \
+		ALL_SERVICES=$$(docker service ls --format '{{.Name}}' | tr '\n' ',' | sed 's/,$$//; s/,/, /g'); \
+		echo "Removing services: $$ALL_SERVICES"; \
+		docker service rm $$(docker service ls -q); \
+	else \
+		echo "No services to remove."; \
+	fi; \
+	if [ -n "$$(docker network ls -q)" ]; then \
+		ALL_NETWORKS=$$(docker network ls --filter type=custom --format '{{.Name}}' | tr '\n' ',' | sed 's/,$$//; s/,/, /g'); \
+		echo "Removing networks: $$ALL_NETWORKS"; \
+		docker network prune -f; \
+	else \
+		echo "No custom networks to remove."; \
 	fi
+
+
 
 
 dev-service-action:
@@ -77,12 +114,19 @@ dev-service-action:
 		docker compose --env-file $(DOCKER_COMPOSE_ENV) -f $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml logs; \
 	elif [ "$(ACTION)" = "pull" ]; then \
 		docker compose --env-file $(DOCKER_COMPOSE_ENV) -f $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml pull; \
+	elif [ "$(ACTION)" = "deploy" ]; then \
+		docker stack deploy --detach=true --compose-file $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml $(DOCKER_NETWORK); \
+	elif [ "$(ACTION)" = "up" ]; then \
+		$(MAKE) --no-print-directory dev-service-action ACTION=deploy SERVICE=$(SERVICE); \
 	else \
 		echo 'No valid action: $(ACTION).'; \
 		echo 'Available actions are:'; \
 		echo '  up    - Start the service.'; \
 		echo '  down  - Stop the service.'; \
-		echo '  logs  - Show logs for the service.'; \
+		echo '  deploy  - Deploy the service stack.'; \
+		echo '  remove  - Remove the service stack.'; \
+		echo '  logs    - Show logs for the service stack.'; \
+		echo '  log     - Follow logs for the service stack.'; \
 	fi
 
 dev-envsubst-clean:
@@ -92,7 +136,9 @@ dev-help:
 	@echo 'To operate on all services [$(SERVICES_ALL)]:'
 	@echo '  make dev up    - Start all services.'
 	@echo '  make dev down  - Stop all services.'
-	@echo '  make dev logs  - Show logs for all services.'
+	@echo '  make dev deploy    - Deploy all service stacks.'
+	@echo '  make dev remove    - Remove all service stacks.'
+	@echo '  make dev logs      - Show logs for all services.'
 	@echo ''
 	@echo 'To operate on a specific service, use: make dev [service] [action]'
 	@echo ''

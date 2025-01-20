@@ -3,6 +3,7 @@ package io.komune.registry.program.s2.dataset.api
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetDataEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
@@ -21,64 +22,26 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		is DatasetLinkedDatasetsEvent -> model?.addDatasets(event)
 		is DatasetLinkedThemesEvent -> model?.addThemes(event)
 		is DatasetDeletedEvent -> model?.delete(event)
-		is DatasetSetImageEvent -> model?.setImageEvent(event)
+		is DatasetSetImageEvent -> model?.setImage(event)
 	}
 
 	private suspend fun create(event: DatasetCreatedEvent) = DatasetEntity().apply {
+		applyEvent(event)
 		id = event.id
-		identifier = event.identifier
-		description = event.description
-		title = event.title
-		type = event.type
-		accessRights = event.accessRights
-		conformsTo = event.conformsTo
-		creator = event.creator
-		releaseDate = event.releaseDate
-		updateDate = event.updateDate
-		language = event.language
-		publisher = event.publisher
-		theme = event.theme
-		keywords = event.keywords
-		landingPage = event.landingPage
-		version = event.version
-		versionNotes = event.versionNotes
-		length = event.length
-		temporalResolution = event.temporalResolution
-		wasGeneratedBy = event.wasGeneratedBy
-		lastUpdate = event.date
 		status = DatasetState.ACTIVE
+		identifier = event.identifier
+		issued = event.date
 	}
-	private suspend fun DatasetEntity.setImageEvent(event: DatasetSetImageEvent) = apply {
+	private suspend fun DatasetEntity.setImage(event: DatasetSetImageEvent) = apply {
 		img = event.img
-		lastUpdate = event.date
+		modified = event.date
 	}
 	private suspend fun DatasetEntity.delete(event: DatasetDeletedEvent) = apply {
 		status = DatasetState.DELETED
-		lastUpdate = event.date
+		modified = event.date
 	}
 	private suspend fun DatasetEntity.update(event: DatasetUpdatedEvent) = apply {
-		id = event.id
-		identifier = event.identifier
-		description = event.description
-		title = event.title
-		type = event.type
-		accessRights = event.accessRights
-		conformsTo = event.conformsTo
-		creator = event.creator
-		releaseDate = event.releaseDate
-		updateDate = event.updateDate
-		language = event.language
-		publisher = event.publisher
-		theme = event.theme
-		keywords = event.keywords
-		landingPage = event.landingPage
-		version = event.version
-		versionNotes = event.versionNotes
-		length = event.length
-		temporalResolution = event.temporalResolution
-		wasGeneratedBy = event.wasGeneratedBy
-		lastUpdate = event.date
-		status = DatasetState.ACTIVE
+		applyEvent(event)
 	}
 
 	private suspend fun DatasetEntity.addThemes(event: DatasetLinkedThemesEvent) = apply {
@@ -88,4 +51,28 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	private suspend fun DatasetEntity.addDatasets(event: DatasetLinkedDatasetsEvent) = apply {
 	}
 
+	private fun DatasetEntity.applyEvent(event: DatasetDataEvent) = apply {
+		title = event.title
+		type = event.type
+		description = event.description
+		language = event.language
+		wasGeneratedBy = event.wasGeneratedBy
+		source = event.source
+		creator = event.creator
+		publisher = event.publisher
+		validator = event.validator
+		accessRights = event.accessRights
+		license = event.license
+		temporalResolution = event.temporalResolution
+		conformsTo = event.conformsTo
+		format = event.format
+		keywords = event.keywords
+		homepage = event.homepage
+		landingPage = event.landingPage
+		version = event.version
+		versionNotes = event.versionNotes
+		length = event.length
+		modified = event.date
+		releaseDate = event.releaseDate
+	}
 }

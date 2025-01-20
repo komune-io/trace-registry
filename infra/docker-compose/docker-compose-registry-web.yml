@@ -1,0 +1,29 @@
+services:
+  registry-web:
+    image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-web:${REGISTRY_VERSION}
+    container_name: registry-web
+    configs:
+      - source: registry_web_env_config
+        target: /var/www/env-config.js
+      - source: registry_web_oidc_config
+        target: /var/www/OidcTrustedDomains.js
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.registry-web.loadbalancer.server.port: "80"
+      traefik.http.routers.registry-web.rule: Host(`100m.kosmio.dev`)
+      traefik.http.routers.registry-web.entrypoints: websecure
+      traefik.http.routers.registry-web.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: "81:80" is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+configs:
+  registry_web_env_config:
+    file: ./config/build/registry/env-config.js
+  registry_web_oidc_config:
+    file: ./config/build/registry/OidcTrustedDomains.js

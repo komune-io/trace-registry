@@ -12,6 +12,7 @@ class CatalogueDslTest {
         val catalogue1: DCatApCatalogueModel = catalogue {
             identifier = "http://example.com/catalogue"
             type = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
             title = "catalogues"
             datasets {
@@ -19,13 +20,14 @@ class CatalogueDslTest {
                     identifier = "http://example.com/datasets/weather"
                     type = "catalogues"
                     title = "catalogues"
+                    language = "fr"
 
                 }
                 dataset {
                     identifier = "http://example.com/datasets/weather1"
                     type = "catalogues"
                     title = "catalogues"
-
+                    language = "fr"
                 }
             }
         }

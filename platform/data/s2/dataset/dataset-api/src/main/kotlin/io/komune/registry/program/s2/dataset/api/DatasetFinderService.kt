@@ -4,10 +4,10 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
-import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toDataset
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.dataset.domain.DatasetFinder
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
@@ -24,8 +24,10 @@ class DatasetFinderService(
 		return datasetRepository.findById(id).orElse(null)?.toDataset()
 	}
 
-	override suspend fun getOrNullByIdentifier(id: DatasetIdentifier): DatasetModel? {
-		return datasetRepository.findByIdentifier(id).orElse(null)?.toDataset()
+	override suspend fun getOrNullByIdentifier(id: DatasetIdentifier, language: String): DatasetModel? {
+		return datasetRepository.findByIdentifierAndLanguage(id, language)
+			.orElse(null)
+			?.toDataset()
 	}
 
 	override suspend fun get(id: DatasetId): DatasetModel {
@@ -51,5 +53,10 @@ class DatasetFinderService(
 		).map {
 			it.toDataset()
 		}
+	}
+
+	override suspend fun listByIdentifier(identifier: String): List<DatasetModel> {
+		return datasetRepository.findAllByIdentifier(identifier)
+			.map { it.toDataset() }
 	}
 }

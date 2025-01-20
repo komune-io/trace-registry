@@ -9,7 +9,7 @@ window._env_ = {
     keycloak: {
       realm: "${KC_REALM}",
       clientId: "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
-      url: "${KC_HOST_URL}"
+      url: "${KC_URL}"
     }
   }
 };
