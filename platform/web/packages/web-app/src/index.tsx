@@ -7,7 +7,7 @@ import {
   ThemeContextProvider
 } from "@komune-io/g2";
 import { languages } from "i18n";
-import { theme } from "Themes";
+import { muiTheme, theme } from "Themes";
 import { QueryClient } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
@@ -43,7 +43,7 @@ const oidcConfiguration: OidcConfiguration = {
 
 root.render(
   //@ts-ignore
-  <ThemeContextProvider theme={theme}>
+  <ThemeContextProvider customMuiTheme={muiTheme} theme={theme}>
     <React.StrictMode>
       <KeycloakProvider
         configuration={oidcConfiguration}

@@ -1,4 +1,5 @@
-import { Typography, Box } from '@mui/material'
+import { Typography } from '@mui/material'
+import { SearchFilter } from 'components'
 import {
     CatalogueBreadcrumbs,
     CatalogueGrid, Catalogue,
@@ -7,6 +8,7 @@ import {
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, FixedPagination } from 'template'
+import {useCallback} from "react"
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -17,7 +19,7 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t } = useTranslation()
 
-    const { component, submittedFilters, setOffset } = useCatalogueFilters({
+    const { submittedFilters, setOffset, setAdditionalFilter } = useCatalogueFilters({
         initialValues: {
             limit: 12
         }
@@ -29,6 +31,13 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
             ...submittedFilters
         },
     })
+
+    const onSearch = useCallback(
+      (value: string) => {
+        setAdditionalFilter("title", value)
+      },
+      [setAdditionalFilter],
+    )
 
     const title =
         catalogue?.type === "methodologies" ?
@@ -44,18 +53,19 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
             }}
         >
             <CatalogueBreadcrumbs />
-            {catalogue?.description && <Typography
-                sx={{ maxWidth: "1000px", alignSelf: "center" }}
+            <Typography
+                sx={{ maxWidth: "900px", alignSelf: "center" }}
             >
-                {catalogue?.description}
-            </Typography>}
-            <Box
-                sx={{
+                {t("catalogues.presentation")}
+            </Typography>
+            <SearchFilter rootProps={{
+                sx: {
                     alignSelf: "center"
-                }}
-            >
-                {component}
-            </Box>
+                }
+            }} 
+            placeholder={t("search")} 
+            onSearch={onSearch}
+             />
             <CatalogueGrid items={data?.items} isLoading={isLoading} />
             <FixedPagination pagination={submittedFilters} page={data} isLoading={isInitialLoading} onOffsetChange={setOffset} />
         </AppPage>

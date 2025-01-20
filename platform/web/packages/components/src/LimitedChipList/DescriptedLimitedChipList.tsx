@@ -13,7 +13,7 @@ export interface DescriptedLimitedChipListProps extends StackProps {
 }
 
 export const DescriptedLimitedChipList = (props: DescriptedLimitedChipListProps) => {
-    const { tags = [], description, limit = 4, isLoading, ...other } = props
+    const { tags, description, limit = 4, isLoading, ...other } = props
 
     return (
         <Stack
@@ -40,11 +40,12 @@ export const DescriptedLimitedChipList = (props: DescriptedLimitedChipListProps)
                             WebkitBoxOrient: 'vertical',
                             textOverflow: 'ellipsis',
                             overflow: 'hidden',
+                            color: "text.secondary"
                         }}
                     >
                         {description}
                     </Typography>
-                    <LimitedList values={tags} listedComponent={Chip} limit={limit} />
+                    {tags && <LimitedList values={tags} listedComponent={Chip} limit={limit} />}
                 </>
                 :
                 <Skeleton animation="wave" height="230px" width="100%" sx={{

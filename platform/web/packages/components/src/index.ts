@@ -19,4 +19,6 @@ export * from "./ThumbnailPdfDisplayer"
 export * from "./InteractiveChipList"
 export * from "./TableCellFileName"
 export * from "./SubtitledLinkTicket"
+export * from "./SearchFilter"
+export * from "./Tabs"
 

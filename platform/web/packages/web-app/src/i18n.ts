@@ -1,12 +1,12 @@
 import { useI18n } from "@komune-io/g2-providers";
 
 export interface Languages {
-  // fr: string;
+  fr: string;
   en: string
 }
 
 export const languages: Languages = {
-  // fr: "fr-FR",
+  fr: "fr-FR",
   en: "en-US",
 };
 

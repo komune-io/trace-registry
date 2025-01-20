@@ -1,9 +1,8 @@
 import { Box, Card, CardProps, Divider, Skeleton, Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
 import { DescriptedLimitedChipList, useRoutesDefinition } from 'components'
-import { useTranslation } from 'react-i18next'
 import { useMemo } from "react"
-import { LinkButton, Option } from '@komune-io/g2'
+import { LinkButton } from '@komune-io/g2'
 import { t } from 'i18next'
 import {config} from "../../../config";
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
@@ -16,25 +15,19 @@ export interface CatalogueCardProps extends CardProps {
 export const CatalogueCard = (props: CatalogueCardProps) => {
     const { catalogue, isLoading, ...other } = props
     const { ids } = useCataloguesRouteParams()
-    const { i18n } = useTranslation()
     const {cataloguesAll} = useRoutesDefinition()
-
-    const themes = useMemo(() =>
-        catalogue?.themes?.map((theme: any): Option => ({
-            key: theme.id, label: theme.prefLabels[i18n.resolvedLanguage ?? "en"], color: "#18159D"
-        }))
-        , [catalogue, i18n.resolvedLanguage])
 
     const projectsCountLabel = useMemo(() => {
         type Dataset = {type: string, length: number}
         const datasets = (catalogue?.datasets ?? [])as Dataset[]
-        const count = datasets
-            .filter((dataset: Dataset) => dataset.type === "project")
-            .map((dataset: Dataset) => dataset.length)
-            .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
-
-        return count > 0 ? t("catalogues.verifiedProjects", { count: count }) : ""
+        // const count = datasets
+        //     .filter((dataset: Dataset) => dataset.type === "project")
+        //     .map((dataset: Dataset) => dataset.length)
+        //     .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0))
+        return datasets.length > 0 ? t("catalogues.verifiedProjects", { count: datasets.length }) : ""
     }, [catalogue?.datasets])
+
+    console.log(catalogue?.datasets)
 
     return (
         <Card
@@ -52,6 +45,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                 <Stack
                     direction="row"
                     justifyContent="space-between"
+                    alignItems="center"
                     sx={{
                         "& .catalogLogo": {
                             width: "auto",
@@ -68,13 +62,13 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                         alt="The standard logo"
                     /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
                     <Typography
-                        variant="subtitle2"
+                        variant="subtitle1"
+                        color="primary"
                     >
                         {isLoading ? <Skeleton animation="wave" width="50px" /> : catalogue?.title}
                     </Typography>
                 </Stack>
                 <DescriptedLimitedChipList
-                    tags={themes}
                     description={catalogue?.description}
                     isLoading={isLoading}
                 />
@@ -93,10 +87,13 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                 >
                     <Typography
                         variant='caption'
+                        sx={{
+                            color: "text.secondary"
+                        }}
                     >
                         {isLoading ? <Skeleton animation="wave" width="100px" /> : projectsCountLabel}
                     </Typography>
-                    <LinkButton to={cataloguesAll(undefined, ...ids, catalogue?.identifier ?? "")} >{t("details")}</LinkButton>
+                    <LinkButton to={cataloguesAll(undefined, ...ids, catalogue?.identifier ?? "")} >{t("explore")}</LinkButton>
                 </Stack>
             </Box>
         </Card>

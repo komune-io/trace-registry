@@ -41,7 +41,7 @@ export default defineConfig(async () => {
       svgr()
     ],
     optimizeDeps: {
-      include: kotlinPackages,
+      include: [...kotlinPackages, 'prismjs'],
     },
     build: {
       commonjsOptions: {

@@ -1,8 +1,8 @@
-import { Section } from '@komune-io/g2'
-import {ReactNode, useMemo} from 'react'
-import {HeaderTab} from "@komune-io/g2-layout/dist/Header/Header";
-import {SxProps} from "@mui/system";
-import {Theme} from "@mui/material/styles";
+import { HeaderTab } from '@komune-io/g2'
+import { ReactNode, useMemo } from 'react'
+import { Tabs } from "components";
+import { SxProps } from "@mui/system";
+import { Theme } from "@mui/material/styles";
 
 export interface Tab {
     key: string,
@@ -26,33 +26,18 @@ export const SectionTab = (props: SectionTabProps) => {
         label: tag.label
     })), [tabs])
 
-  const tabContent = useMemo(() => tabs.find(tab => tab.key === currentTab)?.component, [tabs, currentTab])
+    const tabContent = useMemo(() => tabs.find(tab => tab.key === currentTab)?.component, [tabs, currentTab])
     return (
-      <Section headerProps={{
-          content: [{
-              leftPart: [
-                  goBackLink
-              ],
-          }],
-          tabs: headerTabs,
-          currentTab,
-          onTabChange,
-          sx: {
-              "& .MuiTabs-flexContainer": {
-                  justifyContent: "center"
-              },
-              "& .AruiHeader-contentContainer": {
-                  gap: "0"
-              },
-              "& .AruiHeader-leftPartContainer": {
-                  marginBottom: "-25px"
-              }
-          }
-      }}
-       flexContent
-       sx={sx}
-      >
+        <>
+        {goBackLink}
+        <Tabs
+            tabs={headerTabs}
+            currentTab={currentTab}
+            onTabChange={onTabChange}
+            //    flexContent
+            sx={sx}
+        />
         {tabContent}
-      </Section>
+        </>
     )
 }

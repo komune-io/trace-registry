@@ -1,8 +1,8 @@
 import { Box, IconButton } from "@mui/material"
-import { Link } from "react-router-dom"
-import { TraceIcon } from "../Icons";
+import { Link as RouterLink } from "react-router-dom"
 import { Menu } from "@mui/icons-material";
 import {ElementType} from "react";
+import {Link} from "@komune-io/g2"
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
@@ -23,13 +23,21 @@ export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: Perman
         >
             <Box />
             <Link
-                to="/"
+                component={RouterLink}
+                componentProps={{to: "/"}}
+                color="primary"
+                variant="h6"
                 style={{
                     flexGrow: 1,
                     display: "flex",
+                    alignItems: "center",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                    gap: "10px"
                 }}
             >
-                <TraceIcon style={{ width: "100%", height: "35px" }} />
+                <img src="/logo.png" style={{ width: "auto", height: "35px" }} />
+                WikiCO2
             </Link>
             <IconButton onClick={toggleOpenDrawer}>
                 <Menu />
