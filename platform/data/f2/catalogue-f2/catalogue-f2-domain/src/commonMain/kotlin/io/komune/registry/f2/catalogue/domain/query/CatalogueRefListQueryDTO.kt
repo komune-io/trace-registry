@@ -3,15 +3,15 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Get a page of activities.
  * @d2 function
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
- * @order 10
+ * @order 30
  */
 typealias CatalogueRefListFunction = F2Function<CatalogueRefListQuery, CatalogueRefListResult>
 

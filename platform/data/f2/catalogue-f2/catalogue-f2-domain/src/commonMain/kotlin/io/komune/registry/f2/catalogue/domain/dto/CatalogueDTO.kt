@@ -18,9 +18,10 @@ import kotlin.js.JsExport
  * @d2 model
  * @title Catalogue
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
+ * @order 10
  */
 @JsExport
-interface CatalogueDTO{
+interface CatalogueDTO {
     /**
      * A unique identifier represented as a string.
      *
@@ -173,34 +174,3 @@ data class CatalogueDTOBase(
     override val issued: Long? = null,
     override val modified: Long? = null,
 ): CatalogueDTO
-
-@JsExport
-interface CatalogueRefDTO {
-    val id: String
-    val identifier: String
-    val title: String
-    val type: String
-    val language: String
-    val description: String?
-    val homepage: String?
-    val img: String?
-    val structure: StructureDto?
-    val themes: List<SkosConceptDTO>?
-    val status: CatalogueState?
-}
-
-
-@Serializable
-data class CatalogueRefDTOBase(
-    override val id: String,
-    override val identifier: String,
-    override val title: String,
-    override val type: String,
-    override val language: String,
-    override val description: String? = null,
-    override val homepage: String? = null,
-    override val img: String? = null,
-    override val structure: Structure? = null,
-    override val themes: List<SkosConcept>? = null,
-    override val status: CatalogueState? = null,
-): CatalogueRefDTO

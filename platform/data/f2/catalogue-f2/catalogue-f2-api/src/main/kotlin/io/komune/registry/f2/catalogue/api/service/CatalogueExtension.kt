@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.api.service
 
+import cccev.dsl.model.nullIfEmpty
+import f2.dsl.cqrs.filter.CollectionMatch
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
@@ -12,6 +14,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -30,6 +33,7 @@ suspend fun List<CatalogueModel>.toDTO(
 ) = map {
     it.toDTO(catalogueFinderService)
 }
+
 suspend fun CatalogueModel.toDTO(
     catalogueFinderService: CatalogueFinderService,
 ): CatalogueDTOBase {
@@ -63,24 +67,29 @@ fun CatalogueModel.toRefDTO(): CatalogueRefDTOBase {
     return CatalogueRefDTOBase(
         id = id,
         identifier = identifier,
-        status = status,
         title = title,
-        description = description,
-        themes = themes,
-        type = type,
         language = language,
-        structure = structure,
-        homepage = homepage,
-        img = img
+        type = type,
+        description = description,
+        img = img,
     )
 }
-fun CatalogueModel.toSimpleRefDTO(): CatalogueRefDTOBase {
-    return CatalogueRefDTOBase(
+
+suspend fun CatalogueModel.toRefTreeDTO(catalogueFinderService: CatalogueFinderService, i: Int = 0): CatalogueRefTreeDTOBase {
+    println("$id - $catalogues - $i")
+    return CatalogueRefTreeDTOBase(
         id = id,
         identifier = identifier,
         title = title,
-        type = type,
         language = language,
+        type = type,
+        description = description,
+        img = img,
+        catalogues = catalogues.nullIfEmpty()?.let {
+            catalogueFinderService.page(id = CollectionMatch(it))
+                .items
+                .map { child -> child.toRefTreeDTO(catalogueFinderService, i + 1) }
+        }
     )
 }
 
