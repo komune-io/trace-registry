@@ -1,14 +1,25 @@
 services:
-  platform-web:
+  connect-admin-web:
     image: ${DOCKER_REPOSITORY}connect-admin-web:${VERSION_CONNECT_ADMIN}
     container_name: connect-admin-web
     env_file:
       - .env_dev
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.connect-admin-web.loadbalancer.server.port: "80"
+      traefik.http.routers.connect-admin-web.rule: Host(`connect.100m.kosmio.dev`)
+      traefik.http.routers.connect-admin-web.entrypoints: websecure
+      traefik.http.routers.connect-admin-web.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: "81:80" is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
     ports:
       - "81:80"
-    volumes:
-      - ./config/build/env-config.js:/var/www/env-config.js
-      - ./config/build/OidcTrustedDomains.js:/var/www/OidcTrustedDomains.js
+    configs:
+      - source: env_config
+        target: /var/www/env-config.js
+      - source: oidc_config
+        target: /var/www/OidcTrustedDomains.js
     networks:
       - net
 
@@ -16,3 +27,9 @@ networks:
   net:
     name: ${DOCKER_NETWORK}
     external: true
+
+configs:
+  env_config:
+    file: ./config/build/connect-admin/env-config.js
+  oidc_config:
+    file: ./config/build/connect-admin/OidcTrustedDomains.js

@@ -4,8 +4,8 @@ services:
     image: redis/redis-stack:7.2.0-v13
     container_name: verr-redis
     ports:
-      - 6379:6379
-      - 8011:8001
+      - "6379:6379"
+      - "8011:8001"
     env_file:
       - .env_dev
     environment:

@@ -6,7 +6,7 @@ services:
     env_file:
       - .env_dev
     environment:
-      - im_script_space_auth_serverUrl=${KC_HOST_URL}
+      - im_script_space_auth_serverUrl=${KC_URL}
       - im_script_space_auth_clientId=${KC_IM_CLIENT_ID}
       - im_script_space_auth_clientSecret=${KC_IM_CLIENT_SECRET}
       - im_script_space_jsonCreate=file:/tmp/space-create.json
