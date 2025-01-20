@@ -5,6 +5,7 @@ import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
+import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
@@ -30,22 +31,25 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var title: String = ""
 
-    @Searchable(nostem=true)
-    var homepage: String? = null
-
     var img: FilePath? = null
 
     @Indexed
     lateinit var type: String
 
-    @Indexed
-    var structure: Structure? = null
+    @Searchable(nostem=true)
+    lateinit var language: String
 
     @Searchable(nostem=true)
     var description: String? = null
 
-//    @TagIndexed
+    //    @TagIndexed
     var themes: Set<SkosConcept> = emptySet()
+
+    @Searchable(nostem=true)
+    var homepage: String? = null
+
+    @Indexed
+    var structure: Structure? = null
 
     @TagIndexed
     var catalogues: Set<CatalogueId> = emptySet()
@@ -53,7 +57,14 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var datasets: Set<DatasetId> = emptySet()
 
-    var lastUpdate: Long? = null
+    var creator: Agent? = null
+    var publisher: Agent? = null
+    var validator: Agent? = null
+    var accessRights: String? = null
+    var license: String? = null
+
+    var issued: Long? = null
+    var modified: Long? = null
 
     override fun s2Id() = id
     override fun s2State() = status

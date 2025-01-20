@@ -9,7 +9,7 @@ import io.komune.registry.f2.dataset.api.data.DataProvider
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.api.service.toCommand
-import io.komune.registry.f2.dataset.api.service.toEvent
+import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
@@ -19,12 +19,17 @@ import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBas
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataResult
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
+import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
+import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
@@ -46,6 +51,7 @@ import org.springframework.web.bind.annotation.RestController
 class DatasetEndpoint(
     private val datasetService: DatasetAggregateService,
     private val datasetF2FinderService: DatasetF2FinderService,
+    private val datasetFinderService: DatasetFinderService,
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
@@ -74,11 +80,16 @@ class DatasetEndpoint(
     @Bean
     override fun datasetGet(): DatasetGetFunction = f2Function { query ->
         logger.info("datasetGet: $query")
-        query.identifier?.let {
-            datasetF2FinderService.getByIdentifier(it)
-        } ?: query.id?.let {
-            datasetF2FinderService.getById(it)
-        } ?: DatasetGetResult(null)
+        datasetF2FinderService.getById(query.id)
+            .let(::DatasetGetResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = f2Function { query ->
+        logger.info("datasetGetByIdentifier: $query")
+        datasetF2FinderService.getByIdentifier(query.identifier, query.language)
+            .let(::DatasetGetByIdentifierResult)
     }
 
     @PermitAll
@@ -101,7 +112,7 @@ class DatasetEndpoint(
     override fun datasetCreate(): DatasetCreateFunction = f2Function { cmd ->
         logger.info("datasetCreate: $cmd")
         datasetPoliciesEnforcer.checkCreation()
-        datasetService.create(cmd.toCommand()).toEvent()
+        datasetService.create(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -109,14 +120,14 @@ class DatasetEndpoint(
     override fun datasetDelete(): DatasetDeleteFunction = f2Function { cmd ->
         logger.info("datasetDelete: $cmd")
         datasetPoliciesEnforcer.checkDelete(cmd.id)
-        datasetService.delete(cmd).toEvent()
+        datasetService.delete(cmd).toDTO()
     }
 
     @PermitAll
     @Bean
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { cmd ->
         datasetPoliciesEnforcer.checkLinkDatasets()
-        datasetService.linkDatasets(cmd.toCommand()).toEvent()
+        datasetService.linkDatasets(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -124,16 +135,16 @@ class DatasetEndpoint(
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { cmd ->
         logger.info("datasetLinkThemes: $cmd")
         datasetPoliciesEnforcer.checkLinkThemes()
-        datasetService.linkThemes(cmd.toCommand()).toEvent()
+        datasetService.linkThemes(cmd.toCommand()).toDTO()
     }
 
-    @PostMapping("/datasetSetImageFunction")
-    suspend fun datasetSetImageFunction(
+    @PostMapping("/datasetSetImage")
+    suspend fun datasetSetImage(
         @RequestPart("command") cmd: DatasetSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): DatasetSetImageEventDTOBase {
 
-        logger.info("datasetSetImageFunction: $cmd")
+        logger.info("datasetSetImage: $cmd")
         datasetPoliciesEnforcer.checkSetImg()
         val filePath = file?.let {
             fsService.uploadDatasetImg(
@@ -150,7 +161,6 @@ class DatasetEndpoint(
         return DatasetSetImageEventDTOBase(
             id = cmd.id,
             img = result.img,
-            date = result.date,
         )
     }
 
@@ -168,6 +178,13 @@ class DatasetEndpoint(
         )
     }
 
-
+    @PermitAll
+    @Bean
+    override fun datasetListLanguages(): DatasetListLanguagesFunction = f2Function { query ->
+        logger.info("datasetListLanguages: $query")
+        datasetFinderService.listByIdentifier(query.identifier)
+            .map { it.language }
+            .distinct()
+            .let(::DatasetListLanguagesResult)
+    }
 }
-

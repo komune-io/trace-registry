@@ -13,7 +13,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.ktor.client.plugins.logging.DEFAULT
@@ -54,11 +56,13 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function("data/${this::catalogueCreate.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
         = client.function("data/${this::catalogueLinkCatalogues.name}")
-    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction
-        = client.function("data/${this::catalogueLinkDatasets.name}")
+    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = client.function("data/${this::catalogueLinkDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
     override fun cataloguePage(): CataloguePageFunction = client.function("data/${this::cataloguePage.name}")
     override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
+    override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
+        = client.function("data/${this::catalogueGetByIdentifier.name}")
     override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
+    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = client.function("data/${this::catalogueListLanguages.name}")
 }

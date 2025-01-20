@@ -11,11 +11,19 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         homepage = homepage,
         title = title,
         type = type,
+        language = language,
         structure = structure,
         img = img?.let {"/catalogues/${id}/logo" },
         description = description,
         catalogues = catalogues.toList(),
         datasets = datasets.toList(),
-        themes = themes.toList()
+        themes = themes.toList(),
+        creator = creator,
+        publisher = publisher,
+        validator = validator,
+        accessRights = accessRights,
+        license = license,
+        issued = issued,
+        modified = modified,
     )
 }

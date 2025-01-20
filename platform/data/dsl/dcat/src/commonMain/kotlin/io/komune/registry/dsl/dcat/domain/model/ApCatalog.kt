@@ -3,13 +3,12 @@ package io.komune.registry.dsl.dcat.domain.model
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.structure.domain.model.Structure
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 @JsExport
 interface DcatApCatalogue: CataloguedResource {
     override val identifier: String
-    val homepage: String?
     val img: String?
     val themes: List<SkosConcept>?
     val cataloguedResource: List<CataloguedResource>?
@@ -41,8 +40,9 @@ class DCatApCatalogueModel(
     override val title: String,
     override val releaseDate: String? = null,
     override val updateDate: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val publisher: Agent? = null,
+    override val validator: Agent? = null,
     override val theme: List<SkosConcept>? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,

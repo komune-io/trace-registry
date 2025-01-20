@@ -4,9 +4,9 @@ import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
  * Create a catalogue.
@@ -44,7 +44,7 @@ interface CatalogueLinkDatasetsCommandDTO {
 @Serializable
 data class CatalogueLinkDatasetsCommandDTOBase(
     override val id: CatalogueId,
-    override val datasets: List<DatasetId>
+    override val datasets: List<DatasetId>,
 ): CatalogueLinkDatasetsCommandDTO
 
 /**
@@ -58,12 +58,6 @@ interface CatalogueLinkedDatasetsEventDTO: Event {
      * Id of the catalogue to add sub-catalogues to.
      */
     val id: CatalogueId
-
-    /**
-     * Ids of the sub-catalogues to add.
-     * @example [["8e411870-9a8c-4d7a-91b6-496148c6f5c5", "f31cf8df-44f2-4fef-bc20-09a173032bb2"]]
-     */
-    val datasets: List<DatasetId>
 }
 
 /**
@@ -72,5 +66,4 @@ interface CatalogueLinkedDatasetsEventDTO: Event {
 @Serializable
 data class CatalogueLinkedDatasetsEventDTOBase(
     override val id: CatalogueId,
-    override val datasets: List<DatasetId>
 ): CatalogueLinkedDatasetsEventDTO

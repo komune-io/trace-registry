@@ -12,19 +12,20 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsComma
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
-import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
+import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import java.io.File
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import java.io.File
 
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
@@ -75,9 +76,10 @@ class DCatGraphClient(
         createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
     ): DCatApCatalogueModel {
         val identifier = catalogue.identifier
-        val existingCatalogue = CatalogueGetQuery(
-            identifier = identifier
-        ).invokeWith(catalogueClient.catalogueGet()).item
+        val existingCatalogue = CatalogueGetByIdentifierQuery(
+            identifier = identifier,
+            language = catalogue.language
+        ).invokeWith(catalogueClient.catalogueGetByIdentifier()).item
         if(existingCatalogue != null) {
             createdCatalogues[catalogue.identifier] = existingCatalogue.id
             return CatalogueGetQuery(
@@ -126,6 +128,7 @@ class DCatGraphClient(
                 createdCatalogues[it.identifier]!!
             }.orEmpty(),
             type = catalogue.type,
+            language = catalogue.language,
             structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
@@ -158,9 +161,10 @@ class DCatGraphClient(
 
     private suspend fun DcatDataset.getOrCreate(): DatasetId {
         val client = datasetClient
-        return DatasetGetQuery(
-            identifier = identifier
-        ).invokeWith(client.datasetGet()).item?.id
+        return DatasetGetByIdentifierQuery(
+            identifier = identifier,
+            language = language
+        ).invokeWith(client.datasetGetByIdentifier()).item?.id
             ?: createDataset(client)
     }
 
@@ -176,23 +180,28 @@ class DCatGraphClient(
     private suspend fun DcatDataset.createDataset(client: DatasetClient): DatasetId {
         return DatasetCreateCommandDTOBase(
             identifier = identifier,
-            description = description,
-            type = type,
             title = title,
-            wasGeneratedBy = wasGeneratedBy,
-            accessRights = accessRights,
-            conformsTo = conformsTo,
-            creator = creator,
-            releaseDate = releaseDate,
-            updateDate = updateDate,
+            type = type,
+            description = description,
             language = language,
+            wasGeneratedBy = wasGeneratedBy,
+            source = source,
+            creator = creator,
             publisher = publisher,
+            validator = validator,
+            accessRights = accessRights,
+            license = license?.identifier,
+            temporalResolution = temporalResolution,
+            conformsTo = conformsTo,
+            format = format,
             theme = theme,
             keywords = keywords,
+            homepage = homepage,
             landingPage = landingPage,
             version = version,
             versionNotes = versionNotes,
             length = length,
+            releaseDate = releaseDate,
         ).invokeWith(client.datasetCreate()).id.also {
             println("Created dataset ${identifier} with id ${it}")
         }
@@ -205,6 +214,7 @@ fun CatalogueDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     homepage = homepage,
     img = img,
     type = type,
+    language = language,
     themes = themes,
     catalogues = catalogues?.map { it.toDsl() },
     description = description,
@@ -217,6 +227,7 @@ fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     homepage = homepage,
     img = img,
     type = type,
+    language = language,
     themes = themes,
     description = description,
     title = title,

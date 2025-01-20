@@ -3,13 +3,13 @@ package io.komune.registry.data.test.bdd.f2.dataset.command
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
+import io.komune.registry.data.test.bdd.f2.dataset.data.dataset
 import io.komune.registry.f2.dataset.api.DatasetEndpoint
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
-import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
-import io.komune.registry.data.test.bdd.f2.dataset.data.dataset
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
@@ -105,6 +105,7 @@ class DatasetCreateF2Steps: En, VerCucumberStepsDefinition() {
             identifier = params.identifier,
             description = params.description,
             type = params.type,
+            language = params.language,
             theme = emptyList(),
         )
         command.invokeWith(datasetEndpoint.datasetCreate()).id
@@ -121,6 +122,7 @@ class DatasetCreateF2Steps: En, VerCucumberStepsDefinition() {
         status = entry?.get("status") ?: "ACTIVE",
         homepage = entry?.get("homepage") ?: "https://www.komune.io",
         type = entry?.get("type") ?: "Dataset",
+        language = entry?.get("language") ?: "en",
         display = entry?.get("display") ?: "grid",
     )
 
@@ -129,6 +131,7 @@ class DatasetCreateF2Steps: En, VerCucumberStepsDefinition() {
         val title: TestContextKey,
         val description: String,
         val type: String,
+        val language: String,
         val display: String,
         val homepage: String,
         val status: String

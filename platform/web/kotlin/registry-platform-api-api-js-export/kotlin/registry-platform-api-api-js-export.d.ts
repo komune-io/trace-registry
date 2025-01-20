@@ -2388,6 +2388,706 @@ export declare namespace io.komune.registry.f2.dcs.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.dsl.skos.domain.model {
+    interface SkosConceptDTO {
+        readonly id: string;
+        readonly type: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly broader?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.structure.domain.model {
+    interface StructureDto {
+        readonly type: string;
+        readonly definitions: Record<string, string>;
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface DcatApCatalogue extends io.komune.registry.dsl.dcat.domain.model.CataloguedResource {
+        readonly identifier: string;
+        readonly img?: string;
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly cataloguedResource?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly datasets?: io.komune.registry.dsl.dcat.domain.model.DcatDataset[];
+        readonly services?: io.komune.registry.dsl.dcat.domain.model.DataService[];
+        readonly catalogues?: io.komune.registry.dsl.dcat.domain.model.DcatApCatalogue[];
+        readonly catalogueRecords?: io.komune.registry.dsl.dcat.domain.model.DcatCatalogueRecord[];
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
+        readonly title: string;
+        readonly type: string;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly contactPoint?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
+        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
+        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
+        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
+        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly version?: string;
+        readonly versionNotes?: string;
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface CataloguedResource {
+        readonly title: string;
+        readonly type: string;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly contactPoint?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly identifier?: string;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
+        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
+        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
+        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
+        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly version?: string;
+        readonly versionNotes?: string;
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface DataService {
+        readonly identifier: string;
+        readonly endpointURL: string;
+        readonly endpointDescription?: string;
+        readonly servesDataset?: io.komune.registry.dsl.dcat.domain.model.DcatDataset[];
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface DcatApDatasetSeries extends io.komune.registry.dsl.dcat.domain.model.DcatDataset {
+        readonly modificationDate?: string;
+        readonly geographicalCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
+        readonly first?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
+        readonly last?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
+        readonly seriesMember?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember[];
+        readonly identifier: string;
+        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
+        readonly frequency?: string;
+        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
+        readonly spatialResolution?: string;
+        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
+        readonly source?: string;
+        readonly length?: number;
+        readonly format?: string;
+        readonly title: string;
+        readonly type: string;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly contactPoint?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
+        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
+        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
+        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
+        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly version?: string;
+        readonly versionNotes?: string;
+
+    }
+    interface DcatApDatasetMember extends io.komune.registry.dsl.dcat.domain.model.DcatDataset {
+        readonly title: string;
+        readonly inSeries: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetSeries;
+        readonly previous?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
+        readonly next?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
+        readonly identifier: string;
+        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
+        readonly frequency?: string;
+        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
+        readonly spatialResolution?: string;
+        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
+        readonly source?: string;
+        readonly length?: number;
+        readonly format?: string;
+        readonly type: string;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly contactPoint?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
+        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
+        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
+        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
+        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly version?: string;
+        readonly versionNotes?: string;
+
+    }
+    interface DcatDataset extends io.komune.registry.dsl.dcat.domain.model.CataloguedResource {
+        readonly identifier: string;
+        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
+        readonly frequency?: string;
+        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
+        readonly spatialResolution?: string;
+        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
+        readonly source?: string;
+        readonly length?: number;
+        readonly format?: string;
+        readonly title: string;
+        readonly type: string;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly contactPoint?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly releaseDate?: string;
+        readonly updateDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
+        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
+        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
+        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
+        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
+        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly version?: string;
+        readonly versionNotes?: string;
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface DcatCatalogueRecord {
+        readonly identifier: string;
+        readonly title: string;
+        readonly description?: string;
+        readonly listingDate?: string;
+        readonly updateDate?: string;
+        readonly primaryTopic?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+
+    }
+}
+export declare namespace io.komune.registry.dsl.dcat.domain.model {
+    interface DcatDistribution {
+        readonly identifier: string;
+        readonly accessURL?: string;
+        readonly accessService?: io.komune.registry.dsl.dcat.domain.model.DataService;
+        readonly downloadURL?: string;
+        readonly byteSize?: number;
+        readonly spatialResolution?: string;
+        readonly temporalResolution?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly mediaType?: string;
+        readonly format?: string;
+        readonly compressionFormat?: string;
+        readonly packagingFormat?: string;
+        readonly checksum?: io.komune.registry.dsl.dcat.domain.model.Checksum;
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface CatalogueInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface CatalogueCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.dataset.domain.automate {
+    type DatasetState = "ACTIVE" | "DELETED";
+}
+export declare namespace io.komune.registry.s2.dataset.domain.command {
+    interface DatasetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface DatasetInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface DatasetCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetCreateCommandDTO {
+        readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
+        readonly description?: string;
+        readonly language: string;
+        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
+        readonly source?: string;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly accessRights?: string;
+        readonly license?: string;
+        readonly temporalResolution?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly format?: string;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly homepage?: string;
+        readonly version?: string;
+        readonly versionNotes?: string;
+        readonly length?: number;
+        readonly releaseDate?: string;
+
+    }
+    interface DatasetCreatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface DatasetDeletedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetLinkDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+    interface DatasetLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetLinkThemesCommandDTO {
+        readonly id: string;
+        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+
+    }
+    interface DatasetLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetSetImageCommandDTO {
+        readonly id: string;
+
+    }
+    interface DatasetSetImageEventDTO {
+        readonly id: string;
+        readonly img?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.dto {
+    interface DatasetDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly type: string;
+        readonly temporalResolution?: string;
+        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
+        readonly accessRights?: string;
+        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly description?: string;
+        readonly title: string;
+        readonly releaseDate?: string;
+        readonly language: string;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly keywords?: string[];
+        readonly landingPage?: string;
+        readonly version?: string;
+        readonly versionNotes?: string;
+        readonly length?: number;
+        readonly img?: string;
+        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase[];
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly status: io.komune.registry.s2.dataset.domain.automate.DatasetState;
+        readonly homepage?: string;
+        readonly display?: string;
+        readonly source?: string;
+        readonly license?: string;
+        readonly format?: string;
+        readonly issued?: number;
+        readonly modified?: number;
+
+    }
+    interface DatasetRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
+        readonly description?: string;
+        readonly homepage?: string;
+        readonly img?: string;
+        readonly display?: string;
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
+        readonly status?: io.komune.registry.s2.dataset.domain.automate.DatasetState;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.policy {
+    const DatasetPolicies: {
+        canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canPageSteps(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+    };
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetDataQueryDTO {
+        readonly id: string;
+
+    }
+    interface DatasetDataResultDTO {
+        readonly items: kotlinx.serialization.json.JsonElement[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetGetByIdentifierQueryDTO {
+        readonly identifier: string;
+        readonly language: string;
+
+    }
+    interface DatasetGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface DatasetGetResultDTO {
+        readonly item?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetListLanguagesQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface DatasetListLanguagesResultDTO {
+        readonly items: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetPageQueryDTO {
+        readonly datasetId?: string;
+        readonly title?: string;
+        readonly status?: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface DatasetPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.dataset.domain.dto.DatasetDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetRefListQueryDTO {
+
+    }
+    interface DatasetRefListResultDTO {
+        readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTO[];
+        readonly total: number;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueCreateCommandDTO {
+        readonly identifier: string;
+        readonly title: string;
+        readonly description?: string;
+        readonly type: string;
+        readonly language: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
+        readonly homepage?: string;
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+        readonly catalogues?: string[];
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly accessRights?: string;
+        readonly license?: string;
+
+    }
+    interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueDeletedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueLinkCataloguesCommandDTO {
+        readonly id: string;
+        readonly catalogues: string[];
+
+    }
+    interface CatalogueLinkCataloguesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueLinkDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasets: string[];
+
+    }
+    interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueLinkThemesCommandDTO {
+        readonly id: string;
+        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
+
+    }
+    interface CatalogueLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueSetImageCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueSetImageEventDTO {
+        readonly id: string;
+        readonly img?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
+        readonly date: number;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly description?: string;
+        readonly homepage?: string;
+        readonly title: string;
+        readonly language: string;
+        readonly img?: string;
+        readonly type: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
+        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
+        readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly status: s2.dsl.automate.S2State/* io.komune.registry.s2.catalogue.domain.automate.CatalogueState */;
+        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly accessRights?: string;
+        readonly license?: string;
+        readonly issued?: number;
+        readonly modified?: number;
+
+    }
+    interface CatalogueRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
+        readonly language: string;
+        readonly description?: string;
+        readonly homepage?: string;
+        readonly img?: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
+        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
+        readonly status?: s2.dsl.automate.S2State/* Nullable<io.komune.registry.s2.catalogue.domain.automate.CatalogueState> */;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.policy {
+    const CataloguePolicies: {
+        canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canPageSteps(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        checkLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+    };
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueGetByIdentifierQueryDTO {
+        readonly identifier?: string;
+        readonly language: string;
+
+    }
+    interface CatalogueGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueGetResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueListLanguagesQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface CatalogueListLanguagesResultDTO {
+        readonly items: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CataloguePageQueryDTO {
+        readonly catalogueId?: string;
+        readonly parentIdentifier?: string;
+        readonly title?: string;
+        readonly status?: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface CataloguePageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueRefListQueryDTO {
+
+    }
+    interface CatalogueRefListResultDTO {
+        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly total: number;
+
+    }
+}
 export declare namespace io.komune.registry.f2.user.domain.command {
     interface UserOnboardCommandDTO {
         readonly email: string;
@@ -3002,658 +3702,6 @@ export declare namespace io.komune.registry.f2.project.domain.utils {
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, project: io.komune.registry.f2.project.domain.model.ProjectDTO): boolean;
         canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, project: io.komune.registry.f2.project.domain.model.ProjectDTO): boolean;
     };
-}
-export declare namespace io.komune.registry.dsl.skos.domain.model {
-    interface SkosConceptDTO {
-        readonly id: string;
-        readonly type: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly broader?: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.structure.domain.model {
-    interface StructureDto {
-        readonly type: string;
-        readonly definitions: Record<string, string>;
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface DcatApCatalogue extends io.komune.registry.dsl.dcat.domain.model.CataloguedResource {
-        readonly identifier: string;
-        readonly homepage?: string;
-        readonly img?: string;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly cataloguedResource?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly datasets?: io.komune.registry.dsl.dcat.domain.model.DcatDataset[];
-        readonly services?: io.komune.registry.dsl.dcat.domain.model.DataService[];
-        readonly catalogues?: io.komune.registry.dsl.dcat.domain.model.DcatApCatalogue[];
-        readonly catalogueRecords?: io.komune.registry.dsl.dcat.domain.model.DcatCatalogueRecord[];
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
-        readonly title: string;
-        readonly type: string;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly contactPoint?: string;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
-        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
-        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
-        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
-        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface CataloguedResource {
-        readonly title: string;
-        readonly type: string;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly contactPoint?: string;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly identifier?: string;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
-        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
-        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
-        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
-        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface DataService {
-        readonly identifier: string;
-        readonly endpointURL: string;
-        readonly endpointDescription?: string;
-        readonly servesDataset?: io.komune.registry.dsl.dcat.domain.model.DcatDataset[];
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface DcatApDatasetSeries extends io.komune.registry.dsl.dcat.domain.model.DcatDataset {
-        readonly modificationDate?: string;
-        readonly geographicalCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
-        readonly first?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
-        readonly last?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
-        readonly seriesMember?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember[];
-        readonly identifier: string;
-        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
-        readonly frequency?: string;
-        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
-        readonly spatialResolution?: string;
-        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly length?: number;
-        readonly title: string;
-        readonly type: string;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly contactPoint?: string;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
-        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
-        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
-        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
-        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-
-    }
-    interface DcatApDatasetMember extends io.komune.registry.dsl.dcat.domain.model.DcatDataset {
-        readonly title: string;
-        readonly inSeries: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetSeries;
-        readonly previous?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
-        readonly next?: io.komune.registry.dsl.dcat.domain.model.DcatApDatasetMember;
-        readonly identifier: string;
-        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
-        readonly frequency?: string;
-        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
-        readonly spatialResolution?: string;
-        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly length?: number;
-        readonly type: string;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly contactPoint?: string;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
-        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
-        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
-        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
-        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-
-    }
-    interface DcatDataset extends io.komune.registry.dsl.dcat.domain.model.CataloguedResource {
-        readonly identifier: string;
-        readonly distributions?: io.komune.registry.dsl.dcat.domain.model.DcatDistribution[];
-        readonly frequency?: string;
-        readonly spatialCoverage?: io.komune.registry.dsl.dcat.domain.model.Location;
-        readonly spatialResolution?: string;
-        readonly temporalCoverage?: io.komune.registry.dsl.dcat.domain.model.PeriodOfTime;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly length?: number;
-        readonly title: string;
-        readonly type: string;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly contactPoint?: string;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly relation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly qualifiedRelation?: io.komune.registry.dsl.dcat.domain.model.Relationship[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly qualifiedAttribution?: io.komune.registry.dsl.dcat.domain.model.Attribution[];
-        readonly license?: io.komune.registry.dsl.dcat.domain.model.LicenseDocument;
-        readonly rights?: io.komune.registry.dsl.dcat.domain.model.Rights;
-        readonly hasPart?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly hasPolicy?: io.komune.registry.dsl.dcat.domain.model.Policy[];
-        readonly isReferencedBy?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly previousVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly hasVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource[];
-        readonly currentVersion?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly replaces?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly version?: string;
-        readonly versionNotes?: string;
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface DcatCatalogueRecord {
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly listingDate?: string;
-        readonly updateDate?: string;
-        readonly primaryTopic?: io.komune.registry.dsl.dcat.domain.model.CataloguedResource;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-
-    }
-}
-export declare namespace io.komune.registry.dsl.dcat.domain.model {
-    interface DcatDistribution {
-        readonly identifier: string;
-        readonly accessURL?: string;
-        readonly accessService?: io.komune.registry.dsl.dcat.domain.model.DataService;
-        readonly downloadURL?: string;
-        readonly byteSize?: number;
-        readonly spatialResolution?: string;
-        readonly temporalResolution?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly mediaType?: string;
-        readonly format?: string;
-        readonly compressionFormat?: string;
-        readonly packagingFormat?: string;
-        readonly checksum?: io.komune.registry.dsl.dcat.domain.model.Checksum;
-
-    }
-}
-export declare namespace io.komune.registry.s2.catalogue.domain.command {
-    interface CatalogueEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-    interface CatalogueInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface CatalogueCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.dataset.domain.automate {
-    type DatasetState = "ACTIVE" | "DELETED";
-}
-export declare namespace io.komune.registry.s2.dataset.domain.command {
-    interface DatasetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-    interface DatasetInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface DatasetCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetCreateCommandDTO {
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly type: string;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly version?: string;
-        readonly versionNotes?: string;
-        readonly length?: number;
-
-    }
-    interface DatasetCreatedEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly type: string;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly version?: string;
-        readonly versionNotes?: string;
-        readonly length?: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetDeleteCommandDTO {
-        readonly id: string;
-
-    }
-    interface DatasetDeletedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetLinkDatasetsCommandDTO {
-        readonly id: string;
-        readonly datasets: string[];
-
-    }
-    interface DatasetLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly datasets: string[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetLinkThemesCommandDTO {
-        readonly id: string;
-        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-
-    }
-    interface DatasetLinkThemesEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetSetImageCommandDTO {
-        readonly id: string;
-
-    }
-    interface DatasetSetImageEventDTO {
-        readonly id: string;
-        readonly img?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
-        readonly date: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.dto {
-    interface DatasetDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly type: string;
-        readonly temporalResolution?: string;
-        readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
-        readonly accessRights?: string;
-        readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly description?: string;
-        readonly title: string;
-        readonly releaseDate?: string;
-        readonly updateDate?: string;
-        readonly language?: string[];
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly theme?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly keywords?: string[];
-        readonly landingPage?: string;
-        readonly version?: string;
-        readonly versionNotes?: string;
-        readonly length?: number;
-        readonly img?: string;
-        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase[];
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly status: io.komune.registry.s2.dataset.domain.automate.DatasetState;
-        readonly homepage?: string;
-        readonly display?: string;
-
-    }
-    interface DatasetRefDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly title: string;
-        readonly type: string;
-        readonly description?: string;
-        readonly homepage?: string;
-        readonly img?: string;
-        readonly display?: string;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
-        readonly status?: io.komune.registry.s2.dataset.domain.automate.DatasetState;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.policy {
-    const DatasetPolicies: {
-        canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canPageSteps(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        checkLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        checkLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.dataset.domain.query {
-    interface DatasetDataQueryDTO {
-        readonly id: string;
-
-    }
-    interface DatasetDataResultDTO {
-        readonly items: kotlinx.serialization.json.JsonElement[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.query {
-    interface DatasetGetQueryDTO {
-        readonly id?: string;
-        readonly identifier?: string;
-
-    }
-    interface DatasetGetResultDTO {
-        readonly item?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.query {
-    interface DatasetPageQueryDTO {
-        readonly datasetId?: string;
-        readonly title?: string;
-        readonly status?: string;
-        readonly offset?: number;
-        readonly limit?: number;
-
-    }
-    interface DatasetPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.dataset.domain.dto.DatasetDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.query {
-    interface DatasetRefListQueryDTO {
-
-    }
-    interface DatasetRefListResultDTO {
-        readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTO[];
-        readonly total: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueCreateCommandDTO {
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly type: string;
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
-        readonly homepage?: string;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly catalogues?: string[];
-
-    }
-    interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly identifier: string;
-        readonly title: string;
-        readonly description?: string;
-        readonly type: string;
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
-        readonly homepage?: string;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-        readonly catalogues?: string[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueDeleteCommandDTO {
-        readonly id: string;
-
-    }
-    interface CatalogueDeletedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueLinkCataloguesCommandDTO {
-        readonly id: string;
-        readonly catalogues: string[];
-
-    }
-    interface CatalogueLinkCataloguesEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly catalogues: string[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueLinkDatasetsCommandDTO {
-        readonly id: string;
-        readonly datasets: string[];
-
-    }
-    interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly datasets: string[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueLinkThemesCommandDTO {
-        readonly id: string;
-        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-
-    }
-    interface CatalogueLinkThemesEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-        readonly themes: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueSetImageCommandDTO {
-        readonly id: string;
-
-    }
-    interface CatalogueSetImageEventDTO {
-        readonly id: string;
-        readonly img?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
-        readonly date: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.dto {
-    interface CatalogueDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly description?: string;
-        readonly homepage?: string;
-        readonly title: string;
-        readonly img?: string;
-        readonly type: string;
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
-        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
-        readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly status: s2.dsl.automate.S2State/* io.komune.registry.s2.catalogue.domain.automate.CatalogueState */;
-
-    }
-    interface CatalogueRefDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly title: string;
-        readonly type: string;
-        readonly description?: string;
-        readonly homepage?: string;
-        readonly img?: string;
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
-        readonly status?: s2.dsl.automate.S2State/* Nullable<io.komune.registry.s2.catalogue.domain.automate.CatalogueState> */;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.policy {
-    const CataloguePolicies: {
-        canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canPageSteps(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        checkLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        checkLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        checkLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CatalogueGetQueryDTO {
-        readonly id?: string;
-        readonly identifier?: string;
-
-    }
-    interface CatalogueGetResultDTO {
-        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CataloguePageQueryDTO {
-        readonly catalogueId?: string;
-        readonly parentIdentifier?: string;
-        readonly title?: string;
-        readonly status?: string;
-        readonly offset?: number;
-        readonly limit?: number;
-
-    }
-    interface CataloguePageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CatalogueRefListQueryDTO {
-
-    }
-    interface CatalogueRefListResultDTO {
-        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly total: number;
-
-    }
 }
 export declare interface EnableModuleExport {
 

@@ -67,7 +67,9 @@ sealed interface DcatDataset: CataloguedResource {
     val temporalCoverage: PeriodOfTime?
     val temporalResolution: String?
     val wasGeneratedBy: Activity?
+    val source: String?
     val length: Int?
+    val format: String?
 }
 
 @Suppress("LongParameterList")
@@ -85,20 +87,24 @@ class DcatApDatasetMemberModel(
     override val temporalCoverage: PeriodOfTime? = null,
     override val temporalResolution: String? = null,
     override val wasGeneratedBy: Activity? = null,
+    override val source: String? = null,
     override val accessRights: String? = null,
     override val conformsTo: List<SkosConceptScheme>? = null,
+    override val format: String? = null,
     override val contactPoint: String? = null,
     override val creator: Agent? = null,
     override val description: String? = null,
     override val releaseDate: String? = null,
     override val updateDate: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val publisher: Agent? = null,
+    override val validator: Agent? = null,
     override val theme: List<SkosConcept>? = null,
     override val relation: List<Relationship>? = null,
     override val qualifiedRelation: List<Relationship>? = null,
     override val keywords: List<String>? = null,
     override val landingPage: String? = null,
+    override val homepage: String? = null,
     override val qualifiedAttribution: List<Attribution>? = null,
     override val license: LicenseDocument? = null,
     override val rights: Rights? = null,
@@ -132,7 +138,7 @@ data class DcatDatasetModel(
     override val title: String,
     override val releaseDate: String? = null,
     override val updateDate: String? = null,
-    override val language: List<String>? = null,
+    override val language: String,
     override val publisher: Agent? = null,
     override val theme: List<SkosConcept>? = null,
     override val relation: List<Relationship>? = null,
@@ -152,4 +158,8 @@ data class DcatDatasetModel(
     override val version: String? = null,
     override val versionNotes: String? = null,
     override val length: Int? = null,
+    override val validator: Agent? = null,
+    override val source: String? = null,
+    override val format: String? = null,
+    override val homepage: String? = null
 ): DcatDataset

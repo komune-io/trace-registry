@@ -1030,37 +1030,105 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(SectionConditionTypeValues, 'SectionConditionTypeValues', objectMeta);
   setMetadataFor(DataCollectionStepGetQueryDTO, 'DataCollectionStepGetQueryDTO', interfaceMeta);
   setMetadataFor(DataCollectionStepGetResultDTO, 'DataCollectionStepGetResultDTO', interfaceMeta);
+  setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta);
+  setMetadataFor(StructureDto, 'StructureDto', interfaceMeta);
+  setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta);
+  setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, VOID, [CataloguedResource]);
+  setMetadataFor(DataService, 'DataService', interfaceMeta);
+  setMetadataFor(DcatDataset, 'DcatDataset', interfaceMeta, VOID, [CataloguedResource]);
+  setMetadataFor(DcatApDatasetSeries, 'DcatApDatasetSeries', interfaceMeta, VOID, [DcatDataset]);
+  setMetadataFor(DcatApDatasetMember, 'DcatApDatasetMember', interfaceMeta, VOID, [DcatDataset]);
+  setMetadataFor(DcatCatalogueRecord, 'DcatCatalogueRecord', interfaceMeta);
+  setMetadataFor(DcatDistribution, 'DcatDistribution', interfaceMeta);
+  setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, VOID, [S2SourcingEvent]);
+  setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, VOID, [S2InitCommand]);
+  setMetadataFor(CatalogueCommand, 'CatalogueCommand', interfaceMeta, VOID, [S2Command]);
+  setMetadataFor(Companion_94, 'Companion', objectMeta);
+  setMetadataFor(DatasetState, 'DatasetState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_94});
+  setMetadataFor(DatasetEvent, 'DatasetEvent', interfaceMeta, VOID, [S2SourcingEvent]);
+  setMetadataFor(DatasetInitCommand, 'DatasetInitCommand', interfaceMeta, VOID, [S2InitCommand]);
+  setMetadataFor(DatasetCommand, 'DatasetCommand', interfaceMeta, VOID, [S2Command]);
+  setMetadataFor(DatasetCreateCommandDTO, 'DatasetCreateCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetCreatedEventDTO, 'DatasetCreatedEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(DatasetDeleteCommandDTO, 'DatasetDeleteCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetDeletedEventDTO, 'DatasetDeletedEventDTO', interfaceMeta);
+  setMetadataFor(DatasetLinkDatasetsCommandDTO, 'DatasetLinkDatasetsCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetLinkDatasetsEventDTO, 'DatasetLinkedDatasetsEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(DatasetLinkThemesCommandDTO, 'DatasetLinkThemesCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetLinkThemesEventDTO, 'DatasetLinkedThemesEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(DatasetSetImageCommandDTO, 'DatasetSetImageCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetSetImageEventDTO, 'DatasetSetImageEventDTO', interfaceMeta);
+  setMetadataFor(DatasetDTO, 'DatasetDTO', interfaceMeta);
+  setMetadataFor(DatasetRefDTO, 'DatasetRefDTO', interfaceMeta);
+  setMetadataFor(DatasetPolicies, 'DatasetPolicies', objectMeta);
+  setMetadataFor(DatasetDataQueryDTO, 'DatasetDataQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetDataResultDTO, 'DatasetDataResultDTO', interfaceMeta);
+  setMetadataFor(DatasetGetByIdentifierQueryDTO, 'DatasetGetByIdentifierQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetGetByIdentifierResultDTO, 'DatasetGetByIdentifierResultDTO', interfaceMeta);
+  setMetadataFor(DatasetGetQueryDTO, 'DatasetGetQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetGetResultDTO, 'DatasetGetResultDTO', interfaceMeta);
+  setMetadataFor(DatasetListLanguagesQueryDTO, 'DatasetListLanguagesQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetListLanguagesResultDTO, 'DatasetListLanguagesResultDTO', interfaceMeta);
+  setMetadataFor(DatasetPageQueryDTO, 'DatasetPageQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetPageResultDTO, 'DatasetPageResultDTO', interfaceMeta, VOID, [PageDTO]);
+  setMetadataFor(DatasetRefListQueryDTO, 'DatasetRefListQueryDTO', interfaceMeta);
+  setMetadataFor(DatasetRefListResultDTO, 'DatasetRefListResultDTO', interfaceMeta);
+  setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueDeletedEventDTO, 'CatalogueDeletedEventDTO', interfaceMeta);
+  setMetadataFor(CatalogueLinkCataloguesCommandDTO, 'CatalogueLinkCataloguesCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(CatalogueLinkDatasetsCommandDTO, 'CatalogueLinkDatasetsCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueLinkDatasetsEventDTO, 'CatalogueLinkedDatasetsEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueLinkThemesEventDTO, 'CatalogueLinkedThemesEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(CatalogueSetImageCommandDTO, 'CatalogueSetImageCommandDTO', interfaceMeta);
+  setMetadataFor(CatalogueSetImageEventDTO, 'CatalogueSetImageEventDTO', interfaceMeta);
+  setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta);
+  setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta);
+  setMetadataFor(CataloguePolicies, 'CataloguePolicies', objectMeta);
+  setMetadataFor(CatalogueGetByIdentifierQueryDTO, 'CatalogueGetByIdentifierQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueGetByIdentifierResultDTO, 'CatalogueGetByIdentifierResultDTO', interfaceMeta);
+  setMetadataFor(CatalogueGetQueryDTO, 'CatalogueGetQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta);
+  setMetadataFor(CatalogueListLanguagesQueryDTO, 'CatalogueListLanguagesQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueListLanguagesResultDTO, 'CatalogueListLanguagesResultDTO', interfaceMeta);
+  setMetadataFor(CataloguePageQueryDTO, 'CataloguePageQueryDTO', interfaceMeta);
+  setMetadataFor(CataloguePageResultDTO, 'CataloguePageResultDTO', interfaceMeta, VOID, [PageDTO]);
+  setMetadataFor(CatalogueRefListQueryDTO, 'CatalogueRefListQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueRefListResultDTO, 'CatalogueRefListResultDTO', interfaceMeta);
   setMetadataFor(UserOnboardCommandDTO, 'UserOnboardCommandDTO', interfaceMeta);
   setMetadataFor(UserOnboardedEventDTO, 'UserOnboardedEventDTO', interfaceMeta);
   setMetadataFor(OrderInitCommand, 'OrderInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(OrderCommand, 'OrderCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(OrderEvent, 'OrderEvent', interfaceMeta, VOID, [S2SourcingEvent]);
-  setMetadataFor(Companion_94, 'Companion', objectMeta);
-  setMetadataFor(OrderState, 'OrderState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_94});
-  setMetadataFor(OrderCancelCommand, 'OrderCancelCommand', classMeta, VOID, [OrderCommand]);
   setMetadataFor(Companion_95, 'Companion', objectMeta);
+  setMetadataFor(OrderState, 'OrderState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_95});
+  setMetadataFor(OrderCancelCommand, 'OrderCancelCommand', classMeta, VOID, [OrderCommand]);
+  setMetadataFor(Companion_96, 'Companion', objectMeta);
   setMetadataFor(OrderCanceledEvent, 'OrderCanceledEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderCompleteCommand, 'OrderCompleteCommand', classMeta, VOID, [OrderCommand]);
-  setMetadataFor(Companion_96, 'Companion', objectMeta);
-  setMetadataFor(OrderCompletedEvent, 'OrderCompletedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(Companion_97, 'Companion', objectMeta);
-  setMetadataFor(OrderDeleteCommand, 'OrderDeleteCommand', classMeta, VOID, [OrderCommand]);
+  setMetadataFor(OrderCompletedEvent, 'OrderCompletedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(Companion_98, 'Companion', objectMeta);
+  setMetadataFor(OrderDeleteCommand, 'OrderDeleteCommand', classMeta, VOID, [OrderCommand]);
+  setMetadataFor(Companion_99, 'Companion', objectMeta);
   setMetadataFor(OrderDeletedEvent, 'OrderDeletedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderPendCommand, 'OrderPendCommand', classMeta, VOID, [OrderCommand]);
-  setMetadataFor(Companion_99, 'Companion', objectMeta);
+  setMetadataFor(Companion_100, 'Companion', objectMeta);
   setMetadataFor(OrderPendedEvent, 'OrderPendedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderPlaceCommandDTO, 'OrderPlaceCommandDTO', interfaceMeta, VOID, [OrderInitCommand]);
   setMetadataFor(OrderPlaceCommand, 'OrderPlaceCommand', classMeta, VOID, [OrderPlaceCommandDTO]);
-  setMetadataFor(Companion_100, 'Companion', objectMeta);
+  setMetadataFor(Companion_101, 'Companion', objectMeta);
   setMetadataFor(OrderPlacedEvent, 'OrderPlacedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderSubmitCommandDTO, 'OrderSubmitCommandDTO', interfaceMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderSubmitCommand, 'OrderSubmitCommand', classMeta, VOID, [OrderSubmitCommandDTO]);
-  setMetadataFor(Companion_101, 'Companion', objectMeta);
+  setMetadataFor(Companion_102, 'Companion', objectMeta);
   setMetadataFor(OrderSubmittedEvent, 'OrderSubmittedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderUpdateCommandDTO, 'OrderUpdateCommandDTO', interfaceMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderUpdateCommand, 'OrderUpdateCommand', classMeta, VOID, [OrderUpdateCommandDTO]);
-  setMetadataFor(Companion_102, 'Companion', objectMeta);
+  setMetadataFor(Companion_103, 'Companion', objectMeta);
   setMetadataFor(OrderUpdatedEvent, 'OrderUpdatedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(AssetOrderCancelCommandDTO, 'AssetOrderCancelCommandDTO', interfaceMeta);
   setMetadataFor(AssetOrderCanceledEventDTO, 'AssetOrderCanceledEventDTO', interfaceMeta);
@@ -1145,66 +1213,6 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ProjectPageQueryDTO, 'ProjectPageQueryDTO', interfaceMeta);
   setMetadataFor(ProjectPageResultDTO, 'ProjectPageResultDTO', interfaceMeta, VOID, [PageQueryResultDTO]);
   setMetadataFor(ProjectPolicies, 'ProjectPolicies', objectMeta);
-  setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta);
-  setMetadataFor(StructureDto, 'StructureDto', interfaceMeta);
-  setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta);
-  setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, VOID, [CataloguedResource]);
-  setMetadataFor(DataService, 'DataService', interfaceMeta);
-  setMetadataFor(DcatDataset, 'DcatDataset', interfaceMeta, VOID, [CataloguedResource]);
-  setMetadataFor(DcatApDatasetSeries, 'DcatApDatasetSeries', interfaceMeta, VOID, [DcatDataset]);
-  setMetadataFor(DcatApDatasetMember, 'DcatApDatasetMember', interfaceMeta, VOID, [DcatDataset]);
-  setMetadataFor(DcatCatalogueRecord, 'DcatCatalogueRecord', interfaceMeta);
-  setMetadataFor(DcatDistribution, 'DcatDistribution', interfaceMeta);
-  setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, VOID, [S2SourcingEvent]);
-  setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, VOID, [S2InitCommand]);
-  setMetadataFor(CatalogueCommand, 'CatalogueCommand', interfaceMeta, VOID, [S2Command]);
-  setMetadataFor(Companion_103, 'Companion', objectMeta);
-  setMetadataFor(DatasetState, 'DatasetState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_103});
-  setMetadataFor(DatasetEvent, 'DatasetEvent', interfaceMeta, VOID, [S2SourcingEvent]);
-  setMetadataFor(DatasetInitCommand, 'DatasetInitCommand', interfaceMeta, VOID, [S2InitCommand]);
-  setMetadataFor(DatasetCommand, 'DatasetCommand', interfaceMeta, VOID, [S2Command]);
-  setMetadataFor(DatasetCreateCommandDTO, 'DatasetCreateCommandDTO', interfaceMeta);
-  setMetadataFor(DatasetCreatedEventDTO, 'DatasetCreatedEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(DatasetDeleteCommandDTO, 'DatasetDeleteCommandDTO', interfaceMeta);
-  setMetadataFor(DatasetDeletedEventDTO, 'DatasetDeletedEventDTO', interfaceMeta);
-  setMetadataFor(DatasetLinkDatasetsCommandDTO, 'DatasetLinkDatasetsCommandDTO', interfaceMeta);
-  setMetadataFor(DatasetLinkDatasetsEventDTO, 'DatasetLinkedDatasetsEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(DatasetLinkThemesCommandDTO, 'DatasetLinkThemesCommandDTO', interfaceMeta);
-  setMetadataFor(DatasetLinkThemesEventDTO, 'DatasetLinkedThemesEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(DatasetSetImageCommandDTO, 'DatasetSetImageCommandDTO', interfaceMeta);
-  setMetadataFor(DatasetSetImageEventDTO, 'DatasetSetImageEventDTO', interfaceMeta);
-  setMetadataFor(DatasetDTO, 'DatasetDTO', interfaceMeta);
-  setMetadataFor(DatasetRefDTO, 'DatasetRefDTO', interfaceMeta);
-  setMetadataFor(DatasetPolicies, 'DatasetPolicies', objectMeta);
-  setMetadataFor(DatasetDataQueryDTO, 'DatasetDataQueryDTO', interfaceMeta);
-  setMetadataFor(DatasetDataResultDTO, 'DatasetDataResultDTO', interfaceMeta);
-  setMetadataFor(DatasetGetQueryDTO, 'DatasetGetQueryDTO', interfaceMeta);
-  setMetadataFor(DatasetGetResultDTO, 'DatasetGetResultDTO', interfaceMeta);
-  setMetadataFor(DatasetPageQueryDTO, 'DatasetPageQueryDTO', interfaceMeta);
-  setMetadataFor(DatasetPageResultDTO, 'DatasetPageResultDTO', interfaceMeta, VOID, [PageDTO]);
-  setMetadataFor(DatasetRefListQueryDTO, 'DatasetRefListQueryDTO', interfaceMeta);
-  setMetadataFor(DatasetRefListResultDTO, 'DatasetRefListResultDTO', interfaceMeta);
-  setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueDeletedEventDTO, 'CatalogueDeletedEventDTO', interfaceMeta);
-  setMetadataFor(CatalogueLinkCataloguesCommandDTO, 'CatalogueLinkCataloguesCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueLinkCataloguesEventDTO, 'CatalogueLinkedCataloguesEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(CatalogueLinkDatasetsCommandDTO, 'CatalogueLinkDatasetsCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueLinkDatasetsEventDTO, 'CatalogueLinkedDatasetsEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(CatalogueLinkThemesCommandDTO, 'CatalogueLinkThemesCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueLinkThemesEventDTO, 'CatalogueLinkedThemesEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(CatalogueSetImageCommandDTO, 'CatalogueSetImageCommandDTO', interfaceMeta);
-  setMetadataFor(CatalogueSetImageEventDTO, 'CatalogueSetImageEventDTO', interfaceMeta);
-  setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta);
-  setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta);
-  setMetadataFor(CataloguePolicies, 'CataloguePolicies', objectMeta);
-  setMetadataFor(CatalogueGetQueryDTO, 'CatalogueGetQueryDTO', interfaceMeta);
-  setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta);
-  setMetadataFor(CataloguePageQueryDTO, 'CataloguePageQueryDTO', interfaceMeta);
-  setMetadataFor(CataloguePageResultDTO, 'CataloguePageResultDTO', interfaceMeta, VOID, [PageDTO]);
-  setMetadataFor(CatalogueRefListQueryDTO, 'CatalogueRefListQueryDTO', interfaceMeta);
-  setMetadataFor(CatalogueRefListResultDTO, 'CatalogueRefListResultDTO', interfaceMeta);
   setMetadataFor(EnableModuleExport, 'EnableModuleExport', interfaceMeta);
   //endregion
   function CharSequence() {
@@ -26252,6 +26260,266 @@ if (typeof Math.imul === 'undefined') {
   }
   function DataCollectionStepGetResultDTO() {
   }
+  function SkosConceptDTO() {
+  }
+  function StructureDto() {
+  }
+  function DcatApCatalogue() {
+  }
+  function CataloguedResource() {
+  }
+  function DataService() {
+  }
+  function DcatApDatasetSeries() {
+  }
+  function DcatApDatasetMember() {
+  }
+  function DcatDataset() {
+  }
+  function DcatCatalogueRecord() {
+  }
+  function DcatDistribution() {
+  }
+  function CatalogueEvent() {
+  }
+  function CatalogueInitCommand() {
+  }
+  function CatalogueCommand() {
+  }
+  function _get_$cachedSerializer__te6jhj_2($this) {
+    return $this.n1z_1.i4();
+  }
+  function DatasetState$Companion$_anonymous__5d0gq2() {
+    return createSimpleEnumSerializer('io.komune.registry.s2.dataset.domain.automate.DatasetState', values_5());
+  }
+  var DatasetState_ACTIVE_instance;
+  var DatasetState_DELETED_instance;
+  function Companion_94() {
+    Companion_instance_94 = this;
+    var tmp = this;
+    var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
+    tmp.n1z_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
+  }
+  protoOf(Companion_94).ju = function () {
+    return _get_$cachedSerializer__te6jhj_2(this);
+  };
+  protoOf(Companion_94).xt = function (typeParamsSerializers) {
+    return this.ju();
+  };
+  var Companion_instance_94;
+  function Companion_getInstance_94() {
+    DatasetState_initEntries();
+    if (Companion_instance_94 == null)
+      new Companion_94();
+    return Companion_instance_94;
+  }
+  function values_5() {
+    return [DatasetState_ACTIVE_getInstance(), DatasetState_DELETED_getInstance()];
+  }
+  function valueOf_2(value) {
+    switch (value) {
+      case 'ACTIVE':
+        return DatasetState_ACTIVE_getInstance();
+      case 'DELETED':
+        return DatasetState_DELETED_getInstance();
+      default:
+        DatasetState_initEntries();
+        THROW_IAE('No enum constant value.');
+        break;
+    }
+  }
+  var DatasetState_entriesInitialized;
+  function DatasetState_initEntries() {
+    if (DatasetState_entriesInitialized)
+      return Unit_instance;
+    DatasetState_entriesInitialized = true;
+    DatasetState_ACTIVE_instance = new DatasetState('ACTIVE', 0, 0);
+    DatasetState_DELETED_instance = new DatasetState('DELETED', 1, 1);
+    Companion_getInstance_94();
+  }
+  function DatasetState(name, ordinal, position) {
+    Enum.call(this, name, ordinal);
+    this.q1z_1 = position;
+  }
+  protoOf(DatasetState).m18 = function () {
+    return this.q1z_1;
+  };
+  function DatasetState_ACTIVE_getInstance() {
+    DatasetState_initEntries();
+    return DatasetState_ACTIVE_instance;
+  }
+  function DatasetState_DELETED_getInstance() {
+    DatasetState_initEntries();
+    return DatasetState_DELETED_instance;
+  }
+  function DatasetEvent() {
+  }
+  function DatasetInitCommand() {
+  }
+  function DatasetCommand() {
+  }
+  function DatasetCreateCommandDTO() {
+  }
+  function DatasetCreatedEventDTO() {
+  }
+  function DatasetDeleteCommandDTO() {
+  }
+  function DatasetDeletedEventDTO() {
+  }
+  function DatasetLinkDatasetsCommandDTO() {
+  }
+  function DatasetLinkDatasetsEventDTO() {
+  }
+  function DatasetLinkThemesCommandDTO() {
+  }
+  function DatasetLinkThemesEventDTO() {
+  }
+  function DatasetSetImageCommandDTO() {
+  }
+  function DatasetSetImageEventDTO() {
+  }
+  function DatasetDTO() {
+  }
+  function DatasetRefDTO() {
+  }
+  function DatasetPolicies() {
+  }
+  protoOf(DatasetPolicies).canPage = function (authedUser) {
+    return true;
+  };
+  protoOf(DatasetPolicies).canPageSteps = function (authedUser) {
+    return true;
+  };
+  protoOf(DatasetPolicies).canCreate = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  protoOf(DatasetPolicies).canSetImg = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  protoOf(DatasetPolicies).canDelete = function (authedUser) {
+    return true;
+  };
+  protoOf(DatasetPolicies).checkLinkDatasets = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  protoOf(DatasetPolicies).checkLinkThemes = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  };
+  protoOf(DatasetPolicies).canFulfillTask = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user', 'tr_project_manager_admin', 'tr_project_manager_user']);
+  };
+  var DatasetPolicies_instance;
+  function DatasetPolicies_getInstance() {
+    return DatasetPolicies_instance;
+  }
+  function DatasetDataQueryDTO() {
+  }
+  function DatasetDataResultDTO() {
+  }
+  function DatasetGetByIdentifierQueryDTO() {
+  }
+  function DatasetGetByIdentifierResultDTO() {
+  }
+  function DatasetGetQueryDTO() {
+  }
+  function DatasetGetResultDTO() {
+  }
+  function DatasetListLanguagesQueryDTO() {
+  }
+  function DatasetListLanguagesResultDTO() {
+  }
+  function DatasetPageQueryDTO() {
+  }
+  function DatasetPageResultDTO() {
+  }
+  function DatasetRefListQueryDTO() {
+  }
+  function DatasetRefListResultDTO() {
+  }
+  function CatalogueCreateCommandDTO() {
+  }
+  function CatalogueCreatedEventDTO() {
+  }
+  function CatalogueDeleteCommandDTO() {
+  }
+  function CatalogueDeletedEventDTO() {
+  }
+  function CatalogueLinkCataloguesCommandDTO() {
+  }
+  function CatalogueLinkCataloguesEventDTO() {
+  }
+  function CatalogueLinkDatasetsCommandDTO() {
+  }
+  function CatalogueLinkDatasetsEventDTO() {
+  }
+  function CatalogueLinkThemesCommandDTO() {
+  }
+  function CatalogueLinkThemesEventDTO() {
+  }
+  function CatalogueSetImageCommandDTO() {
+  }
+  function CatalogueSetImageEventDTO() {
+  }
+  function CatalogueDTO() {
+  }
+  function CatalogueRefDTO() {
+  }
+  function isOrchestrator($this, authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
+  }
+  function CataloguePolicies() {
+  }
+  protoOf(CataloguePolicies).canPage = function (authedUser) {
+    return true;
+  };
+  protoOf(CataloguePolicies).canPageSteps = function (authedUser) {
+    return true;
+  };
+  protoOf(CataloguePolicies).canCreate = function (authedUser) {
+    return isOrchestrator(this, authedUser);
+  };
+  protoOf(CataloguePolicies).canSetImg = function (authedUser) {
+    return isOrchestrator(this, authedUser);
+  };
+  protoOf(CataloguePolicies).canDelete = function (authedUser) {
+    return true;
+  };
+  protoOf(CataloguePolicies).checkLinkCatalogues = function (authedUser) {
+    return isOrchestrator(this, authedUser);
+  };
+  protoOf(CataloguePolicies).checkLinkThemes = function (authedUser) {
+    return isOrchestrator(this, authedUser);
+  };
+  protoOf(CataloguePolicies).checkLinkDatasets = function (authedUser) {
+    return isOrchestrator(this, authedUser);
+  };
+  protoOf(CataloguePolicies).canFulfillTask = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user', 'tr_project_manager_admin', 'tr_project_manager_user']);
+  };
+  var CataloguePolicies_instance;
+  function CataloguePolicies_getInstance() {
+    return CataloguePolicies_instance;
+  }
+  function CatalogueGetByIdentifierQueryDTO() {
+  }
+  function CatalogueGetByIdentifierResultDTO() {
+  }
+  function CatalogueGetQueryDTO() {
+  }
+  function CatalogueGetResultDTO() {
+  }
+  function CatalogueListLanguagesQueryDTO() {
+  }
+  function CatalogueListLanguagesResultDTO() {
+  }
+  function CataloguePageQueryDTO() {
+  }
+  function CataloguePageResultDTO() {
+  }
+  function CatalogueRefListQueryDTO() {
+  }
+  function CatalogueRefListResultDTO() {
+  }
   function UserOnboardCommandDTO() {
   }
   function UserOnboardedEventDTO() {
@@ -26268,7 +26536,7 @@ if (typeof Math.imul === 'undefined') {
   function OrderEvent() {
   }
   function OrderState$Companion$_anonymous__472e3w() {
-    return createSimpleEnumSerializer('io.komune.registry.s2.order.domain.OrderState', values_5());
+    return createSimpleEnumSerializer('io.komune.registry.s2.order.domain.OrderState', values_6());
   }
   var OrderState_DRAFT_instance;
   var OrderState_SUBMITTED_instance;
@@ -26276,20 +26544,20 @@ if (typeof Math.imul === 'undefined') {
   var OrderState_COMPLETED_instance;
   var OrderState_CANCELLED_instance;
   var OrderState_DELETED_instance;
-  function Companion_94() {
-    Companion_instance_94 = this;
+  function Companion_95() {
+    Companion_instance_95 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.e1x_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
+    tmp.b20_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
   }
-  var Companion_instance_94;
-  function Companion_getInstance_94() {
+  var Companion_instance_95;
+  function Companion_getInstance_95() {
     OrderState_initEntries();
-    if (Companion_instance_94 == null)
-      new Companion_94();
-    return Companion_instance_94;
+    if (Companion_instance_95 == null)
+      new Companion_95();
+    return Companion_instance_95;
   }
-  function values_5() {
+  function values_6() {
     return [OrderState_DRAFT_getInstance(), OrderState_SUBMITTED_getInstance(), OrderState_PENDING_getInstance(), OrderState_COMPLETED_getInstance(), OrderState_CANCELLED_getInstance(), OrderState_DELETED_getInstance()];
   }
   var OrderState_entriesInitialized;
@@ -26303,14 +26571,14 @@ if (typeof Math.imul === 'undefined') {
     OrderState_COMPLETED_instance = new OrderState('COMPLETED', 3, 3);
     OrderState_CANCELLED_instance = new OrderState('CANCELLED', 4, 4);
     OrderState_DELETED_instance = new OrderState('DELETED', 5, 5);
-    Companion_getInstance_94();
+    Companion_getInstance_95();
   }
   function OrderState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.h1x_1 = position;
+    this.e20_1 = position;
   }
   protoOf(OrderState).m18 = function () {
-    return this.h1x_1;
+    return this.e20_1;
   };
   function s2Order$lambda($this$s2Sourcing) {
     _init_properties_S2Order_kt__tze7r1();
@@ -26493,16 +26761,16 @@ if (typeof Math.imul === 'undefined') {
     }
   }
   function OrderCancelCommand(id) {
-    this.i1x_1 = id;
+    this.f20_1 = id;
   }
   protoOf(OrderCancelCommand).mt = function () {
-    return this.i1x_1;
+    return this.f20_1;
   };
   protoOf(OrderCancelCommand).toString = function () {
-    return 'OrderCancelCommand(id=' + this.i1x_1 + ')';
+    return 'OrderCancelCommand(id=' + this.f20_1 + ')';
   };
   protoOf(OrderCancelCommand).hashCode = function () {
-    return getStringHashCode(this.i1x_1);
+    return getStringHashCode(this.f20_1);
   };
   protoOf(OrderCancelCommand).equals = function (other) {
     if (this === other)
@@ -26510,74 +26778,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCancelCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCancelCommand ? other : THROW_CCE();
-    if (!(this.i1x_1 === tmp0_other_with_cast.i1x_1))
-      return false;
-    return true;
-  };
-  function Companion_95() {
-  }
-  var Companion_instance_95;
-  function Companion_getInstance_95() {
-    return Companion_instance_95;
-  }
-  function OrderCanceledEvent(id, date) {
-    this.j1x_1 = id;
-    this.k1x_1 = date;
-  }
-  protoOf(OrderCanceledEvent).mt = function () {
-    return this.j1x_1;
-  };
-  protoOf(OrderCanceledEvent).f18 = function () {
-    return this.k1x_1;
-  };
-  protoOf(OrderCanceledEvent).toString = function () {
-    return 'OrderCanceledEvent(id=' + this.j1x_1 + ', date=' + this.k1x_1.toString() + ')';
-  };
-  protoOf(OrderCanceledEvent).hashCode = function () {
-    var result = getStringHashCode(this.j1x_1);
-    result = imul(result, 31) + this.k1x_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(OrderCanceledEvent).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof OrderCanceledEvent))
-      return false;
-    var tmp0_other_with_cast = other instanceof OrderCanceledEvent ? other : THROW_CCE();
-    if (!(this.j1x_1 === tmp0_other_with_cast.j1x_1))
-      return false;
-    if (!this.k1x_1.equals(tmp0_other_with_cast.k1x_1))
-      return false;
-    return true;
-  };
-  function OrderCompleteCommand(id, assetTransactionId, certificate) {
-    this.l1x_1 = id;
-    this.m1x_1 = assetTransactionId;
-    this.n1x_1 = certificate;
-  }
-  protoOf(OrderCompleteCommand).mt = function () {
-    return this.l1x_1;
-  };
-  protoOf(OrderCompleteCommand).toString = function () {
-    return 'OrderCompleteCommand(id=' + this.l1x_1 + ', assetTransactionId=' + this.m1x_1 + ', certificate=' + this.n1x_1 + ')';
-  };
-  protoOf(OrderCompleteCommand).hashCode = function () {
-    var result = getStringHashCode(this.l1x_1);
-    result = imul(result, 31) + getStringHashCode(this.m1x_1) | 0;
-    result = imul(result, 31) + (this.n1x_1 == null ? 0 : this.n1x_1.hashCode()) | 0;
-    return result;
-  };
-  protoOf(OrderCompleteCommand).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof OrderCompleteCommand))
-      return false;
-    var tmp0_other_with_cast = other instanceof OrderCompleteCommand ? other : THROW_CCE();
-    if (!(this.l1x_1 === tmp0_other_with_cast.l1x_1))
-      return false;
-    if (!(this.m1x_1 === tmp0_other_with_cast.m1x_1))
-      return false;
-    if (!equals(this.n1x_1, tmp0_other_with_cast.n1x_1))
+    if (!(this.f20_1 === tmp0_other_with_cast.f20_1))
       return false;
     return true;
   };
@@ -26587,41 +26788,64 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_96() {
     return Companion_instance_96;
   }
-  function OrderCompletedEvent(id, assetTransactionId, date, certificate) {
-    this.o1x_1 = id;
-    this.p1x_1 = assetTransactionId;
-    this.q1x_1 = date;
-    this.r1x_1 = certificate;
+  function OrderCanceledEvent(id, date) {
+    this.g20_1 = id;
+    this.h20_1 = date;
   }
-  protoOf(OrderCompletedEvent).mt = function () {
-    return this.o1x_1;
+  protoOf(OrderCanceledEvent).mt = function () {
+    return this.g20_1;
   };
-  protoOf(OrderCompletedEvent).f18 = function () {
-    return this.q1x_1;
+  protoOf(OrderCanceledEvent).f18 = function () {
+    return this.h20_1;
   };
-  protoOf(OrderCompletedEvent).toString = function () {
-    return 'OrderCompletedEvent(id=' + this.o1x_1 + ', assetTransactionId=' + this.p1x_1 + ', date=' + this.q1x_1.toString() + ', certificate=' + this.r1x_1 + ')';
+  protoOf(OrderCanceledEvent).toString = function () {
+    return 'OrderCanceledEvent(id=' + this.g20_1 + ', date=' + this.h20_1.toString() + ')';
   };
-  protoOf(OrderCompletedEvent).hashCode = function () {
-    var result = getStringHashCode(this.o1x_1);
-    result = imul(result, 31) + getStringHashCode(this.p1x_1) | 0;
-    result = imul(result, 31) + this.q1x_1.hashCode() | 0;
-    result = imul(result, 31) + (this.r1x_1 == null ? 0 : this.r1x_1.hashCode()) | 0;
+  protoOf(OrderCanceledEvent).hashCode = function () {
+    var result = getStringHashCode(this.g20_1);
+    result = imul(result, 31) + this.h20_1.hashCode() | 0;
     return result;
   };
-  protoOf(OrderCompletedEvent).equals = function (other) {
+  protoOf(OrderCanceledEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof OrderCompletedEvent))
+    if (!(other instanceof OrderCanceledEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof OrderCompletedEvent ? other : THROW_CCE();
-    if (!(this.o1x_1 === tmp0_other_with_cast.o1x_1))
+    var tmp0_other_with_cast = other instanceof OrderCanceledEvent ? other : THROW_CCE();
+    if (!(this.g20_1 === tmp0_other_with_cast.g20_1))
       return false;
-    if (!(this.p1x_1 === tmp0_other_with_cast.p1x_1))
+    if (!this.h20_1.equals(tmp0_other_with_cast.h20_1))
       return false;
-    if (!this.q1x_1.equals(tmp0_other_with_cast.q1x_1))
+    return true;
+  };
+  function OrderCompleteCommand(id, assetTransactionId, certificate) {
+    this.i20_1 = id;
+    this.j20_1 = assetTransactionId;
+    this.k20_1 = certificate;
+  }
+  protoOf(OrderCompleteCommand).mt = function () {
+    return this.i20_1;
+  };
+  protoOf(OrderCompleteCommand).toString = function () {
+    return 'OrderCompleteCommand(id=' + this.i20_1 + ', assetTransactionId=' + this.j20_1 + ', certificate=' + this.k20_1 + ')';
+  };
+  protoOf(OrderCompleteCommand).hashCode = function () {
+    var result = getStringHashCode(this.i20_1);
+    result = imul(result, 31) + getStringHashCode(this.j20_1) | 0;
+    result = imul(result, 31) + (this.k20_1 == null ? 0 : this.k20_1.hashCode()) | 0;
+    return result;
+  };
+  protoOf(OrderCompleteCommand).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrderCompleteCommand))
       return false;
-    if (!equals(this.r1x_1, tmp0_other_with_cast.r1x_1))
+    var tmp0_other_with_cast = other instanceof OrderCompleteCommand ? other : THROW_CCE();
+    if (!(this.i20_1 === tmp0_other_with_cast.i20_1))
+      return false;
+    if (!(this.j20_1 === tmp0_other_with_cast.j20_1))
+      return false;
+    if (!equals(this.k20_1, tmp0_other_with_cast.k20_1))
       return false;
     return true;
   };
@@ -26631,25 +26855,41 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_97() {
     return Companion_instance_97;
   }
-  function OrderDeleteCommand(id) {
-    this.s1x_1 = id;
+  function OrderCompletedEvent(id, assetTransactionId, date, certificate) {
+    this.l20_1 = id;
+    this.m20_1 = assetTransactionId;
+    this.n20_1 = date;
+    this.o20_1 = certificate;
   }
-  protoOf(OrderDeleteCommand).mt = function () {
-    return this.s1x_1;
+  protoOf(OrderCompletedEvent).mt = function () {
+    return this.l20_1;
   };
-  protoOf(OrderDeleteCommand).toString = function () {
-    return 'OrderDeleteCommand(id=' + this.s1x_1 + ')';
+  protoOf(OrderCompletedEvent).f18 = function () {
+    return this.n20_1;
   };
-  protoOf(OrderDeleteCommand).hashCode = function () {
-    return getStringHashCode(this.s1x_1);
+  protoOf(OrderCompletedEvent).toString = function () {
+    return 'OrderCompletedEvent(id=' + this.l20_1 + ', assetTransactionId=' + this.m20_1 + ', date=' + this.n20_1.toString() + ', certificate=' + this.o20_1 + ')';
   };
-  protoOf(OrderDeleteCommand).equals = function (other) {
+  protoOf(OrderCompletedEvent).hashCode = function () {
+    var result = getStringHashCode(this.l20_1);
+    result = imul(result, 31) + getStringHashCode(this.m20_1) | 0;
+    result = imul(result, 31) + this.n20_1.hashCode() | 0;
+    result = imul(result, 31) + (this.o20_1 == null ? 0 : this.o20_1.hashCode()) | 0;
+    return result;
+  };
+  protoOf(OrderCompletedEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof OrderDeleteCommand))
+    if (!(other instanceof OrderCompletedEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof OrderDeleteCommand ? other : THROW_CCE();
-    if (!(this.s1x_1 === tmp0_other_with_cast.s1x_1))
+    var tmp0_other_with_cast = other instanceof OrderCompletedEvent ? other : THROW_CCE();
+    if (!(this.l20_1 === tmp0_other_with_cast.l20_1))
+      return false;
+    if (!(this.m20_1 === tmp0_other_with_cast.m20_1))
+      return false;
+    if (!this.n20_1.equals(tmp0_other_with_cast.n20_1))
+      return false;
+    if (!equals(this.o20_1, tmp0_other_with_cast.o20_1))
       return false;
     return true;
   };
@@ -26659,60 +26899,25 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_98() {
     return Companion_instance_98;
   }
-  function OrderDeletedEvent(id, date) {
-    this.t1x_1 = id;
-    this.u1x_1 = date;
+  function OrderDeleteCommand(id) {
+    this.p20_1 = id;
   }
-  protoOf(OrderDeletedEvent).mt = function () {
-    return this.t1x_1;
+  protoOf(OrderDeleteCommand).mt = function () {
+    return this.p20_1;
   };
-  protoOf(OrderDeletedEvent).f18 = function () {
-    return this.u1x_1;
+  protoOf(OrderDeleteCommand).toString = function () {
+    return 'OrderDeleteCommand(id=' + this.p20_1 + ')';
   };
-  protoOf(OrderDeletedEvent).toString = function () {
-    return 'OrderDeletedEvent(id=' + this.t1x_1 + ', date=' + this.u1x_1.toString() + ')';
+  protoOf(OrderDeleteCommand).hashCode = function () {
+    return getStringHashCode(this.p20_1);
   };
-  protoOf(OrderDeletedEvent).hashCode = function () {
-    var result = getStringHashCode(this.t1x_1);
-    result = imul(result, 31) + this.u1x_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(OrderDeletedEvent).equals = function (other) {
+  protoOf(OrderDeleteCommand).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof OrderDeletedEvent))
+    if (!(other instanceof OrderDeleteCommand))
       return false;
-    var tmp0_other_with_cast = other instanceof OrderDeletedEvent ? other : THROW_CCE();
-    if (!(this.t1x_1 === tmp0_other_with_cast.t1x_1))
-      return false;
-    if (!this.u1x_1.equals(tmp0_other_with_cast.u1x_1))
-      return false;
-    return true;
-  };
-  function OrderPendCommand(id, certificate) {
-    this.v1x_1 = id;
-    this.w1x_1 = certificate;
-  }
-  protoOf(OrderPendCommand).mt = function () {
-    return this.v1x_1;
-  };
-  protoOf(OrderPendCommand).toString = function () {
-    return 'OrderPendCommand(id=' + this.v1x_1 + ', certificate=' + this.w1x_1 + ')';
-  };
-  protoOf(OrderPendCommand).hashCode = function () {
-    var result = getStringHashCode(this.v1x_1);
-    result = imul(result, 31) + (this.w1x_1 == null ? 0 : this.w1x_1.hashCode()) | 0;
-    return result;
-  };
-  protoOf(OrderPendCommand).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof OrderPendCommand))
-      return false;
-    var tmp0_other_with_cast = other instanceof OrderPendCommand ? other : THROW_CCE();
-    if (!(this.v1x_1 === tmp0_other_with_cast.v1x_1))
-      return false;
-    if (!equals(this.w1x_1, tmp0_other_with_cast.w1x_1))
+    var tmp0_other_with_cast = other instanceof OrderDeleteCommand ? other : THROW_CCE();
+    if (!(this.p20_1 === tmp0_other_with_cast.p20_1))
       return false;
     return true;
   };
@@ -26722,24 +26927,87 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_99() {
     return Companion_instance_99;
   }
+  function OrderDeletedEvent(id, date) {
+    this.q20_1 = id;
+    this.r20_1 = date;
+  }
+  protoOf(OrderDeletedEvent).mt = function () {
+    return this.q20_1;
+  };
+  protoOf(OrderDeletedEvent).f18 = function () {
+    return this.r20_1;
+  };
+  protoOf(OrderDeletedEvent).toString = function () {
+    return 'OrderDeletedEvent(id=' + this.q20_1 + ', date=' + this.r20_1.toString() + ')';
+  };
+  protoOf(OrderDeletedEvent).hashCode = function () {
+    var result = getStringHashCode(this.q20_1);
+    result = imul(result, 31) + this.r20_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(OrderDeletedEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrderDeletedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof OrderDeletedEvent ? other : THROW_CCE();
+    if (!(this.q20_1 === tmp0_other_with_cast.q20_1))
+      return false;
+    if (!this.r20_1.equals(tmp0_other_with_cast.r20_1))
+      return false;
+    return true;
+  };
+  function OrderPendCommand(id, certificate) {
+    this.s20_1 = id;
+    this.t20_1 = certificate;
+  }
+  protoOf(OrderPendCommand).mt = function () {
+    return this.s20_1;
+  };
+  protoOf(OrderPendCommand).toString = function () {
+    return 'OrderPendCommand(id=' + this.s20_1 + ', certificate=' + this.t20_1 + ')';
+  };
+  protoOf(OrderPendCommand).hashCode = function () {
+    var result = getStringHashCode(this.s20_1);
+    result = imul(result, 31) + (this.t20_1 == null ? 0 : this.t20_1.hashCode()) | 0;
+    return result;
+  };
+  protoOf(OrderPendCommand).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrderPendCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof OrderPendCommand ? other : THROW_CCE();
+    if (!(this.s20_1 === tmp0_other_with_cast.s20_1))
+      return false;
+    if (!equals(this.t20_1, tmp0_other_with_cast.t20_1))
+      return false;
+    return true;
+  };
+  function Companion_100() {
+  }
+  var Companion_instance_100;
+  function Companion_getInstance_100() {
+    return Companion_instance_100;
+  }
   function OrderPendedEvent(id, date, certificate) {
-    this.x1x_1 = id;
-    this.y1x_1 = date;
-    this.z1x_1 = certificate;
+    this.u20_1 = id;
+    this.v20_1 = date;
+    this.w20_1 = certificate;
   }
   protoOf(OrderPendedEvent).mt = function () {
-    return this.x1x_1;
+    return this.u20_1;
   };
   protoOf(OrderPendedEvent).f18 = function () {
-    return this.y1x_1;
+    return this.v20_1;
   };
   protoOf(OrderPendedEvent).toString = function () {
-    return 'OrderPendedEvent(id=' + this.x1x_1 + ', date=' + this.y1x_1.toString() + ', certificate=' + this.z1x_1 + ')';
+    return 'OrderPendedEvent(id=' + this.u20_1 + ', date=' + this.v20_1.toString() + ', certificate=' + this.w20_1 + ')';
   };
   protoOf(OrderPendedEvent).hashCode = function () {
-    var result = getStringHashCode(this.x1x_1);
-    result = imul(result, 31) + this.y1x_1.hashCode() | 0;
-    result = imul(result, 31) + (this.z1x_1 == null ? 0 : this.z1x_1.hashCode()) | 0;
+    var result = getStringHashCode(this.u20_1);
+    result = imul(result, 31) + this.v20_1.hashCode() | 0;
+    result = imul(result, 31) + (this.w20_1 == null ? 0 : this.w20_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderPendedEvent).equals = function (other) {
@@ -26748,52 +27016,52 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPendedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPendedEvent ? other : THROW_CCE();
-    if (!(this.x1x_1 === tmp0_other_with_cast.x1x_1))
+    if (!(this.u20_1 === tmp0_other_with_cast.u20_1))
       return false;
-    if (!this.y1x_1.equals(tmp0_other_with_cast.y1x_1))
+    if (!this.v20_1.equals(tmp0_other_with_cast.v20_1))
       return false;
-    if (!equals(this.z1x_1, tmp0_other_with_cast.z1x_1))
+    if (!equals(this.w20_1, tmp0_other_with_cast.w20_1))
       return false;
     return true;
   };
   function OrderPlaceCommandDTO() {
   }
   function OrderPlaceCommand(from, to, by, poolId, quantity, type) {
-    this.c1y_1 = from;
-    this.d1y_1 = to;
-    this.e1y_1 = by;
-    this.f1y_1 = poolId;
-    this.g1y_1 = quantity;
-    this.h1y_1 = type;
+    this.z20_1 = from;
+    this.a21_1 = to;
+    this.b21_1 = by;
+    this.c21_1 = poolId;
+    this.d21_1 = quantity;
+    this.e21_1 = type;
   }
   protoOf(OrderPlaceCommand).h15 = function () {
-    return this.c1y_1;
+    return this.z20_1;
   };
   protoOf(OrderPlaceCommand).i15 = function () {
-    return this.d1y_1;
+    return this.a21_1;
   };
-  protoOf(OrderPlaceCommand).a1y = function () {
-    return this.e1y_1;
+  protoOf(OrderPlaceCommand).x20 = function () {
+    return this.b21_1;
   };
   protoOf(OrderPlaceCommand).g1q = function () {
-    return this.f1y_1;
+    return this.c21_1;
   };
-  protoOf(OrderPlaceCommand).b1y = function () {
-    return this.g1y_1;
+  protoOf(OrderPlaceCommand).y20 = function () {
+    return this.d21_1;
   };
   protoOf(OrderPlaceCommand).ot = function () {
-    return this.h1y_1;
+    return this.e21_1;
   };
   protoOf(OrderPlaceCommand).toString = function () {
-    return 'OrderPlaceCommand(from=' + this.c1y_1 + ', to=' + this.d1y_1 + ', by=' + this.e1y_1 + ', poolId=' + this.f1y_1 + ', quantity=' + this.g1y_1 + ', type=' + this.h1y_1 + ')';
+    return 'OrderPlaceCommand(from=' + this.z20_1 + ', to=' + this.a21_1 + ', by=' + this.b21_1 + ', poolId=' + this.c21_1 + ', quantity=' + this.d21_1 + ', type=' + this.e21_1 + ')';
   };
   protoOf(OrderPlaceCommand).hashCode = function () {
-    var result = this.c1y_1 == null ? 0 : getStringHashCode(this.c1y_1);
-    result = imul(result, 31) + (this.d1y_1 == null ? 0 : getStringHashCode(this.d1y_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.e1y_1) | 0;
-    result = imul(result, 31) + (this.f1y_1 == null ? 0 : getStringHashCode(this.f1y_1)) | 0;
-    result = imul(result, 31) + this.g1y_1.hashCode() | 0;
-    result = imul(result, 31) + this.h1y_1.hashCode() | 0;
+    var result = this.z20_1 == null ? 0 : getStringHashCode(this.z20_1);
+    result = imul(result, 31) + (this.a21_1 == null ? 0 : getStringHashCode(this.a21_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.b21_1) | 0;
+    result = imul(result, 31) + (this.c21_1 == null ? 0 : getStringHashCode(this.c21_1)) | 0;
+    result = imul(result, 31) + this.d21_1.hashCode() | 0;
+    result = imul(result, 31) + this.e21_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlaceCommand).equals = function (other) {
@@ -26802,63 +27070,63 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlaceCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlaceCommand ? other : THROW_CCE();
-    if (!(this.c1y_1 == tmp0_other_with_cast.c1y_1))
+    if (!(this.z20_1 == tmp0_other_with_cast.z20_1))
       return false;
-    if (!(this.d1y_1 == tmp0_other_with_cast.d1y_1))
+    if (!(this.a21_1 == tmp0_other_with_cast.a21_1))
       return false;
-    if (!(this.e1y_1 === tmp0_other_with_cast.e1y_1))
+    if (!(this.b21_1 === tmp0_other_with_cast.b21_1))
       return false;
-    if (!(this.f1y_1 == tmp0_other_with_cast.f1y_1))
+    if (!(this.c21_1 == tmp0_other_with_cast.c21_1))
       return false;
-    if (!this.g1y_1.equals(tmp0_other_with_cast.g1y_1))
+    if (!this.d21_1.equals(tmp0_other_with_cast.d21_1))
       return false;
-    if (!this.h1y_1.equals(tmp0_other_with_cast.h1y_1))
+    if (!this.e21_1.equals(tmp0_other_with_cast.e21_1))
       return false;
     return true;
   };
-  function Companion_100() {
-    Companion_instance_100 = this;
+  function Companion_101() {
+    Companion_instance_101 = this;
     var tmp = this;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.i1y_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
+    tmp.f21_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
   }
-  var Companion_instance_100;
-  function Companion_getInstance_100() {
-    if (Companion_instance_100 == null)
-      new Companion_100();
-    return Companion_instance_100;
+  var Companion_instance_101;
+  function Companion_getInstance_101() {
+    if (Companion_instance_101 == null)
+      new Companion_101();
+    return Companion_instance_101;
   }
   function OrderPlacedEvent(id, date, poolId, from, to, by, quantity, type) {
-    Companion_getInstance_100();
-    this.j1y_1 = id;
-    this.k1y_1 = date;
-    this.l1y_1 = poolId;
-    this.m1y_1 = from;
-    this.n1y_1 = to;
-    this.o1y_1 = by;
-    this.p1y_1 = quantity;
-    this.q1y_1 = type;
+    Companion_getInstance_101();
+    this.g21_1 = id;
+    this.h21_1 = date;
+    this.i21_1 = poolId;
+    this.j21_1 = from;
+    this.k21_1 = to;
+    this.l21_1 = by;
+    this.m21_1 = quantity;
+    this.n21_1 = type;
   }
   protoOf(OrderPlacedEvent).mt = function () {
-    return this.j1y_1;
+    return this.g21_1;
   };
   protoOf(OrderPlacedEvent).f18 = function () {
-    return this.k1y_1;
+    return this.h21_1;
   };
   protoOf(OrderPlacedEvent).toString = function () {
-    return 'OrderPlacedEvent(id=' + this.j1y_1 + ', date=' + this.k1y_1.toString() + ', poolId=' + this.l1y_1 + ', from=' + this.m1y_1 + ', to=' + this.n1y_1 + ', by=' + this.o1y_1 + ', quantity=' + this.p1y_1 + ', type=' + this.q1y_1 + ')';
+    return 'OrderPlacedEvent(id=' + this.g21_1 + ', date=' + this.h21_1.toString() + ', poolId=' + this.i21_1 + ', from=' + this.j21_1 + ', to=' + this.k21_1 + ', by=' + this.l21_1 + ', quantity=' + this.m21_1 + ', type=' + this.n21_1 + ')';
   };
   protoOf(OrderPlacedEvent).hashCode = function () {
-    var result = getStringHashCode(this.j1y_1);
-    result = imul(result, 31) + this.k1y_1.hashCode() | 0;
-    result = imul(result, 31) + (this.l1y_1 == null ? 0 : getStringHashCode(this.l1y_1)) | 0;
-    result = imul(result, 31) + (this.m1y_1 == null ? 0 : getStringHashCode(this.m1y_1)) | 0;
-    result = imul(result, 31) + (this.n1y_1 == null ? 0 : getStringHashCode(this.n1y_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.o1y_1) | 0;
-    result = imul(result, 31) + this.p1y_1.hashCode() | 0;
-    result = imul(result, 31) + this.q1y_1.hashCode() | 0;
+    var result = getStringHashCode(this.g21_1);
+    result = imul(result, 31) + this.h21_1.hashCode() | 0;
+    result = imul(result, 31) + (this.i21_1 == null ? 0 : getStringHashCode(this.i21_1)) | 0;
+    result = imul(result, 31) + (this.j21_1 == null ? 0 : getStringHashCode(this.j21_1)) | 0;
+    result = imul(result, 31) + (this.k21_1 == null ? 0 : getStringHashCode(this.k21_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.l21_1) | 0;
+    result = imul(result, 31) + this.m21_1.hashCode() | 0;
+    result = imul(result, 31) + this.n21_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlacedEvent).equals = function (other) {
@@ -26867,37 +27135,37 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlacedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlacedEvent ? other : THROW_CCE();
-    if (!(this.j1y_1 === tmp0_other_with_cast.j1y_1))
+    if (!(this.g21_1 === tmp0_other_with_cast.g21_1))
       return false;
-    if (!this.k1y_1.equals(tmp0_other_with_cast.k1y_1))
+    if (!this.h21_1.equals(tmp0_other_with_cast.h21_1))
       return false;
-    if (!(this.l1y_1 == tmp0_other_with_cast.l1y_1))
+    if (!(this.i21_1 == tmp0_other_with_cast.i21_1))
       return false;
-    if (!(this.m1y_1 == tmp0_other_with_cast.m1y_1))
+    if (!(this.j21_1 == tmp0_other_with_cast.j21_1))
       return false;
-    if (!(this.n1y_1 == tmp0_other_with_cast.n1y_1))
+    if (!(this.k21_1 == tmp0_other_with_cast.k21_1))
       return false;
-    if (!(this.o1y_1 === tmp0_other_with_cast.o1y_1))
+    if (!(this.l21_1 === tmp0_other_with_cast.l21_1))
       return false;
-    if (!this.p1y_1.equals(tmp0_other_with_cast.p1y_1))
+    if (!this.m21_1.equals(tmp0_other_with_cast.m21_1))
       return false;
-    if (!this.q1y_1.equals(tmp0_other_with_cast.q1y_1))
+    if (!this.n21_1.equals(tmp0_other_with_cast.n21_1))
       return false;
     return true;
   };
   function OrderSubmitCommandDTO() {
   }
   function OrderSubmitCommand(id) {
-    this.r1y_1 = id;
+    this.o21_1 = id;
   }
   protoOf(OrderSubmitCommand).mt = function () {
-    return this.r1y_1;
+    return this.o21_1;
   };
   protoOf(OrderSubmitCommand).toString = function () {
-    return 'OrderSubmitCommand(id=' + this.r1y_1 + ')';
+    return 'OrderSubmitCommand(id=' + this.o21_1 + ')';
   };
   protoOf(OrderSubmitCommand).hashCode = function () {
-    return getStringHashCode(this.r1y_1);
+    return getStringHashCode(this.o21_1);
   };
   protoOf(OrderSubmitCommand).equals = function (other) {
     if (this === other)
@@ -26905,82 +27173,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderSubmitCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderSubmitCommand ? other : THROW_CCE();
-    if (!(this.r1y_1 === tmp0_other_with_cast.r1y_1))
-      return false;
-    return true;
-  };
-  function Companion_101() {
-  }
-  var Companion_instance_101;
-  function Companion_getInstance_101() {
-    return Companion_instance_101;
-  }
-  function OrderSubmittedEvent(id, date) {
-    this.s1y_1 = id;
-    this.t1y_1 = date;
-  }
-  protoOf(OrderSubmittedEvent).mt = function () {
-    return this.s1y_1;
-  };
-  protoOf(OrderSubmittedEvent).f18 = function () {
-    return this.t1y_1;
-  };
-  protoOf(OrderSubmittedEvent).toString = function () {
-    return 'OrderSubmittedEvent(id=' + this.s1y_1 + ', date=' + this.t1y_1.toString() + ')';
-  };
-  protoOf(OrderSubmittedEvent).hashCode = function () {
-    var result = getStringHashCode(this.s1y_1);
-    result = imul(result, 31) + this.t1y_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(OrderSubmittedEvent).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof OrderSubmittedEvent))
-      return false;
-    var tmp0_other_with_cast = other instanceof OrderSubmittedEvent ? other : THROW_CCE();
-    if (!(this.s1y_1 === tmp0_other_with_cast.s1y_1))
-      return false;
-    if (!this.t1y_1.equals(tmp0_other_with_cast.t1y_1))
-      return false;
-    return true;
-  };
-  function OrderUpdateCommandDTO() {
-  }
-  function OrderUpdateCommand(id, poolId, quantity) {
-    this.u1y_1 = id;
-    this.v1y_1 = poolId;
-    this.w1y_1 = quantity;
-  }
-  protoOf(OrderUpdateCommand).mt = function () {
-    return this.u1y_1;
-  };
-  protoOf(OrderUpdateCommand).g1q = function () {
-    return this.v1y_1;
-  };
-  protoOf(OrderUpdateCommand).b1y = function () {
-    return this.w1y_1;
-  };
-  protoOf(OrderUpdateCommand).toString = function () {
-    return 'OrderUpdateCommand(id=' + this.u1y_1 + ', poolId=' + this.v1y_1 + ', quantity=' + this.w1y_1 + ')';
-  };
-  protoOf(OrderUpdateCommand).hashCode = function () {
-    var result = getStringHashCode(this.u1y_1);
-    result = imul(result, 31) + (this.v1y_1 == null ? 0 : getStringHashCode(this.v1y_1)) | 0;
-    result = imul(result, 31) + this.w1y_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(OrderUpdateCommand).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof OrderUpdateCommand))
-      return false;
-    var tmp0_other_with_cast = other instanceof OrderUpdateCommand ? other : THROW_CCE();
-    if (!(this.u1y_1 === tmp0_other_with_cast.u1y_1))
-      return false;
-    if (!(this.v1y_1 == tmp0_other_with_cast.v1y_1))
-      return false;
-    if (!this.w1y_1.equals(tmp0_other_with_cast.w1y_1))
+    if (!(this.o21_1 === tmp0_other_with_cast.o21_1))
       return false;
     return true;
   };
@@ -26990,26 +27183,101 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_102() {
     return Companion_instance_102;
   }
+  function OrderSubmittedEvent(id, date) {
+    this.p21_1 = id;
+    this.q21_1 = date;
+  }
+  protoOf(OrderSubmittedEvent).mt = function () {
+    return this.p21_1;
+  };
+  protoOf(OrderSubmittedEvent).f18 = function () {
+    return this.q21_1;
+  };
+  protoOf(OrderSubmittedEvent).toString = function () {
+    return 'OrderSubmittedEvent(id=' + this.p21_1 + ', date=' + this.q21_1.toString() + ')';
+  };
+  protoOf(OrderSubmittedEvent).hashCode = function () {
+    var result = getStringHashCode(this.p21_1);
+    result = imul(result, 31) + this.q21_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(OrderSubmittedEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrderSubmittedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof OrderSubmittedEvent ? other : THROW_CCE();
+    if (!(this.p21_1 === tmp0_other_with_cast.p21_1))
+      return false;
+    if (!this.q21_1.equals(tmp0_other_with_cast.q21_1))
+      return false;
+    return true;
+  };
+  function OrderUpdateCommandDTO() {
+  }
+  function OrderUpdateCommand(id, poolId, quantity) {
+    this.r21_1 = id;
+    this.s21_1 = poolId;
+    this.t21_1 = quantity;
+  }
+  protoOf(OrderUpdateCommand).mt = function () {
+    return this.r21_1;
+  };
+  protoOf(OrderUpdateCommand).g1q = function () {
+    return this.s21_1;
+  };
+  protoOf(OrderUpdateCommand).y20 = function () {
+    return this.t21_1;
+  };
+  protoOf(OrderUpdateCommand).toString = function () {
+    return 'OrderUpdateCommand(id=' + this.r21_1 + ', poolId=' + this.s21_1 + ', quantity=' + this.t21_1 + ')';
+  };
+  protoOf(OrderUpdateCommand).hashCode = function () {
+    var result = getStringHashCode(this.r21_1);
+    result = imul(result, 31) + (this.s21_1 == null ? 0 : getStringHashCode(this.s21_1)) | 0;
+    result = imul(result, 31) + this.t21_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(OrderUpdateCommand).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof OrderUpdateCommand))
+      return false;
+    var tmp0_other_with_cast = other instanceof OrderUpdateCommand ? other : THROW_CCE();
+    if (!(this.r21_1 === tmp0_other_with_cast.r21_1))
+      return false;
+    if (!(this.s21_1 == tmp0_other_with_cast.s21_1))
+      return false;
+    if (!this.t21_1.equals(tmp0_other_with_cast.t21_1))
+      return false;
+    return true;
+  };
+  function Companion_103() {
+  }
+  var Companion_instance_103;
+  function Companion_getInstance_103() {
+    return Companion_instance_103;
+  }
   function OrderUpdatedEvent(id, date, poolId, quantity) {
-    this.x1y_1 = id;
-    this.y1y_1 = date;
-    this.z1y_1 = poolId;
-    this.a1z_1 = quantity;
+    this.u21_1 = id;
+    this.v21_1 = date;
+    this.w21_1 = poolId;
+    this.x21_1 = quantity;
   }
   protoOf(OrderUpdatedEvent).mt = function () {
-    return this.x1y_1;
+    return this.u21_1;
   };
   protoOf(OrderUpdatedEvent).f18 = function () {
-    return this.y1y_1;
+    return this.v21_1;
   };
   protoOf(OrderUpdatedEvent).toString = function () {
-    return 'OrderUpdatedEvent(id=' + this.x1y_1 + ', date=' + this.y1y_1.toString() + ', poolId=' + this.z1y_1 + ', quantity=' + this.a1z_1 + ')';
+    return 'OrderUpdatedEvent(id=' + this.u21_1 + ', date=' + this.v21_1.toString() + ', poolId=' + this.w21_1 + ', quantity=' + this.x21_1 + ')';
   };
   protoOf(OrderUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.x1y_1);
-    result = imul(result, 31) + this.y1y_1.hashCode() | 0;
-    result = imul(result, 31) + (this.z1y_1 == null ? 0 : getStringHashCode(this.z1y_1)) | 0;
-    result = imul(result, 31) + this.a1z_1.hashCode() | 0;
+    var result = getStringHashCode(this.u21_1);
+    result = imul(result, 31) + this.v21_1.hashCode() | 0;
+    result = imul(result, 31) + (this.w21_1 == null ? 0 : getStringHashCode(this.w21_1)) | 0;
+    result = imul(result, 31) + this.x21_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdatedEvent).equals = function (other) {
@@ -27018,13 +27286,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdatedEvent ? other : THROW_CCE();
-    if (!(this.x1y_1 === tmp0_other_with_cast.x1y_1))
+    if (!(this.u21_1 === tmp0_other_with_cast.u21_1))
       return false;
-    if (!this.y1y_1.equals(tmp0_other_with_cast.y1y_1))
+    if (!this.v21_1.equals(tmp0_other_with_cast.v21_1))
       return false;
-    if (!(this.z1y_1 == tmp0_other_with_cast.z1y_1))
+    if (!(this.w21_1 == tmp0_other_with_cast.w21_1))
       return false;
-    if (!this.a1z_1.equals(tmp0_other_with_cast.a1z_1))
+    if (!this.x21_1.equals(tmp0_other_with_cast.x21_1))
       return false;
     return true;
   };
@@ -27448,7 +27716,7 @@ if (typeof Math.imul === 'undefined') {
       var tmp_0;
       if (_this__u8e3s4.isPrivate) {
         var tmp0_safe_receiver = _this__u8e3s4.proponent;
-        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.n1z_1) == authedUser.memberOf);
+        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.k22_1) == authedUser.memberOf);
       } else {
         tmp_0 = false;
       }
@@ -27533,250 +27801,6 @@ if (typeof Math.imul === 'undefined') {
   var ProjectPolicies_instance;
   function ProjectPolicies_getInstance() {
     return ProjectPolicies_instance;
-  }
-  function SkosConceptDTO() {
-  }
-  function StructureDto() {
-  }
-  function DcatApCatalogue() {
-  }
-  function CataloguedResource() {
-  }
-  function DataService() {
-  }
-  function DcatApDatasetSeries() {
-  }
-  function DcatApDatasetMember() {
-  }
-  function DcatDataset() {
-  }
-  function DcatCatalogueRecord() {
-  }
-  function DcatDistribution() {
-  }
-  function CatalogueEvent() {
-  }
-  function CatalogueInitCommand() {
-  }
-  function CatalogueCommand() {
-  }
-  function _get_$cachedSerializer__te6jhj_2($this) {
-    return $this.b22_1.i4();
-  }
-  function DatasetState$Companion$_anonymous__5d0gq2() {
-    return createSimpleEnumSerializer('io.komune.registry.s2.dataset.domain.automate.DatasetState', values_6());
-  }
-  var DatasetState_ACTIVE_instance;
-  var DatasetState_DELETED_instance;
-  function Companion_103() {
-    Companion_instance_103 = this;
-    var tmp = this;
-    var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.b22_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
-  }
-  protoOf(Companion_103).ju = function () {
-    return _get_$cachedSerializer__te6jhj_2(this);
-  };
-  protoOf(Companion_103).xt = function (typeParamsSerializers) {
-    return this.ju();
-  };
-  var Companion_instance_103;
-  function Companion_getInstance_103() {
-    DatasetState_initEntries();
-    if (Companion_instance_103 == null)
-      new Companion_103();
-    return Companion_instance_103;
-  }
-  function values_6() {
-    return [DatasetState_ACTIVE_getInstance(), DatasetState_DELETED_getInstance()];
-  }
-  function valueOf_2(value) {
-    switch (value) {
-      case 'ACTIVE':
-        return DatasetState_ACTIVE_getInstance();
-      case 'DELETED':
-        return DatasetState_DELETED_getInstance();
-      default:
-        DatasetState_initEntries();
-        THROW_IAE('No enum constant value.');
-        break;
-    }
-  }
-  var DatasetState_entriesInitialized;
-  function DatasetState_initEntries() {
-    if (DatasetState_entriesInitialized)
-      return Unit_instance;
-    DatasetState_entriesInitialized = true;
-    DatasetState_ACTIVE_instance = new DatasetState('ACTIVE', 0, 0);
-    DatasetState_DELETED_instance = new DatasetState('DELETED', 1, 1);
-    Companion_getInstance_103();
-  }
-  function DatasetState(name, ordinal, position) {
-    Enum.call(this, name, ordinal);
-    this.e22_1 = position;
-  }
-  protoOf(DatasetState).m18 = function () {
-    return this.e22_1;
-  };
-  function DatasetState_ACTIVE_getInstance() {
-    DatasetState_initEntries();
-    return DatasetState_ACTIVE_instance;
-  }
-  function DatasetState_DELETED_getInstance() {
-    DatasetState_initEntries();
-    return DatasetState_DELETED_instance;
-  }
-  function DatasetEvent() {
-  }
-  function DatasetInitCommand() {
-  }
-  function DatasetCommand() {
-  }
-  function DatasetCreateCommandDTO() {
-  }
-  function DatasetCreatedEventDTO() {
-  }
-  function DatasetDeleteCommandDTO() {
-  }
-  function DatasetDeletedEventDTO() {
-  }
-  function DatasetLinkDatasetsCommandDTO() {
-  }
-  function DatasetLinkDatasetsEventDTO() {
-  }
-  function DatasetLinkThemesCommandDTO() {
-  }
-  function DatasetLinkThemesEventDTO() {
-  }
-  function DatasetSetImageCommandDTO() {
-  }
-  function DatasetSetImageEventDTO() {
-  }
-  function DatasetDTO() {
-  }
-  function DatasetRefDTO() {
-  }
-  function DatasetPolicies() {
-  }
-  protoOf(DatasetPolicies).canPage = function (authedUser) {
-    return true;
-  };
-  protoOf(DatasetPolicies).canPageSteps = function (authedUser) {
-    return true;
-  };
-  protoOf(DatasetPolicies).canCreate = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
-  };
-  protoOf(DatasetPolicies).canSetImg = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
-  };
-  protoOf(DatasetPolicies).canDelete = function (authedUser) {
-    return true;
-  };
-  protoOf(DatasetPolicies).checkLinkDatasets = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
-  };
-  protoOf(DatasetPolicies).checkLinkThemes = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
-  };
-  protoOf(DatasetPolicies).canFulfillTask = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user', 'tr_project_manager_admin', 'tr_project_manager_user']);
-  };
-  var DatasetPolicies_instance;
-  function DatasetPolicies_getInstance() {
-    return DatasetPolicies_instance;
-  }
-  function DatasetDataQueryDTO() {
-  }
-  function DatasetDataResultDTO() {
-  }
-  function DatasetGetQueryDTO() {
-  }
-  function DatasetGetResultDTO() {
-  }
-  function DatasetPageQueryDTO() {
-  }
-  function DatasetPageResultDTO() {
-  }
-  function DatasetRefListQueryDTO() {
-  }
-  function DatasetRefListResultDTO() {
-  }
-  function CatalogueCreateCommandDTO() {
-  }
-  function CatalogueCreatedEventDTO() {
-  }
-  function CatalogueDeleteCommandDTO() {
-  }
-  function CatalogueDeletedEventDTO() {
-  }
-  function CatalogueLinkCataloguesCommandDTO() {
-  }
-  function CatalogueLinkCataloguesEventDTO() {
-  }
-  function CatalogueLinkDatasetsCommandDTO() {
-  }
-  function CatalogueLinkDatasetsEventDTO() {
-  }
-  function CatalogueLinkThemesCommandDTO() {
-  }
-  function CatalogueLinkThemesEventDTO() {
-  }
-  function CatalogueSetImageCommandDTO() {
-  }
-  function CatalogueSetImageEventDTO() {
-  }
-  function CatalogueDTO() {
-  }
-  function CatalogueRefDTO() {
-  }
-  function isOrchestrator($this, authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user']);
-  }
-  function CataloguePolicies() {
-  }
-  protoOf(CataloguePolicies).canPage = function (authedUser) {
-    return true;
-  };
-  protoOf(CataloguePolicies).canPageSteps = function (authedUser) {
-    return true;
-  };
-  protoOf(CataloguePolicies).canCreate = function (authedUser) {
-    return isOrchestrator(this, authedUser);
-  };
-  protoOf(CataloguePolicies).canSetImg = function (authedUser) {
-    return isOrchestrator(this, authedUser);
-  };
-  protoOf(CataloguePolicies).canDelete = function (authedUser) {
-    return true;
-  };
-  protoOf(CataloguePolicies).checkLinkCatalogues = function (authedUser) {
-    return isOrchestrator(this, authedUser);
-  };
-  protoOf(CataloguePolicies).checkLinkThemes = function (authedUser) {
-    return isOrchestrator(this, authedUser);
-  };
-  protoOf(CataloguePolicies).checkLinkDatasets = function (authedUser) {
-    return isOrchestrator(this, authedUser);
-  };
-  protoOf(CataloguePolicies).canFulfillTask = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['tr_orchestrator_admin', 'tr_orchestrator_user', 'tr_project_manager_admin', 'tr_project_manager_user']);
-  };
-  var CataloguePolicies_instance;
-  function CataloguePolicies_getInstance() {
-    return CataloguePolicies_instance;
-  }
-  function CatalogueGetQueryDTO() {
-  }
-  function CatalogueGetResultDTO() {
-  }
-  function CataloguePageQueryDTO() {
-  }
-  function CataloguePageResultDTO() {
-  }
-  function CatalogueRefListQueryDTO() {
-  }
-  function CatalogueRefListResultDTO() {
   }
   function EnableModuleExport() {
   }
@@ -28325,6 +28349,11 @@ if (typeof Math.imul === 'undefined') {
   defineProp(protoOf(ProjectUpdatedEvent), 'id', function () {
     return this.mt();
   });
+  defineProp(protoOf(DatasetState), 'position', function () {
+    return this.m18();
+  });
+  defineProp(protoOf(DatasetState), 'name', protoOf(DatasetState).k7);
+  defineProp(protoOf(DatasetState), 'ordinal', protoOf(DatasetState).l7);
   defineProp(protoOf(OrderState), 'position', function () {
     return this.m18();
   });
@@ -28363,13 +28392,13 @@ if (typeof Math.imul === 'undefined') {
     return this.i15();
   });
   defineProp(protoOf(OrderPlaceCommand), 'by', function () {
-    return this.a1y();
+    return this.x20();
   });
   defineProp(protoOf(OrderPlaceCommand), 'poolId', function () {
     return this.g1q();
   });
   defineProp(protoOf(OrderPlaceCommand), 'quantity', function () {
-    return this.b1y();
+    return this.y20();
   });
   defineProp(protoOf(OrderPlaceCommand), 'type', function () {
     return this.ot();
@@ -28392,17 +28421,12 @@ if (typeof Math.imul === 'undefined') {
     return this.g1q();
   });
   defineProp(protoOf(OrderUpdateCommand), 'quantity', function () {
-    return this.b1y();
+    return this.y20();
   });
   protoOf(OrderUpdatedEvent).s2Id = s2Id;
   defineProp(protoOf(OrderUpdatedEvent), 'id', function () {
     return this.mt();
   });
-  defineProp(protoOf(DatasetState), 'position', function () {
-    return this.m18();
-  });
-  defineProp(protoOf(DatasetState), 'name', protoOf(DatasetState).k7);
-  defineProp(protoOf(DatasetState), 'ordinal', protoOf(DatasetState).l7);
   //endregion
   //region block: init
   Unit_instance = new Unit();
@@ -28499,13 +28523,15 @@ if (typeof Math.imul === 'undefined') {
   Companion_instance_92 = new Companion_92();
   ActivityPolicies_instance = new ActivityPolicies();
   SectionConditionTypeValues_instance = new SectionConditionTypeValues();
-  Companion_instance_95 = new Companion_95();
+  DatasetPolicies_instance = new DatasetPolicies();
+  CataloguePolicies_instance = new CataloguePolicies();
   Companion_instance_96 = new Companion_96();
   Companion_instance_97 = new Companion_97();
   Companion_instance_98 = new Companion_98();
   Companion_instance_99 = new Companion_99();
-  Companion_instance_101 = new Companion_101();
+  Companion_instance_100 = new Companion_100();
   Companion_instance_102 = new Companion_102();
+  Companion_instance_103 = new Companion_103();
   AssetPolicies_instance = new AssetPolicies();
   OrderStatusValues_instance = new OrderStatusValues();
   AssetPoolPolicies_instance = new AssetPoolPolicies();
@@ -28513,8 +28539,6 @@ if (typeof Math.imul === 'undefined') {
   TransactionStatusValues_instance = new TransactionStatusValues();
   TransactionTypeValues_instance = new TransactionTypeValues();
   ProjectPolicies_instance = new ProjectPolicies();
-  DatasetPolicies_instance = new DatasetPolicies();
-  CataloguePolicies_instance = new CataloguePolicies();
   //endregion
   //region block: exports
   function $jsExportAll$(_) {
@@ -29709,6 +29733,273 @@ if (typeof Math.imul === 'undefined') {
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$skos = $io$komune$registry$dsl.skos || ($io$komune$registry$dsl.skos = {});
+    var $io$komune$registry$dsl$skos$domain = $io$komune$registry$dsl$skos.domain || ($io$komune$registry$dsl$skos.domain = {});
+    var $io$komune$registry$dsl$skos$domain$model = $io$komune$registry$dsl$skos$domain.model || ($io$komune$registry$dsl$skos$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$structure = $io$komune$registry$s2.structure || ($io$komune$registry$s2.structure = {});
+    var $io$komune$registry$s2$structure$domain = $io$komune$registry$s2$structure.domain || ($io$komune$registry$s2$structure.domain = {});
+    var $io$komune$registry$s2$structure$domain$model = $io$komune$registry$s2$structure$domain.model || ($io$komune$registry$s2$structure$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
+    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
+    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
+    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
+    var $io$komune$registry$s2$catalogue$domain = $io$komune$registry$s2$catalogue.domain || ($io$komune$registry$s2$catalogue.domain = {});
+    var $io$komune$registry$s2$catalogue$domain$command = $io$komune$registry$s2$catalogue$domain.command || ($io$komune$registry$s2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$dataset = $io$komune$registry$s2.dataset || ($io$komune$registry$s2.dataset = {});
+    var $io$komune$registry$s2$dataset$domain = $io$komune$registry$s2$dataset.domain || ($io$komune$registry$s2$dataset.domain = {});
+    var $io$komune$registry$s2$dataset$domain$automate = $io$komune$registry$s2$dataset$domain.automate || ($io$komune$registry$s2$dataset$domain.automate = {});
+    $io$komune$registry$s2$dataset$domain$automate.DatasetState = DatasetState;
+    $io$komune$registry$s2$dataset$domain$automate.DatasetState.values = values_5;
+    $io$komune$registry$s2$dataset$domain$automate.DatasetState.valueOf = valueOf_2;
+    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'ACTIVE', DatasetState_ACTIVE_getInstance);
+    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'DELETED', DatasetState_DELETED_getInstance);
+    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'Companion', Companion_getInstance_94);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$dataset = $io$komune$registry$s2.dataset || ($io$komune$registry$s2.dataset = {});
+    var $io$komune$registry$s2$dataset$domain = $io$komune$registry$s2$dataset.domain || ($io$komune$registry$s2$dataset.domain = {});
+    var $io$komune$registry$s2$dataset$domain$command = $io$komune$registry$s2$dataset$domain.command || ($io$komune$registry$s2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$dto = $io$komune$registry$f2$dataset$domain.dto || ($io$komune$registry$f2$dataset$domain.dto = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$policy = $io$komune$registry$f2$dataset$domain.policy || ($io$komune$registry$f2$dataset$domain.policy = {});
+    defineProp($io$komune$registry$f2$dataset$domain$policy, 'DatasetPolicies', DatasetPolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$dto = $io$komune$registry$f2$catalogue$domain.dto || ($io$komune$registry$f2$catalogue$domain.dto = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$policy = $io$komune$registry$f2$catalogue$domain.policy || ($io$komune$registry$f2$catalogue$domain.policy = {});
+    defineProp($io$komune$registry$f2$catalogue$domain$policy, 'CataloguePolicies', CataloguePolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
     var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
     var $io$komune$registry$f2$user = $io$komune$registry$f2.user || ($io$komune$registry$f2.user = {});
     var $io$komune$registry$f2$user$domain = $io$komune$registry$f2$user.domain || ($io$komune$registry$f2$user.domain = {});
@@ -30100,245 +30391,6 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$project$domain = $io$komune$registry$f2$project.domain || ($io$komune$registry$f2$project.domain = {});
     var $io$komune$registry$f2$project$domain$utils = $io$komune$registry$f2$project$domain.utils || ($io$komune$registry$f2$project$domain.utils = {});
     defineProp($io$komune$registry$f2$project$domain$utils, 'ProjectPolicies', ProjectPolicies_getInstance);
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$skos = $io$komune$registry$dsl.skos || ($io$komune$registry$dsl.skos = {});
-    var $io$komune$registry$dsl$skos$domain = $io$komune$registry$dsl$skos.domain || ($io$komune$registry$dsl$skos.domain = {});
-    var $io$komune$registry$dsl$skos$domain$model = $io$komune$registry$dsl$skos$domain.model || ($io$komune$registry$dsl$skos$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
-    var $io$komune$registry$s2$structure = $io$komune$registry$s2.structure || ($io$komune$registry$s2.structure = {});
-    var $io$komune$registry$s2$structure$domain = $io$komune$registry$s2$structure.domain || ($io$komune$registry$s2$structure.domain = {});
-    var $io$komune$registry$s2$structure$domain$model = $io$komune$registry$s2$structure$domain.model || ($io$komune$registry$s2$structure$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
-    var $io$komune$registry$dsl$dcat = $io$komune$registry$dsl.dcat || ($io$komune$registry$dsl.dcat = {});
-    var $io$komune$registry$dsl$dcat$domain = $io$komune$registry$dsl$dcat.domain || ($io$komune$registry$dsl$dcat.domain = {});
-    var $io$komune$registry$dsl$dcat$domain$model = $io$komune$registry$dsl$dcat$domain.model || ($io$komune$registry$dsl$dcat$domain.model = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
-    var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
-    var $io$komune$registry$s2$catalogue$domain = $io$komune$registry$s2$catalogue.domain || ($io$komune$registry$s2$catalogue.domain = {});
-    var $io$komune$registry$s2$catalogue$domain$command = $io$komune$registry$s2$catalogue$domain.command || ($io$komune$registry$s2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
-    var $io$komune$registry$s2$dataset = $io$komune$registry$s2.dataset || ($io$komune$registry$s2.dataset = {});
-    var $io$komune$registry$s2$dataset$domain = $io$komune$registry$s2$dataset.domain || ($io$komune$registry$s2$dataset.domain = {});
-    var $io$komune$registry$s2$dataset$domain$automate = $io$komune$registry$s2$dataset$domain.automate || ($io$komune$registry$s2$dataset$domain.automate = {});
-    $io$komune$registry$s2$dataset$domain$automate.DatasetState = DatasetState;
-    $io$komune$registry$s2$dataset$domain$automate.DatasetState.values = values_6;
-    $io$komune$registry$s2$dataset$domain$automate.DatasetState.valueOf = valueOf_2;
-    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'ACTIVE', DatasetState_ACTIVE_getInstance);
-    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'DELETED', DatasetState_DELETED_getInstance);
-    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'Companion', Companion_getInstance_103);
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
-    var $io$komune$registry$s2$dataset = $io$komune$registry$s2.dataset || ($io$komune$registry$s2.dataset = {});
-    var $io$komune$registry$s2$dataset$domain = $io$komune$registry$s2$dataset.domain || ($io$komune$registry$s2$dataset.domain = {});
-    var $io$komune$registry$s2$dataset$domain$command = $io$komune$registry$s2$dataset$domain.command || ($io$komune$registry$s2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$dto = $io$komune$registry$f2$dataset$domain.dto || ($io$komune$registry$f2$dataset$domain.dto = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$policy = $io$komune$registry$f2$dataset$domain.policy || ($io$komune$registry$f2$dataset$domain.policy = {});
-    defineProp($io$komune$registry$f2$dataset$domain$policy, 'DatasetPolicies', DatasetPolicies_getInstance);
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
-    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
-    var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$dto = $io$komune$registry$f2$catalogue$domain.dto || ($io$komune$registry$f2$catalogue$domain.dto = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$policy = $io$komune$registry$f2$catalogue$domain.policy || ($io$komune$registry$f2$catalogue$domain.policy = {});
-    defineProp($io$komune$registry$f2$catalogue$domain$policy, 'CataloguePolicies', CataloguePolicies_getInstance);
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
-    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
-    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
   }
   $jsExportAll$(_);
   //endregion

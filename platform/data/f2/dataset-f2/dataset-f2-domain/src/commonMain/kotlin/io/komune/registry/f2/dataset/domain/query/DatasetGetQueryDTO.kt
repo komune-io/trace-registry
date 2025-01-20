@@ -4,13 +4,12 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
-import kotlinx.serialization.Serializable
 
 /**
- * Get a page of activities.
+ * Get a dataset by id.
  * @d2 function
  * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
  * @order 10
@@ -25,13 +24,9 @@ typealias DatasetGetFunction = F2Function<DatasetGetQuery, DatasetGetResult>
 @JsName("DatasetGetQueryDTO")
 interface DatasetGetQueryDTO {
     /**
-     * id of the dataset
+     * Id of the dataset to fetch.
      */
-    val id: DatasetId?
-    /**
-     * id of the dataset
-     */
-    val identifier: DatasetId?
+    val id: DatasetId
 }
 
 /**
@@ -39,8 +34,7 @@ interface DatasetGetQueryDTO {
  */
 @Serializable
 data class DatasetGetQuery(
-    override val id: DatasetId? = null,
-    override val identifier: DatasetIdentifier? = null,
+    override val id: DatasetId
 ): DatasetGetQueryDTO
 
 /**

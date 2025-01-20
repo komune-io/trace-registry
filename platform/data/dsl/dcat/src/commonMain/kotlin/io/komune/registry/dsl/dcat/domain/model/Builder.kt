@@ -19,6 +19,7 @@ class CatalogueBuilder {
     var img: String? = null
     var description: String? = null
     lateinit var type: String
+    lateinit var language: String
     lateinit var structure: Structure
     var themes: MutableList<SkosConcept> = mutableListOf()
     var cataloguedResources: MutableList<CataloguedResource> = mutableListOf()
@@ -58,6 +59,7 @@ class CatalogueBuilder {
         img = img,
         description = description,
         type = type,
+        language = language,
         structure = structure,
         themes = themes,
         cataloguedResource = cataloguedResources,
@@ -77,6 +79,7 @@ class DatasetBuilder {
     var description: String? = null
     var conformsTo: MutableList<SkosConceptScheme> = mutableListOf()
     var type: String? = null
+    var language: String? = null
     var length: Int? = null
     var distributions: MutableList<DcatDistribution> = mutableListOf()
     var frequency: String? = null
@@ -106,6 +109,7 @@ class DatasetBuilder {
         distributions = distributions,
         frequency = frequency,
         type = type!!,
+        language = language!!,
         spatialCoverage = spatialCoverage,
         spatialResolution = spatialResolution,
         temporalCoverage = temporalCoverage,

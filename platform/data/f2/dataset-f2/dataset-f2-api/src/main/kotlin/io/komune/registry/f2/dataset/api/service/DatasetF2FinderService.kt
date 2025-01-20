@@ -4,7 +4,7 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
+import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -19,19 +19,20 @@ class DatasetF2FinderService(
 
     suspend fun getById(
         id: DatasetIdentifier,
-    ): DatasetGetResult {
-        val item = datasetFinderService.getOrNull(id)
-        return DatasetGetResult(item?.toDTO(datasetFinderService))
+    ): DatasetDTOBase? {
+        return datasetFinderService.getOrNull(id)?.toDTO(datasetFinderService)
     }
+
     suspend fun getAllRefs(): DatasetRefListResult {
         val items = datasetFinderService.getAll().map { it.toSimpleRefDTO() }
         return DatasetRefListResult(items = items, total = items.size)
     }
+
     suspend fun getByIdentifier(
         identifier: DatasetIdentifier,
-    ): DatasetGetResult? {
-        val item = datasetFinderService.getOrNullByIdentifier(identifier)
-        return DatasetGetResult(item?.toDTO(datasetFinderService))
+        language: String
+    ): DatasetDTOBase? {
+        return datasetFinderService.getOrNullByIdentifier(identifier, language)?.toDTO(datasetFinderService)
     }
 
     suspend fun page(

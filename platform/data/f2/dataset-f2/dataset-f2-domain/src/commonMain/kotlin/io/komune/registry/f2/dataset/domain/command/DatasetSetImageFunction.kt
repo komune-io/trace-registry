@@ -3,8 +3,8 @@ package io.komune.registry.f2.dataset.domain.command
 import f2.dsl.fnc.F2Function
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Create a dataset.
@@ -29,14 +29,12 @@ data class DatasetSetImageCommandDTOBase(
 interface DatasetSetImageEventDTO{
     val id: DatasetId
     val img: FilePath?
-    val date: Long
 }
 
 @Serializable
 data class DatasetSetImageEventDTOBase(
     override val id: DatasetId,
     override val img: FilePath? = null,
-    override val date: Long
 ): DatasetSetImageEventDTO
 
 
