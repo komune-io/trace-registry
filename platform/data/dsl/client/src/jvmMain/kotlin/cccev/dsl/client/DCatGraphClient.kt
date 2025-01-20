@@ -142,7 +142,7 @@ class DCatGraphClient(
                 ) to CatalogueFile(
                     name = img,
                     content = ff
-                )).invokeWith( catalogueClient.catalogueSetImageFunction())
+                )).invokeWith(catalogueClient.catalogueSetImageFunction())
             }
 
 

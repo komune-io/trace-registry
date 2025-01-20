@@ -10,7 +10,8 @@ class RegistryScriptInitProperties(
     val cccev: ServiceProperties?,
     val im: ServiceProperties,
     val nbProject: Int,
-    val admin: ApiKeyProperties
+    val admin: ApiKeyProperties,
+    val flag: ModuleFlagProperties
 )
 
 class AuthProperties(
@@ -27,3 +28,12 @@ class ApiKeyProperties(
     val clientId: String,
     val clientSecret: String
 )
+
+class ModuleFlagProperties(
+    val control: Boolean = false,
+    val data: Boolean = false,
+    val project: Boolean = false,
+    val identity: Boolean = false
+)
+
+

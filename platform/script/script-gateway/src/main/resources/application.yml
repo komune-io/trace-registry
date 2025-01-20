@@ -24,6 +24,10 @@ registry:
         name: Komune
         clientId: tr-registry-script-api
         clientSecret: secret
+      flag:
+        control: true
+        data: true
+        project: true
       nbProject: 25
 
 ---
