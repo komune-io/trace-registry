@@ -13,7 +13,7 @@ export const CataloguesRouter = (props: CataloguesRouterProps) => {
     const catalogueId = ids[ids.length - 1] ??  root
     const catalogueGet = useCatalogueGetQuery({
         query: {
-            identifier: catalogueId!
+            id: catalogueId!
         }
     })
     return catalogueGet.data?.item?.structure?.type === "item" ? (

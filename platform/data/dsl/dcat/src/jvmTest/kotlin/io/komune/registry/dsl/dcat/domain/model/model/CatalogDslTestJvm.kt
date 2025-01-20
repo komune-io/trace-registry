@@ -12,6 +12,7 @@ class CatalogueDslTestJvm {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
             title = "catalogues"
         }
@@ -23,17 +24,20 @@ class CatalogueDslTestJvm {
             identifier = "catalogue1"
             type = "catalogues"
             structure = Structure("catalogues")
+            language = "fr"
             title = "catalogues"
             datasets {
                 dataset {
                     identifier = "dataset1"
                     type = "catalogues"
                     title = "catalogues"
+                    language = "fr"
                 }
                 dataset {
                     identifier = "dataset2"
                     type = "catalogues"
                     title = "catalogues"
+                    language = "fr"
                 }
             }
         }
@@ -45,6 +49,7 @@ class CatalogueDslTestJvm {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
             title = "catalogues"
             themes {
@@ -64,6 +69,7 @@ class CatalogueDslTestJvm {
         val catalogue1: DcatApCatalogue = catalogue {
             identifier = "catalogue1"
             type = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
             title = "catalogues"
             services {
@@ -84,18 +90,21 @@ class CatalogueDslTestJvm {
             identifier = "catalogue1"
             type = "catalogues"
             structure = Structure("catalogues")
+            language = "fr"
             title = "catalogues"
             catalogues {
                 catalogue {
                     identifier = "subCatalogue1"
                     type = "catalogues"
                     structure = Structure("catalogues")
+                    language = "fr"
                     title = "catalogues"
                 }
                 catalogue {
                     identifier = "subCatalogue2"
                     type = "catalogues"
                     structure = Structure("catalogues")
+                    language = "fr"
                     title = "catalogues"
                 }
             }
@@ -109,6 +118,7 @@ class CatalogueDslTestJvm {
             identifier = "catalogue1"
             title = "Catalogue 1"
             type = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
             catalogueRecords{
                 catalogueRecord {
