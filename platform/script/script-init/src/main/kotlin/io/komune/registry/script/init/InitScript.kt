@@ -39,7 +39,7 @@ class InitScript(
 
         if(catalogue) {
             properties.registry?.url?.let { url ->
-                createStandardsCatalogue(url, accessTokenAdmin)
+//                createStandardsCatalogue(url, accessTokenAdmin)
                 create100MCatalogue(url, accessTokenAdmin, "")
             }
         }
