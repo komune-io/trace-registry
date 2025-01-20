@@ -1,4 +1,5 @@
 VERSION = $(shell cat VERSION)
+include .env_version
 DOCKER_REPOSITORY = ghcr.io/
 
 GATEWAY_NAME	   	:= ${DOCKER_REPOSITORY}komune-io/trace-registry-gateway
@@ -24,6 +25,9 @@ POSTGRES_NAME	    	:= trace-registry-postgres
 POSTGRES_IMG	    	:= ${POSTGRES_NAME}:${VERSION}
 POSTGRES_LATEST			:= ${POSTGRES_NAME}:latest
 
+KEYCLOAK_DOCKERFILE	    := infra/docker/keycloak/Dockerfile
+KEYCLOAK_NAME	   	 	:= trace-registry-keycloak
+KEYCLOAK_IMG	    	:= ${KEYCLOAK_NAME}:${VERSION}
 
 .PHONY: lint build test publish promote
 
@@ -98,3 +102,22 @@ docker-docker-promote:
 		--build-arg VERSION=${VERSION} \
 		-f ${POSTGRES_DOCKERFILE} \
 		-t docker.io/komune/${POSTGRES_IMG} .
+
+## keycloak
+docker-keycloak-lint:
+	@docker run --rm -i hadolint/hadolint hadolint - < ${KEYCLOAK_DOCKERFILE}
+
+docker-keycloak-build:
+	@docker build --no-cache=true \
+		--progress=plain \
+		--build-arg VERSION_CONNECT=${VERSION_CONNECT} \
+		--build-arg VERSION_NODE=${VERSION_NODE} \
+		-f ${KEYCLOAK_DOCKERFILE} -t ${KEYCLOAK_IMG} .
+
+docker-keycloak-publish:
+	@docker tag ${KEYCLOAK_IMG} ghcr.io/komune-io/${KEYCLOAK_IMG}
+	@docker push ghcr.io/komune-io/${KEYCLOAK_IMG}
+
+docker-keycloak-promote:
+	@docker tag ${KEYCLOAK_IMG} docker.io/komune/${KEYCLOAK_IMG}
+	@docker push docker.io/komune/${KEYCLOAK_IMG}
