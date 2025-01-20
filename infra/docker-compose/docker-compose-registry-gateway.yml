@@ -16,15 +16,18 @@ services:
       - im_auth_realm=${KC_REALM}
       - im_auth_clientId=${KC_APP_CLIENT_ID}
       - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}
+      - debug=true
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-gateway.loadbalancer.server.port: 7000
       traefik.http.routers.registry-gateway.rule: Host(`${HOST_NAME_REGISTRY}`) && PathPrefix(`/api`)
       traefik.http.routers.registry-gateway.entrypoints: websecure
       traefik.http.routers.registry-gateway.tls.certresolver: myresolver
-      traefik.http.middlewares.registry-gateway-strip-prefix.stripprefix.prefixes: /api
+      traefik.http.middlewares.strip-prefix-registry-gateway.stripprefix.prefixes: /api
+      traefik.http.routers.registry-gateway.middlewares: strip-prefix-registry-gateway
       traefik.docker.network: ${DOCKER_NETWORK}
-
+    ports:
+        - "7000:7000"
     #    extra_hosts:
 #      - "${VER_HOST_NAME}:${IP_ADDRESS}"
     restart: on-failure

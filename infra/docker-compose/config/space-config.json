@@ -27,11 +27,11 @@
     "webClients": [
         {
             "clientId": "${KC_WEB_CLIENT_ID}",
-            "webUrl": "http://localhost:5173"
+            "webUrl": "${REGISTRY_URL_PUBLIC}"
         },
         {
             "clientId": "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
-            "webUrl": "http://localhost:81"
+            "webUrl": "${ADMIN_URL_PUBLIC}"
         }
     ],
     "permissions": [

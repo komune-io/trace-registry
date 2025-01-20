@@ -18,8 +18,8 @@ services:
       traefik.http.routers.fs-gateway.rule: Host(`${HOST_NAME_CONNECT}`) && PathPrefix(`/fs`)
       traefik.http.routers.fs-gateway.entrypoints: websecure
       traefik.http.routers.fs-gateway.tls.certresolver: myresolver
-      traefik.http.middlewares.api-strip-prefix.stripprefix.prefixes: /fs
-      traefik.http.routers.fs-gateway.middlewares: api-strip-prefix
+      traefik.http.middlewares.strip-prefix-fs-gateway.stripprefix.prefixes: /fs
+      traefik.http.routers.fs-gateway.middlewares: strip-prefix-fs-gateway
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
       - "8090:8090"
