@@ -243,7 +243,6 @@ Authorization: Bearer {{accessToken}}
 ### projectPage
 POST {{urlBase}}/project/projectPage
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -357,6 +356,16 @@ Authorization: Bearer {{accessToken}}
 
 {
   "identifier": "standards"
+}
+
+### catalogueGetByIdentifier
+POST {{urlBase}}/data/catalogueGetByIdentifier
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "identifier": "standards",
+  "language": "fr"
 }
 
 ### cataloguePage

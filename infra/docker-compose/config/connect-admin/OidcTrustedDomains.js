@@ -7,7 +7,7 @@
 const trustedDomains = {
     default: [
         //the keycloak server
-        "${KC_URL}",
+        "${KC_URL_PUBLIC}",
         //the api
         "${IM_URL}",
         "${FS_URL}"
@@ -26,5 +26,5 @@ trustedDomains.config_show_access_token = { domains: ["http://localhost:81"], sh
 // This example defines domains used by OIDC server separately from domains to which access tokens will be injected.
 trustedDomains.config_separate_oidc_access_token_domains = {
     oidcDomains: ["http://localhost:81"],
-    accessTokenDomains: ["${KC_URL}"],
+    accessTokenDomains: ["${KC_URL_PUBLIC}"],
 };

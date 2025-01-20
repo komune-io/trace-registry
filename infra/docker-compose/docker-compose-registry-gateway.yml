@@ -10,16 +10,16 @@ services:
       - fs_url=${FS_URL}
       - spring_data_redis_host=${REDIS_HOST_NAME}
       - server_port=7000
-      - f2_tenant_issuer-base-uri=${KC_URL}
+      - f2_tenant_issuer-base-uri=${KC_URL_PUBLIC}
       - im_url=${IM_URL}
-      - im_auth_url=${KC_URL}
+      - im_auth_url=${KC_URL_PUBLIC}
       - im_auth_realm=${KC_REALM}
       - im_auth_clientId=${KC_APP_CLIENT_ID}
       - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-gateway.loadbalancer.server.port: 7000
-      traefik.http.routers.registry-gateway.rule: Host(`100m.kosmio.dev`) && PathPrefix(`/api`)
+      traefik.http.routers.registry-gateway.rule: Host(`${HOST_NAME_REGISTRY}`) && PathPrefix(`/api`)
       traefik.http.routers.registry-gateway.entrypoints: websecure
       traefik.http.routers.registry-gateway.tls.certresolver: myresolver
       traefik.http.middlewares.registry-gateway-strip-prefix.stripprefix.prefixes: /api

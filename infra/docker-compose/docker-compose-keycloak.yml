@@ -21,7 +21,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.im-keycloak.loadbalancer.server.port: "8080"
-      traefik.http.routers.im-keycloak.rule: Host(`auth.connect.100m.kosmio.dev`)
+      traefik.http.routers.im-keycloak.rule: Host(`${HOST_NAME_CONNECT_AUTH}`)
       traefik.http.routers.im-keycloak.entrypoints: websecure
       traefik.http.routers.im-keycloak.tls.certresolver: letsencrypt-resolver
       # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
@@ -38,7 +38,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.connect-fake-smtp.loadbalancer.server.port: "1080"
-      traefik.http.routers.connect-fake-smtp.rule: Host(`smtp.connect.100m.kosmio.dev`)
+      traefik.http.routers.connect-fake-smtp.rule: Host(`${HOST_NAME_CONNECT_SMTP_FAKE}`)
       traefik.http.routers.connect-fake-smtp.entrypoints: websecure
       traefik.http.routers.connect-fake-smtp.tls.certresolver: letsencrypt-resolver
       # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
