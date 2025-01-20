@@ -13,6 +13,7 @@ class StandardsCatalogueTest {
             identifier = "http://example.com/catalogue1"
             type = "catalogues"
             title = "catalogues"
+            language = "fr"
             structure = Structure("catalogues")
         }
         val catalogue2: DCatApCatalogueModel = catalogue {
@@ -20,6 +21,7 @@ class StandardsCatalogueTest {
             type = "catalogues"
             title = "catalogues"
             structure = Structure("catalogues")
+            language = "fr"
             catalogues {
                 +catalogue1
             }
