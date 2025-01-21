@@ -161,7 +161,7 @@ fun EtudeDeCas(debug: String) = catalogue {
 
 
 
-@Suppress("LongMethod")
+@Suppress("LongMethod", "FunctionNaming")
 fun Secteur(debug: String) = catalogue {
     identifier = "objectif100m-secteur${debug}"
     title = "Secteurs"

@@ -16,6 +16,9 @@ services:
       - im_auth_realm=${KC_REALM}
       - im_auth_clientId=${KC_APP_CLIENT_ID}
       - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}
+      - platform_flag_module_control=false
+      - platform_flag_module_data=true
+      - platform_flag_module_project=false
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-gateway.loadbalancer.server.port: 7000
