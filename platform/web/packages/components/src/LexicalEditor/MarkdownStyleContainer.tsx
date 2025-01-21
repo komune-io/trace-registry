@@ -7,8 +7,7 @@ export const MarkdownStyleContainer = styled(Box, {
 })<{
   titlesTopLevel?: 'h1' | 'h4',
   readOnly?: boolean,
-  citations?: boolean
-}>(({ theme, titlesTopLevel, readOnly, citations }) => ({
+}>(({ theme, titlesTopLevel, readOnly }) => ({
 
   lineHeight: "28px",
   "& .editor-input": {
@@ -16,7 +15,7 @@ export const MarkdownStyleContainer = styled(Box, {
     padding: "16px 0",
   },
   "& blockquote": {
-    borderLeft: "#A4B4B9 .2rem solid",
+    borderLeft: `${theme.palette.primary.main}4D .2rem solid`,
     marginLeft: 0,
     paddingLeft: "1em"
   },
@@ -106,9 +105,7 @@ export const MarkdownStyleContainer = styled(Box, {
       }
     }),
   '& h1, h2, h3, h4, h5, h6': {
-    fontFamily: '"Open Sans", sans-serif',
-    fontWeight: 500,
-    borderBottom: "#e0e0e0 solid 1px"
+    fontWeight: 500
   },
   "& .editor-layout-container": {
     display: "grid",
@@ -117,16 +114,9 @@ export const MarkdownStyleContainer = styled(Box, {
   },
   "& .editor-layout-item": {
     borderRadius: 8,
-    border: readOnly ? undefined : "2px solid #67878F",
+    border: readOnly ? undefined : `2px solid ${theme.palette.primary.main}80`,
     padding: readOnly ? undefined : "8px 10px  !important",
     margin: readOnly ? undefined : "-10px -12px !important"
-  },
-  "& .editor-quotemark": {
-    background: !citations ? "transparent" : "#D8E4F7",
-    borderRadius: "4px"
-  },
-  "& .editor-quotemark.selected": {
-    background: "#9EBCEC",
   },
   "& .placeholder": {
     color: "#CBC9C4",

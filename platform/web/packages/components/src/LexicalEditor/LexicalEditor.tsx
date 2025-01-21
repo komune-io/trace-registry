@@ -326,7 +326,6 @@ export const InnerEditor = (props: InnerEditorProps) => {
                                 <MarkdownStyleContainer
                                     titlesTopLevel={titlesTopLevel}
                                     readOnly={readOnly}
-                                    citations={false}
                                     {...styleContainerProps}
                                 >
                                     {/* @ts-ignore */}
