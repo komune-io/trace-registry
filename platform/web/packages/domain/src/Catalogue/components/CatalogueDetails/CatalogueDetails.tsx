@@ -31,7 +31,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             label: t("creation"),
         },
         updateDate: {
-            value: new Date().toLocaleDateString(), //to find in catalogue
+            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "", //to find in catalogue
             label: t("update"),
         },
         validator: {
@@ -42,11 +42,11 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const classificationValues = useMemo((): simplifiedReadonlyFields => ({
         access: {
-            value: "Public", //to find in catalogue
+            value: catalogue?.accessRights ?? "",
             label: t("access"),
         },
         licence: {
-            value: "ODBL 1.0", //to find in catalogue
+            value: catalogue?.license ?? "",
             label: t("licence"),
             params: {
                 getReadOnlyTextUrl: () => "/" //put licence url

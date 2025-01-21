@@ -21,4 +21,6 @@ export * from "./TableCellFileName"
 export * from "./SubtitledLinkTicket"
 export * from "./SearchFilter"
 export * from "./Tabs"
+export * from "./LexicalEditor"
+export * from "./WCo2Editor"
 
