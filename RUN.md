@@ -3,7 +3,13 @@
 ## Config
 * Config hosts `/etc/hosts`
 ```
-127.0.0.1       im-keycloak
+
+echo "127.0.0.1 im-keycloak
+127.0.0.1 registry.local
+127.0.0.1 dashboard.registry.local
+127.0.0.1 connect.registry.local
+127.0.0.1 auth.registry.local
+127.0.0.1 smtp.registry.local" | sudo tee -a /etc/hosts
 ```
 
 ## Dependencies
@@ -12,6 +18,12 @@
 
 ```bash
 make dev up
+
+```
+
+* Init keycloak config
+```bash
+make init up
 ```
 
 ## App
@@ -19,25 +31,25 @@ make dev up
 * Run Gateway Api
 
 ```
-./gradlew :platform:api:api-gateway:bootRun -Dspring.profiles.active=local
+./gradlew :platform:api:api-gateway:bootRun --args='--spring.profiles.active=local'
 ```
 
 * Run Init
 
 ```
-./gradlew :platform:script:script-gateway:bootRun -Dspring.profiles.active=local
+./gradlew :platform:script:script-gateway:bootRun --args='--spring.profiles.active=local'
 ```
 
 * Run Web Plateform
 
 ```bash
-cd platform/web/packages/web-platform; yarn start
+cd platform/web/packages/web-platform; yarn install; yarn start
 ```
 
 * Run Web Certificate
 
 ```bash
-cd platform/web/packages/web-certificate; yarn start
+cd platform/web/packages/web-certificate; yarn install; yarn start
 ```
 
 ### Keycloak Config

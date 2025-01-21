@@ -6,7 +6,7 @@
 #  -d 'client_id=im-root-platform'
 #  -d 'client_secret=F5R6ON8VqtnYrr0L9cYzz2FoYcgw9Rdj'
 #  -d 'grant_type=client_credentials'
-POST http://im-keycloak:8080/realms/registry-local/protocol/openid-connect/token
+POST {{urlAuth}}/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id = tr-registry-script-api &
@@ -243,7 +243,6 @@ Authorization: Bearer {{accessToken}}
 ### projectPage
 POST {{urlBase}}/project/projectPage
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
 
 [
   {
@@ -345,7 +344,7 @@ Authorization: Bearer {{accessToken}}
 ### cataloguePage
 POST {{urlBase}}/data/cataloguePage
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
+#Authorization: Bearer {{accessToken}}
 
 {
 }
@@ -357,6 +356,16 @@ Authorization: Bearer {{accessToken}}
 
 {
   "identifier": "standards"
+}
+
+### catalogueGetByIdentifier
+POST {{urlBase}}/data/catalogueGetByIdentifier
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "identifier": "standards",
+  "language": "fr"
 }
 
 ### cataloguePage

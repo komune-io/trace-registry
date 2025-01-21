@@ -16,10 +16,10 @@ class InitScript(
     private val properties: RegistryScriptInitProperties
 ) {
     suspend fun run(
-        project: Boolean = true,
-        asset: Boolean = true,
-        cccev: Boolean = true,
-        catalogue: Boolean = true
+        project: Boolean = properties.flag.project,
+        asset: Boolean = properties.flag.project,
+        cccev: Boolean = properties.flag.control,
+        catalogue: Boolean = properties.flag.data
     ) {
         val authRealm = AuthRealmClientSecret(
             clientId = properties.admin.clientId,
@@ -27,7 +27,7 @@ class InitScript(
             serverUrl = properties.auth.url,
             realmId = properties.auth.realmId
         )
-        val accessTokenAdmin= ActorAuth.getActor(
+        val accessTokenAdmin = ActorAuth.getActor(
             properties.admin.name,
             authRealm
         )
@@ -39,7 +39,7 @@ class InitScript(
 
         if(catalogue) {
             properties.registry?.url?.let { url ->
-                createStandardsCatalogue(url, accessTokenAdmin)
+//                createStandardsCatalogue(url, accessTokenAdmin)
                 create100MCatalogue(url, accessTokenAdmin, "")
             }
         }

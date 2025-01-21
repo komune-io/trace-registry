@@ -16,7 +16,7 @@ fun CatalogueClient.catalogueSetImageFunction(): CatalogueSetImageFunction = F2F
     msgs.map { (cmd, file) ->
         val httpF2Client = (client as HttpF2Client)
         httpF2Client.httpClient.submitFormWithBinaryData(
-            url = "${httpF2Client.urlBase}/catalogueSetImageFunction",
+            url = "${httpF2Client.urlBase}/catalogueSetImage",
             formData = FormDataBodyBuilder().apply {
                 param("command", cmd)
                 file("file", file.content, file.name)

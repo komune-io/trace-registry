@@ -24,7 +24,7 @@ class FlagConfiguration(
 ) {
 
     @Bean
-    fun customRouter(): MessageRoutingCallback {
+    fun flagMessageRoutingCallback(): MessageRoutingCallback {
         return FlagMessageRoutingCallback(flagProperties)
     }
 

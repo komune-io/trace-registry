@@ -20,7 +20,7 @@ services:
 #      - "--certificatesresolvers.letsencrypt-resolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.traefik.rule: Host(`dashboard.100m.kosmio.dev`)
+      traefik.http.routers.traefik.rule: Host(`${HOST_NAME_DASHBOARD}`)
       traefik.http.routers.traefik.entrypoints: websecure
       traefik.http.routers.traefik.tls.certresolver: letsencrypt-resolver
       traefik.http.routers.traefik.service: api@internal

@@ -10,7 +10,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-web.loadbalancer.server.port: "80"
-      traefik.http.routers.registry-web.rule: Host(`100m.kosmio.dev`)
+      traefik.http.routers.registry-web.rule: Host(`${HOST_NAME_REGISTRY}`)
       traefik.http.routers.registry-web.entrypoints: websecure
       traefik.http.routers.registry-web.tls.certresolver: letsencrypt-resolver
       # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
