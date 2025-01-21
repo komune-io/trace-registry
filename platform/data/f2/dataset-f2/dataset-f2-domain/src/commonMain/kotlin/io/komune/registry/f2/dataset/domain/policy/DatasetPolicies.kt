@@ -43,4 +43,8 @@ object DatasetPolicies {
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
         )
     }
+
+    fun canUpdateDistributions(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
+    }
 }

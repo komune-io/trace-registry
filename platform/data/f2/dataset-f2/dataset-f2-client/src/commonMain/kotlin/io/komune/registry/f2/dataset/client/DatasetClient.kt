@@ -8,10 +8,13 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.dataset.domain.DatasetApi
+import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
@@ -52,4 +55,11 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
     override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
     override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function("data/${this::datasetListLanguages.name}")
+
+    override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction
+        = client.function("data/${this::datasetAddJsonDistribution.name}")
+    override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction
+        = client.function("data/${this::datasetUpdateJsonDistribution.name}")
+    override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction
+        = client.function("data/${this::datasetRemoveDistribution.name}")
 }

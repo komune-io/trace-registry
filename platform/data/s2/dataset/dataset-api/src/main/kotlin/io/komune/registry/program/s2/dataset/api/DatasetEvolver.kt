@@ -1,14 +1,18 @@
 package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
+import io.komune.registry.program.s2.dataset.api.entity.DistributionEntity
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDataEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -23,6 +27,9 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		is DatasetLinkedThemesEvent -> model?.addThemes(event)
 		is DatasetDeletedEvent -> model?.delete(event)
 		is DatasetSetImageEvent -> model?.setImage(event)
+		is DatasetAddedDistributionEvent -> model?.addDistribution(event)
+		is DatasetUpdatedDistributionEvent -> model?.updateDistribution(event)
+		is DatasetRemovedDistributionEvent -> model?.removeDistribution(event)
 	}
 
 	private suspend fun create(event: DatasetCreatedEvent) = DatasetEntity().apply {
@@ -32,14 +39,17 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		identifier = event.identifier
 		issued = event.date
 	}
+
 	private suspend fun DatasetEntity.setImage(event: DatasetSetImageEvent) = apply {
 		img = event.img
 		modified = event.date
 	}
+
 	private suspend fun DatasetEntity.delete(event: DatasetDeletedEvent) = apply {
 		status = DatasetState.DELETED
 		modified = event.date
 	}
+
 	private suspend fun DatasetEntity.update(event: DatasetUpdatedEvent) = apply {
 		applyEvent(event)
 	}
@@ -49,6 +59,34 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	}
 
 	private suspend fun DatasetEntity.addDatasets(event: DatasetLinkedDatasetsEvent) = apply {
+	}
+
+	private suspend fun DatasetEntity.addDistribution(event: DatasetAddedDistributionEvent) = apply {
+		distributions = distributions.orEmpty() + DistributionEntity(
+			id = event.distributionId,
+			downloadPath = event.downloadPath.toString(),
+			mediaType = event.mediaType,
+			issued = event.date,
+			modified = event.date
+		)
+		modified = event.date
+	}
+
+	private suspend fun DatasetEntity.updateDistribution(event: DatasetUpdatedDistributionEvent) = apply {
+		distributions = distributions.orEmpty().map { distribution ->
+			distribution.takeIf { it.id == event.distributionId }
+				?.copy(
+					downloadPath = event.downloadPath.toString(),
+					mediaType = event.mediaType,
+					modified = event.date
+				) ?: distribution
+		}
+		modified = event.date
+	}
+
+	private suspend fun DatasetEntity.removeDistribution(event: DatasetRemovedDistributionEvent) = apply {
+		distributions = distributions.orEmpty().filter { it.id != event.distributionId }
+		modified = event.date
 	}
 
 	private fun DatasetEntity.applyEvent(event: DatasetDataEvent) = apply {

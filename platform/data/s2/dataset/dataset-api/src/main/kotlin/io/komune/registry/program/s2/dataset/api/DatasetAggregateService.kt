@@ -2,6 +2,8 @@ package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.s2.dataset.domain.DatasetAggregate
+import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
@@ -10,11 +12,16 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class DatasetAggregateService(
@@ -110,6 +117,34 @@ class DatasetAggregateService(
 		DatasetDeletedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
+		)
+	}
+
+	override suspend fun addDistribution(cmd: DatasetAddDistributionCommand) = automate.transition(cmd) {
+		DatasetAddedDistributionEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			distributionId = UUID.randomUUID().toString(),
+			downloadPath = cmd.downloadPath,
+			mediaType = cmd.mediaType
+		)
+	}
+
+	override suspend fun updateDistribution(cmd: DatasetUpdateDistributionCommand) = automate.transition(cmd) {
+		DatasetUpdatedDistributionEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			distributionId = cmd.distributionId,
+			downloadPath = cmd.downloadPath,
+			mediaType = cmd.mediaType
+		)
+	}
+
+	override suspend fun removeDistribution(cmd: DatasetRemoveDistributionCommand) = automate.transition(cmd) {
+		DatasetRemovedDistributionEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			distributionId = cmd.distributionId
 		)
 	}
 }

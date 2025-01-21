@@ -37,4 +37,5 @@ data class DatasetModel(
     val issued: Long?,
     val modified: Long?,
     val releaseDate: String?,
+    val distributions: List<DistributionModel>?
 )

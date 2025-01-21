@@ -31,4 +31,7 @@ class DatasetPoliciesEnforcer: PolicyEnforcer() {
         DatasetPolicies.checkLinkThemes(authedUser)
     }
 
+    suspend fun checkUpdateDistributions() = checkAuthed("update distributions of a dataset") { authedUser ->
+        DatasetPolicies.canUpdateDistributions(authedUser)
+    }
 }
