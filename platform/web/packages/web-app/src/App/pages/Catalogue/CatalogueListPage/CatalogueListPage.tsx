@@ -24,12 +24,14 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
             limit: 12
         }
     })
-
     const {data, isInitialLoading}  = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
             ...submittedFilters
         },
+        options: {
+            enabled: catalogue?.identifier !== undefined
+        }
     })
 
     const onSearch = useCallback(

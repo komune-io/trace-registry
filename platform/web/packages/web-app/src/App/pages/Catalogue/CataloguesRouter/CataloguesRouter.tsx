@@ -1,7 +1,6 @@
-import {useCataloguesRouteParams, useCatalogueGetQuery} from 'domain-components'
+import {useCataloguesRouteParams, useCatalogueGetByIdentifierQuery} from 'domain-components'
 import { CatalogueViewPage } from '../CatalogueViewPage/CatalogueViewPage'
 import { CatalogueListPage } from '../CatalogueListPage/CatalogueListPage'
-
 
 interface CataloguesRouterProps {
     root: string
@@ -10,10 +9,11 @@ interface CataloguesRouterProps {
 export const CataloguesRouter = (props: CataloguesRouterProps) => {
     const { ids } = useCataloguesRouteParams()
     const {root} = props
-    const catalogueId = ids[ids.length - 1] ??  root
-    const catalogueGet = useCatalogueGetQuery({
+    const catalogueIdentifier = ids[ids.length - 1] ??  root
+    const catalogueGet = useCatalogueGetByIdentifierQuery({
         query: {
-            id: catalogueId!
+            identifier: catalogueIdentifier!,
+            language: "fr"
         }
     })
     return catalogueGet.data?.item?.structure?.type === "item" ? (
