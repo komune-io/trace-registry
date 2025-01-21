@@ -15,6 +15,12 @@ fun main() = runBlocking {
             name = "Komune",
             clientId = "tr-registry-script-api",
             clientSecret = "secret"
+        ),
+        flag = ModuleFlagProperties(
+            control = true,
+            data = true,
+            project = true,
+            identity = true
         )
     )
     InitScript(properties).run(
