@@ -2,11 +2,11 @@ import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
-import {AccountCircle, Login, Logout, TravelExplore} from "@mui/icons-material";
+import { AccountCircle, Login, Logout, TravelExplore } from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { StandardIcon, useExtendedAuth, useRoutesDefinition } from "components";
-import {g2Config} from "@komune-io/g2";
-import {useFlagGetQuery} from "domain-components/src/Flag/api";
+import { g2Config } from "@komune-io/g2";
+import { useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
 
 interface MenuItem {
   key: string,
@@ -44,19 +44,29 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
   const {service} = useExtendedAuth()
-  const flagGet = useFlagGetQuery()
+  const flagGetQuery = useFlagGetQuery()
+
 
   const module = useMemo(() => {
-    return flagGet.data?.module ?? {
+    return flagGetQuery.data?.module ?? {
       project: false,
       data: false,
       control: false,
       identity: false
     }
-  }, [flagGet.data])
+  }, [flagGetQuery.data])
+
+  const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
+    query: {
+      identifier: "menuWikiCoe",
+      language: "fr"
+    },
+    options: {
+      // enabled: module.data
+      enabled: true
+    }
+  })
   const {projects, cataloguesAll} = useRoutesDefinition()
-  const standards = cataloguesAll(undefined, "standards")
-  const objectif100m = cataloguesAll(undefined, "objectif100m")
 
   const projectMenu: MenuItem[] = useMemo(() => {
     return maybeAddItem(module.project, {
@@ -69,20 +79,18 @@ export const useMenu = (t: TFunction) => {
   }, [module.project, projects, location, t])
 
   const dataMenu: MenuItem[] = useMemo(() => {
-    return maybeAddItems(module.data, [{
-      key: "catalogues",
-      to: standards,
-      label:  t("exploreStandards"),
-      icon: <StandardIcon />,
-      isSelected: location.pathname.includes(standards)
-    },{
-      key: "objectif100m",
-      to: cataloguesAll(undefined, "objectif100m"),
-      label: "Objectif 100m",
-      icon: <StandardIcon />,
-      isSelected: location.pathname.includes(objectif100m)
-    }])
-  }, [module.data, standards, location,  t])
+    return catalogueRefGetTreeQuery.data?.item?.catalogues?.map((item) => {
+      const ref = cataloguesAll(undefined, item.identifier)
+      return {
+        key: item.identifier,
+        to: ref,
+        label: item.title,
+        icon: <StandardIcon/>,
+        isSelected: location.pathname.includes(ref)
+      } as MenuItem
+
+    }) ?? []
+  }, [catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll, location,  t])
 
 
   const menu: MenuItem[] = useMemo(() => [
