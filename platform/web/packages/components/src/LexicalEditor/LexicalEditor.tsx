@@ -32,6 +32,7 @@ import { useTranslation } from 'react-i18next';
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { TableActionMenuPlugin, TableCellActionMenuPlugin, TableCellResizerPlugin } from './plugins/TablePlugin';
+import { ImageNode, ImagesPlugin } from './plugins/ImagesPlugin';
 
 const editorConfig: InitialConfigType = {
     namespace: 'Editor',
@@ -49,6 +50,7 @@ const editorConfig: InitialConfigType = {
         LinkNode,
         ListNode,
         ListItemNode,
+        ImageNode,
         LayoutContainerNode,
         LayoutItemNode,
         CodeNode,
@@ -78,10 +80,8 @@ export interface LexicalEditorProps {
      * @default false
      */
     removeToolBar?: boolean
-    plugins?: {
-        nodes?: (Klass<LexicalNode> | LexicalNodeReplacement)[],
-        component?: (props: { anchorElem: HTMLDivElement, isFocused: boolean }) => JSX.Element
-    }[]
+    plugins?: ((props: { anchorElem: HTMLDivElement, isFocused: boolean }) => JSX.Element)[]
+    nodes?: (Klass<LexicalNode> | LexicalNodeReplacement)[]
     displayToolBarOnFocus?: boolean
     onChange?: (editorState: EditorState) => void
     readOnly?: boolean
@@ -93,7 +93,7 @@ export interface LexicalEditorProps {
 }
 
 export const LexicalEditor = (props: LexicalEditorProps) => {
-    const { markdown, readOnly = false, editorState, namespace, onChange, plugins } = props
+    const { markdown, readOnly = false, editorState, namespace, onChange, nodes } = props
 
     const { t } = useTranslation()
 
@@ -173,15 +173,15 @@ export const LexicalEditor = (props: LexicalEditorProps) => {
         [alreadyAlerted, isBroken],
     )
 
-    const nodes = useMemo(() => {
-        const pluginNodes = plugins?.flatMap((plugin) => plugin.nodes ?? [])
-        const nodes = [
+    const completeNodes = useMemo(() => {
+        
+        const completeNodes = [
             ...editorConfig.nodes!,
-            ...(pluginNodes ?? [])
+            ...(nodes ?? [])
         ] as const
 
-        return nodes
-    }, [plugins])
+        return completeNodes
+    }, [nodes])
 
 
     return (
@@ -190,7 +190,7 @@ export const LexicalEditor = (props: LexicalEditorProps) => {
                 editorState: editorState ? editorState : markdown ? () => mardownToLexicalState(markdown) : undefined,
                 editable: !readOnly,
                 ...editorConfig,
-                nodes,
+                nodes: completeNodes,
                 namespace:  namespace ?? editorConfig.namespace,
                 onError
             }}
@@ -282,7 +282,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
 
     const displayPlugins = useMemo(() => {
         if (!floatingAnchorElem) return
-        return plugins?.map(({component}, index) => {
+        return plugins?.map((component, index) => {
             if (component) {
                 const PluginComponent = component
                 return <PluginComponent key={index} anchorElem={floatingAnchorElem} isFocused={isFocused} />
@@ -344,6 +344,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
                     <TablePlugin
                     />
                     <TableCellResizerPlugin />
+                    <ImagesPlugin />
                     <HistoryPlugin />
                     <LayoutPlugin />
                     <CodeHighlightPlugin />

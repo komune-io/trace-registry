@@ -1,5 +1,6 @@
 import { Box, styled } from "@mui/material"
 import { TableStyles } from "./plugins/TablePlugin"
+import { ImageStyles } from "./plugins/ImagesPlugin"
 
 export const MarkdownStyleContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'titlesTopLevel' && prop !== 'readOnly' && prop !== "citations"
@@ -139,5 +140,6 @@ export const MarkdownStyleContainer = styled(Box, {
     display: "inline-block",
     pointerEvents: "none",
   },
-  ...TableStyles
+  ...TableStyles,
+  ...ImageStyles(readOnly),
 }))
