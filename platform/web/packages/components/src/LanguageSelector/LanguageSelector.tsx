@@ -1,13 +1,13 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import {KeyboardArrowDownRounded} from "@mui/icons-material"
-import { ReactElement, useCallback } from 'react'
+import { ReactElement, useCallback, useMemo } from 'react'
 import { useExtendedI18n, Languages, languages } from '../..'
 import { EnglandFlagIcon, FranceFlagIcon, SpainFlagIcon } from '../Icons/flags'
 
 const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
-    fr: <FranceFlagIcon fontSize='large' />,
-    en: <EnglandFlagIcon fontSize='large' />,
-    es: <SpainFlagIcon fontSize='large' />
+    fr: <FranceFlagIcon />,
+    en: <EnglandFlagIcon />,
+    es: <SpainFlagIcon />
 }
 
 export const LanguageSelector = () => {
@@ -18,19 +18,27 @@ export const LanguageSelector = () => {
         [i18n.changeLanguage],
     )
 
+    const currentLanguageShortCode = useMemo(() => {
+        if (i18n.language.includes("-")) {
+            const splited = i18n.language.split("-")
+            return splited[0]
+        }
+        return i18n.language
+    }, [i18n.language])
+
     return (
         <Select
             color="primary"
             sx={{
                 "& .MuiSelect-select": {
-                    py: 0.5,
+                    py: 1,
                     pr: "40px !important",
                     pl: 1.5,
                     display: "flex"
                 },
                 borderRadius: "6px",
             }}
-            defaultValue={i18n.language}
+            value={currentLanguageShortCode}
             onChange={onLanguageChange}
             IconComponent={KeyboardArrowDownRounded}
         >
