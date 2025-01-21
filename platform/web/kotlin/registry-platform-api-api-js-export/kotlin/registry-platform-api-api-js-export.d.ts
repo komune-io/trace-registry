@@ -3003,18 +3003,29 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly modified?: number;
 
     }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
         readonly id: string;
         readonly identifier: string;
         readonly title: string;
-        readonly type: string;
         readonly language: string;
+        readonly type: string;
         readonly description?: string;
-        readonly homepage?: string;
         readonly img?: string;
-        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDto;
-        readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
-        readonly status?: s2.dsl.automate.S2State/* Nullable<io.komune.registry.s2.catalogue.domain.automate.CatalogueState> */;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueRefTreeDTO extends io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly language: string;
+        readonly type: string;
+        readonly description?: string;
+        readonly img?: string;
+        readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
 
     }
 }
@@ -3075,6 +3086,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CataloguePageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueRefGetTreeQueryDTO {
+        readonly identifier?: string;
+        readonly language: string;
+
+    }
+    interface CatalogueRefGetTreeResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO;
 
     }
 }

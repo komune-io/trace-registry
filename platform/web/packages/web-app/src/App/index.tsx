@@ -46,15 +46,15 @@ export const App = () => {
       }}
     >
       <PageContextProvider 
-      headerProps={{
-        content: [
-          {
-            rightPart: [
-              !keycloak.isAuthenticated ? <Button key="login" onClick={() => keycloak.login()} >{t("login")}</Button> : undefined
-            ]
-          }
-        ]
-      }}
+        headerProps={{
+          content: [
+            {
+              rightPart: [
+                !keycloak.isAuthenticated ? <Button key="login" onClick={() => keycloak.login()} >{t("login")}</Button> : undefined
+              ]
+            }
+          ]
+        }}
       >
         <Outlet />
         </PageContextProvider>
