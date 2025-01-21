@@ -7,23 +7,26 @@ import org.springframework.stereotype.Service
 
 @Service
 class DatasetPoliciesEnforcer: PolicyEnforcer() {
-    suspend fun checkPage() = check("page activities") { authedUser ->
+    suspend fun checkPage() = check("page datasets") { authedUser ->
         DatasetPolicies.canPage(authedUser)
     }
+
     suspend fun checkCreation() = checkAuthed("create dataset") { authedUser ->
         DatasetPolicies.canCreate(authedUser)
     }
-    suspend fun checkSetImg() = checkAuthed("set img") { authedUser ->
+
+    suspend fun checkSetImg() = checkAuthed("set img of a dataset") { authedUser ->
         DatasetPolicies.canSetImg(authedUser)
     }
-    suspend fun checkDelete(
-        datasetId: DatasetId
-    ) = checkAuthed("delete the dataset [$datasetId]") { authedUser ->
+
+    suspend fun checkDelete(datasetId: DatasetId) = checkAuthed("delete the dataset [$datasetId]") { authedUser ->
         DatasetPolicies.canDelete(authedUser)
     }
+
     suspend fun checkLinkDatasets() = checkAuthed("links datasets") { authedUser ->
         DatasetPolicies.checkLinkDatasets(authedUser)
     }
+
     suspend fun checkLinkThemes() = checkAuthed("links themes") { authedUser ->
         DatasetPolicies.checkLinkThemes(authedUser)
     }

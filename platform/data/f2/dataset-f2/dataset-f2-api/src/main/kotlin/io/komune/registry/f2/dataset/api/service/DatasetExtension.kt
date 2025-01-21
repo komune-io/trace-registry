@@ -71,6 +71,7 @@ fun DatasetModel.toRefDTO(): DatasetRefDTOBase {
         img = img,
     )
 }
+
 fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
     return DatasetRefDTOBase(
         id = id,

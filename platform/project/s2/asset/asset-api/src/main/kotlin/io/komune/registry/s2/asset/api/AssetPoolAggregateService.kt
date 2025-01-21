@@ -5,7 +5,7 @@ import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.spring.utils.toUploadCommand
-import io.komune.registry.infra.fs.path.OrganizationFsPath
+import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.pdf.CertificateGenerator
 import io.komune.registry.s2.asset.api.entity.pool.AssetPoolAutomateExecutor
 import io.komune.registry.s2.asset.api.entity.transaction.TransactionAutomateExecutor
@@ -30,8 +30,8 @@ import io.komune.registry.s2.asset.domain.command.transaction.AssetTransactionEm
 import io.komune.registry.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.respectsGranularity
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class AssetPoolAggregateService(
@@ -121,9 +121,9 @@ class AssetPoolAggregateService(
 			)
 
 			val path = FilePath(
-				objectType = OrganizationFsPath.OBJECT_TYPE,
+				objectType = FsPath.Organization.TYPE,
 				objectId = transactionEvent.to!!,
-				directory = OrganizationFsPath.DIR_CERTIFICATE,
+				directory = FsPath.Organization.CERTIFICATE,
 				name = "certificate-${transactionEvent.id}-pending.pdf"
 			)
 			fileClient.fileUpload(path.toUploadCommand(), result)

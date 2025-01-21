@@ -20,14 +20,9 @@ class FsService(
 			file
 		}
 	}
+
 	suspend fun getFile(query: FileGetQuery): File? {
 		return fileClient.fileGet(listOf(query)).first().item
-	}
-	object FsPath {
-		const val DATASET_TYPE = "datasets"
-		const val CATALOGUE_TYPE = "catalogues"
-		const val DIR_IMG = "img"
-		const val IMG_NAME = "img.png"
 	}
 
 	suspend fun uploadCatalogueImg(
@@ -35,10 +30,10 @@ class FsService(
 		objectId: String,
 	): FileUploadedEvent {
 		val path = FilePath(
-			objectType = FsPath.CATALOGUE_TYPE,
+			objectType = FsPath.Catalogue.TYPE,
 			objectId = objectId,
-			directory = FsPath.DIR_IMG,
-			name = FsPath.IMG_NAME,
+			directory = FsPath.Catalogue.MEDIA,
+			name = FsPath.Catalogue.DEFAULT_IMAGE_NAME,
 		)
 		return fileClient.fileUpload(
 			command = path.toUploadCommand(
@@ -54,10 +49,10 @@ class FsService(
 		objectId: String,
 	): FileUploadedEvent {
 		val path = FilePath(
-			objectType = FsPath.DATASET_TYPE,
+			objectType = FsPath.Dataset.TYPE,
 			objectId = objectId,
-			directory = FsPath.DIR_IMG,
-			name = FsPath.IMG_NAME,
+			directory = FsPath.Dataset.MEDIA,
+			name = FsPath.Dataset.DEFAULT_IMAGE_NAME,
 		)
 		return fileClient.fileUpload(
 			command = path.toUploadCommand(

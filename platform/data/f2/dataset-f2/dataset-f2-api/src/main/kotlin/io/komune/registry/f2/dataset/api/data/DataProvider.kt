@@ -22,7 +22,7 @@ class DataProvider(
 
     suspend fun retrieve(datasetId: DatasetId): List<JsonElement> {
         val dataset = datasetFinderService.get(datasetId)
-        when(dataset.type) {
+        when (dataset.type) {
             "projects" -> return fetchProjects(dataset)
             "activities" -> return fetchActivities(dataset)
             "documents" -> return fetchDocuments(dataset)

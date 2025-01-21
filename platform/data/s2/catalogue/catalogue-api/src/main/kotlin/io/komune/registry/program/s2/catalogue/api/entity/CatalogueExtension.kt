@@ -13,7 +13,7 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         type = type,
         language = language,
         structure = structure,
-        img = img?.let {"/catalogues/${id}/logo" },
+        img = img?.toString(),
         description = description,
         catalogues = catalogues.toList(),
         datasets = datasets.toList(),

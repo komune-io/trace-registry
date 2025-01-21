@@ -20,6 +20,5 @@ interface DatasetFinder {
         offset: OffsetPagination? = null,
     ): PageDTO<DatasetModel>
     suspend fun listByIdentifier(identifier: String): List<DatasetModel>
-
     suspend fun getAll(): List<DatasetModel>
 }
