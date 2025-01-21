@@ -45,15 +45,16 @@ platform:
       data: true
       project: true
       identity: true
-
   brevo:
     token: secret
-    from: no-reply@kosm.io # TODO change
+    from: wikico2@kosm.io
     contact-list: 4
     sandbox: false
     debug:
       enable: true
       email: test@kosm.io
+    template:
+      charter: 1
 ---
 spring:
   config:

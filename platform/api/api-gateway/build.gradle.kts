@@ -19,6 +19,6 @@ dependencies {
         implementation(it)
     }
 
-    implementation(project(":platform:api:api-config"))
+    implementation(project(Modules.api.config))
     implementation("org.springframework.boot:spring-boot-starter-webflux:${Versions.springBoot}")
 }

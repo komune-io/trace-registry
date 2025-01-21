@@ -5,7 +5,7 @@ import f2.client.domain.AuthRealmProvider
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "im")
-data class ImProperties (
+data class ImProperties(
     val url: String,
     val auth: ImAuthProperties
 )

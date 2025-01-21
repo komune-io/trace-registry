@@ -12,6 +12,7 @@ class BrevoConfig {
     var contactList: Long = 0
     var sandbox: Boolean = false
     lateinit var debug: BrevoDebugProperties
+    lateinit var template: BrevoTemplateProperties
 
     @Bean
     fun brevoClient() = BrevoClient(this)
@@ -20,4 +21,8 @@ class BrevoConfig {
 data class BrevoDebugProperties(
     val enable: Boolean,
     val email: String
+)
+
+data class BrevoTemplateProperties(
+    val charter: Long
 )
