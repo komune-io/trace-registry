@@ -38,7 +38,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
             key: 'info',
-            label: t('information'),
+            label: t('informations'),
             component: (<CatalogueInformation
                 catalogue={catalogue}
                 isLoading={isLoading}

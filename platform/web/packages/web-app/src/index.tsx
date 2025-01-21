@@ -6,7 +6,7 @@ import {
   g2Config,
   ThemeContextProvider
 } from "@komune-io/g2";
-import { languages } from "i18n";
+import { languages } from "components";
 import { muiTheme, theme } from "Themes";
 import { QueryClient } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'

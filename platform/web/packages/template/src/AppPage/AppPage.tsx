@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import { Page, PageProps } from '@komune-io/g2'
 import { ReactNode } from "react";
+import { LanguageSelector } from 'components';
 
 export interface AppPageProps extends PageProps {
   title?: string
@@ -13,13 +14,15 @@ export const AppPage = (props: AppPageProps) => {
     return (
         <Page
             headerProps={{
-                
                 content: [
                     {
                         leftPart: [
                             title ? <Typography color="primary" key="projectTitle" variant="h6">{title}</Typography> : undefined,
                         ],
-                        rightPart
+                        rightPart: [
+                            ...(rightPart ?? []),
+                            <LanguageSelector key="languageSelector" />,
+                        ]
                     }
                 ],
                 ...headerProps,

@@ -44,7 +44,7 @@ export const ProjectView = (_: ProjectViewProps) => {
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
             key: 'info',
-            label: t('information'),
+            label: t('informations'),
             component: (<ProjectInformationSection project={project} isLoading={projectQuery.isLoading} />)
         }]
         const hasActivity = !!project?.activities && project?.activities.length !== 0

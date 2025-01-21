@@ -38,7 +38,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             value: "Nom Prénom", //to find in catalogue
             label: t("validator"),
         },
-    }), [catalogue])
+    }), [catalogue, t])
 
     const classificationValues = useMemo((): simplifiedReadonlyFields => ({
         access: {
@@ -52,7 +52,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 getReadOnlyTextUrl: () => "/" //put licence url
             }
         },
-    }), [catalogue])
+    }), [catalogue, t])
 
     const versionValues = useMemo((): simplifiedReadonlyFields => ({
         version: {
@@ -76,7 +76,8 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
         <Stack
             gap={3}
             sx={{
-                width: "320px"
+                width: "320px",
+                flexShrink: 0
             }}
         >
             <TitleDivider size='h6' title={t("informations")} />
