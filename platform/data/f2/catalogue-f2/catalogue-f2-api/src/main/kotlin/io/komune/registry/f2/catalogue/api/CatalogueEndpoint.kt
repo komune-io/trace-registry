@@ -24,6 +24,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -77,7 +79,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        catalogueF2FinderService.getById(query.id)
+        catalogueF2FinderService.getByIdOrNull(query.id)
             .let(::CatalogueGetResult)
     }
 
@@ -85,15 +87,23 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
-        catalogueF2FinderService.getByIdentifier(query.identifier, query.language)
+        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
             .let(::CatalogueGetByIdentifierResult)
     }
 
     @PermitAll
     @Bean
-    override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
-        logger.info("catalogueRefList: $query")
+    override fun catalogueRefList(): CatalogueRefListFunction = f2Function {
+        logger.info("catalogueRefList")
         catalogueF2FinderService.getAllRefs()
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->
+        logger.info("catalogueRefGetTree: $query")
+        catalogueF2FinderService.getRefTreeOrNull(query.identifier, query.language)
+            .let(::CatalogueRefGetTreeResult)
     }
 
     @PermitAll

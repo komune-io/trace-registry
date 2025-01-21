@@ -3,7 +3,6 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -27,7 +26,7 @@ interface CatalogueGetByIdentifierQueryDTO {
     /**
      * Identifier of the catalogue to fetch.
      */
-    val identifier: CatalogueId?
+    val identifier: CatalogueIdentifier?
 
     /**
      * Language of the version of the catalogue to fetch.

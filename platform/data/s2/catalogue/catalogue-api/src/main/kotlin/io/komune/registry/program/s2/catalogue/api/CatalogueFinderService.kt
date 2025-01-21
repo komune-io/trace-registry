@@ -24,7 +24,9 @@ class CatalogueFinderService(
     private val catalogueRepository: CatalogueRepository
 ): CatalogueFinder {
 	override suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
-		return catalogueRepository.findById(id).orElse(null)?.toCatalogue()
+		return catalogueRepository.findById(id)
+			.orElse(null)
+			?.toCatalogue()
 	}
 
 	override suspend fun getAll(): List<CatalogueModel> {
@@ -39,8 +41,14 @@ class CatalogueFinderService(
 			?.toCatalogue()
 	}
 
+	override suspend fun getByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel {
+		return getOrNullByIdentifier(id, language)
+			?: throw NotFoundException("Catalogue", id)
+	}
+
 	override suspend fun get(id: CatalogueId): CatalogueModel {
-		return getOrNull(id) ?: throw NotFoundException("Catalogue", id)
+		return getOrNull(id)
+			?: throw NotFoundException("Catalogue", id)
 	}
 
 	override suspend fun page(

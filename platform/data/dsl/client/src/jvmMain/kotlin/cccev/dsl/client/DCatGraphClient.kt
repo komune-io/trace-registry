@@ -224,12 +224,9 @@ fun CatalogueDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
 
 fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,
-    homepage = homepage,
     img = img,
     type = type,
     language = language,
-    themes = themes,
     description = description,
     title = title,
-    structure = structure,
 )
