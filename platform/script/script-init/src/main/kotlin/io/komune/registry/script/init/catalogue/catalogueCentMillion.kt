@@ -13,7 +13,7 @@ fun catalogueCentMillion(debug: String) = catalogue {
         Ensemble, allègeons les entreprises de 100 millions de tonnes de CO2, d'ici 2030
     """.trimIndent()
     catalogues {
-        +secteur(debug)
+        +Secteur(debug)
         +Systeme(debug)
         +Solution(debug)
         +EtudeDeCas(debug)
@@ -161,8 +161,8 @@ fun EtudeDeCas(debug: String) = catalogue {
 
 
 
-@Suppress("LongMethod")
-fun secteur(debug: String) = catalogue {
+@Suppress("LongMethod", "FunctionNaming")
+fun Secteur(debug: String) = catalogue {
     identifier = "objectif100m-secteur${debug}"
     title = "Secteurs"
     type = "standard"

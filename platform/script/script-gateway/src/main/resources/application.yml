@@ -19,7 +19,7 @@ registry:
       cccev:
         url: https://connect.100m.kosmio.dev/cccev
       registry:
-        url:  https://100m.kosmio.dev/api
+        url: https://100m.kosmio.dev/api
       admin:
         name: Komune
         clientId: tr-registry-script-api
