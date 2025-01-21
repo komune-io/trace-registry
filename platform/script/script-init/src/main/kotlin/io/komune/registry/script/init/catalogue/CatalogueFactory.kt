@@ -4,11 +4,13 @@ import cccev.dsl.client.DCatGraphClient
 import f2.client.domain.AuthRealm
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
+import io.komune.registry.dsl.dcat.domain.model.catalogue
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.init.actor.Actor
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
@@ -67,7 +69,32 @@ fun create100MCatalogue(
     dcatGraphClient.create(itemsCentMillion).toList().onEach {
         println("Catalogue[${it.identifier}] Created.")
     }.map { it.identifier }
+}
 
+fun catalogueMenu(debug: String) = catalogue {
+    identifier = "menuWikiCoe${debug}"
+    title = "Wiki CO2"
+    type = "menu"
+    language = "fr"
+    structure = Structure("menu")
+    description = ""
+    catalogues {
+        +Secteur(debug)
+        +Systeme(debug)
+    }
+}
+
+fun createMenuCatalogue(
+    url: String,
+    actor: Actor,
+    debug: String
+): List<CatalogueId> = runBlocking {
+    val helper = CatalogueFactory(url, actor.authRealm)
+    val dcatGraphClient = helper.dcatGraphClient
+    val catalogueMenu = flowOf(catalogueMenu(debug))
+    dcatGraphClient.create(catalogueMenu).toList().onEach {
+        println("Catalogue[${it.identifier}] Created.")
+    }.map { it.identifier }
 }
 
 //fun createRandomCatalogue(

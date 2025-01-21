@@ -7,7 +7,9 @@ import io.komune.registry.script.init.actor.ActorAuth
 import io.komune.registry.script.init.actor.ActorBuilder
 import io.komune.registry.script.init.actor.ActorType
 import io.komune.registry.script.init.asset.createAssetPool
+import io.komune.registry.script.init.catalogue.catalogueMenu
 import io.komune.registry.script.init.catalogue.create100MCatalogue
+import io.komune.registry.script.init.catalogue.createMenuCatalogue
 import io.komune.registry.script.init.catalogue.createStandardsCatalogue
 import io.komune.registry.script.init.project.addAssetPoolToProject
 import io.komune.registry.script.init.project.createRandomProject
@@ -40,6 +42,7 @@ class InitScript(
         if(catalogue) {
             properties.registry?.url?.let { url ->
 //                createStandardsCatalogue(url, accessTokenAdmin)
+                createMenuCatalogue(url, accessTokenAdmin, "")
                 create100MCatalogue(url, accessTokenAdmin, "")
             }
         }
