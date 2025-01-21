@@ -73,7 +73,7 @@ export const TableCellActionMenuPlugin = (props: TableCellActionMenuPluginProps)
     return editor.registerMutationListener(TableCellNode, $bindListeners)
   }, [editor]);
 
-  if (!anchorElem || !hoveredElement || !editor.isEditable || !hoveredCellNodeKey) return null
+  if (!anchorElem || !hoveredElement || !editor.isEditable() || !hoveredCellNodeKey) return null
 
   return <CellMoreOptionsButton anchorElem={anchorElem} hoveredElement={hoveredElement} hoveredCellNodeKey={hoveredCellNodeKey} />
 }

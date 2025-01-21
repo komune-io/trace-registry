@@ -16,9 +16,5 @@ export const CataloguesRouter = (props: CataloguesRouterProps) => {
             id: catalogueId!
         }
     })
-    return catalogueGet.data?.item?.structure?.type === "item" ? (
-        <CatalogueViewPage isLoading={catalogueGet.isInitialLoading} catalogue={catalogueGet.data.item} />
-    ) : (
-        <CatalogueListPage isLoading={catalogueGet.isInitialLoading} catalogue={catalogueGet.data?.item} />
-    )
+    return <CatalogueViewPage isLoading={catalogueGet.isInitialLoading} catalogue={catalogueGet.data?.item} />
 }

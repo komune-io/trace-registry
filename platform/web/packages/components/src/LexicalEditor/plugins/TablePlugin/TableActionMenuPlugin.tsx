@@ -77,7 +77,7 @@ const TableMoreOptionsButton = (props: TableMoreOptionsButtonProps) => {
     tableNodeKey
   })
 
-  if (tableElement == null) return null
+  if (tableElement == null || !editor.isEditable()) return null
   const tableElementRect = tableElement.getBoundingClientRect();
   const anchorElemRect = anchorElem.getBoundingClientRect()
   return createPortal(

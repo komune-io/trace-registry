@@ -1,6 +1,7 @@
 import { createHeadlessEditor } from "@lexical/headless";
-import { $convertFromMarkdownString, $convertToMarkdownString, TRANSFORMERS } from "@lexical/markdown";
+import { $convertFromMarkdownString, $convertToMarkdownString } from "@lexical/markdown";
 import { EditorState, } from "lexical";
+import { MARKDOWN_TRANSFORMERS } from "./plugins/MarkdownTransformers";
 
 export const lexicalStateToMarkdown = (
     editorState: EditorState,
@@ -13,7 +14,7 @@ export const lexicalStateToMarkdown = (
     editor.setEditorState(editorState);
 
     editor.update(() => {
-        markdown = $convertToMarkdownString(TRANSFORMERS);
+        markdown = $convertToMarkdownString(MARKDOWN_TRANSFORMERS);
     });
     return markdown
 }
@@ -21,5 +22,5 @@ export const lexicalStateToMarkdown = (
 export const mardownToLexicalState = (
     markdown: string,
 ) => {
-    $convertFromMarkdownString(markdown, TRANSFORMERS)
+    $convertFromMarkdownString(markdown, MARKDOWN_TRANSFORMERS)
 }
