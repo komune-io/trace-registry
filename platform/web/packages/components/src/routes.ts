@@ -36,7 +36,6 @@ for (let route in strictRoutesAuthorizations) {
 }
 
 export const useRoutesDefinition = () => {
-
     const cataloguesAll = useCallback(
       (tab?: string, ...objectIds: string[]) => {
         const ends =  `/${tab ? tab : ""}`
@@ -44,7 +43,6 @@ export const useRoutesDefinition = () => {
       },
       [],
     )
-    
 
     return useMemo(() => ({
         ...routesDefinitions,
