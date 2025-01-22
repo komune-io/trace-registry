@@ -4,7 +4,8 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    ListProps
+    ListProps,
+    alpha
 } from '@mui/material'
 import { useCallback, useMemo } from 'react'
 import {
@@ -12,45 +13,6 @@ import {
     MenuItems,
 } from '@komune-io/g2'
 
-
-//   const useStyles = makeG2STyles<{ paddingLeft: number }>()(
-//     (theme, { paddingLeft }) => ({
-//       item: {
-//         paddingLeft: `${paddingLeft}px`,
-//         color: 'black',
-//         '& .MuiListItemIcon-root': {
-//           color: 'black',
-//           minWidth: 'unset',
-//           marginRight: '12px'
-//         }
-//       },
-//       selectedItem: {
-//         background: `${theme.colors.primary}33`,
-//         color: theme.colors.primary,
-//         '& .MuiListItemIcon-root': {
-//           color: theme.colors.primary
-//         }
-//       },
-//       selectedTitle: {
-//         '& .MuiTypography-root': {
-//           color: theme.colors.primary
-//         }
-//       },
-//       itemText: {
-//         '& .MuiTypography-root': {
-//           fontSize: `${17 - paddingLeft / 10}px`,
-//           overflow: 'hidden',
-//           WebkitLineClamp: 3,
-//           display: '-webkit-box',
-//           WebkitBoxOrient: 'vertical',
-//           textOverflow: 'ellipsis'
-//         }
-//       },
-//       subList: {
-//         padding: '0px'
-//       }
-//     })
-//   )
 
 
 interface Wco2MenuProps extends ListProps {
@@ -64,6 +26,7 @@ export const Wco2Menu = (props: Wco2MenuProps) => {
             menu.map((item) => (
                 <Item
                     {...item}
+                    key={item.key}
                 />
             )),
         [classes, menu]
@@ -88,39 +51,55 @@ const Item = (props: MenuItems) => {
         () => onClick && !href && onClick(),
         [onClick, href]
     )
+    console.log(items)
     return (
-        <ListItemButton
-            component={component ? component : href ? 'a' : 'div'}
-            onClick={onItemClick}
-            href={href}
-            selected={isSelected}
-            sx={{
-                color: "secondary.main"
-            }}
-            {...componentProps}
-            {...other}
-        >
-            {!!icon && (
-                <ListItemIcon
-                    sx={{
-                        minWidth: 'unset',
-                        marginRight: '12px'
-                    }}
-                >
-                    {icon}
-                </ListItemIcon>
-            )}
-            {!!label && (
-                <ListItemText
-                    primaryTypographyProps={{ color: 'inherit', variant: isSelected ? "subtitle2" : "body2" }}
-                    primary={label}
-                />
-            )}
+        <>
+            <ListItemButton
+                component={component ? component : href ? 'a' : 'div'}
+                onClick={onItemClick}
+                href={href}
+                selected={isSelected}
+                sx={{
+                    color: "secondary.main"
+                }}
+                {...componentProps}
+                {...other}
+            >
+                {!!icon && (
+                    <ListItemIcon
+                        sx={{
+                            minWidth: 'unset',
+                            marginRight: '12px'
+                        }}
+                    >
+                        {icon}
+                    </ListItemIcon>
+                )}
+                {!!label && (
+                    <ListItemText
+                        primaryTypographyProps={{ color: 'inherit', variant: isSelected ? "subtitle2" : "body2" }}
+                        primary={label}
+                    />
+                )}
+            </ListItemButton>
             {items && items.length > 0 && <Collapse in={isSelected}>
                 <DropdownMenu
                     items={items}
+                    sx={{
+                        pl: 2,
+                        pr: 1,
+                        '& .MuiAccordionSummary-root:hover .MuiAccordionSummary-content': {
+                            bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
+                        },
+                        '& .MuiListItemButton-root:hover > .MenuItem-divider': {
+                            bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
+                        },
+                        '& .MuiListItemButton-root': {
+                            color: "text.secondary"
+                        }
+                    }}
                 />
             </Collapse>}
-        </ListItemButton>
+        </>
     )
 }

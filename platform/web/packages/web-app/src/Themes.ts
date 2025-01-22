@@ -10,7 +10,7 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     primary: window._env_?.theme?.primaryColor ?? "#492161",
     secondary: "#353945",
     //@ts-ignore
-    background: window._env_?.theme?.backgroundColor ?? "#FBFBFC",
+    background: window._env_?.theme?.backgroundColor ?? "#F6F4F7",
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
@@ -28,7 +28,8 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     '0px 13px 44px rgba(0, 0, 0, 0.29)',
     '0px 14px 48px rgba(0, 0, 0, 0.3)',
     '0px 15px 52px rgba(0, 0, 0, 0.31)'
-  ]
+  ],
+  bgColorOnMenu: true,
 };
 
 export const muiTheme: Partial<ThemeOptions> = {

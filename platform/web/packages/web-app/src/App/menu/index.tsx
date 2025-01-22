@@ -4,43 +4,41 @@ import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
 import { AccountCircle, Login, Logout, TravelExplore } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { StandardIcon, useExtendedAuth, useRoutesDefinition, Wco2Menu } from "components";
+import { GridIcon, useExtendedAuth, useRoutesDefinition, Wco2Menu } from "components";
 import { g2Config } from "@komune-io/g2";
-import { useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
+import { CatalogueRefTree, useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
 import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-interface MenuItem {
-  key: string,
+interface MenuItem extends MenuItems {
   to?: string,
-  action?: () => void,
-  label: string
-  icon: JSX.Element;
   isVisible?: boolean;
-  isSelected?: boolean;
+  items?: MenuItem[]
 }
 
 export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps>[] => {
-  const finalMenu: MenuItems<LinkProps>[] = []
-  menu.forEach((item): MenuItems<LinkProps> | undefined => {
-    const additionals = item.to ? {
-      component: Link,
-      componentProps: {
-        to: item.to
-      }
-    } : {
-      goto: item.action
-    }
-    if (item.isVisible === false) return
-    finalMenu.push({
-      key: `appLayout-${item.key}`,
-      label: item.label,
-      icon: item.icon,
-      isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
-      ...additionals
+    const finalMenu: MenuItems<LinkProps>[] = []
+    menu.forEach((item): MenuItems<LinkProps> | undefined => {
+        const additional = item.to ? {
+            component: Link,
+            componentProps: {
+                to: item.to
+            }
+        } : {
+        }
+        if (item.isVisible === false) return
+        finalMenu.push({
+            key: `appLayout-${item.key}`,
+            label: item.label,
+            icon: item.icon,
+            color: 'primary.main',
+            onClick: item.onClick,
+            isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
+            items: item.items ? getMenu(location, item.items) : undefined,
+            ...additional
+        })
     })
-  })
-  return finalMenu
+    return finalMenu
 }
 
 export const useMenu = (t: TFunction) => {
@@ -79,25 +77,17 @@ export const useMenu = (t: TFunction) => {
         isSelected: location.pathname === "/" || location.pathname.includes(projects())
       }),
       {
-        key: "system",
+        key: "systems",
         to: cataloguesAll(),
-        label: t("system"),
-        icon: <TravelExplore />,
+        label: t("systems"),
+        icon: <GridIcon />,
         isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll()),
-        items: catalogueRefGetTreeQuery.data?.item?.catalogues?.map((item) => {
-          const ref = cataloguesAll(undefined, item.identifier)
-          return {
-            key: item.identifier,
-            to: ref,
-            label: item.title,
-            icon: <StandardIcon/>,
-            isSelected: location.pathname.includes(ref)
-          } as MenuItem
-    
-        }) ?? []
+        items: catalogueRefGetTreeQuery.data?.item?.catalogues?.map(mapCatalogueRef(cataloguesAll)) ?? []
       }
     ]
   }, [module.project, projects, location, t, catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll])
+
+  console.log(menu)
 
   return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -138,6 +128,18 @@ export const maybeAddItem = <T,>(condition: boolean, item: T): T[] => {
 
 export const maybeAddItems = <T,>(condition: boolean, items: T[]): T[] => {
   return condition ? [...items] : [];
+}
+
+const mapCatalogueRef = (cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
+  const ref = cataloguesAll(undefined, item.identifier)
+  return {
+    key: item.identifier,
+    to: ref,
+    label: item.title,
+    isSelected: location.pathname.includes(ref),
+    items: item.catalogues?.map(mapCatalogueRef(cataloguesAll))
+  } as MenuItem
+
 }
 
 export const CustomMenu = () => {
