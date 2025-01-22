@@ -15,7 +15,7 @@ G2ConfigBuilder(window._env_)
 
 if (import.meta.env.DEV) {
     window.kcContext = getKcContextMock({
-        pageId: "register.ftl",
+        pageId: "login-otp.ftl",
         overrides: {
             locale: {
                 currentLanguageTag: "fr"

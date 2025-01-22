@@ -7,6 +7,8 @@ import DefaultTemplate from "keycloakify/login/Template";
 import {Info, Login, Register, ResetPassword, UpdatePassword} from "./Pages";
 import Template from "./Template"
 import { useTranslation } from "react-i18next";
+import LoginOtp from "./Pages/LoginOtp.tsx";
+import LoginConfigTotp from "./Pages/LoginConfigTotp.tsx";
 const UserProfileFormFields = lazy(
     () => import("keycloakify/login/UserProfileFormFields")
 );
@@ -31,6 +33,8 @@ export default function KcPage(props: { kcContext: KcContext }) {
             {(() => {
                 switch (kcContext.pageId) {
                     case "login.ftl": return <Login {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-otp.ftl": return <LoginOtp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-config-totp.ftl": return <LoginConfigTotp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
                     case "login-reset-password.ftl": return <ResetPassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
                     case "login-update-password.ftl": return <UpdatePassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
                     case "register.ftl": return <Register {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
