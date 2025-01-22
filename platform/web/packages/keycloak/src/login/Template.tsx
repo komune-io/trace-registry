@@ -40,7 +40,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         sm: 5,
                         xs: 0
                     },
-                    width: "100%"
+                    width: "100%",
                 }}
                 gap={3}
             >
