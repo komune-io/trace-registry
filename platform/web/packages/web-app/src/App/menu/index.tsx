@@ -69,7 +69,7 @@ export const useMenu = (t: TFunction) => {
 
   const menu: MenuItem[] = useMemo(() => {
     return [
-      ...maybeAddItem(/* module.project */ true, {
+      ...maybeAddItem(module.project, {
         key: "project",
         to: projects(),
         label: t("exploreProjects"),
