@@ -24,7 +24,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
-		is CatalogueSetImageEvent -> model?.setImageEvent(event)
+		is CatalogueSetImageEvent -> model?.setImage(event)
 	}
 
 	private suspend fun create(event: CatalogueCreatedEvent) = CatalogueEntity().apply {
@@ -34,7 +34,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		identifier = event.identifier
 		issued = event.date
 	}
-	private suspend fun CatalogueEntity.setImageEvent(event: CatalogueSetImageEvent) = apply {
+	private suspend fun CatalogueEntity.setImage(event: CatalogueSetImageEvent) = apply {
 		img = event.img
 		this.modified = event.date
 	}

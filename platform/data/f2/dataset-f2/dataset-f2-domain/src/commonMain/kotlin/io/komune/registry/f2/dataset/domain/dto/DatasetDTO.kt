@@ -18,6 +18,7 @@ import kotlin.js.JsExport
  * @d2 model
  * @title Dataset
  * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
+ * @order 10
  */
 @JsExport
 interface DatasetDTO{
@@ -220,6 +221,8 @@ interface DatasetDTO{
      * This is an optional property and may be null if the date is not available.
      */
     val modified: Long?
+
+    val distributions: List<DistributionDTO>?
 }
 
 @Serializable
@@ -255,6 +258,7 @@ data class DatasetDTOBase(
     override val format: String? = null,
     override val issued: Long? = null,
     override val modified: Long? = null,
+    override val distributions: List<DistributionDTOBase>? = null,
 ): DatasetDTO
 
 @JsExport

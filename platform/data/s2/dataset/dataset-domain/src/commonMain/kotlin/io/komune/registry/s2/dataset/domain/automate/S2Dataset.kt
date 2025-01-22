@@ -1,5 +1,7 @@
 package io.komune.registry.s2.dataset.domain.automate
 
+import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
@@ -8,15 +10,19 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
+import kotlin.js.JsExport
 
 val s2Dataset = s2Sourcing {
     name = "Dataset"
@@ -43,6 +49,19 @@ val s2Dataset = s2Sourcing {
     transaction<DatasetDeleteCommand, DatasetDeletedEvent> {
         from = DatasetState.ACTIVE
         to = DatasetState.DELETED
+        role = DatasetRole.Issuer
+    }
+
+    selfTransaction<DatasetAddDistributionCommand, DatasetAddedDistributionEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetUpdateDistributionCommand, DatasetUpdatedDistributionEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetRemoveDistributionCommand, DatasetRemovedDistributionEvent> {
+        states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
 }

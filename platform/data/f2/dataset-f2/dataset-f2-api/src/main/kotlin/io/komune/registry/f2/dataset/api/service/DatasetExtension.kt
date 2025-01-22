@@ -10,6 +10,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkedDatasetsEventDT
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkedThemesEventDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
+import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -20,6 +21,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
 
 suspend fun List<DatasetModel>.toDTO(datasetFinderService: DatasetFinderService) = map {
@@ -56,6 +58,7 @@ suspend fun DatasetModel.toDTO(datasetFinderService: DatasetFinderService): Data
         license = license,
         format = format,
         issued = issued,
+        distributions = distributions?.map { it.toDTO() },
     )
 }
 
@@ -71,6 +74,7 @@ fun DatasetModel.toRefDTO(): DatasetRefDTOBase {
         img = img,
     )
 }
+
 fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
     return DatasetRefDTOBase(
         id = id,
@@ -79,6 +83,14 @@ fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
         type = type,
     )
 }
+
+fun DistributionModel.toDTO() = DistributionDTOBase(
+    id = id,
+    downloadPath = downloadPath,
+    mediaType = mediaType,
+    issued = issued,
+    modified = modified,
+)
 
 fun DatasetCreateCommandDTOBase.toCommand() = DatasetCreateCommand(
     identifier = identifier,

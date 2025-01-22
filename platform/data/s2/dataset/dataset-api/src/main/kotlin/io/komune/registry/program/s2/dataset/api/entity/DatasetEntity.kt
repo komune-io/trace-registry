@@ -66,6 +66,8 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var modified: Long? = null
     var releaseDate: String? = null
 
+    var distributions: List<DistributionEntity>? = null
+
     override fun s2Id() = id
     override fun s2State() = status
 }

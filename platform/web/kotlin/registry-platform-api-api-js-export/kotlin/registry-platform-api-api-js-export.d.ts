@@ -2698,6 +2698,30 @@ export declare namespace io.komune.registry.s2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddJsonDistributionCommandDTO {
+        readonly id: string;
+        readonly jsonContent: string;
+
+    }
+    interface DatasetAddedJsonDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddMediaDistributionCommandDTO {
+        readonly id: string;
+        readonly mediaType: string;
+
+    }
+    interface DatasetAddedMediaDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetCreateCommandDTO {
         readonly identifier: string;
         readonly title: string;
@@ -2763,6 +2787,18 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetRemoveDistributionCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+    interface DatasetRemovedDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetSetImageCommandDTO {
         readonly id: string;
 
@@ -2770,6 +2806,32 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetSetImageEventDTO {
         readonly id: string;
         readonly img?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetUpdateJsonDistributionCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly jsonContent: string;
+
+    }
+    interface DatasetUpdatedJsonDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetUpdateMediaDistributionCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly mediaType: string;
+
+    }
+    interface DatasetUpdatedMediaDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
 
     }
 }
@@ -2806,6 +2868,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly format?: string;
         readonly issued?: number;
         readonly modified?: number;
+        readonly distributions?: io.komune.registry.f2.dataset.domain.dto.DistributionDTO[];
 
     }
     interface DatasetRefDTO {
@@ -2822,6 +2885,16 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
 
     }
 }
+export declare namespace io.komune.registry.f2.dataset.domain.dto {
+    interface DistributionDTO {
+        readonly id: string;
+        readonly downloadPath: io.komune.fs.s2.file.domain.model.FilePathDTO/* io.komune.fs.s2.file.domain.model.FilePath */;
+        readonly mediaType: string;
+        readonly issued: number;
+        readonly modified: number;
+
+    }
+}
 export declare namespace io.komune.registry.f2.dataset.domain.policy {
     const DatasetPolicies: {
         canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
@@ -2832,6 +2905,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.policy {
         checkLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         checkLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canUpdateDistributions(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
     };
 }
 export declare namespace io.komune.registry.f2.dataset.domain.query {

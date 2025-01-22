@@ -178,12 +178,9 @@ class CatalogueEndpoint(
         logger.info("catalogueLogoDownload: $catalogueId")
         val file = serveFile(fileClient) {
             logger.info("serveFile: $catalogueId")
-            FilePath(
-                objectType = FsService.FsPath.CATALOGUE_TYPE,
-                objectId = catalogueId,
-                directory = FsService.FsPath.DIR_IMG,
-                name = FsService.FsPath.IMG_NAME
-            )
+            catalogueFinderService.getOrNull(catalogueId)
+                ?.img
+                ?.let { FilePath.from(it) }
         }
         logger.info("servedFile: $catalogueId")
         return file

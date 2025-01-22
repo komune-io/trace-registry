@@ -7,6 +7,8 @@ import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import io.komune.registry.s2.dataset.domain.model.DistributionId
+import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
 interface DatasetFinder {
     suspend fun getOrNull(id: DatasetId): DatasetModel?
@@ -20,6 +22,7 @@ interface DatasetFinder {
         offset: OffsetPagination? = null,
     ): PageDTO<DatasetModel>
     suspend fun listByIdentifier(identifier: String): List<DatasetModel>
-
     suspend fun getAll(): List<DatasetModel>
+
+    suspend fun getDistribution(datasetId: DatasetId, distributionId: DistributionId): DistributionModel
 }

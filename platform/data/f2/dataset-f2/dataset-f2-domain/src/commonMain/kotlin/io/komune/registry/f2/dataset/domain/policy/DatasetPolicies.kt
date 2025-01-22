@@ -9,14 +9,10 @@ import kotlin.js.JsName
 @JsExport
 @JsName("DatasetPolicies")
 object DatasetPolicies {
-    /**
-     * User can list the activities
-     */
-    @Suppress("FunctionOnlyReturningConstant")
     fun canPage(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
-    @Suppress("FunctionOnlyReturningConstant")
+
     fun canPageSteps(authedUser: AuthedUserDTO?): Boolean {
         return true
     }
@@ -24,6 +20,7 @@ object DatasetPolicies {
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
+
     fun canSetImg(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
@@ -45,5 +42,9 @@ object DatasetPolicies {
             Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER,
             Roles.PROJECT_MANAGER_ADMIN, Roles.PROJECT_MANAGER_USER
         )
+    }
+
+    fun canUpdateDistributions(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Roles.ORCHESTRATOR_ADMIN, Roles.ORCHESTRATOR_USER)
     }
 }

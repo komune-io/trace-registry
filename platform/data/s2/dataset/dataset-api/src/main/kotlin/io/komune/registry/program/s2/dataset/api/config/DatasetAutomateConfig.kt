@@ -7,14 +7,16 @@ import io.komune.registry.program.s2.dataset.api.entity.DatasetSnapRepository
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.automate.s2Dataset
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
-import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
+import kotlin.reflect.KClass
 
 @Configuration
 class DatasetAutomateConfig(
@@ -66,6 +69,9 @@ class DatasetAutomateConfig(
 				subclass(DatasetLinkedDatasetsEvent::class, DatasetLinkedDatasetsEvent.serializer())
 				subclass(DatasetLinkedThemesEvent::class, DatasetLinkedThemesEvent.serializer())
 				subclass(DatasetSetImageEvent::class, DatasetSetImageEvent.serializer())
+				subclass(DatasetAddedDistributionEvent::class, DatasetAddedDistributionEvent.serializer())
+				subclass(DatasetUpdatedDistributionEvent::class, DatasetUpdatedDistributionEvent.serializer())
+				subclass(DatasetRemovedDistributionEvent::class, DatasetRemovedDistributionEvent.serializer())
 			}
 		}
 	}
