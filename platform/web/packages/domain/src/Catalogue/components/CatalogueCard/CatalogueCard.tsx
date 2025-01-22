@@ -27,8 +27,6 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
         return datasets.length > 0 ? t("catalogues.verifiedProjects", { count: datasets.length }) : ""
     }, [catalogue?.datasets])
 
-    console.log(catalogue?.datasets)
-
     return (
         <Card
             {...other}
