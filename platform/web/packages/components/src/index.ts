@@ -23,4 +23,7 @@ export * from "./SearchFilter"
 export * from "./Tabs"
 export * from "./LexicalEditor"
 export * from "./WCo2Editor"
+export * from "./i18n"
+export * from "./LanguageSelector"
+export * from "./Wco2Menu"
 

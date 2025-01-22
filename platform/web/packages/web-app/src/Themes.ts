@@ -14,7 +14,6 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
-  drawerAbsolutePositionBreakpoint: "always",
   shadows: [
     "none", 
     "0px 4px 8px 0px #E4DEE7",

@@ -4,9 +4,11 @@ import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
 import { AccountCircle, Login, Logout, TravelExplore } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { StandardIcon, useExtendedAuth, useRoutesDefinition } from "components";
+import { StandardIcon, useExtendedAuth, useRoutesDefinition, Wco2Menu } from "components";
 import { g2Config } from "@komune-io/g2";
 import { useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
+import { Stack } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface MenuItem {
   key: string,
@@ -43,7 +45,6 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
-  const {service} = useExtendedAuth()
   const flagGetQuery = useFlagGetQuery()
 
 
@@ -68,33 +69,36 @@ export const useMenu = (t: TFunction) => {
   })
   const {projects, cataloguesAll} = useRoutesDefinition()
 
-  const projectMenu: MenuItem[] = useMemo(() => {
-    return maybeAddItem(module.project, {
-      key: "project",
-      to: projects(),
-      label: t("exploreProjects"),
-      icon: <TravelExplore />,
-      isSelected: location.pathname === "/" || location.pathname.includes(projects())
-    })
-  }, [module.project, projects, location, t])
+  const menu: MenuItem[] = useMemo(() => {
+    return [
+      ...maybeAddItem(/* module.project */ true, {
+        key: "project",
+        to: projects(),
+        label: t("exploreProjects"),
+        icon: <TravelExplore />,
+        isSelected: location.pathname === "/" || location.pathname.includes(projects())
+      }),
+      {
+        key: "system",
+        to: cataloguesAll(),
+        label: t("system"),
+        icon: <TravelExplore />,
+        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll()),
+        items: catalogueRefGetTreeQuery.data?.item?.catalogues?.map((item) => {
+          const ref = cataloguesAll(undefined, item.identifier)
+          return {
+            key: item.identifier,
+            to: ref,
+            label: item.title,
+            icon: <StandardIcon/>,
+            isSelected: location.pathname.includes(ref)
+          } as MenuItem
+    
+        }) ?? []
+      }
+    ]
+  }, [module.project, projects, location, t, catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll])
 
-  const dataMenu: MenuItem[] = useMemo(() => {
-    return catalogueRefGetTreeQuery.data?.item?.catalogues?.map((item) => {
-      const ref = cataloguesAll(undefined, item.identifier)
-      return {
-        key: item.identifier,
-        to: ref,
-        label: item.title,
-        icon: <StandardIcon/>,
-        isSelected: location.pathname.includes(ref)
-      } as MenuItem
-
-    }) ?? []
-  }, [catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll, location,  t])
-
-
-  const menu: MenuItem[] = useMemo(() => [
-    ...projectMenu, ...dataMenu], [t, service.hasUserRouteAuth, location.pathname])
   return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
 
@@ -134,4 +138,34 @@ export const maybeAddItem = <T,>(condition: boolean, item: T): T[] => {
 
 export const maybeAddItems = <T,>(condition: boolean, items: T[]): T[] => {
   return condition ? [...items] : [];
+}
+
+export const CustomMenu = () => {
+  const { t } = useTranslation()
+  const menu = useMenu(t)
+
+  return (
+      <Stack
+          sx={{
+              gap: 2,
+              px: 0,
+              pb: 2,
+              height: "100%"
+          }}
+      >
+          <Stack
+              alignItems="center"
+              flexGrow={1}
+              overflow="auto"
+              width="100%"
+          >
+                  <Wco2Menu
+                      sx={{
+                          width: "100%"
+                      }}
+                      menu={menu}
+                  />
+          </Stack>
+      </Stack>
+  )
 }

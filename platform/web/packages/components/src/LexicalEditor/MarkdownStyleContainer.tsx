@@ -47,6 +47,12 @@ export const MarkdownStyleContainer = styled(Box, {
     margin: '8px 0px',
     lineHeight: 1.5
   },
+  "& .editor-nested-listitem": {
+    listStyleType: "none",
+  },
+  "& .editor-nested-listitem:before, .editor-nested-listitem:after": {
+    display: "none"
+  },
   "& .editor-code": {
     borderRadius: "8px",
     border: "1px solid #E0E0E0",
