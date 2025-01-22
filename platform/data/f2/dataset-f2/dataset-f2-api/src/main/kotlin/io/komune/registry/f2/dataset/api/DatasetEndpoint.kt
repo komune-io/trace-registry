@@ -148,6 +148,17 @@ class DatasetEndpoint(
     }
 
     @PermitAll
+    @GetMapping("datasetDownloadDistribution/{datasetId}/{distributionId}")
+    suspend fun datasetDownloadDistribution(
+        @PathVariable datasetId: DatasetId,
+        @PathVariable distributionId: String,
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("datasetDownloadDistribution: $datasetId, $distributionId")
+        datasetFinderService.getDistribution(datasetId, distributionId)
+            .downloadPath
+    }
+
+    @PermitAll
     @Bean
     override fun datasetCreate(): DatasetCreateFunction = f2Function { cmd ->
         logger.info("datasetCreate: $cmd")
