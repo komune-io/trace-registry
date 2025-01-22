@@ -44,8 +44,6 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
   const flagGetQuery = useFlagGetQuery()
-
-
   const module = useMemo(() => {
     return flagGetQuery.data?.module ?? {
       project: false,
@@ -61,11 +59,18 @@ export const useMenu = (t: TFunction) => {
       language: "fr"
     },
     options: {
-      // enabled: module.data
       enabled: true
     }
   })
   const {projects, cataloguesAll} = useRoutesDefinition()
+  const secteurMenu =  catalogueRefGetTreeQuery.data?.item?.catalogues
+    ?.find(value => value.identifier == "objectif100m-secteur")
+  const secteurSubMenu = secteurMenu?.catalogues?.map(mapCatalogueRef([secteurMenu.identifier], cataloguesAll))
+
+  const systemeMenu =  catalogueRefGetTreeQuery.data?.item?.catalogues
+    ?.find(value => value.identifier == "objectif100m-systeme")
+  const systemSubMenu =  systemeMenu?.catalogues?.map(mapCatalogueRef([systemeMenu.identifier], cataloguesAll))
+
 
   const menu: MenuItem[] = useMemo(() => {
     return [
@@ -74,20 +79,26 @@ export const useMenu = (t: TFunction) => {
         to: projects(),
         label: t("exploreProjects"),
         icon: <TravelExplore />,
-        isSelected: location.pathname === "/" || location.pathname.includes(projects())
+        isSelected: location.pathname.includes(projects())
       }),
       {
         key: "systems",
-        to: cataloguesAll(),
+        to: cataloguesAll(systemeMenu?.identifier),
         label: t("systems"),
         icon: <GridIcon />,
-        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll()),
-        items: catalogueRefGetTreeQuery.data?.item?.catalogues?.map(mapCatalogueRef(cataloguesAll)) ?? []
+        isSelected: location.pathname.includes(cataloguesAll(systemeMenu?.identifier)),
+        items: systemSubMenu ?? []
+      },
+      {
+        key: "Secteur",
+        to: cataloguesAll(secteurMenu?.identifier),
+        label: "Secteur",
+        icon: <GridIcon />,
+        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
+        items: secteurSubMenu ?? []
       }
     ]
   }, [module.project, projects, location, t, catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll])
-
-  console.log(menu)
 
   return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -126,20 +137,17 @@ export const maybeAddItem = <T,>(condition: boolean, item: T): T[] => {
   return condition ? [item] : [];
 }
 
-export const maybeAddItems = <T,>(condition: boolean, items: T[]): T[] => {
-  return condition ? [...items] : [];
-}
-
-const mapCatalogueRef = (cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
-  const ref = cataloguesAll(undefined, item.identifier)
+const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
+  const newPath = [...currentPaths, item.identifier]
+  const ref = cataloguesAll(item.identifier, ...currentPaths)
+  console.log("ref", ref)
   return {
     key: item.identifier,
     to: ref,
     label: item.title,
     isSelected: location.pathname.includes(ref),
-    items: item.catalogues?.map(mapCatalogueRef(cataloguesAll))
+    items: item.catalogues?.map(mapCatalogueRef(newPath, cataloguesAll))
   } as MenuItem
-
 }
 
 export const CustomMenu = () => {
