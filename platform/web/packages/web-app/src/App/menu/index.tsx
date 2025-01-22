@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 
 interface MenuItem extends MenuItems {
   to?: string,
+  action?: () => void,
   isVisible?: boolean;
   items?: MenuItem[]
 }
@@ -25,6 +26,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
                 to: item.to
             }
         } : {
+          goto: item.action
         }
         if (item.isVisible === false) return
         finalMenu.push({
@@ -140,7 +142,6 @@ export const maybeAddItem = <T,>(condition: boolean, item: T): T[] => {
 const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
   const newPath = [...currentPaths, item.identifier]
   const ref = cataloguesAll(item.identifier, ...currentPaths)
-  console.log("ref", ref)
   return {
     key: item.identifier,
     to: ref,
