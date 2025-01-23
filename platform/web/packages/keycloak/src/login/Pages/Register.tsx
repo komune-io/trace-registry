@@ -101,7 +101,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             </>,
             required: true
         }, {
-            name: "acceptChart100M",
+            name: "acceptNewsletter",
             type: "checkBox",
             //@ts-ignore
             label: msgStr("wantNewsletter"),
