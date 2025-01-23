@@ -1,7 +1,7 @@
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { MenuItem, Select, SelectChangeEvent, SxProps, Theme } from '@mui/material'
 import {KeyboardArrowDownRounded} from "@mui/icons-material"
 import { ReactElement, useCallback, useMemo } from 'react'
-import { useExtendedI18n, Languages, languages } from '../..'
+import { useExtendedI18n, Languages, languages as defaultLanguages } from '../..'
 import { EnglandFlagIcon, FranceFlagIcon, SpainFlagIcon } from '../Icons/flags'
 
 const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
@@ -10,12 +10,23 @@ const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
     es: <SpainFlagIcon />
 }
 
-export const LanguageSelector = () => {
+export interface LanguageSelectorProps {
+    languages?: Record<string, string>
+    currentLanguage?: string
+    onChange?: (languageTag: string) => void
+    sx?: SxProps<Theme>
+}
+
+export const LanguageSelector = (props: LanguageSelectorProps) => {
     const { i18n } = useExtendedI18n()
+    const {languages, currentLanguage, onChange, sx} = props
 
     const onLanguageChange = useCallback(
-        (event: SelectChangeEvent) => i18n.changeLanguage(event.target.value as keyof Languages),
-        [i18n.changeLanguage],
+        (event: SelectChangeEvent) => {
+            i18n.changeLanguage(event.target.value as keyof Languages)
+            onChange && onChange(event.target.value)
+        },
+        [i18n.changeLanguage, onChange],
     )
 
     const currentLanguageShortCode = useMemo(() => {
@@ -37,13 +48,14 @@ export const LanguageSelector = () => {
                     display: "flex"
                 },
                 borderRadius: "6px",
+                ...sx
             }}
-            value={currentLanguageShortCode}
+            value={currentLanguage ?? currentLanguageShortCode}
             onChange={onLanguageChange}
             IconComponent={KeyboardArrowDownRounded}
         >
             {
-                Object.keys(languages).map((lng) => (
+                Object.keys(languages ?? defaultLanguages).map((lng) => (
                     <MenuItem 
                     aria-label={`language-${lng}`} 
                     key={lng} 
@@ -53,7 +65,7 @@ export const LanguageSelector = () => {
                         justifyContent: "center"
                     }}
                     >
-                       {languageToEmojiFlag[lng as keyof Languages]}
+                       {languageToEmojiFlag[lng as keyof Languages] ?? lng}
                     </MenuItem>
                 ))
             }
