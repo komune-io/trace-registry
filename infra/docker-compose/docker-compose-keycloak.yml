@@ -61,4 +61,4 @@ networks:
 
 configs:
   keycloak_web_env_config_v5:
-    file: ./config/build/keycloak/env-config.js
+    file: ./build/config/keycloak/web_default.js

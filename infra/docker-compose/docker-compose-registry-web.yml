@@ -24,6 +24,6 @@ networks:
 
 configs:
   registry_web_env_config_v2:
-    file: ./config/build/registry/env-config.js
+    file: ./build/config/registry/web_default.js
   registry_web_oidc_config:
-    file: ./config/build/registry/OidcTrustedDomains.js
+    file: ./build/config/registry/OidcTrustedDomains.js

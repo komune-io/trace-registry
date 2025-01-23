@@ -4,18 +4,9 @@ ACTIONS = up down logs log pull stop kill deploy remove help
 DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 
 dev-envsubst:
-	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/init.json > $(DOCKER_COMPOSE_PATH)/config/build/init.json
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-create.json > $(DOCKER_COMPOSE_PATH)/config/build/space-create.json
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/space-config.json > $(DOCKER_COMPOSE_PATH)/config/build/space-config.json
-	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/connect-admin
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/OidcTrustedDomains.js
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/env-config.js
-	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/keycloak
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/keycloak/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/keycloak/env-config.js
-	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/registry
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/OidcTrustedDomains.js
-	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/env-config.js
+	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config)
+	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config_$(CURRENT_CONTEXT))
+	find $(DOCKER_COMPOSE_PATH)/build -type f -exec bash -c 'envsubst < "{}" > "{}.tmp" && mv "{}.tmp" "{}"' \;
 
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
@@ -113,8 +104,6 @@ kill-containers:
 	fi
 
 
-
-
 dev-service-action:
 	@if [ "$(ACTION)" = "up" ]; then \
 		docker compose --env-file $(DOCKER_COMPOSE_ENV) -f $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml  up -d; \
@@ -144,7 +133,7 @@ dev-service-action:
 	fi
 
 dev-envsubst-clean:
-	rm -fr $(DOCKER_COMPOSE_PATH)/config/build
+	rm -fr $(DOCKER_COMPOSE_PATH)/build
 
 dev-help:
 	@echo 'To operate on all services [$(SERVICES_ALL)]:'
@@ -183,6 +172,14 @@ endif
 
 export
 
+define copy_config
+ if [ -d $1 ] && [ "$(ls -A $1)" ]; then \
+  mkdir -p $(DOCKER_COMPOSE_PATH)/build/config; \
+  cp -r $1/* $(DOCKER_COMPOSE_PATH)/build/config/; \
+ else \
+  echo "Directory $1 does not exist or is empty"; \
+ fi
+endef
 
 $(DOCKER_COMPOSE_FILE):
 	@:

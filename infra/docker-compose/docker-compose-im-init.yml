@@ -26,4 +26,4 @@ networks:
 
 configs:
   im_init_config:
-    file: ./config/build/init.json
+    file: ./build/config/init.json

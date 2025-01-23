@@ -30,6 +30,6 @@ networks:
 
 configs:
   env_config_v3:
-    file: ./config/build/connect-admin/env-config.js
+    file: ./build/config/connect-admin/web_default.js
   oidc_config_v3:
-    file: ./config/build/connect-admin/OidcTrustedDomains.js
+    file: ./build/config/connect-admin/OidcTrustedDomains.js
