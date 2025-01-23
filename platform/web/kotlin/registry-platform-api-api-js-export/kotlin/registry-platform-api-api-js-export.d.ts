@@ -3177,7 +3177,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefListQueryDTO {
-
+        readonly language: string;
     }
     interface CatalogueRefListResultDTO {
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];

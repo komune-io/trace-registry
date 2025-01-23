@@ -1,6 +1,6 @@
 import { MenuItem, Select, SelectChangeEvent, SxProps, Theme } from '@mui/material'
 import {KeyboardArrowDownRounded} from "@mui/icons-material"
-import { ReactElement, useCallback, useMemo } from 'react'
+import { ReactElement, useCallback, useEffect } from 'react'
 import { useExtendedI18n, Languages, languages as defaultLanguages } from '../..'
 import { EnglandFlagIcon, FranceFlagIcon, SpainFlagIcon } from '../Icons/flags'
 
@@ -29,13 +29,14 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
         [i18n.changeLanguage, onChange],
     )
 
-    const currentLanguageShortCode = useMemo(() => {
+    useEffect(() => {
+        //if current language is not a short tag like fr-FR we change it to the short tag like fr
         if (i18n.language.includes("-")) {
             const splited = i18n.language.split("-")
-            return splited[0]
+            i18n.changeLanguage(splited[0] as keyof Languages)
         }
-        return i18n.language
     }, [i18n.language])
+    
 
     return (
         <Select
@@ -50,7 +51,7 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
                 borderRadius: "6px",
                 ...sx
             }}
-            value={currentLanguage ?? currentLanguageShortCode}
+            value={currentLanguage ?? i18n.language}
             onChange={onLanguageChange}
             IconComponent={KeyboardArrowDownRounded}
         >

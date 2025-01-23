@@ -17,7 +17,7 @@ interface CatalogueViewPageProps {
 }
 export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { ids, tab} = useCataloguesRouteParams()
 
     const navigate = useNavigate()
@@ -40,6 +40,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const {data}  = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
+            language: i18n.language
         },
         options: {
             enabled: catalogue?.identifier !== undefined
