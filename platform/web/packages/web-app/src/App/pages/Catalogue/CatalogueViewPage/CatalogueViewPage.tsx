@@ -37,7 +37,6 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     }) ?? []
 
 
-    console.log("catalogue?.identifier", catalogue?.identifier)
     const {data}  = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
