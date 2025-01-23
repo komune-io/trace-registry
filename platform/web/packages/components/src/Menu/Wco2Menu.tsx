@@ -51,7 +51,6 @@ const Item = (props: MenuItems) => {
         () => onClick && !href && onClick(),
         [onClick, href]
     )
-    console.log(items)
     return (
         <>
             <ListItemButton

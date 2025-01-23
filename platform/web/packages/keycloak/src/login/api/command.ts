@@ -8,5 +8,5 @@ export const useUserOnboardCommand  = (
     params?: CommandParams<UserOnboardCommand, UserOnboardedEvent>
 ) => {
     const requestProps = useNoAuthenticatedRequest()
-    return useCommandRequest('userOnboard ', requestProps, params)
+    return useCommandRequest('identity/userOnboard ', requestProps, params)
 }

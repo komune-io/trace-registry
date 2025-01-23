@@ -2,7 +2,6 @@ package io.komune.registry.program.s2.catalogue.api
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -55,21 +54,29 @@ class CatalogueFinderService(
 		id: Match<CatalogueId>?,
 		identifier: Match<CatalogueIdentifier>?,
 		title: Match<String>?,
-		parentIdentifier: StringMatch?,
+		parentIdentifier: String?,
+		language: String?,
 		status: Match<CatalogueState>?,
 		offset: OffsetPagination?
 	): PageDTO<CatalogueModel> {
 
-		val parents = parentIdentifier?.value?.let { identifier ->
-			catalogueRepository.findAllByIdentifier(identifier).flatMap { it.catalogues }
-		}?.let { catalogues ->
-			CollectionMatch(catalogues)
-		}
+		val childIdFilter = parentIdentifier
+			?.let { pIdentifier ->
+				if (language == null) {
+					catalogueRepository.findAllByIdentifier(pIdentifier)
+						.flatMap { it.catalogues }
+				} else {
+					catalogueRepository.findByIdentifierAndLanguage(pIdentifier, language)
+						.orElse(null)
+						?.catalogues
+				}
+			}?.ifEmpty { listOf("none") }
+			?.let(::CollectionMatch)
 
 		return cataloguePageQueryDB.execute(
 			id = andMatchOfNotNull(
-				parents,
-				id
+				id,
+				childIdFilter
 			),
 			identifier = identifier,
 			title = title,
