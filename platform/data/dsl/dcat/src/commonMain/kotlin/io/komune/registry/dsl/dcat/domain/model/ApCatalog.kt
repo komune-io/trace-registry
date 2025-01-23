@@ -20,7 +20,7 @@ interface DcatApCatalogue: CataloguedResource {
 }
 
 @Serializable
-class DCatApCatalogueModel(
+data class DCatApCatalogueModel(
     override val identifier: String,
     override val homepage: String? = null,
     override val img: String? = null,

@@ -1,59 +1,73 @@
+@file:Suppress("LongMethod", "FunctionNaming", "LargeClass")
 package io.komune.registry.script.init.catalogue
 
-import io.komune.registry.dsl.dcat.domain.model.catalogue
+import io.komune.registry.dsl.dcat.domain.model.catalogueI18n
 import io.komune.registry.dsl.skos.domain.model.concept
 import io.komune.registry.s2.structure.domain.model.Structure
 
-fun catalogueCentMillion(debug: String) = catalogue {
+const val IMG_SOLUTION = "100m/solution.png"
+const val IMG_SYSTEM = "100m/system.png"
+const val IMG_USECASE = "100m/usecase.png"
+const val IMG_SECTEUR = "100m/secteur.png"
+
+fun catalogueCentMillion(debug: String) = catalogueI18n {
     identifier = "objectif100m${debug}"
-    title = "Objectif 100m"
     type = "standards"
     structure = Structure("grid")
-    description = """
-        Ensemble, allègeons les entreprises de 100 millions de tonnes de CO2, d'ici 2030
-    """.trimIndent()
-    catalogues {
-        +Secteur(debug)
-        +Systeme(debug)
-        +Solution(debug)
-        +EtudeDeCas(debug)
+    language("fr") {
+        title = "Objectif 100m"
+        description = """
+            Ensemble, allégeons les entreprises de 100 millions de tonnes de CO2, d'ici 2030
+        """.trimIndent()
     }
+    language("en") {
+        title = "Objective 100m"
+        description = """
+            Together, let's reduce companies' CO2 emissions by 100 million tonnes by 2030
+        """.trimIndent()
+    }
+    language("es") {
+        title = "Objetivo 100m"
+        description = """
+            Juntos, reduzcamos las emisiones de CO2 de las empresas en 100 millones de toneladas para 2030
+        """.trimIndent()
+    }
+
+    +Secteur(debug)
+    +Systeme(debug)
+    +Solution(debug)
+    +EtudeDeCas(debug)
 }
 
 
-@Suppress("LongMethod", "FunctionNaming")
-fun Solution(debug: String) = catalogue {
+fun Solution(debug: String) = catalogueI18n {
     identifier = "objectif100m-Solution${debug}"
-    title = "Solutions"
     type = "standard"
     structure = Structure("item")
-    img = getImg("100m/solution.png")
-    description = """
-        Le coeur du système est la Solution
-    """.trimIndent()
-    datasetBase(identifier)
+    img = getImg(IMG_SOLUTION)
+    language("fr") {
+        title = "Solutions"
+        description = """
+            Le coeur du système est la Solution
+        """.trimIndent()
+    }
+    language("en") {
+        title = "Solutions"
+        description = """
+            The heart of the system is the Solution
+        """.trimIndent()
+    }
+    language("es") {
+        title = "Soluciones"
+        description = """
+            El corazón del sistema es la Solución
+        """.trimIndent()
+    }
+
     themes {
-        concept {
-            id = "Bâtiment"
-            prefLabels = mutableMapOf(
-                "en" to "Bâtiment",
-                "fr" to "Bâtiment"
-            )
-        }
-        concept {
-            id = "Cogénération"
-            prefLabels = mutableMapOf(
-                "en" to "Cogénération",
-                "fr" to "Cogénération"
-            )
-        }
-        concept {
-            id = "Solution-More"
-            prefLabels = mutableMapOf(
-                "en" to "...",
-                "fr" to "..."
-            )
-        }
+        +CentMThemes.Batiment
+        +CentMThemes.Cogeneration
+        +CentMThemes.SolutionMore
     }
 
 //+Bâtiment (249)
@@ -68,40 +82,37 @@ fun Solution(debug: String) = catalogue {
 }
 
 
-@Suppress("LongMethod", "FunctionNaming")
-fun Systeme(debug: String) = catalogue {
-    identifier = "objectif100m-Systeme${debug}"
-    title = "Systèmes"
+fun Systeme(debug: String) = catalogueI18n {
+    identifier = "objectif100m-systeme${debug}"
     type = "standard"
     structure = Structure("item")
-    img = getImg("100m/system.png")
-    description = """
-        Les Technologies sont des parties de l’activité d’une entreprise où il est possible de présenter de l’information, puis
-        d’évaluer les Solutions possibles.
-    """.trimIndent()
-    datasetBase(identifier)
+    img = getImg(IMG_SYSTEM)
+    language("fr") {
+        title = "Systèmes"
+        description = """
+            Les Technologies sont des parties de l’activité d’une entreprise où il est possible de présenter de l’information, puis
+            d’évaluer les Solutions possibles.
+        """.trimIndent()
+    }
+    language("en") {
+        title = "Systems"
+        description = """
+            Technologies are parts of a company's activity where it is possible to present information, then
+            to evaluate possible Solutions.
+        """.trimIndent()
+    }
+    language("es") {
+        title = "Sistemas"
+        description = """
+            Las Tecnologías son partes de la actividad de una empresa donde es posible presentar información, luego
+            evaluar posibles Soluciones.
+        """.trimIndent()
+    }
+
     themes {
-        concept {
-            id = "Bâtiment"
-            prefLabels = mutableMapOf(
-                "en" to "Bâtiment",
-                "fr" to "Bâtiment"
-            )
-        }
-        concept {
-            id = "Cogénération"
-            prefLabels = mutableMapOf(
-                "en" to "Cogénération",
-                "fr" to "Cogénération"
-            )
-        }
-        concept {
-            id = "Solution-More"
-            prefLabels = mutableMapOf(
-                "en" to "...",
-                "fr" to "..."
-            )
-        }
+        +CentMThemes.Batiment
+        +CentMThemes.Cogeneration
+        +CentMThemes.SolutionMore
     }
 //    Bâtiment (19) +
 //    Cogénération (4) +
@@ -114,41 +125,35 @@ fun Systeme(debug: String) = catalogue {
 //    Utilités (92) +
 }
 
-@Suppress("LongMethod", "FunctionNaming")
-fun EtudeDeCas(debug: String) = catalogue {
+fun EtudeDeCas(debug: String) = catalogueI18n {
     identifier = "objectif100m-EtudeDeCas${debug}"
-    title = "Etudes de cas"
     type = "standard"
     structure = Structure("item")
-    img = getImg("100m/usecase.png")
-    description = """
-        Une Etude de cas est un cas d’application des Solutions dans des entreprises.
-    """.trimIndent()
-    datasetBase(identifier)
-    themes {
-        concept {
-            id = "Bâtiment"
-            prefLabels = mutableMapOf(
-                "en" to "Bâtiment",
-                "fr" to "Bâtiment"
-            )
-        }
-        concept {
-            id = "Cogénération"
-            prefLabels = mutableMapOf(
-                "en" to "Cogénération",
-                "fr" to "Cogénération"
-            )
-        }
-        concept {
-            id = "Solution-More"
-            prefLabels = mutableMapOf(
-                "en" to "...",
-                "fr" to "..."
-            )
-        }
+    img = getImg(IMG_USECASE)
+    language("fr") {
+        title = "Etudes de cas"
+        description = """
+            Une Etude de cas est un cas d’application des Solutions dans des entreprises.
+        """.trimIndent()
+    }
+    language("en") {
+        title = "Use cases"
+        description = """
+            A Use case is a case of application of Solutions in companies.
+        """.trimIndent()
+    }
+    language("es") {
+        title = "Casos de uso"
+        description = """
+            Un caso de uso es un caso de aplicación de Soluciones en empresas.
+        """.trimIndent()
     }
 
+    themes {
+        +CentMThemes.Batiment
+        +CentMThemes.Cogeneration
+        +CentMThemes.SolutionMore
+    }
 //+Agriculture & Bois (150)
 //+Agro-alimentaire (146)
 //+Chimie (97)
@@ -158,55 +163,151 @@ fun EtudeDeCas(debug: String) = catalogue {
 //+Utilities (175)
 }
 
-
-
-
-@Suppress("LongMethod", "FunctionNaming")
-fun Secteur(debug: String) = catalogue {
+fun Secteur(debug: String) = catalogueI18n {
     identifier = "objectif100m-secteur${debug}"
-    title = "Secteurs"
     type = "standard"
     structure = Structure("item")
-    img = getImg("100m/secteur.png")
-    description = """
-         Ce sont les Secteurs économiques qui regroupent toutes les activités possibles des entreprises.
-            """.trimIndent()
-    datasetBase(identifier)
+    img = getImg(IMG_SECTEUR)
+    language("fr") {
+        title = "Secteurs"
+        description = """
+             Ce sont les Secteurs économiques qui regroupent toutes les activités possibles des entreprises.
+        """.trimIndent()
+    }
+    language("en") {
+        title = "Sectors"
+        description = """
+            These are the Economic Sectors that group together all the possible activities of companies.
+        """.trimIndent()
+    }
+    language("es") {
+        title = "Sectores"
+        description = """
+            Estos son los Sectores Económicos que agrupan todas las posibles actividades de las empresas.
+        """.trimIndent()
+    }
 
     themes {
-        concept {
-            id = "AgricultureBois"
-            prefLabels = mutableMapOf(
-                "en" to "Agriculture Bois",
-                "fr" to "Agriculture Bois"
-            )
-        }
-        concept {
-            id = "AgroAlimentaire"
-            prefLabels = mutableMapOf(
-                "en" to "Agro-alimentaire",
-                "fr" to "Agro-alimentaire"
-            )
-        }
+        +CentMThemes.AgricultureBois
+        +CentMThemes.AgroAlimentaire
     }
-    catalogues {
-        catalogue {
-            identifier = "objectif100m-secteur-programs${debug}"
+
+    childCatalogue {
+        identifier = "objectif100m-secteur-programs${debug}"
+        type = "programs"
+        structure = Structure("grid")
+        language("fr") {
             title = "Programs"
-            type = "programs"
-            structure = Structure("grid")
-            img = getImg("100m/secteur.png")
-            datasetBase(identifier)
-            catalogues {
-                +CentMSecteur.AgricultureBois(debug)
-                +CentMSecteur.AgroAlimentaire(debug)
-                +CentMSecteur.Chimie(debug)
-                +CentMSecteur.Industrie(debug)
-                +CentMSecteur.IndustrieLourde(debug)
-                +CentMSecteur.TertiaireBatiment(debug)
-                +CentMSecteur.Utilities(debug)
-            }
+            img = getImg(IMG_SECTEUR)
         }
+        language("en") {
+            title = "Programs"
+            img = getImg(IMG_SECTEUR)
+        }
+        language("es") {
+            title = "Programas"
+            img = getImg(IMG_SECTEUR)
+        }
+
+        +CentMSecteur.AgricultureBois(debug)
+        +CentMSecteur.AgroAlimentaire(debug)
+        +CentMSecteur.Chimie(debug)
+        +CentMSecteur.Industrie(debug)
+        +CentMSecteur.IndustrieLourde(debug)
+        +CentMSecteur.TertiaireBatiment(debug)
+        +CentMSecteur.Utilities(debug)
+    }
+}
+
+object CentMThemes {
+    val Batiment = concept {
+        id = "Batiment"
+        prefLabels = mutableMapOf(
+            "fr" to "Bâtiment",
+            "en" to "Building",
+            "es" to "Edificio"
+        )
+    }
+
+    val Cogeneration = concept {
+        id = "Cogeneration"
+        prefLabels = mutableMapOf(
+            "fr" to "Cogénération",
+            "en" to "Cogeneration",
+            "es" to "Cogeneración"
+        )
+    }
+
+    val SolutionMore = concept {
+        id = "Solution-More"
+        prefLabels = mutableMapOf(
+            "fr" to "...",
+            "en" to "...",
+            "es" to "..."
+        )
+    }
+
+    val AgricultureBois = concept {
+        id = "AgricultureBois"
+        prefLabels = mutableMapOf(
+            "fr" to "Agriculture Bois",
+            "en" to "Wood Agriculture",
+            "es" to "Agricultura Madera"
+        )
+    }
+
+    val AgroAlimentaire = concept {
+        id = "AgroAlimentaire"
+        prefLabels = mutableMapOf(
+            "fr" to "Agro-alimentaire",
+            "en" to "Agro-food",
+            "es" to "Agroalimentario"
+        )
+    }
+
+    val Chimie = concept {
+        id = "Chimie"
+        prefLabels = mutableMapOf(
+            "fr" to "Chimie",
+            "en" to "Chemistry",
+            "es" to "Química"
+        )
+    }
+
+    val Industrie = concept {
+        id = "Industrie"
+        prefLabels = mutableMapOf(
+            "fr" to "Industrie",
+            "en" to "Industry",
+            "es" to "Industria"
+        )
+    }
+
+    val IndustrieLourde = concept {
+        id = "IndustrieLourde"
+        prefLabels = mutableMapOf(
+            "fr" to "Industrie lourde",
+            "en" to "Heavy industry",
+            "es" to "Industria pesada"
+        )
+    }
+
+    val TertiaireBatiment = concept {
+        id = "TertiaireBatiment"
+        prefLabels = mutableMapOf(
+            "fr" to "Tertiaire et bâtiment",
+            "en" to "Tertiary and building",
+            "es" to "Terciario y edificio"
+        )
+    }
+
+    val Utilities = concept {
+        id = "Utilities"
+        prefLabels = mutableMapOf(
+            "fr" to "Utilités",
+            "en" to "Utilities",
+            "es" to "Utilidades"
+        )
     }
 }
 
@@ -214,95 +315,223 @@ fun Secteur(debug: String) = catalogue {
 object CentMSecteur {
 
     @Suppress("LongMethod", "FunctionNaming")
-    fun AgricultureBois(debug: String) = catalogue {
+    fun AgricultureBois(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-AgricultureBois${debug}"
-        title = "Agriculture & Bois"
-        description = """
-            Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
-            la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, la viticulture, 
-            l'arboriculture et les cultures sous serres chauffées.
-        """.trimIndent()
         type = "programs"
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SECTEUR)
         structure = Structure("item")
-        datasetBase(identifier)
-        catalogues {
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-Bois${debug}"
+
+        language("fr") {
+            title = "Agriculture & Bois"
+            description = """
+                Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
+                la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, la viticulture, 
+                l'arboriculture et les cultures sous serres chauffées.
+            """.trimIndent()
+        }
+        language("en") {
+            title = "Agriculture & Wood"
+            description = """
+                The agriculture sector includes large crops, milk production, 
+                beef production, pig, poultry and rabbit farming, viticulture, 
+                arboriculture and crops under heated greenhouses.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Agricultura y Madera"
+            description = """
+                El sector agrícola incluye grandes cultivos, producción de leche, 
+                producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                arboricultura y cultivos en invernaderos calefactados.
+            """.trimIndent()
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-Bois${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+
+            language("fr") {
                 title = "Bois"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
                     la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, 
                     la viticulture, l'arboriculture et les cultures sous serres chauffées.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
-                catalogues {
-                    catalogue {
-                        identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas${debug}"
-                        title = "Etude de cas"
-                        type = "standard"
-                        structure = Structure("item")
-                        img = getImg("100m/usecase.png")
+            }
+            language("en") {
+                title = "Wood"
+                description = """
+                    The agriculture sector includes large crops, milk production, 
+                    beef production, pig, poultry and rabbit farming, viticulture, 
+                    arboriculture and crops under heated greenhouses.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Madera"
+                description = """
+                    El sector agrícola incluye grandes cultivos, producción de leche, 
+                    producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                    arboricultura y cultivos en invernaderos calefactados.
+                """.trimIndent()
+            }
+
+            childCatalogue {
+                identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas${debug}"
+                type = "standard"
+                structure = Structure("item")
+                img = getImg(IMG_USECASE)
+
+                language("fr") {
+                    title = "Etude de cas"
+                    description = """
+                        Une Etude de cas est un cas d’application des Solutions dans des entreprises.
+                    """.trimIndent()
+                }
+                language("en") {
+                    title = "Use case"
+                    description = """
+                        A Use case is a case of application of Solutions in companies.
+                    """.trimIndent()
+                }
+                language("es") {
+                    title = "Caso de uso"
+                    description = """
+                        Un caso de uso es un caso de aplicación de Soluciones en empresas.
+                    """.trimIndent()
+                }
+
+                childCatalogue {
+                    identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas-84${debug}"
+                    type = "standard"
+                    structure = Structure("item")
+                    img = getImg(IMG_USECASE)
+                    language("fr") {
+                        title = "Etude de cas 84"
                         description = """
-                            Une Etude de cas est un cas d’application des Solutions dans des entreprises.
+                            Etude de cas basée sur la source publique :  CDC Climat
                         """.trimIndent()
-                        datasetBase(identifier)
-                        catalogues {
-                            catalogue {
-                                identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas-84${debug}"
-                                title = "Etude de cas 84"
-                                type = "standard"
-                                structure = Structure("item")
-                                img = getImg("100m/usecase.png")
-                                description = """
-                                    Etude de cas basée sur la source publique :  CDC Climat
-                                """.trimIndent()
-                                datasetBase(identifier)
-                            }
-                        }
+                    }
+                    language("en") {
+                        title = "Use case 84"
+                        description = """
+                            Use case based on the public source: CDC Climat
+                        """.trimIndent()
+                    }
+                    language("es") {
+                        title = "Caso de uso 84"
+                        description = """
+                            Caso de uso basado en la fuente pública: CDC Climat
+                        """.trimIndent()
                     }
                 }
             }
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-Culture${debug}"
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-Culture${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+
+            language("fr") {
                 title = "Culture"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
                     la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, 
                     la viticulture, l'arboriculture et les cultures sous serres chauffées.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
             }
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-Elevage${debug}"
+            language("en") {
+                title = "Culture"
+                description = """
+                    The agriculture sector includes large crops, milk production, 
+                    beef production, pig, poultry and rabbit farming, viticulture, 
+                    arboriculture and crops under heated greenhouses.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Cultura"
+                description = """
+                    El sector agrícola incluye grandes cultivos, producción de leche, 
+                    producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                    arboricultura y cultivos en invernaderos calefactados.
+                """.trimIndent()
+            }
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-Elevage${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+
+            language("fr") {
                 title = "Elevage"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
                     la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, 
                     la viticulture, l'arboriculture et les cultures sous serres chauffées.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
             }
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-MaterielAgricole${debug}"
+            language("en") {
+                title = "Breeding"
+                description = """
+                    The agriculture sector includes large crops, milk production, 
+                    beef production, pig, poultry and rabbit farming, viticulture, 
+                    arboriculture and crops under heated greenhouses.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Crianza"
+                description = """
+                    El sector agrícola incluye grandes cultivos, producción de leche, 
+                    producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                    arboricultura y cultivos en invernaderos calefactados.
+                """.trimIndent()
+            }
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-MaterielAgricole${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+
+            language("fr") {
                 title = "Matériel agricole"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
                     la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, 
                     la viticulture, l'arboriculture et les cultures sous serres chauffées.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
             }
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-Sechage${debug}"
+            language("en") {
+                title = "Agricultural equipment"
+                description = """
+                    The agriculture sector includes large crops, milk production, 
+                    beef production, pig, poultry and rabbit farming, viticulture, 
+                    arboriculture and crops under heated greenhouses.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Equipo agrícola"
+                description = """
+                    El sector agrícola incluye grandes cultivos, producción de leche, 
+                    producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                    arboricultura y cultivos en invernaderos calefactados.
+                """.trimIndent()
+            }
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-Sechage${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+
+            language("fr") {
                 title = "Séchage"
                 description = """
                     Après la récolte, les grains (blé, maïs, protéagineux, oléagineux…) 
@@ -317,163 +546,280 @@ object CentMSecteur {
                     ou sur le site d’un organisme stockeur (séchoirs industriels). Selon le cas, 
                     les caractéristiques et les capacités des séchoirs seront différentes.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
             }
-            catalogue {
-                identifier = "objectif100m-secteur-AgricultureBois-Serres${debug}"
+            language("en") {
+                title = "Drying"
+                description = """
+                    After harvest, grains (wheat, corn, protein crops, oilseeds…) 
+                    are conditioned and then stored in silos before being transported to the buyer. 
+                    This conditioning is necessary for the good conservation of the grains. 
+                    It is necessary to reduce their moisture content (by drying) and their temperature (by ventilation) 
+                    in order to avoid any risk of mold, heating and insect development. 
+                    Agricultural drying is therefore an essential step for the conservation of crops, 
+                    in compliance with health standards.
+                    
+                    Drying can be done directly on the farm (agricultural dryers) 
+                    or on the site of a storage organization (industrial dryers). Depending on the case, 
+                    the characteristics and capacities of the dryers will be different.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Secado"
+                description = """
+                    Después de la cosecha, los granos (trigo, maíz, cultivos proteicos, oleaginosas…) 
+                    se acondicionan y luego se almacenan en silos antes de ser transportados al comprador.
+                    Este acondicionamiento es necesario para la buena conservación de los granos.
+                    Es necesario reducir su contenido de humedad (mediante secado) y su temperatura (mediante ventilación)
+                    para evitar cualquier riesgo de moho, calentamiento y desarrollo de insectos.
+                    El secado agrícola es, por lo tanto, un paso esencial para la conservación de los cultivos,
+                    cumpliendo con las normas sanitarias.
+                    
+                    El secado se puede hacer directamente en la granja (secadores agrícolas)
+                    o en el sitio de una organización de almacenamiento (secadores industriales).
+                    Dependiendo del caso, las características y capacidades de los secadores serán diferentes.
+                """.trimIndent()
+            }
+        }
+
+        childCatalogue {
+            identifier = "objectif100m-secteur-AgricultureBois-Serres${debug}"
+            type = "programs"
+            img = getImg(IMG_SECTEUR)
+            structure = Structure("item")
+            language("fr") {
                 title = "Serres"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
                     la production de viande de boucherie, l'élevage de porcs, de volailles et de lapins, 
                     la viticulture, l'arboriculture et les cultures sous serres chauffées.
                 """.trimIndent()
-                type = "programs"
-                img = getImg("100m/secteur.png")
-               structure = Structure("item")
+            }
+            language("en") {
+                title = "Greenhouses"
+                description = """
+                    The agriculture sector includes large crops, milk production, 
+                    beef production, pig, poultry and rabbit farming, viticulture, 
+                    arboriculture and crops under heated greenhouses.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Invernaderos"
+                description = """
+                    El sector agrícola incluye grandes cultivos, producción de leche, 
+                    producción de carne de vacuno, cría de cerdos, aves de corral y conejos, viticultura, 
+                    arboricultura y cultivos en invernaderos calefactados.
+                """.trimIndent()
             }
         }
     }
 
     @Suppress("FunctionNaming")
-    fun AgroAlimentaire(debug: String) = catalogue {
+    fun AgroAlimentaire(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-AgroAlimentaire-${debug}"
-        title = "Agro-alimentaire"
         type = "program"
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SECTEUR)
         structure = Structure("item")
-        description = """
-           L'industrie agro-alimentaire est le secteur où les matières premières issues de l'agriculture, 
-           de l'élevage, de l'arboriculture, de la pêche sont transformées 
-           en produits alimentaires destinés à la consommation.
+
+        language("fr") {
+            title = "Agro-alimentaire"
+            description = """
+               L'industrie agro-alimentaire est le secteur où les matières premières issues de l'agriculture, 
+               de l'élevage, de l'arboriculture, de la pêche sont transformées 
+               en produits alimentaires destinés à la consommation.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Agro-food"
+            description = """
+                The agri-food industry is the sector where raw materials from agriculture, 
+                livestock, arboriculture, fishing are transformed 
+                into food products intended for consumption.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Agroalimentario"
+            description = """
+                La industria agroalimentaria es el sector donde las materias primas de la agricultura, 
+                la ganadería, la arboricultura, la pesca se transforman 
+                en productos alimenticios destinados al consumo.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "AgroAlimentaire"
-                prefLabels = mutableMapOf(
-                    "en" to "Agro-alimentaire",
-                    "fr" to "Agro-alimentaire"
-                )
-            }
+            +CentMThemes.AgroAlimentaire
         }
     }
 
     @Suppress("FunctionNaming")
-    fun Chimie(debug: String) = catalogue {
+    fun Chimie(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-Chimie-${debug}"
-        title = "Chimie"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
-        description = """
-            Le secteur de la chimie comprend la chimie minérale, la chimie organique, la chimie fine pharmaceutique, 
-            les spécialités chimiques (peintures, huiles, colles...), produits de beautés et produits d'entretien.
+        img = getImg(IMG_SECTEUR)
+
+        language("fr") {
+            title = "Chimie"
+            description = """
+                Le secteur de la chimie comprend la chimie minérale, la chimie organique, la chimie fine pharmaceutique, 
+                les spécialités chimiques (peintures, huiles, colles...), produits de beautés et produits d'entretien.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Chemistry"
+            description = """
+                The chemistry sector includes mineral chemistry, organic chemistry, fine pharmaceutical chemistry, 
+                chemical specialties (paints, oils, glues...), beauty products and cleaning products.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Química"
+            description = """
+                El sector de la química incluye la química mineral, la química orgánica, la química fina farmacéutica, 
+                especialidades químicas (pinturas, aceites, pegamentos...), productos de belleza y productos de limpieza.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "Chimie"
-                prefLabels = mutableMapOf(
-                    "en" to "Chimie",
-                    "fr" to "Chimie"
-                )
-            }
+            +CentMThemes.Chimie
         }
     }
 
     @Suppress("FunctionNaming")
-    fun Industrie(debug: String) = catalogue {
+    fun Industrie(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-Industrie-${debug}"
-        title = "Industrie"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
-        description = """
-            Le secteur de l'industrie comprend l'automobile, l'aéronautique, les céramiques, le caoutchouc, 
-            l'électronique, la mécanique et la fonderie, la papeterie, le textile et la plasturgie.
+        img = getImg(IMG_SECTEUR)
+
+        language("fr") {
+            title = "Industrie"
+            description = """
+                Le secteur de l'industrie comprend l'automobile, l'aéronautique, les céramiques, le caoutchouc, 
+                l'électronique, la mécanique et la fonderie, la papeterie, le textile et la plasturgie.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Industry"
+            description = """
+                The industry sector includes automotive, aeronautics, ceramics, rubber, 
+                electronics, mechanics and foundry, paper, textiles and plastics.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Industria"
+            description = """
+                El sector industrial incluye automoción, aeronáutica, cerámica, caucho, 
+                electrónica, mecánica y fundición, papel, textiles y plásticos.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "Industrie"
-                prefLabels = mutableMapOf(
-                    "en" to "Industrie",
-                    "fr" to "Industrie"
-                )
-            }
+            +CentMThemes.Industrie
         }
     }
 
     @Suppress("FunctionNaming")
-    fun IndustrieLourde(debug: String) = catalogue {
+    fun IndustrieLourde(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-IndustrieLourde-${debug}"
-        title = "Industrie Lourde"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
-        description = """
-            Le secteur de l'industrie lourde comprend les secteurs du ciment, de la chaux, des hydrocarbures, 
-            des matériaux non-ferreux, des mines et des carrières, du raffinage, de la sidérurgie et du verre.
+        img = getImg(IMG_SECTEUR)
+
+        language("fr") {
+            title = "Industrie Lourde"
+            description = """
+                Le secteur de l'industrie lourde comprend les secteurs du ciment, de la chaux, des hydrocarbures, 
+                des matériaux non-ferreux, des mines et des carrières, du raffinage, de la sidérurgie et du verre.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Heavy Industry"
+            description = """
+                The heavy industry sector includes cement, lime, hydrocarbons, 
+                non-ferrous materials, mining and quarries, refining, steel and glass.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Industria Pesada"
+            description = """
+                El sector de la industria pesada incluye cemento, cal, hidrocarburos, 
+                materiales no ferrosos, minería y canteras, refinación, acero y vidrio.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "IndustrieLourde"
-                prefLabels = mutableMapOf(
-                    "en" to "Industrie Lourde",
-                    "fr" to "Industrie Lourde"
-                )
-            }
+            +CentMThemes.IndustrieLourde
         }
     }
 
     @Suppress("FunctionNaming")
-    fun TertiaireBatiment(debug: String) = catalogue {
+    fun TertiaireBatiment(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-TertiaireBatiment-${debug}"
-        title = "Tertiaire et bâtiment"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
-        description = """
-            Le secteur tertiaire concerne les bâtiments qui abritent des commerces, des administrations, 
-            des activités financières et immobilières ou encore des services aux entreprises et aux particuliers.
-            Le secteur résidentiel désigne les bâtiments uniquement réservés à l'habitation.
+        img = getImg(IMG_SECTEUR)
+
+        language("fr") {
+            title = "Tertiaire et bâtiment"
+            description = """
+                Le secteur tertiaire concerne les bâtiments qui abritent des commerces, des administrations, 
+                des activités financières et immobilières ou encore des services aux entreprises et aux particuliers.
+                Le secteur résidentiel désigne les bâtiments uniquement réservés à l'habitation.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Tertiary and building"
+            description = """
+                The tertiary sector concerns buildings that house shops, administrations, 
+                financial and real estate activities or services to businesses and individuals.
+                The residential sector refers to buildings reserved exclusively for housing.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Terciario y edificio"
+            description = """
+                El sector terciario se refiere a edificios que albergan tiendas, administraciones, 
+                actividades financieras e inmobiliarias o servicios a empresas y particulares.
+                El sector residencial se refiere a edificios reservados exclusivamente para viviendas.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "TertiaireBatiment"
-                prefLabels = mutableMapOf(
-                    "en" to "Tertiaire et bâtiment",
-                    "fr" to "Tertiaire et bâtiment"
-                )
-            }
+            +CentMThemes.TertiaireBatiment
         }
     }
 
     @Suppress("FunctionNaming")
-    fun Utilities(debug: String) = catalogue {
+    fun Utilities(debug: String) = catalogueI18n {
         identifier = "objectif100m-secteur-Utilities-${debug}"
-        title = "Utilities"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
-        description = """
-            Le secteur des "utilities" regroupe les activités de Bâtiment et Travaux Publics, 
-            de traitement des déchets, d'assainissement de l'eau, de transport et logistique et de production d'énergie.
+        img = getImg(IMG_SECTEUR)
+
+        language("fr") {
+            title = "Utilities"
+            description = """
+                Le secteur des "utilities" regroupe les activités de Bâtiment et Travaux Publics, 
+                de traitement des déchets, d'assainissement de l'eau, de transport et logistique et de production d'énergie.
             """.trimIndent()
-        datasetBase(identifier)
+        }
+        language("en") {
+            title = "Utilities"
+            description = """
+                The "utilities" sector includes Building and Public Works activities, 
+                waste treatment, water sanitation, transport and logistics and energy production.
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Utilities"
+            description = """
+                El sector de "utilities" incluye actividades de Construcción y Obras Públicas, 
+                tratamiento de residuos, saneamiento del agua, transporte y logística y producción de energía.
+            """.trimIndent()
+        }
+
         themes {
-            concept {
-                id = "Utilities"
-                prefLabels = mutableMapOf(
-                    "en" to "Utilities",
-                    "fr" to "Utilities"
-                )
-            }
+            +CentMThemes.Utilities
         }
     }
-
 }
