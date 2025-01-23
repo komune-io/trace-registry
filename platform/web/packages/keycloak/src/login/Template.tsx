@@ -91,7 +91,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     }}
 
                 >
-                    {headerNode && <Typography sx={{ color: "primary.main", alignSelf: "center" }} variant="subtitle1">{headerNode}</Typography>}
+                    {headerNode && <Typography sx={{ color: "primary.main", alignSelf: "center" }} align="center" variant="subtitle1">{headerNode}</Typography>}
                     {children}
                 </Paper>
             </Stack>

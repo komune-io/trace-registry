@@ -15,7 +15,7 @@ G2ConfigBuilder(window._env_)
 
 if (import.meta.env.DEV) {
     window.kcContext = getKcContextMock({
-        pageId: "login-otp.ftl",
+        pageId: "login-config-totp.ftl",
         overrides: {
             locale: {
                 currentLanguageTag: "fr"
@@ -39,7 +39,8 @@ i18n.addResourceBundle(
     {
         http: {
             backendErrors: {
-                "3000": "L'email indiqué correspont déjà à un compte existant"
+                "2000": "L'email indiqué correspont déjà à un compte existant",
+                "2002": "L'entreprise que vous avez rentré est déjà intégré dans la plateforme"
             },
             errors: {
                 "userOnboard": "Votre compte n'a pas pu être créé",
@@ -60,14 +61,14 @@ i18n.addResourceBundle(
     {
         http: {
             backendErrors: {
-                "3000": "The  L'email utilisatn correspont déjà à un compte existant"
+                "2000": "The  L'email utilisatn correspont déjà à un compte existant",
+                "2002": "The given entreprise is already incorporated in the platform"
             },
             errors: {
                 "userOnboard": "Votre compte n'a pas pu être créé",
             },
             success: {
                 "userOnboard": "Votre compte a bien été créé",
-
             }
         }
     },
