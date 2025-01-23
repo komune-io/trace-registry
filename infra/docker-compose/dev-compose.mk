@@ -1,10 +1,7 @@
 DOCKER_COMPOSE_PATH = infra/docker-compose
-DOCKER_COMPOSE_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 .PHONY: $(DOCKER_COMPOSE_FILE) $(ACTIONS)
 ACTIONS = up down logs log pull stop kill deploy remove help
-
-include $(DOCKER_COMPOSE_ENV)
-export
+DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 
 dev-envsubst:
 	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build
@@ -14,6 +11,8 @@ dev-envsubst:
 	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/connect-admin
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/OidcTrustedDomains.js
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/connect-admin/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/connect-admin/env-config.js
+	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/keycloak
+	envsubst < $(DOCKER_COMPOSE_PATH)/config/keycloak/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/keycloak/env-config.js
 	mkdir -p $(DOCKER_COMPOSE_PATH)/config/build/registry
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/OidcTrustedDomains.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/OidcTrustedDomains.js
 	envsubst < $(DOCKER_COMPOSE_PATH)/config/registry/web_default.js > $(DOCKER_COMPOSE_PATH)/config/build/registry/env-config.js
@@ -164,6 +163,26 @@ dev-help:
 			echo '  make dev $(service) $(action)'; \
 		) \
 	)
+
+
+# Dynamically determine DOCKER_COMPOSE_ENV based on Docker context with logging
+$(eval CURRENT_CONTEXT := $(shell docker context inspect --format '{{ .Name }}' 2>/dev/null || echo "default"))
+$(if $(filter default,$(CURRENT_CONTEXT)), \
+    $(eval DOCKER_COMPOSE_ENV := $(DEFAULT_ENV)), \
+    $(eval DOCKER_COMPOSE_ENV := $(DOCKER_COMPOSE_PATH)/.env_dev_$(CURRENT_CONTEXT)))
+$(info Current Docker context: $(CURRENT_CONTEXT))
+$(info Selected environment file: $(DOCKER_COMPOSE_ENV))
+
+# Include the determined environment file if it exists
+ifeq (,$(wildcard $(DOCKER_COMPOSE_ENV)))
+$(warning Warning: $(DOCKER_COMPOSE_ENV) does not exist. Using default environment $(DEFAULT_ENV).)
+include $(DEFAULT_ENV)
+else
+include $(DOCKER_COMPOSE_ENV)
+endif
+
+export
+
 
 $(DOCKER_COMPOSE_FILE):
 	@:

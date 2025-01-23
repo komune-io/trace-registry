@@ -1,10 +1,10 @@
 window._env_ = {
   config: {
     im: {
-      url: "http://localhost:8009",
+      url: "${IM_URL_PUBLIC}",
     },
     fs: {
-      url: "http://localhost:8090"
+      url: "${FS_URL_PUBLIC}",
     },
     keycloak: {
       realm: "${KC_REALM}",

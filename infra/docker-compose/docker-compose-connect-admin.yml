@@ -16,9 +16,9 @@ services:
     ports:
       - "81:80"
     configs:
-      - source: env_config
+      - source: env_config_v3
         target: /var/www/env-config.js
-      - source: oidc_config
+      - source: oidc_config_v3
         target: /var/www/OidcTrustedDomains.js
     networks:
       - net
@@ -29,7 +29,7 @@ networks:
     external: true
 
 configs:
-  env_config:
+  env_config_v3:
     file: ./config/build/connect-admin/env-config.js
-  oidc_config:
+  oidc_config_v3:
     file: ./config/build/connect-admin/OidcTrustedDomains.js
