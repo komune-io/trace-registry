@@ -10,8 +10,8 @@ services:
       POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_REGISTRY_DB}, ${POSTGRES_KEYCLOAK_DB}
     volumes:
         -  postgres_data:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     networks:
       - net
 
