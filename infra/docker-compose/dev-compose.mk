@@ -4,6 +4,7 @@ ACTIONS = up down logs log pull stop kill deploy remove help
 DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 
 dev-envsubst:
+	mkdir -p $(DOCKER_COMPOSE_PATH)/build/config;
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config)
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config_$(CURRENT_CONTEXT))
 	find $(DOCKER_COMPOSE_PATH)/build -type f -exec bash -c 'envsubst < "{}" > "{}.tmp" && mv "{}.tmp" "{}"' \;
@@ -173,8 +174,7 @@ endif
 export
 
 define copy_config
- mkdir -p $(DOCKER_COMPOSE_PATH)/build/config; \
- if [ -d $1 ] && [ "$(ls -A $1)" ]; then \
+ if [ -d $1 ]; then \
   cp -r $1/* $(DOCKER_COMPOSE_PATH)/build/config/; \
  else \
   echo "Directory $1 does not exist or is empty"; \
