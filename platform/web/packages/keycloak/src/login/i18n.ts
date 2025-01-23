@@ -35,10 +35,16 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             cgu: "general conditions of use",
             and: "and",
             privacyPolicy: "privacy policy",
-            charter: "the charter of 100 millions"
+            charter: "the charter of 100 millions",
+            loginTotpStep2: "Open the application and scan the following qr code",
+            loginTotpStep3: "Enter the one-time code provided by the application and click Submit to finish the setup.",
+            loginTotpManualStep2: "Open the application and enter the following key:",
+            loginTotpManualStep3: "Use the following configuration values if the application allows setting them:",
+            loginTotpStep3DeviceName: "Provide a Device Name to help you manage your OTP devices.",
+            loginTotpScanBarcode: "Scan a qr code instead"
         },
         fr: {
-            alphanumericalCharsOnly: "Caractère alphanumérique uniquement",
+            alphanumericalCharsOnly: "Caractère alphanumérique uniquement:",
             gender: "Genre",
             doForgotPassword: "Mot de passe oublié ?",
             backToLogin: "Retour à la connexion",
@@ -64,7 +70,13 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             cgu: "conditions générales d’utilisation",
             and: "et",
             privacyPolicy: "la politique de confidentialité",
-            charter: "la charte des 100 millions"
+            charter: "la charte des 100 millions",
+            loginTotpStep2: "Ouvrez l'application et scannez le qr code ci-dessous:",
+            loginTotpStep3: "Entrez le code à usage unique fourni par l'application et cliquez sur Soumettre pour terminer.",
+            loginTotpManualStep2: "Ouvrez l'application et saisissez la clé ci-dessous:",
+            loginTotpManualStep3: "Utilisez les valeurs de configuration suivantes si l'application permet leurs éditions:",
+            loginTotpStep3DeviceName: "Renseignez le nom de l'appareil pour vous aider à gérer vos appareils OTP.",
+            loginTotpScanBarcode: "Scanner un qr code à la place"
         }
     })
     .build();

@@ -15,11 +15,11 @@ import {
 
 
 
-interface Wco2MenuProps extends ListProps {
+interface MenuProps extends ListProps {
     menu: MenuItems[]
 }
 
-export const Wco2Menu = (props: Wco2MenuProps) => {
+export const Menu = (props: MenuProps) => {
     const { menu, classes, ...other } = props
     const uiMenu = useMemo(
         () =>
@@ -86,7 +86,6 @@ const Item = (props: MenuItems) => {
                     items={items}
                     sx={{
                         pl: 2,
-                        pr: 1,
                         '& .MuiAccordionSummary-root:hover .MuiAccordionSummary-content': {
                             bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
                         },
