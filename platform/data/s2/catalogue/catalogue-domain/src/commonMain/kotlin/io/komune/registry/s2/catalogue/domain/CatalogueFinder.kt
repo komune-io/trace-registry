@@ -1,7 +1,6 @@
 package io.komune.registry.s2.catalogue.domain
 
 import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
@@ -18,7 +17,8 @@ interface CatalogueFinder {
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
-        parentIdentifier: StringMatch? = null,
+        parentIdentifier: String? = null,
+        language: String? = null,
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>
