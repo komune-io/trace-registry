@@ -4,7 +4,7 @@ import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
 import { AccountCircle, Login, Logout, TravelExplore } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { GridIcon, useExtendedAuth, useRoutesDefinition, Wco2Menu } from "components";
+import { GridIcon, useExtendedAuth, useRoutesDefinition, Menu } from "components";
 import { g2Config } from "@komune-io/g2";
 import { CatalogueRefTree, useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
 import { Stack } from "@mui/material";
@@ -46,6 +46,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
   const flagGetQuery = useFlagGetQuery()
+  const {i18n} = useTranslation()
   const module = useMemo(() => {
     return flagGetQuery.data?.module ?? {
       project: false,
@@ -58,7 +59,7 @@ export const useMenu = (t: TFunction) => {
   const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
     query: {
       identifier: "menuWikiCoe",
-      language: "fr"
+      language: i18n.language
     },
     options: {
       enabled: true
@@ -170,7 +171,7 @@ export const CustomMenu = () => {
               overflow="auto"
               width="100%"
           >
-                  <Wco2Menu
+                  <Menu
                       sx={{
                           width: "100%"
                       }}

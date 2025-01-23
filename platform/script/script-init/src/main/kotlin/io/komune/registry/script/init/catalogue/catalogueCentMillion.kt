@@ -69,23 +69,13 @@ fun Solution(debug: String) = catalogueI18n {
         +CentMThemes.Cogeneration
         +CentMThemes.SolutionMore
     }
-
-//+Bâtiment (249)
-//+Cogénération (9)
-//+Déchets (49)
-//+Eau (49)
-//+Management (ISO 50 001) (53)
-//+Nouvelles énergies (52)
-//+Procédés (107)
-//+Technologies énergétiques (75)
-//+Utilités (415)
 }
 
 
 fun Systeme(debug: String) = catalogueI18n {
     identifier = "objectif100m-systeme${debug}"
     type = "standard"
-    structure = Structure("item")
+    structure = Structure("grid")
     img = getImg(IMG_SYSTEM)
     language("fr") {
         title = "Systèmes"
@@ -108,21 +98,21 @@ fun Systeme(debug: String) = catalogueI18n {
             evaluar posibles Soluciones.
         """.trimIndent()
     }
-
     themes {
         +CentMThemes.Batiment
         +CentMThemes.Cogeneration
         +CentMThemes.SolutionMore
     }
-//    Bâtiment (19) +
-//    Cogénération (4) +
-//    Déchets (7) +
-//    Eau (11) +
-//    Management (ISO 50 001) (9) +
-//    Nouvelles énergies (40) +
-//    Procédés (27) +
-//    Technologies énergétiques (19) +
-//    Utilités (92) +
+
+    +CentMSystem.Utilites(debug)
+    +CentMSystem.TechnologiesEnergetiques(debug)
+    +CentMSystem.Procedes(debug)
+    +CentMSystem.NouvellesEnergies(debug)
+    +CentMSystem.Management(debug)
+    +CentMSystem.Eau(debug)
+    +CentMSystem.Dechets(debug)
+    +CentMSystem.Cogeneration(debug)
+    +CentMSystem.Batiment(debug)
 }
 
 fun EtudeDeCas(debug: String) = catalogueI18n {
@@ -166,7 +156,7 @@ fun EtudeDeCas(debug: String) = catalogueI18n {
 fun Secteur(debug: String) = catalogueI18n {
     identifier = "objectif100m-secteur${debug}"
     type = "standard"
-    structure = Structure("item")
+    structure = Structure("grid")
     img = getImg(IMG_SECTEUR)
     language("fr") {
         title = "Secteurs"
@@ -192,31 +182,13 @@ fun Secteur(debug: String) = catalogueI18n {
         +CentMThemes.AgroAlimentaire
     }
 
-    childCatalogue {
-        identifier = "objectif100m-secteur-programs${debug}"
-        type = "programs"
-        structure = Structure("grid")
-        language("fr") {
-            title = "Programs"
-            img = getImg(IMG_SECTEUR)
-        }
-        language("en") {
-            title = "Programs"
-            img = getImg(IMG_SECTEUR)
-        }
-        language("es") {
-            title = "Programas"
-            img = getImg(IMG_SECTEUR)
-        }
-
-        +CentMSecteur.AgricultureBois(debug)
-        +CentMSecteur.AgroAlimentaire(debug)
-        +CentMSecteur.Chimie(debug)
-        +CentMSecteur.Industrie(debug)
-        +CentMSecteur.IndustrieLourde(debug)
-        +CentMSecteur.TertiaireBatiment(debug)
-        +CentMSecteur.Utilities(debug)
-    }
+    +CentMSecteur.AgricultureBois(debug)
+    +CentMSecteur.AgroAlimentaire(debug)
+    +CentMSecteur.Chimie(debug)
+    +CentMSecteur.Industrie(debug)
+    +CentMSecteur.IndustrieLourde(debug)
+    +CentMSecteur.TertiaireBatiment(debug)
+    +CentMSecteur.Utilities(debug)
 }
 
 object CentMThemes {
@@ -307,6 +279,60 @@ object CentMThemes {
             "fr" to "Utilités",
             "en" to "Utilities",
             "es" to "Utilidades"
+        )
+    }
+
+    val Dechets = concept {
+        id = "Dechets"
+        prefLabels = mutableMapOf(
+            "fr" to "Déchets",
+            "en" to "Waste",
+            "es" to "Residuos"
+        )
+    }
+
+    val Eau = concept {
+        id = "Eau"
+        prefLabels = mutableMapOf(
+            "fr" to "Eau",
+            "en" to "Water",
+            "es" to "Agua"
+        )
+    }
+
+    val Management = concept {
+        id = "Management"
+        prefLabels = mutableMapOf(
+            "fr" to "Management",
+            "en" to "Management",
+            "es" to "Gestión"
+        )
+    }
+
+    val NouvellesEnergies = concept {
+        id = "NouvellesEnergies"
+        prefLabels = mutableMapOf(
+            "fr" to "Nouvelles énergies",
+            "en" to "New energies",
+            "es" to "Nuevas energías"
+        )
+    }
+
+    val Procedes = concept {
+        id = "Procedes"
+        prefLabels = mutableMapOf(
+            "fr" to "Procédés",
+            "en" to "Processes",
+            "es" to "Procesos"
+        )
+    }
+
+    val TechnologiesEnergetiques = concept {
+        id = "TechnologiesEnergetiques"
+        prefLabels = mutableMapOf(
+            "fr" to "Technologies énergétiques",
+            "en" to "Energy technologies",
+            "es" to "Tecnologías energéticas"
         )
     }
 }
@@ -816,6 +842,219 @@ object CentMSecteur {
                 El sector de "utilities" incluye actividades de Construcción y Obras Públicas, 
                 tratamiento de residuos, saneamiento del agua, transporte y logística y producción de energía.
             """.trimIndent()
+        }
+
+        themes {
+            +CentMThemes.Utilities
+        }
+    }
+}
+
+object CentMSystem {
+    fun Batiment(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-batiment${debug}"
+        type = "system"
+        img = getImg("100m/secteur.png")
+        structure = Structure("item")
+
+        language("fr") {
+            title = "Bâtiment"
+            description = """
+            """.trimIndent()
+        }
+        language("en") {
+            title = "Building"
+            description = """
+            """.trimIndent()
+        }
+        language("es") {
+            title = "Edificio"
+            description = """
+            """.trimIndent()
+        }
+    }
+
+    fun Cogeneration(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-cogeneration-${debug}"
+        type = "program"
+        img = getImg("100m/secteur.png")
+        structure = Structure("item")
+
+        language("fr") {
+            title = "Cogénération"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Cogeneration"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Cogeneración"
+            description = """""".trimIndent()
+        }
+    }
+
+    fun Dechets(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-dechets-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Déchets"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Waste"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Residuos"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.Dechets
+        }
+    }
+
+    fun Eau(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-eau-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Eau"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Water"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Agua"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.Eau
+        }
+    }
+
+    fun Management(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-management-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Management (ISO 50 001)"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Management (ISO 50 001)"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Gestión (ISO 50 001)"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.Management
+        }
+    }
+
+    fun NouvellesEnergies(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-nouvellesEnergies-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Nouvelles énergies"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "New energies"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Nuevas energías"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.NouvellesEnergies
+        }
+    }
+
+    fun Procedes(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-Procedes-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Procédés"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Processes"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Procesos"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.Procedes
+        }
+    }
+
+    fun TechnologiesEnergetiques(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-technologiesEnergetiques-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Technologies énergétiques"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Energy technologies"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Tecnologías energéticas"
+            description = """""".trimIndent()
+        }
+
+        themes {
+            +CentMThemes.TechnologiesEnergetiques
+        }
+    }
+
+    fun Utilites(debug: String) = catalogueI18n {
+        identifier = "objectif100m-system-utilites-${debug}"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+
+        language("fr") {
+            title = "Utilités"
+            description = """""".trimIndent()
+        }
+        language("en") {
+            title = "Utilities"
+            description = """""".trimIndent()
+        }
+        language("es") {
+            title = "Utilidades"
+            description = """""".trimIndent()
         }
 
         themes {

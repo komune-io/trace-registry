@@ -11,7 +11,7 @@ window._env_ = {
   config: {
     keycloak: {
       realm: "${KC_REALM}",
-      clientId: "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
+      clientId: "${KC_WEB_CLIENT_ID}",
       url: "${KC_URL_PUBLIC}"
     }
   }

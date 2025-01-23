@@ -13,13 +13,13 @@ registry:
     init:
       auth:
         realmId: registry-local
-        url: https://auth.connect.100m.kosmio.dev
+        url: http://im-keycloak:8080
       im:
-        url: https://connect.100m.kosmio.dev/im
+        url: http://localhost:8009
       cccev:
-        url: https://connect.100m.kosmio.dev/cccev
+        url: http://localhost:8083
       registry:
-        url: https://100m.kosmio.dev/api
+        url: http://localhost:8070
       admin:
         name: Komune
         clientId: tr-registry-script-api

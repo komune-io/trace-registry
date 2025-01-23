@@ -10,6 +10,7 @@ export const App = () => {
   const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
   const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout,  keycloak.login, t)
+  
   return (
     <StandAloneAppLayout
       defaultCloseButton={false}

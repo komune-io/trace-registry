@@ -29,6 +29,6 @@ networks:
 
 configs:
   space_create_config:
-    file: ./config/build/space-create.json
+    file: ./build/config/space-create.json
   space_config_config:
-    file: ./config/build/space-config.json
+    file: ./build/config/space-config.json

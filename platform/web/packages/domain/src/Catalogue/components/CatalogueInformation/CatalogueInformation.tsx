@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import { Catalogue } from '../../model'
 import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
-import { WCo2Editor } from 'components';
+import { RichtTextEditor } from 'components';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -30,7 +30,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                     gap={5}
                     flexGrow={1}
                 >
-                    <WCo2Editor readOnly editorState={state} />
+                    <RichtTextEditor readOnly editorState={state} />
                 </Stack>
                 <CatalogueDetails
                     catalogue={catalogue}
