@@ -105,6 +105,7 @@
   "publication": "Publicación",
   "classification": "Clasificación",
   "versionManagement": "Gestión de versiones",
+  "subCatalogues": "Subcatálogos",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

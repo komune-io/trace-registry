@@ -24,9 +24,6 @@ networks:
     name: ${DOCKER_NETWORK}
     external: true
 
-volumes:
-  im_init_volume:
-
 configs:
   im_init_config:
-    file: ./config/build/init.json
+    file: ./build/config/init.json

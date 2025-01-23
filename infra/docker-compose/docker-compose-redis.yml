@@ -3,23 +3,24 @@ services:
   redis:
     image: redis/redis-stack:7.2.0-v13
     container_name: verr-redis
-    ports:
-      - "6379:6379"
-      - "8011:8001"
     env_file:
       - .env_dev
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
+    ports:
+     - "6379:6379"
+     - "8011:8001"
+
     networks:
       - net
 
-  redisinsight:
-    image: redislabs/redisinsight:latest
-    container_name: verr-redisinsight
-    ports:
-      - '8001:8001'
-    networks:
-      - net
+#  redisinsight:
+#    image: redislabs/redisinsight:latest
+#    container_name: verrredisinsight
+#    ports:
+#       - "8001:8001"
+#    networks:
+#       - net
 
 networks:
   net:

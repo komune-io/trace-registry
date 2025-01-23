@@ -46,7 +46,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                         variant='subtitle1'
                         color="primary"
                     >
-                        {catalogue?.type}
+                        {catalogue?.identifier}
                     </Typography>
                 </Stack>
                 <Typography>
