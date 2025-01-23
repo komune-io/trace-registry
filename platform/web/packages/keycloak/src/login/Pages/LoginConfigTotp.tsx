@@ -146,7 +146,7 @@ const LoginConfigTotpDocs = (props: LoginConfigTotpDocsProps) => {
         <>
           <Stack gap={1} >
             <Typography>
-              {msg("loginTotpManualStep2")}:
+              {msg("loginTotpManualStep2")}
             </Typography>
             <Typography variant="subtitle2" >
               {totp.totpSecretEncoded}
@@ -155,8 +155,7 @@ const LoginConfigTotpDocs = (props: LoginConfigTotpDocsProps) => {
               variant="body2"
               href={totp.qrUrl}
               sx={{
-                color: "#828282",
-                alignSelf: "flex-end"
+                color: "#828282"
               }}
             >
               {msg("loginTotpScanBarcode")}
@@ -164,7 +163,7 @@ const LoginConfigTotpDocs = (props: LoginConfigTotpDocsProps) => {
           </Stack>
           <Stack gap={1} >
             <Typography>
-              {msg("loginTotpManualStep3")}:
+              {msg("loginTotpManualStep3")}
             </Typography>
             <ul style={{ margin: 0 }}>
               <li id="kc-totp-type">
@@ -200,7 +199,7 @@ const LoginConfigTotpDocs = (props: LoginConfigTotpDocsProps) => {
           }}
         >
           <Typography zIndex={1} >
-            {msg("loginTotpStep2")}:
+            {msg("loginTotpStep2")}
           </Typography>
           <img id="kc-totp-secret-qr-code" src={`data:image/png;base64, ${totp.totpSecretQrCode}`} alt="Figure: Barcode" />
           <Link
