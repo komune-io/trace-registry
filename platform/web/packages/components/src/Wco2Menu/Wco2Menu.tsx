@@ -87,7 +87,6 @@ const Item = (props: MenuItems) => {
                     items={items}
                     sx={{
                         pl: 2,
-                        pr: 1,
                         '& .MuiAccordionSummary-root:hover .MuiAccordionSummary-content': {
                             bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
                         },
