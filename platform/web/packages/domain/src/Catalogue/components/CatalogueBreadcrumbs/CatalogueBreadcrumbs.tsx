@@ -7,10 +7,10 @@ import { useCatalogueRefListQuery } from '../../api'
 export const CatalogueBreadcrumbs = () => {
     const { ids } = useCataloguesRouteParams()
     const {cataloguesAll, catalogues} = useRoutesDefinition()
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
     const refsQuery = useCatalogueRefListQuery({
         query: {
-
+            language: i18n.language
         }
     })
 

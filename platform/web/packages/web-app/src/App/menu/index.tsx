@@ -46,6 +46,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
   const flagGetQuery = useFlagGetQuery()
+  const {i18n} = useTranslation()
   const module = useMemo(() => {
     return flagGetQuery.data?.module ?? {
       project: false,
@@ -58,7 +59,7 @@ export const useMenu = (t: TFunction) => {
   const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
     query: {
       identifier: "menuWikiCoe",
-      language: "fr"
+      language: i18n.language
     },
     options: {
       enabled: true
