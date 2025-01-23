@@ -1,7 +1,7 @@
 import {
     CatalogueBreadcrumbs,
     Catalogue,
-    CatalogueInformation, DatasetDataSection,
+    CatalogueInformation, DatasetDataSection, CatalogueGrid, useCataloguePageQuery,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { AppPage, SectionTab, Tab } from 'template'
 import { useRoutesDefinition } from 'components'
 import { SyntheticEvent, useCallback, useMemo } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
+import {maybeAddItem} from "../../../menu";
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -22,9 +23,9 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
 
-    const { cataloguesAll } = useRoutesDefinition()
+    const { cataloguesTab } = useRoutesDefinition()
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
-        navigate(cataloguesAll(value, ...ids))
+        navigate(cataloguesTab(value, ...ids))
     }, [ids])
 
     const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
@@ -35,6 +36,18 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         }
     }) ?? []
 
+
+    console.log("catalogue?.identifier", catalogue?.identifier)
+    const {data}  = useCataloguePageQuery({
+        query: {
+            parentIdentifier: catalogue?.identifier,
+        },
+        options: {
+            enabled: catalogue?.identifier !== undefined
+        }
+    })
+
+    const items = data?.items ?? []
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
             key: 'info',
@@ -43,9 +56,14 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 catalogue={catalogue}
                 isLoading={isLoading}
             />)
-        }, ...datasetTab]
+        }, ...maybeAddItem(items.length > 0, {
+            key: 'subCatalogues',
+            label: t('subCatalogues'),
+            component: (<CatalogueGrid items={data?.items} isLoading={false} />)
+        }), ...datasetTab
+        ]
         return tabs
-    }, [t, catalogue, isLoading])
+    }, [t, data, catalogue, isLoading])
 
     return (
         <AppPage
