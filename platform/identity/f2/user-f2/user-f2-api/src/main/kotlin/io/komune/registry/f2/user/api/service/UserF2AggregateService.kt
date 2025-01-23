@@ -1,11 +1,13 @@
 package io.komune.registry.f2.user.api.service
 
+import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.im.f2.organization.domain.command.OrganizationCreateCommand
 import io.komune.im.f2.organization.domain.command.OrganizationDeleteCommand
 import io.komune.im.f2.user.domain.command.UserCreateCommand
 import io.komune.im.f2.user.domain.command.UserDeleteCommand
 import io.komune.im.f2.user.domain.query.UserGetByEmailQuery
+import io.komune.registry.api.commons.exception.OrganizationNameAlreadyExistsException
 import io.komune.registry.api.commons.exception.UserEmailAlreadyExistsException
 import io.komune.registry.api.commons.exception.UserUnacceptedTermsException
 import io.komune.registry.f2.user.domain.command.UserOnboardCommandDTOBase
@@ -38,10 +40,16 @@ class UserF2AggregateService(
             throw UserEmailAlreadyExistsException(command.email)
         }
 
-        context.organizationId = OrganizationCreateCommand(
-            name = command.organizationName,
-            roles = listOf(Roles.STAKEHOLDER)
-        ).invokeWith(imClient.organization.organizationCreate()).id
+        try {
+            context.organizationId = OrganizationCreateCommand(
+                name = command.organizationName,
+                roles = listOf(Roles.STAKEHOLDER)
+            ).invokeWith(imClient.organization.organizationCreate()).id
+        } catch (e: F2Exception) {
+            if (e.error.code == 409 && e.message.orEmpty().startsWith("Organization")) {
+                throw OrganizationNameAlreadyExistsException(command.organizationName)
+            }
+        }
 
         context.userId = UserCreateCommand(
             email = command.email,

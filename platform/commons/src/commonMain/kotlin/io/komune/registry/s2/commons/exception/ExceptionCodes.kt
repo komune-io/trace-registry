@@ -11,5 +11,6 @@ object ExceptionCodes {
     object User {
         const val EMAIL_EXISTS = 2000
         const val UNACCEPTED_TERMS = 2001
+        const val ORGANIZATION_EXISTS = 2002
     }
 }
