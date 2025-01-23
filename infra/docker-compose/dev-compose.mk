@@ -173,8 +173,8 @@ endif
 export
 
 define copy_config
+ mkdir -p $(DOCKER_COMPOSE_PATH)/build/config; \
  if [ -d $1 ] && [ "$(ls -A $1)" ]; then \
-  mkdir -p $(DOCKER_COMPOSE_PATH)/build/config; \
   cp -r $1/* $(DOCKER_COMPOSE_PATH)/build/config/; \
  else \
   echo "Directory $1 does not exist or is empty"; \
