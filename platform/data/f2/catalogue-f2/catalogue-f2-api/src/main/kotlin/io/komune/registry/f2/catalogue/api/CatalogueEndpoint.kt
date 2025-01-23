@@ -68,6 +68,7 @@ class CatalogueEndpoint(
             title = query.title,
             status = query.status,
             parentIdentifier = query.parentIdentifier,
+            language = query.language ?: "fr",
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000

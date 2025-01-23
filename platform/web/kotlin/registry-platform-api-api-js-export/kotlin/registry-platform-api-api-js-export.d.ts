@@ -3153,6 +3153,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly parentIdentifier?: string;
         readonly title?: string;
         readonly status?: string;
+        readonly language?: string;
         readonly offset?: number;
         readonly limit?: number;
 
