@@ -6,6 +6,7 @@ import io.komune.registry.s2.structure.domain.model.Structure
 
 fun catalogueCentMillion(debug: String) = catalogue {
     identifier = "objectif100m${debug}"
+    language = "fr"
     title = "Objectif 100m"
     type = "standards"
     structure = Structure("grid")
@@ -16,7 +17,6 @@ fun catalogueCentMillion(debug: String) = catalogue {
         +Secteur(debug)
         +Systeme(debug)
         +Solution(debug)
-        +EtudeDeCas(debug)
     }
 }
 
@@ -24,6 +24,7 @@ fun catalogueCentMillion(debug: String) = catalogue {
 @Suppress("LongMethod", "FunctionNaming")
 fun Solution(debug: String) = catalogue {
     identifier = "objectif100m-Solution${debug}"
+    language = "fr"
     title = "Solutions"
     type = "standard"
     structure = Structure("item")
@@ -55,25 +56,16 @@ fun Solution(debug: String) = catalogue {
             )
         }
     }
-
-//+Bâtiment (249)
-//+Cogénération (9)
-//+Déchets (49)
-//+Eau (49)
-//+Management (ISO 50 001) (53)
-//+Nouvelles énergies (52)
-//+Procédés (107)
-//+Technologies énergétiques (75)
-//+Utilités (415)
 }
 
 
 @Suppress("LongMethod", "FunctionNaming")
 fun Systeme(debug: String) = catalogue {
-    identifier = "objectif100m-Systeme${debug}"
+    identifier = "objectif100m-systeme${debug}"
+    language = "fr"
     title = "Systèmes"
     type = "standard"
-    structure = Structure("item")
+    structure = Structure("grid")
     img = getImg("100m/system.png")
     description = """
         Les Technologies sont des parties de l’activité d’une entreprise où il est possible de présenter de l’information, puis
@@ -103,15 +95,17 @@ fun Systeme(debug: String) = catalogue {
             )
         }
     }
-//    Bâtiment (19) +
-//    Cogénération (4) +
-//    Déchets (7) +
-//    Eau (11) +
-//    Management (ISO 50 001) (9) +
-//    Nouvelles énergies (40) +
-//    Procédés (27) +
-//    Technologies énergétiques (19) +
-//    Utilités (92) +
+    catalogues {
+        +CentMSystem.Utilites(debug)
+        +CentMSystem.TechnologiesEnergetiques(debug)
+        +CentMSystem.Procedes(debug)
+        +CentMSystem.NouvellesEnergies(debug)
+        +CentMSystem.Management(debug)
+        +CentMSystem.Eau(debug)
+        +CentMSystem.Dechets(debug)
+        +CentMSystem.Cogénération(debug)
+        +CentMSystem.Bâtiment(debug)
+    }
 }
 
 @Suppress("LongMethod", "FunctionNaming")
@@ -166,7 +160,7 @@ fun Secteur(debug: String) = catalogue {
     identifier = "objectif100m-secteur${debug}"
     title = "Secteurs"
     type = "standard"
-    structure = Structure("item")
+    structure =  Structure("grid")
     img = getImg("100m/secteur.png")
     description = """
          Ce sont les Secteurs économiques qui regroupent toutes les activités possibles des entreprises.
@@ -190,23 +184,13 @@ fun Secteur(debug: String) = catalogue {
         }
     }
     catalogues {
-        catalogue {
-            identifier = "objectif100m-secteur-programs${debug}"
-            title = "Programs"
-            type = "programs"
-            structure = Structure("grid")
-            img = getImg("100m/secteur.png")
-            datasetBase(identifier)
-            catalogues {
-                +CentMSecteur.AgricultureBois(debug)
-                +CentMSecteur.AgroAlimentaire(debug)
-                +CentMSecteur.Chimie(debug)
-                +CentMSecteur.Industrie(debug)
-                +CentMSecteur.IndustrieLourde(debug)
-                +CentMSecteur.TertiaireBatiment(debug)
-                +CentMSecteur.Utilities(debug)
-            }
-        }
+        +CentMSecteur.AgricultureBois(debug)
+        +CentMSecteur.AgroAlimentaire(debug)
+        +CentMSecteur.Chimie(debug)
+        +CentMSecteur.Industrie(debug)
+        +CentMSecteur.IndustrieLourde(debug)
+        +CentMSecteur.TertiaireBatiment(debug)
+        +CentMSecteur.Utilities(debug)
     }
 }
 
@@ -216,6 +200,7 @@ object CentMSecteur {
     @Suppress("LongMethod", "FunctionNaming")
     fun AgricultureBois(debug: String) = catalogue {
         identifier = "objectif100m-secteur-AgricultureBois${debug}"
+        language = "fr"
         title = "Agriculture & Bois"
         description = """
             Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -229,6 +214,7 @@ object CentMSecteur {
         catalogues {
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Bois${debug}"
+                language = "fr"
                 title = "Bois"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -241,6 +227,7 @@ object CentMSecteur {
                 catalogues {
                     catalogue {
                         identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas${debug}"
+                        language = "fr"
                         title = "Etude de cas"
                         type = "standard"
                         structure = Structure("item")
@@ -252,6 +239,7 @@ object CentMSecteur {
                         catalogues {
                             catalogue {
                                 identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas-84${debug}"
+                                language = "fr"
                                 title = "Etude de cas 84"
                                 type = "standard"
                                 structure = Structure("item")
@@ -267,6 +255,7 @@ object CentMSecteur {
             }
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Culture${debug}"
+                language = "fr"
                 title = "Culture"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -279,6 +268,7 @@ object CentMSecteur {
             }
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Elevage${debug}"
+                language = "fr"
                 title = "Elevage"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -291,6 +281,7 @@ object CentMSecteur {
             }
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-MaterielAgricole${debug}"
+                language = "fr"
                 title = "Matériel agricole"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -303,6 +294,7 @@ object CentMSecteur {
             }
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Sechage${debug}"
+                language = "fr"
                 title = "Séchage"
                 description = """
                     Après la récolte, les grains (blé, maïs, protéagineux, oléagineux…) 
@@ -323,6 +315,7 @@ object CentMSecteur {
             }
             catalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Serres${debug}"
+                language = "fr"
                 title = "Serres"
                 description = """
                     Le secteur de l'agriculture comprend les grandes cultures, la production de lait, 
@@ -339,6 +332,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun AgroAlimentaire(debug: String) = catalogue {
         identifier = "objectif100m-secteur-AgroAlimentaire-${debug}"
+        language = "fr"
         title = "Agro-alimentaire"
         type = "program"
         img = getImg("100m/secteur.png")
@@ -363,6 +357,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun Chimie(debug: String) = catalogue {
         identifier = "objectif100m-secteur-Chimie-${debug}"
+        language = "fr"
         title = "Chimie"
         type = "program"
         structure = Structure("item")
@@ -386,6 +381,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun Industrie(debug: String) = catalogue {
         identifier = "objectif100m-secteur-Industrie-${debug}"
+        language = "fr"
         title = "Industrie"
         type = "program"
         structure = Structure("item")
@@ -409,6 +405,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun IndustrieLourde(debug: String) = catalogue {
         identifier = "objectif100m-secteur-IndustrieLourde-${debug}"
+        language = "fr"
         title = "Industrie Lourde"
         type = "program"
         structure = Structure("item")
@@ -432,6 +429,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun TertiaireBatiment(debug: String) = catalogue {
         identifier = "objectif100m-secteur-TertiaireBatiment-${debug}"
+        language = "fr"
         title = "Tertiaire et bâtiment"
         type = "program"
         structure = Structure("item")
@@ -456,6 +454,7 @@ object CentMSecteur {
     @Suppress("FunctionNaming")
     fun Utilities(debug: String) = catalogue {
         identifier = "objectif100m-secteur-Utilities-${debug}"
+        language = "fr"
         title = "Utilities"
         type = "program"
         structure = Structure("item")
@@ -471,6 +470,182 @@ object CentMSecteur {
                 prefLabels = mutableMapOf(
                     "en" to "Utilities",
                     "fr" to "Utilities"
+                )
+            }
+        }
+    }
+
+}
+
+@Suppress("LargeClass")
+object CentMSystem {
+    @Suppress("LongMethod", "FunctionNaming")
+    fun Bâtiment(debug: String) = catalogue {
+        identifier = "objectif100m-system-batiment${debug}"
+        title = "Bâtiment"
+        description = """
+        """.trimIndent()
+        type = "system"
+        img = getImg("100m/secteur.png")
+        structure = Structure("item")
+        datasetBase(identifier)
+    }
+
+    @Suppress("FunctionNaming")
+    fun Cogénération(debug: String) = catalogue {
+        identifier = "objectif100m-system-cogeneration-${debug}"
+        language = "fr"
+        title = "Cogénération"
+        type = "program"
+        img = getImg("100m/secteur.png")
+        structure = Structure("item")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {}
+    }
+
+    @Suppress("FunctionNaming")
+    fun Dechets(debug: String) = catalogue {
+        identifier = "objectif100m-system-dechets-${debug}"
+        language = "fr"
+        title = "Déchets"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "Chimie"
+                prefLabels = mutableMapOf(
+                    "en" to "Déchets",
+                    "fr" to "Déchets"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun Eau(debug: String) = catalogue {
+        identifier = "objectif100m-system-eau-${debug}"
+        language = "fr"
+        title = "Eau"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "Eau"
+                prefLabels = mutableMapOf(
+                    "en" to "Eau",
+                    "fr" to "Eau"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun Management(debug: String) = catalogue {
+        identifier = "objectif100m-system-management-${debug}"
+        language = "fr"
+        title = "Management (ISO 50 001)"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "Management"
+                prefLabels = mutableMapOf(
+                    "en" to "Management (ISO 50 001)",
+                    "fr" to "Management (ISO 50 001)"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun NouvellesEnergies(debug: String) = catalogue {
+        identifier = "objectif100m-system-nouvellesEnergies-${debug}"
+        language = "fr"
+        title = "Nouvelles énergies"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "NouvellesEnergies"
+                prefLabels = mutableMapOf(
+                    "en" to "Nouvelles énergies",
+                    "fr" to "Nouvelles énergies"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun Procedes(debug: String) = catalogue {
+        identifier = "objectif100m-system-Procedes-${debug}"
+        language = "fr"
+        title = "Procédés"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "Procedes"
+                prefLabels = mutableMapOf(
+                    "en" to "Procédés",
+                    "fr" to "Procédés"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun TechnologiesEnergetiques(debug: String) = catalogue {
+        identifier = "objectif100m-system-technologiesEnergetiques-${debug}"
+        language = "fr"
+        title = "Technologies énergétiques"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "TechnologiesEnergetiques"
+                prefLabels = mutableMapOf(
+                    "en" to "Technologies énergétiques",
+                    "fr" to "Technologies énergétiques"
+                )
+            }
+        }
+    }
+
+    @Suppress("FunctionNaming")
+    fun Utilites(debug: String) = catalogue {
+        identifier = "objectif100m-system-utilites-${debug}"
+        language = "fr"
+        title = "Utilités"
+        type = "program"
+        structure = Structure("item")
+        img = getImg("100m/secteur.png")
+        description = """""".trimIndent()
+        datasetBase(identifier)
+        themes {
+            concept {
+                id = "Utilites"
+                prefLabels = mutableMapOf(
+                    "en" to "Utilités",
+                    "fr" to "Utilités"
                 )
             }
         }
