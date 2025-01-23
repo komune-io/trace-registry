@@ -1,10 +1,10 @@
 import { LexicalEditor, LexicalEditorProps } from '../LexicalEditor'
 
-interface WCo2EditorProps extends LexicalEditorProps {
+interface RichtTextEditorProps extends LexicalEditorProps {
 
 }
 
-export const WCo2Editor = (props: WCo2EditorProps) => {
+export const RichtTextEditor = (props: RichtTextEditorProps) => {
     const { styleContainerProps, ...other } = props
     return <LexicalEditor
         styleContainerProps={{

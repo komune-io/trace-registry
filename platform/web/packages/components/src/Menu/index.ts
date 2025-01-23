@@ -1,1 +1,1 @@
-export * from "./Wco2Menu"
+export * from "./Menu"
