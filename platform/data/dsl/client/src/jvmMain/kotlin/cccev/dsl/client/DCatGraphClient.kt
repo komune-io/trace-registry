@@ -27,22 +27,26 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.io.File
 
+typealias Language = String
+typealias CatalogueKey = Pair<CatalogueIdentifier, Language>
+
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
     private val datasetClient: DatasetClient,
 ) {
 
     @Suppress("ComplexMethod", "LongMethod")
-    suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<DCatApCatalogueModel> {
-        val visitedCatalogueIdentifiers = mutableSetOf<CatalogueIdentifier>()
-        val createdCatalogues = mutableMapOf<CatalogueIdentifier, CatalogueId>()
+    suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<CatalogueKey> {
+        val visitedCatalogueKeys = mutableSetOf<CatalogueKey>()
+        val createdCatalogues = mutableMapOf<CatalogueKey, CatalogueId>()
         val createdDatasets = mutableMapOf<String, DatasetId>()
 
         fun DCatApCatalogueModel.flatten(): Flow<DCatApCatalogueModel> = flow {
-            if (identifier in visitedCatalogueIdentifiers) {
+            val key = toKey()
+            if (key in visitedCatalogueKeys) {
                 return@flow
             }
-            visitedCatalogueIdentifiers += identifier
+            visitedCatalogueKeys += key
 
             catalogues?.forEach { emitAll(it.flatten()) }
             emit(this@flatten)
@@ -51,11 +55,11 @@ class DCatGraphClient(
         return allCatalogues.flatMapConcat(DCatApCatalogueModel::flatten)
             .map { catalogue ->
 
-                val catalogueIdentifier = initCatalogue(
+                val catalogueKey = initCatalogue(
                     catalogue,
                     createdCatalogues
                 )
-                val catalogueId = createdCatalogues[catalogue.identifier]!!
+                val catalogueId = createdCatalogues[catalogueKey]!!
 
                 catalogue.datasets?.mapNotNull { dataset ->
                     val datasetId = if (dataset.identifier !in createdDatasets) {
@@ -67,24 +71,24 @@ class DCatGraphClient(
                 }?.takeIf { it.isNotEmpty() }?.let { datasetIds ->
                     linkDatasetToCatalogue(catalogueId, datasetIds)
                 }
-                catalogueIdentifier
+                catalogueKey
             }
     }
 
     private suspend fun initCatalogue(
         catalogue: DCatApCatalogueModel,
-        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
-    ): DCatApCatalogueModel {
-        val identifier = catalogue.identifier
+        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>
+    ): CatalogueKey {
+        val key = catalogue.toKey()
+
         val existingCatalogue = CatalogueGetByIdentifierQuery(
-            identifier = identifier,
+            identifier = catalogue.identifier,
             language = catalogue.language
         ).invokeWith(catalogueClient.catalogueGetByIdentifier()).item
-        if(existingCatalogue != null) {
-            createdCatalogues[catalogue.identifier] = existingCatalogue.id
-            return CatalogueGetQuery(
-                id =  existingCatalogue.id
-            ).invokeWith(catalogueClient.catalogueGet()).item?.toDsl()!!
+
+        if (existingCatalogue != null) {
+            createdCatalogues[key] = existingCatalogue.id
+            return existingCatalogue.toKey()
         }
 
         val catalogueId = createCatalogue(
@@ -92,25 +96,25 @@ class DCatGraphClient(
             createdCatalogues
         )
 
-        createdCatalogues[catalogue.identifier] = catalogueId
+        createdCatalogues[key] = catalogueId
         catalogue.catalogues?.takeIf { it.isNotEmpty() }?.let { catalogues ->
             linkCatalogues(
                 createdCatalogues,
                 catalogue,
-                catalogues.map { createdCatalogues[it.identifier]!! })
+                catalogues.map { createdCatalogues[it.toKey()]!! })
         }
         return CatalogueGetQuery(
             id = catalogueId
-        ).invokeWith(catalogueClient.catalogueGet()).item?.toDsl()!!
+        ).invokeWith(catalogueClient.catalogueGet()).item!!.toKey()
     }
 
     private suspend fun DCatGraphClient.linkCatalogues(
-        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>,
+        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>,
         parent: DCatApCatalogueModel,
         catalogueId: List<CatalogueId>
     ) {
         CatalogueLinkCataloguesCommandDTOBase(
-            id = createdCatalogues[parent.identifier]!!,
+            id = createdCatalogues[parent.toKey()]!!,
             catalogues = catalogueId
         ).invokeWith(catalogueClient.catalogueLinkCatalogues())
         println("Linked catalogue ${parent.identifier} to ${catalogueId}")
@@ -118,35 +122,34 @@ class DCatGraphClient(
 
     private suspend fun createCatalogue(
         catalogue: DCatApCatalogueModel,
-        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
+        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>
     ): CatalogueId {
         return CatalogueCreateCommandDTOBase(
             identifier = catalogue.identifier,
             title = catalogue.title,
             description = catalogue.description,
-            catalogues = catalogue.catalogues?.map {
-                createdCatalogues[it.identifier]!!
-            }.orEmpty(),
+            catalogues = catalogue.catalogues
+                ?.map { createdCatalogues[it.toKey()]!! }
+                .orEmpty(),
             type = catalogue.type,
             language = catalogue.language,
             structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
-        ).invokeWith(catalogueClient.catalogueCreate()).id.also {
-            println("Created catalogue ${catalogue.identifier} with id ${it}")
-        }.also { catalogueId ->
-            catalogue.img?.let { img ->
-                val ff = File(img).readBytes()
-                (CatalogueSetImageCommandDTOBase(
-                    id = catalogueId,
-                ) to CatalogueFile(
-                    name = img,
-                    content = ff
-                )).invokeWith(catalogueClient.catalogueSetImageFunction())
+        ).invokeWith(catalogueClient.catalogueCreate())
+            .id
+            .also { println("Created catalogue ${catalogue.identifier} (${catalogue.language}) with id $it") }
+            .also { catalogueId ->
+                catalogue.img?.let { img ->
+                    val ff = File(img).readBytes()
+                    (CatalogueSetImageCommandDTOBase(
+                        id = catalogueId,
+                    ) to CatalogueFile(
+                        name = img,
+                        content = ff
+                    )).invokeWith(catalogueClient.catalogueSetImageFunction())
+                }
             }
-
-
-        }
     }
 
 //    private suspend fun initDataset(
@@ -170,7 +173,7 @@ class DCatGraphClient(
 
     suspend fun linkDatasetToCatalogue(catalogueId: String, datasets: List<DatasetId>) {
         val client = catalogueClient
-        println("Linking catalogue ${catalogueId} to datasets ${datasets}")
+        println("Linking catalogue $catalogueId to datasets $datasets")
         CatalogueLinkDatasetsCommandDTOBase(
             id = catalogueId,
             datasets = datasets
@@ -206,6 +209,10 @@ class DCatGraphClient(
             println("Created dataset ${identifier} with id ${it}")
         }
     }
+
+    private fun key(identifier: CatalogueIdentifier, language: Language): CatalogueKey = identifier to language
+    private fun DCatApCatalogueModel.toKey(): CatalogueKey = key(identifier, language)
+    private fun CatalogueDTOBase.toKey(): CatalogueKey = key(identifier, language)
 }
 
 
