@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-web:${REGISTRY_VERSION}
     container_name: registry-web
     configs:
-      - source: registry_web_env_config_v2
+      - source: registry_web_env_config
         target: /var/www/env-config.js
       - source: registry_web_oidc_config
         target: /var/www/OidcTrustedDomains.js
@@ -23,7 +23,7 @@ networks:
     external: true
 
 configs:
-  registry_web_env_config_v2:
+  registry_web_env_config:
     file: ./build/config/registry/web_default.js
   registry_web_oidc_config:
     file: ./build/config/registry/OidcTrustedDomains.js

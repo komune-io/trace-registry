@@ -28,7 +28,7 @@ services:
       # Needed When ports: 8080:8080 is defined
       traefik.docker.network: ${DOCKER_NETWORK}
     configs:
-      - source: keycloak_web_env_config_v5
+      - source: keycloak_web_env_config
         target: /opt/keycloak/themes/registry-keycloakify/login/resources/dist/env-config.js
     ports:
       - "8080:8080"
@@ -60,5 +60,5 @@ networks:
 
 
 configs:
-  keycloak_web_env_config_v5:
+  keycloak_web_env_config:
     file: ./build/config/keycloak/web_default.js

@@ -2,6 +2,7 @@
 
 .gradle
 **/build/
+application.*.yml
 **/build_keycloak/
 **/dist/
 !gradle/wrapper/gradle-wrapper.jar
