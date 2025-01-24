@@ -15,7 +15,7 @@ G2ConfigBuilder(window._env_)
 
 if (import.meta.env.DEV) {
     window.kcContext = getKcContextMock({
-        pageId: "login-config-totp.ftl",
+        pageId: "register.ftl",
         overrides: {
             locale: {
                 currentLanguageTag: "fr"
@@ -43,11 +43,10 @@ i18n.addResourceBundle(
                 "2002": "L'entreprise que vous avez rentré est déjà intégré dans la plateforme"
             },
             errors: {
-                "userOnboard": "Votre compte n'a pas pu être créé",
+                "identity/userOnboard": "Votre compte n'a pas pu être créé",
             },
             success: {
-                "userOnboard": "Votre compte a bien été créé",
-
+                "identity/userOnboard": "Votre compte a bien été créé",
             }
         }
     },
@@ -65,10 +64,10 @@ i18n.addResourceBundle(
                 "2002": "The given entreprise is already incorporated in the platform"
             },
             errors: {
-                "userOnboard": "Votre compte n'a pas pu être créé",
+                "identity/userOnboard": "Votre compte n'a pas pu être créé",
             },
             success: {
-                "userOnboard": "Votre compte a bien été créé",
+                "identity/userOnboard": "Votre compte a bien été créé",
             }
         }
     },
