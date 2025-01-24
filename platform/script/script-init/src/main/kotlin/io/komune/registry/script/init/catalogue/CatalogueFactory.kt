@@ -97,15 +97,11 @@ fun createMenuCatalogue(
     actor: Actor,
     debug: String
 ): List<CatalogueKey> = runBlocking {
-    try {
-        val helper = CatalogueFactory(url, actor.authRealm)
-        val dcatGraphClient = helper.dcatGraphClient
-        val catalogueMenu = catalogueMenu(debug).values.asFlow()
-        dcatGraphClient.create(catalogueMenu).toList()
-            .onEach { println("Catalogue[${it}] Created.") }
-    } catch (e: Exception) {
-        throw e
-    }
+    val helper = CatalogueFactory(url, actor.authRealm)
+    val dcatGraphClient = helper.dcatGraphClient
+    val catalogueMenu = catalogueMenu(debug).values.asFlow()
+    dcatGraphClient.create(catalogueMenu).toList()
+        .onEach { println("Catalogue[${it}] Created.") }
 }
 
 //fun createRandomCatalogue(

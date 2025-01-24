@@ -337,12 +337,9 @@ object CentMThemes {
     }
 }
 
-@Suppress("LargeClass")
 object CentMSecteur {
-
-    @Suppress("LongMethod", "FunctionNaming")
     fun AgricultureBois(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-AgricultureBois${debug}"
+        identifier = "F-2${debug}"
         type = "programs"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
@@ -373,7 +370,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-Bois${debug}"
+            identifier = "F-3${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -429,7 +426,7 @@ object CentMSecteur {
                 }
 
                 childCatalogue {
-                    identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas-84${debug}"
+                    identifier = "E-84${debug}"
                     type = "standard"
                     structure = Structure("item")
                     img = getImg(IMG_USECASE)
@@ -456,7 +453,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-Culture${debug}"
+            identifier = "F-4${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -488,7 +485,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-Elevage${debug}"
+            identifier = "F-5${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -520,7 +517,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-MaterielAgricole${debug}"
+            identifier = "F-6${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -552,7 +549,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-Sechage${debug}"
+            identifier = "F-7${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -608,7 +605,7 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "objectif100m-secteur-AgricultureBois-Serres${debug}"
+            identifier = "F-8${debug}"
             type = "programs"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
@@ -639,9 +636,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun AgroAlimentaire(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-AgroAlimentaire-${debug}"
+        identifier = "F-9${debug}"
         type = "program"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
@@ -676,9 +672,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun Chimie(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-Chimie-${debug}"
+        identifier = "F-18${debug}"
         type = "program"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
@@ -710,9 +705,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun Industrie(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-Industrie-${debug}"
+        identifier = "F-33${debug}"
         type = "program"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
@@ -744,9 +738,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun IndustrieLourde(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-IndustrieLourde-${debug}"
+        identifier = "F-21${debug}"
         type = "program"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
@@ -778,9 +771,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun TertiaireBatiment(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-TertiaireBatiment-${debug}"
+        identifier = "F-50${debug}"
         type = "program"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
@@ -815,9 +807,8 @@ object CentMSecteur {
         }
     }
 
-    @Suppress("FunctionNaming")
     fun Utilities(debug: String) = catalogueI18n {
-        identifier = "objectif100m-secteur-Utilities-${debug}"
+        identifier = "F-44${debug}"
         type = "program"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
@@ -852,9 +843,9 @@ object CentMSecteur {
 
 object CentMSystem {
     fun Batiment(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-batiment${debug}"
+        identifier = "T-5${debug}"
         type = "system"
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
         structure = Structure("item")
 
         language("fr") {
@@ -875,9 +866,9 @@ object CentMSystem {
     }
 
     fun Cogeneration(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-cogeneration-${debug}"
+        identifier = "T-31${debug}"
         type = "program"
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
         structure = Structure("item")
 
         language("fr") {
@@ -895,10 +886,10 @@ object CentMSystem {
     }
 
     fun Dechets(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-dechets-${debug}"
+        identifier = "T-49${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Déchets"
@@ -919,10 +910,10 @@ object CentMSystem {
     }
 
     fun Eau(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-eau-${debug}"
+        identifier = "T-27${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Eau"
@@ -943,10 +934,10 @@ object CentMSystem {
     }
 
     fun Management(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-management-${debug}"
+        identifier = "T-2${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Management (ISO 50 001)"
@@ -967,10 +958,10 @@ object CentMSystem {
     }
 
     fun NouvellesEnergies(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-nouvellesEnergies-${debug}"
+        identifier = "T-36${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Nouvelles énergies"
@@ -991,10 +982,10 @@ object CentMSystem {
     }
 
     fun Procedes(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-Procedes-${debug}"
+        identifier = "T-19${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Procédés"
@@ -1015,10 +1006,10 @@ object CentMSystem {
     }
 
     fun TechnologiesEnergetiques(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-technologiesEnergetiques-${debug}"
+        identifier = "T-47${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Technologies énergétiques"
@@ -1039,26 +1030,125 @@ object CentMSystem {
     }
 
     fun Utilites(debug: String) = catalogueI18n {
-        identifier = "objectif100m-system-utilites-${debug}"
+        identifier = "T-10${debug}"
         type = "program"
         structure = Structure("item")
-        img = getImg("100m/secteur.png")
+        img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Utilités"
-            description = """""".trimIndent()
+            description = """
+                Les utilités sont définies comme étant des systèmes servant en parallèle à plusieurs unités de production. 
+                L'air comprimé, la production de froid, la distribution électrique, les systèmes motorisés, la ventilation industrielle, 
+                les stations de pompage, la production de vapeur, d'eau chaude et les réseaux associés font partie des utilités.
+            """.trimIndent()
         }
         language("en") {
             title = "Utilities"
-            description = """""".trimIndent()
+            description = """
+                Utilities are defined as systems serving in parallel to several production units. 
+                Compressed air, cold production, electrical distribution, motorized systems, industrial ventilation, 
+                pumping stations, steam production, hot water and associated networks are part of utilities.
+            """.trimIndent()
         }
         language("es") {
             title = "Utilidades"
-            description = """""".trimIndent()
+            description = """
+                Las utilidades se definen como sistemas que sirven en paralelo a varias unidades de producción. 
+                El aire comprimido, la producción de frío, la distribución eléctrica, los sistemas motorizados, la ventilación industrial, 
+                las estaciones de bombeo, la producción de vapor, agua caliente y las redes asociadas forman parte de las utilidades.
+            """.trimIndent()
         }
 
         themes {
             +CentMThemes.Utilities
+        }
+
+        childCatalogue {
+            identifier = "T-15${debug}"
+            type = "program"
+            structure = Structure("item")
+            img = getImg(IMG_SYSTEM)
+
+            language("fr") {
+                title = "Moteur"
+                description = """
+                    Un moteur électrique est un dispositif permettant de convertir de l'énergie électrique en énergie mécanique.
+                    Afin de réduire la consommation des moteurs électriques, il est recommandé d'optimiser ces systèmes par des moteurs 
+                    performants et des systèmes de pilotage tel que la variation électronique de vitesse.
+                """.trimIndent()
+            }
+            language("en") {
+                title = "Engine"
+                description = """
+                    An electric motor is a device that converts electrical energy into mechanical energy.
+                    In order to reduce the consumption of electric motors, it is recommended to optimize these systems with efficient motors 
+                    and control systems such as electronic speed variation.
+                """.trimIndent()
+            }
+            language("es") {
+                title = "Motor"
+                description = """
+                    Un motor eléctrico es un dispositivo que convierte la energía eléctrica en energía mecánica.
+                    Para reducir el consumo de los motores eléctricos, se recomienda optimizar estos sistemas con motores eficientes 
+                    y sistemas de control como la variación electrónica de velocidad.
+                """.trimIndent()
+            }
+
+            childCatalogue {
+                identifier = "T-191${debug}"
+                type = "program"
+                structure = Structure("item")
+                img = getImg(IMG_SYSTEM)
+
+                language("fr") {
+                    title = "Régulation"
+                    description = """
+                    """.trimIndent()
+                }
+                language("en") {
+                    title = "Regulation"
+                    description = """
+                    """.trimIndent()
+                }
+                language("es") {
+                    title = "Regulación"
+                    description = """
+                    """.trimIndent()
+                }
+
+                childCatalogue {
+                    identifier = "S-719${debug}"
+                    type = "program"
+                    structure = Structure("item")
+                    img = getImg(IMG_SOLUTION)
+
+                    language("fr") {
+                        title = "Système de Variation Electronique de Vitesse (VEV) sur un moteur électrique"
+                        description = """
+                            Un moteur étant dimensionné autour de son point de fonctionnement, son rendement sera fortement réduit si sa charge diminue.
+                            Comme certaines utilisations impliquent une très grande variabilité (compression et pompage de fluides), il est d'usage d'utiliser une vanne qui régule débit et pression.
+                            La variation électronique de vitesse modifie la tension et la fréquence d’alimentation du moteur, pour réguler sa vitesse.
+                        """.trimIndent()
+                    }
+                    language("en") {
+                        title = "Electronic Speed Variation System (ESV) on an electric motor"
+                        description = """
+                            A motor being sized around its operating point, its efficiency will be greatly reduced if its load decreases.
+                            As some uses involve very high variability (compression and pumping of fluids), it is customary to use a valve that regulates flow and pressure.
+                            Electronic speed variation changes the voltage and frequency of the motor supply to regulate its speed.
+                        """.trimIndent()
+                    }
+                    language("es") {
+                        title = "Sistema de Variación Electrónica de Velocidad (VEV) en un motor eléctrico"
+                        description = """
+                            Un motor se dimensiona en torno a su punto de funcionamiento, por lo que su rendimiento se reducirá considerablemente si su carga disminuye.
+                            Dado que algunos usos implican una variabilidad muy alta (compresión y bombeo de fluidos), es habitual utilizar una válvula que regule el flujo y la presión.
+                            La variación electrónica de velocidad cambia la tensión y la frecuencia de la alimentación del motor para regular su velocidad.
+                        """.trimIndent()
+                    }
+                }
+            }
         }
     }
 }
