@@ -13,6 +13,7 @@ import {
     ELEMENT_TRANSFORMERS,
     ElementTransformer,
     MULTILINE_ELEMENT_TRANSFORMERS,
+    MultilineElementTransformer,
     TEXT_FORMAT_TRANSFORMERS,
     TEXT_MATCH_TRANSFORMERS,
     TextMatchTransformer,
@@ -31,11 +32,13 @@ import {
     TableRowNode,
 } from '@lexical/table';
 import {
+    $createParagraphNode,
     $isParagraphNode,
     $isTextNode,
     LexicalNode,
 } from 'lexical';
 import { $createImageNode, $isImageNode, ImageNode } from '../ImagesPlugin';
+import { $createLayoutContainerNode, $createLayoutItemNode, LayoutContainerNode, LayoutItemNode } from '../LayoutPlugin';
 
 export const IMAGE: TextMatchTransformer = {
     dependencies: [ImageNode],
@@ -60,6 +63,94 @@ export const IMAGE: TextMatchTransformer = {
     trigger: ')',
     type: 'text-match',
 };
+
+// Very primitive table setup
+const LAYOUTCONTAINER_REG_EXP_START = /===COL===/;
+const LAYOUTCONTAINER_REG_EXP_END = /===\/COL===/;
+const LAYOUTITEM_REG_EXP = /---(\d+)---/;
+
+
+export const LAYOUT: MultilineElementTransformer = {
+    dependencies: [LayoutContainerNode, LayoutItemNode],
+    export: (node: LexicalNode) => {
+        return ""
+    },
+    regExpEnd: {
+        regExp: LAYOUTCONTAINER_REG_EXP_END,
+    },
+    regExpStart: LAYOUTCONTAINER_REG_EXP_START,
+    replace: (
+        rootNode,
+        _children,
+        _startMatch,
+        _endMatch,
+        linesInBetween,
+        _isImport,
+    ) => {
+        let items: {percentage: number, node: LayoutItemNode}[] = []
+        let currentChildren = ""
+        let currentItem: {percentage: number, node: LayoutItemNode} | undefined = undefined
+        
+        const storeCurrentInArray = () => {
+            if (currentChildren && currentItem) {
+                $convertFromMarkdownString(currentChildren, MARKDOWN_TRANSFORMERS, currentItem.node);
+            }
+            if (currentItem) {
+                if (!currentChildren) {
+                    currentItem.node.append($createParagraphNode())
+                }
+                items.push(currentItem)
+            }
+        }
+
+        linesInBetween?.forEach((line) => {
+            const match = line.match(LAYOUTITEM_REG_EXP)
+            if (match) {
+                
+                storeCurrentInArray()
+            
+                currentItem = {
+                    percentage: Number(match[1]),
+                    node: $createLayoutItemNode()
+                }
+                currentChildren = ""
+                return
+            }
+
+            if (currentItem) {
+                currentChildren += line + "\n"
+            }
+
+        })
+
+        storeCurrentInArray()
+
+        const allPercentages = items.map((item) => item.percentage)
+        const gridTemplate = percentagesToGridTemplate(allPercentages)
+        console.log(gridTemplate)
+        const container = $createLayoutContainerNode(gridTemplate);
+
+        items.forEach((item) => {
+            container.append(
+                item.node
+            )
+        })
+   
+        rootNode.append(container)
+
+    },
+    type: 'multiline-element',
+};
+
+const percentagesToGridTemplate = (percentages: number[]) => {
+    const minPercentage = Math.min(...percentages);
+    
+    // Calculate the fractional values based on the smallest percentage
+    const fractionalValues = percentages.map(value => value / minPercentage);
+    
+    // Join the fractional values into a string for grid-template
+    return fractionalValues.map(fr => `${fr}fr`).join(' ');
+}
 
 // Very primitive table setup
 const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
@@ -222,6 +313,7 @@ const mapToTableCells = (textContent: string): Array<TableCellNode> | null => {
 
 export const MARKDOWN_TRANSFORMERS: Array<Transformer> = [
     TABLE,
+    LAYOUT,
     IMAGE,
     CHECK_LIST,
     ...ELEMENT_TRANSFORMERS,
