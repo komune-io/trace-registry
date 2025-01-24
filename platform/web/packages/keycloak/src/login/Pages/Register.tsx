@@ -81,11 +81,11 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             label: <>
                 {msgStr("iReadAndAccept")}{" "}
                 <Link>
-                {msgStr("cgu")}
+                    {msgStr("cgu")}
                 </Link>
                 {" "}{msgStr("and")}{" "}
                 <Link>
-                {msgStr("privacyPolicy")}
+                    {msgStr("privacyPolicy")}
                 </Link>
             </>,
             required: true
@@ -96,7 +96,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             label: <>
                 {msgStr("iReadAndApprouve")}{" "}
                 <Link>
-                {msgStr("charter")}
+                    {msgStr("charter")}
                 </Link>
             </>,
             required: true
@@ -112,23 +112,22 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
 
     return (
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} headerNode={msg("registerTitle")}>
-            
-            <FormComposable
-                fields={fields}
-                formState={formState}
-                sx={{
-                    "& .MuiFormControlLabel-root": {
-                        flexDirection: "row-reverse",
-                        justifyContent: "space-between",
-                        width: "100%"
-                    }
-                }}
-            />
-            {success && <Typography
+            {success ? <Typography
                 variant="subtitle2"
             >
                 {msgStr("emailNeedValidation")}
-            </Typography>}
+            </Typography> :
+                <FormComposable
+                    fields={fields}
+                    formState={formState}
+                    sx={{
+                        "& .MuiFormControlLabel-root": {
+                            flexDirection: "row-reverse",
+                            justifyContent: "space-between",
+                            width: "100%"
+                        }
+                    }}
+                />}
             <Stack
                 gap={2}
                 alignItems="center"
