@@ -38,7 +38,7 @@ import {
     LexicalNode,
 } from 'lexical';
 import { $createImageNode, $isImageNode, ImageNode } from '../ImagesPlugin';
-import { $createLayoutContainerNode, $createLayoutItemNode, LayoutContainerNode, LayoutItemNode } from '../LayoutPlugin';
+import { $createLayoutContainerNode, $createLayoutItemNode, $isLayoutContainerNode, $isLayoutItemNode, LayoutContainerNode, LayoutItemNode } from '../LayoutPlugin';
 
 export const IMAGE: TextMatchTransformer = {
     dependencies: [ImageNode],
@@ -73,7 +73,24 @@ const LAYOUTITEM_REG_EXP = /---(\d+)---/;
 export const LAYOUT: MultilineElementTransformer = {
     dependencies: [LayoutContainerNode, LayoutItemNode],
     export: (node: LexicalNode) => {
-        return ""
+        if (!$isLayoutContainerNode(node)) {
+            return null;
+        }
+
+        const output: string[] = ["===COL==="];
+        const itemsPercentages = gridTemplateToPercentages(node.getTemplateColumns())
+
+        node.getChildren().forEach((layoutItem, index) => {
+            if (!$isLayoutItemNode(layoutItem)) {
+                return
+            }
+            output.push(`---${itemsPercentages[index]}---`)
+            output.push($convertToMarkdownString(MARKDOWN_TRANSFORMERS, layoutItem))
+        })
+
+        output.push("===/COL===")
+
+        return output.join('\n');
     },
     regExpEnd: {
         regExp: LAYOUTCONTAINER_REG_EXP_END,
@@ -141,6 +158,19 @@ export const LAYOUT: MultilineElementTransformer = {
     },
     type: 'multiline-element',
 };
+
+const gridTemplateToPercentages = (gridTemplate: string) => {
+    // Split the grid template into individual 'fr' values
+    const frValues = gridTemplate.split(' ').map(value => parseFloat(value.replace('fr', '')));
+    
+    // Calculate the total sum of the fr values
+    const totalFr = frValues.reduce((sum, value) => sum + value, 0);
+    
+    // Convert each fr value to a percentage
+    const percentages = frValues.map(value => value / totalFr * 100)
+    
+    return percentages;
+}
 
 const percentagesToGridTemplate = (percentages: number[]) => {
     const minPercentage = Math.min(...percentages);
