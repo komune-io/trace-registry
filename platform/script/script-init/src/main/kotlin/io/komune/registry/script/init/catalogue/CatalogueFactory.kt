@@ -46,12 +46,12 @@ class CatalogueFactory(
 }
 
 fun createStandardsCatalogue(
-    url: String, actor: Actor, countRange: IntRange = 1..2
+    url: String, actor: Actor, debug: String
 ): List<CatalogueKey> = runBlocking {
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
-    val itemsStandards = flowOf(catalogueStandards(""))
+    val itemsStandards = flowOf(catalogueStandards(debug))
     dcatGraphClient.create(itemsStandards).toList()
         .onEach { println("Catalogue[$it] Created.") }
 

@@ -42,7 +42,7 @@ fun catalogueCentMillion(debug: String) = catalogueI18n {
 
 fun Solution(debug: String) = catalogueI18n {
     identifier = "objectif100m-Solution${debug}"
-    type = "standard"
+    type = "solution"
     structure = Structure("item")
     img = getImg(IMG_SOLUTION)
     language("fr") {
@@ -71,10 +71,9 @@ fun Solution(debug: String) = catalogueI18n {
     }
 }
 
-
 fun Systeme(debug: String) = catalogueI18n {
     identifier = "objectif100m-systeme${debug}"
-    type = "standard"
+    type = "system"
     structure = Structure("grid")
     img = getImg(IMG_SYSTEM)
     language("fr") {
@@ -117,7 +116,7 @@ fun Systeme(debug: String) = catalogueI18n {
 
 fun EtudeDeCas(debug: String) = catalogueI18n {
     identifier = "objectif100m-EtudeDeCas${debug}"
-    type = "standard"
+    type = "projet"
     structure = Structure("item")
     img = getImg(IMG_USECASE)
     language("fr") {
@@ -144,18 +143,11 @@ fun EtudeDeCas(debug: String) = catalogueI18n {
         +CentMThemes.Cogeneration
         +CentMThemes.SolutionMore
     }
-//+Agriculture & Bois (150)
-//+Agro-alimentaire (146)
-//+Chimie (97)
-//+Industrie (325)
-//+Industrie lourde (163)
-//+Tertiaire et bâtiment (810)
-//+Utilities (175)
 }
 
 fun Secteur(debug: String) = catalogueI18n {
     identifier = "objectif100m-secteur${debug}"
-    type = "standard"
+    type = "sector"
     structure = Structure("grid")
     img = getImg(IMG_SECTEUR)
     language("fr") {
@@ -339,8 +331,8 @@ object CentMThemes {
 
 object CentMSecteur {
     fun AgricultureBois(debug: String) = catalogueI18n {
-        identifier = "F-2${debug}"
-        type = "programs"
+        identifier = "sector-2${debug}"
+        type = "sector"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
 
@@ -370,8 +362,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-3${debug}"
-            type = "programs"
+            identifier = "sector-3${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -402,7 +394,7 @@ object CentMSecteur {
 
             childCatalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas${debug}"
-                type = "standard"
+                type = "sector"
                 structure = Structure("item")
                 img = getImg(IMG_USECASE)
 
@@ -427,7 +419,7 @@ object CentMSecteur {
 
                 childCatalogue {
                     identifier = "E-84${debug}"
-                    type = "standard"
+                    type = "sector"
                     structure = Structure("item")
                     img = getImg(IMG_USECASE)
                     language("fr") {
@@ -453,8 +445,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-4${debug}"
-            type = "programs"
+            identifier = "sector-4${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -485,8 +477,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-5${debug}"
-            type = "programs"
+            identifier = "sector-5${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -517,8 +509,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-6${debug}"
-            type = "programs"
+            identifier = "sector-6${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -549,8 +541,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-7${debug}"
-            type = "programs"
+            identifier = "sector-7${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -605,8 +597,8 @@ object CentMSecteur {
         }
 
         childCatalogue {
-            identifier = "F-8${debug}"
-            type = "programs"
+            identifier = "sector-8${debug}"
+            type = "sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
             language("fr") {
@@ -637,8 +629,8 @@ object CentMSecteur {
     }
 
     fun AgroAlimentaire(debug: String) = catalogueI18n {
-        identifier = "F-9${debug}"
-        type = "program"
+        identifier = "sector-9${debug}"
+        type = "sector"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
 
@@ -673,8 +665,8 @@ object CentMSecteur {
     }
 
     fun Chimie(debug: String) = catalogueI18n {
-        identifier = "F-18${debug}"
-        type = "program"
+        identifier = "sector-18${debug}"
+        type = "sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -706,8 +698,8 @@ object CentMSecteur {
     }
 
     fun Industrie(debug: String) = catalogueI18n {
-        identifier = "F-33${debug}"
-        type = "program"
+        identifier = "sector-33${debug}"
+        type = "sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -739,8 +731,8 @@ object CentMSecteur {
     }
 
     fun IndustrieLourde(debug: String) = catalogueI18n {
-        identifier = "F-21${debug}"
-        type = "program"
+        identifier = "sector-21${debug}"
+        type = "sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -772,8 +764,8 @@ object CentMSecteur {
     }
 
     fun TertiaireBatiment(debug: String) = catalogueI18n {
-        identifier = "F-50${debug}"
-        type = "program"
+        identifier = "sector-50${debug}"
+        type = "sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -808,8 +800,8 @@ object CentMSecteur {
     }
 
     fun Utilities(debug: String) = catalogueI18n {
-        identifier = "F-44${debug}"
-        type = "program"
+        identifier = "sector-44${debug}"
+        type = "sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -843,7 +835,7 @@ object CentMSecteur {
 
 object CentMSystem {
     fun Batiment(debug: String) = catalogueI18n {
-        identifier = "T-5${debug}"
+        identifier = "system-5${debug}"
         type = "system"
         img = getImg(IMG_SYSTEM)
         structure = Structure("item")
@@ -851,57 +843,96 @@ object CentMSystem {
         language("fr") {
             title = "Bâtiment"
             description = """
+                Un bâtiment a pour but d'isoler un espace afin de créer des conditions propres à une activité. 
+                Il est constitué d'une enveloppe et d'équipements consommateurs permettant d'assurer une 
+                atmosphère conditionnée. La structure et l'aménagement du bâtiment sont liés à son usage.
             """.trimIndent()
         }
         language("en") {
             title = "Building"
             description = """
+                A building is to isolate an area to create activity-specific conditions. 
+                It consists of an envelope and consumer equipment to ensure a conditioned atmosphere. 
+                The structure and layout of the building are related to its use.
             """.trimIndent()
         }
         language("es") {
             title = "Edificio"
             description = """
+                Un edificio sirve para aislar una zona y crear unas condiciones específicas para cada actividad. 
+                Consta de una envolvente y equipos consumidores para garantizar una atmósfera acondicionada. 
+                La estructura y disposición del edificio están relacionadas con su uso.
             """.trimIndent()
         }
     }
 
     fun Cogeneration(debug: String) = catalogueI18n {
-        identifier = "T-31${debug}"
-        type = "program"
+        identifier = "system-31${debug}"
+        type = "system"
         img = getImg(IMG_SYSTEM)
         structure = Structure("item")
 
         language("fr") {
             title = "Cogénération"
-            description = """""".trimIndent()
+            description = """
+                La cogénération consiste en la production simultanée de chaleur et d'énergie électrique
+                (en anglais CHP, Combined Heat and Power). La chaleur habituellement perdue de certaines 
+                installations peut être récupérée pour générer de l'électricité. 
+                Selon la quantité de chaleur disponible et les niveaux de chaleur, plusieurs technologies 
+                peuvent être appliquées telles que les ORC, les moteurs à combustion interne, les moteurs Stirling, 
+                les cycles à vapeur...
+            """.trimIndent()
         }
         language("en") {
             title = "Cogeneration"
-            description = """""".trimIndent()
+            description = """
+                Combined heat and power (CHP) is the simultaneous production of heat and electrical energy.
+                (CHP, Combined Heat and Power). The heat usually lost from certain installations can be 
+                can be recovered to generate electricity. 
+                Depending on the amount of heat available and the heat levels required, several technologies 
+                technologies can be applied, such as ORC, internal combustion engines, Stirling engines 
+                steam cycles...
+            """.trimIndent()
         }
         language("es") {
             title = "Cogeneración"
-            description = """""".trimIndent()
+            description = """
+                La cogeneración es la producción simultánea de calor y energía eléctrica.
+                (CHP son las siglas de Combined Heat and Power). El calor que suelen perder algunas instalaciones puede 
+                puede recuperarse para generar electricidad. 
+                En función de la cantidad de calor disponible y de los niveles de calor requeridos, pueden aplicarse varias tecnologías 
+                tecnologías pueden aplicarse, como ORC, motores de combustión interna, motores Stirling 
+                ciclos de vapor, etc.
+            """.trimIndent()
         }
     }
 
     fun Dechets(debug: String) = catalogueI18n {
-        identifier = "T-49${debug}"
-        type = "program"
+        identifier = "system-49${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Déchets"
-            description = """""".trimIndent()
+            description = """
+                Le gestion des déchets est assez difficile à gérer du fait de l'hétérogénéité des matières. 
+                Les sociétés actuelles tendent vers une économie circulaire en terme de déchets.
+            """.trimIndent()
         }
         language("en") {
             title = "Waste"
-            description = """""".trimIndent()
+            description = """
+                Waste management is quite difficult because of the heterogeneity of the materials involved. 
+                Today's societies are moving towards a circular economy in terms of waste.
+            """.trimIndent()
         }
         language("es") {
             title = "Residuos"
-            description = """""".trimIndent()
+            description = """
+                La gestión de residuos es bastante difícil debido a la heterogeneidad de los materiales. 
+                Las sociedades actuales avanzan hacia una economía circular en materia de residuos.
+            """.trimIndent()
         }
 
         themes {
@@ -910,22 +941,31 @@ object CentMSystem {
     }
 
     fun Eau(debug: String) = catalogueI18n {
-        identifier = "T-27${debug}"
-        type = "program"
+        identifier = "system-27${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Eau"
-            description = """""".trimIndent()
+            description = """
+                La technologie de l'eau regroupe l'eau chaude sanitaire, 
+                l'eau utilisée pour les procédés industriels et l'assainissement de l'eau.
+            """.trimIndent()
         }
         language("en") {
             title = "Water"
-            description = """""".trimIndent()
+            description = """
+                Water technology covers domestic hot water, 
+                water used for industrial processes and water purification.
+            """.trimIndent()
         }
         language("es") {
             title = "Agua"
-            description = """""".trimIndent()
+            description = """
+                La tecnología del agua abarca el agua caliente sanitaria 
+                el agua utilizada en procesos industriales y la depuración del agua.
+            """.trimIndent()
         }
 
         themes {
@@ -934,22 +974,37 @@ object CentMSystem {
     }
 
     fun Management(debug: String) = catalogueI18n {
-        identifier = "T-2${debug}"
-        type = "program"
+        identifier = "system-2${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Management (ISO 50 001)"
-            description = """""".trimIndent()
+            description = """
+                Le management de l'énergie est illustré par l'ISO 50001 qui permet de mettre en place un 
+                Système de Management de l'Energie (SMEn) afin de développer une gestion méthodique de l'énergie.
+                Le SMEn repose sur la boucle d'amélioration continue Plan-Do-Check-Act (PDCA), 
+                bien connue pour la qualité (ISO 9001) et l'environnement (ISO 14001).
+            """.trimIndent()
         }
         language("en") {
             title = "Management (ISO 50 001)"
-            description = """""".trimIndent()
+            description = """
+                Energy management is illustrated by ISO 50001, which enables the implementation of an Energy Management System (EMS) to develop a methodical approach to energy management. 
+                Energy Management System (EMSn) to develop a methodical approach to energy management.
+                The EMSn is based on the Plan-Do-Check-Act (PDCA) continuous improvement loop, 
+                well-known for quality (ISO 9001) and the environment (ISO 14001).
+            """.trimIndent()
         }
         language("es") {
             title = "Gestión (ISO 50 001)"
-            description = """""".trimIndent()
+            description = """
+                La gestión de la energía se ilustra mediante la norma ISO 50001, que permite establecer un Sistema de Gestión de la Energía (SGE) para desarrollar una gestión metódica de la energía. 
+                Sistema de Gestión Energética (SGE) para desarrollar una gestión metódica de la energía.
+                El SGE se basa en el bucle de mejora continua Planificar-Hacer-Verificar-Actuar (PDCA), 
+                conocido para la calidad (ISO 9001) y el medio ambiente (ISO 14001).
+            """.trimIndent()
         }
 
         themes {
@@ -958,22 +1013,34 @@ object CentMSystem {
     }
 
     fun NouvellesEnergies(debug: String) = catalogueI18n {
-        identifier = "T-36${debug}"
-        type = "program"
+        identifier = "system-36${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Nouvelles énergies"
-            description = """""".trimIndent()
+            description = """
+                Les nouvelles énergies regroupent les sources d'énergies durables telles que les biocarburants, 
+                la biomasse solide, l'éolien, la géothermie, la gazéification, l'hydraulique, l'hydrogène,
+                la méthanisation et l'énergie solaire (photovoltaïque et thermique).
+            """.trimIndent()
         }
         language("en") {
             title = "New energies"
-            description = """""".trimIndent()
+            description = """
+                New energies include sustainable energy sources such as biofuels, 
+                solid biomass, wind power, geothermal energy, gasification, hydraulics and hydrogen,
+                methanization and solar energy (photovoltaic and thermal).
+            """.trimIndent()
         }
         language("es") {
             title = "Nuevas energías"
-            description = """""".trimIndent()
+            description = """
+                Las nuevas energías incluyen fuentes de energía sostenibles como los biocombustibles 
+                la biomasa sólida, la energía eólica, la energía geotérmica, la gasificación, la energía hidroeléctrica y el hidrógeno,
+                la metanización y la energía solar (fotovoltaica y térmica).
+            """.trimIndent()
         }
 
         themes {
@@ -982,22 +1049,40 @@ object CentMSystem {
     }
 
     fun Procedes(debug: String) = catalogueI18n {
-        identifier = "T-19${debug}"
-        type = "program"
+        identifier = "system-19${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Procédés"
-            description = """""".trimIndent()
+            description = """
+                Sur un site industriel, les procédés regroupent les lignes de production et les unités 
+                de fabrication d'un produit donné. Certains procédés sont génériques et peuvent être utilisés 
+                dans la fabrication de nombreux types de produits. C'est le cas des fours par exemple. 
+                D'autres, comme les lignes d'assemblage, sont conçus de manière ad hoc 
+                selon les besoins correspondant au produit fabriqué par l'entreprise.
+            """.trimIndent()
         }
         language("en") {
             title = "Processes"
-            description = """""".trimIndent()
+            description = """
+                On an industrial site, processes group together the production lines and manufacturing units for a given product. 
+                for a given product. Some processes are generic, and can be used 
+                in the manufacture of many different types of product. This is the case with furnaces, for example. 
+                Others, such as assembly lines, are designed on an ad hoc basis 
+                according to the needs of the product manufactured by the company.
+            """.trimIndent()
         }
         language("es") {
             title = "Procesos"
-            description = """""".trimIndent()
+            description = """
+                En una planta industrial, los procesos agrupan las líneas de producción y las unidades de fabricación de un producto determinado. 
+                fabricación de un producto determinado. Algunos procesos son genéricos y pueden utilizarse 
+                en la fabricación de muchos tipos de productos diferentes. Es el caso, por ejemplo, de los hornos. 
+                Otros, como las cadenas de montaje, se diseñan ad hoc 
+                en función de las necesidades del producto fabricado por la empresa.
+            """.trimIndent()
         }
 
         themes {
@@ -1006,22 +1091,31 @@ object CentMSystem {
     }
 
     fun TechnologiesEnergetiques(debug: String) = catalogueI18n {
-        identifier = "T-47${debug}"
-        type = "program"
+        identifier = "system-47${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
         language("fr") {
             title = "Technologies énergétiques"
-            description = """""".trimIndent()
+            description = """
+                Le groupe des technologies énergétiques regroupe les technologies de la capture et du stockage de CO2, 
+                les réseaux de chaleur, les smart grids, les smart meters, le stockage d'énergie et les transports.
+            """.trimIndent()
         }
         language("en") {
             title = "Energy technologies"
-            description = """""".trimIndent()
+            description = """
+                The energy technologies group includes technologies for CO2 capture and storage, 
+                heating networks, smart grids, smart meters, energy storage and transport.
+            """.trimIndent()
         }
         language("es") {
             title = "Tecnologías energéticas"
-            description = """""".trimIndent()
+            description = """
+                El grupo de tecnologías energéticas abarca las tecnologías de captura y almacenamiento de CO2, 
+                redes de calefacción, redes inteligentes, contadores inteligentes, almacenamiento de energía y transporte.
+            """.trimIndent()
         }
 
         themes {
@@ -1030,8 +1124,8 @@ object CentMSystem {
     }
 
     fun Utilites(debug: String) = catalogueI18n {
-        identifier = "T-10${debug}"
-        type = "program"
+        identifier = "system-10${debug}"
+        type = "system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1065,8 +1159,8 @@ object CentMSystem {
         }
 
         childCatalogue {
-            identifier = "T-15${debug}"
-            type = "program"
+            identifier = "system-15${debug}"
+            type = "system"
             structure = Structure("item")
             img = getImg(IMG_SYSTEM)
 
@@ -1096,8 +1190,8 @@ object CentMSystem {
             }
 
             childCatalogue {
-                identifier = "T-191${debug}"
-                type = "program"
+                identifier = "system-191${debug}"
+                type = "system"
                 structure = Structure("item")
                 img = getImg(IMG_SYSTEM)
 
@@ -1119,7 +1213,7 @@ object CentMSystem {
 
                 childCatalogue {
                     identifier = "S-719${debug}"
-                    type = "program"
+                    type = "system"
                     structure = Structure("item")
                     img = getImg(IMG_SOLUTION)
 

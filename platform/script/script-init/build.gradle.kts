@@ -19,5 +19,4 @@ dependencies {
 	Dependencies.Jvm.Cccev.client(::implementation)
 	Dependencies.Jvm.Test.dataFaker(::implementation)
 	Dependencies.Jvm.junit(::testImplementation)
-
 }
