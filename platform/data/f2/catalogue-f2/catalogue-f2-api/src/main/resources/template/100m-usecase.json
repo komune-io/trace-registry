@@ -1,0 +1,10 @@
+{
+  "type": "100m-usecase",
+  "datasets": [{
+    "type": "lexical",
+    "identifierSuffix": "-lexical"
+  }, {
+    "type": "resources",
+    "identifierSuffix": "-resources"
+  }]
+}

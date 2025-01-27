@@ -332,7 +332,7 @@ object CentMThemes {
 object CentMSecteur {
     fun AgricultureBois(debug: String) = catalogueI18n {
         identifier = "sector-2${debug}"
-        type = "sector"
+        type = "100m-sector"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
 
@@ -363,7 +363,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-3${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -394,7 +394,7 @@ object CentMSecteur {
 
             childCatalogue {
                 identifier = "objectif100m-secteur-AgricultureBois-Bois-EtudeDeCas${debug}"
-                type = "sector"
+                type = "100m-usecase"
                 structure = Structure("item")
                 img = getImg(IMG_USECASE)
 
@@ -419,7 +419,7 @@ object CentMSecteur {
 
                 childCatalogue {
                     identifier = "E-84${debug}"
-                    type = "sector"
+                    type = "100m-usecase"
                     structure = Structure("item")
                     img = getImg(IMG_USECASE)
                     language("fr") {
@@ -446,7 +446,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-4${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -478,7 +478,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-5${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -510,7 +510,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-6${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -542,7 +542,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-7${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
 
@@ -598,7 +598,7 @@ object CentMSecteur {
 
         childCatalogue {
             identifier = "sector-8${debug}"
-            type = "sector"
+            type = "100m-sector"
             img = getImg(IMG_SECTEUR)
             structure = Structure("item")
             language("fr") {
@@ -630,7 +630,7 @@ object CentMSecteur {
 
     fun AgroAlimentaire(debug: String) = catalogueI18n {
         identifier = "sector-9${debug}"
-        type = "sector"
+        type = "100m-sector"
         img = getImg(IMG_SECTEUR)
         structure = Structure("item")
 
@@ -666,7 +666,7 @@ object CentMSecteur {
 
     fun Chimie(debug: String) = catalogueI18n {
         identifier = "sector-18${debug}"
-        type = "sector"
+        type = "100m-sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -699,7 +699,7 @@ object CentMSecteur {
 
     fun Industrie(debug: String) = catalogueI18n {
         identifier = "sector-33${debug}"
-        type = "sector"
+        type = "100m-sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -732,7 +732,7 @@ object CentMSecteur {
 
     fun IndustrieLourde(debug: String) = catalogueI18n {
         identifier = "sector-21${debug}"
-        type = "sector"
+        type = "100m-sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -765,7 +765,7 @@ object CentMSecteur {
 
     fun TertiaireBatiment(debug: String) = catalogueI18n {
         identifier = "sector-50${debug}"
-        type = "sector"
+        type = "100m-sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -801,7 +801,7 @@ object CentMSecteur {
 
     fun Utilities(debug: String) = catalogueI18n {
         identifier = "sector-44${debug}"
-        type = "sector"
+        type = "100m-sector"
         structure = Structure("item")
         img = getImg(IMG_SECTEUR)
 
@@ -836,7 +836,7 @@ object CentMSecteur {
 object CentMSystem {
     fun Batiment(debug: String) = catalogueI18n {
         identifier = "system-5${debug}"
-        type = "system"
+        type = "100m-system"
         img = getImg(IMG_SYSTEM)
         structure = Structure("item")
 
@@ -868,7 +868,7 @@ object CentMSystem {
 
     fun Cogeneration(debug: String) = catalogueI18n {
         identifier = "system-31${debug}"
-        type = "system"
+        type = "100m-system"
         img = getImg(IMG_SYSTEM)
         structure = Structure("item")
 
@@ -909,7 +909,7 @@ object CentMSystem {
 
     fun Dechets(debug: String) = catalogueI18n {
         identifier = "system-49${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -942,7 +942,7 @@ object CentMSystem {
 
     fun Eau(debug: String) = catalogueI18n {
         identifier = "system-27${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -975,7 +975,7 @@ object CentMSystem {
 
     fun Management(debug: String) = catalogueI18n {
         identifier = "system-2${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1014,7 +1014,7 @@ object CentMSystem {
 
     fun NouvellesEnergies(debug: String) = catalogueI18n {
         identifier = "system-36${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1050,7 +1050,7 @@ object CentMSystem {
 
     fun Procedes(debug: String) = catalogueI18n {
         identifier = "system-19${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1092,7 +1092,7 @@ object CentMSystem {
 
     fun TechnologiesEnergetiques(debug: String) = catalogueI18n {
         identifier = "system-47${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1125,7 +1125,7 @@ object CentMSystem {
 
     fun Utilites(debug: String) = catalogueI18n {
         identifier = "system-10${debug}"
-        type = "system"
+        type = "100m-system"
         structure = Structure("item")
         img = getImg(IMG_SYSTEM)
 
@@ -1160,7 +1160,7 @@ object CentMSystem {
 
         childCatalogue {
             identifier = "system-15${debug}"
-            type = "system"
+            type = "100m-system"
             structure = Structure("item")
             img = getImg(IMG_SYSTEM)
 
@@ -1191,7 +1191,7 @@ object CentMSystem {
 
             childCatalogue {
                 identifier = "system-191${debug}"
-                type = "system"
+                type = "100m-system"
                 structure = Structure("item")
                 img = getImg(IMG_SYSTEM)
 
@@ -1213,7 +1213,7 @@ object CentMSystem {
 
                 childCatalogue {
                     identifier = "S-719${debug}"
-                    type = "system"
+                    type = "100m-solution"
                     structure = Structure("item")
                     img = getImg(IMG_SOLUTION)
 
