@@ -10,7 +10,6 @@ services:
     ports:
      - "6379:6379"
      - "8011:8001"
-
     networks:
       - net
 
