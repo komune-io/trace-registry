@@ -36,6 +36,14 @@ fun <T> T.toJson(): String {
 }
 
 inline fun <reified R: Any> parseFile(path: String): R {
+    return parseFileOrNull<R>(path)
+        ?: throw IllegalArgumentException("File not found: $path")
+}
+
+inline fun <reified R: Any> parseFileOrNull(path: String): R? {
     val file = PathMatchingResourcePatternResolver().getResource(path)
+    if (!file.exists()) {
+        return null
+    }
     return jsonMapper.readValue(file.inputStream, R::class.java)
 }

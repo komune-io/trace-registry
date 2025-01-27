@@ -4,6 +4,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
+import io.komune.registry.f2.catalogue.api.service.CatalogueCreationService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.toCommand
@@ -47,7 +48,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping
 class CatalogueEndpoint(
-    private val catalogueService: CatalogueAggregateService,
+    private val catalogueAggregateService: CatalogueAggregateService,
+    private val catalogueCreationService: CatalogueCreationService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
@@ -111,7 +113,7 @@ class CatalogueEndpoint(
     override fun catalogueCreate(): CatalogueCreateFunction = f2Function { cmd ->
         logger.info("catalogueCreate: $cmd")
         cataloguePoliciesEnforcer.checkCreation()
-        catalogueService.create(cmd.toCommand()).toDTO()
+        catalogueCreationService.create(cmd)
     }
 
     @PermitAll
@@ -119,21 +121,21 @@ class CatalogueEndpoint(
     override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { cmd ->
         logger.info("catalogueDelete: $cmd")
         cataloguePoliciesEnforcer.checkDelete(cmd.id)
-        catalogueService.delete(cmd).toDTO()
+        catalogueAggregateService.delete(cmd).toDTO()
     }
 
     @PermitAll
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
         cataloguePoliciesEnforcer.checkLinkCatalogues()
-        catalogueService.linkCatalogues(cmd.toCommand()).toDTO()
+        catalogueAggregateService.linkCatalogues(cmd.toCommand()).toDTO()
     }
     @PermitAll
     @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->
         logger.info("catalogueLinkDatasets: $cmd")
         cataloguePoliciesEnforcer.checkLinkDatasets()
-        catalogueService.linkDatasets(cmd.toCommand()).toDTO()
+        catalogueAggregateService.linkDatasets(cmd.toCommand()).toDTO()
     }
 
     @PermitAll
@@ -141,7 +143,7 @@ class CatalogueEndpoint(
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { cmd ->
         logger.info("catalogueLinkThemes: $cmd")
         cataloguePoliciesEnforcer.checkLinkThemes()
-        catalogueService.linkThemes(cmd.toCommand()).toDTO()
+        catalogueAggregateService.linkThemes(cmd.toCommand()).toDTO()
     }
 
     @PostMapping("/catalogueSetImage")
@@ -157,7 +159,7 @@ class CatalogueEndpoint(
                 objectId = cmd.id,
             ).path
         }
-        val result = catalogueService.setImageCommand(
+        val result = catalogueAggregateService.setImageCommand(
             cmd = CatalogueSetImageCommand(
                 id = cmd.id,
                 img = filePath,

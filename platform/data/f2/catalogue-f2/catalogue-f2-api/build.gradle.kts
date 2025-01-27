@@ -4,12 +4,12 @@ plugins {
 }
 
 dependencies {
-    api(project(":platform:data:f2:catalogue-f2:catalogue-f2-domain"))
+    api(project(Modules.data.f2.catalogue.domain))
 
-    implementation(project(":platform:data:s2:catalogue:catalogue-api"))
-    implementation(project(":platform:data:f2:dataset-f2:dataset-f2-api"))
+    implementation(project(Modules.data.f2.dataset.api))
+    implementation(project(Modules.data.s2.catalogue.api))
 
-
-    implementation(project(":platform:api:api-config"))
-    implementation(project(":platform:infra:fs"))
+    implementation(project(Modules.api.config))
+    implementation(project(Modules.infra.fs))
+    implementation(project(Modules.infra.postgresql))
 }

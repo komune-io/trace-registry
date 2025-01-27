@@ -11,7 +11,6 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkedThemesEventDTOB
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
-import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
@@ -24,11 +23,7 @@ import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
 
-suspend fun List<DatasetModel>.toDTO(datasetFinderService: DatasetFinderService) = map {
-    it.toDTO(datasetFinderService)
-}
-
-suspend fun DatasetModel.toDTO(datasetFinderService: DatasetFinderService): DatasetDTOBase {
+fun DatasetModel.toDTO(): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
         identifier = identifier,

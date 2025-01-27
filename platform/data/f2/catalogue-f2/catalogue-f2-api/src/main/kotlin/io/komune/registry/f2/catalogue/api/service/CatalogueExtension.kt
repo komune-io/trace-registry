@@ -15,6 +15,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -27,26 +28,20 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-
-suspend fun List<CatalogueModel>.toDTO(
-    catalogueFinderService: CatalogueFinderService
-) = map {
-    it.toDTO(catalogueFinderService)
-}
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 
 suspend fun CatalogueModel.toDTO(
-    catalogueFinderService: CatalogueFinderService,
+    getCatalogue: suspend (String) -> CatalogueModel?,
+    getDataset: suspend (String) -> DatasetModel?,
 ): CatalogueDTOBase {
-    val cataloguesFetched = catalogues?.mapNotNull {
-        catalogueFinderService.getOrNull(it)?.toRefDTO()
-    }
     return CatalogueDTOBase(
         id = id,
         identifier = identifier,
         status = status,
         title = title,
         description = description,
-        catalogues = cataloguesFetched,
+        catalogues = catalogues?.mapNotNull { getCatalogue(it)?.toRefDTO() },
+        datasets = datasets?.mapNotNull { getDataset(it)?.toDTO() },
         themes = themes,
         type = type,
         language = language,
@@ -93,7 +88,7 @@ suspend fun CatalogueModel.toRefTreeDTO(catalogueFinderService: CatalogueFinderS
     )
 }
 
-fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
+fun CatalogueCreateCommandDTOBase.toCommand(identifier: String) = CatalogueCreateCommand(
     identifier = identifier,
     title = title,
     description = description,
