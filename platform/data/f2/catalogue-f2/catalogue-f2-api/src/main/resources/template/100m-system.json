@@ -1,0 +1,10 @@
+{
+  "type": "100m-system",
+  "datasets": [{
+    "type": "lexical",
+    "identifierSuffix": "-lexical"
+  }, {
+    "type": "resources",
+    "identifierSuffix": "-resources"
+  }]
+}

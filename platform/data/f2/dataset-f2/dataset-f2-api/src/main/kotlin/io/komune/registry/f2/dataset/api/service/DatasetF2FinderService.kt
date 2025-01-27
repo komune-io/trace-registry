@@ -20,7 +20,7 @@ class DatasetF2FinderService(
     suspend fun getById(
         id: DatasetIdentifier,
     ): DatasetDTOBase? {
-        return datasetFinderService.getOrNull(id)?.toDTO(datasetFinderService)
+        return datasetFinderService.getOrNull(id)?.toDTO()
     }
 
     suspend fun getAllRefs(): DatasetRefListResult {
@@ -32,7 +32,7 @@ class DatasetF2FinderService(
         identifier: DatasetIdentifier,
         language: String
     ): DatasetDTOBase? {
-        return datasetFinderService.getOrNullByIdentifier(identifier, language)?.toDTO(datasetFinderService)
+        return datasetFinderService.getOrNullByIdentifier(identifier, language)?.toDTO()
     }
 
     suspend fun page(
@@ -49,7 +49,7 @@ class DatasetF2FinderService(
             offset = offset
         )
         return DatasetPageResult(
-            items = datasets.items.toDTO(datasetFinderService),
+            items = datasets.items.map { it.toDTO() },
             total = datasets.total
         )
     }
