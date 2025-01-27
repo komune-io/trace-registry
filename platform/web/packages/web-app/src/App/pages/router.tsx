@@ -8,7 +8,7 @@ import {CataloguesRouter} from "./Catalogue/CataloguesRouter/CataloguesRouter";
 export const registryPages: PageRoute[] = [
   {
     path: "",
-    element: <CataloguesRouter root="catalogues" />
+    element: <CataloguesRouter root="objectif100m-secteur" />
   },
   {
     path: "projects",
