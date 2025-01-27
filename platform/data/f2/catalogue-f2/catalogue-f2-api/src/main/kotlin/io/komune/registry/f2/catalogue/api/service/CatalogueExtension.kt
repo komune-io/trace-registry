@@ -88,7 +88,7 @@ suspend fun CatalogueModel.toRefTreeDTO(catalogueFinderService: CatalogueFinderS
     )
 }
 
-fun CatalogueCreateCommandDTOBase.toCommand() = CatalogueCreateCommand(
+fun CatalogueCreateCommandDTOBase.toCommand(identifier: String) = CatalogueCreateCommand(
     identifier = identifier,
     title = title,
     description = description,

@@ -1,5 +1,6 @@
 {
   "type": "100m-usecase",
+  "identifierSequence": "seq_100m_usecase",
   "datasets": [{
     "type": "lexical",
     "identifierSuffix": "-lexical"

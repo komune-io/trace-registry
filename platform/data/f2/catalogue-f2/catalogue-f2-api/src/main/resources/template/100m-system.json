@@ -1,5 +1,6 @@
 {
   "type": "100m-system",
+  "identifierSequence": "seq_100m_system",
   "datasets": [{
     "type": "lexical",
     "identifierSuffix": "-lexical"
