@@ -3,7 +3,6 @@ package io.komune.registry.f2.catalogue.api
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
-import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
@@ -172,16 +171,14 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/catalogues/{catalogueId}/logo")
-    suspend fun catalogueLogoDownload(
+    @GetMapping("/catalogues/{catalogueId}/img")
+    suspend fun catalogueImgDownload(
         @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> {
         logger.info("catalogueLogoDownload: $catalogueId")
         val file = serveFile(fileClient) {
             logger.info("serveFile: $catalogueId")
-            catalogueFinderService.getOrNull(catalogueId)
-                ?.img
-                ?.let { FilePath.from(it) }
+            fsService.getCatalogueFilePath(catalogueId)
         }
         logger.info("servedFile: $catalogueId")
         return file
