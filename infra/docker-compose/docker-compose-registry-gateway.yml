@@ -23,7 +23,6 @@ services:
       - platform_brevo_debug_enable=${PLATFORM_BREVO_DEBUG_ENABLE}
       - platform_brevo_debug_email=${REGISTRY_BREVO_DEBUG_EMAIL}
       - platform_brevo_contact-list=${REGISTRY_BREVO_CONTACT_LIST}
-
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-gateway.loadbalancer.server.port: 7000
