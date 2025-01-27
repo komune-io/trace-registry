@@ -2,6 +2,7 @@ import {useCataloguesRouteParams, useCatalogueGetByIdentifierQuery} from 'domain
 import { CatalogueViewPage } from '../CatalogueViewPage/CatalogueViewPage'
 import { CatalogueListPage } from '../CatalogueListPage/CatalogueListPage'
 import { useTranslation } from 'react-i18next'
+import { NoMatchPage } from '@komune-io/g2'
 
 interface CataloguesRouterProps {
     root: string
@@ -18,6 +19,7 @@ export const CataloguesRouter = (props: CataloguesRouterProps) => {
             language: i18n.language
         }
     })
+    if (!catalogueGet.isLoading && !catalogueGet.data?.item) return <NoMatchPage />
     return catalogueGet.data?.item?.structure?.type === "item" ? (
         <CatalogueViewPage isLoading={catalogueGet.isInitialLoading} catalogue={catalogueGet.data.item} />
     ) : (
