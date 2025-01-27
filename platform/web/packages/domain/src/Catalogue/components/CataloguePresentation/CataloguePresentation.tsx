@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
 import { config } from "../../../config";
+import { useCatalogueIdentifierNumber } from "../../api";
 
 export interface CataloguePresentationProps {
     catalogue?: Catalogue
@@ -9,7 +10,7 @@ export interface CataloguePresentationProps {
 
 export const CataloguePresentation = (props: CataloguePresentationProps) => {
     const { catalogue } = props
-
+    const identifierNumber = useCatalogueIdentifierNumber(catalogue)
     return (
         <Stack
             direction="row"
@@ -46,7 +47,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                         variant='subtitle1'
                         color="primary"
                     >
-                        {catalogue?.identifier}
+                        {identifierNumber}
                     </Typography>
                 </Stack>
                 <Typography>
