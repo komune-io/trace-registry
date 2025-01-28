@@ -11,7 +11,7 @@ export interface EditableTitleProps extends Omit<InputBaseProps, "onChange" | "s
 }
 
 export const EditableTitle = forwardRef((props: EditableTitleProps, ref?: ForwardedRef<HTMLInputElement>) => {
-    const { title, onChange, onDebouncedChange, placeholder, inputProps, sx, size = "h5", readOnly = false, ...other } = props
+    const { title, onChange, onDebouncedChange, placeholder, inputProps, sx, size = "h5", readOnly = false, onClick, ...other } = props
 
     const debounced = useDebouncedCallback(async (value: string) => {
         onDebouncedChange && onDebouncedChange(value)
@@ -26,11 +26,13 @@ export const EditableTitle = forwardRef((props: EditableTitleProps, ref?: Forwar
         [onChange],
     )
 
-    if (readOnly) return <Typography variant={size}>{title}</Typography>
+    if (readOnly) return <Typography onClick={onClick} variant={size}>{title}</Typography>
     return (
         <InputBase
-            ref={ref}
+            inputRef={ref}
+            onClick={onClick}
             sx={{
+                width: "100%",
                 fontSize: size === "h5" ? "1.5rem" : size === "h6" ? "1.25rem" : "1rem",
                 fontWeight: size === "subtitle1" ? 600 : 400,
                 "& .MuiInputBase-input::placeholder": {

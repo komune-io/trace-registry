@@ -1,7 +1,7 @@
 import { Divider, Stack, IconButton, Box } from '@mui/material'
 import { Chip } from "@komune-io/g2"
 import { EditableTitle, EditableTitleProps } from '../EditableTitle'
-import { useRef, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { EditRounded } from '@mui/icons-material'
 
 export interface TitleDividerProps extends Omit<EditableTitleProps, "ref"> {
@@ -16,16 +16,22 @@ export interface TitleDividerProps extends Omit<EditableTitleProps, "ref"> {
 export const TitleDivider = (props: TitleDividerProps) => {
     const { title, status, size = "h5", onDebouncedChange, onChange, ...other } = props
 
-    const inputRef = useRef<HTMLInputElement | null>(null)
-    const readOnly = !onDebouncedChange && !onChange
+    const [readOnly, setreadOnly] = useState(true)
 
-    const focusOnClick = useCallback(
-      () => {
-        inputRef.current?.focus()
-      },
-      [],
+    const onInputRef = useCallback(
+        (ref: HTMLInputElement | null) => {
+            ref?.focus()
+        },
+        [],
     )
-    
+
+    const editOnTitleClick = useCallback(
+        () => {
+            setreadOnly(false)
+        },
+        [],
+    )
+
 
     return (
         <Stack
@@ -37,18 +43,20 @@ export const TitleDivider = (props: TitleDividerProps) => {
                 alignItems="center"
             >
                 <EditableTitle
+                    ref={onInputRef}
                     size={size}
                     title={title}
                     onChange={onChange}
                     onDebouncedChange={onDebouncedChange}
                     readOnly={readOnly}
+                    onClick={editOnTitleClick}
                     {...other}
                 />
-                {!readOnly && <IconButton
-                    size={size === "subtitle1" ? "small" : "medium"}
-                    onClick={focusOnClick}
+                {readOnly && <IconButton
+                    size="small"
+                    onClick={editOnTitleClick}
                 >
-                    <EditRounded />
+                    <EditRounded fontSize={size === "subtitle1" ? "small" : "medium"} />
                 </IconButton>
                 }
                 <Box flex={1} />
