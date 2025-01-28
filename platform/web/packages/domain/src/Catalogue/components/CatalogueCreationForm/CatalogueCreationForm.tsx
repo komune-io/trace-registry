@@ -1,7 +1,10 @@
 import { Button, FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { Paper } from '@mui/material'
-import { useMemo } from 'react'
+import { SearchIcon } from 'components'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useCataloguePageQuery } from '../../api'
+import { keepPreviousData } from '@tanstack/react-query'
 
 interface CatalogueCreationFormProps {
     type: "solution" | "system" | "sector"
@@ -13,12 +16,32 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
 
     const { t } = useTranslation()
 
+    const [searchCatalogues, setSearchCatalogues] = useState("")
+
+    const cataloguePageQuery = useCataloguePageQuery({
+        query: {
+           title: searchCatalogues,
+           limit: 20
+        },
+        options: {
+            enabled: !!searchCatalogues,
+            placeholderData: keepPreviousData
+        }
+    })
+
     const fields = useMemo((): FormComposableField[] => [{
         name: "parent",
         type: "autoComplete",
         label: "Fiche parente",
         params: {
-
+            popupIcon: <SearchIcon style={{transform: "none"}}/>,
+            className: "parentField",
+            onInputChange: (_, value) => setSearchCatalogues(value),
+            options: cataloguePageQuery.data?.items.map((cat) => ({
+                key: cat.id,
+                label: cat.title
+            })),
+            // onBlur: () => setSearchCatalogues("")
         },
         required: true
     }, {
@@ -70,7 +93,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
 
         },
         required: true
-    }], [t, type])
+    }], [t, type, cataloguePageQuery.data?.items])
 
     const formState = useFormComposable({
         onSubmit: onCreate
@@ -90,7 +113,10 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
                 formState={formState}
                 fieldsStackProps={{
                     sx: {
-                        gap: 5
+                        gap: 5,
+                        "& .parentField .MuiAutocomplete-popupIndicator": {
+                            transform: "none !important"
+                        }
                     }
                 }}
             />
