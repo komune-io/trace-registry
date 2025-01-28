@@ -10,6 +10,9 @@ const strictRoutesAuthorizations = {
     "transactions/:transactionId": "open",
     "transactions": "open",
     "catalogues": "open",
+    "catalogues/create/solution": "open",
+    "catalogues/create/system": "open",
+    "catalogues/create/sector": "open",
     "catalogues/*": "open",
 } as const
 

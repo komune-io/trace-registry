@@ -106,6 +106,10 @@
   "classification": "Clasificación",
   "versionManagement": "Gestión de versiones",
   "subCatalogues": "Subcatálogos",
+  "newCatalogue": "Nuevo catálogo",
+  "newSystem": "Nuevo sistema",
+  "newSolution":  "Nueva solución",
+  "newSector": "Nuevo sector",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

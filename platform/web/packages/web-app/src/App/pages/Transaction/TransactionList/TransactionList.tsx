@@ -44,7 +44,6 @@ export const TransactionList = () => {
       }}
     >
         <AppPage
-          flexContent
         >
             <Box alignSelf="center">
                 <Typography sx={{ marginBottom: "5px" }} align="center" variant="h4">{t("transactions.registry")}</Typography>

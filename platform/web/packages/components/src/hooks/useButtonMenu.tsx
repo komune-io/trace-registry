@@ -37,7 +37,7 @@ export const useButtonMenu = (params: useButtonMenuParams) => {
     }, [items, anchorEl, open, closeOnMenuClick, handleClose])
 
     // @ts-ignore
-    const buttonProps: Partial<ButtonProps> = useMemo(() => ({
+    const buttonProps: Partial<Omit<ButtonProps, 'variant'>> = useMemo(() => ({
         "aria-controls": open ? 'basic-menu' : undefined,
         "aria-haspopup": "true" as "true",
         "aria-expanded": open ? 'true' as "true" : undefined,
