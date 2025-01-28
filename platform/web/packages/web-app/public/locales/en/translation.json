@@ -110,6 +110,7 @@
   "newSystem": "New system",
   "newSolution": "New solution",
   "newSector": "New sector",
+  "create": "Create",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

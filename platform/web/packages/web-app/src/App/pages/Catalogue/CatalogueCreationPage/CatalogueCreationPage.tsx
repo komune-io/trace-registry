@@ -1,4 +1,5 @@
 import { TitleDivider } from 'components'
+import { CatalogueCreationForm } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
 
@@ -15,9 +16,10 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
         <AppPage
             title={title}
             bgcolor='background.default'
+            maxWidth={1020}
         >
             <TitleDivider title={title} onDebouncedChange={() => {}} />
-            {type}
+            <CatalogueCreationForm type={type} onCreate={() => {}} />
         </AppPage>
     )
 }

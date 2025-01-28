@@ -8,10 +8,11 @@ export interface AppPageProps extends StackProps {
     header?: ReactNode
     bgcolor?: string
     headerProps?: StackProps
+    maxWidth?: number
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, header, bgcolor, headerProps, sx, ...other } = props
+    const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, ...other } = props
 
     useEffect(() => {
       if (title) {
@@ -42,7 +43,7 @@ export const AppPage = (props: AppPageProps) => {
                         md: 4,
                         sm: 2,
                     },
-                    maxWidth: '1700px',
+                    maxWidth,
                     width: '100%',
                     flexGrow: 1,
                     ...sx
