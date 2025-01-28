@@ -49,7 +49,6 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     return (
         <AppPage
             title={title}
-            flexContent
             sx={{
                 paddingBottom:"90px"
             }}

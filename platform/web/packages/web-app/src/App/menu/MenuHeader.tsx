@@ -1,26 +1,30 @@
 import { AddCircleOutlineRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, useButtonMenu } from 'components'
+import { CustomButton, GridIcon, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const MenuHeader = () => {
 
+    const {cataloguesCreateSector, cataloguesCreateSolution, cataloguesCreateSystem} = useRoutesDefinition()
+
     const { t } = useTranslation()
 
-    const items = useMemo(() => [{
+    const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
         label: t("newSystem"),
         icon: <GridIcon />,
-
+        to: cataloguesCreateSystem()
     }, {
         key: "newSolution",
         label: t("newSolution"),
         icon: <GridIcon />,
+        to: cataloguesCreateSolution()
     }, {
         key: "newSector",
         label: t("newSector"),
         icon: <GridIcon />,
+        to: cataloguesCreateSector()
     }], [t])
 
     const { buttonProps, menu } = useButtonMenu({

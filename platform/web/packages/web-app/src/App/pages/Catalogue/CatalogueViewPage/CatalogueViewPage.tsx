@@ -68,7 +68,6 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     return (
         <AppPage
             title={catalogue?.title}
-            flexContent
         >
             <CatalogueBreadcrumbs />
             <SectionTab
