@@ -11,8 +11,8 @@ export const ProjectList = () => {
         query: submittedFilters
     })
     const { t } = useTranslation()
-    const {keycloak} = useExtendedAuth()
-    const {projectsCreateStep} = useRoutesDefinition()
+    const { keycloak } = useExtendedAuth()
+    const { projectsCreateStep } = useRoutesDefinition()
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
@@ -28,16 +28,10 @@ export const ProjectList = () => {
             }}
         >
             <AppPage
-                flexContent
+                header={keycloak.isAuthenticated ? <LinkButton to={projectsCreateStep("0")}  >{t("newProject")}</LinkButton> : undefined}
                 headerProps={{
-                    content: [
-                      {
-                        rightPart: [
-                          keycloak.isAuthenticated ? <LinkButton to={projectsCreateStep("0")} key="create" >{t("newProject")}</LinkButton> : undefined
-                        ]
-                      }
-                    ]
-                  }}
+                    justifyContent: "flex-end",
+                }}
             >
                 <Box alignSelf="center">
                     <Typography sx={{ marginBottom: "5px" }} align="center" variant="h4">{t("projects.registry")}</Typography>
