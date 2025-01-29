@@ -2,6 +2,8 @@ package io.komune.registry.program.s2.catalogue.api
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -56,6 +58,7 @@ class CatalogueFinderService(
 		title: Match<String>?,
 		parentIdentifier: String?,
 		language: String?,
+		type: Match<String>?,
 		status: Match<CatalogueState>?,
 		offset: OffsetPagination?
 	): PageDTO<CatalogueModel> {
@@ -80,6 +83,8 @@ class CatalogueFinderService(
 			),
 			identifier = identifier,
 			title = title,
+			language = language?.let { StringMatch(it, StringMatchCondition.EXACT) },
+			type = type,
 			status = status,
 			offset = offset,
 		).map {

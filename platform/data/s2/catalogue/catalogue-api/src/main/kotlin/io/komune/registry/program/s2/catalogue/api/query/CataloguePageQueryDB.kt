@@ -23,13 +23,16 @@ class CataloguePageQueryDB(
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
-        parentIdentifier: Match<CatalogueIdentifier>? = null,
+        language: Match<String>? = null,
+        type: Match<String>? = null,
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {
         match(`CatalogueEntity$`.ID, id)
         match(`CatalogueEntity$`.IDENTIFIER, identifier)
         match(`CatalogueEntity$`.TITLE, title)
+        match(`CatalogueEntity$`.LANGUAGE, language)
+        match(`CatalogueEntity$`.TYPE, type)
         match(`CatalogueEntity$`.STATUS as TextField<CatalogueEntity, CatalogueState>, status)
     }
 }

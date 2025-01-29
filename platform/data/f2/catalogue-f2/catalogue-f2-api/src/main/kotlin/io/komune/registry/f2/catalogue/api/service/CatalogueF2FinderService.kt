@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
@@ -47,8 +48,9 @@ class CatalogueF2FinderService(
     suspend fun page(
         catalogueId: String?,
         parentIdentifier: String?,
-        language: String,
+        language: String?,
         title: String?,
+        type: Match<String>?,
         status: String?,
         offset: OffsetPagination? = null
     ): CataloguePageResult {
@@ -60,6 +62,7 @@ class CatalogueF2FinderService(
             title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             parentIdentifier = parentIdentifier,
             language = language,
+            type = type,
             status = ExactMatch(defaultValue),
             offset = offset
         )

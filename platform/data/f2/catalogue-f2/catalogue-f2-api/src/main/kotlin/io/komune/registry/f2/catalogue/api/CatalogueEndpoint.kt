@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
@@ -69,7 +70,8 @@ class CatalogueEndpoint(
             title = query.title,
             status = query.status,
             parentIdentifier = query.parentIdentifier,
-            language = query.language ?: "fr",
+            language = query.language,
+            type = query.type?.let(::CollectionMatch),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000

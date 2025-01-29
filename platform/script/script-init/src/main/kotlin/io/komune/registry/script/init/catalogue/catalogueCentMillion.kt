@@ -12,7 +12,7 @@ const val IMG_SECTEUR = "100m/secteur.png"
 
 fun catalogueCentMillion(debug: String) = catalogueI18n {
     identifier = "objectif100m${debug}"
-    type = "standards"
+    type = "100m"
     structure = Structure("grid")
     language("fr") {
         title = "Objectif 100m"
@@ -42,7 +42,7 @@ fun catalogueCentMillion(debug: String) = catalogueI18n {
 
 fun Solution(debug: String) = catalogueI18n {
     identifier = "objectif100m-Solution${debug}"
-    type = "solution"
+    type = "100m-solutions"
     structure = Structure("item")
     img = getImg(IMG_SOLUTION)
     language("fr") {
@@ -73,7 +73,7 @@ fun Solution(debug: String) = catalogueI18n {
 
 fun Systeme(debug: String) = catalogueI18n {
     identifier = "objectif100m-systeme${debug}"
-    type = "system"
+    type = "100m-systems"
     structure = Structure("grid")
     img = getImg(IMG_SYSTEM)
     language("fr") {
@@ -116,7 +116,7 @@ fun Systeme(debug: String) = catalogueI18n {
 
 fun EtudeDeCas(debug: String) = catalogueI18n {
     identifier = "objectif100m-EtudeDeCas${debug}"
-    type = "projet"
+    type = "100m-usecases"
     structure = Structure("item")
     img = getImg(IMG_USECASE)
     language("fr") {
@@ -147,7 +147,7 @@ fun EtudeDeCas(debug: String) = catalogueI18n {
 
 fun Secteur(debug: String) = catalogueI18n {
     identifier = "objectif100m-secteur${debug}"
-    type = "sector"
+    type = "100m-sectors"
     structure = Structure("grid")
     img = getImg(IMG_SECTEUR)
     language("fr") {

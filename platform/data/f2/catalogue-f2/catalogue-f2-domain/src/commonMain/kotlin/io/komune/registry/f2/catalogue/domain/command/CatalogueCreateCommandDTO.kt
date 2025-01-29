@@ -31,6 +31,8 @@ interface CatalogueCreateCommandDTO {
      */
     val identifier: CatalogueIdentifier?
 
+    val parentId: CatalogueId?
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
      */
@@ -60,6 +62,7 @@ interface CatalogueCreateCommandDTO {
 @Serializable
 data class CatalogueCreateCommandDTOBase(
     override val identifier: CatalogueIdentifier? = null,
+    override val parentId: CatalogueId? = null,
     override val title: String,
     override val description: String? = null,
     override val type: String,

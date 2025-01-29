@@ -19,6 +19,7 @@ interface CatalogueFinder {
         title: Match<String>? = null,
         parentIdentifier: String? = null,
         language: String? = null,
+        type: Match<String>? = null,
         status: Match<CatalogueState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>
