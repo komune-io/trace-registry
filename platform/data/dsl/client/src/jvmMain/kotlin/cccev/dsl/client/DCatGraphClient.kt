@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import java.io.File
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 typealias Language = String
 typealias CatalogueKey = Pair<CatalogueIdentifier, Language>
@@ -138,10 +138,9 @@ class DCatGraphClient(
             themes = catalogue.themes,
         ).invokeWith(catalogueClient.catalogueCreate())
             .id
-            .also { println("Created catalogue ${catalogue.identifier} (${catalogue.language}) with id $it") }
             .also { catalogueId ->
                 catalogue.img?.let { img ->
-                    val ff = File(img).readBytes()
+                    val ff = PathMatchingResourcePatternResolver().getResource(img).contentAsByteArray
                     (CatalogueSetImageCommandDTOBase(
                         id = catalogueId,
                     ) to CatalogueFile(
@@ -149,7 +148,7 @@ class DCatGraphClient(
                         content = ff
                     )).invokeWith(catalogueClient.catalogueSetImageFunction())
                 }
-            }
+            }.also { println("Created catalogue ${catalogue.identifier} (${catalogue.language}) with id $it") }
     }
 
 //    private suspend fun initDataset(
