@@ -115,6 +115,10 @@
     "illustration": "Illustration",
     "category": "Catégorie",
     "parentSheet" : "Fiche parente",
+    "history": "Historique",
+    "delete": "Supprimer",
+    "sendForValidation": "Envoyer pour validation",
+    "draft": "Brouillon",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

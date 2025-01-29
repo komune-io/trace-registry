@@ -114,6 +114,10 @@
   "illustration": "Ilustración",
   "category": "Categoría",
   "parentSheet": "Hoja padre",
+  "history": "Historial",
+  "delete": "Eliminar",
+  "sendForValidation": "Enviar para validación",
+  "draft": "Borrador",
   "create": "Crear",
   "roles": {
     "super_admin": "Administrador global",

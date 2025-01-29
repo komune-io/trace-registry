@@ -115,6 +115,10 @@
   "illustration": "Illustration",
   "category": "Category",
   "parentSheet": "Parent sheet",
+  "history": "History",
+  "delete": "Delete",
+  "sendForValidation": "Send for validation",
+  "draft": "Draft",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
