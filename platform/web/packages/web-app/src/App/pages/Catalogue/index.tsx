@@ -1,15 +1,12 @@
 import {PageRoute} from "App/routes";
 import { CataloguesRouter } from "./CataloguesRouter/CataloguesRouter";
 import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreationPage";
+import { CatalogueEditionPage } from "./CatalogueEditionPage/CatalogueEditionPage";
 
 
 export const catalogPages: PageRoute[] = [
   {
     path: "catalogues",
-    element: <CataloguesRouter root="standards" />
-  },
-  {
-    path: "catalogues/*",
     element: <CataloguesRouter root="standards" />
   },
   {
@@ -23,5 +20,13 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/create/sector",
     element: <CatalogueCreationPage type="sector" />
+  },
+  {
+    path: "catalogues/:catalogueId/edit",
+    element: <CatalogueEditionPage  />
+  },
+  {
+    path: "catalogues/*",
+    element: <CataloguesRouter root="standards" />
   }
 ]

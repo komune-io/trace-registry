@@ -16,6 +16,8 @@ export interface TitleDividerProps extends Omit<EditableTitleProps, "ref"> {
 export const TitleDivider = (props: TitleDividerProps) => {
     const { title, status, size = "h5", onDebouncedChange, onChange, ...other } = props
 
+    const canEdit = !!onChange || !!onDebouncedChange
+
     const [readOnly, setreadOnly] = useState(true)
 
     const onInputRef = useCallback(
@@ -27,9 +29,9 @@ export const TitleDivider = (props: TitleDividerProps) => {
 
     const editOnTitleClick = useCallback(
         () => {
-            setreadOnly(false)
+            canEdit && setreadOnly(false)
         },
-        [],
+        [canEdit],
     )
 
 
@@ -52,7 +54,7 @@ export const TitleDivider = (props: TitleDividerProps) => {
                     onClick={editOnTitleClick}
                     {...other}
                 />
-                {readOnly && <IconButton
+                {readOnly && canEdit && <IconButton
                     size="small"
                     onClick={editOnTitleClick}
                 >

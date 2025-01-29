@@ -32,7 +32,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     const fields = useMemo((): FormComposableField[] => [{
         name: "parent",
         type: "autoComplete",
-        label: "Fiche parente",
+        label: t("parentSheet"),
         params: {
             popupIcon: <SearchIcon style={{transform: "none"}}/>,
             className: "parentField",
@@ -47,7 +47,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     }, {
         name: "description",
         type: "textField",
-        label: "description",
+        label: t("description"),
         params: {
             multiline: true,
             rows: 7
@@ -56,9 +56,10 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     }, {
         name: "illustration",
         type: "documentHandler",
-        label: "Illustration",
+        label: t("illustration"),
         params: {
             fileTypesAllowed: ["png", "jpeg", "svg"],
+            outterLabel: t("illustration"),
             isRequired: true
         },
         required: true
@@ -66,7 +67,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     ...(type === "solution" ? [{
         name: "category",
         type: "autoComplete",
-        label: "catégorie",
+        label: t("category"),
         params: {
 
         },
@@ -74,7 +75,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     }] as FormComposableField[] : []), {
         name: "access",
         type: "select",
-        label: "Accès",
+        label: t("access"),
         params: {
             options: [{
                 key: "public",
@@ -88,7 +89,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
     }, {
         name: "licence",
         type: "autoComplete",
-        label: "Licence",
+        label:  t("licence"),
         params: {
 
         },
