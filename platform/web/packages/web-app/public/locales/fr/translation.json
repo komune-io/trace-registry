@@ -111,6 +111,10 @@
     "newSolution": "Nouvelle solution",
     "newSector": "Nouveau secteur",
     "create": "Créer",
+    "description": "Description",
+    "illustration": "Illustration",
+    "category": "Catégorie",
+    "parentSheet" : "Fiche parente",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

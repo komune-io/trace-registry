@@ -108,8 +108,12 @@
   "subCatalogues": "Subcatálogos",
   "newCatalogue": "Nuevo catálogo",
   "newSystem": "Nuevo sistema",
-  "newSolution":  "Nueva solución",
+  "newSolution": "Nueva solución",
   "newSector": "Nuevo sector",
+  "description": "Descripción",
+  "illustration": "Ilustración",
+  "category": "Categoría",
+  "parentSheet": "Hoja padre",
   "create": "Crear",
   "roles": {
     "super_admin": "Administrador global",
