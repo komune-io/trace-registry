@@ -5,7 +5,8 @@
       "clientId": "${KC_APP_CLIENT_ID}",
       "clientSecret": "${KC_APP_CLIENT_SECRET}",
       "roles": [
-        "tr_orchestrator_admin"
+        "tr_orchestrator_admin",
+        "feat_im_all"
       ],
       "realmManagementRoles": [
         "manage-users",
@@ -18,7 +19,8 @@
       "clientId": "${KC_REGISTRY_SCRIPT_APP_CLIENT_ID}",
       "clientSecret": "${KC_REGISTRY_SCRIPT_APP_CLIENT_SECRET}",
       "roles": [
-        "tr_orchestrator_admin"
+        "tr_orchestrator_admin",
+        "feat_im_all"
       ],
       "realmManagementRoles": [
         "manage-users",

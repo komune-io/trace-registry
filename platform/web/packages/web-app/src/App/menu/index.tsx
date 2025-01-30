@@ -71,9 +71,9 @@ export const useMenu = (t: TFunction) => {
     ?.find(value => value.identifier == "objectif100m-secteur")
   const secteurSubMenu = secteurMenu?.catalogues?.map(mapCatalogueRef([secteurMenu.identifier], cataloguesAll))
 
-  const systemeMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
+  const systemMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
     ?.find(value => value.identifier == "objectif100m-systeme")
-  const systemSubMenu = systemeMenu?.catalogues?.map(mapCatalogueRef([systemeMenu.identifier], cataloguesAll))
+  const systemSubMenu = systemMenu?.catalogues?.map(mapCatalogueRef([systemMenu.identifier], cataloguesAll))
 
 
   const menu: MenuItem[] = useMemo(() => {
@@ -87,10 +87,10 @@ export const useMenu = (t: TFunction) => {
       }),
       {
         key: "systems",
-        to: cataloguesAll(systemeMenu?.identifier),
+        to: cataloguesAll(systemMenu?.identifier),
         label: t("systems"),
         icon: <GridIcon />,
-        isSelected: location.pathname.includes(cataloguesAll(systemeMenu?.identifier)),
+        isSelected: location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
         items: systemSubMenu ?? []
       },
       {

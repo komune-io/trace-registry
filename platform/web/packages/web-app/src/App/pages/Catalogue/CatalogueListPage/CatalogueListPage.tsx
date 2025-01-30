@@ -17,7 +17,7 @@ interface CatalogueViewPageProps {
 
 export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const { submittedFilters, setOffset, setAdditionalFilter } = useCatalogueFilters({
         initialValues: {
@@ -26,6 +26,7 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     })
     const {data, isInitialLoading}  = useCataloguePageQuery({
         query: {
+            language: i18n.language,
             parentIdentifier: catalogue?.identifier,
             ...submittedFilters
         },
