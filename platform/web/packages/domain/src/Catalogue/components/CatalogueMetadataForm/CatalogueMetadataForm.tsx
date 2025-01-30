@@ -5,17 +5,15 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCataloguePageQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
-import { Catalogue } from '../../model'
 
 interface CatalogueMetadataFormProps {
     type: "solution" | "system" | "sector"
     onSubmit: (values: any) => void
-    catalogue?: Catalogue
     formState?: FormComposableState
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { type, onSubmit, catalogue, formState } = props
+    const { type, onSubmit, formState } = props
 
     const { t } = useTranslation()
 
@@ -130,7 +128,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                 alignSelf: "flex-end"
             }}
             >
-                {catalogue ? t("create") : t("save")}
+                {t("create")}
             </Button>}
         </Paper>
     )
