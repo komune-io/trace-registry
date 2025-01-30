@@ -1,4 +1,4 @@
-import { TitleDivider } from 'components'
+import { languages, LanguageSelector, TitleDivider } from 'components'
 import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useParams } from "react-router-dom";
@@ -55,6 +55,13 @@ export const CatalogueEditionPage = () => {
     >
       <CatalogueEditionHeader onSave={onSave} catalogue={catalogue} />
       <TitleDivider title={title} onDebouncedChange={() => { }} />
+      <LanguageSelector
+        //@ts-ignore
+        languages={languages}
+        currentLanguage='fr'
+        onChange={() => { }}
+        sx={{ alignSelf: "flex-end", mb: -8}}
+      />
       <SectionTab
         keepMounted
         tabs={tabs}
