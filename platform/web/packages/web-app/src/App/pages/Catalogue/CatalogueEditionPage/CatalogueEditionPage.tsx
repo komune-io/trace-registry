@@ -1,9 +1,10 @@
 import { TitleDivider } from 'components'
-import { CatalogueCreationForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useParams } from "react-router-dom";
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useFormComposable } from '@komune-io/g2';
 
 export const CatalogueEditionPage = () => {
   const { catalogueId } = useParams()
@@ -18,19 +19,33 @@ export const CatalogueEditionPage = () => {
 
   const title = catalogue?.title ?? "Sheet edition"
 
+  const metadataFormState = useFormComposable({
+  })
+
   const tabs: Tab[] = useMemo(() => {
     const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueCreationForm onCreate={() => {}} type='solution' />,
-    },{
+      component: <CatalogueMetadataForm formState={metadataFormState} onSubmit={() => { }} type='solution' />,
+    }, {
       key: 'info',
       label: t('informations'),
       component: <CatalogueSections sections={[md, md]} catalogue={catalogue} />,
-    }, 
+    },
     ]
     return tabs
-  }, [t, catalogue])
+  }, [t, catalogue, metadataFormState])
+
+  const onSave = useCallback(
+    async () => {
+      const errors = await metadataFormState.validateForm()
+      if (Object.keys(errors).length > 0) {
+        setTab("metadata")
+      }
+      return
+    },
+    [metadataFormState.values],
+  )
 
   return (
     <AppPage
@@ -38,17 +53,13 @@ export const CatalogueEditionPage = () => {
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader catalogue={catalogue} />
+      <CatalogueEditionHeader onSave={onSave} catalogue={catalogue} />
       <TitleDivider title={title} onDebouncedChange={() => { }} />
       <SectionTab
+        keepMounted
         tabs={tabs}
         currentTab={tab}
         onTabChange={(_, value) => setTab(value)}
-        sx={{
-          "& .AruiSection-contentContainer": {
-            gap: (theme) => theme.spacing(5)
-          }
-        }}
       />
     </AppPage>
   )

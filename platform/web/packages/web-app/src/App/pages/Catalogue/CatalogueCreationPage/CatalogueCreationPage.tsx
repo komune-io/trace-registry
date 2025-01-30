@@ -1,5 +1,5 @@
 import { TitleDivider } from 'components'
-import { CatalogueCreationForm } from 'domain-components'
+import { CatalogueMetadataForm } from 'domain-components'
 import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
@@ -38,7 +38,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             maxWidth={1020}
         >
             <TitleDivider onChange={onChangeSheetTitle} title={title} onDebouncedChange={() => {}} />
-            <CatalogueCreationForm type={type} onCreate={onCreate} />
+            <CatalogueMetadataForm type={type} onSubmit={onCreate} />
         </AppPage>
     )
 }

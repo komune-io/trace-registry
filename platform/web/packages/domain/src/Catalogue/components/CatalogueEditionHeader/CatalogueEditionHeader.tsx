@@ -8,10 +8,11 @@ import { useButtonMenu } from 'components'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
+    onSave?: () => Promise<any>
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { /* catalogue */ } = props
+    const { /* catalogue, */ onSave } = props
     const { t } = useTranslation()
 
     const items = useMemo(() => [
@@ -41,8 +42,13 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
         >
             <Chip label={t("draft")} color="#323232" />
             <Box flex={1} />
-            <Button>
+            <Button
+                onClick={onSave}
+            >
                 {t("save")}
+            </Button>
+            <Button>
+                {t("catalogues.createAdraft")}
             </Button>
             <Button>
                 {t("sendForValidation")}
