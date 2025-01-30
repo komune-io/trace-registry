@@ -3,6 +3,7 @@ import { ReactNode, useMemo } from 'react'
 import { Tabs } from "components";
 import { SxProps } from "@mui/system";
 import { Theme } from "@mui/material/styles";
+import { Stack } from '@mui/material';
 
 export interface Tab {
     key: string,
@@ -16,10 +17,11 @@ export interface SectionTabProps {
     goBackLink?: JSX.Element
     onTabChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void
     sx?: SxProps<Theme>;
+    keepMounted?: boolean
 }
 
 export const SectionTab = (props: SectionTabProps) => {
-    const { tabs, currentTab, onTabChange, goBackLink, sx } = props
+    const { tabs, currentTab, onTabChange, goBackLink, sx, keepMounted = false } = props
 
     const headerTabs: HeaderTab[] = useMemo(() => tabs.map(tag => ({
         key: tag.key,
@@ -34,10 +36,10 @@ export const SectionTab = (props: SectionTabProps) => {
             tabs={headerTabs}
             currentTab={currentTab}
             onTabChange={onTabChange}
-            //    flexContent
             sx={sx}
         />
-        {tabContent}
+        {!keepMounted && tabContent}
+        {keepMounted && tabs.map(tab => <Stack gap={4} key={tab.key} sx={{ display: tab.key === currentTab ? "flex" : "none" }} >{tab.component}</Stack>)}
         </>
     )
 }

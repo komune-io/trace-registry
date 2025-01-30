@@ -119,6 +119,9 @@
     "delete": "Supprimer",
     "sendForValidation": "Envoyer pour validation",
     "draft": "Brouillon",
+    "moveUp": "Déplacer vers le haut",
+    "moveDown": "Déplacer vers le bas",
+    "metadata": "Métadonnées",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -251,6 +254,8 @@
         "seeAllPrograms": "Voir tous les programmes de cette norme",
         "seeAllMethodologies": "Voir toutes les méthodologies de ce programme",
         "sectoralScopes": "Champs sectoriels",
-        "presentation": "Parcourez notre bibliothèque complète de fiches organisées par catégories pour découvrir des solutions dédiées à la réduction des émissions de CO2. Trouvez les informations adaptées à vos besoins grâce à une navigation thématique ou une recherche précise, et engagez-vous dans des actions concrètes pour décarboner durablement."
+        "presentation": "Parcourez notre bibliothèque complète de fiches organisées par catégories pour découvrir des solutions dédiées à la réduction des émissions de CO2. Trouvez les informations adaptées à vos besoins grâce à une navigation thématique ou une recherche précise, et engagez-vous dans des actions concrètes pour décarboner durablement.",
+        "newSection": "Nouvelle section",
+        "createAdraft": "Créer un brouillon"
     }
 }

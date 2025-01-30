@@ -1,4 +1,4 @@
-import { Button, FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
+import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable } from '@komune-io/g2'
 import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
 import { useMemo, useState } from 'react'
@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { useCataloguePageQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
 
-interface CatalogueCreationFormProps {
+interface CatalogueMetadataFormProps {
     type: "solution" | "system" | "sector"
-    onCreate: (values: any) => void
+    onSubmit: (values: any) => void
+    formState?: FormComposableState
 }
 
-export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
-    const { type, onCreate } = props
+export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
+    const { type, onSubmit, formState } = props
 
     const { t } = useTranslation()
 
@@ -96,8 +97,8 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
         required: true
     }], [t, type, cataloguePageQuery.data?.items])
 
-    const formState = useFormComposable({
-        onSubmit: onCreate
+    const localFormState = useFormComposable({
+        onSubmit
     })
 
     return (
@@ -111,7 +112,7 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
         >
             <FormComposable
                 fields={fields}
-                formState={formState}
+                formState={formState ?? localFormState}
                 fieldsStackProps={{
                     sx: {
                         gap: 5,
@@ -121,14 +122,14 @@ export const CatalogueCreationForm = (props: CatalogueCreationFormProps) => {
                     }
                 }}
             />
-            <Button
-            onClick={formState.submitForm} 
+            {!formState && <Button
+            onClick={localFormState.submitForm} 
             sx={{
                 alignSelf: "flex-end"
             }}
             >
                 {t("create")}
-            </Button>
+            </Button>}
         </Paper>
     )
 }
