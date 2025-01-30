@@ -119,6 +119,9 @@
   "sendForValidation": "Enviar para validación",
   "draft": "Borrador",
   "create": "Crear",
+  "moveUp": "Mover hacia arriba",
+  "moveDown": "Mover hacia abajo",
+  "metadata": "Metadatos",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -251,6 +254,7 @@
     "seeAllPrograms": "Ver todos los programas de este estándar",
     "seeAllMethodologies": "Ver todas las metodologías de este programa",
     "sectoralScopes": "Alcances sectoriales",
-    "presentation": "Explora nuestra biblioteca integral de hojas organizadas por categoría para descubrir soluciones dedicadas a la reducción de emisiones de CO2. Encuentra información adaptada a tus necesidades mediante una navegación temática o búsquedas precisas, y toma acciones concretas para lograr una descarbonización sostenible."
+    "presentation": "Explora nuestra biblioteca integral de hojas organizadas por categoría para descubrir soluciones dedicadas a la reducción de emisiones de CO2. Encuentra información adaptada a tus necesidades mediante una navegación temática o búsquedas precisas, y toma acciones concretas para lograr una descarbonización sostenible.",
+    "newSection": "Nueva sección"
   }
 }

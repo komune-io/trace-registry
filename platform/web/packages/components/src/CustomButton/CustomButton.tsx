@@ -18,7 +18,7 @@ export const activeButtonStyles: SxProps<Theme> = {
 
 export const buttonStyles: SxProps<Theme> = {
   justifyContent: "flex-start",
-  color: "primary.main",
+  color: "text.secondary",
   bgcolor: "#E4DEE7",
   borderRadius: 1,
   transition: "0.2s",

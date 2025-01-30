@@ -119,6 +119,9 @@
   "delete": "Delete",
   "sendForValidation": "Send for validation",
   "draft": "Draft",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "metadata": "Metadata",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -251,6 +254,7 @@
     "seeAllPrograms": "See all programs from this standard",
     "seeAllMethodologies": "See all methodologies from this program",
     "sectoralScopes": "Sectoral scopes",
-    "presentation": "Browse our comprehensive library of sheets organized by category to discover dedicated solutions for reducing CO2 emissions. Find information tailored to your needs through thematic navigation or precise searches, and take concrete actions to achieve sustainable decarbonization."
+    "presentation": "Browse our comprehensive library of sheets organized by category to discover dedicated solutions for reducing CO2 emissions. Find information tailored to your needs through thematic navigation or precise searches, and take concrete actions to achieve sustainable decarbonization.",
+    "newSection": "New section"
   }
 }
