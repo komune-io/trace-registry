@@ -2,6 +2,7 @@ package io.komune.registry.program.s2.catalogue.api
 
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDataEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
@@ -20,6 +21,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	override suspend fun evolve(event: CatalogueEvent, model: CatalogueEntity?): CatalogueEntity? = when (event) {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
+		is CatalogueAddedTranslationsEvent -> model?.addTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
@@ -32,6 +34,9 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		id = event.id
 		status = CatalogueState.ACTIVE
 		identifier = event.identifier
+		type = event.type
+		catalogues = event.catalogues
+		datasets = event.datasets
 		issued = event.date
 	}
 	private suspend fun CatalogueEntity.setImage(event: CatalogueSetImageEvent) = apply {
@@ -44,6 +49,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = apply {
 		applyEvent(event)
+	}
+
+	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = apply {
+		translations = translations + event.catalogues
 	}
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
@@ -60,19 +69,17 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title
-		type = event.type
 		language = event.language
 		description = event.description
 		themes = event.themes
 		homepage = event.homepage
 		structure = event.structure
-		catalogues = event.catalogues
-		datasets = event.datasets
 		creator = event.creator
 		publisher = event.publisher
 		validator = event.validator
 		accessRights = event.accessRights
 		license = event.license
+		hidden = event.hidden
 		modified = event.date
 	}
 }

@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.s2.commons.model.Language
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -33,6 +34,11 @@ interface CatalogueRefDTO {
     val language: String
 
     /**
+     * @ref [CatalogueDTO.availableLanguages]
+     */
+    val availableLanguages: List<Language>
+
+    /**
      * @ref [CatalogueDTO.status]
      */
     val type: String
@@ -57,6 +63,7 @@ data class CatalogueRefDTOBase(
     override val identifier: String,
     override val title: String,
     override val language: String,
+    override val availableLanguages: List<Language>,
     override val type: String,
     override val description: String? = null,
     override val img: String? = null,

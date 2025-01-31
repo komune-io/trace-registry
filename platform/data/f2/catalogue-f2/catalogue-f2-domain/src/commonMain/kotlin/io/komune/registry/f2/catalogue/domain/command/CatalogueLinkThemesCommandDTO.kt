@@ -9,7 +9,7 @@ import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Represents a function that links themes to a catalogue.
+ * Links themes to a catalogue.
  * @d2 function
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  */
@@ -19,7 +19,6 @@ typealias CatalogueLinkThemesFunction = F2Function<
         >
 
 /**
- * Represents a command that links themes to a catalogue.
  * @d2 command
  * @parent [CatalogueLinkThemesFunction]
  */
@@ -41,7 +40,6 @@ data class CatalogueLinkThemesCommandDTOBase(
 ): CatalogueLinkThemesCommandDTO
 
 /**
- * Represents an event that links themes to a catalogue.
  * @d2 event
  * @parent [CatalogueLinkThemesFunction]
  */

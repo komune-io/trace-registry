@@ -6,6 +6,7 @@ import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDto
 import kotlinx.serialization.Serializable
@@ -56,8 +57,15 @@ interface CatalogueDTO {
 
     /**
      * Language of this version of the catalogue.
+     * @example "en"
      */
-    val language: String
+    val language: Language
+
+    /**
+     * A list of available languages for the catalogue.
+     * @example [["fr", "en"]]
+     */
+    val availableLanguages: List<Language>
 
     /**
      * A URL to an image representing the catalogue. This image could be a logo, a cover image, or any visual
@@ -149,6 +157,12 @@ interface CatalogueDTO {
      * This is an optional property and may be null if the date is not available.
      */
     val modified: Long?
+
+    /**
+     * Whether the catalogue should be filtered out of search results (except from explicitly targeted fetches)
+     * @example false
+     */
+    val hidden: Boolean
 }
 
 @Serializable
@@ -161,6 +175,7 @@ data class CatalogueDTOBase(
     override val img: String? = null,
     override val type: String,
     override val language: String,
+    override val availableLanguages: List<Language>,
     override val structure: Structure? = null,
     override val themes: List<SkosConcept>? = null,
     override val datasets: List<DatasetDTOBase>? = null,
@@ -173,4 +188,5 @@ data class CatalogueDTOBase(
     override val license: String? = null,
     override val issued: Long? = null,
     override val modified: Long? = null,
+    override val hidden: Boolean = false
 ): CatalogueDTO

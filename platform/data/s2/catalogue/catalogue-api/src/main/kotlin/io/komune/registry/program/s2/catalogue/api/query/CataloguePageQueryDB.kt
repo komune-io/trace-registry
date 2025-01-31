@@ -26,6 +26,7 @@ class CataloguePageQueryDB(
         language: Match<String>? = null,
         type: Match<String>? = null,
         status: Match<CatalogueState>? = null,
+        hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {
         match(`CatalogueEntity$`.ID, id)
@@ -33,6 +34,7 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.TITLE, title)
         match(`CatalogueEntity$`.LANGUAGE, language)
         match(`CatalogueEntity$`.TYPE, type)
+        match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS as TextField<CatalogueEntity, CatalogueState>, status)
     }
 }

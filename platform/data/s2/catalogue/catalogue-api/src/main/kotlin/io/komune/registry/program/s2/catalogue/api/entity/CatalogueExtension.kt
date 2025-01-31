@@ -2,8 +2,7 @@ package io.komune.registry.program.s2.catalogue.api.entity
 
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 
-
-fun CatalogueEntity.toCatalogue(): CatalogueModel {
+fun CatalogueEntity.toModel(): CatalogueModel {
     return CatalogueModel(
         id = id,
         identifier = identifier,
@@ -15,6 +14,7 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         structure = structure,
         img = "/catalogues/${id}/img",
         description = description,
+        translations = translations,
         catalogues = catalogues.toList(),
         datasets = datasets.toList(),
         themes = themes.toList(),
@@ -23,6 +23,7 @@ fun CatalogueEntity.toCatalogue(): CatalogueModel {
         validator = validator,
         accessRights = accessRights,
         license = license,
+        hidden = hidden,
         issued = issued,
         modified = modified,
     )

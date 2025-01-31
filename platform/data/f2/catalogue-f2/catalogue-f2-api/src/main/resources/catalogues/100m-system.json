@@ -1,0 +1,9 @@
+{
+  "type": "100m-system",
+  "identifierSequence": "seq_100m_system",
+  "parentTypes": ["100m-systems", "100m-system"],
+  "i18n": {
+    "enable": true,
+    "translationType": "100m-translation"
+  }
+}

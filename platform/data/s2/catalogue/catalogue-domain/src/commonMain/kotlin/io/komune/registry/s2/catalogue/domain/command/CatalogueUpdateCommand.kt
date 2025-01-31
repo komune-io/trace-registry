@@ -10,37 +10,33 @@ import kotlinx.serialization.Serializable
 data class CatalogueUpdateCommand(
     override val id: CatalogueId,
     val title: String,
-    val type: String,
-    val language: String,
+    val language: String?,
     val description: String? = null,
     val themes: Set<SkosConcept> = emptySet(),
     val homepage: String? = null,
     val structure: Structure? = null,
-    val catalogues: Set<CatalogueId> = emptySet(),
-    val datasets: Set<DatasetId> = emptySet(),
     val creator: Agent? = null,
     val publisher: Agent? = null,
     val validator: Agent? = null,
     val accessRights: String? = null,
     val license: String? = null,
+    val hidden: Boolean = false
 ): CatalogueCommand
 
 @Serializable
 data class CatalogueUpdatedEvent(
     override val id: CatalogueId,
     override val title: String,
-    override val type: String,
-    override val language: String,
+    override val language: String?,
     override val description: String?,
     override val themes: Set<SkosConcept>,
     override val homepage: String?,
     override val structure: Structure?,
-    override val catalogues: Set<CatalogueId>,
-    override val datasets: Set<DatasetId>,
     override val creator: Agent?,
     override val publisher: Agent?,
     override val validator: Agent?,
     override val accessRights: String?,
     override val license: String?,
+    override val hidden: Boolean = false,
     override val date: Long,
 ): CatalogueDataEvent

@@ -55,6 +55,10 @@ platform:
       email: test@kosm.io
     template:
       charter: 1
+  i18n:
+    ordered-locales: fr,en,es
+    catalogue:
+      default-translation-type: translation
 ---
 spring:
   config:

@@ -5,33 +5,30 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 /**
- * Create a catalogue.
+ * Update a catalogue.
  * @d2 function
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
- * @order 10
+ * @order 15
  */
-typealias CatalogueCreateFunction = F2Function<CatalogueCreateCommandDTOBase, CatalogueCreatedEventDTOBase>
+typealias CatalogueUpdateFunction = F2Function<CatalogueUpdateCommandDTOBase, CatalogueUpdatedEventDTOBase>
 
 /**
  * @d2 command
- * @parent [CatalogueCreateFunction]
+ * @parent [CatalogueUpdateFunction]
  */
 @JsExport
-@JsName("CatalogueCreateCommandDTO")
-interface CatalogueCreateCommandDTO {
+@JsName("CatalogueUpdateCommandDTO")
+interface CatalogueUpdateCommandDTO {
     /**
-     * Custom identifier of the new catalogue.
+     * Id of the catalogue to update.
      */
-    val identifier: CatalogueIdentifier?
-
-    val parentId: CatalogueId?
+    val id: CatalogueId
 
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
@@ -43,12 +40,10 @@ interface CatalogueCreateCommandDTO {
      */
     val description: String?
 
-    val type: String
     val language: String
     val structure: Structure?
     val homepage: String?
     val themes: List<SkosConcept>?
-    val catalogues: List<CatalogueId>?
     val creator: Agent?
     val publisher: Agent?
     val validator: Agent?
@@ -65,48 +60,39 @@ interface CatalogueCreateCommandDTO {
  * @d2 inherit
  */
 @Serializable
-data class CatalogueCreateCommandDTOBase(
-    override val identifier: CatalogueIdentifier? = null,
-    override val parentId: CatalogueId? = null,
+data class CatalogueUpdateCommandDTOBase(
+    override val id: CatalogueId,
     override val title: String,
     override val description: String? = null,
-    override val type: String,
     override val language: String,
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<SkosConcept>? = null,
-    override val catalogues: List<CatalogueId>? = null,
     override val creator: Agent? = null,
     override val publisher: Agent? = null,
     override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: String? = null,
     override val hidden: Boolean? = null,
-): CatalogueCreateCommandDTO
+): CatalogueUpdateCommandDTO
 
 /**
  * @d2 event
- * @parent [CatalogueCreateFunction]
+ * @parent [CatalogueUpdateFunction]
  */
 @JsExport
-@JsName("CatalogueCreatedEventDTO")
-interface CatalogueCreatedEventDTO: Event {
+@JsName("CatalogueUpdatedEventDTO")
+interface CatalogueUpdatedEventDTO: Event {
     /**
-     * Id of the created catalogue.
+     * Id of the updated catalogue.
      */
     val id: CatalogueId
-
-    /**
-     * Identifier of the created catalogue.
-     */
-    val identifier: CatalogueIdentifier
 }
 
 /**
  * @d2 inherit
  */
 @Serializable
-data class CatalogueCreatedEventDTOBase(
-    override val id: CatalogueId,
-    override val identifier: CatalogueIdentifier,
-): CatalogueCreatedEventDTO
+data class CatalogueUpdatedEventDTOBase(
+    override val id: CatalogueId
+): CatalogueUpdatedEventDTO

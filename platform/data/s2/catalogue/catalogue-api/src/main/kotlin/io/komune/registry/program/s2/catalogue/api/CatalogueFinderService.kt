@@ -9,7 +9,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.program.s2.catalogue.api.entity.toCatalogue
+import io.komune.registry.program.s2.catalogue.api.entity.toModel
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.CatalogueFinder
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
@@ -27,23 +27,23 @@ class CatalogueFinderService(
 	override suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
 		return catalogueRepository.findById(id)
 			.orElse(null)
-			?.toCatalogue()
+			?.toModel()
 	}
 
 	override suspend fun getAll(): List<CatalogueModel> {
 		return catalogueRepository.findAll().map {
-			it.toCatalogue()
+			it.toModel()
 		}
 	}
 
-	override suspend fun getOrNullByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel? {
+	override suspend fun getByIdentifierOrNull(id: CatalogueIdentifier, language: String): CatalogueModel? {
 		return catalogueRepository.findByIdentifierAndLanguage(id, language)
 			.orElse(null)
-			?.toCatalogue()
+			?.toModel()
 	}
 
 	override suspend fun getByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel {
-		return getOrNullByIdentifier(id, language)
+		return getByIdentifierOrNull(id, language)
 			?: throw NotFoundException("Catalogue", id)
 	}
 
@@ -60,9 +60,9 @@ class CatalogueFinderService(
 		language: String?,
 		type: Match<String>?,
 		status: Match<CatalogueState>?,
+		hidden: Match<Boolean>?,
 		offset: OffsetPagination?
 	): PageDTO<CatalogueModel> {
-
 		val childIdFilter = parentIdentifier
 			?.let { pIdentifier ->
 				if (language == null) {
@@ -86,14 +86,15 @@ class CatalogueFinderService(
 			language = language?.let { StringMatch(it, StringMatchCondition.EXACT) },
 			type = type,
 			status = status,
+			hidden = hidden,
 			offset = offset,
 		).map {
-			it.toCatalogue()
+			it.toModel()
 		}
 	}
 
 	override suspend fun listByIdentifier(identifier: String): List<CatalogueModel> {
 		return catalogueRepository.findAllByIdentifier(identifier)
-			.map { it.toCatalogue() }
+			.map { it.toModel() }
 	}
 }

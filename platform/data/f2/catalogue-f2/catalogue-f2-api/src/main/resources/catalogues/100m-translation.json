@@ -1,7 +1,9 @@
 {
-  "type": "100m-system",
-  "identifierSequence": "seq_100m_system",
-  "parentTypes": ["100m-systems", "100m-system"],
+  "type": "100m-translation",
+  "hidden": true,
+  "i18n": {
+    "enable": false
+  },
   "datasets": [{
     "type": "lexical",
     "identifierSuffix": "-lexical"

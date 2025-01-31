@@ -1,5 +1,7 @@
 package io.komune.registry.s2.catalogue.domain
 
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -18,9 +20,10 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 interface CatalogueAggregate {
 	suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent
 	suspend fun setImageCommand(cmd: CatalogueSetImageCommand): CatalogueSetImageEvent
+	suspend fun addTranslations(cmd: CatalogueAddTranslationsCommand): CatalogueAddedTranslationsEvent
 	suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent
+	suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent
 	suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent
 	suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent
 	suspend fun delete(cmd: CatalogueDeleteCommand): CatalogueDeletedEvent
-    suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent
 }

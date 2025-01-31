@@ -1,11 +1,12 @@
 package io.komune.registry.f2.catalogue.api
 
 import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
-import io.komune.registry.f2.catalogue.api.service.CatalogueCreationService
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.toCommand
@@ -18,12 +19,11 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunct
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
-import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
@@ -34,7 +34,6 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import jakarta.annotation.security.PermitAll
-import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -45,12 +44,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
 class CatalogueEndpoint(
     private val catalogueAggregateService: CatalogueAggregateService,
-    private val catalogueCreationService: CatalogueCreationService,
+    private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
@@ -58,7 +58,7 @@ class CatalogueEndpoint(
     private val fileClient: FileClient,
 ): CatalogueApi {
 
-    private val logger = LoggerFactory.getLogger(CatalogueEndpoint::class.java)
+    private val logger by Logger()
 
     @PermitAll
     @Bean
@@ -72,6 +72,7 @@ class CatalogueEndpoint(
             parentIdentifier = query.parentIdentifier,
             language = query.language,
             type = query.type?.let(::CollectionMatch),
+            hidden = ExactMatch(false),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -83,7 +84,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        catalogueF2FinderService.getByIdOrNull(query.id)
+        catalogueF2FinderService.getOrNull(query.id, query.language)
             .let(::CatalogueGetResult)
     }
 
@@ -97,16 +98,16 @@ class CatalogueEndpoint(
 
     @PermitAll
     @Bean
-    override fun catalogueRefList(): CatalogueRefListFunction = f2Function {
-        logger.info("catalogueRefList")
-        catalogueF2FinderService.getAllRefs()
+    override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
+        logger.info("catalogueRefList: $query")
+        catalogueF2FinderService.getAllRefs(query.language)
     }
 
     @PermitAll
     @Bean
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->
         logger.info("catalogueRefGetTree: $query")
-        catalogueF2FinderService.getRefTreeOrNull(query.identifier, query.language)
+        catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language)
             .let(::CatalogueRefGetTreeResult)
     }
 
@@ -114,8 +115,16 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueCreate(): CatalogueCreateFunction = f2Function { cmd ->
         logger.info("catalogueCreate: $cmd")
-        cataloguePoliciesEnforcer.checkCreation()
-        catalogueCreationService.create(cmd)
+        cataloguePoliciesEnforcer.checkCreate()
+        catalogueF2AggregateService.create(cmd)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueUpdate(): CatalogueUpdateFunction = f2Function { cmd ->
+        logger.info("catalogueUpdate: $cmd")
+        cataloguePoliciesEnforcer.checkUpdate()
+        catalogueF2AggregateService.update(cmd)
     }
 
     @PermitAll
@@ -186,15 +195,5 @@ class CatalogueEndpoint(
         }
         logger.info("servedFile: $catalogueId")
         return file
-    }
-
-    @PermitAll
-    @Bean
-    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = f2Function { query ->
-        logger.info("catalogueListLanguages: $query")
-        catalogueFinderService.listByIdentifier(query.identifier)
-            .map { it.language }
-            .distinct()
-            .let(::CatalogueListLanguagesResult)
     }
 }

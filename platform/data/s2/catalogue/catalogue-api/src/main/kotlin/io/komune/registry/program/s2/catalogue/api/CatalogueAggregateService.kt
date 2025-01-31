@@ -1,7 +1,10 @@
 package io.komune.registry.program.s2.catalogue.api
 
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
+import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.catalogue.domain.CatalogueAggregate
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueAggregateService(
 	private val automate: CatalogueAutomateExecutor,
+	private val catalogueRepository: CatalogueRepository
 ): CatalogueAggregate {
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
@@ -42,6 +46,7 @@ class CatalogueAggregateService(
 			validator = cmd.validator,
 			accessRights = cmd.accessRights,
 			license = cmd.license,
+			hidden = cmd.hidden,
 		)
 	}
 
@@ -53,18 +58,28 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun linkCatalogues(
-		cmd: CatalogueLinkCataloguesCommand
-	): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
+	override suspend fun addTranslations(cmd: CatalogueAddTranslationsCommand) = automate.transition(cmd) {
+		val translations = catalogueRepository.findAllById(cmd.catalogues)
+			.associate {
+				if (it.language == null) throw IllegalArgumentException("Catalogue ${it.id} has no language")
+				it.language!! to it.id
+			}
+
+		CatalogueAddedTranslationsEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			catalogues = translations
+		)
+	}
+
+	override suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
 		CatalogueLinkedCataloguesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
 			catalogues = cmd.catalogues
 		)
 	}
-	override suspend fun linkDatasets(
-		cmd: CatalogueLinkDatasetsCommand
-	): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
+	override suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
 		CatalogueLinkedDatasetsEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
@@ -72,9 +87,7 @@ class CatalogueAggregateService(
 		)
 	}
 
-	override suspend fun linkThemes(
-		cmd: CatalogueLinkThemesCommand
-	): CatalogueLinkedThemesEvent = automate.transition(cmd) {
+	override suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent = automate.transition(cmd) {
 		CatalogueLinkedThemesEvent(
 			id =  cmd.id,
 			date = System.currentTimeMillis(),
@@ -87,19 +100,17 @@ class CatalogueAggregateService(
 			id = it.id,
 			date = System.currentTimeMillis(),
 			title = cmd.title,
-			type = cmd.type,
 			language = cmd.language,
 			description = cmd.description,
 			themes = cmd.themes,
 			homepage = cmd.homepage,
 			structure = cmd.structure,
-			catalogues = cmd.catalogues,
-			datasets = cmd.datasets,
 			creator = cmd.creator,
 			publisher = cmd.publisher,
 			validator = cmd.validator,
 			accessRights = cmd.accessRights,
 			license = cmd.license,
+			hidden = cmd.hidden,
 		)
 	}
 
