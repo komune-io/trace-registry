@@ -38,6 +38,7 @@
   "viewSelectedDocs": "Ver documentos seleccionados",
   "navigateThroughDocs": "Navegar por los documentos",
   "id": "ID",
+  "identifier": "Identificador",
   "type": "Tipo",
   "types": "Tipos",
   "quantity": "Cantidad",
@@ -256,6 +257,7 @@
     "sectoralScopes": "Alcances sectoriales",
     "presentation": "Explora nuestra biblioteca integral de hojas organizadas por categoría para descubrir soluciones dedicadas a la reducción de emisiones de CO2. Encuentra información adaptada a tus necesidades mediante una navegación temática o búsquedas precisas, y toma acciones concretas para lograr una descarbonización sostenible.",
     "newSection": "Nueva sección",
-        "createAdraft": "Crear un borrador"
+    "createAdraft": "Crear un borrador",
+    "noDataToValidate": "No hay catálogos para validar"
   }
 }

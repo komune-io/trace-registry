@@ -2,6 +2,7 @@ import {PageRoute} from "App/routes";
 import { CataloguesRouter } from "./CataloguesRouter/CataloguesRouter";
 import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreationPage";
 import { CatalogueEditionPage } from "./CatalogueEditionPage/CatalogueEditionPage";
+import { CatalogueToValidateListPage } from "./CatalogueToValidateListPage/CatalogueToValidateListPage";
 
 
 export const catalogPages: PageRoute[] = [
@@ -24,6 +25,10 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/:catalogueId/edit",
     element: <CatalogueEditionPage  />
+  },
+  {
+    path: "catalogues/toVerify",
+    element: <CatalogueToValidateListPage  />
   },
   {
     path: "catalogues/*",
