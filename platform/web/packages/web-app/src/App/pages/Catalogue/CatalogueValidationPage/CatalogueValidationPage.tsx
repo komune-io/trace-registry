@@ -1,5 +1,5 @@
 import { TitleDivider } from 'components'
-import { CatalogueMetadataForm, CatalogueSections, useCatalogueGetQuery } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueSections, CatalogueValidationHeader, useCatalogueGetQuery } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useParams } from "react-router-dom";
 import { useMemo, useState } from 'react';
@@ -42,7 +42,9 @@ export const CatalogueValidationPage = () => {
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
+      customHeader={<CatalogueValidationHeader onAccept={() => {}}  onReject={() => {}} />}
     >
+
       <TitleDivider title={title} />
       <SectionTab
         keepMounted

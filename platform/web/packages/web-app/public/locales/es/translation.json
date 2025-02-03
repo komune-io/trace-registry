@@ -126,6 +126,8 @@
   "sheetsToValidate": "Hojas para validar",
   "sheetEdition": "Edición de hoja",
   "sheetValidation": "Validación de hoja",
+  "accept": "Aceptar",
+  "reject": "Rechazar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
