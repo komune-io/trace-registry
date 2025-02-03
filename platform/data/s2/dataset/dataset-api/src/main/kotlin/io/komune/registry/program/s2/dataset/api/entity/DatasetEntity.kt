@@ -16,7 +16,7 @@ import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Document
+@Document("Dataset")
 open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
 
     @Id

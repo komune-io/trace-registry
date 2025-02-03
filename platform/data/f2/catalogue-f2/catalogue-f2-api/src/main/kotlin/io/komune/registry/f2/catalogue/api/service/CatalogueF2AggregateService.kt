@@ -57,7 +57,9 @@ class CatalogueF2AggregateService(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
                 parentId = catalogueCreatedEvent.id,
                 parentIdentifier = catalogueIdentifier,
-                parentCommand = command
+                language = command.language,
+                title = command.title,
+                description = command.description
             )
         }
 
@@ -96,13 +98,14 @@ class CatalogueF2AggregateService(
             ).let { update(it) }
         } else {
             val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
-            CatalogueCreateCommandDTOBase(
-                identifier = "${catalogue.identifier}-${command.language}",
-                type = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
+            createAndLinkTranslation(
+                translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
+                parentId = catalogue.id,
+                parentIdentifier = catalogue.identifier,
+                language = command.language,
                 title = command.title,
-                description = command.description,
-                language = command.language
-            ).let { create(it, isTranslation = true) }
+                description = command.description
+            )
         }
 
         return event
@@ -152,14 +155,16 @@ class CatalogueF2AggregateService(
         translationType: String,
         parentId: CatalogueId,
         parentIdentifier: CatalogueIdentifier,
-        parentCommand: CatalogueCreateCommandDTOBase
+        language: Language,
+        title: String,
+        description: String?
     ) {
         val translationId = CatalogueCreateCommandDTOBase(
-            identifier = "$parentIdentifier-${parentCommand.language}",
+            identifier = "$parentIdentifier-${language}",
             type = translationType,
-            title = parentCommand.title,
-            description = parentCommand.description,
-            language = parentCommand.language
+            title = title,
+            description = description,
+            language = language
         ).let { create(it, isTranslation = true).id }
 
         CatalogueAddTranslationsCommand(

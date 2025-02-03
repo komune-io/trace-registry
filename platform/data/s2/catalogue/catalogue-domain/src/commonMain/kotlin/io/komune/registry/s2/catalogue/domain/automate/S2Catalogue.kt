@@ -1,5 +1,7 @@
 package io.komune.registry.s2.catalogue.domain.automate
 
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -26,6 +28,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueSetImageCommand, CatalogueSetImageEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueAddTranslationsCommand, CatalogueAddedTranslationsEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

@@ -24,7 +24,7 @@ class CatalogueF2FinderService(
 
     suspend fun getOrNull(
         id: CatalogueId,
-        language: Language
+        language: Language?
     ): CatalogueDTOBase? {
         return catalogueFinderService.getOrNull(id)
             ?.let { catalogueI18nService.translateToDTO(it, language, false) }
@@ -32,9 +32,9 @@ class CatalogueF2FinderService(
 
     suspend fun getByIdentifierOrNull(
         identifier: CatalogueIdentifier,
-        language: Language,
+        language: Language?,
     ): CatalogueDTOBase? {
-        return catalogueFinderService.getByIdentifierOrNull(identifier, language)
+        return catalogueFinderService.getByIdentifierOrNull(identifier)
             ?.let { catalogueI18nService.translateToDTO(it, language, false) }
     }
 
@@ -46,7 +46,7 @@ class CatalogueF2FinderService(
     }
 
     suspend fun getRefTreeByIdentifierOrNull(identifier: CatalogueIdentifier, language: String): CatalogueRefTreeDTOBase? {
-        return catalogueFinderService.getByIdentifierOrNull(identifier, language)
+        return catalogueFinderService.getByIdentifierOrNull(identifier)
             ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, true) }
     }
 
@@ -65,7 +65,6 @@ class CatalogueF2FinderService(
             id = catalogueId?.let { ExactMatch(it) },
             title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             parentIdentifier = parentIdentifier,
-            language = language,
             type = type,
             status = ExactMatch(defaultValue),
             hidden = hidden,

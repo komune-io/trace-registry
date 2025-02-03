@@ -17,7 +17,7 @@ import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Document
+@Document("Catalogue")
 open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  {
 
     @Id
@@ -58,7 +58,6 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var datasets: Set<DatasetId> = emptySet()
 
-    @TagIndexed
     var translations: Map<Language, CatalogueId> = emptyMap()
 
     var creator: Agent? = null

@@ -21,15 +21,68 @@ class CatalogueI18nService(
     private val i18nConfig: I18nConfig
 ) {
     suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.toTranslatedDTO(language, otherLanguageIfAbsent)
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+            CatalogueDTOBase(
+                id = translation.id,
+                identifier = translation.identifier,
+                status = translation.status,
+                title = translation.title,
+                description = translation.description,
+                catalogues = translation.catalogues.mapNotNull { translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent) },
+                datasets = translation.datasets.map { datasetFinderService.get(it).toDTO() }.filter { it.language == translation.language },
+                themes = translation.themes,
+                type = translation.type,
+                language = translation.language!!,
+                availableLanguages = translation.translations.keys.toList(),
+                structure = translation.structure,
+                homepage = translation.homepage,
+                img = translation.img,
+                creator = translation.creator,
+                publisher = translation.publisher,
+                validator = translation.validator,
+                accessRights = translation.accessRights,
+                license = translation.license,
+                hidden = translation.hidden,
+                issued = translation.issued,
+                modified = translation.modified,
+            )
+        }
     }
 
     suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.toTranslatedRefDTO()
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+            CatalogueRefDTOBase(
+                id = translation.id,
+                identifier = translation.identifier,
+                title = translation.title,
+                language = translation.language!!,
+                availableLanguages = translation.translations.keys.toList(),
+                type = translation.type,
+                description = translation.description,
+                img = translation.img,
+            )
+        }
     }
 
     suspend fun translateToRefTreeDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefTreeDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.toTranslatedRefTreeDTO(language, otherLanguageIfAbsent)
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+            CatalogueRefTreeDTOBase(
+                id = translation.id,
+                identifier = translation.identifier,
+                title = translation.title,
+                language = translation.language!!,
+                availableLanguages = translation.translations.keys.toList(),
+                type = translation.type,
+                description = translation.description,
+                img = translation.img,
+                catalogues = translation.catalogues.nullIfEmpty()?.let {
+                    catalogueFinderService.page(id = CollectionMatch(it))
+                        .items
+                        .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
+                        .filterNotNull()
+                }
+            )
+        }
     }
 
     /**
@@ -73,60 +126,4 @@ class CatalogueI18nService(
         return get(keys.firstOrNull { it in this })
     }
 
-    private suspend fun CatalogueModel.toTranslatedDTO(wantedLanguage: Language?, otherLanguageIfAbsent: Boolean) = CatalogueDTOBase(
-        id = id,
-        identifier = identifier,
-        status = status,
-        title = title,
-        description = description,
-        catalogues = catalogues.mapNotNull { translateToRefDTO(catalogueFinderService.get(it), wantedLanguage, otherLanguageIfAbsent) },
-        datasets = datasets.map { datasetFinderService.get(it).toDTO() }.filter { it.language == language },
-        themes = themes,
-        type = type,
-        language = language!!,
-        availableLanguages = translations.keys.toList(),
-        structure = structure,
-        homepage = homepage,
-        img = img,
-        creator = creator,
-        publisher = publisher,
-        validator = validator,
-        accessRights = accessRights,
-        license = license,
-        hidden = hidden,
-        issued = issued,
-        modified = modified,
-    )
-
-    private fun CatalogueModel.toTranslatedRefDTO(): CatalogueRefDTOBase {
-        return CatalogueRefDTOBase(
-            id = id,
-            identifier = identifier,
-            title = title,
-            language = language!!,
-            availableLanguages = translations.keys.toList(),
-            type = type,
-            description = description,
-            img = img,
-        )
-    }
-
-    private suspend fun CatalogueModel.toTranslatedRefTreeDTO(
-        wantedLanguage: Language?,
-        otherLanguageIfAbsent: Boolean,
-    ): CatalogueRefTreeDTOBase = CatalogueRefTreeDTOBase(
-        id = id,
-        identifier = identifier,
-        title = title,
-        language = language!!,
-        availableLanguages = translations.keys.toList(),
-        type = type,
-        description = description,
-        img = img,
-        catalogues = catalogues.nullIfEmpty()?.let {
-            catalogueFinderService.page(id = CollectionMatch(it))
-                .items
-                .mapAsync { child -> child.toTranslatedRefTreeDTO(wantedLanguage, otherLanguageIfAbsent) }
-        }
-    )
 }

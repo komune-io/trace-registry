@@ -10,6 +10,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueFile
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
@@ -28,7 +29,6 @@ import kotlinx.coroutines.flow.map
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 typealias Language = String
-typealias CatalogueKey = Pair<CatalogueIdentifier, Language>
 
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
@@ -36,17 +36,16 @@ class DCatGraphClient(
 ) {
 
     @Suppress("ComplexMethod", "LongMethod")
-    suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<CatalogueKey> {
-        val visitedCatalogueKeys = mutableSetOf<CatalogueKey>()
-        val createdCatalogues = mutableMapOf<CatalogueKey, CatalogueId>()
+    suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<CatalogueIdentifier> {
+        val visitedCatalogueKeys = mutableSetOf<CatalogueIdentifier>()
+        val createdCatalogues = mutableMapOf<CatalogueIdentifier, CatalogueId>()
         val createdDatasets = mutableMapOf<String, DatasetId>()
 
         fun DCatApCatalogueModel.flatten(): Flow<DCatApCatalogueModel> = flow {
-            val key = toKey()
-            if (key in visitedCatalogueKeys) {
+            if (identifier in visitedCatalogueKeys) {
                 return@flow
             }
-            visitedCatalogueKeys += key
+            visitedCatalogueKeys += identifier
 
             catalogues?.forEach { emitAll(it.flatten()) }
             emit(this@flatten)
@@ -54,12 +53,11 @@ class DCatGraphClient(
 
         return allCatalogues.flatMapConcat(DCatApCatalogueModel::flatten)
             .map { catalogue ->
-
-                val catalogueKey = initCatalogue(
+                val catalogueIdentifier = initCatalogue(
                     catalogue,
                     createdCatalogues
                 )
-                val catalogueId = createdCatalogues[catalogueKey]!!
+                val catalogueId = createdCatalogues[catalogueIdentifier]!!
 
                 catalogue.datasets?.mapNotNull { dataset ->
                     val datasetId = if (dataset.identifier !in createdDatasets) {
@@ -71,65 +69,95 @@ class DCatGraphClient(
                 }?.takeIf { it.isNotEmpty() }?.let { datasetIds ->
                     linkDatasetToCatalogue(catalogueId, datasetIds)
                 }
-                catalogueKey
+                catalogueIdentifier
             }
     }
 
     private suspend fun initCatalogue(
         catalogue: DCatApCatalogueModel,
-        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>
-    ): CatalogueKey {
-        val key = catalogue.toKey()
-
+        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
+    ): CatalogueIdentifier {
         val existingCatalogue = CatalogueGetByIdentifierQuery(
             identifier = catalogue.identifier,
-            language = catalogue.language
+            language = null
         ).invokeWith(catalogueClient.catalogueGetByIdentifier()).item
+            ?: run {
+                val translation = catalogue.translations?.values?.firstOrNull()
 
-        if (existingCatalogue != null) {
-            createdCatalogues[key] = existingCatalogue.id
-            return existingCatalogue.toKey()
-        }
+                val catalogueId = createCatalogue(
+                    catalogue = if (translation == null) {
+                        catalogue
+                    } else {
+                        catalogue.copy(
+                            title = translation.title,
+                            description = translation.description,
+                            language = translation.language
+                        )},
+                    createdCatalogues
+                )
+                CatalogueGetQuery(
+                    id = catalogueId,
+                    language = null
+                ).invokeWith(catalogueClient.catalogueGet()).item!!
+            }
 
-        val catalogueId = createCatalogue(
-            catalogue,
-            createdCatalogues
-        )
+        catalogue.translations
+            ?.filterKeys { it !in existingCatalogue.availableLanguages }
+            ?.map { (_, translation) ->
+                CatalogueUpdateCommandDTOBase(
+                    id = existingCatalogue.id,
+                    title = translation.title,
+                    description = translation.description,
+                    language = translation.language,
+                    structure = existingCatalogue.structure,
+                    homepage = existingCatalogue.homepage,
+                    themes = existingCatalogue.themes,
+                    creator = existingCatalogue.creator,
+                    publisher = existingCatalogue.publisher,
+                    validator = existingCatalogue.validator,
+                    accessRights = existingCatalogue.accessRights,
+                    license = existingCatalogue.license,
+                    hidden = existingCatalogue.hidden
+                ).invokeWith(catalogueClient.catalogueUpdate())
+            }
 
-        createdCatalogues[key] = catalogueId
-        catalogue.catalogues?.takeIf { it.isNotEmpty() }?.let { catalogues ->
-            linkCatalogues(
-                createdCatalogues,
-                catalogue,
-                catalogues.map { createdCatalogues[it.toKey()]!! })
-        }
-        return CatalogueGetQuery(
-            id = catalogueId
-        ).invokeWith(catalogueClient.catalogueGet()).item!!.toKey()
+        createdCatalogues[catalogue.identifier] = existingCatalogue.id
+
+        catalogue.catalogues
+            ?.takeIf { it.isNotEmpty() }
+            ?.filter { c -> existingCatalogue.catalogues.orEmpty().none { c.identifier == it.identifier } }
+            ?.let { catalogues ->
+                linkCatalogues(
+                    createdCatalogues,
+                    catalogue,
+                    catalogues.map { createdCatalogues[it.identifier]!! })
+            }
+
+        return existingCatalogue.identifier
     }
 
     private suspend fun DCatGraphClient.linkCatalogues(
-        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>,
+        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>,
         parent: DCatApCatalogueModel,
-        catalogueId: List<CatalogueId>
+        catalogueIds: List<CatalogueId>
     ) {
         CatalogueLinkCataloguesCommandDTOBase(
-            id = createdCatalogues[parent.toKey()]!!,
-            catalogues = catalogueId
+            id = createdCatalogues[parent.identifier]!!,
+            catalogues = catalogueIds
         ).invokeWith(catalogueClient.catalogueLinkCatalogues())
-        println("Linked catalogue ${parent.identifier} to ${catalogueId}")
+        println("Linked catalogue ${parent.identifier} to $catalogueIds")
     }
 
     private suspend fun createCatalogue(
         catalogue: DCatApCatalogueModel,
-        createdCatalogues: MutableMap<CatalogueKey, CatalogueId>
+        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
     ): CatalogueId {
         return CatalogueCreateCommandDTOBase(
             identifier = catalogue.identifier,
             title = catalogue.title,
             description = catalogue.description,
             catalogues = catalogue.catalogues
-                ?.map { createdCatalogues[it.toKey()]!! }
+                ?.map { createdCatalogues[it.identifier]!! }
                 .orEmpty(),
             type = catalogue.type,
             language = catalogue.language,
@@ -208,10 +236,6 @@ class DCatGraphClient(
             println("Created dataset ${identifier} with id ${it}")
         }
     }
-
-    private fun key(identifier: CatalogueIdentifier, language: Language): CatalogueKey = identifier to language
-    private fun DCatApCatalogueModel.toKey(): CatalogueKey = key(identifier, language)
-    private fun CatalogueDTOBase.toKey(): CatalogueKey = key(identifier, language)
 }
 
 

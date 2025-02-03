@@ -1,18 +1,17 @@
 package io.komune.registry.script.init.catalogue
 
-import cccev.dsl.client.CatalogueKey
 import cccev.dsl.client.DCatGraphClient
 import f2.client.domain.AuthRealm
 import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.http.plugin.F2Auth
-import io.komune.registry.dsl.dcat.domain.model.catalogueI18n
+import io.komune.registry.dsl.dcat.domain.model.catalogue
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.init.actor.Actor
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -47,7 +46,7 @@ class CatalogueFactory(
 
 fun createStandardsCatalogue(
     url: String, actor: Actor, debug: String
-): List<CatalogueKey> = runBlocking {
+): List<CatalogueIdentifier> = runBlocking {
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
@@ -61,29 +60,29 @@ fun create100MCatalogue(
     url: String,
     actor: Actor,
     debug: String
-): List<CatalogueKey> = runBlocking {
+): List<CatalogueIdentifier> = runBlocking {
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
-    val itemsCentMillion = catalogueCentMillion(debug).values.asFlow()
+    val itemsCentMillion = flowOf(catalogueCentMillion(debug))
     dcatGraphClient.create(itemsCentMillion).toList()
         .onEach { println("Catalogue[${it}] Created.") }
 }
 
-fun catalogueMenu(debug: String) = catalogueI18n {
+fun catalogueMenu(debug: String) = catalogue {
     identifier = "menuWikiCoe${debug}"
     type = "menu"
     structure = Structure("menu")
 
-    language("fr") {
+    translation("fr") {
         title = "Wiki CO2"
         description = ""
     }
-    language("en") {
+    translation("en") {
         title = "Wiki CO2"
         description = ""
     }
-    language("es") {
+    translation("es") {
         title = "Wiki CO2"
         description = ""
     }
@@ -96,10 +95,10 @@ fun createMenuCatalogue(
     url: String,
     actor: Actor,
     debug: String
-): List<CatalogueKey> = runBlocking {
+): List<CatalogueIdentifier> = runBlocking {
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
-    val catalogueMenu = catalogueMenu(debug).values.asFlow()
+    val catalogueMenu = flowOf(catalogueMenu(debug))
     dcatGraphClient.create(catalogueMenu).toList()
         .onEach { println("Catalogue[${it}] Created.") }
 }

@@ -2,8 +2,6 @@ package io.komune.registry.program.s2.catalogue.api
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
@@ -21,13 +19,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class CatalogueFinderService(
-    private val cataloguePageQueryDB: CataloguePageQueryDB,
-    private val catalogueRepository: CatalogueRepository
+	private val cataloguePageQueryDB: CataloguePageQueryDB,
+	private val catalogueRepository: CatalogueRepository
 ): CatalogueFinder {
 	override suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
 		return catalogueRepository.findById(id)
 			.orElse(null)
 			?.toModel()
+	}
+
+	override suspend fun get(id: CatalogueId): CatalogueModel {
+		return getOrNull(id)
+			?: throw NotFoundException("Catalogue", id)
+	}
+
+	override suspend fun getByIdentifierOrNull(identifier: CatalogueIdentifier): CatalogueModel? {
+		return catalogueRepository.findByIdentifier(identifier)?.toModel()
+	}
+
+	override suspend fun getByIdentifier(identifier: CatalogueIdentifier): CatalogueModel {
+		return getByIdentifierOrNull(identifier)
+			?: throw NotFoundException("Catalogue with identifier", identifier)
 	}
 
 	override suspend fun getAll(): List<CatalogueModel> {
@@ -36,28 +48,12 @@ class CatalogueFinderService(
 		}
 	}
 
-	override suspend fun getByIdentifierOrNull(id: CatalogueIdentifier, language: String): CatalogueModel? {
-		return catalogueRepository.findByIdentifierAndLanguage(id, language)
-			.orElse(null)
-			?.toModel()
-	}
-
-	override suspend fun getByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel {
-		return getByIdentifierOrNull(id, language)
-			?: throw NotFoundException("Catalogue", id)
-	}
-
-	override suspend fun get(id: CatalogueId): CatalogueModel {
-		return getOrNull(id)
-			?: throw NotFoundException("Catalogue", id)
-	}
-
 	override suspend fun page(
 		id: Match<CatalogueId>?,
 		identifier: Match<CatalogueIdentifier>?,
 		title: Match<String>?,
 		parentIdentifier: String?,
-		language: String?,
+		language: Match<String>?,
 		type: Match<String>?,
 		status: Match<CatalogueState>?,
 		hidden: Match<Boolean>?,
@@ -65,16 +61,10 @@ class CatalogueFinderService(
 	): PageDTO<CatalogueModel> {
 		val childIdFilter = parentIdentifier
 			?.let { pIdentifier ->
-				if (language == null) {
-					catalogueRepository.findAllByIdentifier(pIdentifier)
-						.flatMap { it.catalogues }
-				} else {
-					catalogueRepository.findByIdentifierAndLanguage(pIdentifier, language)
-						.orElse(null)
-						?.catalogues
-				}
-			}?.ifEmpty { listOf("none") }
-			?.let(::CollectionMatch)
+				catalogueRepository.findByIdentifier(pIdentifier)
+					?.catalogues
+					?: listOf("none")
+			}?.let(::CollectionMatch)
 
 		return cataloguePageQueryDB.execute(
 			id = andMatchOfNotNull(
@@ -83,7 +73,7 @@ class CatalogueFinderService(
 			),
 			identifier = identifier,
 			title = title,
-			language = language?.let { StringMatch(it, StringMatchCondition.EXACT) },
+			language = language,
 			type = type,
 			status = status,
 			hidden = hidden,
@@ -91,10 +81,5 @@ class CatalogueFinderService(
 		).map {
 			it.toModel()
 		}
-	}
-
-	override suspend fun listByIdentifier(identifier: String): List<CatalogueModel> {
-		return catalogueRepository.findAllByIdentifier(identifier)
-			.map { it.toModel() }
 	}
 }

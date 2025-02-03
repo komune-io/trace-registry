@@ -2,6 +2,7 @@ package io.komune.registry.dsl.dcat.domain.model
 
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -30,6 +31,7 @@ data class DCatApCatalogueModel(
     override val cataloguedResource: List<CataloguedResource>? = null,
     override val datasets: List<DcatDataset>? = null,
     override val services: List<DataService>? = null,
+    val translations: Map<Language, DCatApCatalogueModel>? = null,
     override val catalogues: List<DCatApCatalogueModel>? = null,
     override val catalogueRecords: List<DcatCatalogueRecord>? = null,
     override val accessRights: String? = null,

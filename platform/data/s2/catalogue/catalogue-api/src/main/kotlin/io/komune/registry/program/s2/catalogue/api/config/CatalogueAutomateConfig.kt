@@ -7,6 +7,7 @@ import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapRepositor
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.automate.s2Catalogue
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
@@ -15,7 +16,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
-import kotlin.reflect.KClass
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
+import kotlin.reflect.KClass
 
 @Configuration
 class CatalogueAutomateConfig(
@@ -64,6 +65,7 @@ class CatalogueAutomateConfig(
 				subclass(CatalogueCreatedEvent::class, CatalogueCreatedEvent.serializer())
 				subclass(CatalogueDeletedEvent::class, CatalogueDeletedEvent.serializer())
 				subclass(CatalogueUpdatedEvent::class, CatalogueUpdatedEvent.serializer())
+				subclass(CatalogueAddedTranslationsEvent::class, CatalogueAddedTranslationsEvent.serializer())
 				subclass(CatalogueLinkedCataloguesEvent::class, CatalogueLinkedCataloguesEvent.serializer())
 				subclass(CatalogueLinkedThemesEvent::class, CatalogueLinkedThemesEvent.serializer())
 				subclass(CatalogueLinkedDatasetsEvent::class, CatalogueLinkedDatasetsEvent.serializer())
