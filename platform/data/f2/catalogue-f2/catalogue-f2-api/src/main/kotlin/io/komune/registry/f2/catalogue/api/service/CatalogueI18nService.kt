@@ -117,8 +117,7 @@ class CatalogueI18nService(
             title = translation.title,
             description = translation.description,
             datasets = catalogue.datasets + translation.datasets,
-            catalogues = catalogue.catalogues + translation.catalogues,
-            hidden = translation.hidden
+            catalogues = catalogue.catalogues + translation.catalogues
         )
     }
 

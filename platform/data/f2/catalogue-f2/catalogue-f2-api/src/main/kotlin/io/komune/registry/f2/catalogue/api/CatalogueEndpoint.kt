@@ -24,6 +24,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
@@ -109,6 +111,14 @@ class CatalogueEndpoint(
         logger.info("catalogueRefGetTree: $query")
         catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language)
             .let(::CatalogueRefGetTreeResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
+        logger.info("catalogueListAvailableParents: $query")
+        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language)
+            .let(::CatalogueListAvailableParentsResult)
     }
 
     @PermitAll

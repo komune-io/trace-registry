@@ -1,6 +1,5 @@
 package io.komune.registry.program.s2.catalogue.api.query
 
-import com.redis.om.spring.metamodel.indexed.TextField
 import com.redis.om.spring.search.stream.EntityStream
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
@@ -35,6 +34,6 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.LANGUAGE, language)
         match(`CatalogueEntity$`.TYPE, type)
         match(`CatalogueEntity$`.HIDDEN, hidden)
-        match(`CatalogueEntity$`.STATUS as TextField<CatalogueEntity, CatalogueState>, status)
+        match(`CatalogueEntity$`.STATUS, status)
     }
 }
