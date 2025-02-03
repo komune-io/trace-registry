@@ -1,12 +1,17 @@
 package io.komune.registry.f2.catalogue.api.service
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.I18nConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeSubDataset
+import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.infra.postgresql.SequenceRepository
@@ -18,6 +23,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import org.springframework.stereotype.Service
@@ -26,6 +32,7 @@ import org.springframework.stereotype.Service
 class CatalogueF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueConfig: CatalogueConfig,
+    private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val i18nConfig: I18nConfig,
@@ -111,17 +118,43 @@ class CatalogueF2AggregateService(
         return event
     }
 
+    suspend fun linkCatalogues(command: CatalogueLinkCataloguesCommandDTOBase): CatalogueLinkedCataloguesEventDTOBase {
+        val parent = catalogueFinderService.get(command.id)
+        val children = catalogueFinderService.page(
+            id = CollectionMatch(command.catalogues)
+        ).items
+
+        children.mapAsync { child ->
+            val typeConfiguration = catalogueConfig.typeConfigurations[child.type]
+            checkParenting(child.id, parent, typeConfiguration)
+        }
+
+        return CatalogueLinkCataloguesCommand(
+            id = command.id,
+            catalogues = command.catalogues
+        ).let { catalogueAggregateService.linkCatalogues(it).toDTO() }
+    }
+
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
         val parent = catalogueFinderService.get(parentId)
 
-        if (typeConfiguration?.parentTypes != null && parent.type !in typeConfiguration.parentTypes) {
-            throw CatalogueParentTypeInvalidException(typeConfiguration.type, parent.type)
-        }
+        checkParenting(catalogueId, parent, typeConfiguration)
 
         CatalogueLinkCataloguesCommand(
             id = parentId,
             catalogues = listOf(catalogueId)
         ).let { catalogueAggregateService.linkCatalogues(it) }
+    }
+
+    private suspend fun checkParenting(catalogueId: CatalogueId, parent: CatalogueModel, typeConfiguration: CatalogueTypeConfiguration?) {
+        if (typeConfiguration?.parentTypes != null && parent.type !in typeConfiguration.parentTypes) {
+            throw CatalogueParentTypeInvalidException(typeConfiguration.type, parent.type)
+        }
+
+        val catalogueDescendants = catalogueF2FinderService.getRefTreeOrNull(catalogueId, null)?.descendantsIds()
+        if (catalogueId == parent.id || catalogueDescendants?.contains(parent.id) == true) {
+            throw CatalogueParentIsDescendantException(catalogueId, parent.id)
+        }
     }
 
     private suspend fun createAndLinkDatasets(

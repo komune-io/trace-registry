@@ -16,5 +16,6 @@ object ExceptionCodes {
 
     object Catalogue {
         const val CATALOGUE_PARENT_TYPE_INVALID = 3000
+        const val CATALOGUE_PARENT_IS_DESCENDANT = 3001
     }
 }

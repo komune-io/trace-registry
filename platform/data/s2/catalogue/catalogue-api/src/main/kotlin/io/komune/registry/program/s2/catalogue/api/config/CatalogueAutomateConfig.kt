@@ -15,6 +15,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -67,6 +68,7 @@ class CatalogueAutomateConfig(
 				subclass(CatalogueUpdatedEvent::class, CatalogueUpdatedEvent.serializer())
 				subclass(CatalogueAddedTranslationsEvent::class, CatalogueAddedTranslationsEvent.serializer())
 				subclass(CatalogueLinkedCataloguesEvent::class, CatalogueLinkedCataloguesEvent.serializer())
+				subclass(CatalogueUnlinkedCataloguesEvent::class, CatalogueUnlinkedCataloguesEvent.serializer())
 				subclass(CatalogueLinkedThemesEvent::class, CatalogueLinkedThemesEvent.serializer())
 				subclass(CatalogueLinkedDatasetsEvent::class, CatalogueLinkedDatasetsEvent.serializer())
 				subclass(CatalogueSetImageEvent::class, CatalogueSetImageEvent.serializer())

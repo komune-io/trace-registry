@@ -100,11 +100,4 @@ class CatalogueF2FinderService(
             .filterNotNull()
             .sortedBy(CatalogueRefDTOBase::title)
     }
-
-    private fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
-        catalogues?.forEach {
-            add(it.id)
-            addAll(it.descendantsIds())
-        }
-    }
 }

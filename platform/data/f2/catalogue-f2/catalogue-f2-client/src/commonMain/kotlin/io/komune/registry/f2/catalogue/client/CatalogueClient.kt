@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
@@ -59,6 +60,8 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueUpdate(): CatalogueUpdateFunction = client.function("data/${this::catalogueUpdate.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
         = client.function("data/${this::catalogueLinkCatalogues.name}")
+    override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction
+        = client.function("data/${this::catalogueUnlinkCatalogues.name}")
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = client.function("data/${this::catalogueLinkDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")

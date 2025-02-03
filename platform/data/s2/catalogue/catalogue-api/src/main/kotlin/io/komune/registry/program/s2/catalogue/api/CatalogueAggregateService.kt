@@ -17,6 +17,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
@@ -79,6 +81,17 @@ class CatalogueAggregateService(
 			catalogues = cmd.catalogues
 		)
 	}
+
+	override suspend fun unlinkCatalogues(
+		cmd: CatalogueUnlinkCataloguesCommand
+	): CatalogueUnlinkedCataloguesEvent = automate.transition(cmd) {
+		CatalogueUnlinkedCataloguesEvent(
+			id =  cmd.id,
+			date = System.currentTimeMillis(),
+			catalogues = cmd.catalogues
+		)
+	}
+
 	override suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
 		CatalogueLinkedDatasetsEvent(
 			id =  cmd.id,

@@ -14,6 +14,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlinx.serialization.Serializable
@@ -36,6 +38,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueUnlinkCataloguesCommand, CatalogueUnlinkedCataloguesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

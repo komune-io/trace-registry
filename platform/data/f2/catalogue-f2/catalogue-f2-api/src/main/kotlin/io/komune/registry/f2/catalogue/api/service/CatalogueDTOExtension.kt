@@ -12,6 +12,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -24,6 +26,13 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+
+fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
+    catalogues?.forEach {
+        add(it.id)
+        addAll(it.descendantsIds())
+    }
+}
 
 fun CatalogueCreateCommandDTOBase.toCommand(
     identifier: String,

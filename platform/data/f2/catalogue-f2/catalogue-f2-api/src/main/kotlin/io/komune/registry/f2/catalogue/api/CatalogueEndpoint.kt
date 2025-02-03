@@ -19,6 +19,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunct
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
@@ -35,6 +37,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -149,8 +152,20 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
         cataloguePoliciesEnforcer.checkLinkCatalogues()
-        catalogueAggregateService.linkCatalogues(cmd.toCommand()).toDTO()
+        catalogueF2AggregateService.linkCatalogues(cmd)
     }
+
+    @PermitAll
+    @Bean
+    override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { cmd ->
+        cataloguePoliciesEnforcer.checkLinkCatalogues()
+        CatalogueUnlinkCataloguesCommand(
+            id = cmd.id,
+            catalogues = cmd.catalogues,
+        ).let { catalogueAggregateService.unlinkCatalogues(it) }
+            .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
+    }
+
     @PermitAll
     @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->

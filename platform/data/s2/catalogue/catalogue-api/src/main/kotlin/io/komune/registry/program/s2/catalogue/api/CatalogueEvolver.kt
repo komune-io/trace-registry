@@ -11,6 +11,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -23,6 +24,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueUpdatedEvent -> model?.update(event)
 		is CatalogueAddedTranslationsEvent -> model?.addTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
+		is CatalogueUnlinkedCataloguesEvent -> model?.removeCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
@@ -39,14 +41,17 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		datasets = event.datasets
 		issued = event.date
 	}
+
 	private suspend fun CatalogueEntity.setImage(event: CatalogueSetImageEvent) = apply {
 		img = event.img
 		this.modified = event.date
 	}
+
 	private suspend fun CatalogueEntity.delete(event: CatalogueDeletedEvent) = apply {
 		status = CatalogueState.DELETED
 		this.modified = event.date
 	}
+
 	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = apply {
 		applyEvent(event)
 	}
@@ -65,6 +70,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
 		catalogues = catalogues + event.catalogues
+	}
+
+	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
+		catalogues = catalogues - event.catalogues.toSet()
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
