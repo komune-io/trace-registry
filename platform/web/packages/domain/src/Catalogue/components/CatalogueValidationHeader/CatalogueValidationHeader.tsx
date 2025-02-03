@@ -1,16 +1,20 @@
 import { Button, Link } from '@komune-io/g2'
 import { EmailRounded, InfoRounded } from '@mui/icons-material'
 import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Tooltip } from 'components'
+import { Tooltip, useToggleState } from 'components'
 import { t } from 'i18next'
+import { RejectModal } from './RejectModal'
 
 interface CatalogueValidationHeaderProps {
-    onAccept: () => void
-    onReject: () => void
+    onAccept: () => Promise<any>
+    onReject: (reason: string) => Promise<any>
 }
 
 export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps) => {
     const { onAccept, onReject } = props
+
+    const [open, _, toggle] = useToggleState()
+    
     return (
         <Paper
             elevation={2}
@@ -37,7 +41,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     <Typography
                         variant='subtitle1'
                     >
-                        Revue de la modification proposée par Nom Prénom
+                        {t("catalogues.reviewModifications", { name: "Pedro Sanchez" })}
                     </Typography>
                     <Tooltip
 
@@ -54,7 +58,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                                         color: "text.secondary"
                                     }}
                                 >
-                                    Note de version
+                                    {t("versionNote")}
                                 </Typography>
                                 <Typography
                                     variant='body2'
@@ -80,7 +84,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                         href=""
                         target='_blank'
                     >
-                        Consulter l'original
+                        {t("catalogues.consultOriginal")}
                     </Link>
                     <Link
                         variant="body2"
@@ -92,7 +96,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                         }}
                     >
                         <EmailRounded />
-                        Contacter l'éditeur
+                        {t("catalogues.contactEditor")}
                     </Link>
                 </Stack>
             </Stack>
@@ -103,11 +107,16 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                 {t("accept")}
             </Button>
             <Button
-                onClick={onReject}
+                onClick={toggle}
                 color="error"
             >
                 {t("reject")}
             </Button>
+            <RejectModal
+                open={open}
+                onClose={toggle}
+                onReject={onReject}
+            />
         </Paper>
     )
 }

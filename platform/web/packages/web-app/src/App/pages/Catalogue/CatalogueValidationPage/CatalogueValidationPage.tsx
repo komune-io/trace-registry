@@ -42,7 +42,7 @@ export const CatalogueValidationPage = () => {
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
-      customHeader={<CatalogueValidationHeader onAccept={() => {}}  onReject={() => {}} />}
+      customHeader={<CatalogueValidationHeader onAccept={() => {return Promise.resolve()}}  onReject={() => {return Promise.resolve()}} />}
     >
 
       <TitleDivider title={title} />

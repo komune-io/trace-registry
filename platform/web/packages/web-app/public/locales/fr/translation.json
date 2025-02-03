@@ -263,6 +263,11 @@
         "presentation": "Parcourez notre bibliothèque complète de fiches organisées par catégories pour découvrir des solutions dédiées à la réduction des émissions de CO2. Trouvez les informations adaptées à vos besoins grâce à une navigation thématique ou une recherche précise, et engagez-vous dans des actions concrètes pour décarboner durablement.",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
-        "noDataToValidate": "Aucun catalogues à valider"
+        "noDataToValidate": "Aucun catalogues à valider",
+        "reviewModifications": "Revue de la modification proposée par {{name}}",
+        "consultOriginal": "Consulter l'original",
+        "contactEditor": "Contacter l'éditeur",
+        "rejectTheModification": "Rejeter la modification",
+        "addARejectComment": "Ajoutez un commentaire ci-dessous pour indiquer à l’éditeur la raison du rejet de sa modification"
     }
 }
