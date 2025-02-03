@@ -28,7 +28,9 @@ class CatalogueI18nService(
                 status = translation.status,
                 title = translation.title,
                 description = translation.description,
-                catalogues = translation.catalogues.mapNotNull { translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent) },
+                catalogues = translation.catalogues.mapNotNull {
+                    translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent)
+                                                               },
                 datasets = translation.datasets.map { datasetFinderService.get(it).toDTO() }.filter { it.language == translation.language },
                 themes = translation.themes,
                 type = translation.type,
@@ -64,7 +66,11 @@ class CatalogueI18nService(
         }
     }
 
-    suspend fun translateToRefTreeDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefTreeDTOBase? {
+    suspend fun translateToRefTreeDTO(
+        catalogue: CatalogueModel,
+        language: Language?,
+        otherLanguageIfAbsent: Boolean,
+    ): CatalogueRefTreeDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
             CatalogueRefTreeDTOBase(
                 id = translation.id,

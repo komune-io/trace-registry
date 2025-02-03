@@ -162,6 +162,8 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
             limit = limit,
             status = status,
             title = title,
+            language = "en",
+            type = null
         )
     }
 
