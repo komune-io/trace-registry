@@ -8,7 +8,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 
 interface CatalogueMetadataFormProps {
     type: "solution" | "system" | "sector"
-    onSubmit: (values: any) => void
+    onSubmit?: (values: any) => void
     formState?: FormComposableState
 }
 

@@ -9,7 +9,7 @@ import {  useMemo } from "react"
 
 
 export const CatalogueToValidateListPage = () => {
-    const { i18n } = useTranslation()
+    const { i18n, t } = useTranslation()
 
     const { submittedFilters, setOffset } = useCatalogueFilters({
     })
@@ -25,7 +25,7 @@ export const CatalogueToValidateListPage = () => {
         }
     })
 
-    const title = "Fiche à valider"
+    const title = t("sheetsToValidate")
     return (
         <AppPage
             title={title}

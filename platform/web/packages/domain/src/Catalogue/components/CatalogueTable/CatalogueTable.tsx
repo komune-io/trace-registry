@@ -39,7 +39,7 @@ function useCataogueColumn() {
             }),
 
             status: {
-                header: t("language"),
+                header: t("status"),
                 cell: () => (
                     <Chip label={t("draft")} color="#323232" />
                 )

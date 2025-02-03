@@ -17,10 +17,11 @@ export interface SectionEditorProps {
     catalogue?: Catalogue
     markdown: string
     reloadSection: () => Promise<any>
+    readOnly?: boolean
 }
 
 export const SectionEditor = (props: SectionEditorProps) => {
-    const { reloadSection, catalogue, markdown } = props
+    const { reloadSection, catalogue, markdown, readOnly = false } = props
     const { auditId } = useParams()
     const lexicalStateRef = useRef<EditorState | undefined>(undefined)
     const queryClient = useQueryClient()
@@ -60,11 +61,11 @@ export const SectionEditor = (props: SectionEditorProps) => {
 
     return (
         <SectionPaper
-        id={catalogue?.id}
+            id={catalogue?.id}
         >
-            <SectionSettings
+            {!readOnly && <SectionSettings
                 refetchReport={reloadSection}
-            />
+            />}
             <Stack
                 sx={{
                     maxWidth: "750px",
@@ -81,6 +82,7 @@ export const SectionEditor = (props: SectionEditorProps) => {
                 }}
             >
                 <RichtTextEditor
+                    readOnly={readOnly}
                     displayToolBarOnFocus
                     markdown={markdown}
                     onChange={handleContentChange}

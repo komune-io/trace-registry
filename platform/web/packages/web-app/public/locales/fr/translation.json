@@ -123,6 +123,9 @@
     "moveUp": "Déplacer vers le haut",
     "moveDown": "Déplacer vers le bas",
     "metadata": "Métadonnées",
+    "sheetsToValidate": "Fiches à valider",
+    "sheetEdition": "Édition de fiche",
+    "sheetValidation": "Validation de fiche",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
