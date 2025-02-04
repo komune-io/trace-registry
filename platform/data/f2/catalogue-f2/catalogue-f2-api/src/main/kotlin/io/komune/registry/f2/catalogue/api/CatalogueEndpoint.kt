@@ -158,6 +158,7 @@ class CatalogueEndpoint(
     @PermitAll
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { command ->
+        logger.info("catalogueLinkCatalogues: $command")
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         catalogueF2AggregateService.linkCatalogues(command)
     }
@@ -165,6 +166,7 @@ class CatalogueEndpoint(
     @PermitAll
     @Bean
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { command ->
+        logger.info("catalogueUnlinkCatalogues: $command")
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         CatalogueUnlinkCataloguesCommand(
             id = command.id,
