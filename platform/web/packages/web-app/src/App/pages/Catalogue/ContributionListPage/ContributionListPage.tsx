@@ -1,19 +1,25 @@
 import {
     useCataloguesFilters,
     useCataloguePageQuery,
-    CatalogueTable
+    CatalogueTable,
+    ContributionModal
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
-import {  useMemo } from "react"
-import { useSearchParams } from 'react-router-dom'
+import { useMemo } from "react"
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useRoutesDefinition, useToggleState } from 'components'
 
 
 export const ContributionListPage = () => {
     const { i18n, t } = useTranslation()
     const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
+    const {cataloguesContributions} = useRoutesDefinition()
 
     const successfullContribution = searchParams.get('successfullContribution') === "true"
+
+    const [open, _, toggle] = useToggleState({ defaultOpen: successfullContribution })
 
     const { submittedFilters, setOffset, component } = useCataloguesFilters({
     })
@@ -43,6 +49,10 @@ export const ContributionListPage = () => {
                 pagination={pagination}
                 isLoading={isInitialLoading}
                 onOffsetChange={setOffset}
+            />
+            <ContributionModal
+                open={open}
+                onClose={() => {navigate(cataloguesContributions()); toggle()}}
             />
         </AppPage>
     )

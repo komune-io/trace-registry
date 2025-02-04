@@ -115,7 +115,7 @@
     "description": "Description",
     "illustration": "Illustration",
     "category": "Catégorie",
-    "parentSheet" : "Fiche parente",
+    "parentSheet": "Fiche parente",
     "history": "Historique",
     "delete": "Supprimer",
     "sendForValidation": "Envoyer pour validation",
@@ -255,6 +255,11 @@
         }
     },
     "catalogues": {
+        "status": {
+            "ACTIVE": "Publiée",
+            "DELETED": "Supprimée",
+            "DRAFT": "Brouillon"
+        },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
         "administrator": "Administrateur {{entity}}",
@@ -274,10 +279,8 @@
         "rejectTheModification": "Rejeter la modification",
         "addARejectComment": "Ajoutez un commentaire ci-dessous pour indiquer à l’éditeur la raison du rejet de sa modification",
         "addASubmitComment": "Ajoutez une note de version ci-dessous pour indiquer au validateur les modifications apportées à la fiche",
-        "status": {
-            "ACTIVE": "Publiée",
-            "DELETED": "Supprimée",
-            "DRAFT": "Brouillon"
-        }
+        "thanksForContribution": "Merci pour votre contribution !",
+        "modificationsSaved": "Vos modifications ont été enregistrées avec succès.",
+        "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication."
     }
 }

@@ -255,6 +255,11 @@
     }
   },
   "catalogues": {
+    "status": {
+      "ACTIVE": "Published",
+      "DELETED": "Deleted",
+      "DRAFT": "Draft"
+    },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
     "administrator": "{{entity}} Administrator",
@@ -274,10 +279,8 @@
     "rejectTheModification": "Reject the modification",
     "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification",
     "addASubmitComment": "Add a version note below to indicate to the validator the changes made to the sheet",
-    "status": {
-      "ACTIVE": "Published",
-      "DELETED": "Deleted",
-      "DRAFT": "Draft"
-    }
+    "thanksForContribution": "Thank you for your contribution!",
+    "modificationsSaved": "Your modifications have been successfully saved.",
+    "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication."
   }
 }
