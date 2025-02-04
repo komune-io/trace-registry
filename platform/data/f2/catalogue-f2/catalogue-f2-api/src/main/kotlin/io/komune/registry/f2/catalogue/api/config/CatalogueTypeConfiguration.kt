@@ -4,6 +4,7 @@ data class CatalogueTypeConfiguration(
     val type: String,
     val identifierSequence: String?,
     val parentTypes: Set<String>?,
+    val conceptSchemes: Set<String>?,
     val i18n: CatalogueTypeI18n?,
     val datasets: List<CatalogueTypeSubDataset>?,
     val hidden: Boolean = false

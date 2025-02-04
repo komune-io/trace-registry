@@ -4,12 +4,11 @@ import f2.dsl.fnc.invokeWith
 import io.komune.registry.dsl.dcat.domain.model.DCatApCatalogueModel
 import io.komune.registry.dsl.dcat.domain.model.DcatDataset
 import io.komune.registry.f2.catalogue.client.CatalogueClient
-import io.komune.registry.f2.catalogue.client.catalogueSetImageFunction
+import io.komune.registry.f2.catalogue.client.catalogueCreate
+import io.komune.registry.f2.catalogue.client.catalogueUpdate
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueFile
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
@@ -20,6 +19,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -104,7 +104,7 @@ class DCatGraphClient(
         catalogue.translations
             ?.filterKeys { it !in existingCatalogue.availableLanguages }
             ?.map { (_, translation) ->
-                CatalogueUpdateCommandDTOBase(
+                (CatalogueUpdateCommandDTOBase(
                     id = existingCatalogue.id,
                     title = translation.title,
                     description = translation.description,
@@ -118,7 +118,7 @@ class DCatGraphClient(
                     accessRights = existingCatalogue.accessRights,
                     license = existingCatalogue.license,
                     hidden = existingCatalogue.hidden
-                ).invokeWith(catalogueClient.catalogueUpdate())
+                ) to null).invokeWith(catalogueClient.catalogueUpdate())
             }
 
         createdCatalogues[catalogue.identifier] = existingCatalogue.id
@@ -152,7 +152,7 @@ class DCatGraphClient(
         catalogue: DCatApCatalogueModel,
         createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
     ): CatalogueId {
-        return CatalogueCreateCommandDTOBase(
+        return (CatalogueCreateCommandDTOBase(
             identifier = catalogue.identifier,
             title = catalogue.title,
             description = catalogue.description,
@@ -164,19 +164,11 @@ class DCatGraphClient(
             structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes,
-        ).invokeWith(catalogueClient.catalogueCreate())
-            .id
-            .also { catalogueId ->
-                catalogue.img?.let { img ->
-                    val ff = PathMatchingResourcePatternResolver().getResource(img).contentAsByteArray
-                    (CatalogueSetImageCommandDTOBase(
-                        id = catalogueId,
-                    ) to CatalogueFile(
-                        name = img,
-                        content = ff
-                    )).invokeWith(catalogueClient.catalogueSetImageFunction())
-                }
-            }.also { println("Created catalogue ${catalogue.identifier} (${catalogue.language}) with id $it") }
+        ) to catalogue.img?.let { SimpleFile(
+            name = it,
+            content = PathMatchingResourcePatternResolver().getResource(it).contentAsByteArray
+        ) }).invokeWith(catalogueClient.catalogueCreate()).id
+            .also { println("Created catalogue ${catalogue.identifier} (${catalogue.language}) with id $it") }
     }
 
 //    private suspend fun initDataset(

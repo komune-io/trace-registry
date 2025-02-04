@@ -1,4 +1,4 @@
-package io.komune.registry.api.config
+package io.komune.registry.api.config.i18n
 
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.beans.factory.annotation.Value

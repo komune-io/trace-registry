@@ -12,7 +12,8 @@ import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.toCommand
 import io.komune.registry.f2.catalogue.api.service.toDTO
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
@@ -21,7 +22,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDT
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
@@ -35,7 +37,6 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
@@ -122,88 +123,89 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableParentsResult)
     }
 
-    @PermitAll
-    @Bean
-    override fun catalogueCreate(): CatalogueCreateFunction = f2Function { cmd ->
-        logger.info("catalogueCreate: $cmd")
+    @PostMapping("/catalogueCreate")
+    suspend fun catalogueCreate(
+        @RequestPart("command") command: CatalogueCreateCommandDTOBase,
+        @RequestPart("file", required = false) image: FilePart?
+    ): CatalogueCreatedEventDTOBase {
+        logger.info("catalogueCreate: $command")
         cataloguePoliciesEnforcer.checkCreate()
-        catalogueF2AggregateService.create(cmd)
+        val event = catalogueF2AggregateService.create(command)
+        image?.let { catalogueF2AggregateService.setImage(event.id, it) }
+        return event
     }
 
-    @PermitAll
-    @Bean
-    override fun catalogueUpdate(): CatalogueUpdateFunction = f2Function { cmd ->
-        logger.info("catalogueUpdate: $cmd")
+    @PostMapping("/catalogueUpdate")
+    suspend fun catalogueUpdate(
+        @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
+        @RequestPart("file", required = false) image: FilePart?
+    ): CatalogueUpdatedEventDTOBase {
+        logger.info("catalogueUpdate: $command")
         cataloguePoliciesEnforcer.checkUpdate()
-        catalogueF2AggregateService.update(cmd)
+        val event = catalogueF2AggregateService.update(command)
+        image?.let { catalogueF2AggregateService.setImage(event.id, it) }
+        return event
     }
 
     @PermitAll
     @Bean
-    override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { cmd ->
-        logger.info("catalogueDelete: $cmd")
-        cataloguePoliciesEnforcer.checkDelete(cmd.id)
-        catalogueAggregateService.delete(cmd).toDTO()
+    override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { command ->
+        logger.info("catalogueDelete: $command")
+        cataloguePoliciesEnforcer.checkDelete(command.id)
+        catalogueAggregateService.delete(command).toDTO()
     }
 
     @PermitAll
     @Bean
-    override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { cmd ->
+    override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { command ->
+        logger.info("catalogueLinkCatalogues: $command")
         cataloguePoliciesEnforcer.checkLinkCatalogues()
-        catalogueF2AggregateService.linkCatalogues(cmd)
+        catalogueF2AggregateService.linkCatalogues(command)
     }
 
     @PermitAll
     @Bean
-    override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { cmd ->
+    override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { command ->
+        logger.info("catalogueUnlinkCatalogues: $command")
         cataloguePoliciesEnforcer.checkLinkCatalogues()
         CatalogueUnlinkCataloguesCommand(
-            id = cmd.id,
-            catalogues = cmd.catalogues,
+            id = command.id,
+            catalogues = command.catalogues,
         ).let { catalogueAggregateService.unlinkCatalogues(it) }
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
     }
 
     @PermitAll
     @Bean
-    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { cmd ->
-        logger.info("catalogueLinkDatasets: $cmd")
+    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { command ->
+        logger.info("catalogueLinkDatasets: $command")
         cataloguePoliciesEnforcer.checkLinkDatasets()
-        catalogueAggregateService.linkDatasets(cmd.toCommand()).toDTO()
+        catalogueAggregateService.linkDatasets(command.toCommand()).toDTO()
     }
 
     @PermitAll
     @Bean
-    override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { cmd ->
-        logger.info("catalogueLinkThemes: $cmd")
+    override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { command ->
+        logger.info("catalogueLinkThemes: $command")
         cataloguePoliciesEnforcer.checkLinkThemes()
-        catalogueAggregateService.linkThemes(cmd.toCommand()).toDTO()
+        catalogueAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
     @PostMapping("/catalogueSetImage")
     suspend fun catalogueSetImage(
-        @RequestPart("command") cmd: CatalogueSetImageCommandDTOBase,
-        @RequestPart("file") file: FilePart?
+        @RequestPart("command") command: CatalogueSetImageCommandDTOBase,
+        @RequestPart("file", required = true) file: FilePart
     ): CatalogueSetImageEventDTOBase {
-        logger.info("catalogueSetImage: $cmd")
+        logger.info("catalogueSetImage: $command")
         cataloguePoliciesEnforcer.checkSetImg()
-        val filePath = file?.let {
-            fsService.uploadCatalogueImg(
-                filePart = file,
-                objectId = cmd.id,
-            ).path
-        }
-        val result = catalogueAggregateService.setImageCommand(
-            cmd = CatalogueSetImageCommand(
-                id = cmd.id,
-                img = filePath,
-            )
-        )
-        return CatalogueSetImageEventDTOBase(
-            id = cmd.id,
-            img = result.img,
-            date = result.date,
-        )
+        return catalogueF2AggregateService.setImage(command.id, file)
+            .let {
+                CatalogueSetImageEventDTOBase(
+                    id = it.id,
+                    img = it.img,
+                    date = it.date,
+                )
+            }
     }
 
     @PermitAll

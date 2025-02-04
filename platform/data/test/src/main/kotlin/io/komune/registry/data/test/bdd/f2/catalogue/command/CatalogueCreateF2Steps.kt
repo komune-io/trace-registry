@@ -20,6 +20,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
 
     @Autowired
     private lateinit var catalogueEndpoint: CatalogueEndpoint
+
     @Autowired
     private lateinit var repository: CatalogueRepository
 
@@ -112,7 +113,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
             catalogues = emptyList(),
             themes = emptyList(),
         )
-        command.invokeWith(catalogueEndpoint.catalogueCreate()).id
+        catalogueEndpoint.catalogueCreate(command, null).id
     }
 
     private suspend fun getPage(params: CataloguePageParams = CataloguePageParams()): CataloguePageResult {

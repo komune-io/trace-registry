@@ -3,7 +3,7 @@ package io.komune.registry.f2.catalogue.api.service
 import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.api.config.I18nConfig
+import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service
 class CatalogueI18nService(
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetFinderService: DatasetFinderService,
-    private val i18nConfig: I18nConfig
-) {
+) : I18nService() {
     suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
             CatalogueDTOBase(
@@ -113,9 +112,9 @@ class CatalogueI18nService(
             language != null && language !in catalogue.translations && !otherLanguageIfAbsent -> return null
         }
 
-        val translationId = catalogue.translations[language]
-            ?: catalogue.translations.getFirstExistingIn(i18nConfig.orderedLocales)
-            ?: catalogue.translations.values.first()
+        val selectedLanguage = selectLanguage(catalogue.translations.keys, language, otherLanguageIfAbsent)
+            ?: return null
+        val translationId = catalogue.translations[selectedLanguage]!!
 
         val translation = catalogueFinderService.get(translationId)
         return catalogue.copy(
@@ -126,9 +125,4 @@ class CatalogueI18nService(
             catalogues = catalogue.catalogues + translation.catalogues
         )
     }
-
-    private fun <K, V> Map<K, V>.getFirstExistingIn(keys: List<K>): V? {
-        return get(keys.firstOrNull { it in this })
-    }
-
 }

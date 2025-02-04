@@ -5,6 +5,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -16,7 +17,7 @@ import kotlin.js.JsName
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  * @order 15
  */
-typealias CatalogueUpdateFunction = F2Function<CatalogueUpdateCommandDTOBase, CatalogueUpdatedEventDTOBase>
+typealias CatalogueUpdateFunction = F2Function<Pair<CatalogueUpdateCommandDTOBase, SimpleFile?>, CatalogueUpdatedEventDTOBase>
 
 /**
  * @d2 command

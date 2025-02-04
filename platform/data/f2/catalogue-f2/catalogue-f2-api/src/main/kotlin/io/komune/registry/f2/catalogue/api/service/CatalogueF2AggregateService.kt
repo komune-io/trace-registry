@@ -2,7 +2,7 @@ package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.api.config.I18nConfig
+import io.komune.registry.api.config.i18n.I18nConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeSubDataset
@@ -14,6 +14,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
@@ -23,9 +24,12 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -35,6 +39,7 @@ class CatalogueF2AggregateService(
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val fsService: FsService,
     private val i18nConfig: I18nConfig,
     private val sequenceRepository: SequenceRepository
 ) {
@@ -119,6 +124,10 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun linkCatalogues(command: CatalogueLinkCataloguesCommandDTOBase): CatalogueLinkedCataloguesEventDTOBase {
+        command.catalogues.ifEmpty {
+            return CatalogueLinkedCataloguesEventDTOBase(command.id)
+        }
+
         val parent = catalogueFinderService.get(command.id)
         val children = catalogueFinderService.page(
             id = CollectionMatch(command.catalogues)
@@ -133,6 +142,18 @@ class CatalogueF2AggregateService(
             id = command.id,
             catalogues = command.catalogues
         ).let { catalogueAggregateService.linkCatalogues(it).toDTO() }
+    }
+
+    suspend fun setImage(id: CatalogueId, image: FilePart): CatalogueSetImageEvent {
+        val filePath = fsService.uploadCatalogueImg(
+            filePart = image,
+            objectId = id,
+        ).path
+
+        return CatalogueSetImageCommand(
+            id = id,
+            img = filePath,
+        ).let { catalogueAggregateService.setImageCommand(it) }
     }
 
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {

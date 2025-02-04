@@ -8,13 +8,11 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
@@ -56,8 +54,6 @@ fun catalogueClient(
 @JsExport
 @JsName("CatalogueClient")
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
-    override fun catalogueCreate(): CatalogueCreateFunction = client.function("data/${this::catalogueCreate.name}")
-    override fun catalogueUpdate(): CatalogueUpdateFunction = client.function("data/${this::catalogueUpdate.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
         = client.function("data/${this::catalogueLinkCatalogues.name}")
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction

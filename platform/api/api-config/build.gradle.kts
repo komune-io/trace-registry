@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:commons"))
+    implementation(project(Modules.commons))
     Dependencies.Jvm.f2Auth(::api)
     Dependencies.Jvm.f2OpenApi(::implementation)
 

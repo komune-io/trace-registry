@@ -5,10 +5,6 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:data:dsl:dcat"))
-	commonMainApi(project(":platform:data:dsl:structure"))
-}
-
-tasks.withType<Test>().configureEach {
-	useJUnitPlatform()
+	commonMainApi(project(Modules.data.dsl.dcat))
+	commonMainApi(project(Modules.data.dsl.structure))
 }
