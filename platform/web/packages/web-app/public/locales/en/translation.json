@@ -130,6 +130,7 @@
   "reject": "Reject",
   "langue": "Language",
   "submit": "Submit",
+  "myContributions": "My contributions",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

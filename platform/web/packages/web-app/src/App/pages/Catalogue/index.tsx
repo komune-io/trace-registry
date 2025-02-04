@@ -4,6 +4,7 @@ import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreation
 import { CatalogueEditionPage } from "./CatalogueEditionPage/CatalogueEditionPage";
 import { CatalogueToValidateListPage } from "./CatalogueToValidateListPage/CatalogueToValidateListPage";
 import { CatalogueValidationPage } from "./CatalogueValidationPage/CatalogueValidationPage";
+import { ContributionListPage } from "./ContributionListPage/ContributionListPage";
 
 
 export const catalogPages: PageRoute[] = [
@@ -34,6 +35,10 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/toVerify",
     element: <CatalogueToValidateListPage  />
+  },
+  {
+    path: "catalogues/contributions",
+    element: <ContributionListPage  />
   },
   {
     path: "catalogues/*",

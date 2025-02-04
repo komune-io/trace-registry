@@ -12,7 +12,7 @@ export const CatalogueEditionPage = () => {
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const {cataloguesMine} = useRoutesDefinition()
+  const {cataloguesContributions} = useRoutesDefinition()
 
   const simplified = true
 
@@ -65,7 +65,7 @@ export const CatalogueEditionPage = () => {
 
   const onSubmit = useCallback(
     async () => {
-      navigate(cataloguesMine() + "?successfullContribution=true")
+      navigate(cataloguesContributions() + "?successfullContribution=true")
       return Promise.resolve()
     },
     [],
