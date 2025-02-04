@@ -4,12 +4,14 @@ import {
     CatalogueInformation, DatasetDataSection, CatalogueGrid, useCataloguePageQuery,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useRoutesDefinition } from 'components'
 import { SyntheticEvent, useCallback, useMemo } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
-import {maybeAddItem} from "../../../menu";
+import { maybeAddItem } from "../../../menu";
+import { IconButton, Stack } from '@mui/material'
+import { EditRounded } from '@mui/icons-material'
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -18,7 +20,8 @@ interface CatalogueViewPageProps {
 export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t, i18n } = useTranslation()
-    const { ids, tab} = useCataloguesRouteParams()
+    const { ids, tab } = useCataloguesRouteParams()
+    const {cataloguesCatalogueIdEdit} = useRoutesDefinition()
 
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
@@ -37,7 +40,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     }) ?? []
 
 
-    const {data}  = useCataloguePageQuery({
+    const { data } = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
             language: i18n.language
@@ -69,7 +72,20 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         <AppPage
             title={catalogue?.title}
         >
-            <CatalogueBreadcrumbs />
+            <Stack
+                gap={2}
+                justifyContent="space-between"
+                alignItems="center"
+                direction="row"
+            >
+                <CatalogueBreadcrumbs />              
+                <IconButton
+                    component={Link}
+                    to={cataloguesCatalogueIdEdit(catalogue?.identifier!)}
+                >
+                    <EditRounded />
+                </IconButton>
+            </Stack>
             <SectionTab
                 tabs={tabs}
                 currentTab={currentTab}
