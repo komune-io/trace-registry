@@ -11,18 +11,19 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 interface CatalogueFinder {
     suspend fun getOrNull(id: CatalogueId): CatalogueModel?
     suspend fun get(id: CatalogueId): CatalogueModel
-    suspend fun getOrNullByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel?
-    suspend fun getByIdentifier(id: CatalogueIdentifier, language: String): CatalogueModel
+    suspend fun getByIdentifierOrNull(identifier: CatalogueIdentifier): CatalogueModel?
+    suspend fun getByIdentifier(identifier: CatalogueIdentifier): CatalogueModel
     suspend fun page(
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
         parentIdentifier: String? = null,
-        language: String? = null,
+        language: Match<String>? = null,
+        type: Match<String>? = null,
         status: Match<CatalogueState>? = null,
+        hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueModel>
-    suspend fun listByIdentifier(identifier: String): List<CatalogueModel>
 
     suspend fun getAll(): List<CatalogueModel>
 }

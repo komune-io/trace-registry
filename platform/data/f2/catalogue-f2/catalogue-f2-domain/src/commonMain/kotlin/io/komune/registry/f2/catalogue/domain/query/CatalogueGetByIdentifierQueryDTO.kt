@@ -29,10 +29,10 @@ interface CatalogueGetByIdentifierQueryDTO {
     val identifier: CatalogueIdentifier?
 
     /**
-     * Language of the version of the catalogue to fetch.
+     * Language of the version of the catalogue to fetch. If null, an arbitrary version is returned.
      * @example "en"
      */
-    val language: String
+    val language: String?
 }
 
 /**
@@ -41,7 +41,7 @@ interface CatalogueGetByIdentifierQueryDTO {
 @Serializable
 data class CatalogueGetByIdentifierQuery(
     override val identifier: CatalogueIdentifier,
-    override val language: String
+    override val language: String?
 ): CatalogueGetByIdentifierQueryDTO
 
 /**

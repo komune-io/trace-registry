@@ -30,9 +30,7 @@ fun catalogueStandards(debug: String) = catalogue {
 }
 
 fun getImg(name: String): String? {
-    return Thread.currentThread().contextClassLoader.getResource(name)?.file.also {
-        println("getImg: $name - $it")
-    }
+    return "classpath:$name"
 }
 
 

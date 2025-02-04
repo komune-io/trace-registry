@@ -1,6 +1,9 @@
 {
-  "type": "100m-sector",
-  "identifierSequence": "seq_100m_sector",
+  "type": "100m-translation",
+  "hidden": true,
+  "i18n": {
+    "enable": false
+  },
   "datasets": [{
     "type": "lexical",
     "identifierSuffix": "-lexical"

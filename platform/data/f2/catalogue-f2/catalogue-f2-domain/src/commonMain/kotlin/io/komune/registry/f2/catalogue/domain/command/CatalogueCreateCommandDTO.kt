@@ -31,6 +31,8 @@ interface CatalogueCreateCommandDTO {
      */
     val identifier: CatalogueIdentifier?
 
+    val parentId: CatalogueId?
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
      */
@@ -52,6 +54,11 @@ interface CatalogueCreateCommandDTO {
     val validator: Agent?
     val accessRights: String?
     val license: String?
+
+    /**
+     * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
+     */
+    val hidden: Boolean?
 }
 
 /**
@@ -60,6 +67,7 @@ interface CatalogueCreateCommandDTO {
 @Serializable
 data class CatalogueCreateCommandDTOBase(
     override val identifier: CatalogueIdentifier? = null,
+    override val parentId: CatalogueId? = null,
     override val title: String,
     override val description: String? = null,
     override val type: String,
@@ -73,6 +81,7 @@ data class CatalogueCreateCommandDTOBase(
     override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: String? = null,
+    override val hidden: Boolean? = null,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -83,9 +92,10 @@ data class CatalogueCreateCommandDTOBase(
 @JsName("CatalogueCreatedEventDTO")
 interface CatalogueCreatedEventDTO: Event {
     /**
-     * Identifier of the created catalogue.
+     * Id of the created catalogue.
      */
     val id: CatalogueId
+
     /**
      * Identifier of the created catalogue.
      */
@@ -100,6 +110,3 @@ data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
 ): CatalogueCreatedEventDTO
-
-
-typealias ActivityStepEvidenceDownloadResult = ByteArray

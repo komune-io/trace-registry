@@ -13,4 +13,9 @@ object ExceptionCodes {
         const val UNACCEPTED_TERMS = 2001
         const val ORGANIZATION_EXISTS = 2002
     }
+
+    object Catalogue {
+        const val CATALOGUE_PARENT_TYPE_INVALID = 3000
+        const val CATALOGUE_PARENT_IS_DESCENDANT = 3001
+    }
 }

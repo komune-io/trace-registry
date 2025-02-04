@@ -13,9 +13,11 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueListLanguagesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
@@ -55,8 +57,11 @@ fun catalogueClient(
 @JsName("CatalogueClient")
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueCreate(): CatalogueCreateFunction = client.function("data/${this::catalogueCreate.name}")
+    override fun catalogueUpdate(): CatalogueUpdateFunction = client.function("data/${this::catalogueUpdate.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
         = client.function("data/${this::catalogueLinkCatalogues.name}")
+    override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction
+        = client.function("data/${this::catalogueUnlinkCatalogues.name}")
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = client.function("data/${this::catalogueLinkDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
@@ -66,5 +71,6 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueGetByIdentifier.name}")
     override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
-    override fun catalogueListLanguages(): CatalogueListLanguagesFunction = client.function("data/${this::catalogueListLanguages.name}")
+    override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
+        = client.function("data/${this::catalogueListAvailableParents.name}")
 }

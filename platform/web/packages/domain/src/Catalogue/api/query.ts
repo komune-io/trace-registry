@@ -53,3 +53,13 @@ export const useCatalogueRefGetTreeQuery = (params: QueryParams<CatalogueRefGetT
     )
 }
 
+export interface CatalogueListAvailableParentsQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsQueryDTO {}
+export interface CatalogueListAvailableParentsResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResultDTO {}
+
+export const useCatalogueListAvailableParentsQuery = (params: QueryParams<CatalogueListAvailableParentsQuery, CatalogueListAvailableParentsResult>) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useQueryRequest<CatalogueListAvailableParentsQuery, CatalogueListAvailableParentsResult>(
+      "data/catalogueListAvailableParents", requestProps, params
+    )
+}
+

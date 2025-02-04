@@ -1,6 +1,5 @@
 package io.komune.registry.program.s2.catalogue.api.query
 
-import com.redis.om.spring.metamodel.indexed.TextField
 import com.redis.om.spring.search.stream.EntityStream
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
@@ -23,13 +22,18 @@ class CataloguePageQueryDB(
         id: Match<CatalogueId>? = null,
         identifier: Match<CatalogueIdentifier>? = null,
         title: Match<String>? = null,
-        parentIdentifier: Match<CatalogueIdentifier>? = null,
+        language: Match<String>? = null,
+        type: Match<String>? = null,
         status: Match<CatalogueState>? = null,
+        hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {
         match(`CatalogueEntity$`.ID, id)
         match(`CatalogueEntity$`.IDENTIFIER, identifier)
         match(`CatalogueEntity$`.TITLE, title)
-        match(`CatalogueEntity$`.STATUS as TextField<CatalogueEntity, CatalogueState>, status)
+        match(`CatalogueEntity$`.LANGUAGE, language)
+        match(`CatalogueEntity$`.TYPE, type)
+        match(`CatalogueEntity$`.HIDDEN, hidden)
+        match(`CatalogueEntity$`.STATUS, status)
     }
 }

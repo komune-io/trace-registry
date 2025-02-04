@@ -11,12 +11,13 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Document
+@Document("Catalogue")
 open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  {
 
     @Id
@@ -37,7 +38,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     lateinit var type: String
 
     @Searchable(nostem=true)
-    lateinit var language: String
+    var language: String? = null
 
     @Searchable(nostem=true)
     var description: String? = null
@@ -57,11 +58,16 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var datasets: Set<DatasetId> = emptySet()
 
+    var translations: Map<Language, CatalogueId> = emptyMap()
+
     var creator: Agent? = null
     var publisher: Agent? = null
     var validator: Agent? = null
     var accessRights: String? = null
     var license: String? = null
+
+    @Indexed
+    var hidden: Boolean = false
 
     var issued: Long? = null
     var modified: Long? = null

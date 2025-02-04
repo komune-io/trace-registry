@@ -20,8 +20,8 @@ import f2.dsl.cqrs.filter.StringMatchCondition
 import java.util.function.Predicate
 import java.util.function.Predicate.not
 
-fun <E> SearchStream<E>.match(x: BooleanField<E, Boolean?>, matcher: Match<Boolean?>?): SearchStream<E> {
-    return match(x as MetamodelField<E, Boolean?>, matcher)
+fun <E, T: Boolean?> SearchStream<E>.match(x: BooleanField<E, T>, matcher: Match<T>?): SearchStream<E> {
+    return match(x as MetamodelField<E, T>, matcher)
         ?.let(::filter)
         ?: this
 }

@@ -1,0 +1,9 @@
+{
+  "type": "100m-usecase",
+  "identifierSequence": "seq_100m_usecase",
+  "parentTypes": ["100m-usecases", "100m-sector"],
+  "i18n": {
+    "enable": true,
+    "translationType": "100m-translation"
+  }
+}

@@ -4,6 +4,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.commons.model.Language
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -27,6 +28,12 @@ interface CatalogueGetQueryDTO {
      * Id of the catalogue to fetch.
      */
     val id: CatalogueId
+
+    /**
+     * Language of the version of the catalogue to fetch. If null, an arbitrary version is returned.
+     * @example "en"
+     */
+    val language: Language?
 }
 
 /**
@@ -35,6 +42,7 @@ interface CatalogueGetQueryDTO {
 @Serializable
 data class CatalogueGetQuery(
     override val id: CatalogueId,
+    override val language: Language?,
 ): CatalogueGetQueryDTO
 
 /**

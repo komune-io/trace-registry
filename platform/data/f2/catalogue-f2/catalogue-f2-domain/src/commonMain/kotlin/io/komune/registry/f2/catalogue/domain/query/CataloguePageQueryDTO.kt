@@ -29,7 +29,8 @@ interface CataloguePageQueryDTO {
     val parentIdentifier: String?
     val title: String?
     val status: String?
-    val language: String?
+    val language: String
+    val type: List<String>?
     val offset: Int?
     val limit: Int?
 }
@@ -42,7 +43,8 @@ data class CataloguePageQuery(
     override val parentIdentifier: String? = null,
     override val title: String? = null,
     override val status: String? = null,
-    override val language: String? = null,
+    override val language: String,
+    override val type: List<String>?,
     override val offset: Int?,
     override val limit: Int?,
 ): CataloguePageQueryDTO

@@ -1,5 +1,7 @@
 package io.komune.registry.s2.catalogue.domain.automate
 
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -12,12 +14,15 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
+import kotlin.js.JsExport
 
 val s2Catalogue = s2Sourcing {
     name = "Catalogue"
@@ -29,7 +34,15 @@ val s2Catalogue = s2Sourcing {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
+    selfTransaction<CatalogueAddTranslationsCommand, CatalogueAddedTranslationsEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
     selfTransaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueUnlinkCataloguesCommand, CatalogueUnlinkedCataloguesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
@@ -71,6 +84,7 @@ typealias CatalogueIdentifier = String
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  */
 @Serializable
+@JsExport
 enum class CatalogueState(override val position: Int): S2State {
     /**
      * The catalogue is operational, and catalogues can be issued, transferred, or retired within it.

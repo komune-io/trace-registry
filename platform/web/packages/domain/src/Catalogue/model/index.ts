@@ -5,3 +5,7 @@ export interface Catalogue extends io.komune.registry.f2.catalogue.domain.dto.Ca
 export interface CatalogueRef extends io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO {}
 
 export interface CatalogueRefTree extends io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO {}
+
+export type CatalogueTypes = "100m-sector" | "100m-solution" | "100m-system"
+
+export const catalogueTypes: CatalogueTypes[] = ["100m-sector", "100m-solution", "100m-system"]

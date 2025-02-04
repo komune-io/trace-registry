@@ -15,7 +15,7 @@ fun catalogue(block: CatalogueBuilder.() -> Unit): DCatApCatalogueModel = Catalo
 class CatalogueBuilder {
     lateinit var identifier: String
     var homepage: String? = null
-    lateinit var title: String
+    var title: String? = null
     var img: String? = null
     var description: String? = null
     lateinit var type: String
@@ -27,6 +27,7 @@ class CatalogueBuilder {
     var services: MutableList<DataService> = mutableListOf()
     var catalogues: MutableList<DCatApCatalogueModel> = mutableListOf()
     var catalogueRecords: MutableList<DcatCatalogueRecord> = mutableListOf()
+    var translations: MutableMap<String, DCatApCatalogueModel> = mutableMapOf()
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
@@ -49,14 +50,18 @@ class CatalogueBuilder {
         this@CatalogueBuilder.catalogues.add(this)
     }
 
-    operator fun CatalogueI18n.unaryPlus() {
-        this@CatalogueBuilder.catalogues.addAll(this.values)
-    }
-
-
     fun catalogueRecords(block: CATALOGRECORDS.() -> Unit) = catalogueRecords.addAll(CATALOGRECORDS().apply(block))
     fun CATALOGRECORDS.catalogueRecord(block: CatalogRecordBuilder.() -> Unit)
         = add(CatalogRecordBuilder().apply(block).build())
+
+    fun translation(language: String, block: CatalogueBuilder.() -> Unit) {
+        translations[language] = CatalogueBuilder().also {
+            it.identifier = "$identifier-$language"
+            it.language = language
+            it.type = type
+            it.structure = structure
+        }.apply(block).build()
+    }
 
     fun build() = DCatApCatalogueModel(
         identifier = identifier,
@@ -67,64 +72,14 @@ class CatalogueBuilder {
         language = language ?: "fr",
         structure = structure,
         themes = themes,
+        translations = translations,
         cataloguedResource = cataloguedResources,
         datasets = datasets,
         services = services,
         catalogues = catalogues,
-        title = title,
+        title = title.orEmpty(),
         catalogueRecords = catalogueRecords
     )
-}
-
-fun catalogueI18n(
-    block: CatalogueI18nBuilder.() -> Unit
-): CatalogueI18n = CatalogueI18nBuilder().apply(block).catalogueByLanguage
-
-typealias CatalogueI18n = MutableMap<String, DCatApCatalogueModel>
-
-class CatalogueI18nBuilder {
-    lateinit var identifier: String
-    lateinit var type: String
-    lateinit var structure: Structure
-    var img: String? = null
-
-    var catalogueByLanguage: CatalogueI18n = mutableMapOf()
-    var themes: MutableList<SkosConcept> = mutableListOf()
-
-    fun language(language: String, block: CatalogueBuilder.() -> Unit) {
-        catalogueByLanguage[language] = CatalogueBuilder().also {
-            it.identifier = identifier
-            it.language = language
-            it.type = type
-            it.structure = structure
-            it.img = img
-        }.apply(block).build()
-    }
-
-    fun childCatalogue(block: CatalogueI18nBuilder.() -> Unit) {
-        +CatalogueI18nBuilder().apply(block).catalogueByLanguage
-    }
-
-    operator fun CatalogueI18n.unaryPlus() = forEach { (language, catalogue) ->
-        val parent = catalogueByLanguage[language]
-            ?: throw IllegalStateException("No parent catalogue for language $language (identifier: $identifier)")
-
-        catalogueByLanguage[language] = parent.copy(
-            catalogues = parent.catalogues.orEmpty() + catalogue
-        )
-    }
-
-    fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
-    operator fun SkosConcept.unaryPlus() {
-        this@CatalogueI18nBuilder.themes.add(this)
-    }
-    operator fun List<SkosConcept>.unaryPlus() {
-        this@CatalogueI18nBuilder.themes.addAll(this)
-    }
-
-
-    fun build() = catalogueByLanguage.values
-        .map { it.copy(themes = themes) }
 }
 
 fun dataset(block: DatasetBuilder.() -> Unit): DcatDataset = DatasetBuilder().apply(block).build()
