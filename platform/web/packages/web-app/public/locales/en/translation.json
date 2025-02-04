@@ -129,6 +129,7 @@
   "accept": "Accept",
   "reject": "Reject",
   "langue": "Language",
+  "submit": "Submit",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -271,6 +272,7 @@
     "contactEditor": "Contact the editor",
     "rejectTheModification": "Reject the modification",
     "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification",
+    "addASubmitComment": "Add a version note below to indicate to the validator the changes made to the sheet",
     "status": {
       "ACTIVE": "Published",
       "DELETED": "Deleted",

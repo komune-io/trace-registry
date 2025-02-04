@@ -129,6 +129,7 @@
   "accept": "Aceptar",
   "reject": "Rechazar",
   "langue": "Idioma",
+  "submit": "Enviar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -271,6 +272,7 @@
     "contactEditor": "Contactar al editor",
     "rejectTheModification": "Rechazar la modificación",
     "addARejectComment": "Agregue un comentario a continuación para indicar al editor la razón del rechazo de su modificación",
+    "addASubmitComment": "Agregue un comentario a continuación para indicar al validador las modificaciones realizadas en la hoja",
     "status": {
       "ACTIVE": "Activo",
       "DELETED": "Eliminado",
