@@ -13,15 +13,15 @@ export const catalogPages: PageRoute[] = [
   },
   {
     path: "catalogues/create/solution",
-    element: <CatalogueCreationPage type="solution" />
+    element: <CatalogueCreationPage type="100m-solution" />
   },
   {
     path: "catalogues/create/system",
-    element: <CatalogueCreationPage type="system" />
+    element: <CatalogueCreationPage type="100m-system" />
   },
   {
     path: "catalogues/create/sector",
-    element: <CatalogueCreationPage type="sector" />
+    element: <CatalogueCreationPage type="100m-sector" />
   },
   {
     path: "catalogues/:catalogueId/edit",
