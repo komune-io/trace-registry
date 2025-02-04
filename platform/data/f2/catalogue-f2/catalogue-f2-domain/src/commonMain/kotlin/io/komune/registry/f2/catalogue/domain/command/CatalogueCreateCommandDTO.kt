@@ -6,6 +6,7 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -17,7 +18,7 @@ import kotlin.js.JsName
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  * @order 10
  */
-typealias CatalogueCreateFunction = F2Function<CatalogueCreateCommandDTOBase, CatalogueCreatedEventDTOBase>
+typealias CatalogueCreateFunction = F2Function<Pair<CatalogueCreateCommandDTOBase, SimpleFile?>, CatalogueCreatedEventDTOBase>
 
 /**
  * @d2 command

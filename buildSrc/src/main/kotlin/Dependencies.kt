@@ -258,6 +258,13 @@ object Modules {
 				const val domain = "$BASE-domain"
 			}
 
+			object concept {
+				private const val BASE = "${f2.BASE}:concept-f2:concept-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
 			object dataset {
 				private const val BASE = "${f2.BASE}:dataset-f2:dataset-f2"
 				const val api = "$BASE-api"
@@ -271,6 +278,12 @@ object Modules {
 
 			object catalogue {
 				private const val BASE = "${s2.BASE}:catalogue:catalogue"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object concept {
+				private const val BASE = "${s2.BASE}:concept:concept"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}

@@ -3,8 +3,9 @@ package io.komune.registry.f2.catalogue.domain.command
 import f2.dsl.fnc.F2Function
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import kotlin.js.JsExport
+import io.komune.registry.s2.commons.model.SimpleFile
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Create a catalogue.
@@ -13,7 +14,7 @@ import kotlinx.serialization.Serializable
  * @order 10
  */
 typealias CatalogueSetImageFunction = F2Function<
-            Pair<CatalogueSetImageCommandDTOBase, CatalogueFile>, CatalogueSetImageEventDTOBase
+            Pair<CatalogueSetImageCommandDTOBase, SimpleFile>, CatalogueSetImageEventDTOBase
         >
 
 @JsExport
@@ -38,9 +39,3 @@ data class CatalogueSetImageEventDTOBase(
     override val img: FilePath? = null,
     override val date: Long
 ): CatalogueSetImageEventDTO
-
-
-data class CatalogueFile(
-    val name: String,
-    val content: ByteArray,
-)
