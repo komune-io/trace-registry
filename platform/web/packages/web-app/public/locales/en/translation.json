@@ -128,6 +128,7 @@
   "sheetValidation": "Sheet validation",
   "accept": "Accept",
   "reject": "Reject",
+  "langue": "Language",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

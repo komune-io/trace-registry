@@ -1,5 +1,5 @@
 import {
-    useCatalogueFilters,
+    useCataloguesFilters,
     useCataloguePageQuery,
     CatalogueTable
 } from 'domain-components'
@@ -11,7 +11,7 @@ import {  useMemo } from "react"
 export const CatalogueToValidateListPage = () => {
     const { i18n, t } = useTranslation()
 
-    const { submittedFilters, setOffset } = useCatalogueFilters({
+    const { submittedFilters, setOffset, component } = useCataloguesFilters({
     })
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
@@ -33,8 +33,8 @@ export const CatalogueToValidateListPage = () => {
                 paddingBottom: "90px"
             }}
         >
+            {component}
             <CatalogueTable
-                /* header={component} */
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}

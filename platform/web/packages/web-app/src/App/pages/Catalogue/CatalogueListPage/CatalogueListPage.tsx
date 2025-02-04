@@ -3,7 +3,7 @@ import { SearchFilter } from 'components'
 import {
     CatalogueBreadcrumbs,
     CatalogueGrid, Catalogue,
-    useCatalogueFilters,
+    useCataloguesFilters,
     useCataloguePageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +19,7 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t, i18n } = useTranslation()
 
-    const { submittedFilters, setOffset, setAdditionalFilter } = useCatalogueFilters({
+    const { submittedFilters, setOffset, setAdditionalFilter } = useCataloguesFilters({
         initialValues: {
             limit: 12
         }

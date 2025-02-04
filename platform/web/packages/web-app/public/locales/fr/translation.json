@@ -128,6 +128,7 @@
     "sheetValidation": "Validation de fiche",
     "accept": "Accepter",
     "reject": "Rejeter",
+    "langue": "Langue",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

@@ -46,7 +46,7 @@ function useCataogueColumn() {
             },
 
             language: {
-                header: t("language"),
+                header: t("langue"),
                 cell: ({ row }) => (
                     <Stack direction="row" gap={0.5} >
                         {[row.original.language].map((lang) => (

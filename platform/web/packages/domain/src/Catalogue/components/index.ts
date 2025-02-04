@@ -1,5 +1,4 @@
 export * from "./CatalogueCard"
-export * from "./CatalogueFilters"
 export * from "./CatalogueDetails"
 export * from "./CatalogueGrid"
 export * from "./CatalogueInformation"
