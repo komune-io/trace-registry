@@ -1,48 +1,55 @@
 import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable } from '@komune-io/g2'
 import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCataloguePageQuery } from '../../api'
+import { useCatalogueListAvailableParentsQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
+import { CatalogueTypes } from '../../model'
+import { CatalogueCreateCommand } from '../../api/command'
+
+type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
 
 interface CatalogueMetadataFormProps {
-    type: "solution" | "system" | "sector"
-    onSubmit?: (values: any) => void
+    type: CatalogueTypes
+    onSubmit?: (values: CatalogueCreateCommand & {illustration: File}) => void
     formState?: FormComposableState
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const { type, onSubmit, formState } = props
 
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
-    const [searchCatalogues, setSearchCatalogues] = useState("")
+    // search on user input logic is commented first but saved for later evolutions
+    // const [searchCatalogues, setSearchCatalogues] = useState("")
 
-    const cataloguePageQuery = useCataloguePageQuery({
+    const cataloguePageQuery = useCatalogueListAvailableParentsQuery({
         query: {
-           title: searchCatalogues,
-           limit: 20
+        //    title: searchCatalogues,
+           language: i18n.language,
+           type
         },
         options: {
-            enabled: !!searchCatalogues,
+            // enabled: !!searchCatalogues,
             placeholderData: keepPreviousData
         }
     })
 
-    const fields = useMemo((): FormComposableField[] => [{
-        name: "parent",
+    const fields = useMemo(():MetadataField[] => [{
+        name: "parentId",
         type: "autoComplete",
         label: t("parentSheet"),
         params: {
             popupIcon: <SearchIcon style={{transform: "none"}}/>,
             className: "parentField",
-            onInputChange: (_, value) => setSearchCatalogues(value),
+            // onInputChange: (_, value) => setSearchCatalogues(value),
             options: cataloguePageQuery.data?.items.map((cat) => ({
                 key: cat.id,
                 label: cat.title
             })),
-            // onBlur: () => setSearchCatalogues("")
+            // onBlur: () => setSearchCatalogues(""),
+            noOptionsText: t("catalogues.noData"),
         },
         required: true
     }, {
@@ -65,16 +72,16 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         required: true
     },
-    ...(type === "solution" ? [{
-        name: "category",
+    ...(type === "100m-solution" ? [{
+        name: "themes",
         type: "autoComplete",
         label: t("category"),
         params: {
 
         },
         required: true
-    }] as FormComposableField[] : []), {
-        name: "access",
+    }] as MetadataField[] : []), {
+        name: "accessRights",
         type: "select",
         label: t("access"),
         params: {
@@ -88,7 +95,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         required: true
     }, {
-        name: "licence",
+        name: "license",
         type: "autoComplete",
         label:  t("licence"),
         params: {
