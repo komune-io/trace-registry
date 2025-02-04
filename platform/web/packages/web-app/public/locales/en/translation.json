@@ -270,6 +270,11 @@
     "consultOriginal": "Consult the original sheet",
     "contactEditor": "Contact the editor",
     "rejectTheModification": "Reject the modification",
-    "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification"
+    "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification",
+    "status": {
+      "ACTIVE": "Published",
+      "DELETED": "Deleted",
+      "DRAFT": "Draft"
+    }
   }
 }
