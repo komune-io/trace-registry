@@ -11,7 +11,7 @@ import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { MenuHeader } from "./MenuHeader";
 
-interface MenuItem extends MenuItems {
+export interface MenuItem extends MenuItems {
   to?: string,
   action?: () => void,
   isVisible?: boolean;

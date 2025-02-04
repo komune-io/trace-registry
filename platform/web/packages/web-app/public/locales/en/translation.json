@@ -38,6 +38,7 @@
   "viewSelectedDocs": "View Selected Documents",
   "navigateThroughDocs": "Navigate through documents",
   "id": "ID",
+  "identifier": "Identifier",
   "type": "Type",
   "types": "Types",
   "quantity": "Quantity",
@@ -122,6 +123,12 @@
   "moveUp": "Move up",
   "moveDown": "Move down",
   "metadata": "Metadata",
+  "sheetsToValidate": "Sheets to validate",
+  "sheetEdition": "Sheet edition",
+  "sheetValidation": "Sheet validation",
+  "accept": "Accept",
+  "reject": "Reject",
+  "langue": "Language",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -256,6 +263,12 @@
     "sectoralScopes": "Sectoral scopes",
     "presentation": "Browse our comprehensive library of sheets organized by category to discover dedicated solutions for reducing CO2 emissions. Find information tailored to your needs through thematic navigation or precise searches, and take concrete actions to achieve sustainable decarbonization.",
     "newSection": "New section",
-    "createAdraft": "Create a draft"
+    "createAdraft": "Create a draft",
+    "noDataToValidate": "No catalogues to validate",
+    "reviewModifications": "Review the modification proposed by {{name}}",
+    "consultOriginal": "Consult the original sheet",
+    "contactEditor": "Contact the editor",
+    "rejectTheModification": "Reject the modification",
+    "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification"
   }
 }

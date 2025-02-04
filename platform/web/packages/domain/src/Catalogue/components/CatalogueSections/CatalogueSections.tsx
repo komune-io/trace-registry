@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next'
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
     sections: string[]
+    readOnly?: boolean
 }
 
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
-    const { catalogue, sections } = props
+    const { catalogue, sections, readOnly = false } = props
 
     // const reportAddSection = useReportAddSection()
     // const handleAddSection = useCallback(async (index: number) => {
@@ -41,26 +42,27 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
             key={index}
         >
 
-            <AddSectionDivider
+            {!readOnly && <AddSectionDivider
                 onAddSection={() => { } /* handleAddSection(section.position.index) */}
-            />
+            />}
             <SectionEditor
+            readOnly={readOnly}
                 markdown={markdown}
                 catalogue={catalogue}
                 reloadSection={() => {
                     return Promise.resolve()
                 }}
             />
-            {index === sections.length - 1 && <AddSectionDivider
+            {index === sections.length - 1 && !readOnly && <AddSectionDivider
                 onAddSection={() => { }/* handleAddSection(section.position.index + 1) */}
             />}
         </Fragment>
-    )), [catalogue, sections])
+    )), [catalogue, sections, readOnly])
 
     return (
         <>
             {sectionsDisplay}
-            {sections.length === 0 &&
+            {sections.length === 0 && !readOnly &&
                 <AddSectionDivider
                     onAddSection={() => { } /* handleAddSection(0) */}
                 />

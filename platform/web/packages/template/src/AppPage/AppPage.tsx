@@ -8,11 +8,12 @@ export interface AppPageProps extends StackProps {
     header?: ReactNode
     bgcolor?: string
     headerProps?: StackProps
+    customHeader?: ReactNode
     maxWidth?: number
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, ...other } = props
+    const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, customHeader, ...other } = props
 
     useEffect(() => {
         if (title) {
@@ -34,7 +35,7 @@ export const AppPage = (props: AppPageProps) => {
                 },
             }}
         >
-            <Stack
+            {customHeader ? customHeader :<Stack
                 direction="row"
                 alignItems="center"
                 gap={2}
@@ -43,18 +44,19 @@ export const AppPage = (props: AppPageProps) => {
                     pt: 3,
                     width: "100%"
                 }}
+                {...headerProps}
             >
                 <Stack
                     direction="row"
                     alignItems="center"
                     gap={2}
                     flexGrow={1}
-                    {...headerProps}
+                    
                 >
                     {header}
                 </Stack>
                 <LanguageSelector />
-            </Stack>
+            </Stack>}
             <Stack
                 sx={{
                     px: {

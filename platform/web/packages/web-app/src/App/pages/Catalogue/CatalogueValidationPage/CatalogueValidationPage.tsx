@@ -1,12 +1,12 @@
-import { languages, LanguageSelector, TitleDivider } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery } from 'domain-components'
+import { TitleDivider } from 'components'
+import { CatalogueMetadataForm, CatalogueSections, CatalogueValidationHeader, useCatalogueGetQuery } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useParams } from "react-router-dom";
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormComposable } from '@komune-io/g2';
 
-export const CatalogueEditionPage = () => {
+export const CatalogueValidationPage = () => {
   const { catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
@@ -17,9 +17,10 @@ export const CatalogueEditionPage = () => {
     },
   }).data?.item
 
-  const title = catalogue?.title ?? t("sheetEdition")
+  const title = catalogue?.title ?? t("sheetValidation")
 
   const metadataFormState = useFormComposable({
+    readOnly: true
   })
 
   const tabs: Tab[] = useMemo(() => {
@@ -30,38 +31,21 @@ export const CatalogueEditionPage = () => {
     }, {
       key: 'info',
       label: t('informations'),
-      component: <CatalogueSections sections={[md, md]} catalogue={catalogue} />,
+      component: <CatalogueSections readOnly sections={[md, md]} catalogue={catalogue} />,
     },
     ]
     return tabs
   }, [t, catalogue, metadataFormState])
-
-  const onSave = useCallback(
-    async () => {
-      const errors = await metadataFormState.validateForm()
-      if (Object.keys(errors).length > 0) {
-        setTab("metadata")
-      }
-      return
-    },
-    [metadataFormState.values],
-  )
 
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
+      customHeader={<CatalogueValidationHeader onAccept={() => {return Promise.resolve()}}  onReject={() => {return Promise.resolve()}} />}
     >
-      <CatalogueEditionHeader onSave={onSave} catalogue={catalogue} />
-      <TitleDivider title={title} onDebouncedChange={() => { }} />
-      <LanguageSelector
-        //@ts-ignore
-        languages={languages}
-        currentLanguage='fr'
-        onChange={() => { }}
-        sx={{ alignSelf: "flex-end", mb: -8}}
-      />
+
+      <TitleDivider title={title} />
       <SectionTab
         keepMounted
         tabs={tabs}
