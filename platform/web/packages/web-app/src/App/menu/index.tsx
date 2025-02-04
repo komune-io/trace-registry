@@ -9,8 +9,9 @@ import { g2Config } from "@komune-io/g2";
 import { CatalogueRefTree, useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
 import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { MenuHeader } from "./MenuHeader";
 
-interface MenuItem extends MenuItems {
+export interface MenuItem extends MenuItems {
   to?: string,
   action?: () => void,
   isVisible?: boolean;
@@ -18,35 +19,35 @@ interface MenuItem extends MenuItems {
 }
 
 export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps>[] => {
-    const finalMenu: MenuItems<LinkProps>[] = []
-    menu.forEach((item): MenuItems<LinkProps> | undefined => {
-        const additional = item.to ? {
-            component: Link,
-            componentProps: {
-                to: item.to
-            }
-        } : {
-          goto: item.action
-        }
-        if (item.isVisible === false) return
-        finalMenu.push({
-            key: `appLayout-${item.key}`,
-            label: item.label,
-            icon: item.icon,
-            color: 'primary.main',
-            onClick: item.onClick,
-            isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
-            items: item.items ? getMenu(location, item.items) : undefined,
-            ...additional
-        })
+  const finalMenu: MenuItems<LinkProps>[] = []
+  menu.forEach((item): MenuItems<LinkProps> | undefined => {
+    const additional = item.to ? {
+      component: Link,
+      componentProps: {
+        to: item.to
+      }
+    } : {
+      goto: item.action
+    }
+    if (item.isVisible === false) return
+    finalMenu.push({
+      key: `appLayout-${item.key}`,
+      label: item.label,
+      icon: item.icon,
+      color: 'primary.main',
+      onClick: item.onClick,
+      isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
+      items: item.items ? getMenu(location, item.items) : undefined,
+      ...additional
     })
-    return finalMenu
+  })
+  return finalMenu
 }
 
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
   const flagGetQuery = useFlagGetQuery()
-  const {i18n} = useTranslation()
+  const { i18n } = useTranslation()
   const module = useMemo(() => {
     return flagGetQuery.data?.module ?? {
       project: false,
@@ -65,14 +66,14 @@ export const useMenu = (t: TFunction) => {
       enabled: true
     }
   })
-  const {projects, cataloguesAll} = useRoutesDefinition()
-  const secteurMenu =  catalogueRefGetTreeQuery.data?.item?.catalogues
+  const { projects, cataloguesAll } = useRoutesDefinition()
+  const secteurMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
     ?.find(value => value.identifier == "objectif100m-secteur")
   const secteurSubMenu = secteurMenu?.catalogues?.map(mapCatalogueRef([secteurMenu.identifier], cataloguesAll))
 
-  const systemeMenu =  catalogueRefGetTreeQuery.data?.item?.catalogues
+  const systemMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
     ?.find(value => value.identifier == "objectif100m-systeme")
-  const systemSubMenu =  systemeMenu?.catalogues?.map(mapCatalogueRef([systemeMenu.identifier], cataloguesAll))
+  const systemSubMenu = systemMenu?.catalogues?.map(mapCatalogueRef([systemMenu.identifier], cataloguesAll))
 
 
   const menu: MenuItem[] = useMemo(() => {
@@ -86,10 +87,10 @@ export const useMenu = (t: TFunction) => {
       }),
       {
         key: "systems",
-        to: cataloguesAll(systemeMenu?.identifier),
+        to: cataloguesAll(systemMenu?.identifier),
         label: t("systems"),
         icon: <GridIcon />,
-        isSelected: location.pathname.includes(cataloguesAll(systemeMenu?.identifier)),
+        isSelected: location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
         items: systemSubMenu ?? []
       },
       {
@@ -108,7 +109,7 @@ export const useMenu = (t: TFunction) => {
 
 export const useUserMenu = (logout: () => void, login: () => void, t: TFunction) => {
   const location = useLocation()
-  const {service} = useExtendedAuth()
+  const { service } = useExtendedAuth()
   // @ts-ignore
   const adminUrl = g2Config().admin.url
   const loggedMenu: MenuItem[] = useMemo(() => [{
@@ -157,27 +158,28 @@ export const CustomMenu = () => {
   const menu = useMenu(t)
 
   return (
+    <Stack
+      sx={{
+        gap: 2,
+        px: 0,
+        pb: 2,
+        height: "100%"
+      }}
+    >
+      <MenuHeader />
       <Stack
-          sx={{
-              gap: 2,
-              px: 0,
-              pb: 2,
-              height: "100%"
-          }}
+        alignItems="center"
+        flexGrow={1}
+        overflow="auto"
+        width="100%"
       >
-          <Stack
-              alignItems="center"
-              flexGrow={1}
-              overflow="auto"
-              width="100%"
-          >
-                  <Menu
-                      sx={{
-                          width: "100%"
-                      }}
-                      menu={menu}
-                  />
-          </Stack>
+        <Menu
+          sx={{
+            width: "100%"
+          }}
+          menu={menu}
+        />
       </Stack>
+    </Stack>
   )
 }

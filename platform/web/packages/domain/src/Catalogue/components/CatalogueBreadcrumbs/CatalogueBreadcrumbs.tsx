@@ -14,14 +14,17 @@ export const CatalogueBreadcrumbs = () => {
         }
     })
 
-    const refs = refsQuery.data?.items
 
-    const crumbs = useMemo(() => [
-        ...ids.map((id, index): Crumb => ({
-            label: refs?.find((ref) => ref.identifier === id)?.title ?? id,
-            url: cataloguesAll(undefined, ...ids.slice(0, index + 1))
-        }))
-    ], [ids, cataloguesAll, catalogues, t, refs])
+
+    const crumbs = useMemo(() => {
+        const refs = refsQuery.data?.items
+        return [
+            ...ids.map((id, index): Crumb => ({
+                label: refs?.find((ref) => ref.identifier === id && ref.language === i18n.language)?.title ?? id,
+                url: cataloguesAll(undefined, ...ids.slice(0, index + 1))
+            }))
+        ]
+    }, [ids, cataloguesAll, catalogues, t, refsQuery.data?.items])
 
     return (
         <Breadcrumbs

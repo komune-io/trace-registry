@@ -4,7 +4,7 @@ import { ReactElement, useCallback, useEffect } from 'react'
 import { useExtendedI18n, Languages, languages as defaultLanguages } from '../..'
 import { EnglandFlagIcon, FranceFlagIcon, SpainFlagIcon } from '../Icons/flags'
 
-const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
+export const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
     fr: <FranceFlagIcon />,
     en: <EnglandFlagIcon />,
     es: <SpainFlagIcon />

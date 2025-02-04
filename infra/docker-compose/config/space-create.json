@@ -1,7 +1,14 @@
 {
     "space": "${KC_REALM}",
     "theme": "${KC_REALM_THEME}",
-    "locales": ["en", "fr"],
+    "locales": ["en", "fr", "es"],
+    "settings": {
+        "login": {
+            "registrationAllowed": true,
+            "resetPasswordAllowed": true,
+            "rememberMe": true
+        }
+    },
     "adminUsers": [],
     "rootClient": {
         "clientId": "${KC_REALM}-${KC_IM_CLIENT_ID}",
