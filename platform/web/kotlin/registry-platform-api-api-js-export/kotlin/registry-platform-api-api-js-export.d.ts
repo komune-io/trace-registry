@@ -2667,6 +2667,9 @@ export declare namespace io.komune.registry.dsl.dcat.domain.model {
 
     }
 }
+export declare namespace io.komune.registry.s2.catalogue.domain.automate {
+    type CatalogueState = "ACTIVE" | "DELETED";
+}
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
@@ -3104,7 +3107,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
         readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly status: s2.dsl.automate.S2State/* io.komune.registry.s2.catalogue.domain.automate.CatalogueState */;
+        readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
         readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
@@ -3227,6 +3230,38 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefListResultDTO {
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly total: number;
+
+    }
+}
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptCreateCommandDTO {
+        readonly identifier?: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface ConceptInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface ConceptCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptUpdateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCommand {
+        readonly id: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
 
     }
 }
