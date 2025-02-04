@@ -6,8 +6,8 @@ services:
     env_file:
       - .env_dev
     environment:
-      - f2_tenant_issuer-base-uri=${KC_URL_PUBLIC}
-      - connect_im_keycloak_url=${KC_URL_PUBLIC}
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
+      - connect_im_keycloak_url=${PUBLIC_URL_KC}
       - connect_im_keycloak_realm=${KC_ROOT_REALM}
       - connect_im_keycloak_clientId=${KC_IM_CLIENT_ID}
       - connect_im_keycloak_clientSecret=${KC_IM_CLIENT_SECRET}

@@ -10,9 +10,9 @@ services:
       - fs_url=${FS_URL}
       - spring_data_redis_host=${REDIS_HOST_NAME}
       - server_port=7000
-      - f2_tenant_issuer-base-uri=${KC_URL_PUBLIC}
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
       - im_url=${IM_URL}
-      - im_auth_url=${KC_URL_PUBLIC}
+      - im_auth_url=${PUBLIC_URL_KC}
       - im_auth_realm=${KC_REALM}
       - im_auth_clientId=${KC_APP_CLIENT_ID}
       - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}

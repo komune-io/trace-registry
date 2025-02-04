@@ -1,7 +1,7 @@
 window._env_ = {
   config: {
     platform: {
-      url: "${REGISTRY_API_URL_PUBLIC}"
+      url: "${PUBLIC_URL_REGISTRY_API}"
     }
   }
 };
