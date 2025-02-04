@@ -124,6 +124,10 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun linkCatalogues(command: CatalogueLinkCataloguesCommandDTOBase): CatalogueLinkedCataloguesEventDTOBase {
+        command.catalogues.ifEmpty {
+            return CatalogueLinkedCataloguesEventDTOBase(command.id)
+        }
+
         val parent = catalogueFinderService.get(command.id)
         val children = catalogueFinderService.page(
             id = CollectionMatch(command.catalogues)
