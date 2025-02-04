@@ -270,6 +270,11 @@
     "consultOriginal": "Consultar la versión original",
     "contactEditor": "Contactar al editor",
     "rejectTheModification": "Rechazar la modificación",
-    "addARejectComment": "Agregue un comentario a continuación para indicar al editor la razón del rechazo de su modificación"
+    "addARejectComment": "Agregue un comentario a continuación para indicar al editor la razón del rechazo de su modificación",
+    "status": {
+      "ACTIVE": "Activo",
+      "DELETED": "Eliminado",
+      "DRAFT": "Borrador"
+    }
   }
 }

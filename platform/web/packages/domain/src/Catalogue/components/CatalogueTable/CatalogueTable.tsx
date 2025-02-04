@@ -1,11 +1,12 @@
 import { Stack, Typography } from '@mui/material'
-import { ColumnFactory, useTable, Chip } from '@komune-io/g2'
+import { ColumnFactory, useTable } from '@komune-io/g2'
 import { Row } from '@tanstack/react-table';
 import { Catalogue } from '../../model'
 import { Fragment, useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
+import { CatalogueStatusChip } from './CatalogueStatusChip';
 
 function useCataogueColumn() {
     const { t } = useTranslation();
@@ -40,8 +41,8 @@ function useCataogueColumn() {
 
             status: {
                 header: t("status"),
-                cell: () => (
-                    <Chip label={t("draft")} color="#323232" />
+                cell: ({ row }) => (
+                    <CatalogueStatusChip status={row.original.status} />
                 )
             },
 

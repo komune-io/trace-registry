@@ -2,9 +2,10 @@ import { useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
-import { Button, Chip } from '@komune-io/g2'
+import { Button } from '@komune-io/g2'
 import { DeleteRounded, HistoryRounded, MoreVert } from '@mui/icons-material'
 import { useButtonMenu } from 'components'
+import { CatalogueStatusChip } from '../CatalogueTable'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
@@ -12,7 +13,7 @@ interface CatalogueEditionHeaderProps {
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { /* catalogue, */ onSave } = props
+    const { catalogue, onSave } = props
     const { t } = useTranslation()
 
     const items = useMemo(() => [
@@ -40,7 +41,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             alignItems="center"
 
         >
-            <Chip label={t("draft")} color="#323232" />
+            {catalogue && <CatalogueStatusChip status={catalogue.status} />}
             <Box flex={1} />
             <Button
                 onClick={onSave}
