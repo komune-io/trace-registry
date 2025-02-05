@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom'
 
 interface CatalogueSearchHeaderProps {
     onSearch?: (value: string) => void
+    initialValue?: string
     goBackUrl: string
 }
 
 export const CatalogueSearchHeader = (props: CatalogueSearchHeaderProps) => {
-    const {goBackUrl, onSearch} = props
+    const {goBackUrl, onSearch, initialValue} = props
     const {t} = useTranslation()
     return (
         <Stack
@@ -32,6 +33,7 @@ export const CatalogueSearchHeader = (props: CatalogueSearchHeaderProps) => {
                 <SearchFilter
                     placeholder={t("catalogues.globalSearch")}
                     onSearch={onSearch}
+                    initialValue={initialValue}
                     rootProps={{
                         sx: {
                             maxWidth: 1200

@@ -31,8 +31,9 @@ export const SelectableChip = (props: SelectableChipProps) => {
             onDelete={isSelected ? onDelete : undefined}
             onClick={onClick}
             sx={{
-                border: isSelected ? "1px solid #BDBDBD" : undefined,
+                border: isSelected ? "1px solid #BDBDBD" : "1px solid transparent",
                 cursor: "pointer",
+                height: "29.5px"
             }}
             {...other}
         />

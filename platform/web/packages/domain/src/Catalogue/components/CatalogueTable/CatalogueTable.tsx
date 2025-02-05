@@ -35,7 +35,7 @@ function useCataogueColumn() {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (catalogue) => ({
-                    value: catalogue.type
+                    value: t("catalogues.types." + catalogue.type)
                 })
             }),
 

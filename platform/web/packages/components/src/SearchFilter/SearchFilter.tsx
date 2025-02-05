@@ -5,11 +5,12 @@ import { ChangeEvent, useCallback, useState } from 'react'
 export interface SearchFilterProps extends InputBaseProps {
     onSearch?: (value: string) => void
     rootProps?: PaperProps
+    initialValue?: string
 }
 
 export const SearchFilter = (props: SearchFilterProps) => {
-    const { sx, placeholder, onSearch, rootProps, ...other } = props
-    const [value, setValue] = useState('')
+    const { sx, placeholder, onSearch, rootProps, initialValue, ...other } = props
+    const [value, setValue] = useState(initialValue ?? '')
 
     const onChange = useCallback(
         (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -32,7 +33,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 onSearchMemo()
             }
         },
-        [onSearch]
+        [onSearch, onSearchMemo]
     )
 
     return (
