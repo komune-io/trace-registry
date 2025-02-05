@@ -14,6 +14,7 @@ import io.komune.registry.f2.license.domain.query.LicenseGetResult
 import io.komune.registry.f2.license.domain.query.LicenseListFunction
 import io.komune.registry.f2.license.domain.query.LicenseListResult
 import io.komune.registry.s2.license.api.LicenseAggregateService
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -28,6 +29,7 @@ class LicenseEndpoint(
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun licenseGet(): LicenseGetFunction = f2Function { query ->
         logger.info("licenseGet: $query")
@@ -35,6 +37,7 @@ class LicenseEndpoint(
             .let(::LicenseGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun licenseGetByIdentifier(): LicenseGetByIdentifierFunction = f2Function { query ->
         logger.info("licenseGetByIdentifier: $query")
@@ -42,6 +45,7 @@ class LicenseEndpoint(
             .let(::LicenseGetByIdentifierResult)
     }
 
+    @PermitAll
     @Bean
     override fun licenseList(): LicenseListFunction = f2Function {
         logger.info("licenseList")
