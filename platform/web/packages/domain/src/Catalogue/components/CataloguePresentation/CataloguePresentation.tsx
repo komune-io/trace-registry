@@ -1,6 +1,5 @@
 import { Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
-import { config } from "../../../config";
 import { useCatalogueIdentifierNumber } from "../../api";
 
 export interface CataloguePresentationProps {
@@ -31,6 +30,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
         >
             <Stack
                 gap={5}
+                flex={1}
             >
                 <Stack
                     direction="row"
@@ -54,11 +54,11 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     {catalogue?.description}
                 </Typography>
             </Stack>
-            {catalogue?.img && <img
+            {/* catalogue?.img && <img
                 className='catalogLogo'
                 src={`${config().platform.url}${catalogue.img}`}
                 alt="The standard logo"
-            />}
+            /> */}
         </Stack>
     )
 }

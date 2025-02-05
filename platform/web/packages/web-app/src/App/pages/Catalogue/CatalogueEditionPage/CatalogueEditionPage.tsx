@@ -1,15 +1,20 @@
-import { languages, LanguageSelector, TitleDivider } from 'components'
+import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
 import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { g2Config, useFormComposable } from '@komune-io/g2';
+import { maybeAddItem } from 'App/menu';
 
 export const CatalogueEditionPage = () => {
   const { catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const {cataloguesContributions} = useRoutesDefinition()
+
+  const simplified = true
 
   const catalogueQuery = useCatalogueGetQuery({
     query: {
@@ -34,18 +39,18 @@ export const CatalogueEditionPage = () => {
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useMemo(() => {
-    const tabs: Tab[] = [{
+    const tabs: Tab[] = [...maybeAddItem(!simplified, {
       key: 'metadata',
       label: t('metadata'),
       component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes ?? "100m-system"} />,
-    }, {
+    }), {
       key: 'info',
       label: t('informations'),
       component: <CatalogueSections sections={[md, md]} catalogue={catalogue} />,
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState])
+  }, [t, catalogue, metadataFormState, simplified])
 
   const onSave = useCallback(
     async () => {
@@ -58,13 +63,21 @@ export const CatalogueEditionPage = () => {
     [metadataFormState.values],
   )
 
+  const onSubmit = useCallback(
+    async () => {
+      navigate(cataloguesContributions() + "?successfullContribution=true")
+      return Promise.resolve()
+    },
+    [],
+  )
+
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader onSave={onSave} catalogue={catalogue} />
+      <CatalogueEditionHeader onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
       <TitleDivider title={title} onDebouncedChange={() => { }} />
       <LanguageSelector
         //@ts-ignore

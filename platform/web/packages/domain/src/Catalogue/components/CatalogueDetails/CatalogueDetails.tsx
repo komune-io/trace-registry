@@ -54,23 +54,23 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
         },
     }), [catalogue, t])
 
-    const versionValues = useMemo((): simplifiedReadonlyFields => ({
-        version: {
-            value: "v1.8", //to find in catalogue
-            label: t("version"),
-        },
-        lastVersion: {
-            value: "v1.79", //to find in catalogue
-            label: t("lastVersion"),
-        },
-        versionNote: {
-            value: "Lorem ipsum une note de version, j’ai par exemple corrigé trois fautes sur la fiche et ajouté de belles illustrations.", //to find in catalogue
-            label: t("versionNote"),
-            params: {
-                orientation: "vertical",
-            }
-        },
-    }), [catalogue, t])
+    // const versionValues = useMemo((): simplifiedReadonlyFields => ({
+    //     version: {
+    //         value: "v1.8", //to find in catalogue
+    //         label: t("version"),
+    //     },
+    //     lastVersion: {
+    //         value: "v1.79", //to find in catalogue
+    //         label: t("lastVersion"),
+    //     },
+    //     versionNote: {
+    //         value: "Lorem ipsum une note de version, j’ai par exemple corrigé trois fautes sur la fiche et ajouté de belles illustrations.", //to find in catalogue
+    //         label: t("versionNote"),
+    //         params: {
+    //             orientation: "vertical",
+    //         }
+    //     },
+    // }), [catalogue, t])
 
     return (
         <Stack
@@ -91,11 +91,11 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 title={t("classification")}
                 values={classificationValues}
             />
-            <DetailsForm
+           {/*  <DetailsForm
                 isLoading={isLoading}
                 title={t("versionManagement")}
                 values={versionValues}
-            />
+            /> */}
         </Stack>
     )
 }

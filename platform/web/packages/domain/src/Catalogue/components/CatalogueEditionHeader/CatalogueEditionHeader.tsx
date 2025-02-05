@@ -3,25 +3,29 @@ import { Catalogue } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
 import { Button } from '@komune-io/g2'
-import { DeleteRounded, HistoryRounded, MoreVert } from '@mui/icons-material'
-import { useButtonMenu } from 'components'
+import { DeleteRounded, MoreVert } from '@mui/icons-material'
+import { useButtonMenu, useToggleState } from 'components'
 import { CatalogueStatusChip } from '../CatalogueTable'
+import { SubmitModal } from './SubmitModal'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
     onSave?: () => Promise<any>
+    onSubmit: (reason: string) => Promise<any>
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSave } = props
+    const { catalogue, onSave, onSubmit } = props
     const { t } = useTranslation()
 
+    const [open, _, toggle] = useToggleState()
+
     const items = useMemo(() => [
-        {
-            key: "history",
-            label: t("history"),
-            icon: <HistoryRounded />
-        },
+        // {
+        //     key: "history",
+        //     label: t("history"),
+        //     icon: <HistoryRounded />
+        // },
         {
             key: "delete",
             label: t("delete"),
@@ -43,15 +47,17 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
         >
             {catalogue && <CatalogueStatusChip status={catalogue.status} />}
             <Box flex={1} />
-            <Button
+            {onSave && <Button
                 onClick={onSave}
             >
                 {t("save")}
-            </Button>
+            </Button>}
             <Button>
                 {t("catalogues.createAdraft")}
             </Button>
-            <Button>
+            <Button
+            onClick={toggle}
+            >
                 {t("sendForValidation")}
             </Button>
             <IconButton
@@ -61,6 +67,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
                 <MoreVert />
             </IconButton>
             {menu}
+            <SubmitModal open={open} onClose={toggle} onSubmit={onSubmit} />
         </Stack>
     )
 }

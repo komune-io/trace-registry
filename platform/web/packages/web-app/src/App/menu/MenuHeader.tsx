@@ -1,4 +1,4 @@
-import { AddCircleOutlineRounded, DoneRounded } from '@mui/icons-material'
+import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
 import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
@@ -10,11 +10,18 @@ import { getMenu, MenuItem} from '.'
 export const usePersonnalMenu = (t: TFunction) => {
     const location = useLocation()
 
-    const { cataloguesToVerify } = useRoutesDefinition()
+    const { cataloguesToVerify, cataloguesContributions } = useRoutesDefinition()
 
 
     const menu = useMemo((): MenuItem[] => {
         return [
+            {
+                key: "contributions",
+                to: cataloguesToVerify(),
+                label: t("myContributions"),
+                icon: <FolderRounded />,
+                isSelected:  location.pathname.includes(cataloguesContributions())
+            },
             {
                 key: "Secteur",
                 to: cataloguesToVerify(),
@@ -23,7 +30,7 @@ export const usePersonnalMenu = (t: TFunction) => {
                 isSelected:  location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify])
+    }, [location, t, cataloguesToVerify, cataloguesContributions])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
