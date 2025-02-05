@@ -1,6 +1,6 @@
 import { Dialog } from '@mui/material'
 import { CatalogueSearchHeader } from 'domain-components'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -18,6 +18,11 @@ export const CatalogueSearchPage = () => {
     },
     [navigate, goBackUrl],
   )
+
+  useEffect(() => {
+    document.title = "WikiCO2 | " + t("search")
+  }, [])
+
 
 
   return (

@@ -26,6 +26,8 @@ export const CatalogueEditionPage = () => {
 
   const formInitialValues = useMemo(() => catalogue ? ({
     ...catalogue,
+    themes: (catalogue.themes ?? [])[0].id,
+    license: catalogue.license?.id,
     illustrationUploaded: () => g2Config().platform + `/data/catalogues/${catalogue.id}/img`
   }) : undefined, [catalogue])
 

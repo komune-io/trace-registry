@@ -64,11 +64,11 @@ export const useCatalogueListAvailableParentsQuery = (params: QueryParams<Catalo
 }
 
 export interface CatalogueListAvailableThemesQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesQueryDTO {}
-export interface CatalogueListAvailableParentsResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResultDTO {}
+export interface CatalogueListAvailableThemesResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResultDTO {}
 
-export const useCatalogueListAvailableThemesQuery = (params: QueryParams<CatalogueListAvailableThemesQuery, CatalogueListAvailableParentsResult>) => {
+export const useCatalogueListAvailableThemesQuery = (params: QueryParams<CatalogueListAvailableThemesQuery, CatalogueListAvailableThemesResult>) => {
     const requestProps = useNoAuthenticatedRequest()
-    return useQueryRequest<CatalogueListAvailableThemesQuery, CatalogueListAvailableParentsResult>(
+    return useQueryRequest<CatalogueListAvailableThemesQuery, CatalogueListAvailableThemesResult>(
       "data/catalogueListAvailableThemes", requestProps, params
     )
 }
@@ -82,4 +82,3 @@ export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, Licens
       "data/licenseList", requestProps, params
     )
 }
-

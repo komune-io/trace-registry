@@ -12,7 +12,7 @@ interface CatalogueCreationPageProps {
 
 export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const { type } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     
     const navigate = useNavigate()
     const {cataloguesCatalogueIdEdit} = useRoutesDefinition()
@@ -41,6 +41,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
           command: {
             ...command,
             title: sheetTitle.current,
+            language: i18n.language,
             type
           },
           files: [{
@@ -55,7 +56,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
           navigate(cataloguesCatalogueIdEdit(res.id))
         }
       },
-      [createCommand.mutateAsync, type],
+      [createCommand.mutateAsync, type, i18n.language],
     )
     
 

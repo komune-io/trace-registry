@@ -1,7 +1,7 @@
 import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable } from '@komune-io/g2'
 import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
@@ -94,7 +94,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         params: {
             options: catalogueThemesQuery.data?.items.map((theme) => ({
                 key: theme.id,
-                label: theme.title,
+                label: theme.prefLabel,
             }))
         },
         required: true
@@ -125,8 +125,16 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         required: true
     }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
+    const onSubmitMemo = useCallback(
+      (values: any) => {
+        onSubmit && onSubmit({...values, themes: values.themes ? [values.themes] : undefined})
+      },
+      [onSubmit],
+    )
+    
+
     const localFormState = useFormComposable({
-        onSubmit
+        onSubmit: onSubmitMemo
     })
 
     return (
