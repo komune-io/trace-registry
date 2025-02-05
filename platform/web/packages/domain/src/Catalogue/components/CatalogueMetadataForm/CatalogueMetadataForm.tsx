@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery } from '../../api'
+import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
 import { CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api/command'
@@ -43,6 +43,11 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         options: {
             enabled: type === "100m-solution"
+        }
+    })
+
+    const licenseListQuery = useLicenseListQuery({
+        query: {
         }
     })
 
@@ -109,13 +114,16 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         required: true
     }, {
         name: "license",
-        type: "autoComplete",
+        type: "select",
         label: t("licence"),
         params: {
-
+            options: licenseListQuery.data?.items.map((license) => ({
+                key: license.id,
+                label: license.name
+            }))
         },
         required: true
-    }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items])
+    }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
     const localFormState = useFormComposable({
         onSubmit

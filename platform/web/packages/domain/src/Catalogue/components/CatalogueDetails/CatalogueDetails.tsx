@@ -46,10 +46,10 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             label: t("access"),
         },
         licence: {
-            value: catalogue?.license ?? "",
+            value: catalogue?.license?.name ?? "",
             label: t("licence"),
             params: {
-                getReadOnlyTextUrl: () => "/" //put licence url
+                getReadOnlyTextUrl: catalogue?.license?.url ? () => catalogue?.license?.url : undefined
             }
         },
     }), [catalogue, t])

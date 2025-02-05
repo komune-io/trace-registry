@@ -73,3 +73,13 @@ export const useCatalogueListAvailableThemesQuery = (params: QueryParams<Catalog
     )
 }
 
+export interface LicenseListQuery extends io.komune.registry.f2.license.domain.query.LicenseListQueryDTO {}
+export interface LicenseListResult extends io.komune.registry.f2.license.domain.query.LicenseListResultDTO {}
+
+export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, LicenseListResult>) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useQueryRequest<LicenseListQuery, LicenseListResult>(
+      "data/licenseList", requestProps, params
+    )
+}
+
