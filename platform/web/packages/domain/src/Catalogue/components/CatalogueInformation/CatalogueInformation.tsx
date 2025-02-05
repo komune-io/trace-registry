@@ -25,6 +25,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
             <Stack
                 direction="row"
                 gap={6}
+                minWidth={0}
             >
                 <Stack
                     gap={5}

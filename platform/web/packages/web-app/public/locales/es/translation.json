@@ -129,6 +129,8 @@
   "accept": "Aceptar",
   "reject": "Rechazar",
   "langue": "Idioma",
+  "submit": "Enviar",
+  "myContributions": "Mis contribuciones",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -253,6 +255,11 @@
     }
   },
   "catalogues": {
+    "status": {
+      "ACTIVE": "Activo",
+      "DELETED": "Eliminado",
+      "DRAFT": "Borrador"
+    },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
     "administrator": "Administrador de {{entity}}",
@@ -271,10 +278,9 @@
     "contactEditor": "Contactar al editor",
     "rejectTheModification": "Rechazar la modificación",
     "addARejectComment": "Agregue un comentario a continuación para indicar al editor la razón del rechazo de su modificación",
-    "status": {
-      "ACTIVE": "Activo",
-      "DELETED": "Eliminado",
-      "DRAFT": "Borrador"
-    }
+    "addASubmitComment": "Agregue un comentario a continuación para indicar al validador las modificaciones realizadas en la hoja",
+    "thanksForContribution": "¡Gracias por tu contribución!",
+    "modificationsSaved": "Tus modificaciones han sido guardadas con éxito.",
+    "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación."
   }
 }
