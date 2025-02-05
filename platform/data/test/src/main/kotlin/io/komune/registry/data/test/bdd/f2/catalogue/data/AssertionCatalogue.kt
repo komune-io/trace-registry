@@ -18,22 +18,24 @@ class AssertionCatalogue(
     override suspend fun assertThat(entity: CatalogueEntity): CatalogueAssert = CatalogueAssert(entity)
 
     inner class CatalogueAssert(
-        private val pool: CatalogueEntity
+        private val catalogue: CatalogueEntity
     ) {
         fun hasFields(
-            id: CatalogueId = pool.id,
-            status: CatalogueState = pool.status,
-            title: String? = pool.title,
+            id: CatalogueId = catalogue.id,
+            status: CatalogueState = catalogue.status,
+            title: String? = catalogue.title,
+            themes: Set<String> = catalogue.themeIds,
         ) = also {
-            Assertions.assertThat(pool.id).isEqualTo(id)
-            Assertions.assertThat(pool.status).isEqualTo(status)
-            Assertions.assertThat(pool.title).isEqualTo(title)
+            Assertions.assertThat(catalogue.id).isEqualTo(id)
+            Assertions.assertThat(catalogue.status).isEqualTo(status)
+            Assertions.assertThat(catalogue.title).isEqualTo(title)
+            Assertions.assertThat(catalogue.themeIds).containsExactlyInAnyOrderElementsOf(themes)
         }
 
         fun hasDatasets(
             datasets: List<DatasetId>,
         ) = also {
-            Assertions.assertThat(pool.datasets).containsAll(datasets)
+            Assertions.assertThat(catalogue.datasetIds).containsAll(datasets)
         }
     }
 }

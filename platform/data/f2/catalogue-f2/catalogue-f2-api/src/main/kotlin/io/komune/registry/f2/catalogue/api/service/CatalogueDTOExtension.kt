@@ -46,13 +46,13 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     language = language.takeIf { withTranslatable },
     structure = structure,
     homepage = homepage,
-    themes = themes?.toSet().orEmpty(),
-    catalogues = catalogues?.toSet().orEmpty(),
+    themeIds = themes?.toSet().orEmpty(),
+    catalogueIds = catalogues?.toSet().orEmpty(),
     creator = creator,
     publisher = publisher,
     validator = validator,
     accessRights = accessRights,
-    license = license,
+    licenseId = license,
     hidden = hidden,
 )
 
@@ -66,12 +66,12 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     language = language.takeIf { withTranslatable },
     structure = structure,
     homepage = homepage,
-    themes = themes?.toSet().orEmpty(),
+    themeIds = themes?.toSet().orEmpty(),
     creator = creator,
     publisher = publisher,
     validator = validator,
     accessRights = accessRights,
-    license = license,
+    licenseId = license,
     hidden = hidden,
 )
 

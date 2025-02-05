@@ -2,6 +2,7 @@
   "type": "100m-solution",
   "identifierSequence": "seq_100m_solution",
   "parentTypes": ["100m-solutions", "100m-solution", "100m-system"],
+  "conceptSchemes": ["100m-solution-categories"],
   "i18n": {
     "enable": true,
     "translationType": "100m-translation"

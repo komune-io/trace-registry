@@ -1,8 +1,14 @@
 @file:Suppress("LongMethod", "FunctionNaming", "LargeClass")
 package io.komune.registry.script.init.catalogue
 
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocument
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocumentBuilder
 import io.komune.registry.dsl.dcat.domain.model.catalogue
+import io.komune.registry.dsl.dcat.domain.model.license
+import io.komune.registry.dsl.skos.domain.model.SkosConcept
+import io.komune.registry.dsl.skos.domain.model.SkosConceptBuilder
 import io.komune.registry.dsl.skos.domain.model.concept
+import io.komune.registry.dsl.skos.domain.model.conceptScheme
 import io.komune.registry.s2.structure.domain.model.Structure
 
 const val IMG_SOLUTION = "100m/solution.png"
@@ -39,6 +45,12 @@ fun catalogueCentMillion(debug: String) = catalogue {
     +EtudeDeCas(debug)
 }
 
+val schemeCentMillion = conceptScheme {
+    id = "100m-solution-categories"
+    concepts = CentMThemes.allConcepts
+}
+
+val licensesCentMillion = CentMLicenses.allLicenses
 
 fun Solution(debug: String) = catalogue {
     identifier = "objectif100m-Solution${debug}"
@@ -62,12 +74,6 @@ fun Solution(debug: String) = catalogue {
         description = """
             El corazón del sistema es la Solución
         """.trimIndent()
-    }
-
-    themes {
-        +CentMThemes.Batiment
-        +CentMThemes.Cogeneration
-        +CentMThemes.SolutionMore
     }
 }
 
@@ -96,11 +102,6 @@ fun Systeme(debug: String) = catalogue {
             Las Tecnologías son partes de la actividad de una empresa donde es posible presentar información, luego
             evaluar posibles Soluciones.
         """.trimIndent()
-    }
-    themes {
-        +CentMThemes.Batiment
-        +CentMThemes.Cogeneration
-        +CentMThemes.SolutionMore
     }
 
     +CentMSystem.Utilites(debug)
@@ -137,12 +138,6 @@ fun EtudeDeCas(debug: String) = catalogue {
             Un caso de uso es un caso de aplicación de Soluciones en empresas.
         """.trimIndent()
     }
-
-    themes {
-        +CentMThemes.Batiment
-        +CentMThemes.Cogeneration
-        +CentMThemes.SolutionMore
-    }
 }
 
 fun Secteur(debug: String) = catalogue {
@@ -169,11 +164,6 @@ fun Secteur(debug: String) = catalogue {
         """.trimIndent()
     }
 
-    themes {
-        +CentMThemes.AgricultureBois
-        +CentMThemes.AgroAlimentaire
-    }
-
     +CentMSecteur.AgricultureBois(debug)
     +CentMSecteur.AgroAlimentaire(debug)
     +CentMSecteur.Chimie(debug)
@@ -184,148 +174,57 @@ fun Secteur(debug: String) = catalogue {
 }
 
 object CentMThemes {
-    val Batiment = concept {
-        id = "Batiment"
+    val allConcepts = mutableListOf<SkosConcept>()
+
+    private fun addConcept(block: SkosConceptBuilder.() -> Unit): SkosConcept {
+        return concept(block).also(allConcepts::add)
+    }
+
+    val Behaviour = addConcept {
+        id = "objectif100m-category-behaviour"
         prefLabels = mutableMapOf(
-            "fr" to "Bâtiment",
-            "en" to "Building",
-            "es" to "Edificio"
+            "fr" to "Comportementale",
+            "en" to "Behaviour",
+            "es" to "Comportamiento"
         )
     }
 
-    val Cogeneration = concept {
-        id = "Cogeneration"
+    val Operation = addConcept {
+        id = "objectif100m-category-operation"
         prefLabels = mutableMapOf(
-            "fr" to "Cogénération",
-            "en" to "Cogeneration",
-            "es" to "Cogeneración"
+            "fr" to "Exploitation",
+            "en" to "Operational",
+            "es" to "Explotación"
         )
     }
 
-    val SolutionMore = concept {
-        id = "Solution-More"
+    val Investment = addConcept {
+        id = "objectif100m-category-investment"
         prefLabels = mutableMapOf(
-            "fr" to "...",
-            "en" to "...",
-            "es" to "..."
+            "fr" to "Investissement",
+            "en" to "Investment",
+            "es" to "Inversión"
         )
     }
+}
 
-    val AgricultureBois = concept {
-        id = "AgricultureBois"
-        prefLabels = mutableMapOf(
-            "fr" to "Agriculture Bois",
-            "en" to "Wood Agriculture",
-            "es" to "Agricultura Madera"
-        )
+object CentMLicenses {
+    val allLicenses = mutableListOf<LicenseDocument>()
+
+    private fun addLicense(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument {
+        return license(block).also(allLicenses::add)
     }
 
-    val AgroAlimentaire = concept {
-        id = "AgroAlimentaire"
-        prefLabels = mutableMapOf(
-            "fr" to "Agro-alimentaire",
-            "en" to "Agro-food",
-            "es" to "Agroalimentario"
-        )
+    val CreativeCommons = addLicense {
+        identifier = "creative-commons"
+        name = "Creative Commons"
+        url = "https://creativecommons.org/licenses/by/4.0/"
     }
 
-    val Chimie = concept {
-        id = "Chimie"
-        prefLabels = mutableMapOf(
-            "fr" to "Chimie",
-            "en" to "Chemistry",
-            "es" to "Química"
-        )
-    }
-
-    val Industrie = concept {
-        id = "Industrie"
-        prefLabels = mutableMapOf(
-            "fr" to "Industrie",
-            "en" to "Industry",
-            "es" to "Industria"
-        )
-    }
-
-    val IndustrieLourde = concept {
-        id = "IndustrieLourde"
-        prefLabels = mutableMapOf(
-            "fr" to "Industrie lourde",
-            "en" to "Heavy industry",
-            "es" to "Industria pesada"
-        )
-    }
-
-    val TertiaireBatiment = concept {
-        id = "TertiaireBatiment"
-        prefLabels = mutableMapOf(
-            "fr" to "Tertiaire et bâtiment",
-            "en" to "Tertiary and building",
-            "es" to "Terciario y edificio"
-        )
-    }
-
-    val Utilities = concept {
-        id = "Utilities"
-        prefLabels = mutableMapOf(
-            "fr" to "Utilités",
-            "en" to "Utilities",
-            "es" to "Utilidades"
-        )
-    }
-
-    val Dechets = concept {
-        id = "Dechets"
-        prefLabels = mutableMapOf(
-            "fr" to "Déchets",
-            "en" to "Waste",
-            "es" to "Residuos"
-        )
-    }
-
-    val Eau = concept {
-        id = "Eau"
-        prefLabels = mutableMapOf(
-            "fr" to "Eau",
-            "en" to "Water",
-            "es" to "Agua"
-        )
-    }
-
-    val Management = concept {
-        id = "Management"
-        prefLabels = mutableMapOf(
-            "fr" to "Management",
-            "en" to "Management",
-            "es" to "Gestión"
-        )
-    }
-
-    val NouvellesEnergies = concept {
-        id = "NouvellesEnergies"
-        prefLabels = mutableMapOf(
-            "fr" to "Nouvelles énergies",
-            "en" to "New energies",
-            "es" to "Nuevas energías"
-        )
-    }
-
-    val Procedes = concept {
-        id = "Procedes"
-        prefLabels = mutableMapOf(
-            "fr" to "Procédés",
-            "en" to "Processes",
-            "es" to "Procesos"
-        )
-    }
-
-    val TechnologiesEnergetiques = concept {
-        id = "TechnologiesEnergetiques"
-        prefLabels = mutableMapOf(
-            "fr" to "Technologies énergétiques",
-            "en" to "Energy technologies",
-            "es" to "Tecnologías energéticas"
-        )
+    val Odbl = addLicense {
+        identifier = "odbl"
+        name = "Open Database License"
+        url = "https://opendatacommons.org/licenses/odbl/1.0/"
     }
 }
 
@@ -662,10 +561,6 @@ object CentMSecteur {
                 en productos alimenticios destinados al consumo.
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.AgroAlimentaire
-        }
     }
 
     fun Chimie(debug: String) = catalogue {
@@ -694,10 +589,6 @@ object CentMSecteur {
                 El sector de la química incluye la química mineral, la química orgánica, la química fina farmacéutica, 
                 especialidades químicas (pinturas, aceites, pegamentos...), productos de belleza y productos de limpieza.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.Chimie
         }
     }
 
@@ -728,10 +619,6 @@ object CentMSecteur {
                 electrónica, mecánica y fundición, papel, textiles y plásticos.
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.Industrie
-        }
     }
 
     fun IndustrieLourde(debug: String) = catalogue {
@@ -760,10 +647,6 @@ object CentMSecteur {
                 El sector de la industria pesada incluye cemento, cal, hidrocarburos, 
                 materiales no ferrosos, minería y canteras, refinación, acero y vidrio.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.IndustrieLourde
         }
     }
 
@@ -797,10 +680,6 @@ object CentMSecteur {
                 El sector residencial se refiere a edificios reservados exclusivamente para viviendas.
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.TertiaireBatiment
-        }
     }
 
     fun Utilities(debug: String) = catalogue {
@@ -829,10 +708,6 @@ object CentMSecteur {
                 El sector de "utilities" incluye actividades de Construcción y Obras Públicas, 
                 tratamiento de residuos, saneamiento del agua, transporte y logística y producción de energía.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.Utilities
         }
     }
 }
@@ -938,10 +813,6 @@ object CentMSystem {
                 Las sociedades actuales avanzan hacia una economía circular en materia de residuos.
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.Dechets
-        }
     }
 
     fun Eau(debug: String) = catalogue {
@@ -970,10 +841,6 @@ object CentMSystem {
                 La tecnología del agua abarca el agua caliente sanitaria 
                 el agua utilizada en procesos industriales y la depuración del agua.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.Eau
         }
     }
 
@@ -1010,10 +877,6 @@ object CentMSystem {
                 conocido para la calidad (ISO 9001) y el medio ambiente (ISO 14001).
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.Management
-        }
     }
 
     fun NouvellesEnergies(debug: String) = catalogue {
@@ -1045,10 +908,6 @@ object CentMSystem {
                 la biomasa sólida, la energía eólica, la energía geotérmica, la gasificación, la energía hidroeléctrica y el hidrógeno,
                 la metanización y la energía solar (fotovoltaica y térmica).
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.NouvellesEnergies
         }
     }
 
@@ -1088,10 +947,6 @@ object CentMSystem {
                 en función de las necesidades del producto fabricado por la empresa.
             """.trimIndent()
         }
-
-        themes {
-            +CentMThemes.Procedes
-        }
     }
 
     fun TechnologiesEnergetiques(debug: String) = catalogue {
@@ -1120,10 +975,6 @@ object CentMSystem {
                 El grupo de tecnologías energéticas abarca las tecnologías de captura y almacenamiento de CO2, 
                 redes de calefacción, redes inteligentes, contadores inteligentes, almacenamiento de energía y transporte.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.TechnologiesEnergetiques
         }
     }
 
@@ -1156,10 +1007,6 @@ object CentMSystem {
                 El aire comprimido, la producción de frío, la distribución eléctrica, los sistemas motorizados, la ventilación industrial, 
                 las estaciones de bombeo, la producción de vapor, agua caliente y las redes asociadas forman parte de las utilidades.
             """.trimIndent()
-        }
-
-        themes {
-            +CentMThemes.Utilities
         }
 
         catalogues {
@@ -1223,6 +1070,7 @@ object CentMSystem {
                                 type = "100m-solution"
                                 structure = Structure("item")
                                 img = getImg(IMG_SOLUTION)
+                                license = CentMLicenses.CreativeCommons
 
                                 translation("fr") {
                                     title = "Système de Variation Electronique de Vitesse (VEV) sur un moteur électrique"
@@ -1248,6 +1096,11 @@ object CentMSystem {
                                         La variación electrónica de velocidad cambia la tensión y la frecuencia de la alimentación del motor para regular su velocidad.
                                     """.trimIndent()
                                 }
+
+                                themes {
+                                    +CentMThemes.Investment
+                                }
+
                             }
                         }
                     }

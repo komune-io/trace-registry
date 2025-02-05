@@ -28,6 +28,7 @@ class CatalogueBuilder {
     var catalogues: MutableList<DCatApCatalogueModel> = mutableListOf()
     var catalogueRecords: MutableList<DcatCatalogueRecord> = mutableListOf()
     var translations: MutableMap<String, DCatApCatalogueModel> = mutableMapOf()
+    var license: LicenseDocument? = null
 
     fun themes(block: THEMES.() -> Unit) = themes.addAll(THEMES().apply(block))
     fun THEMES.theme(block: SkosConceptBuilder.() -> Unit) = add(SkosConceptBuilder().apply(block).build())
@@ -78,7 +79,8 @@ class CatalogueBuilder {
         services = services,
         catalogues = catalogues,
         title = title.orEmpty(),
-        catalogueRecords = catalogueRecords
+        catalogueRecords = catalogueRecords,
+        license = license
     )
 }
 
@@ -314,14 +316,20 @@ class ActivityBuilder {
     fun build() = Activity(identifier)
 }
 
-fun licenseDocument(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument
+fun license(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument
     = LicenseDocumentBuilder().apply(block).build()
 
 @DCatDsl
 class LicenseDocumentBuilder {
-    var identifier: String = ""
+    lateinit var identifier: String
+    lateinit var name: String
+    var url: String? = null
 
-    fun build() = LicenseDocument(identifier)
+    fun build() = LicenseDocument(
+        identifier = identifier,
+        name = name,
+        url = url
+    )
 }
 
 

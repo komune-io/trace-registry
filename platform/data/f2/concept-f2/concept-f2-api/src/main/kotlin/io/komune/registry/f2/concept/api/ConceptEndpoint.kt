@@ -7,11 +7,14 @@ import io.komune.registry.f2.concept.domain.command.ConceptCreateFunction
 import io.komune.registry.f2.concept.domain.command.ConceptCreatedEventDTOBase
 import io.komune.registry.f2.concept.domain.command.ConceptUpdateFunction
 import io.komune.registry.f2.concept.domain.command.ConceptUpdatedEventDTOBase
+import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierFunction
+import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierResult
 import io.komune.registry.f2.concept.domain.query.ConceptGetFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetResult
 import io.komune.registry.f2.concept.domain.query.ConceptGetTranslatedFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetTranslatedResult
 import io.komune.registry.s2.concept.api.ConceptAggregateService
+import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
@@ -25,18 +28,28 @@ class ConceptEndpoint(
 
     private val logger by Logger()
 
+    @Bean
     override fun conceptGet(): ConceptGetFunction = f2Function { query ->
         logger.info("conceptGet: $query")
         conceptF2FinderService.getOrNull(query.id)
             .let(::ConceptGetResult)
     }
 
+    @Bean
+    override fun conceptGetByIdentifier(): ConceptGetByIdentifierFunction = f2Function { query ->
+        logger.info("conceptGetByIdentifier: $query")
+        conceptF2FinderService.getByIdentifierOrNull(query.identifier)
+            .let(::ConceptGetByIdentifierResult)
+    }
+
+    @Bean
     override fun conceptGetTranslated(): ConceptGetTranslatedFunction = f2Function { query ->
         logger.info("conceptGetTranslated: $query")
         conceptF2FinderService.getTranslatedOrNull(query.id, query.language, query.otherLanguageIfAbsent)
             .let(::ConceptGetTranslatedResult)
     }
 
+    @Bean
     override fun conceptCreate(): ConceptCreateFunction = f2Function { command ->
         logger.info("conceptCreate: $command")
         conceptAggregateService.create(command).let {
@@ -47,6 +60,7 @@ class ConceptEndpoint(
         }
     }
 
+    @Bean
     override fun conceptUpdate(): ConceptUpdateFunction = f2Function { command ->
         logger.info("conceptUpdate: $command")
         conceptAggregateService.update(command)

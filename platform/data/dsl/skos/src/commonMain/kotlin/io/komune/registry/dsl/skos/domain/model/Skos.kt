@@ -1,7 +1,7 @@
 package io.komune.registry.dsl.skos.domain.model
 
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 @Serializable
 data class SkosContext(
@@ -36,7 +36,7 @@ data class SkosConceptScheme(
     val type: String = "skos:ConceptScheme",
     val prefLabel: Map<String, String>,
     val definition: Map<String, String>,
-    val hasTopConcept: String,
+    val hasTopConcept: String?,
     val concepts: List<SkosConcept>
 )
 
@@ -62,4 +62,3 @@ val scheme = SkosConceptScheme(
         )
     )
 )
-

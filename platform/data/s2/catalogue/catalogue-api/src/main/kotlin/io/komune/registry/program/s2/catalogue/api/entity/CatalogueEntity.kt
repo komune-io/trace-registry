@@ -6,12 +6,13 @@ import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.dsl.dcat.domain.model.Agent
-import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
@@ -38,13 +39,13 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     lateinit var type: String
 
     @Searchable(nostem=true)
-    var language: String? = null
+    var language: Language? = null
 
     @Searchable(nostem=true)
     var description: String? = null
 
-    //    @TagIndexed
-    var themes: Set<SkosConcept> = emptySet()
+    @TagIndexed
+    var themeIds: Set<ConceptId> = emptySet()
 
     @Searchable(nostem=true)
     var homepage: String? = null
@@ -53,18 +54,18 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var structure: Structure? = null
 
     @TagIndexed
-    var catalogues: Set<CatalogueId> = emptySet()
+    var catalogueIds: Set<CatalogueId> = emptySet()
 
     @TagIndexed
-    var datasets: Set<DatasetId> = emptySet()
+    var datasetIds: Set<DatasetId> = emptySet()
 
-    var translations: Map<Language, CatalogueId> = emptyMap()
+    var translationIds: Map<Language, CatalogueId> = emptyMap()
 
     var creator: Agent? = null
     var publisher: Agent? = null
     var validator: Agent? = null
     var accessRights: String? = null
-    var license: String? = null
+    var licenseId: LicenseId? = null
 
     @Indexed
     var hidden: Boolean = false
