@@ -47,7 +47,7 @@ class CatalogueAggregateService(
 			publisher = cmd.publisher,
 			validator = cmd.validator,
 			accessRights = cmd.accessRights,
-			license = cmd.license,
+			licenseId = cmd.licenseId,
 			hidden = cmd.hidden,
 		)
 	}
@@ -122,7 +122,7 @@ class CatalogueAggregateService(
 			publisher = cmd.publisher,
 			validator = cmd.validator,
 			accessRights = cmd.accessRights,
-			license = cmd.license,
+			licenseId = cmd.licenseId,
 			hidden = cmd.hidden,
 		)
 	}

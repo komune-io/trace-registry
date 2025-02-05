@@ -3,6 +3,7 @@ package cccev.dsl.client
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.dsl.dcat.domain.model.DCatApCatalogueModel
 import io.komune.registry.dsl.dcat.domain.model.DcatDataset
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocument
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueCreate
@@ -19,11 +20,14 @@ import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
+import io.komune.registry.f2.license.client.LicenseClient
+import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
@@ -37,6 +41,7 @@ class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
     private val conceptClient: ConceptClient,
     private val datasetClient: DatasetClient,
+    private val licenseClient: LicenseClient,
 ) {
 
     @Suppress("ComplexMethod", "LongMethod")
@@ -91,6 +96,17 @@ class DCatGraphClient(
         }
     }
 
+    suspend fun createLicenses(licenses: List<LicenseDocument>) {
+        licenses.forEach { license ->
+            LicenseGetByIdentifierQuery(license.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item
+                ?: LicenseCreateCommand(
+                    identifier = license.identifier,
+                    name = license.name,
+                    url = license.url,
+                ).invokeWith(licenseClient.licenseCreate())
+        }
+    }
+
     private suspend fun initCatalogue(
         catalogue: DCatApCatalogueModel,
         createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
@@ -134,7 +150,7 @@ class DCatGraphClient(
                     publisher = existingCatalogue.publisher,
                     validator = existingCatalogue.validator,
                     accessRights = existingCatalogue.accessRights,
-                    license = existingCatalogue.license,
+                    license = existingCatalogue.license?.id,
                     hidden = existingCatalogue.hidden
                 ) to null).invokeWith(catalogueClient.catalogueUpdate())
             }
@@ -183,6 +199,9 @@ class DCatGraphClient(
             homepage = catalogue.homepage,
             themes = catalogue.themes?.mapNotNull {
                 ConceptGetByIdentifierQuery(it.id).invokeWith(conceptClient.conceptGetByIdentifier()).item?.id
+            },
+            license = catalogue.license?.let {
+                LicenseGetByIdentifierQuery(it.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item?.id
             },
         ) to catalogue.img?.let { SimpleFile(
             name = it,

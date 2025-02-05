@@ -5,6 +5,8 @@ import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
+import io.komune.registry.f2.license.domain.model.LicenseDTO
+import io.komune.registry.f2.license.domain.model.LicenseDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -142,10 +144,9 @@ interface CatalogueDTO {
     val accessRights: String?
 
     /**
-     * A legal document under which the dataset is made available.
-     * @example "ODbL 1.0"
+     * A legal document under which the catalogue is made available.
      */
-    val license: String?
+    val license: LicenseDTO?
 
     /**
      * The date of formal issuance (e.g., publication) of the dataset.
@@ -185,7 +186,7 @@ data class CatalogueDTOBase(
     override val publisher: Agent? = null,
     override val validator: Agent? = null,
     override val accessRights: String? = null,
-    override val license: String? = null,
+    override val license: LicenseDTOBase? = null,
     override val issued: Long? = null,
     override val modified: Long? = null,
     override val hidden: Boolean = false

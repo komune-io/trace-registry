@@ -11,6 +11,8 @@ import io.komune.registry.f2.concept.client.ConceptClient
 import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
+import io.komune.registry.f2.license.client.LicenseClient
+import io.komune.registry.f2.license.client.licenseClient
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.init.actor.Actor
@@ -23,7 +25,8 @@ class CatalogueFactory(
     val catalogueClient: CatalogueClient,
     val conceptClient: ConceptClient,
     val datasetClient: DatasetClient,
-    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, conceptClient, datasetClient)
+    val licenseClient: LicenseClient,
+    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, conceptClient, datasetClient, licenseClient)
 ) {
     val faker = Faker()
 
@@ -40,7 +43,8 @@ class CatalogueFactory(
             return CatalogueFactory(
                 catalogueClient = f2Client.catalogueClient().invoke(),
                 conceptClient = f2Client.conceptClient().invoke(),
-                datasetClient = f2Client.datasetClient().invoke()
+                datasetClient = f2Client.datasetClient().invoke(),
+                licenseClient = f2Client.licenseClient().invoke()
             )
         }
     }
@@ -67,6 +71,15 @@ fun create100MThemes(
 
     val themesCentMillion = listOf(schemeCentMillion)
     dcatGraphClient.createSchemes(themesCentMillion)
+}
+
+fun create100MLicenses(
+    url: String,
+    actor: Actor
+) = runBlocking {
+    val helper = CatalogueFactory(url, actor.authRealm)
+    val dcatGraphClient = helper.dcatGraphClient
+    dcatGraphClient.createLicenses(licensesCentMillion)
 }
 
 fun create100MCatalogue(

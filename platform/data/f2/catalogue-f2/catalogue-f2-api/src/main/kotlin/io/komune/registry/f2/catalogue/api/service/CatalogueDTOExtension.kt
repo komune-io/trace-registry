@@ -52,7 +52,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     publisher = publisher,
     validator = validator,
     accessRights = accessRights,
-    license = license,
+    licenseId = license,
     hidden = hidden,
 )
 
@@ -71,7 +71,7 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     publisher = publisher,
     validator = validator,
     accessRights = accessRights,
-    license = license,
+    licenseId = license,
     hidden = hidden,
 )
 

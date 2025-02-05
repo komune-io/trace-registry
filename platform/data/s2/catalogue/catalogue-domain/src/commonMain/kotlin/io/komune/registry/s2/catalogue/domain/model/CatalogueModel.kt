@@ -6,6 +6,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -29,7 +30,7 @@ data class CatalogueModel(
     val publisher: Agent?,
     val validator: Agent?,
     val accessRights: String?,
-    val license: String?,
+    val licenseId: LicenseId?,
     val hidden: Boolean,
     val issued: Long?,
     val modified: Long?,

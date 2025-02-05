@@ -87,7 +87,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		publisher = event.publisher
 		validator = event.validator
 		accessRights = event.accessRights
-		license = event.license
+		licenseId = event.licenseId
 		hidden = event.hidden
 		modified = event.date
 	}

@@ -2421,6 +2421,36 @@ export declare namespace io.komune.registry.s2.concept.domain.command {
 
     }
 }
+export declare namespace io.komune.registry.s2.license.domain.command {
+    interface LicenseCreateCommandDTO {
+        readonly identifier?: string;
+        readonly name: string;
+        readonly url?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.license.domain.command {
+    interface LicenseEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface LicenseInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface LicenseCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.license.domain.command {
+    interface LicenseUpdateCommandDTO extends io.komune.registry.s2.license.domain.command.LicenseCommand {
+        readonly id: string;
+        readonly name: string;
+        readonly url?: string;
+
+    }
+}
 export declare namespace io.komune.registry.dsl.skos.domain.model {
     interface SkosConceptDTO {
         readonly id: string;
@@ -3090,6 +3120,69 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.f2.license.domain.command {
+    interface LicenseCreateCommandDTO extends io.komune.registry.s2.license.domain.command.LicenseCreateCommandDTO {
+        readonly identifier?: string;
+        readonly name: string;
+        readonly url?: string;
+
+    }
+    interface LicenseCreatedEventDTO {
+        readonly id: string;
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.license.domain.command {
+    interface LicenseUpdateCommandDTO extends io.komune.registry.s2.license.domain.command.LicenseUpdateCommandDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly url?: string;
+
+    }
+    interface LicenseUpdatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.license.domain.model {
+    interface LicenseDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly url?: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.license.domain.query {
+    interface LicenseGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface LicenseGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.license.domain.model.LicenseDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.license.domain.query {
+    interface LicenseGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface LicenseGetResultDTO {
+        readonly item?: io.komune.registry.f2.license.domain.model.LicenseDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.license.domain.query {
+    interface LicenseListQueryDTO {
+
+    }
+    interface LicenseListResultDTO {
+        readonly items: io.komune.registry.f2.license.domain.model.LicenseDTO[];
+
+    }
+}
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueCreateCommandDTO {
         readonly identifier?: string;
@@ -3224,7 +3317,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly accessRights?: string;
-        readonly license?: string;
+        readonly license?: io.komune.registry.f2.license.domain.model.LicenseDTO;
         readonly issued?: number;
         readonly modified?: number;
         readonly hidden: boolean;

@@ -6,6 +6,7 @@ import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.datasetClient
+import io.komune.registry.f2.license.client.licenseClient
 
 class RegistryClient(
     val catalogueClient: CatalogueClient,
@@ -20,12 +21,14 @@ class RegistryClient(
             val catalogueClient = f2Client.catalogueClient().invoke()
             val conceptClient = f2Client.conceptClient().invoke()
             val datasetClient = f2Client.datasetClient().invoke()
+            val licenseClient = f2Client.licenseClient().invoke()
             return RegistryClient(
                 catalogueClient = catalogueClient,
                 DCatGraphClient(
                     catalogueClient = catalogueClient,
                     conceptClient = conceptClient,
                     datasetClient = datasetClient,
+                    licenseClient = licenseClient
                 )
             )
         }

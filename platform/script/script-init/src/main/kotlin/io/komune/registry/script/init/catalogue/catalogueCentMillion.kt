@@ -1,7 +1,10 @@
 @file:Suppress("LongMethod", "FunctionNaming", "LargeClass")
 package io.komune.registry.script.init.catalogue
 
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocument
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocumentBuilder
 import io.komune.registry.dsl.dcat.domain.model.catalogue
+import io.komune.registry.dsl.dcat.domain.model.license
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptBuilder
 import io.komune.registry.dsl.skos.domain.model.concept
@@ -47,6 +50,7 @@ val schemeCentMillion = conceptScheme {
     concepts = CentMThemes.allConcepts
 }
 
+val licensesCentMillion = CentMLicenses.allLicenses
 
 fun Solution(debug: String) = catalogue {
     identifier = "objectif100m-Solution${debug}"
@@ -201,6 +205,26 @@ object CentMThemes {
             "en" to "Investment",
             "es" to "Inversión"
         )
+    }
+}
+
+object CentMLicenses {
+    val allLicenses = mutableListOf<LicenseDocument>()
+
+    private fun addLicense(block: LicenseDocumentBuilder.() -> Unit): LicenseDocument {
+        return license(block).also(allLicenses::add)
+    }
+
+    val CreativeCommons = addLicense {
+        identifier = "creative-commons"
+        name = "Creative Commons"
+        url = "https://creativecommons.org/licenses/by/4.0/"
+    }
+
+    val Odbl = addLicense {
+        identifier = "odbl"
+        name = "Open Database License"
+        url = "https://opendatacommons.org/licenses/odbl/1.0/"
     }
 }
 
@@ -1046,6 +1070,7 @@ object CentMSystem {
                                 type = "100m-solution"
                                 structure = Structure("item")
                                 img = getImg(IMG_SOLUTION)
+                                license = CentMLicenses.CreativeCommons
 
                                 translation("fr") {
                                     title = "Système de Variation Electronique de Vitesse (VEV) sur un moteur électrique"
@@ -1075,6 +1100,7 @@ object CentMSystem {
                                 themes {
                                     +CentMThemes.Investment
                                 }
+
                             }
                         }
                     }

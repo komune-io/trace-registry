@@ -22,7 +22,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         publisher = publisher,
         validator = validator,
         accessRights = accessRights,
-        license = license,
+        licenseId = licenseId,
         hidden = hidden,
         issued = issued,
         modified = modified,

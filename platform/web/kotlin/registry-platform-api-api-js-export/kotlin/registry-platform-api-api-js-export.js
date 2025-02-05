@@ -32,6 +32,11 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -42,11 +47,6 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
-}
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -89,14 +89,14 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, List, Collection]);
+  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, List]);
   setMetadataFor(Map_0, 'Map', interfaceMeta);
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
   setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
   setMetadataFor(Companion, 'Companion', objectMeta);
-  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
+  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
   setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
@@ -440,7 +440,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Symbol_0, 'Symbol', classMeta);
   setMetadataFor(SetTimeoutBasedDispatcher, 'SetTimeoutBasedDispatcher', classMeta, CoroutineDispatcher, VOID, VOID, VOID, VOID, [1]);
   setMetadataFor(NodeDispatcher, 'NodeDispatcher', objectMeta, SetTimeoutBasedDispatcher, VOID, VOID, VOID, VOID, [1]);
-  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [List, Collection]);
+  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [Collection, List]);
   setMetadataFor(ScheduledMessageQueue, 'ScheduledMessageQueue', classMeta, MessageQueue);
   setMetadataFor(WindowMessageQueue, 'WindowMessageQueue', classMeta, MessageQueue);
   setMetadataFor(Dispatchers, 'Dispatchers', objectMeta);
@@ -1035,6 +1035,11 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ConceptInitCommand, 'ConceptInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(ConceptCommand, 'ConceptCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(ConceptUpdateCommandDTO, 'ConceptUpdateCommandDTO', interfaceMeta, VOID, [ConceptCommand]);
+  setMetadataFor(LicenseCreateCommandDTO, 'LicenseCreateCommandDTO', interfaceMeta);
+  setMetadataFor(LicenseEvent, 'LicenseEvent', interfaceMeta, VOID, [S2SourcingEvent]);
+  setMetadataFor(LicenseInitCommand, 'LicenseInitCommand', interfaceMeta, VOID, [S2InitCommand]);
+  setMetadataFor(LicenseCommand, 'LicenseCommand', interfaceMeta, VOID, [S2Command]);
+  setMetadataFor(LicenseUpdateCommandDTO, 'LicenseUpdateCommandDTO', interfaceMeta, VOID, [LicenseCommand]);
   setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta);
   setMetadataFor(StructureDto, 'StructureDto', interfaceMeta);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta);
@@ -1103,6 +1108,17 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(DatasetPageResultDTO, 'DatasetPageResultDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(DatasetRefListQueryDTO, 'DatasetRefListQueryDTO', interfaceMeta);
   setMetadataFor(DatasetRefListResultDTO, 'DatasetRefListResultDTO', interfaceMeta);
+  setMetadataFor(LicenseCreateCommandDTO_0, 'LicenseCreateCommandDTO', interfaceMeta, VOID, [LicenseCreateCommandDTO]);
+  setMetadataFor(LicenseCreatedEventDTO, 'LicenseCreatedEventDTO', interfaceMeta);
+  setMetadataFor(LicenseUpdateCommandDTO_0, 'LicenseUpdateCommandDTO', interfaceMeta, VOID, [LicenseUpdateCommandDTO]);
+  setMetadataFor(LicenseUpdatedEventDTO, 'LicenseUpdatedEventDTO', interfaceMeta);
+  setMetadataFor(LicenseDTO, 'LicenseDTO', interfaceMeta);
+  setMetadataFor(LicenseGetByIdentifierQueryDTO, 'LicenseGetByIdentifierQueryDTO', interfaceMeta);
+  setMetadataFor(LicenseGetByIdentifierResultDTO, 'LicenseGetByIdentifierResultDTO', interfaceMeta);
+  setMetadataFor(LicenseGetQueryDTO, 'LicenseGetQueryDTO', interfaceMeta);
+  setMetadataFor(LicenseGetResultDTO, 'LicenseGetResultDTO', interfaceMeta);
+  setMetadataFor(LicenseListQueryDTO, 'LicenseListQueryDTO', interfaceMeta);
+  setMetadataFor(LicenseListResultDTO, 'LicenseListResultDTO', interfaceMeta);
   setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta);
@@ -26336,6 +26352,16 @@ if (typeof Math.imul === 'undefined') {
   }
   function ConceptUpdateCommandDTO() {
   }
+  function LicenseCreateCommandDTO() {
+  }
+  function LicenseEvent() {
+  }
+  function LicenseInitCommand() {
+  }
+  function LicenseCommand() {
+  }
+  function LicenseUpdateCommandDTO() {
+  }
   function SkosConceptDTO() {
   }
   function StructureDto() {
@@ -26626,6 +26652,28 @@ if (typeof Math.imul === 'undefined') {
   function DatasetRefListQueryDTO() {
   }
   function DatasetRefListResultDTO() {
+  }
+  function LicenseCreateCommandDTO_0() {
+  }
+  function LicenseCreatedEventDTO() {
+  }
+  function LicenseUpdateCommandDTO_0() {
+  }
+  function LicenseUpdatedEventDTO() {
+  }
+  function LicenseDTO() {
+  }
+  function LicenseGetByIdentifierQueryDTO() {
+  }
+  function LicenseGetByIdentifierResultDTO() {
+  }
+  function LicenseGetQueryDTO() {
+  }
+  function LicenseGetResultDTO() {
+  }
+  function LicenseListQueryDTO() {
+  }
+  function LicenseListResultDTO() {
   }
   function CatalogueCreateCommandDTO() {
   }
@@ -29969,6 +30017,27 @@ if (typeof Math.imul === 'undefined') {
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$license = $io$komune$registry$s2.license || ($io$komune$registry$s2.license = {});
+    var $io$komune$registry$s2$license$domain = $io$komune$registry$s2$license.domain || ($io$komune$registry$s2$license.domain = {});
+    var $io$komune$registry$s2$license$domain$command = $io$komune$registry$s2$license$domain.command || ($io$komune$registry$s2$license$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$license = $io$komune$registry$s2.license || ($io$komune$registry$s2.license = {});
+    var $io$komune$registry$s2$license$domain = $io$komune$registry$s2$license.domain || ($io$komune$registry$s2$license.domain = {});
+    var $io$komune$registry$s2$license$domain$command = $io$komune$registry$s2$license$domain.command || ($io$komune$registry$s2$license$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$license = $io$komune$registry$s2.license || ($io$komune$registry$s2.license = {});
+    var $io$komune$registry$s2$license$domain = $io$komune$registry$s2$license.domain || ($io$komune$registry$s2$license.domain = {});
+    var $io$komune$registry$s2$license$domain$command = $io$komune$registry$s2$license$domain.command || ($io$komune$registry$s2$license$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
     var $io$komune$registry$dsl = $io$komune$registry.dsl || ($io$komune$registry.dsl = {});
     var $io$komune$registry$dsl$skos = $io$komune$registry$dsl.skos || ($io$komune$registry$dsl.skos = {});
     var $io$komune$registry$dsl$skos$domain = $io$komune$registry$dsl$skos.domain || ($io$komune$registry$dsl$skos.domain = {});
@@ -30245,6 +30314,48 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
     var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
     var $io$komune$registry$f2$dataset$domain$query = $io$komune$registry$f2$dataset$domain.query || ($io$komune$registry$f2$dataset$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$command = $io$komune$registry$f2$license$domain.command || ($io$komune$registry$f2$license$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$command = $io$komune$registry$f2$license$domain.command || ($io$komune$registry$f2$license$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$model = $io$komune$registry$f2$license$domain.model || ($io$komune$registry$f2$license$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$query = $io$komune$registry$f2$license$domain.query || ($io$komune$registry$f2$license$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$query = $io$komune$registry$f2$license$domain.query || ($io$komune$registry$f2$license$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$license = $io$komune$registry$f2.license || ($io$komune$registry$f2.license = {});
+    var $io$komune$registry$f2$license$domain = $io$komune$registry$f2$license.domain || ($io$komune$registry$f2$license.domain = {});
+    var $io$komune$registry$f2$license$domain$query = $io$komune$registry$f2$license$domain.query || ($io$komune$registry$f2$license$domain.query = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

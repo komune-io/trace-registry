@@ -9,6 +9,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.service.toDTO
+import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -20,6 +21,7 @@ class CatalogueI18nService(
     private val catalogueFinderService: CatalogueFinderService,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
+    private val licenseF2FinderService: LicenseF2FinderService
 ) : I18nService() {
     suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
@@ -64,7 +66,7 @@ class CatalogueI18nService(
                 publisher = translation.publisher,
                 validator = translation.validator,
                 accessRights = translation.accessRights,
-                license = translation.license,
+                license = translation.licenseId?.let { licenseF2FinderService.getOrNull(it) },
                 hidden = translation.hidden,
                 issued = translation.issued,
                 modified = translation.modified,

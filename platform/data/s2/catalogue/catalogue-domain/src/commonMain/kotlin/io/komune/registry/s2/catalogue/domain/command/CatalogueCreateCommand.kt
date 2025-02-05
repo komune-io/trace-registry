@@ -4,6 +4,7 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -23,7 +24,7 @@ data class CatalogueCreateCommand(
     val publisher: Agent? = null,
     val validator: Agent? = null,
     val accessRights: String? = null,
-    val license: String? = null,
+    val licenseId: LicenseId? = null,
     val hidden: Boolean = false
 ): CatalogueInitCommand
 
@@ -38,7 +39,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val publisher: Agent?
     val validator: Agent?
     val accessRights: String?
-    val license: String?
+    val licenseId: LicenseId?
     val hidden: Boolean
 }
 
@@ -59,7 +60,7 @@ data class CatalogueCreatedEvent(
     override val publisher: Agent? = null,
     override val validator: Agent? = null,
     override val accessRights: String? = null,
-    override val license: String? = null,
+    override val licenseId: LicenseId? = null,
     override val hidden: Boolean = false,
     override val date: Long,
 ): CatalogueDataEvent

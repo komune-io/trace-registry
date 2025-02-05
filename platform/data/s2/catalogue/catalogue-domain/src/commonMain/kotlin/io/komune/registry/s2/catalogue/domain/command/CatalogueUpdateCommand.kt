@@ -19,7 +19,7 @@ data class CatalogueUpdateCommand(
     val publisher: Agent? = null,
     val validator: Agent? = null,
     val accessRights: String? = null,
-    val license: String? = null,
+    val licenseId: String? = null,
     val hidden: Boolean = false
 ): CatalogueCommand
 
@@ -36,7 +36,7 @@ data class CatalogueUpdatedEvent(
     override val publisher: Agent?,
     override val validator: Agent?,
     override val accessRights: String?,
-    override val license: String?,
+    override val licenseId: String?,
     override val hidden: Boolean = false,
     override val date: Long,
 ): CatalogueDataEvent
