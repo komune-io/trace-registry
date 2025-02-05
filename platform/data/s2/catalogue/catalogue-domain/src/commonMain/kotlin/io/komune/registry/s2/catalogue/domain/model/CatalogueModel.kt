@@ -1,11 +1,11 @@
 package io.komune.registry.s2.catalogue.domain.model
 
 import io.komune.registry.dsl.dcat.domain.model.Agent
-import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -20,7 +20,7 @@ data class CatalogueModel(
     val type: String,
     val language: String?,
     var structure: Structure? = null,
-    val themes: List<SkosConcept>? = null,
+    val themes: List<ConceptId>? = null,
     val translations: Map<Language, CatalogueId>,
     val datasets: List<DatasetId>,
     val catalogues: List<CatalogueId>,

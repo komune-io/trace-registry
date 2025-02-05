@@ -1,8 +1,8 @@
 package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.dsl.dcat.domain.model.Agent
-import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -12,7 +12,7 @@ data class CatalogueUpdateCommand(
     val title: String,
     val language: String?,
     val description: String? = null,
-    val themes: Set<SkosConcept> = emptySet(),
+    val themes: Set<ConceptId> = emptySet(),
     val homepage: String? = null,
     val structure: Structure? = null,
     val creator: Agent? = null,
@@ -29,7 +29,7 @@ data class CatalogueUpdatedEvent(
     override val title: String,
     override val language: String?,
     override val description: String?,
-    override val themes: Set<SkosConcept>,
+    override val themes: Set<ConceptId>,
     override val homepage: String?,
     override val structure: Structure?,
     override val creator: Agent?,

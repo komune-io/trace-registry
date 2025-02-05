@@ -4,8 +4,9 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(project(":platform:data:f2:catalogue-f2:catalogue-f2-client"))
-    commonMainApi(project(":platform:data:f2:dataset-f2:dataset-f2-client"))
+    commonMainApi(project(Modules.data.f2.catalogue.client))
+    commonMainApi(project(Modules.data.f2.concept.client))
+    commonMainApi(project(Modules.data.f2.dataset.client))
 }
 
 tasks.withType<Test>().configureEach {

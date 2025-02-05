@@ -7,6 +7,7 @@ import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -17,10 +18,29 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueI18nService(
     private val catalogueFinderService: CatalogueFinderService,
+    private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
 ) : I18nService() {
+    suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+            CatalogueRefDTOBase(
+                id = translation.id,
+                identifier = translation.identifier,
+                title = translation.title,
+                language = translation.language!!,
+                availableLanguages = translation.translations.keys.toList(),
+                type = translation.type,
+                description = translation.description,
+                img = translation.img,
+            )
+        }
+    }
+
     suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+            val themes = translation.themes?.mapNotNull {
+                conceptF2FinderService.getTranslatedOrNull(it, language ?: translation.language!!, otherLanguageIfAbsent)
+            }
             CatalogueDTOBase(
                 id = translation.id,
                 identifier = translation.identifier,
@@ -29,9 +49,9 @@ class CatalogueI18nService(
                 description = translation.description,
                 catalogues = translation.catalogues.mapNotNull {
                     translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent)
-                                                               },
+                },
                 datasets = translation.datasets.map { datasetFinderService.get(it).toDTO() }.filter { it.language == translation.language },
-                themes = translation.themes,
+                themes = themes,
                 type = translation.type,
                 language = translation.language!!,
                 availableLanguages = translation.translations.keys.toList(),
@@ -46,21 +66,6 @@ class CatalogueI18nService(
                 hidden = translation.hidden,
                 issued = translation.issued,
                 modified = translation.modified,
-            )
-        }
-    }
-
-    suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
-            CatalogueRefDTOBase(
-                id = translation.id,
-                identifier = translation.identifier,
-                title = translation.title,
-                language = translation.language!!,
-                availableLanguages = translation.translations.keys.toList(),
-                type = translation.type,
-                description = translation.description,
-                img = translation.img,
             )
         }
     }

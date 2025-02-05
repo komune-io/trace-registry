@@ -3,6 +3,7 @@ package io.komune.registry.f2.concept.domain.model
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
@@ -33,13 +34,13 @@ interface ConceptTranslatedDTO {
      * Preferred label of the concept, in the language specified.
      * @example "Label"
      */
-    val prefLabels: String
+    val prefLabel: String
 
     /**
      * Definitions of the concept, in the language specified.
      * @example "This is a great concept"
      */
-    val definitions: Language
+    val definition: String
 
     /**
      * @ref [io.komune.registry.f2.concept.domain.model.ConceptDTO.schemes]
@@ -47,11 +48,12 @@ interface ConceptTranslatedDTO {
     val schemes: Set<String>
 }
 
+@Serializable
 data class ConceptTranslatedDTOBase(
     override val id: ConceptId,
     override val identifier: ConceptIdentifier,
     override val language: Language,
-    override val prefLabels: String,
-    override val definitions: Language,
+    override val prefLabel: String,
+    override val definition: String,
     override val schemes: Set<String>
 ) : ConceptTranslatedDTO

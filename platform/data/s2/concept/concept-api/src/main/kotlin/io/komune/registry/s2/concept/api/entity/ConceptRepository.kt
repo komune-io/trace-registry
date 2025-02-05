@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ConceptRepository: RedisRepository<ConceptEntity, ConceptId> {
     fun findByIdentifier(identifier: String): ConceptEntity?
+    fun findBySchemes(scheme: String): List<ConceptEntity>
 }

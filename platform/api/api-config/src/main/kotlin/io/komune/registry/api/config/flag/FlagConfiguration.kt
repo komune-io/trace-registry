@@ -111,6 +111,7 @@ class FlagMessageRoutingCallback(private val flagProperties: FlagProperties) : M
             ),
             "data" to mapOf(
                 "catalogue" to flagProperties.module.data,
+                "concept" to flagProperties.module.data,
                 "dataset" to flagProperties.module.data,
             ),
             "identity" to mapOf(

@@ -1,9 +1,9 @@
 package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.dsl.dcat.domain.model.Agent
-import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -14,7 +14,7 @@ data class CatalogueCreateCommand(
     val type: String,
     val language: String?,
     val description: String? = null,
-    val themes: Set<SkosConcept> = emptySet(),
+    val themes: Set<ConceptId> = emptySet(),
     val homepage: String? = null,
     val structure: Structure? = null,
     val catalogues: Set<CatalogueId> = emptySet(),
@@ -31,7 +31,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val title: String
     val language: String?
     val description: String?
-    val themes: Set<SkosConcept>
+    val themes: Set<ConceptId>
     val homepage: String?
     val structure: Structure?
     val creator: Agent?
@@ -50,7 +50,7 @@ data class CatalogueCreatedEvent(
     val type: String,
     override val language: String?,
     override val description: String? = null,
-    override val themes: Set<SkosConcept> = emptySet(),
+    override val themes: Set<ConceptId> = emptySet(),
     override val homepage: String? = null,
     override val structure: Structure? = null,
     val catalogues: Set<CatalogueId> = emptySet(),

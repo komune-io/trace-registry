@@ -16,6 +16,8 @@ dependencies {
 
 	implementation(project(":platform:data:f2:catalogue-f2:catalogue-f2-api"))
 	implementation(project(":platform:data:s2:catalogue:catalogue-api"))
+	implementation(project(":platform:data:f2:concept-f2:concept-f2-api"))
+	implementation(project(":platform:data:s2:concept:concept-api"))
 	implementation(project(":platform:data:f2:dataset-f2:dataset-f2-api"))
 	implementation(project(":platform:data:s2:dataset:dataset-api"))
 

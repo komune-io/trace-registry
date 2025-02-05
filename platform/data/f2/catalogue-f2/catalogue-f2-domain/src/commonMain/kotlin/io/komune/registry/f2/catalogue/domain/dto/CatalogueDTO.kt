@@ -1,8 +1,8 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
 import io.komune.registry.dsl.dcat.domain.model.Agent
-import io.komune.registry.dsl.skos.domain.model.SkosConcept
-import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
+import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
+import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
@@ -97,7 +97,7 @@ interface CatalogueDTO {
      *
      * `themes` can be null, indicating that there are no themes available or the data has not been initialized.
      */
-    val themes: List<SkosConceptDTO>?
+    val themes: List<ConceptTranslatedDTO>?
 
     /**
      * Represents a list of datasets associated with the catalog.
@@ -177,7 +177,7 @@ data class CatalogueDTOBase(
     override val language: String,
     override val availableLanguages: List<Language>,
     override val structure: Structure? = null,
-    override val themes: List<SkosConcept>? = null,
+    override val themes: List<ConceptTranslatedDTOBase>? = null,
     override val datasets: List<DatasetDTOBase>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
     override val status: CatalogueState,

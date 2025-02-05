@@ -7,6 +7,8 @@ import f2.client.ktor.http.plugin.F2Auth
 import io.komune.registry.dsl.dcat.domain.model.catalogue
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
+import io.komune.registry.f2.concept.client.ConceptClient
+import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
@@ -19,8 +21,9 @@ import net.datafaker.Faker
 
 class CatalogueFactory(
     val catalogueClient: CatalogueClient,
+    val conceptClient: ConceptClient,
     val datasetClient: DatasetClient,
-    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, datasetClient)
+    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, conceptClient, datasetClient)
 ) {
     val faker = Faker()
 
@@ -34,11 +37,10 @@ class CatalogueFactory(
                     this.getAuth = { authRealm }
                 }
             }
-            val catalogueClient = f2Client.catalogueClient().invoke()
-            val datasetClient = f2Client.datasetClient().invoke()
             return CatalogueFactory(
-                catalogueClient = catalogueClient,
-                datasetClient = datasetClient
+                catalogueClient = f2Client.catalogueClient().invoke(),
+                conceptClient = f2Client.conceptClient().invoke(),
+                datasetClient = f2Client.datasetClient().invoke()
             )
         }
     }
@@ -56,6 +58,17 @@ fun createStandardsCatalogue(
 
 }
 
+fun create100MThemes(
+    url: String,
+    actor: Actor
+) = runBlocking {
+    val helper = CatalogueFactory(url, actor.authRealm)
+    val dcatGraphClient = helper.dcatGraphClient
+
+    val themesCentMillion = listOf(schemeCentMillion)
+    dcatGraphClient.createSchemes(themesCentMillion)
+}
+
 fun create100MCatalogue(
     url: String,
     actor: Actor,
@@ -64,8 +77,8 @@ fun create100MCatalogue(
     val helper = CatalogueFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
-    val itemsCentMillion = flowOf(catalogueCentMillion(debug))
-    dcatGraphClient.create(itemsCentMillion).toList()
+    val cataloguesCentMillion = flowOf(catalogueCentMillion(debug))
+    dcatGraphClient.create(cataloguesCentMillion).toList()
         .onEach { println("Catalogue[${it}] Created.") }
 }
 
