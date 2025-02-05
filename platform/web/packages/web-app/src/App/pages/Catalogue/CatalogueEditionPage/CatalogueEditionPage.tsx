@@ -14,7 +14,7 @@ export const CatalogueEditionPage = () => {
   const navigate = useNavigate()
   const {cataloguesContributions} = useRoutesDefinition()
 
-  const simplified = true
+  const simplified = false
 
   const catalogueQuery = useCatalogueGetQuery({
     query: {
@@ -70,6 +70,13 @@ export const CatalogueEditionPage = () => {
     },
     [],
   )
+  const onChangeTitle = useCallback(
+    (title: string) => {
+      metadataFormState.setFieldValue("title", title)
+    },
+    [metadataFormState.setFieldValue],
+  )
+  
 
   return (
     <AppPage
@@ -78,7 +85,7 @@ export const CatalogueEditionPage = () => {
       maxWidth={1020}
     >
       <CatalogueEditionHeader onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
-      <TitleDivider title={title} onDebouncedChange={() => { }} />
+      <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore
         languages={languages}

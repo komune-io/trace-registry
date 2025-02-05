@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueListAvailableParentsQuery } from '../../api'
+import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
 import { CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api/command'
@@ -12,7 +12,7 @@ type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustr
 
 interface CatalogueMetadataFormProps {
     type: CatalogueTypes
-    onSubmit?: (values: CatalogueCreateCommand & {illustration: File}) => void
+    onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
     formState?: FormComposableState
 }
 
@@ -26,9 +26,9 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
 
     const cataloguePageQuery = useCatalogueListAvailableParentsQuery({
         query: {
-        //    title: searchCatalogues,
-           language: i18n.language,
-           type
+            //    title: searchCatalogues,
+            language: i18n.language,
+            type
         },
         options: {
             // enabled: !!searchCatalogues,
@@ -36,12 +36,22 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         }
     })
 
-    const fields = useMemo(():MetadataField[] => [{
+    const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
+        query: {
+            language: i18n.language,
+            type
+        },
+        options: {
+            enabled: type === "100m-solution"
+        }
+    })
+
+    const fields = useMemo((): MetadataField[] => [{
         name: "parentId",
         type: "autoComplete",
         label: t("parentSheet"),
         params: {
-            popupIcon: <SearchIcon style={{transform: "none"}}/>,
+            popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "parentField",
             // onInputChange: (_, value) => setSearchCatalogues(value),
             options: cataloguePageQuery.data?.items.map((cat) => ({
@@ -74,10 +84,13 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     },
     ...(type === "100m-solution" ? [{
         name: "themes",
-        type: "autoComplete",
+        type: "select",
         label: t("category"),
         params: {
-
+            options: catalogueThemesQuery.data?.items.map((theme) => ({
+                key: theme.id,
+                label: theme.title,
+            }))
         },
         required: true
     }] as MetadataField[] : []), {
@@ -87,22 +100,22 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         params: {
             options: [{
                 key: "public",
-                label: "Public"
+                label: t("public")
             }, {
                 key: "private",
-                label: "Privé"
+                label: t("private")
             }]
         },
         required: true
     }, {
         name: "license",
         type: "autoComplete",
-        label:  t("licence"),
+        label: t("licence"),
         params: {
 
         },
         required: true
-    }], [t, type, cataloguePageQuery.data?.items])
+    }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items])
 
     const localFormState = useFormComposable({
         onSubmit
@@ -130,10 +143,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                 }}
             />
             {!formState && <Button
-            onClick={localFormState.submitForm} 
-            sx={{
-                alignSelf: "flex-end"
-            }}
+                onClick={localFormState.submitForm}
+                sx={{
+                    alignSelf: "flex-end"
+                }}
             >
                 {t("create")}
             </Button>}

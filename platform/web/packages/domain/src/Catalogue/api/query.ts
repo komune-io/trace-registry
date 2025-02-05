@@ -63,3 +63,13 @@ export const useCatalogueListAvailableParentsQuery = (params: QueryParams<Catalo
     )
 }
 
+export interface CatalogueListAvailableThemesQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesQueryDTO {}
+export interface CatalogueListAvailableParentsResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResultDTO {}
+
+export const useCatalogueListAvailableThemesQuery = (params: QueryParams<CatalogueListAvailableThemesQuery, CatalogueListAvailableParentsResult>) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useQueryRequest<CatalogueListAvailableThemesQuery, CatalogueListAvailableParentsResult>(
+      "data/catalogueListAvailableThemes", requestProps, params
+    )
+}
+
