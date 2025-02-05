@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REPOSITORY}im-gateway:${VERSION_IM}
     container_name: registry-im
     env_file:
-      - .env_dev
+      - build/config/.env_dev
     environment:
       - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
       - connect_im_keycloak_url=${PUBLIC_URL_KC}
@@ -22,7 +22,7 @@ services:
 
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "8009:8009"
+      - "127.0.0.1:8009:8009"
     networks:
       - net
 

@@ -4,7 +4,7 @@ services:
     container_name: fs-gateway
     image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
     env_file:
-      - .env_dev
+      - build/config/.env_dev
     environment:
       - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
       - fs_s3_internal-url=http://minio:9000
@@ -22,7 +22,7 @@ services:
       traefik.http.routers.fs-gateway.middlewares: strip-prefix-fs-gateway
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "8090:8090"
+      - "127.0.0.1:8090:8090"
     networks:
       - net
 
