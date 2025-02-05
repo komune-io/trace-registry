@@ -62,4 +62,6 @@ data class Activity(
 @Serializable
 data class LicenseDocument(
     val identifier: String,
+    val name: String,
+    val url: String?
 )

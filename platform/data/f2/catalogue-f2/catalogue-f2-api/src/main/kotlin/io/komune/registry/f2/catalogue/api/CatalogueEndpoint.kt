@@ -30,6 +30,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
@@ -123,6 +125,29 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableParentsResult)
     }
 
+    @PermitAll
+    @Bean
+    override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction = f2Function { query ->
+        logger.info("catalogueListAvailableThemes: $query")
+        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language)
+            .sortedBy { it.prefLabel }
+            .let(::CatalogueListAvailableThemesResult)
+    }
+
+    @PermitAll
+    @GetMapping("/catalogues/{catalogueId}/img")
+    suspend fun catalogueImgDownload(
+        @PathVariable catalogueId: CatalogueId,
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("catalogueLogoDownload: $catalogueId")
+        val file = serveFile(fileClient) {
+            logger.info("serveFile: $catalogueId")
+            fsService.getCatalogueFilePath(catalogueId)
+        }
+        logger.info("servedFile: $catalogueId")
+        return file
+    }
+
     @PostMapping("/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
@@ -206,19 +231,5 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
-    }
-
-    @PermitAll
-    @GetMapping("/catalogues/{catalogueId}/img")
-    suspend fun catalogueImgDownload(
-        @PathVariable catalogueId: CatalogueId,
-    ): ResponseEntity<InputStreamResource> {
-        logger.info("catalogueLogoDownload: $catalogueId")
-        val file = serveFile(fileClient) {
-            logger.info("serveFile: $catalogueId")
-            fsService.getCatalogueFilePath(catalogueId)
-        }
-        logger.info("servedFile: $catalogueId")
-        return file
     }
 }

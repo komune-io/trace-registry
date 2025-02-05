@@ -13,11 +13,18 @@ interface CatalogueCreationPageProps {
 export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const { type } = props
     const { t } = useTranslation()
-    const sheetTitle = useRef("")
+    
     const navigate = useNavigate()
     const {cataloguesCatalogueIdEdit} = useRoutesDefinition()
 
     const queryClient = useQueryClient()
+
+    const createCommand = useCatalogueCreateCommand({})
+    
+
+    const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
+
+    const sheetTitle = useRef(title)
 
     const onChangeSheetTitle = useCallback(
       (title: string) => {
@@ -26,11 +33,6 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
       [],
     )
 
-    const createCommand = useCatalogueCreateCommand({})
-    
-
-    const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
-
     const onCreate = useCallback(
       async (values: CatalogueCreateCommand & {illustration?: File}) => {
         const command = {...values}
@@ -38,6 +40,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
         const res = await createCommand.mutateAsync({
           command: {
             ...command,
+            title: sheetTitle.current,
             type
           },
           files: [{
@@ -62,7 +65,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             bgcolor='background.default'
             maxWidth={1020}
         >
-            <TitleDivider onChange={onChangeSheetTitle} title={title} onDebouncedChange={() => {}} />
+            <TitleDivider onChange={onChangeSheetTitle} title={title} />
             <CatalogueMetadataForm type={type} onSubmit={onCreate} />
         </AppPage>
     )

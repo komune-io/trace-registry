@@ -4,7 +4,9 @@ import f2.client.ktor.F2ClientBuilder
 import f2.client.ktor.common.F2ClientConfigLambda
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
+import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.datasetClient
+import io.komune.registry.f2.license.client.licenseClient
 
 class RegistryClient(
     val catalogueClient: CatalogueClient,
@@ -17,12 +19,16 @@ class RegistryClient(
         ): RegistryClient {
             val f2Client = F2ClientBuilder.get(url, config = config)
             val catalogueClient = f2Client.catalogueClient().invoke()
+            val conceptClient = f2Client.conceptClient().invoke()
             val datasetClient = f2Client.datasetClient().invoke()
+            val licenseClient = f2Client.licenseClient().invoke()
             return RegistryClient(
                 catalogueClient = catalogueClient,
                 DCatGraphClient(
                     catalogueClient = catalogueClient,
+                    conceptClient = conceptClient,
                     datasetClient = datasetClient,
+                    licenseClient = licenseClient
                 )
             )
         }

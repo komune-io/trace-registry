@@ -2,6 +2,8 @@ package io.komune.registry.s2.concept.domain
 
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.concept.domain.command.ConceptCreatedEvent
+import io.komune.registry.s2.concept.domain.command.ConceptUpdateCommand
+import io.komune.registry.s2.concept.domain.command.ConceptUpdatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
@@ -11,6 +13,10 @@ val s2Concept = s2Sourcing {
     name = "Concept"
     init<ConceptCreateCommand, ConceptCreatedEvent> {
         to = ConceptState.ACTIVE
+        role = ConceptRole.User
+    }
+    selfTransaction<ConceptUpdateCommand, ConceptUpdatedEvent> {
+        states += ConceptState.ACTIVE
         role = ConceptRole.User
     }
 }

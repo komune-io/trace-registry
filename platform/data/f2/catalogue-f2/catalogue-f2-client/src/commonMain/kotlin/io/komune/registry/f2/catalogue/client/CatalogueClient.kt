@@ -16,6 +16,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesF
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
@@ -69,4 +70,6 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")
+    override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction
+        = client.function("data/${this::catalogueListAvailableThemes.name}")
 }

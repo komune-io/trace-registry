@@ -5,6 +5,9 @@ plugins {
 }
 
 dependencies {
+	commonMainApi(project(Modules.data.s2.concept.domain))
+	commonMainApi(project(Modules.data.s2.license.domain))
+
 	commonMainApi(project(Modules.data.dsl.dcat))
 	commonMainApi(project(Modules.data.dsl.structure))
 }

@@ -100,8 +100,8 @@ class CatalogueF2AggregateService(
             hidden = command.hidden ?: catalogue.hidden
         ).let { catalogueAggregateService.update(it).toDTO() }
 
-        if (command.language in catalogue.translations) {
-            val translationId = catalogue.translations[command.language]!!
+        if (command.language in catalogue.translationIds) {
+            val translationId = catalogue.translationIds[command.language]!!
             CatalogueUpdateCommandDTOBase(
                 id = translationId,
                 title = command.title,

@@ -1,18 +1,18 @@
 window._env_ = {
   platform: {
-    url: "${REGISTRY_API_URL_PUBLIC}"
+    url: "${PUBLIC_URL_REGISTRY_API}"
   },
   im: {
-    url: "${IM_URL_PUBLIC}",
+    url: "${PUBLIC_URL_IM}",
   },
   admin: {
-    url: "${ADMIN_URL_PUBLIC}",
+    url: "${PUBLIC_URL_ADMIN}",
   },
   config: {
     keycloak: {
       realm: "${KC_REALM}",
       clientId: "${KC_WEB_CLIENT_ID}",
-      url: "${KC_URL_PUBLIC}"
+      url: "${PUBLIC_URL_KC}"
     }
   }
 };

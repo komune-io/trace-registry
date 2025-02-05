@@ -42,7 +42,7 @@ class SkosConceptSchemeBuilder {
         type = type,
         prefLabel = prefLabel,
         definition = definition,
-        hasTopConcept = hasTopConcept ?: throw IllegalArgumentException("hasTopConcept must be set"),
+        hasTopConcept = hasTopConcept,// ?: throw IllegalArgumentException("hasTopConcept must be set"),
         concepts = concepts
     )
 }
@@ -55,4 +55,3 @@ typealias CONCEPTS = ArrayList<SkosConcept>
 fun CONCEPTS.concept(block: SkosConceptBuilder.() -> Unit) {
     add(SkosConceptBuilder().apply(block).build())
 }
-

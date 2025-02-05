@@ -13,6 +13,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
+import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
+import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
@@ -24,7 +26,8 @@ import org.springframework.stereotype.Service
 class CatalogueF2FinderService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueFinderService: CatalogueFinderService,
-    private val catalogueI18nService: CatalogueI18nService
+    private val catalogueI18nService: CatalogueI18nService,
+    private val conceptF2FinderService: ConceptF2FinderService
 ) {
 
     suspend fun getOrNull(
@@ -99,5 +102,12 @@ class CatalogueF2FinderService(
             .mapAsync { catalogueI18nService.translateToRefDTO(it, language, true) }
             .filterNotNull()
             .sortedBy(CatalogueRefDTOBase::title)
+    }
+
+    suspend fun listAvailableThemesFor(type: String, language: Language): List<ConceptTranslatedDTOBase> {
+        return catalogueConfig.typeConfigurations[type]
+            ?.conceptSchemes
+            ?.flatMap { conceptScheme -> conceptF2FinderService.listByScheme(conceptScheme, language) }
+            .orEmpty()
     }
 }

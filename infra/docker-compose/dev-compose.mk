@@ -7,6 +7,8 @@ dev-envsubst:
 	mkdir -p $(DOCKER_COMPOSE_PATH)/build/config;
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config)
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config_$(CURRENT_CONTEXT))
+	$(call copy_config,$(DOCKER_COMPOSE_PATH)/.env_dev)
+	$(call copy_config,$(DOCKER_COMPOSE_PATH)/.env_dev_$(CURRENT_CONTEXT),.env_dev)
 	find $(DOCKER_COMPOSE_PATH)/build -type f -exec bash -c 'envsubst < "{}" > "{}.tmp" && mv "{}.tmp" "{}"' \;
 
 init:
@@ -174,12 +176,19 @@ endif
 export
 
 define copy_config
- if [ -d $1 ]; then \
-  cp -r $1/* $(DOCKER_COMPOSE_PATH)/build/config/; \
- else \
-  echo "Directory $1 does not exist or is empty"; \
- fi
+	if [ -d "$1" ]; then \
+		cp -r "$1"/* "$(DOCKER_COMPOSE_PATH)/build/config/"; \
+	elif [ -f "$1" ]; then \
+		if [ -n "$2" ]; then \
+			cp "$1" "$(DOCKER_COMPOSE_PATH)/build/config/$2"; \
+		else \
+			cp "$1" "$(DOCKER_COMPOSE_PATH)/build/config/"; \
+		fi \
+	else \
+		echo "File or directory '$1' does not exist or is empty"; \
+	fi
 endef
+
 
 $(DOCKER_COMPOSE_FILE):
 	@:

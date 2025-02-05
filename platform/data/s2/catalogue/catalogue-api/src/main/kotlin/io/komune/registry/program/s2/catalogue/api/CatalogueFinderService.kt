@@ -62,7 +62,7 @@ class CatalogueFinderService(
 		val childIdFilter = parentIdentifier
 			?.let { pIdentifier ->
 				catalogueRepository.findByIdentifier(pIdentifier)
-					?.catalogues
+					?.catalogueIds
 					?: listOf("none")
 			}?.let(::CollectionMatch)
 

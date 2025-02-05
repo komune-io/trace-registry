@@ -17,7 +17,7 @@ fun ConceptModel.toTranslatedDTO(language: Language) = ConceptTranslatedDTOBase(
     id = id,
     identifier = identifier,
     language = language,
-    prefLabels = prefLabels[language].orEmpty(),
-    definitions = definitions[language].orEmpty(),
+    prefLabel = prefLabels[language].orEmpty(),
+    definition = definitions[language].orEmpty(),
     schemes = schemes
 )

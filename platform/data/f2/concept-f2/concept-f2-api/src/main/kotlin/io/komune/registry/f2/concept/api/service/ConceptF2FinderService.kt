@@ -8,6 +8,7 @@ import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.api.ConceptFinderService
 import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,6 +20,10 @@ class ConceptF2FinderService(
         return conceptFinderService.getOrNull(id)?.toDTO()
     }
 
+    suspend fun getByIdentifierOrNull(identifier: ConceptIdentifier): ConceptDTOBase? {
+        return conceptFinderService.getByIdentifierOrNull(identifier)?.toDTO()
+    }
+
     suspend fun getTranslatedOrNull(id: ConceptId, language: Language, otherLanguageIfAbsent: Boolean): ConceptTranslatedDTOBase? {
         val concept = conceptFinderService.getOrNull(id)
             ?: return null
@@ -27,5 +32,9 @@ class ConceptF2FinderService(
             ?: return null
 
         return concept.toTranslatedDTO(selectedLanguage)
+    }
+
+    suspend fun listByScheme(scheme: String, language: Language): List<ConceptTranslatedDTOBase> {
+        return conceptFinderService.listByScheme(scheme).map { it.toTranslatedDTO(language) }
     }
 }

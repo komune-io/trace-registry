@@ -10,6 +10,7 @@ import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.concept.domain.ConceptApi
 import io.komune.registry.f2.concept.domain.command.ConceptCreateFunction
 import io.komune.registry.f2.concept.domain.command.ConceptUpdateFunction
+import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetTranslatedFunction
 import io.ktor.client.plugins.logging.DEFAULT
@@ -51,5 +52,6 @@ open class ConceptClient(val client: F2Client) : ConceptApi {
     override fun conceptUpdate(): ConceptUpdateFunction = client.function("data/${this::conceptUpdate.name}")
 
     override fun conceptGet(): ConceptGetFunction = client.function("data/${this::conceptGet.name}")
+    override fun conceptGetByIdentifier(): ConceptGetByIdentifierFunction = client.function("data/${this::conceptGetByIdentifier.name}")
     override fun conceptGetTranslated(): ConceptGetTranslatedFunction = client.function("data/${this::conceptGetTranslated.name}")
 }

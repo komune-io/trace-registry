@@ -3,6 +3,8 @@ package cccev.dsl.client
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.dsl.dcat.domain.model.DCatApCatalogueModel
 import io.komune.registry.dsl.dcat.domain.model.DcatDataset
+import io.komune.registry.dsl.dcat.domain.model.LicenseDocument
+import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
@@ -10,17 +12,22 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
+import io.komune.registry.f2.concept.client.ConceptClient
+import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
+import io.komune.registry.f2.license.client.LicenseClient
+import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.SimpleFile
+import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
@@ -32,7 +39,9 @@ typealias Language = String
 
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
+    private val conceptClient: ConceptClient,
     private val datasetClient: DatasetClient,
+    private val licenseClient: LicenseClient,
 ) {
 
     @Suppress("ComplexMethod", "LongMethod")
@@ -73,6 +82,31 @@ class DCatGraphClient(
             }
     }
 
+    suspend fun createSchemes(schemes: List<SkosConceptScheme>) {
+        schemes.forEach { scheme ->
+            scheme.concepts.forEach { concept ->
+                ConceptGetByIdentifierQuery(concept.id).invokeWith(conceptClient.conceptGetByIdentifier()).item
+                    ?: ConceptCreateCommand(
+                        identifier = concept.id,
+                        prefLabels = concept.prefLabels,
+                        definitions = concept.definitions,
+                        schemes = setOf(scheme.id)
+                    ).invokeWith(conceptClient.conceptCreate())
+            }
+        }
+    }
+
+    suspend fun createLicenses(licenses: List<LicenseDocument>) {
+        licenses.forEach { license ->
+            LicenseGetByIdentifierQuery(license.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item
+                ?: LicenseCreateCommand(
+                    identifier = license.identifier,
+                    name = license.name,
+                    url = license.url,
+                ).invokeWith(licenseClient.licenseCreate())
+        }
+    }
+
     private suspend fun initCatalogue(
         catalogue: DCatApCatalogueModel,
         createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
@@ -111,12 +145,12 @@ class DCatGraphClient(
                     language = translation.language,
                     structure = existingCatalogue.structure,
                     homepage = existingCatalogue.homepage,
-                    themes = existingCatalogue.themes,
+                    themes = existingCatalogue.themes?.map { it.id },
                     creator = existingCatalogue.creator,
                     publisher = existingCatalogue.publisher,
                     validator = existingCatalogue.validator,
                     accessRights = existingCatalogue.accessRights,
-                    license = existingCatalogue.license,
+                    license = existingCatalogue.license?.id,
                     hidden = existingCatalogue.hidden
                 ) to null).invokeWith(catalogueClient.catalogueUpdate())
             }
@@ -124,8 +158,8 @@ class DCatGraphClient(
         createdCatalogues[catalogue.identifier] = existingCatalogue.id
 
         catalogue.catalogues
-            ?.takeIf { it.isNotEmpty() }
             ?.filter { c -> existingCatalogue.catalogues.orEmpty().none { c.identifier == it.identifier } }
+            ?.takeIf { it.isNotEmpty() }
             ?.let { catalogues ->
                 linkCatalogues(
                     createdCatalogues,
@@ -163,7 +197,12 @@ class DCatGraphClient(
             language = catalogue.language,
             structure = catalogue.structure,
             homepage = catalogue.homepage,
-            themes = catalogue.themes,
+            themes = catalogue.themes?.mapNotNull {
+                ConceptGetByIdentifierQuery(it.id).invokeWith(conceptClient.conceptGetByIdentifier()).item?.id
+            },
+            license = catalogue.license?.let {
+                LicenseGetByIdentifierQuery(it.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item?.id
+            },
         ) to catalogue.img?.let { SimpleFile(
             name = it,
             content = PathMatchingResourcePatternResolver().getResource(it).contentAsByteArray
@@ -230,19 +269,6 @@ class DCatGraphClient(
     }
 }
 
-
-fun CatalogueDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
-    identifier = identifier,
-    homepage = homepage,
-    img = img,
-    type = type,
-    language = language,
-    themes = themes,
-    catalogues = catalogues?.map { it.toDsl() },
-    description = description,
-    title = title,
-    structure = structure,
-)
 
 fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     identifier = identifier,

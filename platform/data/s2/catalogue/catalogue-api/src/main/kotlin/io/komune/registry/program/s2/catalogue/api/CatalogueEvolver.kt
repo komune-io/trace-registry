@@ -37,8 +37,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		status = CatalogueState.ACTIVE
 		identifier = event.identifier
 		type = event.type
-		catalogues = event.catalogues
-		datasets = event.datasets
+		catalogueIds = event.catalogueIds
+		datasetIds = event.datasetIds
 		issued = event.date
 	}
 
@@ -57,37 +57,37 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
 	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = apply {
-		translations = translations + event.catalogues
+		translationIds = translationIds + event.catalogues
 	}
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
-		themes = themes + event.themes
+		themeIds = themeIds + event.themes
 	}
 
 	private suspend fun CatalogueEntity.linkDataset(event: CatalogueLinkedDatasetsEvent) = apply {
-		datasets = datasets + event.datasets
+		datasetIds = datasetIds + event.datasets
 	}
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
-		catalogues = catalogues + event.catalogues
+		catalogueIds = catalogueIds + event.catalogues
 	}
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
-		catalogues = catalogues - event.catalogues.toSet()
+		catalogueIds = catalogueIds - event.catalogues.toSet()
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title
 		language = event.language
 		description = event.description
-		themes = event.themes
+		themeIds = event.themeIds
 		homepage = event.homepage
 		structure = event.structure
 		creator = event.creator
 		publisher = event.publisher
 		validator = event.validator
 		accessRights = event.accessRights
-		license = event.license
+		licenseId = event.licenseId
 		hidden = event.hidden
 		modified = event.date
 	}

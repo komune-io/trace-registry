@@ -4,8 +4,11 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(project(":platform:data:f2:catalogue-f2:catalogue-f2-client"))
-    commonMainApi(project(":platform:data:f2:dataset-f2:dataset-f2-client"))
+    project(":platform:data").dependencyProject.subprojects.forEach {
+        if ("-client" in it.name) {
+            commonMainApi(it)
+        }
+    }
 }
 
 tasks.withType<Test>().configureEach {
