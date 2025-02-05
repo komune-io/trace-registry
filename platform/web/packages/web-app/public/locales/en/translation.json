@@ -281,6 +281,7 @@
     "addASubmitComment": "Add a version note below to indicate to the validator the changes made to the sheet",
     "thanksForContribution": "Thank you for your contribution!",
     "modificationsSaved": "Your modifications have been successfully saved.",
-    "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication."
+    "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
+    "globalSearch": "Search for a solution, system, sector..."
   }
 }

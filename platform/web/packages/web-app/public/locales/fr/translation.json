@@ -281,6 +281,7 @@
         "addASubmitComment": "Ajoutez une note de version ci-dessous pour indiquer au validateur les modifications apportées à la fiche",
         "thanksForContribution": "Merci pour votre contribution !",
         "modificationsSaved": "Vos modifications ont été enregistrées avec succès.",
-        "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication."
+        "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication.",
+        "globalSearch": "Rechercher une solution, un système, un secteur..."
     }
 }

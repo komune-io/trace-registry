@@ -281,6 +281,7 @@
     "addASubmitComment": "Agregue un comentario a continuación para indicar al validador las modificaciones realizadas en la hoja",
     "thanksForContribution": "¡Gracias por tu contribución!",
     "modificationsSaved": "Tus modificaciones han sido guardadas con éxito.",
-    "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación."
+    "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación.",
+    "globalSearch": "Buscar una solución, un sistema, un sector..."
   }
 }

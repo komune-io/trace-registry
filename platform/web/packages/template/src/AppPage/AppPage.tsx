@@ -1,6 +1,7 @@
 import { Stack, StackProps } from '@mui/material';
 import { ReactNode, useEffect } from "react";
 import { LanguageSelector } from 'components';
+import {CatalogueSearchBar} from "domain-components"
 
 export interface AppPageProps extends StackProps {
     title?: string
@@ -35,7 +36,7 @@ export const AppPage = (props: AppPageProps) => {
                 },
             }}
         >
-            {customHeader ? customHeader :<Stack
+            {customHeader ? customHeader : <Stack
                 direction="row"
                 alignItems="center"
                 gap={2}
@@ -49,11 +50,13 @@ export const AppPage = (props: AppPageProps) => {
                 <Stack
                     direction="row"
                     alignItems="center"
+                    justifyContent="center"
                     gap={2}
                     flexGrow={1}
                     
                 >
                     {header}
+                    {!bgcolor && <CatalogueSearchBar />}
                 </Stack>
                 <LanguageSelector />
             </Stack>}
