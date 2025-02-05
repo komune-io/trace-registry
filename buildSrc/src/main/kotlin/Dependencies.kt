@@ -271,6 +271,13 @@ object Modules {
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"
 			}
+
+			object license {
+				private const val BASE = "${f2.BASE}:license-f2:license-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
 		}
 
 		object s2 {
@@ -290,6 +297,12 @@ object Modules {
 
 			object dataset {
 				private const val BASE = "${s2.BASE}:dataset:dataset"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object license {
+				private const val BASE = "${s2.BASE}:license:license"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}
