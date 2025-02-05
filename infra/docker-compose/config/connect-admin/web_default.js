@@ -1,15 +1,15 @@
 window._env_ = {
   config: {
     im: {
-      url: "${IM_URL_PUBLIC}",
+      url: "${PUBLIC_URL_IM}",
     },
     fs: {
-      url: "${FS_URL_PUBLIC}",
+      url: "${PUBLIC_URL_FS}",
     },
     keycloak: {
       realm: "${KC_REALM}",
       clientId: "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
-      url: "${KC_URL_PUBLIC}"
+      url: "${PUBLIC_URL_KC}"
     }
   }
 };

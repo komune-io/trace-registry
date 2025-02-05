@@ -33,11 +33,11 @@
   "webClients": [
     {
       "clientId": "${KC_WEB_CLIENT_ID}",
-      "webUrl": "${REGISTRY_URL_PUBLIC}"
+      "webUrl": "${PUBLIC_URL_REGISTRY}"
     },
     {
       "clientId": "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
-      "webUrl": "${ADMIN_URL_PUBLIC}"
+      "webUrl": "${PUBLIC_URL_ADMIN}"
     }
   ],
   "permissions": [

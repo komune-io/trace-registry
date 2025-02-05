@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REPOSITORY}connect-admin-web:${VERSION_CONNECT_ADMIN}
     container_name: connect-admin-web
     env_file:
-      - .env_dev
+      - build/config/.env_dev
     labels:
       traefik.enable: "true"
       traefik.http.services.connect-admin-web.loadbalancer.server.port: "80"
@@ -14,7 +14,7 @@ services:
       # Needed When ports: "81:80" is defined
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "90:80"
+      - "127.0.0.1:90:80"
     configs:
       - source: env_config
         target: /var/www/env-config.js

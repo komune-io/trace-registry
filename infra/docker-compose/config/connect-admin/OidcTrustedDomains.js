@@ -2,11 +2,11 @@
 const trustedDomains = {
     default: {
         oidcDomains: [
-            "${KC_URL_PUBLIC}",
+            "${PUBLIC_URL_KC}",
         ],
         accessTokenDomains: [
             "${REGISTRY_API_URL}",
-            "${KC_URL_PUBLIC}"
+            "${PUBLIC_URL_KC}"
         ],
     },
 };
@@ -14,7 +14,7 @@ const trustedDomains = {
 trustedDomains.config_multi_tab_login = {
     domains: [
         "${REGISTRY_URL}",
-        "${KC_URL_PUBLIC}"
+        "${PUBLIC_URL_KC}"
     ],
     allowMultiTabLogin: true,
 };

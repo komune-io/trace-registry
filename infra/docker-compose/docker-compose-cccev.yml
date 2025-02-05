@@ -4,12 +4,8 @@ services:
     image: ${DOCKER_REPOSITORY}cccev-gateway:${CONNECT_CCCEV_VERSION}
     container_name: cccev-gateway
     env_file:
-      - .env_dev
+      - build/config/.env_dev
     environment:
-      - ssm_couchdb_url=${BCLAN_COUCH_URL}
-      - ssm_couchdb_username=${BCLAN_COUCH_USER}
-      - ssm_couchdb_password=${BCLAN_COUCH_PASS}
-      - ssm_chaincode_url=${BCLAN_CHAINCODE_URL}
       - fs_url=http://fs-gateway:8090
       - spring_neo4j_uri=neo4j://cccev-neo4j:7687
       - spring_neo4j_authentication_username=neo4j
@@ -24,7 +20,7 @@ services:
       traefik.docker.network: ${DOCKER_NETWORK}
     restart: on-failure
     ports:
-      - ${CCCEV_PORT}:8083
+      - "127.0.0.1:${CCCEV_PORT}:8083"
     networks:
       - net
     depends_on:
@@ -39,8 +35,8 @@ services:
     networks:
       - net
     ports:
-      - "7687:7687"
-      - "7474:7474"  # browser interface (localhost:7474)
+      - "127.0.0.1:7687:7687"
+      - "127.0.0.1:7474:7474"  # browser interface (localhost:7474)
 
 networks:
   net:

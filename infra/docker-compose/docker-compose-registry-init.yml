@@ -4,15 +4,15 @@ services:
     container_name: tr-registry-script
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-script:${REGISTRY_VERSION}
     env_file:
-      - .env_dev
+      - build/config/.env_dev
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000
-      - registry_script_init_auth_url=${KC_URL_PUBLIC}
+      - registry_script_init_auth_url=${PUBLIC_URL_KC}
       - registry_script_init_auth_=${KC_REALM}
-      - registry_script_init_cccev_url=${CCCEV_URL_PUBLIC}
-      - registry_script_init_im_url=${IM_URL_PUBLIC}
-      - registry_script_init_registry_url=${REGISTRY_URL_PUBLIC}
+      - registry_script_init_cccev_url=${PUBLIC_URL_CCCEV}
+      - registry_script_init_im_url=${PUBLIC_URL_IM}
+      - registry_script_init_registry_url=${PUBLIC_URL_REGISTRY}
       - registry_script_init_flag_control=false
       - registry_script_init_flag_data=true
       - registry_script_init_flag_project=false
