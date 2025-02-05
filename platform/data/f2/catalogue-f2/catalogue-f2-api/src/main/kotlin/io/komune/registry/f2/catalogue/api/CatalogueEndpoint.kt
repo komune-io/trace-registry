@@ -148,6 +148,7 @@ class CatalogueEndpoint(
         return file
     }
 
+    @PermitAll
     @PostMapping("/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
@@ -160,6 +161,7 @@ class CatalogueEndpoint(
         return event
     }
 
+    @PermitAll
     @PostMapping("/catalogueUpdate")
     suspend fun catalogueUpdate(
         @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
@@ -216,6 +218,7 @@ class CatalogueEndpoint(
         catalogueAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
+    @PermitAll
     @PostMapping("/catalogueSetImage")
     suspend fun catalogueSetImage(
         @RequestPart("command") command: CatalogueSetImageCommandDTOBase,
