@@ -24,18 +24,18 @@ class AssertionCatalogue(
             id: CatalogueId = catalogue.id,
             status: CatalogueState = catalogue.status,
             title: String? = catalogue.title,
-            themes: Set<String> = catalogue.themes,
+            themes: Set<String> = catalogue.themeIds,
         ) = also {
             Assertions.assertThat(catalogue.id).isEqualTo(id)
             Assertions.assertThat(catalogue.status).isEqualTo(status)
             Assertions.assertThat(catalogue.title).isEqualTo(title)
-            Assertions.assertThat(catalogue.themes).containsExactlyInAnyOrderElementsOf(themes)
+            Assertions.assertThat(catalogue.themeIds).containsExactlyInAnyOrderElementsOf(themes)
         }
 
         fun hasDatasets(
             datasets: List<DatasetId>,
         ) = also {
-            Assertions.assertThat(catalogue.datasets).containsAll(datasets)
+            Assertions.assertThat(catalogue.datasetIds).containsAll(datasets)
         }
     }
 }

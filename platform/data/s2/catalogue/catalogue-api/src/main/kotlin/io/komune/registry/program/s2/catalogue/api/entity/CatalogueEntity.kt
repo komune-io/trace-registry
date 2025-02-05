@@ -38,13 +38,13 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     lateinit var type: String
 
     @Searchable(nostem=true)
-    var language: String? = null
+    var language: Language? = null
 
     @Searchable(nostem=true)
     var description: String? = null
 
     @TagIndexed
-    var themes: Set<ConceptId> = emptySet()
+    var themeIds: Set<ConceptId> = emptySet()
 
     @Searchable(nostem=true)
     var homepage: String? = null
@@ -53,12 +53,12 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var structure: Structure? = null
 
     @TagIndexed
-    var catalogues: Set<CatalogueId> = emptySet()
+    var catalogueIds: Set<CatalogueId> = emptySet()
 
     @TagIndexed
-    var datasets: Set<DatasetId> = emptySet()
+    var datasetIds: Set<DatasetId> = emptySet()
 
-    var translations: Map<Language, CatalogueId> = emptyMap()
+    var translationIds: Map<Language, CatalogueId> = emptyMap()
 
     var creator: Agent? = null
     var publisher: Agent? = null

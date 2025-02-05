@@ -32,13 +32,13 @@ class InitScript(
             properties.admin.name,
             authRealm
         )
-        if(cccev) {
+        if (cccev) {
             properties.cccev?.url?.let { url ->
                 initRequirement(url)
             }
         }
 
-        if(catalogue) {
+        if (catalogue) {
             properties.registry?.url?.let { url ->
 //                createStandardsCatalogue(url, accessTokenAdmin)
                 create100MThemes(url, accessTokenAdmin)
@@ -53,7 +53,7 @@ class InitScript(
             }
         } else null
 
-        if(asset) {
+        if (asset) {
             properties.registry?.url?.let { url ->
              initAsset(accessTokenAdmin, url, projectIds)
             }

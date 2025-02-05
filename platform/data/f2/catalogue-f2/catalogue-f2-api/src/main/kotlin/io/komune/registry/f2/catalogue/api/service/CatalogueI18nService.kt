@@ -28,7 +28,7 @@ class CatalogueI18nService(
                 identifier = translation.identifier,
                 title = translation.title,
                 language = translation.language!!,
-                availableLanguages = translation.translations.keys.toList(),
+                availableLanguages = translation.translationIds.keys.toList(),
                 type = translation.type,
                 description = translation.description,
                 img = translation.img,
@@ -38,7 +38,7 @@ class CatalogueI18nService(
 
     suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
-            val themes = translation.themes?.mapNotNull {
+            val themes = translation.themeIds?.mapNotNull {
                 conceptF2FinderService.getTranslatedOrNull(it, language ?: translation.language!!, otherLanguageIfAbsent)
             }
             CatalogueDTOBase(
@@ -47,14 +47,16 @@ class CatalogueI18nService(
                 status = translation.status,
                 title = translation.title,
                 description = translation.description,
-                catalogues = translation.catalogues.mapNotNull {
+                catalogues = translation.catalogueIds.mapNotNull {
                     translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent)
                 },
-                datasets = translation.datasets.map { datasetFinderService.get(it).toDTO() }.filter { it.language == translation.language },
+                datasets = translation.datasetIds
+                    .map { datasetFinderService.get(it).toDTO() }
+                    .filter { it.language == translation.language },
                 themes = themes,
                 type = translation.type,
                 language = translation.language!!,
-                availableLanguages = translation.translations.keys.toList(),
+                availableLanguages = translation.translationIds.keys.toList(),
                 structure = translation.structure,
                 homepage = translation.homepage,
                 img = translation.img,
@@ -81,11 +83,11 @@ class CatalogueI18nService(
                 identifier = translation.identifier,
                 title = translation.title,
                 language = translation.language!!,
-                availableLanguages = translation.translations.keys.toList(),
+                availableLanguages = translation.translationIds.keys.toList(),
                 type = translation.type,
                 description = translation.description,
                 img = translation.img,
-                catalogues = translation.catalogues.nullIfEmpty()?.let {
+                catalogues = translation.catalogueIds.nullIfEmpty()?.let {
                     catalogueFinderService.page(id = CollectionMatch(it))
                         .items
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
@@ -110,24 +112,24 @@ class CatalogueI18nService(
     suspend fun translate(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueModel? {
         when {
             language != null && catalogue.language == language -> return catalogue
-            catalogue.translations.isEmpty() -> return when {
+            catalogue.translationIds.isEmpty() -> return when {
                 otherLanguageIfAbsent && catalogue.language != null -> catalogue
                 else -> null
             }
-            language != null && language !in catalogue.translations && !otherLanguageIfAbsent -> return null
+            language != null && language !in catalogue.translationIds && !otherLanguageIfAbsent -> return null
         }
 
-        val selectedLanguage = selectLanguage(catalogue.translations.keys, language, otherLanguageIfAbsent)
+        val selectedLanguage = selectLanguage(catalogue.translationIds.keys, language, otherLanguageIfAbsent)
             ?: return null
-        val translationId = catalogue.translations[selectedLanguage]!!
+        val translationId = catalogue.translationIds[selectedLanguage]!!
 
         val translation = catalogueFinderService.get(translationId)
         return catalogue.copy(
             language = translation.language,
             title = translation.title,
             description = translation.description,
-            datasets = catalogue.datasets + translation.datasets,
-            catalogues = catalogue.catalogues + translation.catalogues
+            datasetIds = catalogue.datasetIds + translation.datasetIds,
+            catalogueIds = catalogue.catalogueIds + translation.catalogueIds
         )
     }
 }

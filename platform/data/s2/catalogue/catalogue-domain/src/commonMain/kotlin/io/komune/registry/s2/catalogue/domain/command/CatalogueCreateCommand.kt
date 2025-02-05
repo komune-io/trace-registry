@@ -14,11 +14,11 @@ data class CatalogueCreateCommand(
     val type: String,
     val language: String?,
     val description: String? = null,
-    val themes: Set<ConceptId> = emptySet(),
+    val themeIds: Set<ConceptId> = emptySet(),
     val homepage: String? = null,
     val structure: Structure? = null,
-    val catalogues: Set<CatalogueId> = emptySet(),
-    val datasets: Set<DatasetId> = emptySet(),
+    val catalogueIds: Set<CatalogueId> = emptySet(),
+    val datasetIds: Set<DatasetId> = emptySet(),
     val creator: Agent? = null,
     val publisher: Agent? = null,
     val validator: Agent? = null,
@@ -31,7 +31,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val title: String
     val language: String?
     val description: String?
-    val themes: Set<ConceptId>
+    val themeIds: Set<ConceptId>
     val homepage: String?
     val structure: Structure?
     val creator: Agent?
@@ -50,11 +50,11 @@ data class CatalogueCreatedEvent(
     val type: String,
     override val language: String?,
     override val description: String? = null,
-    override val themes: Set<ConceptId> = emptySet(),
+    override val themeIds: Set<ConceptId> = emptySet(),
     override val homepage: String? = null,
     override val structure: Structure? = null,
-    val catalogues: Set<CatalogueId> = emptySet(),
-    val datasets: Set<DatasetId> = emptySet(),
+    val catalogueIds: Set<CatalogueId> = emptySet(),
+    val datasetIds: Set<DatasetId> = emptySet(),
     override val creator: Agent? = null,
     override val publisher: Agent? = null,
     override val validator: Agent? = null,
