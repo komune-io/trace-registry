@@ -59,3 +59,5 @@ http-client.private.env.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+platform/script/script-import/src/main/resources/centmillion/*/

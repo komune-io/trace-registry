@@ -11,7 +11,9 @@ import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.infra.fs.FsService
@@ -19,6 +21,7 @@ import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
+import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
@@ -26,6 +29,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -39,6 +43,7 @@ class CatalogueF2AggregateService(
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetFinderService: DatasetFinderService,
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
     private val sequenceRepository: SequenceRepository
@@ -144,6 +149,14 @@ class CatalogueF2AggregateService(
         ).let { catalogueAggregateService.linkCatalogues(it).toDTO() }
     }
 
+    suspend fun linkDatasets(command: CatalogueLinkDatasetsCommandDTOBase): CatalogueLinkedDatasetsEventDTOBase {
+        linkDatasets(
+            parentId = command.id,
+            datasetIds = command.datasetIds
+        )
+        return CatalogueLinkedDatasetsEventDTOBase(command.id)
+    }
+
     suspend fun setImage(id: CatalogueId, image: FilePart): CatalogueSetImageEvent {
         val filePath = fsService.uploadCatalogueImg(
             filePart = image,
@@ -198,11 +211,33 @@ class CatalogueF2AggregateService(
                 format = null,
             ).let { datasetAggregateService.create(it).id }
         }.let { datasetIds ->
-            CatalogueLinkDatasetsCommand(
-                id = parentId,
-                datasets = datasetIds
-            ).let { catalogueAggregateService.linkDatasets(it) }
+            linkDatasets(
+                parentId = parentId,
+                datasetIds = datasetIds
+            )
         }
+    }
+
+    private suspend fun linkDatasets(
+        parentId: CatalogueId,
+        datasetIds: List<DatasetId>?,
+    ) {
+        if (datasetIds.isNullOrEmpty()) {
+            return
+        }
+
+        val catalogue = catalogueFinderService.get(parentId)
+
+        datasetFinderService.page(
+            id = CollectionMatch(datasetIds)
+        ).items.groupBy { it.language }
+            .forEach { (language, datasets) ->
+                val catalogueId = catalogue.translationIds[language] ?: parentId
+                CatalogueLinkDatasetsCommand(
+                    id = catalogueId,
+                    datasets = datasets.map { it.id }
+                ).let { catalogueAggregateService.linkDatasets(it) }
+            }
     }
 
     private suspend fun createAndLinkTranslation(

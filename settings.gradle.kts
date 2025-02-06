@@ -18,6 +18,7 @@ include(
 )
 
 include(
+	"platform:script:script-import",
 	"platform:script:script-init",
 	"platform:script:script-gateway",
 )

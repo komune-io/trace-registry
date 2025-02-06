@@ -390,4 +390,11 @@ object Modules {
 			}
 		}
 	}
+
+	object script {
+		private const val BASE = ":platform:script:script"
+
+		const val import = "$BASE-import"
+		const val init = "$BASE-init"
+	}
 }

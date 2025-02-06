@@ -119,7 +119,7 @@ class DatasetEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    @GetMapping("/data/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun datasetLogoDownload(
         @PathVariable datasetId: DatasetId,
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
@@ -148,7 +148,7 @@ class DatasetEndpoint(
     }
 
     @PermitAll
-    @GetMapping("datasetDownloadDistribution/{datasetId}/{distributionId}")
+    @GetMapping("/data/datasetDownloadDistribution/{datasetId}/{distributionId}")
     suspend fun datasetDownloadDistribution(
         @PathVariable datasetId: DatasetId,
         @PathVariable distributionId: String,
@@ -189,7 +189,7 @@ class DatasetEndpoint(
         datasetAggregateService.linkThemes(cmd.toCommand()).toDTO()
     }
 
-    @PostMapping("/datasetSetImage")
+    @PostMapping("/data/datasetSetImage")
     suspend fun datasetSetImage(
         @RequestPart("command") cmd: DatasetSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
@@ -234,7 +234,7 @@ class DatasetEndpoint(
         )
     }
 
-    @PostMapping("/datasetAddMediaDistribution")
+    @PostMapping("/data/datasetAddMediaDistribution")
     suspend fun datasetAddMediaDistribution(
         @RequestPart("command") cmd: DatasetAddMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
@@ -285,7 +285,7 @@ class DatasetEndpoint(
         )
     }
 
-    @PostMapping("/datasetUpdateMediaDistribution")
+    @PostMapping("/data/datasetUpdateMediaDistribution")
     suspend fun datasetUpdateMediaDistribution(
         @RequestPart("command") cmd: DatasetUpdateMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart

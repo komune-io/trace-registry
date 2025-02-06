@@ -5,7 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":platform:script:script-init"))
+    implementation(project(Modules.script.import))
+    implementation(project(Modules.script.init))
 
     Dependencies.Jvm.f2(::implementation)
 }
