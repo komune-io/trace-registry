@@ -131,6 +131,7 @@
     "langue": "Langue",
     "submit": "Soumettre",
     "myContributions": "Mes contributions",
+    "filter": "Filtrer",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

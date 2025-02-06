@@ -32,11 +32,11 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
         <Stack
             gap={2.5}
         >
-            <Typography
+            {title && <Typography
                 variant='subtitle2'
             >
                 {title}
-            </Typography>
+            </Typography>}
             <Stack
                 direction="row"
                 gap={1.5}

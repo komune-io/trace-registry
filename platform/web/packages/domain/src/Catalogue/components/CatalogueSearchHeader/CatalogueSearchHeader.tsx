@@ -28,7 +28,6 @@ export const CatalogueSearchHeader = (props: CatalogueSearchHeaderProps) => {
                 justifyContent="center"
                 gap={2}
                 flexGrow={1}
-
             >
                 <SearchFilter
                     placeholder={t("catalogues.globalSearch")}

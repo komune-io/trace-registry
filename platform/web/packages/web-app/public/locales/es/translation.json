@@ -131,6 +131,7 @@
   "langue": "Idioma",
   "submit": "Enviar",
   "myContributions": "Mis contribuciones",
+  "filter": "Filtrar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
