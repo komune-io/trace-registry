@@ -14,7 +14,7 @@ services:
       # Needed When ports: "81:80" is defined
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "127.0.0.1:90:80"
+      - "90:80"
     configs:
       - source: env_config
         target: /var/www/env-config.js

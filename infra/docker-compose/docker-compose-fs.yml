@@ -22,7 +22,7 @@ services:
       traefik.http.routers.fs-gateway.middlewares: strip-prefix-fs-gateway
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "127.0.0.1:8090:8090"
+      - "8090:8090"
     networks:
       - net
 

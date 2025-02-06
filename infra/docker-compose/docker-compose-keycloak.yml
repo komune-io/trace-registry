@@ -31,7 +31,7 @@ services:
       - source: keycloak_web_env_config
         target: /opt/keycloak/themes/registry-keycloakify/login/resources/dist/env-config.js
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8080:8080"
     networks:
       - net
 
