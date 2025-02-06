@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import net.datafaker.Faker
 
-class CatalogueFactory(
+class DataFactory(
     val catalogueClient: CatalogueClient,
     val conceptClient: ConceptClient,
     val datasetClient: DatasetClient,
@@ -34,13 +34,13 @@ class CatalogueFactory(
         suspend operator fun invoke(
             url: String,
             authRealm: AuthRealm,
-        ): CatalogueFactory {
+        ): DataFactory {
             val f2Client = F2ClientBuilder.get(url) {
                 install(F2Auth) {
                     this.getAuth = { authRealm }
                 }
             }
-            return CatalogueFactory(
+            return DataFactory(
                 catalogueClient = f2Client.catalogueClient().invoke(),
                 conceptClient = f2Client.conceptClient().invoke(),
                 datasetClient = f2Client.datasetClient().invoke(),
@@ -53,7 +53,7 @@ class CatalogueFactory(
 fun createStandardsCatalogue(
     url: String, actor: Actor, debug: String
 ): List<CatalogueIdentifier> = runBlocking {
-    val helper = CatalogueFactory(url, actor.authRealm)
+    val helper = DataFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
     val itemsStandards = flowOf(catalogueStandards(debug))
@@ -66,7 +66,7 @@ fun create100MThemes(
     url: String,
     actor: Actor
 ) = runBlocking {
-    val helper = CatalogueFactory(url, actor.authRealm)
+    val helper = DataFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
     val themesCentMillion = listOf(schemeCentMillion)
@@ -77,7 +77,7 @@ fun create100MLicenses(
     url: String,
     actor: Actor
 ) = runBlocking {
-    val helper = CatalogueFactory(url, actor.authRealm)
+    val helper = DataFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
     dcatGraphClient.createLicenses(licensesCentMillion)
 }
@@ -87,7 +87,7 @@ fun create100MCatalogue(
     actor: Actor,
     debug: String
 ): List<CatalogueIdentifier> = runBlocking {
-    val helper = CatalogueFactory(url, actor.authRealm)
+    val helper = DataFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
 
     val cataloguesCentMillion = flowOf(catalogueCentMillion(debug))
@@ -122,7 +122,7 @@ fun createMenuCatalogue(
     actor: Actor,
     debug: String
 ): List<CatalogueIdentifier> = runBlocking {
-    val helper = CatalogueFactory(url, actor.authRealm)
+    val helper = DataFactory(url, actor.authRealm)
     val dcatGraphClient = helper.dcatGraphClient
     val catalogueMenu = flowOf(catalogueMenu(debug))
     dcatGraphClient.create(catalogueMenu).toList()
