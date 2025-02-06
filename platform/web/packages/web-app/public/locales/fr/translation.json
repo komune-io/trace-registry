@@ -132,6 +132,8 @@
     "submit": "Soumettre",
     "myContributions": "Mes contributions",
     "filter": "Filtrer",
+    "sheetIllustration": "Illustration de la fiche",
+    "resultNumber": "{{total}} Résultats",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

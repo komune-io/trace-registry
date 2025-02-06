@@ -1,20 +1,18 @@
-import { Dialog, Stack } from '@mui/material'
+import { Dialog, Stack, Typography } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState } from 'components'
-import { CatalogueSearchFilters, CatalogueSearchHeader, catalogueTypes } from 'domain-components'
-import { useCallback, useEffect, useState } from 'react'
+import { CataloguePageQuery, CatalogueResultList, CatalogueSearchFilters, CatalogueSearchHeader, catalogueTypes, useCataloguePageQuery } from 'domain-components'
+import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { FixedPagination, OffsetPagination } from 'template'
 
 
 export const CatalogueSearchPage = () => {
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
-
-  console.log(searchParams.get("query"))
-  console.log(goBackUrl)
 
   const onClose = useCallback(
     () => {
@@ -35,7 +33,22 @@ export const CatalogueSearchPage = () => {
   }, [])
 
 
-  const { state, changeValueCallback } = useUrlSavedState<{ query: string, type: string[], licenses: string[], accesses: string[], themes: string[] }>()
+  const { state, changeValueCallback } = useUrlSavedState<CataloguePageQuery & { licenses?: string[], accesses?: string[], themes?: string[] }>({
+    initialState: {
+      limit: 20,
+      offset: 0
+    }
+  })
+
+  const { data } = useCataloguePageQuery({
+    query: {
+      ...state,
+      language: i18n.language,
+      parentIdentifier: "objectif100m-systeme",
+    }
+  })
+
+  const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
   return (
     <Dialog
@@ -52,7 +65,7 @@ export const CatalogueSearchPage = () => {
         }
       }}
     >
-      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query")} goBackUrl={goBackUrl} />
+      <CatalogueSearchHeader initialValue={state.title} onSearch={changeValueCallback("title")} goBackUrl={goBackUrl} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -81,8 +94,27 @@ export const CatalogueSearchPage = () => {
             onChangeLicenses={changeValueCallback('licenses')}
             onChangeThemes={changeValueCallback('themes')}
           />
+          <Stack
+            gap={3}
+            flex={1}
+          >
+            {data && <Typography
+              variant="subtitle1"
+            >
+              {t("resultNumber", { total: data.total })}
+            </Typography>}
+            <CatalogueResultList
+              catalogues={data?.items}
+              groupLabel={t("catalogues.types.100m-solution")}
+            />
+          </Stack>
         </Stack>
       </Stack>
+      <FixedPagination
+        pagination={pagination}
+        onOffsetChange={changeValueCallback('offset')}
+        page={data}
+      />
     </Dialog>
   )
 }

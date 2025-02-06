@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import qs from 'qs'
 
 interface UseUrlSavedStateParams<State extends {}> {
-  initialState?: State
+  initialState?: Partial<State>
 }
 
 export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStateParams<State>) => {

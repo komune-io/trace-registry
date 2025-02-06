@@ -132,6 +132,8 @@
   "submit": "Enviar",
   "myContributions": "Mis contribuciones",
   "filter": "Filtrar",
+  "sheetIllustration": "Ilustración de la hoja",
+  "resultNumber": "{{total}} Resultados",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
