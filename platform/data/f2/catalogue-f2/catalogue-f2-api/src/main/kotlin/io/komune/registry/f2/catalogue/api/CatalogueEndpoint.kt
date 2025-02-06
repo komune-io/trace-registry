@@ -149,26 +149,26 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @PostMapping("/catalogueCreate")
+    @PostMapping("/data/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
-        cataloguePoliciesEnforcer.checkCreate()
+//        cataloguePoliciesEnforcer.checkCreate()
         val event = catalogueF2AggregateService.create(command)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
 
     @PermitAll
-    @PostMapping("/catalogueUpdate")
+    @PostMapping("/data/catalogueUpdate")
     suspend fun catalogueUpdate(
         @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
-        cataloguePoliciesEnforcer.checkUpdate()
+//        cataloguePoliciesEnforcer.checkUpdate()
         val event = catalogueF2AggregateService.update(command)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
@@ -186,7 +186,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { command ->
         logger.info("catalogueLinkCatalogues: $command")
-        cataloguePoliciesEnforcer.checkLinkCatalogues()
+//        cataloguePoliciesEnforcer.checkLinkCatalogues()
         catalogueF2AggregateService.linkCatalogues(command)
     }
 
@@ -194,7 +194,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { command ->
         logger.info("catalogueUnlinkCatalogues: $command")
-        cataloguePoliciesEnforcer.checkLinkCatalogues()
+//        cataloguePoliciesEnforcer.checkLinkCatalogues()
         CatalogueUnlinkCataloguesCommand(
             id = command.id,
             catalogues = command.catalogues,
@@ -206,7 +206,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { command ->
         logger.info("catalogueLinkDatasets: $command")
-        cataloguePoliciesEnforcer.checkLinkDatasets()
+//        cataloguePoliciesEnforcer.checkLinkDatasets()
         catalogueAggregateService.linkDatasets(command.toCommand()).toDTO()
     }
 
@@ -214,18 +214,18 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { command ->
         logger.info("catalogueLinkThemes: $command")
-        cataloguePoliciesEnforcer.checkLinkThemes()
+//        cataloguePoliciesEnforcer.checkLinkThemes()
         catalogueAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
     @PermitAll
-    @PostMapping("/catalogueSetImage")
+    @PostMapping("/data/catalogueSetImage")
     suspend fun catalogueSetImage(
         @RequestPart("command") command: CatalogueSetImageCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): CatalogueSetImageEventDTOBase {
         logger.info("catalogueSetImage: $command")
-        cataloguePoliciesEnforcer.checkSetImg()
+//        cataloguePoliciesEnforcer.checkSetImg()
         return catalogueF2AggregateService.setImage(command.id, file)
             .let {
                 CatalogueSetImageEventDTOBase(
