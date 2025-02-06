@@ -12,6 +12,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
@@ -138,20 +139,10 @@ class DCatGraphClient(
         catalogue.translations
             ?.filterKeys { it !in existingCatalogue.availableLanguages }
             ?.map { (_, translation) ->
-                (CatalogueUpdateCommandDTOBase(
-                    id = existingCatalogue.id,
+                (existingCatalogue.toUpdateCommand().copy(
                     title = translation.title,
                     description = translation.description,
-                    language = translation.language,
-                    structure = existingCatalogue.structure,
-                    homepage = existingCatalogue.homepage,
-                    themes = existingCatalogue.themes?.map { it.id },
-                    creator = existingCatalogue.creator,
-                    publisher = existingCatalogue.publisher,
-                    validator = existingCatalogue.validator,
-                    accessRights = existingCatalogue.accessRights,
-                    license = existingCatalogue.license?.id,
-                    hidden = existingCatalogue.hidden
+                    language = translation.language
                 ) to null).invokeWith(catalogueClient.catalogueUpdate())
             }
 
@@ -234,7 +225,7 @@ class DCatGraphClient(
         println("Linking catalogue $catalogueId to datasets $datasets")
         CatalogueLinkDatasetsCommandDTOBase(
             id = catalogueId,
-            datasets = datasets
+            datasetIds = datasets
         ).invokeWith(client.catalogueLinkDatasets())
     }
 
@@ -277,4 +268,20 @@ fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     language = language,
     description = description,
     title = title,
+)
+
+fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
+    id = id,
+    title = title,
+    description = description,
+    language = language,
+    structure = structure,
+    homepage = homepage,
+    themes = themes?.map { it.id },
+    creator = creator,
+    publisher = publisher,
+    validator = validator,
+    accessRights = accessRights,
+    license = license?.id,
+    hidden = hidden,
 )

@@ -94,7 +94,7 @@ class CatalogueAggregateService(
 
 	override suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
 		CatalogueLinkedDatasetsEvent(
-			id =  cmd.id,
+			id = cmd.id,
 			date = System.currentTimeMillis(),
 			datasets = cmd.datasets
 		)
