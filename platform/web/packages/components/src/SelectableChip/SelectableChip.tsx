@@ -1,12 +1,12 @@
 import { Chip, ChipProps } from '@komune-io/g2'
 import { useCallback } from 'react'
 
-interface SelectionnableChipProps extends Omit<ChipProps, "onChange" > {
+interface SelectableChipProps extends Omit<ChipProps, "onChange" > {
     isSelected?: boolean
     onChange?: (isSelected: boolean) => void
 }
 
-export const SelectionnableChip = (props: SelectionnableChipProps) => {
+export const SelectableChip = (props: SelectableChipProps) => {
     const { isSelected = false, onChange, sx, ...other } = props
 
     const onDelete = useCallback(
@@ -18,9 +18,11 @@ export const SelectionnableChip = (props: SelectionnableChipProps) => {
 
     const onClick = useCallback(
         () => {
-            onChange && onChange(true)
+            if (!isSelected) {
+                onChange && onChange(true)
+            }
         },
-        [onChange],
+        [onChange, isSelected],
     )
 
     return (
@@ -29,7 +31,9 @@ export const SelectionnableChip = (props: SelectionnableChipProps) => {
             onDelete={isSelected ? onDelete : undefined}
             onClick={onClick}
             sx={{
-                border: isSelected ? "1px solid #BDBDBD" : undefined
+                border: isSelected ? "1px solid #BDBDBD" : "1px solid transparent",
+                cursor: "pointer",
+                height: "29.5px"
             }}
             {...other}
         />

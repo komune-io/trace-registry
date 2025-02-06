@@ -131,6 +131,9 @@
     "langue": "Langue",
     "submit": "Soumettre",
     "myContributions": "Mes contributions",
+    "filter": "Filtrer",
+    "sheetIllustration": "Illustration de la fiche",
+    "resultNumber": "{{total}} Résultats",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -259,6 +262,11 @@
             "ACTIVE": "Publiée",
             "DELETED": "Supprimée",
             "DRAFT": "Brouillon"
+        },
+        "types": {
+            "100m-sector": "Secteur",
+            "100m-solution": "Solution",
+            "100m-system": "Système"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
