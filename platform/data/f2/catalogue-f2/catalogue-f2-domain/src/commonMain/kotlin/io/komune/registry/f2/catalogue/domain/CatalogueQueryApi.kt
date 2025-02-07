@@ -7,10 +7,11 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 
 interface CatalogueQueryApi {
-    /** Get a page of catalogue */
     fun cataloguePage(): CataloguePageFunction
+    fun catalogueSearch(): CatalogueSearchFunction
     fun catalogueGet(): CatalogueGetFunction
     fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
     fun catalogueRefList(): CatalogueRefListFunction

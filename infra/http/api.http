@@ -349,6 +349,19 @@ Content-Type: application/json
 {
 }
 
+### catalogueSearch
+POST {{urlBase}}/data/catalogueSearch
+Content-Type: application/json
+#Authorization: Bearer {{accessToken}}
+
+{
+  "title": "*",
+  "language": "fr",
+  "catalogueIds": "objectif100m-secteur:null",
+  "offset": 0,
+  "limit": 5
+}
+
 ### cataloguePage
 POST {{urlBase}}/data/catalogueGet
 Content-Type: application/json

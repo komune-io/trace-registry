@@ -2,6 +2,7 @@ package io.komune.registry.program.s2.catalogue.api
 
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
 import io.komune.registry.s2.catalogue.domain.CatalogueAggregate
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueAggregateService(
 	private val automate: CatalogueAutomateExecutor,
-	private val catalogueRepository: CatalogueRepository
+	private val catalogueRepository: CatalogueRepository,
 ): CatalogueAggregate {
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {

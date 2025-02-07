@@ -10,8 +10,11 @@ dependencies {
 	api(project(Modules.data.s2.concept.domain))
 
 	implementation(project(Modules.commons))
-	implementation(project(Modules.infra.redis))
+	implementation(project(Modules.infra.meilisearch))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2Sourcing(::implementation)
+
+
+
 }

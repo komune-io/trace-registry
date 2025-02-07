@@ -36,6 +36,7 @@ import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
@@ -80,6 +81,26 @@ class CatalogueEndpoint(
             type = query.type?.let(::CollectionMatch),
             hidden = ExactMatch(false),
             offset = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
+            ),
+        )
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
+        logger.info("catalogueSearch: $query")
+        cataloguePoliciesEnforcer.checkPage()
+        catalogueF2FinderService.search(
+            language = query.language,
+            query = query.query,
+            accessRights = query.accessRights,
+            catalogueIds = query.catalogueIds,
+            parentIdentifier = query.parentIdentifier,
+            type = query.type,
+            themeIds = query.themeIds,
+            page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),

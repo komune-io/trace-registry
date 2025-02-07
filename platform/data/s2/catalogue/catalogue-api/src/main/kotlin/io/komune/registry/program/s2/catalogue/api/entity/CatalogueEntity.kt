@@ -75,4 +75,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     override fun s2Id() = id
     override fun s2State() = status
+
+    override fun toString(): String {
+        return "[$id] - $title - $status"
+    }
 }
+
