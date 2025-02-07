@@ -24,6 +24,7 @@ class CataloguePageQueryDB(
         title: Match<String>? = null,
         language: Match<String>? = null,
         type: Match<String>? = null,
+        childrenIds: Match<CatalogueId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
@@ -33,6 +34,7 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.TITLE, title)
         match(`CatalogueEntity$`.LANGUAGE, language)
         match(`CatalogueEntity$`.TYPE, type)
+        match(`CatalogueEntity$`.CATALOGUE_IDS, childrenIds)
         match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS, status)
     }

@@ -2,6 +2,8 @@ package io.komune.registry.f2.catalogue.api.service
 
 import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
@@ -43,9 +45,16 @@ class CatalogueI18nService(
             val themes = translation.themeIds?.mapNotNull {
                 conceptF2FinderService.getTranslatedOrNull(it, language ?: translation.language!!, otherLanguageIfAbsent)
             }
+
+            val parent = catalogueFinderService.page(
+                childrenIds = ExactMatch(translation.id),
+                offset = OffsetPagination(0, 1)
+            ).items.firstOrNull()
+
             CatalogueDTOBase(
                 id = translation.id,
                 identifier = translation.identifier,
+                parentId = parent?.id,
                 status = translation.status,
                 title = translation.title,
                 description = translation.description,

@@ -7,6 +7,7 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -38,6 +39,8 @@ interface CatalogueDTO {
      * A unique string used to identify a specific entity within a system.
      */
     val identifier: String
+
+    val parentId: CatalogueId?
 
     /**
      * A nullable string that holds a brief description.
@@ -170,6 +173,7 @@ interface CatalogueDTO {
 data class CatalogueDTOBase(
     override val id: String,
     override val identifier: String,
+    override val parentId: CatalogueId?,
     override val description: String?,
     override val homepage: String? = null,
     override val title: String,
