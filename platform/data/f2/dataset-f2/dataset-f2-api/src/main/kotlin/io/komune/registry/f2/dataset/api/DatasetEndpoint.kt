@@ -119,7 +119,7 @@ class DatasetEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    @GetMapping("/data/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun datasetLogoDownload(
         @PathVariable datasetId: DatasetId,
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
@@ -148,7 +148,7 @@ class DatasetEndpoint(
     }
 
     @PermitAll
-    @GetMapping("datasetDownloadDistribution/{datasetId}/{distributionId}")
+    @GetMapping("/data/datasetDownloadDistribution/{datasetId}/{distributionId}")
     suspend fun datasetDownloadDistribution(
         @PathVariable datasetId: DatasetId,
         @PathVariable distributionId: String,
@@ -162,7 +162,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetCreate(): DatasetCreateFunction = f2Function { cmd ->
         logger.info("datasetCreate: $cmd")
-        datasetPoliciesEnforcer.checkCreation()
+//        datasetPoliciesEnforcer.checkCreation()
         datasetAggregateService.create(cmd.toCommand()).toDTO()
     }
 
@@ -189,13 +189,14 @@ class DatasetEndpoint(
         datasetAggregateService.linkThemes(cmd.toCommand()).toDTO()
     }
 
-    @PostMapping("/datasetSetImage")
+    @PermitAll
+    @PostMapping("/data/datasetSetImage")
     suspend fun datasetSetImage(
         @RequestPart("command") cmd: DatasetSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): DatasetSetImageEventDTOBase {
         logger.info("datasetSetImage: $cmd")
-        datasetPoliciesEnforcer.checkSetImg()
+//        datasetPoliciesEnforcer.checkSetImg()
         val filePath = file?.let {
             fsService.uploadDatasetImg(
                 filePart = file,
@@ -214,10 +215,11 @@ class DatasetEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { cmd ->
         logger.info("datasetAddJsonDistribution: $cmd")
-        datasetPoliciesEnforcer.checkUpdateDistributions()
+//        datasetPoliciesEnforcer.checkUpdateDistributions()
 
         val path = FsPath.Dataset.distribution(cmd.id, "${UUID.randomUUID()}.json")
         fileClient.fileUpload(path.toUploadCommand(), cmd.jsonContent.toByteArray())
@@ -234,13 +236,14 @@ class DatasetEndpoint(
         )
     }
 
-    @PostMapping("/datasetAddMediaDistribution")
+    @PermitAll
+    @PostMapping("/data/datasetAddMediaDistribution")
     suspend fun datasetAddMediaDistribution(
         @RequestPart("command") cmd: DatasetAddMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): DatasetAddedMediaDistributionEventDTOBase {
         logger.info("datasetAddMediaDistribution: $cmd")
-        datasetPoliciesEnforcer.checkUpdateDistributions()
+//        datasetPoliciesEnforcer.checkUpdateDistributions()
 
         val fileExtension = file.filename()
             .substringAfterLast('.', "")
@@ -263,10 +266,11 @@ class DatasetEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction = f2Function { cmd ->
         logger.info("datasetUpdateJsonDistribution: $cmd")
-        datasetPoliciesEnforcer.checkUpdateDistributions()
+//        datasetPoliciesEnforcer.checkUpdateDistributions()
 
         val distribution = datasetFinderService.getDistribution(cmd.id, cmd.distributionId)
 
@@ -285,13 +289,14 @@ class DatasetEndpoint(
         )
     }
 
-    @PostMapping("/datasetUpdateMediaDistribution")
+    @PermitAll
+    @PostMapping("/data/datasetUpdateMediaDistribution")
     suspend fun datasetUpdateMediaDistribution(
         @RequestPart("command") cmd: DatasetUpdateMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): DatasetUpdatedMediaDistributionEventDTOBase {
         logger.info("datasetUpdateMediaDistribution: $cmd")
-        datasetPoliciesEnforcer.checkUpdateDistributions()
+//        datasetPoliciesEnforcer.checkUpdateDistributions()
 
         val distribution = datasetFinderService.getDistribution(cmd.id, cmd.distributionId)
 
@@ -329,6 +334,7 @@ class DatasetEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction = f2Function { cmd ->
         logger.info("datasetRemoveDistribution: $cmd")
