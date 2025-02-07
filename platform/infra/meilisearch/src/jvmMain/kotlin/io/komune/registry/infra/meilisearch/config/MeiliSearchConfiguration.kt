@@ -21,8 +21,8 @@ class MeiliSearchConfiguration{
 
     @Bean
     fun meiliClient(objectMapper: ObjectMapper, props: MeiliSearchProperties): Client {
-        val host = template.url
-        val masterKey = template.secret
+        val host = props.url
+        val masterKey = props.secret
         val jsonHandler = JacksonJsonHandler(objectMapper)
         val config = Config(
             host, masterKey, jsonHandler
