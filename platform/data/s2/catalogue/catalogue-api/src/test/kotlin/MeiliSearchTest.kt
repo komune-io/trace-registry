@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test
 
 class MeiliSearchTest {
 
-    // Change these values if your MeiliSearch instance is different.
     private val meiliSearchHost = "http://127.0.0.1:7700"
-    private val apiKey = "your_master_key_here" // Replace with your API key if necessary
+    private val apiKey = "secret"
     val objectMapper = jacksonObjectMapper()
     val config = Config(
         meiliSearchHost, apiKey

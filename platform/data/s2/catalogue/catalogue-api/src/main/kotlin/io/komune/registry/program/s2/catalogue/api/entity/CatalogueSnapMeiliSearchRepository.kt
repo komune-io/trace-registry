@@ -20,32 +20,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 
-@Configuration
-class MeiliSearchConfiguration {
-    @Bean
-    fun meiliClient(objectMapper: ObjectMapper): Client {
-        val host = "http://localhost:7700"
-        val masterKey = "your_master_key_here"
-        val jsonHandler = JacksonJsonHandler(objectMapper)
-        val config = Config(
-            host, masterKey, jsonHandler
-        )
-        return Client(config).also {
-            try {
-                it.getIndex("catalogues")
-            } catch (e: MeilisearchApiException) {
-                if(e.code == "index_not_found") {
-                    it.createIndex("catalogues", "id")
-                } else {
-                    throw e
-                }
-            }
-
-        }
-    }
-}
-
-
 @Service
 class CatalogueSnapMeiliSearchRepository(
     private val objectMapper: ObjectMapper,
