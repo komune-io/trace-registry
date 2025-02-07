@@ -31,8 +31,9 @@ class CatalogueAggregateService(
 ): CatalogueAggregate {
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
+		val id = if(cmd.language != null) "${cmd.identifier}:${cmd.language}" else cmd.identifier
 		CatalogueCreatedEvent(
-			id = "${cmd.identifier}:${cmd.language}",
+			id = id,
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
 			title = cmd.title,

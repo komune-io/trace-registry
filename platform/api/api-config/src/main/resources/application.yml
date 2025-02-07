@@ -31,7 +31,7 @@ im:
   auth:
     url: http://im-keycloak:8080
     realm: registry-local
-    clientId: tr-registry-script-api
+    clientId: registry-platform-app
     clientSecret: secret
 
 f2:
@@ -41,7 +41,7 @@ f2:
 platform:
   meilisearch:
     url: http://localhost:7700
-    secret: 7700
+    secret: secret
   flag:
     module:
       control: true

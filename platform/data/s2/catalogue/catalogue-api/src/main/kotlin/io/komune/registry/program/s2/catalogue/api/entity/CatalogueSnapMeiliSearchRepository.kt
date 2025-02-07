@@ -16,8 +16,6 @@ import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 
 @Service
