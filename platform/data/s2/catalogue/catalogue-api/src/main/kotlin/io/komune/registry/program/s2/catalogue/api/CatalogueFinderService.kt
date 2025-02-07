@@ -55,6 +55,7 @@ class CatalogueFinderService(
 		parentIdentifier: String?,
 		language: Match<String>?,
 		type: Match<String>?,
+		childrenIds: Match<CatalogueId>?,
 		status: Match<CatalogueState>?,
 		hidden: Match<Boolean>?,
 		offset: OffsetPagination?
@@ -75,6 +76,7 @@ class CatalogueFinderService(
 			title = title,
 			language = language,
 			type = type,
+			childrenIds = childrenIds,
 			status = status,
 			hidden = hidden,
 			offset = offset,

@@ -20,6 +20,7 @@ interface CatalogueFinder {
         parentIdentifier: String? = null,
         language: Match<String>? = null,
         type: Match<String>? = null,
+        catalogues: Match<CatalogueId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null,

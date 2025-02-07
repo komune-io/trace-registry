@@ -3301,6 +3301,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueDTO {
         readonly id: string;
         readonly identifier: string;
+        readonly parentId?: string;
         readonly description?: string;
         readonly homepage?: string;
         readonly title: string;
