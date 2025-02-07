@@ -135,7 +135,7 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/catalogues/{catalogueId}/img")
+    @GetMapping("/data/catalogues/{catalogueId}/img")
     suspend fun catalogueImgDownload(
         @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> {
