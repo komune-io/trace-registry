@@ -66,7 +66,6 @@ export const useMenu = (t: TFunction) => {
       enabled: true
     }
   })
-  console.log(catalogueRefGetTreeQuery.data)
   const { projects, cataloguesAll } = useRoutesDefinition()
   const secteurMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
     ?.find(value => value.identifier == "100m-sectors")
