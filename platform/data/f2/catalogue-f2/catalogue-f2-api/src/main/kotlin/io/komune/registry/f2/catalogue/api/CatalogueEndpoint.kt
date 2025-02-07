@@ -207,7 +207,7 @@ class CatalogueEndpoint(
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { command ->
         logger.info("catalogueLinkDatasets: $command")
 //        cataloguePoliciesEnforcer.checkLinkDatasets()
-        catalogueAggregateService.linkDatasets(command.toCommand()).toDTO()
+        catalogueF2AggregateService.linkDatasets(command)
     }
 
     @PermitAll
