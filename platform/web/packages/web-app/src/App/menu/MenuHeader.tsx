@@ -17,7 +17,7 @@ export const usePersonnalMenu = (t: TFunction) => {
         return [
             {
                 key: "contributions",
-                to: cataloguesToVerify(),
+                to: cataloguesContributions(),
                 label: t("myContributions"),
                 icon: <FolderRounded />,
                 isSelected:  location.pathname.includes(cataloguesContributions())
