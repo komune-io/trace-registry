@@ -11,5 +11,5 @@ export const useCatalogueCreateCommand = (
     return useCommandWithFileRequest<
         CatalogueCreateCommand,
         CatalogueCreatedEvent
-    >('catalogueCreate', requestProps, params)
+    >('data/catalogueCreate', requestProps, params)
 }

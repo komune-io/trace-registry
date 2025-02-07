@@ -131,6 +131,9 @@
   "langue": "Idioma",
   "submit": "Enviar",
   "myContributions": "Mis contribuciones",
+  "filter": "Filtrar",
+  "sheetIllustration": "Ilustración de la hoja",
+  "resultNumber": "{{total}} Resultados",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -259,6 +262,11 @@
       "ACTIVE": "Activo",
       "DELETED": "Eliminado",
       "DRAFT": "Borrador"
+    },
+    "types": {
+        "100m-sector": "Sector",
+        "100m-solution": "Solución",
+        "100m-system": "Sistema"
     },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",

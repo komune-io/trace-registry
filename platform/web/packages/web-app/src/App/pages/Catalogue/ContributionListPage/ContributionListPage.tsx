@@ -30,7 +30,7 @@ export const ContributionListPage = () => {
     const { data, isInitialLoading } = useCataloguePageQuery({
         query: {
             language: i18n.language,
-            parentIdentifier: "standards",
+            parentIdentifier: "objectif100m-systeme",
             ...submittedFilters
         }
     })
