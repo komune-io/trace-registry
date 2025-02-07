@@ -3233,7 +3233,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueLinkDatasetsCommandDTO {
         readonly id: string;
-        readonly datasets: string[];
+        readonly datasetIds: string[];
 
     }
     interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {

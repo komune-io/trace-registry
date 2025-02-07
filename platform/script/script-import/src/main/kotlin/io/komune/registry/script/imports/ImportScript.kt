@@ -377,7 +377,7 @@ class ImportScript(
             val parentId = context.catalogues[parentIdentifier]
                 ?: run {
                     if (context.settings.useDefaultIfUnknownParent) {
-                        println("Warning: Parent catalogue $parentIdentifier not found. Using default instead or ignoring if not specified.")
+                        println("Warning: Parent catalogue $parentIdentifier not found. Using default or ignoring if not specified.")
                         getDefaultParentId(catalogueId, context) ?: return@forEach
                     } else {
                         throw IllegalArgumentException("Parent catalogue not found: $parentIdentifier")

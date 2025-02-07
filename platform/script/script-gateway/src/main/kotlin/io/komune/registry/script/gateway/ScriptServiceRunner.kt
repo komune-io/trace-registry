@@ -3,7 +3,6 @@ package io.komune.registry.script.gateway
 import io.komune.registry.script.gateway.config.RetryProperties
 import io.komune.registry.script.gateway.extention.retryOnThrow
 import io.komune.registry.script.imports.ImportScript
-import io.komune.registry.script.init.InitScript
 import io.komune.registry.script.init.RegistryScriptInitProperties
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
@@ -22,9 +21,9 @@ class ScriptServiceRunner(
 
     override fun run(vararg args: String?) = runBlocking {
         try {
-            val initScript = InitScript(properties)
-            val importScript = ImportScript(properties)
+//            val initScript = InitScript(properties)
 //            runScript("Init", initScript::run)
+            val importScript = ImportScript(properties)
             runScript("Import") { importScript.run("../script-import/src/main/resources/centmillion") }
         } catch (_: RuntimeException) {
         } finally {
