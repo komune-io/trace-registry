@@ -19,7 +19,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
         key={catalogue.id}
         >
             <CatalogueResult {...catalogue} />
-            {index < catalogues.length && <Divider />}
+            {index < catalogues.length - 1 && <Divider />}
         </Fragment>
     )), [catalogues])
 

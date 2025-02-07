@@ -81,7 +81,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 <CatalogueBreadcrumbs />              
                 <IconButton
                     component={Link}
-                    to={cataloguesCatalogueIdEdit(catalogue?.identifier!)}
+                    to={cataloguesCatalogueIdEdit(catalogue?.id!)}
                 >
                     <EditRounded />
                 </IconButton>

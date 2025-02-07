@@ -126,8 +126,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
     const onSubmitMemo = useCallback(
-      (values: any) => {
-        onSubmit && onSubmit({...values, themes: values.themes ? [values.themes] : undefined})
+      async (values: any) => {
+        if (onSubmit) {
+            await onSubmit({...values, themes: values.themes ? [values.themes] : undefined})
+        }
       },
       [onSubmit],
     )
