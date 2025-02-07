@@ -8,8 +8,8 @@ services:
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
     ports:
-     - "127.0.0.1:6379:6379"
-     - "127.0.0.1:8011:8001"
+     - "6379:6379"
+     - "8011:8001"
     networks:
       - net
 

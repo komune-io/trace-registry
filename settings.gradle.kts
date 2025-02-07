@@ -27,6 +27,7 @@ include(
 	"platform:infra:brevo",
 	"platform:infra:fs",
 	"platform:infra:im",
+	"platform:infra:meilisearch",
 	"platform:infra:pdf",
 	"platform:infra:postgresql",
 	"platform:infra:redis"

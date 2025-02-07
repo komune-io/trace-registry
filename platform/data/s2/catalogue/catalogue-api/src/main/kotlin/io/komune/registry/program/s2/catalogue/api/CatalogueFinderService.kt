@@ -7,6 +7,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toModel
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.CatalogueFinder
@@ -14,13 +15,15 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service
 class CatalogueFinderService(
 	private val cataloguePageQueryDB: CataloguePageQueryDB,
-	private val catalogueRepository: CatalogueRepository
+	private val catalogueRepository: CatalogueRepository,
+	private val meiliSearch: CatalogueSnapMeiliSearchRepository
 ): CatalogueFinder {
 	override suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
 		return catalogueRepository.findById(id)
@@ -83,5 +86,28 @@ class CatalogueFinderService(
 		).map {
 			it.toModel()
 		}
+	}
+
+	suspend fun search(
+		language: String,
+		query: String?,
+
+		accessRights: String?,
+		catalogueIds: String?,
+		parentIdentifier: String?,
+		type: String?,
+		themeIds: String?,
+
+		page: OffsetPagination? = null
+	): FacetPage<CatalogueModel> {
+		return meiliSearch.search(
+			language = language,
+			query = query,
+			accessRights = accessRights,
+			catalogueIds = catalogueIds, parentIdentifier = parentIdentifier,
+			type = type,
+			themeIds = themeIds,
+			page = page
+		)
 	}
 }

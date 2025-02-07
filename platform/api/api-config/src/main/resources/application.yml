@@ -39,6 +39,9 @@ f2:
     issuer-base-uri: http://im-keycloak:8080
 
 platform:
+  meilisearch:
+    url: http://localhost:7700
+    secret: 7700
   flag:
     module:
       control: true

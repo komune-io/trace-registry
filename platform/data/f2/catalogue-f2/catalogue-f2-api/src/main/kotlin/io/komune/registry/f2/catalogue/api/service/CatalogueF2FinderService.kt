@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
@@ -87,6 +88,35 @@ class CatalogueF2FinderService(
         return CataloguePageResult(
             items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, true) },
             total = catalogues.total
+        )
+    }
+    suspend fun search(
+        language: String,
+        query: String?,
+
+        accessRights: String?,
+        catalogueIds: String?,
+        parentIdentifier: String?,
+        type: String?,
+        themeIds: String?,
+
+        page: OffsetPagination? = null
+    ): CatalogueSearchResult {
+        val catalogues = catalogueFinderService.search(
+            language = language,
+            query = query,
+            accessRights = accessRights,
+            catalogueIds = catalogueIds,
+            parentIdentifier = parentIdentifier,
+            type = type,
+            themeIds = themeIds,
+            page = page
+        )
+
+        return CatalogueSearchResult(
+            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, true) },
+            total = catalogues.total,
+            distribution = catalogues.distribution,
         )
     }
 

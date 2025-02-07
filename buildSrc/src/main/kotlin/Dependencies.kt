@@ -26,6 +26,7 @@ object Versions {
 
 	const val bignum = "0.3.8"
 	const val brevo = "1.0.0"
+	const val meilisearch = "0.14.2"
 	const val datafaker = "1.8.1"
 	const val html2pdf = "5.0.0"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
@@ -64,6 +65,9 @@ object Dependencies {
 		).also(::cucumber)
 			.also(::junit)
 
+		fun meilisearch(scope: Scope) = scope.add(
+			"com.meilisearch.sdk:meilisearch-java:${Versions.meilisearch}"
+		)
 		fun javaSnapshotTesting(scope: Scope) = scope.add(
 			"io.github.origin-energy:java-snapshot-testing-core:${Versions.javaSnapshotTesting}",
 			"io.github.origin-energy:java-snapshot-testing-plugin-jackson:${Versions.javaSnapshotTesting}"
@@ -331,6 +335,7 @@ object Modules {
 		const val pdf = "$BASE:pdf"
 		const val postgresql = "$BASE:postgresql"
 		const val redis = "$BASE:redis"
+		const val meilisearch = "$BASE:meilisearch"
 	}
 
 	object project {
