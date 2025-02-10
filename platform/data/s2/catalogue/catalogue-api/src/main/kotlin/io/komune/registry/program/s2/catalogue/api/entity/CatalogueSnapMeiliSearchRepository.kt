@@ -65,7 +65,7 @@ class CatalogueSnapMeiliSearchRepository(
 
     suspend fun remove(id: CatalogueId): Boolean = withContext(Dispatchers.IO) {
         try {
-//            index.deleteDocument(id.prepareId())
+            index.deleteDocument(id)
             true
         } catch (e: Exception) {
             logger.error("Failed to remove catalogue", e)
@@ -74,13 +74,13 @@ class CatalogueSnapMeiliSearchRepository(
     }
 
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
-        if(entity.type != "translation") {
-            logger.debug("Skip catalogue: $entity, [type: ${entity.type}]")
+        if(!entity.type.contains("translation")) {
+            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
             return@withContext
         }
         val domain = catalogueI18nService.rebuildModel(entity)
         if (domain == null) {
-            logger.debug("Skip catalogue: $entity, [type: ${entity.type}]")
+            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
             return@withContext;
         }
         logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
@@ -172,5 +172,4 @@ class CatalogueSnapMeiliSearchRepository(
     private fun searchFilter(field: String, value: String): Array<String> {
         return arrayOf("$field=\"$value\"")
     }
-
 }

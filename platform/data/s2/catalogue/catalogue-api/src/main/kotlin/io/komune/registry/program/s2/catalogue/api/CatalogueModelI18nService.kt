@@ -12,7 +12,7 @@ class CatalogueModelI18nService(
 ) {
 
     suspend fun rebuildModel(catalogue: CatalogueEntity): CatalogueModel? {
-        if(catalogue.type != "translation") {
+        if(!catalogue.type.contains("translation")) {
             return null
         }
 
