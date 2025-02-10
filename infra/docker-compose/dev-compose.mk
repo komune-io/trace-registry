@@ -4,18 +4,12 @@ ACTIONS = up down logs log pull stop kill deploy remove help
 DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
 
 dev-envsubst:
-	@echo "DEBUG: Creating build config directory: $(DOCKER_COMPOSE_PATH)/build/config"
 	mkdir -p $(DOCKER_COMPOSE_PATH)/build/config;
-	@echo "DEBUG: Copying config directory: $(DOCKER_COMPOSE_PATH)/config"
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config)
-	@echo "DEBUG: Copying context-specific config: $(DOCKER_COMPOSE_PATH)/config_$(CURRENT_CONTEXT)"
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/config_$(CURRENT_CONTEXT))
-	@echo "DEBUG: Copying environment file: $(DOCKER_COMPOSE_PATH)/.env_dev"
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/.env_dev)
-	@echo "DEBUG: Copying context-specific environment file: $(DOCKER_COMPOSE_PATH)/.env_dev_$(CURRENT_CONTEXT) as .env_dev"
 	$(call copy_config,$(DOCKER_COMPOSE_PATH)/.env_dev_$(CURRENT_CONTEXT),.env_dev)
-	@echo "DEBUG: Running envsubst on all files under $(DOCKER_COMPOSE_PATH)/build"
-	find $(DOCKER_COMPOSE_PATH)/build -type f -exec bash -c 'echo "DEBUG: Processing file: {}" && envsubst < "{}" > "{}.tmp" && mv "{}.tmp" "{}"' \;
+	find $(DOCKER_COMPOSE_PATH)/build -type f -exec bash -c 'envsubst < "{}" > "{}.tmp" && mv "{}.tmp" "{}"' \;
 
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))

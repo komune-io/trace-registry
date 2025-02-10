@@ -9,7 +9,7 @@ build:
 	VERSION=${VERSION} ./gradlew build --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
 
 test-pre:
-	@make dev pull
+	@make dev-envsubst
 	@make dev up
 	@sleep 10
 	@make init up
