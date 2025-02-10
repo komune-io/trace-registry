@@ -32,6 +32,6 @@ data class CatalogueModel(
     val accessRights: String?,
     val licenseId: LicenseId?,
     val hidden: Boolean,
-    val issued: Long?,
-    val modified: Long?,
+    val issued: Long,
+    val modified: Long,
 )

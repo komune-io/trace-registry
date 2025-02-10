@@ -1,0 +1,59 @@
+package io.komune.registry.s2.catalogue.draft.api
+
+import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftAutomateExecutor
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
+import org.springframework.stereotype.Service
+import java.util.UUID
+
+@Service
+class CatalogueDraftAggregateService(
+    private val automate: CatalogueDraftAutomateExecutor,
+) {
+    suspend fun create(command: CatalogueDraftCreateCommand) = automate.init(command) {
+        CatalogueDraftCreatedEvent(
+            id = UUID.randomUUID().toString(),
+            date = System.currentTimeMillis(),
+            catalogueId = command.catalogueId,
+            originalCatalogueId = command.originalCatalogueId,
+            language = command.language,
+            baseVersion = command.baseVersion,
+        )
+    }
+
+    suspend fun submit(command: CatalogueDraftSubmitCommand) = automate.transition(command) {
+        CatalogueDraftSubmittedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+
+    suspend fun requestUpdate(command: CatalogueDraftRequestUpdateCommand) = automate.transition(command) {
+        CatalogueDraftRequestedUpdateEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+
+    suspend fun reject(command: CatalogueDraftRejectCommand) = automate.transition(command) {
+        CatalogueDraftRejectedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+
+    suspend fun validate(command: CatalogueDraftValidateCommand) = automate.transition(command) {
+        CatalogueDraftValidatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+}

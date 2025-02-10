@@ -70,8 +70,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Indexed
     var hidden: Boolean = false
 
-    var issued: Long? = null
-    var modified: Long? = null
+    var issued: Long = 0
+    var modified: Long = 0
 
     override fun s2Id() = id
     override fun s2State() = status
@@ -80,4 +80,3 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
         return "[$id] - $title - $status"
     }
 }
-

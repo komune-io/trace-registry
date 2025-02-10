@@ -154,13 +154,13 @@ interface CatalogueDTO {
     /**
      * The date of formal issuance (e.g., publication) of the dataset.
      */
-    val issued: Long?
+    val issued: Long
 
     /**
      * Represents the date when the dataset was last updated.
      * This is an optional property and may be null if the date is not available.
      */
-    val modified: Long?
+    val modified: Long
 
     /**
      * Whether the catalogue should be filtered out of search results (except from explicitly targeted fetches)
@@ -191,7 +191,7 @@ data class CatalogueDTOBase(
     override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: LicenseDTOBase? = null,
-    override val issued: Long? = null,
-    override val modified: Long? = null,
+    override val issued: Long,
+    override val modified: Long,
     override val hidden: Boolean = false
 ): CatalogueDTO
