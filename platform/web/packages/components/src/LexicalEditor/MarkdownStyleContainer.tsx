@@ -129,7 +129,7 @@ export const MarkdownStyleContainer = styled(Box, {
     overflow: "hidden",
     position: "absolute",
     textOverflow: "ellipsis",
-    top: "19px",
+    top: "6px",
     left: "50px",
     userSelect: "none",
     whiteSpace: "nowrap",

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { TitleDivider, useRoutesDefinition } from 'components'
 import { CatalogueCreateCommand, CatalogueMetadataForm, CatalogueTypes, useCatalogueCreateCommand } from 'domain-components'
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage } from 'template'
@@ -24,15 +24,6 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
 
     const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
 
-    const sheetTitle = useRef(title)
-
-    const onChangeSheetTitle = useCallback(
-      (title: string) => {
-        sheetTitle.current = title
-      },
-      [],
-    )
-
     const onCreate = useCallback(
       async (values: CatalogueCreateCommand & {illustration?: File}) => {
         const command = {...values}
@@ -40,7 +31,6 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
         const res = await createCommand.mutateAsync({
           command: {
             ...command,
-            title: sheetTitle.current,
             language: i18n.language,
             type
           },
@@ -66,8 +56,8 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             bgcolor='background.default'
             maxWidth={1020}
         >
-            <TitleDivider onChange={onChangeSheetTitle} title={title} />
-            <CatalogueMetadataForm type={type} onSubmit={onCreate} />
+            <TitleDivider title={title} />
+            <CatalogueMetadataForm withTitle type={type} onSubmit={onCreate} />
         </AppPage>
     )
 }

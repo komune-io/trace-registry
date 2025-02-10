@@ -1,19 +1,43 @@
-import { ControlPointRounded } from '@mui/icons-material'
-import { Divider } from '@mui/material'
-import { CustomButton } from 'components'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useCallback, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
-import { useTranslation } from 'react-i18next'
+import { EditorState } from 'lexical'
+import { useQuery } from '@tanstack/react-query'
+import { g2Config, request } from '@komune-io/g2'
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
-    sections: string[]
     readOnly?: boolean
+    onSectionChange?: (editorState: EditorState) => void
 }
 
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
-    const { catalogue, sections, readOnly = false } = props
+    const { catalogue, readOnly = false, onSectionChange } = props
+
+    const dataSet = useMemo(() => {
+        if (!catalogue) return
+        return findLexicalDataset(catalogue)
+    }, [catalogue])
+
+    const distributionContentQuery = useCallback(
+        async () => {
+            if (!dataSet) return
+            const res = await request<any>({
+                url: `${g2Config().platform.url}/data/datasetDownloadDistribution/${dataSet.dataSet.id}/${dataSet.distribution.id}`,
+                method: "GET",
+                returnType: dataSet.distribution.mediaType === "application/json" ? "json" : "text"
+                // errorHandler: errorHandler(path),
+            });
+            return res
+        },
+        [dataSet],
+    )
+
+    const sectionDataQuery = useQuery({
+        queryKey: ["data/datasetDownloadDistribution", { id: dataSet?.dataSet.id, distributionId: dataSet?.distribution.id }],
+        queryFn: distributionContentQuery,
+        enabled: !!dataSet,
+    })
 
     // const reportAddSection = useReportAddSection()
     // const handleAddSection = useCallback(async (index: number) => {
@@ -37,41 +61,43 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
     //     }
     // }, [reportAddSection.mutateAsync, refetchReport, report])
 
-    const sectionsDisplay = useMemo(() => sections.map((markdown, index) => (
-        <Fragment
-            key={index}
-        >
+    const sectionsDisplay = useMemo(() => {
+        const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
 
-            {!readOnly && <AddSectionDivider
-                onAddSection={() => { } /* handleAddSection(section.position.index) */}
-            />}
-            <SectionEditor
-            readOnly={readOnly}
-                markdown={markdown}
-                catalogue={catalogue}
-                reloadSection={() => {
-                    return Promise.resolve()
-                }}
-            />
-            {index === sections.length - 1 && !readOnly && <AddSectionDivider
-                onAddSection={() => { }/* handleAddSection(section.position.index + 1) */}
-            />}
-        </Fragment>
-    )), [catalogue, sections, readOnly])
+        return (
+            <Fragment
+            >
+
+                {/* !readOnly && <AddSectionDivider
+                    onAddSection={handleAddSection(section.position.index)}
+                /> */}
+                <SectionEditor
+                    readOnly={readOnly}
+                    markdown={isMarkdown ? sectionDataQuery.data : undefined}
+                    editorState={isMarkdown ? undefined : JSON.stringify(sectionDataQuery.data)}
+                    catalogue={catalogue}
+                    onChange={onSectionChange}
+                />
+                {/* index === sections.length - 1 && !readOnly && <AddSectionDivider
+                    onAddSection={handleAddSection(section.position.index + 1)}
+                /> */}
+            </Fragment>
+        )
+    }, [catalogue, readOnly, onSectionChange, sectionDataQuery.data, dataSet])
 
     return (
         <>
             {sectionsDisplay}
-            {sections.length === 0 && !readOnly &&
+            {/* sections.length === 0 && !readOnly &&
                 <AddSectionDivider
-                    onAddSection={() => { } /* handleAddSection(0) */}
+                    onAddSection={handleAddSection(0)}
                 />
-            }
+             */}
         </>
     )
 }
 
-export interface AddSectionDividerProps {
+/* export interface AddSectionDividerProps {
     onAddSection: () => void
 }
 
@@ -99,4 +125,27 @@ const AddSectionDivider = (props: AddSectionDividerProps) => {
             </CustomButton>
         </Divider>
     )
+}
+ */
+
+export const findLexicalDataset = (catalogue: Catalogue) => {
+
+    const dataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
+    const distribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "application/json")
+
+    if (dataSet && distribution) return {
+        dataSet,
+        distribution
+    }
+
+    const markdownDataSet = catalogue?.datasets?.find((dataSet) =>  dataSet.type === "lexical-markdown")
+
+    const markdownDistribution = markdownDataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
+
+    if (markdownDataSet && markdownDistribution) return {
+        dataSet: markdownDataSet,
+        distribution: markdownDistribution
+    }
+
+    return undefined
 }
