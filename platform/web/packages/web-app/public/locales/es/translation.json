@@ -264,9 +264,9 @@
       "DRAFT": "Borrador"
     },
     "types": {
-        "100m-sector": "Sector",
-        "100m-solution": "Solución",
-        "100m-system": "Sistema"
+      "100m-sector": "Sector",
+      "100m-solution": "Solución",
+      "100m-system": "Sistema"
     },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
@@ -291,6 +291,23 @@
     "modificationsSaved": "Tus modificaciones han sido guardadas con éxito.",
     "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación.",
     "globalSearch": "Buscar una solución, un sistema, un sector...",
-     "startWritingContent": "Empieza a escribir el contenido de tu hoja"
+    "startWritingContent": "Empieza a escribir el contenido de tu hoja"
+  },
+  "editor": {
+    "imageUrl": "URL de la imagen",
+    "uploadImage": "Subir una imagen",
+    "addImage": "Agregar una imagen",
+    "addColumnLayout": "Agregar columnas",
+    "addTable": "Agregar una tabla",
+    "rowsNumber": "Número de filas",
+    "columnsNumber": "Número de columnas",
+    "columnsType": {
+      "1-1": "2 columnas (tamaño igual)",
+      "1-3": "2 columnas (25% - 75%)",
+      "3-1": "2 columnas (75% - 25%)",
+      "1-1-1": "3 columnas (tamaño igual)",
+      "1-2-1": "3 columnas (25% - 50% - 25%)",
+      "1-1-1-1": "4 columnas (tamaño igual)"
+    }
   }
 }

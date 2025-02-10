@@ -18,18 +18,18 @@ export const ToolbarMoreMenu = () => {
         items: [{
             key: "columnLayout",
             onClick: toggleLayoutModal,
-            label: t("sectionView.addColumnLayout"),
+            label: t("editor.addColumnLayout"),
             icon: <ViewWeekOutlined />,
 
         }, {
             key: "addTable",
             onClick: toggleTableModal,
-            label: "Add table",
+            label: t("editor.addTable"),
             icon: <TableChart />
         }, {
             key: "addImage",
             onClick: toggleImageModal,
-            label: t("sectionView.addImage"),
+            label: t("editor.addImage"),
             icon: <AddPhotoAlternateRounded />
         }], 
         closeOnMenuClick: true

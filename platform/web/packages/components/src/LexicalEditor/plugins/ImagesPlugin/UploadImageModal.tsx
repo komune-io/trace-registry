@@ -52,7 +52,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
     const fields = useMemo((): FormComposableField[] => ([{
         name: "url",
         type: "textField",
-        label: t("sectionView.imageUrl"),
+        label: t("editor.imageUrl"),
         customDisplay: (input) => (
             <>
                 {input}
@@ -64,7 +64,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         type: "documentHandler",
         params: {
             fileTypesAllowed: ["jpeg", "png", "svg", "webp"],
-            outterLabel: t("sectionView.uploadImage")
+            outterLabel: t("editor.uploadImage")
         }
     }]), [t])
 
@@ -86,7 +86,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("sectionView.addImage")}
+            title={t("editor.addImage")}
         >
             <FormComposable
                 fields={fields}
