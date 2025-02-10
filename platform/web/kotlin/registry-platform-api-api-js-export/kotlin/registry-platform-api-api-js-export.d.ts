@@ -3450,6 +3450,26 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueSearchQueryDTO {
+        readonly offset?: number;
+        readonly limit?: number;
+        readonly language: string;
+        readonly query?: string;
+        readonly accessRights?: string[];
+        readonly catalogueIds?: string[];
+        readonly parentIdentifier?: string[];
+        readonly type?: string[];
+        readonly themeIds?: string[];
+        readonly licenseId?: string[];
+
+    }
+    interface CatalogueSearchResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO>/*, io.komune.registry.s2.catalogue.domain.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> */ {
+        readonly total: number;
+        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
+
+    }
+}
 export declare namespace io.komune.registry.f2.user.domain.command {
     interface UserOnboardCommandDTO {
         readonly email: string;

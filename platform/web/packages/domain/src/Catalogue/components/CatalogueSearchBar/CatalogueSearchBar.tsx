@@ -11,11 +11,10 @@ export const CatalogueSearchBar = () => {
 
     const onSearch = useCallback(
         (value: string) => {
-            navigate(cataloguesSearch() + "?title=" + value + "&goBackUrl=" + window.location.pathname)
+            navigate(cataloguesSearch() + "?query=" + value + "&goBackUrl=" + window.location.pathname)
         },
         [],
     )
-
 
     return (
         <SearchFilter

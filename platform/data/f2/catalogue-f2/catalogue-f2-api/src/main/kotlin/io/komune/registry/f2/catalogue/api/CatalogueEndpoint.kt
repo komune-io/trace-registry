@@ -97,6 +97,7 @@ class CatalogueEndpoint(
             query = query.query,
             accessRights = query.accessRights,
             catalogueIds = query.catalogueIds,
+            licenseId = query.licenseId,
             parentIdentifier = query.parentIdentifier,
             type = query.type,
             themeIds = query.themeIds,

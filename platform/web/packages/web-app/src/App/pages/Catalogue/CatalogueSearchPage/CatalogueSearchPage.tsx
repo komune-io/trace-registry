@@ -1,11 +1,16 @@
 import { Dialog, Stack, Typography } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState } from 'components'
-import { CataloguePageQuery, CatalogueResultList, CatalogueSearchFilters, CatalogueSearchHeader, catalogueTypes, useCataloguePageQuery } from 'domain-components'
+import {
+  CatalogueResultList,
+  CatalogueSearchFilters,
+  CatalogueSearchHeader, CatalogueSearchQuery,
+  catalogueTypes,
+  useCatalogueSearchQuery
+} from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FixedPagination, OffsetPagination } from 'template'
-
 
 export const CatalogueSearchPage = () => {
 
@@ -31,20 +36,27 @@ export const CatalogueSearchPage = () => {
       setSearchParams(searchParams)
     }
   }, [])
+  // readonly offset?: number;
+  // readonly limit?: number;
+  // readonly language: string;
+  // readonly query?: string;
+  // readonly accessRights?: string;
+  // readonly catalogueIds?: string;
+  // readonly parentIdentifier?: string;
+  // readonly type?: string;
+  // readonly themeIds?: string;
 
-
-  const { state, changeValueCallback } = useUrlSavedState<CataloguePageQuery & { licenses?: string[], accesses?: string[], themes?: string[] }>({
+  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery>({
     initialState: {
       limit: 20,
       offset: 0
     }
   })
 
-  const { data } = useCataloguePageQuery({
+  const { data } = useCatalogueSearchQuery({
     query: {
       ...state,
       language: i18n.language,
-      parentIdentifier: "objectif100m-systeme",
     }
   })
 
@@ -65,7 +77,7 @@ export const CatalogueSearchPage = () => {
         }
       }}
     >
-      <CatalogueSearchHeader initialValue={state.title} onSearch={changeValueCallback("title")} goBackUrl={goBackUrl} />
+      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query")} goBackUrl={goBackUrl} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -87,12 +99,12 @@ export const CatalogueSearchPage = () => {
           gap={3}
         >
           <CatalogueSearchFilters
-            licences={state.licenses}
-            accesses={state.accesses}
-            themes={state.themes}
-            onChangeAccesses={changeValueCallback('accesses')}
-            onChangeLicenses={changeValueCallback('licenses')}
-            onChangeThemes={changeValueCallback('themes')}
+            licences={state.licenseId}
+            accesses={state.accessRights }
+            themes={state.themeIds}
+            onChangeAccesses={changeValueCallback('accessRights')}
+            onChangeLicenses={changeValueCallback('licenseId')}
+            onChangeThemes={changeValueCallback('themeIds')}
           />
           <Stack
             gap={3}

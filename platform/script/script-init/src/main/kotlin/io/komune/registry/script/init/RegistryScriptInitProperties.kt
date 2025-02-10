@@ -1,5 +1,6 @@
 package io.komune.registry.script.init
 
+import f2.client.domain.AuthRealmClientSecret
 import f2.client.domain.RealmId
 import org.springframework.boot.context.properties.ConfigurationProperties
 
@@ -36,4 +37,11 @@ class ModuleFlagProperties(
     val identity: Boolean = false
 )
 
-
+fun RegistryScriptInitProperties.asAuthRealm(): AuthRealmClientSecret {
+    return AuthRealmClientSecret(
+        clientId = admin.clientId,
+        clientSecret = admin.clientSecret,
+        serverUrl = auth.url,
+        realmId = auth.realmId
+    )
+}
