@@ -290,6 +290,7 @@
     "thanksForContribution": "Thank you for your contribution!",
     "modificationsSaved": "Your modifications have been successfully saved.",
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
-    "globalSearch": "Search for a solution, system, sector..."
+    "globalSearch": "Search for a solution, system, sector...",
+     "startWritingContent": "Start writing the content of your sheet"
   }
 }

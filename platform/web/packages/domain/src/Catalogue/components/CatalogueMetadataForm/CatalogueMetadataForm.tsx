@@ -14,10 +14,11 @@ interface CatalogueMetadataFormProps {
     type: CatalogueTypes
     onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
     formState?: FormComposableState
+    withTitle?: boolean
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { type, onSubmit, formState } = props
+    const { type, onSubmit, formState, withTitle = false } = props
 
     const { t, i18n } = useTranslation()
 
@@ -51,7 +52,12 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         }
     })
 
-    const fields = useMemo((): MetadataField[] => [{
+    const fields = useMemo((): MetadataField[] => [...(withTitle ? [{
+        name: "title",
+        type: "textField",
+        label: t("title"),
+        required: true
+    }] as MetadataField[] : []),{
         name: "parentId",
         type: "autoComplete",
         label: t("parentSheet"),
@@ -85,7 +91,11 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             outterLabel: t("illustration"),
             isRequired: true
         },
-        required: true
+        validator: (value, values) => {
+            if (!value && !values.illustrationUploaded) {
+                return t("g2.fieldRequired")
+            }
+        }
     },
     ...(type === "100m-solution" ? [{
         name: "themes",
@@ -123,7 +133,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
+    }], [t, type, withTitle, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
     const onSubmitMemo = useCallback(
       async (values: any) => {
