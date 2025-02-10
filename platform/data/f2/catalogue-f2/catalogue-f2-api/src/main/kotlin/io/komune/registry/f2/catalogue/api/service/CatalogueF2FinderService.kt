@@ -94,11 +94,12 @@ class CatalogueF2FinderService(
         language: String,
         query: String?,
 
-        accessRights: String?,
-        catalogueIds: String?,
-        parentIdentifier: String?,
-        type: String?,
-        themeIds: String?,
+        accessRights: List<String>?,
+        catalogueIds: List<String>?,
+        parentIdentifier: List<String>?,
+        type: List<String>?,
+        themeIds: List<String>?,
+        licenseId: List<String>?,
 
         page: OffsetPagination? = null
     ): CatalogueSearchResult {
@@ -107,6 +108,8 @@ class CatalogueF2FinderService(
             query = query,
             accessRights = accessRights,
             catalogueIds = catalogueIds,
+
+            licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,
             themeIds = themeIds,

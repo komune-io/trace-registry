@@ -161,17 +161,20 @@
                         "fr": {
                             "title": "Wiki CO2",
                             "description": "",
-                            "language": "fr"
+                            "language": "fr",
+                            "type": "menu"
                         },
                         "en": {
                             "title": "Wiki CO2",
                             "description": "",
-                            "language": "en"
+                            "language": "en",
+                            "type": "menu"
                         },
                         "es": {
                             "title": "Wiki CO2",
                             "description": "",
-                            "language": "es"
+                            "language": "es",
+                            "type": "menu"
                         }
                     },
                     "children": ["100m-sectors", "100m-systems"]
