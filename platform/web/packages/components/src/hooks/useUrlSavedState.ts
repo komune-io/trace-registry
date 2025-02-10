@@ -30,7 +30,6 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
           cleanState[key] = value
         }
       }
-
       setSearchParams(
         qs.stringify(cleanState, {
           addQueryPrefix: true,

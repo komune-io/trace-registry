@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toModel
@@ -12,7 +13,7 @@ class CatalogueModelI18nService(
 ) {
 
     suspend fun rebuildModel(catalogue: CatalogueEntity): CatalogueModel? {
-        if(catalogue.type != "translation") {
+        if(!catalogue.type.contains("translation")) {
             return null
         }
 

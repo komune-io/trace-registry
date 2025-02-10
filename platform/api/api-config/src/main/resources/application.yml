@@ -18,7 +18,8 @@ spring:
     pool:
       enabled: true
       initial-size: 5
-      max-size: 10
+      max-size: 20
+      max-idle-time: 30s
 
 cccev:
   url: http://localhost:8083
@@ -62,6 +63,9 @@ platform:
     ordered-locales: fr,en,es
     catalogue:
       default-translation-type: translation
+  search:
+    indexed-catalogue: 100m-solution,100m-sector,100m-system
+
 ---
 spring:
   config:

@@ -183,9 +183,9 @@
         },
         "mapping": {
             "catalogueTypes": {
-                "SOLUTION": "100m-solutions",
-                "SECTEUR": "100m-sectors",
-                "SYSTEME": "100m-systems"
+                "SOLUTION": "100m-solution",
+                "SECTEUR": "100m-sector",
+                "SYSTEME": "100m-system"
             },
             "concepts": {
                 "BEHAVIOR": "objectif100m-category-behaviour",
@@ -198,15 +198,15 @@
             "accessRights": "public",
             "structure": "item",
             "parent": {
-                "100m-solutions": {
+                "100m-solution": {
                     "identifier": "100m-solutions",
                     "type": "100m-solutions"
                 },
-                "100m-sectors": {
+                "100m-sector": {
                     "identifier": "100m-sectors",
                     "type": "100m-sectors"
                 },
-                "100m-systems": {
+                "100m-system": {
                     "identifier": "100m-systems",
                     "type": "100m-systems"
                 }
