@@ -34,12 +34,12 @@ export const LayoutModal = (props: LayoutModalProps) => {
         type: "select",
         params: {
             options: [
-                { label: t("sectionView.columnsType.1-1"), key: '1fr 1fr' },
-                { label: t("sectionView.columnsType.1-3"), key: '1fr 3fr' },
-                { label: t("sectionView.columnsType.3-1"), key: '3fr 1fr' },
-                { label: t("sectionView.columnsType.1-1-1"), key: '1fr 1fr 1fr' },
-                { label: t("sectionView.columnsType.1-2-1"), key: '1fr 2fr 1fr' },
-                { label: t("sectionView.columnsType.1-1-1-1"), key: '1fr 1fr 1fr 1fr' },
+                { label: t("editor.columnsType.1-1"), key: '1fr 1fr' },
+                { label: t("editor.columnsType.1-3"), key: '1fr 3fr' },
+                { label: t("editor.columnsType.3-1"), key: '3fr 1fr' },
+                { label: t("editor.columnsType.1-1-1"), key: '1fr 1fr 1fr' },
+                { label: t("editor.columnsType.1-2-1"), key: '1fr 2fr 1fr' },
+                { label: t("editor.columnsType.1-1-1-1"), key: '1fr 1fr 1fr 1fr' },
             ]
         },
         required: true
@@ -62,7 +62,7 @@ export const LayoutModal = (props: LayoutModalProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("sectionView.addColumnLayout")}
+            title={t("editor.addColumnLayout")}
         >
             <FormComposable
                 fields={fields}

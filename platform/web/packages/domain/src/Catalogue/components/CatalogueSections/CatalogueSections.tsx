@@ -1,9 +1,8 @@
-import { Fragment, useCallback, useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
-import { useQuery } from '@tanstack/react-query'
-import { g2Config, request } from '@komune-io/g2'
+import { useDatasetDownloadDistribution } from '../../api'
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
@@ -14,30 +13,10 @@ interface CatalogueSectionsProps {
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
     const { catalogue, readOnly = false, onSectionChange } = props
 
-    const dataSet = useMemo(() => {
-        if (!catalogue) return
-        return findLexicalDataset(catalogue)
-    }, [catalogue])
-
-    const distributionContentQuery = useCallback(
-        async () => {
-            if (!dataSet) return
-            const res = await request<any>({
-                url: `${g2Config().platform.url}/data/datasetDownloadDistribution/${dataSet.dataSet.id}/${dataSet.distribution.id}`,
-                method: "GET",
-                returnType: dataSet.distribution.mediaType === "application/json" ? "json" : "text"
-                // errorHandler: errorHandler(path),
-            });
-            return res
-        },
-        [dataSet],
-    )
-
-    const sectionDataQuery = useQuery({
-        queryKey: ["data/datasetDownloadDistribution", { id: dataSet?.dataSet.id, distributionId: dataSet?.distribution.id }],
-        queryFn: distributionContentQuery,
-        enabled: !!dataSet,
-    })
+    const {
+        query,
+        dataSet
+    } = useDatasetDownloadDistribution(catalogue)
 
     // const reportAddSection = useReportAddSection()
     // const handleAddSection = useCallback(async (index: number) => {
@@ -66,6 +45,7 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
 
         return (
             <Fragment
+                key={dataSet?.dataSet.id ?? "newSection"}
             >
 
                 {/* !readOnly && <AddSectionDivider
@@ -73,17 +53,18 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
                 /> */}
                 <SectionEditor
                     readOnly={readOnly}
-                    markdown={isMarkdown ? sectionDataQuery.data : undefined}
-                    editorState={isMarkdown ? undefined : JSON.stringify(sectionDataQuery.data)}
+                    markdown={isMarkdown && query.data ? query.data : undefined}
+                    editorState={!isMarkdown && query.data ? JSON.stringify(query.data): undefined}
                     catalogue={catalogue}
                     onChange={onSectionChange}
+                    namespace={dataSet?.dataSet.id}
                 />
                 {/* index === sections.length - 1 && !readOnly && <AddSectionDivider
                     onAddSection={handleAddSection(section.position.index + 1)}
                 /> */}
             </Fragment>
         )
-    }, [catalogue, readOnly, onSectionChange, sectionDataQuery.data, dataSet])
+    }, [catalogue, readOnly, onSectionChange, query.data, dataSet])
 
     return (
         <>
@@ -127,25 +108,3 @@ const AddSectionDivider = (props: AddSectionDividerProps) => {
     )
 }
  */
-
-export const findLexicalDataset = (catalogue: Catalogue) => {
-
-    const dataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
-    const distribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "application/json")
-
-    if (dataSet && distribution) return {
-        dataSet,
-        distribution
-    }
-
-    const markdownDataSet = catalogue?.datasets?.find((dataSet) =>  dataSet.type === "lexical-markdown")
-
-    const markdownDistribution = markdownDataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
-
-    if (markdownDataSet && markdownDistribution) return {
-        dataSet: markdownDataSet,
-        distribution: markdownDistribution
-    }
-
-    return undefined
-}

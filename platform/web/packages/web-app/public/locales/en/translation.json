@@ -292,5 +292,22 @@
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
     "globalSearch": "Search for a solution, system, sector...",
      "startWritingContent": "Start writing the content of your sheet"
+  },
+  "editor": {
+    "imageUrl": "Image URL",
+    "uploadImage": "Upload an image",
+    "addImage": "Add an image",
+    "addColumnLayout": "Add columns",
+    "addTable": "Add a table",
+    "rowsNumber": "Number of rows",
+    "columnsNumber": "Number of columns",
+    "columnsType": {
+      "1-1": "2 columns (equal size)",
+      "1-3": "2 columns (25% - 75%)",
+      "3-1": "2 columns (75% - 25%)",
+      "1-1-1": "3 columns (equal size)",
+      "1-2-1": "3 columns (25% - 50% - 25%)",
+      "1-1-1-1": "4 columns (equal size)"
+    }
   }
 }

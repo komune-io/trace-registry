@@ -134,6 +134,7 @@
     "filter": "Filtrer",
     "sheetIllustration": "Illustration de la fiche",
     "resultNumber": "{{total}} Résultats",
+    "or": "Ou",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -292,5 +293,22 @@
         "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication.",
         "globalSearch": "Rechercher une solution, un système, un secteur...",
         "startWritingContent": "Commencez à rédiger le contenu de votre fiche"
+    },
+    "editor": {
+        "imageUrl": "URL de l'image",
+        "uploadImage": "Uploader une image",
+        "addImage": "Ajouter une image",
+        "addColumnLayout": "Ajouter des colonnes",
+        "addTable": "Ajouter un tableau",
+        "rowsNumber": "Nombre de lignes",
+        "columnsNumber": "Nombre de colonnes",
+        "columnsType": {
+            "1-1": "2 colonnes (taille égale)",
+            "1-3": "2 colonnes (25% - 75%)",
+            "3-1": "2 colonnes (75% - 25%)",
+            "1-1-1": "3 colonnes (taille égale)",
+            "1-2-1": "3 colonnes (25% - 50% - 25%)",
+            "1-1-1-1": "4 colonnes (taille égale)"
+        }
     }
 }

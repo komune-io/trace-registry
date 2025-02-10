@@ -33,6 +33,7 @@ import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { TableActionMenuPlugin, TableCellActionMenuPlugin, TableCellResizerPlugin } from './plugins/TablePlugin';
 import { ImageNode, ImagesPlugin } from './plugins/ImagesPlugin';
+import { DragDropPasteImgPlugin } from './plugins/DragDropPasteImgPlugin';
 
 const editorConfig: InitialConfigType = {
     namespace: 'Editor',
@@ -174,7 +175,7 @@ export const LexicalEditor = (props: LexicalEditorProps) => {
     )
 
     const completeNodes = useMemo(() => {
-        
+
         const completeNodes = [
             ...editorConfig.nodes!,
             ...(nodes ?? [])
@@ -191,7 +192,7 @@ export const LexicalEditor = (props: LexicalEditorProps) => {
                 editable: !readOnly,
                 ...editorConfig,
                 nodes: completeNodes,
-                namespace:  namespace ?? editorConfig.namespace,
+                namespace: namespace ?? editorConfig.namespace,
                 onError
             }}
 
@@ -287,7 +288,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
                 const PluginComponent = component
                 return <PluginComponent key={index} anchorElem={floatingAnchorElem} isFocused={isFocused} />
             }
-            
+
         })
     }, [plugins])
 
@@ -350,7 +351,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
                     <ListPlugin />
                     <LinkPlugin />
                     <AutoLinkPlugin />
-
+                    <DragDropPasteImgPlugin />
                     {floatingAnchorElem && !basic && (
                         <>
                             {!disableDraggableBlocks && <DraggableBlockPlugin anchorElem={floatingAnchorElem} />}

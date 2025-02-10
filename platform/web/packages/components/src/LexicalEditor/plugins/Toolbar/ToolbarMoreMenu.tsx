@@ -1,14 +1,16 @@
 import { useButtonMenu, useToggleState } from '../../../hooks'
 import { useTranslation } from 'react-i18next'
-import { AddCircleRounded, TableChart, ViewWeekOutlined } from '@mui/icons-material'
+import { AddCircleRounded, AddPhotoAlternateRounded, TableChart, ViewWeekOutlined } from '@mui/icons-material'
 import { TglButton } from './TglButton'
 import { LayoutModal } from '../LayoutPlugin'
 import { TableModal } from '../TablePlugin/TableModal'
+import { UploadImageModal } from '../ImagesPlugin'
 
 export const ToolbarMoreMenu = () => {
 
     const [openLayoutModal, _, toggleLayoutModal] = useToggleState()
     const [openTableModal, _1, toggleTableModal] = useToggleState()
+    const [openImageModal, _2, toggleImageModal] = useToggleState()
 
     const { t } = useTranslation()
 
@@ -16,15 +18,21 @@ export const ToolbarMoreMenu = () => {
         items: [{
             key: "columnLayout",
             onClick: toggleLayoutModal,
-            label: t("sectionView.addColumnLayout"),
+            label: t("editor.addColumnLayout"),
             icon: <ViewWeekOutlined />,
 
         }, {
             key: "addTable",
             onClick: toggleTableModal,
-            label: "Add table",
+            label: t("editor.addTable"),
             icon: <TableChart />
-        }], closeOnMenuClick: true
+        }, {
+            key: "addImage",
+            onClick: toggleImageModal,
+            label: t("editor.addImage"),
+            icon: <AddPhotoAlternateRounded />
+        }], 
+        closeOnMenuClick: true
     })
 
     return (
@@ -39,6 +47,7 @@ export const ToolbarMoreMenu = () => {
             {menu}
             <LayoutModal open={openLayoutModal} onClose={toggleLayoutModal} />
             <TableModal open={openTableModal} onClose={toggleTableModal} />
+            <UploadImageModal open={openImageModal} onClose={toggleImageModal} />
         </>
     )
 }

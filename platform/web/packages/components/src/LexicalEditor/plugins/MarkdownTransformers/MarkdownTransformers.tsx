@@ -144,7 +144,6 @@ export const LAYOUT: MultilineElementTransformer = {
 
         const allPercentages = items.map((item) => item.percentage)
         const gridTemplate = percentagesToGridTemplate(allPercentages)
-        console.log(gridTemplate)
         const container = $createLayoutContainerNode(gridTemplate);
 
         items.forEach((item) => {

@@ -33,7 +33,7 @@ export const TableModal = (props: TableModalProps) => {
     const fields = useMemo((): FormComposableField[] => ([{
         name: "rows",
         type: "textField",
-        label: "number of rows",
+        label: t("editor.rowsNumber"),
         params: {
             textFieldType: "number"
         },
@@ -41,7 +41,7 @@ export const TableModal = (props: TableModalProps) => {
     }, {
         name: "columns",
         type: "textField",
-        label: "number of columns",
+        label: t("editor.columnsNumber"),
         params: {
             textFieldType: "number"
         },
@@ -75,7 +75,7 @@ export const TableModal = (props: TableModalProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={"add a table"}
+            title={t("editor.addTable")}
         >
             <FormComposable
                 fields={fields}
