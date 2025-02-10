@@ -124,7 +124,10 @@ export const CatalogueSearchPage = () => {
       </Stack>
       <FixedPagination
         pagination={pagination}
-        onOffsetChange={changeValueCallback('offset')}
+        onOffsetChange={(offset) => {
+          changeValueCallback('limit')(offset.limit)
+          changeValueCallback('offset')(offset.offset)
+        }}
         page={data}
       />
     </Dialog>
