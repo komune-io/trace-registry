@@ -18,7 +18,8 @@ spring:
     pool:
       enabled: true
       initial-size: 5
-      max-size: 10
+      max-size: 20
+      max-idle-time: 30s
 
 cccev:
   url: http://localhost:8083
