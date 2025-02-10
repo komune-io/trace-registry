@@ -106,10 +106,9 @@ export const CatalogueEditionPage = () => {
         })
       } else {
         const dataSetId = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")?.id
-        console.log(dataSetId)
         if (dataSetId) {
           await addJsonDistribution.mutateAsync({
-            id: catalogueId!,
+            id: dataSetId,
             jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
           })
         }
