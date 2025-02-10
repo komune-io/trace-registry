@@ -229,7 +229,6 @@ export const InnerEditor = (props: InnerEditorProps) => {
         plugins
     } = props
     const [editor] = useLexicalComposerContext();
-    console.log(editor._config.namespace)
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
     const [isClicked, setIsClicked] = useState(false)
     const [isEditorFocused, setIsEditorFocused] = useState(false)
