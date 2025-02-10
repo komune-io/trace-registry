@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toModel

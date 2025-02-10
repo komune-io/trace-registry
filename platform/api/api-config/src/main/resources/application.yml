@@ -63,6 +63,9 @@ platform:
     ordered-locales: fr,en,es
     catalogue:
       default-translation-type: translation
+  search:
+    indexed-catalogue: 100m-solution,100m-sector,100m-system
+
 ---
 spring:
   config:

@@ -8,8 +8,10 @@ import com.meilisearch.sdk.exceptions.MeilisearchApiException
 import com.meilisearch.sdk.model.SearchResult
 import com.meilisearch.sdk.model.Settings
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import kotlin.reflect.KCallable
@@ -22,10 +24,12 @@ import org.springframework.stereotype.Service
 class CatalogueSnapMeiliSearchRepository(
     private val objectMapper: ObjectMapper,
     private val catalogueI18nService: CatalogueModelI18nService,
+    private val searchProperties: SearchProperties,
     meiliClient: Client,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val index: Index = meiliClient.index("catalogues")
+    private val indexedCatalogues: List<String> = searchProperties.indexedCatalogue()
 
     init {
         try {
@@ -74,15 +78,29 @@ class CatalogueSnapMeiliSearchRepository(
     }
 
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
+        if(entity.status == CatalogueState.DELETED) {
+            remove(entity.id)
+            return@withContext
+        }
         if(!entity.type.contains("translation")) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
             return@withContext
         }
+
         val domain = catalogueI18nService.rebuildModel(entity)
         if (domain == null) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
             return@withContext;
         }
+        if(domain.hidden) {
+            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is hidden")
+            return@withContext
+        }
+        if (!indexedCatalogues.contains(domain.type)) {
+            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is not contained in ${searchProperties.indexedCatalogue}")
+            return@withContext;
+        }
+
         logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
         try {
             val jsonString = objectMapper.writeValueAsString(listOf(domain))

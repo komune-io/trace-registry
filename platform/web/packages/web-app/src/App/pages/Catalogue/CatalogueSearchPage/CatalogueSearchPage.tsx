@@ -1,7 +1,7 @@
 import { Dialog, Stack, Typography } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState } from 'components'
 import {
-  CatalogueResultList,
+  CatalogueResultListByType,
   CatalogueSearchFilters,
   CatalogueSearchHeader, CatalogueSearchQuery,
   catalogueTypes,
@@ -13,7 +13,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FixedPagination, OffsetPagination } from 'template'
 
 export const CatalogueSearchPage = () => {
-
   const { t, i18n } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
@@ -59,7 +58,6 @@ export const CatalogueSearchPage = () => {
       language: i18n.language,
     }
   })
-
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
   return (
@@ -100,25 +98,19 @@ export const CatalogueSearchPage = () => {
         >
           <CatalogueSearchFilters
             licences={state.licenseId}
-            accesses={state.accessRights }
+            accesses={state.accessRights}
             themes={state.themeIds}
             onChangeAccesses={changeValueCallback('accessRights')}
             onChangeLicenses={changeValueCallback('licenseId')}
             onChangeThemes={changeValueCallback('themeIds')}
           />
-          <Stack
-            gap={3}
-            flex={1}
-          >
+          <Stack gap={3} flex={1}>
             {data && <Typography
               variant="subtitle1"
             >
               {t("resultNumber", { total: data.total })}
             </Typography>}
-            <CatalogueResultList
-              catalogues={data?.items}
-              groupLabel={t("catalogues.types.100m-solution")}
-            />
+            <CatalogueResultListByType items={data?.items} />
           </Stack>
         </Stack>
       </Stack>
