@@ -1,7 +1,7 @@
 import {
     CatalogueBreadcrumbs,
     Catalogue,
-    CatalogueInformation, DatasetDataSection, CatalogueGrid, useCataloguePageQuery,
+    CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
@@ -31,13 +31,14 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         navigate(cataloguesTab(value, ...ids))
     }, [ids])
 
-    const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
-        return {
-            key: dataset.identifier,
-            label: dataset.title,
-            component: (<DatasetDataSection item={dataset} isLoading={false} />)
-        }
-    }) ?? []
+    // TODO Disable Dataset table, let's see if it's useful for rowgraph
+    // const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
+    //     return {
+    //         key: dataset.identifier,
+    //         label: dataset.title,
+    //         component: (<DatasetDataSection item={dataset} isLoading={false} />)
+    //     }
+    // }) ?? []
 
 
     const { data } = useCataloguePageQuery({
@@ -63,7 +64,8 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
             key: 'subCatalogues',
             label: t('subCatalogues'),
             component: (<CatalogueGrid items={data?.items} isLoading={false} />)
-        }), ...datasetTab
+        })
+            // , ...datasetTab
         ]
         return tabs
     }, [t, data, catalogue, isLoading])
