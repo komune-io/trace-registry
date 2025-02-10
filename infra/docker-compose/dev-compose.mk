@@ -176,18 +176,24 @@ endif
 export
 
 define copy_config
-	if [ -d "$1" ]; then \
-		cp -r "$1"/* "$(DOCKER_COMPOSE_PATH)/build/config/"; \
-	elif [ -f "$1" ]; then \
-		if [ -n "$2" ]; then \
-			cp "$1" "$(DOCKER_COMPOSE_PATH)/build/config/$2"; \
+	@echo "DEBUG: copy_config called with: $(1) and $(2)"
+	if [ -d "$(1)" ]; then \
+		echo "DEBUG: '$(1)' is a directory. Copying all its contents to $(DOCKER_COMPOSE_PATH)/build/config/"; \
+		cp -r "$(1)"/* "$(DOCKER_COMPOSE_PATH)/build/config/"; \
+	elif [ -f "$(1)" ]; then \
+		if [ -n "$(2)" ]; then \
+			echo "DEBUG: '$(1)' is a file. Copying it as '$(2)' to $(DOCKER_COMPOSE_PATH)/build/config/"; \
+			cp "$(1)" "$(DOCKER_COMPOSE_PATH)/build/config/$(2)"; \
 		else \
-			cp "$1" "$(DOCKER_COMPOSE_PATH)/build/config/"; \
-		fi \
+			echo "DEBUG: '$(1)' is a file. Copying it to $(DOCKER_COMPOSE_PATH)/build/config/"; \
+			cp "$(1)" "$(DOCKER_COMPOSE_PATH)/build/config/"; \
+		fi; \
 	else \
-		echo "File or directory '$1' does not exist or is empty"; \
+		echo "DEBUG: '$(1)' is neither a directory nor a file."; \
+		echo "File or directory '$(1)' does not exist or is empty"; \
 	fi
 endef
+
 
 
 $(DOCKER_COMPOSE_FILE):
