@@ -49,19 +49,19 @@ class CatalogueF2FinderService(
 
     suspend fun getAllRefs(language: Language): CatalogueRefListResult {
         val items = catalogueFinderService.getAll().mapNotNull {
-            catalogueI18nService.translateToRefDTO(it, language, true)
+            catalogueI18nService.translateToRefDTO(it, language, false)
         }
         return CatalogueRefListResult(items = items, total = items.size)
     }
 
     suspend fun getRefTreeOrNull(id: CatalogueId, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getOrNull(id)
-            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, true) }
+            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
     }
 
     suspend fun getRefTreeByIdentifierOrNull(identifier: CatalogueIdentifier, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getByIdentifierOrNull(identifier)
-            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, true) }
+            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
     }
 
     suspend fun page(
@@ -86,7 +86,7 @@ class CatalogueF2FinderService(
         )
 
         return CataloguePageResult(
-            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, true) },
+            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
             total = catalogues.total
         )
     }
@@ -117,7 +117,7 @@ class CatalogueF2FinderService(
         )
 
         return CatalogueSearchResult(
-            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, true) },
+            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
             total = catalogues.total,
             distribution = catalogues.distribution,
         )
@@ -132,7 +132,7 @@ class CatalogueF2FinderService(
             hidden = ExactMatch(false)
         ).items // CollectionMatch(...).not() doesn't work with Redis
             .filter { it.id != id && (descendantsIds == null || it.id !in descendantsIds) }
-            .mapAsync { catalogueI18nService.translateToRefDTO(it, language, true) }
+            .mapAsync { catalogueI18nService.translateToRefDTO(it, language, false) }
             .filterNotNull()
             .sortedBy(CatalogueRefDTOBase::title)
     }
