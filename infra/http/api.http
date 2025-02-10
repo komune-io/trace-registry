@@ -350,17 +350,17 @@ Content-Type: application/json
 }
 
 ### catalogueSearch
-POST {{urlBase}}/data/catalogueSearch
+POST http://localhost:8070/data/catalogueSearch
 Content-Type: application/json
 #Authorization: Bearer {{accessToken}}
 
 {
-  "title": "*",
-  "language": "fr",
-  "catalogueIds": "objectif100m-secteur:null",
-  "offset": 0,
-  "limit": 5
+  "limit":"20",
+  "offset":"0",
+  "query": "les matières premières issues",
+  "language":"fr"
 }
+
 
 ### cataloguePage
 POST {{urlBase}}/data/catalogueGet
@@ -396,7 +396,22 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "identifier": "standards-verra-programs"
+  "language": "fr",
+  "parentIdentifier": "100m-solutions",
+  "offset": 0,
+  "limit": 40
+}
+
+### cataloguePage
+POST {{urlBase}}/data/cataloguePage
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "language": "fr",
+  "parentIdentifier": "100m-systems",
+  "offset": 0,
+  "limit": 40
 }
 
 
@@ -406,7 +421,8 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "parentIdentifier": "standards-verra-programs",
+  "language": "fr",
+  "parentIdentifier": "100m",
   "offset": 0,
-  "limit": 4
+  "limit": 40
 }

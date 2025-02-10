@@ -59,7 +59,7 @@ export const useMenu = (t: TFunction) => {
 
   const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
     query: {
-      identifier: "menuWikiCoe",
+      identifier: "menu",
       language: i18n.language
     },
     options: {
@@ -68,11 +68,11 @@ export const useMenu = (t: TFunction) => {
   })
   const { projects, cataloguesAll } = useRoutesDefinition()
   const secteurMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
-    ?.find(value => value.identifier == "objectif100m-secteur")
+    ?.find(value => value.identifier == "100m-sectors")
   const secteurSubMenu = secteurMenu?.catalogues?.map(mapCatalogueRef([secteurMenu.identifier], cataloguesAll))
 
   const systemMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
-    ?.find(value => value.identifier == "objectif100m-systeme")
+    ?.find(value => value.identifier == "100m-systems")
   const systemSubMenu = systemMenu?.catalogues?.map(mapCatalogueRef([systemMenu.identifier], cataloguesAll))
 
 

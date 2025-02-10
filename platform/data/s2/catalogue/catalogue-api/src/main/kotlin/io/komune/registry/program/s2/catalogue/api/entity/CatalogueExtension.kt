@@ -12,7 +12,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         type = type,
         language = language,
         structure = structure,
-        img = "/catalogues/${id}/img",
+        img = "/data/catalogues/${id}/img",
         description = description,
         translationIds = translationIds,
         catalogueIds = catalogueIds.toList(),

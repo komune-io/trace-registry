@@ -66,7 +66,7 @@ class CatalogueFinderService(
 		val childIdFilter = parentIdentifier
 			?.let { pIdentifier ->
 				catalogueRepository.findByIdentifier(pIdentifier)
-					?.catalogueIds
+					?.catalogueIds?.takeIf { it.isNotEmpty() }
 					?: listOf("none")
 			}?.let(::CollectionMatch)
 
@@ -92,21 +92,23 @@ class CatalogueFinderService(
 		language: String,
 		query: String?,
 
-		accessRights: String?,
-		catalogueIds: String?,
-		parentIdentifier: String?,
-		type: String?,
-		themeIds: String?,
+		accessRights: List<String>?,
+		catalogueIds: List<String>?,
+		parentIdentifier: List<String>?,
+		type: List<String>?,
+		themeIds: List<String>?,
+		licenseId: List<String>?,
 
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
-		return meiliSearch.search(
+		return meiliSearch.searchFilters(
 			language = language,
 			query = query,
 			accessRights = accessRights,
 			catalogueIds = catalogueIds, parentIdentifier = parentIdentifier,
 			type = type,
 			themeIds = themeIds,
+			licenseId = licenseId,
 			page = page
 		)
 	}

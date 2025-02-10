@@ -128,26 +128,3 @@ fun createMenuCatalogue(
     dcatGraphClient.create(catalogueMenu).toList()
         .onEach { println("Catalogue[${it}] Created.") }
 }
-
-//fun createRandomCatalogue(
-//    url: String, actor: Actor, countRange: IntRange = 1..2
-//): List<CatalogueId> = runBlocking {
-//    val helper = CatalogueFactory(url, actor.authRealm)
-//    val dcatGraphClient = helper.dcatGraphClient
-//
-//    (countRange).map { count ->
-//        randomCatalogue(faker)
-//    }
-//        .createCatalogues(catalogueClient)
-//        .map { it.id }
-//}
-//
-//private suspend fun List<CatalogueCreateCommandDTOBase>.createCatalogues(
-//    catalogueClient: CatalogueClient
-//): List<Unit> =
-//    asyncExecution(size = 8) { catalogueCreateCommand ->
-//        println("Catalogue Creation[${catalogueCreateCommand.identifier}]: ${catalogueCreateCommand}...")
-//        val created = catalogueClient.catalogueCreate().invoke(flowOf(catalogueCreateCommand))
-//        println("Catalogue[${catalogueCreateCommand.identifier}] Created.")
-//        created.first()
-//    }
