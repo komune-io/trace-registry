@@ -8,7 +8,7 @@ import com.meilisearch.sdk.exceptions.MeilisearchApiException
 import com.meilisearch.sdk.model.SearchResult
 import com.meilisearch.sdk.model.Settings
 import f2.dsl.cqrs.page.OffsetPagination
-//import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
+import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueSnapMeiliSearchRepository(
     private val objectMapper: ObjectMapper,
-//    private val catalogueI18nService: CatalogueModelI18nService,
+    private val catalogueI18nService: CatalogueModelI18nService,
     meiliClient: Client,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -31,14 +31,15 @@ class CatalogueSnapMeiliSearchRepository(
         try {
             val settings = Settings().apply {
                 filterableAttributes = arrayOf(
-                    CatalogueEntity::accessRights.name,
-                    CatalogueEntity::themeIds.name,
-                    CatalogueEntity::catalogueIds.name,
-                    CatalogueEntity::type.name,
-                    CatalogueEntity::language.name
+                    CatalogueModel::accessRights.name,
+                    CatalogueModel::themeIds.name,
+                    CatalogueModel::catalogueIds.name,
+                    CatalogueModel::type.name,
+                    CatalogueModel::language.name
                 )
 
             }
+
             index.updateSettings(settings)
         } catch (e: Exception) {
             logger.error("Failed to load catalogue settings", e)
@@ -47,7 +48,7 @@ class CatalogueSnapMeiliSearchRepository(
 
     suspend fun get(id: CatalogueId): CatalogueModel? = withContext(Dispatchers.IO) {
         try {
-            index.getDocument(id.prepareId(), CatalogueModel::class.java).restoreId()
+            index.getDocument(id, CatalogueModel::class.java)
         } catch (e: MeilisearchApiException) {
             if(e.code == "document_not_found") {
                 null
@@ -56,46 +57,47 @@ class CatalogueSnapMeiliSearchRepository(
                 null
             }
         }
+        catch (e: Exception) {
+            // Bug with kotlin jackson plugin, Meilisearch do not handle MissingKotlinParameterException correctly.
+            null
+        }
     }
 
     suspend fun remove(id: CatalogueId): Boolean = withContext(Dispatchers.IO) {
         try {
-            index.deleteDocument(id.prepareId())
+//            index.deleteDocument(id.prepareId())
             true
         } catch (e: Exception) {
-            logger.error("Failed to romove catalogue", e)
+            logger.error("Failed to remove catalogue", e)
             false
         }
     }
 
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
-        val domain = entity.toModel()
-//        val domain = catalogueI18nService.translate(entity.toModel(), entity.language, true)
+        if(entity.type != "translation") {
+            logger.debug("Skip catalogue: $entity, [type: ${entity.type}]")
+            return@withContext
+        }
+        val domain = catalogueI18nService.rebuildModel(entity)
         if (domain == null) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
+            logger.debug("Skip catalogue: $entity, [type: ${entity.type}]")
             return@withContext;
         }
-        val entityWithId = domain.prepareId()
-        if(entity.type == "menu") {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return@withContext;
-        }
-        if(entity.identifier.contains("menu-")) {
-            logger.info("Skip catalogue: $entity, [identifier: ${entity.identifier}] contains menu-")
-            return@withContext;
-        }
-        if( entity.language == null) {
-            logger.info("Skip catalogue: $entity, [language is null]")
-            return@withContext;
-        }
+        logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
         try {
-            val jsonString = objectMapper.writeValueAsString(listOf(entityWithId))
-            val existing = get(entityWithId.id)
+            val jsonString = objectMapper.writeValueAsString(listOf(domain))
+            val existing = get(domain.id)
             if (existing == null) {
-                index.addDocuments(jsonString)
+                index.addDocuments(jsonString, "id")
             } else {
-                index.updateDocuments(jsonString)
+                index.updateDocuments(jsonString, "id")
             }
+//            var taskStatus = index.getTask(status.taskUid)
+//            while (taskStatus.status == TaskStatus.ENQUEUED || taskStatus.status == TaskStatus.PROCESSING) {
+//                delay(100L)  // Wait one second before polling again.
+//                taskStatus = index.getTask(status.taskUid)
+//                logger.info("Task status: ${taskStatus.status}")
+//            }
         } catch (e: Exception) {
             logger.error("save catalogue error", e)
         }
@@ -127,12 +129,12 @@ class CatalogueSnapMeiliSearchRepository(
 //            ],
 
                 val filters = buildList {
-                    searchFilter(CatalogueEntity::language.name, language).let { add(it) }
+                    searchFilter(CatalogueModel::language.name, language).let { add(it) }
 
-                    searchFilters(CatalogueEntity::accessRights, accessRights)?.let { add(it) }
-                    searchFilters(CatalogueEntity::catalogueIds, catalogueIds)?.let { add(it) }
-                    searchFilters(CatalogueEntity::themeIds, themeIds)?.let { add(it) }
-                    searchFilters(CatalogueEntity::type, type)?.let { add(it) }
+                    searchFilters(CatalogueModel::accessRights, accessRights)?.let { add(it) }
+                    searchFilters(CatalogueModel::catalogueIds, catalogueIds)?.let { add(it) }
+                    searchFilters(CatalogueModel::themeIds, themeIds)?.let { add(it) }
+                    searchFilters(CatalogueModel::type, type)?.let { add(it) }
                 }
 
                 val searchRequest = SearchRequest.builder()
@@ -141,17 +143,17 @@ class CatalogueSnapMeiliSearchRepository(
                     .limit(page?.limit ?: 0)
                     .facets(
                         arrayOf(
-                            CatalogueEntity::accessRights.name,
-                            CatalogueEntity::themeIds.name,
-                            CatalogueEntity::catalogueIds.name,
-                            CatalogueEntity::type.name
+                            CatalogueModel::accessRights.name,
+                            CatalogueModel::themeIds.name,
+                            CatalogueModel::catalogueIds.name,
+                            CatalogueModel::type.name
                         )
                     ).filterArray(filters.toTypedArray())
                     .build()
                 val searchResult = index.search(searchRequest) as SearchResult
                 val distribution = searchResult.facetDistribution as Map<String, Map<String, Int>>
                 val hits = searchResult.hits.map { hit ->
-                    objectMapper.convertValue(hit, CatalogueEntity::class.java).toModel()
+                    objectMapper.convertValue(hit, CatalogueModel::class.java)
                 }
                 FacetPage(
                     total = searchResult.estimatedTotalHits,
@@ -171,9 +173,4 @@ class CatalogueSnapMeiliSearchRepository(
         return arrayOf("$field=\"$value\"")
     }
 
-    fun CatalogueModel.prepareId() = copy(id = id.prepareId())
-    fun CatalogueId.prepareId() = replace(":", "_")
-
-    fun CatalogueModel.restoreId() = copy(id = id.restoreId())
-    fun CatalogueId.restoreId() = replace("_", ":")
 }

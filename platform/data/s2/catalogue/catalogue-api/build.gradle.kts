@@ -13,8 +13,6 @@ dependencies {
 	implementation(project(Modules.infra.redis))
 	implementation(project(Modules.infra.meilisearch))
 
-	implementation(project(Modules.api.config))
-
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2Sourcing(::implementation)
 
