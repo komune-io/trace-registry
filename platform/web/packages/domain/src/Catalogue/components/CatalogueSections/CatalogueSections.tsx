@@ -66,6 +66,7 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
 
         return (
             <Fragment
+            key={dataSet?.dataSet.id ?? "newSection"}
             >
 
                 {/* !readOnly && <AddSectionDivider
@@ -77,6 +78,7 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
                     editorState={isMarkdown ? undefined : JSON.stringify(sectionDataQuery.data)}
                     catalogue={catalogue}
                     onChange={onSectionChange}
+                    namespace={dataSet?.dataSet.id}
                 />
                 {/* index === sections.length - 1 && !readOnly && <AddSectionDivider
                     onAddSection={handleAddSection(section.position.index + 1)}
