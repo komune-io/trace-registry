@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { LanguageSelector } from "components"
+import { LanguageSelector } from "./LanguageSelector"
 import { useTranslation } from 'react-i18next';
 
 interface KeycloakLanguageSelectorProps {

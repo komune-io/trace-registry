@@ -4,21 +4,33 @@ import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
 import { Button } from '@komune-io/g2'
 import { DeleteRounded, MoreVert } from '@mui/icons-material'
-import { useButtonMenu, useToggleState } from 'components'
+import { useButtonMenu, useConfirmationPopUp, useToggleState } from 'components'
 import { CatalogueStatusChip } from '../CatalogueTable'
 import { SubmitModal } from './SubmitModal'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
     onSave?: () => Promise<any>
+    onDelete?: () => Promise<any>
     onSubmit: (reason: string) => Promise<any>
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSave, onSubmit } = props
+    const { catalogue, onSave, onSubmit, onDelete } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
+
+    const {
+        popup,
+        handleOpen
+    } = useConfirmationPopUp({
+        onSubmit: onDelete,
+        variant: 'deletion',
+        title: t("catalogues.deleteTitle", { name: catalogue?.title }),
+        description: t("catalogues.deleteDescription"),
+    })
+
 
     const items = useMemo(() => [
         // {
@@ -26,13 +38,14 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
         //     label: t("history"),
         //     icon: <HistoryRounded />
         // },
-        {
+        ...(onDelete ? [{
             key: "delete",
             label: t("delete"),
             color: "#B01717",
-            icon: <DeleteRounded />
-        }
-    ], [t])
+            icon: <DeleteRounded />,
+            onClick: handleOpen
+        }] : [])
+    ], [t, handleOpen, onDelete])
 
     const { buttonProps, menu } = useButtonMenu({
         items
@@ -68,6 +81,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             </IconButton>
             {menu}
             <SubmitModal open={open} onClose={toggle} onSubmit={onSubmit} />
+            {popup}
         </Stack>
     )
 }

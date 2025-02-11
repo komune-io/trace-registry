@@ -71,6 +71,7 @@ const MenuElement = (props: MenuElementProps) => {
         }
     }
 
+    if (!items || items.length === 0) return null
     return (
         <Popper
             open={open}

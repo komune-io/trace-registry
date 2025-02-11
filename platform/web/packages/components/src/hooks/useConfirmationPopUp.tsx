@@ -1,11 +1,11 @@
-import {ConfirmationPopUpVariant} from "@komune-io/g2-layout/dist/PopUp/ConfirmationPopUp";
-import {useTranslation} from "react-i18next";
-import React, {useCallback, useMemo, useState} from "react";
-import {ConfirmationPopUp} from "@komune-io/g2";
-import {Typography} from "@mui/material";
+import { useTranslation } from "react-i18next";
+import React, { useCallback, useMemo, useState } from "react";
+import { ConfirmationPopUpVariant } from "@komune-io/g2";
+import { Typography } from "@mui/material";
+import { TmsConfirmationPopUp } from "../TmsPopUp";
 
 export interface UseConfirmationPopUpProps {
-  onSubmit?: () => any 
+  onSubmit?: () => any
   variant?: ConfirmationPopUpVariant
   title?: string
   description: string
@@ -20,8 +20,8 @@ export interface UseConfirmationPopUpType {
 }
 
 export const useConfirmationPopUp = (props: UseConfirmationPopUpProps): UseConfirmationPopUpType => {
-  const {onSubmit, variant, title, description} = props
-  const {t} = useTranslation()
+  const { onSubmit, variant, title, description } = props
+  const { t } = useTranslation()
   const [isOpen, setOpen] = useState(false)
 
   const handleClose = useCallback(
@@ -46,10 +46,9 @@ export const useConfirmationPopUp = (props: UseConfirmationPopUpProps): UseConfi
   )
 
   const popup = useMemo(() => (
-    <ConfirmationPopUp variant={variant} open={isOpen} onClose={handleClose} onConfirm={onConfirm} validateText={t("confirm")} cancelText={t("cancel")}>
-      {title && <Typography sx={{ whiteSpace: "pre-line" }} variant="h4">{title}</Typography>}
+    <TmsConfirmationPopUp title={title} variant={variant} open={isOpen} onClose={handleClose} onConfirm={onConfirm} validateText={t("confirm")} cancelText={t("cancel")}>
       <Typography sx={{ marginTop: "16px", whiteSpace: "pre-line" }}>{description}</Typography>
-    </ConfirmationPopUp>
+    </TmsConfirmationPopUp>
   ), [isOpen, handleClose, onConfirm, t, title, description])
 
   return {

@@ -1,7 +1,8 @@
-import { Stack, StackProps } from '@mui/material';
+import { Box, Stack, StackProps, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode, useEffect } from "react";
 import { LanguageSelector } from 'components';
-import {CatalogueSearchBar} from "domain-components"
+import { CatalogueSearchBar } from "domain-components"
+import { useThemeContext } from '@komune-io/g2';
 
 export interface AppPageProps extends StackProps {
     title?: string
@@ -15,6 +16,17 @@ export interface AppPageProps extends StackProps {
 
 export const AppPage = (props: AppPageProps) => {
     const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, customHeader, ...other } = props
+
+    const { openDrawer, theme: g2Theme } = useThemeContext()
+    const theme = useTheme()
+
+    const isMobile =
+    g2Theme.drawerAbsolutePositionBreakpoint === 'always'
+      ? true
+      : useMediaQuery(
+          theme.breakpoints.down(g2Theme.drawerAbsolutePositionBreakpoint!)
+        )
+
 
     useEffect(() => {
         if (title) {
@@ -36,30 +48,42 @@ export const AppPage = (props: AppPageProps) => {
                 },
             }}
         >
-            {customHeader ? customHeader : <Stack
-                direction="row"
-                alignItems="center"
-                gap={2}
+            <Box
                 sx={{
-                    px: 2,
-                    pt: 3,
-                    width: "100%"
+                    width: !openDrawer || isMobile ? "calc(100% - 216px)" : "100%",
+                    alignSelf: !openDrawer || isMobile ? 'flex-end' : undefined,
+                    transition: (theme) => !openDrawer
+                        ? theme.transitions.create("width", {
+                            easing: theme.transitions.easing.sharp,
+                            duration: theme.transitions.duration.leavingScreen
+                        })
+                        : "width 220ms ease-out",
                 }}
-                {...headerProps}
             >
-                <Stack
+                {customHeader ? customHeader : <Stack
                     direction="row"
                     alignItems="center"
-                    justifyContent="center"
                     gap={2}
-                    flexGrow={1}
-                    
+                    sx={{
+                        px: 2,
+                        pt: 3,
+                        width: "100%"
+                    }}
+                    {...headerProps}
                 >
-                    {header}
-                    {!bgcolor && <CatalogueSearchBar />}
-                </Stack>
-                <LanguageSelector />
-            </Stack>}
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                        gap={2}
+                        flexGrow={1}
+                    >
+                        {header}
+                        {!bgcolor && <CatalogueSearchBar />}
+                    </Stack>
+                    <LanguageSelector />
+                </Stack>}
+            </Box>
             <Stack
                 sx={{
                     px: {

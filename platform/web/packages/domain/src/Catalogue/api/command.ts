@@ -49,7 +49,21 @@ export const useDatasetUpdateJsonDistributionCommand = (
 ) => {
     const requestProps = useNoAuthenticatedRequest()
     return useCommandRequest<
-    DatasetUpdateJsonDistributionCommand,
+        DatasetUpdateJsonDistributionCommand,
         DatasetUpdatedJsonDistributionEvent
     >('data/datasetUpdateJsonDistribution', requestProps, params)
+}
+
+
+export interface CatalogueDeleteCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTO { }
+export interface CatalogueDeletedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTO { }
+
+export const useCatalogueDeleteCommand = (
+    params: CommandParams<CatalogueDeleteCommand, CatalogueDeletedEvent>
+) => {
+    const requestProps = useNoAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueDeleteCommand,
+        CatalogueDeletedEvent
+    >('data/catalogueDelete', requestProps, params)
 }

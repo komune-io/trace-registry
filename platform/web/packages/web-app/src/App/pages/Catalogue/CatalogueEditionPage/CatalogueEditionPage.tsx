@@ -1,5 +1,5 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes, useCatalogueUpdateCommand, CatalogueCreateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, findLexicalDataset } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes, useCatalogueUpdateCommand, CatalogueCreateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, findLexicalDataset, useCatalogueDeleteCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -83,11 +83,19 @@ export const CatalogueEditionPage = () => {
       delete command.illustration
       const update = catalogueUpdate.mutateAsync({
         command: {
+          // form fields
           title: metadataFormState.values.title,
           description: metadataFormState.values.description,
           themes: metadataFormState.values.themes ? [metadataFormState.values.themes] : undefined,
           license: metadataFormState.values.license,
           accessRights: metadataFormState.values.accessRights,
+          // keeping the same values
+          structure: metadataFormState.values.structure,
+          creator: metadataFormState.values.creator,
+          hidden: metadataFormState.values.hidden,
+          homepage: metadataFormState.values.homepage,
+          publisher: metadataFormState.values.publisher,
+          validator: metadataFormState.values.validator,
           language: i18n.language,
           id: catalogueId!
         },
@@ -141,14 +149,30 @@ export const CatalogueEditionPage = () => {
     [metadataFormState.setFieldValue],
   )
 
+  const deleteCatalogue = useCatalogueDeleteCommand({})
 
+  const onDelete = useCallback(
+    async () => {
+      const res = await deleteCatalogue.mutateAsync({
+        id: catalogueId!
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
+        navigate("/")
+      }
+    },
+    [deleteCatalogue.mutateAsync, catalogueId],
+  )
+  
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
+      <CatalogueEditionHeader onDelete={onDelete} onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
       <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore
