@@ -21,9 +21,6 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
       themes, onChangeThemes, themesDistribution = []
     } = props
     const { t } = useTranslation()
-    console.log(accessesDistribution)
-    console.log(themesDistribution)
-
     return (
         <Stack
             gap={3.5}
@@ -46,13 +43,10 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             />
             <SelectableChipGroup
                 title={t("access")}
-                options={[{
-                    key: "public",
-                    label: t("public")
-                }, {
-                    key: "private",
-                    label: t("private")
-                }]}
+                options={accessesDistribution?.map((distribution) => ({
+                  key: distribution.id,
+                  label: `${distribution.name} - ${distribution.size}`
+                }))}
                 values={accesses}
                 onChange={onChangeAccesses}
             />

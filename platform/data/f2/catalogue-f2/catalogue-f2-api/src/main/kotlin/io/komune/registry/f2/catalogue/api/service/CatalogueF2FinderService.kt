@@ -123,6 +123,13 @@ class CatalogueF2FinderService(
 
 //        catalogues.distribution[CatalogueModel::accessRights.name]
 
+        val accessRightsDistribution = catalogues.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
+            FacetDistribution(
+                id = key,
+                name = key,
+                size = size
+            )
+        } ?: emptyList<FacetDistributionDTO>()
         val themeDistribution = catalogues.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
             val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
             FacetDistribution(
@@ -142,18 +149,18 @@ class CatalogueF2FinderService(
         } ?: emptyList<FacetDistributionDTO>()
 
         val cataloguesDistribution = catalogues.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
-            val catalogue = getOrNull(key, language)
+            val catalogue = getOrNull("${key}s", language)
             FacetDistribution(
-                id = catalogue?.id ?: key,
+                id = key,
                 name = catalogue?.title ?: "",
                 size = size
             )
         } ?: emptyList<FacetDistributionDTO>()
-
         return CatalogueSearchResult(
             items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
             total = catalogues.total,
             distribution = mapOf(
+                CatalogueModel::accessRights.name to accessRightsDistribution,
                 CatalogueModel::type.name to cataloguesDistribution,
                 CatalogueModel::licenseId.name to licenceDistribution,
                 CatalogueModel::themeIds.name to themeDistribution,
