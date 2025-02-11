@@ -32,15 +32,15 @@ const queryClient = new QueryClient({
     }
 })
 
-const i18n = initI18next({ en: "en-US", fr: 'fr-FR' })
+const i18n = initI18next({ en: "en-US", fr: 'fr-FR', es: "es-ES" })
 i18n.addResourceBundle(
     'fr',
     'translation',
     {
         http: {
             backendErrors: {
-                "2000": "L'email indiqué correspont déjà à un compte existant",
-                "2002": "L'entreprise que vous avez rentré est déjà intégré dans la plateforme"
+                "2000": "L'adresse e-mail indiquée correspond déjà à un compte existant",
+                "2002": "L'entreprise que vous avez saisie est déjà enregistrée sur la plateforme."
             },
             errors: {
                 "identity/userOnboard": "Votre compte n'a pas pu être créé",
@@ -60,14 +60,35 @@ i18n.addResourceBundle(
     {
         http: {
             backendErrors: {
-                "2000": "The  L'email utilisatn correspont déjà à un compte existant",
-                "2002": "The given entreprise is already incorporated in the platform"
+                "2000": "The email address entered already corresponds to an existing account.",
+                "2002": "The company you entered is already integrated into the platform"
             },
             errors: {
-                "identity/userOnboard": "Votre compte n'a pas pu être créé",
+                "identity/userOnboard": "Your account could not be created",
             },
             success: {
-                "identity/userOnboard": "Votre compte a bien été créé",
+                "identity/userOnboard": "Your account has been successfully created",
+            }
+        }
+    },
+    true,
+    false
+)
+
+i18n.addResourceBundle(
+    'es',
+    'translation',
+    {
+        http: {
+            backendErrors: {
+                "2000": "El correo electrónico proporcionado ya corresponde a una cuenta existente",
+                "2002": "La empresa que ingresaste ya está integrada en la plataforma"
+            },
+            errors: {
+                "identity/userOnboard": "No se pudo crear tu cuenta",
+            },
+            success: {
+                "identity/userOnboard": "Tu cuenta ha sido creada con éxito",
             }
         }
     },
