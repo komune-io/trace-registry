@@ -2,6 +2,7 @@
   "type": "100m-sector",
   "identifierSequence": "seq_100m_sector",
   "parentTypes": ["100m-sectors", "100m-sector"],
+  "structure": "item",
   "i18n": {
     "enable": true,
     "translationType": "100m-translation"
