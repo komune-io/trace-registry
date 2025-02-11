@@ -9,8 +9,6 @@ const { useI18n, ofTypeI18n } = i18nBuilder
         en: {
             alphanumericalCharsOnly: "Only alphanumerical characters",
             gender: "Gender",
-            // Here we overwrite the default english value for the message "doForgotPassword" 
-            // that is "Forgot Password?" see: https://github.com/InseeFrLab/keycloakify/blob/f0ae5ea908e0aa42391af323b6d5e2fd371af851/src/lib/i18n/generated_messages/18.0.1/login/en.ts#L17
             doForgotPassword: "Forgot password ?",
             backToLogin: "Back to login",
             email: "Email",
@@ -60,7 +58,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             signUp: "Je m'inscris",
             signInTitle: "Connexion à votre compte",
             dontHaveAccount: "Vous n'avez pas de compte ?",
-            proceedWithAction: "Click here to proceed",
+            proceedWithAction: "Cliquez ici pour continuer",
             emailNeedValidation: "Votre compte a été créé, un email de validation a été envoyé à votre adresse email. Vous devez le valider avant de pouvoir vous connecter à l'application.",
             entreprise: "Entreprise",
             whyJoinProgram: "Pourquoi rejoignez vous Objectif100M ?",
@@ -77,6 +75,41 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep3: "Utilisez les valeurs de configuration suivantes si l'application permet leurs éditions:",
             loginTotpStep3DeviceName: "Renseignez le nom de l'appareil pour vous aider à gérer vos appareils OTP.",
             loginTotpScanBarcode: "Scanner un qr code à la place"
+        },
+        es: {
+            alphanumericalCharsOnly: "Solo caracteres alfanuméricos",
+            gender: "Género",
+            doForgotPassword: "¿Olvidaste tu contraseña?",
+            backToLogin: "Volver al inicio de sesión",
+            email: "Correo electrónico",
+            resetPasswordInstructions: "Por favor, ingrese la dirección de correo electrónico asociada a su cuenta. Le enviaremos un enlace para restablecer su contraseña.",
+            resetPasswordNoEmailInstructions: "Si no recibe un correo electrónico en unos minutos, por favor revise su carpeta de spam.",
+            resetPasswordNote: "Nota: Asegúrese de proporcionar la dirección de correo electrónico que utilizó para crear su cuenta.",
+            resetPasswordSend: "Enviar instrucciones de restablecimiento",
+            alreadyHaveAccount: "¿Ya tienes una cuenta?",
+            signIn: "Iniciar sesión",
+            signUp: "Registrarse",
+            registerTitle: "¡Bienvenido a bordo!",
+            optionnal: "(opcional)",
+            signInTitle: "Inicia sesión en tu cuenta",
+            dontHaveAccount: "¿No tienes una cuenta?",
+            proceedWithAction: "Haga clic aquí para continuar",
+            emailNeedValidation: "Su cuenta ha sido creada, se ha enviado un correo electrónico de validación a su dirección de correo electrónico. Debe validarlo antes de iniciar sesión en la aplicación.",
+            entreprise: "Empresa",
+            whyJoinProgram: "¿Por qué te involucras en Objectif100M?",
+            wantNewsletter: "Acepto recibir correos de 100M",
+            iReadAndApprouve: "He leído y aprobado",
+            iReadAndAccept: "He leído y aceptado los",
+            cgu: "términos y condiciones de uso",
+            and: "y",
+            privacyPolicy: "política de privacidad",
+            charter: "la carta de 100 millones",
+            loginTotpStep2: "Abra la aplicación y escanee el siguiente código QR",
+            loginTotpStep3: "Ingrese el código de un solo uso proporcionado por la aplicación y haga clic en Enviar para finalizar la configuración.",
+            loginTotpManualStep2: "Abra la aplicación e ingrese la siguiente clave:",
+            loginTotpManualStep3: "Utilice los siguientes valores de configuración si la aplicación permite configurarlos:",
+            loginTotpStep3DeviceName: "Proporcione un nombre de dispositivo para ayudarle a gestionar sus dispositivos OTP.",
+            loginTotpScanBarcode: "Escanear un código QR en su lugar"
         }
     })
     .build();

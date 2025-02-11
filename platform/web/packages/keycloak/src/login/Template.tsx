@@ -76,6 +76,10 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             sx={{
                                 maxWidth: "600px !important",
                                 width: "100% !important",
+                                bottom: "unset !important",
+                                top: "unset !important",
+                                left: "unset !important",
+                                right: "unset !important",
                                 zIndex: 1,
                                 "& .MuiSnackbarContent-root": {
                                     boxShadow: (theme) => theme.shadows[1],
