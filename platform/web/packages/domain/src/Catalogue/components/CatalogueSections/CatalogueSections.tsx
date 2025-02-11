@@ -3,6 +3,7 @@ import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
 import { useDatasetDownloadDistribution } from '../../api'
+import { Stack } from '@mui/material'
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
@@ -67,14 +68,19 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
     }, [catalogue, readOnly, onSectionChange, query.data, dataSet])
 
     return (
-        <>
+        <Stack
+        gap={4}
+        sx={{
+            py: 4
+        }}
+        >
             {sectionsDisplay}
             {/* sections.length === 0 && !readOnly &&
                 <AddSectionDivider
                     onAddSection={handleAddSection(0)}
                 />
              */}
-        </>
+        </Stack>
     )
 }
 

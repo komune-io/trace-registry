@@ -83,11 +83,19 @@ export const CatalogueEditionPage = () => {
       delete command.illustration
       const update = catalogueUpdate.mutateAsync({
         command: {
+          // form fields
           title: metadataFormState.values.title,
           description: metadataFormState.values.description,
           themes: metadataFormState.values.themes ? [metadataFormState.values.themes] : undefined,
           license: metadataFormState.values.license,
           accessRights: metadataFormState.values.accessRights,
+          // keeping the same values
+          structure: metadataFormState.values.structure,
+          creator: metadataFormState.values.creator,
+          hidden: metadataFormState.values.hidden,
+          homepage: metadataFormState.values.homepage,
+          publisher: metadataFormState.values.publisher,
+          validator: metadataFormState.values.validator,
           language: i18n.language,
           id: catalogueId!
         },
