@@ -12,8 +12,6 @@ export const Info = (props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>
 
     const { messageHeader, message, requiredActions, skipLink, pageRedirectUri, actionUri, client } = kcContext;
 
-    console.log(messageHeader, message.summary)
-
     return (
         <Template
             kcContext={kcContext}
@@ -27,7 +25,7 @@ export const Info = (props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>
                     dangerouslySetInnerHTML={{
                         __html: kcSanitize(
                             (() => {
-                                let html = message.summary;
+                                let html = message.summary + " ";
 
                                 if (requiredActions) {
                                     html += "<b>";

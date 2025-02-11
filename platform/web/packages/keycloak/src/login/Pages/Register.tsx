@@ -132,16 +132,15 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 gap={2}
                 alignItems="center"
             >
-                <Button
+               {!success && <Button
                     onClick={formState.submitForm}
-                    disabled={success}
                     sx={{
                         width: "90%",
                     }}
                     size="large"
                 >
                     {msgStr("signUp")}
-                </Button>
+                </Button>}
                 <Link
                     variant="body2"
                     href={url.loginUrl}
