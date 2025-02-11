@@ -6,6 +6,7 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
+import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
@@ -60,9 +61,9 @@ class CatalogueI18nService(
                 status = translation.status,
                 title = translation.title,
                 description = translation.description,
-                catalogues = translation.catalogueIds.mapNotNull { catalogueId ->
-                    catalogueFinderService.get(catalogueId)
-                        .takeIf { it.status != CatalogueState.DELETED }
+                catalogues = translation.catalogueIds.mapNotNull { childId ->
+                    catalogueFinderService.get(childId)
+                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                         ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
                 },
                 datasets = translation.datasetIds
@@ -75,9 +76,9 @@ class CatalogueI18nService(
                 structure = translation.structure,
                 homepage = translation.homepage,
                 img = translation.img,
-                creator = translation.creator,
-                publisher = translation.publisher,
-                validator = translation.validator,
+                creator = translation.creatorId?.let(::Agent),
+                publisher = translation.publisherId?.let(::Agent),
+                validator = translation.validatorId?.let(::Agent),
                 accessRights = translation.accessRights,
                 license = translation.licenseId?.let { licenseF2FinderService.getOrNull(it) },
                 hidden = translation.hidden,

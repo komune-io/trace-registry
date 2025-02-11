@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.draft.api
 
 import f2.dsl.fnc.f2Function
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
@@ -10,6 +11,7 @@ import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmittedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidateFunction
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidatedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetFunction
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResult
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
@@ -22,7 +24,8 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 class CatalogueDraftEndpoint(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
-    private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService
+    private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
+    private val catalogueF2AggregateService: CatalogueF2AggregateService
 ) : CatalogueDraftApi {
 
     private val logger by Logger()
@@ -58,8 +61,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftValidate(): CatalogueDraftValidateFunction = f2Function { command ->
         logger.info("catalogueDraftValidate: $command")
-        TODO()
-//        catalogueDraftAggregateService.validate(command).id
-//            .let(::CatalogueDraftValidatedEventDTOBase)
+        catalogueF2AggregateService.validateDraft(command.id)
+        CatalogueDraftValidatedEventDTOBase(command.id)
     }
 }

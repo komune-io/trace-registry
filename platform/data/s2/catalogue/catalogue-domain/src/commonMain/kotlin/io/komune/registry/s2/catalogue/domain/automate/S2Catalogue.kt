@@ -12,6 +12,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -35,6 +37,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueAddTranslationsCommand, CatalogueAddedTranslationsEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueRemoveTranslationsCommand, CatalogueRemovedTranslationsEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

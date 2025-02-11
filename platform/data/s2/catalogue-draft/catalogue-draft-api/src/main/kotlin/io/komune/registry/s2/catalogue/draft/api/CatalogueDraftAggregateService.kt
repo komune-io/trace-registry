@@ -1,5 +1,6 @@
 package io.komune.registry.s2.catalogue.draft.api
 
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftAutomateExecutor
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
@@ -26,6 +27,7 @@ class CatalogueDraftAggregateService(
             originalCatalogueId = command.originalCatalogueId,
             language = command.language,
             baseVersion = command.baseVersion,
+            creatorId = AuthenticationProvider.getAuthedUser()!!.id
         )
     }
 

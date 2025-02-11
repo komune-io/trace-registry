@@ -5,12 +5,12 @@ import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -61,9 +61,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var translationIds: Map<Language, CatalogueId> = emptyMap()
 
-    var creator: Agent? = null
-    var publisher: Agent? = null
-    var validator: Agent? = null
+    var creatorId: UserId? = null
+    var publisherId: UserId? = null
+    var validatorId: UserId? = null
     var accessRights: String? = null
     var licenseId: LicenseId? = null
 
@@ -72,6 +72,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var issued: Long = 0
     var modified: Long = 0
+
+    var version: Int = 0
+    var versionNotes: String? = null
 
     override fun s2Id() = id
     override fun s2State() = status

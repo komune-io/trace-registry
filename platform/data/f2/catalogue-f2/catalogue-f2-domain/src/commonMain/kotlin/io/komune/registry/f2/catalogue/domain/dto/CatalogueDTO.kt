@@ -11,7 +11,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDto
+import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -92,7 +92,7 @@ interface CatalogueDTO {
      * Represents the structure of a given catalogue within the catalog metadata.
      * This structure outlines the schema and configuration details necessary for the catalog entry.
      */
-    val structure: StructureDto?
+    val structure: StructureDTO?
 
     /**
      * A list of themes categorized as SKOS concepts.

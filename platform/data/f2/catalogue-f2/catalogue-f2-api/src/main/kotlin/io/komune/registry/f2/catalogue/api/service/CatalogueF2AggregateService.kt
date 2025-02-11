@@ -1,6 +1,8 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.collectionMatchOf
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
@@ -27,10 +29,17 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
+import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -41,6 +50,8 @@ import org.springframework.stereotype.Service
 class CatalogueF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueConfig: CatalogueConfig,
+    private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
+    private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
@@ -52,6 +63,41 @@ class CatalogueF2AggregateService(
 
     companion object {
         const val DEFAULT_SEQUENCE = "catalogue_seq"
+    }
+
+    suspend fun createWithDraft(command: CatalogueCreateCommandDTOBase): CatalogueCreatedEventDTOBase {
+        // creates basic structure of the catalogue depending on the type
+        val createdEvent = create(command.copy(hidden = true))
+
+        val catalogueId = createdEvent.id
+        val catalogue = catalogueFinderService.get(catalogueId)
+
+        // If there is a translation, then it will contain all the content of the draft. Else, it will go to the first-level catalogue.
+        val draftedCatalogues = catalogue.translationIds.values.firstOrNull()
+
+        if (draftedCatalogues != null) {
+            // disconnect translation to make it as a draft
+            CatalogueRemoveTranslationsCommand(
+                id = catalogueId,
+                languages = listOf(command.language)
+            ).let { catalogueAggregateService.removeTranslations(it) }
+
+            // apply all created data to drafted catalogue
+            catalogue.toUpdateCommand(command.language).copy(
+                id = draftedCatalogues,
+                title = command.title,
+                description = command.description
+            ).let { update(it) }
+        }
+
+        val draftId = CatalogueDraftCreateCommand(
+            catalogueId = draftedCatalogues ?: catalogueId,
+            originalCatalogueId = catalogueId,
+            language = command.language,
+            baseVersion = 0
+        ).let { catalogueDraftAggregateService.create(it).id }
+
+        return createdEvent.copy(draftId = draftId)
     }
 
     suspend fun create(command: CatalogueCreateCommandDTOBase, isTranslation: Boolean = false): CatalogueCreatedEventDTOBase {
@@ -170,6 +216,34 @@ class CatalogueF2AggregateService(
         ).let { catalogueAggregateService.setImageCommand(it) }
     }
 
+    suspend fun validateDraft(draftId: CatalogueId) {
+        val draft = catalogueDraftFinderService.get(draftId)
+        val originalCatalogue = catalogueFinderService.get(draft.originalCatalogueId)
+        val draftedCatalogue = catalogueFinderService.get(draft.catalogueId)
+
+        val typeConfiguration = catalogueConfig.typeConfigurations[originalCatalogue.type]
+
+        catalogueDraftAggregateService.validate(CatalogueDraftValidateCommand(draftId))
+
+        draftedCatalogue.toUpdateCommand(draft.language).copy(
+            id = draft.originalCatalogueId,
+            hidden = typeConfiguration?.hidden ?: false
+        ).let { update(it) }
+
+        catalogueDraftFinderService.page(
+            originalCatalogueId = ExactMatch(draft.originalCatalogueId),
+            language = ExactMatch(draft.language),
+            baseVersion = ExactMatch(draft.baseVersion),
+            status = collectionMatchOf(CatalogueDraftState.DRAFT, CatalogueDraftState.SUBMITTED, CatalogueDraftState.UPDATE_REQUESTED)
+        ).items.filter { it.id != draftId }
+            .mapAsync { siblingDraft ->
+                CatalogueDraftRejectCommand(
+                    id = siblingDraft.id,
+                    reason = "Another draft has been validated for this version."
+                ).let { catalogueDraftAggregateService.reject(it) }
+            }
+    }
+
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
         val parent = catalogueFinderService.get(parentId)
 
@@ -254,7 +328,8 @@ class CatalogueF2AggregateService(
             type = translationType,
             title = title,
             description = description,
-            language = language
+            language = language,
+            withDraft = false
         ).let { create(it, isTranslation = true).id }
 
         CatalogueAddTranslationsCommand(

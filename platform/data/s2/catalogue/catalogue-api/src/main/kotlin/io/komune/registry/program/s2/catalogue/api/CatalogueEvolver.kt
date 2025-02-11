@@ -10,6 +10,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
@@ -23,6 +24,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
 		is CatalogueAddedTranslationsEvent -> model?.addTranslations(event)
+		is CatalogueRemovedTranslationsEvent -> model?.removeTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueUnlinkedCataloguesEvent -> model?.removeCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
@@ -39,6 +41,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		type = event.type
 		catalogueIds = event.catalogueIds
 		datasetIds = event.datasetIds
+		creatorId = event.creatorId
 		issued = event.date
 	}
 
@@ -57,7 +60,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
 	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = apply {
-		translationIds = translationIds + event.catalogues
+		translationIds += event.catalogues
+	}
+
+	private suspend fun CatalogueEntity.removeTranslations(event: CatalogueRemovedTranslationsEvent) = apply {
+		translationIds -= event.languages
 	}
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
@@ -83,12 +90,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		themeIds = event.themeIds
 		homepage = event.homepage
 		structure = event.structure
-		creator = event.creator
-		publisher = event.publisher
-		validator = event.validator
 		accessRights = event.accessRights
 		licenseId = event.licenseId
 		hidden = event.hidden
 		modified = event.date
+		version++
 	}
 }

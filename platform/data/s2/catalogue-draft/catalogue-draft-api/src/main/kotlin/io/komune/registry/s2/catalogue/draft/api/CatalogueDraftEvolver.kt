@@ -29,6 +29,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		originalCatalogueId = event.originalCatalogueId
 		language = event.language
 		baseVersion = event.baseVersion
+		creatorId = event.creatorId
 		issued = event.date
 		modified = event.date
 	}

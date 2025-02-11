@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.catalogue.domain.CatalogueAggregate
@@ -15,6 +16,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -43,12 +46,10 @@ class CatalogueAggregateService(
 			structure = cmd.structure,
 			catalogueIds = cmd.catalogueIds,
 			datasetIds = cmd.datasetIds,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
+			creatorId = AuthenticationProvider.getAuthedUser()?.id,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
-			hidden = cmd.hidden,
+			hidden = cmd.hidden
 		)
 	}
 
@@ -71,6 +72,14 @@ class CatalogueAggregateService(
 			id = cmd.id,
 			date = System.currentTimeMillis(),
 			catalogues = translations
+		)
+	}
+
+	override suspend fun removeTranslations(cmd: CatalogueRemoveTranslationsCommand) = automate.transition(cmd) {
+		CatalogueRemovedTranslationsEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			languages = cmd.languages.toSet()
 		)
 	}
 
@@ -118,9 +127,6 @@ class CatalogueAggregateService(
 			themeIds = cmd.themeIds,
 			homepage = cmd.homepage,
 			structure = cmd.structure,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
 			hidden = cmd.hidden,

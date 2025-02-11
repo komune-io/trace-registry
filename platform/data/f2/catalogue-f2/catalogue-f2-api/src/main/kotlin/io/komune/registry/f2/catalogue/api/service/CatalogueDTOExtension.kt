@@ -26,6 +26,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.commons.model.Language
 
 fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
     catalogues?.forEach {
@@ -48,9 +50,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     homepage = homepage,
     themeIds = themes?.toSet().orEmpty(),
     catalogueIds = catalogues?.toSet().orEmpty(),
-    creator = creator,
-    publisher = publisher,
-    validator = validator,
+    datasetIds = emptySet(),
     accessRights = accessRights,
     licenseId = license,
     hidden = hidden,
@@ -67,17 +67,28 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     structure = structure,
     homepage = homepage,
     themeIds = themes?.toSet().orEmpty(),
-    creator = creator,
-    publisher = publisher,
-    validator = validator,
     accessRights = accessRights,
     licenseId = license,
     hidden = hidden,
 )
 
+fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
+    id = id,
+    title = title,
+    description = description,
+    language = language,
+    structure = structure,
+    homepage = homepage,
+    themes = themeIds,
+    accessRights = accessRights,
+    license = licenseId,
+    hidden = hidden
+)
+
 fun CatalogueCreatedEvent.toDTO() = CatalogueCreatedEventDTOBase(
     id = id,
     identifier = identifier,
+    draftId = null
 )
 
 fun CatalogueUpdatedEvent.toDTO() = CatalogueUpdatedEventDTOBase(

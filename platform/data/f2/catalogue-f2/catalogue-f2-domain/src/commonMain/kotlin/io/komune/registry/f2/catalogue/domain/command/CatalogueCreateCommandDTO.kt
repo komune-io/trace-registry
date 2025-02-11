@@ -2,9 +2,9 @@ package io.komune.registry.f2.catalogue.domain.command
 
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
-import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
@@ -51,9 +51,6 @@ interface CatalogueCreateCommandDTO {
     val homepage: String?
     val themes: List<ConceptId>?
     val catalogues: List<CatalogueId>?
-    val creator: Agent?
-    val publisher: Agent?
-    val validator: Agent?
     val accessRights: String?
     val license: LicenseId?
 
@@ -61,6 +58,8 @@ interface CatalogueCreateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
     val hidden: Boolean?
+
+    val withDraft: Boolean
 }
 
 /**
@@ -78,12 +77,10 @@ data class CatalogueCreateCommandDTOBase(
     override val homepage: String? = null,
     override val themes: List<ConceptId>? = null,
     override val catalogues: List<CatalogueId>? = null,
-    override val creator: Agent? = null,
-    override val publisher: Agent? = null,
-    override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
     override val hidden: Boolean? = null,
+    override val withDraft: Boolean,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -102,6 +99,11 @@ interface CatalogueCreatedEventDTO: Event {
      * Identifier of the created catalogue.
      */
     val identifier: CatalogueIdentifier
+
+    /**
+     * Id of the initialized draft, if any.
+     */
+    val draftId: CatalogueDraftId?
 }
 
 /**
@@ -111,4 +113,5 @@ interface CatalogueCreatedEventDTO: Event {
 data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
+    override val draftId: CatalogueDraftId? = null,
 ): CatalogueCreatedEventDTO
