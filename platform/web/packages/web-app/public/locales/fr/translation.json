@@ -135,6 +135,7 @@
     "sheetIllustration": "Illustration de la fiche",
     "resultNumber": "{{total}} Résultats",
     "or": "Ou",
+    "confirm": "Confirmer",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -292,7 +293,9 @@
         "modificationsSaved": "Vos modifications ont été enregistrées avec succès.",
         "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication.",
         "globalSearch": "Rechercher une solution, un système, un secteur...",
-        "startWritingContent": "Commencez à rédiger le contenu de votre fiche"
+        "startWritingContent": "Commencez à rédiger le contenu de votre fiche",
+        "deleteTitle": "Suppression de la fiche {{name}}",
+        "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?"
     },
     "editor": {
         "imageUrl": "URL de l'image",

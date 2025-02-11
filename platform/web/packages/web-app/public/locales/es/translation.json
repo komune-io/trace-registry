@@ -134,6 +134,8 @@
   "filter": "Filtrar",
   "sheetIllustration": "Ilustración de la hoja",
   "resultNumber": "{{total}} Resultados",
+  "or": "O",
+  "confirm": "Confirmar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -291,7 +293,9 @@
     "modificationsSaved": "Tus modificaciones han sido guardadas con éxito.",
     "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación.",
     "globalSearch": "Buscar una solución, un sistema, un sector...",
-    "startWritingContent": "Empieza a escribir el contenido de tu hoja"
+    "startWritingContent": "Empieza a escribir el contenido de tu hoja",
+    "deleteTitle": "Eliminación de la hoja {{name}}",
+    "deleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar esta hoja?"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

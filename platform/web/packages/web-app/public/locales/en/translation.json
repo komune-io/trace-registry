@@ -134,6 +134,8 @@
   "filter": "Filter",
   "sheetIllustration": "Sheet illustration",
   "resultNumber": "{{total}} Results",
+  "or": "Or",
+  "confirm": "Confirm",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -264,9 +266,9 @@
       "DRAFT": "Draft"
     },
     "types": {
-        "100m-sector": "Sector",
-        "100m-solution": "Solution",
-        "100m-system": "System"
+      "100m-sector": "Sector",
+      "100m-solution": "Solution",
+      "100m-system": "System"
     },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
@@ -291,7 +293,9 @@
     "modificationsSaved": "Your modifications have been successfully saved.",
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
     "globalSearch": "Search for a solution, system, sector...",
-     "startWritingContent": "Start writing the content of your sheet"
+    "startWritingContent": "Start writing the content of your sheet",
+    "deleteTitle": "Delete sheet {{name}}",
+    "deleteDescription": "This action is irreversible. Do you really want to delete this sheet?"
   },
   "editor": {
     "imageUrl": "Image URL",

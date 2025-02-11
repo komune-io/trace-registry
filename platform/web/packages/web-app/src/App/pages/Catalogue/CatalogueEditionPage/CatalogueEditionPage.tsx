@@ -1,5 +1,5 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes, useCatalogueUpdateCommand, CatalogueCreateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, findLexicalDataset } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes, useCatalogueUpdateCommand, CatalogueCreateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, findLexicalDataset, useCatalogueDeleteCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -141,14 +141,30 @@ export const CatalogueEditionPage = () => {
     [metadataFormState.setFieldValue],
   )
 
+  const deleteCatalogue = useCatalogueDeleteCommand({})
 
+  const onDelete = useCallback(
+    async () => {
+      const res = await deleteCatalogue.mutateAsync({
+        id: catalogueId!
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
+        navigate("/")
+      }
+    },
+    [deleteCatalogue.mutateAsync, catalogueId],
+  )
+  
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
+      <CatalogueEditionHeader onDelete={onDelete} onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
       <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore
