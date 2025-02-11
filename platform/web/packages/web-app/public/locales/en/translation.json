@@ -136,6 +136,7 @@
   "resultNumber": "{{total}} Results",
   "or": "Or",
   "confirm": "Confirm",
+  "title": "Title",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
