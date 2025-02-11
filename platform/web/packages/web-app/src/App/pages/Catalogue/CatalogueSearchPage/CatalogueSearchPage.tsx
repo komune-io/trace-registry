@@ -3,8 +3,7 @@ import { SelectableChipGroup, useUrlSavedState } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
-  CatalogueSearchHeader, CatalogueSearchQuery,
-  catalogueTypes,
+  CatalogueSearchHeader, CatalogueSearchQuery, FacetDistribution,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -35,15 +34,6 @@ export const CatalogueSearchPage = () => {
       setSearchParams(searchParams)
     }
   }, [])
-  // readonly offset?: number;
-  // readonly limit?: number;
-  // readonly language: string;
-  // readonly query?: string;
-  // readonly accessRights?: string;
-  // readonly catalogueIds?: string;
-  // readonly parentIdentifier?: string;
-  // readonly type?: string;
-  // readonly themeIds?: string;
 
   const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery>({
     initialState: {
@@ -59,7 +49,11 @@ export const CatalogueSearchPage = () => {
     }
   })
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
-
+  const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
+  const typeDistribution = distributions["type"]?.map((distribution) => ({
+    key: distribution.id,
+    label: `${distribution.name} - ${distribution.size}`
+  }))
   return (
     <Dialog
       fullScreen
@@ -85,10 +79,7 @@ export const CatalogueSearchPage = () => {
         }}
       >
         <SelectableChipGroup
-          options={catalogueTypes.map((type) => ({
-            key: type,
-            label: t("catalogues.types." + type)
-          }))}
+          options={typeDistribution}
           values={state.type}
           onChange={changeValueCallback('type')}
         />
@@ -98,8 +89,11 @@ export const CatalogueSearchPage = () => {
         >
           <CatalogueSearchFilters
             licences={state.licenseId}
+            licencesDistribution={distributions["licenseId"]}
             accesses={state.accessRights}
+            accessesDistribution={distributions["accessRights"]}
             themes={state.themeIds}
+            themesDistribution={distributions["themeIds"]}
             onChangeAccesses={changeValueCallback('accessRights')}
             onChangeLicenses={changeValueCallback('licenseId')}
             onChangeThemes={changeValueCallback('themeIds')}

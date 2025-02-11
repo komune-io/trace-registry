@@ -105,7 +105,7 @@ class CatalogueFinderService(
 			language = language,
 			query = query,
 			accessRights = accessRights,
-			catalogueIds = catalogueIds, parentIdentifier = parentIdentifier,
+			catalogueIds = catalogueIds,
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,

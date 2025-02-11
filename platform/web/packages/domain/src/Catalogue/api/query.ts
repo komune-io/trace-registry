@@ -38,6 +38,8 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
 export interface CatalogueSearchQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQueryDTO { }
 export interface CatalogueSearchResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResultDTO { }
 
+export interface FacetDistribution extends io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO { }
+
 export const useCatalogueSearchQuery = (params: QueryParams<CatalogueSearchQuery, CatalogueSearchResult>) => {
   const requestProps = useNoAuthenticatedRequest()
   return useQueryRequest<CatalogueSearchQuery, CatalogueSearchResult>(

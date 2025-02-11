@@ -38,10 +38,10 @@ class CatalogueSnapMeiliSearchRepository(
                     CatalogueModel::accessRights.name,
                     CatalogueModel::themeIds.name,
                     CatalogueModel::catalogueIds.name,
+                    CatalogueModel::licenseId.name,
                     CatalogueModel::type.name,
                     CatalogueModel::language.name
                 )
-
             }
 
             index.updateSettings(settings)
@@ -127,7 +127,6 @@ class CatalogueSnapMeiliSearchRepository(
 
         accessRights: List<String>?,
         catalogueIds: List<String>?,
-        parentIdentifier: List<String>?,
         type: List<String>?,
         themeIds: List<String>?,
         licenseId: List<String>?,
@@ -161,6 +160,7 @@ class CatalogueSnapMeiliSearchRepository(
                     .limit(page?.limit ?: 0)
                     .facets(
                         arrayOf(
+                            CatalogueModel::licenseId.name,
                             CatalogueModel::accessRights.name,
                             CatalogueModel::themeIds.name,
                             CatalogueModel::catalogueIds.name,

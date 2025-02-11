@@ -1,35 +1,26 @@
 import { Stack } from '@mui/material'
 import { SelectableChipGroup, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
+import {FacetDistribution} from '../../api'
 
 interface CatalogueSearchFiltersProps {
     licences?: string[]
+    licencesDistribution?: FacetDistribution[]
     onChangeLicenses?: (values: string[]) => void
     accesses?: string[]
+    accessesDistribution?: FacetDistribution[]
     onChangeAccesses?: (values: string[]) => void
     themes?: string[]
+    themesDistribution?: FacetDistribution[]
     onChangeThemes?: (values: string[]) => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { licences, onChangeLicenses, accesses, onChangeAccesses, themes, onChangeThemes } = props
-    const { t, i18n } = useTranslation()
-
-    const licenceList = useLicenseListQuery({
-        query: {
-
-        }
-    }).data?.items
-
-    const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
-        query: {
-            language: i18n.language,
-            type: "100m-solution"
-        },
-    })
-
-
+    const { licences, onChangeLicenses, licencesDistribution = [],
+      accesses, onChangeAccesses, accessesDistribution = [],
+      themes, onChangeThemes, themesDistribution = []
+    } = props
+    const { t } = useTranslation()
     return (
         <Stack
             gap={3.5}
@@ -43,30 +34,27 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             <TitleDivider title={t("filter")} size='subtitle1' />
             <SelectableChipGroup
                 title={t("licence")}
-                options={licenceList?.map((licence) => ({
-                    key: licence.id,
-                    label: licence.name
+                options={licencesDistribution?.map((distribution) => ({
+                    key: distribution.id,
+                    label: `${distribution.name} - ${distribution.size}`
                 }))}
                 values={licences}
                 onChange={onChangeLicenses}
             />
             <SelectableChipGroup
                 title={t("access")}
-                options={[{
-                    key: "public",
-                    label: t("public")
-                }, {
-                    key: "private",
-                    label: t("private")
-                }]}
+                options={accessesDistribution?.map((distribution) => ({
+                  key: distribution.id,
+                  label: `${distribution.name} - ${distribution.size}`
+                }))}
                 values={accesses}
                 onChange={onChangeAccesses}
             />
             <SelectableChipGroup
                 title={t("category")}
-                options={catalogueThemesQuery.data?.items.map((theme) => ({
-                    key: theme.id,
-                    label: theme.prefLabel,
+                options={themesDistribution.map((distribution) => ({
+                  key: distribution.id,
+                  label: `${distribution.name} - ${distribution.size}`
                 }))}
                 values={themes}
                 onChange={onChangeThemes}

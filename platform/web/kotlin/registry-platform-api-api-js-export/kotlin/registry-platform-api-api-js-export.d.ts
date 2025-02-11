@@ -2746,6 +2746,26 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
 
     }
 }
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    interface FacetPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
+        readonly total: number;
+        readonly items: T[];
+        distribution: Record<string, Record<string, number>>;
+
+    }
+    interface DistributionPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
+        readonly total: number;
+        readonly items: T[];
+        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
+
+    }
+    interface FacetDistributionDTO {
+        readonly id: string;
+        readonly name: string;
+        readonly size: number;
+
+    }
+}
 export declare namespace io.komune.registry.f2.concept.domain.command {
     interface ConceptCreateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCreateCommandDTO {
         readonly identifier?: string;
@@ -3464,9 +3484,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly licenseId?: string[];
 
     }
-    interface CatalogueSearchResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO>/*, io.komune.registry.s2.catalogue.domain.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> */ {
+    interface CatalogueSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
+        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
 
     }
 }
