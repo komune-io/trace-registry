@@ -3,6 +3,9 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
+import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
+import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetPageDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -61,7 +64,7 @@ data class CatalogueSearchQuery(
  */
 @JsExport
 @JsName("CatalogueSearchResultDTO")
-interface CatalogueSearchResultDTO: FacetPageDTO<CatalogueDTO>
+interface CatalogueSearchResultDTO: DistributionPageDTO<CatalogueDTO>
 
 /**
  * @d2 inherit
@@ -69,5 +72,5 @@ interface CatalogueSearchResultDTO: FacetPageDTO<CatalogueDTO>
 data class CatalogueSearchResult(
     override val items: List<CatalogueDTOBase>,
     override val total: Int,
-    override var distribution: Map<String, Map<String, Int>>
+    override var distribution: Map<String, List<FacetDistributionDTO>>
 ): CatalogueSearchResultDTO

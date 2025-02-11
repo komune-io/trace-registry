@@ -127,7 +127,6 @@ class CatalogueSnapMeiliSearchRepository(
 
         accessRights: List<String>?,
         catalogueIds: List<String>?,
-        parentIdentifier: List<String>?,
         type: List<String>?,
         themeIds: List<String>?,
         licenseId: List<String>?,

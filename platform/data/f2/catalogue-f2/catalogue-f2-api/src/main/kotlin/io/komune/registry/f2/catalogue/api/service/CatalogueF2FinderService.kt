@@ -16,10 +16,14 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
+import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
+import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.stereotype.Service
 
@@ -28,7 +32,8 @@ class CatalogueF2FinderService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueFinderService: CatalogueFinderService,
     private val catalogueI18nService: CatalogueI18nService,
-    private val conceptF2FinderService: ConceptF2FinderService
+    private val conceptF2FinderService: ConceptF2FinderService,
+    private val licenseF2FinderService: LicenseF2FinderService
 ) {
 
     suspend fun getOrNull(
@@ -91,7 +96,7 @@ class CatalogueF2FinderService(
         )
     }
     suspend fun search(
-        language: String,
+        language: Language,
         query: String?,
 
         accessRights: List<String>?,
@@ -104,11 +109,11 @@ class CatalogueF2FinderService(
         page: OffsetPagination? = null
     ): CatalogueSearchResult {
         val catalogues = catalogueFinderService.search(
-            language = language,
             query = query,
-            accessRights = accessRights,
             catalogueIds = catalogueIds,
 
+            accessRights = accessRights,
+            language = language,
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,
@@ -116,10 +121,43 @@ class CatalogueF2FinderService(
             page = page
         )
 
+//        catalogues.distribution[CatalogueModel::accessRights.name]
+
+        val themeDistribution = catalogues.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
+            val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
+            FacetDistribution(
+                id = theme?.id ?: key,
+                name = theme?.prefLabel ?: "",
+                size = size
+            )
+        } ?: emptyList<FacetDistributionDTO>()
+
+        val licenceDistribution = catalogues.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
+            val licence = licenseF2FinderService.getOrNull(key)
+            FacetDistribution(
+                id = licence?.id ?: key,
+                name = licence?.name ?: "",
+                size = size
+            )
+        } ?: emptyList<FacetDistributionDTO>()
+
+        val cataloguesDistribution = catalogues.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
+            val catalogue = getOrNull(key, language)
+            FacetDistribution(
+                id = catalogue?.id ?: key,
+                name = catalogue?.title ?: "",
+                size = size
+            )
+        } ?: emptyList<FacetDistributionDTO>()
+
         return CatalogueSearchResult(
             items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
             total = catalogues.total,
-            distribution = catalogues.distribution,
+            distribution = mapOf(
+                CatalogueModel::type.name to cataloguesDistribution,
+                CatalogueModel::licenseId.name to licenceDistribution,
+                CatalogueModel::themeIds.name to themeDistribution,
+            ),
         )
     }
 
