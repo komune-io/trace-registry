@@ -33,6 +33,7 @@ import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
@@ -64,7 +65,7 @@ class CatalogueF2AggregateService(
             identifier = catalogueIdentifier,
             withTranslatable = !i18nEnabled,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
-        )
+        ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand).toDTO()
 
         command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration) }
