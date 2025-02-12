@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidateFunction
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetFunction
+import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -55,4 +56,5 @@ open class CatalogueDraftClient(val client: F2Client) : CatalogueDraftApi {
     override fun catalogueDraftValidate(): CatalogueDraftValidateFunction = client.function("data/${this::catalogueDraftValidate.name}")
 
     override fun catalogueDraftGet(): CatalogueDraftGetFunction = client.function("data/${this::catalogueDraftGet.name}")
+    override fun catalogueDraftPage(): CatalogueDraftPageFunction = client.function("data/${this::catalogueDraftPage.name}")
 }

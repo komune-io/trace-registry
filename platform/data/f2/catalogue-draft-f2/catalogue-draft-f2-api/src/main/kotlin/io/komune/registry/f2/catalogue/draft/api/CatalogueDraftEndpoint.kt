@@ -1,5 +1,8 @@
 package io.komune.registry.f2.catalogue.draft.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
@@ -14,6 +17,8 @@ import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValida
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidatedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetFunction
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResult
+import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunction
+import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResult
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,6 +40,25 @@ class CatalogueDraftEndpoint(
         logger.info("catalogueDraftGet: $query")
         catalogueDraftF2FinderService.getOrNull(query.id)
             .let(::CatalogueDraftGetResult)
+    }
+
+    @Bean
+    override fun catalogueDraftPage(): CatalogueDraftPageFunction = f2Function { query ->
+        logger.info("catalogueDraftPage: $query")
+        catalogueDraftF2FinderService.page(
+            originalCatalogueId = query.originalCatalogueId?.let(::ExactMatch),
+            language = query.language?.let(::ExactMatch),
+            status = query.status?.let(::CollectionMatch),
+            offset = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 10
+            )
+        ).let {
+            CatalogueDraftPageResult(
+                items = it.items,
+                total = it.total
+            )
+        }
     }
 
     @Bean

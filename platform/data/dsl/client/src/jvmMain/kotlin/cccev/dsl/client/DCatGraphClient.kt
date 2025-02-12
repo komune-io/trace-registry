@@ -194,6 +194,7 @@ class DCatGraphClient(
             license = catalogue.license?.let {
                 LicenseGetByIdentifierQuery(it.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item?.id
             },
+            autoValidateDraft = true
         ) to catalogue.img?.let { SimpleFile(
             name = it,
             content = PathMatchingResourcePatternResolver().getResource(it).contentAsByteArray
@@ -278,10 +279,8 @@ fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
     structure = structure,
     homepage = homepage,
     themes = themes?.map { it.id },
-    creator = creator,
-    publisher = publisher,
-    validator = validator,
     accessRights = accessRights,
     license = license?.id,
     hidden = hidden,
+    autoValidateDraft = true
 )

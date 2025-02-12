@@ -26,5 +26,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         hidden = hidden,
         issued = issued,
         modified = modified,
+        version = version,
+        versionNotes = versionNotes
     )
 }

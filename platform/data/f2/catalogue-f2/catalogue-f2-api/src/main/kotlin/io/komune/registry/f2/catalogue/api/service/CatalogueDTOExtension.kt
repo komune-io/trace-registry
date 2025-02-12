@@ -11,7 +11,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -25,7 +24,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
 
@@ -89,10 +87,6 @@ fun CatalogueCreatedEvent.toDTO() = CatalogueCreatedEventDTOBase(
     id = id,
     identifier = identifier,
     draftId = null
-)
-
-fun CatalogueUpdatedEvent.toDTO() = CatalogueUpdatedEventDTOBase(
-    id = id
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(

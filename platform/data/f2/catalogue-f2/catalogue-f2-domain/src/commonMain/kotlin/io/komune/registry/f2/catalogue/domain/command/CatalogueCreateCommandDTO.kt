@@ -59,7 +59,7 @@ interface CatalogueCreateCommandDTO {
      */
     val hidden: Boolean?
 
-    val withDraft: Boolean
+    val autoValidateDraft: Boolean
 }
 
 /**
@@ -80,7 +80,7 @@ data class CatalogueCreateCommandDTOBase(
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
     override val hidden: Boolean? = null,
-    override val withDraft: Boolean,
+    override val autoValidateDraft: Boolean = false,
 ): CatalogueCreateCommandDTO
 
 /**

@@ -146,7 +146,9 @@ class CatalogueI18nService(
             title = translation.title,
             description = translation.description,
             datasetIds = catalogue.datasetIds + translation.datasetIds,
-            catalogueIds = catalogue.catalogueIds + translation.catalogueIds
+            catalogueIds = catalogue.catalogueIds + translation.catalogueIds,
+            version = translation.version,
+            versionNotes = translation.versionNotes,
         )
     }
 }

@@ -33,9 +33,9 @@ import io.komune.registry.script.imports.model.loadJsonCatalogue
 import io.komune.registry.script.init.RegistryScriptInitProperties
 import io.komune.registry.script.init.asAuthRealm
 import kotlinx.coroutines.runBlocking
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
-import org.slf4j.LoggerFactory
 
 class ImportScript(
     private val properties: RegistryScriptInitProperties
@@ -171,7 +171,8 @@ class ImportScript(
                     themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                     accessRights = importContext.settings.defaults?.accessRights,
                     license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                    catalogues = catalogueData.children
+                    catalogues = catalogueData.children,
+                    autoValidateDraft = true
                 ) to imageFile
                 val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 

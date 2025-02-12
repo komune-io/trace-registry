@@ -34,4 +34,6 @@ data class CatalogueModel(
     val hidden: Boolean,
     val issued: Long,
     val modified: Long,
+    val version: Int,
+    val versionNotes: String?,
 )

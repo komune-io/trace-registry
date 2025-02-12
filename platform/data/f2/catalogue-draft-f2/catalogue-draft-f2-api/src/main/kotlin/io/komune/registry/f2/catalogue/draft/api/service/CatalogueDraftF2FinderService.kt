@@ -1,5 +1,9 @@
 package io.komune.registry.f2.catalogue.draft.api.service
 
+import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.PageDTO
+import f2.dsl.cqrs.page.map
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
@@ -8,6 +12,7 @@ import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.stereotype.Service
@@ -19,6 +24,26 @@ class CatalogueDraftF2FinderService(
 ) {
     suspend fun getOrNull(id: CatalogueDraftId): CatalogueDraftDTOBase? {
         return catalogueDraftFinderService.getOrNull(id)?.toDTOCached()
+    }
+
+    suspend fun page(
+        id: Match<CatalogueDraftId>? = null,
+        originalCatalogueId: Match<CatalogueId>? = null,
+        language: Match<String>? = null,
+        baseVersion: Match<Int>? = null,
+        status: Match<CatalogueDraftState>? = null,
+        offset: OffsetPagination? = null,
+    ): PageDTO<CatalogueDraftDTOBase> {
+        val cache = Cache()
+
+        return catalogueDraftFinderService.page(
+            id = id,
+            originalCatalogueId = originalCatalogueId,
+            language = language,
+            baseVersion = baseVersion,
+            status = status,
+            offset = offset
+        ).map { it.toDTOCached(cache) }
     }
 
     private suspend fun CatalogueDraftModel.toDTOCached(cache: Cache = Cache()) = toDTO(
