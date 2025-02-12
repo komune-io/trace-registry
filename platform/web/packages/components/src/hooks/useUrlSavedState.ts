@@ -2,6 +2,17 @@ import { useCallback, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import qs from 'qs'
 
+const retrieveNumber = (value: any) => {
+  const number = Number(value)
+  if (!isNaN(number)) return number
+  return value
+}
+
+const unformatFieldValue = (value: any) => {
+  if (Array.isArray(value)) return value
+  return retrieveNumber(value)
+}
+
 interface UseUrlSavedStateParams<State extends {}> {
   initialState?: Partial<State>
 }
@@ -15,7 +26,10 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
 
   const state = useMemo(() => {
     const params = qs.parse(searchParams.toString()) as State
-    const state = { ...initialState, ...params}
+    const state = { ...initialState} as State
+    for (const fieldName in params) {
+      state[fieldName] = unformatFieldValue(params[fieldName])
+    }
     stateRef.current = state
     return state
   }, [initialState, searchParams])
