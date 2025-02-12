@@ -279,7 +279,6 @@
     "seeAllPrograms": "Ver todos los programas de este estándar",
     "seeAllMethodologies": "Ver todas las metodologías de este programa",
     "sectoralScopes": "Alcances sectoriales",
-    "presentation": "Explora nuestra biblioteca integral de hojas organizadas por categoría para descubrir soluciones dedicadas a la reducción de emisiones de CO2. Encuentra información adaptada a tus necesidades mediante una navegación temática o búsquedas precisas, y toma acciones concretas para lograr una descarbonización sostenible.",
     "newSection": "Nueva sección",
     "createAdraft": "Crear un borrador",
     "noData": "No se encontraron catálogos",
@@ -313,6 +312,33 @@
       "1-1-1": "3 columnas (tamaño igual)",
       "1-2-1": "3 columnas (25% - 50% - 25%)",
       "1-1-1-1": "4 columnas (tamaño igual)"
+    }
+  },
+  "http": {
+    "backendErrors": {
+    },
+    "errors": {
+      "data/cataloguePage": "No se pudo recuperar la lista de fichas",
+      "data/catalogueGet": "No se pudo recuperar la ficha",
+      "data/catalogueGetByIdentifier": "No se pudo recuperar la ficha",
+      "data/catalogueSearch": "No se pudo realizar la búsqueda",
+      "data/catalogueRefGetTree": "No se pudo recuperar la estructura del menú de fichas",
+      "data/catalogueListAvailableParents": "No se pudo recuperar la lista de fichas parentales",
+      "data/catalogueListAvailableThemes": "No se pudo recuperar la lista de categorías",
+      "data/licenseList": "No se pudo recuperar la lista de licencias",
+      "data/datasetDownloadDistribution": "No se pudo recuperar el contenido de la ficha",
+      "data/catalogueCreate": "No se pudo crear la ficha",
+      "data/catalogueUpdate": "No se pudieron guardar las modificaciones de los metadatos de la ficha",
+      "data/datasetAddJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
+      "data/datasetUpdateJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
+      "data/catalogueDelete": "No se pudo eliminar la ficha"
+    },
+    "success": {
+      "data/catalogueCreate": "La ficha ha sido creada correctamente",
+      "data/catalogueUpdate": "Las modificaciones de los metadatos de la ficha han sido guardadas correctamente",
+      "data/datasetAddJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
+      "data/datasetUpdateJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
+      "data/catalogueDelete": "La ficha ha sido eliminada correctamente"
     }
   }
 }

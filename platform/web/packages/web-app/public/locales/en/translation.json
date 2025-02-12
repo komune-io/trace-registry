@@ -279,7 +279,6 @@
     "seeAllPrograms": "See all programs from this standard",
     "seeAllMethodologies": "See all methodologies from this program",
     "sectoralScopes": "Sectoral scopes",
-    "presentation": "Browse our comprehensive library of sheets organized by category to discover dedicated solutions for reducing CO2 emissions. Find information tailored to your needs through thematic navigation or precise searches, and take concrete actions to achieve sustainable decarbonization.",
     "newSection": "New section",
     "createAdraft": "Create a draft",
     "noData": "No catalogues were found",
@@ -313,6 +312,33 @@
       "1-1-1": "3 columns (equal size)",
       "1-2-1": "3 columns (25% - 50% - 25%)",
       "1-1-1-1": "4 columns (equal size)"
+    }
+  },
+  "http": {
+    "backendErrors": {
+    },
+    "errors": {
+      "data/cataloguePage": "The list of sheets could not be retrieved",
+      "data/catalogueGet": "The sheet could not be retrieved",
+      "data/catalogueGetByIdentifier": "The sheet could not be retrieved",
+      "data/catalogueSearch": "The search results could not be retrieved",
+      "data/catalogueRefGetTree": "The tree of sheets could not be retrieved",
+      "data/catalogueListAvailableParents": "The list of parent sheets could not be retrieved",
+      "data/catalogueListAvailableThemes": "The list of themes could not be retrieved",
+      "data/licenseList": "The list of licenses could not be retrieved",
+      "data/datasetDownloadDistribution": "The content of the sheet could not be retrieved",
+      "data/catalogueCreate": "The sheet could not be created",
+      "data/catalogueUpdate": "The sheet metadata modifications could not be saved",
+      "data/datasetAddJsonDistribution": "The content modifications of the sheet could not be saved",
+      "data/datasetUpdateJsonDistribution": "The content modifications of the sheet could not be saved",
+      "data/catalogueDelete": "The sheet could not be deleted"
+    },
+    "success": {
+      "data/catalogueCreate": "The sheet has been successfully created",
+      "data/catalogueUpdate": "The modifications of the sheet metadata have been successfully saved",
+      "data/datasetAddJsonDistribution": "The modifications of the sheet content have been successfully saved",
+      "data/datasetUpdateJsonDistribution": "The modifications of the sheet content have been successfully saved",
+      "data/catalogueDelete": "The sheet has been successfully deleted"
     }
   }
 }

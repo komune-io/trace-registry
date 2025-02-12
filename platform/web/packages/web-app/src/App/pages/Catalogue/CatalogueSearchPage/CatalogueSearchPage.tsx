@@ -62,6 +62,7 @@ export const CatalogueSearchPage = () => {
       sx={{
         "& .MuiDialog-paper": {
           p: 3,
+          pb: 12,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
