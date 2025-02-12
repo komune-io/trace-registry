@@ -2,11 +2,11 @@ import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
-import { AccountCircle, Login, Logout, TravelExplore } from "@mui/icons-material";
+import { AccountCircle, Login, Logout } from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { GridIcon, useExtendedAuth, useRoutesDefinition, Menu } from "components";
 import { g2Config } from "@komune-io/g2";
-import { CatalogueRefTree, useCatalogueRefGetTreeQuery, useFlagGetQuery } from "domain-components";
+import { CatalogueRefTree, useCatalogueRefGetTreeQuery } from "domain-components";
 import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { MenuHeader } from "./MenuHeader";
@@ -46,16 +46,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
 
 export const useMenu = (t: TFunction) => {
   const location = useLocation()
-  const flagGetQuery = useFlagGetQuery()
   const { i18n } = useTranslation()
-  const module = useMemo(() => {
-    return flagGetQuery.data?.module ?? {
-      project: false,
-      data: false,
-      control: false,
-      identity: false
-    }
-  }, [flagGetQuery.data])
 
   const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
     query: {
@@ -66,7 +57,7 @@ export const useMenu = (t: TFunction) => {
       enabled: true
     }
   })
-  const { projects, cataloguesAll } = useRoutesDefinition()
+  const { cataloguesAll } = useRoutesDefinition()
   const secteurMenu = catalogueRefGetTreeQuery.data?.item?.catalogues
     ?.find(value => value.identifier == "100m-sectors")
   const secteurSubMenu = secteurMenu?.catalogues?.map(mapCatalogueRef([secteurMenu.identifier], cataloguesAll))
@@ -78,19 +69,12 @@ export const useMenu = (t: TFunction) => {
 
   const menu: MenuItem[] = useMemo(() => {
     return [
-      ...maybeAddItem(module.project, {
-        key: "project",
-        to: projects(),
-        label: t("exploreProjects"),
-        icon: <TravelExplore />,
-        isSelected: location.pathname.includes(projects())
-      }),
       {
         key: "systems",
         to: cataloguesAll(systemMenu?.identifier),
         label: t("systems"),
         icon: <GridIcon />,
-        isSelected: location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
+        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
         items: systemSubMenu ?? []
       },
       {
@@ -98,11 +82,11 @@ export const useMenu = (t: TFunction) => {
         to: cataloguesAll(secteurMenu?.identifier),
         label: "Secteur",
         icon: <GridIcon />,
-        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
+        isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
         items: secteurSubMenu ?? []
       }
     ]
-  }, [module.project, projects, location, t, catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll])
+  }, [location, t, catalogueRefGetTreeQuery.data?.item?.catalogues, cataloguesAll])
 
   return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }

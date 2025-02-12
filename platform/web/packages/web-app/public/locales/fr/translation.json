@@ -279,7 +279,6 @@
         "seeAllPrograms": "Voir tous les programmes de cette norme",
         "seeAllMethodologies": "Voir toutes les méthodologies de ce programme",
         "sectoralScopes": "Champs sectoriels",
-        "presentation": "Parcourez notre bibliothèque complète de fiches organisées par catégories pour découvrir des solutions dédiées à la réduction des émissions de CO2. Trouvez les informations adaptées à vos besoins grâce à une navigation thématique ou une recherche précise, et engagez-vous dans des actions concrètes pour décarboner durablement.",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
         "noData": "Aucun catalogue trouvé",
@@ -314,5 +313,32 @@
             "1-2-1": "3 colonnes (25% - 50% - 25%)",
             "1-1-1-1": "4 colonnes (taille égale)"
         }
+    },
+    "http": {
+      "backendErrors": {
+      },
+      "errors": {
+        "data/cataloguePage": "La liste des fiches n'a pas pu être récupérée",
+        "data/catalogueGet": "La fiche n'a pas pu être récupérée",
+        "data/catalogueGetByIdentifier": "La fiche n'a pas pu être récupérée",
+        "data/catalogueSearch": "La recherche n'a pas pu être effectuée",
+        "data/catalogueRefGetTree": "L'arborescence du menu des fiches n'a pas pu être récupérée",
+        "data/catalogueListAvailableParents": "La liste des fiches parentes n'a pas pu être récupérée",
+        "data/catalogueListAvailableThemes": "La liste des catégories n'a pas pu être récupérée",
+        "data/licenseList": "La liste des licences n'a pas pu être récupérée",
+        "data/datasetDownloadDistribution": "Le contenu de la fiche n'a pas pu être récupéré",
+        "data/catalogueCreate": "La fiche n'a pas pu être créée",
+        "data/catalogueUpdate": "Les modifications des métadonnées de la fiche n'ont pas pu être enregistrées",
+        "data/datasetAddJsonDistribution": "Les modifications du contenu de la fiche n'ont pas pu être enregistrées",
+        "data/datasetUpdateJsonDistribution": "Les modifications du contenu de la fiche n'ont pas pu être enregistrées",
+        "data/catalogueDelete": "La fiche n'a pas pu être supprimée"
+      },
+      "success": {
+        "data/catalogueCreate": "La fiche a bien été créée",
+        "data/catalogueUpdate": "Les modifications des métadonnées de la fiche ont bien été enregistrées",
+        "data/datasetAddJsonDistribution": "Les modifications du contenu de la fiche ont bien été enregistrées",
+        "data/datasetUpdateJsonDistribution": "Les modifications du contenu de la fiche ont bien été enregistrées",
+        "data/catalogueDelete": "La fiche a bien été supprimée"
+      }
     }
 }
