@@ -14,11 +14,11 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
-import kotlin.reflect.KCallable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import kotlin.reflect.KCallable
 
 @Service
 class CatalogueSnapMeiliSearchRepository(
@@ -78,7 +78,7 @@ class CatalogueSnapMeiliSearchRepository(
     }
 
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
-        if(entity.status == CatalogueState.DELETED) {
+        if (entity.status == CatalogueState.DELETED) {
             remove(entity.id)
             return@withContext
         }
