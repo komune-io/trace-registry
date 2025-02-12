@@ -1,10 +1,10 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
-import { Divider, Stack, Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
-import {Chip, g2Config} from "@komune-io/g2"
+import { Box, Divider, Stack, Typography } from '@mui/material'
+import {Chip} from "@komune-io/g2"
 import { Link } from 'react-router-dom'
 import { useRoutesDefinition } from 'components'
+import { useCatalogueIdentifierNumber } from '../../api'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -41,13 +41,11 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, identifier } = props
+    const { title, themes, id, } = props
 
     const {cataloguesAll} = useRoutesDefinition()
 
-    const [noImage, setnoImage] = useState(false)
-
-    const { t } = useTranslation()
+    const identifierNumber = useCatalogueIdentifierNumber(props)
 
     return (
         <Stack
@@ -55,12 +53,32 @@ const CatalogueResult = (props: Catalogue) => {
             alignItems="center"
             gap={3}
             component={Link}
-            to={cataloguesAll(identifier)}
+            to={cataloguesAll(id)}
             sx={{
                 textDecoration: "none"
             }}
         >
-            {!noImage && <img
+            <Box
+            sx={{
+                bgcolor: "#F9DC44",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "140px",
+                height: "80px",
+                borderRadius: 1
+            }}
+            >
+                <Typography
+                sx={{
+                    fontSize: "2rem",
+                    fontWeight: 600
+                }}
+                >
+                    {identifierNumber}
+                </Typography>
+            </Box>
+            {/* !noImage && <img
                 alt={t("sheetIllustration")}
                 src={g2Config().platform.url + `/data/catalogues/${id}/img`}
                 style={{
@@ -69,7 +87,7 @@ const CatalogueResult = (props: Catalogue) => {
                     borderRadius: "8px"
                 }}
                 onError={() => setnoImage(true)}
-            />}
+            /> */}
             <Stack
                 gap={1}
             >
