@@ -14,8 +14,10 @@ import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
 
 @Service
@@ -58,12 +60,14 @@ class CatalogueI18nService(
                 status = translation.status,
                 title = translation.title,
                 description = translation.description,
-                catalogues = translation.catalogueIds.mapNotNull {
-                    translateToRefDTO(catalogueFinderService.get(it), language , otherLanguageIfAbsent)
+                catalogues = translation.catalogueIds.mapNotNull { catalogueId ->
+                    catalogueFinderService.get(catalogueId)
+                        .takeIf { it.status != CatalogueState.DELETED }
+                        ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
                 },
                 datasets = translation.datasetIds
                     .map { datasetFinderService.get(it).toDTO() }
-                    .filter { it.language == translation.language },
+                    .filter { it.language == translation.language && it.status != DatasetState.DELETED },
                 themes = themes,
                 type = translation.type,
                 language = translation.language!!,
@@ -98,9 +102,10 @@ class CatalogueI18nService(
                 type = translation.type,
                 description = translation.description,
                 img = translation.img,
-                catalogues = translation.catalogueIds.nullIfEmpty()?.let {
-                    catalogueFinderService.page(id = CollectionMatch(it))
+                catalogues = translation.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
+                    catalogueFinderService.page(id = CollectionMatch(catalogueIds))
                         .items
+                        .filter { it.status != CatalogueState.DELETED }
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
                         .filterNotNull()
                 }
