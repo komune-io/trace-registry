@@ -298,7 +298,7 @@ class ImportScript(
                     mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
                     file = resourceFile.toSimpleFile()
                 )
-                matchedPathToActualPath[path] = "/data/datasetAddMediaDistribution/$resourcesDatasetId/$distributionId"
+                matchedPathToActualPath[path] = "/data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
             }
 
             modifiedText = modifiedText.replace(imageMatch.value, "![$alt](${matchedPathToActualPath[path]} $title)")
