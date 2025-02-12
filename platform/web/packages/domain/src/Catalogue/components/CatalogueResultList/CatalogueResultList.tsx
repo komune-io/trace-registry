@@ -15,9 +15,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
     const { catalogues, groupLabel } = props
 
     const display = useMemo(() => catalogues?.map((catalogue, index) => (
-        <Fragment
-        key={catalogue.id}
-        >
+        <Fragment key={catalogue.id}>
             <CatalogueResult {...catalogue} />
             {index < catalogues.length - 1 && <Divider />}
         </Fragment>
@@ -43,7 +41,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id } = props
+    const { title, themes, id, identifier } = props
 
     const {cataloguesAll} = useRoutesDefinition()
 
@@ -57,7 +55,7 @@ const CatalogueResult = (props: Catalogue) => {
             alignItems="center"
             gap={3}
             component={Link}
-            to={cataloguesAll(id)}
+            to={cataloguesAll(identifier)}
             sx={{
                 textDecoration: "none"
             }}
