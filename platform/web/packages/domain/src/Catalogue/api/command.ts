@@ -1,5 +1,6 @@
 import { io } from "registry-platform-api-api-js-export";
 import { useCommandWithFileRequest, CommandParams, CommandWithFile, useNoAuthenticatedRequest, useCommandRequest } from "@komune-io/g2"
+import {useAuthenticatedRequest} from "@komune-io/g2-providers";
 
 export interface CatalogueCreateCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTO { }
 export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO { }
@@ -61,7 +62,7 @@ export interface CatalogueDeletedEvent extends io.komune.registry.f2.catalogue.d
 export const useCatalogueDeleteCommand = (
     params: CommandParams<CatalogueDeleteCommand, CatalogueDeletedEvent>
 ) => {
-    const requestProps = useNoAuthenticatedRequest()
+    const requestProps = useAuthenticatedRequest()
     return useCommandRequest<
         CatalogueDeleteCommand,
         CatalogueDeletedEvent
