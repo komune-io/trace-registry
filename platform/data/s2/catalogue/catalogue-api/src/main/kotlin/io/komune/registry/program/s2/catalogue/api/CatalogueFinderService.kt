@@ -91,14 +91,12 @@ class CatalogueFinderService(
 	suspend fun search(
 		language: String,
 		query: String?,
-
 		accessRights: List<String>?,
 		catalogueIds: List<String>?,
 		parentIdentifier: List<String>?,
 		type: List<String>?,
 		themeIds: List<String>?,
 		licenseId: List<String>?,
-
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
 		return meiliSearch.searchFilters(
