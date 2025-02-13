@@ -31,6 +31,8 @@ interface CatalogueUpdateCommandDTO {
      */
     val id: CatalogueId
 
+    val draftId: CatalogueDraftId
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
      */
@@ -40,7 +42,6 @@ interface CatalogueUpdateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.description]
      */
     val description: String?
-
     val language: String
     val structure: StructureDTO?
     val homepage: String?
@@ -52,9 +53,6 @@ interface CatalogueUpdateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
     val hidden: Boolean?
-
-    val draftId: CatalogueDraftId?
-    val autoValidateDraft: Boolean
 }
 
 /**
@@ -63,6 +61,7 @@ interface CatalogueUpdateCommandDTO {
 @Serializable
 data class CatalogueUpdateCommandDTOBase(
     override val id: CatalogueId,
+    override val draftId: CatalogueDraftId,
     override val title: String,
     override val description: String? = null,
     override val language: String,
@@ -72,8 +71,6 @@ data class CatalogueUpdateCommandDTOBase(
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
     override val hidden: Boolean? = null,
-    override val draftId: CatalogueDraftId? = null,
-    override val autoValidateDraft: Boolean = false
 ): CatalogueUpdateCommandDTO
 
 /**

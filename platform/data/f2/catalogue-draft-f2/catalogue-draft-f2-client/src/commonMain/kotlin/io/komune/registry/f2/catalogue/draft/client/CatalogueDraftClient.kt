@@ -8,6 +8,7 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitFunction
@@ -49,6 +50,7 @@ fun catalogueDraftClient(
 @JsExport
 @JsName("CatalogueDraftClient")
 open class CatalogueDraftClient(val client: F2Client) : CatalogueDraftApi {
+    override fun catalogueDraftCreate(): CatalogueDraftCreateFunction = client.function("data/${this::catalogueDraftCreate.name}")
     override fun catalogueDraftSubmit(): CatalogueDraftSubmitFunction = client.function("data/${this::catalogueDraftSubmit.name}")
     override fun catalogueDraftRequestUpdate(): CatalogueDraftRequestUpdateFunction
         = client.function("data/${this::catalogueDraftRequestUpdate.name}")

@@ -19,4 +19,8 @@ object ExceptionCodes {
         const val PARENT_IS_DESCENDANT = 3001
         const val DRAFT_DOES_NOT_MATCH = 3002
     }
+
+    object Dataset {
+        const val DRAFT_DOES_NOT_MATCH = 4000
+    }
 }

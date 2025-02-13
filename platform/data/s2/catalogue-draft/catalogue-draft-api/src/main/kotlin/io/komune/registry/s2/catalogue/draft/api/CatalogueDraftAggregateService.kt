@@ -27,6 +27,7 @@ class CatalogueDraftAggregateService(
             originalCatalogueId = command.originalCatalogueId,
             language = command.language,
             baseVersion = command.baseVersion,
+            datasetIdMap = command.datasetIdMap,
             creatorId = AuthenticationProvider.getAuthedUser()!!.id
         )
     }

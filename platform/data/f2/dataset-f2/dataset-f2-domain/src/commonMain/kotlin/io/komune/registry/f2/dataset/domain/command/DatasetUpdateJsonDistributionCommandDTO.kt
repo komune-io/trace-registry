@@ -1,6 +1,7 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
@@ -31,6 +32,8 @@ interface DatasetUpdateJsonDistributionCommandDTO {
      */
     val distributionId: DistributionId
 
+    val draftId: CatalogueDraftId
+
     /**
      * JSON content of the distribution.
      * @example {"url": "http://example.com/dataset.json"}
@@ -45,6 +48,7 @@ interface DatasetUpdateJsonDistributionCommandDTO {
 data class DatasetUpdateJsonDistributionCommandDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
+    override val draftId: CatalogueDraftId,
     override val jsonContent: String
 ) : DatasetUpdateJsonDistributionCommandDTO
 

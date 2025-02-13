@@ -5,8 +5,11 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
+import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateFunction
@@ -29,6 +32,7 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 class CatalogueDraftEndpoint(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
+    private val catalogueDraftF2AggregateService: CatalogueDraftF2AggregateService,
     private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService
 ) : CatalogueDraftApi {
@@ -59,6 +63,13 @@ class CatalogueDraftEndpoint(
                 total = it.total
             )
         }
+    }
+
+    @Bean
+    override fun catalogueDraftCreate(): CatalogueDraftCreateFunction = f2Function { command ->
+        logger.info("catalogueDraftCreate: $command")
+        catalogueDraftF2AggregateService.create(command).id
+            .let(::CatalogueDraftCreatedEventDTOBase)
     }
 
     @Bean

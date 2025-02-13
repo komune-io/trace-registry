@@ -25,6 +25,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.model.Language
 
 fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
@@ -70,8 +71,9 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     hidden = hidden,
 )
 
-fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
+fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language) = CatalogueUpdateCommandDTOBase(
     id = id,
+    draftId = draftId,
     title = title,
     description = description,
     language = language,

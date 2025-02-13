@@ -5,6 +5,7 @@ import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.Language
@@ -35,6 +36,8 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     open var baseVersion: Int = 0
 
     open var rejectReason: String? = null
+
+    open var datasetIdMap: Map<DatasetId, DatasetId> = emptyMap()
 
     lateinit var creatorId: UserId
 

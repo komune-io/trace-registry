@@ -5,8 +5,10 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:data:s2:dataset:dataset-domain"))
-	commonMainApi(project(":platform:data:dsl:dcat"))
+	commonMainApi(project(Modules.data.s2.catalogue.domain))
+	commonMainApi(project(Modules.data.s2.catalogueDraft.domain))
+	commonMainApi(project(Modules.data.s2.dataset.domain))
+	commonMainApi(project(Modules.data.dsl.dcat))
 
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }

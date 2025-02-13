@@ -178,7 +178,7 @@ class CatalogueEndpoint(
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
 //        cataloguePoliciesEnforcer.checkCreate()
-        val event = catalogueF2AggregateService.createWithDraft(command)
+        val event = catalogueF2AggregateService.create(command)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
@@ -191,7 +191,7 @@ class CatalogueEndpoint(
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
 //        cataloguePoliciesEnforcer.checkUpdate()
-        val event = catalogueF2AggregateService.updateWithDraft(command)
+        val event = catalogueF2AggregateService.update(command)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
