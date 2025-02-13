@@ -2,6 +2,8 @@ package io.komune.registry.f2.catalogue.api
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.StringMatch
+import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
@@ -73,8 +75,8 @@ class CatalogueEndpoint(
         logger.info("cataloguePage: $query")
         cataloguePoliciesEnforcer.checkPage()
         catalogueF2FinderService.page(
-            catalogueId = query.catalogueId,
-            title = query.title,
+            catalogueId = query.catalogueId?.let(::ExactMatch),
+            title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status,
             parentIdentifier = query.parentIdentifier,
             language = query.language,

@@ -54,7 +54,7 @@ class CatalogueSnapMeiliSearchRepository(
         try {
             index.getDocument(id, CatalogueModel::class.java)
         } catch (e: MeilisearchApiException) {
-            if(e.code == "document_not_found") {
+            if (e.code == "document_not_found") {
                 null
             } else {
                 logger.error("Failed to load catalogue", e)
