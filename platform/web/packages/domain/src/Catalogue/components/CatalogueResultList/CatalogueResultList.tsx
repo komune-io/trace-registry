@@ -41,7 +41,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, } = props
+    const { title, themes, id } = props
 
     const {cataloguesAll} = useRoutesDefinition()
 
@@ -53,7 +53,7 @@ const CatalogueResult = (props: Catalogue) => {
             alignItems="center"
             gap={3}
             component={Link}
-            to={cataloguesAll(id)}
+            to={cataloguesAll(undefined, id)}
             sx={{
                 textDecoration: "none"
             }}
