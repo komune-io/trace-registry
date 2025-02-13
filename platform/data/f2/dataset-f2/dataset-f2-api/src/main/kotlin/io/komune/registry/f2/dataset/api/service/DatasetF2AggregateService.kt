@@ -47,11 +47,11 @@ class DatasetF2AggregateService(
 
     suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
         val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, null)
-        val event = datasetAggregateService.create(command.toCommand())
+        val event = datasetAggregateService.create(command.toCommand().copy(identifier = "${command.identifier}-draft"))
 
         CatalogueLinkDatasetsCommand(
             id = draft.catalogueId,
-            datasets = listOf(event.id)
+            datasetIds = listOf(event.id)
         ).let { catalogueAggregateService.linkDatasets(it) }
 
         return event.toDTO()

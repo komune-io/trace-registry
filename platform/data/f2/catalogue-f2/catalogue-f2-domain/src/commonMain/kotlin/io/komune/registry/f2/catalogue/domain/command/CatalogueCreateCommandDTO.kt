@@ -5,6 +5,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
@@ -46,7 +47,7 @@ interface CatalogueCreateCommandDTO {
     val description: String?
 
     val type: String
-    val language: String
+    val language: Language?
     val structure: Structure?
     val homepage: String?
     val themes: List<ConceptId>?
@@ -72,7 +73,7 @@ data class CatalogueCreateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val type: String,
-    override val language: String,
+    override val language: Language?,
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<ConceptId>? = null,

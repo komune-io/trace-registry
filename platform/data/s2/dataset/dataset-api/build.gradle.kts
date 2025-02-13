@@ -6,10 +6,11 @@ plugins {
 }
 
 dependencies {
-	api(project(":platform:data:s2:dataset:dataset-domain"))
+	api(project(Modules.data.s2.dataset.domain))
 
-	implementation(project(":platform:commons"))
-	implementation(project((":platform:infra:redis")))
+	implementation(project(Modules.commons))
+	implementation(project(Modules.infra.postgresql))
+	implementation(project(Modules.infra.redis))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2Sourcing(::implementation)

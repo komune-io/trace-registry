@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.dataset.api
 
+import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.s2.dataset.domain.DatasetAggregate
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
@@ -25,12 +26,17 @@ import java.util.UUID
 
 @Service
 class DatasetAggregateService(
-    private val automate: DatasetAutomateExecutor,
+	private val automate: DatasetAutomateExecutor,
+	private val sequenceRepository: SequenceRepository,
 ): DatasetAggregate {
+
+	companion object {
+		const val DATASET_ID_SEQUENCE = "dataset_id_sequence"
+	}
 
 	override suspend fun create(cmd: DatasetCreateCommand): DatasetCreatedEvent = automate.init(cmd) {
 		DatasetCreatedEvent(
-			id = "${cmd.identifier}:${cmd.language}:${cmd.version.orEmpty()}",
+			id = "${sequenceRepository.nextValOf(DATASET_ID_SEQUENCE)}-${cmd.identifier}",
 			date = System.currentTimeMillis(),
 			identifier = cmd.identifier,
 			title = cmd.title,
