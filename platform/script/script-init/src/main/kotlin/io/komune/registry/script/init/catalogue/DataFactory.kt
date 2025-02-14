@@ -7,6 +7,8 @@ import f2.client.ktor.http.plugin.F2Auth
 import io.komune.registry.dsl.dcat.domain.model.catalogue
 import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
+import io.komune.registry.f2.catalogue.draft.client.CatalogueDraftClient
+import io.komune.registry.f2.catalogue.draft.client.catalogueDraftClient
 import io.komune.registry.f2.concept.client.ConceptClient
 import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.DatasetClient
@@ -23,10 +25,13 @@ import net.datafaker.Faker
 
 class DataFactory(
     val catalogueClient: CatalogueClient,
+    val catalogueDraftClient: CatalogueDraftClient,
     val conceptClient: ConceptClient,
     val datasetClient: DatasetClient,
     val licenseClient: LicenseClient,
-    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(catalogueClient, conceptClient, datasetClient, licenseClient)
+    val dcatGraphClient:  DCatGraphClient = DCatGraphClient(
+        catalogueClient, catalogueDraftClient, conceptClient, datasetClient, licenseClient
+    )
 ) {
     val faker = Faker()
 
@@ -42,6 +47,7 @@ class DataFactory(
             }
             return DataFactory(
                 catalogueClient = f2Client.catalogueClient().invoke(),
+                catalogueDraftClient = f2Client.catalogueDraftClient().invoke(),
                 conceptClient = f2Client.conceptClient().invoke(),
                 datasetClient = f2Client.datasetClient().invoke(),
                 licenseClient = f2Client.licenseClient().invoke()
