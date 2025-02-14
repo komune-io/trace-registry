@@ -137,7 +137,7 @@ class ImportScript(
         val nbCatalogues = catalogueFiles.count()
 
         catalogueFiles.forEachIndexed { i, catalogueFile ->
-            logger.info("($i/${nbCatalogues}) Importing catalogue from ${catalogueFile.absolutePath}...")
+            logger.info("(${i + 1}/${nbCatalogues}) Importing catalogue from ${catalogueFile.absolutePath}...")
             importCatalogue(catalogueFile, importContext)
         }
         importContext.validateDrafts()
@@ -402,7 +402,9 @@ class ImportScript(
     }
 
     private suspend fun ImportContext.validateDrafts() {
-        drafts.forEach { (_, draftId) ->
+        logger.info("Validating drafts...")
+        drafts.values.forEachIndexed { i, draftId ->
+            logger.info("(${i + 1}/${drafts.size}) Validating draft [$draftId] ")
             CatalogueDraftValidateCommand(draftId)
                 .invokeWith(dataClient.catalogueDraft.catalogueDraftValidate())
         }
