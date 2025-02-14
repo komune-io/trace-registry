@@ -1,6 +1,5 @@
 import { io } from "registry-platform-api-api-js-export";
-import { useCommandWithFileRequest, CommandParams, CommandWithFile, useNoAuthenticatedRequest, useCommandRequest } from "@komune-io/g2"
-import { useAuthenticatedRequest } from "@komune-io/g2-providers";
+import { useCommandWithFileRequest, CommandParams, CommandWithFile, useAuthenticatedRequest, useCommandRequest } from "@komune-io/g2"
 
 export interface CatalogueCreateCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTO { }
 export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO { }
@@ -8,7 +7,7 @@ export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.d
 export const useCatalogueCreateCommand = (
     params: CommandParams<CommandWithFile<CatalogueCreateCommand>, CatalogueCreatedEvent>
 ) => {
-    const requestProps = useNoAuthenticatedRequest()
+    const requestProps = useAuthenticatedRequest()
     return useCommandWithFileRequest<
         CatalogueCreateCommand,
         CatalogueCreatedEvent
@@ -22,7 +21,7 @@ export interface CatalogueUpdatedEvent extends io.komune.registry.f2.catalogue.d
 export const useCatalogueUpdateCommand = (
     params: CommandParams<CommandWithFile<CatalogueUpdateCommand>, CatalogueUpdatedEvent>
 ) => {
-    const requestProps = useNoAuthenticatedRequest()
+    const requestProps = useAuthenticatedRequest()
     return useCommandWithFileRequest<
         CatalogueUpdateCommand,
         CatalogueUpdatedEvent
@@ -35,7 +34,7 @@ export interface DatasetAddedJsonDistributionEvent extends io.komune.registry.f2
 export const useDatasetAddJsonDistributionCommand = (
     params: CommandParams<DatasetAddJsonDistributionCommand, DatasetAddedJsonDistributionEvent>
 ) => {
-    const requestProps = useNoAuthenticatedRequest()
+    const requestProps = useAuthenticatedRequest()
     return useCommandRequest<
         DatasetAddJsonDistributionCommand,
         DatasetAddedJsonDistributionEvent
@@ -48,7 +47,7 @@ export interface DatasetUpdatedJsonDistributionEvent extends io.komune.registry.
 export const useDatasetUpdateJsonDistributionCommand = (
     params: CommandParams<DatasetUpdateJsonDistributionCommand, DatasetUpdatedJsonDistributionEvent>
 ) => {
-    const requestProps = useNoAuthenticatedRequest()
+    const requestProps = useAuthenticatedRequest()
     return useCommandRequest<
         DatasetUpdateJsonDistributionCommand,
         DatasetUpdatedJsonDistributionEvent
@@ -80,4 +79,43 @@ export const useCatalogueDraftCreateCommand = (
         CatalogueDraftCreateCommand,
         CatalogueDraftCreatedEvent
     >('data/catalogueDraftCreate', requestProps, params)
+}
+
+export interface CatalogueDraftSubmitCommand extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitCommandDTO { }
+export interface CatalogueDraftSubmittedEvent extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmittedEventDTO { }
+
+export const useCatalogueDraftSubmitCommand = (
+    params: CommandParams<CatalogueDraftSubmitCommand, CatalogueDraftSubmittedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueDraftSubmitCommand,
+        CatalogueDraftSubmittedEvent
+    >('data/catalogueDraftSubmit', requestProps, params)
+}
+
+export interface CatalogueDraftValidateCommand extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidateCommandDTO { }
+export interface CatalogueDraftValidatedEvent extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftValidatedEventDTO { }
+
+export const useCatalogueDraftValidateCommand = (
+    params: CommandParams<CatalogueDraftValidateCommand, CatalogueDraftValidatedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueDraftValidateCommand,
+        CatalogueDraftValidatedEvent
+    >('data/catalogueDraftValidate', requestProps, params)
+}
+
+export interface CatalogueDraftRejectCommand extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectCommandDTO { }
+export interface CatalogueDraftRejectedEvent extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectedEventDTO { }
+
+export const useCatalogueDraftRejectCommand = (
+    params: CommandParams<CatalogueDraftRejectCommand, CatalogueDraftRejectedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueDraftRejectCommand,
+        CatalogueDraftRejectedEvent
+    >('data/catalogueDraftReject', requestProps, params)
 }

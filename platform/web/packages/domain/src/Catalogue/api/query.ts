@@ -1,6 +1,5 @@
-import { g2Config, QueryParams, request, useQueryRequest } from "@komune-io/g2"
+import { g2Config, QueryParams, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
 import { io } from "registry-platform-api-api-js-export";
-import { useNoAuthenticatedRequest } from "../../config"
 import { useCallback, useMemo } from "react";
 import { Catalogue } from "../model";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +8,7 @@ export interface CatalogueGetQuery extends io.komune.registry.f2.catalogue.domai
 export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetResultDTO { }
 
 export const useCatalogueGetQuery = (params: QueryParams<CatalogueGetQuery, CatalogueGetResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueGetQuery, CatalogueGetResult>(
     "data/catalogueGet", requestProps, params
   )
@@ -19,7 +18,7 @@ export interface CatalogueGetByIdentifier extends io.komune.registry.f2.catalogu
 export interface CatalogueGetByIdentifierResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResultDTO { }
 
 export const useCatalogueGetByIdentifierQuery = (params: QueryParams<CatalogueGetByIdentifier, CatalogueGetByIdentifierResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueGetByIdentifier, CatalogueGetByIdentifierResult>(
     "data/catalogueGetByIdentifier", requestProps, params
   )
@@ -29,7 +28,7 @@ export interface CataloguePageQuery extends io.komune.registry.f2.catalogue.doma
 export interface CataloguePageResult extends io.komune.registry.f2.catalogue.domain.query.CataloguePageResultDTO { }
 
 export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, CataloguePageResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CataloguePageQuery, CataloguePageResult>(
     "data/cataloguePage", requestProps, params
   )
@@ -41,7 +40,7 @@ export interface CatalogueSearchResult extends io.komune.registry.f2.catalogue.d
 export interface FacetDistribution extends io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO { }
 
 export const useCatalogueSearchQuery = (params: QueryParams<CatalogueSearchQuery, CatalogueSearchResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueSearchQuery, CatalogueSearchResult>(
     "data/catalogueSearch", requestProps, params
   )
@@ -52,7 +51,7 @@ export interface CatalogueRefListQuery extends io.komune.registry.f2.catalogue.d
 export interface CatalogueRefListResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResultDTO { }
 
 export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefListQuery, CatalogueRefListResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueRefListQuery, CatalogueRefListResult>(
     "data/catalogueRefList", requestProps, params
   )
@@ -62,7 +61,7 @@ export interface CatalogueRefGetTreeQuery extends io.komune.registry.f2.catalogu
 export interface CatalogueRefGetTreeResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResultDTO { }
 
 export const useCatalogueRefGetTreeQuery = (params: QueryParams<CatalogueRefGetTreeQuery, CatalogueRefGetTreeResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueRefGetTreeQuery, CatalogueRefGetTreeResult>(
     "data/catalogueRefGetTree", requestProps, params
   )
@@ -72,7 +71,7 @@ export interface CatalogueListAvailableParentsQuery extends io.komune.registry.f
 export interface CatalogueListAvailableParentsResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResultDTO { }
 
 export const useCatalogueListAvailableParentsQuery = (params: QueryParams<CatalogueListAvailableParentsQuery, CatalogueListAvailableParentsResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueListAvailableParentsQuery, CatalogueListAvailableParentsResult>(
     "data/catalogueListAvailableParents", requestProps, params
   )
@@ -82,7 +81,7 @@ export interface CatalogueListAvailableThemesQuery extends io.komune.registry.f2
 export interface CatalogueListAvailableThemesResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResultDTO { }
 
 export const useCatalogueListAvailableThemesQuery = (params: QueryParams<CatalogueListAvailableThemesQuery, CatalogueListAvailableThemesResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueListAvailableThemesQuery, CatalogueListAvailableThemesResult>(
     "data/catalogueListAvailableThemes", requestProps, params
   )
@@ -92,7 +91,7 @@ export interface LicenseListQuery extends io.komune.registry.f2.license.domain.q
 export interface LicenseListResult extends io.komune.registry.f2.license.domain.query.LicenseListResultDTO { }
 
 export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, LicenseListResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<LicenseListQuery, LicenseListResult>(
     "data/licenseList", requestProps, params
   )
@@ -156,7 +155,7 @@ export interface CatalogueDraftPageQuery extends io.komune.registry.f2.catalogue
 export interface CatalogueDraftPageResult extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResultDTO { }
 
 export const useCatalogueDraftPageQuery = (params: QueryParams<CatalogueDraftPageQuery, CatalogueDraftPageResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueDraftPageQuery, CatalogueDraftPageResult>(
     "data/catalogueDraftPage", requestProps, params
   )
@@ -166,7 +165,7 @@ export interface CatalogueDraftGetQuery extends io.komune.registry.f2.catalogue.
 export interface CatalogueDraftGetResult extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResultDTO { }
 
 export const useCatalogueDraftGetQuery = (params: QueryParams<CatalogueDraftGetQuery, CatalogueDraftGetResult>) => {
-  const requestProps = useNoAuthenticatedRequest()
+  const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueDraftGetQuery, CatalogueDraftGetResult>(
     "data/catalogueDraftGet", requestProps, params
   )

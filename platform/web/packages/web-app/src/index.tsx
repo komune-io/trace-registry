@@ -6,7 +6,7 @@ import {
   g2Config,
   ThemeContextProvider,
   AlertHub,
-  /* OidcSecure */
+  OidcSecure
 } from "@komune-io/g2";
 import { languages } from "components";
 import { muiTheme, theme } from "Themes";
@@ -50,7 +50,7 @@ root.render(
       <KeycloakProvider
         configuration={oidcConfiguration}
       >
-        {/* <OidcSecure> */}
+        <OidcSecure>
         <AlertHub>
           <AppProvider
             languages={languages}
@@ -59,7 +59,7 @@ root.render(
             <AppRouter />
           </AppProvider>
         </AlertHub>
-        {/* </OidcSecure> */}
+        </OidcSecure>
       </KeycloakProvider>
     </React.StrictMode>
   </ThemeContextProvider>

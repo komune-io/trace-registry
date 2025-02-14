@@ -16,7 +16,7 @@ const strictRoutesAuthorizations = {
     "catalogues/:catalogueId/:draftId/edit": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
-    "catalogues/:catalogueId/verify": "open",
+    "catalogues/:catalogueId/:draftId/verify": "open",
     "catalogues/search": "open",
     "catalogues/*": "open",
 } as const

@@ -14,7 +14,7 @@ export const CatalogueEditionPage = () => {
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { cataloguesContributions, cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
 
@@ -52,7 +52,7 @@ export const CatalogueEditionPage = () => {
     }
   })
 
-  const {onDelete, onSave,  onSectionChange} = useDraftMutations({
+  const {onDelete, onSave,  onSectionChange, onSubmit, onValidate} = useDraftMutations({
     metadataFormState,
     setTab,
     catalogue,
@@ -74,16 +74,6 @@ export const CatalogueEditionPage = () => {
     ]
     return tabs
   }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading])
-
-  
-  const onSubmit = useCallback(
-    async () => {
-      navigate(cataloguesContributions() + "?successfullContribution=true")
-      return Promise.resolve()
-    },
-    [],
-
-  )
   
   const onChangeTitle = useCallback(
     (title: string) => {
@@ -129,7 +119,7 @@ export const CatalogueEditionPage = () => {
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader onDelete={onDelete} onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
+      <CatalogueEditionHeader draft={draft} onDelete={onDelete} onSubmit={onSubmit} onSave={onSave} onValidate={!simplified ? onValidate : undefined} catalogue={catalogue} />
       <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore

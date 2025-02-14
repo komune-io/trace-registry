@@ -30,7 +30,7 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogueEditionPage  />
   },
   {
-    path: "catalogues/:catalogueId/verify",
+    path: "catalogues/:catalogueId/:draftId/verify",
     element: <CatalogueValidationPage  />
   },
   {

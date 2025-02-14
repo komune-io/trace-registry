@@ -1,10 +1,11 @@
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
+import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
-import {useRef, useCallback} from 'react'
+import { useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
+import { useRoutesDefinition } from 'components'
 
 interface useDraftMutationsParams {
   metadataFormState: FormComposableState
@@ -20,6 +21,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
   const { i18n } = useTranslation()
+  const {cataloguesAll, cataloguesContributions} = useRoutesDefinition()
 
   const onSectionChange = useCallback(
     (editorState: EditorState) => {
@@ -85,34 +87,75 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           }
         }
       }
-      
+
       const res = await update
 
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
         refetchDraft()
+        return res
       }
     },
     [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, i18n.language, catalogueId, draftId, catalogue, refetchDraft],
   )
 
-    const deleteCatalogue = useCatalogueDeleteCommand({})
-  
-    const onDelete = useCallback(
-      async () => {
-        const res = await deleteCatalogue.mutateAsync({
-          id: catalogueId!
+  const validateDraft = useCatalogueDraftValidateCommand({})
+
+  const onValidate = useCallback(
+    async () => {
+      const updateRes = await onSave()
+      if (updateRes) {
+        const res = await validateDraft.mutateAsync({
+          id: draftId!,
         })
         if (res) {
-          navigate("/")
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          navigate(cataloguesAll(catalogueId))
         }
-      },
-      [deleteCatalogue.mutateAsync, catalogueId],
-    )
+      }
+    },
+    [onSave, catalogueId],
+  )
 
-    return {
-      onSave,
-      onDelete,
-      onSectionChange
-    }
+  const submitDraft = useCatalogueDraftSubmitCommand({})
+
+  const onSubmit = useCallback(
+    async (reason: string) => {
+      const updateRes = await onSave()
+      if (updateRes) {
+        const res = await submitDraft.mutateAsync({
+          id: draftId!,
+          versionNotes: reason
+        })
+        if (res) {
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          navigate(cataloguesContributions() + "?successfullContribution=true")
+        }
+      }
+    },
+    [],
+
+  )
+  
+  const deleteCatalogue = useCatalogueDeleteCommand({})
+
+  const onDelete = useCallback(
+    async () => {
+      const res = await deleteCatalogue.mutateAsync({
+        id: catalogueId!
+      })
+      if (res) {
+        navigate("/")
+      }
+    },
+    [deleteCatalogue.mutateAsync, catalogueId],
+  )
+
+  return {
+    onSave,
+    onDelete,
+    onValidate,
+    onSubmit,
+    onSectionChange
+  }
 }
