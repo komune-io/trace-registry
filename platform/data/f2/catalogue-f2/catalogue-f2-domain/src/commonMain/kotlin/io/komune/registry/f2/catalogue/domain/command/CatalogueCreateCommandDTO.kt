@@ -55,6 +55,8 @@ interface CatalogueCreateCommandDTO {
     val accessRights: String?
     val license: LicenseId?
 
+    val versionNotes: String?
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
@@ -80,6 +82,7 @@ data class CatalogueCreateCommandDTOBase(
     override val catalogues: List<CatalogueId>? = null,
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
+    override val versionNotes: String? = null,
     override val hidden: Boolean? = null,
     override val autoValidateDraft: Boolean = false,
 ): CatalogueCreateCommandDTO
@@ -102,9 +105,9 @@ interface CatalogueCreatedEventDTO: Event {
     val identifier: CatalogueIdentifier
 
     /**
-     * Id of the initialized draft, if any.
+     * Id of the initialized draft.
      */
-    val draftId: CatalogueDraftId?
+    val draftId: CatalogueDraftId
 }
 
 /**
@@ -114,5 +117,5 @@ interface CatalogueCreatedEventDTO: Event {
 data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
-    override val draftId: CatalogueDraftId? = null,
+    override val draftId: CatalogueDraftId,
 ): CatalogueCreatedEventDTO

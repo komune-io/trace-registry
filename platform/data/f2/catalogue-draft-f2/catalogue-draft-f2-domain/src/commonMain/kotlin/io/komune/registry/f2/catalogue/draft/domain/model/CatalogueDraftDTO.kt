@@ -54,6 +54,12 @@ interface CatalogueDraftDTO {
     val status: CatalogueDraftState
 
     /**
+     * Notes about the version
+     * @example "Fixed a typo in the description."
+     */
+    val versionNotes: String?
+
+    /**
      * Reason for rejecting the draft, if relevant.
      * @example "Even my handless grandma could do better."
      */
@@ -84,6 +90,7 @@ data class CatalogueDraftDTOBase(
     override val baseVersion: Int,
     override val creatorId: UserId,
     override val status: CatalogueDraftState,
+    override val versionNotes: String?,
     override val rejectReason: String?,
     override val issued: Long,
     override val modified: Long,

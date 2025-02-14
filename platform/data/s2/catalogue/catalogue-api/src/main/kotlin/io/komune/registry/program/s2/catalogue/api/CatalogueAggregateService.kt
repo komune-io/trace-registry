@@ -25,7 +25,9 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCom
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import org.springframework.stereotype.Service
 
 @Service
@@ -140,6 +142,17 @@ class CatalogueAggregateService(
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
 			hidden = cmd.hidden,
+			versionNotes = cmd.versionNotes
+		)
+	}
+
+	override suspend fun updateVersionNotes(
+		cmd: CatalogueUpdateVersionNotesCommand
+	): CatalogueUpdatedVersionNotesEvent = automate.transition(cmd) {
+		CatalogueUpdatedVersionNotesEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			versionNotes = cmd.versionNotes
 		)
 	}
 

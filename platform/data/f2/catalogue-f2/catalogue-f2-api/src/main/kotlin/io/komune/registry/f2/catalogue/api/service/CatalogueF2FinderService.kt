@@ -3,8 +3,6 @@ package io.komune.registry.f2.catalogue.api.service
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
-import f2.dsl.cqrs.filter.StringMatch
-import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
@@ -79,19 +77,19 @@ class CatalogueF2FinderService(
     }
 
     suspend fun page(
-        catalogueId: String?,
-        parentIdentifier: String?,
+        catalogueId: Match<String>? = null,
+        parentIdentifier: String? = null,
         language: String,
-        title: String?,
-        type: Match<String>?,
-        status: String?,
+        title: Match<String>? = null,
+        type: Match<String>? = null,
+        status: String? = null,
         hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null
     ): CataloguePageResult {
         val defaultValue = status?.let { CatalogueState.valueOf(it) } ?: CatalogueState.ACTIVE
         val catalogues = catalogueFinderService.page(
-            id = catalogueId?.let { ExactMatch(it) },
-            title = title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            id = catalogueId,
+            title = title,
             parentIdentifier = parentIdentifier,
             type = type,
             status = ExactMatch(defaultValue),
@@ -107,20 +105,17 @@ class CatalogueF2FinderService(
     suspend fun search(
         language: Language,
         query: String?,
-
         accessRights: List<String>?,
         catalogueIds: List<String>?,
         parentIdentifier: List<String>?,
         type: List<String>?,
         themeIds: List<String>?,
         licenseId: List<String>?,
-
         page: OffsetPagination? = null
     ): CatalogueSearchResult {
-        val catalogues = catalogueFinderService.search(
+        val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
-
             accessRights = accessRights,
             language = language,
             licenseId = licenseId,
@@ -132,14 +127,14 @@ class CatalogueF2FinderService(
 
 //        catalogues.distribution[CatalogueModel::accessRights.name]
 
-        val accessRightsDistribution = catalogues.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
+        val accessRightsDistribution = catalogueTranslations.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
             FacetDistribution(
                 id = key,
                 name = key,
                 size = size
             )
         } ?: emptyList<FacetDistributionDTO>()
-        val themeDistribution = catalogues.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
+        val themeDistribution = catalogueTranslations.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
             val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
             FacetDistribution(
                 id = theme?.id ?: key,
@@ -148,7 +143,7 @@ class CatalogueF2FinderService(
             )
         } ?: emptyList<FacetDistributionDTO>()
 
-        val licenceDistribution = catalogues.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
+        val licenceDistribution = catalogueTranslations.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
             val licence = licenseF2FinderService.getOrNull(key)
             FacetDistribution(
                 id = licence?.id ?: key,
@@ -157,7 +152,7 @@ class CatalogueF2FinderService(
             )
         } ?: emptyList<FacetDistributionDTO>()
 
-        val cataloguesDistribution = catalogues.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
+        val cataloguesDistribution = catalogueTranslations.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
             val catalogue = getOrNull("${key}s", language)
             FacetDistribution(
                 id = key,
@@ -165,9 +160,15 @@ class CatalogueF2FinderService(
                 size = size
             )
         } ?: emptyList<FacetDistributionDTO>()
+
+        val translatedCatalogues = page(
+            catalogueId = CollectionMatch(catalogueTranslations.items.map { it.id.substringBeforeLast('-') }),
+            language = language
+        ).items.associateBy { "${it.id}-$language" }
+
         return CatalogueSearchResult(
-            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
-            total = catalogues.total,
+            items = catalogueTranslations.items.mapNotNull { translatedCatalogues[it.id] },
+            total = catalogueTranslations.total,
             distribution = mapOf(
                 CatalogueModel::accessRights.name to accessRightsDistribution,
                 CatalogueModel::type.name to cataloguesDistribution,

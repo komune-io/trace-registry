@@ -21,7 +21,9 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCom
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 
 interface CatalogueAggregate {
 	suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent
@@ -34,5 +36,6 @@ interface CatalogueAggregate {
 	suspend fun unlinkDatasets(cmd: CatalogueUnlinkDatasetsCommand): CatalogueUnlinkedDatasetsEvent
 	suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent
 	suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent
+	suspend fun updateVersionNotes(cmd: CatalogueUpdateVersionNotesCommand): CatalogueUpdatedVersionNotesEvent
 	suspend fun delete(cmd: CatalogueDeleteCommand): CatalogueDeletedEvent
 }

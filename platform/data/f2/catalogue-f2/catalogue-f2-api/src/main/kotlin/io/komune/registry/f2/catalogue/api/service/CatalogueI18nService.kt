@@ -102,7 +102,9 @@ class CatalogueI18nService(
                 hidden = translated.hidden,
                 issued = translated.issued,
                 modified = translated.modified,
-                pendingDrafts = drafts?.items?.map { it.toRef() }
+                pendingDrafts = drafts?.items?.map { it.toRef() },
+                version = translated.version,
+                versionNotes = translated.versionNotes,
             )
         }
     }

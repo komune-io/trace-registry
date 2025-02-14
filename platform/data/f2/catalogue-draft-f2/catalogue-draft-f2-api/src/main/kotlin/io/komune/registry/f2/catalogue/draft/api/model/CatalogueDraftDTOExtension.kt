@@ -19,6 +19,7 @@ suspend fun CatalogueDraftModel.toDTO(
         baseVersion = baseVersion,
         creatorId = creatorId,
         status = status,
+        versionNotes = versionNotes,
         rejectReason = rejectReason,
         issued = issued,
         modified = max(modified, catalogue.modified),

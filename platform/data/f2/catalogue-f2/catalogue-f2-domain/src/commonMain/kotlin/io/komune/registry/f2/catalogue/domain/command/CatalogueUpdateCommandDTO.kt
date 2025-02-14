@@ -53,6 +53,8 @@ interface CatalogueUpdateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
     val hidden: Boolean?
+
+    val versionNotes: String?
 }
 
 /**
@@ -71,6 +73,7 @@ data class CatalogueUpdateCommandDTOBase(
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
     override val hidden: Boolean? = null,
+    override val versionNotes: String? = null,
 ): CatalogueUpdateCommandDTO
 
 /**

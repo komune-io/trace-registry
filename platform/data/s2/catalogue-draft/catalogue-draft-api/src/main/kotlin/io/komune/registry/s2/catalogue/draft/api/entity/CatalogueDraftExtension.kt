@@ -11,6 +11,7 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     creatorId = creatorId,
     datasetIdMap = datasetIdMap,
     status = status,
+    versionNotes = versionNotes,
     rejectReason = rejectReason,
     issued = issued,
     modified = modified

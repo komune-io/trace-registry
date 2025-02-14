@@ -21,6 +21,7 @@ data class CatalogueCreateCommand(
     val datasetIds: Set<DatasetId>,
     val accessRights: String?,
     val licenseId: LicenseId?,
+    val versionNotes: String?,
     val hidden: Boolean
 ): CatalogueInitCommand
 
@@ -33,6 +34,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val structure: Structure?
     val accessRights: String?
     val licenseId: LicenseId?
+    val versionNotes: String?
     val hidden: Boolean
 }
 
@@ -52,6 +54,7 @@ data class CatalogueCreatedEvent(
     val creatorId: UserId?,
     override val accessRights: String? = null,
     override val licenseId: LicenseId? = null,
+    override val versionNotes: String? = null,
     override val hidden: Boolean = false,
     override val date: Long,
 ): CatalogueDataEvent

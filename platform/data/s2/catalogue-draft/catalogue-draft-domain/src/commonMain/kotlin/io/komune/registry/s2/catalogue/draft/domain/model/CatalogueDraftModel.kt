@@ -16,6 +16,7 @@ data class CatalogueDraftModel(
     val creatorId: UserId,
     val datasetIdMap: Map<DatasetId, DatasetId>,
     val status: CatalogueDraftState,
+    val versionNotes: String?,
     val rejectReason: String?,
     val issued: Long,
     val modified: Long

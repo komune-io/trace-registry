@@ -13,6 +13,12 @@ interface CatalogueDraftSubmitCommandDTO : CatalogueDraftCommand {
      * Id of the draft to submit.
      */
     override val id: CatalogueDraftId
+
+    /**
+     * Notes about the submitted version.
+     * @example "Updated the description."
+     */
+    val versionNotes: String?
 }
 
 /**
@@ -20,11 +26,13 @@ interface CatalogueDraftSubmitCommandDTO : CatalogueDraftCommand {
  */
 @Serializable
 data class CatalogueDraftSubmitCommand(
-    override val id: CatalogueDraftId
+    override val id: CatalogueDraftId,
+    override val versionNotes: String?
 ) : CatalogueDraftSubmitCommandDTO
 
 @Serializable
 data class CatalogueDraftSubmittedEvent(
     override val id: CatalogueDraftId,
-    override val date: Long
+    override val date: Long,
+    val versionNotes: String?
 ) : CatalogueDraftEvent

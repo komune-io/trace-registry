@@ -76,7 +76,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftSubmit(): CatalogueDraftSubmitFunction = f2Function { command ->
         logger.info("catalogueDraftSubmit: $command")
-        catalogueDraftAggregateService.submit(command).id
+        catalogueDraftF2AggregateService.submit(command).id
             .let(::CatalogueDraftSubmittedEventDTOBase)
     }
 

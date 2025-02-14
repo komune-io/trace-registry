@@ -11,15 +11,20 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.program.s2.dataset.api.entity.toCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
+import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import org.springframework.stereotype.Service
 
 @Service
 class CatalogueDraftF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
+    private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueFinderService: CatalogueFinderService,
     private val catalogueI18nService: CatalogueI18nService,
@@ -72,5 +77,17 @@ class CatalogueDraftF2AggregateService(
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
+    }
+
+    suspend fun submit(command: CatalogueDraftSubmitCommand): CatalogueDraftSubmittedEvent {
+        val event = catalogueDraftAggregateService.submit(command)
+
+        val draft = catalogueDraftFinderService.get(event.id)
+        CatalogueUpdateVersionNotesCommand(
+            id = draft.catalogueId,
+            versionNotes = event.versionNotes
+        ).let { catalogueAggregateService.updateVersionNotes(it) }
+
+        return event
     }
 }

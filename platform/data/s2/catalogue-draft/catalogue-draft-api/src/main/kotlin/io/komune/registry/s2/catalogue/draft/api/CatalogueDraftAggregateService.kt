@@ -36,6 +36,7 @@ class CatalogueDraftAggregateService(
         CatalogueDraftSubmittedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            versionNotes = command.versionNotes,
         )
     }
 
