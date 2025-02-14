@@ -35,6 +35,8 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     @Indexed
     open var baseVersion: Int = 0
 
+    open var versionNotes: String? = null
+
     open var rejectReason: String? = null
 
     open var datasetIdMap: Map<DatasetId, DatasetId> = emptyMap()

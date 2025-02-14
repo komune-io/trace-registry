@@ -30,6 +30,7 @@ import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
@@ -79,7 +80,11 @@ class CatalogueF2AggregateService(
 
         // drafts are only for translations
         if (command.language == null) {
-            return originalCatalogueEvent
+            return CatalogueCreatedEventDTOBase(
+                id = originalCatalogueEvent.id,
+                identifier = originalCatalogueEvent.identifier,
+                draftId = ""
+            )
         }
 
         // create draft of the catalogue in the requested language
@@ -100,10 +105,13 @@ class CatalogueF2AggregateService(
 
         if (command.autoValidateDraft) {
             validateDraft(draftId)
-            return originalCatalogueEvent
         }
 
-        return originalCatalogueEvent.copy(draftId = draftId)
+        return CatalogueCreatedEventDTOBase(
+            id = originalCatalogueEvent.id,
+            identifier = originalCatalogueEvent.identifier,
+            draftId = draftId
+        )
     }
 
     suspend fun createOrphanTranslation(
@@ -111,7 +119,7 @@ class CatalogueF2AggregateService(
         inferIdentifier: Boolean,
         inferTranslationType: Boolean,
         initDatasets: Boolean
-    ): CatalogueCreatedEventDTOBase {
+    ): CatalogueCreatedEvent {
         requireNotNull(command.language) { "Language is required for catalogue translation." }
 
         val identifier = command.identifier.takeUnless { inferIdentifier }
@@ -190,6 +198,7 @@ class CatalogueF2AggregateService(
         draftedCatalogue.toUpdateCommand("", draft.language).copy(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
+            versionNotes = draft.versionNotes
         ).let { doUpdate(it) }
 
         // also map with automatically created datasets in doCreate
@@ -240,7 +249,7 @@ class CatalogueF2AggregateService(
 
     private suspend fun doCreate(
         command: CatalogueCreateCommandDTOBase, isTranslation: Boolean = false, initDatasets: Boolean = true
-    ): CatalogueCreatedEventDTOBase {
+    ): CatalogueCreatedEvent {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
@@ -252,7 +261,7 @@ class CatalogueF2AggregateService(
             withTranslatable = !i18nEnabled,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
         ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
-        val catalogueCreatedEvent = catalogueAggregateService.create(createCommand).toDTO()
+        val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
 
         command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration) }
 
@@ -263,7 +272,8 @@ class CatalogueF2AggregateService(
                 parentIdentifier = catalogueIdentifier,
                 language = command.language!!,
                 title = command.title,
-                description = command.description
+                description = command.description,
+                versionNotes = command.versionNotes
             )
         }
 
@@ -301,7 +311,8 @@ class CatalogueF2AggregateService(
                 draftId = "",
                 title = command.title,
                 description = command.description,
-                language = command.language
+                language = command.language,
+                versionNotes = command.versionNotes
             ).let { doUpdate(it) }
         } else {
             val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
@@ -311,7 +322,8 @@ class CatalogueF2AggregateService(
                 parentIdentifier = catalogue.identifier,
                 language = command.language,
                 title = command.title,
-                description = command.description
+                description = command.description,
+                versionNotes = command.versionNotes
             )
         }
 
@@ -395,14 +407,16 @@ class CatalogueF2AggregateService(
         parentIdentifier: CatalogueIdentifier,
         language: Language,
         title: String,
-        description: String?
+        description: String?,
+        versionNotes: String?
     ) {
         val translationId = CatalogueCreateCommandDTOBase(
             identifier = "$parentIdentifier-${language}",
             type = translationType,
             title = title,
             description = description,
-            language = language
+            language = language,
+            versionNotes = versionNotes,
         ).let { doCreate(it, isTranslation = true).id }
 
         CatalogueAddTranslationsCommand(

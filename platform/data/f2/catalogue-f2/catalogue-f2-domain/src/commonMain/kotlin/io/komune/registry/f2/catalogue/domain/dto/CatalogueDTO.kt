@@ -172,6 +172,9 @@ interface CatalogueDTO {
      * Pending drafts of the authenticated user for this catalogue.
      */
     val pendingDrafts: List<CatalogueDraftRefDTO>?
+
+    val version: Int
+    val versionNotes: String?
 }
 
 @Serializable
@@ -199,5 +202,7 @@ data class CatalogueDTOBase(
     override val issued: Long,
     override val modified: Long,
     override val hidden: Boolean = false,
-    override val pendingDrafts: List<CatalogueDraftRefDTOBase>? = null
+    override val pendingDrafts: List<CatalogueDraftRefDTOBase>? = null,
+    override val version: Int,
+    override val versionNotes: String? = null,
 ): CatalogueDTO

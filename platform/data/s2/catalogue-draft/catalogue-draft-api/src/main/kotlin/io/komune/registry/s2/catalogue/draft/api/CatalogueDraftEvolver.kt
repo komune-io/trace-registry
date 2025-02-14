@@ -48,6 +48,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.submit(event: CatalogueDraftSubmittedEvent) = apply {
 		status = CatalogueDraftState.SUBMITTED
 		modified = event.date
+		versionNotes = event.versionNotes
 	}
 
 	private suspend fun CatalogueDraftEntity.validate(event: CatalogueDraftValidatedEvent) = apply {

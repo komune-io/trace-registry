@@ -1,7 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
@@ -15,7 +14,6 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
@@ -54,6 +52,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     datasetIds = emptySet(),
     accessRights = accessRights,
     licenseId = license,
+    versionNotes = versionNotes.takeIf { withTranslatable },
     hidden = hidden,
 )
 
@@ -71,6 +70,7 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     accessRights = accessRights,
     licenseId = license,
     hidden = hidden,
+    versionNotes = versionNotes.takeIf { withTranslatable }
 )
 
 fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language) = CatalogueUpdateCommandDTOBase(
@@ -85,12 +85,6 @@ fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language
     accessRights = accessRights,
     license = licenseId,
     hidden = hidden
-)
-
-fun CatalogueCreatedEvent.toDTO() = CatalogueCreatedEventDTOBase(
-    id = id,
-    identifier = identifier,
-    draftId = null
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(

@@ -15,7 +15,8 @@ data class CatalogueUpdateCommand(
     val structure: Structure?,
     val accessRights: String?,
     val licenseId: String?,
-    val hidden: Boolean
+    val hidden: Boolean,
+    val versionNotes: String?,
 ): CatalogueCommand
 
 @Serializable
@@ -30,5 +31,6 @@ data class CatalogueUpdatedEvent(
     override val accessRights: String?,
     override val licenseId: String?,
     override val hidden: Boolean = false,
+    override val versionNotes: String?,
     override val date: Long,
 ): CatalogueDataEvent

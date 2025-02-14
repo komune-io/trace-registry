@@ -2799,6 +2799,7 @@ export declare namespace io.komune.registry.s2.catalogue.draft.domain.command {
 export declare namespace io.komune.registry.s2.catalogue.draft.domain.command {
     interface CatalogueDraftSubmitCommandDTO extends io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCommand {
         readonly id: string;
+        readonly versionNotes?: string;
 
     }
 }
@@ -3265,6 +3266,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly catalogues?: string[];
         readonly accessRights?: string;
         readonly license?: string;
+        readonly versionNotes?: string;
         readonly hidden?: boolean;
         readonly autoValidateDraft: boolean;
 
@@ -3272,7 +3274,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
         readonly identifier: string;
-        readonly draftId?: string;
+        readonly draftId: string;
 
     }
 }
@@ -3355,6 +3357,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly accessRights?: string;
         readonly license?: string;
         readonly hidden?: boolean;
+        readonly versionNotes?: string;
 
     }
     interface CatalogueUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -3389,6 +3392,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly modified: number;
         readonly hidden: boolean;
         readonly pendingDrafts?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO[];
+        readonly version: number;
+        readonly versionNotes?: string;
 
     }
 }
@@ -3583,6 +3588,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
 export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
     interface CatalogueDraftSubmitCommandDTO extends io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommandDTO {
         readonly id: string;
+        readonly versionNotes?: string;
 
     }
     interface CatalogueDraftSubmittedEventDTO {
@@ -3609,6 +3615,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly baseVersion: number;
         readonly creatorId: string;
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
+        readonly versionNotes?: string;
         readonly rejectReason?: string;
         readonly issued: number;
         readonly modified: number;

@@ -19,7 +19,7 @@ object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
-	val s2 = Framework.fixers
+	val s2 = "0.23.0-SNAPSHOT"
 	val fs = Framework.connect
 	val im = Framework.connect
     val cccev = Framework.connect
