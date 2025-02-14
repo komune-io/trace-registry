@@ -151,3 +151,23 @@ export const findLexicalDataset = (catalogue: Catalogue) => {
 
   return undefined
 }
+
+export interface CatalogueDraftPageQuery extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageQueryDTO { }
+export interface CatalogueDraftPageResult extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResultDTO { }
+
+export const useCatalogueDraftPageQuery = (params: QueryParams<CatalogueDraftPageQuery, CatalogueDraftPageResult>) => {
+  const requestProps = useNoAuthenticatedRequest()
+  return useQueryRequest<CatalogueDraftPageQuery, CatalogueDraftPageResult>(
+    "data/catalogueDraftPage", requestProps, params
+  )
+}
+
+export interface CatalogueDraftGetQuery extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetQueryDTO { }
+export interface CatalogueDraftGetResult extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResultDTO { }
+
+export const useCatalogueDraftGetQuery = (params: QueryParams<CatalogueDraftGetQuery, CatalogueDraftGetResult>) => {
+  const requestProps = useNoAuthenticatedRequest()
+  return useQueryRequest<CatalogueDraftGetQuery, CatalogueDraftGetResult>(
+    "data/catalogueDraftGet", requestProps, params
+  )
+}
