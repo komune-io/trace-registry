@@ -32,12 +32,6 @@ class CatalogueDraftF2AggregateService(
         val translatedOriginalCatalogue = catalogueI18nService.translate(originalCatalogue, command.language, false)
         val baseCatalogue = translatedOriginalCatalogue ?: originalCatalogue
 
-        val datasetIdMap = baseCatalogue.datasetIds.mapAsync { datasetId ->
-            val dataset = datasetFinderService.get(datasetId)
-            val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
-            datasetId to newId
-        }.toMap()
-
         // create copy of the translated original catalogue as a draft
         val draftedCatalogueId = CatalogueCreateCommandDTOBase(
             identifier = "${baseCatalogue.identifier}-${command.language}-draft-$now",
@@ -52,7 +46,19 @@ class CatalogueDraftF2AggregateService(
             accessRights = baseCatalogue.accessRights,
             license = baseCatalogue.licenseId,
             hidden = true
-        ).let { catalogueF2AggregateService.createOrphanTranslation(it, inferIdentifier = false, inferTranslationType = true).id }
+        ).let { catalogueF2AggregateService.createOrphanTranslation(
+            command = it,
+            inferIdentifier = false,
+            inferTranslationType = true,
+            // only init datasets in type configuration if no translation exists for the language yet to avoid duplications
+            initDatasets = translatedOriginalCatalogue == null
+        ).id }
+
+        val datasetIdMap = baseCatalogue.datasetIds.mapAsync { datasetId ->
+            val dataset = datasetFinderService.get(datasetId)
+            val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
+            datasetId to newId
+        }.toMap()
 
         CatalogueLinkDatasetsCommand(
             id = draftedCatalogueId,

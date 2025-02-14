@@ -86,7 +86,8 @@ class CatalogueF2AggregateService(
         val draftedCatalogueEvent = createOrphanTranslation(
             command = command.copy(identifier = originalCatalogueEvent.identifier),
             inferIdentifier = true,
-            inferTranslationType = true
+            inferTranslationType = true,
+            initDatasets = true
         )
 
         val draftId = CatalogueDraftCreateCommand(
@@ -109,6 +110,7 @@ class CatalogueF2AggregateService(
         command: CatalogueCreateCommandDTOBase,
         inferIdentifier: Boolean,
         inferTranslationType: Boolean,
+        initDatasets: Boolean
     ): CatalogueCreatedEventDTOBase {
         requireNotNull(command.language) { "Language is required for catalogue translation." }
 
@@ -122,7 +124,7 @@ class CatalogueF2AggregateService(
         return command.copy(
             identifier = identifier,
             type = translationType
-        ).let { doCreate(it, isTranslation = true) }
+        ).let { doCreate(it, isTranslation = true, initDatasets) }
     }
 
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
@@ -236,7 +238,9 @@ class CatalogueF2AggregateService(
             }
     }
 
-    private suspend fun doCreate(command: CatalogueCreateCommandDTOBase, isTranslation: Boolean = false): CatalogueCreatedEventDTOBase {
+    private suspend fun doCreate(
+        command: CatalogueCreateCommandDTOBase, isTranslation: Boolean = false, initDatasets: Boolean = true
+    ): CatalogueCreatedEventDTOBase {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
@@ -263,7 +267,7 @@ class CatalogueF2AggregateService(
             )
         }
 
-        if (command.language != null) {
+        if (initDatasets && command.language != null) {
             createAndLinkDatasets(
                 datasets = typeConfiguration?.datasets,
                 parentId = catalogueCreatedEvent.id,
