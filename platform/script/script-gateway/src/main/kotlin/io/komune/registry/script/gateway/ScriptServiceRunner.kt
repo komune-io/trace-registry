@@ -24,7 +24,7 @@ class ScriptServiceRunner(
 //            val initScript = InitScript(properties)
 //            runScript("Init", initScript::run)
             val importScript = ImportScript(properties)
-            runScript("Import") { importScript.run("platform/script/script-import/src/main/resources/centmillion") }
+            runScript("Import") { importScript.run("../script-import/src/main/resources/centmillion") }
         } catch (_: RuntimeException) {
         } finally {
             context.close()

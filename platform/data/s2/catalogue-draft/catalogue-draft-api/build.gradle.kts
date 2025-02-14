@@ -9,6 +9,7 @@ dependencies {
 	api(project(Modules.data.s2.catalogueDraft.domain))
 
 	implementation(project(Modules.commons))
+	implementation(project(Modules.infra.postgresql))
 	implementation(project(Modules.infra.redis))
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)

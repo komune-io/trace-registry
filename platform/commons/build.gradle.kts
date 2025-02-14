@@ -11,7 +11,6 @@ dependencies {
     Dependencies.Mpp.bignum(::commonMainApi)
 
     Dependencies.Jvm.jackson(::jvmMainApi)
-    Dependencies.Jvm.s2Sourcing(::jvmMainImplementation)
 
     jvmMainApi("io.komune.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
 }

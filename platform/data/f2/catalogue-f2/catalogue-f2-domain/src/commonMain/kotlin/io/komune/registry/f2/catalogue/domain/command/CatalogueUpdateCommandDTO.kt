@@ -92,6 +92,7 @@ interface CatalogueUpdatedEventDTO: Event {
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueUpdatedEventDTOBase(
     override val id: CatalogueId,
     override val draftId: CatalogueDraftId,

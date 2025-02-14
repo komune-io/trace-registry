@@ -25,6 +25,7 @@ import io.komune.registry.f2.license.client.LicenseClient
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
@@ -271,7 +272,7 @@ fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     title = title,
 )
 
-fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
+fun CatalogueDTOBase.toUpdateCommand(draftId: CatalogueDraftId) = CatalogueUpdateCommandDTOBase(
     id = id,
     title = title,
     description = description,
