@@ -11,6 +11,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -26,6 +27,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.Language
 
 fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
@@ -124,4 +126,12 @@ fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
 
 fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
     id = id
+)
+
+fun CatalogueDraftModel.toRef() = CatalogueDraftRefDTOBase(
+    id = id,
+    originalCatalogueId = originalCatalogueId,
+    language = language,
+    baseVersion = baseVersion,
+    status = status
 )

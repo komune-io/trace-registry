@@ -11,6 +11,7 @@ import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftEntity
 import io.komune.registry.s2.catalogue.draft.api.entity.`CatalogueDraftEntity$`
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -23,6 +24,7 @@ class CatalogueDraftPageQueryDB(
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
         baseVersion: Match<Int>? = null,
+        creatorId: Match<UserId>? = null,
         status: Match<CatalogueDraftState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueDraftEntity> = doQuery(offset) {
@@ -30,6 +32,7 @@ class CatalogueDraftPageQueryDB(
         match(`CatalogueDraftEntity$`.ORIGINAL_CATALOGUE_ID, originalCatalogueId)
         match(`CatalogueDraftEntity$`.LANGUAGE, language)
         match(`CatalogueDraftEntity$`.BASE_VERSION, baseVersion)
+        match(`CatalogueDraftEntity$`.CREATOR_ID, creatorId)
         match(`CatalogueDraftEntity$`.STATUS, status)
     }
 }

@@ -8,6 +8,7 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     originalCatalogueId = originalCatalogueId,
     language = language,
     baseVersion = baseVersion,
+    creatorId = creatorId,
     datasetIdMap = datasetIdMap,
     status = status,
     rejectReason = rejectReason,

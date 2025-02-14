@@ -53,6 +53,7 @@ class CatalogueDraftEndpoint(
             originalCatalogueId = query.originalCatalogueId?.let(::ExactMatch),
             language = query.language?.let(::ExactMatch),
             status = query.status?.let(::CollectionMatch),
+            creatorId = query.creatorId?.let(::ExactMatch),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 10
