@@ -39,6 +39,7 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
 
     open var datasetIdMap: Map<DatasetId, DatasetId> = emptyMap()
 
+    @TagIndexed
     lateinit var creatorId: UserId
 
     var issued: Long = 0

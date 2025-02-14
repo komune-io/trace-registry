@@ -17,6 +17,7 @@ suspend fun CatalogueDraftModel.toDTO(
         originalCatalogueId = originalCatalogueId,
         language = language,
         baseVersion = baseVersion,
+        creatorId = creatorId,
         status = status,
         rejectReason = rejectReason,
         issued = issued,

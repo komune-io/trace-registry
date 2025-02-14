@@ -7,6 +7,7 @@ import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.UserId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -27,6 +28,7 @@ interface CatalogueDraftPageQueryDTO {
     val originalCatalogueId: CatalogueId?
     val language: Language?
     val status: List<CatalogueDraftState>?
+    val creatorId: UserId?
     val offset: Int?
     val limit: Int?
 }
@@ -39,6 +41,7 @@ data class CatalogueDraftPageQuery(
     override val originalCatalogueId: CatalogueId?,
     override val language: Language?,
     override val status: List<CatalogueDraftState>?,
+    override val creatorId: UserId?,
     override val offset: Int?,
     override val limit: Int?
 ) : CatalogueDraftPageQueryDTO

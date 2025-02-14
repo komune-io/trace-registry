@@ -3258,7 +3258,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly type: string;
-        readonly language: string;
+        readonly language?: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
         readonly themes?: string[];
@@ -3388,6 +3388,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly issued: number;
         readonly modified: number;
         readonly hidden: boolean;
+        readonly pendingDrafts?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueDraftRefDTO {
+        readonly id: string;
+        readonly originalCatalogueId: string;
+        readonly language: string;
+        readonly baseVersion: number;
+        readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
 
     }
 }
@@ -3596,6 +3607,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly originalCatalogueId: string;
         readonly language: string;
         readonly baseVersion: number;
+        readonly creatorId: string;
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
         readonly rejectReason?: string;
         readonly issued: number;
@@ -3618,6 +3630,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.query {
         readonly originalCatalogueId?: string;
         readonly language?: string;
         readonly status?: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState[];
+        readonly creatorId?: string;
         readonly offset?: number;
         readonly limit?: number;
 

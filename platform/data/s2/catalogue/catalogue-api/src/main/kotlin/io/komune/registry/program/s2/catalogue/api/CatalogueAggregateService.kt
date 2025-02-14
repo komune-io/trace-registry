@@ -21,7 +21,9 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslatio
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import org.springframework.stereotype.Service
@@ -105,7 +107,15 @@ class CatalogueAggregateService(
 		CatalogueLinkedDatasetsEvent(
 			id = cmd.id,
 			date = System.currentTimeMillis(),
-			datasets = cmd.datasets
+			datasets = cmd.datasetIds
+		)
+	}
+
+	override suspend fun unlinkDatasets(cmd: CatalogueUnlinkDatasetsCommand): CatalogueUnlinkedDatasetsEvent = automate.transition(cmd) {
+		CatalogueUnlinkedDatasetsEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			datasets = cmd.datasetIds
 		)
 	}
 

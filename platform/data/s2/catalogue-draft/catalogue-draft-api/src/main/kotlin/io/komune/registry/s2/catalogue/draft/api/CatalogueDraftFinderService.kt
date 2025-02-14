@@ -14,6 +14,7 @@ import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,6 +52,7 @@ class CatalogueDraftFinderService(
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
         baseVersion: Match<Int>? = null,
+        creatorId: Match<UserId>? = null,
         status: Match<CatalogueDraftState>? = null,
         offset: OffsetPagination? = null,
     ) = catalogueDraftPageQueryDB.execute(
@@ -58,6 +60,7 @@ class CatalogueDraftFinderService(
         originalCatalogueId = originalCatalogueId,
         language = language,
         baseVersion = baseVersion,
+        creatorId = creatorId,
         status = status,
         offset = offset,
     ).map(CatalogueDraftEntity::toModel)
