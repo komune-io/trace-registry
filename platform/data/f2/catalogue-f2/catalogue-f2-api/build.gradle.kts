@@ -11,6 +11,7 @@ dependencies {
     implementation(project(Modules.data.f2.license.api))
 
     implementation(project(Modules.data.s2.catalogue.api))
+    implementation(project(Modules.data.s2.catalogueDraft.api))
 
     implementation(project(Modules.api.config))
     implementation(project(Modules.infra.fs))

@@ -1,22 +1,24 @@
 import { useMemo } from 'react'
-import { Catalogue } from '../../model'
+import { Catalogue, CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
 import { Button } from '@komune-io/g2'
 import { DeleteRounded, MoreVert } from '@mui/icons-material'
 import { useButtonMenu, useConfirmationPopUp, useToggleState } from 'components'
-import { CatalogueStatusChip } from '../CatalogueTable'
+import { DraftStatusChip } from '../CatalogueTable'
 import { SubmitModal } from './SubmitModal'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
+    draft?: CatalogueDraft
     onSave?: () => Promise<any>
+    onValidate?: () => Promise<any>
     onDelete?: () => Promise<any>
     onSubmit: (reason: string) => Promise<any>
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSave, onSubmit, onDelete } = props
+    const { catalogue, onSave, onSubmit, onDelete, onValidate, draft } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -58,16 +60,18 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             alignItems="center"
 
         >
-            {catalogue && <CatalogueStatusChip status={catalogue.status} />}
+            {draft && <DraftStatusChip status={draft?.status} />}
             <Box flex={1} />
+            {onValidate && <Button
+            onClick={onValidate}
+            >
+                {t("catalogues.validateTheDraft")}
+            </Button>}
             {onSave && <Button
                 onClick={onSave}
             >
-                {t("save")}
+                {t("catalogues.saveTheDraft")}
             </Button>}
-            <Button>
-                {t("catalogues.createAdraft")}
-            </Button>
             <Button
             onClick={toggle}
             >

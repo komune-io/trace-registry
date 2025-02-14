@@ -1,12 +1,12 @@
 package io.komune.registry.s2.structure.domain.model
 
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 typealias StructureId = String
 
 @JsExport
-interface StructureDto {
+interface StructureDTO {
     val type: String
     val definitions: Map<String, String>
 }
@@ -15,4 +15,4 @@ interface StructureDto {
 data class Structure(
     override val type: String,
     override val definitions: Map<String, String> = emptyMap(),
-): StructureDto
+): StructureDTO

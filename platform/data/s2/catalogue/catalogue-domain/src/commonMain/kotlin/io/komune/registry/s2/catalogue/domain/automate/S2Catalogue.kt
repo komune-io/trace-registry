@@ -12,12 +12,18 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
@@ -38,6 +44,10 @@ val s2Catalogue = s2Sourcing {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
+    selfTransaction<CatalogueRemoveTranslationsCommand, CatalogueRemovedTranslationsEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
     selfTransaction<CatalogueLinkCataloguesCommand, CatalogueLinkedCataloguesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
@@ -54,7 +64,15 @@ val s2Catalogue = s2Sourcing {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }
+    selfTransaction<CatalogueUnlinkDatasetsCommand, CatalogueUnlinkedDatasetsEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
     selfTransaction<CatalogueUpdateCommand, CatalogueUpdatedEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueUpdateVersionNotesCommand, CatalogueUpdatedVersionNotesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

@@ -3,9 +3,12 @@ package io.komune.registry.f2.catalogue.api.service
 import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.collectionMatchOf
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
+import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
@@ -16,73 +19,92 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
 
 @Service
 class CatalogueI18nService(
+    private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
     private val licenseF2FinderService: LicenseF2FinderService
 ) : I18nService() {
     suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
             CatalogueRefDTOBase(
-                id = translation.id,
-                identifier = translation.identifier,
-                title = translation.title,
-                language = translation.language!!,
-                availableLanguages = translation.translationIds.keys.toList(),
-                type = translation.type,
-                description = translation.description,
-                img = translation.img,
+                id = translated.id,
+                identifier = translated.identifier,
+                title = translated.title,
+                language = translated.language!!,
+                availableLanguages = translated.translationIds.keys.toList(),
+                type = translated.type,
+                description = translated.description,
+                img = translated.img,
             )
         }
     }
 
     suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
-            val themes = translation.themeIds?.mapNotNull {
-                conceptF2FinderService.getTranslatedOrNull(it, language ?: translation.language!!, otherLanguageIfAbsent)
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
+            val themes = translated.themeIds?.mapNotNull {
+                conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
             }
 
             val parent = catalogueFinderService.page(
-                childrenIds = ExactMatch(translation.id),
+                childrenIds = ExactMatch(translated.id),
                 offset = OffsetPagination(0, 1)
             ).items.firstOrNull()
 
+            val drafts = AuthenticationProvider.getAuthedUser()?.id?.let {
+                catalogueDraftFinderService.page(
+                    originalCatalogueId = ExactMatch(translated.id),
+                    status = collectionMatchOf(
+                        CatalogueDraftState.DRAFT,
+                        CatalogueDraftState.SUBMITTED,
+                        CatalogueDraftState.UPDATE_REQUESTED
+                    ),
+                    creatorId = ExactMatch(it),
+                    offset = OffsetPagination(0, 1)
+                )
+            }
+
             CatalogueDTOBase(
-                id = translation.id,
-                identifier = translation.identifier,
+                id = translated.id,
+                identifier = translated.identifier,
                 parentId = parent?.id,
-                status = translation.status,
-                title = translation.title,
-                description = translation.description,
-                catalogues = translation.catalogueIds.mapNotNull { catalogueId ->
-                    catalogueFinderService.get(catalogueId)
-                        .takeIf { it.status != CatalogueState.DELETED }
+                status = translated.status,
+                title = translated.title,
+                description = translated.description,
+                catalogues = translated.catalogueIds.mapNotNull { childId ->
+                    catalogueFinderService.get(childId)
+                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                         ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
                 },
-                datasets = translation.datasetIds
+                datasets = translated.datasetIds
                     .map { datasetFinderService.get(it).toDTO() }
-                    .filter { it.language == translation.language && it.status != DatasetState.DELETED },
+                    .filter { it.language == translated.language && it.status != DatasetState.DELETED },
                 themes = themes,
-                type = translation.type,
-                language = translation.language!!,
-                availableLanguages = translation.translationIds.keys.toList(),
-                structure = translation.structure,
-                homepage = translation.homepage,
-                img = translation.img,
-                creator = translation.creator,
-                publisher = translation.publisher,
-                validator = translation.validator,
-                accessRights = translation.accessRights,
-                license = translation.licenseId?.let { licenseF2FinderService.getOrNull(it) },
-                hidden = translation.hidden,
-                issued = translation.issued,
-                modified = translation.modified,
+                type = translated.type,
+                language = translated.language!!,
+                availableLanguages = translated.translationIds.keys.toList(),
+                structure = translated.structure,
+                homepage = translated.homepage,
+                img = translated.img,
+                creator = translated.creatorId?.let(::Agent),
+                publisher = translated.publisherId?.let(::Agent),
+                validator = translated.validatorId?.let(::Agent),
+                accessRights = translated.accessRights,
+                license = translated.licenseId?.let { licenseF2FinderService.getOrNull(it) },
+                hidden = translated.hidden,
+                issued = translated.issued,
+                modified = translated.modified,
+                pendingDrafts = drafts?.items?.map { it.toRef() },
+                version = translated.version,
+                versionNotes = translated.versionNotes,
             )
         }
     }
@@ -92,17 +114,17 @@ class CatalogueI18nService(
         language: Language?,
         otherLanguageIfAbsent: Boolean,
     ): CatalogueRefTreeDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translation ->
+        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
             CatalogueRefTreeDTOBase(
-                id = translation.id,
-                identifier = translation.identifier,
-                title = translation.title,
-                language = translation.language!!,
-                availableLanguages = translation.translationIds.keys.toList(),
-                type = translation.type,
-                description = translation.description,
-                img = translation.img,
-                catalogues = translation.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
+                id = translated.id,
+                identifier = translated.identifier,
+                title = translated.title,
+                language = translated.language!!,
+                availableLanguages = translated.translationIds.keys.toList(),
+                type = translated.type,
+                description = translated.description,
+                img = translated.img,
+                catalogues = translated.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     catalogueFinderService.page(id = CollectionMatch(catalogueIds))
                         .items
                         .filter { it.status != CatalogueState.DELETED }
@@ -145,7 +167,9 @@ class CatalogueI18nService(
             title = translation.title,
             description = translation.description,
             datasetIds = catalogue.datasetIds + translation.datasetIds,
-            catalogueIds = catalogue.catalogueIds + translation.catalogueIds
+            catalogueIds = catalogue.catalogueIds + translation.catalogueIds,
+            version = translation.version,
+            versionNotes = translation.versionNotes,
         )
     }
 }

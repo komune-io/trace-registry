@@ -15,23 +15,27 @@ export interface LanguageSelectorProps {
     currentLanguage?: string
     onChange?: (languageTag: string) => void
     sx?: SxProps<Theme>
+    disabled?: boolean
 }
 
 export const LanguageSelector = (props: LanguageSelectorProps) => {
     const { i18n } = useExtendedI18n()
-    const {languages, currentLanguage, onChange, sx} = props
+    const {languages, currentLanguage, onChange, sx, disabled = false} = props
 
     const onLanguageChange = useCallback(
         (event: SelectChangeEvent) => {
-            i18n.changeLanguage(event.target.value as keyof Languages)
-            onChange && onChange(event.target.value)
+            if (onChange) {
+                onChange(event.target.value as string)
+            } else {
+                i18n.changeLanguage(event.target.value as keyof Languages)
+            }
         },
         [i18n.changeLanguage, onChange],
     )
 
     useEffect(() => {
         //if current language is not a short tag like fr-FR we change it to the short tag like fr
-        if (i18n.language.includes("-")) {
+        if (i18n.language.includes("-") && !onChange) {
             const splited = i18n.language.split("-")
             i18n.changeLanguage(splited[0] as keyof Languages)
         }
@@ -54,6 +58,7 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
             value={currentLanguage ?? i18n.language}
             onChange={onLanguageChange}
             IconComponent={KeyboardArrowDownRounded}
+            disabled={disabled}
         >
             {
                 Object.keys(languages ?? defaultLanguages).map((lng) => (

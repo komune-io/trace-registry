@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.catalogue.domain.CatalogueAggregate
@@ -15,12 +16,18 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import org.springframework.stereotype.Service
 
 @Service
@@ -43,12 +50,10 @@ class CatalogueAggregateService(
 			structure = cmd.structure,
 			catalogueIds = cmd.catalogueIds,
 			datasetIds = cmd.datasetIds,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
+			creatorId = AuthenticationProvider.getAuthedUser()?.id,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
-			hidden = cmd.hidden,
+			hidden = cmd.hidden
 		)
 	}
 
@@ -74,6 +79,14 @@ class CatalogueAggregateService(
 		)
 	}
 
+	override suspend fun removeTranslations(cmd: CatalogueRemoveTranslationsCommand) = automate.transition(cmd) {
+		CatalogueRemovedTranslationsEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			languages = cmd.languages.toSet()
+		)
+	}
+
 	override suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
 		CatalogueLinkedCataloguesEvent(
 			id =  cmd.id,
@@ -96,7 +109,15 @@ class CatalogueAggregateService(
 		CatalogueLinkedDatasetsEvent(
 			id = cmd.id,
 			date = System.currentTimeMillis(),
-			datasets = cmd.datasets
+			datasets = cmd.datasetIds
+		)
+	}
+
+	override suspend fun unlinkDatasets(cmd: CatalogueUnlinkDatasetsCommand): CatalogueUnlinkedDatasetsEvent = automate.transition(cmd) {
+		CatalogueUnlinkedDatasetsEvent(
+			id = cmd.id,
+			date = System.currentTimeMillis(),
+			datasets = cmd.datasetIds
 		)
 	}
 
@@ -118,12 +139,20 @@ class CatalogueAggregateService(
 			themeIds = cmd.themeIds,
 			homepage = cmd.homepage,
 			structure = cmd.structure,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
 			hidden = cmd.hidden,
+			versionNotes = cmd.versionNotes
+		)
+	}
+
+	override suspend fun updateVersionNotes(
+		cmd: CatalogueUpdateVersionNotesCommand
+	): CatalogueUpdatedVersionNotesEvent = automate.transition(cmd) {
+		CatalogueUpdatedVersionNotesEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			versionNotes = cmd.versionNotes
 		)
 	}
 

@@ -10,8 +10,9 @@ dependencies {
 	api(project(Modules.data.s2.concept.domain))
 
 	implementation(project(Modules.commons))
-	implementation(project(Modules.infra.redis))
 	implementation(project(Modules.infra.meilisearch))
+	implementation(project(Modules.infra.postgresql))
+	implementation(project(Modules.infra.redis))
 
 	implementation(project(Modules.api.config))
 

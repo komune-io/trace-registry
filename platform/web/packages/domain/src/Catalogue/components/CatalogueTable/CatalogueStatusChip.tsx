@@ -5,8 +5,6 @@ import { CatalogueStatus } from '../../model'
 export const catalogueSatusToColor: Record<CatalogueStatus, string> = {
     "ACTIVE": "#159D50",
     "DELETED": "#750D0E",
-    //@ts-ignore
-    "DRAFT": "#2F2E2F"
 }
 
 interface CatalogueStatusChipProps {

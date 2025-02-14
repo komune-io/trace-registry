@@ -3,12 +3,10 @@ package io.komune.registry.f2.dataset.api
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
-import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.serveFile
-import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.f2.dataset.api.data.DataProvider
+import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.api.service.toCommand
@@ -16,19 +14,16 @@ import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
-import io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
-import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
-import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataResult
@@ -40,16 +35,11 @@ import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
-import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
-import io.ktor.utils.io.core.toByteArray
 import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
@@ -63,13 +53,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
 
 @RestController
 @RequestMapping
 class DatasetEndpoint(
     private val dataProvider: DataProvider,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetF2FinderService: DatasetF2FinderService,
     private val datasetFinderService: DatasetFinderService,
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
@@ -160,203 +150,104 @@ class DatasetEndpoint(
 
     @PermitAll
     @Bean
-    override fun datasetCreate(): DatasetCreateFunction = f2Function { cmd ->
-        logger.info("datasetCreate: $cmd")
+    override fun datasetCreate(): DatasetCreateFunction = f2Function { command ->
+        logger.info("datasetCreate: $command")
 //        datasetPoliciesEnforcer.checkCreation()
-        datasetAggregateService.create(cmd.toCommand()).toDTO()
+        datasetF2AggregateService.create(command)
     }
 
     @PermitAll
     @Bean
-    override fun datasetDelete(): DatasetDeleteFunction = f2Function { cmd ->
-        logger.info("datasetDelete: $cmd")
-        datasetPoliciesEnforcer.checkDelete(cmd.id)
-        datasetAggregateService.delete(cmd).toDTO()
+    override fun datasetDelete(): DatasetDeleteFunction = f2Function { command ->
+        logger.info("datasetDelete: $command")
+        datasetPoliciesEnforcer.checkDelete(command.id)
+        datasetAggregateService.delete(command).toDTO()
     }
 
     @PermitAll
     @Bean
-    override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { cmd ->
+    override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { command ->
         datasetPoliciesEnforcer.checkLinkDatasets()
-        datasetAggregateService.linkDatasets(cmd.toCommand()).toDTO()
+        datasetAggregateService.linkDatasets(command.toCommand()).toDTO()
     }
 
     @PermitAll
     @Bean
-    override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { cmd ->
-        logger.info("datasetLinkThemes: $cmd")
+    override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { command ->
+        logger.info("datasetLinkThemes: $command")
         datasetPoliciesEnforcer.checkLinkThemes()
-        datasetAggregateService.linkThemes(cmd.toCommand()).toDTO()
+        datasetAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
     @PermitAll
     @PostMapping("/data/datasetSetImage")
     suspend fun datasetSetImage(
-        @RequestPart("command") cmd: DatasetSetImageCommandDTOBase,
+        @RequestPart("command") command: DatasetSetImageCommandDTOBase,
         @RequestPart("file") file: FilePart?
     ): DatasetSetImageEventDTOBase {
-        logger.info("datasetSetImage: $cmd")
+        logger.info("datasetSetImage: $command")
 //        datasetPoliciesEnforcer.checkSetImg()
         val filePath = file?.let {
             fsService.uploadDatasetImg(
                 filePart = file,
-                objectId = cmd.id,
+                objectId = command.id,
             ).path
         }
         val result = datasetAggregateService.setImageCommand(
             cmd = DatasetSetImageCommand(
-                id = cmd.id,
+                id = command.id,
                 img = filePath,
             )
         )
         return DatasetSetImageEventDTOBase(
-            id = cmd.id,
+            id = command.id,
             img = result.img,
         )
     }
 
     @PermitAll
     @Bean
-    override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { cmd ->
-        logger.info("datasetAddJsonDistribution: $cmd")
+    override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { command ->
+        logger.info("datasetAddJsonDistribution: $command")
 //        datasetPoliciesEnforcer.checkUpdateDistributions()
-
-        val path = FsPath.Dataset.distribution(cmd.id, "${UUID.randomUUID()}.json")
-        fileClient.fileUpload(path.toUploadCommand(), cmd.jsonContent.toByteArray())
-
-        val event = DatasetAddDistributionCommand(
-            id = cmd.id,
-            downloadPath = path,
-            mediaType = "application/json"
-        ).let { datasetAggregateService.addDistribution(it) }
-
-        DatasetAddedJsonDistributionEventDTOBase(
-            id = cmd.id,
-            distributionId = event.distributionId
-        )
+        datasetF2AggregateService.addJsonDistribution(command)
     }
 
     @PermitAll
     @PostMapping("/data/datasetAddMediaDistribution")
     suspend fun datasetAddMediaDistribution(
-        @RequestPart("command") cmd: DatasetAddMediaDistributionCommandDTOBase,
+        @RequestPart("command") command: DatasetAddMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): DatasetAddedMediaDistributionEventDTOBase {
-        logger.info("datasetAddMediaDistribution: $cmd")
+        logger.info("datasetAddMediaDistribution: $command")
 //        datasetPoliciesEnforcer.checkUpdateDistributions()
-
-        val fileExtension = file.filename()
-            .substringAfterLast('.', "")
-            .ifBlank { null }
-            ?.let { ".$it" }
-            .orEmpty()
-
-        val path = FsPath.Dataset.distribution(cmd.id, "${UUID.randomUUID()}$fileExtension")
-        fileClient.fileUpload(path.toUploadCommand(), file.contentByteArray())
-
-        val event = DatasetAddDistributionCommand(
-            id = cmd.id,
-            downloadPath = path,
-            mediaType = cmd.mediaType
-        ).let { datasetAggregateService.addDistribution(it) }
-
-        return DatasetAddedMediaDistributionEventDTOBase(
-            id = cmd.id,
-            distributionId = event.distributionId
-        )
+        return datasetF2AggregateService.addMediaDistribution(command, file)
     }
 
     @PermitAll
     @Bean
-    override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction = f2Function { cmd ->
-        logger.info("datasetUpdateJsonDistribution: $cmd")
+    override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction = f2Function { command ->
+        logger.info("datasetUpdateJsonDistribution: $command")
 //        datasetPoliciesEnforcer.checkUpdateDistributions()
-
-        val distribution = datasetFinderService.getDistribution(cmd.id, cmd.distributionId)
-
-        fileClient.fileUpload(distribution.downloadPath.toUploadCommand(), cmd.jsonContent.toByteArray())
-
-        val event = DatasetUpdateDistributionCommand(
-            id = cmd.id,
-            distributionId = cmd.distributionId,
-            downloadPath = distribution.downloadPath,
-            mediaType = "application/json"
-        ).let { datasetAggregateService.updateDistribution(it) }
-
-        DatasetUpdatedJsonDistributionEventDTOBase(
-            id = cmd.id,
-            distributionId = event.distributionId
-        )
+        datasetF2AggregateService.updateJsonDistribution(command)
     }
 
     @PermitAll
     @PostMapping("/data/datasetUpdateMediaDistribution")
     suspend fun datasetUpdateMediaDistribution(
-        @RequestPart("command") cmd: DatasetUpdateMediaDistributionCommandDTOBase,
+        @RequestPart("command") command: DatasetUpdateMediaDistributionCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): DatasetUpdatedMediaDistributionEventDTOBase {
-        logger.info("datasetUpdateMediaDistribution: $cmd")
+        logger.info("datasetUpdateMediaDistribution: $command")
 //        datasetPoliciesEnforcer.checkUpdateDistributions()
-
-        val distribution = datasetFinderService.getDistribution(cmd.id, cmd.distributionId)
-
-        val fileExtension = file.filename()
-            .substringAfterLast('.', "")
-            .ifBlank { null }
-            ?.let { ".$it" }
-            .orEmpty()
-
-        val oldPath = distribution.downloadPath
-        val newPath = oldPath.copy(
-            name = oldPath.name.substringBeforeLast('.') + fileExtension
-        )
-        fileClient.fileUpload(newPath.toUploadCommand(), file.contentByteArray())
-
-        val event = DatasetUpdateDistributionCommand(
-            id = cmd.id,
-            distributionId = cmd.distributionId,
-            downloadPath = newPath,
-            mediaType = cmd.mediaType
-        ).let { datasetAggregateService.updateDistribution(it) }
-
-        if (oldPath != newPath) {
-            FileDeleteCommand(
-                objectType = oldPath.objectType,
-                objectId = oldPath.objectId,
-                directory = oldPath.directory,
-                name = oldPath.name
-            ).let { fileClient.fileDelete(listOf(it)) }
-        }
-
-        return DatasetUpdatedMediaDistributionEventDTOBase(
-            id = cmd.id,
-            distributionId = event.distributionId
-        )
+        return datasetF2AggregateService.updateMediaDistribution(command, file)
     }
 
     @PermitAll
     @Bean
-    override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction = f2Function { cmd ->
-        logger.info("datasetRemoveDistribution: $cmd")
-
-        val distribution = datasetFinderService.getDistribution(cmd.id, cmd.distributionId)
-        val path = distribution.downloadPath
-
-        DatasetRemoveDistributionCommand(
-            id = cmd.id,
-            distributionId = cmd.distributionId
-        ).let { datasetAggregateService.removeDistribution(it) }
-
-        FileDeleteCommand(
-            objectType = path.objectType,
-            objectId = path.objectId,
-            directory = path.directory,
-            name = path.name
-        ).let { fileClient.fileDelete(listOf(it)) }
-
-        DatasetRemovedDistributionEventDTOBase(
-            id = cmd.id,
-            distributionId = cmd.distributionId
-        )
+    override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction = f2Function { command ->
+        logger.info("datasetRemoveDistribution: $command")
+//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetF2AggregateService.removeDistribution(command)
     }
 }

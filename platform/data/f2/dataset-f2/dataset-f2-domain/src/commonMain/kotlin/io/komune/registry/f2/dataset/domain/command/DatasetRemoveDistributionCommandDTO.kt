@@ -1,6 +1,7 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
@@ -26,6 +27,8 @@ interface DatasetRemoveDistributionCommandDTO {
      */
     val id: DatasetId
 
+    val draftId: CatalogueDraftId
+
     /**
      * Id of the distribution to remove.
      */
@@ -38,6 +41,7 @@ interface DatasetRemoveDistributionCommandDTO {
 @Serializable
 data class DatasetRemoveDistributionCommandDTOBase(
     override val id: DatasetId,
+    override val draftId: CatalogueDraftId,
     override val distributionId: DistributionId
 ) : DatasetRemoveDistributionCommandDTO
 

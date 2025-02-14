@@ -1,7 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
@@ -11,11 +10,10 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
@@ -25,7 +23,10 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.Language
 
 fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
     catalogues?.forEach {
@@ -48,11 +49,10 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     homepage = homepage,
     themeIds = themes?.toSet().orEmpty(),
     catalogueIds = catalogues?.toSet().orEmpty(),
-    creator = creator,
-    publisher = publisher,
-    validator = validator,
+    datasetIds = emptySet(),
     accessRights = accessRights,
     licenseId = license,
+    versionNotes = versionNotes.takeIf { withTranslatable },
     hidden = hidden,
 )
 
@@ -67,21 +67,24 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     structure = structure,
     homepage = homepage,
     themeIds = themes?.toSet().orEmpty(),
-    creator = creator,
-    publisher = publisher,
-    validator = validator,
     accessRights = accessRights,
     licenseId = license,
     hidden = hidden,
+    versionNotes = versionNotes.takeIf { withTranslatable }
 )
 
-fun CatalogueCreatedEvent.toDTO() = CatalogueCreatedEventDTOBase(
+fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language) = CatalogueUpdateCommandDTOBase(
     id = id,
-    identifier = identifier,
-)
-
-fun CatalogueUpdatedEvent.toDTO() = CatalogueUpdatedEventDTOBase(
-    id = id
+    draftId = draftId,
+    title = title,
+    description = description,
+    language = language,
+    structure = structure,
+    homepage = homepage,
+    themes = themeIds,
+    accessRights = accessRights,
+    license = licenseId,
+    hidden = hidden
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
@@ -95,7 +98,7 @@ fun CatalogueLinkedCataloguesEvent.toDTO() = CatalogueLinkedCataloguesEventDTOBa
 
 fun CatalogueLinkDatasetsCommandDTOBase.toCommand() = CatalogueLinkDatasetsCommand(
     id = id,
-    datasets = datasetIds
+    datasetIds = datasetIds
 )
 
 fun CatalogueLinkedDatasetsEvent.toDTO() = CatalogueLinkedDatasetsEventDTOBase(
@@ -117,4 +120,12 @@ fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
 
 fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
     id = id
+)
+
+fun CatalogueDraftModel.toRef() = CatalogueDraftRefDTOBase(
+    id = id,
+    originalCatalogueId = originalCatalogueId,
+    language = language,
+    baseVersion = baseVersion,
+    status = status
 )

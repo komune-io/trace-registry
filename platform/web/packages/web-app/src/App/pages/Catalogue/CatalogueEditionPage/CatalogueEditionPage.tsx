@@ -1,32 +1,42 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, useCatalogueGetQuery, CatalogueTypes, useCatalogueUpdateCommand, CatalogueCreateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, findLexicalDataset, useCatalogueDeleteCommand } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, CatalogueTypes, useCatalogueDraftGetQuery, useCatalogueGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { g2Config, useFormComposable } from '@komune-io/g2';
 import { maybeAddItem } from 'App/menu';
+import { useDraftMutations } from './useDraftMutations';
 import { useQueryClient } from '@tanstack/react-query';
-import { EditorState } from 'lexical';
 
 export const CatalogueEditionPage = () => {
-  const { catalogueId } = useParams()
+  const {draftId, catalogueId } = useParams()
   const [tab, setTab] = useState("info")
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate()
-  const { cataloguesContributions } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+  const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
-  const editorStateRef = useRef<EditorState | undefined>(undefined)
 
   const simplified = false
 
-  const catalogueQuery = useCatalogueGetQuery({
+  const originalCatalogueQuery = useCatalogueGetQuery({
     query: {
       id: catalogueId!
     },
   })
 
-  const catalogue = catalogueQuery.data?.item
+  const catalogueDraftQuery = useCatalogueDraftGetQuery({
+    query: {
+      id: draftId!
+    },
+  })
+
+  const draft = catalogueDraftQuery.data?.item
+
+  const catalogue = catalogueDraftQuery.data?.item?.catalogue
+
+  const isDefLoading = originalCatalogueQuery.isLoading || catalogueDraftQuery.isLoading || isLoading
 
   const formInitialValues = useMemo(() => catalogue ? ({
     ...catalogue,
@@ -36,21 +46,20 @@ export const CatalogueEditionPage = () => {
   }) : undefined, [catalogue])
 
   const metadataFormState = useFormComposable({
-    isLoading: catalogueQuery.isInitialLoading,
+    isLoading: isDefLoading,
     formikConfig: {
       initialValues: formInitialValues
     }
   })
 
+  const {onDelete, onSave,  onSectionChange, onSubmit, onValidate} = useDraftMutations({
+    metadataFormState,
+    setTab,
+    catalogue,
+    refetchDraft: catalogueDraftQuery.refetch
+  })
+
   const title = catalogue?.title ?? t("sheetEdition")
-
-  const onSectionChange = useCallback(
-    (editorState: EditorState) => {
-      editorStateRef.current = editorState
-    },
-    [],
-  )
-
 
   const tabs: Tab[] = useMemo(() => {
     const tabs: Tab[] = [...maybeAddItem(!simplified, {
@@ -60,88 +69,12 @@ export const CatalogueEditionPage = () => {
     }), {
       key: 'info',
       label: t('informations'),
-      component: <CatalogueSections onSectionChange={onSectionChange} catalogue={catalogue} />,
+      component: <CatalogueSections isLoading={isDefLoading} onSectionChange={onSectionChange} catalogue={catalogue} />,
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, simplified, onSectionChange])
-
-  const catalogueUpdate = useCatalogueUpdateCommand({})
-
-  const addJsonDistribution = useDatasetAddJsonDistributionCommand({})
-
-  const updateJsonDistribution = useDatasetUpdateJsonDistributionCommand({})
-
-  const onSave = useCallback(
-    async () => {
-      const errors = await metadataFormState.validateForm()
-      if (Object.keys(errors).length > 0) {
-        setTab("metadata")
-        return
-      }
-      const command = { ...metadataFormState.values } as CatalogueCreateCommand & { illustration?: File }
-      delete command.illustration
-      const update = catalogueUpdate.mutateAsync({
-        command: {
-          // form fields
-          title: metadataFormState.values.title,
-          description: metadataFormState.values.description,
-          themes: metadataFormState.values.themes ? [metadataFormState.values.themes] : undefined,
-          license: metadataFormState.values.license,
-          accessRights: metadataFormState.values.accessRights,
-          // keeping the same values
-          structure: metadataFormState.values.structure,
-          creator: metadataFormState.values.creator,
-          hidden: metadataFormState.values.hidden,
-          homepage: metadataFormState.values.homepage,
-          publisher: metadataFormState.values.publisher,
-          validator: metadataFormState.values.validator,
-          language: i18n.language,
-          id: catalogueId!
-        },
-        files: metadataFormState.values.illustration ? [{
-          file: metadataFormState.values.illustration
-        }] : []
-      })
-
-      const dataset = catalogue ? findLexicalDataset(catalogue) : undefined
-
-      if (dataset && dataset.distribution.mediaType === "application/json") {
-        await updateJsonDistribution.mutateAsync({
-          id: dataset.dataSet.id,
-          jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
-          distributionId: dataset.distribution.id
-        })
-      } else {
-        const dataSetId = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")?.id
-        if (dataSetId) {
-          await addJsonDistribution.mutateAsync({
-            id: dataSetId,
-            jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
-          })
-        }
-      }
-
-      const res = await update
-
-      if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
-        queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
-        catalogueQuery.refetch()
-      }
-    },
-    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, i18n.language, catalogueId, catalogue],
-  )
-
-  const onSubmit = useCallback(
-    async () => {
-      navigate(cataloguesContributions() + "?successfullContribution=true")
-      return Promise.resolve()
-    },
-    [],
-  )
+  }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading])
+  
   const onChangeTitle = useCallback(
     (title: string) => {
       metadataFormState.setFieldValue("title", title)
@@ -149,22 +82,36 @@ export const CatalogueEditionPage = () => {
     [metadataFormState.setFieldValue],
   )
 
-  const deleteCatalogue = useCatalogueDeleteCommand({})
 
-  const onDelete = useCallback(
-    async () => {
-      const res = await deleteCatalogue.mutateAsync({
-        id: catalogueId!
+  const createDraft = useCatalogueDraftCreateCommand({})
+
+  const onChangeLanguage = useCallback(
+    async (languageTag: string) => {
+      const originalCatalogue = originalCatalogueQuery.data?.item
+      if (!originalCatalogue) return
+      
+      const existingDraft = originalCatalogue.pendingDrafts?.find(draft => draft.language === languageTag)
+      if (existingDraft) {
+        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, existingDraft.id))
+        return
+      }
+
+      setIsLoading(true)
+
+      const res = await createDraft.mutateAsync({
+        catalogueId: catalogueId!,
+        language: languageTag
       })
+
+      setIsLoading(false)
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
-        navigate("/")
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", {id: catalogueId!}] })
+        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.id))
       }
     },
-    [deleteCatalogue.mutateAsync, catalogueId],
+    [createDraft.mutateAsync, catalogueId, originalCatalogueQuery.data?.item],
   )
+  
   
   return (
     <AppPage
@@ -172,14 +119,15 @@ export const CatalogueEditionPage = () => {
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader onDelete={onDelete} onSubmit={onSubmit} onSave={!simplified ? onSave : undefined} catalogue={catalogue} />
+      <CatalogueEditionHeader draft={draft} onDelete={onDelete} onSubmit={onSubmit} onSave={onSave} onValidate={!simplified ? onValidate : undefined} catalogue={catalogue} />
       <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore
         languages={languages}
-        currentLanguage='fr'
-        onChange={() => { }}
+        currentLanguage={draft?.language}
+        onChange={onChangeLanguage}
         sx={{ alignSelf: "flex-end", mb: -8 }}
+        disabled={isLoading}
       />
       <SectionTab
         keepMounted

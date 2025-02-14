@@ -4,7 +4,7 @@ services:
     image: redis/redis-stack:7.2.0-v13
     container_name: verr-redis
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
     ports:

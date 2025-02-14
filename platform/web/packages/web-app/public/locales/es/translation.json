@@ -263,8 +263,14 @@
   "catalogues": {
     "status": {
       "ACTIVE": "Activo",
-      "DELETED": "Eliminado",
-      "DRAFT": "Borrador"
+      "DELETED": "Eliminado"
+    },
+    "draftStatus": {
+      "DRAFT": "Borrador",
+      "REJECTED": "Rechazado",
+      "SUBMITTED": "Enviado para validación",
+      "UPDATE_REQUESTED": "Actualización solicitada",
+      "VALIDATED": "Validado"
     },
     "types": {
       "100m-sector": "Sector",
@@ -295,7 +301,9 @@
     "globalSearch": "Buscar una solución, un sistema, un sector...",
     "startWritingContent": "Empieza a escribir el contenido de tu hoja",
     "deleteTitle": "Eliminación de la hoja {{name}}",
-    "deleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar esta hoja?"
+    "deleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar esta hoja?",
+    "validateTheDraft": "Validar el borrador",
+    "saveTheDraft": "Guardar el borrador"
   },
   "editor": {
     "imageUrl": "URL de la imagen",
@@ -315,8 +323,7 @@
     }
   },
   "http": {
-    "backendErrors": {
-    },
+    "backendErrors": {},
     "errors": {
       "data/cataloguePage": "No se pudo recuperar la lista de fichas",
       "data/catalogueGet": "No se pudo recuperar la ficha",
@@ -331,14 +338,24 @@
       "data/catalogueUpdate": "No se pudieron guardar las modificaciones de los metadatos de la ficha",
       "data/datasetAddJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
       "data/datasetUpdateJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
-      "data/catalogueDelete": "No se pudo eliminar la ficha"
+      "data/catalogueDelete": "No se pudo eliminar la ficha",
+      "data/catalogueDraftPage": "No se pudo recuperar la lista de borradores",
+      "data/catalogueDraftGet": "No se pudo recuperar el borrador",
+      "data/catalogueDraftCreate": "No se pudo crear el borrador",
+      "data/catalogueDraftSubmit": "No se pudo enviar el borrador para validación",
+      "data/catalogueDraftValidate": "No se pudo validar el borrador",
+      "data/catalogueDraftReject": "No se pudo rechazar el borrador"
     },
     "success": {
       "data/catalogueCreate": "La ficha ha sido creada correctamente",
       "data/catalogueUpdate": "Las modificaciones de los metadatos de la ficha han sido guardadas correctamente",
       "data/datasetAddJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
       "data/datasetUpdateJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
-      "data/catalogueDelete": "La ficha ha sido eliminada correctamente"
+      "data/catalogueDelete": "La ficha ha sido eliminada correctamente",
+      "data/catalogueDraftCreate": "El borrador ha sido creado correctamente",
+      "data/catalogueDraftSubmit": "El borrador ha sido enviado para validación",
+      "data/catalogueDraftValidate": "El borrador ha sido validado",
+      "data/catalogueDraftReject": "El borrador ha sido rechazado"
     }
   }
 }

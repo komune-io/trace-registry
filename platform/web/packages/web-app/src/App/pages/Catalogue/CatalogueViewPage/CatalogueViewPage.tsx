@@ -2,16 +2,18 @@ import {
     CatalogueBreadcrumbs,
     Catalogue,
     CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
+    useCatalogueDraftCreateCommand,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useRoutesDefinition } from 'components'
-import { SyntheticEvent, useCallback, useMemo } from 'react'
+import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { maybeAddItem } from "../../../menu";
-import { IconButton, Stack } from '@mui/material'
+import { CircularProgress, IconButton, Stack } from '@mui/material'
 import { EditRounded } from '@mui/icons-material'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -21,7 +23,9 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t, i18n } = useTranslation()
     const { ids, tab } = useCataloguesRouteParams()
-    const {cataloguesCatalogueIdEdit} = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+    const [draftLoading, setdraftLoading] = useState(false)
+    const queryClient = useQueryClient()
 
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
@@ -70,6 +74,29 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         return tabs
     }, [t, data, catalogue, isLoading])
 
+    const currentLanguageDraft = catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language)
+
+    const createDraft = useCatalogueDraftCreateCommand({})
+
+    const onCreateDraft = useCallback(
+        async () => {
+            if (!catalogue) return
+            setdraftLoading(true)
+            const res = await createDraft.mutateAsync({
+                catalogueId: catalogue.id,
+                language: i18n.language
+            })
+
+            setdraftLoading(false)
+
+            if (res) {
+                queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] })
+                navigate(cataloguesCatalogueIdDraftIdEdit(catalogue.id, res.id))
+            }
+        },
+        [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate],
+    )
+
     return (
         <AppPage
             title={catalogue?.title}
@@ -80,12 +107,14 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 alignItems="center"
                 direction="row"
             >
-                <CatalogueBreadcrumbs />              
+                <CatalogueBreadcrumbs />
                 <IconButton
-                    component={Link}
-                    to={cataloguesCatalogueIdEdit(catalogue?.id!)}
+                    component={currentLanguageDraft ? Link : "button"}
+                    to={currentLanguageDraft ? cataloguesCatalogueIdDraftIdEdit(catalogue?.id!, currentLanguageDraft.id) : undefined}
+                    onClick={onCreateDraft}
+                    disabled={draftLoading}
                 >
-                    <EditRounded />
+                    {draftLoading ? <CircularProgress /> : <EditRounded />}
                 </IconButton>
             </Stack>
             <SectionTab

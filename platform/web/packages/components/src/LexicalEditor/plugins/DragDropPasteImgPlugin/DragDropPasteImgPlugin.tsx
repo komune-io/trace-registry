@@ -14,6 +14,7 @@ import { useCallback, useEffect } from 'react';
 import { $createImageNode, $isImageNode, insertImageNode } from '../ImagesPlugin';
 import { useDatasetAddMediaDistributionCommand } from '../../api';
 import { g2Config } from '@komune-io/g2';
+import { useParams } from 'react-router-dom';
 
 const ACCEPTABLE_IMAGE_TYPES = [
     'image/jpeg',
@@ -37,35 +38,36 @@ const createImageNodeWithFixedSize = (file: File, result: string, editor: Lexica
 
 export const DragDropPasteImgPlugin = (): null => {
     const [editor] = useLexicalComposerContext();
-
+    const { draftId } = useParams()
     const uploadImageCommand = useDatasetAddMediaDistributionCommand({})
 
     const uploadImage = useCallback(
-      (editor: LexicalEditor, file: File, nodeKey: NodeKey) => {
-        uploadImageCommand.mutateAsync({
-            command: {
-                id: editor._config.namespace,
-                mediaType: file.type,
-            },
-            files: [{
-                file: file
-            }]
-        }).then((res) => {
-            if (res) {
-                editor.update(() => {
-                    const imgSrc = g2Config().platform.url + `/data/datasetDownloadDistribution/${res.id}/${res.distributionId}`
-                    const imgNode = $getNodeByKey(nodeKey)
-                    if (imgNode && $isImageNode(imgNode)) {
-                        imgNode.setSrc(imgSrc)
-                    }
-                })
+        (editor: LexicalEditor, file: File, nodeKey: NodeKey) => {
+            uploadImageCommand.mutateAsync({
+                command: {
+                    id: editor._config.namespace,
+                    mediaType: file.type,
+                    draftId: draftId!,
+                },
+                files: [{
+                    file: file
+                }]
+            }).then((res) => {
+                if (res) {
+                    editor.update(() => {
+                        const imgSrc = g2Config().platform.url + `/data/datasetDownloadDistribution/${res.id}/${res.distributionId}`
+                        const imgNode = $getNodeByKey(nodeKey)
+                        if (imgNode && $isImageNode(imgNode)) {
+                            imgNode.setSrc(imgSrc)
+                        }
+                    })
 
-            }
-        })
-      },
-      [editor],
+                }
+            })
+        },
+        [editor, draftId],
     )
-    
+
 
     useEffect(() => {
         return editor.registerCommand(
@@ -81,7 +83,7 @@ export const DragDropPasteImgPlugin = (): null => {
                         if (isMimeType(file, ACCEPTABLE_IMAGE_TYPES)) {
 
                             const nodeKey = await createImageNodeWithFixedSize(file, result, editor)
-                           
+
                             uploadImage(editor, file, nodeKey)
                         }
                     }

@@ -263,8 +263,14 @@
     "catalogues": {
         "status": {
             "ACTIVE": "Publiée",
-            "DELETED": "Supprimée",
-            "DRAFT": "Brouillon"
+            "DELETED": "Supprimée"
+        },
+        "draftStatus": {
+            "DRAFT": "Brouillon",
+            "REJECTED": "Rejeté",
+            "SUBMITTED": "Soumis à validation",
+            "UPDATE_REQUESTED": "Mise à jour demandée",
+            "VALIDATED": "Validé"
         },
         "types": {
             "100m-sector": "Secteur",
@@ -295,7 +301,9 @@
         "globalSearch": "Rechercher une solution, un système, un secteur...",
         "startWritingContent": "Commencez à rédiger le contenu de votre fiche",
         "deleteTitle": "Suppression de la fiche {{name}}",
-        "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?"
+        "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?",
+        "validateTheDraft": "Valider le brouillon",
+        "saveTheDraft": "Enregistrer le brouillon"
     },
     "editor": {
         "imageUrl": "URL de l'image",
@@ -331,14 +339,24 @@
         "data/catalogueUpdate": "Les modifications des métadonnées de la fiche n'ont pas pu être enregistrées",
         "data/datasetAddJsonDistribution": "Les modifications du contenu de la fiche n'ont pas pu être enregistrées",
         "data/datasetUpdateJsonDistribution": "Les modifications du contenu de la fiche n'ont pas pu être enregistrées",
-        "data/catalogueDelete": "La fiche n'a pas pu être supprimée"
+        "data/catalogueDelete": "La fiche n'a pas pu être supprimée",
+        "data/catalogueDraftPage": "La liste des brouillons n'a pas pu être récupérée",
+        "data/catalogueDraftGet": "Le brouillon n'a pas pu être récupéré",
+        "data/catalogueDraftCreate": "Le brouillon n'a pas pu être créé",
+        "data/catalogueDraftSubmit": "Le brouillon n'a pas pu être soumis",
+        "data/catalogueDraftValidate": "Le brouillon n'a pas pu être validé",
+        "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté"
       },
       "success": {
         "data/catalogueCreate": "La fiche a bien été créée",
         "data/catalogueUpdate": "Les modifications des métadonnées de la fiche ont bien été enregistrées",
         "data/datasetAddJsonDistribution": "Les modifications du contenu de la fiche ont bien été enregistrées",
         "data/datasetUpdateJsonDistribution": "Les modifications du contenu de la fiche ont bien été enregistrées",
-        "data/catalogueDelete": "La fiche a bien été supprimée"
+        "data/catalogueDelete": "La fiche a bien été supprimée",
+        "data/catalogueDraftCreate": "Le brouillon a bien été créé",
+        "data/catalogueDraftSubmit": "Le brouillon a bien été soumis",
+        "data/catalogueDraftValidate": "Le brouillon a bien été validé",
+        "data/catalogueDraftReject": "Le brouillon a bien été rejeté"
       }
     }
 }

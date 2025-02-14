@@ -112,6 +112,7 @@ class CatalogueCreateF2Steps: En, VerCucumberStepsDefinition() {
             homepage = params.homepage,
             catalogues = emptyList(),
             themes = emptyList(),
+            autoValidateDraft = true
         )
         catalogueEndpoint.catalogueCreate(command, null).id
     }

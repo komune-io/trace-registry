@@ -6,6 +6,8 @@ plugins {
 dependencies {
     api(project(Modules.data.f2.dataset.domain))
 
+    api(project(Modules.data.s2.catalogue.api))
+    api(project(Modules.data.s2.catalogueDraft.api))
     api(project(Modules.data.s2.dataset.api))
 
     implementation(project(Modules.api.config))
