@@ -323,8 +323,7 @@
     }
   },
   "http": {
-    "backendErrors": {
-    },
+    "backendErrors": {},
     "errors": {
       "data/cataloguePage": "The list of sheets could not be retrieved",
       "data/catalogueGet": "The sheet could not be retrieved",
@@ -341,11 +340,11 @@
       "data/datasetUpdateJsonDistribution": "The content modifications of the sheet could not be saved",
       "data/catalogueDelete": "The sheet could not be deleted",
       "data/catalogueDraftPage": "The list of drafts could not be retrieved",
-        "data/catalogueDraftGet": "The draft could not be retrieved",
-        "data/catalogueDraftCreate": "The draft could not be created",
-        "data/catalogueDraftSubmit": "The draft could not be submitted",
-        "data/catalogueDraftValidate": "The draft could not be validated",
-        "data/catalogueDraftReject": "The draft could not be rejected"
+      "data/catalogueDraftGet": "The draft could not be retrieved",
+      "data/catalogueDraftCreate": "The draft could not be created",
+      "data/catalogueDraftSubmit": "The draft could not be submitted",
+      "data/catalogueDraftValidate": "The draft could not be validated",
+      "data/catalogueDraftReject": "The draft could not be rejected"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",
@@ -356,7 +355,7 @@
       "data/catalogueDraftCreate": "The draft has been successfully created",
       "data/catalogueDraftSubmit": "The draft has been successfully submitted",
       "data/catalogueDraftValidate": "The draft has been successfully validated",
-      "data/catalogueDraftReject": "The draft has been successfully rejected" 
+      "data/catalogueDraftReject": "The draft has been successfully rejected"
     }
   }
 }
