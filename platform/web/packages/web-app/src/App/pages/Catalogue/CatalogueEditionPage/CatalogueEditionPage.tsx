@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { g2Config, useFormComposable } from '@komune-io/g2';
 import { maybeAddItem } from 'App/menu';
 import { useDraftMutations } from './useDraftMutations';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const CatalogueEditionPage = () => {
   const {draftId, catalogueId } = useParams()
@@ -15,6 +16,7 @@ export const CatalogueEditionPage = () => {
   const navigate = useNavigate()
   const { cataloguesContributions, cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
+  const queryClient = useQueryClient()
 
   const simplified = false
 
@@ -95,6 +97,15 @@ export const CatalogueEditionPage = () => {
 
   const onChangeLanguage = useCallback(
     async (languageTag: string) => {
+      const originalCatalogue = originalCatalogueQuery.data?.item
+      if (!originalCatalogue) return
+      
+      const existingDraft = originalCatalogue.pendingDrafts?.find(draft => draft.language === languageTag)
+      if (existingDraft) {
+        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, existingDraft.id))
+        return
+      }
+
       setIsLoading(true)
 
       const res = await createDraft.mutateAsync({
@@ -104,10 +115,11 @@ export const CatalogueEditionPage = () => {
 
       setIsLoading(false)
       if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", {id: catalogueId!}] })
         navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.id))
       }
     },
-    [createDraft.mutateAsync, catalogueId],
+    [createDraft.mutateAsync, catalogueId, originalCatalogueQuery.data?.item],
   )
   
   

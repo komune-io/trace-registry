@@ -89,9 +89,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       const res = await update
 
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
         queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
         refetchDraft()
       }
@@ -107,9 +104,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           id: catalogueId!
         })
         if (res) {
-          queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
           navigate("/")
         }
       },
