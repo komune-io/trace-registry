@@ -1,6 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api.config
 
-import io.komune.registry.api.commons.s2.RegistryS2SourcingSpringDataAdapter
+import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.program.s2.catalogue.api.CatalogueEvolver
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapRepository

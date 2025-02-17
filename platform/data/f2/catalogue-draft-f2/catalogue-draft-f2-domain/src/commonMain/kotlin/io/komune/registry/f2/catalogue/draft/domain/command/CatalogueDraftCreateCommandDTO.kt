@@ -28,6 +28,7 @@ interface CatalogueDraftCreateCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueDraftCreateCommandDTOBase(
     override val catalogueId: CatalogueId,
     override val language: Language

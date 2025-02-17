@@ -2,6 +2,8 @@ package io.komune.registry.s2.catalogue.draft.domain
 
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeleteCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateCommand
@@ -48,6 +50,10 @@ val s2CatalogueDraft = s2Sourcing {
         to = CatalogueDraftState.VALIDATED
         role = CatalogueDraftRole.Issuer
     }
+    selfTransaction<CatalogueDraftDeleteCommand, CatalogueDraftDeletedEvent> {
+        states += CatalogueDraftState.entries.toList()
+        role = CatalogueDraftRole.Issuer
+    }
 }
 
 /**
@@ -61,7 +67,7 @@ typealias CatalogueDraftId = String
  * @visual automate platform/api/api-init/build/s2-documenter/CatalogueDraft.json
  * @order 1
  * @title Catalogue Draft States
- * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueDraftF2Page]
+ * @parent [io.komune.registry.f2.catalogue.draft.domain.D2CatalogueDraftF2Page]
  */
 @Serializable
 @JsExport
@@ -70,7 +76,8 @@ enum class CatalogueDraftState(override val position: Int): S2State {
     SUBMITTED(1),
     UPDATE_REQUESTED(2),
     VALIDATED(3),
-    REJECTED(4)
+    REJECTED(4),
+    DELETED(5)
 }
 
 enum class CatalogueDraftRole(val value: String): S2Role {

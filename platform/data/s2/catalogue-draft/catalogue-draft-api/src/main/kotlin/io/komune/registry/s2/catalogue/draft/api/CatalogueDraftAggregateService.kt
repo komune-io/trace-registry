@@ -4,6 +4,8 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftAutomateExecutor
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeleteCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateCommand
@@ -56,6 +58,13 @@ class CatalogueDraftAggregateService(
 
     suspend fun validate(command: CatalogueDraftValidateCommand) = automate.transition(command) {
         CatalogueDraftValidatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+
+    suspend fun delete(command: CatalogueDraftDeleteCommand) = automate.transition(command) {
+        CatalogueDraftDeletedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
         )

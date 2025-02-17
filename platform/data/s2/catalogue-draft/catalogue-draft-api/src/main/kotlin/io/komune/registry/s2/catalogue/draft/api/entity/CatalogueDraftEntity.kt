@@ -47,6 +47,9 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     var issued: Long = 0
     var modified: Long = 0
 
+    @Indexed
+    var deleted: Boolean = false
+
     override fun s2Id() = id
     override fun s2State() = status
 }

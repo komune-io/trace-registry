@@ -10,6 +10,8 @@ import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderS
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreatedEventDTOBase
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeleteFunction
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeletedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectedEventDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateFunction
@@ -99,5 +101,12 @@ class CatalogueDraftEndpoint(
         logger.info("catalogueDraftValidate: $command")
         catalogueF2AggregateService.validateDraft(command.id)
         CatalogueDraftValidatedEventDTOBase(command.id)
+    }
+
+    @Bean
+    override fun catalogueDraftDelete(): CatalogueDraftDeleteFunction = f2Function { command ->
+        logger.info("catalogueDraftDelete: $command")
+        catalogueDraftAggregateService.delete(command).id
+            .let(::CatalogueDraftDeletedEventDTOBase)
     }
 }

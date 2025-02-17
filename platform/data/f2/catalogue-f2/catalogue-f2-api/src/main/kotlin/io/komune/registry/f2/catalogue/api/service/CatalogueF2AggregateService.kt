@@ -89,7 +89,7 @@ class CatalogueF2AggregateService(
 
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
-            command = command.copy(identifier = originalCatalogueEvent.identifier),
+            command = command.copy(identifier = "${originalCatalogueEvent.identifier}-draft"),
             inferIdentifier = true,
             inferTranslationType = true,
             initDatasets = true

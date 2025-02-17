@@ -1,6 +1,6 @@
 package io.komune.registry.s2.catalogue.draft.api.entity
 
-import io.komune.registry.api.commons.s2.RegistryS2SourcingSpringDataAdapter
+import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftEvolver
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState

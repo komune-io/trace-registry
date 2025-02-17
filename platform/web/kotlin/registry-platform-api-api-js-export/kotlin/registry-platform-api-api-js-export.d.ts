@@ -2767,7 +2767,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain {
-    type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED";
+    type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED" | "DELETED";
+}
+export declare namespace io.komune.registry.s2.catalogue.draft.domain.command {
+    interface CatalogueDraftDeleteCommandDTO extends io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCommand {
+        readonly id: string;
+
+    }
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain.command {
     interface CatalogueDraftEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
@@ -3560,6 +3566,16 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
 
     }
     interface CatalogueDraftCreatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
+    interface CatalogueDraftDeleteCommandDTO extends io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueDraftDeletedEventDTO {
         readonly id: string;
 
     }

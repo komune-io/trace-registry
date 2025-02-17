@@ -3,7 +3,6 @@ package io.komune.registry.script.imports
 import cccev.dsl.client.DataClient
 import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
@@ -12,8 +11,8 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionC
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
@@ -31,38 +30,36 @@ class ImportRepository(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    suspend fun getOrCreateConcept(concept: ConceptInitData) =
-        (ConceptGetByIdentifierQuery(concept.identifier)
-            .invokeWith(dataClient.concept.conceptGetByIdentifier())
-            .item
-            ?.id
-            ?: run {
-                ConceptCreateCommand(
-                    identifier = concept.identifier,
-                    prefLabels = concept.prefLabels,
-                    definitions = concept.definitions.orEmpty(),
-                    schemes = concept.schemes.orEmpty().toSet(),
-                ).invokeWith(dataClient.concept.conceptCreate()).id
-            })
+    suspend fun getOrCreateConcept(concept: ConceptInitData) = ConceptGetByIdentifierQuery(concept.identifier)
+        .invokeWith(dataClient.concept.conceptGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            ConceptCreateCommand(
+                identifier = concept.identifier,
+                prefLabels = concept.prefLabels,
+                definitions = concept.definitions.orEmpty(),
+                schemes = concept.schemes.orEmpty().toSet(),
+            ).invokeWith(dataClient.concept.conceptCreate()).id
+        }
 
-    suspend fun getOrCreateLicense(license: LicenseInitData) =
-        (LicenseGetByIdentifierQuery(license.identifier)
-            .invokeWith(dataClient.license.licenseGetByIdentifier())
-            .item
-            ?.id
-            ?: run {
-                LicenseCreateCommand(
-                    identifier = license.identifier,
-                    name = license.name,
-                    url = license.url,
-                ).invokeWith(dataClient.license.licenseCreate()).id
-            })
+    suspend fun getOrCreateLicense(license: LicenseInitData) = LicenseGetByIdentifierQuery(license.identifier)
+        .invokeWith(dataClient.license.licenseGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            LicenseCreateCommand(
+                identifier = license.identifier,
+                name = license.name,
+                url = license.url,
+            ).invokeWith(dataClient.license.licenseCreate()).id
+        }
 
     suspend fun getOrCreateDataset(
         identifier: DatasetIdentifier,
         language: Language,
         type: String,
-        catalogueId: CatalogueId
+        draftId: CatalogueDraftId
     ): DatasetId {
         val datasetId = DatasetGetByIdentifierQuery(identifier, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
@@ -72,13 +69,9 @@ class ImportRepository(
                 identifier = identifier,
                 type = type,
                 title = "",
-                language = language
+                language = language,
+                draftId = draftId
             ).invokeWith(dataClient.dataset.datasetCreate()).id
-
-        CatalogueLinkDatasetsCommandDTOBase(
-            id = catalogueId,
-            datasetIds = listOf(datasetId)
-        ).invokeWith(dataClient.catalogue.catalogueLinkDatasets())
 
         return datasetId
     }
@@ -86,11 +79,13 @@ class ImportRepository(
     suspend fun createDatasetMediaDistribution(
         datasetId: DatasetId,
         mediaType: String,
-        file: SimpleFile
+        file: SimpleFile,
+        draftId: CatalogueDraftId
     ): DistributionId {
         return (DatasetAddMediaDistributionCommandDTOBase(
             id = datasetId,
-            mediaType = mediaType
+            mediaType = mediaType,
+            draftId = draftId
         ) to SimpleFile(
             name = file.name,
             content = file.content

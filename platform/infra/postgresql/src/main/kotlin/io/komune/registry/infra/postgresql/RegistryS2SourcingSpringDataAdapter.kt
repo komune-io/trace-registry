@@ -1,4 +1,4 @@
-package io.komune.registry.api.commons.s2
+package io.komune.registry.infra.postgresql
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
