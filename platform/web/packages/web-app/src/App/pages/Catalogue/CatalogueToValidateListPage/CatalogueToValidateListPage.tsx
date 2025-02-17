@@ -1,7 +1,7 @@
 import {
     useCataloguesFilters,
-    useCataloguePageQuery,
-    CatalogueTable
+    CatalogueTable,
+    useCatalogueDraftPageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
@@ -9,7 +9,7 @@ import {  useMemo } from "react"
 
 
 export const CatalogueToValidateListPage = () => {
-    const { i18n, t } = useTranslation()
+    const { t } = useTranslation()
 
     const { submittedFilters, setOffset, component } = useCataloguesFilters({
     })
@@ -17,11 +17,10 @@ export const CatalogueToValidateListPage = () => {
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
 
-    const { data, isInitialLoading } = useCataloguePageQuery({
+    const { data, isInitialLoading } = useCatalogueDraftPageQuery({
         query: {
-            language: i18n.language,
-            parentIdentifier: "objectif100m-systeme",
-            ...submittedFilters
+           ...submittedFilters,
+           status: ["SUBMITTED"]
         }
     })
 

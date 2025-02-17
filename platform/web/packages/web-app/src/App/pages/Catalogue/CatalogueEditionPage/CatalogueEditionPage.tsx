@@ -65,7 +65,7 @@ export const CatalogueEditionPage = () => {
     const tabs: Tab[] = [...maybeAddItem(!simplified, {
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes ?? "100m-system"} />,
+      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
     }), {
       key: 'info',
       label: t('informations'),
@@ -126,7 +126,7 @@ export const CatalogueEditionPage = () => {
         languages={languages}
         currentLanguage={draft?.language}
         onChange={onChangeLanguage}
-        sx={{ alignSelf: "flex-end", mb: -8 }}
+        sx={{ alignSelf: "flex-end", mb: -8, zIndex: 1 }}
         disabled={isLoading}
       />
       <SectionTab

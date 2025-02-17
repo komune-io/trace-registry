@@ -300,8 +300,8 @@
         "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication.",
         "globalSearch": "Rechercher une solution, un système, un secteur...",
         "startWritingContent": "Commencez à rédiger le contenu de votre fiche",
-        "deleteTitle": "Suppression de la fiche {{name}}",
-        "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?",
+        "draftDeleteTitle": "Suppression du brouillon de la fiche {{name}} en {{lang}}",
+        "draftDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce brouillon ?",
         "validateTheDraft": "Valider le brouillon",
         "saveTheDraft": "Enregistrer le brouillon"
     },
@@ -321,6 +321,11 @@
             "1-2-1": "3 colonnes (25% - 50% - 25%)",
             "1-1-1-1": "4 colonnes (taille égale)"
         }
+    },
+    "lang": {
+        "fr": "Français",
+        "en": "Anglais",
+        "es": "Espagnol"
     },
     "http": {
       "backendErrors": {

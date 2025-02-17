@@ -1,21 +1,22 @@
 import {
     useCataloguesFilters,
-    useCataloguePageQuery,
     CatalogueTable,
-    ContributionModal
+    ContributionModal,
+    useCatalogueDraftPageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { useRoutesDefinition, useToggleState } from 'components'
+import { useExtendedAuth, useRoutesDefinition, useToggleState } from 'components'
 
 
 export const ContributionListPage = () => {
-    const { i18n, t } = useTranslation()
+    const { t } = useTranslation()
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const {cataloguesContributions} = useRoutesDefinition()
+    const { cataloguesContributions } = useRoutesDefinition()
+    const { service } = useExtendedAuth()
 
     const successfullContribution = searchParams.get('successfullContribution') === "true"
 
@@ -27,11 +28,10 @@ export const ContributionListPage = () => {
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
 
-    const { data, isInitialLoading } = useCataloguePageQuery({
+    const { data, isInitialLoading } = useCatalogueDraftPageQuery({
         query: {
-            language: i18n.language,
-            parentIdentifier: "objectif100m-systeme",
-            ...submittedFilters
+            ...submittedFilters,
+            creatorId: service.getUserId()
         }
     })
 
@@ -45,6 +45,8 @@ export const ContributionListPage = () => {
         >
             {component}
             <CatalogueTable
+                withStatus
+                toEdit
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}
@@ -52,7 +54,7 @@ export const ContributionListPage = () => {
             />
             <ContributionModal
                 open={open}
-                onClose={() => {navigate(cataloguesContributions()); toggle()}}
+                onClose={() => { navigate(cataloguesContributions()); toggle() }}
             />
         </AppPage>
     )

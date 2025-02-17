@@ -300,8 +300,8 @@
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
     "globalSearch": "Search for a solution, system, sector...",
     "startWritingContent": "Start writing the content of your sheet",
-    "deleteTitle": "Delete sheet {{name}}",
-    "deleteDescription": "This action is irreversible. Do you really want to delete this sheet?",
+    "draftDeleteTitle": "Draft deletion of the sheet {{name}} in {{lang}}",
+    "draftDeleteDescription": "This action is irreversible. Do you really want to delete this draft?",
     "validateTheDraft": "Validate the draft",
     "saveTheDraft": "Save the draft"
   },
@@ -321,6 +321,11 @@
       "1-2-1": "3 columns (25% - 50% - 25%)",
       "1-1-1-1": "4 columns (equal size)"
     }
+  },
+  "lang": {
+      "fr": "French",
+      "en": "English",
+      "es": "Spanish"
   },
   "http": {
     "backendErrors": {},

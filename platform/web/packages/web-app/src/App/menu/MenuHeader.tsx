@@ -1,6 +1,6 @@
 import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
+import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -42,7 +42,7 @@ export const MenuHeader = () => {
 
     const { t } = useTranslation()
 
-    // const personnalMenu = usePersonnalMenu(t)
+    const personnalMenu = usePersonnalMenu(t)
 
     const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
@@ -82,12 +82,12 @@ export const MenuHeader = () => {
                 {t("newCatalogue")}
             </CustomButton>
             {menu}
-            {/* <Menu
+            <Menu
                 sx={{
                     width: "100%"
                 }}
                 menu={personnalMenu}
-            /> */}
+            />
             <Divider sx={{ my: 2 }} flexItem />
         </Stack>
     )

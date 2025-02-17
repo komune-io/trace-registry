@@ -300,8 +300,8 @@
     "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación.",
     "globalSearch": "Buscar una solución, un sistema, un sector...",
     "startWritingContent": "Empieza a escribir el contenido de tu hoja",
-    "deleteTitle": "Eliminación de la hoja {{name}}",
-    "deleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar esta hoja?",
+    "draftDeleteTitle": "Eliminación del borrador de la ficha {{name}} en {{lang}}",
+    "draftDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este borrador?",
     "validateTheDraft": "Validar el borrador",
     "saveTheDraft": "Guardar el borrador"
   },
@@ -321,6 +321,11 @@
       "1-2-1": "3 columnas (25% - 50% - 25%)",
       "1-1-1-1": "4 columnas (tamaño igual)"
     }
+  },
+  "lang": {
+      "fr": "Francés",
+      "en": "Inglés",
+      "es": "Español"
   },
   "http": {
     "backendErrors": {},

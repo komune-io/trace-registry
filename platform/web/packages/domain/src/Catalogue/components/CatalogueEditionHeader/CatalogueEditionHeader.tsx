@@ -29,8 +29,8 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
     } = useConfirmationPopUp({
         onSubmit: onDelete,
         variant: 'deletion',
-        title: t("catalogues.deleteTitle", { name: catalogue?.title }),
-        description: t("catalogues.deleteDescription"),
+        title: t("catalogues.draftDeleteTitle", { name: catalogue?.title, lang: t("lang." + draft?.language) }),
+        description: t("catalogues.draftDeleteDescription"),
     })
 
 

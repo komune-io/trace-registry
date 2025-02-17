@@ -1,21 +1,21 @@
-import { Stack, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { ColumnFactory, useTable } from '@komune-io/g2'
 import { Row } from '@tanstack/react-table';
-import { Catalogue } from '../../model'
-import { Fragment, useCallback, useMemo } from "react"
+import { CatalogueDraft } from '../../model'
+import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
-import { CatalogueStatusChip } from './CatalogueStatusChip';
+import { DraftStatusChip } from './DraftStatusChip';
 
-function useCataogueColumn() {
+function useCataogueColumn(withStatus: boolean) {
     const { t } = useTranslation();
-    return useMemo(() => ColumnFactory<Catalogue>({
+    return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
             id: generators.text({
                 header: t("identifier"),
-                getCellProps: (catalogue) => ({
-                    value: catalogue.identifier,
+                getCellProps: (draft) => ({
+                    value: draft.originalCatalogueId,
                     componentProps: {
                         sx: {
                             fontWeight: 600
@@ -26,63 +26,59 @@ function useCataogueColumn() {
 
             name: generators.text({
                 header: t("name"),
-                getCellProps: (catalogue) => ({
-                    value: catalogue.title,
+                getCellProps: (draft) => ({
+                    value: draft.catalogue.title,
                 }),
                 className: "nameColumn"
             }),
 
             type: generators.text({
                 header: t("type"),
-                getCellProps: (catalogue) => ({
-                    value: t("catalogues.types." + catalogue.type)
+                getCellProps: (draft) => ({
+                    value: t("catalogues.types." + draft.catalogue.type)
                 })
             }),
 
-            status: {
-                header: t("status"),
-                cell: ({ row }) => (
-                    <CatalogueStatusChip status={row.original.status} />
-                )
-            },
-
+            ...(withStatus ? {
+                status:{
+                    header: t("status"),
+                    cell: ({ row }) => (
+                        <DraftStatusChip status={row.original.status} />
+                    )
+                }
+            } : {}
+            ),
             language: {
                 header: t("langue"),
-                cell: ({ row }) => (
-                    <Stack direction="row" gap={0.5} >
-                        {[row.original.language].map((lang) => (
-                            <Fragment>
-                                {/* @ts-ignore */}
-                                {languageToEmojiFlag[lang]}
-                            </Fragment>
-                        ))}
-                        </Stack>
-                )
+                //@ts-ignore
+                cell: ({ row }) => languageToEmojiFlag[row.original.language]
             },
 
             update: generators.date({
                 header: t("update"),
-                getCellProps: (catalogue) => ({
-                    value: catalogue.modified
+                getCellProps: (draft) => ({
+                    value: draft.modified
                 })
             }),
         })
     }), [t]);
 }
 
-export interface CatalogueTableProps extends Partial<OffsetTableProps<Catalogue>> {
+export interface CatalogueTableProps extends Partial<OffsetTableProps<CatalogueDraft>> {
     onOffsetChange?: (newOffset: OffsetPagination) => void
-    page?: PageQueryResult<Catalogue>
+    page?: PageQueryResult<CatalogueDraft>
     pagination: OffsetPagination
     isLoading?: boolean
+    withStatus?: boolean
+    toEdit?: boolean
 }
 
 export const CatalogueTable = (props: CatalogueTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, ...other } = props
-    const { projectsProjectIdViewTabAll } = useRoutesDefinition()
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, toEdit = false, ...other } = props
+    const { cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
     const { t } = useTranslation()
 
-    const columns = useCataogueColumn()
+    const columns = useCataogueColumn(withStatus)
 
     const tableState = useTable({
         data: page?.items ?? [],
@@ -90,23 +86,26 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
     })
 
     const getRowLink = useCallback(
-        (row: Row<Catalogue>) => {
+        (row: Row<CatalogueDraft>) => {
+            let url = undefined
+            if (!toEdit) url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
+                if (row.original.status === "DRAFT") url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
             return {
-                to: projectsProjectIdViewTabAll(row.original.id)
+                to: url,
             }
         },
-        [projectsProjectIdViewTabAll],
+        [cataloguesCatalogueIdDraftIdVerify, toEdit],
     )
 
-     return (
+    return (
         <>
-        { (!page?.items && !isLoading) ?
-            <>
-                {header}
-                <Typography align="center" sx={{ marginTop: "32px" }}>{t("catalogues.noData")}</Typography>
-            </>
-            :
-                <OffsetTable<Catalogue>
+            {(!page?.items && !isLoading) ?
+                <>
+                    {header}
+                    <Typography align="center" sx={{ marginTop: "32px" }}>{t("catalogues.noData")}</Typography>
+                </>
+                :
+                <OffsetTable<CatalogueDraft>
                     {...other}
                     header={header}
                     tableState={tableState}
@@ -114,10 +113,11 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
                     pagination={pagination}
                     onOffsetChange={onOffsetChange}
                     isLoading={isLoading}
+                    //@ts-ignore
                     getRowLink={getRowLink}
 
                 />
-        }
+            }
         </>
     )
 }

@@ -18,8 +18,8 @@ export const SubmitModal = (props: SubmitModalProps) => {
     const [value, setValue] = useState("")
 
     const onSubmitMemo = useCallback(
-        () => {
-            onSubmit(value)
+        async () => {
+           await onSubmit(value)
         },
         [value],
     )

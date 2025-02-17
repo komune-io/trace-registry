@@ -11,7 +11,7 @@ import { CatalogueCreateCommand } from '../../api/command'
 type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
 
 interface CatalogueMetadataFormProps {
-    type: CatalogueTypes
+    type?: CatalogueTypes
     onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
     formState?: FormComposableState
     withTitle?: boolean
@@ -29,10 +29,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         query: {
             //    title: searchCatalogues,
             language: i18n.language,
-            type
+            type: type!
         },
         options: {
-            // enabled: !!searchCatalogues,
+            enabled: !!type,
             placeholderData: keepPreviousData
         }
     })
@@ -40,7 +40,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
         query: {
             language: i18n.language,
-            type
+            type: type!
         },
         options: {
             enabled: type === "100m-solution"
