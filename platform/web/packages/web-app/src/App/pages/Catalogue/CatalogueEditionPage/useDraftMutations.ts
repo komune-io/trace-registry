@@ -2,7 +2,6 @@ import { FormComposableState } from '@komune-io/g2'
 import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRoutesDefinition } from 'components'
@@ -20,7 +19,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
-  const { i18n } = useTranslation()
   const {cataloguesAll, cataloguesContributions} = useRoutesDefinition()
 
   const onSectionChange = useCallback(
@@ -57,7 +55,8 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           structure: metadataFormState.values.structure,
           hidden: metadataFormState.values.hidden,
           homepage: metadataFormState.values.homepage,
-          language: i18n.language,
+          versionNotes: metadataFormState.values.versionNotes,
+          language: metadataFormState.values.language,
           id: catalogueId!,
           draftId: draftId!,
         },
@@ -96,7 +95,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         return res
       }
     },
-    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, i18n.language, catalogueId, draftId, catalogue, refetchDraft],
+    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, catalogueId, draftId, catalogue, refetchDraft],
   )
 
   const validateDraft = useCatalogueDraftValidateCommand({})
@@ -135,7 +134,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         }
       }
     },
-    [],
+    [onSave, draftId, catalogueId],
 
   )
   

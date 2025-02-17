@@ -13,7 +13,7 @@ export const CatalogueValidationPage = () => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const {cataloguesAll} = useRoutesDefinition()
+  const {cataloguesToVerify} = useRoutesDefinition()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -22,6 +22,8 @@ export const CatalogueValidationPage = () => {
   })
 
   const catalogue = catalogueDraftQuery.data?.item?.catalogue
+
+  const draft = catalogueDraftQuery.data?.item
 
   const formInitialValues = useMemo(() => catalogue ? ({
     ...catalogue,
@@ -60,7 +62,8 @@ export const CatalogueValidationPage = () => {
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-        navigate(cataloguesAll(catalogueId))
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+        navigate(cataloguesToVerify())
       }
     },
     [catalogueId],
@@ -75,7 +78,8 @@ export const CatalogueValidationPage = () => {
         reason
       })
       if (res) {
-        navigate("/")
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+        navigate(cataloguesToVerify())
       }
     },
     [catalogueId],
@@ -86,7 +90,7 @@ export const CatalogueValidationPage = () => {
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
-      customHeader={<CatalogueValidationHeader onAccept={onValidate} onReject={onReject} />}
+      customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} />}
     >
 
       <TitleDivider title={title} />

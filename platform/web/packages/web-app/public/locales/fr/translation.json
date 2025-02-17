@@ -287,8 +287,8 @@
         "sectoralScopes": "Champs sectoriels",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
-        "noData": "Aucun catalogue trouvé",
-        "noDataToValidate": "Aucun catalogues à valider",
+        "noData": "Aucune fiche n'a été trouvé",
+        "noDataToValidate": "Aucune fiche à valider",
         "reviewModifications": "Revue de la modification proposée par {{name}}",
         "consultOriginal": "Consulter l'original",
         "contactEditor": "Contacter l'éditeur",
@@ -350,7 +350,8 @@
         "data/catalogueDraftCreate": "Le brouillon n'a pas pu être créé",
         "data/catalogueDraftSubmit": "Le brouillon n'a pas pu être soumis",
         "data/catalogueDraftValidate": "Le brouillon n'a pas pu être validé",
-        "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté"
+        "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté",
+        "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé"
       },
       "success": {
         "data/catalogueCreate": "La fiche a bien été créée",
@@ -361,7 +362,8 @@
         "data/catalogueDraftCreate": "Le brouillon a bien été créé",
         "data/catalogueDraftSubmit": "Le brouillon a bien été soumis",
         "data/catalogueDraftValidate": "Le brouillon a bien été validé",
-        "data/catalogueDraftReject": "Le brouillon a bien été rejeté"
+        "data/catalogueDraftReject": "Le brouillon a bien été rejeté",
+        "data/catalogueDraftDelete": "Le brouillon a bien été supprimé"
       }
     }
 }

@@ -287,8 +287,8 @@
     "sectoralScopes": "Sectoral scopes",
     "newSection": "New section",
     "createAdraft": "Create a draft",
-    "noData": "No catalogues were found",
-    "noDataToValidate": "No catalogues to validate",
+    "noData": "No sheet were found",
+    "noDataToValidate": "No sheet to validate",
     "reviewModifications": "Review the modification proposed by {{name}}",
     "consultOriginal": "Consult the original sheet",
     "contactEditor": "Contact the editor",
@@ -349,7 +349,8 @@
       "data/catalogueDraftCreate": "The draft could not be created",
       "data/catalogueDraftSubmit": "The draft could not be submitted",
       "data/catalogueDraftValidate": "The draft could not be validated",
-      "data/catalogueDraftReject": "The draft could not be rejected"
+      "data/catalogueDraftReject": "The draft could not be rejected",
+      "data/catalogueDraftDelete": "The draft could not be deleted"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",
@@ -360,7 +361,8 @@
       "data/catalogueDraftCreate": "The draft has been successfully created",
       "data/catalogueDraftSubmit": "The draft has been successfully submitted",
       "data/catalogueDraftValidate": "The draft has been successfully validated",
-      "data/catalogueDraftReject": "The draft has been successfully rejected"
+      "data/catalogueDraftReject": "The draft has been successfully rejected",
+      "data/catalogueDraftDelete": "The draft has been successfully deleted"
     }
   }
 }

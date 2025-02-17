@@ -71,6 +71,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             })),
             // onBlur: () => setSearchCatalogues(""),
             noOptionsText: t("catalogues.noData"),
+            optionsResultLimit: 50
         },
         required: true
     }, {

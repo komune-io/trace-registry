@@ -40,7 +40,7 @@ function useCataogueColumn(withStatus: boolean) {
             }),
 
             ...(withStatus ? {
-                status:{
+                status: {
                     header: t("status"),
                     cell: ({ row }) => (
                         <DraftStatusChip status={row.original.status} />
@@ -89,7 +89,10 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
         (row: Row<CatalogueDraft>) => {
             let url = undefined
             if (!toEdit) url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
-                if (row.original.status === "DRAFT") url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
+            const status = row.original.status
+            if (status === "DRAFT" || status === "REJECTED" || status === "UPDATE_REQUESTED") {
+                url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
+            }
             return {
                 to: url,
             }
@@ -99,7 +102,7 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
 
     return (
         <>
-            {(!page?.items && !isLoading) ?
+            {((!page?.items || page?.items.length === 0) && !isLoading) ?
                 <>
                     {header}
                     <Typography align="center" sx={{ marginTop: "32px" }}>{t("catalogues.noData")}</Typography>

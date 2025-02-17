@@ -2,7 +2,8 @@ import {languages, useCustomFilters} from 'components'
 import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
-import { CataloguePageQuery } from '../../api'
+import { CatalogueDraftPageQuery } from '../../api'
+import { catalogueTypes } from '../../model'
 
 interface UseCatalogueFiltersParams {
     initialValues?: any
@@ -11,9 +12,9 @@ interface UseCatalogueFiltersParams {
 export const useCataloguesFilters = (params?: UseCatalogueFiltersParams) => {
     const {initialValues} = params ?? {}
     const {t} = useTranslation()
-    const filters = useMemo((): FilterComposableField<keyof CataloguePageQuery>[] => [
+    const filters = useMemo((): FilterComposableField<keyof CatalogueDraftPageQuery>[] => [
         {
-            name: 'catalogueId',
+            name: 'originalCatalogueId',
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
@@ -37,7 +38,7 @@ export const useCataloguesFilters = (params?: UseCatalogueFiltersParams) => {
             params: {
                 label: t("type"),
                 style: { width: "120px"},
-                options: []
+                options: catalogueTypes.map((type) => ({ key: type, label: t("catalogues.types." + type) }))
             },
             mandatory: true
         },
