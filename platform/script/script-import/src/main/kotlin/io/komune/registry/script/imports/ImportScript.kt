@@ -47,8 +47,9 @@ class ImportScript(
 
     private val dataClient: DataClient
     private val importRepository: ImportRepository
+    private lateinit var importContext: ImportContext
 
-    init {
+        init {
         val authRealm = properties.asAuthRealm()
 
         dataClient = runBlocking {
@@ -62,6 +63,13 @@ class ImportScript(
 
     suspend fun run(root: String) {
         logger.info("Importing data from $root")
+        importContext = initImportContext(root)
+
+        initEntities()
+        importCatalogues()
+    }
+
+    private fun initImportContext(root: String): ImportContext {
 
         val rootDirectory = File(root)
         if (!rootDirectory.exists() || !rootDirectory.isDirectory) {
@@ -73,30 +81,34 @@ class ImportScript(
             throw IllegalArgumentException("File settings.json not found in root directory")
         }
 
+
         val catalogueSettings = jsonMapper.readValue<ImportSettings>(settingsFile)
             .catalogue
-            ?: return
-        val importContext = ImportContext(rootDirectory, catalogueSettings)
 
-        if (!catalogueSettings.jsonPathPattern.endsWith(".json")) {
+        if ( catalogueSettings == null) {
+            throw IllegalArgumentException("Import Settings parsing return null: ${settingsFile.absoluteFile}")
+        }
+        if ( catalogueSettings == null || !catalogueSettings.jsonPathPattern.endsWith(".json")) {
             throw IllegalArgumentException("Invalid JSON path pattern: ${catalogueSettings.jsonPathPattern}")
         }
-
-        initEntities(importContext)
-        importCatalogues(importContext)
+        return ImportContext(rootDirectory, catalogueSettings)
     }
 
-    private suspend fun initEntities(importContext: ImportContext) {
-        logger.info("Initializing basic entities...")
+    private suspend fun initEntities() {
+        logger.info("Initializing concepts...")
+        initConcepts()
+        logger.info("Initialized concepts.")
 
-        initConcepts(importContext)
-        initLicenses(importContext)
-        initCatalogues(importContext)
+        logger.info("Initializing licenses...")
+        initLicenses()
+        logger.info("Initialized licenses.")
 
-        logger.info("Initialized basic entities.")
+        logger.info("Initializing system catalogues...")
+        initCatalogues()
+        logger.info("Initialized system catalogues.")
     }
 
-    private suspend fun initConcepts(importContext: ImportContext) {
+    private suspend fun initConcepts() {
         val concepts = importContext.settings.init?.concepts.nullIfEmpty() ?: return
 
         concepts.forEach { concept ->
@@ -105,7 +117,7 @@ class ImportScript(
         }
     }
 
-    private suspend fun initLicenses(importContext: ImportContext) {
+    private suspend fun initLicenses() {
         val licenses = importContext.settings.init?.licenses.nullIfEmpty() ?: return
 
         licenses.forEach { license ->
@@ -115,16 +127,16 @@ class ImportScript(
     }
 
 
-    private suspend fun initCatalogues(importContext: ImportContext) {
+    private suspend fun initCatalogues() {
         val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return
 
         catalogues.forEach { catalogueData ->
-            importCatalogue(catalogueData, importContext)
+            importCatalogue(catalogueData)
         }
         importContext.validateDrafts()
     }
 
-    private suspend fun importCatalogues(importContext: ImportContext) {
+    private suspend fun importCatalogues() {
         logger.info("Importing catalogues...")
         val pathMatcher = importContext.rootDirectory
             .toPath()
@@ -138,57 +150,32 @@ class ImportScript(
 
         catalogueFiles.forEachIndexed { i, catalogueFile ->
             logger.info("(${i + 1}/${nbCatalogues}) Importing catalogue from ${catalogueFile.absolutePath}...")
-            importCatalogue(catalogueFile, importContext)
+            importCatalogue(catalogueFile)
         }
         importContext.validateDrafts()
 
-        connectCatalogues(importContext)
+        connectCatalogues()
         logger.info("Imported catalogues.")
     }
 
-    private suspend fun importCatalogue(jsonFile: File, importContext: ImportContext) {
+    private suspend fun importCatalogue(jsonFile: File, ) {
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
-        val catalogue = importCatalogue(fixedData, importContext)
+        val catalogue = importCatalogue(fixedData)
         logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
         importContext.settings.datasets?.forEach {
-            importDataset(catalogue, it, jsonFile.parentFile, importContext)
+            importDataset(catalogue, it, jsonFile.parentFile)
         }
     }
 
     private suspend fun importCatalogue(
         catalogueData: CatalogueImportData,
-        importContext: ImportContext
+
     ): CatalogueDTOBase {
         val catalogue = importRepository.getCatalogue(catalogueData)
-            ?: run {
-                val translation = catalogueData.languages.values.firstOrNull()
-                    ?: throw IllegalArgumentException("No translation specified for catalogue ${catalogueData.identifier}")
-
-                val imageFile = buildImageFile(catalogueData, importContext)
-
-                val createCommand = CatalogueCreateCommandDTOBase(
-                    identifier = catalogueData.identifier,
-                    title = translation.title.orEmpty(),
-                    description = translation.description,
-                    type = importContext.mapCatalogueType(catalogueData.type),
-                    language = translation.language,
-                    structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
-                    themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
-                    accessRights = importContext.settings.defaults?.accessRights,
-                    license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                    catalogues = catalogueData.children,
-                    autoValidateDraft = true
-                ) to imageFile
-                val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
-
-                CatalogueGetQuery(catalogueId, null)
-                    .invokeWith(dataClient.catalogue.catalogueGet())
-                    .item!!
-            }
-
+            ?: createCatalogue(catalogueData)
 
         importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.let {
+        catalogueData.parentIdentifier()?.let {
             importContext.catalogueParents[catalogue.id] = it
         }
 
@@ -204,11 +191,40 @@ class ImportScript(
         return catalogue
     }
 
+    private suspend fun createCatalogue(
+        catalogueData: CatalogueImportData,
+
+    ): CatalogueDTOBase {
+        val translation = catalogueData.languages.values.firstOrNull()
+            ?: throw IllegalArgumentException("No translation specified for catalogue ${catalogueData.identifier}")
+
+        val imageFile = buildImageFile(catalogueData)
+
+        val createCommand = CatalogueCreateCommandDTOBase(
+            identifier = catalogueData.identifier,
+            title = translation.title.orEmpty(),
+            description = translation.description,
+            type = importContext.mapCatalogueType(catalogueData.type),
+            language = translation.language,
+            structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
+            themes = catalogueData.themes?.mapNotNull { mapConcept(it) },
+            accessRights = importContext.settings.defaults?.accessRights,
+            license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
+            catalogues = catalogueData.children,
+            autoValidateDraft = true
+        ) to imageFile
+        val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
+
+        return CatalogueGetQuery(catalogueId, null)
+            .invokeWith(dataClient.catalogue.catalogueGet())
+            .item!!
+    }
+
     private fun buildImageFile(
         catalogueData: CatalogueImportData,
-        importContext: ImportContext
+
     ): SimpleFile? {
-        val imageContent = catalogueData.img?.let { getImage(it, importContext) }
+        val imageContent = catalogueData.img?.let { getImage(it) }
         val imageFile = imageContent?.let { SimpleFile("image", it) }
         return imageFile
     }
@@ -217,7 +233,7 @@ class ImportScript(
         catalogue: CatalogueDTOBase,
         dataset: CatalogueDatasetSettings,
         directory: File,
-        importContext: ImportContext
+
     ) {
         dataset.translations.forEach { (language, path) ->
             val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
@@ -322,14 +338,14 @@ class ImportScript(
         )
     }
 
-    private suspend fun connectCatalogues(importContext: ImportContext) {
+    private suspend fun connectCatalogues() {
         logger.info("Linking catalogues...")
         importContext.catalogueParents.forEach { (catalogueId, parentIdentifier) ->
             logger.info("Linking [${catalogueId} -> $parentIdentifier]")
             val parentId = importContext.catalogues[parentIdentifier]
                 ?: run {
                     if (importContext.settings.useDefaultIfUnknownParent) {
-                        val defaultParentId = getDefaultParentId(catalogueId, importContext)
+                        val defaultParentId = getDefaultParentId(catalogueId)
                         logger.warn("Catalogue[$catalogueId] => ParentCatalogue $parentIdentifier not found. " +
                                 "Using default [${defaultParentId}] or ignoring if not specified.")
                         defaultParentId ?: return@forEach
@@ -345,7 +361,7 @@ class ImportScript(
         }
     }
 
-    private suspend fun getDefaultParentId(catalogueId: CatalogueId, importContext: ImportContext): CatalogueId? {
+    private suspend fun getDefaultParentId(catalogueId: CatalogueId, ): CatalogueId? {
         val catalogue = CatalogueGetQuery(catalogueId, null)
             .invokeWith(dataClient.catalogue.catalogueGet())
             .item!!
@@ -361,13 +377,13 @@ class ImportScript(
             }
     }
 
-    private fun getImage(image: String, importContext: ImportContext): ByteArray? {
+    private fun getImage(image: String, ): ByteArray? {
         val file = File(importContext.rootDirectory, image)
         return file.takeIf { it.exists() && it.isFile }?.readBytes()
     }
 
 
-    private fun mapConcept(concept: String, importContext: ImportContext): ConceptId? {
+    private fun mapConcept(concept: String, ): ConceptId? {
         return importContext.settings
             .mapping
             ?.concepts
@@ -379,7 +395,7 @@ class ImportScript(
             }
     }
 
-    private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): CatalogueIdentifier? {
+    private fun CatalogueImportData.parentIdentifier(): CatalogueIdentifier? {
         return parent?.let {
             return if(parentType == null || it.startsWith(parentType)) {
                 it
