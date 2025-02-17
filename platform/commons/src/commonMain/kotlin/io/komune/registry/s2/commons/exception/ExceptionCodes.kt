@@ -15,7 +15,12 @@ object ExceptionCodes {
     }
 
     object Catalogue {
-        const val CATALOGUE_PARENT_TYPE_INVALID = 3000
-        const val CATALOGUE_PARENT_IS_DESCENDANT = 3001
+        const val INVALID_PARENT_TYPE = 3000
+        const val PARENT_IS_DESCENDANT = 3001
+        const val DRAFT_DOES_NOT_MATCH = 3002
+    }
+
+    object Dataset {
+        const val DRAFT_DOES_NOT_MATCH = 4000
     }
 }

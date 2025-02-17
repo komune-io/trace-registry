@@ -6,5 +6,7 @@ plugins {
 }
 
 dependencies {
+	implementation(project(Modules.commons))
+
 	Dependencies.Jvm.s2Sourcing(::implementation)
 }

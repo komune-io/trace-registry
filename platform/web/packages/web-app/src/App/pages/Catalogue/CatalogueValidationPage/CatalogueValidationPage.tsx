@@ -1,23 +1,27 @@
-import { TitleDivider } from 'components'
-import { CatalogueMetadataForm, CatalogueSections, CatalogueValidationHeader, useCatalogueGetQuery } from 'domain-components'
+import { TitleDivider, useRoutesDefinition } from 'components'
+import { CatalogueMetadataForm, CatalogueSections, CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand, useCatalogueDraftValidateCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
-import { useParams } from "react-router-dom";
-import { useMemo, useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { g2Config, useFormComposable } from '@komune-io/g2';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const CatalogueValidationPage = () => {
-  const { catalogueId } = useParams()
+  const { draftId, catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const {cataloguesAll} = useRoutesDefinition()
 
-  const catalogueQuery = useCatalogueGetQuery({
+  const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
-      id: catalogueId!
+      id: draftId!
     },
   })
 
-  const catalogue = catalogueQuery.data?.item
+  const catalogue = catalogueDraftQuery.data?.item?.catalogue
 
   const formInitialValues = useMemo(() => catalogue ? ({
     ...catalogue,
@@ -25,7 +29,7 @@ export const CatalogueValidationPage = () => {
   }) : undefined, [catalogue])
 
   const metadataFormState = useFormComposable({
-    isLoading: catalogueQuery.isInitialLoading,
+    isLoading: catalogueDraftQuery.isInitialLoading,
     formikConfig: {
       initialValues: formInitialValues
     }
@@ -47,12 +51,42 @@ export const CatalogueValidationPage = () => {
     return tabs
   }, [t, catalogue, metadataFormState])
 
+  const validateDraft = useCatalogueDraftValidateCommand({})
+
+  const onValidate = useCallback(
+    async () => {
+      const res = await validateDraft.mutateAsync({
+        id: draftId!,
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+        navigate(cataloguesAll(catalogueId))
+      }
+    },
+    [catalogueId],
+  )
+
+  const rejectDraft = useCatalogueDraftRejectCommand({})
+
+  const onReject = useCallback(
+    async (reason: string) => {
+      const res = await rejectDraft.mutateAsync({
+        id: draftId!,
+        reason
+      })
+      if (res) {
+        navigate("/")
+      }
+    },
+    [catalogueId],
+  )
+
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
-      customHeader={<CatalogueValidationHeader onAccept={() => { return Promise.resolve() }} onReject={() => { return Promise.resolve() }} />}
+      customHeader={<CatalogueValidationHeader onAccept={onValidate} onReject={onReject} />}
     >
 
       <TitleDivider title={title} />

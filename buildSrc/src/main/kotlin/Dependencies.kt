@@ -19,7 +19,7 @@ object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
-	val s2 = Framework.fixers
+	val s2 = "0.23.0-SNAPSHOT"
 	val fs = Framework.connect
 	val im = Framework.connect
     val cccev = Framework.connect
@@ -262,6 +262,13 @@ object Modules {
 				const val domain = "$BASE-domain"
 			}
 
+			object catalogueDraft {
+				private const val BASE = "${f2.BASE}:catalogue-draft-f2:catalogue-draft-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
 			object concept {
 				private const val BASE = "${f2.BASE}:concept-f2:concept-f2"
 				const val api = "$BASE-api"
@@ -289,6 +296,12 @@ object Modules {
 
 			object catalogue {
 				private const val BASE = "${s2.BASE}:catalogue:catalogue"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object catalogueDraft {
+				private const val BASE = "${s2.BASE}:catalogue-draft:catalogue-draft"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}

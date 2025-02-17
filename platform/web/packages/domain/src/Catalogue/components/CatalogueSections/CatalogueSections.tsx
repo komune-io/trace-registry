@@ -3,16 +3,17 @@ import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
 import { useDatasetDownloadDistribution } from '../../api'
-import { Stack } from '@mui/material'
+import { CircularProgress, Stack } from '@mui/material'
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
     readOnly?: boolean
     onSectionChange?: (editorState: EditorState) => void
+    isLoading?: boolean
 }
 
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
-    const { catalogue, readOnly = false, onSectionChange } = props
+    const { catalogue, readOnly = false, onSectionChange, isLoading } = props
 
     const {
         query,
@@ -74,7 +75,9 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
             py: 4
         }}
         >
-            {sectionsDisplay}
+            {isLoading ? <CircularProgress sx={{
+                alignSelf: "center"
+            }} />  : sectionsDisplay}
             {/* sections.length === 0 && !readOnly &&
                 <AddSectionDivider
                     onAddSection={handleAddSection(0)}

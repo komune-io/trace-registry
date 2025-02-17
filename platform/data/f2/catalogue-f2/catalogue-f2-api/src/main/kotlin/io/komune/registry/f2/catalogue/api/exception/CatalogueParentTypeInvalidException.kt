@@ -9,7 +9,7 @@ class CatalogueParentTypeInvalidException(
     parentType: String
 ) : F2HttpException(
     status = HttpStatus.INTERNAL_SERVER_ERROR,
-    code = ExceptionCodes.Catalogue.CATALOGUE_PARENT_TYPE_INVALID,
+    code = ExceptionCodes.Catalogue.INVALID_PARENT_TYPE,
     message = "Catalogue of type [$catalogueType] cannot have parent of type [$parentType]",
     cause = null
 )

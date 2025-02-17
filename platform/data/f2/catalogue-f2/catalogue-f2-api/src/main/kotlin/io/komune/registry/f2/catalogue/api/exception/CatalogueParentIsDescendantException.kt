@@ -10,7 +10,7 @@ class CatalogueParentIsDescendantException(
     parentId: CatalogueId
 ) : F2HttpException(
     status = HttpStatus.INTERNAL_SERVER_ERROR,
-    code = ExceptionCodes.Catalogue.CATALOGUE_PARENT_IS_DESCENDANT,
+    code = ExceptionCodes.Catalogue.PARENT_IS_DESCENDANT,
     message = "Catalogue [$parentId] is a descendant of catalogue [$catalogueId] and thus cannot be its parent",
     cause = null
 )

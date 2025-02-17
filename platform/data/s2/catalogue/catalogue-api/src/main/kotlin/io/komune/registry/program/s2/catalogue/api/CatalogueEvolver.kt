@@ -10,9 +10,12 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
 
@@ -22,10 +25,13 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	override suspend fun evolve(event: CatalogueEvent, model: CatalogueEntity?): CatalogueEntity? = when (event) {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
+		is CatalogueUpdatedVersionNotesEvent -> model?.updateVersionNotes(event)
 		is CatalogueAddedTranslationsEvent -> model?.addTranslations(event)
+		is CatalogueRemovedTranslationsEvent -> model?.removeTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueUnlinkedCataloguesEvent -> model?.removeCatalogues(event)
-		is CatalogueLinkedDatasetsEvent -> model?.linkDataset(event)
+		is CatalogueLinkedDatasetsEvent -> model?.addDataset(event)
+		is CatalogueUnlinkedDatasetsEvent -> model?.removeDataset(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 		is CatalogueSetImageEvent -> model?.setImage(event)
@@ -39,6 +45,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		type = event.type
 		catalogueIds = event.catalogueIds
 		datasetIds = event.datasetIds
+		creatorId = event.creatorId
 		issued = event.date
 	}
 
@@ -56,24 +63,37 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		applyEvent(event)
 	}
 
+	private suspend fun CatalogueEntity.updateVersionNotes(event: CatalogueUpdatedVersionNotesEvent) = apply {
+		versionNotes = event.versionNotes
+		modified = event.date
+	}
+
 	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = apply {
-		translationIds = translationIds + event.catalogues
+		translationIds += event.catalogues
+	}
+
+	private suspend fun CatalogueEntity.removeTranslations(event: CatalogueRemovedTranslationsEvent) = apply {
+		translationIds -= event.languages
 	}
 
 	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
-		themeIds = themeIds + event.themes
+		themeIds += event.themes
 	}
 
-	private suspend fun CatalogueEntity.linkDataset(event: CatalogueLinkedDatasetsEvent) = apply {
-		datasetIds = datasetIds + event.datasets
+	private suspend fun CatalogueEntity.addDataset(event: CatalogueLinkedDatasetsEvent) = apply {
+		datasetIds += event.datasets
+	}
+
+	private suspend fun CatalogueEntity.removeDataset(event: CatalogueUnlinkedDatasetsEvent) = apply {
+		datasetIds -= event.datasets.toSet()
 	}
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
-		catalogueIds = catalogueIds + event.catalogues
+		catalogueIds += event.catalogues
 	}
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
-		catalogueIds = catalogueIds - event.catalogues.toSet()
+		catalogueIds -= event.catalogues.toSet()
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
@@ -83,12 +103,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		themeIds = event.themeIds
 		homepage = event.homepage
 		structure = event.structure
-		creator = event.creator
-		publisher = event.publisher
-		validator = event.validator
 		accessRights = event.accessRights
 		licenseId = event.licenseId
+		versionNotes = event.versionNotes
 		hidden = event.hidden
 		modified = event.date
+		version++
 	}
 }

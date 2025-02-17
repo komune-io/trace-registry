@@ -2,15 +2,15 @@ package io.komune.registry.f2.catalogue.domain.command
 
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
-import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Update a catalogue.
@@ -25,12 +25,13 @@ typealias CatalogueUpdateFunction = F2Function<Pair<CatalogueUpdateCommandDTOBas
  * @parent [CatalogueUpdateFunction]
  */
 @JsExport
-@JsName("CatalogueUpdateCommandDTO")
 interface CatalogueUpdateCommandDTO {
     /**
      * Id of the catalogue to update.
      */
     val id: CatalogueId
+
+    val draftId: CatalogueDraftId
 
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
@@ -41,14 +42,10 @@ interface CatalogueUpdateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.description]
      */
     val description: String?
-
     val language: String
-    val structure: Structure?
+    val structure: StructureDTO?
     val homepage: String?
     val themes: List<ConceptId>?
-    val creator: Agent?
-    val publisher: Agent?
-    val validator: Agent?
     val accessRights: String?
     val license: LicenseId?
 
@@ -56,6 +53,8 @@ interface CatalogueUpdateCommandDTO {
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
     val hidden: Boolean?
+
+    val versionNotes: String?
 }
 
 /**
@@ -64,18 +63,17 @@ interface CatalogueUpdateCommandDTO {
 @Serializable
 data class CatalogueUpdateCommandDTOBase(
     override val id: CatalogueId,
+    override val draftId: CatalogueDraftId,
     override val title: String,
     override val description: String? = null,
     override val language: String,
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val themes: List<ConceptId>? = null,
-    override val creator: Agent? = null,
-    override val publisher: Agent? = null,
-    override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: LicenseId? = null,
     override val hidden: Boolean? = null,
+    override val versionNotes: String? = null,
 ): CatalogueUpdateCommandDTO
 
 /**
@@ -83,12 +81,12 @@ data class CatalogueUpdateCommandDTOBase(
  * @parent [CatalogueUpdateFunction]
  */
 @JsExport
-@JsName("CatalogueUpdatedEventDTO")
 interface CatalogueUpdatedEventDTO: Event {
     /**
      * Id of the updated catalogue.
      */
     val id: CatalogueId
+    val draftId: CatalogueDraftId
 }
 
 /**
@@ -96,5 +94,6 @@ interface CatalogueUpdatedEventDTO: Event {
  */
 @Serializable
 data class CatalogueUpdatedEventDTOBase(
-    override val id: CatalogueId
+    override val id: CatalogueId,
+    override val draftId: CatalogueDraftId,
 ): CatalogueUpdatedEventDTO

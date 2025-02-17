@@ -8,7 +8,7 @@ typealias DatasetId = String
 @Serializable
 data class CatalogueLinkDatasetsCommand(
     override val id: CatalogueId,
-    val datasets: List<DatasetId> = emptyList()
+    val datasetIds: List<DatasetId> = emptyList()
 ): CatalogueCommand
 
 @Serializable

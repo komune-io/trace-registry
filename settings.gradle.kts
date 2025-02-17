@@ -134,6 +134,9 @@ include(
 	"platform:data:f2:catalogue-f2:catalogue-f2-api",
 	"platform:data:f2:catalogue-f2:catalogue-f2-client",
 	"platform:data:f2:catalogue-f2:catalogue-f2-domain",
+	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-api",
+	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-client",
+	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-domain",
 	"platform:data:f2:concept-f2:concept-f2-api",
 	"platform:data:f2:concept-f2:concept-f2-client",
 	"platform:data:f2:concept-f2:concept-f2-domain",
@@ -148,6 +151,8 @@ include(
 include(
 	"platform:data:s2:catalogue:catalogue-api",
 	"platform:data:s2:catalogue:catalogue-domain",
+	"platform:data:s2:catalogue-draft:catalogue-draft-api",
+	"platform:data:s2:catalogue-draft:catalogue-draft-domain",
 	"platform:data:s2:concept:concept-api",
 	"platform:data:s2:concept:concept-domain",
 	"platform:data:s2:dataset:dataset-api",

@@ -11,7 +11,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDto
+import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -92,7 +92,7 @@ interface CatalogueDTO {
      * Represents the structure of a given catalogue within the catalog metadata.
      * This structure outlines the schema and configuration details necessary for the catalog entry.
      */
-    val structure: StructureDto?
+    val structure: StructureDTO?
 
     /**
      * A list of themes categorized as SKOS concepts.
@@ -154,19 +154,27 @@ interface CatalogueDTO {
     /**
      * The date of formal issuance (e.g., publication) of the dataset.
      */
-    val issued: Long?
+    val issued: Long
 
     /**
      * Represents the date when the dataset was last updated.
      * This is an optional property and may be null if the date is not available.
      */
-    val modified: Long?
+    val modified: Long
 
     /**
      * Whether the catalogue should be filtered out of search results (except from explicitly targeted fetches)
      * @example false
      */
     val hidden: Boolean
+
+    /**
+     * Pending drafts of the authenticated user for this catalogue.
+     */
+    val pendingDrafts: List<CatalogueDraftRefDTO>?
+
+    val version: Int
+    val versionNotes: String?
 }
 
 @Serializable
@@ -191,7 +199,10 @@ data class CatalogueDTOBase(
     override val validator: Agent? = null,
     override val accessRights: String? = null,
     override val license: LicenseDTOBase? = null,
-    override val issued: Long? = null,
-    override val modified: Long? = null,
-    override val hidden: Boolean = false
+    override val issued: Long,
+    override val modified: Long,
+    override val hidden: Boolean = false,
+    override val pendingDrafts: List<CatalogueDraftRefDTOBase>? = null,
+    override val version: Int,
+    override val versionNotes: String? = null,
 ): CatalogueDTO

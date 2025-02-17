@@ -18,13 +18,15 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         catalogueIds = catalogueIds.toList(),
         datasetIds = datasetIds.toList(),
         themeIds = themeIds.toList(),
-        creator = creator,
-        publisher = publisher,
-        validator = validator,
+        creatorId = creatorId,
+        publisherId = publisherId,
+        validatorId = validatorId,
         accessRights = accessRights,
         licenseId = licenseId,
         hidden = hidden,
         issued = issued,
         modified = modified,
+        version = version,
+        versionNotes = versionNotes
     )
 }

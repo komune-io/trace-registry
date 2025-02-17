@@ -16,7 +16,7 @@ export interface UploadImageModalProps {
 export const UploadImageModal = (props: UploadImageModalProps) => {
     const { onClose, open } = props
     const { t } = useTranslation()
-    const { reportId } = useParams()
+    const { draftId } = useParams()
     const [editor] = useLexicalComposerContext();
 
     const uploadImage = useDatasetAddMediaDistributionCommand({})
@@ -32,6 +32,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
                 command: {
                     id: editor._config.namespace,
                     mediaType: file.type,
+                    draftId: draftId!
                 },
                 files: [{
                     file: file
@@ -43,7 +44,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
                 onClose();
             }
         }
-    }, [onClose, uploadImage.mutateAsync, reportId, editor])
+    }, [onClose, uploadImage.mutateAsync, draftId, editor])
 
     const formState = useFormComposable({
         onSubmit,
