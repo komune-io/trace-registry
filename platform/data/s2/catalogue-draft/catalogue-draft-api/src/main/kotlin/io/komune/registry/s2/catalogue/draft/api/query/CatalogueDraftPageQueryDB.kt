@@ -26,6 +26,7 @@ class CatalogueDraftPageQueryDB(
         baseVersion: Match<Int>? = null,
         creatorId: Match<UserId>? = null,
         status: Match<CatalogueDraftState>? = null,
+        deleted: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueDraftEntity> = doQuery(offset) {
         match(`CatalogueDraftEntity$`.ID, id)
@@ -34,5 +35,6 @@ class CatalogueDraftPageQueryDB(
         match(`CatalogueDraftEntity$`.BASE_VERSION, baseVersion)
         match(`CatalogueDraftEntity$`.CREATOR_ID, creatorId)
         match(`CatalogueDraftEntity$`.STATUS, status)
+        match(`CatalogueDraftEntity$`.DELETED, deleted)
     }
 }

@@ -1,5 +1,6 @@
 package io.komune.registry.s2.catalogue.draft.api
 
+import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.map
@@ -62,6 +63,7 @@ class CatalogueDraftFinderService(
         baseVersion = baseVersion,
         creatorId = creatorId,
         status = status,
+        deleted = ExactMatch(false),
         offset = offset,
     ).map(CatalogueDraftEntity::toModel)
 }

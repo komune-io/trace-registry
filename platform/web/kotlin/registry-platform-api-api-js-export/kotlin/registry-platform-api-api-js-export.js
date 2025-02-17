@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -94,16 +94,16 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -1098,9 +1098,10 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor($serializer_66, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(CatalogueDraftEvent, 'CatalogueDraftEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_107});
   setMetadataFor(CatalogueDraftCreatedEvent, 'CatalogueDraftCreatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_63});
+  setMetadataFor(CatalogueDraftCommand, 'CatalogueDraftCommand', interfaceMeta, VOID, [S2Command]);
+  setMetadataFor(CatalogueDraftDeleteCommandDTO, 'CatalogueDraftDeleteCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_107, 'Companion', objectMeta);
   setMetadataFor(CatalogueDraftInitCommand, 'CatalogueDraftInitCommand', interfaceMeta, VOID, [S2InitCommand]);
-  setMetadataFor(CatalogueDraftCommand, 'CatalogueDraftCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(CatalogueDraftRejectCommandDTO, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_108, 'Companion', objectMeta);
   setMetadataFor($serializer_67, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
@@ -1220,6 +1221,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueSearchResultDTO, 'CatalogueSearchResultDTO', interfaceMeta, VOID, [DistributionPageDTO]);
   setMetadataFor(CatalogueDraftCreateCommandDTO, 'CatalogueDraftCreateCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftCreatedEventDTO, 'CatalogueDraftCreatedEventDTO', interfaceMeta);
+  setMetadataFor(CatalogueDraftDeleteCommandDTO_0, 'CatalogueDraftDeleteCommandDTO', interfaceMeta, VOID, [CatalogueDraftDeleteCommandDTO]);
+  setMetadataFor(CatalogueDraftDeletedEventDTO, 'CatalogueDraftDeletedEventDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftRejectCommandDTO_0, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftRejectCommandDTO]);
   setMetadataFor(CatalogueDraftRejectedEventDTO, 'CatalogueDraftRejectedEventDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftRequestUpdateCommandDTO_0, 'CatalogueDraftRequestUpdateCommandDTO', interfaceMeta, VOID, [CatalogueDraftRequestUpdateCommandDTO]);
@@ -27535,6 +27538,7 @@ if (typeof Math.imul === 'undefined') {
   var CatalogueDraftState_UPDATE_REQUESTED_instance;
   var CatalogueDraftState_VALIDATED_instance;
   var CatalogueDraftState_REJECTED_instance;
+  var CatalogueDraftState_DELETED_instance;
   function Companion_105() {
     Companion_instance_105 = this;
     var tmp = this;
@@ -27555,7 +27559,7 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_105;
   }
   function values_6() {
-    return [CatalogueDraftState_DRAFT_getInstance(), CatalogueDraftState_SUBMITTED_getInstance(), CatalogueDraftState_UPDATE_REQUESTED_getInstance(), CatalogueDraftState_VALIDATED_getInstance(), CatalogueDraftState_REJECTED_getInstance()];
+    return [CatalogueDraftState_DRAFT_getInstance(), CatalogueDraftState_SUBMITTED_getInstance(), CatalogueDraftState_UPDATE_REQUESTED_getInstance(), CatalogueDraftState_VALIDATED_getInstance(), CatalogueDraftState_REJECTED_getInstance(), CatalogueDraftState_DELETED_getInstance()];
   }
   function valueOf_3(value) {
     switch (value) {
@@ -27569,6 +27573,8 @@ if (typeof Math.imul === 'undefined') {
         return CatalogueDraftState_VALIDATED_getInstance();
       case 'REJECTED':
         return CatalogueDraftState_REJECTED_getInstance();
+      case 'DELETED':
+        return CatalogueDraftState_DELETED_getInstance();
       default:
         CatalogueDraftState_initEntries();
         THROW_IAE('No enum constant value.');
@@ -27585,6 +27591,7 @@ if (typeof Math.imul === 'undefined') {
     CatalogueDraftState_UPDATE_REQUESTED_instance = new CatalogueDraftState('UPDATE_REQUESTED', 2, 2);
     CatalogueDraftState_VALIDATED_instance = new CatalogueDraftState('VALIDATED', 3, 3);
     CatalogueDraftState_REJECTED_instance = new CatalogueDraftState('REJECTED', 4, 4);
+    CatalogueDraftState_DELETED_instance = new CatalogueDraftState('DELETED', 5, 5);
     Companion_getInstance_105();
   }
   function CatalogueDraftState(name, ordinal, position) {
@@ -27613,6 +27620,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDraftState_REJECTED_getInstance() {
     CatalogueDraftState_initEntries();
     return CatalogueDraftState_REJECTED_instance;
+  }
+  function CatalogueDraftState_DELETED_getInstance() {
+    CatalogueDraftState_initEntries();
+    return CatalogueDraftState_DELETED_instance;
   }
   function Companion_106() {
     Companion_instance_106 = this;
@@ -27712,6 +27723,8 @@ if (typeof Math.imul === 'undefined') {
       return false;
     return true;
   };
+  function CatalogueDraftDeleteCommandDTO() {
+  }
   function Companion_107() {
   }
   protoOf(Companion_107).nu = function () {
@@ -28320,6 +28333,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDraftCreateCommandDTO() {
   }
   function CatalogueDraftCreatedEventDTO() {
+  }
+  function CatalogueDraftDeleteCommandDTO_0() {
+  }
+  function CatalogueDraftDeletedEventDTO() {
   }
   function CatalogueDraftRejectCommandDTO_0() {
   }
@@ -31653,7 +31670,16 @@ if (typeof Math.imul === 'undefined') {
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'UPDATE_REQUESTED', CatalogueDraftState_UPDATE_REQUESTED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'VALIDATED', CatalogueDraftState_VALIDATED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'REJECTED', CatalogueDraftState_REJECTED_getInstance);
+    defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'DELETED', CatalogueDraftState_DELETED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'Companion', Companion_getInstance_105);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
+    var $io$komune$registry$s2$catalogue$draft = $io$komune$registry$s2$catalogue.draft || ($io$komune$registry$s2$catalogue.draft = {});
+    var $io$komune$registry$s2$catalogue$draft$domain = $io$komune$registry$s2$catalogue$draft.domain || ($io$komune$registry$s2$catalogue$draft.domain = {});
+    var $io$komune$registry$s2$catalogue$draft$domain$command = $io$komune$registry$s2$catalogue$draft$domain.command || ($io$komune$registry$s2$catalogue$draft$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
@@ -32087,6 +32113,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$draft = $io$komune$registry$f2$catalogue.draft || ($io$komune$registry$f2$catalogue.draft = {});
+    var $io$komune$registry$f2$catalogue$draft$domain = $io$komune$registry$f2$catalogue$draft.domain || ($io$komune$registry$f2$catalogue$draft.domain = {});
+    var $io$komune$registry$f2$catalogue$draft$domain$command = $io$komune$registry$f2$catalogue$draft$domain.command || ($io$komune$registry$f2$catalogue$draft$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

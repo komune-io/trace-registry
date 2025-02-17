@@ -3,6 +3,7 @@ package io.komune.registry.s2.catalogue.draft.api
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftEntity
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
@@ -20,6 +21,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		is CatalogueDraftRequestedUpdateEvent -> model?.requestUpdate(event)
 		is CatalogueDraftSubmittedEvent -> model?.submit(event)
 		is CatalogueDraftValidatedEvent -> model?.validate(event)
+		is CatalogueDraftDeletedEvent -> model?.delete(event)
 	}
 
 	private suspend fun create(event: CatalogueDraftCreatedEvent) = CatalogueDraftEntity().apply {
@@ -53,6 +55,11 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 
 	private suspend fun CatalogueDraftEntity.validate(event: CatalogueDraftValidatedEvent) = apply {
 		status = CatalogueDraftState.VALIDATED
+		modified = event.date
+	}
+
+	private suspend fun CatalogueDraftEntity.delete(event: CatalogueDraftDeletedEvent) = apply {
+		deleted = true
 		modified = event.date
 	}
 }
