@@ -142,12 +142,12 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 onCreate={onCreateDraft}
             />
             {currentLanguageDraft && <InfoTicket
-                title='Vous avez une contribution en cours sur cette fiche'
+                title={t("catalogues.activeContribution")}
             >
                 <LinkButton
                     to={cataloguesCatalogueIdDraftIdEdit(catalogue?.id!, currentLanguageDraft.id)}
                 >
-                    Consulter ma contribution
+                    {t("catalogues.consultContribution")}
                 </LinkButton>
             </InfoTicket>
             }

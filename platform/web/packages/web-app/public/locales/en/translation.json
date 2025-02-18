@@ -303,7 +303,12 @@
     "draftDeleteTitle": "Draft deletion of the sheet {{name}} in {{lang}}",
     "draftDeleteDescription": "This action is irreversible. Do you really want to delete this draft?",
     "validateTheDraft": "Validate the draft",
-    "saveTheDraft": "Save the draft"
+    "saveTheDraft": "Save the draft",
+    "activeContribution": "You have an active contribution on this sheet",
+    "alreadyHaveActiveContribution": "You already have an active contribution on this sheet",
+    "consultContribution": "Consult my contribution",
+    "newContributionReplace": "Creating a new contribution will replace your existing contribution",
+    "createNewContribution": "Create a new contribution"
   },
   "editor": {
     "imageUrl": "Image URL",
@@ -323,9 +328,9 @@
     }
   },
   "lang": {
-      "fr": "French",
-      "en": "English",
-      "es": "Spanish"
+    "fr": "French",
+    "en": "English",
+    "es": "Spanish"
   },
   "http": {
     "backendErrors": {},

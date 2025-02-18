@@ -303,7 +303,12 @@
         "draftDeleteTitle": "Suppression du brouillon de la fiche {{name}} en {{lang}}",
         "draftDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce brouillon ?",
         "validateTheDraft": "Valider le brouillon",
-        "saveTheDraft": "Enregistrer le brouillon"
+        "saveTheDraft": "Enregistrer le brouillon",
+        "activeContribution": "Vous avez une contribution en cours sur cette fiche",
+        "alreadyHaveActiveContribution": "Vous avez déjà une contribution en cours sur cette fiche",
+        "consultContribution": "Consulter ma contribution",
+        "newContributionReplace": "Créer une nouvelle contribution remplacera votre contribution existante",
+        "createNewContribution": "Créer une nouvelle contribution"
     },
     "editor": {
         "imageUrl": "URL de l'image",

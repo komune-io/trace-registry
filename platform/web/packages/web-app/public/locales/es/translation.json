@@ -303,7 +303,12 @@
     "draftDeleteTitle": "Eliminación del borrador de la ficha {{name}} en {{lang}}",
     "draftDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este borrador?",
     "validateTheDraft": "Validar el borrador",
-    "saveTheDraft": "Guardar el borrador"
+    "saveTheDraft": "Guardar el borrador",
+    "activeContribution": "Tienes una contribución en curso en esta ficha",
+    "alreadyHaveActiveContribution": "Ya tienes una contribución activa en esta ficha",
+    "consultContribution": "Consultar mi contribución",
+    "newContributionReplace": "Crear una nueva contribución reemplazará su contribución existente",
+    "createNewContribution": "Créer une nouvelle contribution"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

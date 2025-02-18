@@ -2,6 +2,7 @@ import { Button } from '@komune-io/g2'
 import { Typography } from '@mui/material'
 import { TmsPopUp, WarningTicket } from 'components'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface DraftReplacementModalProps {
     open: boolean
@@ -11,6 +12,7 @@ interface DraftReplacementModalProps {
 
 export const DraftReplacementModal = (props: DraftReplacementModalProps) => {
     const { open, onClose, onCreate } = props
+    const {t} = useTranslation()
 
     return (
         <TmsPopUp
@@ -19,12 +21,12 @@ export const DraftReplacementModal = (props: DraftReplacementModalProps) => {
             title={"Contribuer"}
         >
             <WarningTicket
-                title='Vous avez déjà une contribution en cours sur cette fiche'
+                title={t("catalogues.alreadyHaveActiveContribution")}
             >
                 <Typography
                     variant='caption'
                 >
-                    Créer une nouvelle contribution remplacera votre contribution existante
+                    {t("catalogues.newContributionReplace")}
                 </Typography>
             </WarningTicket>
             <Button
@@ -33,7 +35,7 @@ export const DraftReplacementModal = (props: DraftReplacementModalProps) => {
                 }}
                 onClick={onCreate}
             >
-                Créer une nouvelle contribution
+                {t("catalogues.createNewContribution")}
             </Button>
         </TmsPopUp>
     )
