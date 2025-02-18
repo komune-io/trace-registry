@@ -7,8 +7,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDTO

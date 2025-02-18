@@ -84,17 +84,6 @@ val s2Catalogue = s2Sourcing {
 }
 
 /**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias CatalogueId = String
-/**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias CatalogueIdentifier = String
-
-/**
  * @d2 automate
  * @visual automate platform/api/api-init/build/s2-documenter/Catalogue.json
  * @order 1

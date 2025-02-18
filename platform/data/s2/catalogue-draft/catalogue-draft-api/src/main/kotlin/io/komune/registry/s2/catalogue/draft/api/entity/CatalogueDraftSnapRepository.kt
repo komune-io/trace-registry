@@ -1,6 +1,6 @@
 package io.komune.registry.s2.catalogue.draft.api.entity
 
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueDraftId
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.snap.SnapRepository
 

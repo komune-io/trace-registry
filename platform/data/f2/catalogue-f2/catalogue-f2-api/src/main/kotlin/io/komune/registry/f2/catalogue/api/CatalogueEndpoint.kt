@@ -41,8 +41,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.commons.model.CatalogueId
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource

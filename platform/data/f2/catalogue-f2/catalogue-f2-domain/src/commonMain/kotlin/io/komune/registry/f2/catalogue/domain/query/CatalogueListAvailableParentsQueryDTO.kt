@@ -3,7 +3,7 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport

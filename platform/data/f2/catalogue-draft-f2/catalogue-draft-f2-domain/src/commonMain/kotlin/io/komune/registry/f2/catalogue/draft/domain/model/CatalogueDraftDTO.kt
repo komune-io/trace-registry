@@ -2,9 +2,9 @@ package io.komune.registry.f2.catalogue.draft.domain.model
 
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
 import kotlinx.serialization.Serializable

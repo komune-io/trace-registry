@@ -2,8 +2,8 @@ package io.komune.registry.f2.catalogue.draft.api.model
 
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import kotlin.math.max
 

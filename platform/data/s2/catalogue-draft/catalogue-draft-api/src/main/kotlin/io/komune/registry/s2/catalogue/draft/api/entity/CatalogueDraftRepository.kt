@@ -1,7 +1,7 @@
 package io.komune.registry.s2.catalogue.draft.api.entity
 
 import io.komune.registry.infra.redis.RedisRepository
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueDraftId
 import org.springframework.stereotype.Repository
 
 @Repository
