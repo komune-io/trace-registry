@@ -3658,7 +3658,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly originalCatalogueId: string;
         readonly language: string;
         readonly baseVersion: number;
-        readonly creatorId: string;
+        readonly creator: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
         readonly versionNotes?: string;
         readonly rejectReason?: string;

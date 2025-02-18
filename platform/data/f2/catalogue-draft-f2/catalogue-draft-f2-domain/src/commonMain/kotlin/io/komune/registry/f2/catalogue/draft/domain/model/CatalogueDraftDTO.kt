@@ -2,11 +2,12 @@ package io.komune.registry.f2.catalogue.draft.domain.model
 
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.f2.user.domain.model.UserRef
+import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.commons.model.UserId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -46,7 +47,7 @@ interface CatalogueDraftDTO {
     /**
      * Id of the user who created the draft.
      */
-    val creatorId: UserId
+    val creator: UserRefDTO
 
     /**
      * Status of the draft.
@@ -88,7 +89,7 @@ data class CatalogueDraftDTOBase(
     override val originalCatalogueId: CatalogueId,
     override val language: Language,
     override val baseVersion: Int,
-    override val creatorId: UserId,
+    override val creator: UserRef,
     override val status: CatalogueDraftState,
     override val versionNotes: String?,
     override val rejectReason: String?,
