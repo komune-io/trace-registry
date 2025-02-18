@@ -54,21 +54,24 @@ class CatalogueI18nService(
                 conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
             }
 
+            val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
+                ?.originalCatalogueId
+                ?.let { catalogueFinderService.get(it) }
+
             val parent = catalogueFinderService.page(
-                childrenIds = ExactMatch(translated.id),
+                childrenIds = ExactMatch(originalCatalogue?.id ?: translated.id),
                 offset = OffsetPagination(0, 1)
             ).items.firstOrNull()
 
             val drafts = AuthenticationProvider.getAuthedUser()?.id?.let {
                 catalogueDraftFinderService.page(
-                    originalCatalogueId = ExactMatch(translated.id),
+                    originalCatalogueId = ExactMatch(originalCatalogue?.id ?: translated.id),
                     status = collectionMatchOf(
                         CatalogueDraftState.DRAFT,
                         CatalogueDraftState.SUBMITTED,
                         CatalogueDraftState.UPDATE_REQUESTED
                     ),
-                    creatorId = ExactMatch(it),
-                    offset = OffsetPagination(0, 1)
+                    creatorId = ExactMatch(it)
                 )
             }
 
@@ -88,7 +91,7 @@ class CatalogueI18nService(
                     .map { datasetFinderService.get(it).toDTO() }
                     .filter { it.language == translated.language && it.status != DatasetState.DELETED },
                 themes = themes,
-                type = translated.type,
+                type = originalCatalogue?.type ?: translated.type,
                 language = translated.language!!,
                 availableLanguages = translated.translationIds.keys.toList(),
                 structure = translated.structure,

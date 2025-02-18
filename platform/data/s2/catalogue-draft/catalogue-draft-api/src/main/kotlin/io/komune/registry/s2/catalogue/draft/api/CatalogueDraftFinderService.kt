@@ -48,6 +48,10 @@ class CatalogueDraftFinderService(
         return draft
     }
 
+    suspend fun getByCatalogueIdOrNull(catalogueId: CatalogueId): CatalogueDraftModel? {
+        return catalogueDraftRepository.findByCatalogueId(catalogueId)?.toModel()
+    }
+
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,

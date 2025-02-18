@@ -5,4 +5,6 @@ import io.komune.registry.s2.commons.model.CatalogueDraftId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CatalogueDraftRepository: RedisRepository<CatalogueDraftEntity, CatalogueDraftId>
+interface CatalogueDraftRepository: RedisRepository<CatalogueDraftEntity, CatalogueDraftId> {
+    fun findByCatalogueId(catalogueId: String): CatalogueDraftEntity?
+}
