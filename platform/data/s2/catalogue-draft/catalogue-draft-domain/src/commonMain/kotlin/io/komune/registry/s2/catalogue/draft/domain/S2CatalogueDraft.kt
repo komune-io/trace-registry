@@ -25,7 +25,9 @@ val s2CatalogueDraft = s2Sourcing {
         role = CatalogueDraftRole.Issuer
     }
     transaction<CatalogueDraftSubmitCommand, CatalogueDraftSubmittedEvent> {
-        from = CatalogueDraftState.DRAFT
+        froms += CatalogueDraftState.DRAFT
+        froms += CatalogueDraftState.REJECTED
+        froms += CatalogueDraftState.UPDATE_REQUESTED
         to = CatalogueDraftState.SUBMITTED
         role = CatalogueDraftRole.Issuer
     }
