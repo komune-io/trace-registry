@@ -90,7 +90,7 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
             let url = undefined
             if (!toEdit) url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
             const status = row.original.status
-            if (status === "DRAFT" || status === "REJECTED" || status === "UPDATE_REQUESTED") {
+            if (status !== "VALIDATED") {
                 url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
             }
             return {

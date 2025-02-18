@@ -1,11 +1,12 @@
 import { TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueSections, CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand, useCatalogueDraftValidateCommand } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueSections, CatalogueTypes, CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { g2Config, useFormComposable } from '@komune-io/g2';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDraftMutations } from '../CatalogueEditionPage/useDraftMutations';
 
 export const CatalogueValidationPage = () => {
   const { draftId, catalogueId } = useParams()
@@ -37,37 +38,29 @@ export const CatalogueValidationPage = () => {
     }
   })
 
+  const {onValidate} = useDraftMutations({
+      metadataFormState,
+      setTab,
+      refetchDraft: catalogueDraftQuery.refetch,
+      catalogue,
+      afterValidateNavigate: cataloguesToVerify()
+  })
+
   const title = catalogue?.title ?? t("sheetValidation")
 
   const tabs: Tab[] = useMemo(() => {
     const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm formState={metadataFormState} type='100m-solution' />,
+      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
     }, {
       key: 'info',
       label: t('informations'),
-      component: <CatalogueSections readOnly catalogue={catalogue} />,
+      component: <CatalogueSections catalogue={catalogue} />,
     },
     ]
     return tabs
   }, [t, catalogue, metadataFormState])
-
-  const validateDraft = useCatalogueDraftValidateCommand({})
-
-  const onValidate = useCallback(
-    async () => {
-      const res = await validateDraft.mutateAsync({
-        id: draftId!,
-      })
-      if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(cataloguesToVerify())
-      }
-    },
-    [catalogueId],
-  )
 
   const rejectDraft = useCatalogueDraftRejectCommand({})
 
@@ -92,7 +85,6 @@ export const CatalogueValidationPage = () => {
       maxWidth={1020}
       customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} />}
     >
-
       <TitleDivider title={title} />
       <SectionTab
         keepMounted

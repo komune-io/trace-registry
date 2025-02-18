@@ -65,18 +65,18 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             {onValidate && <Button
             onClick={onValidate}
             >
-                {t("catalogues.validateTheDraft")}
+                {t("validate")}
             </Button>}
             {onSave && <Button
                 onClick={onSave}
             >
                 {t("catalogues.saveTheDraft")}
             </Button>}
-            <Button
+            {draft?.status !== "SUBMITTED" && <Button
             onClick={toggle}
             >
                 {t("sendForValidation")}
-            </Button>
+            </Button>}
             <IconButton
                 {...buttonProps}
                 size={"small"}

@@ -11,10 +11,11 @@ interface useDraftMutationsParams {
   setTab: (tab: string) => void
   catalogue?: Catalogue
   refetchDraft: () => void
+  afterValidateNavigate?: string
 }
 
 export const useDraftMutations = (params: useDraftMutationsParams) => {
-  const { metadataFormState, setTab, catalogue, refetchDraft } = params
+  const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
@@ -148,10 +149,10 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(cataloguesAll(undefined, catalogueId!))
+        navigate(afterValidateNavigate ?? cataloguesAll(undefined, catalogueId!))
       }
     },
-    [deleteCatalogue.mutateAsync, draftId, catalogueId],
+    [deleteCatalogue.mutateAsync, draftId, catalogueId, afterValidateNavigate],
   )
 
   return {
