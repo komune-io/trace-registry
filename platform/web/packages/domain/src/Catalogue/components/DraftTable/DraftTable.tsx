@@ -8,7 +8,7 @@ import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
 
-function useDraftColumn(withStatus: boolean) {
+function useDraftColumn(withStatus: boolean, withOperation: boolean) {
     const { t } = useTranslation();
     return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
@@ -54,6 +54,16 @@ function useDraftColumn(withStatus: boolean) {
                 cell: ({ row }) => languageToEmojiFlag[row.original.language]
             },
 
+            ...(withOperation ? {
+                status: generators.text({
+                    header: t("operation"),
+                    getCellProps: (draft) => ({
+                        value: draft.baseVersion === 0 ? t("newSheet") : t("edition")
+                    })
+                })
+            } : {}
+            ),
+
             update: generators.date({
                 header: t("update"),
                 getCellProps: (draft) => ({
@@ -70,15 +80,16 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
     pagination: OffsetPagination
     isLoading?: boolean
     withStatus?: boolean
+    withOperation?: boolean
     toEdit?: boolean
 }
 
 export const DraftTable = (props: DraftTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, toEdit = false, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
     const { cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
     const { t } = useTranslation()
 
-    const columns = useDraftColumn(withStatus)
+    const columns = useDraftColumn(withStatus, withOperation)
 
     const tableState = useTable({
         data: page?.items ?? [],

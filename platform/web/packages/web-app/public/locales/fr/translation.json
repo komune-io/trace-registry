@@ -137,6 +137,9 @@
     "or": "Ou",
     "confirm": "Confirmer",
     "title": "Titre",
+    "newSheet": "Nouvelle fiche",
+    "edition": "Edition",
+    "operation": "Opération",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

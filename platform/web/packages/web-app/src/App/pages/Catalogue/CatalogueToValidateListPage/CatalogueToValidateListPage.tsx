@@ -5,7 +5,7 @@ import {
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
-import {  useMemo } from "react"
+import { useMemo } from "react"
 
 
 export const CatalogueToValidateListPage = () => {
@@ -19,8 +19,8 @@ export const CatalogueToValidateListPage = () => {
 
     const { data, isInitialLoading } = useCatalogueDraftPageQuery({
         query: {
-           ...submittedFilters,
-           status: ["SUBMITTED"]
+            ...submittedFilters,
+            status: ["SUBMITTED"]
         }
     })
 
@@ -34,6 +34,7 @@ export const CatalogueToValidateListPage = () => {
         >
             {component}
             <DraftTable
+                withOperation
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}
