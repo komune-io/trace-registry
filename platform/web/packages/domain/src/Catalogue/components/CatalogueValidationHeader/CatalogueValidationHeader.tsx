@@ -20,6 +20,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
 
     const [open, _, toggle] = useToggleState()
     
+    if (!draft) return <></>
     return (
         <Paper
             elevation={2}
@@ -46,7 +47,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     <Typography
                         variant='subtitle1'
                     >
-                        {t("catalogues.reviewModifications", { name: "Pedro Sanchez" })}
+                        {t("catalogues.reviewModifications", { name: `${draft.creator.givenName} ${draft.creator.familyName}` })}
                     </Typography>
                     <Tooltip
 
@@ -71,7 +72,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                                         color: "text.secondary"
                                     }}
                                 >
-                                    {draft?.versionNotes}
+                                    {draft.versionNotes}
                                 </Typography>
                             </Stack>
                         }
@@ -93,7 +94,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     </Link>
                     <Link
                         variant="body2"
-                        href='mailto:admin@objectif100m.fr'
+                        href={`mailto:${draft.creator.email}`}
                         sx={{
                             display: "flex",
                             gap: 1,

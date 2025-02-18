@@ -5,7 +5,7 @@ import { Box, IconButton, Stack } from '@mui/material'
 import { Button } from '@komune-io/g2'
 import { DeleteRounded, MoreVert } from '@mui/icons-material'
 import { useButtonMenu, useConfirmationPopUp, useToggleState } from 'components'
-import { DraftStatusChip } from '../CatalogueTable'
+import { DraftStatusChip } from '../DraftTable'
 import { SubmitModal } from './SubmitModal'
 
 interface CatalogueEditionHeaderProps {

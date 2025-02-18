@@ -1,6 +1,6 @@
 import {
-    useCataloguesFilters,
-    CatalogueTable,
+    useDraftsFilters,
+    DraftTable,
     ContributionModal,
     useCatalogueDraftPageQuery
 } from 'domain-components'
@@ -22,7 +22,7 @@ export const ContributionListPage = () => {
 
     const [open, _, toggle] = useToggleState({ defaultOpen: successfullContribution })
 
-    const { submittedFilters, setOffset, component } = useCataloguesFilters({
+    const { submittedFilters, setOffset, component } = useDraftsFilters({
     })
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
@@ -44,7 +44,7 @@ export const ContributionListPage = () => {
             }}
         >
             {component}
-            <CatalogueTable
+            <DraftTable
                 withStatus
                 toEdit
                 page={data}

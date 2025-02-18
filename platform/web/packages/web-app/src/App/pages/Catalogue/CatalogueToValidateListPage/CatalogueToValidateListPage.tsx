@@ -1,6 +1,6 @@
 import {
-    useCataloguesFilters,
-    CatalogueTable,
+    useDraftsFilters,
+    DraftTable,
     useCatalogueDraftPageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import {  useMemo } from "react"
 export const CatalogueToValidateListPage = () => {
     const { t } = useTranslation()
 
-    const { submittedFilters, setOffset, component } = useCataloguesFilters({
+    const { submittedFilters, setOffset, component } = useDraftsFilters({
     })
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
@@ -33,7 +33,7 @@ export const CatalogueToValidateListPage = () => {
             }}
         >
             {component}
-            <CatalogueTable
+            <DraftTable
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}
