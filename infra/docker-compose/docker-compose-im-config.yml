@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REPOSITORY}im-script:${VERSION_IM}
     container_name: im-config
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       - im_script_space_auth_serverUrl=${PUBLIC_URL_KC}
       - im_script_space_auth_clientId=${KC_IM_CLIENT_ID}

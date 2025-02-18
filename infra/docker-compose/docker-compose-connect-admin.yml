@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REPOSITORY}connect-admin-web:${VERSION_CONNECT_ADMIN}
     container_name: connect-admin-web
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     labels:
       traefik.enable: "true"
       traefik.http.services.connect-admin-web.loadbalancer.server.port: "80"
