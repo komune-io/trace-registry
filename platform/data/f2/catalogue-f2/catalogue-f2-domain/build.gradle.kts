@@ -15,6 +15,8 @@ dependencies {
 	commonMainApi(project(Modules.data.dsl.dcat))
 	commonMainApi(project(Modules.data.dsl.structure))
 
+	commonMainApi(project(Modules.identity.f2.user.domain))
+
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }
 }

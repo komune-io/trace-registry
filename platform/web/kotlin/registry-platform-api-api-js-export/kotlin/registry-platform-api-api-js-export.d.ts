@@ -3258,6 +3258,35 @@ export declare namespace io.komune.registry.f2.license.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.f2.user.domain.command {
+    interface UserOnboardCommandDTO {
+        readonly email: string;
+        readonly password: string;
+        readonly givenName: string;
+        readonly familyName: string;
+        readonly organizationName: string;
+        readonly joinReason: string;
+        readonly acceptTermsOfUse: boolean;
+        readonly acceptChart100M: boolean;
+        readonly acceptNewsletter: boolean;
+
+    }
+    interface UserOnboardedEventDTO {
+        readonly id: string;
+        readonly organizationId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.user.domain.model {
+    interface UserRefDTO {
+        readonly id: string;
+        readonly email: string;
+        readonly givenName: string;
+        readonly familyName: string;
+        readonly memberOf: string;
+
+    }
+}
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueCreateCommandDTO {
         readonly identifier?: string;
@@ -3389,9 +3418,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
-        readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
-        readonly validator?: io.komune.registry.dsl.dcat.domain.model.Agent;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly publisher?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly accessRights?: string;
         readonly license?: io.komune.registry.f2.license.domain.model.LicenseDTO;
         readonly issued: number;
@@ -3661,25 +3690,6 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.query {
     interface CatalogueDraftPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.user.domain.command {
-    interface UserOnboardCommandDTO {
-        readonly email: string;
-        readonly password: string;
-        readonly givenName: string;
-        readonly familyName: string;
-        readonly organizationName: string;
-        readonly joinReason: string;
-        readonly acceptTermsOfUse: boolean;
-        readonly acceptChart100M: boolean;
-        readonly acceptNewsletter: boolean;
-
-    }
-    interface UserOnboardedEventDTO {
-        readonly id: string;
-        readonly organizationId: string;
 
     }
 }

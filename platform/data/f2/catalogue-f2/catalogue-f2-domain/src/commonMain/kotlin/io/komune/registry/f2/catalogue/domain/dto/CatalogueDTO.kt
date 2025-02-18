@@ -1,12 +1,13 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
-import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
+import io.komune.registry.f2.user.domain.model.UserRef
+import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
@@ -128,17 +129,17 @@ interface CatalogueDTO {
     /**
      * The agent responsible for creating the catalogue.
      */
-    val creator: Agent?
+    val creator: UserRefDTO?
 
     /**
      * The agent responsible for making the dataset available.
      */
-    val publisher: Agent?
+    val publisher: UserRefDTO?
 
     /**
      * The agent responsible for validating the content of the dataset.
      */
-    val validator: Agent?
+    val validator: UserRefDTO?
 
     /**
      * Describes the access rights to the dataset. This can indicate permissions, restrictions, or special authorizations
@@ -194,9 +195,9 @@ data class CatalogueDTOBase(
     override val datasets: List<DatasetDTOBase>? = null,
     override val catalogues: List<CatalogueRefDTOBase>? = null,
     override val status: CatalogueState,
-    override val creator: Agent? = null,
-    override val publisher: Agent? = null,
-    override val validator: Agent? = null,
+    override val creator: UserRef? = null,
+    override val publisher: UserRef? = null,
+    override val validator: UserRef? = null,
     override val accessRights: String? = null,
     override val license: LicenseDTOBase? = null,
     override val issued: Long,
