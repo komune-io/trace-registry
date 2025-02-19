@@ -33,6 +33,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
@@ -139,9 +140,7 @@ class CatalogueF2AggregateService(
         val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, command.id)
         doUpdate(command.copy(id = draft.catalogueId))
 
-        val originalCatalogue = catalogueFinderService.get(draft.originalCatalogueId)
-        val typeConfiguration = catalogueConfig.typeConfigurations[originalCatalogue.type]
-        command.parentId?.let { assignParent(draft.originalCatalogueId, it, typeConfiguration) }
+        command.parentId?.let { replaceParent(draft.originalCatalogueId, it) }
 
         return CatalogueUpdatedEventDTOBase(
             id = command.id,
@@ -332,6 +331,27 @@ class CatalogueF2AggregateService(
         }
 
         return event
+    }
+
+    private suspend fun replaceParent(catalogueId: CatalogueId, parentId: CatalogueId) {
+        val parent = catalogueFinderService.get(parentId)
+
+        if (catalogueId in parent.catalogueIds) {
+            return
+        }
+
+        val catalogue = catalogueFinderService.get(catalogueId)
+        val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
+
+        catalogueFinderService.page(
+            childrenIds = ExactMatch(catalogueId),
+        ).items.forEach { currentParent ->
+            CatalogueUnlinkCataloguesCommand(
+                id = currentParent.id,
+                catalogues = listOf(catalogueId)
+            ).let { catalogueAggregateService.unlinkCatalogues(it) }
+        }
+        assignParent(catalogueId, parentId, typeConfiguration)
     }
 
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
