@@ -85,13 +85,13 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     alignItems="center"
                     gap={2}
                 >
-                    <Link
+                   {draft.baseVersion !== 0 && <Link
                         variant="body2"
                         href={cataloguesAll(undefined, catalogueId!)}
                         target='_blank'
                     >
                         {t("catalogues.consultOriginal")}
-                    </Link>
+                    </Link>}
                     <Link
                         variant="body2"
                         href={`mailto:${draft.creator.email}`}

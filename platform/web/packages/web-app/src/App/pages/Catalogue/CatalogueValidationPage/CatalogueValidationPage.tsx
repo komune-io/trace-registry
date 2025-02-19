@@ -56,11 +56,11 @@ export const CatalogueValidationPage = () => {
     }, {
       key: 'info',
       label: t('informations'),
-      component: <CatalogueSections catalogue={catalogue} />,
+      component: <CatalogueSections isLoading={catalogueDraftQuery.isInitialLoading} catalogue={catalogue} />,
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState])
+  }, [t, catalogue, metadataFormState, catalogueDraftQuery.isInitialLoading])
 
   const rejectDraft = useCatalogueDraftRejectCommand({})
 

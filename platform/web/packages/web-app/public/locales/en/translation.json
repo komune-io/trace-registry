@@ -140,6 +140,7 @@
   "newSheet": "New sheet",
   "edition": "Edition",
   "operation": "Operation",
+  "validate": "Validate",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

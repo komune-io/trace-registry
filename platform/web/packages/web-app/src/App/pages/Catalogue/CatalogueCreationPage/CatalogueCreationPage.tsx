@@ -40,9 +40,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
         })
 
         if (res) {
-          queryClient.invalidateQueries({queryKey: ["data/cataloguePage"]})
-          queryClient.invalidateQueries({queryKey: ["data/catalogueRefGetTree"]})
-          queryClient.invalidateQueries({queryKey: ["data/catalogueListAvailableParents"]})
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
           navigate(cataloguesCatalogueIdDraftIdEdit(res.id, res.draftId))
         }
       },
