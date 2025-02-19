@@ -36,7 +36,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -48,7 +47,11 @@ import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -91,6 +94,7 @@ class CatalogueF2AggregateService(
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
             command = command.copy(identifier = "${originalCatalogueEvent.identifier}-draft"),
+            originalCatalogueId = originalCatalogueEvent.id,
             inferIdentifier = true,
             inferTranslationType = true,
             initDatasets = true
@@ -117,11 +121,14 @@ class CatalogueF2AggregateService(
 
     suspend fun createOrphanTranslation(
         command: CatalogueCreateCommandDTOBase,
+        originalCatalogueId: CatalogueId,
         inferIdentifier: Boolean,
         inferTranslationType: Boolean,
         initDatasets: Boolean
     ): CatalogueCreatedEvent {
         requireNotNull(command.language) { "Language is required for catalogue translation." }
+
+        val originalCatalogue = catalogueFinderService.get(originalCatalogueId)
 
         val identifier = command.identifier.takeUnless { inferIdentifier }
             ?: "${command.identifier}-${command.language}"
@@ -132,7 +139,12 @@ class CatalogueF2AggregateService(
 
         return command.copy(
             identifier = identifier,
-            type = translationType
+            type = translationType,
+            structure = command.structure ?: originalCatalogue.structure,
+            homepage = command.homepage ?: originalCatalogue.homepage,
+            themes = command.themes ?: originalCatalogue.themeIds,
+            accessRights = command.accessRights ?: originalCatalogue.accessRights,
+            license = command.license ?: originalCatalogue.licenseId
         ).let { doCreate(it, isTranslation = true, initDatasets) }
     }
 
@@ -201,29 +213,15 @@ class CatalogueF2AggregateService(
         draftedCatalogue.toUpdateCommand("", draft.language).copy(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
-            versionNotes = draft.versionNotes
+            versionNotes = draft.versionNotes,
         ).let { doUpdate(it) }
 
-        // also map with automatically created datasets in doCreate
-        val updatedCatalogue = catalogueF2FinderService.get(draft.originalCatalogueId, draft.language)
-        val existingDatasetIdsByIdentifier = updatedCatalogue.datasets?.associate { it.identifier to it.id }.orEmpty()
-
         val datasetIds = draftedCatalogue.datasetIds.mapAsync { draftedDatasetId ->
-            val draftedDataset = datasetFinderService.get(draftedDatasetId)
-            val draftedDatasetIdentifier = draftedDataset.identifier.substringBeforeLast("-draft")
-
             val originalDatasetId = draft.datasetIdMap.entries
                 .firstOrNull { it.value == draftedDatasetId }
                 ?.key
-                ?: existingDatasetIdsByIdentifier[draftedDatasetIdentifier]
 
-            if (originalDatasetId == null) {
-                draftedDataset.toCreateCommand(draftedDatasetIdentifier)
-                    .let { datasetAggregateService.create(it).id }
-            } else {
-                draftedDataset.toUpdateCommand(originalDatasetId)
-                    .let { datasetAggregateService.update(it).id }
-            }
+            applyDatasetUpdates(draftedDatasetId, originalDatasetId)
         }
         linkDatasets(draft.originalCatalogueId, datasetIds)
 
@@ -276,7 +274,8 @@ class CatalogueF2AggregateService(
                 language = command.language!!,
                 title = command.title,
                 description = command.description,
-                versionNotes = command.versionNotes
+                versionNotes = command.versionNotes,
+                initDatasets = initDatasets
             )
         }
 
@@ -292,7 +291,9 @@ class CatalogueF2AggregateService(
         return catalogueCreatedEvent
     }
 
-    private suspend fun doUpdate(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEvent {
+    private suspend fun doUpdate(
+        command: CatalogueUpdateCommandDTOBase
+    ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
 
         if (catalogue.language == command.language) {
@@ -326,7 +327,8 @@ class CatalogueF2AggregateService(
                 language = command.language,
                 title = command.title,
                 description = command.description,
-                versionNotes = command.versionNotes
+                versionNotes = command.versionNotes,
+                initDatasets = false
             )
         }
 
@@ -436,7 +438,8 @@ class CatalogueF2AggregateService(
         language: Language,
         title: String,
         description: String?,
-        versionNotes: String?
+        versionNotes: String?,
+        initDatasets: Boolean
     ) {
         val translationId = CatalogueCreateCommandDTOBase(
             identifier = "$parentIdentifier-${language}",
@@ -445,11 +448,54 @@ class CatalogueF2AggregateService(
             description = description,
             language = language,
             versionNotes = versionNotes,
-        ).let { doCreate(it, isTranslation = true).id }
+        ).let { doCreate(it, isTranslation = true, initDatasets = initDatasets).id }
 
         CatalogueAddTranslationsCommand(
             id = parentId,
             catalogues = listOf(translationId)
         ).let { catalogueAggregateService.addTranslations(it) }
+    }
+
+    private suspend fun applyDatasetUpdates(draftedDatasetId: DatasetId, originalDatasetId: DatasetId?): DatasetId {
+        val draftedDataset = datasetFinderService.get(draftedDatasetId)
+        val draftedDatasetIdentifier = draftedDataset.identifier.substringBeforeLast("-draft")
+
+        val datasetId = if (originalDatasetId == null) {
+            draftedDataset.toCreateCommand(draftedDatasetIdentifier)
+                .let { datasetAggregateService.create(it).id }
+        } else {
+            draftedDataset.toUpdateCommand(originalDatasetId)
+                .let { datasetAggregateService.update(it).id }
+        }
+
+        val originalDataset = datasetFinderService.get(datasetId)
+
+        draftedDataset.distributions.mapAsync { distribution ->
+            if (originalDataset.distributions.any { it.id == distribution.id }) {
+                DatasetUpdateDistributionCommand(
+                    id = datasetId,
+                    distributionId = distribution.id,
+                    downloadPath = distribution.downloadPath,
+                    mediaType = distribution.mediaType
+                ).let { datasetAggregateService.updateDistribution(it) }
+            } else {
+                DatasetAddDistributionCommand(
+                    id = datasetId,
+                    distributionId = distribution.id,
+                    downloadPath = distribution.downloadPath,
+                    mediaType = distribution.mediaType
+                ).let { datasetAggregateService.addDistribution(it) }
+            }
+        }
+        originalDataset.distributions.filter { distribution ->
+            draftedDataset.distributions.none { it.id == distribution.id }
+        }.mapAsync { distribution ->
+            DatasetRemoveDistributionCommand(
+                id = datasetId,
+                distributionId = distribution.id
+            ).let { datasetAggregateService.removeDistribution(it) }
+        }
+
+        return datasetId
     }
 }

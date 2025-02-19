@@ -130,7 +130,7 @@ class DatasetAggregateService(
 		DatasetAddedDistributionEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			distributionId = UUID.randomUUID().toString(),
+			distributionId = cmd.distributionId ?: UUID.randomUUID().toString(),
 			downloadPath = cmd.downloadPath,
 			mediaType = cmd.mediaType
 		)

@@ -37,7 +37,7 @@ fun DatasetEntity.toModel() = DatasetModel(
     issued = issued,
     modified = modified,
     releaseDate = releaseDate,
-    distributions = distributions?.sortedBy { it.issued }?.map { it.toModel() },
+    distributions = distributions?.sortedBy { it.issued }?.map { it.toModel() }.orEmpty(),
 )
 
 fun DistributionEntity.toModel() = DistributionModel(

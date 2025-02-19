@@ -1,19 +1,22 @@
 window._env_ = {
-  platform: {
-    url: "http://localhost:8071"
-  },
-  config: {
-    i2: {
-      url: "https://dev.connect.smart-b.io/im", 
+    platform: {
+        url: "https://100m.kosmio.dev/api"
     },
-    keycloak: {
-      realm: "registry-local",
-      clientId: "registry-platform-web",
-      url: "http://im-keycloak:8080"
+    im: {
+        url: "https://connect.100m.kosmio.dev/im",
     },
-  },
-  theme: {
-    primaryColor: "#492161",
-    backgroundColor: "#FBFBFC"
-  }
+    admin: {
+        url: "https://connect.100m.kosmio.dev",
+    },
+    config: {
+        keycloak: {
+            realm: "registry-local",
+            clientId: "connect-admin-platform-web",
+            url: "https://auth.connect.100m.kosmio.dev"
+        }
+    },
+    theme: {
+        primaryColor: "#492161",
+        backgroundColor: "#F6F4F7"
+    }
 };
