@@ -33,6 +33,8 @@ interface CatalogueUpdateCommandDTO {
 
     val draftId: CatalogueDraftId
 
+    val parentId: CatalogueId?
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.title]
      */
@@ -64,6 +66,7 @@ interface CatalogueUpdateCommandDTO {
 data class CatalogueUpdateCommandDTOBase(
     override val id: CatalogueId,
     override val draftId: CatalogueDraftId,
+    override val parentId: CatalogueId? = null,
     override val title: String,
     override val description: String? = null,
     override val language: String,

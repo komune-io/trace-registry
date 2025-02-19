@@ -3383,6 +3383,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueUpdateCommandDTO {
         readonly id: string;
         readonly draftId: string;
+        readonly parentId?: string;
         readonly title: string;
         readonly description?: string;
         readonly language: string;

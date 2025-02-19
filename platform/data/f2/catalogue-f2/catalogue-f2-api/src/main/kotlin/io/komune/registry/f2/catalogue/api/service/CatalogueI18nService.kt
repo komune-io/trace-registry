@@ -79,7 +79,7 @@ class CatalogueI18nService(
 
             CatalogueDTOBase(
                 id = translated.id,
-                identifier = translated.identifier,
+                identifier = originalCatalogue?.identifier ?: translated.identifier,
                 parentId = parent?.id,
                 status = translated.status,
                 title = translated.title,
