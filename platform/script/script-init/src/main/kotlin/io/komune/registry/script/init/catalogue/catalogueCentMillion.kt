@@ -117,7 +117,7 @@ fun Systeme(debug: String) = catalogue {
 
 fun EtudeDeCas(debug: String) = catalogue {
     identifier = "objectif100m-EtudeDeCas${debug}"
-    type = "100m-usecases"
+    type = "100m-projects"
     structure = Structure("item")
     img = getImg(IMG_USECASE)
     translation("fr") {
@@ -295,7 +295,7 @@ object CentMSecteur {
 
             catalogue {
                 identifier = "100m-sectors-AgricultureBois-Bois-EtudeDeCas${debug}"
-                type = "100m-usecase"
+                type = "100m-project"
                 structure = Structure("item")
                 img = getImg(IMG_USECASE)
 
@@ -321,7 +321,7 @@ object CentMSecteur {
                 catalogues {
                     catalogue {
                         identifier = "E-84${debug}"
-                        type = "100m-usecase"
+                        type = "100m-project"
                         structure = Structure("item")
                         img = getImg(IMG_USECASE)
                         translation("fr") {
