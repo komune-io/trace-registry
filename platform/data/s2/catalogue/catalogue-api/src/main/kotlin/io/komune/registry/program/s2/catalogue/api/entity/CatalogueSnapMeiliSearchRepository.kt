@@ -55,8 +55,8 @@ class CatalogueSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun get(id: CatalogueId): CatalogueModel? = withContext(Dispatchers.IO) {
-        try {
+    suspend fun get(id: CatalogueId): CatalogueModel? {
+        return try {
             catalogueIndex.getDocument(id, CatalogueModel::class.java)
         } catch (e: MeilisearchApiException) {
             if (e.code == "document_not_found") {
@@ -72,8 +72,8 @@ class CatalogueSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun remove(id: CatalogueId): Boolean = withContext(Dispatchers.IO) {
-        try {
+    suspend fun remove(id: CatalogueId): Boolean {
+        return try {
             catalogueIndex.deleteDocument(id)
             true
         } catch (e: Exception) {
@@ -82,32 +82,32 @@ class CatalogueSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
+    suspend fun save(entity: CatalogueEntity) {
         if (entity.status == CatalogueState.DELETED) {
             remove(entity.id)
-            return@withContext
+            return
         }
 
         updateDraft(entity)
 
         if (!entity.type.contains("translation")) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return@withContext
+            return
         }
 
         val domain = catalogueI18nService.rebuildModel(entity)
 
         if (domain == null) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return@withContext;
+            return
         }
         if (domain.hidden) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}] is hidden")
-            return@withContext
+            return
         }
         if (!indexedCatalogueTypes.contains(domain.type)) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}] is not contained in ${searchProperties.indexedCatalogue}")
-            return@withContext;
+            return
         }
 
         logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
@@ -142,6 +142,10 @@ class CatalogueSnapMeiliSearchRepository(
                     title = catalogue.title,
                     modified = System.currentTimeMillis()
                 )
+
+                if (draftEntity.title == updatedDraft.title) {
+                    return@mapAsync
+                }
 
                 val jsonString = objectMapper.writeValueAsString(listOf(updatedDraft))
                 catalogueDraftIndex.updateDocuments(jsonString, "id")
