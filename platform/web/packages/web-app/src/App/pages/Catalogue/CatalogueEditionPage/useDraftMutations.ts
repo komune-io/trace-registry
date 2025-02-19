@@ -111,11 +111,14 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          navigate(cataloguesAll(catalogueId))
+          queryClient.invalidateQueries({queryKey: ["data/cataloguePage"]})
+          queryClient.invalidateQueries({queryKey: ["data/catalogueRefGetTree"]})
+          queryClient.invalidateQueries({queryKey: ["data/catalogueListAvailableParents"]})
+          navigate(afterValidateNavigate ?? cataloguesAll(catalogueId))
         }
       }
     },
-    [onSave, catalogueId],
+    [onSave, catalogueId, afterValidateNavigate],
   )
 
   const submitDraft = useCatalogueDraftSubmitCommand({})
@@ -129,6 +132,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           versionNotes: reason
         })
         if (res) {
+          refetchDraft()
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
           navigate(cataloguesContributions() + "?successfullContribution=true")
@@ -149,10 +153,10 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(afterValidateNavigate ?? cataloguesAll(undefined, catalogueId!))
+        navigate(cataloguesAll(undefined, catalogueId!))
       }
     },
-    [deleteCatalogue.mutateAsync, draftId, catalogueId, afterValidateNavigate],
+    [deleteCatalogue.mutateAsync, draftId, catalogueId],
   )
 
   return {

@@ -5,18 +5,20 @@ import {
     ListItemIcon,
     ListItemText,
     ListProps,
-    alpha
+    alpha,
+    Box,
+    Typography
 } from '@mui/material'
 import { useCallback, useMemo } from 'react'
 import {
     DropdownMenu,
-    MenuItems,
 } from '@komune-io/g2'
+import { TMSMenuItems } from '../hooks'
 
 
 
 interface MenuProps extends ListProps {
-    menu: MenuItems[]
+    menu: TMSMenuItems[]
 }
 
 export const Menu = (props: MenuProps) => {
@@ -35,7 +37,7 @@ export const Menu = (props: MenuProps) => {
 }
 
 
-const Item = (props: MenuItems) => {
+const Item = (props: TMSMenuItems) => {
     const {
         icon,
         label,
@@ -45,6 +47,7 @@ const Item = (props: MenuItems) => {
         items,
         component,
         isSelected = false,
+        number,
         ...other
     } = props
     const onItemClick = useCallback(
@@ -79,6 +82,27 @@ const Item = (props: MenuItems) => {
                         primaryTypographyProps={{ color: 'inherit', variant: isSelected ? "subtitle2" : "body2" }}
                         primary={label}
                     />
+                )}
+                {!!number && (
+                    <Box
+                        sx={{
+                            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                            color: "primary.main",
+                            width: "26px",
+                            height: "26px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "50%",
+                            ml: 0.5
+                        }}
+                    >
+                        <Typography
+                            variant="caption"
+                        >
+                            {number}
+                        </Typography>
+                    </Box>
                 )}
             </ListItemButton>
             {items && items.length > 0 && <Collapse in={isSelected}>

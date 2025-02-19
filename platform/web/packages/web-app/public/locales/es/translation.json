@@ -140,6 +140,7 @@
   "newSheet": "Nueva ficha",
   "edition": "Edición",
   "operation": "Operación",
+  "validate": "Validar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
