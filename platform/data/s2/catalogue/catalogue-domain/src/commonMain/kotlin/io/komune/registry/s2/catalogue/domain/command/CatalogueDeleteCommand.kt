@@ -1,6 +1,6 @@
 package io.komune.registry.s2.catalogue.domain.command
 
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueId
 import kotlinx.serialization.Serializable
 
 data class CatalogueDeleteCommand(

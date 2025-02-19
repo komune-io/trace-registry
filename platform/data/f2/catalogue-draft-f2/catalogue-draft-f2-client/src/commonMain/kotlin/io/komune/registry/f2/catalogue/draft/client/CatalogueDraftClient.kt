@@ -9,6 +9,7 @@ import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeleteFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitFunction
@@ -56,6 +57,7 @@ open class CatalogueDraftClient(val client: F2Client) : CatalogueDraftApi {
         = client.function("data/${this::catalogueDraftRequestUpdate.name}")
     override fun catalogueDraftReject(): CatalogueDraftRejectFunction = client.function("data/${this::catalogueDraftReject.name}")
     override fun catalogueDraftValidate(): CatalogueDraftValidateFunction = client.function("data/${this::catalogueDraftValidate.name}")
+    override fun catalogueDraftDelete(): CatalogueDraftDeleteFunction = client.function("data/${this::catalogueDraftDelete.name}")
 
     override fun catalogueDraftGet(): CatalogueDraftGetFunction = client.function("data/${this::catalogueDraftGet.name}")
     override fun catalogueDraftPage(): CatalogueDraftPageFunction = client.function("data/${this::catalogueDraftPage.name}")

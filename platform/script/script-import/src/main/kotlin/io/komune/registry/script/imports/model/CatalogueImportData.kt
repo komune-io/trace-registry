@@ -2,8 +2,8 @@ package io.komune.registry.script.imports.model
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.komune.registry.api.commons.utils.jsonMapper
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.script.imports.ImportContext

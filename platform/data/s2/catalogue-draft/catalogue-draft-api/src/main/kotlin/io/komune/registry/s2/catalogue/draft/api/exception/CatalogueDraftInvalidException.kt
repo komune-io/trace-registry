@@ -1,9 +1,9 @@
 package io.komune.registry.s2.catalogue.draft.api.exception
 
 import f2.spring.exception.F2HttpException
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.exception.ExceptionCodes
+import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.http.HttpStatus
 

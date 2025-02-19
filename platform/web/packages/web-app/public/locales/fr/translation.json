@@ -137,6 +137,9 @@
     "or": "Ou",
     "confirm": "Confirmer",
     "title": "Titre",
+    "newSheet": "Nouvelle fiche",
+    "edition": "Edition",
+    "operation": "Opération",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -287,8 +290,8 @@
         "sectoralScopes": "Champs sectoriels",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
-        "noData": "Aucun catalogue trouvé",
-        "noDataToValidate": "Aucun catalogues à valider",
+        "noData": "Aucune fiche n'a été trouvé",
+        "noDataToValidate": "Aucune fiche à valider",
         "reviewModifications": "Revue de la modification proposée par {{name}}",
         "consultOriginal": "Consulter l'original",
         "contactEditor": "Contacter l'éditeur",
@@ -300,10 +303,15 @@
         "modificationsWillBeReviewed": "Elles seront examinées et validées par un expert pour garantir la qualité et la conformité des contenus avant leur publication.",
         "globalSearch": "Rechercher une solution, un système, un secteur...",
         "startWritingContent": "Commencez à rédiger le contenu de votre fiche",
-        "deleteTitle": "Suppression de la fiche {{name}}",
-        "deleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?",
+        "draftDeleteTitle": "Suppression du brouillon de la fiche {{name}} en {{lang}}",
+        "draftDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce brouillon ?",
         "validateTheDraft": "Valider le brouillon",
-        "saveTheDraft": "Enregistrer le brouillon"
+        "saveTheDraft": "Enregistrer le brouillon",
+        "activeContribution": "Vous avez une contribution en cours sur cette fiche",
+        "alreadyHaveActiveContribution": "Vous avez déjà une contribution en cours sur cette fiche",
+        "consultContribution": "Consulter ma contribution",
+        "newContributionReplace": "Créer une nouvelle contribution remplacera votre contribution existante",
+        "createNewContribution": "Créer une nouvelle contribution"
     },
     "editor": {
         "imageUrl": "URL de l'image",
@@ -321,6 +329,11 @@
             "1-2-1": "3 colonnes (25% - 50% - 25%)",
             "1-1-1-1": "4 colonnes (taille égale)"
         }
+    },
+    "lang": {
+        "fr": "Français",
+        "en": "Anglais",
+        "es": "Espagnol"
     },
     "http": {
       "backendErrors": {
@@ -345,7 +358,8 @@
         "data/catalogueDraftCreate": "Le brouillon n'a pas pu être créé",
         "data/catalogueDraftSubmit": "Le brouillon n'a pas pu être soumis",
         "data/catalogueDraftValidate": "Le brouillon n'a pas pu être validé",
-        "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté"
+        "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté",
+        "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé"
       },
       "success": {
         "data/catalogueCreate": "La fiche a bien été créée",
@@ -356,7 +370,8 @@
         "data/catalogueDraftCreate": "Le brouillon a bien été créé",
         "data/catalogueDraftSubmit": "Le brouillon a bien été soumis",
         "data/catalogueDraftValidate": "Le brouillon a bien été validé",
-        "data/catalogueDraftReject": "Le brouillon a bien été rejeté"
+        "data/catalogueDraftReject": "Le brouillon a bien été rejeté",
+        "data/catalogueDraftDelete": "Le brouillon a bien été supprimé"
       }
     }
 }

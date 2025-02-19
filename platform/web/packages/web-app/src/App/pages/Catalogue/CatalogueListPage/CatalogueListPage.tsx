@@ -1,7 +1,7 @@
+import { useCustomFilters } from 'components'
 import {
     CatalogueBreadcrumbs,
     CatalogueGrid, Catalogue,
-    useCataloguesFilters,
     useCataloguePageQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,8 @@ export const CatalogueListPage = (props: CatalogueViewPageProps) => {
     const { catalogue, isLoading } = props
     const { t, i18n } = useTranslation()
 
-    const { submittedFilters, setOffset } = useCataloguesFilters({
+    const { submittedFilters, setOffset } = useCustomFilters({
+        filters: [],
         initialValues: {
             limit: 12
         }

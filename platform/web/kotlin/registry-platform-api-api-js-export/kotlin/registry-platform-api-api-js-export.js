@@ -89,14 +89,14 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, List]);
+  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, List, Collection]);
   setMetadataFor(Map_0, 'Map', interfaceMeta);
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
   setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
   setMetadataFor(Companion, 'Companion', objectMeta);
-  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
+  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
   setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
@@ -442,7 +442,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Symbol_0, 'Symbol', classMeta);
   setMetadataFor(SetTimeoutBasedDispatcher, 'SetTimeoutBasedDispatcher', classMeta, CoroutineDispatcher, VOID, VOID, VOID, VOID, [1]);
   setMetadataFor(NodeDispatcher, 'NodeDispatcher', objectMeta, SetTimeoutBasedDispatcher, VOID, VOID, VOID, VOID, [1]);
-  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [Collection, List]);
+  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [List, Collection]);
   setMetadataFor(ScheduledMessageQueue, 'ScheduledMessageQueue', classMeta, MessageQueue);
   setMetadataFor(WindowMessageQueue, 'WindowMessageQueue', classMeta, MessageQueue);
   setMetadataFor(Dispatchers, 'Dispatchers', objectMeta);
@@ -1096,29 +1096,33 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueDraftState, 'CatalogueDraftState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_105});
   setMetadataFor(Companion_106, 'Companion', objectMeta);
   setMetadataFor($serializer_66, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftEvent, 'CatalogueDraftEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_107});
+  setMetadataFor(CatalogueDraftEvent, 'CatalogueDraftEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_108});
   setMetadataFor(CatalogueDraftCreatedEvent, 'CatalogueDraftCreatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_63});
-  setMetadataFor(Companion_107, 'Companion', objectMeta);
-  setMetadataFor(CatalogueDraftInitCommand, 'CatalogueDraftInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(CatalogueDraftCommand, 'CatalogueDraftCommand', interfaceMeta, VOID, [S2Command]);
-  setMetadataFor(CatalogueDraftRejectCommandDTO, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
-  setMetadataFor(Companion_108, 'Companion', objectMeta);
+  setMetadataFor(CatalogueDraftDeleteCommandDTO, 'CatalogueDraftDeleteCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
+  setMetadataFor(Companion_107, 'Companion', objectMeta);
   setMetadataFor($serializer_67, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftRejectedEvent, 'CatalogueDraftRejectedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_64});
-  setMetadataFor(CatalogueDraftRequestUpdateCommandDTO, 'CatalogueDraftRequestUpdateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
+  setMetadataFor(CatalogueDraftDeletedEvent, 'CatalogueDraftDeletedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_64});
+  setMetadataFor(Companion_108, 'Companion', objectMeta);
+  setMetadataFor(CatalogueDraftInitCommand, 'CatalogueDraftInitCommand', interfaceMeta, VOID, [S2InitCommand]);
+  setMetadataFor(CatalogueDraftRejectCommandDTO, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_109, 'Companion', objectMeta);
   setMetadataFor($serializer_68, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftRequestedUpdateEvent, 'CatalogueDraftRequestedUpdateEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_65});
-  setMetadataFor(CatalogueDraftSubmitCommandDTO, 'CatalogueDraftSubmitCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
+  setMetadataFor(CatalogueDraftRejectedEvent, 'CatalogueDraftRejectedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_65});
+  setMetadataFor(CatalogueDraftRequestUpdateCommandDTO, 'CatalogueDraftRequestUpdateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_110, 'Companion', objectMeta);
   setMetadataFor($serializer_69, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftSubmittedEvent, 'CatalogueDraftSubmittedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_66});
-  setMetadataFor(CatalogueDraftValidateCommandDTO, 'CatalogueDraftValidateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
+  setMetadataFor(CatalogueDraftRequestedUpdateEvent, 'CatalogueDraftRequestedUpdateEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_66});
+  setMetadataFor(CatalogueDraftSubmitCommandDTO, 'CatalogueDraftSubmitCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_111, 'Companion', objectMeta);
   setMetadataFor($serializer_70, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftValidatedEvent, 'CatalogueDraftValidatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_67});
+  setMetadataFor(CatalogueDraftSubmittedEvent, 'CatalogueDraftSubmittedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_67});
+  setMetadataFor(CatalogueDraftValidateCommandDTO, 'CatalogueDraftValidateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_112, 'Companion', objectMeta);
-  setMetadataFor(DatasetState, 'DatasetState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_112});
+  setMetadataFor($serializer_71, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftValidatedEvent, 'CatalogueDraftValidatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_68});
+  setMetadataFor(Companion_113, 'Companion', objectMeta);
+  setMetadataFor(DatasetState, 'DatasetState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_113});
   setMetadataFor(DatasetEvent, 'DatasetEvent', interfaceMeta, VOID, [S2SourcingEvent]);
   setMetadataFor(DatasetInitCommand, 'DatasetInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(DatasetCommand, 'DatasetCommand', interfaceMeta, VOID, [S2Command]);
@@ -1181,6 +1185,9 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(LicenseGetResultDTO, 'LicenseGetResultDTO', interfaceMeta);
   setMetadataFor(LicenseListQueryDTO, 'LicenseListQueryDTO', interfaceMeta);
   setMetadataFor(LicenseListResultDTO, 'LicenseListResultDTO', interfaceMeta);
+  setMetadataFor(UserOnboardCommandDTO, 'UserOnboardCommandDTO', interfaceMeta);
+  setMetadataFor(UserOnboardedEventDTO, 'UserOnboardedEventDTO', interfaceMeta);
+  setMetadataFor(UserRefDTO, 'UserRefDTO', interfaceMeta);
   setMetadataFor(CatalogueCreateCommandDTO, 'CatalogueCreateCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueCreatedEventDTO, 'CatalogueCreatedEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(CatalogueDeleteCommandDTO, 'CatalogueDeleteCommandDTO', interfaceMeta);
@@ -1220,6 +1227,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueSearchResultDTO, 'CatalogueSearchResultDTO', interfaceMeta, VOID, [DistributionPageDTO]);
   setMetadataFor(CatalogueDraftCreateCommandDTO, 'CatalogueDraftCreateCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftCreatedEventDTO, 'CatalogueDraftCreatedEventDTO', interfaceMeta);
+  setMetadataFor(CatalogueDraftDeleteCommandDTO_0, 'CatalogueDraftDeleteCommandDTO', interfaceMeta, VOID, [CatalogueDraftDeleteCommandDTO]);
+  setMetadataFor(CatalogueDraftDeletedEventDTO, 'CatalogueDraftDeletedEventDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftRejectCommandDTO_0, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftRejectCommandDTO]);
   setMetadataFor(CatalogueDraftRejectedEventDTO, 'CatalogueDraftRejectedEventDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftRequestUpdateCommandDTO_0, 'CatalogueDraftRequestUpdateCommandDTO', interfaceMeta, VOID, [CatalogueDraftRequestUpdateCommandDTO]);
@@ -1233,27 +1242,25 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueDraftGetResultDTO, 'CatalogueDraftGetResultDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftPageQueryDTO, 'CatalogueDraftPageQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueDraftPageResultDTO, 'CatalogueDraftPageResultDTO', interfaceMeta, VOID, [PageDTO]);
-  setMetadataFor(UserOnboardCommandDTO, 'UserOnboardCommandDTO', interfaceMeta);
-  setMetadataFor(UserOnboardedEventDTO, 'UserOnboardedEventDTO', interfaceMeta);
   setMetadataFor(OrderInitCommand, 'OrderInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(OrderCommand, 'OrderCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(OrderEvent, 'OrderEvent', interfaceMeta, VOID, [S2SourcingEvent]);
-  setMetadataFor(Companion_113, 'Companion', objectMeta);
-  setMetadataFor(OrderState, 'OrderState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_113});
+  setMetadataFor(Companion_114, 'Companion', objectMeta);
+  setMetadataFor(OrderState, 'OrderState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_114});
   setMetadataFor(OrderCancelCommand, 'OrderCancelCommand', classMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderCompleteCommand, 'OrderCompleteCommand', classMeta, VOID, [OrderCommand]);
-  setMetadataFor(Companion_114, 'Companion', objectMeta);
+  setMetadataFor(Companion_115, 'Companion', objectMeta);
   setMetadataFor(OrderDeleteCommand, 'OrderDeleteCommand', classMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderPendCommand, 'OrderPendCommand', classMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderPlaceCommandDTO, 'OrderPlaceCommandDTO', interfaceMeta, VOID, [OrderInitCommand]);
   setMetadataFor(OrderPlaceCommand, 'OrderPlaceCommand', classMeta, VOID, [OrderPlaceCommandDTO]);
-  setMetadataFor(Companion_115, 'Companion', objectMeta);
+  setMetadataFor(Companion_116, 'Companion', objectMeta);
   setMetadataFor(OrderPlacedEvent, 'OrderPlacedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(OrderSubmitCommandDTO, 'OrderSubmitCommandDTO', interfaceMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderSubmitCommand, 'OrderSubmitCommand', classMeta, VOID, [OrderSubmitCommandDTO]);
   setMetadataFor(OrderUpdateCommandDTO, 'OrderUpdateCommandDTO', interfaceMeta, VOID, [OrderCommand]);
   setMetadataFor(OrderUpdateCommand, 'OrderUpdateCommand', classMeta, VOID, [OrderUpdateCommandDTO]);
-  setMetadataFor(Companion_116, 'Companion', objectMeta);
+  setMetadataFor(Companion_117, 'Companion', objectMeta);
   setMetadataFor(OrderUpdatedEvent, 'OrderUpdatedEvent', classMeta, VOID, [OrderEvent]);
   setMetadataFor(AssetOrderCancelCommandDTO, 'AssetOrderCancelCommandDTO', interfaceMeta);
   setMetadataFor(AssetOrderCanceledEventDTO, 'AssetOrderCanceledEventDTO', interfaceMeta);
@@ -27535,6 +27542,7 @@ if (typeof Math.imul === 'undefined') {
   var CatalogueDraftState_UPDATE_REQUESTED_instance;
   var CatalogueDraftState_VALIDATED_instance;
   var CatalogueDraftState_REJECTED_instance;
+  var CatalogueDraftState_DELETED_instance;
   function Companion_105() {
     Companion_instance_105 = this;
     var tmp = this;
@@ -27555,7 +27563,7 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_105;
   }
   function values_6() {
-    return [CatalogueDraftState_DRAFT_getInstance(), CatalogueDraftState_SUBMITTED_getInstance(), CatalogueDraftState_UPDATE_REQUESTED_getInstance(), CatalogueDraftState_VALIDATED_getInstance(), CatalogueDraftState_REJECTED_getInstance()];
+    return [CatalogueDraftState_DRAFT_getInstance(), CatalogueDraftState_SUBMITTED_getInstance(), CatalogueDraftState_UPDATE_REQUESTED_getInstance(), CatalogueDraftState_VALIDATED_getInstance(), CatalogueDraftState_REJECTED_getInstance(), CatalogueDraftState_DELETED_getInstance()];
   }
   function valueOf_3(value) {
     switch (value) {
@@ -27569,6 +27577,8 @@ if (typeof Math.imul === 'undefined') {
         return CatalogueDraftState_VALIDATED_getInstance();
       case 'REJECTED':
         return CatalogueDraftState_REJECTED_getInstance();
+      case 'DELETED':
+        return CatalogueDraftState_DELETED_getInstance();
       default:
         CatalogueDraftState_initEntries();
         THROW_IAE('No enum constant value.');
@@ -27585,6 +27595,7 @@ if (typeof Math.imul === 'undefined') {
     CatalogueDraftState_UPDATE_REQUESTED_instance = new CatalogueDraftState('UPDATE_REQUESTED', 2, 2);
     CatalogueDraftState_VALIDATED_instance = new CatalogueDraftState('VALIDATED', 3, 3);
     CatalogueDraftState_REJECTED_instance = new CatalogueDraftState('REJECTED', 4, 4);
+    CatalogueDraftState_DELETED_instance = new CatalogueDraftState('DELETED', 5, 5);
     Companion_getInstance_105();
   }
   function CatalogueDraftState(name, ordinal, position) {
@@ -27613,6 +27624,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueDraftState_REJECTED_getInstance() {
     CatalogueDraftState_initEntries();
     return CatalogueDraftState_REJECTED_instance;
+  }
+  function CatalogueDraftState_DELETED_getInstance() {
+    CatalogueDraftState_initEntries();
+    return CatalogueDraftState_DELETED_instance;
   }
   function Companion_106() {
     Companion_instance_106 = this;
@@ -27712,54 +27727,23 @@ if (typeof Math.imul === 'undefined') {
       return false;
     return true;
   };
+  function CatalogueDraftDeleteCommandDTO() {
+  }
   function Companion_107() {
   }
-  protoOf(Companion_107).nu = function () {
-    var tmp = getKClass(CatalogueDraftEvent);
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var tmp_0 = [getKClass(CatalogueDraftCreatedEvent), getKClass(CatalogueDraftRejectedEvent), getKClass(CatalogueDraftRequestedUpdateEvent), getKClass(CatalogueDraftSubmittedEvent), getKClass(CatalogueDraftValidatedEvent)];
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var tmp_1 = [$serializer_getInstance_63(), $serializer_getInstance_64(), $serializer_getInstance_65(), $serializer_getInstance_66(), $serializer_getInstance_67()];
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var tmp$ret$8 = [];
-    return SealedClassSerializer_init_$Create$('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent', tmp, tmp_0, tmp_1, tmp$ret$8);
-  };
-  protoOf(Companion_107).bu = function (typeParamsSerializers) {
-    return this.nu();
-  };
   var Companion_instance_107;
   function Companion_getInstance_107() {
     return Companion_instance_107;
   }
-  function CatalogueDraftEvent() {
-  }
-  function CatalogueDraftInitCommand() {
-  }
-  function CatalogueDraftCommand() {
-  }
-  function CatalogueDraftRejectCommandDTO() {
-  }
-  function Companion_108() {
-  }
-  var Companion_instance_108;
-  function Companion_getInstance_108() {
-    return Companion_instance_108;
-  }
   function $serializer_67() {
     $serializer_instance_64 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent', this, 2);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.k23_1 = tmp0_serialDesc;
+    this.j23_1 = tmp0_serialDesc;
   }
   protoOf($serializer_67).he = function () {
-    return this.k23_1;
+    return this.j23_1;
   };
   protoOf($serializer_67).wi = function () {
     // Inline function 'kotlin.arrayOf' call
@@ -27773,37 +27757,68 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_67();
     return $serializer_instance_64;
   }
-  function CatalogueDraftRejectedEvent(id, date) {
-    this.l23_1 = id;
-    this.m23_1 = date;
+  function CatalogueDraftDeletedEvent(id, date) {
+    this.k23_1 = id;
+    this.l23_1 = date;
   }
-  protoOf(CatalogueDraftRejectedEvent).qt = function () {
+  protoOf(CatalogueDraftDeletedEvent).qt = function () {
+    return this.k23_1;
+  };
+  protoOf(CatalogueDraftDeletedEvent).j18 = function () {
     return this.l23_1;
   };
-  protoOf(CatalogueDraftRejectedEvent).j18 = function () {
-    return this.m23_1;
+  protoOf(CatalogueDraftDeletedEvent).toString = function () {
+    return 'CatalogueDraftDeletedEvent(id=' + this.k23_1 + ', date=' + this.l23_1.toString() + ')';
   };
-  protoOf(CatalogueDraftRejectedEvent).toString = function () {
-    return 'CatalogueDraftRejectedEvent(id=' + this.l23_1 + ', date=' + this.m23_1.toString() + ')';
-  };
-  protoOf(CatalogueDraftRejectedEvent).hashCode = function () {
-    var result = getStringHashCode(this.l23_1);
-    result = imul(result, 31) + this.m23_1.hashCode() | 0;
+  protoOf(CatalogueDraftDeletedEvent).hashCode = function () {
+    var result = getStringHashCode(this.k23_1);
+    result = imul(result, 31) + this.l23_1.hashCode() | 0;
     return result;
   };
-  protoOf(CatalogueDraftRejectedEvent).equals = function (other) {
+  protoOf(CatalogueDraftDeletedEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof CatalogueDraftRejectedEvent))
+    if (!(other instanceof CatalogueDraftDeletedEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof CatalogueDraftRejectedEvent ? other : THROW_CCE();
-    if (!(this.l23_1 === tmp0_other_with_cast.l23_1))
+    var tmp0_other_with_cast = other instanceof CatalogueDraftDeletedEvent ? other : THROW_CCE();
+    if (!(this.k23_1 === tmp0_other_with_cast.k23_1))
       return false;
-    if (!this.m23_1.equals(tmp0_other_with_cast.m23_1))
+    if (!this.l23_1.equals(tmp0_other_with_cast.l23_1))
       return false;
     return true;
   };
-  function CatalogueDraftRequestUpdateCommandDTO() {
+  function Companion_108() {
+  }
+  protoOf(Companion_108).nu = function () {
+    var tmp = getKClass(CatalogueDraftEvent);
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var tmp_0 = [getKClass(CatalogueDraftCreatedEvent), getKClass(CatalogueDraftDeletedEvent), getKClass(CatalogueDraftRejectedEvent), getKClass(CatalogueDraftRequestedUpdateEvent), getKClass(CatalogueDraftSubmittedEvent), getKClass(CatalogueDraftValidatedEvent)];
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var tmp_1 = [$serializer_getInstance_63(), $serializer_getInstance_64(), $serializer_getInstance_65(), $serializer_getInstance_66(), $serializer_getInstance_67(), $serializer_getInstance_68()];
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var tmp$ret$8 = [];
+    return SealedClassSerializer_init_$Create$('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent', tmp, tmp_0, tmp_1, tmp$ret$8);
+  };
+  protoOf(Companion_108).bu = function (typeParamsSerializers) {
+    return this.nu();
+  };
+  var Companion_instance_108;
+  function Companion_getInstance_108() {
+    return Companion_instance_108;
+  }
+  function CatalogueDraftEvent() {
+  }
+  function CatalogueDraftInitCommand() {
+  }
+  function CatalogueDraftCommand() {
+  }
+  function CatalogueDraftRejectCommandDTO() {
   }
   function Companion_109() {
   }
@@ -27813,7 +27828,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_68() {
     $serializer_instance_65 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent', this, 2);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
     this.n23_1 = tmp0_serialDesc;
@@ -27833,37 +27848,37 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_68();
     return $serializer_instance_65;
   }
-  function CatalogueDraftRequestedUpdateEvent(id, date) {
+  function CatalogueDraftRejectedEvent(id, date) {
     this.o23_1 = id;
     this.p23_1 = date;
   }
-  protoOf(CatalogueDraftRequestedUpdateEvent).qt = function () {
+  protoOf(CatalogueDraftRejectedEvent).qt = function () {
     return this.o23_1;
   };
-  protoOf(CatalogueDraftRequestedUpdateEvent).j18 = function () {
+  protoOf(CatalogueDraftRejectedEvent).j18 = function () {
     return this.p23_1;
   };
-  protoOf(CatalogueDraftRequestedUpdateEvent).toString = function () {
-    return 'CatalogueDraftRequestedUpdateEvent(id=' + this.o23_1 + ', date=' + this.p23_1.toString() + ')';
+  protoOf(CatalogueDraftRejectedEvent).toString = function () {
+    return 'CatalogueDraftRejectedEvent(id=' + this.o23_1 + ', date=' + this.p23_1.toString() + ')';
   };
-  protoOf(CatalogueDraftRequestedUpdateEvent).hashCode = function () {
+  protoOf(CatalogueDraftRejectedEvent).hashCode = function () {
     var result = getStringHashCode(this.o23_1);
     result = imul(result, 31) + this.p23_1.hashCode() | 0;
     return result;
   };
-  protoOf(CatalogueDraftRequestedUpdateEvent).equals = function (other) {
+  protoOf(CatalogueDraftRejectedEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof CatalogueDraftRequestedUpdateEvent))
+    if (!(other instanceof CatalogueDraftRejectedEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof CatalogueDraftRequestedUpdateEvent ? other : THROW_CCE();
+    var tmp0_other_with_cast = other instanceof CatalogueDraftRejectedEvent ? other : THROW_CCE();
     if (!(this.o23_1 === tmp0_other_with_cast.o23_1))
       return false;
     if (!this.p23_1.equals(tmp0_other_with_cast.p23_1))
       return false;
     return true;
   };
-  function CatalogueDraftSubmitCommandDTO() {
+  function CatalogueDraftRequestUpdateCommandDTO() {
   }
   function Companion_110() {
   }
@@ -27873,10 +27888,9 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_69() {
     $serializer_instance_66 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent', this, 3);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    tmp0_serialDesc.qi('versionNotes', false);
     this.q23_1 = tmp0_serialDesc;
   }
   protoOf($serializer_69).he = function () {
@@ -27886,7 +27900,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance())];
+    return [StringSerializer_getInstance(), LongSerializer_getInstance()];
   };
   var $serializer_instance_66;
   function $serializer_getInstance_66() {
@@ -27894,41 +27908,37 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_69();
     return $serializer_instance_66;
   }
-  function CatalogueDraftSubmittedEvent(id, date, versionNotes) {
+  function CatalogueDraftRequestedUpdateEvent(id, date) {
     this.r23_1 = id;
     this.s23_1 = date;
-    this.t23_1 = versionNotes;
   }
-  protoOf(CatalogueDraftSubmittedEvent).qt = function () {
+  protoOf(CatalogueDraftRequestedUpdateEvent).qt = function () {
     return this.r23_1;
   };
-  protoOf(CatalogueDraftSubmittedEvent).j18 = function () {
+  protoOf(CatalogueDraftRequestedUpdateEvent).j18 = function () {
     return this.s23_1;
   };
-  protoOf(CatalogueDraftSubmittedEvent).toString = function () {
-    return 'CatalogueDraftSubmittedEvent(id=' + this.r23_1 + ', date=' + this.s23_1.toString() + ', versionNotes=' + this.t23_1 + ')';
+  protoOf(CatalogueDraftRequestedUpdateEvent).toString = function () {
+    return 'CatalogueDraftRequestedUpdateEvent(id=' + this.r23_1 + ', date=' + this.s23_1.toString() + ')';
   };
-  protoOf(CatalogueDraftSubmittedEvent).hashCode = function () {
+  protoOf(CatalogueDraftRequestedUpdateEvent).hashCode = function () {
     var result = getStringHashCode(this.r23_1);
     result = imul(result, 31) + this.s23_1.hashCode() | 0;
-    result = imul(result, 31) + (this.t23_1 == null ? 0 : getStringHashCode(this.t23_1)) | 0;
     return result;
   };
-  protoOf(CatalogueDraftSubmittedEvent).equals = function (other) {
+  protoOf(CatalogueDraftRequestedUpdateEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof CatalogueDraftSubmittedEvent))
+    if (!(other instanceof CatalogueDraftRequestedUpdateEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof CatalogueDraftSubmittedEvent ? other : THROW_CCE();
+    var tmp0_other_with_cast = other instanceof CatalogueDraftRequestedUpdateEvent ? other : THROW_CCE();
     if (!(this.r23_1 === tmp0_other_with_cast.r23_1))
       return false;
     if (!this.s23_1.equals(tmp0_other_with_cast.s23_1))
       return false;
-    if (!(this.t23_1 == tmp0_other_with_cast.t23_1))
-      return false;
     return true;
   };
-  function CatalogueDraftValidateCommandDTO() {
+  function CatalogueDraftSubmitCommandDTO() {
   }
   function Companion_111() {
   }
@@ -27938,19 +27948,20 @@ if (typeof Math.imul === 'undefined') {
   }
   function $serializer_70() {
     $serializer_instance_67 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent', this, 2);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.u23_1 = tmp0_serialDesc;
+    tmp0_serialDesc.qi('versionNotes', false);
+    this.t23_1 = tmp0_serialDesc;
   }
   protoOf($serializer_70).he = function () {
-    return this.u23_1;
+    return this.t23_1;
   };
   protoOf($serializer_70).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), LongSerializer_getInstance()];
+    return [StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance())];
   };
   var $serializer_instance_67;
   function $serializer_getInstance_67() {
@@ -27958,22 +27969,86 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_70();
     return $serializer_instance_67;
   }
-  function CatalogueDraftValidatedEvent(id, date) {
-    this.v23_1 = id;
-    this.w23_1 = date;
+  function CatalogueDraftSubmittedEvent(id, date, versionNotes) {
+    this.u23_1 = id;
+    this.v23_1 = date;
+    this.w23_1 = versionNotes;
   }
-  protoOf(CatalogueDraftValidatedEvent).qt = function () {
+  protoOf(CatalogueDraftSubmittedEvent).qt = function () {
+    return this.u23_1;
+  };
+  protoOf(CatalogueDraftSubmittedEvent).j18 = function () {
     return this.v23_1;
   };
+  protoOf(CatalogueDraftSubmittedEvent).toString = function () {
+    return 'CatalogueDraftSubmittedEvent(id=' + this.u23_1 + ', date=' + this.v23_1.toString() + ', versionNotes=' + this.w23_1 + ')';
+  };
+  protoOf(CatalogueDraftSubmittedEvent).hashCode = function () {
+    var result = getStringHashCode(this.u23_1);
+    result = imul(result, 31) + this.v23_1.hashCode() | 0;
+    result = imul(result, 31) + (this.w23_1 == null ? 0 : getStringHashCode(this.w23_1)) | 0;
+    return result;
+  };
+  protoOf(CatalogueDraftSubmittedEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof CatalogueDraftSubmittedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof CatalogueDraftSubmittedEvent ? other : THROW_CCE();
+    if (!(this.u23_1 === tmp0_other_with_cast.u23_1))
+      return false;
+    if (!this.v23_1.equals(tmp0_other_with_cast.v23_1))
+      return false;
+    if (!(this.w23_1 == tmp0_other_with_cast.w23_1))
+      return false;
+    return true;
+  };
+  function CatalogueDraftValidateCommandDTO() {
+  }
+  function Companion_112() {
+  }
+  var Companion_instance_112;
+  function Companion_getInstance_112() {
+    return Companion_instance_112;
+  }
+  function $serializer_71() {
+    $serializer_instance_68 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent', this, 2);
+    tmp0_serialDesc.qi('id', false);
+    tmp0_serialDesc.qi('date', false);
+    this.x23_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_71).he = function () {
+    return this.x23_1;
+  };
+  protoOf($serializer_71).wi = function () {
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [StringSerializer_getInstance(), LongSerializer_getInstance()];
+  };
+  var $serializer_instance_68;
+  function $serializer_getInstance_68() {
+    if ($serializer_instance_68 == null)
+      new $serializer_71();
+    return $serializer_instance_68;
+  }
+  function CatalogueDraftValidatedEvent(id, date) {
+    this.y23_1 = id;
+    this.z23_1 = date;
+  }
+  protoOf(CatalogueDraftValidatedEvent).qt = function () {
+    return this.y23_1;
+  };
   protoOf(CatalogueDraftValidatedEvent).j18 = function () {
-    return this.w23_1;
+    return this.z23_1;
   };
   protoOf(CatalogueDraftValidatedEvent).toString = function () {
-    return 'CatalogueDraftValidatedEvent(id=' + this.v23_1 + ', date=' + this.w23_1.toString() + ')';
+    return 'CatalogueDraftValidatedEvent(id=' + this.y23_1 + ', date=' + this.z23_1.toString() + ')';
   };
   protoOf(CatalogueDraftValidatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.v23_1);
-    result = imul(result, 31) + this.w23_1.hashCode() | 0;
+    var result = getStringHashCode(this.y23_1);
+    result = imul(result, 31) + this.z23_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueDraftValidatedEvent).equals = function (other) {
@@ -27982,38 +28057,38 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftValidatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftValidatedEvent ? other : THROW_CCE();
-    if (!(this.v23_1 === tmp0_other_with_cast.v23_1))
+    if (!(this.y23_1 === tmp0_other_with_cast.y23_1))
       return false;
-    if (!this.w23_1.equals(tmp0_other_with_cast.w23_1))
+    if (!this.z23_1.equals(tmp0_other_with_cast.z23_1))
       return false;
     return true;
   };
   function _get_$cachedSerializer__te6jhj_4($this) {
-    return $this.x23_1.i4();
+    return $this.a24_1.i4();
   }
   function DatasetState$Companion$_anonymous__5d0gq2() {
     return createSimpleEnumSerializer('io.komune.registry.s2.dataset.domain.automate.DatasetState', values_7());
   }
   var DatasetState_ACTIVE_instance;
   var DatasetState_DELETED_instance;
-  function Companion_112() {
-    Companion_instance_112 = this;
+  function Companion_113() {
+    Companion_instance_113 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.x23_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
+    tmp.a24_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
   }
-  protoOf(Companion_112).nu = function () {
+  protoOf(Companion_113).nu = function () {
     return _get_$cachedSerializer__te6jhj_4(this);
   };
-  protoOf(Companion_112).bu = function (typeParamsSerializers) {
+  protoOf(Companion_113).bu = function (typeParamsSerializers) {
     return this.nu();
   };
-  var Companion_instance_112;
-  function Companion_getInstance_112() {
+  var Companion_instance_113;
+  function Companion_getInstance_113() {
     DatasetState_initEntries();
-    if (Companion_instance_112 == null)
-      new Companion_112();
-    return Companion_instance_112;
+    if (Companion_instance_113 == null)
+      new Companion_113();
+    return Companion_instance_113;
   }
   function values_7() {
     return [DatasetState_ACTIVE_getInstance(), DatasetState_DELETED_getInstance()];
@@ -28037,14 +28112,14 @@ if (typeof Math.imul === 'undefined') {
     DatasetState_entriesInitialized = true;
     DatasetState_ACTIVE_instance = new DatasetState('ACTIVE', 0, 0);
     DatasetState_DELETED_instance = new DatasetState('DELETED', 1, 1);
-    Companion_getInstance_112();
+    Companion_getInstance_113();
   }
   function DatasetState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.a24_1 = position;
+    this.d24_1 = position;
   }
   protoOf(DatasetState).q18 = function () {
-    return this.a24_1;
+    return this.d24_1;
   };
   function DatasetState_ACTIVE_getInstance() {
     DatasetState_initEntries();
@@ -28209,6 +28284,12 @@ if (typeof Math.imul === 'undefined') {
   }
   function LicenseListResultDTO() {
   }
+  function UserOnboardCommandDTO() {
+  }
+  function UserOnboardedEventDTO() {
+  }
+  function UserRefDTO() {
+  }
   function CatalogueCreateCommandDTO() {
   }
   function CatalogueCreatedEventDTO() {
@@ -28321,6 +28402,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueDraftCreatedEventDTO() {
   }
+  function CatalogueDraftDeleteCommandDTO_0() {
+  }
+  function CatalogueDraftDeletedEventDTO() {
+  }
   function CatalogueDraftRejectCommandDTO_0() {
   }
   function CatalogueDraftRejectedEventDTO() {
@@ -28347,10 +28432,6 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueDraftPageResultDTO() {
   }
-  function UserOnboardCommandDTO() {
-  }
-  function UserOnboardedEventDTO() {
-  }
   function get_s2Order() {
     _init_properties_S2Order_kt__tze7r1();
     return s2Order;
@@ -28371,18 +28452,18 @@ if (typeof Math.imul === 'undefined') {
   var OrderState_COMPLETED_instance;
   var OrderState_CANCELLED_instance;
   var OrderState_DELETED_instance;
-  function Companion_113() {
-    Companion_instance_113 = this;
+  function Companion_114() {
+    Companion_instance_114 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.f25_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
+    tmp.i25_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
   }
-  var Companion_instance_113;
-  function Companion_getInstance_113() {
+  var Companion_instance_114;
+  function Companion_getInstance_114() {
     OrderState_initEntries();
-    if (Companion_instance_113 == null)
-      new Companion_113();
-    return Companion_instance_113;
+    if (Companion_instance_114 == null)
+      new Companion_114();
+    return Companion_instance_114;
   }
   function values_8() {
     return [OrderState_DRAFT_getInstance(), OrderState_SUBMITTED_getInstance(), OrderState_PENDING_getInstance(), OrderState_COMPLETED_getInstance(), OrderState_CANCELLED_getInstance(), OrderState_DELETED_getInstance()];
@@ -28398,14 +28479,14 @@ if (typeof Math.imul === 'undefined') {
     OrderState_COMPLETED_instance = new OrderState('COMPLETED', 3, 3);
     OrderState_CANCELLED_instance = new OrderState('CANCELLED', 4, 4);
     OrderState_DELETED_instance = new OrderState('DELETED', 5, 5);
-    Companion_getInstance_113();
+    Companion_getInstance_114();
   }
   function OrderState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.i25_1 = position;
+    this.l25_1 = position;
   }
   protoOf(OrderState).q18 = function () {
-    return this.i25_1;
+    return this.l25_1;
   };
   function s2Order$lambda($this$s2Sourcing) {
     _init_properties_S2Order_kt__tze7r1();
@@ -28673,16 +28754,16 @@ if (typeof Math.imul === 'undefined') {
     }
   }
   function OrderCancelCommand(id) {
-    this.j25_1 = id;
+    this.m25_1 = id;
   }
   protoOf(OrderCancelCommand).qt = function () {
-    return this.j25_1;
+    return this.m25_1;
   };
   protoOf(OrderCancelCommand).toString = function () {
-    return 'OrderCancelCommand(id=' + this.j25_1 + ')';
+    return 'OrderCancelCommand(id=' + this.m25_1 + ')';
   };
   protoOf(OrderCancelCommand).hashCode = function () {
-    return getStringHashCode(this.j25_1);
+    return getStringHashCode(this.m25_1);
   };
   protoOf(OrderCancelCommand).equals = function (other) {
     if (this === other)
@@ -28690,25 +28771,25 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCancelCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCancelCommand ? other : THROW_CCE();
-    if (!(this.j25_1 === tmp0_other_with_cast.j25_1))
+    if (!(this.m25_1 === tmp0_other_with_cast.m25_1))
       return false;
     return true;
   };
   function OrderCompleteCommand(id, assetTransactionId, certificate) {
-    this.k25_1 = id;
-    this.l25_1 = assetTransactionId;
-    this.m25_1 = certificate;
+    this.n25_1 = id;
+    this.o25_1 = assetTransactionId;
+    this.p25_1 = certificate;
   }
   protoOf(OrderCompleteCommand).qt = function () {
-    return this.k25_1;
+    return this.n25_1;
   };
   protoOf(OrderCompleteCommand).toString = function () {
-    return 'OrderCompleteCommand(id=' + this.k25_1 + ', assetTransactionId=' + this.l25_1 + ', certificate=' + this.m25_1 + ')';
+    return 'OrderCompleteCommand(id=' + this.n25_1 + ', assetTransactionId=' + this.o25_1 + ', certificate=' + this.p25_1 + ')';
   };
   protoOf(OrderCompleteCommand).hashCode = function () {
-    var result = getStringHashCode(this.k25_1);
-    result = imul(result, 31) + getStringHashCode(this.l25_1) | 0;
-    result = imul(result, 31) + (this.m25_1 == null ? 0 : this.m25_1.hashCode()) | 0;
+    var result = getStringHashCode(this.n25_1);
+    result = imul(result, 31) + getStringHashCode(this.o25_1) | 0;
+    result = imul(result, 31) + (this.p25_1 == null ? 0 : this.p25_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderCompleteCommand).equals = function (other) {
@@ -28717,31 +28798,31 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCompleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCompleteCommand ? other : THROW_CCE();
-    if (!(this.k25_1 === tmp0_other_with_cast.k25_1))
+    if (!(this.n25_1 === tmp0_other_with_cast.n25_1))
       return false;
-    if (!(this.l25_1 === tmp0_other_with_cast.l25_1))
+    if (!(this.o25_1 === tmp0_other_with_cast.o25_1))
       return false;
-    if (!equals(this.m25_1, tmp0_other_with_cast.m25_1))
+    if (!equals(this.p25_1, tmp0_other_with_cast.p25_1))
       return false;
     return true;
   };
-  function Companion_114() {
+  function Companion_115() {
   }
-  var Companion_instance_114;
-  function Companion_getInstance_114() {
-    return Companion_instance_114;
+  var Companion_instance_115;
+  function Companion_getInstance_115() {
+    return Companion_instance_115;
   }
   function OrderDeleteCommand(id) {
-    this.n25_1 = id;
+    this.q25_1 = id;
   }
   protoOf(OrderDeleteCommand).qt = function () {
-    return this.n25_1;
+    return this.q25_1;
   };
   protoOf(OrderDeleteCommand).toString = function () {
-    return 'OrderDeleteCommand(id=' + this.n25_1 + ')';
+    return 'OrderDeleteCommand(id=' + this.q25_1 + ')';
   };
   protoOf(OrderDeleteCommand).hashCode = function () {
-    return getStringHashCode(this.n25_1);
+    return getStringHashCode(this.q25_1);
   };
   protoOf(OrderDeleteCommand).equals = function (other) {
     if (this === other)
@@ -28749,23 +28830,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderDeleteCommand ? other : THROW_CCE();
-    if (!(this.n25_1 === tmp0_other_with_cast.n25_1))
+    if (!(this.q25_1 === tmp0_other_with_cast.q25_1))
       return false;
     return true;
   };
   function OrderPendCommand(id, certificate) {
-    this.o25_1 = id;
-    this.p25_1 = certificate;
+    this.r25_1 = id;
+    this.s25_1 = certificate;
   }
   protoOf(OrderPendCommand).qt = function () {
-    return this.o25_1;
+    return this.r25_1;
   };
   protoOf(OrderPendCommand).toString = function () {
-    return 'OrderPendCommand(id=' + this.o25_1 + ', certificate=' + this.p25_1 + ')';
+    return 'OrderPendCommand(id=' + this.r25_1 + ', certificate=' + this.s25_1 + ')';
   };
   protoOf(OrderPendCommand).hashCode = function () {
-    var result = getStringHashCode(this.o25_1);
-    result = imul(result, 31) + (this.p25_1 == null ? 0 : this.p25_1.hashCode()) | 0;
+    var result = getStringHashCode(this.r25_1);
+    result = imul(result, 31) + (this.s25_1 == null ? 0 : this.s25_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderPendCommand).equals = function (other) {
@@ -28774,50 +28855,50 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPendCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPendCommand ? other : THROW_CCE();
-    if (!(this.o25_1 === tmp0_other_with_cast.o25_1))
+    if (!(this.r25_1 === tmp0_other_with_cast.r25_1))
       return false;
-    if (!equals(this.p25_1, tmp0_other_with_cast.p25_1))
+    if (!equals(this.s25_1, tmp0_other_with_cast.s25_1))
       return false;
     return true;
   };
   function OrderPlaceCommandDTO() {
   }
   function OrderPlaceCommand(from, to, by, poolId, quantity, type) {
-    this.s25_1 = from;
-    this.t25_1 = to;
-    this.u25_1 = by;
-    this.v25_1 = poolId;
-    this.w25_1 = quantity;
-    this.x25_1 = type;
+    this.v25_1 = from;
+    this.w25_1 = to;
+    this.x25_1 = by;
+    this.y25_1 = poolId;
+    this.z25_1 = quantity;
+    this.a26_1 = type;
   }
   protoOf(OrderPlaceCommand).l15 = function () {
-    return this.s25_1;
-  };
-  protoOf(OrderPlaceCommand).m15 = function () {
-    return this.t25_1;
-  };
-  protoOf(OrderPlaceCommand).q25 = function () {
-    return this.u25_1;
-  };
-  protoOf(OrderPlaceCommand).f1q = function () {
     return this.v25_1;
   };
-  protoOf(OrderPlaceCommand).r25 = function () {
+  protoOf(OrderPlaceCommand).m15 = function () {
     return this.w25_1;
   };
-  protoOf(OrderPlaceCommand).st = function () {
+  protoOf(OrderPlaceCommand).t25 = function () {
     return this.x25_1;
   };
+  protoOf(OrderPlaceCommand).f1q = function () {
+    return this.y25_1;
+  };
+  protoOf(OrderPlaceCommand).u25 = function () {
+    return this.z25_1;
+  };
+  protoOf(OrderPlaceCommand).st = function () {
+    return this.a26_1;
+  };
   protoOf(OrderPlaceCommand).toString = function () {
-    return 'OrderPlaceCommand(from=' + this.s25_1 + ', to=' + this.t25_1 + ', by=' + this.u25_1 + ', poolId=' + this.v25_1 + ', quantity=' + this.w25_1 + ', type=' + this.x25_1 + ')';
+    return 'OrderPlaceCommand(from=' + this.v25_1 + ', to=' + this.w25_1 + ', by=' + this.x25_1 + ', poolId=' + this.y25_1 + ', quantity=' + this.z25_1 + ', type=' + this.a26_1 + ')';
   };
   protoOf(OrderPlaceCommand).hashCode = function () {
-    var result = this.s25_1 == null ? 0 : getStringHashCode(this.s25_1);
-    result = imul(result, 31) + (this.t25_1 == null ? 0 : getStringHashCode(this.t25_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.u25_1) | 0;
-    result = imul(result, 31) + (this.v25_1 == null ? 0 : getStringHashCode(this.v25_1)) | 0;
-    result = imul(result, 31) + this.w25_1.hashCode() | 0;
-    result = imul(result, 31) + this.x25_1.hashCode() | 0;
+    var result = this.v25_1 == null ? 0 : getStringHashCode(this.v25_1);
+    result = imul(result, 31) + (this.w25_1 == null ? 0 : getStringHashCode(this.w25_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.x25_1) | 0;
+    result = imul(result, 31) + (this.y25_1 == null ? 0 : getStringHashCode(this.y25_1)) | 0;
+    result = imul(result, 31) + this.z25_1.hashCode() | 0;
+    result = imul(result, 31) + this.a26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlaceCommand).equals = function (other) {
@@ -28826,63 +28907,63 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlaceCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlaceCommand ? other : THROW_CCE();
-    if (!(this.s25_1 == tmp0_other_with_cast.s25_1))
-      return false;
-    if (!(this.t25_1 == tmp0_other_with_cast.t25_1))
-      return false;
-    if (!(this.u25_1 === tmp0_other_with_cast.u25_1))
-      return false;
     if (!(this.v25_1 == tmp0_other_with_cast.v25_1))
       return false;
-    if (!this.w25_1.equals(tmp0_other_with_cast.w25_1))
+    if (!(this.w25_1 == tmp0_other_with_cast.w25_1))
       return false;
-    if (!this.x25_1.equals(tmp0_other_with_cast.x25_1))
+    if (!(this.x25_1 === tmp0_other_with_cast.x25_1))
+      return false;
+    if (!(this.y25_1 == tmp0_other_with_cast.y25_1))
+      return false;
+    if (!this.z25_1.equals(tmp0_other_with_cast.z25_1))
+      return false;
+    if (!this.a26_1.equals(tmp0_other_with_cast.a26_1))
       return false;
     return true;
   };
-  function Companion_115() {
-    Companion_instance_115 = this;
+  function Companion_116() {
+    Companion_instance_116 = this;
     var tmp = this;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.y25_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
+    tmp.b26_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
   }
-  var Companion_instance_115;
-  function Companion_getInstance_115() {
-    if (Companion_instance_115 == null)
-      new Companion_115();
-    return Companion_instance_115;
+  var Companion_instance_116;
+  function Companion_getInstance_116() {
+    if (Companion_instance_116 == null)
+      new Companion_116();
+    return Companion_instance_116;
   }
   function OrderPlacedEvent(id, date, poolId, from, to, by, quantity, type) {
-    Companion_getInstance_115();
-    this.z25_1 = id;
-    this.a26_1 = date;
-    this.b26_1 = poolId;
-    this.c26_1 = from;
-    this.d26_1 = to;
-    this.e26_1 = by;
-    this.f26_1 = quantity;
-    this.g26_1 = type;
+    Companion_getInstance_116();
+    this.c26_1 = id;
+    this.d26_1 = date;
+    this.e26_1 = poolId;
+    this.f26_1 = from;
+    this.g26_1 = to;
+    this.h26_1 = by;
+    this.i26_1 = quantity;
+    this.j26_1 = type;
   }
   protoOf(OrderPlacedEvent).qt = function () {
-    return this.z25_1;
+    return this.c26_1;
   };
   protoOf(OrderPlacedEvent).j18 = function () {
-    return this.a26_1;
+    return this.d26_1;
   };
   protoOf(OrderPlacedEvent).toString = function () {
-    return 'OrderPlacedEvent(id=' + this.z25_1 + ', date=' + this.a26_1.toString() + ', poolId=' + this.b26_1 + ', from=' + this.c26_1 + ', to=' + this.d26_1 + ', by=' + this.e26_1 + ', quantity=' + this.f26_1 + ', type=' + this.g26_1 + ')';
+    return 'OrderPlacedEvent(id=' + this.c26_1 + ', date=' + this.d26_1.toString() + ', poolId=' + this.e26_1 + ', from=' + this.f26_1 + ', to=' + this.g26_1 + ', by=' + this.h26_1 + ', quantity=' + this.i26_1 + ', type=' + this.j26_1 + ')';
   };
   protoOf(OrderPlacedEvent).hashCode = function () {
-    var result = getStringHashCode(this.z25_1);
-    result = imul(result, 31) + this.a26_1.hashCode() | 0;
-    result = imul(result, 31) + (this.b26_1 == null ? 0 : getStringHashCode(this.b26_1)) | 0;
-    result = imul(result, 31) + (this.c26_1 == null ? 0 : getStringHashCode(this.c26_1)) | 0;
-    result = imul(result, 31) + (this.d26_1 == null ? 0 : getStringHashCode(this.d26_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.e26_1) | 0;
-    result = imul(result, 31) + this.f26_1.hashCode() | 0;
-    result = imul(result, 31) + this.g26_1.hashCode() | 0;
+    var result = getStringHashCode(this.c26_1);
+    result = imul(result, 31) + this.d26_1.hashCode() | 0;
+    result = imul(result, 31) + (this.e26_1 == null ? 0 : getStringHashCode(this.e26_1)) | 0;
+    result = imul(result, 31) + (this.f26_1 == null ? 0 : getStringHashCode(this.f26_1)) | 0;
+    result = imul(result, 31) + (this.g26_1 == null ? 0 : getStringHashCode(this.g26_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.h26_1) | 0;
+    result = imul(result, 31) + this.i26_1.hashCode() | 0;
+    result = imul(result, 31) + this.j26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlacedEvent).equals = function (other) {
@@ -28891,37 +28972,37 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlacedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlacedEvent ? other : THROW_CCE();
-    if (!(this.z25_1 === tmp0_other_with_cast.z25_1))
+    if (!(this.c26_1 === tmp0_other_with_cast.c26_1))
       return false;
-    if (!this.a26_1.equals(tmp0_other_with_cast.a26_1))
+    if (!this.d26_1.equals(tmp0_other_with_cast.d26_1))
       return false;
-    if (!(this.b26_1 == tmp0_other_with_cast.b26_1))
+    if (!(this.e26_1 == tmp0_other_with_cast.e26_1))
       return false;
-    if (!(this.c26_1 == tmp0_other_with_cast.c26_1))
+    if (!(this.f26_1 == tmp0_other_with_cast.f26_1))
       return false;
-    if (!(this.d26_1 == tmp0_other_with_cast.d26_1))
+    if (!(this.g26_1 == tmp0_other_with_cast.g26_1))
       return false;
-    if (!(this.e26_1 === tmp0_other_with_cast.e26_1))
+    if (!(this.h26_1 === tmp0_other_with_cast.h26_1))
       return false;
-    if (!this.f26_1.equals(tmp0_other_with_cast.f26_1))
+    if (!this.i26_1.equals(tmp0_other_with_cast.i26_1))
       return false;
-    if (!this.g26_1.equals(tmp0_other_with_cast.g26_1))
+    if (!this.j26_1.equals(tmp0_other_with_cast.j26_1))
       return false;
     return true;
   };
   function OrderSubmitCommandDTO() {
   }
   function OrderSubmitCommand(id) {
-    this.h26_1 = id;
+    this.k26_1 = id;
   }
   protoOf(OrderSubmitCommand).qt = function () {
-    return this.h26_1;
+    return this.k26_1;
   };
   protoOf(OrderSubmitCommand).toString = function () {
-    return 'OrderSubmitCommand(id=' + this.h26_1 + ')';
+    return 'OrderSubmitCommand(id=' + this.k26_1 + ')';
   };
   protoOf(OrderSubmitCommand).hashCode = function () {
-    return getStringHashCode(this.h26_1);
+    return getStringHashCode(this.k26_1);
   };
   protoOf(OrderSubmitCommand).equals = function (other) {
     if (this === other)
@@ -28929,33 +29010,33 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderSubmitCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderSubmitCommand ? other : THROW_CCE();
-    if (!(this.h26_1 === tmp0_other_with_cast.h26_1))
+    if (!(this.k26_1 === tmp0_other_with_cast.k26_1))
       return false;
     return true;
   };
   function OrderUpdateCommandDTO() {
   }
   function OrderUpdateCommand(id, poolId, quantity) {
-    this.i26_1 = id;
-    this.j26_1 = poolId;
-    this.k26_1 = quantity;
+    this.l26_1 = id;
+    this.m26_1 = poolId;
+    this.n26_1 = quantity;
   }
   protoOf(OrderUpdateCommand).qt = function () {
-    return this.i26_1;
+    return this.l26_1;
   };
   protoOf(OrderUpdateCommand).f1q = function () {
-    return this.j26_1;
+    return this.m26_1;
   };
-  protoOf(OrderUpdateCommand).r25 = function () {
-    return this.k26_1;
+  protoOf(OrderUpdateCommand).u25 = function () {
+    return this.n26_1;
   };
   protoOf(OrderUpdateCommand).toString = function () {
-    return 'OrderUpdateCommand(id=' + this.i26_1 + ', poolId=' + this.j26_1 + ', quantity=' + this.k26_1 + ')';
+    return 'OrderUpdateCommand(id=' + this.l26_1 + ', poolId=' + this.m26_1 + ', quantity=' + this.n26_1 + ')';
   };
   protoOf(OrderUpdateCommand).hashCode = function () {
-    var result = getStringHashCode(this.i26_1);
-    result = imul(result, 31) + (this.j26_1 == null ? 0 : getStringHashCode(this.j26_1)) | 0;
-    result = imul(result, 31) + this.k26_1.hashCode() | 0;
+    var result = getStringHashCode(this.l26_1);
+    result = imul(result, 31) + (this.m26_1 == null ? 0 : getStringHashCode(this.m26_1)) | 0;
+    result = imul(result, 31) + this.n26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdateCommand).equals = function (other) {
@@ -28964,40 +29045,40 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdateCommand ? other : THROW_CCE();
-    if (!(this.i26_1 === tmp0_other_with_cast.i26_1))
+    if (!(this.l26_1 === tmp0_other_with_cast.l26_1))
       return false;
-    if (!(this.j26_1 == tmp0_other_with_cast.j26_1))
+    if (!(this.m26_1 == tmp0_other_with_cast.m26_1))
       return false;
-    if (!this.k26_1.equals(tmp0_other_with_cast.k26_1))
+    if (!this.n26_1.equals(tmp0_other_with_cast.n26_1))
       return false;
     return true;
   };
-  function Companion_116() {
+  function Companion_117() {
   }
-  var Companion_instance_116;
-  function Companion_getInstance_116() {
-    return Companion_instance_116;
+  var Companion_instance_117;
+  function Companion_getInstance_117() {
+    return Companion_instance_117;
   }
   function OrderUpdatedEvent(id, date, poolId, quantity) {
-    this.l26_1 = id;
-    this.m26_1 = date;
-    this.n26_1 = poolId;
-    this.o26_1 = quantity;
+    this.o26_1 = id;
+    this.p26_1 = date;
+    this.q26_1 = poolId;
+    this.r26_1 = quantity;
   }
   protoOf(OrderUpdatedEvent).qt = function () {
-    return this.l26_1;
+    return this.o26_1;
   };
   protoOf(OrderUpdatedEvent).j18 = function () {
-    return this.m26_1;
+    return this.p26_1;
   };
   protoOf(OrderUpdatedEvent).toString = function () {
-    return 'OrderUpdatedEvent(id=' + this.l26_1 + ', date=' + this.m26_1.toString() + ', poolId=' + this.n26_1 + ', quantity=' + this.o26_1 + ')';
+    return 'OrderUpdatedEvent(id=' + this.o26_1 + ', date=' + this.p26_1.toString() + ', poolId=' + this.q26_1 + ', quantity=' + this.r26_1 + ')';
   };
   protoOf(OrderUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.l26_1);
-    result = imul(result, 31) + this.m26_1.hashCode() | 0;
-    result = imul(result, 31) + (this.n26_1 == null ? 0 : getStringHashCode(this.n26_1)) | 0;
-    result = imul(result, 31) + this.o26_1.hashCode() | 0;
+    var result = getStringHashCode(this.o26_1);
+    result = imul(result, 31) + this.p26_1.hashCode() | 0;
+    result = imul(result, 31) + (this.q26_1 == null ? 0 : getStringHashCode(this.q26_1)) | 0;
+    result = imul(result, 31) + this.r26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdatedEvent).equals = function (other) {
@@ -29006,13 +29087,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdatedEvent ? other : THROW_CCE();
-    if (!(this.l26_1 === tmp0_other_with_cast.l26_1))
+    if (!(this.o26_1 === tmp0_other_with_cast.o26_1))
       return false;
-    if (!this.m26_1.equals(tmp0_other_with_cast.m26_1))
+    if (!this.p26_1.equals(tmp0_other_with_cast.p26_1))
       return false;
-    if (!(this.n26_1 == tmp0_other_with_cast.n26_1))
+    if (!(this.q26_1 == tmp0_other_with_cast.q26_1))
       return false;
-    if (!this.o26_1.equals(tmp0_other_with_cast.o26_1))
+    if (!this.r26_1.equals(tmp0_other_with_cast.r26_1))
       return false;
     return true;
   };
@@ -29436,7 +29517,7 @@ if (typeof Math.imul === 'undefined') {
       var tmp_0;
       if (_this__u8e3s4.isPrivate) {
         var tmp0_safe_receiver = _this__u8e3s4.proponent;
-        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.b27_1) == authedUser.memberOf);
+        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.e27_1) == authedUser.memberOf);
       } else {
         tmp_0 = false;
       }
@@ -30132,21 +30213,26 @@ if (typeof Math.imul === 'undefined') {
     return this.qt();
   });
   protoOf($serializer_67).xi = typeParametersSerializers;
+  protoOf(CatalogueDraftDeletedEvent).s2Id = s2Id;
+  defineProp(protoOf(CatalogueDraftDeletedEvent), 'id', function () {
+    return this.qt();
+  });
+  protoOf($serializer_68).xi = typeParametersSerializers;
   protoOf(CatalogueDraftRejectedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftRejectedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_68).xi = typeParametersSerializers;
+  protoOf($serializer_69).xi = typeParametersSerializers;
   protoOf(CatalogueDraftRequestedUpdateEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftRequestedUpdateEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_69).xi = typeParametersSerializers;
+  protoOf($serializer_70).xi = typeParametersSerializers;
   protoOf(CatalogueDraftSubmittedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftSubmittedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_70).xi = typeParametersSerializers;
+  protoOf($serializer_71).xi = typeParametersSerializers;
   protoOf(CatalogueDraftValidatedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftValidatedEvent), 'id', function () {
     return this.qt();
@@ -30178,13 +30264,13 @@ if (typeof Math.imul === 'undefined') {
     return this.m15();
   });
   defineProp(protoOf(OrderPlaceCommand), 'by', function () {
-    return this.q25();
+    return this.t25();
   });
   defineProp(protoOf(OrderPlaceCommand), 'poolId', function () {
     return this.f1q();
   });
   defineProp(protoOf(OrderPlaceCommand), 'quantity', function () {
-    return this.r25();
+    return this.u25();
   });
   defineProp(protoOf(OrderPlaceCommand), 'type', function () {
     return this.st();
@@ -30203,7 +30289,7 @@ if (typeof Math.imul === 'undefined') {
     return this.f1q();
   });
   defineProp(protoOf(OrderUpdateCommand), 'quantity', function () {
-    return this.r25();
+    return this.u25();
   });
   protoOf(OrderUpdatedEvent).s2Id = s2Id;
   defineProp(protoOf(OrderUpdatedEvent), 'id', function () {
@@ -30310,10 +30396,11 @@ if (typeof Math.imul === 'undefined') {
   Companion_instance_109 = new Companion_109();
   Companion_instance_110 = new Companion_110();
   Companion_instance_111 = new Companion_111();
+  Companion_instance_112 = new Companion_112();
   DatasetPolicies_instance = new DatasetPolicies();
   CataloguePolicies_instance = new CataloguePolicies();
-  Companion_instance_114 = new Companion_114();
-  Companion_instance_116 = new Companion_116();
+  Companion_instance_115 = new Companion_115();
+  Companion_instance_117 = new Companion_117();
   AssetPolicies_instance = new AssetPolicies();
   OrderStatusValues_instance = new OrderStatusValues();
   AssetPoolPolicies_instance = new AssetPoolPolicies();
@@ -31653,7 +31740,16 @@ if (typeof Math.imul === 'undefined') {
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'UPDATE_REQUESTED', CatalogueDraftState_UPDATE_REQUESTED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'VALIDATED', CatalogueDraftState_VALIDATED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'REJECTED', CatalogueDraftState_REJECTED_getInstance);
+    defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'DELETED', CatalogueDraftState_DELETED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$draft$domain.CatalogueDraftState, 'Companion', Companion_getInstance_105);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
+    var $io$komune$registry$s2$catalogue$draft = $io$komune$registry$s2$catalogue.draft || ($io$komune$registry$s2$catalogue.draft = {});
+    var $io$komune$registry$s2$catalogue$draft$domain = $io$komune$registry$s2$catalogue$draft.domain || ($io$komune$registry$s2$catalogue$draft.domain = {});
+    var $io$komune$registry$s2$catalogue$draft$domain$command = $io$komune$registry$s2$catalogue$draft$domain.command || ($io$komune$registry$s2$catalogue$draft$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
@@ -31706,7 +31802,7 @@ if (typeof Math.imul === 'undefined') {
     $io$komune$registry$s2$dataset$domain$automate.DatasetState.valueOf = valueOf_4;
     defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'ACTIVE', DatasetState_ACTIVE_getInstance);
     defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'DELETED', DatasetState_DELETED_getInstance);
-    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'Companion', Companion_getInstance_112);
+    defineProp($io$komune$registry$s2$dataset$domain$automate.DatasetState, 'Companion', Companion_getInstance_113);
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
@@ -31943,6 +32039,20 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
     var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$user = $io$komune$registry$f2.user || ($io$komune$registry$f2.user = {});
+    var $io$komune$registry$f2$user$domain = $io$komune$registry$f2$user.domain || ($io$komune$registry$f2$user.domain = {});
+    var $io$komune$registry$f2$user$domain$command = $io$komune$registry$f2$user$domain.command || ($io$komune$registry$f2$user$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$user = $io$komune$registry$f2.user || ($io$komune$registry$f2.user = {});
+    var $io$komune$registry$f2$user$domain = $io$komune$registry$f2$user.domain || ($io$komune$registry$f2$user.domain = {});
+    var $io$komune$registry$f2$user$domain$model = $io$komune$registry$f2$user$domain.model || ($io$komune$registry$f2$user$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
@@ -32134,6 +32244,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$draft = $io$komune$registry$f2$catalogue.draft || ($io$komune$registry$f2$catalogue.draft = {});
     var $io$komune$registry$f2$catalogue$draft$domain = $io$komune$registry$f2$catalogue$draft.domain || ($io$komune$registry$f2$catalogue$draft.domain = {});
+    var $io$komune$registry$f2$catalogue$draft$domain$command = $io$komune$registry$f2$catalogue$draft$domain.command || ($io$komune$registry$f2$catalogue$draft$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$draft = $io$komune$registry$f2$catalogue.draft || ($io$komune$registry$f2$catalogue.draft = {});
+    var $io$komune$registry$f2$catalogue$draft$domain = $io$komune$registry$f2$catalogue$draft.domain || ($io$komune$registry$f2$catalogue$draft.domain = {});
     var $io$komune$registry$f2$catalogue$draft$domain$model = $io$komune$registry$f2$catalogue$draft$domain.model || ($io$komune$registry$f2$catalogue$draft$domain.model = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
@@ -32151,13 +32269,6 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue$draft = $io$komune$registry$f2$catalogue.draft || ($io$komune$registry$f2$catalogue.draft = {});
     var $io$komune$registry$f2$catalogue$draft$domain = $io$komune$registry$f2$catalogue$draft.domain || ($io$komune$registry$f2$catalogue$draft.domain = {});
     var $io$komune$registry$f2$catalogue$draft$domain$query = $io$komune$registry$f2$catalogue$draft$domain.query || ($io$komune$registry$f2$catalogue$draft$domain.query = {});
-    var $io = _.io || (_.io = {});
-    var $io$komune = $io.komune || ($io.komune = {});
-    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
-    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
-    var $io$komune$registry$f2$user = $io$komune$registry$f2.user || ($io$komune$registry$f2.user = {});
-    var $io$komune$registry$f2$user$domain = $io$komune$registry$f2$user.domain || ($io$komune$registry$f2$user.domain = {});
-    var $io$komune$registry$f2$user$domain$command = $io$komune$registry$f2$user$domain.command || ($io$komune$registry$f2$user$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

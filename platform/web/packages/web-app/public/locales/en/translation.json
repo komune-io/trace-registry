@@ -137,6 +137,9 @@
   "or": "Or",
   "confirm": "Confirm",
   "title": "Title",
+  "newSheet": "New sheet",
+  "edition": "Edition",
+  "operation": "Operation",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -287,8 +290,8 @@
     "sectoralScopes": "Sectoral scopes",
     "newSection": "New section",
     "createAdraft": "Create a draft",
-    "noData": "No catalogues were found",
-    "noDataToValidate": "No catalogues to validate",
+    "noData": "No sheet were found",
+    "noDataToValidate": "No sheet to validate",
     "reviewModifications": "Review the modification proposed by {{name}}",
     "consultOriginal": "Consult the original sheet",
     "contactEditor": "Contact the editor",
@@ -300,10 +303,15 @@
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
     "globalSearch": "Search for a solution, system, sector...",
     "startWritingContent": "Start writing the content of your sheet",
-    "deleteTitle": "Delete sheet {{name}}",
-    "deleteDescription": "This action is irreversible. Do you really want to delete this sheet?",
+    "draftDeleteTitle": "Draft deletion of the sheet {{name}} in {{lang}}",
+    "draftDeleteDescription": "This action is irreversible. Do you really want to delete this draft?",
     "validateTheDraft": "Validate the draft",
-    "saveTheDraft": "Save the draft"
+    "saveTheDraft": "Save the draft",
+    "activeContribution": "You have an active contribution on this sheet",
+    "alreadyHaveActiveContribution": "You already have an active contribution on this sheet",
+    "consultContribution": "Consult my contribution",
+    "newContributionReplace": "Creating a new contribution will replace your existing contribution",
+    "createNewContribution": "Create a new contribution"
   },
   "editor": {
     "imageUrl": "Image URL",
@@ -321,6 +329,11 @@
       "1-2-1": "3 columns (25% - 50% - 25%)",
       "1-1-1-1": "4 columns (equal size)"
     }
+  },
+  "lang": {
+    "fr": "French",
+    "en": "English",
+    "es": "Spanish"
   },
   "http": {
     "backendErrors": {},
@@ -344,7 +357,8 @@
       "data/catalogueDraftCreate": "The draft could not be created",
       "data/catalogueDraftSubmit": "The draft could not be submitted",
       "data/catalogueDraftValidate": "The draft could not be validated",
-      "data/catalogueDraftReject": "The draft could not be rejected"
+      "data/catalogueDraftReject": "The draft could not be rejected",
+      "data/catalogueDraftDelete": "The draft could not be deleted"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",
@@ -355,7 +369,8 @@
       "data/catalogueDraftCreate": "The draft has been successfully created",
       "data/catalogueDraftSubmit": "The draft has been successfully submitted",
       "data/catalogueDraftValidate": "The draft has been successfully validated",
-      "data/catalogueDraftReject": "The draft has been successfully rejected"
+      "data/catalogueDraftReject": "The draft has been successfully rejected",
+      "data/catalogueDraftDelete": "The draft has been successfully deleted"
     }
   }
 }

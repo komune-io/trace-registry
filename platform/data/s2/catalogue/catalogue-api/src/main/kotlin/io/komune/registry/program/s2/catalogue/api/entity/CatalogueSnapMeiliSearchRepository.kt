@@ -10,10 +10,10 @@ import com.meilisearch.sdk.model.Settings
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
+import io.komune.registry.s2.commons.model.CatalogueId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory

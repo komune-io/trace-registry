@@ -3,12 +3,12 @@ package io.komune.registry.data.test.bdd.f2.catalogue.command
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
+import io.komune.registry.data.test.bdd.f2.catalogue.data.catalogue
 import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
-import io.komune.registry.data.test.bdd.f2.catalogue.data.catalogue
+import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey

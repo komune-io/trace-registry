@@ -27,25 +27,26 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.program.s2.dataset.api.entity.toCreateCommand
 import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
+import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -138,6 +139,8 @@ class CatalogueF2AggregateService(
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
         val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, command.id)
         doUpdate(command.copy(id = draft.catalogueId))
+
+        command.parentId?.let { replaceParent(draft.originalCatalogueId, it) }
 
         return CatalogueUpdatedEventDTOBase(
             id = command.id,
@@ -330,8 +333,33 @@ class CatalogueF2AggregateService(
         return event
     }
 
+    private suspend fun replaceParent(catalogueId: CatalogueId, parentId: CatalogueId) {
+        val parent = catalogueFinderService.get(parentId)
+
+        if (catalogueId in parent.catalogueIds) {
+            return
+        }
+
+        val catalogue = catalogueFinderService.get(catalogueId)
+        val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
+
+        catalogueFinderService.page(
+            childrenIds = ExactMatch(catalogueId),
+        ).items.forEach { currentParent ->
+            CatalogueUnlinkCataloguesCommand(
+                id = currentParent.id,
+                catalogues = listOf(catalogueId)
+            ).let { catalogueAggregateService.unlinkCatalogues(it) }
+        }
+        assignParent(catalogueId, parentId, typeConfiguration)
+    }
+
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
         val parent = catalogueFinderService.get(parentId)
+
+        if (catalogueId in parent.catalogueIds) {
+            return
+        }
 
         checkParenting(catalogueId, parent, typeConfiguration)
 

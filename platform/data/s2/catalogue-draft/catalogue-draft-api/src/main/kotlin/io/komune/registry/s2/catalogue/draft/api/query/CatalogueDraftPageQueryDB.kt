@@ -6,11 +6,11 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.infra.redis.PageQueryDB
 import io.komune.registry.infra.redis.match
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftEntity
 import io.komune.registry.s2.catalogue.draft.api.entity.`CatalogueDraftEntity$`
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Repository
 
@@ -26,6 +26,7 @@ class CatalogueDraftPageQueryDB(
         baseVersion: Match<Int>? = null,
         creatorId: Match<UserId>? = null,
         status: Match<CatalogueDraftState>? = null,
+        deleted: Match<Boolean>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueDraftEntity> = doQuery(offset) {
         match(`CatalogueDraftEntity$`.ID, id)
@@ -34,5 +35,6 @@ class CatalogueDraftPageQueryDB(
         match(`CatalogueDraftEntity$`.BASE_VERSION, baseVersion)
         match(`CatalogueDraftEntity$`.CREATOR_ID, creatorId)
         match(`CatalogueDraftEntity$`.STATUS, status)
+        match(`CatalogueDraftEntity$`.DELETED, deleted)
     }
 }

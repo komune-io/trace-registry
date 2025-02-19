@@ -3,7 +3,7 @@ services:
     image: ${DOCKER_REPOSITORY}trace-registry-postgres:1.3.0-SNAPSHOT
     container_name: ${POSTGRES_HOSTNAME}
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}

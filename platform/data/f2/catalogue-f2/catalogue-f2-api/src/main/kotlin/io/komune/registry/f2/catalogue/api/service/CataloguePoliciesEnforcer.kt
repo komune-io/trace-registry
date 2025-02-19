@@ -2,7 +2,7 @@ package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.policy.CataloguePolicies
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.stereotype.Service
 
 @Service

@@ -1,17 +1,24 @@
 import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
+import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
-import { getMenu, MenuItem} from '.'
+import { getMenu, MenuItem } from '.'
+import { useCatalogueDraftPageQuery } from 'domain-components'
 
 export const usePersonnalMenu = (t: TFunction) => {
     const location = useLocation()
 
     const { cataloguesToVerify, cataloguesContributions } = useRoutesDefinition()
 
+    const totalToVerify = useCatalogueDraftPageQuery({
+        query: {
+            limit: 0,
+            status: ["SUBMITTED"]
+        }
+    }).data?.total
 
     const menu = useMemo((): MenuItem[] => {
         return [
@@ -20,17 +27,17 @@ export const usePersonnalMenu = (t: TFunction) => {
                 to: cataloguesContributions(),
                 label: t("myContributions"),
                 icon: <FolderRounded />,
-                isSelected:  location.pathname.includes(cataloguesContributions())
+                isSelected: location.pathname.includes(cataloguesContributions())
             },
             {
                 key: "Secteur",
                 to: cataloguesToVerify(),
-                label: t("sheetsToValidate"),
+                label: t("sheetsToValidate") + (totalToVerify ? ` (${totalToVerify})` : ""),
                 icon: <DoneRounded />,
-                isSelected:  location.pathname.includes(cataloguesToVerify())
+                isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify, cataloguesContributions])
+    }, [location, t, cataloguesToVerify, cataloguesContributions, totalToVerify])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -42,7 +49,7 @@ export const MenuHeader = () => {
 
     const { t } = useTranslation()
 
-    // const personnalMenu = usePersonnalMenu(t)
+    const personnalMenu = usePersonnalMenu(t)
 
     const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
@@ -82,12 +89,12 @@ export const MenuHeader = () => {
                 {t("newCatalogue")}
             </CustomButton>
             {menu}
-            {/* <Menu
+            <Menu
                 sx={{
                     width: "100%"
                 }}
                 menu={personnalMenu}
-            /> */}
+            />
             <Divider sx={{ my: 2 }} flexItem />
         </Stack>
     )

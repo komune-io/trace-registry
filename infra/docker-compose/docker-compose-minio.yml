@@ -3,7 +3,7 @@ services:
     image: minio/minio:RELEASE.2022-02-26T02-54-46Z.fips
     container_name: minio
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=minio123

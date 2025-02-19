@@ -15,7 +15,7 @@ import io.komune.registry.f2.dataset.client.DatasetClient
 import io.komune.registry.f2.dataset.client.datasetClient
 import io.komune.registry.f2.license.client.LicenseClient
 import io.komune.registry.f2.license.client.licenseClient
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.init.actor.Actor
 import kotlinx.coroutines.flow.flowOf

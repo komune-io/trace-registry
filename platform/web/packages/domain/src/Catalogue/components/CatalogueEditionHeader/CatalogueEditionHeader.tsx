@@ -5,7 +5,7 @@ import { Box, IconButton, Stack } from '@mui/material'
 import { Button } from '@komune-io/g2'
 import { DeleteRounded, MoreVert } from '@mui/icons-material'
 import { useButtonMenu, useConfirmationPopUp, useToggleState } from 'components'
-import { DraftStatusChip } from '../CatalogueTable'
+import { DraftStatusChip } from '../DraftTable'
 import { SubmitModal } from './SubmitModal'
 
 interface CatalogueEditionHeaderProps {
@@ -29,8 +29,8 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
     } = useConfirmationPopUp({
         onSubmit: onDelete,
         variant: 'deletion',
-        title: t("catalogues.deleteTitle", { name: catalogue?.title }),
-        description: t("catalogues.deleteDescription"),
+        title: t("catalogues.draftDeleteTitle", { name: catalogue?.title, lang: t("lang." + draft?.language) }),
+        description: t("catalogues.draftDeleteDescription"),
     })
 
 
@@ -65,18 +65,18 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             {onValidate && <Button
             onClick={onValidate}
             >
-                {t("catalogues.validateTheDraft")}
+                {t("validate")}
             </Button>}
             {onSave && <Button
                 onClick={onSave}
             >
                 {t("catalogues.saveTheDraft")}
             </Button>}
-            <Button
+            {draft?.status !== "SUBMITTED" && <Button
             onClick={toggle}
             >
                 {t("sendForValidation")}
-            </Button>
+            </Button>}
             <IconButton
                 {...buttonProps}
                 size={"small"}

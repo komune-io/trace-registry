@@ -2,6 +2,8 @@ package io.komune.registry.s2.catalogue.draft.domain
 
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeleteCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateCommand
@@ -23,7 +25,9 @@ val s2CatalogueDraft = s2Sourcing {
         role = CatalogueDraftRole.Issuer
     }
     transaction<CatalogueDraftSubmitCommand, CatalogueDraftSubmittedEvent> {
-        from = CatalogueDraftState.DRAFT
+        froms += CatalogueDraftState.DRAFT
+        froms += CatalogueDraftState.REJECTED
+        froms += CatalogueDraftState.UPDATE_REQUESTED
         to = CatalogueDraftState.SUBMITTED
         role = CatalogueDraftRole.Issuer
     }
@@ -48,20 +52,18 @@ val s2CatalogueDraft = s2Sourcing {
         to = CatalogueDraftState.VALIDATED
         role = CatalogueDraftRole.Issuer
     }
+    selfTransaction<CatalogueDraftDeleteCommand, CatalogueDraftDeletedEvent> {
+        states += CatalogueDraftState.entries.toList()
+        role = CatalogueDraftRole.Issuer
+    }
 }
-
-/**
- * @d2 hidden
- * @visual json "b5d4e11f-5519-4fb6-8b93-f78c99dd624e"
- */
-typealias CatalogueDraftId = String
 
 /**
  * @d2 automate
  * @visual automate platform/api/api-init/build/s2-documenter/CatalogueDraft.json
  * @order 1
  * @title Catalogue Draft States
- * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueDraftF2Page]
+ * @parent [io.komune.registry.f2.catalogue.draft.domain.D2CatalogueDraftF2Page]
  */
 @Serializable
 @JsExport
@@ -70,7 +72,8 @@ enum class CatalogueDraftState(override val position: Int): S2State {
     SUBMITTED(1),
     UPDATE_REQUESTED(2),
     VALIDATED(3),
-    REJECTED(4)
+    REJECTED(4),
+    DELETED(5)
 }
 
 enum class CatalogueDraftRole(val value: String): S2Role {

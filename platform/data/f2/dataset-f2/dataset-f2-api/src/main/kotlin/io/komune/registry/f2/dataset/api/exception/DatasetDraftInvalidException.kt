@@ -2,8 +2,8 @@ package io.komune.registry.f2.dataset.api.exception
 
 import f2.spring.exception.F2HttpException
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.commons.exception.ExceptionCodes
+import io.komune.registry.s2.commons.model.CatalogueDraftId
 import org.springframework.http.HttpStatus
 
 class DatasetDraftInvalidException(

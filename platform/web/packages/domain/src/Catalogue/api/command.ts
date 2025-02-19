@@ -119,3 +119,16 @@ export const useCatalogueDraftRejectCommand = (
         CatalogueDraftRejectedEvent
     >('data/catalogueDraftReject', requestProps, params)
 }
+
+export interface CatalogueDraftDeleteCommand extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeleteCommandDTO { }
+export interface CatalogueDraftDeletedEvent extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeletedEventDTO { }
+
+export const useCatalogueDraftDeleteCommand = (
+    params: CommandParams<CatalogueDraftDeleteCommand, CatalogueDraftDeletedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueDraftDeleteCommand,
+        CatalogueDraftDeletedEvent
+    >('data/catalogueDraftDelete', requestProps, params)
+}

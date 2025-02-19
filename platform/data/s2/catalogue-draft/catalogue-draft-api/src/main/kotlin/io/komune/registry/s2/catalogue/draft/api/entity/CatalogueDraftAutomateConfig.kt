@@ -2,10 +2,10 @@ package io.komune.registry.s2.catalogue.draft.api.entity
 
 import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftEvolver
-import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent
 import io.komune.registry.s2.catalogue.draft.domain.s2CatalogueDraft
+import io.komune.registry.s2.commons.model.CatalogueDraftId
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring

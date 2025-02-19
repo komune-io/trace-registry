@@ -3,17 +3,20 @@ import {
     Catalogue,
     CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
     useCatalogueDraftCreateCommand,
+    DraftReplacementModal,
+    useCatalogueDraftDeleteCommand,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
-import { useRoutesDefinition } from 'components'
+import { InfoTicket, useRoutesDefinition, useToggleState } from 'components'
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { maybeAddItem } from "../../../menu";
 import { CircularProgress, IconButton, Stack } from '@mui/material'
 import { EditRounded } from '@mui/icons-material'
 import { useQueryClient } from '@tanstack/react-query'
+import { LinkButton } from '@komune-io/g2'
 
 interface CatalogueViewPageProps {
     catalogue?: Catalogue
@@ -26,6 +29,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
     const [draftLoading, setdraftLoading] = useState(false)
     const queryClient = useQueryClient()
+    const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
 
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
@@ -74,14 +78,30 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         return tabs
     }, [t, data, catalogue, isLoading])
 
-    const currentLanguageDraft = catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language)
+    const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
 
     const createDraft = useCatalogueDraftCreateCommand({})
+    const deleteDraft = useCatalogueDraftDeleteCommand({})
 
     const onCreateDraft = useCallback(
         async () => {
             if (!catalogue) return
+            
+            let canContinue = true
+            if (currentLanguageDraft) {
+                canContinue = false
+                const res = await deleteDraft.mutateAsync({
+                    id: currentLanguageDraft.id
+                })
+                if (res) {
+                    canContinue = true
+                }
+            }
+            
+            if (!canContinue) return 
+
             setdraftLoading(true)
+
             const res = await createDraft.mutateAsync({
                 catalogueId: catalogue.id,
                 language: i18n.language
@@ -91,10 +111,11 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
 
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] })
+                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
                 navigate(cataloguesCatalogueIdDraftIdEdit(catalogue.id, res.id))
             }
         },
-        [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate],
+        [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],
     )
 
     return (
@@ -109,14 +130,27 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
             >
                 <CatalogueBreadcrumbs />
                 <IconButton
-                    component={currentLanguageDraft ? Link : "button"}
-                    to={currentLanguageDraft ? cataloguesCatalogueIdDraftIdEdit(catalogue?.id!, currentLanguageDraft.id) : undefined}
-                    onClick={onCreateDraft}
+                    onClick={currentLanguageDraft ? toggleDraftReplacement : onCreateDraft}
                     disabled={draftLoading}
                 >
                     {draftLoading ? <CircularProgress /> : <EditRounded />}
                 </IconButton>
             </Stack>
+            <DraftReplacementModal
+                open={openDraftReplacement}
+                onClose={toggleDraftReplacement}
+                onCreate={onCreateDraft}
+            />
+            {currentLanguageDraft && <InfoTicket
+                title={t("catalogues.activeContribution")}
+            >
+                <LinkButton
+                    to={cataloguesCatalogueIdDraftIdEdit(catalogue?.id!, currentLanguageDraft.id)}
+                >
+                    {t("catalogues.consultContribution")}
+                </LinkButton>
+            </InfoTicket>
+            }
             <SectionTab
                 tabs={tabs}
                 currentTab={currentTab}

@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.draft.domain
 
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
+import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftDeleteFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRequestUpdateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftSubmitFunction
@@ -12,4 +13,5 @@ interface CatalogueDraftCommandApi {
     fun catalogueDraftRequestUpdate(): CatalogueDraftRequestUpdateFunction
     fun catalogueDraftReject(): CatalogueDraftRejectFunction
     fun catalogueDraftValidate(): CatalogueDraftValidateFunction
+    fun catalogueDraftDelete(): CatalogueDraftDeleteFunction
 }

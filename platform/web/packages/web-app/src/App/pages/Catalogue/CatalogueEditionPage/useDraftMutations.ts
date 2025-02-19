@@ -1,8 +1,7 @@
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
+import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRoutesDefinition } from 'components'
@@ -12,15 +11,15 @@ interface useDraftMutationsParams {
   setTab: (tab: string) => void
   catalogue?: Catalogue
   refetchDraft: () => void
+  afterValidateNavigate?: string
 }
 
 export const useDraftMutations = (params: useDraftMutationsParams) => {
-  const { metadataFormState, setTab, catalogue, refetchDraft } = params
+  const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
-  const { i18n } = useTranslation()
   const {cataloguesAll, cataloguesContributions} = useRoutesDefinition()
 
   const onSectionChange = useCallback(
@@ -57,7 +56,8 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           structure: metadataFormState.values.structure,
           hidden: metadataFormState.values.hidden,
           homepage: metadataFormState.values.homepage,
-          language: i18n.language,
+          versionNotes: metadataFormState.values.versionNotes,
+          language: metadataFormState.values.language,
           id: catalogueId!,
           draftId: draftId!,
         },
@@ -96,7 +96,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         return res
       }
     },
-    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, i18n.language, catalogueId, draftId, catalogue, refetchDraft],
+    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, catalogueId, draftId, catalogue, refetchDraft],
   )
 
   const validateDraft = useCatalogueDraftValidateCommand({})
@@ -110,6 +110,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         })
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
           navigate(cataloguesAll(catalogueId))
         }
       }
@@ -129,26 +130,29 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         })
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
           navigate(cataloguesContributions() + "?successfullContribution=true")
         }
       }
     },
-    [],
+    [onSave, draftId, catalogueId],
 
   )
   
-  const deleteCatalogue = useCatalogueDeleteCommand({})
+  const deleteCatalogue = useCatalogueDraftDeleteCommand({})
 
   const onDelete = useCallback(
     async () => {
       const res = await deleteCatalogue.mutateAsync({
-        id: catalogueId!
+        id: draftId!,
       })
       if (res) {
-        navigate("/")
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+        navigate(afterValidateNavigate ?? cataloguesAll(undefined, catalogueId!))
       }
     },
-    [deleteCatalogue.mutateAsync, catalogueId],
+    [deleteCatalogue.mutateAsync, draftId, catalogueId, afterValidateNavigate],
   )
 
   return {

@@ -4,7 +4,7 @@ services:
     container_name: tr-registry-script
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-script:${REGISTRY_VERSION}
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       - registry_script_retry_max=5
       - registry_script_retry_delayMillis=10000

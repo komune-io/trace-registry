@@ -4,7 +4,7 @@ services:
     container_name: fs-gateway
     image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
     env_file:
-      - build/config/.env_dev
+      - .env_dev
     environment:
       - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
       - fs_s3_internal-url=http://minio:9000

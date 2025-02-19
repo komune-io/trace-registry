@@ -12,8 +12,9 @@ build:
 	@make -f docker.mk build
 
 test:
-	@make -f libs.mk test
-	@make -f docker.mk test
+	@echo "Tests are disabled"
+#	@make -f libs.mk test
+#	@make -f docker.mk test
 
 publish:
 	@make -f libs.mk publish

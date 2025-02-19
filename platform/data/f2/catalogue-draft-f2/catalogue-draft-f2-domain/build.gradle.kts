@@ -9,6 +9,8 @@ dependencies {
 
 	commonMainApi(project(Modules.data.f2.catalogue.domain))
 
+	commonMainApi(project(Modules.identity.f2.user.domain))
+
 	Dependencies.Mpp.f2 { commonMainApi(it) }
 	Dependencies.Mpp.fs { commonMainApi(it) }
 }

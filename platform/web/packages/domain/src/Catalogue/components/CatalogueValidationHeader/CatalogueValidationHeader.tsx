@@ -1,20 +1,26 @@
 import { Button, Link } from '@komune-io/g2'
 import { EmailRounded, InfoRounded } from '@mui/icons-material'
 import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Tooltip, useToggleState } from 'components'
+import { Tooltip, useRoutesDefinition, useToggleState } from 'components'
 import { t } from 'i18next'
 import { RejectModal } from './RejectModal'
+import { CatalogueDraft } from '../../model'
+import { useParams } from 'react-router-dom'
 
 interface CatalogueValidationHeaderProps {
+    draft?: CatalogueDraft
     onAccept: () => Promise<any>
     onReject: (reason: string) => Promise<any>
 }
 
 export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps) => {
-    const { onAccept, onReject } = props
+    const { onAccept, onReject, draft } = props
+    const {catalogueId} = useParams()
+    const {cataloguesAll} = useRoutesDefinition()
 
     const [open, _, toggle] = useToggleState()
     
+    if (!draft) return <></>
     return (
         <Paper
             elevation={2}
@@ -41,7 +47,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     <Typography
                         variant='subtitle1'
                     >
-                        {t("catalogues.reviewModifications", { name: "Pedro Sanchez" })}
+                        {t("catalogues.reviewModifications", { name: `${draft.creator.givenName} ${draft.creator.familyName}` })}
                     </Typography>
                     <Tooltip
 
@@ -66,7 +72,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                                         color: "text.secondary"
                                     }}
                                 >
-                                    Correction de fautes d’ortographe dans la section synthèse économique.
+                                    {draft.versionNotes}
                                 </Typography>
                             </Stack>
                         }
@@ -81,14 +87,14 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                 >
                     <Link
                         variant="body2"
-                        href=""
+                        href={cataloguesAll(undefined, catalogueId!)}
                         target='_blank'
                     >
                         {t("catalogues.consultOriginal")}
                     </Link>
                     <Link
                         variant="body2"
-                        href='mailto:admin@objectif100m.fr'
+                        href={`mailto:${draft.creator.email}`}
                         sx={{
                             display: "flex",
                             gap: 1,

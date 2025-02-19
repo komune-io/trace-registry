@@ -4,8 +4,8 @@ import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
-import io.komune.registry.s2.catalogue.domain.automate.CatalogueId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
 import kotlinx.serialization.Serializable
