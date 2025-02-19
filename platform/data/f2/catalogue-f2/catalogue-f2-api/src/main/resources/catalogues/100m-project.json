@@ -1,0 +1,11 @@
+{
+  "type": "100m-project",
+  "identifierSequence": "seq_100m_project",
+  "parentTypes": ["100m-projects", "100m-sector"],
+  "conceptSchemes": ["earth-limits"],
+  "structure": "item",
+  "i18n": {
+    "enable": true,
+    "translationType": "100m-translation"
+  }
+}
