@@ -21,14 +21,14 @@ class CatalogueModelI18nService(
         return catalogueBase?.translate(catalogue)
     }
 
-    private suspend fun CatalogueModel.translate(catalogueTranlated: CatalogueEntity): CatalogueModel? {
+    private suspend fun CatalogueModel.translate(catalogueTranslated: CatalogueEntity): CatalogueModel? {
         return this.copy(
-            id = catalogueTranlated.id,
-            language = catalogueTranlated.language,
-            title = catalogueTranlated.title,
-            description = catalogueTranlated.description,
-            datasetIds = this.datasetIds + catalogueTranlated.datasetIds,
-            catalogueIds = this.catalogueIds + catalogueTranlated.catalogueIds
+            id = catalogueTranslated.id,
+            language = catalogueTranslated.language,
+            title = catalogueTranslated.title,
+            description = catalogueTranslated.description,
+            datasetIds = this.datasetIds + catalogueTranslated.datasetIds,
+            catalogueIds = this.catalogueIds + catalogueTranslated.catalogueIds
         )
     }
 }

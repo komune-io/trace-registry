@@ -11,6 +11,7 @@ import io.komune.registry.f2.catalogue.draft.api.model.toDTO
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftSnapMeiliSearchRepository
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueDraftF2FinderService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val catalogueDraftSnapMeiliSearchRepository: CatalogueDraftSnapMeiliSearchRepository,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ) {
@@ -31,6 +33,7 @@ class CatalogueDraftF2FinderService(
 
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
+        catalogueId: Match<CatalogueId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
         baseVersion: Match<Int>? = null,
@@ -42,6 +45,7 @@ class CatalogueDraftF2FinderService(
 
         return catalogueDraftFinderService.page(
             id = id,
+            catalogueId = catalogueId,
             originalCatalogueId = originalCatalogueId,
             language = language,
             baseVersion = baseVersion,
@@ -49,6 +53,32 @@ class CatalogueDraftF2FinderService(
             status = status,
             offset = offset
         ).map { it.toDTOCached(cache) }
+    }
+
+    suspend fun search(
+        query: String? = null,
+        catalogueIds: List<CatalogueId>? = null,
+        originalCatalogueIds: List<CatalogueId>? = null,
+        types: List<String>? = null,
+        languages: List<String>? = null,
+        statuses: List<CatalogueDraftState>? = null,
+        creatorIds: List<UserId>? = null,
+        offset: OffsetPagination? = null
+    ): PageDTO<CatalogueDraftDTOBase> {
+        val cache = Cache()
+
+        val searchResult = catalogueDraftSnapMeiliSearchRepository.search(
+            query = query,
+            catalogueIds = catalogueIds,
+            originalCatalogueIds = originalCatalogueIds,
+            types = types,
+            languages = languages,
+            statuses = statuses,
+            creatorIds = creatorIds,
+            offset = offset
+        )
+
+        return searchResult.map { catalogueDraftFinderService.get(it.id).toDTOCached(cache) }
     }
 
     private suspend fun CatalogueDraftModel.toDTOCached(cache: Cache = Cache()) = toDTO(

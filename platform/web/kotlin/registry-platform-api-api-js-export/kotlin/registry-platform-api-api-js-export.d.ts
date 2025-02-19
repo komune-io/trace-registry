@@ -3682,8 +3682,9 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.query {
     interface CatalogueDraftPageQueryDTO {
         readonly originalCatalogueId?: string;
         readonly language?: string;
-        readonly title?: string;
+        readonly search?: string;
         readonly status?: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState[];
+        readonly type?: string;
         readonly creatorId?: string;
         readonly offset?: number;
         readonly limit?: number;

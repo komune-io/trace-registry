@@ -27,7 +27,9 @@ typealias CatalogueDraftPageFunction = F2Function<CatalogueDraftPageQuery, Catal
 interface CatalogueDraftPageQueryDTO {
     val originalCatalogueId: CatalogueId?
     val language: Language?
+    val search: String?
     val status: List<CatalogueDraftState>?
+    val type: String?
     val creatorId: UserId?
     val offset: Int?
     val limit: Int?
@@ -40,7 +42,9 @@ interface CatalogueDraftPageQueryDTO {
 data class CatalogueDraftPageQuery(
     override val originalCatalogueId: CatalogueId?,
     override val language: Language?,
+    override val search: String?,
     override val status: List<CatalogueDraftState>?,
+    override val type: String?,
     override val creatorId: UserId?,
     override val offset: Int?,
     override val limit: Int?
