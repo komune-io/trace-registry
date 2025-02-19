@@ -139,6 +139,10 @@ class CatalogueF2AggregateService(
         val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, command.id)
         doUpdate(command.copy(id = draft.catalogueId))
 
+        val originalCatalogue = catalogueFinderService.get(draft.originalCatalogueId)
+        val typeConfiguration = catalogueConfig.typeConfigurations[originalCatalogue.type]
+        command.parentId?.let { assignParent(draft.originalCatalogueId, it, typeConfiguration) }
+
         return CatalogueUpdatedEventDTOBase(
             id = command.id,
             draftId = draft.id
@@ -332,6 +336,10 @@ class CatalogueF2AggregateService(
 
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
         val parent = catalogueFinderService.get(parentId)
+
+        if (catalogueId in parent.catalogueIds) {
+            return
+        }
 
         checkParenting(catalogueId, parent, typeConfiguration)
 
