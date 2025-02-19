@@ -26,10 +26,12 @@ export const CatalogueValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
-  const formInitialValues = useMemo(() => catalogue ? ({
-    ...catalogue,
-    illustrationUploaded: () => g2Config().platform + `/data/catalogues/${catalogue.id}/img`
-  }) : undefined, [catalogue])
+   const formInitialValues = useMemo(() => catalogue ? ({
+      ...catalogue,
+      themes: (catalogue.themes ?? [])[0]?.id,
+      license: catalogue.license?.id,
+      illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
+    }) : undefined, [catalogue])
 
   const metadataFormState = useFormComposable({
     isLoading: catalogueDraftQuery.isInitialLoading,
