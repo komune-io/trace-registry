@@ -3,11 +3,16 @@ import { CircularProgress, ClickAwayListener, Grow, ListItemIcon, ListItemText, 
 import React, { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export type TMSMenuItem = MenuItem & {
+export type TMSMenuItem<T = {}> = MenuItem<T> & {
     to?: string
     color?: string
-    isLoading?: boolean,
+    isLoading?: boolean
     disabled?: boolean
+    number?: number
+}
+
+export interface TMSMenuItems<T = {}> extends TMSMenuItem<T> {
+    items?: TMSMenuItems<T>[];
 }
 
 export interface useButtonMenuParams {

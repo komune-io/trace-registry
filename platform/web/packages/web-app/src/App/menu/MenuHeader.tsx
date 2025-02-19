@@ -32,8 +32,9 @@ export const usePersonnalMenu = (t: TFunction) => {
             {
                 key: "Secteur",
                 to: cataloguesToVerify(),
-                label: t("sheetsToValidate") + (totalToVerify ? ` (${totalToVerify})` : ""),
+                label: t("sheetsToValidate"),
                 icon: <DoneRounded />,
+                number: totalToVerify,
                 isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]

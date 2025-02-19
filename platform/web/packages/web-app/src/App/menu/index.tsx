@@ -11,16 +11,17 @@ import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { MenuHeader } from "./MenuHeader";
 
-export interface MenuItem extends MenuItems {
+export interface MenuItem<T = {}> extends MenuItems<T> {
   to?: string,
   action?: () => void,
   isVisible?: boolean;
-  items?: MenuItem[]
+  number?: number
+  items?: MenuItem<T>[]
 }
 
-export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps>[] => {
-  const finalMenu: MenuItems<LinkProps>[] = []
-  menu.forEach((item): MenuItems<LinkProps> | undefined => {
+export const getMenu = (location: string, menu: MenuItem[]): MenuItem<LinkProps>[] => {
+  const finalMenu: MenuItem<LinkProps>[] = []
+  menu.forEach((item): MenuItem<LinkProps> | undefined => {
     const additional = item.to ? {
       component: Link,
       componentProps: {
@@ -38,6 +39,7 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItems<LinkProps
       onClick: item.onClick,
       isSelected: item.isSelected ?? (item.to ? item.to === "/" ? item.to === location : location.includes(item.to) : false),
       items: item.items ? getMenu(location, item.items) : undefined,
+      number: item .number,
       ...additional
     })
   })
