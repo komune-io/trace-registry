@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import org.springframework.stereotype.Service
 
 @Service
@@ -41,18 +42,14 @@ class CatalogueDraftF2AggregateService(
         val draftedCatalogueId = CatalogueCreateCommandDTOBase(
             identifier = "${baseCatalogue.identifier}-${command.language}-draft-$now",
             title = baseCatalogue.title,
+            description = baseCatalogue.description,
             type = baseCatalogue.type,
             language = command.language,
-            description = baseCatalogue.description,
-            themes = baseCatalogue.themeIds,
-            homepage = baseCatalogue.homepage,
-            structure = baseCatalogue.structure,
             catalogues = emptyList(),
-            accessRights = baseCatalogue.accessRights,
-            license = baseCatalogue.licenseId,
             hidden = true
         ).let { catalogueF2AggregateService.createOrphanTranslation(
             command = it,
+            originalCatalogueId = baseCatalogue.id,
             inferIdentifier = false,
             inferTranslationType = true,
             // only init datasets in type configuration if no translation exists for the language yet to avoid duplications
@@ -62,6 +59,14 @@ class CatalogueDraftF2AggregateService(
         val datasetIdMap = baseCatalogue.datasetIds.mapAsync { datasetId ->
             val dataset = datasetFinderService.get(datasetId)
             val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
+            dataset.distributions.mapAsync { distribution ->
+                DatasetAddDistributionCommand(
+                    id = newId,
+                    distributionId = distribution.id,
+                    downloadPath = distribution.downloadPath,
+                    mediaType = distribution.mediaType,
+                ).let { datasetAggregateService.addDistribution(it) }
+            }
             datasetId to newId
         }.toMap()
 

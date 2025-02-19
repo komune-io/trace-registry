@@ -130,8 +130,10 @@ class CatalogueI18nService(
                 description = translated.description,
                 img = translated.img,
                 catalogues = translated.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
-                    catalogueFinderService.page(id = CollectionMatch(catalogueIds))
-                        .items
+                    catalogueFinderService.page(
+                        id = CollectionMatch(catalogueIds),
+                        hidden = ExactMatch(false),
+                    ).items
                         .filter { it.status != CatalogueState.DELETED }
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
                         .filterNotNull()

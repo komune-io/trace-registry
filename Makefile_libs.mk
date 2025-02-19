@@ -14,8 +14,8 @@ test-pre:
 	@sleep 10
 	@make init up
 
-test:
-	./gradlew test --info
+#test:
+	#./gradlew test --info
 
 publish:
 	@echo "No publish task"

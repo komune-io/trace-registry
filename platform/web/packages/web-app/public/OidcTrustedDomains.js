@@ -9,7 +9,7 @@ const trustedDomains = {
             "https://auth.connect.100m.kosmio.dev"
             ],
         accessTokenDomains: [
-            'http://localhost:8071',
+            'http://localhost:8070',
             
             "https://registry.trace.kosmio.dev",
             "https://auth.connect.kosmio.dev",
