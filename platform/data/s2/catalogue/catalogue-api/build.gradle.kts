@@ -7,6 +7,7 @@ plugins {
 
 dependencies {
 	api(project(Modules.data.s2.catalogue.domain))
+	api(project(Modules.data.s2.catalogueDraft.domain))
 	api(project(Modules.data.s2.concept.domain))
 
 	implementation(project(Modules.commons))
@@ -18,7 +19,4 @@ dependencies {
 
 	Dependencies.Jvm.redisOm(::implementation, ::kapt)
 	Dependencies.Jvm.s2Sourcing(::implementation)
-
-
-
 }

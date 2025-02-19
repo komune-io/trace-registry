@@ -9,12 +9,13 @@ import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Document("CatalogueDraft")
+@Document(RedisTable.CATALOGUE_DRAFT)
 open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<CatalogueDraftState>  {
 
     @Id

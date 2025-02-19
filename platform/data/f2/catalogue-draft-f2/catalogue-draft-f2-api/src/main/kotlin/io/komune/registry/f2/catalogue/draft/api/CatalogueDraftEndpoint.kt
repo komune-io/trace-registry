@@ -1,7 +1,5 @@
 package io.komune.registry.f2.catalogue.draft.api
 
-import f2.dsl.cqrs.filter.CollectionMatch
-import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
@@ -51,11 +49,13 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftPage(): CatalogueDraftPageFunction = f2Function { query ->
         logger.info("catalogueDraftPage: $query")
-        catalogueDraftF2FinderService.page(
-            originalCatalogueId = query.originalCatalogueId?.let(::ExactMatch),
-            language = query.language?.let(::ExactMatch),
-            status = query.status?.let(::CollectionMatch),
-            creatorId = query.creatorId?.let(::ExactMatch),
+        catalogueDraftF2FinderService.search(
+            query = query.search,
+            originalCatalogueIds = query.originalCatalogueId?.let(::listOf),
+            languages = query.language?.let(::listOf),
+            statuses = query.status,
+            types = query.type?.let(::listOf),
+            creatorIds = query.creatorId?.let(::listOf),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 10
