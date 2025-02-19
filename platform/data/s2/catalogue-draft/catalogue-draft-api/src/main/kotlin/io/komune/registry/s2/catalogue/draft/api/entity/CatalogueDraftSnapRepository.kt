@@ -14,11 +14,13 @@ class CatalogueDraftSnapRepository(
     }
 
     override suspend fun remove(id: CatalogueDraftId): Boolean {
-        repository.deleteById(id).also { searchRepository.remove(id) }
+        searchRepository.remove(id)
+        repository.deleteById(id)
         return true
     }
 
     override suspend fun save(entity: CatalogueDraftEntity): CatalogueDraftEntity {
-        return repository.save(entity).also { searchRepository.save(it) }
+        searchRepository.save(entity)
+        return repository.save(entity)
     }
 }
