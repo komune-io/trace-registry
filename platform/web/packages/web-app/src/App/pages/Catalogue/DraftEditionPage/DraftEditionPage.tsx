@@ -63,12 +63,10 @@ export const DraftEditionPage = () => {
 
   const onChangeTitle = useCallback(
     (title: string) => {
-      console.log("changed", title)
       metadataFormState.setFieldValue("title", title)
     },
     [metadataFormState.setFieldValue],
   )
-  console.log(metadataFormState.values)
 
   const createDraft = useCatalogueDraftCreateCommand({})
 
