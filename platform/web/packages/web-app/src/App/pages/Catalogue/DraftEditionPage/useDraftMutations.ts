@@ -92,6 +92,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         refetchDraft()
         return res
       }
