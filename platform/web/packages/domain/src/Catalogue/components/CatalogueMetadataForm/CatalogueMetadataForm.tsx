@@ -26,7 +26,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     // search on user input logic is commented first but saved for later evolutions
     // const [searchCatalogues, setSearchCatalogues] = useState("")
 
-    const cataloguePageQuery = useCatalogueListAvailableParentsQuery({
+    const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             //    title: searchCatalogues,
             language: draft?.language ?? i18n.language,
@@ -37,6 +37,8 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             placeholderData: keepPreviousData
         }
     })
+
+    const filteredParents = useMemo(() => parentListQuery.data?.items.filter((parent) => !!parent.title), [parentListQuery.data?.items])
 
     const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
         query: {
@@ -66,7 +68,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "parentField",
             // onInputChange: (_, value) => setSearchCatalogues(value),
-            options: cataloguePageQuery.data?.items.map((cat) => ({
+            options: filteredParents?.map((cat) => ({
                 key: cat.id,
                 label: `${extractCatalogueIdentifierNumber(cat.id)} - ${cat.title}` 
             })),
@@ -129,7 +131,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, withTitle, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
+    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
     const onSubmitMemo = useCallback(
       async (values: any) => {
