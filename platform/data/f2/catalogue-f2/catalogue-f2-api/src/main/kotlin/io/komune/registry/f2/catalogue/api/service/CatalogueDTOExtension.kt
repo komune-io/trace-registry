@@ -47,11 +47,13 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     language = language.takeIf { withTranslatable },
     structure = structure,
     homepage = homepage,
+    ownerOrganizationId = ownerOrganizationId,
     themeIds = themes?.toSet().orEmpty(),
     catalogueIds = catalogues?.toSet().orEmpty(),
     datasetIds = emptySet(),
     accessRights = accessRights,
     licenseId = license,
+    location = location,
     versionNotes = versionNotes.takeIf { withTranslatable },
     hidden = hidden,
 )
@@ -66,9 +68,11 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     language = language.takeIf { withTranslatable },
     structure = structure,
     homepage = homepage,
+    ownerOrganizationId = ownerOrganizationId,
     themeIds = themes?.toSet().orEmpty(),
     accessRights = accessRights,
     licenseId = license,
+    location = location,
     hidden = hidden,
     versionNotes = versionNotes.takeIf { withTranslatable }
 )
@@ -81,9 +85,11 @@ fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language
     language = language,
     structure = structure,
     homepage = homepage,
+    ownerOrganizationId = ownerOrganizationId,
     themes = themeIds,
     accessRights = accessRights,
     license = licenseId,
+    location = location,
     hidden = hidden
 )
 

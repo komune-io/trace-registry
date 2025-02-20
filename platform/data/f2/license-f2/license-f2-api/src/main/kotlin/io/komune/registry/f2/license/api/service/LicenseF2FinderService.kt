@@ -1,6 +1,5 @@
 package io.komune.registry.f2.license.api.service
 
-import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.license.api.model.toDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
 import io.komune.registry.s2.license.api.LicenseFinderService
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class LicenseF2FinderService(
     private val licenseFinderService: LicenseFinderService
-) : I18nService() {
+) {
 
     suspend fun getOrNull(id: LicenseId): LicenseDTOBase? {
         return licenseFinderService.getOrNull(id)?.toDTO()

@@ -332,6 +332,12 @@ object Modules {
 		object f2 {
 			private const val BASE = "${identity.BASE}:f2"
 
+			object organization {
+				private const val BASE = "${f2.BASE}:organization-f2:organization-f2"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
 			object user {
 				private const val BASE = "${f2.BASE}:user-f2:user-f2"
 				const val api = "$BASE-api"

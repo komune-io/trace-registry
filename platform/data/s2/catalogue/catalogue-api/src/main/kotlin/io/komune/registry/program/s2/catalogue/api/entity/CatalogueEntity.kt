@@ -10,6 +10,8 @@ import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.Location
+import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
@@ -63,10 +65,16 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var translationIds: Map<Language, CatalogueId> = emptyMap()
 
     var creatorId: UserId? = null
+    var creatorOrganizationId: OrganizationId? = null
+
+    var ownerOrganizationId: OrganizationId? = null
+
     var publisherId: UserId? = null
     var validatorId: UserId? = null
     var accessRights: String? = null
     var licenseId: LicenseId? = null
+
+    var location: Location? = null
 
     @Indexed
     var hidden: Boolean = false
