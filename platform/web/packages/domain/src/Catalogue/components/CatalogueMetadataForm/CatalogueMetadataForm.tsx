@@ -5,12 +5,13 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueTypes } from '../../model'
+import { CatalogueDraft, CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api/command'
 
 type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
 
 interface CatalogueMetadataFormProps {
+    draft?: CatalogueDraft
     type?: CatalogueTypes
     onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
     formState?: FormComposableState
@@ -18,9 +19,9 @@ interface CatalogueMetadataFormProps {
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { type, onSubmit, formState, withTitle = false } = props
+    const { type, onSubmit, formState, withTitle = false, draft } = props
 
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
 
     // search on user input logic is commented first but saved for later evolutions
     // const [searchCatalogues, setSearchCatalogues] = useState("")
@@ -28,22 +29,22 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const cataloguePageQuery = useCatalogueListAvailableParentsQuery({
         query: {
             //    title: searchCatalogues,
-            language: i18n.language,
+            language: draft?.language!,
             type: type!
         },
         options: {
-            enabled: !!type,
+            enabled: !!type && !!draft,
             placeholderData: keepPreviousData
         }
     })
 
     const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
         query: {
-            language: i18n.language,
+            language: draft?.language!,
             type: type!
         },
         options: {
-            enabled: type === "100m-solution"
+            enabled: type === "100m-solution" && !!draft
         }
     })
 

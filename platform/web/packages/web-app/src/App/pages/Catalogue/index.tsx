@@ -1,11 +1,12 @@
 import {PageRoute} from "App/routes";
 import { CataloguesRouter } from "./CataloguesRouter/CataloguesRouter";
 import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreationPage";
-import { CatalogueEditionPage } from "./CatalogueEditionPage/CatalogueEditionPage";
-import { CatalogueToValidateListPage } from "./CatalogueToValidateListPage/CatalogueToValidateListPage";
-import { CatalogueValidationPage } from "./CatalogueValidationPage/CatalogueValidationPage";
+import { DraftEditionPage } from "./DraftEditionPage/DraftEditionPage";
+import { DraftToValidateListPage } from "./DraftToValidateListPage/DraftToValidateListPage";
+import { DraftValidationPage } from "./DraftValidationPage/DraftValidationPage";
 import { ContributionListPage } from "./ContributionListPage/ContributionListPage";
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
+import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
 
 
 export const catalogPages: PageRoute[] = [
@@ -27,15 +28,19 @@ export const catalogPages: PageRoute[] = [
   },
   {
     path: "catalogues/:catalogueId/:draftId/edit",
-    element: <CatalogueEditionPage  />
+    element: <DraftEditionPage  />
+  },
+  {
+    path: "catalogues/:catalogueId/:draftId/view",
+    element: <DraftViewPage  />
   },
   {
     path: "catalogues/:catalogueId/:draftId/verify",
-    element: <CatalogueValidationPage  />
+    element: <DraftValidationPage  />
   },
   {
     path: "catalogues/toVerify",
-    element: <CatalogueToValidateListPage  />
+    element: <DraftToValidateListPage  />
   },
   {
     path: "catalogues/contributions",

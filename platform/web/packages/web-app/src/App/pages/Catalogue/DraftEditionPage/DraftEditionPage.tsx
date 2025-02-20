@@ -1,15 +1,15 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, CatalogueTypes, useCatalogueDraftGetQuery, useCatalogueGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
+import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, CatalogueTypes, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { g2Config, useFormComposable } from '@komune-io/g2';
 import { maybeAddItem } from 'App/menu';
 import { useDraftMutations } from './useDraftMutations';
 import { useQueryClient } from '@tanstack/react-query';
+import { useMetadataFormState } from './useMetadataFormState';
 
-export const CatalogueEditionPage = () => {
+export const DraftEditionPage = () => {
   const {draftId, catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
@@ -19,12 +19,6 @@ export const CatalogueEditionPage = () => {
   const queryClient = useQueryClient()
 
   const simplified = false
-
-  const originalCatalogueQuery = useCatalogueGetQuery({
-    query: {
-      id: catalogueId!
-    },
-  })
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -36,20 +30,11 @@ export const CatalogueEditionPage = () => {
 
   const catalogue = catalogueDraftQuery.data?.item?.catalogue
 
-  const isDefLoading = originalCatalogueQuery.isLoading || catalogueDraftQuery.isLoading || isLoading
+  const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
-  const formInitialValues = useMemo(() => catalogue ? ({
-    ...catalogue,
-    themes: (catalogue.themes ?? [])[0]?.id,
-    license: catalogue.license?.id,
-    illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
-  }) : undefined, [catalogue])
-
-  const metadataFormState = useFormComposable({
-    isLoading: isDefLoading,
-    formikConfig: {
-      initialValues: formInitialValues
-    }
+  const metadataFormState = useMetadataFormState({
+    catalogue,
+    isLoading: isDefLoading
   })
 
   const {onDelete, onSave,  onSectionChange, onSubmit, onValidate} = useDraftMutations({
@@ -87,10 +72,9 @@ export const CatalogueEditionPage = () => {
 
   const onChangeLanguage = useCallback(
     async (languageTag: string) => {
-      const originalCatalogue = originalCatalogueQuery.data?.item
-      if (!originalCatalogue) return
+      if (!catalogue) return
       
-      const existingDraft = originalCatalogue.pendingDrafts?.find(draft => draft.language === languageTag)
+      const existingDraft = catalogue.pendingDrafts?.find(draft => draft.language === languageTag)
       if (existingDraft) {
         navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, existingDraft.id))
         return
@@ -106,10 +90,11 @@ export const CatalogueEditionPage = () => {
       setIsLoading(false)
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", {id: catalogueId!}] })
+        catalogueDraftQuery.refetch()
         navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.id))
       }
     },
-    [createDraft.mutateAsync, catalogueId, originalCatalogueQuery.data?.item],
+    [createDraft.mutateAsync, catalogueId, catalogue],
   )
   
   
