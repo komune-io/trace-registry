@@ -18,7 +18,8 @@ import { OidcConfiguration } from "@axa-fr/oidc-client";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 86400000 //stale time set to one day
+      staleTime: 86400000, //stale time set to one day
+      retry: false,
     }
   }
 })

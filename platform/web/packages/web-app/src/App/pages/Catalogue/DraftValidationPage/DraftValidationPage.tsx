@@ -45,7 +45,7 @@ export const DraftValidationPage = () => {
     const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
+      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
     }, {
       key: 'info',
       label: t('informations'),
@@ -53,7 +53,7 @@ export const DraftValidationPage = () => {
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, catalogueDraftQuery.isInitialLoading])
+  }, [t, catalogue, metadataFormState, catalogueDraftQuery.isInitialLoading, draft])
 
   const rejectDraft = useCatalogueDraftRejectCommand({})
 

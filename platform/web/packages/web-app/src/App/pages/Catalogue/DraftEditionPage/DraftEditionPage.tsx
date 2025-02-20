@@ -51,7 +51,7 @@ export const DraftEditionPage = () => {
     const tabs: Tab[] = [...maybeAddItem(!simplified, {
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
+      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
     }), {
       key: 'info',
       label: t('informations'),
@@ -59,7 +59,7 @@ export const DraftEditionPage = () => {
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading])
+  }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading, draft])
 
   const onChangeTitle = useCallback(
     (title: string) => {
