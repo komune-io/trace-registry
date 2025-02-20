@@ -33,9 +33,9 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             language: i18n.language,
             type
           },
-          files: [{
-            file: values.illustration!
-          }]
+          files: values.illustration ? [{
+            file: values.illustration
+          }] : []
         })
 
         if (res) {

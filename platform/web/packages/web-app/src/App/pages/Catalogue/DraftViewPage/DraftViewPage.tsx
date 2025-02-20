@@ -19,6 +19,8 @@ export const DraftViewPage = () => {
 
   const catalogue = catalogueDraftQuery.data?.item?.catalogue
 
+  const draft = catalogueDraftQuery.data?.item
+
   const metadataFormState = useMetadataFormState({
     catalogue,
     isLoading: catalogueDraftQuery.isInitialLoading,
@@ -31,7 +33,7 @@ export const DraftViewPage = () => {
     const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
+      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
     }, {
       key: 'info',
       label: t('informations'),
@@ -39,7 +41,7 @@ export const DraftViewPage = () => {
     },
     ]
     return tabs
-  }, [t, catalogue, metadataFormState,, catalogueDraftQuery.isInitialLoading])
+  }, [t, catalogue, metadataFormState,, catalogueDraftQuery.isInitialLoading, draft])
   
   return (
     <AppPage
