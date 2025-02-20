@@ -58,7 +58,16 @@
     "@lexical/selection": "0.23.1",
     "@lexical/headless": "0.23.1",
     "@lexical/code": "0.23.1",
-    "@lexical/table": "0.23.1"
+    "@lexical/table": "0.23.1",
+
+    "@rawgraphs/rawgraphs-calendar-heatmap": "^v1.0.0-beta.8",
+    "@rawgraphs/rawgraphs-charts": "^1.0.1",
+    "@rawgraphs/rawgraphs-core": "^1.0.0-beta.17",
+    "bootstrap": "^4.5.0",
+    "classnames": "^2.2.6",
+    "react-bootstrap": "^1.5.0",
+    "sass-embedded": "^1.85.0",
+    "react-data-grid": "^7.0.0-canary.16"
   },
   "resolutions": {
     "lexical": "0.23.1",

@@ -14,6 +14,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
 import { OidcConfiguration } from "@axa-fr/oidc-client";
+import "raw-graph/rawGraphTheme.scss"
 
 const queryClient = new QueryClient({
   defaultOptions: {
