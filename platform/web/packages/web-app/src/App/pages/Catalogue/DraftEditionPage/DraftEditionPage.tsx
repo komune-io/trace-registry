@@ -8,9 +8,10 @@ import { maybeAddItem } from 'App/menu';
 import { useDraftMutations } from './useDraftMutations';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
+import { Typography } from '@mui/material';
 
 export const DraftEditionPage = () => {
-  const {draftId, catalogueId } = useParams()
+  const { draftId, catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -37,7 +38,7 @@ export const DraftEditionPage = () => {
     isLoading: isDefLoading
   })
 
-  const {onDelete, onSave,  onSectionChange, onSubmit, onValidate} = useDraftMutations({
+  const { onDelete, onSave, onSectionChange, onSubmit, onValidate } = useDraftMutations({
     metadataFormState,
     setTab,
     catalogue,
@@ -59,21 +60,22 @@ export const DraftEditionPage = () => {
     ]
     return tabs
   }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading])
-  
+
   const onChangeTitle = useCallback(
     (title: string) => {
+      console.log("changed", title)
       metadataFormState.setFieldValue("title", title)
     },
     [metadataFormState.setFieldValue],
   )
-
+  console.log(metadataFormState.values)
 
   const createDraft = useCatalogueDraftCreateCommand({})
 
   const onChangeLanguage = useCallback(
     async (languageTag: string) => {
       if (!catalogue) return
-      
+
       const existingDraft = catalogue.pendingDrafts?.find(draft => draft.language === languageTag)
       if (existingDraft) {
         navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, existingDraft.id))
@@ -89,22 +91,37 @@ export const DraftEditionPage = () => {
 
       setIsLoading(false)
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", {id: catalogueId!}] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         catalogueDraftQuery.refetch()
         navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.id))
       }
     },
     [createDraft.mutateAsync, catalogueId, catalogue],
   )
-  
-  
+
+
   return (
     <AppPage
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
     >
-      <CatalogueEditionHeader draft={draft} onDelete={onDelete} onSubmit={onSubmit} onSave={onSave} onValidate={!simplified ? onValidate : undefined} catalogue={catalogue} />
+      <CatalogueEditionHeader
+        draft={draft}
+        onDelete={onDelete}
+        onSubmit={onSubmit}
+        onSave={onSave}
+        onValidate={!simplified ? onValidate : undefined}
+        catalogue={catalogue}
+        disabled={!metadataFormState.values.title}
+      />
+      {!metadataFormState.values.title && !isDefLoading && <Typography
+        variant='body2'
+        color="error"
+      >
+        {t("catalogues.titleRequired")}
+      </Typography>
+      }
       <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore

@@ -312,7 +312,8 @@
     "alreadyHaveActiveContribution": "You already have an active contribution on this sheet",
     "consultContribution": "Consult my contribution",
     "newContributionReplace": "Creating a new contribution will replace your existing contribution",
-    "createNewContribution": "Create a new contribution"
+    "createNewContribution": "Create a new contribution",
+    "titleRequired": "You must provide the title of the sheet"
   },
   "editor": {
     "imageUrl": "Image URL",
