@@ -42,6 +42,78 @@
                         "es": "Inversión"
                     },
                     "schemes": ["100m-solution-categories"]
+                }, {
+                    "identifier": "earth-limit-climate",
+                    "prefLabels": {
+                        "fr": "Changement climatique",
+                        "en": "Climate change",
+                        "es": "Crisis climática"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-ocean",
+                    "prefLabels": {
+                        "fr": "Acidification des océans",
+                        "en": "Ocean acidification",
+                        "es": "Acidificación de los océanos"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-ozone",
+                    "prefLabels": {
+                        "fr": "Diminution de la couche d'ozone",
+                        "en": "Straospheric ozone depletion",
+                        "es": "Agujero de ozono"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-biochemical-flows",
+                    "prefLabels": {
+                        "fr": "Perturbation des cycles biochimiques",
+                        "en": "Modification of biogeochemical flows",
+                        "es": "Perturbación de los flujos biogeoquímicos"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-freshwater",
+                    "prefLabels": {
+                        "fr": "Cycle de l'eau douce",
+                        "en": "Freshwater change",
+                        "es": "Uso del agua dulce"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-land",
+                    "prefLabels": {
+                        "fr": "Changement d'usage des sols",
+                        "en": "Land system change",
+                        "es": "Uso del suelo"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-biodiversity",
+                    "prefLabels": {
+                        "fr": "Érosion de la biodiversité",
+                        "en": "Erosion of biosphere integrity",
+                        "es": "Pérdida de biodiversidad"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-chemical",
+                    "prefLabels": {
+                        "fr": "Pollution chimique",
+                        "en": "Chemical pollution",
+                        "es": "Contaminación química"
+                    },
+                    "schemes": ["earth-limits"]
+                }, {
+                    "identifier": "earth-limit-aerosol",
+                    "prefLabels": {
+                        "fr": "Aérosols atmosphériques",
+                        "en": "Atmospheric aerosol loading",
+                        "es": "Carga de aerosoles atmosféricos"
+                    },
+                    "schemes": ["earth-limits"]
                 }
             ],
             "licenses": [

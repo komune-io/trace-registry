@@ -20,7 +20,6 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const queryClient = useQueryClient()
 
     const createCommand = useCatalogueCreateCommand({})
-    
 
     const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
 
@@ -34,9 +33,9 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             language: i18n.language,
             type
           },
-          files: [{
-            file: values.illustration!
-          }]
+          files: values.illustration ? [{
+            file: values.illustration
+          }] : []
         })
 
         if (res) {

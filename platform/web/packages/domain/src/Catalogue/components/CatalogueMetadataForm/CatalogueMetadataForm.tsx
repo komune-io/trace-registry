@@ -3,14 +3,15 @@ import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
+import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueTypes } from '../../model'
+import { CatalogueDraft, CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api/command'
 
 type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
 
 interface CatalogueMetadataFormProps {
+    draft?: CatalogueDraft
     type?: CatalogueTypes
     onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
     formState?: FormComposableState
@@ -18,17 +19,17 @@ interface CatalogueMetadataFormProps {
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { type, onSubmit, formState, withTitle = false } = props
+    const { type, onSubmit, formState, withTitle = false, draft } = props
 
     const { t, i18n } = useTranslation()
 
     // search on user input logic is commented first but saved for later evolutions
     // const [searchCatalogues, setSearchCatalogues] = useState("")
 
-    const cataloguePageQuery = useCatalogueListAvailableParentsQuery({
+    const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             //    title: searchCatalogues,
-            language: i18n.language,
+            language: draft?.language ?? i18n.language,
             type: type!
         },
         options: {
@@ -37,9 +38,11 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         }
     })
 
+    const filteredParents = useMemo(() => parentListQuery.data?.items.filter((parent) => !!parent.title), [parentListQuery.data?.items])
+
     const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
         query: {
-            language: i18n.language,
+            language: draft?.language ?? i18n.language,
             type: type!
         },
         options: {
@@ -65,9 +68,9 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "parentField",
             // onInputChange: (_, value) => setSearchCatalogues(value),
-            options: cataloguePageQuery.data?.items.map((cat) => ({
+            options: filteredParents?.map((cat) => ({
                 key: cat.id,
-                label: cat.title
+                label: `${extractCatalogueIdentifierNumber(cat.id)} - ${cat.title}` 
             })),
             // onBlur: () => setSearchCatalogues(""),
             noOptionsText: t("catalogues.noData"),
@@ -89,13 +92,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("illustration"),
         params: {
             fileTypesAllowed: ["png", "jpeg", "svg"],
-            outterLabel: t("illustration"),
-            isRequired: true
-        },
-        validator: (value, values) => {
-            if (!value && !values.illustrationUploaded) {
-                return t("g2.fieldRequired")
-            }
+            outterLabel: t("illustration")
         }
     },
     ...(type === "100m-solution" ? [{
@@ -134,7 +131,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, withTitle, cataloguePageQuery.data?.items, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
+    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
 
     const onSubmitMemo = useCallback(
       async (values: any) => {

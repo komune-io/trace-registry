@@ -19,7 +19,8 @@ import "raw-graph/rawGraphTheme.scss"
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 86400000 //stale time set to one day
+      staleTime: 86400000, //stale time set to one day
+      retry: false,
     }
   }
 })

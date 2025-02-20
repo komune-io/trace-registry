@@ -312,7 +312,8 @@
     "alreadyHaveActiveContribution": "Ya tienes una contribución activa en esta ficha",
     "consultContribution": "Consultar mi contribución",
     "newContributionReplace": "Crear una nueva contribución reemplazará su contribución existente",
-    "createNewContribution": "Créer une nouvelle contribution"
+    "createNewContribution": "Crear una nueva contribución",
+    "titleRequired": "Debe proporcionar el título de la ficha"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

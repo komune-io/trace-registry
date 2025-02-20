@@ -14,6 +14,7 @@ const strictRoutesAuthorizations = {
     "catalogues/create/system": "open",
     "catalogues/create/sector": "open",
     "catalogues/:catalogueId/:draftId/edit": "open",
+    "catalogues/:catalogueId/:draftId/view": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
     "catalogues/:catalogueId/:draftId/verify": "open",

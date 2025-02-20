@@ -7,6 +7,7 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
+import { extractCatalogueIdentifierNumber } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
     const { t } = useTranslation();
@@ -15,7 +16,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
             id: generators.text({
                 header: t("identifier"),
                 getCellProps: (draft) => ({
-                    value: draft.originalCatalogueId,
+                    value: extractCatalogueIdentifierNumber(draft.originalCatalogueId),
                     componentProps: {
                         sx: {
                             fontWeight: 600
@@ -86,7 +87,7 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
 
 export const DraftTable = (props: DraftTableProps) => {
     const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
-    const { cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdEdit, cataloguesCatalogueIdDraftIdView } = useRoutesDefinition()
     const { t } = useTranslation()
 
     const columns = useDraftColumn(withStatus, withOperation)
@@ -103,7 +104,9 @@ export const DraftTable = (props: DraftTableProps) => {
                 url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
             } else {
                 const status = row.original.status
-                if (status !== "VALIDATED") {
+                if (status === "VALIDATED") {
+                    url = cataloguesCatalogueIdDraftIdView(row.original.originalCatalogueId, row.original.id)
+                } else {
                     url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
                 }
             }          
@@ -111,7 +114,7 @@ export const DraftTable = (props: DraftTableProps) => {
                 to: url,
             }
         },
-        [cataloguesCatalogueIdDraftIdVerify, toEdit],
+        [cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdView, cataloguesCatalogueIdDraftIdEdit, toEdit],
     )
 
     return (

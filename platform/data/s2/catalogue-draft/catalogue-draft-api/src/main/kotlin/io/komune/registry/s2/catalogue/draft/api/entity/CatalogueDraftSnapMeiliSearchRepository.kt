@@ -8,6 +8,7 @@ import com.meilisearch.sdk.model.SearchResult
 import com.meilisearch.sdk.model.Settings
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.jsonMapper
+import io.komune.registry.api.commons.utils.parseJsonTo
 import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
@@ -56,9 +57,9 @@ class CatalogueDraftSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun get(id: CatalogueId): CatalogueDraftSearchableEntity? = withContext(Dispatchers.IO) {
-        try {
-            index.getDocument(id, CatalogueDraftSearchableEntity::class.java)
+    suspend fun get(id: CatalogueId): CatalogueDraftSearchableEntity? {
+        return try {
+            index.getRawDocument(id).parseJsonTo()
         } catch (e: MeilisearchApiException) {
             if (e.code == "document_not_found") {
                 null
@@ -73,8 +74,8 @@ class CatalogueDraftSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun remove(id: CatalogueId): Boolean = withContext(Dispatchers.IO) {
-        try {
+    suspend fun remove(id: CatalogueId): Boolean {
+        return try {
             index.deleteDocument(id)
             true
         } catch (e: Exception) {
@@ -83,10 +84,10 @@ class CatalogueDraftSnapMeiliSearchRepository(
         }
     }
 
-    suspend fun save(entity: CatalogueDraftEntity) = withContext(Dispatchers.IO) {
+    suspend fun save(entity: CatalogueDraftEntity) {
         if (entity.deleted) {
             remove(entity.id)
-            return@withContext
+            return
         }
 
         try {
@@ -110,8 +111,9 @@ class CatalogueDraftSnapMeiliSearchRepository(
                 )
 
                 index.addDocuments(listOf(document).toJson(), "id")
-                return@withContext
+                return
             }
+
             val updatedDraft = existingDraft.copy(
                 status = entity.status,
                 modified = System.currentTimeMillis()
