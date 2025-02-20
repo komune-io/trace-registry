@@ -2,10 +2,10 @@ import {Catalogue} from "../model";
 import {useMemo} from "react";
 
 export const useCatalogueIdentifierNumber = (catalogue?: Catalogue)=> {
-  return useMemo(() => extractCatalogueIdentifierNumber(catalogue), [catalogue?.identifier])
+  return useMemo(() => extractCatalogueIdentifierNumber(catalogue?.identifier), [catalogue?.identifier])
 }
 
-export const extractCatalogueIdentifierNumber = (catalogue?: Catalogue)=> {
-  const identifier = catalogue?.identifier ?? ""
-  return identifier.split("-").pop()
+export const extractCatalogueIdentifierNumber = (identifier?: string)=> {
+  const id = identifier ?? ""
+  return id.split("-").pop()
 }

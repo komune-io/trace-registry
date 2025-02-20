@@ -20,7 +20,6 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const queryClient = useQueryClient()
 
     const createCommand = useCatalogueCreateCommand({})
-    
 
     const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
 

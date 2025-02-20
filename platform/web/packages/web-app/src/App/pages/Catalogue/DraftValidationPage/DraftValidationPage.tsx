@@ -4,17 +4,17 @@ import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { g2Config, useFormComposable } from '@komune-io/g2';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDraftMutations } from '../CatalogueEditionPage/useDraftMutations';
+import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
+import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 
-export const CatalogueValidationPage = () => {
+export const DraftValidationPage = () => {
   const { draftId, catalogueId } = useParams()
   const [tab, setTab] = useState("info")
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const {cataloguesToVerify} = useRoutesDefinition()
+  const { cataloguesToVerify } = useRoutesDefinition()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -26,26 +26,17 @@ export const CatalogueValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
-   const formInitialValues = useMemo(() => catalogue ? ({
-      ...catalogue,
-      themes: (catalogue.themes ?? [])[0]?.id,
-      license: catalogue.license?.id,
-      illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
-    }) : undefined, [catalogue])
-
-  const metadataFormState = useFormComposable({
-    isLoading: catalogueDraftQuery.isInitialLoading,
-    formikConfig: {
-      initialValues: formInitialValues
-    }
+  const metadataFormState = useMetadataFormState({
+    catalogue,
+    isLoading: catalogueDraftQuery.isInitialLoading
   })
 
-  const {onValidate} = useDraftMutations({
-      metadataFormState,
-      setTab,
-      refetchDraft: catalogueDraftQuery.refetch,
-      catalogue,
-      afterValidateNavigate: cataloguesToVerify()
+  const { onValidate } = useDraftMutations({
+    metadataFormState,
+    setTab,
+    refetchDraft: catalogueDraftQuery.refetch,
+    catalogue,
+    afterValidateNavigate: cataloguesToVerify()
   })
 
   const title = catalogue?.title ?? t("sheetValidation")

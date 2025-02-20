@@ -8,7 +8,7 @@ import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
 
 
-export const CatalogueToValidateListPage = () => {
+export const DraftToValidateListPage = () => {
     const { t } = useTranslation()
 
     const { submittedFilters, setOffset, component } = useDraftsFilters({

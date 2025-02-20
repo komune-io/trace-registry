@@ -15,10 +15,11 @@ interface CatalogueEditionHeaderProps {
     onValidate?: () => Promise<any>
     onDelete?: () => Promise<any>
     onSubmit: (reason: string) => Promise<any>
+    disabled?: boolean
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSave, onSubmit, onDelete, onValidate, draft } = props
+    const { catalogue, onSave, onSubmit, onDelete, onValidate, draft, disabled } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -64,16 +65,19 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             <Box flex={1} />
             {onValidate && <Button
             onClick={onValidate}
+            disabled={disabled}
             >
                 {t("validate")}
             </Button>}
             {onSave && <Button
                 onClick={onSave}
+                disabled={disabled}
             >
                 {t("catalogues.saveTheDraft")}
             </Button>}
             {draft?.status !== "SUBMITTED" && <Button
             onClick={toggle}
+            disabled={disabled}
             >
                 {t("sendForValidation")}
             </Button>}
