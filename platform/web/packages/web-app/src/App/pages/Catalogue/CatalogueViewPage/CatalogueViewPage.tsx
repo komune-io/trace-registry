@@ -7,7 +7,7 @@ import {
     useCatalogueDraftDeleteCommand,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
 import { InfoTicket, useRoutesDefinition, useToggleState } from 'components'
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
@@ -30,7 +30,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const [draftLoading, setdraftLoading] = useState(false)
     const queryClient = useQueryClient()
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
-    const [searchParams] = useSearchParams()
+    
 
     const navigate = useNavigate()
     const currentTab = useMemo(() => tab ?? "info", [tab])
@@ -53,7 +53,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const { data } = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
-            language: searchParams.get("language") ?? i18n.language
+            language: i18n.language
         },
         options: {
             enabled: catalogue?.identifier !== undefined

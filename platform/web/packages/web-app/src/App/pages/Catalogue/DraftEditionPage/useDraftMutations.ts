@@ -52,6 +52,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           themes: metadataFormState.values.themes ? [metadataFormState.values.themes] : undefined,
           license: metadataFormState.values.license,
           accessRights: metadataFormState.values.accessRights,
+          parentId: metadataFormState.values.parentId,
           // keeping the same values
           structure: metadataFormState.values.structure,
           hidden: metadataFormState.values.hidden,
