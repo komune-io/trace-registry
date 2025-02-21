@@ -10,7 +10,7 @@ import {
   DateIcon,
   StringIcon,
   NumberIcon,
-} from '../../constants'
+} from '../constants'
 import { BsFillCaretRightFill } from 'react-icons/bs'
 
 const DATE_FORMATS = Object.keys(dateFormats)
