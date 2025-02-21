@@ -13,15 +13,16 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.service.toDTO
-import io.komune.registry.f2.license.api.service.LicenseF2FinderService
-import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
 
@@ -31,9 +32,9 @@ class CatalogueI18nService(
     private val catalogueFinderService: CatalogueFinderService,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
-    private val licenseF2FinderService: LicenseF2FinderService,
-    private val userF2FinderService: UserF2FinderService
-) : I18nService() {
+    private val i18nService: I18nService,
+) : CatalogueCachedService() {
+
     suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
         return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
             CatalogueRefDTOBase(
@@ -50,68 +51,68 @@ class CatalogueI18nService(
     }
 
     @Suppress("CyclomaticComplexMethod")
-    suspend fun translateToDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
-            val themes = translated.themeIds?.mapNotNull {
-                conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
-            }
+    suspend fun translateToDTO(
+        catalogue: CatalogueModel,
+        language: Language?,
+        otherLanguageIfAbsent: Boolean,
+    ): CatalogueDTOBase? = withCache { cache ->
+        val translated = translate(catalogue, language, otherLanguageIfAbsent)
+            ?: return@withCache null
 
-            val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
-                ?.originalCatalogueId
-                ?.let { catalogueFinderService.get(it) }
-
-            val parent = catalogueFinderService.page(
-                childrenIds = ExactMatch(originalCatalogue?.id ?: translated.id),
-                offset = OffsetPagination(0, 1)
-            ).items.firstOrNull()
-
-            val drafts = AuthenticationProvider.getAuthedUser()?.id?.let {
-                catalogueDraftFinderService.page(
-                    originalCatalogueId = ExactMatch(originalCatalogue?.id ?: translated.id),
-                    status = collectionMatchOf(
-                        CatalogueDraftState.DRAFT,
-                        CatalogueDraftState.SUBMITTED,
-                        CatalogueDraftState.UPDATE_REQUESTED
-                    ),
-                    creatorId = ExactMatch(it)
-                )
-            }
-
-            CatalogueDTOBase(
-                id = translated.id,
-                identifier = originalCatalogue?.identifier ?: translated.identifier,
-                parentId = parent?.id,
-                status = translated.status,
-                title = translated.title,
-                description = translated.description,
-                catalogues = translated.catalogueIds.mapNotNull { childId ->
-                    catalogueFinderService.get(childId)
-                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
-                        ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
-                },
-                datasets = translated.datasetIds
-                    .map { datasetFinderService.get(it).toDTO() }
-                    .filter { it.language == translated.language && it.status != DatasetState.DELETED },
-                themes = themes,
-                type = originalCatalogue?.type ?: translated.type,
-                language = translated.language!!,
-                availableLanguages = translated.translationIds.keys.toList(),
-                structure = translated.structure,
-                homepage = translated.homepage,
-                img = translated.img,
-                creator = translated.creatorId?.let { userF2FinderService.getRef(it) },
-                publisher = translated.publisherId?.let { userF2FinderService.getRef(it) },
-                validator = translated.validatorId?.let { userF2FinderService.getRef(it) },
-                accessRights = translated.accessRights,
-                license = translated.licenseId?.let { licenseF2FinderService.getOrNull(it) },
-                hidden = translated.hidden,
-                issued = translated.issued,
-                modified = translated.modified,
-                pendingDrafts = drafts?.items?.map { it.toRef() },
-                version = translated.version,
-                versionNotes = translated.versionNotes,
-            )
+        val themes = translated.themeIds?.mapNotNull {
+            conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
         }
+
+        val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
+            ?.originalCatalogueId
+            ?.let { catalogueFinderService.get(it) }
+
+        val parent = catalogueFinderService.page(
+            childrenIds = ExactMatch(originalCatalogue?.id ?: translated.id),
+            offset = OffsetPagination(0, 1)
+        ).items.firstOrNull()
+
+        val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
+            pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
+        }
+
+        CatalogueDTOBase(
+            id = translated.id,
+            identifier = originalCatalogue?.identifier ?: translated.identifier,
+            parentId = parent?.id,
+            status = translated.status,
+            title = translated.title,
+            description = translated.description,
+            catalogues = translated.catalogueIds.mapNotNull { childId ->
+                catalogueFinderService.get(childId)
+                    .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
+                    ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
+            },
+            datasets = translated.datasetIds
+                .map { datasetFinderService.get(it).toDTO() }
+                .filter { it.language == translated.language && it.status != DatasetState.DELETED },
+            themes = themes,
+            type = originalCatalogue?.type ?: translated.type,
+            language = translated.language!!,
+            availableLanguages = translated.translationIds.keys.toList(),
+            structure = translated.structure,
+            homepage = translated.homepage,
+            img = translated.img,
+            creator = translated.creatorId?.let { cache.users.get(it) },
+            creatorOrganization = translated.creatorOrganizationId?.let { cache.organizations.get(it) },
+            ownerOrganization = translated.ownerOrganizationId?.let { cache.organizations.get(it) },
+            publisher = translated.publisherId?.let { cache.users.get(it) },
+            validator = translated.validatorId?.let { cache.users.get(it) },
+            accessRights = translated.accessRights,
+            license = translated.licenseId?.let { cache.licenses.get(it) },
+            location = translated.location,
+            hidden = translated.hidden,
+            issued = translated.issued,
+            modified = translated.modified,
+            pendingDrafts = pendingDrafts?.map { it.toRef() },
+            version = translated.version,
+            versionNotes = translated.versionNotes,
+        )
     }
 
     suspend fun translateToRefTreeDTO(
@@ -165,7 +166,7 @@ class CatalogueI18nService(
             language != null && language !in catalogue.translationIds && !otherLanguageIfAbsent -> return null
         }
 
-        val selectedLanguage = selectLanguage(catalogue.translationIds.keys, language, otherLanguageIfAbsent)
+        val selectedLanguage = i18nService.selectLanguage(catalogue.translationIds.keys, language, otherLanguageIfAbsent)
             ?: return null
         val translationId = catalogue.translationIds[selectedLanguage]!!
 
@@ -179,5 +180,17 @@ class CatalogueI18nService(
             version = translation.version,
             versionNotes = translation.versionNotes,
         )
+    }
+
+    private suspend fun pendingDraftsOf(catalogueId: CatalogueId, creatorId: UserId): List<CatalogueDraftModel> {
+        return catalogueDraftFinderService.page(
+            originalCatalogueId = ExactMatch(catalogueId),
+            status = collectionMatchOf(
+                CatalogueDraftState.DRAFT,
+                CatalogueDraftState.SUBMITTED,
+                CatalogueDraftState.UPDATE_REQUESTED
+            ),
+            creatorId = ExactMatch(creatorId)
+        ).items
     }
 }

@@ -6,11 +6,15 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
+import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.Location
+import io.komune.registry.s2.commons.model.LocationDTO
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
@@ -131,6 +135,10 @@ interface CatalogueDTO {
      */
     val creator: UserRefDTO?
 
+    val creatorOrganization: OrganizationRefDTO?
+
+    val ownerOrganization: OrganizationRefDTO?
+
     /**
      * The agent responsible for making the dataset available.
      */
@@ -151,6 +159,8 @@ interface CatalogueDTO {
      * A legal document under which the catalogue is made available.
      */
     val license: LicenseDTO?
+
+    val location: LocationDTO?
 
     /**
      * The date of formal issuance (e.g., publication) of the dataset.
@@ -196,10 +206,13 @@ data class CatalogueDTOBase(
     override val catalogues: List<CatalogueRefDTOBase>? = null,
     override val status: CatalogueState,
     override val creator: UserRef? = null,
+    override val creatorOrganization: OrganizationRef? = null,
+    override val ownerOrganization: OrganizationRef? = null,
     override val publisher: UserRef? = null,
     override val validator: UserRef? = null,
     override val accessRights: String? = null,
     override val license: LicenseDTOBase? = null,
+    override val location: Location? = null,
     override val issued: Long,
     override val modified: Long,
     override val hidden: Boolean = false,

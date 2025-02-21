@@ -30,6 +30,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
@@ -39,6 +41,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -156,6 +159,15 @@ class CatalogueEndpoint(
         catalogueF2FinderService.listAvailableThemesFor(query.type, query.language)
             .sortedBy { it.prefLabel }
             .let(::CatalogueListAvailableThemesResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueListAvailableOwners(): CatalogueListAvailableOwnersFunction = f2Function { query ->
+        logger.info("catalogueListAvailableOwners: $query")
+        catalogueF2FinderService.listAvailableOwnersFor(query.type, query.search, query.limit)
+            .sortedBy(OrganizationRef::name)
+            .let(::CatalogueListAvailableOwnersResult)
     }
 
     @PermitAll

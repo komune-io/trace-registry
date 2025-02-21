@@ -69,6 +69,8 @@ include(
 // Identity
 ///////////////////////////////
 include(
+	"platform:identity:f2:organization-f2:organization-f2-api",
+	"platform:identity:f2:organization-f2:organization-f2-domain",
 	"platform:identity:f2:user-f2:user-f2-api",
 	"platform:identity:f2:user-f2:user-f2-domain",
 )

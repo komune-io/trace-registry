@@ -14,7 +14,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
-import io.komune.registry.f2.license.api.service.LicenseF2FinderService
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -32,8 +32,7 @@ class CatalogueF2FinderService(
     private val catalogueFinderService: CatalogueFinderService,
     private val catalogueI18nService: CatalogueI18nService,
     private val conceptF2FinderService: ConceptF2FinderService,
-    private val licenseF2FinderService: LicenseF2FinderService
-) {
+) : CatalogueCachedService() {
 
     suspend fun getOrNull(
         id: CatalogueId,
@@ -85,7 +84,7 @@ class CatalogueF2FinderService(
         status: String? = null,
         hidden: Match<Boolean>? = null,
         offset: OffsetPagination? = null
-    ): CataloguePageResult {
+    ): CataloguePageResult = withCache {
         val defaultValue = status?.let { CatalogueState.valueOf(it) } ?: CatalogueState.ACTIVE
         val catalogues = catalogueFinderService.page(
             id = catalogueId,
@@ -97,7 +96,7 @@ class CatalogueF2FinderService(
             offset = offset
         )
 
-        return CataloguePageResult(
+        CataloguePageResult(
             items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
             total = catalogues.total
         )
@@ -112,7 +111,7 @@ class CatalogueF2FinderService(
         themeIds: List<String>?,
         licenseId: List<String>?,
         page: OffsetPagination? = null
-    ): CatalogueSearchResult {
+    ): CatalogueSearchResult = withCache { cache ->
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
@@ -144,7 +143,7 @@ class CatalogueF2FinderService(
         } ?: emptyList<FacetDistributionDTO>()
 
         val licenceDistribution = catalogueTranslations.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
-            val licence = licenseF2FinderService.getOrNull(key)
+            val licence = cache.licenses.get(key)
             FacetDistribution(
                 id = licence?.id ?: key,
                 name = licence?.name ?: "",
@@ -166,7 +165,7 @@ class CatalogueF2FinderService(
             language = language
         ).items.associateBy { "${it.id}-$language" }
 
-        return CatalogueSearchResult(
+        CatalogueSearchResult(
             items = catalogueTranslations.items.mapNotNull { translatedCatalogues[it.id] },
             total = catalogueTranslations.total,
             distribution = mapOf(
@@ -197,5 +196,15 @@ class CatalogueF2FinderService(
             ?.conceptSchemes
             ?.flatMap { conceptScheme -> conceptF2FinderService.listByScheme(conceptScheme, language) }
             .orEmpty()
+    }
+
+    suspend fun listAvailableOwnersFor(type: String, search: String?, limit: Int?): List<OrganizationRef> {
+        val roles = catalogueConfig.typeConfigurations[type]?.ownerRoles
+
+        return organizationF2FinderService.page(
+            name = search,
+            roles = roles?.toList(),
+            offset = limit?.let { OffsetPagination(0, it) }
+        ).items
     }
 }

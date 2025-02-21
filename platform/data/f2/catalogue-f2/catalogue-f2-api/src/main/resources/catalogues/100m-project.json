@@ -3,6 +3,7 @@
   "identifierSequence": "seq_100m_project",
   "parentTypes": ["100m-projects", "100m-sector"],
   "conceptSchemes": ["earth-limits"],
+  "ownerRoles": ["tr_stakeholder"],
   "structure": "item",
   "i18n": {
     "enable": true,

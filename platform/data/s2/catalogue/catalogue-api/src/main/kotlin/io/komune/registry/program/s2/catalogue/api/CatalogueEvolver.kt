@@ -46,6 +46,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		catalogueIds = event.catalogueIds
 		datasetIds = event.datasetIds
 		creatorId = event.creatorId
+		creatorOrganizationId = event.creatorOrganizationId
 		issued = event.date
 	}
 
@@ -102,9 +103,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		description = event.description
 		themeIds = event.themeIds
 		homepage = event.homepage
+		ownerOrganizationId = event.ownerOrganizationId
 		structure = event.structure
 		accessRights = event.accessRights
 		licenseId = event.licenseId
+		location = event.location
 		versionNotes = event.versionNotes
 		hidden = event.hidden
 		modified = event.date

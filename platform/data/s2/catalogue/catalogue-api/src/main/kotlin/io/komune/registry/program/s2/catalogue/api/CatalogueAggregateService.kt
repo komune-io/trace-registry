@@ -37,6 +37,7 @@ class CatalogueAggregateService(
 ): CatalogueAggregate {
 
 	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
+		val authedUser = AuthenticationProvider.getAuthedUser()
 		CatalogueCreatedEvent(
 			id = cmd.identifier,
 			date = System.currentTimeMillis(),
@@ -47,12 +48,15 @@ class CatalogueAggregateService(
 			description = cmd.description,
 			themeIds = cmd.themeIds,
 			homepage = cmd.homepage,
+			ownerOrganizationId = cmd.ownerOrganizationId,
 			structure = cmd.structure,
 			catalogueIds = cmd.catalogueIds,
 			datasetIds = cmd.datasetIds,
-			creatorId = AuthenticationProvider.getAuthedUser()?.id,
+			creatorId = authedUser?.id,
+			creatorOrganizationId = authedUser?.memberOf,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
+			location = cmd.location,
 			hidden = cmd.hidden
 		)
 	}
@@ -138,9 +142,11 @@ class CatalogueAggregateService(
 			description = cmd.description,
 			themeIds = cmd.themeIds,
 			homepage = cmd.homepage,
+			ownerOrganizationId = cmd.ownerOrganizationId,
 			structure = cmd.structure,
 			accessRights = cmd.accessRights,
 			licenseId = cmd.licenseId,
+			location = cmd.location,
 			hidden = cmd.hidden,
 			versionNotes = cmd.versionNotes
 		)

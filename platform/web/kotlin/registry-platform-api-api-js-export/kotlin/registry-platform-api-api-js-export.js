@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -89,21 +89,21 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, List, Collection]);
+  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, List]);
   setMetadataFor(Map_0, 'Map', interfaceMeta);
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
-  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
+  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -442,7 +442,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Symbol_0, 'Symbol', classMeta);
   setMetadataFor(SetTimeoutBasedDispatcher, 'SetTimeoutBasedDispatcher', classMeta, CoroutineDispatcher, VOID, VOID, VOID, VOID, [1]);
   setMetadataFor(NodeDispatcher, 'NodeDispatcher', objectMeta, SetTimeoutBasedDispatcher, VOID, VOID, VOID, VOID, [1]);
-  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [List, Collection]);
+  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [Collection, List]);
   setMetadataFor(ScheduledMessageQueue, 'ScheduledMessageQueue', classMeta, MessageQueue);
   setMetadataFor(WindowMessageQueue, 'WindowMessageQueue', classMeta, MessageQueue);
   setMetadataFor(Dispatchers, 'Dispatchers', objectMeta);
@@ -848,6 +848,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Roles, 'Roles', objectMeta);
   setMetadataFor(Role, 'Role', classMeta, Enum, [Enum, S2Role]);
   setMetadataFor(GeoLocationDTO, 'GeoLocationDTO', interfaceMeta);
+  setMetadataFor(LocationDTO, 'LocationDTO', interfaceMeta);
+  setMetadataFor($serializer_49, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(RedirectableRoutes, 'RedirectableRoutes', objectMeta);
   function s2Id() {
     return this.id;
@@ -859,21 +861,21 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ChatMessageDTO, 'FileAskMessageDTO', interfaceMeta);
   setMetadataFor(ChatMetadataDTO, 'FileAskMetadataDTO', interfaceMeta);
   setMetadataFor(FilePathDTO, 'FilePathDTO', interfaceMeta);
-  setMetadataFor($serializer_49, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(Companion_74, 'Companion', objectMeta);
   setMetadataFor($serializer_50, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(Code, 'Code', classMeta, VOID, VOID, Code, VOID, {0: $serializer_getInstance_47});
+  setMetadataFor(Companion_74, 'Companion', objectMeta);
+  setMetadataFor($serializer_51, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(Code, 'Code', classMeta, VOID, VOID, Code, VOID, {0: $serializer_getInstance_48});
   setMetadataFor(DataUnitOptionDTO, 'DataUnitOptionDTO', interfaceMeta);
   setMetadataFor(DataUnitTypeValues, 'DataUnitTypeValues', objectMeta);
   setMetadataFor(EvidenceDTO, 'EvidenceDTO', interfaceMeta);
   setMetadataFor(EvidenceTypeList, 'EvidenceTypeList', interfaceMeta);
   setMetadataFor(EvidenceType, 'EvidenceType', interfaceMeta);
   setMetadataFor(Companion_75, 'Companion', objectMeta);
-  setMetadataFor($serializer_51, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CoreLocationLocation, 'CoreLocationLocation', classMeta, VOID, VOID, CoreLocationLocation, VOID, {0: $serializer_getInstance_48});
-  setMetadataFor(Companion_76, 'Companion', objectMeta);
   setMetadataFor($serializer_52, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(PeriodOfTime, 'PeriodOfTime', classMeta, VOID, VOID, PeriodOfTime, VOID, {0: $serializer_getInstance_49});
+  setMetadataFor(CoreLocationLocation, 'CoreLocationLocation', classMeta, VOID, VOID, CoreLocationLocation, VOID, {0: $serializer_getInstance_49});
+  setMetadataFor(Companion_76, 'Companion', objectMeta);
+  setMetadataFor($serializer_53, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(PeriodOfTime, 'PeriodOfTime', classMeta, VOID, VOID, PeriodOfTime, VOID, {0: $serializer_getInstance_50});
   setMetadataFor(InformationConceptDTO, 'InformationConceptDTO', interfaceMeta);
   setMetadataFor(SupportedValueDTO, 'SupportedValueDTO', interfaceMeta);
   setMetadataFor(DataUnitDTO, 'DataUnitDTO', interfaceMeta);
@@ -1038,7 +1040,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(SkosConceptDTO, 'SkosConceptDTO', interfaceMeta);
   setMetadataFor(StructureDTO, 'StructureDTO', interfaceMeta);
   setMetadataFor(Companion_90, 'Companion', objectMeta);
-  setMetadataFor($serializer_53, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor($serializer_54, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(CataloguedResource, 'CataloguedResource', interfaceMeta);
   setMetadataFor(DcatApCatalogue, 'DcatApCatalogue', interfaceMeta, VOID, [CataloguedResource]);
   setMetadataFor(DataService, 'DataService', interfaceMeta);
@@ -1050,77 +1052,77 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_91, 'Companion', objectMeta);
   setMetadataFor(CatalogueState, 'CatalogueState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_91});
   setMetadataFor(Companion_92, 'Companion', objectMeta);
-  setMetadataFor($serializer_54, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_98});
-  setMetadataFor(CatalogueAddedTranslationsEvent, 'CatalogueAddedTranslationsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_51});
-  setMetadataFor(Companion_93, 'Companion', objectMeta);
   setMetadataFor($serializer_55, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueCreatedEvent, 'CatalogueCreatedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_52});
-  setMetadataFor(Companion_94, 'Companion', objectMeta);
+  setMetadataFor(CatalogueEvent, 'CatalogueEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_98});
+  setMetadataFor(CatalogueAddedTranslationsEvent, 'CatalogueAddedTranslationsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_52});
+  setMetadataFor(Companion_93, 'Companion', objectMeta);
   setMetadataFor($serializer_56, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDeletedEvent, 'CatalogueDeletedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_53});
-  setMetadataFor(Companion_95, 'Companion', objectMeta);
+  setMetadataFor(CatalogueCreatedEvent, 'CatalogueCreatedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_53});
+  setMetadataFor(Companion_94, 'Companion', objectMeta);
   setMetadataFor($serializer_57, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueLinkedCataloguesEvent, 'CatalogueLinkedCataloguesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_54});
-  setMetadataFor(Companion_96, 'Companion', objectMeta);
+  setMetadataFor(CatalogueDeletedEvent, 'CatalogueDeletedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_54});
+  setMetadataFor(Companion_95, 'Companion', objectMeta);
   setMetadataFor($serializer_58, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueLinkedDatasetsEvent, 'CatalogueLinkedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_55});
-  setMetadataFor(Companion_97, 'Companion', objectMeta);
+  setMetadataFor(CatalogueLinkedCataloguesEvent, 'CatalogueLinkedCataloguesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_55});
+  setMetadataFor(Companion_96, 'Companion', objectMeta);
   setMetadataFor($serializer_59, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueLinkedThemesEvent, 'CatalogueLinkedThemesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_56});
+  setMetadataFor(CatalogueLinkedDatasetsEvent, 'CatalogueLinkedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_56});
+  setMetadataFor(Companion_97, 'Companion', objectMeta);
+  setMetadataFor($serializer_60, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueLinkedThemesEvent, 'CatalogueLinkedThemesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_57});
   setMetadataFor(Companion_98, 'Companion', objectMeta);
   setMetadataFor(CatalogueInitCommand, 'CatalogueInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(CatalogueCommand, 'CatalogueCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(Companion_99, 'Companion', objectMeta);
-  setMetadataFor($serializer_60, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueRemovedTranslationsEvent, 'CatalogueRemovedTranslationsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_57});
-  setMetadataFor(Companion_100, 'Companion', objectMeta);
   setMetadataFor($serializer_61, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueSetImageEvent, 'CatalogueSetImageEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_58});
-  setMetadataFor(Companion_101, 'Companion', objectMeta);
+  setMetadataFor(CatalogueRemovedTranslationsEvent, 'CatalogueRemovedTranslationsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_58});
+  setMetadataFor(Companion_100, 'Companion', objectMeta);
   setMetadataFor($serializer_62, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueUnlinkedCataloguesEvent, 'CatalogueUnlinkedCataloguesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_59});
-  setMetadataFor(Companion_102, 'Companion', objectMeta);
+  setMetadataFor(CatalogueSetImageEvent, 'CatalogueSetImageEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_59});
+  setMetadataFor(Companion_101, 'Companion', objectMeta);
   setMetadataFor($serializer_63, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueUnlinkedDatasetsEvent, 'CatalogueUnlinkedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_60});
-  setMetadataFor(Companion_103, 'Companion', objectMeta);
+  setMetadataFor(CatalogueUnlinkedCataloguesEvent, 'CatalogueUnlinkedCataloguesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_60});
+  setMetadataFor(Companion_102, 'Companion', objectMeta);
   setMetadataFor($serializer_64, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueUpdatedEvent, 'CatalogueUpdatedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_61});
-  setMetadataFor(Companion_104, 'Companion', objectMeta);
+  setMetadataFor(CatalogueUnlinkedDatasetsEvent, 'CatalogueUnlinkedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_61});
+  setMetadataFor(Companion_103, 'Companion', objectMeta);
   setMetadataFor($serializer_65, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueUpdatedVersionNotesEvent, 'CatalogueUpdatedVersionNotesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_62});
+  setMetadataFor(CatalogueUpdatedEvent, 'CatalogueUpdatedEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_62});
+  setMetadataFor(Companion_104, 'Companion', objectMeta);
+  setMetadataFor($serializer_66, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueUpdatedVersionNotesEvent, 'CatalogueUpdatedVersionNotesEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_63});
   setMetadataFor(FacetPageDTO, 'FacetPageDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(DistributionPageDTO, 'DistributionPageDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(FacetDistributionDTO, 'FacetDistributionDTO', interfaceMeta);
   setMetadataFor(Companion_105, 'Companion', objectMeta);
   setMetadataFor(CatalogueDraftState, 'CatalogueDraftState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_105});
   setMetadataFor(Companion_106, 'Companion', objectMeta);
-  setMetadataFor($serializer_66, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor($serializer_67, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(CatalogueDraftEvent, 'CatalogueDraftEvent', interfaceMeta, VOID, [S2SourcingEvent], VOID, VOID, {0: Companion_getInstance_108});
-  setMetadataFor(CatalogueDraftCreatedEvent, 'CatalogueDraftCreatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_63});
+  setMetadataFor(CatalogueDraftCreatedEvent, 'CatalogueDraftCreatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_64});
   setMetadataFor(CatalogueDraftCommand, 'CatalogueDraftCommand', interfaceMeta, VOID, [S2Command]);
   setMetadataFor(CatalogueDraftDeleteCommandDTO, 'CatalogueDraftDeleteCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_107, 'Companion', objectMeta);
-  setMetadataFor($serializer_67, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftDeletedEvent, 'CatalogueDraftDeletedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_64});
+  setMetadataFor($serializer_68, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftDeletedEvent, 'CatalogueDraftDeletedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_65});
   setMetadataFor(Companion_108, 'Companion', objectMeta);
   setMetadataFor(CatalogueDraftInitCommand, 'CatalogueDraftInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(CatalogueDraftRejectCommandDTO, 'CatalogueDraftRejectCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_109, 'Companion', objectMeta);
-  setMetadataFor($serializer_68, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftRejectedEvent, 'CatalogueDraftRejectedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_65});
+  setMetadataFor($serializer_69, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftRejectedEvent, 'CatalogueDraftRejectedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_66});
   setMetadataFor(CatalogueDraftRequestUpdateCommandDTO, 'CatalogueDraftRequestUpdateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_110, 'Companion', objectMeta);
-  setMetadataFor($serializer_69, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftRequestedUpdateEvent, 'CatalogueDraftRequestedUpdateEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_66});
+  setMetadataFor($serializer_70, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftRequestedUpdateEvent, 'CatalogueDraftRequestedUpdateEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_67});
   setMetadataFor(CatalogueDraftSubmitCommandDTO, 'CatalogueDraftSubmitCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_111, 'Companion', objectMeta);
-  setMetadataFor($serializer_70, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftSubmittedEvent, 'CatalogueDraftSubmittedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_67});
+  setMetadataFor($serializer_71, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftSubmittedEvent, 'CatalogueDraftSubmittedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_68});
   setMetadataFor(CatalogueDraftValidateCommandDTO, 'CatalogueDraftValidateCommandDTO', interfaceMeta, VOID, [CatalogueDraftCommand]);
   setMetadataFor(Companion_112, 'Companion', objectMeta);
-  setMetadataFor($serializer_71, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
-  setMetadataFor(CatalogueDraftValidatedEvent, 'CatalogueDraftValidatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_68});
+  setMetadataFor($serializer_72, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
+  setMetadataFor(CatalogueDraftValidatedEvent, 'CatalogueDraftValidatedEvent', classMeta, VOID, [CatalogueDraftEvent], VOID, VOID, {0: $serializer_getInstance_69});
   setMetadataFor(Companion_113, 'Companion', objectMeta);
   setMetadataFor(DatasetState, 'DatasetState', classMeta, Enum, [Enum, S2State], VOID, VOID, {0: Companion_getInstance_113});
   setMetadataFor(DatasetEvent, 'DatasetEvent', interfaceMeta, VOID, [S2SourcingEvent]);
@@ -1185,6 +1187,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(LicenseGetResultDTO, 'LicenseGetResultDTO', interfaceMeta);
   setMetadataFor(LicenseListQueryDTO, 'LicenseListQueryDTO', interfaceMeta);
   setMetadataFor(LicenseListResultDTO, 'LicenseListResultDTO', interfaceMeta);
+  setMetadataFor(OrganizationRefDTO_1, 'OrganizationRefDTO', interfaceMeta);
   setMetadataFor(UserOnboardCommandDTO, 'UserOnboardCommandDTO', interfaceMeta);
   setMetadataFor(UserOnboardedEventDTO, 'UserOnboardedEventDTO', interfaceMeta);
   setMetadataFor(UserRefDTO, 'UserRefDTO', interfaceMeta);
@@ -1213,6 +1216,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueGetByIdentifierResultDTO, 'CatalogueGetByIdentifierResultDTO', interfaceMeta);
   setMetadataFor(CatalogueGetQueryDTO, 'CatalogueGetQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueGetResultDTO, 'CatalogueGetResultDTO', interfaceMeta);
+  setMetadataFor(CatalogueListAvailableOwnersQueryDTO, 'CatalogueListAvailableOwnersQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueListAvailableOwnersResultDTO, 'CatalogueListAvailableOwnersResultDTO', interfaceMeta);
   setMetadataFor(CatalogueListAvailableParentsQueryDTO, 'CatalogueListAvailableParentsQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueListAvailableParentsResultDTO, 'CatalogueListAvailableParentsResultDTO', interfaceMeta);
   setMetadataFor(CatalogueListAvailableThemesQueryDTO, 'CatalogueListAvailableThemesQueryDTO', interfaceMeta);
@@ -23604,6 +23609,30 @@ if (typeof Math.imul === 'undefined') {
   }
   function GeoLocationDTO() {
   }
+  function LocationDTO() {
+  }
+  function $serializer_49() {
+    $serializer_instance_46 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.commons.model.Location', this, 2);
+    tmp0_serialDesc.qi('country', false);
+    tmp0_serialDesc.qi('region', false);
+    this.z1k_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_49).he = function () {
+    return this.z1k_1;
+  };
+  protoOf($serializer_49).wi = function () {
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance())];
+  };
+  var $serializer_instance_46;
+  function $serializer_getInstance_46() {
+    if ($serializer_instance_46 == null)
+      new $serializer_49();
+    return $serializer_instance_46;
+  }
   function RedirectableRoutes() {
   }
   protoOf(RedirectableRoutes).quotations = function () {
@@ -23630,57 +23659,57 @@ if (typeof Math.imul === 'undefined') {
   }
   function FilePathDTO() {
   }
-  function $serializer_49() {
-    $serializer_instance_46 = this;
+  function $serializer_50() {
+    $serializer_instance_47 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('FilePath', this, 4);
     tmp0_serialDesc.qi('objectType', false);
     tmp0_serialDesc.qi('objectId', false);
     tmp0_serialDesc.qi('directory', false);
     tmp0_serialDesc.qi('name', false);
-    this.f1l_1 = tmp0_serialDesc;
-  }
-  protoOf($serializer_49).he = function () {
-    return this.f1l_1;
-  };
-  protoOf($serializer_49).wi = function () {
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance()];
-  };
-  var $serializer_instance_46;
-  function $serializer_getInstance_46() {
-    if ($serializer_instance_46 == null)
-      new $serializer_49();
-    return $serializer_instance_46;
-  }
-  function Companion_74() {
-  }
-  protoOf(Companion_74).nu = function () {
-    return $serializer_getInstance_47();
-  };
-  var Companion_instance_74;
-  function Companion_getInstance_74() {
-    return Companion_instance_74;
-  }
-  function $serializer_50() {
-    $serializer_instance_47 = this;
-    this.g1l_1 = new PluginGeneratedSerialDescriptor('cccev.dsl.model.Code', this, 0);
+    this.i1l_1 = tmp0_serialDesc;
   }
   protoOf($serializer_50).he = function () {
-    return this.g1l_1;
+    return this.i1l_1;
   };
   protoOf($serializer_50).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [];
+    return [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance()];
   };
   var $serializer_instance_47;
   function $serializer_getInstance_47() {
     if ($serializer_instance_47 == null)
       new $serializer_50();
     return $serializer_instance_47;
+  }
+  function Companion_74() {
+  }
+  protoOf(Companion_74).nu = function () {
+    return $serializer_getInstance_48();
+  };
+  var Companion_instance_74;
+  function Companion_getInstance_74() {
+    return Companion_instance_74;
+  }
+  function $serializer_51() {
+    $serializer_instance_48 = this;
+    this.j1l_1 = new PluginGeneratedSerialDescriptor('cccev.dsl.model.Code', this, 0);
+  }
+  protoOf($serializer_51).he = function () {
+    return this.j1l_1;
+  };
+  protoOf($serializer_51).wi = function () {
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [];
+  };
+  var $serializer_instance_48;
+  function $serializer_getInstance_48() {
+    if ($serializer_instance_48 == null)
+      new $serializer_51();
+    return $serializer_instance_48;
   }
   function Code() {
   }
@@ -23717,64 +23746,64 @@ if (typeof Math.imul === 'undefined') {
   function Companion_75() {
   }
   protoOf(Companion_75).nu = function () {
-    return $serializer_getInstance_48();
+    return $serializer_getInstance_49();
   };
   var Companion_instance_75;
   function Companion_getInstance_75() {
     return Companion_instance_75;
   }
-  function $serializer_51() {
-    $serializer_instance_48 = this;
-    this.v1l_1 = new PluginGeneratedSerialDescriptor('cccev.dsl.model.CoreLocationLocation', this, 0);
-  }
-  protoOf($serializer_51).he = function () {
-    return this.v1l_1;
-  };
-  protoOf($serializer_51).wi = function () {
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return [];
-  };
-  var $serializer_instance_48;
-  function $serializer_getInstance_48() {
-    if ($serializer_instance_48 == null)
-      new $serializer_51();
-    return $serializer_instance_48;
-  }
-  function CoreLocationLocation() {
-  }
-  function Companion_76() {
-  }
-  protoOf(Companion_76).nu = function () {
-    return $serializer_getInstance_49();
-  };
-  var Companion_instance_76;
-  function Companion_getInstance_76() {
-    return Companion_instance_76;
-  }
   function $serializer_52() {
     $serializer_instance_49 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.dsl.model.PeriodOfTime', this, 3);
-    tmp0_serialDesc.qi('duration', true);
-    tmp0_serialDesc.qi('endTime', true);
-    tmp0_serialDesc.qi('startTime', true);
-    this.w1l_1 = tmp0_serialDesc;
+    this.y1l_1 = new PluginGeneratedSerialDescriptor('cccev.dsl.model.CoreLocationLocation', this, 0);
   }
   protoOf($serializer_52).he = function () {
-    return this.w1l_1;
+    return this.y1l_1;
   };
   protoOf($serializer_52).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [get_nullable(StringSerializer_getInstance()), get_nullable(IntSerializer_getInstance()), get_nullable(IntSerializer_getInstance())];
+    return [];
   };
   var $serializer_instance_49;
   function $serializer_getInstance_49() {
     if ($serializer_instance_49 == null)
       new $serializer_52();
     return $serializer_instance_49;
+  }
+  function CoreLocationLocation() {
+  }
+  function Companion_76() {
+  }
+  protoOf(Companion_76).nu = function () {
+    return $serializer_getInstance_50();
+  };
+  var Companion_instance_76;
+  function Companion_getInstance_76() {
+    return Companion_instance_76;
+  }
+  function $serializer_53() {
+    $serializer_instance_50 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('cccev.dsl.model.PeriodOfTime', this, 3);
+    tmp0_serialDesc.qi('duration', true);
+    tmp0_serialDesc.qi('endTime', true);
+    tmp0_serialDesc.qi('startTime', true);
+    this.z1l_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_53).he = function () {
+    return this.z1l_1;
+  };
+  protoOf($serializer_53).wi = function () {
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [get_nullable(StringSerializer_getInstance()), get_nullable(IntSerializer_getInstance()), get_nullable(IntSerializer_getInstance())];
+  };
+  var $serializer_instance_50;
+  function $serializer_getInstance_50() {
+    if ($serializer_instance_50 == null)
+      new $serializer_53();
+    return $serializer_instance_50;
   }
   function PeriodOfTime(duration, endTime, startTime) {
     duration = duration === VOID ? null : duration;
@@ -23784,13 +23813,13 @@ if (typeof Math.imul === 'undefined') {
     this.endTime = endTime;
     this.startTime = startTime;
   }
-  protoOf(PeriodOfTime).x1l = function () {
+  protoOf(PeriodOfTime).a1m = function () {
     return this.duration;
   };
-  protoOf(PeriodOfTime).y1l = function () {
+  protoOf(PeriodOfTime).b1m = function () {
     return this.endTime;
   };
-  protoOf(PeriodOfTime).z1l = function () {
+  protoOf(PeriodOfTime).c1m = function () {
     return this.startTime;
   };
   protoOf(PeriodOfTime).va = function () {
@@ -23802,14 +23831,14 @@ if (typeof Math.imul === 'undefined') {
   protoOf(PeriodOfTime).hd = function () {
     return this.startTime;
   };
-  protoOf(PeriodOfTime).a1m = function (duration, endTime, startTime) {
+  protoOf(PeriodOfTime).d1m = function (duration, endTime, startTime) {
     return new PeriodOfTime(duration, endTime, startTime);
   };
   protoOf(PeriodOfTime).copy = function (duration, endTime, startTime, $super) {
     duration = duration === VOID ? this.duration : duration;
     endTime = endTime === VOID ? this.endTime : endTime;
     startTime = startTime === VOID ? this.startTime : startTime;
-    return this.a1m(duration, endTime, startTime);
+    return this.d1m(duration, endTime, startTime);
   };
   protoOf(PeriodOfTime).toString = function () {
     return 'PeriodOfTime(duration=' + this.duration + ', endTime=' + this.endTime + ', startTime=' + this.startTime + ')';
@@ -23962,7 +23991,7 @@ if (typeof Math.imul === 'undefined') {
   function AssetPoolEvent() {
   }
   function _get_$cachedSerializer__te6jhj_0($this) {
-    return $this.z1n_1.i4();
+    return $this.c1o_1.i4();
   }
   function AssetPoolState$Companion$_anonymous__nh9hfu() {
     return createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.automate.AssetPoolState', values_1());
@@ -23974,7 +24003,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_77 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.z1n_1 = lazy(tmp_0, AssetPoolState$Companion$_anonymous__nh9hfu);
+    tmp.c1o_1 = lazy(tmp_0, AssetPoolState$Companion$_anonymous__nh9hfu);
   }
   protoOf(Companion_77).nu = function () {
     return _get_$cachedSerializer__te6jhj_0(this);
@@ -24001,10 +24030,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.c1o_1 = position;
+    this.f1o_1 = position;
   }
   protoOf(AssetPoolState).q18 = function () {
-    return this.c1o_1;
+    return this.f1o_1;
   };
   var AssetPoolRole_Issuer_instance;
   var AssetPoolRole_entriesInitialized;
@@ -24016,10 +24045,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolRole(name, ordinal, value) {
     Enum.call(this, name, ordinal);
-    this.f1o_1 = value;
+    this.i1o_1 = value;
   }
   protoOf(AssetPoolRole).toString = function () {
-    return this.f1o_1;
+    return this.i1o_1;
   };
   function s2AssetPool$lambda($this$s2Sourcing) {
     _init_properties_S2AssetPool_kt__jbkdy3();
@@ -24245,7 +24274,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_78 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.g1o_1 = lazy(tmp_0, AssetTransactionState$Companion$_anonymous__c8cwx8);
+    tmp.j1o_1 = lazy(tmp_0, AssetTransactionState$Companion$_anonymous__c8cwx8);
   }
   var Companion_instance_78;
   function Companion_getInstance_78() {
@@ -24280,10 +24309,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetTransactionState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.j1o_1 = position;
+    this.m1o_1 = position;
   }
   protoOf(AssetTransactionState).q18 = function () {
-    return this.j1o_1;
+    return this.m1o_1;
   };
   function AssetTransactionState_EMITTED_getInstance() {
     AssetTransactionState_initEntries();
@@ -24296,16 +24325,16 @@ if (typeof Math.imul === 'undefined') {
   function AssetPoolCloseCommandDTO() {
   }
   function AssetPoolCloseCommand(id) {
-    this.k1o_1 = id;
+    this.n1o_1 = id;
   }
   protoOf(AssetPoolCloseCommand).qt = function () {
-    return this.k1o_1;
+    return this.n1o_1;
   };
   protoOf(AssetPoolCloseCommand).toString = function () {
-    return 'AssetPoolCloseCommand(id=' + this.k1o_1 + ')';
+    return 'AssetPoolCloseCommand(id=' + this.n1o_1 + ')';
   };
   protoOf(AssetPoolCloseCommand).hashCode = function () {
-    return getStringHashCode(this.k1o_1);
+    return getStringHashCode(this.n1o_1);
   };
   protoOf(AssetPoolCloseCommand).equals = function (other) {
     if (this === other)
@@ -24313,24 +24342,24 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolCloseCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolCloseCommand ? other : THROW_CCE();
-    if (!(this.k1o_1 === tmp0_other_with_cast.k1o_1))
+    if (!(this.n1o_1 === tmp0_other_with_cast.n1o_1))
       return false;
     return true;
   };
   function AssetPoolCreateCommand(vintage, indicator, granularity, metadata) {
-    this.l1o_1 = vintage;
-    this.m1o_1 = indicator;
-    this.n1o_1 = granularity;
-    this.o1o_1 = metadata;
+    this.o1o_1 = vintage;
+    this.p1o_1 = indicator;
+    this.q1o_1 = granularity;
+    this.r1o_1 = metadata;
   }
   protoOf(AssetPoolCreateCommand).toString = function () {
-    return 'AssetPoolCreateCommand(vintage=' + this.l1o_1 + ', indicator=' + this.m1o_1 + ', granularity=' + this.n1o_1 + ', metadata=' + this.o1o_1 + ')';
+    return 'AssetPoolCreateCommand(vintage=' + this.o1o_1 + ', indicator=' + this.p1o_1 + ', granularity=' + this.q1o_1 + ', metadata=' + this.r1o_1 + ')';
   };
   protoOf(AssetPoolCreateCommand).hashCode = function () {
-    var result = this.l1o_1 == null ? 0 : getStringHashCode(this.l1o_1);
-    result = imul(result, 31) + hashCode(this.m1o_1) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.n1o_1) | 0;
-    result = imul(result, 31) + (this.o1o_1 == null ? 0 : hashCode(this.o1o_1)) | 0;
+    var result = this.o1o_1 == null ? 0 : getStringHashCode(this.o1o_1);
+    result = imul(result, 31) + hashCode(this.p1o_1) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.q1o_1) | 0;
+    result = imul(result, 31) + (this.r1o_1 == null ? 0 : hashCode(this.r1o_1)) | 0;
     return result;
   };
   protoOf(AssetPoolCreateCommand).equals = function (other) {
@@ -24339,13 +24368,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolCreateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolCreateCommand ? other : THROW_CCE();
-    if (!(this.l1o_1 == tmp0_other_with_cast.l1o_1))
+    if (!(this.o1o_1 == tmp0_other_with_cast.o1o_1))
       return false;
-    if (!equals(this.m1o_1, tmp0_other_with_cast.m1o_1))
+    if (!equals(this.p1o_1, tmp0_other_with_cast.p1o_1))
       return false;
-    if (!equals(this.n1o_1, tmp0_other_with_cast.n1o_1))
+    if (!equals(this.q1o_1, tmp0_other_with_cast.q1o_1))
       return false;
-    if (!equals(this.o1o_1, tmp0_other_with_cast.o1o_1))
+    if (!equals(this.r1o_1, tmp0_other_with_cast.r1o_1))
       return false;
     return true;
   };
@@ -24355,7 +24384,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.p1o_1 = [null, null, Companion_getInstance_77().nu(), null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()))];
+    tmp.s1o_1 = [null, null, Companion_getInstance_77().nu(), null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()))];
   }
   var Companion_instance_79;
   function Companion_getInstance_79() {
@@ -24365,31 +24394,31 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolCreatedEvent(id, date, status, vintage, indicator, granularity, metadata) {
     Companion_getInstance_79();
-    this.q1o_1 = id;
-    this.r1o_1 = date;
-    this.s1o_1 = status;
-    this.t1o_1 = vintage;
-    this.u1o_1 = indicator;
-    this.v1o_1 = granularity;
-    this.w1o_1 = metadata;
+    this.t1o_1 = id;
+    this.u1o_1 = date;
+    this.v1o_1 = status;
+    this.w1o_1 = vintage;
+    this.x1o_1 = indicator;
+    this.y1o_1 = granularity;
+    this.z1o_1 = metadata;
   }
   protoOf(AssetPoolCreatedEvent).qt = function () {
-    return this.q1o_1;
+    return this.t1o_1;
   };
   protoOf(AssetPoolCreatedEvent).j18 = function () {
-    return this.r1o_1;
+    return this.u1o_1;
   };
   protoOf(AssetPoolCreatedEvent).toString = function () {
-    return 'AssetPoolCreatedEvent(id=' + this.q1o_1 + ', date=' + this.r1o_1.toString() + ', status=' + this.s1o_1 + ', vintage=' + this.t1o_1 + ', indicator=' + this.u1o_1 + ', granularity=' + this.v1o_1 + ', metadata=' + this.w1o_1 + ')';
+    return 'AssetPoolCreatedEvent(id=' + this.t1o_1 + ', date=' + this.u1o_1.toString() + ', status=' + this.v1o_1 + ', vintage=' + this.w1o_1 + ', indicator=' + this.x1o_1 + ', granularity=' + this.y1o_1 + ', metadata=' + this.z1o_1 + ')';
   };
   protoOf(AssetPoolCreatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.q1o_1);
-    result = imul(result, 31) + this.r1o_1.hashCode() | 0;
-    result = imul(result, 31) + this.s1o_1.hashCode() | 0;
-    result = imul(result, 31) + (this.t1o_1 == null ? 0 : getStringHashCode(this.t1o_1)) | 0;
-    result = imul(result, 31) + hashCode(this.u1o_1) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.v1o_1) | 0;
-    result = imul(result, 31) + hashCode(this.w1o_1) | 0;
+    var result = getStringHashCode(this.t1o_1);
+    result = imul(result, 31) + this.u1o_1.hashCode() | 0;
+    result = imul(result, 31) + this.v1o_1.hashCode() | 0;
+    result = imul(result, 31) + (this.w1o_1 == null ? 0 : getStringHashCode(this.w1o_1)) | 0;
+    result = imul(result, 31) + hashCode(this.x1o_1) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.y1o_1) | 0;
+    result = imul(result, 31) + hashCode(this.z1o_1) | 0;
     return result;
   };
   protoOf(AssetPoolCreatedEvent).equals = function (other) {
@@ -24398,43 +24427,43 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolCreatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolCreatedEvent ? other : THROW_CCE();
-    if (!(this.q1o_1 === tmp0_other_with_cast.q1o_1))
+    if (!(this.t1o_1 === tmp0_other_with_cast.t1o_1))
       return false;
-    if (!this.r1o_1.equals(tmp0_other_with_cast.r1o_1))
+    if (!this.u1o_1.equals(tmp0_other_with_cast.u1o_1))
       return false;
-    if (!this.s1o_1.equals(tmp0_other_with_cast.s1o_1))
+    if (!this.v1o_1.equals(tmp0_other_with_cast.v1o_1))
       return false;
-    if (!(this.t1o_1 == tmp0_other_with_cast.t1o_1))
+    if (!(this.w1o_1 == tmp0_other_with_cast.w1o_1))
       return false;
-    if (!equals(this.u1o_1, tmp0_other_with_cast.u1o_1))
+    if (!equals(this.x1o_1, tmp0_other_with_cast.x1o_1))
       return false;
-    if (!equals(this.v1o_1, tmp0_other_with_cast.v1o_1))
+    if (!equals(this.y1o_1, tmp0_other_with_cast.y1o_1))
       return false;
-    if (!equals(this.w1o_1, tmp0_other_with_cast.w1o_1))
+    if (!equals(this.z1o_1, tmp0_other_with_cast.z1o_1))
       return false;
     return true;
   };
   function AssetPoolEmitTransactionCommand(id, from, to, by, quantity, type) {
-    this.x1o_1 = id;
-    this.y1o_1 = from;
-    this.z1o_1 = to;
-    this.a1p_1 = by;
-    this.b1p_1 = quantity;
-    this.c1p_1 = type;
+    this.a1p_1 = id;
+    this.b1p_1 = from;
+    this.c1p_1 = to;
+    this.d1p_1 = by;
+    this.e1p_1 = quantity;
+    this.f1p_1 = type;
   }
   protoOf(AssetPoolEmitTransactionCommand).qt = function () {
-    return this.x1o_1;
+    return this.a1p_1;
   };
   protoOf(AssetPoolEmitTransactionCommand).toString = function () {
-    return 'AssetPoolEmitTransactionCommand(id=' + this.x1o_1 + ', from=' + this.y1o_1 + ', to=' + this.z1o_1 + ', by=' + this.a1p_1 + ', quantity=' + this.b1p_1 + ', type=' + this.c1p_1 + ')';
+    return 'AssetPoolEmitTransactionCommand(id=' + this.a1p_1 + ', from=' + this.b1p_1 + ', to=' + this.c1p_1 + ', by=' + this.d1p_1 + ', quantity=' + this.e1p_1 + ', type=' + this.f1p_1 + ')';
   };
   protoOf(AssetPoolEmitTransactionCommand).hashCode = function () {
-    var result = getStringHashCode(this.x1o_1);
-    result = imul(result, 31) + (this.y1o_1 == null ? 0 : getStringHashCode(this.y1o_1)) | 0;
-    result = imul(result, 31) + (this.z1o_1 == null ? 0 : getStringHashCode(this.z1o_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.a1p_1) | 0;
-    result = imul(result, 31) + this.b1p_1.hashCode() | 0;
-    result = imul(result, 31) + this.c1p_1.hashCode() | 0;
+    var result = getStringHashCode(this.a1p_1);
+    result = imul(result, 31) + (this.b1p_1 == null ? 0 : getStringHashCode(this.b1p_1)) | 0;
+    result = imul(result, 31) + (this.c1p_1 == null ? 0 : getStringHashCode(this.c1p_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.d1p_1) | 0;
+    result = imul(result, 31) + this.e1p_1.hashCode() | 0;
+    result = imul(result, 31) + this.f1p_1.hashCode() | 0;
     return result;
   };
   protoOf(AssetPoolEmitTransactionCommand).equals = function (other) {
@@ -24443,17 +24472,17 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolEmitTransactionCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolEmitTransactionCommand ? other : THROW_CCE();
-    if (!(this.x1o_1 === tmp0_other_with_cast.x1o_1))
-      return false;
-    if (!(this.y1o_1 == tmp0_other_with_cast.y1o_1))
-      return false;
-    if (!(this.z1o_1 == tmp0_other_with_cast.z1o_1))
-      return false;
     if (!(this.a1p_1 === tmp0_other_with_cast.a1p_1))
       return false;
-    if (!this.b1p_1.equals(tmp0_other_with_cast.b1p_1))
+    if (!(this.b1p_1 == tmp0_other_with_cast.b1p_1))
       return false;
-    if (!this.c1p_1.equals(tmp0_other_with_cast.c1p_1))
+    if (!(this.c1p_1 == tmp0_other_with_cast.c1p_1))
+      return false;
+    if (!(this.d1p_1 === tmp0_other_with_cast.d1p_1))
+      return false;
+    if (!this.e1p_1.equals(tmp0_other_with_cast.e1p_1))
+      return false;
+    if (!this.f1p_1.equals(tmp0_other_with_cast.f1p_1))
       return false;
     return true;
   };
@@ -24464,25 +24493,25 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_80;
   }
   function AssetPoolEmittedTransactionEvent(id, date, transactionId, certificate) {
-    this.d1p_1 = id;
-    this.e1p_1 = date;
-    this.f1p_1 = transactionId;
-    this.g1p_1 = certificate;
+    this.g1p_1 = id;
+    this.h1p_1 = date;
+    this.i1p_1 = transactionId;
+    this.j1p_1 = certificate;
   }
   protoOf(AssetPoolEmittedTransactionEvent).qt = function () {
-    return this.d1p_1;
+    return this.g1p_1;
   };
   protoOf(AssetPoolEmittedTransactionEvent).j18 = function () {
-    return this.e1p_1;
+    return this.h1p_1;
   };
   protoOf(AssetPoolEmittedTransactionEvent).toString = function () {
-    return 'AssetPoolEmittedTransactionEvent(id=' + this.d1p_1 + ', date=' + this.e1p_1.toString() + ', transactionId=' + this.f1p_1 + ', certificate=' + this.g1p_1 + ')';
+    return 'AssetPoolEmittedTransactionEvent(id=' + this.g1p_1 + ', date=' + this.h1p_1.toString() + ', transactionId=' + this.i1p_1 + ', certificate=' + this.j1p_1 + ')';
   };
   protoOf(AssetPoolEmittedTransactionEvent).hashCode = function () {
-    var result = getStringHashCode(this.d1p_1);
-    result = imul(result, 31) + this.e1p_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.f1p_1) | 0;
-    result = imul(result, 31) + (this.g1p_1 == null ? 0 : this.g1p_1.hashCode()) | 0;
+    var result = getStringHashCode(this.g1p_1);
+    result = imul(result, 31) + this.h1p_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.i1p_1) | 0;
+    result = imul(result, 31) + (this.j1p_1 == null ? 0 : this.j1p_1.hashCode()) | 0;
     return result;
   };
   protoOf(AssetPoolEmittedTransactionEvent).equals = function (other) {
@@ -24491,29 +24520,29 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolEmittedTransactionEvent))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolEmittedTransactionEvent ? other : THROW_CCE();
-    if (!(this.d1p_1 === tmp0_other_with_cast.d1p_1))
+    if (!(this.g1p_1 === tmp0_other_with_cast.g1p_1))
       return false;
-    if (!this.e1p_1.equals(tmp0_other_with_cast.e1p_1))
+    if (!this.h1p_1.equals(tmp0_other_with_cast.h1p_1))
       return false;
-    if (!(this.f1p_1 === tmp0_other_with_cast.f1p_1))
+    if (!(this.i1p_1 === tmp0_other_with_cast.i1p_1))
       return false;
-    if (!equals(this.g1p_1, tmp0_other_with_cast.g1p_1))
+    if (!equals(this.j1p_1, tmp0_other_with_cast.j1p_1))
       return false;
     return true;
   };
   function AssetPoolHoldCommandDTO() {
   }
   function AssetPoolHoldCommand(id) {
-    this.h1p_1 = id;
+    this.k1p_1 = id;
   }
   protoOf(AssetPoolHoldCommand).qt = function () {
-    return this.h1p_1;
+    return this.k1p_1;
   };
   protoOf(AssetPoolHoldCommand).toString = function () {
-    return 'AssetPoolHoldCommand(id=' + this.h1p_1 + ')';
+    return 'AssetPoolHoldCommand(id=' + this.k1p_1 + ')';
   };
   protoOf(AssetPoolHoldCommand).hashCode = function () {
-    return getStringHashCode(this.h1p_1);
+    return getStringHashCode(this.k1p_1);
   };
   protoOf(AssetPoolHoldCommand).equals = function (other) {
     if (this === other)
@@ -24521,23 +24550,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolHoldCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolHoldCommand ? other : THROW_CCE();
-    if (!(this.h1p_1 === tmp0_other_with_cast.h1p_1))
+    if (!(this.k1p_1 === tmp0_other_with_cast.k1p_1))
       return false;
     return true;
   };
   function AssetPoolResumeCommandDTO() {
   }
   function AssetPoolResumeCommand(id) {
-    this.i1p_1 = id;
+    this.l1p_1 = id;
   }
   protoOf(AssetPoolResumeCommand).qt = function () {
-    return this.i1p_1;
+    return this.l1p_1;
   };
   protoOf(AssetPoolResumeCommand).toString = function () {
-    return 'AssetPoolResumeCommand(id=' + this.i1p_1 + ')';
+    return 'AssetPoolResumeCommand(id=' + this.l1p_1 + ')';
   };
   protoOf(AssetPoolResumeCommand).hashCode = function () {
-    return getStringHashCode(this.i1p_1);
+    return getStringHashCode(this.l1p_1);
   };
   protoOf(AssetPoolResumeCommand).equals = function (other) {
     if (this === other)
@@ -24545,24 +24574,24 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolResumeCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolResumeCommand ? other : THROW_CCE();
-    if (!(this.i1p_1 === tmp0_other_with_cast.i1p_1))
+    if (!(this.l1p_1 === tmp0_other_with_cast.l1p_1))
       return false;
     return true;
   };
   function AssetPoolUpdateCommand(vintage, indicator, granularity, metadata) {
-    this.j1p_1 = vintage;
-    this.k1p_1 = indicator;
-    this.l1p_1 = granularity;
-    this.m1p_1 = metadata;
+    this.m1p_1 = vintage;
+    this.n1p_1 = indicator;
+    this.o1p_1 = granularity;
+    this.p1p_1 = metadata;
   }
   protoOf(AssetPoolUpdateCommand).toString = function () {
-    return 'AssetPoolUpdateCommand(vintage=' + this.j1p_1 + ', indicator=' + this.k1p_1 + ', granularity=' + this.l1p_1 + ', metadata=' + this.m1p_1 + ')';
+    return 'AssetPoolUpdateCommand(vintage=' + this.m1p_1 + ', indicator=' + this.n1p_1 + ', granularity=' + this.o1p_1 + ', metadata=' + this.p1p_1 + ')';
   };
   protoOf(AssetPoolUpdateCommand).hashCode = function () {
-    var result = this.j1p_1 == null ? 0 : getStringHashCode(this.j1p_1);
-    result = imul(result, 31) + hashCode(this.k1p_1) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.l1p_1) | 0;
-    result = imul(result, 31) + (this.m1p_1 == null ? 0 : hashCode(this.m1p_1)) | 0;
+    var result = this.m1p_1 == null ? 0 : getStringHashCode(this.m1p_1);
+    result = imul(result, 31) + hashCode(this.n1p_1) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.o1p_1) | 0;
+    result = imul(result, 31) + (this.p1p_1 == null ? 0 : hashCode(this.p1p_1)) | 0;
     return result;
   };
   protoOf(AssetPoolUpdateCommand).equals = function (other) {
@@ -24571,13 +24600,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolUpdateCommand ? other : THROW_CCE();
-    if (!(this.j1p_1 == tmp0_other_with_cast.j1p_1))
+    if (!(this.m1p_1 == tmp0_other_with_cast.m1p_1))
       return false;
-    if (!equals(this.k1p_1, tmp0_other_with_cast.k1p_1))
+    if (!equals(this.n1p_1, tmp0_other_with_cast.n1p_1))
       return false;
-    if (!equals(this.l1p_1, tmp0_other_with_cast.l1p_1))
+    if (!equals(this.o1p_1, tmp0_other_with_cast.o1p_1))
       return false;
-    if (!equals(this.m1p_1, tmp0_other_with_cast.m1p_1))
+    if (!equals(this.p1p_1, tmp0_other_with_cast.p1p_1))
       return false;
     return true;
   };
@@ -24587,7 +24616,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.n1p_1 = [null, null, Companion_getInstance_77().nu(), null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance())];
+    tmp.q1p_1 = [null, null, Companion_getInstance_77().nu(), null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance())];
   }
   var Companion_instance_81;
   function Companion_getInstance_81() {
@@ -24597,31 +24626,31 @@ if (typeof Math.imul === 'undefined') {
   }
   function AssetPoolUpdatedEvent(id, date, status, vintage, indicator, granularity, metadata) {
     Companion_getInstance_81();
-    this.o1p_1 = id;
-    this.p1p_1 = date;
-    this.q1p_1 = status;
-    this.r1p_1 = vintage;
-    this.s1p_1 = indicator;
-    this.t1p_1 = granularity;
-    this.u1p_1 = metadata;
+    this.r1p_1 = id;
+    this.s1p_1 = date;
+    this.t1p_1 = status;
+    this.u1p_1 = vintage;
+    this.v1p_1 = indicator;
+    this.w1p_1 = granularity;
+    this.x1p_1 = metadata;
   }
   protoOf(AssetPoolUpdatedEvent).qt = function () {
-    return this.o1p_1;
+    return this.r1p_1;
   };
   protoOf(AssetPoolUpdatedEvent).j18 = function () {
-    return this.p1p_1;
+    return this.s1p_1;
   };
   protoOf(AssetPoolUpdatedEvent).toString = function () {
-    return 'AssetPoolUpdatedEvent(id=' + this.o1p_1 + ', date=' + this.p1p_1.toString() + ', status=' + this.q1p_1 + ', vintage=' + this.r1p_1 + ', indicator=' + this.s1p_1 + ', granularity=' + this.t1p_1 + ', metadata=' + this.u1p_1 + ')';
+    return 'AssetPoolUpdatedEvent(id=' + this.r1p_1 + ', date=' + this.s1p_1.toString() + ', status=' + this.t1p_1 + ', vintage=' + this.u1p_1 + ', indicator=' + this.v1p_1 + ', granularity=' + this.w1p_1 + ', metadata=' + this.x1p_1 + ')';
   };
   protoOf(AssetPoolUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.o1p_1);
-    result = imul(result, 31) + this.p1p_1.hashCode() | 0;
-    result = imul(result, 31) + this.q1p_1.hashCode() | 0;
-    result = imul(result, 31) + (this.r1p_1 == null ? 0 : getStringHashCode(this.r1p_1)) | 0;
-    result = imul(result, 31) + hashCode(this.s1p_1) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.t1p_1) | 0;
-    result = imul(result, 31) + hashCode(this.u1p_1) | 0;
+    var result = getStringHashCode(this.r1p_1);
+    result = imul(result, 31) + this.s1p_1.hashCode() | 0;
+    result = imul(result, 31) + this.t1p_1.hashCode() | 0;
+    result = imul(result, 31) + (this.u1p_1 == null ? 0 : getStringHashCode(this.u1p_1)) | 0;
+    result = imul(result, 31) + hashCode(this.v1p_1) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.w1p_1) | 0;
+    result = imul(result, 31) + hashCode(this.x1p_1) | 0;
     return result;
   };
   protoOf(AssetPoolUpdatedEvent).equals = function (other) {
@@ -24630,19 +24659,19 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof AssetPoolUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof AssetPoolUpdatedEvent ? other : THROW_CCE();
-    if (!(this.o1p_1 === tmp0_other_with_cast.o1p_1))
+    if (!(this.r1p_1 === tmp0_other_with_cast.r1p_1))
       return false;
-    if (!this.p1p_1.equals(tmp0_other_with_cast.p1p_1))
+    if (!this.s1p_1.equals(tmp0_other_with_cast.s1p_1))
       return false;
-    if (!this.q1p_1.equals(tmp0_other_with_cast.q1p_1))
+    if (!this.t1p_1.equals(tmp0_other_with_cast.t1p_1))
       return false;
-    if (!(this.r1p_1 == tmp0_other_with_cast.r1p_1))
+    if (!(this.u1p_1 == tmp0_other_with_cast.u1p_1))
       return false;
-    if (!equals(this.s1p_1, tmp0_other_with_cast.s1p_1))
+    if (!equals(this.v1p_1, tmp0_other_with_cast.v1p_1))
       return false;
-    if (!equals(this.t1p_1, tmp0_other_with_cast.t1p_1))
+    if (!equals(this.w1p_1, tmp0_other_with_cast.w1p_1))
       return false;
-    if (!equals(this.u1p_1, tmp0_other_with_cast.u1p_1))
+    if (!equals(this.x1p_1, tmp0_other_with_cast.x1p_1))
       return false;
     return true;
   };
@@ -24696,7 +24725,7 @@ if (typeof Math.imul === 'undefined') {
   function ProjectEvent() {
   }
   function _get_$cachedSerializer__te6jhj_1($this) {
-    return $this.y1p_1.i4();
+    return $this.b1q_1.i4();
   }
   function ProjectState$Companion$_anonymous__x3621() {
     return createSimpleEnumSerializer('io.komune.registry.s2.project.domain.automate.ProjectState', values_4());
@@ -24707,7 +24736,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_82 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.y1p_1 = lazy(tmp_0, ProjectState$Companion$_anonymous__x3621);
+    tmp.b1q_1 = lazy(tmp_0, ProjectState$Companion$_anonymous__x3621);
   }
   protoOf(Companion_82).nu = function () {
     return _get_$cachedSerializer__te6jhj_1(this);
@@ -24733,10 +24762,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.b1q_1 = position;
+    this.e1q_1 = position;
   }
   protoOf(ProjectState).q18 = function () {
-    return this.b1q_1;
+    return this.e1q_1;
   };
   var ProjectRole_ProjectDeveloper_instance;
   var ProjectRole_Admin_instance;
@@ -24750,10 +24779,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectRole(name, ordinal, value) {
     Enum.call(this, name, ordinal);
-    this.e1q_1 = value;
+    this.h1q_1 = value;
   }
   protoOf(ProjectRole).toString = function () {
-    return this.e1q_1;
+    return this.h1q_1;
   };
   function s2Project$lambda($this$s2Sourcing) {
     _init_properties_S2Project_kt__lgeww8();
@@ -24939,18 +24968,18 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_83;
   }
   function ProjectAddAssetPoolCommand(id, poolId) {
-    this.g1q_1 = id;
-    this.h1q_1 = poolId;
+    this.j1q_1 = id;
+    this.k1q_1 = poolId;
   }
   protoOf(ProjectAddAssetPoolCommand).qt = function () {
-    return this.g1q_1;
+    return this.j1q_1;
   };
   protoOf(ProjectAddAssetPoolCommand).toString = function () {
-    return 'ProjectAddAssetPoolCommand(id=' + this.g1q_1 + ', poolId=' + this.h1q_1 + ')';
+    return 'ProjectAddAssetPoolCommand(id=' + this.j1q_1 + ', poolId=' + this.k1q_1 + ')';
   };
   protoOf(ProjectAddAssetPoolCommand).hashCode = function () {
-    var result = getStringHashCode(this.g1q_1);
-    result = imul(result, 31) + getStringHashCode(this.h1q_1) | 0;
+    var result = getStringHashCode(this.j1q_1);
+    result = imul(result, 31) + getStringHashCode(this.k1q_1) | 0;
     return result;
   };
   protoOf(ProjectAddAssetPoolCommand).equals = function (other) {
@@ -24959,9 +24988,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectAddAssetPoolCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectAddAssetPoolCommand ? other : THROW_CCE();
-    if (!(this.g1q_1 === tmp0_other_with_cast.g1q_1))
+    if (!(this.j1q_1 === tmp0_other_with_cast.j1q_1))
       return false;
-    if (!(this.h1q_1 === tmp0_other_with_cast.h1q_1))
+    if (!(this.k1q_1 === tmp0_other_with_cast.k1q_1))
       return false;
     return true;
   };
@@ -24972,26 +25001,26 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_84;
   }
   function ProjectAddedAssetPoolEvent(id, date, poolId) {
-    this.i1q_1 = id;
-    this.j1q_1 = date;
-    this.k1q_1 = poolId;
+    this.l1q_1 = id;
+    this.m1q_1 = date;
+    this.n1q_1 = poolId;
   }
   protoOf(ProjectAddedAssetPoolEvent).qt = function () {
-    return this.i1q_1;
+    return this.l1q_1;
   };
   protoOf(ProjectAddedAssetPoolEvent).j18 = function () {
-    return this.j1q_1;
+    return this.m1q_1;
   };
-  protoOf(ProjectAddedAssetPoolEvent).f1q = function () {
-    return this.k1q_1;
+  protoOf(ProjectAddedAssetPoolEvent).i1q = function () {
+    return this.n1q_1;
   };
   protoOf(ProjectAddedAssetPoolEvent).toString = function () {
-    return 'ProjectAddedAssetPoolEvent(id=' + this.i1q_1 + ', date=' + this.j1q_1.toString() + ', poolId=' + this.k1q_1 + ')';
+    return 'ProjectAddedAssetPoolEvent(id=' + this.l1q_1 + ', date=' + this.m1q_1.toString() + ', poolId=' + this.n1q_1 + ')';
   };
   protoOf(ProjectAddedAssetPoolEvent).hashCode = function () {
-    var result = getStringHashCode(this.i1q_1);
-    result = imul(result, 31) + this.j1q_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.k1q_1) | 0;
+    var result = getStringHashCode(this.l1q_1);
+    result = imul(result, 31) + this.m1q_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.n1q_1) | 0;
     return result;
   };
   protoOf(ProjectAddedAssetPoolEvent).equals = function (other) {
@@ -25000,11 +25029,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectAddedAssetPoolEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectAddedAssetPoolEvent ? other : THROW_CCE();
-    if (!(this.i1q_1 === tmp0_other_with_cast.i1q_1))
+    if (!(this.l1q_1 === tmp0_other_with_cast.l1q_1))
       return false;
-    if (!this.j1q_1.equals(tmp0_other_with_cast.j1q_1))
+    if (!this.m1q_1.equals(tmp0_other_with_cast.m1q_1))
       return false;
-    if (!(this.k1q_1 === tmp0_other_with_cast.k1q_1))
+    if (!(this.n1q_1 === tmp0_other_with_cast.n1q_1))
       return false;
     return true;
   };
@@ -25019,18 +25048,18 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_85;
   }
   function ProjectChangePrivacyCommand(id, isPrivate) {
-    this.m1q_1 = id;
-    this.n1q_1 = isPrivate;
+    this.p1q_1 = id;
+    this.q1q_1 = isPrivate;
   }
   protoOf(ProjectChangePrivacyCommand).qt = function () {
-    return this.m1q_1;
+    return this.p1q_1;
   };
   protoOf(ProjectChangePrivacyCommand).toString = function () {
-    return 'ProjectChangePrivacyCommand(id=' + this.m1q_1 + ', isPrivate=' + this.n1q_1 + ')';
+    return 'ProjectChangePrivacyCommand(id=' + this.p1q_1 + ', isPrivate=' + this.q1q_1 + ')';
   };
   protoOf(ProjectChangePrivacyCommand).hashCode = function () {
-    var result = getStringHashCode(this.m1q_1);
-    result = imul(result, 31) + getBooleanHashCode(this.n1q_1) | 0;
+    var result = getStringHashCode(this.p1q_1);
+    result = imul(result, 31) + getBooleanHashCode(this.q1q_1) | 0;
     return result;
   };
   protoOf(ProjectChangePrivacyCommand).equals = function (other) {
@@ -25039,9 +25068,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectChangePrivacyCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectChangePrivacyCommand ? other : THROW_CCE();
-    if (!(this.m1q_1 === tmp0_other_with_cast.m1q_1))
+    if (!(this.p1q_1 === tmp0_other_with_cast.p1q_1))
       return false;
-    if (!(this.n1q_1 === tmp0_other_with_cast.n1q_1))
+    if (!(this.q1q_1 === tmp0_other_with_cast.q1q_1))
       return false;
     return true;
   };
@@ -25052,26 +25081,26 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_86;
   }
   function ProjectChangedPrivacyEvent(id, date, isPrivate) {
-    this.o1q_1 = id;
-    this.p1q_1 = date;
-    this.q1q_1 = isPrivate;
+    this.r1q_1 = id;
+    this.s1q_1 = date;
+    this.t1q_1 = isPrivate;
   }
   protoOf(ProjectChangedPrivacyEvent).qt = function () {
-    return this.o1q_1;
+    return this.r1q_1;
   };
   protoOf(ProjectChangedPrivacyEvent).j18 = function () {
-    return this.p1q_1;
+    return this.s1q_1;
   };
-  protoOf(ProjectChangedPrivacyEvent).l1q = function () {
-    return this.q1q_1;
+  protoOf(ProjectChangedPrivacyEvent).o1q = function () {
+    return this.t1q_1;
   };
   protoOf(ProjectChangedPrivacyEvent).toString = function () {
-    return 'ProjectChangedPrivacyEvent(id=' + this.o1q_1 + ', date=' + this.p1q_1.toString() + ', isPrivate=' + this.q1q_1 + ')';
+    return 'ProjectChangedPrivacyEvent(id=' + this.r1q_1 + ', date=' + this.s1q_1.toString() + ', isPrivate=' + this.t1q_1 + ')';
   };
   protoOf(ProjectChangedPrivacyEvent).hashCode = function () {
-    var result = getStringHashCode(this.o1q_1);
-    result = imul(result, 31) + this.p1q_1.hashCode() | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.q1q_1) | 0;
+    var result = getStringHashCode(this.r1q_1);
+    result = imul(result, 31) + this.s1q_1.hashCode() | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.t1q_1) | 0;
     return result;
   };
   protoOf(ProjectChangedPrivacyEvent).equals = function (other) {
@@ -25080,11 +25109,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectChangedPrivacyEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectChangedPrivacyEvent ? other : THROW_CCE();
-    if (!(this.o1q_1 === tmp0_other_with_cast.o1q_1))
+    if (!(this.r1q_1 === tmp0_other_with_cast.r1q_1))
       return false;
-    if (!this.p1q_1.equals(tmp0_other_with_cast.p1q_1))
+    if (!this.s1q_1.equals(tmp0_other_with_cast.s1q_1))
       return false;
-    if (!(this.q1q_1 === tmp0_other_with_cast.q1q_1))
+    if (!(this.t1q_1 === tmp0_other_with_cast.t1q_1))
       return false;
     return true;
   };
@@ -25098,7 +25127,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.g1s_1 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance()), null];
+    tmp.i1s_1 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance()), null];
   }
   var Companion_instance_87;
   function Companion_getInstance_87() {
@@ -25108,195 +25137,195 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProjectCreateCommand(name, identifier, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs, isPrivate) {
     Companion_getInstance_87();
-    this.h1s_1 = name;
-    this.i1s_1 = identifier;
-    this.j1s_1 = country;
-    this.k1s_1 = indicator;
-    this.l1s_1 = creditingPeriodStartDate;
-    this.m1s_1 = creditingPeriodEndDate;
-    this.n1s_1 = description;
-    this.o1s_1 = dueDate;
-    this.p1s_1 = estimatedReduction;
-    this.q1s_1 = localization;
-    this.r1s_1 = proponent;
-    this.s1s_1 = type;
-    this.t1s_1 = referenceYear;
-    this.u1s_1 = registrationDate;
-    this.v1s_1 = slug;
-    this.w1s_1 = vintage;
-    this.x1s_1 = vvb;
-    this.y1s_1 = assessor;
-    this.z1s_1 = location;
-    this.a1t_1 = activities;
-    this.b1t_1 = subContinent;
-    this.c1t_1 = sdgs;
-    this.d1t_1 = isPrivate;
+    this.j1s_1 = name;
+    this.k1s_1 = identifier;
+    this.l1s_1 = country;
+    this.m1s_1 = indicator;
+    this.n1s_1 = creditingPeriodStartDate;
+    this.o1s_1 = creditingPeriodEndDate;
+    this.p1s_1 = description;
+    this.q1s_1 = dueDate;
+    this.r1s_1 = estimatedReduction;
+    this.s1s_1 = localization;
+    this.t1s_1 = proponent;
+    this.u1s_1 = type;
+    this.v1s_1 = referenceYear;
+    this.w1s_1 = registrationDate;
+    this.x1s_1 = slug;
+    this.y1s_1 = vintage;
+    this.z1s_1 = vvb;
+    this.a1t_1 = assessor;
+    this.b1t_1 = location;
+    this.c1t_1 = activities;
+    this.d1t_1 = subContinent;
+    this.e1t_1 = sdgs;
+    this.f1t_1 = isPrivate;
   }
-  protoOf(ProjectCreateCommand).s1q = function (_set____db54di) {
-    this.h1s_1 = _set____db54di;
-  };
-  protoOf(ProjectCreateCommand).k7 = function () {
-    return this.h1s_1;
-  };
-  protoOf(ProjectCreateCommand).x1q = function (_set____db54di) {
-    this.i1s_1 = _set____db54di;
-  };
-  protoOf(ProjectCreateCommand).ox = function () {
-    return this.i1s_1;
-  };
-  protoOf(ProjectCreateCommand).t1q = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).v1q = function (_set____db54di) {
     this.j1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).u1q = function () {
+  protoOf(ProjectCreateCommand).k7 = function () {
     return this.j1s_1;
   };
-  protoOf(ProjectCreateCommand).y1q = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).z1q = function (_set____db54di) {
     this.k1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).z1q = function () {
+  protoOf(ProjectCreateCommand).ox = function () {
     return this.k1s_1;
   };
-  protoOf(ProjectCreateCommand).a1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).w1q = function (_set____db54di) {
     this.l1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).b1r = function () {
+  protoOf(ProjectCreateCommand).x1k = function () {
     return this.l1s_1;
   };
-  protoOf(ProjectCreateCommand).c1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).a1r = function (_set____db54di) {
     this.m1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).d1r = function () {
+  protoOf(ProjectCreateCommand).b1r = function () {
     return this.m1s_1;
   };
-  protoOf(ProjectCreateCommand).e1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).c1r = function (_set____db54di) {
     this.n1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).zz = function () {
+  protoOf(ProjectCreateCommand).d1r = function () {
     return this.n1s_1;
   };
-  protoOf(ProjectCreateCommand).f1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).e1r = function (_set____db54di) {
     this.o1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).g1r = function () {
+  protoOf(ProjectCreateCommand).f1r = function () {
     return this.o1s_1;
   };
-  protoOf(ProjectCreateCommand).h1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).g1r = function (_set____db54di) {
     this.p1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).i1r = function () {
+  protoOf(ProjectCreateCommand).zz = function () {
     return this.p1s_1;
   };
-  protoOf(ProjectCreateCommand).j1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).h1r = function (_set____db54di) {
     this.q1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).k1r = function () {
+  protoOf(ProjectCreateCommand).i1r = function () {
     return this.q1s_1;
   };
-  protoOf(ProjectCreateCommand).l1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).j1r = function (_set____db54di) {
     this.r1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).m1r = function () {
+  protoOf(ProjectCreateCommand).k1r = function () {
     return this.r1s_1;
   };
-  protoOf(ProjectCreateCommand).n1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).l1r = function (_set____db54di) {
     this.s1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).st = function () {
+  protoOf(ProjectCreateCommand).m1r = function () {
     return this.s1s_1;
   };
-  protoOf(ProjectCreateCommand).o1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).n1r = function (_set____db54di) {
     this.t1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).p1r = function () {
+  protoOf(ProjectCreateCommand).o1r = function () {
     return this.t1s_1;
   };
-  protoOf(ProjectCreateCommand).q1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).p1r = function (_set____db54di) {
     this.u1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).r1r = function () {
+  protoOf(ProjectCreateCommand).st = function () {
     return this.u1s_1;
   };
-  protoOf(ProjectCreateCommand).s1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).q1r = function (_set____db54di) {
     this.v1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).t1r = function () {
+  protoOf(ProjectCreateCommand).r1r = function () {
     return this.v1s_1;
   };
-  protoOf(ProjectCreateCommand).u1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).s1r = function (_set____db54di) {
     this.w1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).v1r = function () {
+  protoOf(ProjectCreateCommand).t1r = function () {
     return this.w1s_1;
   };
-  protoOf(ProjectCreateCommand).w1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).u1r = function (_set____db54di) {
     this.x1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).x1r = function () {
+  protoOf(ProjectCreateCommand).v1r = function () {
     return this.x1s_1;
   };
-  protoOf(ProjectCreateCommand).y1r = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).w1r = function (_set____db54di) {
     this.y1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).z1r = function () {
+  protoOf(ProjectCreateCommand).x1r = function () {
     return this.y1s_1;
   };
-  protoOf(ProjectCreateCommand).a1s = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).y1r = function (_set____db54di) {
     this.z1s_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).b1s = function () {
+  protoOf(ProjectCreateCommand).z1r = function () {
     return this.z1s_1;
   };
-  protoOf(ProjectCreateCommand).e1s = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).a1s = function (_set____db54di) {
     this.a1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).f1s = function () {
+  protoOf(ProjectCreateCommand).b1s = function () {
     return this.a1t_1;
   };
-  protoOf(ProjectCreateCommand).v1q = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).c1s = function (_set____db54di) {
     this.b1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).w1q = function () {
+  protoOf(ProjectCreateCommand).d1s = function () {
     return this.b1t_1;
   };
-  protoOf(ProjectCreateCommand).c1s = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).g1s = function (_set____db54di) {
     this.c1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).d1s = function () {
+  protoOf(ProjectCreateCommand).h1s = function () {
     return this.c1t_1;
   };
-  protoOf(ProjectCreateCommand).r1q = function (_set____db54di) {
+  protoOf(ProjectCreateCommand).x1q = function (_set____db54di) {
     this.d1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreateCommand).l1q = function () {
+  protoOf(ProjectCreateCommand).y1q = function () {
     return this.d1t_1;
   };
+  protoOf(ProjectCreateCommand).e1s = function (_set____db54di) {
+    this.e1t_1 = _set____db54di;
+  };
+  protoOf(ProjectCreateCommand).f1s = function () {
+    return this.e1t_1;
+  };
+  protoOf(ProjectCreateCommand).u1q = function (_set____db54di) {
+    this.f1t_1 = _set____db54di;
+  };
+  protoOf(ProjectCreateCommand).o1q = function () {
+    return this.f1t_1;
+  };
   protoOf(ProjectCreateCommand).toString = function () {
-    return 'ProjectCreateCommand(name=' + this.h1s_1 + ', identifier=' + this.i1s_1 + ', country=' + this.j1s_1 + ', indicator=' + this.k1s_1 + ', creditingPeriodStartDate=' + toString_0(this.l1s_1) + ', creditingPeriodEndDate=' + toString_0(this.m1s_1) + ', description=' + this.n1s_1 + ', dueDate=' + toString_0(this.o1s_1) + ', estimatedReduction=' + this.p1s_1 + ', localization=' + this.q1s_1 + ', proponent=' + this.r1s_1 + ', type=' + this.s1s_1 + ', referenceYear=' + this.t1s_1 + ', registrationDate=' + toString_0(this.u1s_1) + ', slug=' + this.v1s_1 + ', vintage=' + this.w1s_1 + ', vvb=' + this.x1s_1 + ', assessor=' + this.y1s_1 + ', location=' + this.z1s_1 + ', activities=' + this.a1t_1 + ', subContinent=' + this.b1t_1 + ', sdgs=' + this.c1t_1 + ', isPrivate=' + this.d1t_1 + ')';
+    return 'ProjectCreateCommand(name=' + this.j1s_1 + ', identifier=' + this.k1s_1 + ', country=' + this.l1s_1 + ', indicator=' + this.m1s_1 + ', creditingPeriodStartDate=' + toString_0(this.n1s_1) + ', creditingPeriodEndDate=' + toString_0(this.o1s_1) + ', description=' + this.p1s_1 + ', dueDate=' + toString_0(this.q1s_1) + ', estimatedReduction=' + this.r1s_1 + ', localization=' + this.s1s_1 + ', proponent=' + this.t1s_1 + ', type=' + this.u1s_1 + ', referenceYear=' + this.v1s_1 + ', registrationDate=' + toString_0(this.w1s_1) + ', slug=' + this.x1s_1 + ', vintage=' + this.y1s_1 + ', vvb=' + this.z1s_1 + ', assessor=' + this.a1t_1 + ', location=' + this.b1t_1 + ', activities=' + this.c1t_1 + ', subContinent=' + this.d1t_1 + ', sdgs=' + this.e1t_1 + ', isPrivate=' + this.f1t_1 + ')';
   };
   protoOf(ProjectCreateCommand).hashCode = function () {
-    var result = getStringHashCode(this.h1s_1);
-    result = imul(result, 31) + (this.i1s_1 == null ? 0 : getStringHashCode(this.i1s_1)) | 0;
-    result = imul(result, 31) + (this.j1s_1 == null ? 0 : getStringHashCode(this.j1s_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.k1s_1) | 0;
-    result = imul(result, 31) + (this.l1s_1 == null ? 0 : this.l1s_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.m1s_1 == null ? 0 : this.m1s_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n1s_1 == null ? 0 : getStringHashCode(this.n1s_1)) | 0;
+    var result = getStringHashCode(this.j1s_1);
+    result = imul(result, 31) + (this.k1s_1 == null ? 0 : getStringHashCode(this.k1s_1)) | 0;
+    result = imul(result, 31) + (this.l1s_1 == null ? 0 : getStringHashCode(this.l1s_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.m1s_1) | 0;
+    result = imul(result, 31) + (this.n1s_1 == null ? 0 : this.n1s_1.hashCode()) | 0;
     result = imul(result, 31) + (this.o1s_1 == null ? 0 : this.o1s_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p1s_1 == null ? 0 : getStringHashCode(this.p1s_1)) | 0;
-    result = imul(result, 31) + (this.q1s_1 == null ? 0 : getStringHashCode(this.q1s_1)) | 0;
-    result = imul(result, 31) + (this.r1s_1 == null ? 0 : this.r1s_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s1s_1 == null ? 0 : this.s1s_1) | 0;
-    result = imul(result, 31) + (this.t1s_1 == null ? 0 : getStringHashCode(this.t1s_1)) | 0;
-    result = imul(result, 31) + (this.u1s_1 == null ? 0 : this.u1s_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.q1s_1 == null ? 0 : this.q1s_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r1s_1 == null ? 0 : getStringHashCode(this.r1s_1)) | 0;
+    result = imul(result, 31) + (this.s1s_1 == null ? 0 : getStringHashCode(this.s1s_1)) | 0;
+    result = imul(result, 31) + (this.t1s_1 == null ? 0 : this.t1s_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u1s_1 == null ? 0 : this.u1s_1) | 0;
     result = imul(result, 31) + (this.v1s_1 == null ? 0 : getStringHashCode(this.v1s_1)) | 0;
-    result = imul(result, 31) + (this.w1s_1 == null ? 0 : getStringHashCode(this.w1s_1)) | 0;
-    result = imul(result, 31) + (this.x1s_1 == null ? 0 : this.x1s_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.y1s_1 == null ? 0 : this.y1s_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.w1s_1 == null ? 0 : this.w1s_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.x1s_1 == null ? 0 : getStringHashCode(this.x1s_1)) | 0;
+    result = imul(result, 31) + (this.y1s_1 == null ? 0 : getStringHashCode(this.y1s_1)) | 0;
     result = imul(result, 31) + (this.z1s_1 == null ? 0 : this.z1s_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.a1t_1 == null ? 0 : hashCode(this.a1t_1)) | 0;
-    result = imul(result, 31) + (this.b1t_1 == null ? 0 : getStringHashCode(this.b1t_1)) | 0;
+    result = imul(result, 31) + (this.a1t_1 == null ? 0 : this.a1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.b1t_1 == null ? 0 : this.b1t_1.hashCode()) | 0;
     result = imul(result, 31) + (this.c1t_1 == null ? 0 : hashCode(this.c1t_1)) | 0;
-    result = imul(result, 31) + (this.d1t_1 == null ? 0 : getBooleanHashCode(this.d1t_1)) | 0;
+    result = imul(result, 31) + (this.d1t_1 == null ? 0 : getStringHashCode(this.d1t_1)) | 0;
+    result = imul(result, 31) + (this.e1t_1 == null ? 0 : hashCode(this.e1t_1)) | 0;
+    result = imul(result, 31) + (this.f1t_1 == null ? 0 : getBooleanHashCode(this.f1t_1)) | 0;
     return result;
   };
   protoOf(ProjectCreateCommand).equals = function (other) {
@@ -25305,51 +25334,51 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectCreateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectCreateCommand ? other : THROW_CCE();
-    if (!(this.h1s_1 === tmp0_other_with_cast.h1s_1))
+    if (!(this.j1s_1 === tmp0_other_with_cast.j1s_1))
       return false;
-    if (!(this.i1s_1 == tmp0_other_with_cast.i1s_1))
+    if (!(this.k1s_1 == tmp0_other_with_cast.k1s_1))
       return false;
-    if (!(this.j1s_1 == tmp0_other_with_cast.j1s_1))
+    if (!(this.l1s_1 == tmp0_other_with_cast.l1s_1))
       return false;
-    if (!(this.k1s_1 === tmp0_other_with_cast.k1s_1))
+    if (!(this.m1s_1 === tmp0_other_with_cast.m1s_1))
       return false;
-    if (!equals(this.l1s_1, tmp0_other_with_cast.l1s_1))
-      return false;
-    if (!equals(this.m1s_1, tmp0_other_with_cast.m1s_1))
-      return false;
-    if (!(this.n1s_1 == tmp0_other_with_cast.n1s_1))
+    if (!equals(this.n1s_1, tmp0_other_with_cast.n1s_1))
       return false;
     if (!equals(this.o1s_1, tmp0_other_with_cast.o1s_1))
       return false;
     if (!(this.p1s_1 == tmp0_other_with_cast.p1s_1))
       return false;
-    if (!(this.q1s_1 == tmp0_other_with_cast.q1s_1))
+    if (!equals(this.q1s_1, tmp0_other_with_cast.q1s_1))
       return false;
-    if (!equals(this.r1s_1, tmp0_other_with_cast.r1s_1))
+    if (!(this.r1s_1 == tmp0_other_with_cast.r1s_1))
       return false;
     if (!(this.s1s_1 == tmp0_other_with_cast.s1s_1))
       return false;
-    if (!(this.t1s_1 == tmp0_other_with_cast.t1s_1))
+    if (!equals(this.t1s_1, tmp0_other_with_cast.t1s_1))
       return false;
-    if (!equals(this.u1s_1, tmp0_other_with_cast.u1s_1))
+    if (!(this.u1s_1 == tmp0_other_with_cast.u1s_1))
       return false;
     if (!(this.v1s_1 == tmp0_other_with_cast.v1s_1))
       return false;
-    if (!(this.w1s_1 == tmp0_other_with_cast.w1s_1))
+    if (!equals(this.w1s_1, tmp0_other_with_cast.w1s_1))
       return false;
-    if (!equals(this.x1s_1, tmp0_other_with_cast.x1s_1))
+    if (!(this.x1s_1 == tmp0_other_with_cast.x1s_1))
       return false;
-    if (!equals(this.y1s_1, tmp0_other_with_cast.y1s_1))
+    if (!(this.y1s_1 == tmp0_other_with_cast.y1s_1))
       return false;
     if (!equals(this.z1s_1, tmp0_other_with_cast.z1s_1))
       return false;
     if (!equals(this.a1t_1, tmp0_other_with_cast.a1t_1))
       return false;
-    if (!(this.b1t_1 == tmp0_other_with_cast.b1t_1))
+    if (!equals(this.b1t_1, tmp0_other_with_cast.b1t_1))
       return false;
     if (!equals(this.c1t_1, tmp0_other_with_cast.c1t_1))
       return false;
     if (!(this.d1t_1 == tmp0_other_with_cast.d1t_1))
+      return false;
+    if (!equals(this.e1t_1, tmp0_other_with_cast.e1t_1))
+      return false;
+    if (!(this.f1t_1 == tmp0_other_with_cast.f1t_1))
       return false;
     return true;
   };
@@ -25359,7 +25388,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.e1t_1 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance()), null];
+    tmp.g1t_1 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance()), null];
   }
   var Companion_instance_88;
   function Companion_getInstance_88() {
@@ -25391,210 +25420,210 @@ if (typeof Math.imul === 'undefined') {
     subContinent = subContinent === VOID ? null : subContinent;
     sdgs = sdgs === VOID ? null : sdgs;
     certificationId = certificationId === VOID ? null : certificationId;
-    this.f1t_1 = id;
-    this.g1t_1 = name;
-    this.h1t_1 = date;
-    this.i1t_1 = identifier;
-    this.j1t_1 = isPrivate;
-    this.k1t_1 = country;
-    this.l1t_1 = indicator;
-    this.m1t_1 = creditingPeriodStartDate;
-    this.n1t_1 = creditingPeriodEndDate;
-    this.o1t_1 = description;
-    this.p1t_1 = dueDate;
-    this.q1t_1 = estimatedReduction;
-    this.r1t_1 = localization;
-    this.s1t_1 = proponent;
-    this.t1t_1 = type;
-    this.u1t_1 = referenceYear;
-    this.v1t_1 = registrationDate;
-    this.w1t_1 = slug;
-    this.x1t_1 = vintage;
-    this.y1t_1 = vvb;
-    this.z1t_1 = assessor;
-    this.a1u_1 = location;
-    this.b1u_1 = activities;
-    this.c1u_1 = subContinent;
-    this.d1u_1 = sdgs;
-    this.e1u_1 = certificationId;
+    this.h1t_1 = id;
+    this.i1t_1 = name;
+    this.j1t_1 = date;
+    this.k1t_1 = identifier;
+    this.l1t_1 = isPrivate;
+    this.m1t_1 = country;
+    this.n1t_1 = indicator;
+    this.o1t_1 = creditingPeriodStartDate;
+    this.p1t_1 = creditingPeriodEndDate;
+    this.q1t_1 = description;
+    this.r1t_1 = dueDate;
+    this.s1t_1 = estimatedReduction;
+    this.t1t_1 = localization;
+    this.u1t_1 = proponent;
+    this.v1t_1 = type;
+    this.w1t_1 = referenceYear;
+    this.x1t_1 = registrationDate;
+    this.y1t_1 = slug;
+    this.z1t_1 = vintage;
+    this.a1u_1 = vvb;
+    this.b1u_1 = assessor;
+    this.c1u_1 = location;
+    this.d1u_1 = activities;
+    this.e1u_1 = subContinent;
+    this.f1u_1 = sdgs;
+    this.g1u_1 = certificationId;
   }
   protoOf(ProjectCreatedEvent).qt = function () {
-    return this.f1t_1;
-  };
-  protoOf(ProjectCreatedEvent).s1q = function (_set____db54di) {
-    this.g1t_1 = _set____db54di;
-  };
-  protoOf(ProjectCreatedEvent).k7 = function () {
-    return this.g1t_1;
-  };
-  protoOf(ProjectCreatedEvent).j18 = function () {
     return this.h1t_1;
   };
-  protoOf(ProjectCreatedEvent).x1q = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).v1q = function (_set____db54di) {
     this.i1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).ox = function () {
+  protoOf(ProjectCreatedEvent).k7 = function () {
     return this.i1t_1;
   };
-  protoOf(ProjectCreatedEvent).r1q = function (_set____db54di) {
-    this.j1t_1 = _set____db54di;
-  };
-  protoOf(ProjectCreatedEvent).l1q = function () {
+  protoOf(ProjectCreatedEvent).j18 = function () {
     return this.j1t_1;
   };
-  protoOf(ProjectCreatedEvent).t1q = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).z1q = function (_set____db54di) {
     this.k1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).u1q = function () {
+  protoOf(ProjectCreatedEvent).ox = function () {
     return this.k1t_1;
   };
-  protoOf(ProjectCreatedEvent).y1q = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).u1q = function (_set____db54di) {
     this.l1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).z1q = function () {
+  protoOf(ProjectCreatedEvent).o1q = function () {
     return this.l1t_1;
   };
-  protoOf(ProjectCreatedEvent).a1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).w1q = function (_set____db54di) {
     this.m1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).b1r = function () {
+  protoOf(ProjectCreatedEvent).x1k = function () {
     return this.m1t_1;
   };
-  protoOf(ProjectCreatedEvent).c1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).a1r = function (_set____db54di) {
     this.n1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).d1r = function () {
+  protoOf(ProjectCreatedEvent).b1r = function () {
     return this.n1t_1;
   };
-  protoOf(ProjectCreatedEvent).e1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).c1r = function (_set____db54di) {
     this.o1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).zz = function () {
+  protoOf(ProjectCreatedEvent).d1r = function () {
     return this.o1t_1;
   };
-  protoOf(ProjectCreatedEvent).f1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).e1r = function (_set____db54di) {
     this.p1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).g1r = function () {
+  protoOf(ProjectCreatedEvent).f1r = function () {
     return this.p1t_1;
   };
-  protoOf(ProjectCreatedEvent).h1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).g1r = function (_set____db54di) {
     this.q1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).i1r = function () {
+  protoOf(ProjectCreatedEvent).zz = function () {
     return this.q1t_1;
   };
-  protoOf(ProjectCreatedEvent).j1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).h1r = function (_set____db54di) {
     this.r1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).k1r = function () {
+  protoOf(ProjectCreatedEvent).i1r = function () {
     return this.r1t_1;
   };
-  protoOf(ProjectCreatedEvent).l1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).j1r = function (_set____db54di) {
     this.s1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).m1r = function () {
+  protoOf(ProjectCreatedEvent).k1r = function () {
     return this.s1t_1;
   };
-  protoOf(ProjectCreatedEvent).n1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).l1r = function (_set____db54di) {
     this.t1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).st = function () {
+  protoOf(ProjectCreatedEvent).m1r = function () {
     return this.t1t_1;
   };
-  protoOf(ProjectCreatedEvent).o1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).n1r = function (_set____db54di) {
     this.u1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).p1r = function () {
+  protoOf(ProjectCreatedEvent).o1r = function () {
     return this.u1t_1;
   };
-  protoOf(ProjectCreatedEvent).q1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).p1r = function (_set____db54di) {
     this.v1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).r1r = function () {
+  protoOf(ProjectCreatedEvent).st = function () {
     return this.v1t_1;
   };
-  protoOf(ProjectCreatedEvent).s1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).q1r = function (_set____db54di) {
     this.w1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).t1r = function () {
+  protoOf(ProjectCreatedEvent).r1r = function () {
     return this.w1t_1;
   };
-  protoOf(ProjectCreatedEvent).u1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).s1r = function (_set____db54di) {
     this.x1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).v1r = function () {
+  protoOf(ProjectCreatedEvent).t1r = function () {
     return this.x1t_1;
   };
-  protoOf(ProjectCreatedEvent).w1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).u1r = function (_set____db54di) {
     this.y1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).x1r = function () {
+  protoOf(ProjectCreatedEvent).v1r = function () {
     return this.y1t_1;
   };
-  protoOf(ProjectCreatedEvent).y1r = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).w1r = function (_set____db54di) {
     this.z1t_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).z1r = function () {
+  protoOf(ProjectCreatedEvent).x1r = function () {
     return this.z1t_1;
   };
-  protoOf(ProjectCreatedEvent).a1s = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).y1r = function (_set____db54di) {
     this.a1u_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).b1s = function () {
+  protoOf(ProjectCreatedEvent).z1r = function () {
     return this.a1u_1;
   };
-  protoOf(ProjectCreatedEvent).e1s = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).a1s = function (_set____db54di) {
     this.b1u_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).f1s = function () {
+  protoOf(ProjectCreatedEvent).b1s = function () {
     return this.b1u_1;
   };
-  protoOf(ProjectCreatedEvent).v1q = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).c1s = function (_set____db54di) {
     this.c1u_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).w1q = function () {
+  protoOf(ProjectCreatedEvent).d1s = function () {
     return this.c1u_1;
   };
-  protoOf(ProjectCreatedEvent).c1s = function (_set____db54di) {
+  protoOf(ProjectCreatedEvent).g1s = function (_set____db54di) {
     this.d1u_1 = _set____db54di;
   };
-  protoOf(ProjectCreatedEvent).d1s = function () {
+  protoOf(ProjectCreatedEvent).h1s = function () {
     return this.d1u_1;
   };
+  protoOf(ProjectCreatedEvent).x1q = function (_set____db54di) {
+    this.e1u_1 = _set____db54di;
+  };
+  protoOf(ProjectCreatedEvent).y1q = function () {
+    return this.e1u_1;
+  };
+  protoOf(ProjectCreatedEvent).e1s = function (_set____db54di) {
+    this.f1u_1 = _set____db54di;
+  };
+  protoOf(ProjectCreatedEvent).f1s = function () {
+    return this.f1u_1;
+  };
   protoOf(ProjectCreatedEvent).s2Id = function () {
-    return this.f1t_1;
+    return this.h1t_1;
   };
   protoOf(ProjectCreatedEvent).toString = function () {
-    return 'ProjectCreatedEvent(id=' + this.f1t_1 + ', name=' + this.g1t_1 + ', date=' + this.h1t_1.toString() + ', identifier=' + this.i1t_1 + ', isPrivate=' + this.j1t_1 + ', country=' + this.k1t_1 + ', indicator=' + this.l1t_1 + ', creditingPeriodStartDate=' + toString_0(this.m1t_1) + ', creditingPeriodEndDate=' + toString_0(this.n1t_1) + ', description=' + this.o1t_1 + ', dueDate=' + toString_0(this.p1t_1) + ', estimatedReduction=' + this.q1t_1 + ', localization=' + this.r1t_1 + ', proponent=' + this.s1t_1 + ', type=' + this.t1t_1 + ', referenceYear=' + this.u1t_1 + ', registrationDate=' + toString_0(this.v1t_1) + ', slug=' + this.w1t_1 + ', vintage=' + this.x1t_1 + ', vvb=' + this.y1t_1 + ', assessor=' + this.z1t_1 + ', location=' + this.a1u_1 + ', activities=' + this.b1u_1 + ', subContinent=' + this.c1u_1 + ', sdgs=' + this.d1u_1 + ', certificationId=' + this.e1u_1 + ')';
+    return 'ProjectCreatedEvent(id=' + this.h1t_1 + ', name=' + this.i1t_1 + ', date=' + this.j1t_1.toString() + ', identifier=' + this.k1t_1 + ', isPrivate=' + this.l1t_1 + ', country=' + this.m1t_1 + ', indicator=' + this.n1t_1 + ', creditingPeriodStartDate=' + toString_0(this.o1t_1) + ', creditingPeriodEndDate=' + toString_0(this.p1t_1) + ', description=' + this.q1t_1 + ', dueDate=' + toString_0(this.r1t_1) + ', estimatedReduction=' + this.s1t_1 + ', localization=' + this.t1t_1 + ', proponent=' + this.u1t_1 + ', type=' + this.v1t_1 + ', referenceYear=' + this.w1t_1 + ', registrationDate=' + toString_0(this.x1t_1) + ', slug=' + this.y1t_1 + ', vintage=' + this.z1t_1 + ', vvb=' + this.a1u_1 + ', assessor=' + this.b1u_1 + ', location=' + this.c1u_1 + ', activities=' + this.d1u_1 + ', subContinent=' + this.e1u_1 + ', sdgs=' + this.f1u_1 + ', certificationId=' + this.g1u_1 + ')';
   };
   protoOf(ProjectCreatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.f1t_1);
-    result = imul(result, 31) + getStringHashCode(this.g1t_1) | 0;
-    result = imul(result, 31) + this.h1t_1.hashCode() | 0;
-    result = imul(result, 31) + (this.i1t_1 == null ? 0 : getStringHashCode(this.i1t_1)) | 0;
-    result = imul(result, 31) + (this.j1t_1 == null ? 0 : getBooleanHashCode(this.j1t_1)) | 0;
+    var result = getStringHashCode(this.h1t_1);
+    result = imul(result, 31) + getStringHashCode(this.i1t_1) | 0;
+    result = imul(result, 31) + this.j1t_1.hashCode() | 0;
     result = imul(result, 31) + (this.k1t_1 == null ? 0 : getStringHashCode(this.k1t_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.l1t_1) | 0;
-    result = imul(result, 31) + (this.m1t_1 == null ? 0 : this.m1t_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n1t_1 == null ? 0 : this.n1t_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.o1t_1 == null ? 0 : getStringHashCode(this.o1t_1)) | 0;
+    result = imul(result, 31) + (this.l1t_1 == null ? 0 : getBooleanHashCode(this.l1t_1)) | 0;
+    result = imul(result, 31) + (this.m1t_1 == null ? 0 : getStringHashCode(this.m1t_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.n1t_1) | 0;
+    result = imul(result, 31) + (this.o1t_1 == null ? 0 : this.o1t_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p1t_1 == null ? 0 : this.p1t_1.hashCode()) | 0;
     result = imul(result, 31) + (this.q1t_1 == null ? 0 : getStringHashCode(this.q1t_1)) | 0;
-    result = imul(result, 31) + (this.r1t_1 == null ? 0 : getStringHashCode(this.r1t_1)) | 0;
-    result = imul(result, 31) + (this.s1t_1 == null ? 0 : this.s1t_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.t1t_1 == null ? 0 : this.t1t_1) | 0;
-    result = imul(result, 31) + (this.u1t_1 == null ? 0 : getStringHashCode(this.u1t_1)) | 0;
-    result = imul(result, 31) + (this.v1t_1 == null ? 0 : this.v1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r1t_1 == null ? 0 : this.r1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.s1t_1 == null ? 0 : getStringHashCode(this.s1t_1)) | 0;
+    result = imul(result, 31) + (this.t1t_1 == null ? 0 : getStringHashCode(this.t1t_1)) | 0;
+    result = imul(result, 31) + (this.u1t_1 == null ? 0 : this.u1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.v1t_1 == null ? 0 : this.v1t_1) | 0;
     result = imul(result, 31) + (this.w1t_1 == null ? 0 : getStringHashCode(this.w1t_1)) | 0;
-    result = imul(result, 31) + (this.x1t_1 == null ? 0 : getStringHashCode(this.x1t_1)) | 0;
-    result = imul(result, 31) + (this.y1t_1 == null ? 0 : this.y1t_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.z1t_1 == null ? 0 : this.z1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.x1t_1 == null ? 0 : this.x1t_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.y1t_1 == null ? 0 : getStringHashCode(this.y1t_1)) | 0;
+    result = imul(result, 31) + (this.z1t_1 == null ? 0 : getStringHashCode(this.z1t_1)) | 0;
     result = imul(result, 31) + (this.a1u_1 == null ? 0 : this.a1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.b1u_1 == null ? 0 : hashCode(this.b1u_1)) | 0;
-    result = imul(result, 31) + (this.c1u_1 == null ? 0 : getStringHashCode(this.c1u_1)) | 0;
+    result = imul(result, 31) + (this.b1u_1 == null ? 0 : this.b1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.c1u_1 == null ? 0 : this.c1u_1.hashCode()) | 0;
     result = imul(result, 31) + (this.d1u_1 == null ? 0 : hashCode(this.d1u_1)) | 0;
     result = imul(result, 31) + (this.e1u_1 == null ? 0 : getStringHashCode(this.e1u_1)) | 0;
+    result = imul(result, 31) + (this.f1u_1 == null ? 0 : hashCode(this.f1u_1)) | 0;
+    result = imul(result, 31) + (this.g1u_1 == null ? 0 : getStringHashCode(this.g1u_1)) | 0;
     return result;
   };
   protoOf(ProjectCreatedEvent).equals = function (other) {
@@ -25603,57 +25632,57 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectCreatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectCreatedEvent ? other : THROW_CCE();
-    if (!(this.f1t_1 === tmp0_other_with_cast.f1t_1))
+    if (!(this.h1t_1 === tmp0_other_with_cast.h1t_1))
       return false;
-    if (!(this.g1t_1 === tmp0_other_with_cast.g1t_1))
+    if (!(this.i1t_1 === tmp0_other_with_cast.i1t_1))
       return false;
-    if (!this.h1t_1.equals(tmp0_other_with_cast.h1t_1))
-      return false;
-    if (!(this.i1t_1 == tmp0_other_with_cast.i1t_1))
-      return false;
-    if (!(this.j1t_1 == tmp0_other_with_cast.j1t_1))
+    if (!this.j1t_1.equals(tmp0_other_with_cast.j1t_1))
       return false;
     if (!(this.k1t_1 == tmp0_other_with_cast.k1t_1))
       return false;
-    if (!(this.l1t_1 === tmp0_other_with_cast.l1t_1))
+    if (!(this.l1t_1 == tmp0_other_with_cast.l1t_1))
       return false;
-    if (!equals(this.m1t_1, tmp0_other_with_cast.m1t_1))
+    if (!(this.m1t_1 == tmp0_other_with_cast.m1t_1))
       return false;
-    if (!equals(this.n1t_1, tmp0_other_with_cast.n1t_1))
+    if (!(this.n1t_1 === tmp0_other_with_cast.n1t_1))
       return false;
-    if (!(this.o1t_1 == tmp0_other_with_cast.o1t_1))
+    if (!equals(this.o1t_1, tmp0_other_with_cast.o1t_1))
       return false;
     if (!equals(this.p1t_1, tmp0_other_with_cast.p1t_1))
       return false;
     if (!(this.q1t_1 == tmp0_other_with_cast.q1t_1))
       return false;
-    if (!(this.r1t_1 == tmp0_other_with_cast.r1t_1))
+    if (!equals(this.r1t_1, tmp0_other_with_cast.r1t_1))
       return false;
-    if (!equals(this.s1t_1, tmp0_other_with_cast.s1t_1))
+    if (!(this.s1t_1 == tmp0_other_with_cast.s1t_1))
       return false;
     if (!(this.t1t_1 == tmp0_other_with_cast.t1t_1))
       return false;
-    if (!(this.u1t_1 == tmp0_other_with_cast.u1t_1))
+    if (!equals(this.u1t_1, tmp0_other_with_cast.u1t_1))
       return false;
-    if (!equals(this.v1t_1, tmp0_other_with_cast.v1t_1))
+    if (!(this.v1t_1 == tmp0_other_with_cast.v1t_1))
       return false;
     if (!(this.w1t_1 == tmp0_other_with_cast.w1t_1))
       return false;
-    if (!(this.x1t_1 == tmp0_other_with_cast.x1t_1))
+    if (!equals(this.x1t_1, tmp0_other_with_cast.x1t_1))
       return false;
-    if (!equals(this.y1t_1, tmp0_other_with_cast.y1t_1))
+    if (!(this.y1t_1 == tmp0_other_with_cast.y1t_1))
       return false;
-    if (!equals(this.z1t_1, tmp0_other_with_cast.z1t_1))
+    if (!(this.z1t_1 == tmp0_other_with_cast.z1t_1))
       return false;
     if (!equals(this.a1u_1, tmp0_other_with_cast.a1u_1))
       return false;
     if (!equals(this.b1u_1, tmp0_other_with_cast.b1u_1))
       return false;
-    if (!(this.c1u_1 == tmp0_other_with_cast.c1u_1))
+    if (!equals(this.c1u_1, tmp0_other_with_cast.c1u_1))
       return false;
     if (!equals(this.d1u_1, tmp0_other_with_cast.d1u_1))
       return false;
     if (!(this.e1u_1 == tmp0_other_with_cast.e1u_1))
+      return false;
+    if (!equals(this.f1u_1, tmp0_other_with_cast.f1u_1))
+      return false;
+    if (!(this.g1u_1 == tmp0_other_with_cast.g1u_1))
       return false;
     return true;
   };
@@ -25662,16 +25691,16 @@ if (typeof Math.imul === 'undefined') {
   function ProjectDeletedEventDTO() {
   }
   function ProjectDeleteCommand(id) {
-    this.f1u_1 = id;
+    this.h1u_1 = id;
   }
   protoOf(ProjectDeleteCommand).qt = function () {
-    return this.f1u_1;
+    return this.h1u_1;
   };
   protoOf(ProjectDeleteCommand).toString = function () {
-    return 'ProjectDeleteCommand(id=' + this.f1u_1 + ')';
+    return 'ProjectDeleteCommand(id=' + this.h1u_1 + ')';
   };
   protoOf(ProjectDeleteCommand).hashCode = function () {
-    return getStringHashCode(this.f1u_1);
+    return getStringHashCode(this.h1u_1);
   };
   protoOf(ProjectDeleteCommand).equals = function (other) {
     if (this === other)
@@ -25679,7 +25708,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectDeleteCommand ? other : THROW_CCE();
-    if (!(this.f1u_1 === tmp0_other_with_cast.f1u_1))
+    if (!(this.h1u_1 === tmp0_other_with_cast.h1u_1))
       return false;
     return true;
   };
@@ -25688,192 +25717,192 @@ if (typeof Math.imul === 'undefined') {
   function ProjectUpdatedEventDTO() {
   }
   function ProjectUpdateCommand(id, identifier, name, country, indicator, creditingPeriodStartDate, creditingPeriodEndDate, description, dueDate, estimatedReduction, localization, proponent, type, referenceYear, registrationDate, slug, vintage, vvb, assessor, location, activities, subContinent, sdgs) {
-    this.g1u_1 = id;
-    this.h1u_1 = identifier;
-    this.i1u_1 = name;
-    this.j1u_1 = country;
-    this.k1u_1 = indicator;
-    this.l1u_1 = creditingPeriodStartDate;
-    this.m1u_1 = creditingPeriodEndDate;
-    this.n1u_1 = description;
-    this.o1u_1 = dueDate;
-    this.p1u_1 = estimatedReduction;
-    this.q1u_1 = localization;
-    this.r1u_1 = proponent;
-    this.s1u_1 = type;
-    this.t1u_1 = referenceYear;
-    this.u1u_1 = registrationDate;
-    this.v1u_1 = slug;
-    this.w1u_1 = vintage;
-    this.x1u_1 = vvb;
-    this.y1u_1 = assessor;
-    this.z1u_1 = location;
-    this.a1v_1 = activities;
-    this.b1v_1 = subContinent;
-    this.c1v_1 = sdgs;
+    this.i1u_1 = id;
+    this.j1u_1 = identifier;
+    this.k1u_1 = name;
+    this.l1u_1 = country;
+    this.m1u_1 = indicator;
+    this.n1u_1 = creditingPeriodStartDate;
+    this.o1u_1 = creditingPeriodEndDate;
+    this.p1u_1 = description;
+    this.q1u_1 = dueDate;
+    this.r1u_1 = estimatedReduction;
+    this.s1u_1 = localization;
+    this.t1u_1 = proponent;
+    this.u1u_1 = type;
+    this.v1u_1 = referenceYear;
+    this.w1u_1 = registrationDate;
+    this.x1u_1 = slug;
+    this.y1u_1 = vintage;
+    this.z1u_1 = vvb;
+    this.a1v_1 = assessor;
+    this.b1v_1 = location;
+    this.c1v_1 = activities;
+    this.d1v_1 = subContinent;
+    this.e1v_1 = sdgs;
   }
   protoOf(ProjectUpdateCommand).qt = function () {
-    return this.g1u_1;
-  };
-  protoOf(ProjectUpdateCommand).x1q = function (_set____db54di) {
-    this.h1u_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdateCommand).ox = function () {
-    return this.h1u_1;
-  };
-  protoOf(ProjectUpdateCommand).s1q = function (_set____db54di) {
-    this.i1u_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdateCommand).k7 = function () {
     return this.i1u_1;
   };
-  protoOf(ProjectUpdateCommand).t1q = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).z1q = function (_set____db54di) {
     this.j1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).u1q = function () {
+  protoOf(ProjectUpdateCommand).ox = function () {
     return this.j1u_1;
   };
-  protoOf(ProjectUpdateCommand).y1q = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).v1q = function (_set____db54di) {
     this.k1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).z1q = function () {
+  protoOf(ProjectUpdateCommand).k7 = function () {
     return this.k1u_1;
   };
-  protoOf(ProjectUpdateCommand).a1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).w1q = function (_set____db54di) {
     this.l1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).b1r = function () {
+  protoOf(ProjectUpdateCommand).x1k = function () {
     return this.l1u_1;
   };
-  protoOf(ProjectUpdateCommand).c1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).a1r = function (_set____db54di) {
     this.m1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).d1r = function () {
+  protoOf(ProjectUpdateCommand).b1r = function () {
     return this.m1u_1;
   };
-  protoOf(ProjectUpdateCommand).e1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).c1r = function (_set____db54di) {
     this.n1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).zz = function () {
+  protoOf(ProjectUpdateCommand).d1r = function () {
     return this.n1u_1;
   };
-  protoOf(ProjectUpdateCommand).f1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).e1r = function (_set____db54di) {
     this.o1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).g1r = function () {
+  protoOf(ProjectUpdateCommand).f1r = function () {
     return this.o1u_1;
   };
-  protoOf(ProjectUpdateCommand).h1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).g1r = function (_set____db54di) {
     this.p1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).i1r = function () {
+  protoOf(ProjectUpdateCommand).zz = function () {
     return this.p1u_1;
   };
-  protoOf(ProjectUpdateCommand).j1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).h1r = function (_set____db54di) {
     this.q1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).k1r = function () {
+  protoOf(ProjectUpdateCommand).i1r = function () {
     return this.q1u_1;
   };
-  protoOf(ProjectUpdateCommand).l1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).j1r = function (_set____db54di) {
     this.r1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).m1r = function () {
+  protoOf(ProjectUpdateCommand).k1r = function () {
     return this.r1u_1;
   };
-  protoOf(ProjectUpdateCommand).n1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).l1r = function (_set____db54di) {
     this.s1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).st = function () {
+  protoOf(ProjectUpdateCommand).m1r = function () {
     return this.s1u_1;
   };
-  protoOf(ProjectUpdateCommand).o1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).n1r = function (_set____db54di) {
     this.t1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).p1r = function () {
+  protoOf(ProjectUpdateCommand).o1r = function () {
     return this.t1u_1;
   };
-  protoOf(ProjectUpdateCommand).q1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).p1r = function (_set____db54di) {
     this.u1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).r1r = function () {
+  protoOf(ProjectUpdateCommand).st = function () {
     return this.u1u_1;
   };
-  protoOf(ProjectUpdateCommand).s1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).q1r = function (_set____db54di) {
     this.v1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).t1r = function () {
+  protoOf(ProjectUpdateCommand).r1r = function () {
     return this.v1u_1;
   };
-  protoOf(ProjectUpdateCommand).u1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).s1r = function (_set____db54di) {
     this.w1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).v1r = function () {
+  protoOf(ProjectUpdateCommand).t1r = function () {
     return this.w1u_1;
   };
-  protoOf(ProjectUpdateCommand).w1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).u1r = function (_set____db54di) {
     this.x1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).x1r = function () {
+  protoOf(ProjectUpdateCommand).v1r = function () {
     return this.x1u_1;
   };
-  protoOf(ProjectUpdateCommand).y1r = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).w1r = function (_set____db54di) {
     this.y1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).z1r = function () {
+  protoOf(ProjectUpdateCommand).x1r = function () {
     return this.y1u_1;
   };
-  protoOf(ProjectUpdateCommand).a1s = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).y1r = function (_set____db54di) {
     this.z1u_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).b1s = function () {
+  protoOf(ProjectUpdateCommand).z1r = function () {
     return this.z1u_1;
   };
-  protoOf(ProjectUpdateCommand).e1s = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).a1s = function (_set____db54di) {
     this.a1v_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).f1s = function () {
+  protoOf(ProjectUpdateCommand).b1s = function () {
     return this.a1v_1;
   };
-  protoOf(ProjectUpdateCommand).v1q = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).c1s = function (_set____db54di) {
     this.b1v_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).w1q = function () {
+  protoOf(ProjectUpdateCommand).d1s = function () {
     return this.b1v_1;
   };
-  protoOf(ProjectUpdateCommand).c1s = function (_set____db54di) {
+  protoOf(ProjectUpdateCommand).g1s = function (_set____db54di) {
     this.c1v_1 = _set____db54di;
   };
-  protoOf(ProjectUpdateCommand).d1s = function () {
+  protoOf(ProjectUpdateCommand).h1s = function () {
     return this.c1v_1;
   };
+  protoOf(ProjectUpdateCommand).x1q = function (_set____db54di) {
+    this.d1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdateCommand).y1q = function () {
+    return this.d1v_1;
+  };
+  protoOf(ProjectUpdateCommand).e1s = function (_set____db54di) {
+    this.e1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdateCommand).f1s = function () {
+    return this.e1v_1;
+  };
   protoOf(ProjectUpdateCommand).toString = function () {
-    return 'ProjectUpdateCommand(id=' + this.g1u_1 + ', identifier=' + this.h1u_1 + ', name=' + this.i1u_1 + ', country=' + this.j1u_1 + ', indicator=' + this.k1u_1 + ', creditingPeriodStartDate=' + toString_0(this.l1u_1) + ', creditingPeriodEndDate=' + toString_0(this.m1u_1) + ', description=' + this.n1u_1 + ', dueDate=' + toString_0(this.o1u_1) + ', estimatedReduction=' + this.p1u_1 + ', localization=' + this.q1u_1 + ', proponent=' + this.r1u_1 + ', type=' + this.s1u_1 + ', referenceYear=' + this.t1u_1 + ', registrationDate=' + toString_0(this.u1u_1) + ', slug=' + this.v1u_1 + ', vintage=' + this.w1u_1 + ', vvb=' + this.x1u_1 + ', assessor=' + this.y1u_1 + ', location=' + this.z1u_1 + ', activities=' + this.a1v_1 + ', subContinent=' + this.b1v_1 + ', sdgs=' + this.c1v_1 + ')';
+    return 'ProjectUpdateCommand(id=' + this.i1u_1 + ', identifier=' + this.j1u_1 + ', name=' + this.k1u_1 + ', country=' + this.l1u_1 + ', indicator=' + this.m1u_1 + ', creditingPeriodStartDate=' + toString_0(this.n1u_1) + ', creditingPeriodEndDate=' + toString_0(this.o1u_1) + ', description=' + this.p1u_1 + ', dueDate=' + toString_0(this.q1u_1) + ', estimatedReduction=' + this.r1u_1 + ', localization=' + this.s1u_1 + ', proponent=' + this.t1u_1 + ', type=' + this.u1u_1 + ', referenceYear=' + this.v1u_1 + ', registrationDate=' + toString_0(this.w1u_1) + ', slug=' + this.x1u_1 + ', vintage=' + this.y1u_1 + ', vvb=' + this.z1u_1 + ', assessor=' + this.a1v_1 + ', location=' + this.b1v_1 + ', activities=' + this.c1v_1 + ', subContinent=' + this.d1v_1 + ', sdgs=' + this.e1v_1 + ')';
   };
   protoOf(ProjectUpdateCommand).hashCode = function () {
-    var result = getStringHashCode(this.g1u_1);
-    result = imul(result, 31) + (this.h1u_1 == null ? 0 : getStringHashCode(this.h1u_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.i1u_1) | 0;
+    var result = getStringHashCode(this.i1u_1);
     result = imul(result, 31) + (this.j1u_1 == null ? 0 : getStringHashCode(this.j1u_1)) | 0;
     result = imul(result, 31) + getStringHashCode(this.k1u_1) | 0;
-    result = imul(result, 31) + (this.l1u_1 == null ? 0 : this.l1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.m1u_1 == null ? 0 : this.m1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n1u_1 == null ? 0 : getStringHashCode(this.n1u_1)) | 0;
+    result = imul(result, 31) + (this.l1u_1 == null ? 0 : getStringHashCode(this.l1u_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.m1u_1) | 0;
+    result = imul(result, 31) + (this.n1u_1 == null ? 0 : this.n1u_1.hashCode()) | 0;
     result = imul(result, 31) + (this.o1u_1 == null ? 0 : this.o1u_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p1u_1 == null ? 0 : getStringHashCode(this.p1u_1)) | 0;
-    result = imul(result, 31) + (this.q1u_1 == null ? 0 : getStringHashCode(this.q1u_1)) | 0;
-    result = imul(result, 31) + (this.r1u_1 == null ? 0 : this.r1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s1u_1 == null ? 0 : this.s1u_1) | 0;
-    result = imul(result, 31) + (this.t1u_1 == null ? 0 : getStringHashCode(this.t1u_1)) | 0;
-    result = imul(result, 31) + (this.u1u_1 == null ? 0 : this.u1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.q1u_1 == null ? 0 : this.q1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r1u_1 == null ? 0 : getStringHashCode(this.r1u_1)) | 0;
+    result = imul(result, 31) + (this.s1u_1 == null ? 0 : getStringHashCode(this.s1u_1)) | 0;
+    result = imul(result, 31) + (this.t1u_1 == null ? 0 : this.t1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u1u_1 == null ? 0 : this.u1u_1) | 0;
     result = imul(result, 31) + (this.v1u_1 == null ? 0 : getStringHashCode(this.v1u_1)) | 0;
-    result = imul(result, 31) + (this.w1u_1 == null ? 0 : getStringHashCode(this.w1u_1)) | 0;
-    result = imul(result, 31) + (this.x1u_1 == null ? 0 : this.x1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.y1u_1 == null ? 0 : this.y1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.w1u_1 == null ? 0 : this.w1u_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.x1u_1 == null ? 0 : getStringHashCode(this.x1u_1)) | 0;
+    result = imul(result, 31) + (this.y1u_1 == null ? 0 : getStringHashCode(this.y1u_1)) | 0;
     result = imul(result, 31) + (this.z1u_1 == null ? 0 : this.z1u_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.a1v_1 == null ? 0 : hashCode(this.a1v_1)) | 0;
-    result = imul(result, 31) + (this.b1v_1 == null ? 0 : getStringHashCode(this.b1v_1)) | 0;
+    result = imul(result, 31) + (this.a1v_1 == null ? 0 : this.a1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.b1v_1 == null ? 0 : this.b1v_1.hashCode()) | 0;
     result = imul(result, 31) + (this.c1v_1 == null ? 0 : hashCode(this.c1v_1)) | 0;
+    result = imul(result, 31) + (this.d1v_1 == null ? 0 : getStringHashCode(this.d1v_1)) | 0;
+    result = imul(result, 31) + (this.e1v_1 == null ? 0 : hashCode(this.e1v_1)) | 0;
     return result;
   };
   protoOf(ProjectUpdateCommand).equals = function (other) {
@@ -25882,51 +25911,51 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectUpdateCommand ? other : THROW_CCE();
-    if (!(this.g1u_1 === tmp0_other_with_cast.g1u_1))
-      return false;
-    if (!(this.h1u_1 == tmp0_other_with_cast.h1u_1))
-      return false;
     if (!(this.i1u_1 === tmp0_other_with_cast.i1u_1))
       return false;
     if (!(this.j1u_1 == tmp0_other_with_cast.j1u_1))
       return false;
     if (!(this.k1u_1 === tmp0_other_with_cast.k1u_1))
       return false;
-    if (!equals(this.l1u_1, tmp0_other_with_cast.l1u_1))
+    if (!(this.l1u_1 == tmp0_other_with_cast.l1u_1))
       return false;
-    if (!equals(this.m1u_1, tmp0_other_with_cast.m1u_1))
+    if (!(this.m1u_1 === tmp0_other_with_cast.m1u_1))
       return false;
-    if (!(this.n1u_1 == tmp0_other_with_cast.n1u_1))
+    if (!equals(this.n1u_1, tmp0_other_with_cast.n1u_1))
       return false;
     if (!equals(this.o1u_1, tmp0_other_with_cast.o1u_1))
       return false;
     if (!(this.p1u_1 == tmp0_other_with_cast.p1u_1))
       return false;
-    if (!(this.q1u_1 == tmp0_other_with_cast.q1u_1))
+    if (!equals(this.q1u_1, tmp0_other_with_cast.q1u_1))
       return false;
-    if (!equals(this.r1u_1, tmp0_other_with_cast.r1u_1))
+    if (!(this.r1u_1 == tmp0_other_with_cast.r1u_1))
       return false;
     if (!(this.s1u_1 == tmp0_other_with_cast.s1u_1))
       return false;
-    if (!(this.t1u_1 == tmp0_other_with_cast.t1u_1))
+    if (!equals(this.t1u_1, tmp0_other_with_cast.t1u_1))
       return false;
-    if (!equals(this.u1u_1, tmp0_other_with_cast.u1u_1))
+    if (!(this.u1u_1 == tmp0_other_with_cast.u1u_1))
       return false;
     if (!(this.v1u_1 == tmp0_other_with_cast.v1u_1))
       return false;
-    if (!(this.w1u_1 == tmp0_other_with_cast.w1u_1))
+    if (!equals(this.w1u_1, tmp0_other_with_cast.w1u_1))
       return false;
-    if (!equals(this.x1u_1, tmp0_other_with_cast.x1u_1))
+    if (!(this.x1u_1 == tmp0_other_with_cast.x1u_1))
       return false;
-    if (!equals(this.y1u_1, tmp0_other_with_cast.y1u_1))
+    if (!(this.y1u_1 == tmp0_other_with_cast.y1u_1))
       return false;
     if (!equals(this.z1u_1, tmp0_other_with_cast.z1u_1))
       return false;
     if (!equals(this.a1v_1, tmp0_other_with_cast.a1v_1))
       return false;
-    if (!(this.b1v_1 == tmp0_other_with_cast.b1v_1))
+    if (!equals(this.b1v_1, tmp0_other_with_cast.b1v_1))
       return false;
     if (!equals(this.c1v_1, tmp0_other_with_cast.c1v_1))
+      return false;
+    if (!(this.d1v_1 == tmp0_other_with_cast.d1v_1))
+      return false;
+    if (!equals(this.e1v_1, tmp0_other_with_cast.e1v_1))
       return false;
     return true;
   };
@@ -25936,7 +25965,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.d1v_1 = [null, null, null, Companion_getInstance_82().nu(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance())];
+    tmp.f1v_1 = [null, null, null, Companion_getInstance_82().nu(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, new ArrayListSerializer(StringSerializer_getInstance()), null, new ArrayListSerializer(IntSerializer_getInstance())];
   }
   var Companion_instance_89;
   function Companion_getInstance_89() {
@@ -25965,202 +25994,202 @@ if (typeof Math.imul === 'undefined') {
     activities = activities === VOID ? null : activities;
     subContinent = subContinent === VOID ? null : subContinent;
     sdgs = sdgs === VOID ? null : sdgs;
-    this.e1v_1 = id;
-    this.f1v_1 = date;
-    this.g1v_1 = name;
-    this.h1v_1 = status;
-    this.i1v_1 = identifier;
-    this.j1v_1 = country;
-    this.k1v_1 = indicator;
-    this.l1v_1 = creditingPeriodStartDate;
-    this.m1v_1 = creditingPeriodEndDate;
-    this.n1v_1 = description;
-    this.o1v_1 = dueDate;
-    this.p1v_1 = estimatedReduction;
-    this.q1v_1 = localization;
-    this.r1v_1 = proponent;
-    this.s1v_1 = type;
-    this.t1v_1 = referenceYear;
-    this.u1v_1 = registrationDate;
-    this.v1v_1 = slug;
-    this.w1v_1 = vintage;
-    this.x1v_1 = vvb;
-    this.y1v_1 = assessor;
-    this.z1v_1 = location;
-    this.a1w_1 = activities;
-    this.b1w_1 = subContinent;
-    this.c1w_1 = sdgs;
+    this.g1v_1 = id;
+    this.h1v_1 = date;
+    this.i1v_1 = name;
+    this.j1v_1 = status;
+    this.k1v_1 = identifier;
+    this.l1v_1 = country;
+    this.m1v_1 = indicator;
+    this.n1v_1 = creditingPeriodStartDate;
+    this.o1v_1 = creditingPeriodEndDate;
+    this.p1v_1 = description;
+    this.q1v_1 = dueDate;
+    this.r1v_1 = estimatedReduction;
+    this.s1v_1 = localization;
+    this.t1v_1 = proponent;
+    this.u1v_1 = type;
+    this.v1v_1 = referenceYear;
+    this.w1v_1 = registrationDate;
+    this.x1v_1 = slug;
+    this.y1v_1 = vintage;
+    this.z1v_1 = vvb;
+    this.a1w_1 = assessor;
+    this.b1w_1 = location;
+    this.c1w_1 = activities;
+    this.d1w_1 = subContinent;
+    this.e1w_1 = sdgs;
   }
   protoOf(ProjectUpdatedEvent).qt = function () {
-    return this.e1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).j18 = function () {
-    return this.f1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).s1q = function (_set____db54di) {
-    this.g1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).k7 = function () {
     return this.g1v_1;
   };
-  protoOf(ProjectUpdatedEvent).x1q = function (_set____db54di) {
-    this.i1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).ox = function () {
-    return this.i1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).t1q = function (_set____db54di) {
-    this.j1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).u1q = function () {
-    return this.j1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).y1q = function (_set____db54di) {
-    this.k1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).z1q = function () {
-    return this.k1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).a1r = function (_set____db54di) {
-    this.l1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).b1r = function () {
-    return this.l1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).c1r = function (_set____db54di) {
-    this.m1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).d1r = function () {
-    return this.m1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).e1r = function (_set____db54di) {
-    this.n1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).zz = function () {
-    return this.n1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).f1r = function (_set____db54di) {
-    this.o1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).g1r = function () {
-    return this.o1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).h1r = function (_set____db54di) {
-    this.p1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).i1r = function () {
-    return this.p1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).j1r = function (_set____db54di) {
-    this.q1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).k1r = function () {
-    return this.q1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).l1r = function (_set____db54di) {
-    this.r1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).m1r = function () {
-    return this.r1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).n1r = function (_set____db54di) {
-    this.s1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).st = function () {
-    return this.s1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).o1r = function (_set____db54di) {
-    this.t1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).p1r = function () {
-    return this.t1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).q1r = function (_set____db54di) {
-    this.u1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).r1r = function () {
-    return this.u1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).s1r = function (_set____db54di) {
-    this.v1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).t1r = function () {
-    return this.v1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).u1r = function (_set____db54di) {
-    this.w1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).v1r = function () {
-    return this.w1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).w1r = function (_set____db54di) {
-    this.x1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).x1r = function () {
-    return this.x1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).y1r = function (_set____db54di) {
-    this.y1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).z1r = function () {
-    return this.y1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).a1s = function (_set____db54di) {
-    this.z1v_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).b1s = function () {
-    return this.z1v_1;
-  };
-  protoOf(ProjectUpdatedEvent).e1s = function (_set____db54di) {
-    this.a1w_1 = _set____db54di;
-  };
-  protoOf(ProjectUpdatedEvent).f1s = function () {
-    return this.a1w_1;
+  protoOf(ProjectUpdatedEvent).j18 = function () {
+    return this.h1v_1;
   };
   protoOf(ProjectUpdatedEvent).v1q = function (_set____db54di) {
-    this.b1w_1 = _set____db54di;
+    this.i1v_1 = _set____db54di;
   };
-  protoOf(ProjectUpdatedEvent).w1q = function () {
-    return this.b1w_1;
+  protoOf(ProjectUpdatedEvent).k7 = function () {
+    return this.i1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).z1q = function (_set____db54di) {
+    this.k1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).ox = function () {
+    return this.k1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).w1q = function (_set____db54di) {
+    this.l1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).x1k = function () {
+    return this.l1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).a1r = function (_set____db54di) {
+    this.m1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).b1r = function () {
+    return this.m1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).c1r = function (_set____db54di) {
+    this.n1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).d1r = function () {
+    return this.n1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).e1r = function (_set____db54di) {
+    this.o1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).f1r = function () {
+    return this.o1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).g1r = function (_set____db54di) {
+    this.p1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).zz = function () {
+    return this.p1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).h1r = function (_set____db54di) {
+    this.q1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).i1r = function () {
+    return this.q1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).j1r = function (_set____db54di) {
+    this.r1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).k1r = function () {
+    return this.r1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).l1r = function (_set____db54di) {
+    this.s1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).m1r = function () {
+    return this.s1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).n1r = function (_set____db54di) {
+    this.t1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).o1r = function () {
+    return this.t1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).p1r = function (_set____db54di) {
+    this.u1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).st = function () {
+    return this.u1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).q1r = function (_set____db54di) {
+    this.v1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).r1r = function () {
+    return this.v1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).s1r = function (_set____db54di) {
+    this.w1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).t1r = function () {
+    return this.w1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).u1r = function (_set____db54di) {
+    this.x1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).v1r = function () {
+    return this.x1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).w1r = function (_set____db54di) {
+    this.y1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).x1r = function () {
+    return this.y1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).y1r = function (_set____db54di) {
+    this.z1v_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).z1r = function () {
+    return this.z1v_1;
+  };
+  protoOf(ProjectUpdatedEvent).a1s = function (_set____db54di) {
+    this.a1w_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).b1s = function () {
+    return this.a1w_1;
   };
   protoOf(ProjectUpdatedEvent).c1s = function (_set____db54di) {
-    this.c1w_1 = _set____db54di;
+    this.b1w_1 = _set____db54di;
   };
   protoOf(ProjectUpdatedEvent).d1s = function () {
+    return this.b1w_1;
+  };
+  protoOf(ProjectUpdatedEvent).g1s = function (_set____db54di) {
+    this.c1w_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).h1s = function () {
     return this.c1w_1;
   };
+  protoOf(ProjectUpdatedEvent).x1q = function (_set____db54di) {
+    this.d1w_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).y1q = function () {
+    return this.d1w_1;
+  };
+  protoOf(ProjectUpdatedEvent).e1s = function (_set____db54di) {
+    this.e1w_1 = _set____db54di;
+  };
+  protoOf(ProjectUpdatedEvent).f1s = function () {
+    return this.e1w_1;
+  };
   protoOf(ProjectUpdatedEvent).s2Id = function () {
-    return this.e1v_1;
+    return this.g1v_1;
   };
   protoOf(ProjectUpdatedEvent).toString = function () {
-    return 'ProjectUpdatedEvent(id=' + this.e1v_1 + ', date=' + this.f1v_1.toString() + ', name=' + this.g1v_1 + ', status=' + this.h1v_1 + ', identifier=' + this.i1v_1 + ', country=' + this.j1v_1 + ', indicator=' + this.k1v_1 + ', creditingPeriodStartDate=' + toString_0(this.l1v_1) + ', creditingPeriodEndDate=' + toString_0(this.m1v_1) + ', description=' + this.n1v_1 + ', dueDate=' + toString_0(this.o1v_1) + ', estimatedReduction=' + this.p1v_1 + ', localization=' + this.q1v_1 + ', proponent=' + this.r1v_1 + ', type=' + this.s1v_1 + ', referenceYear=' + this.t1v_1 + ', registrationDate=' + toString_0(this.u1v_1) + ', slug=' + this.v1v_1 + ', vintage=' + this.w1v_1 + ', vvb=' + this.x1v_1 + ', assessor=' + this.y1v_1 + ', location=' + this.z1v_1 + ', activities=' + this.a1w_1 + ', subContinent=' + this.b1w_1 + ', sdgs=' + this.c1w_1 + ')';
+    return 'ProjectUpdatedEvent(id=' + this.g1v_1 + ', date=' + this.h1v_1.toString() + ', name=' + this.i1v_1 + ', status=' + this.j1v_1 + ', identifier=' + this.k1v_1 + ', country=' + this.l1v_1 + ', indicator=' + this.m1v_1 + ', creditingPeriodStartDate=' + toString_0(this.n1v_1) + ', creditingPeriodEndDate=' + toString_0(this.o1v_1) + ', description=' + this.p1v_1 + ', dueDate=' + toString_0(this.q1v_1) + ', estimatedReduction=' + this.r1v_1 + ', localization=' + this.s1v_1 + ', proponent=' + this.t1v_1 + ', type=' + this.u1v_1 + ', referenceYear=' + this.v1v_1 + ', registrationDate=' + toString_0(this.w1v_1) + ', slug=' + this.x1v_1 + ', vintage=' + this.y1v_1 + ', vvb=' + this.z1v_1 + ', assessor=' + this.a1w_1 + ', location=' + this.b1w_1 + ', activities=' + this.c1w_1 + ', subContinent=' + this.d1w_1 + ', sdgs=' + this.e1w_1 + ')';
   };
   protoOf(ProjectUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.e1v_1);
-    result = imul(result, 31) + this.f1v_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.g1v_1) | 0;
+    var result = getStringHashCode(this.g1v_1);
     result = imul(result, 31) + this.h1v_1.hashCode() | 0;
-    result = imul(result, 31) + (this.i1v_1 == null ? 0 : getStringHashCode(this.i1v_1)) | 0;
-    result = imul(result, 31) + (this.j1v_1 == null ? 0 : getStringHashCode(this.j1v_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.k1v_1) | 0;
-    result = imul(result, 31) + (this.l1v_1 == null ? 0 : this.l1v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.m1v_1 == null ? 0 : this.m1v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.n1v_1 == null ? 0 : getStringHashCode(this.n1v_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.i1v_1) | 0;
+    result = imul(result, 31) + this.j1v_1.hashCode() | 0;
+    result = imul(result, 31) + (this.k1v_1 == null ? 0 : getStringHashCode(this.k1v_1)) | 0;
+    result = imul(result, 31) + (this.l1v_1 == null ? 0 : getStringHashCode(this.l1v_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.m1v_1) | 0;
+    result = imul(result, 31) + (this.n1v_1 == null ? 0 : this.n1v_1.hashCode()) | 0;
     result = imul(result, 31) + (this.o1v_1 == null ? 0 : this.o1v_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p1v_1 == null ? 0 : getStringHashCode(this.p1v_1)) | 0;
-    result = imul(result, 31) + (this.q1v_1 == null ? 0 : getStringHashCode(this.q1v_1)) | 0;
-    result = imul(result, 31) + (this.r1v_1 == null ? 0 : this.r1v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.s1v_1 == null ? 0 : this.s1v_1) | 0;
-    result = imul(result, 31) + (this.t1v_1 == null ? 0 : getStringHashCode(this.t1v_1)) | 0;
-    result = imul(result, 31) + (this.u1v_1 == null ? 0 : this.u1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.q1v_1 == null ? 0 : this.q1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r1v_1 == null ? 0 : getStringHashCode(this.r1v_1)) | 0;
+    result = imul(result, 31) + (this.s1v_1 == null ? 0 : getStringHashCode(this.s1v_1)) | 0;
+    result = imul(result, 31) + (this.t1v_1 == null ? 0 : this.t1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u1v_1 == null ? 0 : this.u1v_1) | 0;
     result = imul(result, 31) + (this.v1v_1 == null ? 0 : getStringHashCode(this.v1v_1)) | 0;
-    result = imul(result, 31) + (this.w1v_1 == null ? 0 : getStringHashCode(this.w1v_1)) | 0;
-    result = imul(result, 31) + (this.x1v_1 == null ? 0 : this.x1v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.y1v_1 == null ? 0 : this.y1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.w1v_1 == null ? 0 : this.w1v_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.x1v_1 == null ? 0 : getStringHashCode(this.x1v_1)) | 0;
+    result = imul(result, 31) + (this.y1v_1 == null ? 0 : getStringHashCode(this.y1v_1)) | 0;
     result = imul(result, 31) + (this.z1v_1 == null ? 0 : this.z1v_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.a1w_1 == null ? 0 : hashCode(this.a1w_1)) | 0;
-    result = imul(result, 31) + (this.b1w_1 == null ? 0 : getStringHashCode(this.b1w_1)) | 0;
+    result = imul(result, 31) + (this.a1w_1 == null ? 0 : this.a1w_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.b1w_1 == null ? 0 : this.b1w_1.hashCode()) | 0;
     result = imul(result, 31) + (this.c1w_1 == null ? 0 : hashCode(this.c1w_1)) | 0;
+    result = imul(result, 31) + (this.d1w_1 == null ? 0 : getStringHashCode(this.d1w_1)) | 0;
+    result = imul(result, 31) + (this.e1w_1 == null ? 0 : hashCode(this.e1w_1)) | 0;
     return result;
   };
   protoOf(ProjectUpdatedEvent).equals = function (other) {
@@ -26169,55 +26198,55 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof ProjectUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof ProjectUpdatedEvent ? other : THROW_CCE();
-    if (!(this.e1v_1 === tmp0_other_with_cast.e1v_1))
-      return false;
-    if (!this.f1v_1.equals(tmp0_other_with_cast.f1v_1))
-      return false;
     if (!(this.g1v_1 === tmp0_other_with_cast.g1v_1))
       return false;
     if (!this.h1v_1.equals(tmp0_other_with_cast.h1v_1))
       return false;
-    if (!(this.i1v_1 == tmp0_other_with_cast.i1v_1))
+    if (!(this.i1v_1 === tmp0_other_with_cast.i1v_1))
       return false;
-    if (!(this.j1v_1 == tmp0_other_with_cast.j1v_1))
+    if (!this.j1v_1.equals(tmp0_other_with_cast.j1v_1))
       return false;
-    if (!(this.k1v_1 === tmp0_other_with_cast.k1v_1))
+    if (!(this.k1v_1 == tmp0_other_with_cast.k1v_1))
       return false;
-    if (!equals(this.l1v_1, tmp0_other_with_cast.l1v_1))
+    if (!(this.l1v_1 == tmp0_other_with_cast.l1v_1))
       return false;
-    if (!equals(this.m1v_1, tmp0_other_with_cast.m1v_1))
+    if (!(this.m1v_1 === tmp0_other_with_cast.m1v_1))
       return false;
-    if (!(this.n1v_1 == tmp0_other_with_cast.n1v_1))
+    if (!equals(this.n1v_1, tmp0_other_with_cast.n1v_1))
       return false;
     if (!equals(this.o1v_1, tmp0_other_with_cast.o1v_1))
       return false;
     if (!(this.p1v_1 == tmp0_other_with_cast.p1v_1))
       return false;
-    if (!(this.q1v_1 == tmp0_other_with_cast.q1v_1))
+    if (!equals(this.q1v_1, tmp0_other_with_cast.q1v_1))
       return false;
-    if (!equals(this.r1v_1, tmp0_other_with_cast.r1v_1))
+    if (!(this.r1v_1 == tmp0_other_with_cast.r1v_1))
       return false;
     if (!(this.s1v_1 == tmp0_other_with_cast.s1v_1))
       return false;
-    if (!(this.t1v_1 == tmp0_other_with_cast.t1v_1))
+    if (!equals(this.t1v_1, tmp0_other_with_cast.t1v_1))
       return false;
-    if (!equals(this.u1v_1, tmp0_other_with_cast.u1v_1))
+    if (!(this.u1v_1 == tmp0_other_with_cast.u1v_1))
       return false;
     if (!(this.v1v_1 == tmp0_other_with_cast.v1v_1))
       return false;
-    if (!(this.w1v_1 == tmp0_other_with_cast.w1v_1))
+    if (!equals(this.w1v_1, tmp0_other_with_cast.w1v_1))
       return false;
-    if (!equals(this.x1v_1, tmp0_other_with_cast.x1v_1))
+    if (!(this.x1v_1 == tmp0_other_with_cast.x1v_1))
       return false;
-    if (!equals(this.y1v_1, tmp0_other_with_cast.y1v_1))
+    if (!(this.y1v_1 == tmp0_other_with_cast.y1v_1))
       return false;
     if (!equals(this.z1v_1, tmp0_other_with_cast.z1v_1))
       return false;
     if (!equals(this.a1w_1, tmp0_other_with_cast.a1w_1))
       return false;
-    if (!(this.b1w_1 == tmp0_other_with_cast.b1w_1))
+    if (!equals(this.b1w_1, tmp0_other_with_cast.b1w_1))
       return false;
     if (!equals(this.c1w_1, tmp0_other_with_cast.c1w_1))
+      return false;
+    if (!(this.d1w_1 == tmp0_other_with_cast.d1w_1))
+      return false;
+    if (!equals(this.e1w_1, tmp0_other_with_cast.e1w_1))
       return false;
     return true;
   };
@@ -26298,7 +26327,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf(DataConditionTypeValues).validator = function () {
     return 'validator';
   };
-  protoOf(DataConditionTypeValues).s1w = function () {
+  protoOf(DataConditionTypeValues).u1w = function () {
     return this.all;
   };
   var DataConditionTypeValues_instance;
@@ -26345,7 +26374,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf(DataFieldTypeValues).map = function () {
     return 'map';
   };
-  protoOf(DataFieldTypeValues).s1w = function () {
+  protoOf(DataFieldTypeValues).u1w = function () {
     return this.all;
   };
   var DataFieldTypeValues_instance;
@@ -26407,7 +26436,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.b1x_1 = [null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance())];
+    tmp.d1x_1 = [null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance())];
   }
   var Companion_instance_90;
   function Companion_getInstance_90() {
@@ -26415,28 +26444,28 @@ if (typeof Math.imul === 'undefined') {
       new Companion_90();
     return Companion_instance_90;
   }
-  function $serializer_53() {
-    $serializer_instance_50 = this;
+  function $serializer_54() {
+    $serializer_instance_51 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.structure.domain.model.Structure', this, 2);
     tmp0_serialDesc.qi('type', false);
     tmp0_serialDesc.qi('definitions', true);
-    this.c1x_1 = tmp0_serialDesc;
+    this.e1x_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_53).he = function () {
-    return this.c1x_1;
+  protoOf($serializer_54).he = function () {
+    return this.e1x_1;
   };
-  protoOf($serializer_53).wi = function () {
-    var tmp0_cached = Companion_getInstance_90().b1x_1;
+  protoOf($serializer_54).wi = function () {
+    var tmp0_cached = Companion_getInstance_90().d1x_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), tmp0_cached[1]];
   };
-  var $serializer_instance_50;
-  function $serializer_getInstance_50() {
-    if ($serializer_instance_50 == null)
-      new $serializer_53();
-    return $serializer_instance_50;
+  var $serializer_instance_51;
+  function $serializer_getInstance_51() {
+    if ($serializer_instance_51 == null)
+      new $serializer_54();
+    return $serializer_instance_51;
   }
   function DcatApCatalogue() {
   }
@@ -26455,7 +26484,7 @@ if (typeof Math.imul === 'undefined') {
   function DcatDistribution() {
   }
   function _get_$cachedSerializer__te6jhj_2($this) {
-    return $this.n1z_1.i4();
+    return $this.p1z_1.i4();
   }
   function CatalogueState$Companion$_anonymous__i9iwpl() {
     return createSimpleEnumSerializer('io.komune.registry.s2.catalogue.domain.automate.CatalogueState', values_5());
@@ -26466,7 +26495,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_91 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.n1z_1 = lazy(tmp_0, CatalogueState$Companion$_anonymous__i9iwpl);
+    tmp.p1z_1 = lazy(tmp_0, CatalogueState$Companion$_anonymous__i9iwpl);
   }
   protoOf(Companion_91).nu = function () {
     return _get_$cachedSerializer__te6jhj_2(this);
@@ -26507,10 +26536,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.q1z_1 = position;
+    this.s1z_1 = position;
   }
   protoOf(CatalogueState).q18 = function () {
-    return this.q1z_1;
+    return this.s1z_1;
   };
   function CatalogueState_ACTIVE_getInstance() {
     CatalogueState_initEntries();
@@ -26526,7 +26555,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.r1z_1 = [null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), null];
+    tmp.t1z_1 = [null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), null];
   }
   var Companion_instance_92;
   function Companion_getInstance_92() {
@@ -26534,50 +26563,50 @@ if (typeof Math.imul === 'undefined') {
       new Companion_92();
     return Companion_instance_92;
   }
-  function $serializer_54() {
-    $serializer_instance_51 = this;
+  function $serializer_55() {
+    $serializer_instance_52 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('catalogues', true);
     tmp0_serialDesc.qi('date', false);
-    this.s1z_1 = tmp0_serialDesc;
+    this.u1z_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_54).he = function () {
-    return this.s1z_1;
+  protoOf($serializer_55).he = function () {
+    return this.u1z_1;
   };
-  protoOf($serializer_54).wi = function () {
-    var tmp0_cached = Companion_getInstance_92().r1z_1;
+  protoOf($serializer_55).wi = function () {
+    var tmp0_cached = Companion_getInstance_92().t1z_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
   };
-  var $serializer_instance_51;
-  function $serializer_getInstance_51() {
-    if ($serializer_instance_51 == null)
-      new $serializer_54();
-    return $serializer_instance_51;
+  var $serializer_instance_52;
+  function $serializer_getInstance_52() {
+    if ($serializer_instance_52 == null)
+      new $serializer_55();
+    return $serializer_instance_52;
   }
   function CatalogueAddedTranslationsEvent(id, catalogues, date) {
     Companion_getInstance_92();
     catalogues = catalogues === VOID ? emptyMap() : catalogues;
-    this.t1z_1 = id;
-    this.u1z_1 = catalogues;
-    this.v1z_1 = date;
+    this.v1z_1 = id;
+    this.w1z_1 = catalogues;
+    this.x1z_1 = date;
   }
   protoOf(CatalogueAddedTranslationsEvent).qt = function () {
-    return this.t1z_1;
-  };
-  protoOf(CatalogueAddedTranslationsEvent).j18 = function () {
     return this.v1z_1;
   };
+  protoOf(CatalogueAddedTranslationsEvent).j18 = function () {
+    return this.x1z_1;
+  };
   protoOf(CatalogueAddedTranslationsEvent).toString = function () {
-    return 'CatalogueAddedTranslationsEvent(id=' + this.t1z_1 + ', catalogues=' + this.u1z_1 + ', date=' + this.v1z_1.toString() + ')';
+    return 'CatalogueAddedTranslationsEvent(id=' + this.v1z_1 + ', catalogues=' + this.w1z_1 + ', date=' + this.x1z_1.toString() + ')';
   };
   protoOf(CatalogueAddedTranslationsEvent).hashCode = function () {
-    var result = getStringHashCode(this.t1z_1);
-    result = imul(result, 31) + hashCode(this.u1z_1) | 0;
-    result = imul(result, 31) + this.v1z_1.hashCode() | 0;
+    var result = getStringHashCode(this.v1z_1);
+    result = imul(result, 31) + hashCode(this.w1z_1) | 0;
+    result = imul(result, 31) + this.x1z_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueAddedTranslationsEvent).equals = function (other) {
@@ -26586,11 +26615,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueAddedTranslationsEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueAddedTranslationsEvent ? other : THROW_CCE();
-    if (!(this.t1z_1 === tmp0_other_with_cast.t1z_1))
+    if (!(this.v1z_1 === tmp0_other_with_cast.v1z_1))
       return false;
-    if (!equals(this.u1z_1, tmp0_other_with_cast.u1z_1))
+    if (!equals(this.w1z_1, tmp0_other_with_cast.w1z_1))
       return false;
-    if (!this.v1z_1.equals(tmp0_other_with_cast.v1z_1))
+    if (!this.x1z_1.equals(tmp0_other_with_cast.x1z_1))
       return false;
     return true;
   };
@@ -26600,7 +26629,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.w1z_1 = [null, null, null, null, null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, null, null, null, null];
+    tmp.y1z_1 = [null, null, null, null, null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, null, null, null, null, null, null, null];
   }
   var Companion_instance_93;
   function Companion_getInstance_93() {
@@ -26608,9 +26637,9 @@ if (typeof Math.imul === 'undefined') {
       new Companion_93();
     return Companion_instance_93;
   }
-  function $serializer_55() {
-    $serializer_instance_52 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent', this, 17);
+  function $serializer_56() {
+    $serializer_instance_53 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent', this, 20);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('identifier', false);
     tmp0_serialDesc.qi('title', false);
@@ -26623,30 +26652,33 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.qi('catalogueIds', true);
     tmp0_serialDesc.qi('datasetIds', true);
     tmp0_serialDesc.qi('creatorId', false);
+    tmp0_serialDesc.qi('creatorOrganizationId', false);
+    tmp0_serialDesc.qi('ownerOrganizationId', false);
     tmp0_serialDesc.qi('accessRights', true);
     tmp0_serialDesc.qi('licenseId', true);
+    tmp0_serialDesc.qi('location', true);
     tmp0_serialDesc.qi('versionNotes', true);
     tmp0_serialDesc.qi('hidden', true);
     tmp0_serialDesc.qi('date', false);
-    this.x1z_1 = tmp0_serialDesc;
+    this.z1z_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_55).he = function () {
-    return this.x1z_1;
+  protoOf($serializer_56).he = function () {
+    return this.z1z_1;
   };
-  protoOf($serializer_55).wi = function () {
-    var tmp0_cached = Companion_getInstance_93().w1z_1;
+  protoOf($serializer_56).wi = function () {
+    var tmp0_cached = Companion_getInstance_93().y1z_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), tmp0_cached[6], get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_50()), tmp0_cached[9], tmp0_cached[10], get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), BooleanSerializer_getInstance(), LongSerializer_getInstance()];
+    return [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), tmp0_cached[6], get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_51()), tmp0_cached[9], tmp0_cached[10], get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_46()), get_nullable(StringSerializer_getInstance()), BooleanSerializer_getInstance(), LongSerializer_getInstance()];
   };
-  var $serializer_instance_52;
-  function $serializer_getInstance_52() {
-    if ($serializer_instance_52 == null)
-      new $serializer_55();
-    return $serializer_instance_52;
+  var $serializer_instance_53;
+  function $serializer_getInstance_53() {
+    if ($serializer_instance_53 == null)
+      new $serializer_56();
+    return $serializer_instance_53;
   }
-  function CatalogueCreatedEvent(id, identifier, title, type, language, description, themeIds, homepage, structure, catalogueIds, datasetIds, creatorId, accessRights, licenseId, versionNotes, hidden, date) {
+  function CatalogueCreatedEvent(id, identifier, title, type, language, description, themeIds, homepage, structure, catalogueIds, datasetIds, creatorId, creatorOrganizationId, ownerOrganizationId, accessRights, licenseId, location, versionNotes, hidden, date) {
     Companion_getInstance_93();
     description = description === VOID ? null : description;
     themeIds = themeIds === VOID ? emptySet() : themeIds;
@@ -26656,53 +26688,60 @@ if (typeof Math.imul === 'undefined') {
     datasetIds = datasetIds === VOID ? emptySet() : datasetIds;
     accessRights = accessRights === VOID ? null : accessRights;
     licenseId = licenseId === VOID ? null : licenseId;
+    location = location === VOID ? null : location;
     versionNotes = versionNotes === VOID ? null : versionNotes;
     hidden = hidden === VOID ? false : hidden;
-    this.y1z_1 = id;
-    this.z1z_1 = identifier;
-    this.a20_1 = title;
-    this.b20_1 = type;
-    this.c20_1 = language;
-    this.d20_1 = description;
-    this.e20_1 = themeIds;
-    this.f20_1 = homepage;
-    this.g20_1 = structure;
-    this.h20_1 = catalogueIds;
-    this.i20_1 = datasetIds;
-    this.j20_1 = creatorId;
-    this.k20_1 = accessRights;
-    this.l20_1 = licenseId;
-    this.m20_1 = versionNotes;
-    this.n20_1 = hidden;
-    this.o20_1 = date;
+    this.a20_1 = id;
+    this.b20_1 = identifier;
+    this.c20_1 = title;
+    this.d20_1 = type;
+    this.e20_1 = language;
+    this.f20_1 = description;
+    this.g20_1 = themeIds;
+    this.h20_1 = homepage;
+    this.i20_1 = structure;
+    this.j20_1 = catalogueIds;
+    this.k20_1 = datasetIds;
+    this.l20_1 = creatorId;
+    this.m20_1 = creatorOrganizationId;
+    this.n20_1 = ownerOrganizationId;
+    this.o20_1 = accessRights;
+    this.p20_1 = licenseId;
+    this.q20_1 = location;
+    this.r20_1 = versionNotes;
+    this.s20_1 = hidden;
+    this.t20_1 = date;
   }
   protoOf(CatalogueCreatedEvent).qt = function () {
-    return this.y1z_1;
+    return this.a20_1;
   };
   protoOf(CatalogueCreatedEvent).j18 = function () {
-    return this.o20_1;
+    return this.t20_1;
   };
   protoOf(CatalogueCreatedEvent).toString = function () {
-    return 'CatalogueCreatedEvent(id=' + this.y1z_1 + ', identifier=' + this.z1z_1 + ', title=' + this.a20_1 + ', type=' + this.b20_1 + ', language=' + this.c20_1 + ', description=' + this.d20_1 + ', themeIds=' + this.e20_1 + ', homepage=' + this.f20_1 + ', structure=' + this.g20_1 + ', catalogueIds=' + this.h20_1 + ', datasetIds=' + this.i20_1 + ', creatorId=' + this.j20_1 + ', accessRights=' + this.k20_1 + ', licenseId=' + this.l20_1 + ', versionNotes=' + this.m20_1 + ', hidden=' + this.n20_1 + ', date=' + this.o20_1.toString() + ')';
+    return 'CatalogueCreatedEvent(id=' + this.a20_1 + ', identifier=' + this.b20_1 + ', title=' + this.c20_1 + ', type=' + this.d20_1 + ', language=' + this.e20_1 + ', description=' + this.f20_1 + ', themeIds=' + this.g20_1 + ', homepage=' + this.h20_1 + ', structure=' + this.i20_1 + ', catalogueIds=' + this.j20_1 + ', datasetIds=' + this.k20_1 + ', creatorId=' + this.l20_1 + ', creatorOrganizationId=' + this.m20_1 + ', ownerOrganizationId=' + this.n20_1 + ', accessRights=' + this.o20_1 + ', licenseId=' + this.p20_1 + ', location=' + this.q20_1 + ', versionNotes=' + this.r20_1 + ', hidden=' + this.s20_1 + ', date=' + this.t20_1.toString() + ')';
   };
   protoOf(CatalogueCreatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.y1z_1);
-    result = imul(result, 31) + getStringHashCode(this.z1z_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.a20_1) | 0;
+    var result = getStringHashCode(this.a20_1);
     result = imul(result, 31) + getStringHashCode(this.b20_1) | 0;
-    result = imul(result, 31) + (this.c20_1 == null ? 0 : getStringHashCode(this.c20_1)) | 0;
-    result = imul(result, 31) + (this.d20_1 == null ? 0 : getStringHashCode(this.d20_1)) | 0;
-    result = imul(result, 31) + hashCode(this.e20_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.c20_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.d20_1) | 0;
+    result = imul(result, 31) + (this.e20_1 == null ? 0 : getStringHashCode(this.e20_1)) | 0;
     result = imul(result, 31) + (this.f20_1 == null ? 0 : getStringHashCode(this.f20_1)) | 0;
-    result = imul(result, 31) + (this.g20_1 == null ? 0 : this.g20_1.hashCode()) | 0;
-    result = imul(result, 31) + hashCode(this.h20_1) | 0;
-    result = imul(result, 31) + hashCode(this.i20_1) | 0;
-    result = imul(result, 31) + (this.j20_1 == null ? 0 : getStringHashCode(this.j20_1)) | 0;
-    result = imul(result, 31) + (this.k20_1 == null ? 0 : getStringHashCode(this.k20_1)) | 0;
+    result = imul(result, 31) + hashCode(this.g20_1) | 0;
+    result = imul(result, 31) + (this.h20_1 == null ? 0 : getStringHashCode(this.h20_1)) | 0;
+    result = imul(result, 31) + (this.i20_1 == null ? 0 : this.i20_1.hashCode()) | 0;
+    result = imul(result, 31) + hashCode(this.j20_1) | 0;
+    result = imul(result, 31) + hashCode(this.k20_1) | 0;
     result = imul(result, 31) + (this.l20_1 == null ? 0 : getStringHashCode(this.l20_1)) | 0;
     result = imul(result, 31) + (this.m20_1 == null ? 0 : getStringHashCode(this.m20_1)) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.n20_1) | 0;
-    result = imul(result, 31) + this.o20_1.hashCode() | 0;
+    result = imul(result, 31) + (this.n20_1 == null ? 0 : getStringHashCode(this.n20_1)) | 0;
+    result = imul(result, 31) + (this.o20_1 == null ? 0 : getStringHashCode(this.o20_1)) | 0;
+    result = imul(result, 31) + (this.p20_1 == null ? 0 : getStringHashCode(this.p20_1)) | 0;
+    result = imul(result, 31) + (this.q20_1 == null ? 0 : this.q20_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.r20_1 == null ? 0 : getStringHashCode(this.r20_1)) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.s20_1) | 0;
+    result = imul(result, 31) + this.t20_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueCreatedEvent).equals = function (other) {
@@ -26711,39 +26750,45 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueCreatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueCreatedEvent ? other : THROW_CCE();
-    if (!(this.y1z_1 === tmp0_other_with_cast.y1z_1))
-      return false;
-    if (!(this.z1z_1 === tmp0_other_with_cast.z1z_1))
-      return false;
     if (!(this.a20_1 === tmp0_other_with_cast.a20_1))
       return false;
     if (!(this.b20_1 === tmp0_other_with_cast.b20_1))
       return false;
-    if (!(this.c20_1 == tmp0_other_with_cast.c20_1))
+    if (!(this.c20_1 === tmp0_other_with_cast.c20_1))
       return false;
-    if (!(this.d20_1 == tmp0_other_with_cast.d20_1))
+    if (!(this.d20_1 === tmp0_other_with_cast.d20_1))
       return false;
-    if (!equals(this.e20_1, tmp0_other_with_cast.e20_1))
+    if (!(this.e20_1 == tmp0_other_with_cast.e20_1))
       return false;
     if (!(this.f20_1 == tmp0_other_with_cast.f20_1))
       return false;
     if (!equals(this.g20_1, tmp0_other_with_cast.g20_1))
       return false;
-    if (!equals(this.h20_1, tmp0_other_with_cast.h20_1))
+    if (!(this.h20_1 == tmp0_other_with_cast.h20_1))
       return false;
     if (!equals(this.i20_1, tmp0_other_with_cast.i20_1))
       return false;
-    if (!(this.j20_1 == tmp0_other_with_cast.j20_1))
+    if (!equals(this.j20_1, tmp0_other_with_cast.j20_1))
       return false;
-    if (!(this.k20_1 == tmp0_other_with_cast.k20_1))
+    if (!equals(this.k20_1, tmp0_other_with_cast.k20_1))
       return false;
     if (!(this.l20_1 == tmp0_other_with_cast.l20_1))
       return false;
     if (!(this.m20_1 == tmp0_other_with_cast.m20_1))
       return false;
-    if (!(this.n20_1 === tmp0_other_with_cast.n20_1))
+    if (!(this.n20_1 == tmp0_other_with_cast.n20_1))
       return false;
-    if (!this.o20_1.equals(tmp0_other_with_cast.o20_1))
+    if (!(this.o20_1 == tmp0_other_with_cast.o20_1))
+      return false;
+    if (!(this.p20_1 == tmp0_other_with_cast.p20_1))
+      return false;
+    if (!equals(this.q20_1, tmp0_other_with_cast.q20_1))
+      return false;
+    if (!(this.r20_1 == tmp0_other_with_cast.r20_1))
+      return false;
+    if (!(this.s20_1 === tmp0_other_with_cast.s20_1))
+      return false;
+    if (!this.t20_1.equals(tmp0_other_with_cast.t20_1))
       return false;
     return true;
   };
@@ -26753,44 +26798,44 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_94() {
     return Companion_instance_94;
   }
-  function $serializer_56() {
-    $serializer_instance_53 = this;
+  function $serializer_57() {
+    $serializer_instance_54 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.p20_1 = tmp0_serialDesc;
+    this.u20_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_56).he = function () {
-    return this.p20_1;
+  protoOf($serializer_57).he = function () {
+    return this.u20_1;
   };
-  protoOf($serializer_56).wi = function () {
+  protoOf($serializer_57).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), LongSerializer_getInstance()];
   };
-  var $serializer_instance_53;
-  function $serializer_getInstance_53() {
-    if ($serializer_instance_53 == null)
-      new $serializer_56();
-    return $serializer_instance_53;
+  var $serializer_instance_54;
+  function $serializer_getInstance_54() {
+    if ($serializer_instance_54 == null)
+      new $serializer_57();
+    return $serializer_instance_54;
   }
   function CatalogueDeletedEvent(id, date) {
-    this.q20_1 = id;
-    this.r20_1 = date;
+    this.v20_1 = id;
+    this.w20_1 = date;
   }
   protoOf(CatalogueDeletedEvent).qt = function () {
-    return this.q20_1;
+    return this.v20_1;
   };
   protoOf(CatalogueDeletedEvent).j18 = function () {
-    return this.r20_1;
+    return this.w20_1;
   };
   protoOf(CatalogueDeletedEvent).toString = function () {
-    return 'CatalogueDeletedEvent(id=' + this.q20_1 + ', date=' + this.r20_1.toString() + ')';
+    return 'CatalogueDeletedEvent(id=' + this.v20_1 + ', date=' + this.w20_1.toString() + ')';
   };
   protoOf(CatalogueDeletedEvent).hashCode = function () {
-    var result = getStringHashCode(this.q20_1);
-    result = imul(result, 31) + this.r20_1.hashCode() | 0;
+    var result = getStringHashCode(this.v20_1);
+    result = imul(result, 31) + this.w20_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueDeletedEvent).equals = function (other) {
@@ -26799,9 +26844,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDeletedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDeletedEvent ? other : THROW_CCE();
-    if (!(this.q20_1 === tmp0_other_with_cast.q20_1))
+    if (!(this.v20_1 === tmp0_other_with_cast.v20_1))
       return false;
-    if (!this.r20_1.equals(tmp0_other_with_cast.r20_1))
+    if (!this.w20_1.equals(tmp0_other_with_cast.w20_1))
       return false;
     return true;
   };
@@ -26811,7 +26856,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.s20_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
+    tmp.x20_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
   }
   var Companion_instance_95;
   function Companion_getInstance_95() {
@@ -26819,85 +26864,11 @@ if (typeof Math.imul === 'undefined') {
       new Companion_95();
     return Companion_instance_95;
   }
-  function $serializer_57() {
-    $serializer_instance_54 = this;
+  function $serializer_58() {
+    $serializer_instance_55 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('catalogues', true);
-    tmp0_serialDesc.qi('date', false);
-    this.t20_1 = tmp0_serialDesc;
-  }
-  protoOf($serializer_57).he = function () {
-    return this.t20_1;
-  };
-  protoOf($serializer_57).wi = function () {
-    var tmp0_cached = Companion_getInstance_95().s20_1;
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
-  };
-  var $serializer_instance_54;
-  function $serializer_getInstance_54() {
-    if ($serializer_instance_54 == null)
-      new $serializer_57();
-    return $serializer_instance_54;
-  }
-  function CatalogueLinkedCataloguesEvent(id, catalogues, date) {
-    Companion_getInstance_95();
-    catalogues = catalogues === VOID ? emptyList() : catalogues;
-    this.u20_1 = id;
-    this.v20_1 = catalogues;
-    this.w20_1 = date;
-  }
-  protoOf(CatalogueLinkedCataloguesEvent).qt = function () {
-    return this.u20_1;
-  };
-  protoOf(CatalogueLinkedCataloguesEvent).j18 = function () {
-    return this.w20_1;
-  };
-  protoOf(CatalogueLinkedCataloguesEvent).toString = function () {
-    return 'CatalogueLinkedCataloguesEvent(id=' + this.u20_1 + ', catalogues=' + this.v20_1 + ', date=' + this.w20_1.toString() + ')';
-  };
-  protoOf(CatalogueLinkedCataloguesEvent).hashCode = function () {
-    var result = getStringHashCode(this.u20_1);
-    result = imul(result, 31) + hashCode(this.v20_1) | 0;
-    result = imul(result, 31) + this.w20_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(CatalogueLinkedCataloguesEvent).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof CatalogueLinkedCataloguesEvent))
-      return false;
-    var tmp0_other_with_cast = other instanceof CatalogueLinkedCataloguesEvent ? other : THROW_CCE();
-    if (!(this.u20_1 === tmp0_other_with_cast.u20_1))
-      return false;
-    if (!equals(this.v20_1, tmp0_other_with_cast.v20_1))
-      return false;
-    if (!this.w20_1.equals(tmp0_other_with_cast.w20_1))
-      return false;
-    return true;
-  };
-  function Companion_96() {
-    Companion_instance_96 = this;
-    var tmp = this;
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    tmp.x20_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
-  }
-  var Companion_instance_96;
-  function Companion_getInstance_96() {
-    if (Companion_instance_96 == null)
-      new Companion_96();
-    return Companion_instance_96;
-  }
-  function $serializer_58() {
-    $serializer_instance_55 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent', this, 3);
-    tmp0_serialDesc.qi('id', false);
-    tmp0_serialDesc.qi('datasets', true);
     tmp0_serialDesc.qi('date', false);
     this.y20_1 = tmp0_serialDesc;
   }
@@ -26905,7 +26876,7 @@ if (typeof Math.imul === 'undefined') {
     return this.y20_1;
   };
   protoOf($serializer_58).wi = function () {
-    var tmp0_cached = Companion_getInstance_96().x20_1;
+    var tmp0_cached = Companion_getInstance_95().x20_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
@@ -26917,34 +26888,34 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_58();
     return $serializer_instance_55;
   }
-  function CatalogueLinkedDatasetsEvent(id, datasets, date) {
-    Companion_getInstance_96();
-    datasets = datasets === VOID ? emptyList() : datasets;
+  function CatalogueLinkedCataloguesEvent(id, catalogues, date) {
+    Companion_getInstance_95();
+    catalogues = catalogues === VOID ? emptyList() : catalogues;
     this.z20_1 = id;
-    this.a21_1 = datasets;
+    this.a21_1 = catalogues;
     this.b21_1 = date;
   }
-  protoOf(CatalogueLinkedDatasetsEvent).qt = function () {
+  protoOf(CatalogueLinkedCataloguesEvent).qt = function () {
     return this.z20_1;
   };
-  protoOf(CatalogueLinkedDatasetsEvent).j18 = function () {
+  protoOf(CatalogueLinkedCataloguesEvent).j18 = function () {
     return this.b21_1;
   };
-  protoOf(CatalogueLinkedDatasetsEvent).toString = function () {
-    return 'CatalogueLinkedDatasetsEvent(id=' + this.z20_1 + ', datasets=' + this.a21_1 + ', date=' + this.b21_1.toString() + ')';
+  protoOf(CatalogueLinkedCataloguesEvent).toString = function () {
+    return 'CatalogueLinkedCataloguesEvent(id=' + this.z20_1 + ', catalogues=' + this.a21_1 + ', date=' + this.b21_1.toString() + ')';
   };
-  protoOf(CatalogueLinkedDatasetsEvent).hashCode = function () {
+  protoOf(CatalogueLinkedCataloguesEvent).hashCode = function () {
     var result = getStringHashCode(this.z20_1);
     result = imul(result, 31) + hashCode(this.a21_1) | 0;
     result = imul(result, 31) + this.b21_1.hashCode() | 0;
     return result;
   };
-  protoOf(CatalogueLinkedDatasetsEvent).equals = function (other) {
+  protoOf(CatalogueLinkedCataloguesEvent).equals = function (other) {
     if (this === other)
       return true;
-    if (!(other instanceof CatalogueLinkedDatasetsEvent))
+    if (!(other instanceof CatalogueLinkedCataloguesEvent))
       return false;
-    var tmp0_other_with_cast = other instanceof CatalogueLinkedDatasetsEvent ? other : THROW_CCE();
+    var tmp0_other_with_cast = other instanceof CatalogueLinkedCataloguesEvent ? other : THROW_CCE();
     if (!(this.z20_1 === tmp0_other_with_cast.z20_1))
       return false;
     if (!equals(this.a21_1, tmp0_other_with_cast.a21_1))
@@ -26953,25 +26924,25 @@ if (typeof Math.imul === 'undefined') {
       return false;
     return true;
   };
-  function Companion_97() {
-    Companion_instance_97 = this;
+  function Companion_96() {
+    Companion_instance_96 = this;
     var tmp = this;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     tmp.c21_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
   }
-  var Companion_instance_97;
-  function Companion_getInstance_97() {
-    if (Companion_instance_97 == null)
-      new Companion_97();
-    return Companion_instance_97;
+  var Companion_instance_96;
+  function Companion_getInstance_96() {
+    if (Companion_instance_96 == null)
+      new Companion_96();
+    return Companion_instance_96;
   }
   function $serializer_59() {
     $serializer_instance_56 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent', this, 3);
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
-    tmp0_serialDesc.qi('themes', true);
+    tmp0_serialDesc.qi('datasets', true);
     tmp0_serialDesc.qi('date', false);
     this.d21_1 = tmp0_serialDesc;
   }
@@ -26979,7 +26950,7 @@ if (typeof Math.imul === 'undefined') {
     return this.d21_1;
   };
   protoOf($serializer_59).wi = function () {
-    var tmp0_cached = Companion_getInstance_97().c21_1;
+    var tmp0_cached = Companion_getInstance_96().c21_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
@@ -26991,26 +26962,100 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_59();
     return $serializer_instance_56;
   }
-  function CatalogueLinkedThemesEvent(id, themes, date) {
-    Companion_getInstance_97();
-    themes = themes === VOID ? emptyList() : themes;
+  function CatalogueLinkedDatasetsEvent(id, datasets, date) {
+    Companion_getInstance_96();
+    datasets = datasets === VOID ? emptyList() : datasets;
     this.e21_1 = id;
-    this.f21_1 = themes;
+    this.f21_1 = datasets;
     this.g21_1 = date;
   }
-  protoOf(CatalogueLinkedThemesEvent).qt = function () {
+  protoOf(CatalogueLinkedDatasetsEvent).qt = function () {
     return this.e21_1;
   };
-  protoOf(CatalogueLinkedThemesEvent).j18 = function () {
+  protoOf(CatalogueLinkedDatasetsEvent).j18 = function () {
     return this.g21_1;
   };
-  protoOf(CatalogueLinkedThemesEvent).toString = function () {
-    return 'CatalogueLinkedThemesEvent(id=' + this.e21_1 + ', themes=' + this.f21_1 + ', date=' + this.g21_1.toString() + ')';
+  protoOf(CatalogueLinkedDatasetsEvent).toString = function () {
+    return 'CatalogueLinkedDatasetsEvent(id=' + this.e21_1 + ', datasets=' + this.f21_1 + ', date=' + this.g21_1.toString() + ')';
   };
-  protoOf(CatalogueLinkedThemesEvent).hashCode = function () {
+  protoOf(CatalogueLinkedDatasetsEvent).hashCode = function () {
     var result = getStringHashCode(this.e21_1);
     result = imul(result, 31) + hashCode(this.f21_1) | 0;
     result = imul(result, 31) + this.g21_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(CatalogueLinkedDatasetsEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof CatalogueLinkedDatasetsEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof CatalogueLinkedDatasetsEvent ? other : THROW_CCE();
+    if (!(this.e21_1 === tmp0_other_with_cast.e21_1))
+      return false;
+    if (!equals(this.f21_1, tmp0_other_with_cast.f21_1))
+      return false;
+    if (!this.g21_1.equals(tmp0_other_with_cast.g21_1))
+      return false;
+    return true;
+  };
+  function Companion_97() {
+    Companion_instance_97 = this;
+    var tmp = this;
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp.h21_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
+  }
+  var Companion_instance_97;
+  function Companion_getInstance_97() {
+    if (Companion_instance_97 == null)
+      new Companion_97();
+    return Companion_instance_97;
+  }
+  function $serializer_60() {
+    $serializer_instance_57 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent', this, 3);
+    tmp0_serialDesc.qi('id', false);
+    tmp0_serialDesc.qi('themes', true);
+    tmp0_serialDesc.qi('date', false);
+    this.i21_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_60).he = function () {
+    return this.i21_1;
+  };
+  protoOf($serializer_60).wi = function () {
+    var tmp0_cached = Companion_getInstance_97().h21_1;
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
+  };
+  var $serializer_instance_57;
+  function $serializer_getInstance_57() {
+    if ($serializer_instance_57 == null)
+      new $serializer_60();
+    return $serializer_instance_57;
+  }
+  function CatalogueLinkedThemesEvent(id, themes, date) {
+    Companion_getInstance_97();
+    themes = themes === VOID ? emptyList() : themes;
+    this.j21_1 = id;
+    this.k21_1 = themes;
+    this.l21_1 = date;
+  }
+  protoOf(CatalogueLinkedThemesEvent).qt = function () {
+    return this.j21_1;
+  };
+  protoOf(CatalogueLinkedThemesEvent).j18 = function () {
+    return this.l21_1;
+  };
+  protoOf(CatalogueLinkedThemesEvent).toString = function () {
+    return 'CatalogueLinkedThemesEvent(id=' + this.j21_1 + ', themes=' + this.k21_1 + ', date=' + this.l21_1.toString() + ')';
+  };
+  protoOf(CatalogueLinkedThemesEvent).hashCode = function () {
+    var result = getStringHashCode(this.j21_1);
+    result = imul(result, 31) + hashCode(this.k21_1) | 0;
+    result = imul(result, 31) + this.l21_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueLinkedThemesEvent).equals = function (other) {
@@ -27019,11 +27064,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueLinkedThemesEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueLinkedThemesEvent ? other : THROW_CCE();
-    if (!(this.e21_1 === tmp0_other_with_cast.e21_1))
+    if (!(this.j21_1 === tmp0_other_with_cast.j21_1))
       return false;
-    if (!equals(this.f21_1, tmp0_other_with_cast.f21_1))
+    if (!equals(this.k21_1, tmp0_other_with_cast.k21_1))
       return false;
-    if (!this.g21_1.equals(tmp0_other_with_cast.g21_1))
+    if (!this.l21_1.equals(tmp0_other_with_cast.l21_1))
       return false;
     return true;
   };
@@ -27038,7 +27083,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    var tmp_1 = [$serializer_getInstance_51(), $serializer_getInstance_52(), $serializer_getInstance_61(), $serializer_getInstance_53(), $serializer_getInstance_54(), $serializer_getInstance_55(), $serializer_getInstance_56(), $serializer_getInstance_57(), $serializer_getInstance_58(), $serializer_getInstance_59(), $serializer_getInstance_60(), $serializer_getInstance_62()];
+    var tmp_1 = [$serializer_getInstance_52(), $serializer_getInstance_53(), $serializer_getInstance_62(), $serializer_getInstance_54(), $serializer_getInstance_55(), $serializer_getInstance_56(), $serializer_getInstance_57(), $serializer_getInstance_58(), $serializer_getInstance_59(), $serializer_getInstance_60(), $serializer_getInstance_61(), $serializer_getInstance_63()];
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
@@ -27064,7 +27109,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.h21_1 = [null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null];
+    tmp.m21_1 = [null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null];
   }
   var Companion_instance_99;
   function Companion_getInstance_99() {
@@ -27072,49 +27117,49 @@ if (typeof Math.imul === 'undefined') {
       new Companion_99();
     return Companion_instance_99;
   }
-  function $serializer_60() {
-    $serializer_instance_57 = this;
+  function $serializer_61() {
+    $serializer_instance_58 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('languages', false);
     tmp0_serialDesc.qi('date', false);
-    this.i21_1 = tmp0_serialDesc;
+    this.n21_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_60).he = function () {
-    return this.i21_1;
+  protoOf($serializer_61).he = function () {
+    return this.n21_1;
   };
-  protoOf($serializer_60).wi = function () {
-    var tmp0_cached = Companion_getInstance_99().h21_1;
+  protoOf($serializer_61).wi = function () {
+    var tmp0_cached = Companion_getInstance_99().m21_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
   };
-  var $serializer_instance_57;
-  function $serializer_getInstance_57() {
-    if ($serializer_instance_57 == null)
-      new $serializer_60();
-    return $serializer_instance_57;
+  var $serializer_instance_58;
+  function $serializer_getInstance_58() {
+    if ($serializer_instance_58 == null)
+      new $serializer_61();
+    return $serializer_instance_58;
   }
   function CatalogueRemovedTranslationsEvent(id, languages, date) {
     Companion_getInstance_99();
-    this.j21_1 = id;
-    this.k21_1 = languages;
-    this.l21_1 = date;
+    this.o21_1 = id;
+    this.p21_1 = languages;
+    this.q21_1 = date;
   }
   protoOf(CatalogueRemovedTranslationsEvent).qt = function () {
-    return this.j21_1;
+    return this.o21_1;
   };
   protoOf(CatalogueRemovedTranslationsEvent).j18 = function () {
-    return this.l21_1;
+    return this.q21_1;
   };
   protoOf(CatalogueRemovedTranslationsEvent).toString = function () {
-    return 'CatalogueRemovedTranslationsEvent(id=' + this.j21_1 + ', languages=' + this.k21_1 + ', date=' + this.l21_1.toString() + ')';
+    return 'CatalogueRemovedTranslationsEvent(id=' + this.o21_1 + ', languages=' + this.p21_1 + ', date=' + this.q21_1.toString() + ')';
   };
   protoOf(CatalogueRemovedTranslationsEvent).hashCode = function () {
-    var result = getStringHashCode(this.j21_1);
-    result = imul(result, 31) + hashCode(this.k21_1) | 0;
-    result = imul(result, 31) + this.l21_1.hashCode() | 0;
+    var result = getStringHashCode(this.o21_1);
+    result = imul(result, 31) + hashCode(this.p21_1) | 0;
+    result = imul(result, 31) + this.q21_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueRemovedTranslationsEvent).equals = function (other) {
@@ -27123,11 +27168,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueRemovedTranslationsEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueRemovedTranslationsEvent ? other : THROW_CCE();
-    if (!(this.j21_1 === tmp0_other_with_cast.j21_1))
+    if (!(this.o21_1 === tmp0_other_with_cast.o21_1))
       return false;
-    if (!equals(this.k21_1, tmp0_other_with_cast.k21_1))
+    if (!equals(this.p21_1, tmp0_other_with_cast.p21_1))
       return false;
-    if (!this.l21_1.equals(tmp0_other_with_cast.l21_1))
+    if (!this.q21_1.equals(tmp0_other_with_cast.q21_1))
       return false;
     return true;
   };
@@ -27137,48 +27182,48 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_100() {
     return Companion_instance_100;
   }
-  function $serializer_61() {
-    $serializer_instance_58 = this;
+  function $serializer_62() {
+    $serializer_instance_59 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('img', true);
     tmp0_serialDesc.qi('date', false);
-    this.m21_1 = tmp0_serialDesc;
+    this.r21_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_61).he = function () {
-    return this.m21_1;
+  protoOf($serializer_62).he = function () {
+    return this.r21_1;
   };
-  protoOf($serializer_61).wi = function () {
+  protoOf($serializer_62).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), get_nullable($serializer_getInstance_46()), LongSerializer_getInstance()];
+    return [StringSerializer_getInstance(), get_nullable($serializer_getInstance_47()), LongSerializer_getInstance()];
   };
-  var $serializer_instance_58;
-  function $serializer_getInstance_58() {
-    if ($serializer_instance_58 == null)
-      new $serializer_61();
-    return $serializer_instance_58;
+  var $serializer_instance_59;
+  function $serializer_getInstance_59() {
+    if ($serializer_instance_59 == null)
+      new $serializer_62();
+    return $serializer_instance_59;
   }
   function CatalogueSetImageEvent(id, img, date) {
     img = img === VOID ? null : img;
-    this.n21_1 = id;
-    this.o21_1 = img;
-    this.p21_1 = date;
+    this.s21_1 = id;
+    this.t21_1 = img;
+    this.u21_1 = date;
   }
   protoOf(CatalogueSetImageEvent).qt = function () {
-    return this.n21_1;
+    return this.s21_1;
   };
   protoOf(CatalogueSetImageEvent).j18 = function () {
-    return this.p21_1;
+    return this.u21_1;
   };
   protoOf(CatalogueSetImageEvent).toString = function () {
-    return 'CatalogueSetImageEvent(id=' + this.n21_1 + ', img=' + this.o21_1 + ', date=' + this.p21_1.toString() + ')';
+    return 'CatalogueSetImageEvent(id=' + this.s21_1 + ', img=' + this.t21_1 + ', date=' + this.u21_1.toString() + ')';
   };
   protoOf(CatalogueSetImageEvent).hashCode = function () {
-    var result = getStringHashCode(this.n21_1);
-    result = imul(result, 31) + (this.o21_1 == null ? 0 : this.o21_1.hashCode()) | 0;
-    result = imul(result, 31) + this.p21_1.hashCode() | 0;
+    var result = getStringHashCode(this.s21_1);
+    result = imul(result, 31) + (this.t21_1 == null ? 0 : this.t21_1.hashCode()) | 0;
+    result = imul(result, 31) + this.u21_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueSetImageEvent).equals = function (other) {
@@ -27187,11 +27232,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueSetImageEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueSetImageEvent ? other : THROW_CCE();
-    if (!(this.n21_1 === tmp0_other_with_cast.n21_1))
+    if (!(this.s21_1 === tmp0_other_with_cast.s21_1))
       return false;
-    if (!equals(this.o21_1, tmp0_other_with_cast.o21_1))
+    if (!equals(this.t21_1, tmp0_other_with_cast.t21_1))
       return false;
-    if (!this.p21_1.equals(tmp0_other_with_cast.p21_1))
+    if (!this.u21_1.equals(tmp0_other_with_cast.u21_1))
       return false;
     return true;
   };
@@ -27201,7 +27246,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.q21_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
+    tmp.v21_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
   }
   var Companion_instance_101;
   function Companion_getInstance_101() {
@@ -27209,85 +27254,11 @@ if (typeof Math.imul === 'undefined') {
       new Companion_101();
     return Companion_instance_101;
   }
-  function $serializer_62() {
-    $serializer_instance_59 = this;
+  function $serializer_63() {
+    $serializer_instance_60 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('catalogues', true);
-    tmp0_serialDesc.qi('date', false);
-    this.r21_1 = tmp0_serialDesc;
-  }
-  protoOf($serializer_62).he = function () {
-    return this.r21_1;
-  };
-  protoOf($serializer_62).wi = function () {
-    var tmp0_cached = Companion_getInstance_101().q21_1;
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
-  };
-  var $serializer_instance_59;
-  function $serializer_getInstance_59() {
-    if ($serializer_instance_59 == null)
-      new $serializer_62();
-    return $serializer_instance_59;
-  }
-  function CatalogueUnlinkedCataloguesEvent(id, catalogues, date) {
-    Companion_getInstance_101();
-    catalogues = catalogues === VOID ? emptyList() : catalogues;
-    this.s21_1 = id;
-    this.t21_1 = catalogues;
-    this.u21_1 = date;
-  }
-  protoOf(CatalogueUnlinkedCataloguesEvent).qt = function () {
-    return this.s21_1;
-  };
-  protoOf(CatalogueUnlinkedCataloguesEvent).j18 = function () {
-    return this.u21_1;
-  };
-  protoOf(CatalogueUnlinkedCataloguesEvent).toString = function () {
-    return 'CatalogueUnlinkedCataloguesEvent(id=' + this.s21_1 + ', catalogues=' + this.t21_1 + ', date=' + this.u21_1.toString() + ')';
-  };
-  protoOf(CatalogueUnlinkedCataloguesEvent).hashCode = function () {
-    var result = getStringHashCode(this.s21_1);
-    result = imul(result, 31) + hashCode(this.t21_1) | 0;
-    result = imul(result, 31) + this.u21_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(CatalogueUnlinkedCataloguesEvent).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof CatalogueUnlinkedCataloguesEvent))
-      return false;
-    var tmp0_other_with_cast = other instanceof CatalogueUnlinkedCataloguesEvent ? other : THROW_CCE();
-    if (!(this.s21_1 === tmp0_other_with_cast.s21_1))
-      return false;
-    if (!equals(this.t21_1, tmp0_other_with_cast.t21_1))
-      return false;
-    if (!this.u21_1.equals(tmp0_other_with_cast.u21_1))
-      return false;
-    return true;
-  };
-  function Companion_102() {
-    Companion_instance_102 = this;
-    var tmp = this;
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    tmp.v21_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
-  }
-  var Companion_instance_102;
-  function Companion_getInstance_102() {
-    if (Companion_instance_102 == null)
-      new Companion_102();
-    return Companion_instance_102;
-  }
-  function $serializer_63() {
-    $serializer_instance_60 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent', this, 3);
-    tmp0_serialDesc.qi('id', false);
-    tmp0_serialDesc.qi('datasets', true);
     tmp0_serialDesc.qi('date', false);
     this.w21_1 = tmp0_serialDesc;
   }
@@ -27295,7 +27266,7 @@ if (typeof Math.imul === 'undefined') {
     return this.w21_1;
   };
   protoOf($serializer_63).wi = function () {
-    var tmp0_cached = Companion_getInstance_102().v21_1;
+    var tmp0_cached = Companion_getInstance_101().v21_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
@@ -27307,26 +27278,100 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_63();
     return $serializer_instance_60;
   }
-  function CatalogueUnlinkedDatasetsEvent(id, datasets, date) {
-    Companion_getInstance_102();
-    datasets = datasets === VOID ? emptyList() : datasets;
+  function CatalogueUnlinkedCataloguesEvent(id, catalogues, date) {
+    Companion_getInstance_101();
+    catalogues = catalogues === VOID ? emptyList() : catalogues;
     this.x21_1 = id;
-    this.y21_1 = datasets;
+    this.y21_1 = catalogues;
     this.z21_1 = date;
   }
-  protoOf(CatalogueUnlinkedDatasetsEvent).qt = function () {
+  protoOf(CatalogueUnlinkedCataloguesEvent).qt = function () {
     return this.x21_1;
   };
-  protoOf(CatalogueUnlinkedDatasetsEvent).j18 = function () {
+  protoOf(CatalogueUnlinkedCataloguesEvent).j18 = function () {
     return this.z21_1;
   };
-  protoOf(CatalogueUnlinkedDatasetsEvent).toString = function () {
-    return 'CatalogueUnlinkedDatasetsEvent(id=' + this.x21_1 + ', datasets=' + this.y21_1 + ', date=' + this.z21_1.toString() + ')';
+  protoOf(CatalogueUnlinkedCataloguesEvent).toString = function () {
+    return 'CatalogueUnlinkedCataloguesEvent(id=' + this.x21_1 + ', catalogues=' + this.y21_1 + ', date=' + this.z21_1.toString() + ')';
   };
-  protoOf(CatalogueUnlinkedDatasetsEvent).hashCode = function () {
+  protoOf(CatalogueUnlinkedCataloguesEvent).hashCode = function () {
     var result = getStringHashCode(this.x21_1);
     result = imul(result, 31) + hashCode(this.y21_1) | 0;
     result = imul(result, 31) + this.z21_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(CatalogueUnlinkedCataloguesEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof CatalogueUnlinkedCataloguesEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof CatalogueUnlinkedCataloguesEvent ? other : THROW_CCE();
+    if (!(this.x21_1 === tmp0_other_with_cast.x21_1))
+      return false;
+    if (!equals(this.y21_1, tmp0_other_with_cast.y21_1))
+      return false;
+    if (!this.z21_1.equals(tmp0_other_with_cast.z21_1))
+      return false;
+    return true;
+  };
+  function Companion_102() {
+    Companion_instance_102 = this;
+    var tmp = this;
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp.a22_1 = [null, new ArrayListSerializer(StringSerializer_getInstance()), null];
+  }
+  var Companion_instance_102;
+  function Companion_getInstance_102() {
+    if (Companion_instance_102 == null)
+      new Companion_102();
+    return Companion_instance_102;
+  }
+  function $serializer_64() {
+    $serializer_instance_61 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent', this, 3);
+    tmp0_serialDesc.qi('id', false);
+    tmp0_serialDesc.qi('datasets', true);
+    tmp0_serialDesc.qi('date', false);
+    this.b22_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_64).he = function () {
+    return this.b22_1;
+  };
+  protoOf($serializer_64).wi = function () {
+    var tmp0_cached = Companion_getInstance_102().a22_1;
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [StringSerializer_getInstance(), tmp0_cached[1], LongSerializer_getInstance()];
+  };
+  var $serializer_instance_61;
+  function $serializer_getInstance_61() {
+    if ($serializer_instance_61 == null)
+      new $serializer_64();
+    return $serializer_instance_61;
+  }
+  function CatalogueUnlinkedDatasetsEvent(id, datasets, date) {
+    Companion_getInstance_102();
+    datasets = datasets === VOID ? emptyList() : datasets;
+    this.c22_1 = id;
+    this.d22_1 = datasets;
+    this.e22_1 = date;
+  }
+  protoOf(CatalogueUnlinkedDatasetsEvent).qt = function () {
+    return this.c22_1;
+  };
+  protoOf(CatalogueUnlinkedDatasetsEvent).j18 = function () {
+    return this.e22_1;
+  };
+  protoOf(CatalogueUnlinkedDatasetsEvent).toString = function () {
+    return 'CatalogueUnlinkedDatasetsEvent(id=' + this.c22_1 + ', datasets=' + this.d22_1 + ', date=' + this.e22_1.toString() + ')';
+  };
+  protoOf(CatalogueUnlinkedDatasetsEvent).hashCode = function () {
+    var result = getStringHashCode(this.c22_1);
+    result = imul(result, 31) + hashCode(this.d22_1) | 0;
+    result = imul(result, 31) + this.e22_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueUnlinkedDatasetsEvent).equals = function (other) {
@@ -27335,11 +27380,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueUnlinkedDatasetsEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueUnlinkedDatasetsEvent ? other : THROW_CCE();
-    if (!(this.x21_1 === tmp0_other_with_cast.x21_1))
+    if (!(this.c22_1 === tmp0_other_with_cast.c22_1))
       return false;
-    if (!equals(this.y21_1, tmp0_other_with_cast.y21_1))
+    if (!equals(this.d22_1, tmp0_other_with_cast.d22_1))
       return false;
-    if (!this.z21_1.equals(tmp0_other_with_cast.z21_1))
+    if (!this.e22_1.equals(tmp0_other_with_cast.e22_1))
       return false;
     return true;
   };
@@ -27349,7 +27394,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.a22_1 = [null, null, null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, null, null, null, null, null];
+    tmp.f22_1 = [null, null, null, null, new LinkedHashSetSerializer(StringSerializer_getInstance()), null, null, null, null, null, null, null, null, null];
   }
   var Companion_instance_103;
   function Companion_getInstance_103() {
@@ -27357,77 +27402,83 @@ if (typeof Math.imul === 'undefined') {
       new Companion_103();
     return Companion_instance_103;
   }
-  function $serializer_64() {
-    $serializer_instance_61 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent', this, 12);
+  function $serializer_65() {
+    $serializer_instance_62 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent', this, 14);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('title', false);
     tmp0_serialDesc.qi('language', false);
     tmp0_serialDesc.qi('description', false);
     tmp0_serialDesc.qi('themeIds', false);
     tmp0_serialDesc.qi('homepage', false);
+    tmp0_serialDesc.qi('ownerOrganizationId', false);
     tmp0_serialDesc.qi('structure', false);
     tmp0_serialDesc.qi('accessRights', false);
     tmp0_serialDesc.qi('licenseId', false);
+    tmp0_serialDesc.qi('location', false);
     tmp0_serialDesc.qi('hidden', true);
     tmp0_serialDesc.qi('versionNotes', false);
     tmp0_serialDesc.qi('date', false);
-    this.b22_1 = tmp0_serialDesc;
+    this.g22_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_64).he = function () {
-    return this.b22_1;
+  protoOf($serializer_65).he = function () {
+    return this.g22_1;
   };
-  protoOf($serializer_64).wi = function () {
-    var tmp0_cached = Companion_getInstance_103().a22_1;
+  protoOf($serializer_65).wi = function () {
+    var tmp0_cached = Companion_getInstance_103().f22_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), tmp0_cached[4], get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_50()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), BooleanSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), LongSerializer_getInstance()];
+    return [StringSerializer_getInstance(), StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), tmp0_cached[4], get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_51()), get_nullable(StringSerializer_getInstance()), get_nullable(StringSerializer_getInstance()), get_nullable($serializer_getInstance_46()), BooleanSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), LongSerializer_getInstance()];
   };
-  var $serializer_instance_61;
-  function $serializer_getInstance_61() {
-    if ($serializer_instance_61 == null)
-      new $serializer_64();
-    return $serializer_instance_61;
+  var $serializer_instance_62;
+  function $serializer_getInstance_62() {
+    if ($serializer_instance_62 == null)
+      new $serializer_65();
+    return $serializer_instance_62;
   }
-  function CatalogueUpdatedEvent(id, title, language, description, themeIds, homepage, structure, accessRights, licenseId, hidden, versionNotes, date) {
+  function CatalogueUpdatedEvent(id, title, language, description, themeIds, homepage, ownerOrganizationId, structure, accessRights, licenseId, location, hidden, versionNotes, date) {
     Companion_getInstance_103();
     hidden = hidden === VOID ? false : hidden;
-    this.c22_1 = id;
-    this.d22_1 = title;
-    this.e22_1 = language;
-    this.f22_1 = description;
-    this.g22_1 = themeIds;
-    this.h22_1 = homepage;
-    this.i22_1 = structure;
-    this.j22_1 = accessRights;
-    this.k22_1 = licenseId;
-    this.l22_1 = hidden;
-    this.m22_1 = versionNotes;
-    this.n22_1 = date;
+    this.h22_1 = id;
+    this.i22_1 = title;
+    this.j22_1 = language;
+    this.k22_1 = description;
+    this.l22_1 = themeIds;
+    this.m22_1 = homepage;
+    this.n22_1 = ownerOrganizationId;
+    this.o22_1 = structure;
+    this.p22_1 = accessRights;
+    this.q22_1 = licenseId;
+    this.r22_1 = location;
+    this.s22_1 = hidden;
+    this.t22_1 = versionNotes;
+    this.u22_1 = date;
   }
   protoOf(CatalogueUpdatedEvent).qt = function () {
-    return this.c22_1;
+    return this.h22_1;
   };
   protoOf(CatalogueUpdatedEvent).j18 = function () {
-    return this.n22_1;
+    return this.u22_1;
   };
   protoOf(CatalogueUpdatedEvent).toString = function () {
-    return 'CatalogueUpdatedEvent(id=' + this.c22_1 + ', title=' + this.d22_1 + ', language=' + this.e22_1 + ', description=' + this.f22_1 + ', themeIds=' + this.g22_1 + ', homepage=' + this.h22_1 + ', structure=' + this.i22_1 + ', accessRights=' + this.j22_1 + ', licenseId=' + this.k22_1 + ', hidden=' + this.l22_1 + ', versionNotes=' + this.m22_1 + ', date=' + this.n22_1.toString() + ')';
+    return 'CatalogueUpdatedEvent(id=' + this.h22_1 + ', title=' + this.i22_1 + ', language=' + this.j22_1 + ', description=' + this.k22_1 + ', themeIds=' + this.l22_1 + ', homepage=' + this.m22_1 + ', ownerOrganizationId=' + this.n22_1 + ', structure=' + this.o22_1 + ', accessRights=' + this.p22_1 + ', licenseId=' + this.q22_1 + ', location=' + this.r22_1 + ', hidden=' + this.s22_1 + ', versionNotes=' + this.t22_1 + ', date=' + this.u22_1.toString() + ')';
   };
   protoOf(CatalogueUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.c22_1);
-    result = imul(result, 31) + getStringHashCode(this.d22_1) | 0;
-    result = imul(result, 31) + (this.e22_1 == null ? 0 : getStringHashCode(this.e22_1)) | 0;
-    result = imul(result, 31) + (this.f22_1 == null ? 0 : getStringHashCode(this.f22_1)) | 0;
-    result = imul(result, 31) + hashCode(this.g22_1) | 0;
-    result = imul(result, 31) + (this.h22_1 == null ? 0 : getStringHashCode(this.h22_1)) | 0;
-    result = imul(result, 31) + (this.i22_1 == null ? 0 : this.i22_1.hashCode()) | 0;
+    var result = getStringHashCode(this.h22_1);
+    result = imul(result, 31) + getStringHashCode(this.i22_1) | 0;
     result = imul(result, 31) + (this.j22_1 == null ? 0 : getStringHashCode(this.j22_1)) | 0;
     result = imul(result, 31) + (this.k22_1 == null ? 0 : getStringHashCode(this.k22_1)) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.l22_1) | 0;
+    result = imul(result, 31) + hashCode(this.l22_1) | 0;
     result = imul(result, 31) + (this.m22_1 == null ? 0 : getStringHashCode(this.m22_1)) | 0;
-    result = imul(result, 31) + this.n22_1.hashCode() | 0;
+    result = imul(result, 31) + (this.n22_1 == null ? 0 : getStringHashCode(this.n22_1)) | 0;
+    result = imul(result, 31) + (this.o22_1 == null ? 0 : this.o22_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.p22_1 == null ? 0 : getStringHashCode(this.p22_1)) | 0;
+    result = imul(result, 31) + (this.q22_1 == null ? 0 : getStringHashCode(this.q22_1)) | 0;
+    result = imul(result, 31) + (this.r22_1 == null ? 0 : this.r22_1.hashCode()) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.s22_1) | 0;
+    result = imul(result, 31) + (this.t22_1 == null ? 0 : getStringHashCode(this.t22_1)) | 0;
+    result = imul(result, 31) + this.u22_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueUpdatedEvent).equals = function (other) {
@@ -27436,29 +27487,33 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueUpdatedEvent ? other : THROW_CCE();
-    if (!(this.c22_1 === tmp0_other_with_cast.c22_1))
+    if (!(this.h22_1 === tmp0_other_with_cast.h22_1))
       return false;
-    if (!(this.d22_1 === tmp0_other_with_cast.d22_1))
-      return false;
-    if (!(this.e22_1 == tmp0_other_with_cast.e22_1))
-      return false;
-    if (!(this.f22_1 == tmp0_other_with_cast.f22_1))
-      return false;
-    if (!equals(this.g22_1, tmp0_other_with_cast.g22_1))
-      return false;
-    if (!(this.h22_1 == tmp0_other_with_cast.h22_1))
-      return false;
-    if (!equals(this.i22_1, tmp0_other_with_cast.i22_1))
+    if (!(this.i22_1 === tmp0_other_with_cast.i22_1))
       return false;
     if (!(this.j22_1 == tmp0_other_with_cast.j22_1))
       return false;
     if (!(this.k22_1 == tmp0_other_with_cast.k22_1))
       return false;
-    if (!(this.l22_1 === tmp0_other_with_cast.l22_1))
+    if (!equals(this.l22_1, tmp0_other_with_cast.l22_1))
       return false;
     if (!(this.m22_1 == tmp0_other_with_cast.m22_1))
       return false;
-    if (!this.n22_1.equals(tmp0_other_with_cast.n22_1))
+    if (!(this.n22_1 == tmp0_other_with_cast.n22_1))
+      return false;
+    if (!equals(this.o22_1, tmp0_other_with_cast.o22_1))
+      return false;
+    if (!(this.p22_1 == tmp0_other_with_cast.p22_1))
+      return false;
+    if (!(this.q22_1 == tmp0_other_with_cast.q22_1))
+      return false;
+    if (!equals(this.r22_1, tmp0_other_with_cast.r22_1))
+      return false;
+    if (!(this.s22_1 === tmp0_other_with_cast.s22_1))
+      return false;
+    if (!(this.t22_1 == tmp0_other_with_cast.t22_1))
+      return false;
+    if (!this.u22_1.equals(tmp0_other_with_cast.u22_1))
       return false;
     return true;
   };
@@ -27468,47 +27523,47 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_104() {
     return Companion_instance_104;
   }
-  function $serializer_65() {
-    $serializer_instance_62 = this;
+  function $serializer_66() {
+    $serializer_instance_63 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('versionNotes', false);
     tmp0_serialDesc.qi('date', false);
-    this.o22_1 = tmp0_serialDesc;
+    this.v22_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_65).he = function () {
-    return this.o22_1;
+  protoOf($serializer_66).he = function () {
+    return this.v22_1;
   };
-  protoOf($serializer_65).wi = function () {
+  protoOf($serializer_66).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), get_nullable(StringSerializer_getInstance()), LongSerializer_getInstance()];
   };
-  var $serializer_instance_62;
-  function $serializer_getInstance_62() {
-    if ($serializer_instance_62 == null)
-      new $serializer_65();
-    return $serializer_instance_62;
+  var $serializer_instance_63;
+  function $serializer_getInstance_63() {
+    if ($serializer_instance_63 == null)
+      new $serializer_66();
+    return $serializer_instance_63;
   }
   function CatalogueUpdatedVersionNotesEvent(id, versionNotes, date) {
-    this.p22_1 = id;
-    this.q22_1 = versionNotes;
-    this.r22_1 = date;
+    this.w22_1 = id;
+    this.x22_1 = versionNotes;
+    this.y22_1 = date;
   }
   protoOf(CatalogueUpdatedVersionNotesEvent).qt = function () {
-    return this.p22_1;
+    return this.w22_1;
   };
   protoOf(CatalogueUpdatedVersionNotesEvent).j18 = function () {
-    return this.r22_1;
+    return this.y22_1;
   };
   protoOf(CatalogueUpdatedVersionNotesEvent).toString = function () {
-    return 'CatalogueUpdatedVersionNotesEvent(id=' + this.p22_1 + ', versionNotes=' + this.q22_1 + ', date=' + this.r22_1.toString() + ')';
+    return 'CatalogueUpdatedVersionNotesEvent(id=' + this.w22_1 + ', versionNotes=' + this.x22_1 + ', date=' + this.y22_1.toString() + ')';
   };
   protoOf(CatalogueUpdatedVersionNotesEvent).hashCode = function () {
-    var result = getStringHashCode(this.p22_1);
-    result = imul(result, 31) + (this.q22_1 == null ? 0 : getStringHashCode(this.q22_1)) | 0;
-    result = imul(result, 31) + this.r22_1.hashCode() | 0;
+    var result = getStringHashCode(this.w22_1);
+    result = imul(result, 31) + (this.x22_1 == null ? 0 : getStringHashCode(this.x22_1)) | 0;
+    result = imul(result, 31) + this.y22_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueUpdatedVersionNotesEvent).equals = function (other) {
@@ -27517,11 +27572,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueUpdatedVersionNotesEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueUpdatedVersionNotesEvent ? other : THROW_CCE();
-    if (!(this.p22_1 === tmp0_other_with_cast.p22_1))
+    if (!(this.w22_1 === tmp0_other_with_cast.w22_1))
       return false;
-    if (!(this.q22_1 == tmp0_other_with_cast.q22_1))
+    if (!(this.x22_1 == tmp0_other_with_cast.x22_1))
       return false;
-    if (!this.r22_1.equals(tmp0_other_with_cast.r22_1))
+    if (!this.y22_1.equals(tmp0_other_with_cast.y22_1))
       return false;
     return true;
   };
@@ -27532,7 +27587,7 @@ if (typeof Math.imul === 'undefined') {
   function FacetDistributionDTO() {
   }
   function _get_$cachedSerializer__te6jhj_3($this) {
-    return $this.v22_1.i4();
+    return $this.c23_1.i4();
   }
   function CatalogueDraftState$Companion$_anonymous__vowafq() {
     return createSimpleEnumSerializer('io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState', values_6());
@@ -27547,7 +27602,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_105 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.v22_1 = lazy(tmp_0, CatalogueDraftState$Companion$_anonymous__vowafq);
+    tmp.c23_1 = lazy(tmp_0, CatalogueDraftState$Companion$_anonymous__vowafq);
   }
   protoOf(Companion_105).nu = function () {
     return _get_$cachedSerializer__te6jhj_3(this);
@@ -27600,10 +27655,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueDraftState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.y22_1 = position;
+    this.f23_1 = position;
   }
   protoOf(CatalogueDraftState).q18 = function () {
-    return this.y22_1;
+    return this.f23_1;
   };
   function CatalogueDraftState_DRAFT_getInstance() {
     CatalogueDraftState_initEntries();
@@ -27635,7 +27690,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.z22_1 = [null, null, null, null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), null];
+    tmp.g23_1 = [null, null, null, null, null, null, new LinkedHashMapSerializer(StringSerializer_getInstance(), StringSerializer_getInstance()), null];
   }
   var Companion_instance_106;
   function Companion_getInstance_106() {
@@ -27643,8 +27698,8 @@ if (typeof Math.imul === 'undefined') {
       new Companion_106();
     return Companion_instance_106;
   }
-  function $serializer_66() {
-    $serializer_instance_63 = this;
+  function $serializer_67() {
+    $serializer_instance_64 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent', this, 8);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
@@ -27654,53 +27709,53 @@ if (typeof Math.imul === 'undefined') {
     tmp0_serialDesc.qi('baseVersion', false);
     tmp0_serialDesc.qi('datasetIdMap', false);
     tmp0_serialDesc.qi('creatorId', false);
-    this.a23_1 = tmp0_serialDesc;
+    this.h23_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_66).he = function () {
-    return this.a23_1;
+  protoOf($serializer_67).he = function () {
+    return this.h23_1;
   };
-  protoOf($serializer_66).wi = function () {
-    var tmp0_cached = Companion_getInstance_106().z22_1;
+  protoOf($serializer_67).wi = function () {
+    var tmp0_cached = Companion_getInstance_106().g23_1;
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), LongSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), IntSerializer_getInstance(), tmp0_cached[6], StringSerializer_getInstance()];
   };
-  var $serializer_instance_63;
-  function $serializer_getInstance_63() {
-    if ($serializer_instance_63 == null)
-      new $serializer_66();
-    return $serializer_instance_63;
+  var $serializer_instance_64;
+  function $serializer_getInstance_64() {
+    if ($serializer_instance_64 == null)
+      new $serializer_67();
+    return $serializer_instance_64;
   }
   function CatalogueDraftCreatedEvent(id, date, catalogueId, originalCatalogueId, language, baseVersion, datasetIdMap, creatorId) {
     Companion_getInstance_106();
-    this.b23_1 = id;
-    this.c23_1 = date;
-    this.d23_1 = catalogueId;
-    this.e23_1 = originalCatalogueId;
-    this.f23_1 = language;
-    this.g23_1 = baseVersion;
-    this.h23_1 = datasetIdMap;
-    this.i23_1 = creatorId;
+    this.i23_1 = id;
+    this.j23_1 = date;
+    this.k23_1 = catalogueId;
+    this.l23_1 = originalCatalogueId;
+    this.m23_1 = language;
+    this.n23_1 = baseVersion;
+    this.o23_1 = datasetIdMap;
+    this.p23_1 = creatorId;
   }
   protoOf(CatalogueDraftCreatedEvent).qt = function () {
-    return this.b23_1;
+    return this.i23_1;
   };
   protoOf(CatalogueDraftCreatedEvent).j18 = function () {
-    return this.c23_1;
+    return this.j23_1;
   };
   protoOf(CatalogueDraftCreatedEvent).toString = function () {
-    return 'CatalogueDraftCreatedEvent(id=' + this.b23_1 + ', date=' + this.c23_1.toString() + ', catalogueId=' + this.d23_1 + ', originalCatalogueId=' + this.e23_1 + ', language=' + this.f23_1 + ', baseVersion=' + this.g23_1 + ', datasetIdMap=' + this.h23_1 + ', creatorId=' + this.i23_1 + ')';
+    return 'CatalogueDraftCreatedEvent(id=' + this.i23_1 + ', date=' + this.j23_1.toString() + ', catalogueId=' + this.k23_1 + ', originalCatalogueId=' + this.l23_1 + ', language=' + this.m23_1 + ', baseVersion=' + this.n23_1 + ', datasetIdMap=' + this.o23_1 + ', creatorId=' + this.p23_1 + ')';
   };
   protoOf(CatalogueDraftCreatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.b23_1);
-    result = imul(result, 31) + this.c23_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.d23_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.e23_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.f23_1) | 0;
-    result = imul(result, 31) + this.g23_1 | 0;
-    result = imul(result, 31) + hashCode(this.h23_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.i23_1) | 0;
+    var result = getStringHashCode(this.i23_1);
+    result = imul(result, 31) + this.j23_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.k23_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.l23_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.m23_1) | 0;
+    result = imul(result, 31) + this.n23_1 | 0;
+    result = imul(result, 31) + hashCode(this.o23_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.p23_1) | 0;
     return result;
   };
   protoOf(CatalogueDraftCreatedEvent).equals = function (other) {
@@ -27709,21 +27764,21 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftCreatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftCreatedEvent ? other : THROW_CCE();
-    if (!(this.b23_1 === tmp0_other_with_cast.b23_1))
-      return false;
-    if (!this.c23_1.equals(tmp0_other_with_cast.c23_1))
-      return false;
-    if (!(this.d23_1 === tmp0_other_with_cast.d23_1))
-      return false;
-    if (!(this.e23_1 === tmp0_other_with_cast.e23_1))
-      return false;
-    if (!(this.f23_1 === tmp0_other_with_cast.f23_1))
-      return false;
-    if (!(this.g23_1 === tmp0_other_with_cast.g23_1))
-      return false;
-    if (!equals(this.h23_1, tmp0_other_with_cast.h23_1))
-      return false;
     if (!(this.i23_1 === tmp0_other_with_cast.i23_1))
+      return false;
+    if (!this.j23_1.equals(tmp0_other_with_cast.j23_1))
+      return false;
+    if (!(this.k23_1 === tmp0_other_with_cast.k23_1))
+      return false;
+    if (!(this.l23_1 === tmp0_other_with_cast.l23_1))
+      return false;
+    if (!(this.m23_1 === tmp0_other_with_cast.m23_1))
+      return false;
+    if (!(this.n23_1 === tmp0_other_with_cast.n23_1))
+      return false;
+    if (!equals(this.o23_1, tmp0_other_with_cast.o23_1))
+      return false;
+    if (!(this.p23_1 === tmp0_other_with_cast.p23_1))
       return false;
     return true;
   };
@@ -27735,44 +27790,44 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_107() {
     return Companion_instance_107;
   }
-  function $serializer_67() {
-    $serializer_instance_64 = this;
+  function $serializer_68() {
+    $serializer_instance_65 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeletedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.j23_1 = tmp0_serialDesc;
+    this.q23_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_67).he = function () {
-    return this.j23_1;
+  protoOf($serializer_68).he = function () {
+    return this.q23_1;
   };
-  protoOf($serializer_67).wi = function () {
+  protoOf($serializer_68).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), LongSerializer_getInstance()];
   };
-  var $serializer_instance_64;
-  function $serializer_getInstance_64() {
-    if ($serializer_instance_64 == null)
-      new $serializer_67();
-    return $serializer_instance_64;
+  var $serializer_instance_65;
+  function $serializer_getInstance_65() {
+    if ($serializer_instance_65 == null)
+      new $serializer_68();
+    return $serializer_instance_65;
   }
   function CatalogueDraftDeletedEvent(id, date) {
-    this.k23_1 = id;
-    this.l23_1 = date;
+    this.r23_1 = id;
+    this.s23_1 = date;
   }
   protoOf(CatalogueDraftDeletedEvent).qt = function () {
-    return this.k23_1;
+    return this.r23_1;
   };
   protoOf(CatalogueDraftDeletedEvent).j18 = function () {
-    return this.l23_1;
+    return this.s23_1;
   };
   protoOf(CatalogueDraftDeletedEvent).toString = function () {
-    return 'CatalogueDraftDeletedEvent(id=' + this.k23_1 + ', date=' + this.l23_1.toString() + ')';
+    return 'CatalogueDraftDeletedEvent(id=' + this.r23_1 + ', date=' + this.s23_1.toString() + ')';
   };
   protoOf(CatalogueDraftDeletedEvent).hashCode = function () {
-    var result = getStringHashCode(this.k23_1);
-    result = imul(result, 31) + this.l23_1.hashCode() | 0;
+    var result = getStringHashCode(this.r23_1);
+    result = imul(result, 31) + this.s23_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueDraftDeletedEvent).equals = function (other) {
@@ -27781,9 +27836,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftDeletedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftDeletedEvent ? other : THROW_CCE();
-    if (!(this.k23_1 === tmp0_other_with_cast.k23_1))
+    if (!(this.r23_1 === tmp0_other_with_cast.r23_1))
       return false;
-    if (!this.l23_1.equals(tmp0_other_with_cast.l23_1))
+    if (!this.s23_1.equals(tmp0_other_with_cast.s23_1))
       return false;
     return true;
   };
@@ -27798,7 +27853,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    var tmp_1 = [$serializer_getInstance_63(), $serializer_getInstance_64(), $serializer_getInstance_65(), $serializer_getInstance_66(), $serializer_getInstance_67(), $serializer_getInstance_68()];
+    var tmp_1 = [$serializer_getInstance_64(), $serializer_getInstance_65(), $serializer_getInstance_66(), $serializer_getInstance_67(), $serializer_getInstance_68(), $serializer_getInstance_69()];
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
@@ -27826,75 +27881,15 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_109() {
     return Companion_instance_109;
   }
-  function $serializer_68() {
-    $serializer_instance_65 = this;
+  function $serializer_69() {
+    $serializer_instance_66 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.n23_1 = tmp0_serialDesc;
-  }
-  protoOf($serializer_68).he = function () {
-    return this.n23_1;
-  };
-  protoOf($serializer_68).wi = function () {
-    // Inline function 'kotlin.arrayOf' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return [StringSerializer_getInstance(), LongSerializer_getInstance()];
-  };
-  var $serializer_instance_65;
-  function $serializer_getInstance_65() {
-    if ($serializer_instance_65 == null)
-      new $serializer_68();
-    return $serializer_instance_65;
-  }
-  function CatalogueDraftRejectedEvent(id, date) {
-    this.o23_1 = id;
-    this.p23_1 = date;
-  }
-  protoOf(CatalogueDraftRejectedEvent).qt = function () {
-    return this.o23_1;
-  };
-  protoOf(CatalogueDraftRejectedEvent).j18 = function () {
-    return this.p23_1;
-  };
-  protoOf(CatalogueDraftRejectedEvent).toString = function () {
-    return 'CatalogueDraftRejectedEvent(id=' + this.o23_1 + ', date=' + this.p23_1.toString() + ')';
-  };
-  protoOf(CatalogueDraftRejectedEvent).hashCode = function () {
-    var result = getStringHashCode(this.o23_1);
-    result = imul(result, 31) + this.p23_1.hashCode() | 0;
-    return result;
-  };
-  protoOf(CatalogueDraftRejectedEvent).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof CatalogueDraftRejectedEvent))
-      return false;
-    var tmp0_other_with_cast = other instanceof CatalogueDraftRejectedEvent ? other : THROW_CCE();
-    if (!(this.o23_1 === tmp0_other_with_cast.o23_1))
-      return false;
-    if (!this.p23_1.equals(tmp0_other_with_cast.p23_1))
-      return false;
-    return true;
-  };
-  function CatalogueDraftRequestUpdateCommandDTO() {
-  }
-  function Companion_110() {
-  }
-  var Companion_instance_110;
-  function Companion_getInstance_110() {
-    return Companion_instance_110;
-  }
-  function $serializer_69() {
-    $serializer_instance_66 = this;
-    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent', this, 2);
-    tmp0_serialDesc.qi('id', false);
-    tmp0_serialDesc.qi('date', false);
-    this.q23_1 = tmp0_serialDesc;
+    this.u23_1 = tmp0_serialDesc;
   }
   protoOf($serializer_69).he = function () {
-    return this.q23_1;
+    return this.u23_1;
   };
   protoOf($serializer_69).wi = function () {
     // Inline function 'kotlin.arrayOf' call
@@ -27908,22 +27903,82 @@ if (typeof Math.imul === 'undefined') {
       new $serializer_69();
     return $serializer_instance_66;
   }
+  function CatalogueDraftRejectedEvent(id, date) {
+    this.v23_1 = id;
+    this.w23_1 = date;
+  }
+  protoOf(CatalogueDraftRejectedEvent).qt = function () {
+    return this.v23_1;
+  };
+  protoOf(CatalogueDraftRejectedEvent).j18 = function () {
+    return this.w23_1;
+  };
+  protoOf(CatalogueDraftRejectedEvent).toString = function () {
+    return 'CatalogueDraftRejectedEvent(id=' + this.v23_1 + ', date=' + this.w23_1.toString() + ')';
+  };
+  protoOf(CatalogueDraftRejectedEvent).hashCode = function () {
+    var result = getStringHashCode(this.v23_1);
+    result = imul(result, 31) + this.w23_1.hashCode() | 0;
+    return result;
+  };
+  protoOf(CatalogueDraftRejectedEvent).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof CatalogueDraftRejectedEvent))
+      return false;
+    var tmp0_other_with_cast = other instanceof CatalogueDraftRejectedEvent ? other : THROW_CCE();
+    if (!(this.v23_1 === tmp0_other_with_cast.v23_1))
+      return false;
+    if (!this.w23_1.equals(tmp0_other_with_cast.w23_1))
+      return false;
+    return true;
+  };
+  function CatalogueDraftRequestUpdateCommandDTO() {
+  }
+  function Companion_110() {
+  }
+  var Companion_instance_110;
+  function Companion_getInstance_110() {
+    return Companion_instance_110;
+  }
+  function $serializer_70() {
+    $serializer_instance_67 = this;
+    var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent', this, 2);
+    tmp0_serialDesc.qi('id', false);
+    tmp0_serialDesc.qi('date', false);
+    this.x23_1 = tmp0_serialDesc;
+  }
+  protoOf($serializer_70).he = function () {
+    return this.x23_1;
+  };
+  protoOf($serializer_70).wi = function () {
+    // Inline function 'kotlin.arrayOf' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    return [StringSerializer_getInstance(), LongSerializer_getInstance()];
+  };
+  var $serializer_instance_67;
+  function $serializer_getInstance_67() {
+    if ($serializer_instance_67 == null)
+      new $serializer_70();
+    return $serializer_instance_67;
+  }
   function CatalogueDraftRequestedUpdateEvent(id, date) {
-    this.r23_1 = id;
-    this.s23_1 = date;
+    this.y23_1 = id;
+    this.z23_1 = date;
   }
   protoOf(CatalogueDraftRequestedUpdateEvent).qt = function () {
-    return this.r23_1;
+    return this.y23_1;
   };
   protoOf(CatalogueDraftRequestedUpdateEvent).j18 = function () {
-    return this.s23_1;
+    return this.z23_1;
   };
   protoOf(CatalogueDraftRequestedUpdateEvent).toString = function () {
-    return 'CatalogueDraftRequestedUpdateEvent(id=' + this.r23_1 + ', date=' + this.s23_1.toString() + ')';
+    return 'CatalogueDraftRequestedUpdateEvent(id=' + this.y23_1 + ', date=' + this.z23_1.toString() + ')';
   };
   protoOf(CatalogueDraftRequestedUpdateEvent).hashCode = function () {
-    var result = getStringHashCode(this.r23_1);
-    result = imul(result, 31) + this.s23_1.hashCode() | 0;
+    var result = getStringHashCode(this.y23_1);
+    result = imul(result, 31) + this.z23_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueDraftRequestedUpdateEvent).equals = function (other) {
@@ -27932,9 +27987,9 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftRequestedUpdateEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftRequestedUpdateEvent ? other : THROW_CCE();
-    if (!(this.r23_1 === tmp0_other_with_cast.r23_1))
+    if (!(this.y23_1 === tmp0_other_with_cast.y23_1))
       return false;
-    if (!this.s23_1.equals(tmp0_other_with_cast.s23_1))
+    if (!this.z23_1.equals(tmp0_other_with_cast.z23_1))
       return false;
     return true;
   };
@@ -27946,47 +28001,47 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_111() {
     return Companion_instance_111;
   }
-  function $serializer_70() {
-    $serializer_instance_67 = this;
+  function $serializer_71() {
+    $serializer_instance_68 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent', this, 3);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
     tmp0_serialDesc.qi('versionNotes', false);
-    this.t23_1 = tmp0_serialDesc;
+    this.a24_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_70).he = function () {
-    return this.t23_1;
+  protoOf($serializer_71).he = function () {
+    return this.a24_1;
   };
-  protoOf($serializer_70).wi = function () {
+  protoOf($serializer_71).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), LongSerializer_getInstance(), get_nullable(StringSerializer_getInstance())];
   };
-  var $serializer_instance_67;
-  function $serializer_getInstance_67() {
-    if ($serializer_instance_67 == null)
-      new $serializer_70();
-    return $serializer_instance_67;
+  var $serializer_instance_68;
+  function $serializer_getInstance_68() {
+    if ($serializer_instance_68 == null)
+      new $serializer_71();
+    return $serializer_instance_68;
   }
   function CatalogueDraftSubmittedEvent(id, date, versionNotes) {
-    this.u23_1 = id;
-    this.v23_1 = date;
-    this.w23_1 = versionNotes;
+    this.b24_1 = id;
+    this.c24_1 = date;
+    this.d24_1 = versionNotes;
   }
   protoOf(CatalogueDraftSubmittedEvent).qt = function () {
-    return this.u23_1;
+    return this.b24_1;
   };
   protoOf(CatalogueDraftSubmittedEvent).j18 = function () {
-    return this.v23_1;
+    return this.c24_1;
   };
   protoOf(CatalogueDraftSubmittedEvent).toString = function () {
-    return 'CatalogueDraftSubmittedEvent(id=' + this.u23_1 + ', date=' + this.v23_1.toString() + ', versionNotes=' + this.w23_1 + ')';
+    return 'CatalogueDraftSubmittedEvent(id=' + this.b24_1 + ', date=' + this.c24_1.toString() + ', versionNotes=' + this.d24_1 + ')';
   };
   protoOf(CatalogueDraftSubmittedEvent).hashCode = function () {
-    var result = getStringHashCode(this.u23_1);
-    result = imul(result, 31) + this.v23_1.hashCode() | 0;
-    result = imul(result, 31) + (this.w23_1 == null ? 0 : getStringHashCode(this.w23_1)) | 0;
+    var result = getStringHashCode(this.b24_1);
+    result = imul(result, 31) + this.c24_1.hashCode() | 0;
+    result = imul(result, 31) + (this.d24_1 == null ? 0 : getStringHashCode(this.d24_1)) | 0;
     return result;
   };
   protoOf(CatalogueDraftSubmittedEvent).equals = function (other) {
@@ -27995,11 +28050,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftSubmittedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftSubmittedEvent ? other : THROW_CCE();
-    if (!(this.u23_1 === tmp0_other_with_cast.u23_1))
+    if (!(this.b24_1 === tmp0_other_with_cast.b24_1))
       return false;
-    if (!this.v23_1.equals(tmp0_other_with_cast.v23_1))
+    if (!this.c24_1.equals(tmp0_other_with_cast.c24_1))
       return false;
-    if (!(this.w23_1 == tmp0_other_with_cast.w23_1))
+    if (!(this.d24_1 == tmp0_other_with_cast.d24_1))
       return false;
     return true;
   };
@@ -28011,44 +28066,44 @@ if (typeof Math.imul === 'undefined') {
   function Companion_getInstance_112() {
     return Companion_instance_112;
   }
-  function $serializer_71() {
-    $serializer_instance_68 = this;
+  function $serializer_72() {
+    $serializer_instance_69 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent', this, 2);
     tmp0_serialDesc.qi('id', false);
     tmp0_serialDesc.qi('date', false);
-    this.x23_1 = tmp0_serialDesc;
+    this.e24_1 = tmp0_serialDesc;
   }
-  protoOf($serializer_71).he = function () {
-    return this.x23_1;
+  protoOf($serializer_72).he = function () {
+    return this.e24_1;
   };
-  protoOf($serializer_71).wi = function () {
+  protoOf($serializer_72).wi = function () {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
     return [StringSerializer_getInstance(), LongSerializer_getInstance()];
   };
-  var $serializer_instance_68;
-  function $serializer_getInstance_68() {
-    if ($serializer_instance_68 == null)
-      new $serializer_71();
-    return $serializer_instance_68;
+  var $serializer_instance_69;
+  function $serializer_getInstance_69() {
+    if ($serializer_instance_69 == null)
+      new $serializer_72();
+    return $serializer_instance_69;
   }
   function CatalogueDraftValidatedEvent(id, date) {
-    this.y23_1 = id;
-    this.z23_1 = date;
+    this.f24_1 = id;
+    this.g24_1 = date;
   }
   protoOf(CatalogueDraftValidatedEvent).qt = function () {
-    return this.y23_1;
+    return this.f24_1;
   };
   protoOf(CatalogueDraftValidatedEvent).j18 = function () {
-    return this.z23_1;
+    return this.g24_1;
   };
   protoOf(CatalogueDraftValidatedEvent).toString = function () {
-    return 'CatalogueDraftValidatedEvent(id=' + this.y23_1 + ', date=' + this.z23_1.toString() + ')';
+    return 'CatalogueDraftValidatedEvent(id=' + this.f24_1 + ', date=' + this.g24_1.toString() + ')';
   };
   protoOf(CatalogueDraftValidatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.y23_1);
-    result = imul(result, 31) + this.z23_1.hashCode() | 0;
+    var result = getStringHashCode(this.f24_1);
+    result = imul(result, 31) + this.g24_1.hashCode() | 0;
     return result;
   };
   protoOf(CatalogueDraftValidatedEvent).equals = function (other) {
@@ -28057,14 +28112,14 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof CatalogueDraftValidatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof CatalogueDraftValidatedEvent ? other : THROW_CCE();
-    if (!(this.y23_1 === tmp0_other_with_cast.y23_1))
+    if (!(this.f24_1 === tmp0_other_with_cast.f24_1))
       return false;
-    if (!this.z23_1.equals(tmp0_other_with_cast.z23_1))
+    if (!this.g24_1.equals(tmp0_other_with_cast.g24_1))
       return false;
     return true;
   };
   function _get_$cachedSerializer__te6jhj_4($this) {
-    return $this.a24_1.i4();
+    return $this.h24_1.i4();
   }
   function DatasetState$Companion$_anonymous__5d0gq2() {
     return createSimpleEnumSerializer('io.komune.registry.s2.dataset.domain.automate.DatasetState', values_7());
@@ -28075,7 +28130,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_113 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.a24_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
+    tmp.h24_1 = lazy(tmp_0, DatasetState$Companion$_anonymous__5d0gq2);
   }
   protoOf(Companion_113).nu = function () {
     return _get_$cachedSerializer__te6jhj_4(this);
@@ -28116,10 +28171,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.d24_1 = position;
+    this.k24_1 = position;
   }
   protoOf(DatasetState).q18 = function () {
-    return this.d24_1;
+    return this.k24_1;
   };
   function DatasetState_ACTIVE_getInstance() {
     DatasetState_initEntries();
@@ -28284,6 +28339,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function LicenseListResultDTO() {
   }
+  function OrganizationRefDTO_1() {
+  }
   function UserOnboardCommandDTO() {
   }
   function UserOnboardedEventDTO() {
@@ -28374,6 +28431,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueGetResultDTO() {
   }
+  function CatalogueListAvailableOwnersQueryDTO() {
+  }
+  function CatalogueListAvailableOwnersResultDTO() {
+  }
   function CatalogueListAvailableParentsQueryDTO() {
   }
   function CatalogueListAvailableParentsResultDTO() {
@@ -28456,7 +28517,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_114 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.j25_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
+    tmp.t25_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
   }
   var Companion_instance_114;
   function Companion_getInstance_114() {
@@ -28483,10 +28544,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrderState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.m25_1 = position;
+    this.w25_1 = position;
   }
   protoOf(OrderState).q18 = function () {
-    return this.m25_1;
+    return this.w25_1;
   };
   function s2Order$lambda($this$s2Sourcing) {
     _init_properties_S2Order_kt__tze7r1();
@@ -28754,16 +28815,16 @@ if (typeof Math.imul === 'undefined') {
     }
   }
   function OrderCancelCommand(id) {
-    this.n25_1 = id;
+    this.x25_1 = id;
   }
   protoOf(OrderCancelCommand).qt = function () {
-    return this.n25_1;
+    return this.x25_1;
   };
   protoOf(OrderCancelCommand).toString = function () {
-    return 'OrderCancelCommand(id=' + this.n25_1 + ')';
+    return 'OrderCancelCommand(id=' + this.x25_1 + ')';
   };
   protoOf(OrderCancelCommand).hashCode = function () {
-    return getStringHashCode(this.n25_1);
+    return getStringHashCode(this.x25_1);
   };
   protoOf(OrderCancelCommand).equals = function (other) {
     if (this === other)
@@ -28771,25 +28832,25 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCancelCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCancelCommand ? other : THROW_CCE();
-    if (!(this.n25_1 === tmp0_other_with_cast.n25_1))
+    if (!(this.x25_1 === tmp0_other_with_cast.x25_1))
       return false;
     return true;
   };
   function OrderCompleteCommand(id, assetTransactionId, certificate) {
-    this.o25_1 = id;
-    this.p25_1 = assetTransactionId;
-    this.q25_1 = certificate;
+    this.y25_1 = id;
+    this.z25_1 = assetTransactionId;
+    this.a26_1 = certificate;
   }
   protoOf(OrderCompleteCommand).qt = function () {
-    return this.o25_1;
+    return this.y25_1;
   };
   protoOf(OrderCompleteCommand).toString = function () {
-    return 'OrderCompleteCommand(id=' + this.o25_1 + ', assetTransactionId=' + this.p25_1 + ', certificate=' + this.q25_1 + ')';
+    return 'OrderCompleteCommand(id=' + this.y25_1 + ', assetTransactionId=' + this.z25_1 + ', certificate=' + this.a26_1 + ')';
   };
   protoOf(OrderCompleteCommand).hashCode = function () {
-    var result = getStringHashCode(this.o25_1);
-    result = imul(result, 31) + getStringHashCode(this.p25_1) | 0;
-    result = imul(result, 31) + (this.q25_1 == null ? 0 : this.q25_1.hashCode()) | 0;
+    var result = getStringHashCode(this.y25_1);
+    result = imul(result, 31) + getStringHashCode(this.z25_1) | 0;
+    result = imul(result, 31) + (this.a26_1 == null ? 0 : this.a26_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderCompleteCommand).equals = function (other) {
@@ -28798,11 +28859,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCompleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCompleteCommand ? other : THROW_CCE();
-    if (!(this.o25_1 === tmp0_other_with_cast.o25_1))
+    if (!(this.y25_1 === tmp0_other_with_cast.y25_1))
       return false;
-    if (!(this.p25_1 === tmp0_other_with_cast.p25_1))
+    if (!(this.z25_1 === tmp0_other_with_cast.z25_1))
       return false;
-    if (!equals(this.q25_1, tmp0_other_with_cast.q25_1))
+    if (!equals(this.a26_1, tmp0_other_with_cast.a26_1))
       return false;
     return true;
   };
@@ -28813,16 +28874,16 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_115;
   }
   function OrderDeleteCommand(id) {
-    this.r25_1 = id;
+    this.b26_1 = id;
   }
   protoOf(OrderDeleteCommand).qt = function () {
-    return this.r25_1;
+    return this.b26_1;
   };
   protoOf(OrderDeleteCommand).toString = function () {
-    return 'OrderDeleteCommand(id=' + this.r25_1 + ')';
+    return 'OrderDeleteCommand(id=' + this.b26_1 + ')';
   };
   protoOf(OrderDeleteCommand).hashCode = function () {
-    return getStringHashCode(this.r25_1);
+    return getStringHashCode(this.b26_1);
   };
   protoOf(OrderDeleteCommand).equals = function (other) {
     if (this === other)
@@ -28830,23 +28891,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderDeleteCommand ? other : THROW_CCE();
-    if (!(this.r25_1 === tmp0_other_with_cast.r25_1))
+    if (!(this.b26_1 === tmp0_other_with_cast.b26_1))
       return false;
     return true;
   };
   function OrderPendCommand(id, certificate) {
-    this.s25_1 = id;
-    this.t25_1 = certificate;
+    this.c26_1 = id;
+    this.d26_1 = certificate;
   }
   protoOf(OrderPendCommand).qt = function () {
-    return this.s25_1;
+    return this.c26_1;
   };
   protoOf(OrderPendCommand).toString = function () {
-    return 'OrderPendCommand(id=' + this.s25_1 + ', certificate=' + this.t25_1 + ')';
+    return 'OrderPendCommand(id=' + this.c26_1 + ', certificate=' + this.d26_1 + ')';
   };
   protoOf(OrderPendCommand).hashCode = function () {
-    var result = getStringHashCode(this.s25_1);
-    result = imul(result, 31) + (this.t25_1 == null ? 0 : this.t25_1.hashCode()) | 0;
+    var result = getStringHashCode(this.c26_1);
+    result = imul(result, 31) + (this.d26_1 == null ? 0 : this.d26_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderPendCommand).equals = function (other) {
@@ -28855,50 +28916,50 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPendCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPendCommand ? other : THROW_CCE();
-    if (!(this.s25_1 === tmp0_other_with_cast.s25_1))
+    if (!(this.c26_1 === tmp0_other_with_cast.c26_1))
       return false;
-    if (!equals(this.t25_1, tmp0_other_with_cast.t25_1))
+    if (!equals(this.d26_1, tmp0_other_with_cast.d26_1))
       return false;
     return true;
   };
   function OrderPlaceCommandDTO() {
   }
   function OrderPlaceCommand(from, to, by, poolId, quantity, type) {
-    this.w25_1 = from;
-    this.x25_1 = to;
-    this.y25_1 = by;
-    this.z25_1 = poolId;
-    this.a26_1 = quantity;
-    this.b26_1 = type;
+    this.g26_1 = from;
+    this.h26_1 = to;
+    this.i26_1 = by;
+    this.j26_1 = poolId;
+    this.k26_1 = quantity;
+    this.l26_1 = type;
   }
   protoOf(OrderPlaceCommand).l15 = function () {
-    return this.w25_1;
+    return this.g26_1;
   };
   protoOf(OrderPlaceCommand).m15 = function () {
-    return this.x25_1;
+    return this.h26_1;
   };
-  protoOf(OrderPlaceCommand).u25 = function () {
-    return this.y25_1;
+  protoOf(OrderPlaceCommand).e26 = function () {
+    return this.i26_1;
   };
-  protoOf(OrderPlaceCommand).f1q = function () {
-    return this.z25_1;
+  protoOf(OrderPlaceCommand).i1q = function () {
+    return this.j26_1;
   };
-  protoOf(OrderPlaceCommand).v25 = function () {
-    return this.a26_1;
+  protoOf(OrderPlaceCommand).f26 = function () {
+    return this.k26_1;
   };
   protoOf(OrderPlaceCommand).st = function () {
-    return this.b26_1;
+    return this.l26_1;
   };
   protoOf(OrderPlaceCommand).toString = function () {
-    return 'OrderPlaceCommand(from=' + this.w25_1 + ', to=' + this.x25_1 + ', by=' + this.y25_1 + ', poolId=' + this.z25_1 + ', quantity=' + this.a26_1 + ', type=' + this.b26_1 + ')';
+    return 'OrderPlaceCommand(from=' + this.g26_1 + ', to=' + this.h26_1 + ', by=' + this.i26_1 + ', poolId=' + this.j26_1 + ', quantity=' + this.k26_1 + ', type=' + this.l26_1 + ')';
   };
   protoOf(OrderPlaceCommand).hashCode = function () {
-    var result = this.w25_1 == null ? 0 : getStringHashCode(this.w25_1);
-    result = imul(result, 31) + (this.x25_1 == null ? 0 : getStringHashCode(this.x25_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.y25_1) | 0;
-    result = imul(result, 31) + (this.z25_1 == null ? 0 : getStringHashCode(this.z25_1)) | 0;
-    result = imul(result, 31) + this.a26_1.hashCode() | 0;
-    result = imul(result, 31) + this.b26_1.hashCode() | 0;
+    var result = this.g26_1 == null ? 0 : getStringHashCode(this.g26_1);
+    result = imul(result, 31) + (this.h26_1 == null ? 0 : getStringHashCode(this.h26_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.i26_1) | 0;
+    result = imul(result, 31) + (this.j26_1 == null ? 0 : getStringHashCode(this.j26_1)) | 0;
+    result = imul(result, 31) + this.k26_1.hashCode() | 0;
+    result = imul(result, 31) + this.l26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlaceCommand).equals = function (other) {
@@ -28907,17 +28968,17 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlaceCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlaceCommand ? other : THROW_CCE();
-    if (!(this.w25_1 == tmp0_other_with_cast.w25_1))
+    if (!(this.g26_1 == tmp0_other_with_cast.g26_1))
       return false;
-    if (!(this.x25_1 == tmp0_other_with_cast.x25_1))
+    if (!(this.h26_1 == tmp0_other_with_cast.h26_1))
       return false;
-    if (!(this.y25_1 === tmp0_other_with_cast.y25_1))
+    if (!(this.i26_1 === tmp0_other_with_cast.i26_1))
       return false;
-    if (!(this.z25_1 == tmp0_other_with_cast.z25_1))
+    if (!(this.j26_1 == tmp0_other_with_cast.j26_1))
       return false;
-    if (!this.a26_1.equals(tmp0_other_with_cast.a26_1))
+    if (!this.k26_1.equals(tmp0_other_with_cast.k26_1))
       return false;
-    if (!this.b26_1.equals(tmp0_other_with_cast.b26_1))
+    if (!this.l26_1.equals(tmp0_other_with_cast.l26_1))
       return false;
     return true;
   };
@@ -28927,7 +28988,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.c26_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
+    tmp.m26_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_3())];
   }
   var Companion_instance_116;
   function Companion_getInstance_116() {
@@ -28937,33 +28998,33 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrderPlacedEvent(id, date, poolId, from, to, by, quantity, type) {
     Companion_getInstance_116();
-    this.d26_1 = id;
-    this.e26_1 = date;
-    this.f26_1 = poolId;
-    this.g26_1 = from;
-    this.h26_1 = to;
-    this.i26_1 = by;
-    this.j26_1 = quantity;
-    this.k26_1 = type;
+    this.n26_1 = id;
+    this.o26_1 = date;
+    this.p26_1 = poolId;
+    this.q26_1 = from;
+    this.r26_1 = to;
+    this.s26_1 = by;
+    this.t26_1 = quantity;
+    this.u26_1 = type;
   }
   protoOf(OrderPlacedEvent).qt = function () {
-    return this.d26_1;
+    return this.n26_1;
   };
   protoOf(OrderPlacedEvent).j18 = function () {
-    return this.e26_1;
+    return this.o26_1;
   };
   protoOf(OrderPlacedEvent).toString = function () {
-    return 'OrderPlacedEvent(id=' + this.d26_1 + ', date=' + this.e26_1.toString() + ', poolId=' + this.f26_1 + ', from=' + this.g26_1 + ', to=' + this.h26_1 + ', by=' + this.i26_1 + ', quantity=' + this.j26_1 + ', type=' + this.k26_1 + ')';
+    return 'OrderPlacedEvent(id=' + this.n26_1 + ', date=' + this.o26_1.toString() + ', poolId=' + this.p26_1 + ', from=' + this.q26_1 + ', to=' + this.r26_1 + ', by=' + this.s26_1 + ', quantity=' + this.t26_1 + ', type=' + this.u26_1 + ')';
   };
   protoOf(OrderPlacedEvent).hashCode = function () {
-    var result = getStringHashCode(this.d26_1);
-    result = imul(result, 31) + this.e26_1.hashCode() | 0;
-    result = imul(result, 31) + (this.f26_1 == null ? 0 : getStringHashCode(this.f26_1)) | 0;
-    result = imul(result, 31) + (this.g26_1 == null ? 0 : getStringHashCode(this.g26_1)) | 0;
-    result = imul(result, 31) + (this.h26_1 == null ? 0 : getStringHashCode(this.h26_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.i26_1) | 0;
-    result = imul(result, 31) + this.j26_1.hashCode() | 0;
-    result = imul(result, 31) + this.k26_1.hashCode() | 0;
+    var result = getStringHashCode(this.n26_1);
+    result = imul(result, 31) + this.o26_1.hashCode() | 0;
+    result = imul(result, 31) + (this.p26_1 == null ? 0 : getStringHashCode(this.p26_1)) | 0;
+    result = imul(result, 31) + (this.q26_1 == null ? 0 : getStringHashCode(this.q26_1)) | 0;
+    result = imul(result, 31) + (this.r26_1 == null ? 0 : getStringHashCode(this.r26_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.s26_1) | 0;
+    result = imul(result, 31) + this.t26_1.hashCode() | 0;
+    result = imul(result, 31) + this.u26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlacedEvent).equals = function (other) {
@@ -28972,37 +29033,37 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlacedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlacedEvent ? other : THROW_CCE();
-    if (!(this.d26_1 === tmp0_other_with_cast.d26_1))
+    if (!(this.n26_1 === tmp0_other_with_cast.n26_1))
       return false;
-    if (!this.e26_1.equals(tmp0_other_with_cast.e26_1))
+    if (!this.o26_1.equals(tmp0_other_with_cast.o26_1))
       return false;
-    if (!(this.f26_1 == tmp0_other_with_cast.f26_1))
+    if (!(this.p26_1 == tmp0_other_with_cast.p26_1))
       return false;
-    if (!(this.g26_1 == tmp0_other_with_cast.g26_1))
+    if (!(this.q26_1 == tmp0_other_with_cast.q26_1))
       return false;
-    if (!(this.h26_1 == tmp0_other_with_cast.h26_1))
+    if (!(this.r26_1 == tmp0_other_with_cast.r26_1))
       return false;
-    if (!(this.i26_1 === tmp0_other_with_cast.i26_1))
+    if (!(this.s26_1 === tmp0_other_with_cast.s26_1))
       return false;
-    if (!this.j26_1.equals(tmp0_other_with_cast.j26_1))
+    if (!this.t26_1.equals(tmp0_other_with_cast.t26_1))
       return false;
-    if (!this.k26_1.equals(tmp0_other_with_cast.k26_1))
+    if (!this.u26_1.equals(tmp0_other_with_cast.u26_1))
       return false;
     return true;
   };
   function OrderSubmitCommandDTO() {
   }
   function OrderSubmitCommand(id) {
-    this.l26_1 = id;
+    this.v26_1 = id;
   }
   protoOf(OrderSubmitCommand).qt = function () {
-    return this.l26_1;
+    return this.v26_1;
   };
   protoOf(OrderSubmitCommand).toString = function () {
-    return 'OrderSubmitCommand(id=' + this.l26_1 + ')';
+    return 'OrderSubmitCommand(id=' + this.v26_1 + ')';
   };
   protoOf(OrderSubmitCommand).hashCode = function () {
-    return getStringHashCode(this.l26_1);
+    return getStringHashCode(this.v26_1);
   };
   protoOf(OrderSubmitCommand).equals = function (other) {
     if (this === other)
@@ -29010,33 +29071,33 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderSubmitCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderSubmitCommand ? other : THROW_CCE();
-    if (!(this.l26_1 === tmp0_other_with_cast.l26_1))
+    if (!(this.v26_1 === tmp0_other_with_cast.v26_1))
       return false;
     return true;
   };
   function OrderUpdateCommandDTO() {
   }
   function OrderUpdateCommand(id, poolId, quantity) {
-    this.m26_1 = id;
-    this.n26_1 = poolId;
-    this.o26_1 = quantity;
+    this.w26_1 = id;
+    this.x26_1 = poolId;
+    this.y26_1 = quantity;
   }
   protoOf(OrderUpdateCommand).qt = function () {
-    return this.m26_1;
+    return this.w26_1;
   };
-  protoOf(OrderUpdateCommand).f1q = function () {
-    return this.n26_1;
+  protoOf(OrderUpdateCommand).i1q = function () {
+    return this.x26_1;
   };
-  protoOf(OrderUpdateCommand).v25 = function () {
-    return this.o26_1;
+  protoOf(OrderUpdateCommand).f26 = function () {
+    return this.y26_1;
   };
   protoOf(OrderUpdateCommand).toString = function () {
-    return 'OrderUpdateCommand(id=' + this.m26_1 + ', poolId=' + this.n26_1 + ', quantity=' + this.o26_1 + ')';
+    return 'OrderUpdateCommand(id=' + this.w26_1 + ', poolId=' + this.x26_1 + ', quantity=' + this.y26_1 + ')';
   };
   protoOf(OrderUpdateCommand).hashCode = function () {
-    var result = getStringHashCode(this.m26_1);
-    result = imul(result, 31) + (this.n26_1 == null ? 0 : getStringHashCode(this.n26_1)) | 0;
-    result = imul(result, 31) + this.o26_1.hashCode() | 0;
+    var result = getStringHashCode(this.w26_1);
+    result = imul(result, 31) + (this.x26_1 == null ? 0 : getStringHashCode(this.x26_1)) | 0;
+    result = imul(result, 31) + this.y26_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdateCommand).equals = function (other) {
@@ -29045,11 +29106,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdateCommand ? other : THROW_CCE();
-    if (!(this.m26_1 === tmp0_other_with_cast.m26_1))
+    if (!(this.w26_1 === tmp0_other_with_cast.w26_1))
       return false;
-    if (!(this.n26_1 == tmp0_other_with_cast.n26_1))
+    if (!(this.x26_1 == tmp0_other_with_cast.x26_1))
       return false;
-    if (!this.o26_1.equals(tmp0_other_with_cast.o26_1))
+    if (!this.y26_1.equals(tmp0_other_with_cast.y26_1))
       return false;
     return true;
   };
@@ -29060,25 +29121,25 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_117;
   }
   function OrderUpdatedEvent(id, date, poolId, quantity) {
-    this.p26_1 = id;
-    this.q26_1 = date;
-    this.r26_1 = poolId;
-    this.s26_1 = quantity;
+    this.z26_1 = id;
+    this.a27_1 = date;
+    this.b27_1 = poolId;
+    this.c27_1 = quantity;
   }
   protoOf(OrderUpdatedEvent).qt = function () {
-    return this.p26_1;
+    return this.z26_1;
   };
   protoOf(OrderUpdatedEvent).j18 = function () {
-    return this.q26_1;
+    return this.a27_1;
   };
   protoOf(OrderUpdatedEvent).toString = function () {
-    return 'OrderUpdatedEvent(id=' + this.p26_1 + ', date=' + this.q26_1.toString() + ', poolId=' + this.r26_1 + ', quantity=' + this.s26_1 + ')';
+    return 'OrderUpdatedEvent(id=' + this.z26_1 + ', date=' + this.a27_1.toString() + ', poolId=' + this.b27_1 + ', quantity=' + this.c27_1 + ')';
   };
   protoOf(OrderUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.p26_1);
-    result = imul(result, 31) + this.q26_1.hashCode() | 0;
-    result = imul(result, 31) + (this.r26_1 == null ? 0 : getStringHashCode(this.r26_1)) | 0;
-    result = imul(result, 31) + this.s26_1.hashCode() | 0;
+    var result = getStringHashCode(this.z26_1);
+    result = imul(result, 31) + this.a27_1.hashCode() | 0;
+    result = imul(result, 31) + (this.b27_1 == null ? 0 : getStringHashCode(this.b27_1)) | 0;
+    result = imul(result, 31) + this.c27_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdatedEvent).equals = function (other) {
@@ -29087,13 +29148,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdatedEvent ? other : THROW_CCE();
-    if (!(this.p26_1 === tmp0_other_with_cast.p26_1))
+    if (!(this.z26_1 === tmp0_other_with_cast.z26_1))
       return false;
-    if (!this.q26_1.equals(tmp0_other_with_cast.q26_1))
+    if (!this.a27_1.equals(tmp0_other_with_cast.a27_1))
       return false;
-    if (!(this.r26_1 == tmp0_other_with_cast.r26_1))
+    if (!(this.b27_1 == tmp0_other_with_cast.b27_1))
       return false;
-    if (!this.s26_1.equals(tmp0_other_with_cast.s26_1))
+    if (!this.c27_1.equals(tmp0_other_with_cast.c27_1))
       return false;
     return true;
   };
@@ -29517,7 +29578,7 @@ if (typeof Math.imul === 'undefined') {
       var tmp_0;
       if (_this__u8e3s4.isPrivate) {
         var tmp0_safe_receiver = _this__u8e3s4.proponent;
-        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.f27_1) == authedUser.memberOf);
+        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.p27_1) == authedUser.memberOf);
       } else {
         tmp_0 = false;
       }
@@ -30059,6 +30120,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf($serializer_50).xi = typeParametersSerializers;
   protoOf($serializer_51).xi = typeParametersSerializers;
   protoOf($serializer_52).xi = typeParametersSerializers;
+  protoOf($serializer_53).xi = typeParametersSerializers;
   defineProp(protoOf(AssetPoolState), 'position', function () {
     return this.q18();
   });
@@ -30101,7 +30163,7 @@ if (typeof Math.imul === 'undefined') {
   });
   defineProp(protoOf(ProjectAddedAssetPoolEvent), 'date');
   defineProp(protoOf(ProjectAddedAssetPoolEvent), 'poolId', function () {
-    return this.f1q();
+    return this.i1q();
   });
   defineProp(protoOf(ProjectChangePrivacyCommand), 'id', function () {
     return this.qt();
@@ -30112,20 +30174,20 @@ if (typeof Math.imul === 'undefined') {
   });
   defineProp(protoOf(ProjectChangedPrivacyEvent), 'date');
   defineProp(protoOf(ProjectChangedPrivacyEvent), 'isPrivate', function () {
-    return this.l1q();
+    return this.o1q();
   });
   defineProp(protoOf(ProjectCreateCommand), 'isPrivate', function () {
-    return this.l1q();
+    return this.o1q();
   }, function (value) {
-    this.r1q(value);
+    this.u1q(value);
   });
   defineProp(protoOf(ProjectCreatedEvent), 'id', function () {
     return this.qt();
   });
   defineProp(protoOf(ProjectCreatedEvent), 'isPrivate', function () {
-    return this.l1q();
+    return this.o1q();
   }, function (value) {
-    this.r1q(value);
+    this.u1q(value);
   });
   defineProp(protoOf(ProjectDeleteCommand), 'id', function () {
     return this.qt();
@@ -30136,68 +30198,68 @@ if (typeof Math.imul === 'undefined') {
   defineProp(protoOf(ProjectUpdatedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_53).xi = typeParametersSerializers;
+  protoOf($serializer_54).xi = typeParametersSerializers;
   defineProp(protoOf(CatalogueState), 'position', function () {
     return this.q18();
   });
   defineProp(protoOf(CatalogueState), 'name', protoOf(CatalogueState).k7);
   defineProp(protoOf(CatalogueState), 'ordinal', protoOf(CatalogueState).l7);
-  protoOf($serializer_54).xi = typeParametersSerializers;
+  protoOf($serializer_55).xi = typeParametersSerializers;
   protoOf(CatalogueAddedTranslationsEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueAddedTranslationsEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_55).xi = typeParametersSerializers;
+  protoOf($serializer_56).xi = typeParametersSerializers;
   protoOf(CatalogueCreatedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueCreatedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_56).xi = typeParametersSerializers;
+  protoOf($serializer_57).xi = typeParametersSerializers;
   protoOf(CatalogueDeletedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDeletedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_57).xi = typeParametersSerializers;
+  protoOf($serializer_58).xi = typeParametersSerializers;
   protoOf(CatalogueLinkedCataloguesEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueLinkedCataloguesEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_58).xi = typeParametersSerializers;
+  protoOf($serializer_59).xi = typeParametersSerializers;
   protoOf(CatalogueLinkedDatasetsEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueLinkedDatasetsEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_59).xi = typeParametersSerializers;
+  protoOf($serializer_60).xi = typeParametersSerializers;
   protoOf(CatalogueLinkedThemesEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueLinkedThemesEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_60).xi = typeParametersSerializers;
+  protoOf($serializer_61).xi = typeParametersSerializers;
   protoOf(CatalogueRemovedTranslationsEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueRemovedTranslationsEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_61).xi = typeParametersSerializers;
+  protoOf($serializer_62).xi = typeParametersSerializers;
   protoOf(CatalogueSetImageEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueSetImageEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_62).xi = typeParametersSerializers;
+  protoOf($serializer_63).xi = typeParametersSerializers;
   protoOf(CatalogueUnlinkedCataloguesEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueUnlinkedCataloguesEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_63).xi = typeParametersSerializers;
+  protoOf($serializer_64).xi = typeParametersSerializers;
   protoOf(CatalogueUnlinkedDatasetsEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueUnlinkedDatasetsEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_64).xi = typeParametersSerializers;
+  protoOf($serializer_65).xi = typeParametersSerializers;
   protoOf(CatalogueUpdatedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueUpdatedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_65).xi = typeParametersSerializers;
+  protoOf($serializer_66).xi = typeParametersSerializers;
   protoOf(CatalogueUpdatedVersionNotesEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueUpdatedVersionNotesEvent), 'id', function () {
     return this.qt();
@@ -30207,32 +30269,32 @@ if (typeof Math.imul === 'undefined') {
   });
   defineProp(protoOf(CatalogueDraftState), 'name', protoOf(CatalogueDraftState).k7);
   defineProp(protoOf(CatalogueDraftState), 'ordinal', protoOf(CatalogueDraftState).l7);
-  protoOf($serializer_66).xi = typeParametersSerializers;
+  protoOf($serializer_67).xi = typeParametersSerializers;
   protoOf(CatalogueDraftCreatedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftCreatedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_67).xi = typeParametersSerializers;
+  protoOf($serializer_68).xi = typeParametersSerializers;
   protoOf(CatalogueDraftDeletedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftDeletedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_68).xi = typeParametersSerializers;
+  protoOf($serializer_69).xi = typeParametersSerializers;
   protoOf(CatalogueDraftRejectedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftRejectedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_69).xi = typeParametersSerializers;
+  protoOf($serializer_70).xi = typeParametersSerializers;
   protoOf(CatalogueDraftRequestedUpdateEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftRequestedUpdateEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_70).xi = typeParametersSerializers;
+  protoOf($serializer_71).xi = typeParametersSerializers;
   protoOf(CatalogueDraftSubmittedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftSubmittedEvent), 'id', function () {
     return this.qt();
   });
-  protoOf($serializer_71).xi = typeParametersSerializers;
+  protoOf($serializer_72).xi = typeParametersSerializers;
   protoOf(CatalogueDraftValidatedEvent).s2Id = s2Id;
   defineProp(protoOf(CatalogueDraftValidatedEvent), 'id', function () {
     return this.qt();
@@ -30264,13 +30326,13 @@ if (typeof Math.imul === 'undefined') {
     return this.m15();
   });
   defineProp(protoOf(OrderPlaceCommand), 'by', function () {
-    return this.u25();
+    return this.e26();
   });
   defineProp(protoOf(OrderPlaceCommand), 'poolId', function () {
-    return this.f1q();
+    return this.i1q();
   });
   defineProp(protoOf(OrderPlaceCommand), 'quantity', function () {
-    return this.v25();
+    return this.f26();
   });
   defineProp(protoOf(OrderPlaceCommand), 'type', function () {
     return this.st();
@@ -30286,10 +30348,10 @@ if (typeof Math.imul === 'undefined') {
     return this.qt();
   });
   defineProp(protoOf(OrderUpdateCommand), 'poolId', function () {
-    return this.f1q();
+    return this.i1q();
   });
   defineProp(protoOf(OrderUpdateCommand), 'quantity', function () {
-    return this.v25();
+    return this.f26();
   });
   protoOf(OrderUpdatedEvent).s2Id = s2Id;
   defineProp(protoOf(OrderUpdatedEvent), 'id', function () {
@@ -31131,6 +31193,12 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$s2$commons = $io$komune$registry$s2.commons || ($io$komune$registry$s2.commons = {});
     var $io$komune$registry$s2$commons$auth = $io$komune$registry$s2$commons.auth || ($io$komune$registry$s2$commons.auth = {});
     defineProp($io$komune$registry$s2$commons$auth, 'Roles', Roles_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$commons = $io$komune$registry$s2.commons || ($io$komune$registry$s2.commons = {});
+    var $io$komune$registry$s2$commons$model = $io$komune$registry$s2$commons.model || ($io$komune$registry$s2$commons.model = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
@@ -32039,6 +32107,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
     var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$organization = $io$komune$registry$f2.organization || ($io$komune$registry$f2.organization = {});
+    var $io$komune$registry$f2$organization$domain = $io$komune$registry$f2$organization.domain || ($io$komune$registry$f2$organization.domain = {});
+    var $io$komune$registry$f2$organization$domain$model = $io$komune$registry$f2$organization$domain.model || ($io$komune$registry$f2$organization$domain.model = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
     var $io$komune$registry$f2$user = $io$komune$registry$f2.user || ($io$komune$registry$f2.user = {});
     var $io$komune$registry$f2$user$domain = $io$komune$registry$f2$user.domain || ($io$komune$registry$f2$user.domain = {});
     var $io$komune$registry$f2$user$domain$command = $io$komune$registry$f2$user$domain.command || ($io$komune$registry$f2$user$domain.command = {});
@@ -32141,6 +32216,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$policy = $io$komune$registry$f2$catalogue$domain.policy || ($io$komune$registry$f2$catalogue$domain.policy = {});
     defineProp($io$komune$registry$f2$catalogue$domain$policy, 'CataloguePolicies', CataloguePolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$query = $io$komune$registry$f2$catalogue$domain.query || ($io$komune$registry$f2$catalogue$domain.query = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

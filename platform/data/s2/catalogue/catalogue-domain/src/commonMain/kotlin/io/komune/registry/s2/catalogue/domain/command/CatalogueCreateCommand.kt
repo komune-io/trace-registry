@@ -2,6 +2,8 @@ package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Location
+import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
@@ -16,11 +18,13 @@ data class CatalogueCreateCommand(
     val description: String?,
     val themeIds: Set<ConceptId>,
     val homepage: String?,
+    val ownerOrganizationId: OrganizationId?,
     val structure: Structure?,
     val catalogueIds: Set<CatalogueId>,
     val datasetIds: Set<DatasetId>,
     val accessRights: String?,
     val licenseId: LicenseId?,
+    val location: Location?,
     val versionNotes: String?,
     val hidden: Boolean
 ): CatalogueInitCommand
@@ -31,9 +35,11 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val description: String?
     val themeIds: Set<ConceptId>
     val homepage: String?
+    val ownerOrganizationId: OrganizationId?
     val structure: Structure?
     val accessRights: String?
     val licenseId: LicenseId?
+    val location: Location?
     val versionNotes: String?
     val hidden: Boolean
 }
@@ -52,8 +58,11 @@ data class CatalogueCreatedEvent(
     val catalogueIds: Set<CatalogueId> = emptySet(),
     val datasetIds: Set<DatasetId> = emptySet(),
     val creatorId: UserId?,
+    val creatorOrganizationId: OrganizationId?,
+    override val ownerOrganizationId: OrganizationId?,
     override val accessRights: String? = null,
     override val licenseId: LicenseId? = null,
+    override val location: Location? = null,
     override val versionNotes: String? = null,
     override val hidden: Boolean = false,
     override val date: Long,

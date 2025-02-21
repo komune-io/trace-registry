@@ -1437,6 +1437,13 @@ export declare namespace io.komune.registry.s2.commons.model {
     }
 }
 export declare namespace io.komune.registry.s2.commons.model {
+    interface LocationDTO {
+        readonly country?: string;
+        readonly region?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model {
     const RedirectableRoutes: {
         quotations(): string;
         projects(): string;
@@ -3258,6 +3265,13 @@ export declare namespace io.komune.registry.f2.license.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.f2.organization.domain.model {
+    interface OrganizationRefDTO {
+        readonly id: string;
+        readonly name: string;
+
+    }
+}
 export declare namespace io.komune.registry.f2.user.domain.command {
     interface UserOnboardCommandDTO {
         readonly email: string;
@@ -3297,10 +3311,12 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly language?: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
+        readonly ownerOrganizationId?: string;
         readonly themes?: string[];
         readonly catalogues?: string[];
         readonly accessRights?: string;
         readonly license?: string;
+        readonly location?: io.komune.registry.s2.commons.model.LocationDTO/* Nullable<io.komune.registry.s2.commons.model.Location> */;
         readonly versionNotes?: string;
         readonly hidden?: boolean;
         readonly autoValidateDraft: boolean;
@@ -3389,9 +3405,11 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly language: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly homepage?: string;
+        readonly ownerOrganizationId?: string;
         readonly themes?: string[];
         readonly accessRights?: string;
         readonly license?: string;
+        readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly hidden?: boolean;
         readonly versionNotes?: string;
 
@@ -3420,10 +3438,13 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly ownerOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly publisher?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly accessRights?: string;
         readonly license?: io.komune.registry.f2.license.domain.model.LicenseDTO;
+        readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly issued: number;
         readonly modified: number;
         readonly hidden: boolean;
@@ -3502,6 +3523,18 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
     interface CatalogueGetResultDTO {
         readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueListAvailableOwnersQueryDTO {
+        readonly type: string;
+        readonly search?: string;
+        readonly limit?: number;
+
+    }
+    interface CatalogueListAvailableOwnersResultDTO {
+        readonly items: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO[];
 
     }
 }

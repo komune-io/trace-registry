@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class ConceptF2FinderService(
-    private val conceptFinderService: ConceptFinderService
-) : I18nService() {
+    private val conceptFinderService: ConceptFinderService,
+    private val i18nService: I18nService
+) {
 
     suspend fun getOrNull(id: ConceptId): ConceptDTOBase? {
         return conceptFinderService.getOrNull(id)?.toDTO()
@@ -28,7 +29,7 @@ class ConceptF2FinderService(
         val concept = conceptFinderService.getOrNull(id)
             ?: return null
 
-        val selectedLanguage = selectLanguage(concept.prefLabels.keys, language, otherLanguageIfAbsent)
+        val selectedLanguage = i18nService.selectLanguage(concept.prefLabels.keys, language, otherLanguageIfAbsent)
             ?: return null
 
         return concept.toTranslatedDTO(selectedLanguage)
