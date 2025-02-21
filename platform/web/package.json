@@ -67,7 +67,7 @@
     "classnames": "^2.2.6",
     "react-bootstrap": "^1.5.0",
     "sass-embedded": "^1.85.0",
-    "react-data-grid": "^7.0.0-canary.16"
+    "react-data-grid": "7.0.0-canary.16"
   },
   "resolutions": {
     "lexical": "0.23.1",
