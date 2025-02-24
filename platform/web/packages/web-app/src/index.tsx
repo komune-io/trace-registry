@@ -14,6 +14,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
 import { OidcConfiguration } from "@axa-fr/oidc-client";
+import {AuthRetryOnError} from "./App/auth/AuthRetryOnError";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +51,7 @@ root.render(
     <React.StrictMode>
       <KeycloakProvider
         configuration={oidcConfiguration}
+        authenticatingErrorComponent={AuthRetryOnError}
       >
         <OidcSecure>
         <AlertHub>
