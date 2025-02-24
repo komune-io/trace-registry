@@ -40,7 +40,13 @@ make init up
 ./gradlew :platform:script:script-gateway:bootRun --args='--spring.profiles.active=local'
 ```
 
-* Run Web Plateform
+* Configure Web App
+```bash
+cp platform/web/packages/web-app/public/env-config.local.js platform/web/packages/web-app/public/env-config.js
+cp platform/web/packages/web-app/public/OidcTrustedDomains.local.js platform/web/packages/web-app/public/OidcTrustedDomains.js 
+```
+
+* Run Web app
 
 ```bash
 cd platform/web/packages/web-platform; yarn install; yarn start
@@ -51,12 +57,3 @@ cd platform/web/packages/web-platform; yarn install; yarn start
 ```bash
 cd platform/web/packages/web-certificate; yarn install; yarn start
 ```
-
-### Keycloak Config
-
-In `platform-web` client, the mapper `memberOf` need to be added:
-* Name: memberOf
-* Mapper Type: User Attribute
-* User Attribute: memberOf
-* Token Claim Name: memberOf
-* Claim JSON Type: String
