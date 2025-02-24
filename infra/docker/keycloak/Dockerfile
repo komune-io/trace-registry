@@ -23,7 +23,7 @@ RUN apk add --no-cache maven=3.9.5-r0
 
 WORKDIR /app/packages/keycloak
 RUN yarn build-keycloak-theme &&\
-    unzip dist_keycloak/keycloak-theme-for-kc-22-to-25.jar -d keycloak-theme-for-kc-22-to-25
+    unzip dist_keycloak/keycloak-theme-for-kc-all-other-versions.jar -d keycloak-theme-for-kc-all-other-versions
 
 FROM komune/im-keycloak:${VERSION_CONNECT}
 
@@ -36,7 +36,7 @@ ENV KC_HOSTNAME_STRICT=false
 ENV KC_HOSTNAME=localhost
 ENV KC_HTTP_RELATIVE_PATH=/
 
-COPY --from=build  /app/packages/keycloak/keycloak-theme-for-kc-22-to-25/theme/registry-keycloakify /opt/keycloak/themes/registry-keycloakify/
+COPY --from=build  /app/packages/keycloak/keycloak-theme-for-kc-all-other-versions/theme/registry-keycloakify /opt/keycloak/themes/registry-keycloakify/
 RUN /opt/keycloak/bin/kc.sh build
 
 LABEL org.opencontainers.image.source="https://github.com/komune-io/trace-registry"
