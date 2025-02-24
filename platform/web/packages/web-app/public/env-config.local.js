@@ -1,18 +1,18 @@
 window._env_ = {
     platform: {
-        url: "https://100m.kosmio.dev/api"
+        url: "http://localhost:8070"
     },
     im: {
-        url: "https://connect.100m.kosmio.dev/im",
+        url: "http://localhost:8009",
     },
     admin: {
-        url: "https://connect.100m.kosmio.dev",
+        url: "http://localhost:90",
     },
     config: {
         keycloak: {
             realm: "registry-local",
-            clientId: "connect-admin-platform-web",
-            url: "https://auth.connect.100m.kosmio.dev"
+            clientId: "registry-platform-web",
+            url: "http://im-keycloak:8080"
         }
     },
     theme: {
