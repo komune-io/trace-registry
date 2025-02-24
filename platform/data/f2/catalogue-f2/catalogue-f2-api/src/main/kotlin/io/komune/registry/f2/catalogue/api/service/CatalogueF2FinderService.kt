@@ -6,6 +6,7 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.f2.catalogue.api.model.descendantsIds
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase

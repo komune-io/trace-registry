@@ -1,4 +1,4 @@
-package io.komune.registry.f2.catalogue.api.service
+package io.komune.registry.f2.catalogue.api.model
 
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
@@ -10,7 +10,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
@@ -23,7 +22,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
@@ -126,12 +124,4 @@ fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
 
 fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
     id = id
-)
-
-fun CatalogueDraftModel.toRef() = CatalogueDraftRefDTOBase(
-    id = id,
-    originalCatalogueId = originalCatalogueId,
-    language = language,
-    baseVersion = baseVersion,
-    status = status
 )

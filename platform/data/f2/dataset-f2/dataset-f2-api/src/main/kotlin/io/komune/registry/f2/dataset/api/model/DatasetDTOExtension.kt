@@ -1,5 +1,6 @@
-package io.komune.registry.f2.dataset.api.service
+package io.komune.registry.f2.dataset.api.model
 
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
@@ -11,6 +12,9 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkedThemesEventDTOB
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
+import io.komune.registry.f2.user.domain.model.UserRef
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
@@ -53,7 +57,7 @@ fun DatasetModel.toDTO(): DatasetDTOBase {
         license = license,
         format = format,
         issued = issued,
-        distributions = distributions?.map { it.toDTO() },
+        distributions = distributions.map { it.toDTO() },
     )
 }
 
@@ -142,4 +146,15 @@ fun DatasetDeleteCommandDTOBase.toCommand() = DatasetDeleteCommand(
 
 fun DatasetDeletedEvent.toDTO() = DatasetDeletedEventDTOBase(
     id = id
+)
+
+suspend fun CatalogueDraftModel.toRef(
+    getUser: suspend (UserId) -> UserRef,
+) = CatalogueDraftRefDTOBase(
+    id = id,
+    originalCatalogueId = originalCatalogueId,
+    language = language,
+    baseVersion = baseVersion,
+    creator = getUser(creatorId),
+    status = status
 )

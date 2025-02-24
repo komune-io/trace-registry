@@ -48,7 +48,7 @@ class CatalogueAggregateService(
 			description = cmd.description,
 			themeIds = cmd.themeIds,
 			homepage = cmd.homepage,
-			ownerOrganizationId = cmd.ownerOrganizationId,
+			ownerOrganizationId = cmd.ownerOrganizationId ?: authedUser?.memberOf,
 			structure = cmd.structure,
 			catalogueIds = cmd.catalogueIds,
 			datasetIds = cmd.datasetIds,

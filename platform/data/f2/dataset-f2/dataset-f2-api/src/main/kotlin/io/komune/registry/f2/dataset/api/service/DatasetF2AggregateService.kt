@@ -5,12 +5,16 @@ import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.f2.dataset.api.exception.DatasetDraftInvalidException
+import io.komune.registry.f2.dataset.api.model.toCommand
+import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreatedEventDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetDeletedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTOBase
@@ -23,6 +27,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
@@ -174,6 +179,21 @@ class DatasetF2AggregateService(
             id = draftedDatasetId,
             distributionId = command.distributionId
         )
+    }
+
+    suspend fun delete(command: DatasetDeleteCommandDTOBase): DatasetDeletedEventDTOBase {
+        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
+
+        val event = command.toCommand()
+            .copy(id = draftedDatasetId)
+            .let { datasetAggregateService.delete(it) }
+
+        CatalogueUnlinkDatasetsCommand(
+            id = catalogueDraftFinderService.get(command.draftId).catalogueId,
+            datasetIds = listOf(draftedDatasetId)
+        ).let { catalogueAggregateService.unlinkDatasets(it) }
+
+        return event.toDTO()
     }
 
     private suspend fun getDraftedDatasetId(datasetId: DatasetId, draftId: CatalogueDraftId): DatasetId {

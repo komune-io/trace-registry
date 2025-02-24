@@ -12,7 +12,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
-import io.komune.registry.f2.dataset.api.service.toDTO
+import io.komune.registry.f2.dataset.api.model.toDTO
+import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
@@ -109,7 +110,7 @@ class CatalogueI18nService(
             hidden = translated.hidden,
             issued = translated.issued,
             modified = translated.modified,
-            pendingDrafts = pendingDrafts?.map { it.toRef() },
+            pendingDrafts = pendingDrafts?.map { it.toRef(cache.users::get) },
             version = translated.version,
             versionNotes = translated.versionNotes,
         )

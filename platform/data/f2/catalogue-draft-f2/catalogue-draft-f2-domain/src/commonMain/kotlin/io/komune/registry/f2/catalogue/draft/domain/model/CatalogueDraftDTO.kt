@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.draft.domain.model
 
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
@@ -17,11 +18,11 @@ import kotlin.js.JsExport
  * @order 10
  */
 @JsExport
-interface CatalogueDraftDTO {
+interface CatalogueDraftDTO : CatalogueDraftRefDTO {
     /**
      * Id of the draft.
      */
-    val id: CatalogueDraftId
+    override val id: CatalogueDraftId
 
     /**
      * Catalogue containing the data of the draft.
@@ -31,28 +32,28 @@ interface CatalogueDraftDTO {
     /**
      * Id of the original catalogue that the draft is based on.
      */
-    val originalCatalogueId: CatalogueId
+    override val originalCatalogueId: CatalogueId
 
     /**
      * Language of the draft.
      */
-    val language: Language
+    override val language: Language
 
     /**
      * Version of the original catalogue that the draft is based on. 0 means that this draft is the very first version of the catalogue.
      * @example 1
      */
-    val baseVersion: Int
+    override val baseVersion: Int
 
     /**
      * Id of the user who created the draft.
      */
-    val creator: UserRefDTO
+    override val creator: UserRefDTO
 
     /**
      * Status of the draft.
      */
-    val status: CatalogueDraftState
+    override val status: CatalogueDraftState
 
     /**
      * Notes about the version
