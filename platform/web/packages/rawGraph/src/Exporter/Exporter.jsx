@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import { InputGroup, DropdownButton, Dropdown } from 'react-bootstrap'
-import { onChartExported } from '../gaEvents'
 
 function downloadBlob(url, filename) {
   // Create a new anchor element
@@ -85,8 +84,6 @@ export const Exporter = ({ rawViz, exportProject }) => {
       default:
         break
     }
-    // TODO: Make a getter for _chartImplementation
-    onChartExported(rawViz._chartImplementation.metadata, currentFormat)
   }, [
     currentFile,
     currentFormat,

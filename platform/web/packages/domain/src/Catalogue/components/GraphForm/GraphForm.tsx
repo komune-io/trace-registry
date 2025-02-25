@@ -6,10 +6,12 @@ import {
     //@ts-ignore
 } from '@rawgraphs/rawgraphs-core'
 import { dataSet, dataTypes } from './dataset'
-import "raw-graph/rawGraphTheme.scss"
+//@ts-ignore
+import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
 import { useCallback, useRef, useState } from 'react'
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
+import {Helmet} from "react-helmet";
 
 export const GraphForm = () => {
     const [currentChart, setCurrentChart] = useState(charts[0])
@@ -99,6 +101,9 @@ export const GraphForm = () => {
         className="rawGraph-container"
         gap={3}
         >
+            <Helmet>
+                <link rel="stylesheet" href={rawGraphScssUrl} />
+            </Helmet>
             <TitleDivider
                 title="2. Configurez votre jeu de données"
                 size="subtitle1"

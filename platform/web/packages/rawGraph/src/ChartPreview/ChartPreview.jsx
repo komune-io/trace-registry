@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react'
 import { chart as rawChart } from '@rawgraphs/rawgraphs-core'
 import {useDebounce} from '../hooks'
 import {WarningMessage} from '../WarningMessage'
-import { onChartRendered } from '../gaEvents'
 
 export const ChartPreview = React.memo(({
   chart,
@@ -121,7 +120,6 @@ export const ChartPreview = React.memo(({
         const rawViz = viz.renderToDOM(domRef.current, mappedData)
         setRawViz(rawViz)
         setError(null)
-        onChartRendered(chart.metadata)
       } catch (e) {
         console.log("chart error", e)
         setError({ variant: 'danger', message: 'Chart error. ' + e.message })
