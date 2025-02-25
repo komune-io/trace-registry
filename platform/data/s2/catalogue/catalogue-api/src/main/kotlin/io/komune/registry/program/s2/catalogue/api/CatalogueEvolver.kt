@@ -14,6 +14,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslatio
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRightsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import org.springframework.stereotype.Service
@@ -25,6 +26,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	override suspend fun evolve(event: CatalogueEvent, model: CatalogueEntity?): CatalogueEntity? = when (event) {
 		is CatalogueCreatedEvent -> create(event)
 		is CatalogueUpdatedEvent -> model?.update(event)
+		is CatalogueUpdatedAccessRightsEvent -> model?.updateAccessRights(event)
 		is CatalogueUpdatedVersionNotesEvent -> model?.updateVersionNotes(event)
 		is CatalogueAddedTranslationsEvent -> model?.addTranslations(event)
 		is CatalogueRemovedTranslationsEvent -> model?.removeTranslations(event)
@@ -62,6 +64,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = apply {
 		applyEvent(event)
+	}
+
+	private suspend fun CatalogueEntity.updateAccessRights(event: CatalogueUpdatedAccessRightsEvent) = apply {
+		accessRights = event.accessRights
+		modified = event.date
 	}
 
 	private suspend fun CatalogueEntity.updateVersionNotes(event: CatalogueUpdatedVersionNotesEvent) = apply {

@@ -20,6 +20,12 @@ object CataloguePolicies {
         return canWrite(authedUser, catalogue)
     }
 
+    fun canUpdateAccessRights(authedUser: AuthedUserDTO, catalogue: CatalogueDTO?) = catalogue.isNotNullAnd {
+        val isInOrganization = authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
+        isInOrganization && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
+                || authedUser.hasRole(Permissions.Catalogue.PUBLISH_ALL)
+    }
+
     fun canSetImg(authedUser: AuthedUserDTO, catalogue: CatalogueDTO?): Boolean {
         return canWrite(authedUser, catalogue)
     }

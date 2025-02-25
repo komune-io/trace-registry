@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.CataloguePolicies
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.dataset.api.model.toRef
@@ -33,6 +34,13 @@ class CataloguePoliciesEnforcer(
         }
     }
 
+    suspend fun checkUpdateAccessRights(
+        catalogueId: CatalogueId
+    ) = checkAuthed("update access rights of catalogue [$catalogueId]") { authedUser ->
+        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        CataloguePolicies.canUpdateAccessRights(authedUser, catalogue)
+    }
+
     suspend fun checkSetImage(catalogueId: CatalogueId) = checkAuthed("set image of catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.get(catalogueId, null)
         CataloguePolicies.canSetImg(authedUser, catalogue)
@@ -62,6 +70,15 @@ class CataloguePoliciesEnforcer(
     ) = checkAuthed("link datasets to catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.get(catalogueId, null)
         CataloguePolicies.canLinkDatasets(authedUser, catalogue)
+    }
+
+    suspend fun enforceCommand(command: CatalogueUpdateCommandDTOBase) = enforceAuthed { authedUser ->
+        val catalogue = catalogueF2FinderService.get(command.id, null)
+        command.copy(
+            accessRights = command.accessRights
+                .takeIf { CataloguePolicies.canUpdateAccessRights(authedUser, catalogue) }
+                ?: catalogue.accessRights
+        )
     }
 
     private suspend fun getDraftRef(draftId: CatalogueDraftId): CatalogueDraftRefDTOBase {

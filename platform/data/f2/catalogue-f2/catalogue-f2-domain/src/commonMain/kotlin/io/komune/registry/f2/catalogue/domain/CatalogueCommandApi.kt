@@ -3,8 +3,10 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFun
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 
 interface CatalogueCommandApi {
+    fun catalogueUpdateAccessRights(): CatalogueUpdateAccessRightsFunction
     fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
     fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction
     fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction

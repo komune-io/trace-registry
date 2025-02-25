@@ -634,6 +634,16 @@ export declare namespace io.komune.im.f2.user.domain.command {
     }
 }
 export declare namespace io.komune.im.f2.user.domain.command {
+    interface UserDisableMfaCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+
+    }
+    interface UserDisabledMfaEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.im.f2.user.domain.command {
     interface UserResetPasswordCommandDTO extends f2.dsl.cqrs.Command {
         readonly id: string;
 
@@ -693,6 +703,7 @@ export declare namespace io.komune.im.f2.user.domain.model {
         readonly address?: io.komune.im.commons.model.AddressDTO;
         readonly phone?: string;
         readonly roles: io.komune.im.f2.privilege.domain.role.model.RoleDTO[];
+        readonly mfa?: string[];
         readonly attributes: Record<string, string>;
         readonly enabled: boolean;
         readonly disabledBy?: string;
@@ -708,6 +719,8 @@ export declare namespace io.komune.im.f2.user.domain.policies {
         checkRefList(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, organizationId?: string): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
+        canConfigureMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
+        canDisableMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
         canUpdateMemberOf(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdateRole(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canDisable(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
@@ -2753,6 +2766,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
 
     }
 }
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueUpdateAccessRightsCommandDTO {
+        readonly id: string;
+        readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
+
+    }
+}
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
 }
@@ -3308,6 +3328,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
     const CataloguePolicies: {
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
+        canUpdateAccessRights(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
         canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
         canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
         canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
@@ -3405,6 +3426,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueUnlinkCataloguesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueUpdateAccessRightsCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateAccessRightsCommandDTO {
+        readonly id: string;
+        readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
+
+    }
+    interface CatalogueUpdatedAccessRightsEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
 
     }

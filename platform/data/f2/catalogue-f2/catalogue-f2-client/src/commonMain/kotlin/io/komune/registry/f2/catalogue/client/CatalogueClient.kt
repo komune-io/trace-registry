@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFun
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
@@ -57,6 +58,8 @@ fun catalogueClient(
 @JsExport
 @JsName("CatalogueClient")
 open class CatalogueClient(val client: F2Client) : CatalogueApi {
+    override fun catalogueUpdateAccessRights(): CatalogueUpdateAccessRightsFunction
+        = client.function("data/${this::catalogueUpdateAccessRights.name}")
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction
         = client.function("data/${this::catalogueLinkCatalogues.name}")
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction

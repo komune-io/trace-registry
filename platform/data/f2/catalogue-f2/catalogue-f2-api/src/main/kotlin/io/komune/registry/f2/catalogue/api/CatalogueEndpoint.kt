@@ -25,7 +25,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDT
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedAccessRightsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
@@ -201,12 +203,20 @@ class CatalogueEndpoint(
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id, command.draftId)
-        val event = catalogueF2AggregateService.update(command)
+        val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
+        val event = catalogueF2AggregateService.update(enforcedCommand)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
 
-    @PermitAll
+    @Bean
+    override fun catalogueUpdateAccessRights(): CatalogueUpdateAccessRightsFunction = f2Function { command ->
+        logger.info("catalogueUpdateAccessRights: $command")
+        cataloguePoliciesEnforcer.checkUpdateAccessRights(command.id)
+        catalogueAggregateService.updateAccessRights(command)
+            .let { CatalogueUpdatedAccessRightsEventDTOBase(it.id) }
+    }
+
     @Bean
     override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { command ->
         logger.info("catalogueDelete: $command")

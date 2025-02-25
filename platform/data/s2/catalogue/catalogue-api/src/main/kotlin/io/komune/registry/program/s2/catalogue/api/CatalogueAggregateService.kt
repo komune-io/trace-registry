@@ -23,8 +23,10 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesC
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateAccessRightsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRightsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
@@ -152,6 +154,16 @@ class CatalogueAggregateService(
 			id =  command.id,
 			date = System.currentTimeMillis(),
 			themes = command.themes
+		)
+	}
+
+	suspend fun updateAccessRights(
+		command: CatalogueUpdateAccessRightsCommand
+	): CatalogueUpdatedAccessRightsEvent = automate.transition(command) {
+		CatalogueUpdatedAccessRightsEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			accessRights = command.accessRights
 		)
 	}
 
