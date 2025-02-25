@@ -100,12 +100,12 @@ class CatalogueEndpoint(
         catalogueF2FinderService.search(
             language = query.language,
             query = query.query,
-            accessRights = query.accessRights,
-            catalogueIds = query.catalogueIds,
-            licenseId = query.licenseId,
-            parentIdentifier = query.parentIdentifier,
-            type = query.type,
-            themeIds = query.themeIds,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000

@@ -67,24 +67,24 @@ class CatalogueDraftF2FinderService(
 
     suspend fun search(
         query: String? = null,
-        catalogueIds: List<CatalogueId>? = null,
-        originalCatalogueIds: List<CatalogueId>? = null,
-        types: List<String>? = null,
-        languages: List<String>? = null,
-        statuses: List<CatalogueDraftState>? = null,
-        creatorIds: List<UserId>? = null,
+        catalogueId: Match<CatalogueId>? = null,
+        originalCatalogueId: Match<CatalogueId>? = null,
+        type: Match<String>? = null,
+        language: Match<String>? = null,
+        status: Match<CatalogueDraftState>? = null,
+        creatorId: Match<UserId>? = null,
         offset: OffsetPagination? = null
     ): PageDTO<CatalogueDraftDTOBase> {
         val cache = Cache()
 
         val searchResult = catalogueDraftSnapMeiliSearchRepository.search(
             query = query,
-            catalogueIds = catalogueIds,
-            originalCatalogueIds = originalCatalogueIds,
-            types = types,
-            languages = languages,
-            statuses = statuses,
-            creatorIds = creatorIds,
+            catalogueId = catalogueId,
+            originalCatalogueId = originalCatalogueId,
+            type = type,
+            language = language,
+            status = status,
+            creatorId = creatorId,
             offset = offset
         )
 

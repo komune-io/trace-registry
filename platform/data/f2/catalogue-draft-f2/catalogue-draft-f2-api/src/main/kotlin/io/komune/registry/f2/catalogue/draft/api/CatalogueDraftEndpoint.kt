@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.draft.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
@@ -55,11 +57,11 @@ class CatalogueDraftEndpoint(
         val enforcedQuery = catalogueDraftPoliciesEnforcer.enforceQuery(query)
         catalogueDraftF2FinderService.search(
             query = enforcedQuery.search,
-            originalCatalogueIds = enforcedQuery.originalCatalogueId?.let(::listOf),
-            languages = enforcedQuery.language?.let(::listOf),
-            statuses = enforcedQuery.status,
-            types = enforcedQuery.type?.let(::listOf),
-            creatorIds = enforcedQuery.creatorId?.let(::listOf),
+            originalCatalogueId = enforcedQuery.originalCatalogueId?.let(::ExactMatch),
+            language = enforcedQuery.language?.let(::ExactMatch),
+            status = enforcedQuery.status?.let(::CollectionMatch),
+            type = enforcedQuery.type?.let(::ExactMatch),
+            creatorId = enforcedQuery.creatorId?.let(::ExactMatch),
             offset = OffsetPagination(
                 offset = enforcedQuery.offset ?: 0,
                 limit = enforcedQuery.limit ?: 10

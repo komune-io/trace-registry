@@ -102,22 +102,23 @@ class CatalogueF2FinderService(
             total = catalogues.total
         )
     }
+
     suspend fun search(
         language: Language,
         query: String?,
-        accessRights: List<String>?,
-        catalogueIds: List<String>?,
-        parentIdentifier: List<String>?,
-        type: List<String>?,
-        themeIds: List<String>?,
-        licenseId: List<String>?,
+        accessRights: Match<String>? = null,
+        catalogueIds: Match<String>? = null,
+        parentIdentifier: Match<String>? = null,
+        type: Match<String>? = null,
+        themeIds: Match<String>? = null,
+        licenseId: Match<String>? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache { cache ->
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
             accessRights = accessRights,
-            language = language,
+            language = ExactMatch(language),
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,

@@ -1,18 +1,17 @@
 package io.komune.registry.s2.catalogue.draft.api.entity
 
-import com.meilisearch.sdk.Client
-import com.meilisearch.sdk.Index
 import com.meilisearch.sdk.SearchRequest
-import com.meilisearch.sdk.exceptions.MeilisearchApiException
 import com.meilisearch.sdk.model.SearchResult
-import com.meilisearch.sdk.model.Settings
+import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.jsonMapper
-import io.komune.registry.api.commons.utils.parseJsonTo
 import io.komune.registry.api.commons.utils.toJson
+import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
+import io.komune.registry.infra.meilisearch.config.match
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.MeiliIndex
@@ -20,69 +19,28 @@ import io.komune.registry.s2.commons.model.UserId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
-import s2.spring.utils.logger.Logger
 import kotlin.reflect.KCallable
 
 @Service
 class CatalogueDraftSnapMeiliSearchRepository(
     private val catalogueFinderService: CatalogueFinderService,
-    meiliClient: Client,
+) : MeiliSearchSnapRepository<CatalogueDraftSearchableEntity>(
+    MeiliIndex.CATALOGUE_DRAFTS,
+    CatalogueDraftSearchableEntity::class,
 ) {
-    private val logger by Logger()
-    private val index: Index = meiliClient.index(MeiliIndex.CATALOGUE_DRAFTS)
 
-    init {
-        try {
-            val settings = Settings().apply {
-                searchableAttributes = arrayOf(
-                    CatalogueDraftSearchableEntity::originalCatalogueIdentifier.name,
-                    CatalogueDraftSearchableEntity::title.name
-                )
-                filterableAttributes = arrayOf(
-                    CatalogueDraftSearchableEntity::catalogueId.name,
-                    CatalogueDraftSearchableEntity::originalCatalogueId.name,
-                    CatalogueDraftSearchableEntity::type.name,
-                    CatalogueDraftSearchableEntity::language.name,
-                    CatalogueDraftSearchableEntity::status.name,
-                    CatalogueDraftSearchableEntity::creatorId.name
-                )
-                sortableAttributes = arrayOf(
-                    CatalogueDraftSearchableEntity::modified.name
-                )
-            }
+    override val searchableAttributes = arrayOf(
+        CatalogueDraftSearchableEntity::originalCatalogueIdentifier.name,
+        CatalogueDraftSearchableEntity::title.name
+    )
 
-            index.updateSettings(settings)
-        } catch (e: Exception) {
-            logger.error("Failed to load catalogue settings", e)
-        }
-    }
+    override val filterableAttributes = CatalogueDraftMeiliSearchField.entries
+        .map(CatalogueDraftMeiliSearchField::identifier)
+        .toTypedArray()
 
-    suspend fun get(id: CatalogueId): CatalogueDraftSearchableEntity? {
-        return try {
-            index.getRawDocument(id).parseJsonTo()
-        } catch (e: MeilisearchApiException) {
-            if (e.code == "document_not_found") {
-                null
-            } else {
-                logger.error("Failed to load catalogue draft", e)
-                null
-            }
-        }
-        catch (e: Exception) {
-            // Bug with kotlin jackson plugin, Meilisearch do not handle MissingKotlinParameterException correctly.
-            null
-        }
-    }
-
-    suspend fun remove(id: CatalogueId): Boolean {
-        return try {
-            index.deleteDocument(id)
-            true
-        } catch (e: Exception) {
-            logger.error("Failed to remove catalogue draft", e)
-            false
-        }
-    }
+    override val sortableAttributes = arrayOf(
+        CatalogueDraftSearchableEntity::modified.name
+    )
 
     suspend fun save(entity: CatalogueDraftEntity) {
         if (entity.deleted) {
@@ -127,29 +85,29 @@ class CatalogueDraftSnapMeiliSearchRepository(
 
     suspend fun search(
         query: String? = null,
-        catalogueIds: List<CatalogueId>? = null,
-        originalCatalogueIds: List<CatalogueId>? = null,
-        types: List<String>? = null,
-        languages: List<String>? = null,
-        statuses: List<CatalogueDraftState>? = null,
-        creatorIds: List<UserId>? = null,
+        catalogueId: Match<CatalogueId>? = null,
+        originalCatalogueId: Match<CatalogueId>? = null,
+        type: Match<String>? = null,
+        language: Match<String>? = null,
+        status: Match<CatalogueDraftState>? = null,
+        creatorId: Match<UserId>? = null,
         offset: OffsetPagination? = null
     ): FacetPage<CatalogueDraftSearchableEntity> = withContext(Dispatchers.IO) {
         try {
-            val filters = buildList {
-                addSearchFilters(CatalogueDraftSearchableEntity::catalogueId, catalogueIds)
-                addSearchFilters(CatalogueDraftSearchableEntity::originalCatalogueId, originalCatalogueIds)
-                addSearchFilters(CatalogueDraftSearchableEntity::type, types)
-                addSearchFilters(CatalogueDraftSearchableEntity::language, languages)
-                addSearchFilters(CatalogueDraftSearchableEntity::status, statuses?.map { it.name })
-                addSearchFilters(CatalogueDraftSearchableEntity::creatorId, creatorIds)
-            }
+            val filters = listOfNotNull(
+                match(CatalogueDraftMeiliSearchField.CATALOGUE_ID, catalogueId),
+                match(CatalogueDraftMeiliSearchField.ORIGINAL_CATALOGUE_ID, originalCatalogueId),
+                match(CatalogueDraftMeiliSearchField.TYPE, type),
+                match(CatalogueDraftMeiliSearchField.LANGUAGE, language),
+                match(CatalogueDraftMeiliSearchField.STATUS, status),
+                match(CatalogueDraftMeiliSearchField.CREATOR_ID, creatorId)
+            )
 
             val searchRequest = SearchRequest.builder()
                 .q(query)
                 .offset(offset?.offset)
                 .limit(offset?.limit)
-                .filterArray(filters.toTypedArray())
+                .filter(filters.toTypedArray())
                 .sort(arrayOf(sortField(CatalogueDraftSearchableEntity::modified, false)))
                 .build()
 
@@ -167,10 +125,6 @@ class CatalogueDraftSnapMeiliSearchRepository(
             logger.error("Error searching", e)
             throw e
         }
-    }
-
-    private fun MutableList<Array<String>>.addSearchFilters(field: KCallable<*>, values: List<String>?) {
-        values?.let { values.map { "${field.name}=\"$it\"" }.toTypedArray() }?.let { add(it) }
     }
 
     private fun sortField(field: KCallable<*>, ascending: Boolean): String {
