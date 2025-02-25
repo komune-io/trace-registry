@@ -3,7 +3,6 @@ package io.komune.registry.program.s2.catalogue.api
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.s2.catalogue.domain.CatalogueAggregate
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -28,141 +27,145 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import org.springframework.stereotype.Service
 
 @Service
 class CatalogueAggregateService(
 	private val automate: CatalogueAutomateExecutor,
 	private val catalogueRepository: CatalogueRepository,
-): CatalogueAggregate {
-
-	override suspend fun create(cmd: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(cmd) {
+) {
+	suspend fun create(command: CatalogueCreateCommand): CatalogueCreatedEvent = automate.init(command) {
 		val authedUser = AuthenticationProvider.getAuthedUser()
 		CatalogueCreatedEvent(
-			id = cmd.identifier,
+			id = command.identifier,
 			date = System.currentTimeMillis(),
-			identifier = cmd.identifier,
-			title = cmd.title,
-			type = cmd.type,
-			language = cmd.language,
-			description = cmd.description,
-			themeIds = cmd.themeIds,
-			homepage = cmd.homepage,
-			ownerOrganizationId = cmd.ownerOrganizationId ?: authedUser?.memberOf,
-			structure = cmd.structure,
-			catalogueIds = cmd.catalogueIds,
-			datasetIds = cmd.datasetIds,
+			identifier = command.identifier,
+			title = command.title,
+			type = command.type,
+			language = command.language,
+			description = command.description,
+			themeIds = command.themeIds,
+			homepage = command.homepage,
+			ownerOrganizationId = command.ownerOrganizationId ?: authedUser?.memberOf,
+			structure = command.structure,
+			catalogueIds = command.catalogueIds,
+			datasetIds = command.datasetIds,
 			creatorId = authedUser?.id,
 			creatorOrganizationId = authedUser?.memberOf,
-			accessRights = cmd.accessRights,
-			licenseId = cmd.licenseId,
-			location = cmd.location,
-			hidden = cmd.hidden
+			accessRights = command.accessRights ?: CatalogueAccessRight.PRIVATE,
+			licenseId = command.licenseId,
+			location = command.location,
+			hidden = command.hidden
 		)
 	}
 
-	override suspend fun setImageCommand(cmd: CatalogueSetImageCommand) = automate.transition(cmd) {
-		CatalogueSetImageEvent(
-			id = cmd.id,
+	suspend fun update(command: CatalogueUpdateCommand): CatalogueUpdatedEvent = automate.transition(command) {
+		CatalogueUpdatedEvent(
+			id = it.id,
 			date = System.currentTimeMillis(),
-			img = cmd.img,
+			title = command.title,
+			language = command.language,
+			description = command.description,
+			themeIds = command.themeIds,
+			homepage = command.homepage,
+			ownerOrganizationId = command.ownerOrganizationId,
+			structure = command.structure,
+			accessRights = command.accessRights ?: it.accessRights,
+			licenseId = command.licenseId,
+			location = command.location,
+			hidden = command.hidden,
+			versionNotes = command.versionNotes
 		)
 	}
 
-	override suspend fun addTranslations(cmd: CatalogueAddTranslationsCommand) = automate.transition(cmd) {
-		val translations = catalogueRepository.findAllById(cmd.catalogues)
+	suspend fun setImageCommand(command: CatalogueSetImageCommand) = automate.transition(command) {
+		CatalogueSetImageEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			img = command.img,
+		)
+	}
+
+	suspend fun addTranslations(command: CatalogueAddTranslationsCommand) = automate.transition(command) {
+		val translations = catalogueRepository.findAllById(command.catalogues)
 			.associate {
 				if (it.language == null) throw IllegalArgumentException("Catalogue ${it.id} has no language")
 				it.language!! to it.id
 			}
 
 		CatalogueAddedTranslationsEvent(
-			id = cmd.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			catalogues = translations
 		)
 	}
 
-	override suspend fun removeTranslations(cmd: CatalogueRemoveTranslationsCommand) = automate.transition(cmd) {
+	suspend fun removeTranslations(command: CatalogueRemoveTranslationsCommand) = automate.transition(command) {
 		CatalogueRemovedTranslationsEvent(
-			id = cmd.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
-			languages = cmd.languages.toSet()
+			languages = command.languages.toSet()
 		)
 	}
 
-	override suspend fun linkCatalogues(cmd: CatalogueLinkCataloguesCommand): CatalogueLinkedCataloguesEvent = automate.transition(cmd) {
+	suspend fun linkCatalogues(
+		command: CatalogueLinkCataloguesCommand
+	): CatalogueLinkedCataloguesEvent = automate.transition(command) {
 		CatalogueLinkedCataloguesEvent(
-			id =  cmd.id,
+			id =  command.id,
 			date = System.currentTimeMillis(),
-			catalogues = cmd.catalogues
+			catalogues = command.catalogues
 		)
 	}
 
-	override suspend fun unlinkCatalogues(
-		cmd: CatalogueUnlinkCataloguesCommand
-	): CatalogueUnlinkedCataloguesEvent = automate.transition(cmd) {
+	suspend fun unlinkCatalogues(
+		command: CatalogueUnlinkCataloguesCommand
+	): CatalogueUnlinkedCataloguesEvent = automate.transition(command) {
 		CatalogueUnlinkedCataloguesEvent(
-			id =  cmd.id,
+			id =  command.id,
 			date = System.currentTimeMillis(),
-			catalogues = cmd.catalogues
+			catalogues = command.catalogues
 		)
 	}
 
-	override suspend fun linkDatasets(cmd: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent = automate.transition(cmd) {
+	suspend fun linkDatasets(command: CatalogueLinkDatasetsCommand): CatalogueLinkedDatasetsEvent = automate.transition(command) {
 		CatalogueLinkedDatasetsEvent(
-			id = cmd.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
-			datasets = cmd.datasetIds
+			datasets = command.datasetIds
 		)
 	}
 
-	override suspend fun unlinkDatasets(cmd: CatalogueUnlinkDatasetsCommand): CatalogueUnlinkedDatasetsEvent = automate.transition(cmd) {
+	suspend fun unlinkDatasets(
+		command: CatalogueUnlinkDatasetsCommand
+	): CatalogueUnlinkedDatasetsEvent = automate.transition(command) {
 		CatalogueUnlinkedDatasetsEvent(
-			id = cmd.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
-			datasets = cmd.datasetIds
+			datasets = command.datasetIds
 		)
 	}
 
-	override suspend fun linkThemes(cmd: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent = automate.transition(cmd) {
+	suspend fun linkThemes(command: CatalogueLinkThemesCommand): CatalogueLinkedThemesEvent = automate.transition(command) {
 		CatalogueLinkedThemesEvent(
-			id =  cmd.id,
+			id =  command.id,
 			date = System.currentTimeMillis(),
-			themes = cmd.themes
+			themes = command.themes
 		)
 	}
 
-	override suspend fun update(cmd: CatalogueUpdateCommand): CatalogueUpdatedEvent = automate.transition(cmd) {
-		CatalogueUpdatedEvent(
-			id = it.id,
-			date = System.currentTimeMillis(),
-			title = cmd.title,
-			language = cmd.language,
-			description = cmd.description,
-			themeIds = cmd.themeIds,
-			homepage = cmd.homepage,
-			ownerOrganizationId = cmd.ownerOrganizationId,
-			structure = cmd.structure,
-			accessRights = cmd.accessRights,
-			licenseId = cmd.licenseId,
-			location = cmd.location,
-			hidden = cmd.hidden,
-			versionNotes = cmd.versionNotes
-		)
-	}
-
-	override suspend fun updateVersionNotes(
-		cmd: CatalogueUpdateVersionNotesCommand
-	): CatalogueUpdatedVersionNotesEvent = automate.transition(cmd) {
+	suspend fun updateVersionNotes(
+		command: CatalogueUpdateVersionNotesCommand
+	): CatalogueUpdatedVersionNotesEvent = automate.transition(command) {
 		CatalogueUpdatedVersionNotesEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			versionNotes = cmd.versionNotes
+			versionNotes = command.versionNotes
 		)
 	}
 
-	override suspend fun delete(cmd: CatalogueDeleteCommand): CatalogueDeletedEvent = automate.transition(cmd) {
+	suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent = automate.transition(command) {
 		CatalogueDeletedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
