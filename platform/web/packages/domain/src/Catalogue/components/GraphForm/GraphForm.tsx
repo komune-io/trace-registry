@@ -1,8 +1,7 @@
-import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions, useDataLoader, Exporter } from "raw-graph"
+import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions } from "raw-graph"
 import {
     getOptionsConfig,
-    getDefaultOptionsValues,
-    serializeProject
+    getDefaultOptionsValues
     //@ts-ignore
 } from '@rawgraphs/rawgraphs-core'
 import { dataSet, dataTypes } from './dataset'
@@ -11,9 +10,17 @@ import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
 import { useCallback, useRef, useState } from 'react'
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
+import { Button } from "@komune-io/g2"
+import { useTranslation } from "react-i18next"
 
-export const GraphForm = () => {
+export interface GraphFormProps {
+    onSave: (graphSvg: Blob) => Promise<any>
+}
+
+export const GraphForm = (props: GraphFormProps) => {
+    const {onSave} = props
+    const { t } = useTranslation()
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
     const [visualOptions, setVisualOptions] = useState(() => {
@@ -29,23 +36,6 @@ export const GraphForm = () => {
         }
     }, [])
 
-    const dataLoader = useDataLoader()
-    const {
-        userInput,
-        userData,
-        userDataType,
-        parseError,
-        unstackedData,
-        unstackedColumns,
-        data,
-        separator,
-        thousandsSeparator,
-        decimalsSeparator,
-        locale,
-        stackDimension,
-        dataSource,
-    } = dataLoader
-
     const handleChartChange = useCallback(
         (nextChart: any) => {
             setMapping({})
@@ -58,48 +48,21 @@ export const GraphForm = () => {
         [clearLocalMapping]
     )
 
-    const exportProject = useCallback(async () => {
-        return serializeProject({
-            userInput,
-            userData,
-            userDataType,
-            parseError,
-            unstackedData,
-            unstackedColumns,
-            data,
-            separator,
-            thousandsSeparator,
-            decimalsSeparator,
-            locale,
-            stackDimension,
-            dataSource,
-            currentChart,
-            mapping,
-            visualOptions,
-        })
-    }, [
-        currentChart,
-        data,
-        dataSource,
-        decimalsSeparator,
-        locale,
-        mapping,
-        parseError,
-        separator,
-        stackDimension,
-        thousandsSeparator,
-        userData,
-        userDataType,
-        userInput,
-        visualOptions,
-        unstackedColumns,
-        unstackedData,
-    ])
+    const onSaveMemo = useCallback(
+        async () => {
+          var svgString = new XMLSerializer().serializeToString(
+            rawViz._node.firstChild
+          )
+          var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+          await onSave(svg)
+        },
+        [rawViz, onSave]
+      )
 
     return (
         <Stack
-        className="rawGraph-container"
-        gap={3}
+            className="rawGraph-container"
+            gap={3}
         >
             <Helmet>
                 <link rel="stylesheet" href={rawGraphScssUrl} />
@@ -143,12 +106,15 @@ export const GraphForm = () => {
                     setMappingLoading={() => { }}
                 />
             }
-
-            {
-                currentChart && rawViz && (
-                    <Exporter rawViz={rawViz} exportProject={exportProject} />
-                )
-            }
+            <Button
+                disabled={!rawViz}
+                onClick={onSaveMemo}
+                sx={{
+                    alignSelf: "flex-end"
+                }}
+            >
+                {t("save")}
+            </Button>
         </Stack>
     )
 }

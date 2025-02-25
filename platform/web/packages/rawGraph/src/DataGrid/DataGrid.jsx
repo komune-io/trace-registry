@@ -4,6 +4,7 @@ import { Overlay, OverlayTrigger } from 'react-bootstrap'
 import classNames from 'classnames'
 import { getTypeName, dateFormats } from '@rawgraphs/rawgraphs-core'
 import S from './DataGrid.module.scss'
+import './DataGrid.scss'
 import { keyBy, get, isEqual } from 'lodash'
 import {
   dataTypeIcons,
@@ -235,7 +236,7 @@ export const DataGrid = ({
 
   const keyedErrors = useMemo(() => keyBy(errors, 'row'), [errors])
 
-  const containerEl = useRef()
+  const [containerEl, setContainerEl] = useState()
 
   // Make id column just as large as needed
   // Adjust constants to fit cell padding and font size
@@ -244,7 +245,8 @@ export const DataGrid = ({
   const idColumnWidth =
     24 + 8 * (Math.floor(Math.log10(userDataset.length)) + 1)
   
-  const equalDinstribution = (containerEl.current?.getBoundingClientRect().width - idColumnWidth - 1) / Object.keys(dataTypes).length
+  const equalDinstribution = (containerEl?.getBoundingClientRect().width - idColumnWidth - 1) / Object.keys(dataTypes).length
+  console.log(containerEl?.getBoundingClientRect().width)
   const columnWidth = equalDinstribution ? Math.max(equalDinstribution, 170) : 170;
 
   const columns = useMemo(() => {
@@ -334,7 +336,7 @@ export const DataGrid = ({
   }, [])
 
   return (
-    <div ref={containerEl}>
+    <div ref={setContainerEl}>
       <ReactDataGrid
         minColumnWidth={idColumnWidth}
         columns={columns}
@@ -344,9 +346,6 @@ export const DataGrid = ({
         sortDirection={sortDirection}
         onSort={handleSort}
         height={432}
-        onColumnResize={() => {
-          
-        }}
         onRowsUpdate={(update) => {
           if (update.action === 'CELL_UPDATE') {
             const newDataset = [...userDataset]

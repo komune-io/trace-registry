@@ -50,7 +50,7 @@ export const GraphCreationPage = () => {
           pr: 3
         }}
       >
-       <GraphForm />
+       <GraphForm onSave={() => {return Promise.resolve()}} />
       </Stack>
     </Dialog>
   )
