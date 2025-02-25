@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service
 class CatalogueI18nService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
     private val i18nService: I18nService,
@@ -135,6 +136,7 @@ class CatalogueI18nService(
                     catalogueFinderService.page(
                         id = CollectionMatch(catalogueIds),
                         hidden = ExactMatch(false),
+                        freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter()
                     ).items
                         .filter { it.status != CatalogueState.DELETED }
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }

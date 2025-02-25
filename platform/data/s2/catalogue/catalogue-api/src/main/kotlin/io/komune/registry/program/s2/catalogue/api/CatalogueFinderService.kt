@@ -16,6 +16,7 @@ import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Criterion
 import org.springframework.stereotype.Service
 
 @Service
@@ -82,6 +83,7 @@ class CatalogueFinderService(
 			childrenIds = childrenIds,
 			status = status,
 			hidden = hidden,
+			freeCriterion = freeCriterion,
 			offset = offset,
 		).map {
 			it.toModel()
@@ -97,6 +99,7 @@ class CatalogueFinderService(
 		type: Match<String>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
+		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
 		return meiliSearch.search(
@@ -107,6 +110,7 @@ class CatalogueFinderService(
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,
+			freeCriterion = freeCriterion,
 			page = page
 		)
 	}

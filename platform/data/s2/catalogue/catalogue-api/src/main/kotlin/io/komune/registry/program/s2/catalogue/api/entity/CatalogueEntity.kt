@@ -2,6 +2,7 @@ package io.komune.registry.program.s2.catalogue.api.entity
 
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
+import com.redis.om.spring.annotations.SchemaFieldType
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
@@ -65,13 +66,19 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var translationIds: Map<Language, CatalogueId> = emptyMap()
 
+    @TagIndexed
     var creatorId: UserId? = null
+
+    @TagIndexed
     var creatorOrganizationId: OrganizationId? = null
 
+    @TagIndexed
     var ownerOrganizationId: OrganizationId? = null
 
     var publisherId: UserId? = null
     var validatorId: UserId? = null
+
+    @Indexed(nostem = true, schemaFieldType = SchemaFieldType.TAG)
     var accessRights: CatalogueAccessRight = CatalogueAccessRight.PRIVATE
     var licenseId: LicenseId? = null
 

@@ -10,6 +10,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
+import io.komune.registry.infra.meilisearch.config.criterion
 import io.komune.registry.infra.meilisearch.config.match
 import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
@@ -18,6 +19,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
+import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.MeiliIndex
 import kotlinx.coroutines.Dispatchers
@@ -134,6 +136,7 @@ class CatalogueSnapMeiliSearchRepository(
         type: Match<String>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
+        freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): FacetPage<CatalogueModel> = withContext(Dispatchers.IO) {
         try {
@@ -143,7 +146,8 @@ class CatalogueSnapMeiliSearchRepository(
                 match(CatalogueMeiliSearchField.CATALOGUE_IDS, catalogueIds),
                 match(CatalogueMeiliSearchField.TYPE, type),
                 match(CatalogueMeiliSearchField.THEME_IDS, themeIds),
-                match(CatalogueMeiliSearchField.LICENSE_ID, licenseId)
+                match(CatalogueMeiliSearchField.LICENSE_ID, licenseId),
+                criterion(freeCriterion)
             )
 
             val searchRequest = SearchRequest.builder()
