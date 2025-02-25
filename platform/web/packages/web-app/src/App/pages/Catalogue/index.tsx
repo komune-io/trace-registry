@@ -7,6 +7,7 @@ import { DraftValidationPage } from "./DraftValidationPage/DraftValidationPage";
 import { ContributionListPage } from "./ContributionListPage/ContributionListPage";
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
 import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
+import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
 
 
 export const catalogPages: PageRoute[] = [
@@ -49,6 +50,10 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/search",
     element: <CatalogueSearchPage  />
+  },
+  {
+    path: "catalogues/createGraph",
+    element: <GraphCreationPage  />
   },
   {
     path: "catalogues/*",

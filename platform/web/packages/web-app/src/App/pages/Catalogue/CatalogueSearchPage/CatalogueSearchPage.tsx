@@ -26,7 +26,7 @@ export const CatalogueSearchPage = () => {
 
   useEffect(() => {
     document.title = "WikiCO2 | " + t("search")
-  }, [])
+  }, [t])
 
   useEffect(() => {
     if (searchParams.get("goBackUrl")) {

@@ -3,6 +3,7 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +21,6 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src", "../domain/src/Catalog/components/useCatalogsRouteParams/index.ts"],
+  "include": ["src", "../domain/src/Catalog/components/useCatalogsRouteParams/index.ts", "../domain/src/Catalogue/components/GraphForm/dataset.ts"],
   "references": [{ "path": "./tsconfig.vite.json" }]
 }
