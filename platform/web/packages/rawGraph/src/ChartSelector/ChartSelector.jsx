@@ -169,7 +169,7 @@ export const ChartSelector = ({
                 </Col>
               )
             })}
-            <Col xs={4} className={`p-3`}>
+           {/*  <Col xs={4} className={`p-3`}>
               <Card
                 onClick={() => {
                   onAddChartClick()
@@ -187,7 +187,7 @@ export const ChartSelector = ({
                   </Card.Title>
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </Col>
       </Row>

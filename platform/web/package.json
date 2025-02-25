@@ -66,14 +66,15 @@
     "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
     "react-bootstrap": "^1.5.0",
-    "sass-embedded": "^1.85.0",
+    "sass": "1.63.6",
     "react-data-grid": "7.0.0-canary.16",
     "react-icons": "^3.10.0",
     "d3": "^7.2.0",
-    "react-dnd": "^11.1.3",
-    "react-dnd-html5-backend": "^11.1.3",
+    "react-dnd": "11.1.3",
+    "react-dnd-html5-backend": "11.1.3",
     "array-insert": "^2.0.0",
-    "array-move": "^3.0.1"
+    "array-move": "^3.0.1",
+    "react-color": "2.17.3"
   },
   "resolutions": {
     "lexical": "0.23.1",
