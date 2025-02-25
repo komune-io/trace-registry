@@ -176,7 +176,7 @@ function DataMapping({ dataTypes, dimensions, mapping, setMapping }, ref) {
   }))
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider context={window} backend={HTML5Backend}>
       <Row>
         <Col xs={3}>
           <h5 className="text-uppercase">Dimensions</h5>
