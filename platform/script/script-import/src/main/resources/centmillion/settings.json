@@ -267,7 +267,7 @@
         },
         "defaults": {
             "license": "creative-commons",
-            "accessRights": "public",
+            "accessRights": "PUBLIC",
             "structure": "item",
             "parent": {
                 "100m-solution": {

@@ -173,7 +173,7 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue"]
+      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_catalogue_audit"]
     }, {
       "name": "rg_role_org_reader",
       "description": "Grant its users read-only access, allowing them to view and search records without being able to modify or validate them.",

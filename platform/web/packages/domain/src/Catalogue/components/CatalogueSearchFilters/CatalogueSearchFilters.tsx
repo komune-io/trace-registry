@@ -1,6 +1,6 @@
-import { Stack } from '@mui/material'
-import { SelectableChipGroup, TitleDivider } from 'components'
-import { useTranslation } from 'react-i18next'
+import {Stack} from '@mui/material'
+import {SelectableChipGroup, TitleDivider} from 'components'
+import {useTranslation} from 'react-i18next'
 import {FacetDistribution} from '../../api'
 
 interface CatalogueSearchFiltersProps {
@@ -45,7 +45,7 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
                 title={t("access")}
                 options={accessesDistribution?.map((distribution) => ({
                   key: distribution.id,
-                  label: `${distribution.name} - ${distribution.size}`
+                  label: `${t(distribution.name.toLowerCase())} - ${distribution.size}`
                 }))}
                 values={accesses}
                 onChange={onChangeAccesses}

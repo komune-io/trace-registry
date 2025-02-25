@@ -1,5 +1,6 @@
 package io.komune.registry.s2.catalogue.domain.command
 
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Location
@@ -22,7 +23,7 @@ data class CatalogueCreateCommand(
     val structure: Structure?,
     val catalogueIds: Set<CatalogueId>,
     val datasetIds: Set<DatasetId>,
-    val accessRights: String?,
+    val accessRights: CatalogueAccessRight?,
     val licenseId: LicenseId?,
     val location: Location?,
     val versionNotes: String?,
@@ -37,7 +38,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val structure: Structure?
-    val accessRights: String?
+    val accessRights: CatalogueAccessRight
     val licenseId: LicenseId?
     val location: Location?
     val versionNotes: String?
@@ -60,7 +61,7 @@ data class CatalogueCreatedEvent(
     val creatorId: UserId?,
     val creatorOrganizationId: OrganizationId?,
     override val ownerOrganizationId: OrganizationId?,
-    override val accessRights: String? = null,
+    override val accessRights: CatalogueAccessRight,
     override val licenseId: LicenseId? = null,
     override val location: Location? = null,
     override val versionNotes: String? = null,

@@ -2754,6 +2754,9 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
     interface FacetPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
         readonly total: number;
         readonly items: T[];
@@ -3325,7 +3328,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly ownerOrganizationId?: string;
         readonly themes?: string[];
         readonly catalogues?: string[];
-        readonly accessRights?: string;
+        readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO/* Nullable<io.komune.registry.s2.commons.model.Location> */;
         readonly versionNotes?: string;
@@ -3418,7 +3421,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
         readonly themes?: string[];
-        readonly accessRights?: string;
+        readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly hidden?: boolean;
@@ -3453,7 +3456,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly ownerOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly publisher?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
-        readonly accessRights?: string;
+        readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: io.komune.registry.f2.license.domain.model.LicenseDTO;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly issued: number;

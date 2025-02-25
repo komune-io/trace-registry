@@ -11,6 +11,7 @@ import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
@@ -153,7 +154,7 @@ interface CatalogueDTO {
      * Describes the access rights to the dataset. This can indicate permissions, restrictions, or special authorizations
      * applicable to the dataset.
      */
-    val accessRights: String?
+    val accessRights: CatalogueAccessRight
 
     /**
      * A legal document under which the catalogue is made available.
@@ -210,7 +211,7 @@ data class CatalogueDTOBase(
     override val ownerOrganization: OrganizationRef? = null,
     override val publisher: UserRef? = null,
     override val validator: UserRef? = null,
-    override val accessRights: String? = null,
+    override val accessRights: CatalogueAccessRight,
     override val license: LicenseDTOBase? = null,
     override val location: Location? = null,
     override val issued: Long,

@@ -7,6 +7,7 @@ import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.DatasetId
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -71,7 +72,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var publisherId: UserId? = null
     var validatorId: UserId? = null
-    var accessRights: String? = null
+    var accessRights: CatalogueAccessRight = CatalogueAccessRight.PRIVATE
     var licenseId: LicenseId? = null
 
     var location: Location? = null

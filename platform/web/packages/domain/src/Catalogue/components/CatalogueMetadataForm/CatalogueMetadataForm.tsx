@@ -1,12 +1,17 @@
-import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable } from '@komune-io/g2'
-import { Paper } from '@mui/material'
-import { SearchIcon } from 'components'
-import { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
-import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { CatalogueCreateCommand } from '../../api/command'
+import {Button, FormComposable, FormComposableField, FormComposableState, useFormComposable} from '@komune-io/g2'
+import {Paper} from '@mui/material'
+import {SearchIcon} from 'components'
+import {useCallback, useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {
+    extractCatalogueIdentifierNumber,
+    useCatalogueListAvailableParentsQuery,
+    useCatalogueListAvailableThemesQuery,
+    useLicenseListQuery
+} from '../../api'
+import {keepPreviousData} from '@tanstack/react-query'
+import {CatalogueDraft, CatalogueTypes} from '../../model'
+import {CatalogueCreateCommand} from '../../api/command'
 
 type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
 
@@ -112,10 +117,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("access"),
         params: {
             options: [{
-                key: "public",
+                key: "PUBLIC",
                 label: t("public")
             }, {
-                key: "private",
+                key: "PRIVATE",
                 label: t("private")
             }]
         },
