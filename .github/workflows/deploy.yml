@@ -23,9 +23,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       - name: Add SSH key
         run: |
           mkdir -p ~/.ssh
@@ -33,6 +30,10 @@ jobs:
           chmod 600 ~/.ssh/github_actions
           ls -al ~/.ssh
           ssh-add ~/.ssh/github_actions
+#      - uses: webfactory/ssh-agent@v0.9.0
+#        with:
+#          ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
+
       - name: Create Environment File
         shell: bash
         run: |
