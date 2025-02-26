@@ -96,7 +96,7 @@ jobs:
         run: |
           echo "Deploying Docker services to Prod environment..."
         
-          make proxy deploy
-          make connect deploy
-          make connect-init deploy
-          make registry deploy
+          make -f Makefile_deploy.mk proxy deploy
+          make -f Makefile_deploy.mk connect deploy
+          make -f Makefile_deploy.mk connect-init deploy
+          make -f Makefile_deploy.mk registry deploy

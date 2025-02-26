@@ -7,19 +7,8 @@ services:
       - .env_dev
     environment:
       REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
-    ports:
-     - "6379:6379"
-     - "8011:8001"
     networks:
       - net
-
-#  redisinsight:
-#    image: redislabs/redisinsight:latest
-#    container_name: verrredisinsight
-#    ports:
-#       - "8001:8001"
-#    networks:
-#       - net
 
 networks:
   net:

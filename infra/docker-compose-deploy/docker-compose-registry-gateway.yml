@@ -1,0 +1,42 @@
+services:
+  registry-gateway:
+    image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-gateway:${REGISTRY_VERSION}
+    container_name: registry-gateway
+    environment:
+      - spring_r2dbc_url=r2dbc:postgresql://${POSTGRES_HOSTNAME}:5432/${POSTGRES_REGISTRY_DB}
+      - spring_r2dbc_username=${POSTGRES_USER}
+      - spring_r2dbc_password=${POSTGRES_PASS}
+      - cccev_url=${CCCEV_URL}
+      - fs_url=${FS_URL}
+      - spring_data_redis_host=${REDIS_HOST_NAME}
+      - server_port=7000
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
+      - im_url=${IM_URL}
+      - im_auth_url=${PUBLIC_URL_KC}
+      - im_auth_realm=${KC_REALM}
+      - im_auth_clientId=${KC_APP_CLIENT_ID}
+      - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}
+      - platform_meilisearch_url=http://meilisearch:7700
+      - platform_meilisearch_secret=${SECRET_MEILI_MASTER_KEY}
+      - platform_flag_module_control=false
+      - platform_flag_module_data=true
+      - platform_flag_module_project=false
+      - platform.brevo.token=${REGISTRY_BREVO_TOKEN}
+      - platform_brevo_debug_enable=${PLATFORM_BREVO_DEBUG_ENABLE}
+      - platform_brevo_debug_email=${REGISTRY_BREVO_DEBUG_EMAIL}
+      - platform_brevo_contact-list=${REGISTRY_BREVO_CONTACT_LIST}
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.registry-gateway.loadbalancer.server.port: 7000
+      traefik.http.routers.registry-gateway.rule: Host(`${HOST_NAME_REGISTRY}`) && PathPrefix(`/api`)
+      traefik.http.routers.registry-gateway.entrypoints: websecure
+      traefik.http.routers.registry-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.strip-prefix-registry-gateway.stripprefix.prefixes: /api
+      traefik.http.routers.registry-gateway.middlewares: strip-prefix-registry-gateway
+      traefik.docker.network: ${DOCKER_NETWORK}
+    restart: on-failure
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK}
+    external: true
