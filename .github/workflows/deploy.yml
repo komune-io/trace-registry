@@ -83,6 +83,7 @@ jobs:
           if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
             docker context create 100m_${{ inputs.environment }} --docker "${{ secrets.DOCKER_CONTEXT }}"
           fi
+          docker context use 100m_${{ inputs.environment }}
           docker context ls
       - name: Create Environment File
         shell: bash
@@ -94,7 +95,7 @@ jobs:
         shell: bash
         run: |
           echo "Deploying Docker services to Prod environment..."
-          docker context use 100m_${{ inputs.environment }}
+        
           make proxy deploy
           make connect deploy
           make connect-init deploy
