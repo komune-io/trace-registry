@@ -11,9 +11,8 @@ on:
         type: string
       run_reset:
         description: 'Set to "true" to perform a reset before deployment (for non-prod)'
-        required: false
-        default: "false"
-        type: string
+        required: true
+        type: boolean
 
 jobs:
   deploy:
