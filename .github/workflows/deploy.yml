@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
           if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "host=ssh://kosmio@${SERVER_IP}:2234"
+            docker context create 100m_${{ inputs.environment }} --docker "${DOCKER_CONTEXT}"
           fi
 
       - name: Reset Docker Stack
