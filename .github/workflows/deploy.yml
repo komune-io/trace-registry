@@ -18,6 +18,12 @@ on:
         required: true
       DOCKER_CONTEXT:
         required: true
+      SERVER_IP:
+        required: true
+      SERVER_PORT:
+        required: true
+      SERVER_USER:
+        required: true
 
 jobs:
   deploy:
@@ -43,20 +49,16 @@ jobs:
           ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       - name: Add remote host to known_hosts
         shell: bash
-        env:
-          SERVER_IP: ${{ env.SERVER_IP }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -p 2234 51.15.204.133 >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Ensure Docker Context Exists
         shell: bash
-        env:
-          SERVER_IP: ${{ env.SERVER_IP }}
         run: |
           echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
           if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "${{ secrets.DOCKER_CONTEXT }}"
+            docker context create 100m_${{ inputs.environment }} --docker "ssh://${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PORT }}"
           fi
           docker context ls
       - name: Create Environment File
