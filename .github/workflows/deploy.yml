@@ -28,6 +28,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
 
+      - name: Ensure Docker Context Exists
+        shell: bash
+        env:
+          SERVER_IP: ${{ env.SERVER_IP }}
+        run: |
+          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
+          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
+            docker context create 100m_${{ inputs.environment }} --docker "${{ env.DOCKER_CONTEXT }}"
+          fi
+
       - name: Create Environment File
         shell: bash
         run: |
@@ -51,15 +61,7 @@ jobs:
             exit 0
           fi
 
-      - name: Ensure Docker Context Exists (Reset)
-        shell: bash
-        env:
-          SERVER_IP: ${{ env.SERVER_IP }}
-        run: |
-          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
-          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "${DOCKER_CONTEXT}"
-          fi
+    
 
       - name: Reset Docker Stack
         shell: bash
@@ -77,16 +79,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Ensure Docker Context Exists (Deploy Non-Prod)
-        shell: bash
-        env:
-          DOCKER_CONTEXT: ${{ env.DOCKER_CONTEXT }}
-        run: |
-          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
-          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "host=${DOCKER_CONTEXT}"
-          fi
 
       - name: Deploy Docker Services (Dev/Preprod)
         shell: bash
@@ -107,16 +99,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Ensure Docker Context Exists (Deploy Prod)
-        shell: bash
-        env:
-          SERVER_IP: ${{ env.SERVER_IP }}
-        run: |
-          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
-          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "host=ssh://kosmio@${SERVER_IP}:2234"
-          fi
 
       - name: Deploy Docker Services (Prod)
         shell: bash
