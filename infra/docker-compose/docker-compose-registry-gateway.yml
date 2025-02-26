@@ -16,7 +16,7 @@ services:
       - im_auth_realm=${KC_REALM}
       - im_auth_clientId=${KC_APP_CLIENT_ID}
       - im_auth_clientSecret=${KC_APP_CLIENT_SECRET}
-      - platform_meilisearch_url=meilisearch
+      - platform_meilisearch_url=http://meilisearch:7700
       - platform_meilisearch_secret=${SECRET_MEILI_MASTER_KEY}
       - platform_flag_module_control=false
       - platform_flag_module_data=true
