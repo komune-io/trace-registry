@@ -90,7 +90,8 @@ jobs:
         run: |
           echo "Creating environment file for ${{ inputs.environment }}..."
           cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
-          sed -i '' 's|HOST_NAME_REGISTRY=\${HOST_NAME_REGISTRY}|HOST_NAME_REGISTRY=tt.com|g' infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+          ls infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+          sed -i '' 's|HOST_NAME_REGISTRY=\${HOST_NAME_REGISTRY}|HOST_NAME_REGISTRY=${{ vars.HOST_NAME_REGISTRY }}|g' infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
           cat infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
       - name: Deploy Docker Services (Prod)
         shell: bash
