@@ -20,6 +20,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     secrets:
       DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
+      DOCKER_CONTEXT: ${{ secrets.DOCKER_CONTEXT }}
     with:
       environment: ${{ github.event.inputs.environment }}
       run_reset: ${{ github.event.inputs.run_reset }}
