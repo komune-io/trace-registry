@@ -46,8 +46,6 @@ on:
         required: true
       SECRET_MEILI_MASTER_KEY:
         required: true
-      HOST_NAME_REGISTRY:
-        required: true
 
 jobs:
   deploy:
