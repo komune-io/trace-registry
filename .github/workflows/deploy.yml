@@ -11,8 +11,8 @@ on:
       run_reset:
         description: 'Set to true to perform a reset (stack removal) before deployment. (Non-prod only)'
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: "false"
 
 jobs:
   create_env:
