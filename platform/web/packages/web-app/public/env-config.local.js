@@ -16,7 +16,10 @@ window._env_ = {
         }
     },
     theme: {
-        primaryColor: "#492161",
-        backgroundColor: "#F6F4F7"
+        colors: {
+            primary: "#492161",
+            secondary: "#353945",
+            background: "#F6F4F7"
+        }
     }
 };
