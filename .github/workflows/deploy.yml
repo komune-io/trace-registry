@@ -9,10 +9,10 @@ on:
         required: true
         type: string
       run_reset:
-        description: 'Set to true to perform a reset (stack removal) before deployment. (Non-prod only)'
+        description: 'Set to "true" to perform a reset (stack removal) before deployment (non-prod only)'
         required: false
-        type: string
         default: "false"
+        type: string
 
 jobs:
   create_env:
@@ -28,6 +28,7 @@ jobs:
           cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
 
   reset:
+    if: ${{ inputs.environment == 'dev' || inputs.environment == 'preprod' }}
     needs: create_env
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +43,16 @@ jobs:
             exit 0
           fi
 
+      - name: Ensure Docker Context Exists (Reset)
+        shell: bash
+        env:
+          SERVER_IP: ${{ env.SERVER_IP }}
+        run: |
+          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
+          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
+            docker context create 100m_${{ inputs.environment }} --docker "host=ssh://kosmio@${SERVER_IP}:2234"
+          fi
+
       - name: Reset Docker Stack
         shell: bash
         run: |
@@ -50,20 +61,58 @@ jobs:
           docker stack rm registry-${{ inputs.environment }}-network || true
           docker volume rm registry-${{ inputs.environment }}-network_meilisearch_data registry-${{ inputs.environment }}-network_minio registry-${{ inputs.environment }}-network_postgres_data || true
 
+  deploy_nonprod:
+    if: ${{ inputs.environment == 'dev' || inputs.environment == 'preprod' }}
+    needs: [create_env, reset]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-  deploy:
+      - name: Ensure Docker Context Exists (Deploy Non-Prod)
+        shell: bash
+        env:
+          DOCKER_CONTEXT: ${{ env.DOCKER_CONTEXT }}
+        run: |
+          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
+          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
+            docker context create 100m_${{ inputs.environment }} --docker "host=${DOCKER_CONTEXT}"
+          fi
+
+      - name: Deploy Docker Services (Dev/Preprod)
+        shell: bash
+        run: |
+          echo "Deploying Docker services to ${{ inputs.environment }} environment..."
+          docker context use 100m_${{ inputs.environment }}
+          # Make scripts auto-detect the correct .env file
+          make proxy deploy
+          make connect deploy
+          make connect-init deploy
+          make registry deploy
+
+  deploy_prod:
+    if: ${{ inputs.environment == 'prod' }}
     needs: create_env
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Ensure Docker Context Exists (Deploy Prod)
+        shell: bash
+        env:
+          SERVER_IP: ${{ env.SERVER_IP }}
+        run: |
+          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
+          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
+            docker context create 100m_${{ inputs.environment }} --docker "host=ssh://kosmio@${SERVER_IP}:2234"
+          fi
+
       - name: Deploy Docker Services (Prod)
         shell: bash
         run: |
           echo "Deploying Docker services to Prod environment..."
           docker context use 100m_${{ inputs.environment }}
-          # Make scripts will auto-detect the .env file for production
           make proxy deploy
           make connect deploy
           make connect-init deploy
