@@ -16,6 +16,8 @@ on:
     secrets:
       DOCKER_CONTEXT_SSH_KEY:
         required: true
+      DOCKER_CONTEXT:
+        required: true
 
 jobs:
   create_env:
@@ -35,7 +37,7 @@ jobs:
         run: |
           echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
           if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
-            docker context create 100m_${{ inputs.environment }} --docker "${{ env.DOCKER_CONTEXT }}"
+            docker context create 100m_${{ inputs.environment }} --docker "${{ secrets.DOCKER_CONTEXT }}"
           fi
 
       - name: Create Environment File
