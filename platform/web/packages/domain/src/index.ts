@@ -1,6 +1,7 @@
 export * from "./Activity"
 export * from "./Assets"
 export * from "./Catalogue"
+export * from "./config"
 export * from "./Dataset"
 export * from "./Documents"
 export * from "./Flag"

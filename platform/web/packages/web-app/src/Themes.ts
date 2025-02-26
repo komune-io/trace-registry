@@ -2,7 +2,7 @@ import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
 import { PermanentHeader } from "components";
-import {config} from "domain-components/src/config";
+import { config } from "domain-components";
 
 export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
