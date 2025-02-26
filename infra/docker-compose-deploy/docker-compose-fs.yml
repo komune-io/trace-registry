@@ -1,7 +1,6 @@
 services:
 
   fs-gateway:
-    container_name: fs-gateway
     image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
     env_file:
       - .env_dev

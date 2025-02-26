@@ -1,7 +1,6 @@
 services:
   registry-web:
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-web:${REGISTRY_VERSION}
-    container_name: registry-web
     configs:
       - source: registry_web_env_config
         target: /var/www/env-config.js

@@ -2,7 +2,6 @@ services:
 
   im-keycloak:
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-keycloak:${REGISTRY_VERSION}
-    container_name: ${KC_HOST_NAME}
     env_file:
       - .env_dev
     environment:

@@ -1,6 +1,5 @@
 services:
   connect-fake-smtp:
-    container_name: ${SMTP_HOST}
     image: reachfive/fake-smtp-server:latest
     labels:
       traefik.enable: "true"

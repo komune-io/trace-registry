@@ -1,7 +1,6 @@
 services:
   connect-admin-web:
     image: ${DOCKER_REPOSITORY}connect-admin-web:${VERSION_CONNECT_ADMIN}
-    container_name: connect-admin-web
     env_file:
       - .env_dev
     labels:
