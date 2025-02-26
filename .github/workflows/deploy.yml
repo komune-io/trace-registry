@@ -23,6 +23,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      SECRET_MINIO_ROOT: ${SECRET_MINIO_ROOT}
+      SECRET_POSTGRES: ${SECRET_POSTGRES}
+      SECRET_KC_REALM_ROOT_CLIENT: ${SECRET_KC_REALM_ROOT_CLIENT}
+      SECRET_KC_ROOT_IM_CLIENT: ${SECRET_KC_ROOT_IM_CLIENT}
+      SECRET_KC_REGISTRY_SCRIPT_APP_CLIENT: ${SECRET_KC_REGISTRY_SCRIPT_APP_CLIENT}
+      SECRET_KC_APP_CLIENT: ${SECRET_KC_APP_CLIENT}
+      SECRET_REGISTRY_BREVO_TOKEN: ${SECRET_REGISTRY_BREVO_TOKEN}
+      SECRET_KC_ROOT_PASS: ${SECRET_KC_ROOT_PASS}
+      SECRET_KC_ADMIN_PASS: ${SECRET_KC_ADMIN_PASS}
+      SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${SECRET_TRAEFIK_DASHBOARD_PASSWORD}
+      SECRET_MEILI_MASTER_KEY: ${SECRET_MEILI_MASTER_KEY}
+      PKG_GITHUB_USERNAME: ${{ github.actor }}
+      PKG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -43,6 +57,8 @@ jobs:
         run: |
           echo "Creating environment file for ${{ inputs.environment }}..."
           cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+          envsubst < infra/docker-compose/.env_dev_default > infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+          cat infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
       - name: Deploy Docker Services (Prod)
         shell: bash
         run: |
@@ -52,7 +68,6 @@ jobs:
           make connect deploy
           make connect-init deploy
           make registry deploy
-
 
   reset:
     if: ${{ inputs.environment == 'dev' || inputs.environment == 'preprod' }}
