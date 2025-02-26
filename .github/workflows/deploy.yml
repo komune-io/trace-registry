@@ -90,8 +90,8 @@ jobs:
         shell: bash
         run: |
           echo "Creating environment file for ${{ inputs.environment }}..."
-          cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
-          cat infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+          cp infra/docker-compose-deploy/.env_dev_default infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
+          cat infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
       - name: Deploy Docker Services (Prod)
         shell: bash
         run: |
