@@ -1,0 +1,70 @@
+# .github/workflows/deploy.yml
+name: Deployment Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Target deployment environment: dev, preprod, or prod'
+        required: true
+        type: string
+      run_reset:
+        description: 'Set to true to perform a reset (stack removal) before deployment. (Non-prod only)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  create_env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Create Environment File
+        shell: bash
+        run: |
+          echo "Creating environment file for ${{ inputs.environment }}..."
+          cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
+
+  reset:
+    needs: create_env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Check if Reset Is Enabled
+        shell: bash
+        run: |
+          if [ "${{ inputs.run_reset }}" != "true" ]; then
+            echo "Reset not enabled. Skipping reset step."
+            exit 0
+          fi
+
+      - name: Reset Docker Stack
+        shell: bash
+        run: |
+          echo "Resetting Docker stack for ${{ inputs.environment }} environment..."
+          docker context use 100m_${{ inputs.environment }}
+          docker stack rm registry-${{ inputs.environment }}-network || true
+          docker volume rm registry-${{ inputs.environment }}-network_meilisearch_data registry-${{ inputs.environment }}-network_minio registry-${{ inputs.environment }}-network_postgres_data || true
+
+
+  deploy:
+    needs: create_env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Deploy Docker Services (Prod)
+        shell: bash
+        run: |
+          echo "Deploying Docker services to Prod environment..."
+          docker context use 100m_${{ inputs.environment }}
+          # Make scripts will auto-detect the .env file for production
+          make proxy deploy
+          make connect deploy
+          make connect-init deploy
+          make registry deploy
