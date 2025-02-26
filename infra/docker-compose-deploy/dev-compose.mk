@@ -1,4 +1,5 @@
 DOCKER_COMPOSE_PATH = infra/docker-compose-deploy
+MAKE_OPTS = -f Makefile_deploy.mk
 .PHONY: $(DOCKER_COMPOSE_FILE) $(ACTIONS)
 ACTIONS = up down logs log pull stop kill deploy remove help
 DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
@@ -14,65 +15,65 @@ dev-envsubst:
 init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_INIT_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_INIT_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_INIT_FILE)"
 
 dev:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_FILE)"
 
 connect:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_CONNECT_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_CONNECT_FILE)"
 
 connect-init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_INIT_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_INIT_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_INIT_FILE)"
 
 registry:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_FILE)"
 
 registry-init:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_INIT_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_INIT_FILE)"
 
 proxy:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
-	$(MAKE) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_PROXY_FILE)"
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_PROXY_FILE)"
 
 exec-common:
 	@if [ "$(ACTION)" = "up" ]; then \
   		if ! docker network ls | grep -q $(DOCKER_NETWORK); then \
   			docker network create $(DOCKER_NETWORK); \
   		fi; \
-		$(MAKE) --no-print-directory dev-envsubst; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-envsubst; \
 	elif [ "$(ACTION)" = "down" ]; then \
-		$(MAKE) --no-print-directory dev-envsubst-clean; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-envsubst-clean; \
 	elif [ "$(ACTION)" = "kill" ]; then \
-		$(MAKE) --no-print-directory kill-containers; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory kill-containers; \
 	elif [ "$(ACTION)" = "deploy" ]; then \
 	  	if ! docker network ls | grep -q $(DOCKER_NETWORK); then \
 			docker network create --driver overlay --scope swarm $(DOCKER_NETWORK); \
 		fi; \
-		$(MAKE) --no-print-directory dev-envsubst; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-envsubst; \
 	elif [ "$(ACTION)" = "remove" ]; then \
-		$(MAKE) --no-print-directory dev-envsubst-clean; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-envsubst-clean; \
 	elif [ "$(ACTION)" = "help" ]; then \
-		$(MAKE) --no-print-directory dev-help SERVICES_ALL="$(SERVICES_ALL)"; \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-help SERVICES_ALL="$(SERVICES_ALL)"; \
 	fi
 	@if [ "$(ACTION)" != "kill" ] && [ "$(ACTION)" != "help" ]; then \
 		if [ "$(SERVICE)" = "" ]; then \
 			for service in $(SERVICES_ALL); do \
-				$(MAKE) --no-print-directory dev-service-action ACTION=$(ACTION) SERVICE=$$service; \
+				$(MAKE) $(MAKE_OPTS) --no-print-directory dev-service-action ACTION=$(ACTION) SERVICE=$$service; \
 			done; \
 		else \
-			$(MAKE) --no-print-directory dev-service-action ACTION=$(ACTION) SERVICE=$(SERVICE); \
+			$(MAKE) $(MAKE_OPTS) --no-print-directory dev-service-action ACTION=$(ACTION) SERVICE=$(SERVICE); \
 		fi; \
 	fi
 
@@ -123,7 +124,7 @@ dev-service-action:
 	elif [ "$(ACTION)" = "deploy" ]; then \
 		docker stack deploy --detach=true --compose-file $(DOCKER_COMPOSE_PATH)/docker-compose-$(SERVICE).yml $(DOCKER_NETWORK); \
 	elif [ "$(ACTION)" = "up" ]; then \
-		$(MAKE) --no-print-directory dev-service-action ACTION=deploy SERVICE=$(SERVICE); \
+		$(MAKE) $(MAKE_OPTS) --no-print-directory dev-service-action ACTION=deploy SERVICE=$(SERVICE); \
 	else \
 		echo 'No valid action: $(ACTION).'; \
 		echo 'Available actions are:'; \
