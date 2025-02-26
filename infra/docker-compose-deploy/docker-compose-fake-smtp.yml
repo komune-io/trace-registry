@@ -11,9 +11,6 @@ services:
       # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
       # Needed When ports: 8080:8080 is defined
       traefik.docker.network: ${DOCKER_NETWORK}
-    ports:
-      - "${SMTP_PORT}:1025"
-      - "1080:1080"
     networks:
       - net
 

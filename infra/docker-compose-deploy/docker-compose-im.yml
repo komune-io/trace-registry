@@ -21,8 +21,6 @@ services:
       traefik.http.routers.im-gateway.middlewares: strip-prefix-im-gateway
 
       traefik.docker.network: ${DOCKER_NETWORK}
-    ports:
-      - "8009:8009"
     networks:
       - net
 

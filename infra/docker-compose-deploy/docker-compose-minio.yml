@@ -18,9 +18,6 @@ services:
       # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
       traefik.docker.network: ${DOCKER_NETWORK}
     command: server /data --console-address ":9003"
-    ports:
-      - "9000:9000"
-      - "9003:9003"
     volumes:
       - minio:/data
     networks:

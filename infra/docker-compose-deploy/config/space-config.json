@@ -1,0 +1,360 @@
+{
+  "space": "${KC_REALM}",
+  "appClients": [
+    {
+      "clientId": "${KC_APP_CLIENT_ID}",
+      "clientSecret": "${KC_APP_CLIENT_SECRET}",
+      "roles": [
+        "tr_orchestrator_admin",
+        "feat_im_all"
+      ],
+      "realmManagementRoles": [
+        "manage-users",
+        "view-users",
+        "query-groups",
+        "manage-realm"
+      ]
+    },
+    {
+      "clientId": "${KC_REGISTRY_SCRIPT_APP_CLIENT_ID}",
+      "clientSecret": "${KC_REGISTRY_SCRIPT_APP_CLIENT_SECRET}",
+      "roles": [
+        "tr_orchestrator_admin",
+        "feat_im_all"
+      ],
+      "realmManagementRoles": [
+        "manage-users",
+        "view-users",
+        "query-groups",
+        "manage-realm"
+      ]
+    }
+  ],
+  "webClients": [
+    {
+      "clientId": "${KC_WEB_CLIENT_ID}",
+      "webUrl": "${PUBLIC_URL_REGISTRY}"
+    },
+    {
+      "clientId": "${KC_CONNECT_ADMIN_WEB_CLIENT_ID}",
+      "webUrl": "${PUBLIC_URL_ADMIN}"
+    }
+  ],
+  "permissions": [
+    {
+      "name": "fs_file_read",
+      "description": "Ability to read files from the filesystem."
+    },
+    {
+      "name": "fs_file_write",
+      "description": "Ability to write or modify files in the filesystem."
+    },
+    {
+      "name": "fs_policy_write",
+      "description": "Ability to write or change policies in the filesystem."
+    },
+    {
+      "name": "tr_project_read",
+      "description": "Ability to view project data"
+    },
+    {
+      "name": "tr_project_write",
+      "description": "Ability to modify project data"
+    }
+  ],
+  "roles": [
+    {
+      "name": "tr_orchestrator_user",
+      "description": "Basic user role for orchestrator org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Utilisateur",
+        "en": "User"
+      },
+      "permissions": [
+        "im_user_read",
+        "tr_project_read"
+      ]
+    },
+    {
+      "name": "tr_orchestrator_admin",
+      "description": "Admin user role for orchestrator org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Administrateur",
+        "en": "Administrator"
+      },
+      "permissions": [
+        "fs_file_read",
+        "fs_file_write",
+        "fs_policy_write",
+        "im_organization_read",
+        "im_organization_write",
+        "im_user_read",
+        "im_user_write",
+        "im_user_role_write",
+        "im_role_read",
+        "im_role_write",
+        "im_apikey_read",
+        "im_apikey_write",
+        "tr_project_read",
+        "tr_project_write",
+        "feat_im_all",
+        "feat_im_own"
+      ]
+    },
+    {
+      "name": "tr_orchestrator",
+      "description": "Main organization role for orchestrators",
+      "targets": [
+        "ORGANIZATION"
+      ],
+      "locale": {
+        "fr": "Orchestrateur",
+        "en": "Orchestrator"
+      },
+      "bindings": {
+        "USER": [
+          "tr_orchestrator_user",
+          "tr_orchestrator_admin"
+        ],
+        "API_KEY": [
+          "tr_orchestrator_user",
+          "tr_orchestrator_admin"
+        ]
+      },
+      "permissions": [
+        "feat_im_all",
+        "feat_im_own",
+        "im_role_read"
+      ]
+    },
+    {
+      "name": "tr_project_manager_user",
+      "description": "Basic user role for project manager org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Utilisateur",
+        "en": "User"
+      },
+      "permissions": [
+        "im_user_read",
+        "im_role_read"
+      ]
+    },
+    {
+      "name": "tr_project_manager_admin",
+      "description": "Admin user role for project manager org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Administrateur",
+        "en": "Administrator"
+      },
+      "permissions": [
+        "im_organization_write_own",
+        "im_user_read",
+        "im_user_role_write",
+        "im_user_write",
+        "im_role_read",
+        "im_apikey_read",
+        "im_apikey_write"
+      ]
+    },
+    {
+      "name": "tr_project_manager",
+      "description": "Main organization role for project manager",
+      "targets": [
+        "ORGANIZATION"
+      ],
+      "locale": {
+        "fr": "Gestionnaire de projet",
+        "en": "Project Manager"
+      },
+      "bindings": {
+        "USER": [
+          "tr_project_manager_user",
+          "tr_project_manager_admin"
+        ],
+        "API_KEY": [
+          "tr_project_manager_user",
+          "tr_project_manager_admin"
+        ]
+      },
+      "permissions": [
+        "feat_im_own",
+        "im_role_read"
+      ]
+    },
+    {
+      "name": "tr_stakeholder_user",
+      "description": "Basic user role for stakeholder org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Utilisateur",
+        "en": "User"
+      },
+      "permissions": [
+        "im_user_read",
+        "im_role_read"
+      ]
+    },
+    {
+      "name": "tr_stakeholder_admin",
+      "description": "Admin user role for stakeholder org",
+      "targets": [
+        "USER",
+        "API_KEY"
+      ],
+      "locale": {
+        "fr": "Administrateur",
+        "en": "Administrator"
+      },
+      "permissions": [
+        "im_organization_write_own",
+        "im_user_read",
+        "im_user_role_write",
+        "im_user_write",
+        "im_role_read",
+        "im_apikey_read",
+        "im_apikey_write"
+      ]
+    },
+    {
+      "name": "tr_stakeholder",
+      "description": "Main organization role for stakeholder",
+      "targets": [
+        "ORGANIZATION"
+      ],
+      "locale": {
+        "fr": "Partie Prenante",
+        "en": "Stakeholder"
+      },
+      "bindings": {
+        "USER": [
+          "tr_stakeholder_user",
+          "tr_stakeholder_admin"
+        ],
+        "API_KEY": [
+          "tr_stakeholder_user",
+          "tr_stakeholder_admin"
+        ]
+      },
+      "permissions": [
+        "feat_im_own",
+        "im_role_read"
+      ]
+    }
+  ],
+  "organizations": [
+    {
+      "name": "Komune",
+      "siret": "50785916300119",
+      "description": "World owners",
+      "address": {
+        "street": "2 rue du Pavillon",
+        "postalCode": "34000",
+        "city": "Montpellier"
+      },
+      "roles": [
+        "tr_orchestrator"
+      ],
+      "users": [
+        {
+          "email": "connect@komune.io",
+          "password": "traceconnect",
+          "firstname": "Admin",
+          "lastname": "Admin",
+          "roles": [
+            "tr_orchestrator_admin"
+          ],
+          "attributes": {
+            "job": "Admin (I think)"
+          }
+        },
+        {
+          "email": "sandra@geffroi.com",
+          "password": "traceconnect",
+          "firstname": "Sandra",
+          "lastname": "Geffroi",
+          "roles": [
+            "tr_orchestrator_admin"
+          ],
+          "attributes": {
+            "job": "Frileuse"
+          }
+        }
+      ],
+      "apiKeys": [
+        {
+          "name": "apikey",
+          "roles": [
+            "tr_orchestrator_admin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Monsstrai Company",
+      "description": "Your greatest fears working as one",
+      "address": {
+        "street": "123 rue Matysme",
+        "postalCode": "66666",
+        "city": "Ville Ainh"
+      },
+      "roles": [
+        "tr_project_manager"
+      ],
+      "users": [
+        {
+          "email": "fred@ajance.com",
+          "password": "traceconnect",
+          "firstname": "Fred",
+          "lastname": "Ajance",
+          "roles": [
+            "tr_project_manager_admin"
+          ],
+          "attributes": {
+            "job": "Frais d'agence"
+          }
+        },
+        {
+          "email": "thibault@metyfeppeur.com",
+          "password": "traceconnect",
+          "firstname": "Thibault",
+          "lastname": "Métyfeppeur",
+          "roles": [
+            "tr_project_manager_admin"
+          ]
+        },
+        {
+          "email": "jess@croke.com",
+          "password": "traceconnect",
+          "firstname": "Jess",
+          "lastname": "Croke",
+          "roles": [
+            "tr_project_manager_user"
+          ],
+          "attribute": {
+            "job": "Escroc"
+          }
+        }
+      ]
+    }
+  ],
+  "users": []
+}

@@ -19,8 +19,6 @@ services:
       traefik.http.middlewares.test-stripprefix.stripprefix.prefixes: /cccev
       traefik.docker.network: ${DOCKER_NETWORK}
     restart: on-failure
-    ports:
-      - "${CCCEV_PORT}:8083"
     networks:
       - net
     depends_on:
