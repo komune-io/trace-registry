@@ -170,3 +170,14 @@ export const useCatalogueDraftGetQuery = (params: QueryParams<CatalogueDraftGetQ
     "data/catalogueDraftGet", requestProps, params
   )
 }
+
+
+export interface CatalogueListAvailableOwnersQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersQueryDTO { }
+export interface CatalogueListAvailableOwnersResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersResultDTO { }
+
+export const useCatalogueListAvailableOwnersQuery = (params: QueryParams<CatalogueListAvailableOwnersQuery, CatalogueListAvailableOwnersResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CatalogueListAvailableOwnersQuery, CatalogueListAvailableOwnersResult>(
+    "data/catalogueListAvailableOwners", requestProps, params
+  )
+}

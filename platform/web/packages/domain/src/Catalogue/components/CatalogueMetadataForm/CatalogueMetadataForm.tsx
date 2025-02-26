@@ -1,14 +1,14 @@
-import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable } from '@komune-io/g2'
+import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable, validators } from '@komune-io/g2'
 import { Paper } from '@mui/material'
 import { SearchIcon } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
+import { extractCatalogueIdentifierNumber, useCatalogueListAvailableOwnersQuery, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api/command'
 
-type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration">
+type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "illustration" | "location.country" | "location.region">
 
 interface CatalogueMetadataFormProps {
     draft?: CatalogueDraft
@@ -46,7 +46,16 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             type: type!
         },
         options: {
-            enabled: type === "100m-solution"
+            enabled: type === "100m-solution" || type === "100m-project" 
+        }
+    })
+
+    const listAvailableOwners = useCatalogueListAvailableOwnersQuery({
+        query: {
+            type: type!
+        },
+        options: {
+            enabled: type === "100m-project" 
         }
     })
 
@@ -54,6 +63,44 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         query: {
         }
     })
+
+    const projectFields = useMemo((): MetadataField[] => [{
+        name: "themes",
+        type: "select",
+        label: t("catalogues.planetaryLimits"),
+        params: {
+            options: catalogueThemesQuery.data?.items.map((theme) => ({
+                key: theme.id,
+                label: theme.prefLabel,
+            })),
+            multiple: true
+        },
+        required: true
+    },{
+        name: "location.country",
+        type: "textField",
+        label: t("country"),
+        validator: validators.requiredField(t)
+    },{
+        name: "location.region",
+        type: "textField",
+        label: t("region") + " " + t("optionnal"),
+    },{
+        name: "ownerOrganizationId",
+        type: "autoComplete",
+        label: t("catalogues.projectOwner"),
+        params: {
+            popupIcon: <SearchIcon style={{ transform: "none" }} />,
+            className: "autoCompleteField",
+            options: listAvailableOwners.data?.items?.map((org) => ({
+                key: org.id,
+                label: org.name
+            })),
+            noOptionsText: t("catalogues.noOrganization"),
+            optionsResultLimit: 50
+        },
+        required: true
+    }], [t, catalogueThemesQuery.data?.items, listAvailableOwners.data?.items])
 
     const fields = useMemo((): MetadataField[] => [...(withTitle ? [{
         name: "title",
@@ -66,7 +113,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("parentSheet"),
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
-            className: "parentField",
+            className: "autoCompleteField",
             // onInputChange: (_, value) => setSearchCatalogues(value),
             options: filteredParents?.map((cat) => ({
                 key: cat.id,
@@ -92,7 +139,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("illustration"),
         params: {
             fileTypesAllowed: ["png", "jpeg", "svg"],
-            outterLabel: t("illustration")
+            outterLabel: t("illustration") + " " + t("optionnal")
         }
     },
     ...(type === "100m-solution" ? [{
@@ -106,7 +153,9 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }] as MetadataField[] : []), {
+    }] as MetadataField[] : []),
+    ...(type === "100m-project" ? projectFields : []), 
+    {
         name: "accessRights",
         type: "select",
         label: t("access"),
@@ -131,7 +180,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items])
+    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields])
 
     const onSubmitMemo = useCallback(
       async (values: any) => {
@@ -162,7 +211,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                 fieldsStackProps={{
                     sx: {
                         gap: 5,
-                        "& .parentField .MuiAutocomplete-popupIndicator": {
+                        "& .autoCompleteField .MuiAutocomplete-popupIndicator": {
                             transform: "none !important"
                         }
                     }

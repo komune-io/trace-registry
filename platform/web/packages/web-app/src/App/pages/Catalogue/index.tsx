@@ -27,6 +27,10 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogueCreationPage type="100m-sector" />
   },
   {
+    path: "catalogues/create/project",
+    element: <CatalogueCreationPage type="100m-project" />
+  },
+  {
     path: "catalogues/:catalogueId/:draftId/edit",
     element: <DraftEditionPage  />
   },
