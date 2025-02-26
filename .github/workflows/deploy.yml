@@ -52,6 +52,7 @@ jobs:
           if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
             docker context create 100m_${{ inputs.environment }} --docker "${{ secrets.DOCKER_CONTEXT }}"
           fi
+          docker context ls
       - name: Create Environment File
         shell: bash
         run: |
