@@ -48,6 +48,7 @@ jobs:
           mkdir -p ~/.ssh_100m
           echo "${{ secrets.DOCKER_CONTEXT_SSH_KEY }}" > ~/.ssh_100m/github_actions
           chmod 600 ~/.ssh_100m/github_actions
+          eval "$(ssh-agent -s)"
           ssh-add ~/.ssh_100m/github_actions
       - name: Ensure Docker Context Exists (Reset)
         shell: bash
