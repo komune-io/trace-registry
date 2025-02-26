@@ -1,0 +1,24 @@
+# .github/workflows/manual-deploy.yml
+name: Manual Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment: dev, preprod, or prod'
+        required: true
+        default: 'dev'
+        type: string
+      run_reset:
+        description: 'Set to true to perform a reset before deployment (for non-prod)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment }}
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      run_reset: ${{ github.event.inputs.run_reset }}
