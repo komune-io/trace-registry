@@ -2,7 +2,6 @@ services:
 
   im-config:
     image: ${DOCKER_REPOSITORY}im-script:${VERSION_IM}
-    container_name: im-config
     env_file:
       - .env_dev
     environment:

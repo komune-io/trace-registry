@@ -1,7 +1,6 @@
 services:
   registry-gateway:
     image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-gateway:${REGISTRY_VERSION}
-    container_name: registry-gateway
     environment:
       - spring_r2dbc_url=r2dbc:postgresql://${POSTGRES_HOSTNAME}:5432/${POSTGRES_REGISTRY_DB}
       - spring_r2dbc_username=${POSTGRES_USER}

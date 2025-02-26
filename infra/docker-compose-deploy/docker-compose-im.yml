@@ -2,7 +2,6 @@ services:
 
   im-gateway:
     image: ${DOCKER_REPOSITORY}im-gateway:${VERSION_IM}
-    container_name: registry-im
     env_file:
       - .env_dev
     environment:
