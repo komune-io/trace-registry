@@ -45,10 +45,10 @@ jobs:
 
       - name: Add SSH key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DOCKER_CONTEXT_SSH_KEY }}" > ~/.ssh/github_actions
-          chmod 600 ~/.ssh/github_actions
-
+          mkdir -p ~/.ssh_100m
+          echo "${{ secrets.DOCKER_CONTEXT_SSH_KEY }}" > ~/.ssh_100m/github_actions
+          chmod 600 ~/.ssh_100m/github_actions
+          ssh-add ~/.ssh_100m/github_actions
       - name: Ensure Docker Context Exists (Reset)
         shell: bash
         env:
