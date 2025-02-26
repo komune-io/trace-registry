@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_PATH = infra/docker-compose
+DOCKER_COMPOSE_PATH = infra/docker-compose-deploy
 .PHONY: $(DOCKER_COMPOSE_FILE) $(ACTIONS)
 ACTIONS = up down logs log pull stop kill deploy remove help
 DEFAULT_ENV = $(DOCKER_COMPOSE_PATH)/.env_dev
