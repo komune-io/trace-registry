@@ -64,6 +64,7 @@ jobs:
       SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
       SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
       HOST_NAME_BASE: ${{ vars.HOST_NAME_BASE }}
+      ENVIRONMENT: ${{ inputs.environment }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
