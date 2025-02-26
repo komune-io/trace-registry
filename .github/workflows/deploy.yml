@@ -35,14 +35,18 @@ jobs:
       SECRET_KC_ADMIN_PASS: ${{ secrets.SECRET_KC_ADMIN_PASS }}
       SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
       SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
-      PKG_GITHUB_USERNAME: ${{ github.actor }}
-      PKG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
+      - name: Debug SSH Agent
+        shell: bash
+        run: |
+          echo "SSH_AUTH_SOCK: $SSH_AUTH_SOCK"
+          ssh-add -l
+
       - name: Ensure Docker Context Exists
         shell: bash
         env:
@@ -57,7 +61,6 @@ jobs:
         shell: bash
         run: |
           echo "Creating environment file for ${{ inputs.environment }}..."
-          cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
           envsubst < infra/docker-compose/.env_dev_default > infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
           cat infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
       - name: Deploy Docker Services (Prod)
