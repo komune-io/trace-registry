@@ -17,8 +17,6 @@ on:
 jobs:
   create_env:
     runs-on: ubuntu-latest
-    secrets:
-        DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
