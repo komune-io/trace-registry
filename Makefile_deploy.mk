@@ -1,2 +1,2 @@
 ## DOCKER-COMPOSE DEV ENVIRONMENT
-include infra/docker-compose-stack/dev-compose.mk
+include infra/docker-compose-deploy/dev-compose.mk
