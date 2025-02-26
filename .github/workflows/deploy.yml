@@ -65,7 +65,7 @@ jobs:
       SECRET_KC_ADMIN_PASS: ${{ secrets.SECRET_KC_ADMIN_PASS }}
       SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
       SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
-      HOST_NAME_REGISTRY: ${{ secrets.HOST_NAME_REGISTRY }}
+      HOST_NAME_REGISTRY: ${{ vars.HOST_NAME_REGISTRY }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -101,26 +101,3 @@ jobs:
           make connect deploy
           make connect-init deploy
           make registry deploy
-
-  reset:
-    if: ${{ inputs.environment == 'dev' || inputs.environment == 'preprod' }}
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Check if Reset Is Enabled
-        shell: bash
-        run: |
-          if [ "${{ inputs.run_reset }}" != "true" ]; then
-            echo "Reset not enabled. Skipping reset step."
-            exit 0
-          fi
-      - name: Reset Docker Stack
-        shell: bash
-        run: |
-          echo "Resetting Docker stack for ${{ inputs.environment }} environment..."
-          docker context use 100m_${{ inputs.environment }}
-          docker stack rm registry-${{ inputs.environment }}-network || true
-          docker volume rm registry-${{ inputs.environment }}-network_meilisearch_data registry-${{ inputs.environment }}-network_minio registry-${{ inputs.environment }}-network_postgres_data || true
