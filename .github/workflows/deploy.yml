@@ -43,6 +43,14 @@ jobs:
             exit 0
           fi
 
+      - name: Add SSH key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DOCKER_CONTEXT_SSH_KEY }}" > ~/.ssh/github_actions
+          chmod 600 ~/.ssh/github_actions
+          ssh-add ~/.ssh/github_actions
       - name: Ensure Docker Context Exists (Reset)
         shell: bash
         env:
