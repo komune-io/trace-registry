@@ -21,6 +21,9 @@ jobs:
     secrets:
       DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       DOCKER_CONTEXT: ${{ secrets.DOCKER_CONTEXT }}
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
     with:
       environment: ${{ github.event.inputs.environment }}
       run_reset: ${{ github.event.inputs.run_reset }}
