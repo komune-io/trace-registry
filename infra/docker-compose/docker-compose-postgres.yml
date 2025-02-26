@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
       POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_REGISTRY_DB}, ${POSTGRES_KEYCLOAK_DB}
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORTS}
 #    volumes:
 #        -  postgres_data:/var/lib/postgresql/data
     networks:
