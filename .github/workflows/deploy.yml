@@ -13,6 +13,9 @@ on:
         required: false
         default: "false"
         type: string
+    secrets:
+      DOCKER_CONTEXT_SSH_KEY:
+        required: true
 
 jobs:
   create_env:
