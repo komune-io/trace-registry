@@ -18,6 +18,8 @@ jobs:
   deploy:
     name: Deploy to ${{ github.event.inputs.environment }}
     uses: ./.github/workflows/deploy.yml
+    secrets:
+        DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
     with:
       environment: ${{ github.event.inputs.environment }}
       run_reset: ${{ github.event.inputs.run_reset }}
