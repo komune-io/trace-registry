@@ -12,8 +12,8 @@ services:
       # Needed When ports: 8080:8080 is defined
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "${SMTP_PORT}:1025"
-      - "1080:1080"
+      - ${FAKE_SMTP_PORTS_SMTP}
+      - ${FAKE_SMTP_PORTS_HTTP}
     networks:
       - net
 

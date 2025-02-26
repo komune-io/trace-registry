@@ -20,7 +20,7 @@ services:
       traefik.docker.network: ${DOCKER_NETWORK}
     restart: on-failure
     ports:
-      - "${CCCEV_PORT}:8083"
+      - ${CCCEV_PORTS}
     networks:
       - net
     depends_on:

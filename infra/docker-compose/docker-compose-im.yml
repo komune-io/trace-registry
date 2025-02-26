@@ -22,7 +22,7 @@ services:
 
       traefik.docker.network: ${DOCKER_NETWORK}
     ports:
-      - "8009:8009"
+      - ${IM_PORTS}
     networks:
       - net
 

@@ -19,8 +19,8 @@ services:
       traefik.docker.network: ${DOCKER_NETWORK}
     command: server /data --console-address ":9003"
     ports:
-      - "9000:9000"
-      - "9003:9003"
+      - ${MINIO_PORTS_API}
+      - ${MINIO_PORTS_CONSOLE}
     volumes:
       - minio:/data
     networks:

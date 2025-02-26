@@ -63,7 +63,7 @@ jobs:
       SECRET_KC_ADMIN_PASS: ${{ secrets.SECRET_KC_ADMIN_PASS }}
       SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
       SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
-      HOST_NAME_REGISTRY: ${{ vars.HOST_NAME_REGISTRY }}
+      HOST_NAME_BASE: ${{ vars.HOST_NAME_BASE }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -90,7 +90,6 @@ jobs:
         run: |
           echo "Creating environment file for ${{ inputs.environment }}..."
           cp infra/docker-compose/.env_dev_default infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
-          sed -i 's|HOST_NAME_REGISTRY=\${HOST_NAME_REGISTRY}|HOST_NAME_REGISTRY=${{ vars.HOST_NAME_REGISTRY }}|g' infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
           cat infra/docker-compose/.env_dev_100m_${{ inputs.environment }}
       - name: Deploy Docker Services (Prod)
         shell: bash
