@@ -14,5 +14,12 @@ window._env_ = {
       clientId: "${KC_WEB_CLIENT_ID}",
       url: "${PUBLIC_URL_KC}"
     }
+  },
+  theme: {
+    colors: {
+      primary: "#492161",
+      secondary: "#353945",
+      background: "#F6F4F7"
+    }
   }
 };

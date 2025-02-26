@@ -1,4 +1,3 @@
-
 export interface PlatformConfig {
     url: string
 }
@@ -18,8 +17,5 @@ export interface ThemeColorsConfig {
     background?: string
 }
 
-
 // @ts-ignore
 export const config: () => Config = () => window._env_.config
-
-export * from './useAuthenticatedRequest'

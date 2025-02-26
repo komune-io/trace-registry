@@ -2,15 +2,13 @@ import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
 import { PermanentHeader } from "components";
-
+import { config } from "domain-components";
 
 export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
-    //@ts-ignore
-    primary: window._env_?.theme?.primaryColor ?? "#492161",
-    secondary: "#353945",
-    //@ts-ignore
-    background: window._env_?.theme?.backgroundColor ?? "#F6F4F7",
+    primary: config().theme?.colors?.primary ?? "#492161",
+    secondary: config().theme?.colors?.secondary ?? "#353945",
+    background: config().theme?.colors?.background ?? "#F6F4F7",
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
