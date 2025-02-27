@@ -27,7 +27,7 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
             options: [],
-            noOptionsText: t("catalogues.noOrganization"),
+            noOptionsText: t("catalogues.noProject"),
             optionsResultLimit: 50
         },
         required: true
@@ -38,11 +38,6 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
             <FormComposable
                 fields={name}
                 formState={formState}
-                sx={{
-                    "& .autoCompleteField .MuiAutocomplete-popupIndicator": {
-                        transform: "none !important"
-                    }
-                }}
             />
             <TitleDivider
                 title={"1. " + t("catalogues.chooseDataset")}
@@ -51,6 +46,11 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
             <FormComposable
                 fields={projects}
                 formState={formState}
+                sx={{
+                    "& .autoCompleteField .MuiAutocomplete-popupIndicator": {
+                        transform: "none !important"
+                    }
+                }}
             />
         </>
     )

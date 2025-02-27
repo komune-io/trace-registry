@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage } from 'template'
-import { InfoTicket, maybeAddItem, useRoutesDefinition, useToggleState, SectionTab, Tab } from 'components'
+import { InfoTicket, maybeAddItem, useRoutesDefinition, useToggleState, SectionTab, Tab, useExtendedAuth } from 'components'
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { CircularProgress, IconButton, Stack } from '@mui/material'
@@ -29,6 +29,8 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const [draftLoading, setdraftLoading] = useState(false)
     const queryClient = useQueryClient()
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
+    const {policies} = useExtendedAuth()
+
     
 
     const navigate = useNavigate()
@@ -129,12 +131,12 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
                 direction="row"
             >
                 <CatalogueBreadcrumbs />
-                <IconButton
+                {(!!currentLanguageDraft || policies.draft.canCreate()) && <IconButton
                     onClick={currentLanguageDraft ? toggleDraftReplacement : onCreateDraft}
                     disabled={draftLoading}
                 >
                     {draftLoading ? <CircularProgress /> : <EditRounded />}
-                </IconButton>
+                </IconButton>}
             </Stack>
             <DraftReplacementModal
                 open={openDraftReplacement}

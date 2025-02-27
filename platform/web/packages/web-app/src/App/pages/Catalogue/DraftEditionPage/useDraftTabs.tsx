@@ -1,4 +1,4 @@
-import { maybeAddItem, Tab } from 'components'
+import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormComposableState } from '@komune-io/g2'
@@ -6,7 +6,6 @@ import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Ca
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
-  withMetadata?: boolean
   catalogue?: Catalogue
   draft?: CatalogueDraft
   metadataFormState: FormComposableState
@@ -16,9 +15,10 @@ export interface useDraftTabsParams {
 }
 
 export const useDraftTabs = (props: useDraftTabsParams) => {
-  const { withMetadata = true, metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false } = props
+  const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false } = props
   const { t } = useTranslation()
-
+  const { policies } = useExtendedAuth()
+  const withMetadata = policies.draft.canUpdate(draft)
 
   return useMemo((): Tab[] => {
     const tabs: Tab[] = [...maybeAddItem(!withMetadata, {

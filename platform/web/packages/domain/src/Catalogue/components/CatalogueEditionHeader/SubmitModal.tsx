@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 interface SubmitModalProps {
     open: boolean
     onClose: (event: React.ChangeEvent<{}>) => void
-    onSubmit: (reason: string) => Promise<any>
+    onSubmit?: (reason: string) => Promise<any>
 }
 
 export const SubmitModal = (props: SubmitModalProps) => {
@@ -19,7 +19,9 @@ export const SubmitModal = (props: SubmitModalProps) => {
 
     const onSubmitMemo = useCallback(
         async () => {
-           await onSubmit(value)
+           if (onSubmit) {
+            await onSubmit(value)
+           }
         },
         [value],
     )

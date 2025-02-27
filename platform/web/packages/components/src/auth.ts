@@ -1,6 +1,7 @@
 import { useAuth, KeycloackService } from "@komune-io/g2"
-import {Roles, userEffectiveRoles, usePermissionListQuery, useRoleListQuery,} from "./roles";
+import { Roles, userEffectiveRoles, usePermissionListQuery, useRoleListQuery, } from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
+import {io} from "registry-platform-api-api-js-export";
 
 type StaticServices = {
     hasUserRouteAuth: {
@@ -25,10 +26,18 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
     }
 }
 
-export const useExtendedAuth = () =>  {
-    const auth = useAuth<StaticServices, Roles>(userEffectiveRoles, staticServices, {})
-    const permissionsQuery = usePermissionListQuery({query:{}})
-    const rolesQuery = useRoleListQuery({query:{}})
+const policies = {
+    audit: io.komune.registry.f2.catalogue.domain.CataloguePolicies,
+    draft: io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies,
+}
+
+export type Policies = typeof policies
+
+
+export const useExtendedAuth = () => {
+    const auth = useAuth<StaticServices, Roles, Policies>(userEffectiveRoles, staticServices, policies)
+    const permissionsQuery = usePermissionListQuery({ query: {} })
+    const rolesQuery = useRoleListQuery({ query: {} })
     return {
         ...auth,
         roles: rolesQuery.data?.items,

@@ -1,6 +1,6 @@
 import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable, validators } from '@komune-io/g2'
 import { Paper } from '@mui/material'
-import { SearchIcon } from 'components'
+import { maybeAddItem, SearchIcon, useExtendedAuth } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { extractCatalogueIdentifierNumber, useCatalogueListAvailableOwnersQuery, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
@@ -22,6 +22,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const { type, onSubmit, formState, withTitle = false, draft } = props
 
     const { t, i18n } = useTranslation()
+    const {policies} = useExtendedAuth()
 
     // search on user input logic is commented first but saved for later evolutions
     // const [searchCatalogues, setSearchCatalogues] = useState("")
@@ -46,7 +47,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             type: type!
         },
         options: {
-            enabled: type === "100m-solution" || type === "100m-project" 
+            enabled: type === "100m-solution" || type === "100m-project"
         }
     })
 
@@ -55,7 +56,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             type: type!
         },
         options: {
-            enabled: type === "100m-project" 
+            enabled: type === "100m-project"
         }
     })
 
@@ -76,16 +77,16 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             multiple: true
         },
         required: true
-    },{
+    }, {
         name: "location.country",
         type: "textField",
         label: t("country"),
         validator: validators.requiredField(t)
-    },{
+    }, {
         name: "location.region",
         type: "textField",
         label: t("region") + " " + t("optionnal"),
-    },{
+    }, {
         name: "ownerOrganizationId",
         type: "autoComplete",
         label: t("catalogues.projectOwner"),
@@ -107,7 +108,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         type: "textField",
         label: t("title"),
         required: true
-    }] as MetadataField[] : []),{
+    }] as MetadataField[] : []), {
         name: "parentId",
         type: "autoComplete",
         label: t("parentSheet"),
@@ -117,7 +118,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             // onInputChange: (_, value) => setSearchCatalogues(value),
             options: filteredParents?.map((cat) => ({
                 key: cat.id,
-                label: `${extractCatalogueIdentifierNumber(cat.id)} - ${cat.title}` 
+                label: `${extractCatalogueIdentifierNumber(cat.id)} - ${cat.title}`
             })),
             // onBlur: () => setSearchCatalogues(""),
             noOptionsText: t("catalogues.noData"),
@@ -154,8 +155,8 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         required: true
     }] as MetadataField[] : []),
-    ...(type === "100m-project" ? projectFields : []), 
-    {
+    ...(type === "100m-project" ? projectFields : []),
+    ...maybeAddItem<MetadataField>(draft ? policies.audit.canUpdateAccessRights(draft.catalogue) : true, {
         name: "accessRights",
         type: "select",
         label: t("access"),
@@ -169,7 +170,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }]
         },
         required: true
-    }, {
+    }), {
         name: "license",
         type: "select",
         label: t("licence"),
@@ -180,17 +181,17 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields])
+    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields, policies, draft])
 
     const onSubmitMemo = useCallback(
-      async (values: any) => {
-        if (onSubmit) {
-            await onSubmit({...values, themes: values.themes && type !== "100m-project" ? [values.themes] : values.themes})
-        }
-      },
-      [onSubmit],
+        async (values: any) => {
+            if (onSubmit) {
+                await onSubmit({ ...values, themes: values.themes && type !== "100m-project" ? [values.themes] : values.themes })
+            }
+        },
+        [onSubmit],
     )
-    
+
 
     const localFormState = useFormComposable({
         onSubmit: onSubmitMemo
