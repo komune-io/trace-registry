@@ -137,7 +137,7 @@ class CatalogueF2AggregateService(
             ?: catalogueConfig.typeConfigurations[command.type]?.i18n?.translationType
             ?: i18nConfig.defaultCatalogueTranslationType
 
-        return command.copy(
+        val event = command.copy(
             identifier = identifier,
             type = translationType,
             structure = command.structure ?: originalCatalogue.structure,
@@ -146,6 +146,18 @@ class CatalogueF2AggregateService(
             accessRights = command.accessRights ?: originalCatalogue.accessRights,
             license = command.license ?: originalCatalogue.licenseId
         ).let { doCreate(it, isTranslation = true, initDatasets) }
+
+        if (initDatasets && translationType != command.type) {
+            val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
+            createAndLinkDatasets(
+                datasets = typeConfiguration?.i18n?.datasets,
+                parentId = event.id,
+                parentIdentifier = event.identifier,
+                language = command.language!!
+            )
+        }
+
+        return event
     }
 
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
@@ -249,7 +261,9 @@ class CatalogueF2AggregateService(
     }
 
     private suspend fun doCreate(
-        command: CatalogueCreateCommandDTOBase, isTranslation: Boolean = false, initDatasets: Boolean = true
+        command: CatalogueCreateCommandDTOBase,
+        isTranslation: Boolean = false,
+        initDatasets: Boolean = true,
     ): CatalogueCreatedEvent {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
@@ -269,13 +283,14 @@ class CatalogueF2AggregateService(
         if (i18nEnabled) {
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
-                parentId = catalogueCreatedEvent.id,
-                parentIdentifier = catalogueIdentifier,
+                originalId = catalogueCreatedEvent.id,
+                originalIdentifier = catalogueIdentifier,
                 language = command.language!!,
                 title = command.title,
                 description = command.description,
                 versionNotes = command.versionNotes,
-                initDatasets = initDatasets
+                initDatasets = initDatasets,
+                additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets }
             )
         }
 
@@ -322,8 +337,8 @@ class CatalogueF2AggregateService(
             val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
-                parentId = catalogue.id,
-                parentIdentifier = catalogue.identifier,
+                originalId = catalogue.id,
+                originalIdentifier = catalogue.identifier,
                 language = command.language,
                 title = command.title,
                 description = command.description,
@@ -433,26 +448,34 @@ class CatalogueF2AggregateService(
 
     private suspend fun createAndLinkTranslation(
         translationType: String,
-        parentId: CatalogueId,
-        parentIdentifier: CatalogueIdentifier,
+        originalId: CatalogueId,
+        originalIdentifier: CatalogueIdentifier,
         language: Language,
         title: String,
         description: String?,
         versionNotes: String?,
-        initDatasets: Boolean
+        initDatasets: Boolean,
+        additionalDatasets: List<CatalogueTypeSubDataset>? = null
     ) {
-        val translationId = CatalogueCreateCommandDTOBase(
-            identifier = "$parentIdentifier-${language}",
+        val event = CatalogueCreateCommandDTOBase(
+            identifier = "$originalIdentifier-${language}",
             type = translationType,
             title = title,
             description = description,
             language = language,
             versionNotes = versionNotes,
-        ).let { doCreate(it, isTranslation = true, initDatasets = initDatasets).id }
+        ).let { doCreate(it, isTranslation = true, initDatasets = initDatasets) }
+
+        createAndLinkDatasets(
+            datasets = additionalDatasets,
+            parentId = event.id,
+            parentIdentifier = event.identifier,
+            language = language
+        )
 
         CatalogueAddTranslationsCommand(
-            id = parentId,
-            catalogues = listOf(translationId)
+            id = originalId,
+            catalogues = listOf(event.id)
         ).let { catalogueAggregateService.addTranslations(it) }
     }
 
@@ -474,6 +497,7 @@ class CatalogueF2AggregateService(
             if (originalDataset.distributions.any { it.id == distribution.id }) {
                 DatasetUpdateDistributionCommand(
                     id = datasetId,
+                    name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType
@@ -481,6 +505,7 @@ class CatalogueF2AggregateService(
             } else {
                 DatasetAddDistributionCommand(
                     id = datasetId,
+                    name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType

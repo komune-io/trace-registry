@@ -17,6 +17,11 @@ interface DistributionDTO {
     val id: DistributionId
 
     /**
+     * Name of the distribution, if any.
+     */
+    val name: String?
+
+    /**
      * FS Path to download the content of the distribution.
      */
     val downloadPath: FilePath
@@ -46,6 +51,7 @@ interface DistributionDTO {
 @Serializable
 data class DistributionDTOBase(
     override val id: DistributionId,
+    override val name: String?,
     override val downloadPath: FilePath,
     override val mediaType: String,
     override val issued: Long,

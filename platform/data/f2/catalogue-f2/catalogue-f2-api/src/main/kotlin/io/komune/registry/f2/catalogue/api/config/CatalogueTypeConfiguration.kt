@@ -14,7 +14,8 @@ data class CatalogueTypeConfiguration(
 
 data class CatalogueTypeI18n(
     val enable: Boolean,
-    val translationType: String?
+    val translationType: String?,
+    val datasets: List<CatalogueTypeSubDataset>?
 )
 
 data class CatalogueTypeSubDataset(

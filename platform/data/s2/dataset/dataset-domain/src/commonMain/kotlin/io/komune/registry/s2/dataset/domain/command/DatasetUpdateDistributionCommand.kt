@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 data class DatasetUpdateDistributionCommand(
     override val id: DatasetId,
     val distributionId: DistributionId,
+    val name: String?,
     val downloadPath: FilePath,
     val mediaType: String,
 ): DatasetCommand
@@ -18,6 +19,7 @@ data class DatasetUpdatedDistributionEvent(
     override val id: DatasetId,
     override val date: Long,
     val distributionId: DistributionId,
+    val name: String?,
     val downloadPath: FilePath,
     val mediaType: String,
 ): DatasetEvent
