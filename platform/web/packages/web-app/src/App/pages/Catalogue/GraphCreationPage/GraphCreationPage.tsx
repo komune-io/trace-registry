@@ -1,6 +1,8 @@
+import { useFormComposable } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
 import {
   GraphCreationheader,
+  GraphDatasetForm,
   GraphForm,
 } from 'domain-components'
 import { useCallback, useEffect} from 'react'
@@ -25,6 +27,10 @@ export const GraphCreationPage = () => {
     document.title = "WikiCO2 | " + t("search")
   }, [t])
 
+  const graphFormState = useFormComposable({
+
+  })
+
   return (
     <Dialog
       fullScreen
@@ -41,7 +47,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title='Créer un draft' goBackUrl={"/"} />
+      <GraphCreationheader title={t("createAGraph")} goBackUrl={"/"} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -50,6 +56,7 @@ export const GraphCreationPage = () => {
           pr: 3
         }}
       >
+        <GraphDatasetForm formState={graphFormState} />
        <GraphForm onSave={() => {return Promise.resolve()}} />
       </Stack>
     </Dialog>

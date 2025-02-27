@@ -144,6 +144,9 @@
     "country": "Pays",
     "region": "Région",
     "optionnal": "(facultatif)",
+    "co2Projects": "Projets CO2",
+    "graphs": "Graphes",
+    "createAGraph": "Créer un graphe",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -320,7 +323,11 @@
         "titleRequired": "Vous devez renseigner le titre de la fiche",
         "planetaryLimits": "Libellé(s) limites planétaires",
         "projectOwner": "Porteur du projet",
-        "noOrganization": "Aucune organisation n'a été trouvé"
+        "noOrganization": "Aucune organisation n'a été trouvé",
+        "uploadCsv": "Déposer un fichier CSV",
+        "chooseDataset": "Choisir votre jeu de données",
+        "graphConfiguration": "Configurez votre graphe",
+        "noProject": "Aucun projet n'a été trouvé"
     },
     "editor": {
         "imageUrl": "URL de l'image",

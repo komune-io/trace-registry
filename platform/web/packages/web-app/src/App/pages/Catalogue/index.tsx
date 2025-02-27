@@ -56,7 +56,7 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogueSearchPage  />
   },
   {
-    path: "catalogues/createGraph",
+    path: "catalogues/:catalogueId/:draftId/:datasetId/graph",
     element: <GraphCreationPage  />
   },
   {

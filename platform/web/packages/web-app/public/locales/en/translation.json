@@ -144,6 +144,9 @@
   "country": "Country",
   "region": "Region",
   "optionnal": "(optional)",
+  "co2Projects": "CO2 projects",
+  "graphs": "Graphs",
+  "createAGraph": "Create a graph",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -320,7 +323,11 @@
     "titleRequired": "You must provide the title of the sheet",
     "planetaryLimits": "Label(s) planetary boundaries",
     "projectOwner": "Project leader",
-    "noOrganization": "No organization were found"
+    "noOrganization": "No organization were found",
+    "uploadCsv": "Upload a CSV file",
+    "chooseDataset": "Choose your dataset",
+    "graphConfiguration": "Configure your graph",
+    "noProject": "No project was found"
   },
   "editor": {
     "imageUrl": "Image URL",

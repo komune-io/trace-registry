@@ -19,7 +19,7 @@ export interface GraphFormProps {
 }
 
 export const GraphForm = (props: GraphFormProps) => {
-    const {onSave} = props
+    const { onSave } = props
     const { t } = useTranslation()
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
@@ -50,14 +50,14 @@ export const GraphForm = (props: GraphFormProps) => {
 
     const onSaveMemo = useCallback(
         async () => {
-          var svgString = new XMLSerializer().serializeToString(
-            rawViz._node.firstChild
-          )
-          var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
-          await onSave(svg)
+            var svgString = new XMLSerializer().serializeToString(
+                rawViz._node.firstChild
+            )
+            var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+            await onSave(svg)
         },
         [rawViz, onSave]
-      )
+    )
 
     return (
         <Stack
@@ -67,10 +67,6 @@ export const GraphForm = (props: GraphFormProps) => {
             <Helmet>
                 <link rel="stylesheet" href={rawGraphScssUrl} />
             </Helmet>
-            <TitleDivider
-                title="2. Configurez votre jeu de données"
-                size="subtitle1"
-            />
             <DataGrid
                 dataset={dataSet}
                 dataTypes={dataTypes}
@@ -79,7 +75,7 @@ export const GraphForm = (props: GraphFormProps) => {
                 userDataset={dataSet}
             />
             <TitleDivider
-                title="3. Configurez votre graphe"
+                title={"2. " + t("catalogues.graphConfiguration")}
                 size="subtitle1"
             />
             <ChartSelector
