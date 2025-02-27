@@ -1,5 +1,6 @@
 package io.komune.registry.s2.catalogue.domain.command
 
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -16,7 +17,7 @@ data class CatalogueUpdateCommand(
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
     val structure: Structure?,
-    val accessRights: String?,
+    val accessRights: CatalogueAccessRight?,
     val licenseId: String?,
     val location: Location?,
     val hidden: Boolean,
@@ -33,7 +34,7 @@ data class CatalogueUpdatedEvent(
     override val homepage: String?,
     override val ownerOrganizationId: OrganizationId?,
     override val structure: Structure?,
-    override val accessRights: String?,
+    override val accessRights: CatalogueAccessRight,
     override val licenseId: String?,
     override val location: Location?,
     override val hidden: Boolean = false,

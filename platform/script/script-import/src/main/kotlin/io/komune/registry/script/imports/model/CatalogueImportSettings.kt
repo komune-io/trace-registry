@@ -1,5 +1,6 @@
 package io.komune.registry.script.imports.model
 
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 
@@ -51,7 +52,7 @@ data class CatalogueMappingSettings(
 
 data class CatalogueDefaultsSettings(
     val license: String?,
-    val accessRights: String?,
+    val accessRights: CatalogueAccessRight?,
     val structure: String?,
     val parent: Map<String, CatalogueParentKey>?
 )

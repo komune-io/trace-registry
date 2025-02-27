@@ -1,10 +1,13 @@
 package io.komune.registry.f2.catalogue.draft.api
 
+import f2.dsl.cqrs.filter.CollectionMatch
+import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
+import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftPoliciesEnforcer
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftApi
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateFunction
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreatedEventDTOBase
@@ -34,6 +37,7 @@ class CatalogueDraftEndpoint(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftF2AggregateService: CatalogueDraftF2AggregateService,
     private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
+    private val catalogueDraftPoliciesEnforcer: CatalogueDraftPoliciesEnforcer,
     private val catalogueF2AggregateService: CatalogueF2AggregateService
 ) : CatalogueDraftApi {
 
@@ -43,22 +47,24 @@ class CatalogueDraftEndpoint(
     override fun catalogueDraftGet(): CatalogueDraftGetFunction = f2Function { query ->
         logger.info("catalogueDraftGet: $query")
         catalogueDraftF2FinderService.getOrNull(query.id)
+            ?.let { catalogueDraftPoliciesEnforcer.enforceGet(it) }
             .let(::CatalogueDraftGetResult)
     }
 
     @Bean
     override fun catalogueDraftPage(): CatalogueDraftPageFunction = f2Function { query ->
         logger.info("catalogueDraftPage: $query")
+        val enforcedQuery = catalogueDraftPoliciesEnforcer.enforceQuery(query)
         catalogueDraftF2FinderService.search(
-            query = query.search,
-            originalCatalogueIds = query.originalCatalogueId?.let(::listOf),
-            languages = query.language?.let(::listOf),
-            statuses = query.status,
-            types = query.type?.let(::listOf),
-            creatorIds = query.creatorId?.let(::listOf),
+            query = enforcedQuery.search,
+            originalCatalogueId = enforcedQuery.originalCatalogueId?.let(::ExactMatch),
+            language = enforcedQuery.language?.let(::ExactMatch),
+            status = enforcedQuery.status?.let(::CollectionMatch),
+            type = enforcedQuery.type?.let(::ExactMatch),
+            creatorId = enforcedQuery.creatorId?.let(::ExactMatch),
             offset = OffsetPagination(
-                offset = query.offset ?: 0,
-                limit = query.limit ?: 10
+                offset = enforcedQuery.offset ?: 0,
+                limit = enforcedQuery.limit ?: 10
             )
         ).let {
             CatalogueDraftPageResult(
@@ -71,6 +77,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftCreate(): CatalogueDraftCreateFunction = f2Function { command ->
         logger.info("catalogueDraftCreate: $command")
+        catalogueDraftPoliciesEnforcer.checkCreate()
         catalogueDraftF2AggregateService.create(command).id
             .let(::CatalogueDraftCreatedEventDTOBase)
     }
@@ -78,6 +85,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftSubmit(): CatalogueDraftSubmitFunction = f2Function { command ->
         logger.info("catalogueDraftSubmit: $command")
+        catalogueDraftPoliciesEnforcer.checkSubmit(command.id)
         catalogueDraftF2AggregateService.submit(command).id
             .let(::CatalogueDraftSubmittedEventDTOBase)
     }
@@ -85,6 +93,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftRequestUpdate(): CatalogueDraftRequestUpdateFunction = f2Function { command ->
         logger.info("catalogueDraftRequestUpdate: $command")
+        catalogueDraftPoliciesEnforcer.checkAudit()
         catalogueDraftAggregateService.requestUpdate(command).id
             .let(::CatalogueDraftRequestedUpdateEventDTOBase)
     }
@@ -92,6 +101,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftReject(): CatalogueDraftRejectFunction = f2Function { command ->
         logger.info("catalogueDraftReject: $command")
+        catalogueDraftPoliciesEnforcer.checkAudit()
         catalogueDraftAggregateService.reject(command).id
             .let(::CatalogueDraftRejectedEventDTOBase)
     }
@@ -99,6 +109,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftValidate(): CatalogueDraftValidateFunction = f2Function { command ->
         logger.info("catalogueDraftValidate: $command")
+        catalogueDraftPoliciesEnforcer.checkAudit()
         catalogueF2AggregateService.validateDraft(command.id)
         CatalogueDraftValidatedEventDTOBase(command.id)
     }
@@ -106,6 +117,7 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftDelete(): CatalogueDraftDeleteFunction = f2Function { command ->
         logger.info("catalogueDraftDelete: $command")
+        catalogueDraftPoliciesEnforcer.checkDelete(command.id)
         catalogueDraftAggregateService.delete(command).id
             .let(::CatalogueDraftDeletedEventDTOBase)
     }

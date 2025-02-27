@@ -6,6 +6,8 @@ plugins {
 
 dependencies {
 	jvmMainImplementation(project(Modules.api.config))
+	jvmMainImplementation(project(Modules.commons))
+
 	Dependencies.Jvm.meilisearch(::jvmMainApi)
 	Dependencies.Jvm.jackson(::jvmMainImplementation)
 }

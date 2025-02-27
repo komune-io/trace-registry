@@ -33,7 +33,7 @@ data class CatalogueModel(
     val ownerOrganizationId: OrganizationId?,
     val publisherId: UserId?,
     val validatorId: UserId?,
-    val accessRights: String?,
+    val accessRights: CatalogueAccessRight,
     val licenseId: LicenseId?,
     val location: Location?,
     val hidden: Boolean,

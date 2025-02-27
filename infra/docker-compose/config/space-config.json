@@ -5,8 +5,8 @@
       "clientId": "${KC_APP_CLIENT_ID}",
       "clientSecret": "${KC_APP_CLIENT_SECRET}",
       "roles": [
-        "tr_orchestrator_admin",
-        "feat_im_all"
+        "rg_role_org_orchestrator",
+        "rg_role_user_orchestrator"
       ],
       "realmManagementRoles": [
         "manage-users",
@@ -19,8 +19,8 @@
       "clientId": "${KC_REGISTRY_SCRIPT_APP_CLIENT_ID}",
       "clientSecret": "${KC_REGISTRY_SCRIPT_APP_CLIENT_SECRET}",
       "roles": [
-        "tr_orchestrator_admin",
-        "feat_im_all"
+        "rg_role_org_orchestrator",
+        "rg_role_user_orchestrator"
       ],
       "realmManagementRoles": [
         "manage-users",
@@ -40,223 +40,228 @@
       "webUrl": "${PUBLIC_URL_ADMIN}"
     }
   ],
-  "permissions": [
-    {
-      "name": "fs_file_read",
-      "description": "Ability to read files from the filesystem."
-    },
-    {
-      "name": "fs_file_write",
-      "description": "Ability to write or modify files in the filesystem."
-    },
-    {
-      "name": "fs_policy_write",
-      "description": "Ability to write or change policies in the filesystem."
-    },
-    {
-      "name": "tr_project_read",
-      "description": "Ability to view project data"
-    },
-    {
-      "name": "tr_project_write",
-      "description": "Ability to modify project data"
-    }
-  ],
+  "features": [{
+    "name": "rg_feat_catalogue",
+    "description": "Access to catalogue and dataset features"
+  }, {
+    "name": "rg_feat_catalogue_audit",
+    "description": "Access to catalogue audition features"
+  }, {
+    "name": "rg_feat_configuration",
+    "description": "Access to platform configurations"
+  }],
+  "permissions": [{
+    "name": "fs_file_read",
+    "description": "Ability to read files from the filesystem."
+  }, {
+    "name": "fs_file_write",
+    "description": "Ability to write or modify files in the filesystem."
+  }, {
+    "name": "fs_policy_write",
+    "description": "Ability to write or change policies in the filesystem."
+  }, {
+    "name": "rg_perm_catalogue_read_org",
+    "description": "Ability to view catalogue of their organization",
+    "features": [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_read_all",
+    "description": "Ability to view catalogue of all organizations",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_write_org",
+    "description": "Ability to write in catalogues of their organization",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_write_all",
+    "description": "Ability to write in catalogues of all organizations",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_publish_org",
+    "description": "Ability to publish catalogues of their organization",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_publish_all",
+    "description": "Ability to publish catalogues of all organizations",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_delete_org",
+    "description": "Ability to delete catalogues of their organization",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_delete_all",
+    "description": "Ability to delete catalogues of all organizations",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_draft_create",
+    "description": "Ability to create a catalogue draft",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_draft_audit",
+    "description": "Ability to audit a catalogue draft",
+    "features":  [["rg_feat_catalogue_audit"]]
+  }, {
+    "name": "rg_perm_catalogue_draft_read_all",
+    "description": "Ability to view catalogue drafts of all users",
+    "features":  [["rg_feat_catalogue"], ["rg_feat_catalogue_audit"]]
+  }, {
+    "name": "rg_perm_catalogue_draft_write_all",
+    "description": "Ability to edit catalogue drafts of all users",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_catalogue_draft_delete_all",
+    "description": "Ability to delete catalogue drafts of all users",
+    "features":  [["rg_feat_catalogue"]]
+  }, {
+    "name": "rg_perm_configuration_concept_write",
+    "description": "Ability to configure concepts",
+    "features":  [["rg_feat_configuration"]]
+  }, {
+    "name": "rg_perm_configuration_license_write",
+    "description": "Ability to configure licenses",
+    "features":  [["rg_feat_configuration"]]
+  }],
   "roles": [
     {
-      "name": "tr_orchestrator_user",
-      "description": "Basic user role for orchestrator org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Utilisateur",
-        "en": "User"
-      },
-      "permissions": [
-        "im_user_read",
-        "tr_project_read"
-      ]
-    },
-    {
-      "name": "tr_orchestrator_admin",
-      "description": "Admin user role for orchestrator org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Administrateur",
-        "en": "Administrator"
-      },
-      "permissions": [
-        "fs_file_read",
-        "fs_file_write",
-        "fs_policy_write",
-        "im_organization_read",
-        "im_organization_write",
-        "im_user_read",
-        "im_user_write",
-        "im_user_role_write",
-        "im_role_read",
-        "im_role_write",
-        "im_apikey_read",
-        "im_apikey_write",
-        "tr_project_read",
-        "tr_project_write",
-        "feat_im_all",
-        "feat_im_own"
-      ]
-    },
-    {
-      "name": "tr_orchestrator",
-      "description": "Main organization role for orchestrators",
-      "targets": [
-        "ORGANIZATION"
-      ],
+      "name": "rg_role_org_orchestrator",
+      "description": "Grant its users the rights to manage all registry features, including the overall supervision of organizations and their members.",
+      "targets": ["ORGANIZATION"],
       "locale": {
         "fr": "Orchestrateur",
-        "en": "Orchestrator"
+        "en": "Orchestrator",
+        "es": "Orquestador"
       },
       "bindings": {
         "USER": [
-          "tr_orchestrator_user",
-          "tr_orchestrator_admin"
-        ],
-        "API_KEY": [
-          "tr_orchestrator_user",
-          "tr_orchestrator_admin"
+          "rg_role_user_orchestrator",
+          "rg_role_user_admin",
+          "rg_role_user_validator",
+          "rg_role_user_contributor",
+          "rg_role_user_reader"
         ]
+      },
+      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_configuration"]
+    }, {
+      "name": "rg_role_org_validator",
+      "description": "Grant its users the right to validate records, thus ensuring the quality and consistency of the contents in the registry.",
+      "targets": ["ORGANIZATION"],
+      "locale": {
+        "fr": "Validateur",
+        "en": "Validator",
+        "es": "Validador"
+      },
+      "bindings": {
+        "USER": [
+          "rg_role_user_admin",
+          "rg_role_user_validator",
+          "rg_role_user_reader"
+        ]
+      },
+      "permissions": ["feat_im_own", "rg_feat_catalogue_audit"]
+    }, {
+      "name": "rg_role_org_contributor",
+      "description": "Grant its users the right to submit contributions and proposals for modifications to the registry records.",
+      "targets": ["ORGANIZATION"],
+      "locale": {
+        "fr": "Contributeur",
+        "en": "Contributor",
+        "es": "Contribuidor"
+      },
+      "bindings": {
+        "USER": [
+          "rg_role_user_admin",
+          "rg_role_user_contributor",
+          "rg_role_user_reader"
+        ]
+      },
+      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_catalogue_audit"]
+    }, {
+      "name": "rg_role_org_reader",
+      "description": "Grant its users read-only access, allowing them to view and search records without being able to modify or validate them.",
+      "targets": ["ORGANIZATION"],
+      "locale": {
+        "fr": "Lecteur",
+        "en": "Reader",
+        "es": "Lector"
+      },
+      "bindings": {
+        "USER": [
+          "rg_role_user_admin",
+          "rg_role_user_reader"
+        ]
+      },
+      "permissions": ["feat_im_own", "rg_feat_catalogue"]
+    }, {
+      "name": "rg_role_user_admin",
+      "description": "Grant the right to manage everything within their organization, including other users and their roles.",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Admin",
+        "en": "Admin",
+        "es": "Admin"
+      },
+      "permissions": [
+        "im_organization_write_own", "im_user_read", "im_user_write",
+        "rg_perm_catalogue_read_org", "rg_perm_catalogue_publish_org",
+        "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit", "rg_perm_catalogue_draft_read_all",
+        "rg_perm_configuration_concept_write", "rg_perm_configuration_license_write"
+      ]
+    }, {
+      "name": "rg_role_user_reader",
+      "description": "Grant read-only access to the registry",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Lecteur",
+        "en": "Reader",
+        "es": "Lector"
+      },
+      "permissions": ["im_user_read", "rg_perm_catalogue_read_org"]
+    }, {
+      "name": "rg_role_user_contributor",
+      "description": "Grant the right to submit contributions and proposals for modifications to the registry records.",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Contributeur",
+        "en": "Contributor",
+        "es": "Contribuidor"
+      },
+      "permissions": [
+        "im_user_read",
+        "rg_perm_catalogue_read_org", "rg_perm_catalogue_publish_org",
+        "rg_perm_catalogue_draft_create"
+      ]
+    }, {
+      "name": "rg_role_user_validator",
+      "description": "Grant the right to validate records in the registry",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Validateur",
+        "en": "Validator",
+        "es": "Validador"
+      },
+      "permissions": [
+        "im_user_read",
+        "rg_perm_catalogue_draft_audit", "rg_perm_catalogue_draft_read_all"
+      ]
+    }, {
+      "name": "rg_role_user_orchestrator",
+      "description": "Grant super admin rights to the registry",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Orchestrateur",
+        "en": "Orchestrator",
+        "es": "Orquestador"
       },
       "permissions": [
         "feat_im_all",
-        "feat_im_own",
-        "im_role_read"
-      ]
-    },
-    {
-      "name": "tr_project_manager_user",
-      "description": "Basic user role for project manager org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Utilisateur",
-        "en": "User"
-      },
-      "permissions": [
-        "im_user_read",
-        "im_role_read"
-      ]
-    },
-    {
-      "name": "tr_project_manager_admin",
-      "description": "Admin user role for project manager org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Administrateur",
-        "en": "Administrator"
-      },
-      "permissions": [
-        "im_organization_write_own",
-        "im_user_read",
-        "im_user_role_write",
-        "im_user_write",
-        "im_role_read",
-        "im_apikey_read",
-        "im_apikey_write"
-      ]
-    },
-    {
-      "name": "tr_project_manager",
-      "description": "Main organization role for project manager",
-      "targets": [
-        "ORGANIZATION"
-      ],
-      "locale": {
-        "fr": "Gestionnaire de projet",
-        "en": "Project Manager"
-      },
-      "bindings": {
-        "USER": [
-          "tr_project_manager_user",
-          "tr_project_manager_admin"
-        ],
-        "API_KEY": [
-          "tr_project_manager_user",
-          "tr_project_manager_admin"
-        ]
-      },
-      "permissions": [
-        "feat_im_own",
-        "im_role_read"
-      ]
-    },
-    {
-      "name": "tr_stakeholder_user",
-      "description": "Basic user role for stakeholder org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Utilisateur",
-        "en": "User"
-      },
-      "permissions": [
-        "im_user_read",
-        "im_role_read"
-      ]
-    },
-    {
-      "name": "tr_stakeholder_admin",
-      "description": "Admin user role for stakeholder org",
-      "targets": [
-        "USER",
-        "API_KEY"
-      ],
-      "locale": {
-        "fr": "Administrateur",
-        "en": "Administrator"
-      },
-      "permissions": [
-        "im_organization_write_own",
-        "im_user_read",
-        "im_user_role_write",
-        "im_user_write",
-        "im_role_read",
-        "im_apikey_read",
-        "im_apikey_write"
-      ]
-    },
-    {
-      "name": "tr_stakeholder",
-      "description": "Main organization role for stakeholder",
-      "targets": [
-        "ORGANIZATION"
-      ],
-      "locale": {
-        "fr": "Partie Prenante",
-        "en": "Stakeholder"
-      },
-      "bindings": {
-        "USER": [
-          "tr_stakeholder_user",
-          "tr_stakeholder_admin"
-        ],
-        "API_KEY": [
-          "tr_stakeholder_user",
-          "tr_stakeholder_admin"
-        ]
-      },
-      "permissions": [
-        "feat_im_own",
-        "im_role_read"
+        "im_organization_read", "im_organization_write", "im_organization_write_own",
+        "im_user_read", "im_user_write",
+        "im_role_read",  "im_role_write",
+        "im_apikey_read", "im_apikey_write",
+        "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all",
+        "rg_perm_catalogue_publish_all", "rg_perm_catalogue_delete_all",
+        "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit",
+        "rg_perm_catalogue_draft_read_all", "rg_perm_catalogue_draft_write_all", "rg_perm_catalogue_draft_delete_all",
+        "rg_perm_configuration_concept_write", "rg_perm_configuration_license_write"
       ]
     }
   ],
@@ -270,18 +275,14 @@
         "postalCode": "34000",
         "city": "Montpellier"
       },
-      "roles": [
-        "tr_orchestrator"
-      ],
+      "roles": ["rg_role_org_orchestrator"],
       "users": [
         {
           "email": "connect@komune.io",
           "password": "traceconnect",
           "firstname": "Admin",
           "lastname": "Admin",
-          "roles": [
-            "tr_orchestrator_admin"
-          ],
+          "roles": ["rg_role_user_orchestrator"],
           "attributes": {
             "job": "Admin (I think)"
           }
@@ -291,20 +292,10 @@
           "password": "traceconnect",
           "firstname": "Sandra",
           "lastname": "Geffroi",
-          "roles": [
-            "tr_orchestrator_admin"
-          ],
+          "roles": ["rg_role_user_admin"],
           "attributes": {
             "job": "Frileuse"
           }
-        }
-      ],
-      "apiKeys": [
-        {
-          "name": "apikey",
-          "roles": [
-            "tr_orchestrator_admin"
-          ]
         }
       ]
     },
@@ -316,18 +307,14 @@
         "postalCode": "66666",
         "city": "Ville Ainh"
       },
-      "roles": [
-        "tr_project_manager"
-      ],
+      "roles": ["rg_role_org_contributor"],
       "users": [
         {
           "email": "fred@ajance.com",
           "password": "traceconnect",
           "firstname": "Fred",
           "lastname": "Ajance",
-          "roles": [
-            "tr_project_manager_admin"
-          ],
+          "roles": ["rg_role_user_admin"],
           "attributes": {
             "job": "Frais d'agence"
           }
@@ -337,18 +324,14 @@
           "password": "traceconnect",
           "firstname": "Thibault",
           "lastname": "Métyfeppeur",
-          "roles": [
-            "tr_project_manager_admin"
-          ]
+          "roles": ["rg_role_user_contributor"]
         },
         {
           "email": "jess@croke.com",
           "password": "traceconnect",
           "firstname": "Jess",
           "lastname": "Croke",
-          "roles": [
-            "tr_project_manager_user"
-          ],
+          "roles": ["rg_role_user_reader"],
           "attribute": {
             "job": "Escroc"
           }

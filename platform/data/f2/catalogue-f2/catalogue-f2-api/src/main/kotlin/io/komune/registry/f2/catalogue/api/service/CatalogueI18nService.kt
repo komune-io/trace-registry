@@ -12,7 +12,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
-import io.komune.registry.f2.dataset.api.service.toDTO
+import io.komune.registry.f2.dataset.api.model.toDTO
+import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service
 class CatalogueI18nService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetFinderService: DatasetFinderService,
     private val i18nService: I18nService,
@@ -109,7 +111,7 @@ class CatalogueI18nService(
             hidden = translated.hidden,
             issued = translated.issued,
             modified = translated.modified,
-            pendingDrafts = pendingDrafts?.map { it.toRef() },
+            pendingDrafts = pendingDrafts?.map { it.toRef(cache.users::get) },
             version = translated.version,
             versionNotes = translated.versionNotes,
         )
@@ -134,6 +136,7 @@ class CatalogueI18nService(
                     catalogueFinderService.page(
                         id = CollectionMatch(catalogueIds),
                         hidden = ExactMatch(false),
+                        freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter()
                     ).items
                         .filter { it.status != CatalogueState.DELETED }
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
