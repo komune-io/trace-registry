@@ -20,24 +20,29 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
     }], [t])
 
     const projects = useMemo((): FormComposableField[] => [{
-            name: "dataset",
-            type: "autoComplete",
-            label: t("co2Projects"),
-            params: {
-                popupIcon: <SearchIcon style={{ transform: "none" }} />,
-                className: "autoCompleteField",
-                options: [],
-                noOptionsText: t("catalogues.noOrganization"),
-                optionsResultLimit: 50
-            },
-            required: true
-        }], [t])
+        name: "dataset",
+        type: "autoComplete",
+        label: t("co2Projects"),
+        params: {
+            popupIcon: <SearchIcon style={{ transform: "none" }} />,
+            className: "autoCompleteField",
+            options: [],
+            noOptionsText: t("catalogues.noOrganization"),
+            optionsResultLimit: 50
+        },
+        required: true
+    }], [t])
 
     return (
         <>
             <FormComposable
                 fields={name}
                 formState={formState}
+                sx={{
+                    "& .autoCompleteField .MuiAutocomplete-popupIndicator": {
+                        transform: "none !important"
+                    }
+                }}
             />
             <TitleDivider
                 title={"1. " + t("catalogues.chooseDataset")}

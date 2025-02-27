@@ -147,6 +147,10 @@
   "co2Projects": "Proyectos CO2",
   "graphs": "Gráficos",
   "createAGraph": "Crear un gráfico",
+  "unsupportedFormatError": "Formato no soportado. Por favor, utilice uno de los siguientes formatos: {{formats}}",
+  "dragDropText": "Arrastra y suelta o haz clic para elegir un archivo",
+  "maxFileSize": "Tamaño máximo de un archivo: {{size}} MB",
+  "file": "Archivo",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
