@@ -64,6 +64,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	private suspend fun DatasetEntity.addDistribution(event: DatasetAddedDistributionEvent) = apply {
 		distributions = distributions.orEmpty() + DistributionEntity(
 			id = event.distributionId,
+			name = event.name,
 			downloadPath = event.downloadPath.toString(),
 			mediaType = event.mediaType,
 			issued = event.date,
@@ -76,6 +77,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		distributions = distributions.orEmpty().map { distribution ->
 			distribution.takeIf { it.id == event.distributionId }
 				?.copy(
+					name = event.name,
 					downloadPath = event.downloadPath.toString(),
 					mediaType = event.mediaType,
 					modified = event.date

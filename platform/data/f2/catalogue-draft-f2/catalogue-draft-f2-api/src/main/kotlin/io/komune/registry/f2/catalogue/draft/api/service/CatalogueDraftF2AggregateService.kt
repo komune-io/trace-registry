@@ -62,6 +62,7 @@ class CatalogueDraftF2AggregateService(
             dataset.distributions.mapAsync { distribution ->
                 DatasetAddDistributionCommand(
                     id = newId,
+                    name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType,

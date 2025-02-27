@@ -31,6 +31,11 @@ interface DatasetAddMediaDistributionCommandDTO {
     val draftId: CatalogueDraftId
 
     /**
+     * Name of the distribution.
+     */
+    val name: String?
+
+    /**
      * Media type of the content of distribution.
      * @example "image/png"
      */
@@ -44,6 +49,7 @@ interface DatasetAddMediaDistributionCommandDTO {
 data class DatasetAddMediaDistributionCommandDTOBase(
     override val id: DatasetId,
     override val draftId: CatalogueDraftId,
+    override val name: String?,
     override val mediaType: String
 ) : DatasetAddMediaDistributionCommandDTO
 

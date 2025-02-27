@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_PATH = infra/docker-compose-deploy
+DOCKER_COMPOSE_PATH = infra/docker-compose
 MAKE_OPTS =
 .PHONY: $(DOCKER_COMPOSE_FILE) $(ACTIONS)
 ACTIONS = up down logs log pull stop kill deploy remove help
