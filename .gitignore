@@ -1,5 +1,5 @@
-**/env-config.js
-**/OidcTrustedDomains.js
+platform/**/env-config.js
+platform/**/OidcTrustedDomains.js
 
 .gradle
 **/build/

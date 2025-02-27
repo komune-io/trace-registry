@@ -1,0 +1,19 @@
+services:
+  connect-fake-smtp:
+    image: reachfive/fake-smtp-server:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.connect-fake-smtp.loadbalancer.server.port: "1080"
+      traefik.http.routers.connect-fake-smtp.rule: Host(`${HOST_NAME_CONNECT_SMTP_FAKE}`)
+      traefik.http.routers.connect-fake-smtp.entrypoints: websecure
+      traefik.http.routers.connect-fake-smtp.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: 8080:8080 is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

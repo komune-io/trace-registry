@@ -1,0 +1,40 @@
+services:
+
+  cccev-gateway:
+    image: ${DOCKER_REPOSITORY}cccev-gateway:${CONNECT_CCCEV_VERSION}
+    env_file:
+      - build/config/.env_dev
+    environment:
+      - fs_url=http://fs-gateway:8090
+      - spring_neo4j_uri=neo4j://cccev-neo4j:7687
+      - spring_neo4j_authentication_username=neo4j
+      - spring_neo4j_authentication_password=komunekomune
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.im-gateway.loadbalancer.server.port: ${CCCEV_PORT}
+      traefik.http.routers.im-gateway.rule: Host(`${HOST_NAME_CONNECT}`) && PathPrefix(`/cccev`)
+      traefik.http.routers.im-gateway.entrypoints: websecure
+      traefik.http.routers.im-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.test-stripprefix.stripprefix.prefixes: /cccev
+      traefik.docker.network: ${DOCKER_NETWORK}
+    restart: on-failure
+    networks:
+      - net
+    depends_on:
+      - neo4j
+
+  neo4j:
+    image: neo4j:5.5.0
+    environment:
+      - NEO4J_AUTH=neo4j/komunekomune
+      - NEO4J_PLUGINS=["apoc"]
+    networks:
+      - net
+    ports:
+      - "7687:7687"
+      - "7474:7474"  # browser interface (localhost:7474)
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

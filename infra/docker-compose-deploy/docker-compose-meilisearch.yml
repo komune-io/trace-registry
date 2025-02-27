@@ -1,0 +1,17 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    environment:
+      MEILI_MASTER_KEY: ${SECRET_MEILI_MASTER_KEY}
+    volumes:
+      -  meilisearch_data:/data.ms
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+volumes:
+  meilisearch_data:

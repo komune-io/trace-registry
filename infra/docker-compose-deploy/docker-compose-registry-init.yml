@@ -1,0 +1,26 @@
+services:
+
+  tr-registry-script:
+    image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-script:${REGISTRY_VERSION}
+    env_file:
+      - .env_dev
+    environment:
+      - registry_script_retry_max=5
+      - registry_script_retry_delayMillis=10000
+      - registry_script_init_auth_url=${PUBLIC_URL_KC}
+      - registry_script_init_auth_=${KC_REALM}
+      - registry_script_init_cccev_url=${PUBLIC_URL_CCCEV}
+      - registry_script_init_im_url=${PUBLIC_URL_IM}
+      - registry_script_init_registry_url=${PUBLIC_URL_REGISTRY}
+      - registry_script_init_flag_control=false
+      - registry_script_init_flag_data=true
+      - registry_script_init_flag_project=false
+      - registry_init_admin_name=Komune
+      - registry_init_admin_clientId=tr-registry-script-api
+      - registry_init_admin_clientSecret=secret
+    networks:
+      - net
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

@@ -1,0 +1,43 @@
+services:
+
+  im-keycloak:
+    image: ${DOCKER_REGISTRY_REPOSITORY}trace-registry-keycloak:${REGISTRY_VERSION}
+    env_file:
+      - .env_dev
+    environment:
+      KC_DB_URL: 'jdbc:postgresql://${POSTGRES_HOSTNAME}/${POSTGRES_KEYCLOAK_DB}'
+      KC_DB_PASSWORD: ${POSTGRES_PASS}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_SCHEMA: public
+      KC_HOSTNAME: ${PUBLIC_URL_KC}
+      KEYCLOAK_FRONTEND_URL: ${PUBLIC_URL_KC}
+      KEYCLOAK_ADMIN: ${KC_ROOT_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KC_ROOT_PASS}
+      PROXY_ADDRESS_FORWARDING: "true"
+      JDBC_PARAMS: "ssl=false"
+#      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "true"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.im-keycloak.loadbalancer.server.port: "8080"
+      traefik.http.routers.im-keycloak.rule: Host(`${HOST_NAME_CONNECT_AUTH}`)
+      traefik.http.routers.im-keycloak.entrypoints: websecure
+      traefik.http.routers.im-keycloak.tls.certresolver: letsencrypt-resolver
+      # https://community.traefik.io/t/issue-gateway-timeout-when-using-traefik-and-exposing-port-with-docker/8858/4
+      # Needed When ports: 8080:8080 is defined
+      traefik.docker.network: ${DOCKER_NETWORK}
+    configs:
+      - source: keycloak_web_env_config
+        target: /opt/keycloak/themes/registry-keycloakify/login/resources/dist/env-config.js
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+
+configs:
+  keycloak_web_env_config:
+    file: ./build/config/keycloak/web_default.js

@@ -1,0 +1,21 @@
+services:
+  tr-registry-postgres:
+    image: ${DOCKER_REPOSITORY}trace-registry-postgres:1.3.0-SNAPSHOT
+    env_file:
+      - .env_dev
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_MULTIPLE_DATABASES: ${POSTGRES_REGISTRY_DB}, ${POSTGRES_KEYCLOAK_DB}
+    volumes:
+        -  postgres_data:/var/lib/postgresql/data
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+volumes:
+    postgres_data:
