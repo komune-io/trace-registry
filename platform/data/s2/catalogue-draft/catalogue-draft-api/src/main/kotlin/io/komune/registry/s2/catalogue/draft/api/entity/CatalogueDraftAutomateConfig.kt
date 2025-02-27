@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import kotlin.reflect.KClass
+import org.springframework.core.annotation.Order
 
+@Order(10)
 @Configuration
 class CatalogueDraftAutomateConfig(
 	aggregate: CatalogueDraftAutomateExecutor,
