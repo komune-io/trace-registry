@@ -12,8 +12,9 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
     const {catalogue, isLoading, readOnly} = params
    const formInitialValues = useMemo(() => catalogue ? ({
       ...catalogue,
-      themes: (catalogue.themes ?? [])[0]?.id,
+      themes: catalogue.type !== "100m-project" ? (catalogue.themes ?? [])[0]?.id : catalogue.themes,
       license: catalogue.license?.id,
+      ownerOrganizationId: catalogue.ownerOrganization?.id,
       illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
     }) : undefined, [catalogue])
   

@@ -1,31 +1,45 @@
-
-import { CloseRounded, Timeline } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { CloseRounded } from '@mui/icons-material'
+import { IconButton, Stack } from '@mui/material'
+import { SearchFilter } from 'components'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-interface GraphCreationheaderProps {
-    title?: string
+interface CatalogueSearchHeaderProps {
+    onSearch?: (value: string) => void
+    initialValue?: string
     goBackUrl: string
 }
 
-export const GraphCreationheader = (props: GraphCreationheaderProps) => {
-    const {goBackUrl, title} = props
+export const CatalogueSearchHeader = (props: CatalogueSearchHeaderProps) => {
+    const {goBackUrl, onSearch, initialValue} = props
+    const {t} = useTranslation()
     return (
         <Stack
             direction="row"
             alignItems="center"
-            gap={1.5}
+            gap={2}
             sx={{
                 width: "100%"
             }}
         >
-            <Timeline />
-            <Typography
-            variant='h5'
+            <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                gap={2}
+                flexGrow={1}
             >
-                {title}
-            </Typography>
-            <Box flex={1} />
+                <SearchFilter
+                    placeholder={t("catalogues.globalSearch")}
+                    onSearch={onSearch}
+                    initialValue={initialValue}
+                    rootProps={{
+                        sx: {
+                            maxWidth: 1200
+                        }
+                    }}
+                />
+            </Stack>
             {/* @ts-ignore */}
             <IconButton
             component={Link}

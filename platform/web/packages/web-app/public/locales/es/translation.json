@@ -144,6 +144,13 @@
   "country": "País",
   "region": "Región",
   "optional": "(opcional)",
+  "co2Projects": "Proyectos CO2",
+  "graphs": "Gráficos",
+  "createAGraph": "Crear un gráfico",
+  "unsupportedFormatError": "Formato no soportado. Por favor, utilice uno de los siguientes formatos: {{formats}}",
+  "dragDropText": "Arrastra y suelta o haz clic para elegir un archivo",
+  "maxFileSize": "Tamaño máximo de un archivo: {{size}} MB",
+  "file": "Archivo",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -320,7 +327,11 @@
     "titleRequired": "Debe proporcionar el título de la ficha",
     "planetaryLimits": "Libellé(s) límites planetarios",
     "projectOwner": "Promotor del proyecto",
-    "noOrganization": "No se encontraron organizaciones"
+    "noOrganization": "No se encontraron organizaciones",
+    "uploadCsv": "Subir un archivo CSV",
+    "chooseDataset": "Elegir su conjunto de datos",
+    "graphConfiguration": "Configurar su gráfico",
+    "noProject": "Ningún proyecto ha sido encontrado"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

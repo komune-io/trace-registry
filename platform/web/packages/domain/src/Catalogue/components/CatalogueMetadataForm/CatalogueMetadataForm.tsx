@@ -161,10 +161,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("access"),
         params: {
             options: [{
-                key: "public",
+                key: "PUBLIC",
                 label: t("public")
             }, {
-                key: "private",
+                key: "PRIVATE",
                 label: t("private")
             }]
         },
@@ -185,7 +185,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const onSubmitMemo = useCallback(
       async (values: any) => {
         if (onSubmit) {
-            await onSubmit({...values, themes: values.themes ? [values.themes] : undefined})
+            await onSubmit({...values, themes: values.themes && type !== "100m-project" ? [values.themes] : values.themes})
         }
       },
       [onSubmit],
