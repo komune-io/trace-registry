@@ -20,8 +20,10 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesC
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateAccessRightsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRightsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import kotlinx.serialization.Serializable
@@ -73,6 +75,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueUpdateVersionNotesCommand, CatalogueUpdatedVersionNotesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueUpdateAccessRightsCommand, CatalogueUpdatedAccessRightsEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

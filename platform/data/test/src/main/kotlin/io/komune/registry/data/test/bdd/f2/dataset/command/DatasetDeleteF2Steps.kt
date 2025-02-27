@@ -2,12 +2,12 @@ package io.komune.registry.data.test.bdd.f2.dataset.command
 
 import f2.dsl.fnc.invokeWith
 import io.cucumber.java8.En
-import io.komune.registry.f2.dataset.api.DatasetEndpoint
-import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
-import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
 import io.komune.registry.data.test.bdd.f2.dataset.data.dataset
+import io.komune.registry.f2.dataset.api.DatasetEndpoint
+import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
+import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
+import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
@@ -18,7 +18,7 @@ class DatasetDeleteF2Steps: En, VerCucumberStepsDefinition() {
     private lateinit var datasetEndpoint: DatasetEndpoint
     @Autowired
     private lateinit var repository: DatasetRepository
-    private lateinit var command: DatasetDeleteCommand
+    private lateinit var command: DatasetDeleteCommandDTOBase
 
     init {
         DataTableType(::datasetDeleteParams)
@@ -39,8 +39,9 @@ class DatasetDeleteF2Steps: En, VerCucumberStepsDefinition() {
     }
 
     private suspend fun deleteDataset(params: DatasetDeleteParams) {
-        command = DatasetDeleteCommand(
-            id = context.datasetIds[params.identifier] ?: params.identifier
+        command = DatasetDeleteCommandDTOBase(
+            id = context.datasetIds[params.identifier] ?: params.identifier,
+            draftId = TODO()
         )
         command.invokeWith(datasetEndpoint.datasetDelete())
     }

@@ -1,16 +1,21 @@
 package io.komune.registry.program.s2.catalogue.api.query
 
+import com.redis.om.spring.metamodel.MetamodelField
 import com.redis.om.spring.search.stream.EntityStream
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.infra.redis.PageQueryDB
+import io.komune.registry.infra.redis.criterion
 import io.komune.registry.infra.redis.match
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.`CatalogueEntity$`
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Criterion
+import io.komune.registry.s2.commons.model.CriterionField
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -27,6 +32,7 @@ class CataloguePageQueryDB(
         childrenIds: Match<CatalogueId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
+        freeCriterion: Criterion? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {
         match(`CatalogueEntity$`.ID, id)
@@ -37,5 +43,21 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.CATALOGUE_IDS, childrenIds)
         match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS, status)
+        criterion(freeCriterion) { it.toRedisField() }
     }
+
+    private fun <T> CriterionField<T>.toRedisField(): MetamodelField<CatalogueEntity, T> {
+        if (this !is CatalogueCriterionField) {
+            throw IllegalArgumentException("Unsupported catalogue criterion field: $this")
+        }
+        return this.toRedisField()
+    }
+
+    private fun <T> CatalogueCriterionField<T>.toRedisField(): MetamodelField<CatalogueEntity, T> = when (this) {
+        CatalogueCriterionField.Id -> `CatalogueEntity$`.ID
+        CatalogueCriterionField.AccessRights -> `CatalogueEntity$`.ACCESS_RIGHTS
+        CatalogueCriterionField.CreatorId -> `CatalogueEntity$`.CREATOR_ID
+        CatalogueCriterionField.CreatorOrganizationId -> `CatalogueEntity$`.CREATOR_ORGANIZATION_ID
+        CatalogueCriterionField.OwnerOrganizationId -> `CatalogueEntity$`.OWNER_ORGANIZATION_ID
+    } as MetamodelField<CatalogueEntity, T>
 }

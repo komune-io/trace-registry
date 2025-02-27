@@ -6,6 +6,7 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.f2.catalogue.api.model.descendantsIds
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
@@ -23,6 +24,7 @@ import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.stereotype.Service
 
@@ -31,6 +33,7 @@ class CatalogueF2FinderService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueFinderService: CatalogueFinderService,
     private val catalogueI18nService: CatalogueI18nService,
+    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
 ) : CatalogueCachedService() {
 
@@ -83,6 +86,7 @@ class CatalogueF2FinderService(
         type: Match<String>? = null,
         status: String? = null,
         hidden: Match<Boolean>? = null,
+        freeCriterion: Criterion? = null,
         offset: OffsetPagination? = null
     ): CataloguePageResult = withCache {
         val defaultValue = status?.let { CatalogueState.valueOf(it) } ?: CatalogueState.ACTIVE
@@ -93,6 +97,7 @@ class CatalogueF2FinderService(
             type = type,
             status = ExactMatch(defaultValue),
             hidden = hidden,
+            freeCriterion = freeCriterion,
             offset = offset
         )
 
@@ -101,26 +106,29 @@ class CatalogueF2FinderService(
             total = catalogues.total
         )
     }
+
     suspend fun search(
         language: Language,
         query: String?,
-        accessRights: List<String>?,
-        catalogueIds: List<String>?,
-        parentIdentifier: List<String>?,
-        type: List<String>?,
-        themeIds: List<String>?,
-        licenseId: List<String>?,
+        accessRights: Match<String>? = null,
+        catalogueIds: Match<String>? = null,
+        parentIdentifier: Match<String>? = null,
+        type: Match<String>? = null,
+        themeIds: Match<String>? = null,
+        licenseId: Match<String>? = null,
+        freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache { cache ->
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
             accessRights = accessRights,
-            language = language,
+            language = ExactMatch(language),
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,
             themeIds = themeIds,
+            freeCriterion = freeCriterion,
             page = page
         )
 
@@ -177,13 +185,19 @@ class CatalogueF2FinderService(
         )
     }
 
-    suspend fun listAvailableParentsFor(id: CatalogueId?, type: String, language: Language?): List<CatalogueRefDTOBase> {
+    suspend fun listAvailableParentsFor(
+        id: CatalogueId?,
+        type: String,
+        language: Language?,
+        onlyAccessibleByAuthedUser: Boolean
+    ): List<CatalogueRefDTOBase> {
         val allowedParentTypes = catalogueConfig.typeConfigurations[type]?.parentTypes
         val descendantsIds = id?.let { getRefTreeOrNull(it, language)?.descendantsIds() }
 
         return catalogueFinderService.page(
             type = allowedParentTypes?.let { CollectionMatch(it) },
-            hidden = ExactMatch(false)
+            hidden = ExactMatch(false),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter().takeIf { onlyAccessibleByAuthedUser }
         ).items // CollectionMatch(...).not() doesn't work with Redis
             .filter { it.id != id && (descendantsIds == null || it.id !in descendantsIds) }
             .mapAsync { catalogueI18nService.translateToRefDTO(it, language, false) }

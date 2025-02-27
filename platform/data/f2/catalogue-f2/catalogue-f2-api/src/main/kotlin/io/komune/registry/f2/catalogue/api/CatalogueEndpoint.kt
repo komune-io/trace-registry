@@ -8,11 +8,12 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
+import io.komune.registry.f2.catalogue.api.model.toCommand
+import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
-import io.komune.registry.f2.catalogue.api.service.toCommand
-import io.komune.registry.f2.catalogue.api.service.toDTO
+import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
@@ -24,7 +25,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDT
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedAccessRightsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
@@ -44,9 +47,9 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
-import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -65,18 +68,18 @@ class CatalogueEndpoint(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
+    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
 ): CatalogueApi {
 
     private val logger by Logger()
 
-    @PermitAll
     @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
-        cataloguePoliciesEnforcer.checkPage()
         catalogueF2FinderService.page(
             catalogueId = query.catalogueId?.let(::ExactMatch),
             title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
@@ -84,6 +87,7 @@ class CatalogueEndpoint(
             parentIdentifier = query.parentIdentifier,
             language = query.language,
             type = query.type?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
@@ -92,20 +96,19 @@ class CatalogueEndpoint(
         )
     }
 
-    @PermitAll
     @Bean
     override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
         logger.info("catalogueSearch: $query")
-        cataloguePoliciesEnforcer.checkPage()
         catalogueF2FinderService.search(
             language = query.language,
             query = query.query,
-            accessRights = query.accessRights,
-            catalogueIds = query.catalogueIds,
-            licenseId = query.licenseId,
-            parentIdentifier = query.parentIdentifier,
-            type = query.type,
-            themeIds = query.themeIds,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -113,46 +116,45 @@ class CatalogueEndpoint(
         )
     }
 
-    @PermitAll
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
         catalogueF2FinderService.getOrNull(query.id, query.language)
+            ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetResult)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
         catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
+            ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetByIdentifierResult)
     }
 
-    @PermitAll
+    // TODO remove
     @Bean
     override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
         logger.info("catalogueRefList: $query")
         catalogueF2FinderService.getAllRefs(query.language)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->
         logger.info("catalogueRefGetTree: $query")
-        catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language)
+        catalogueFinderService.getByIdentifierOrNull(query.identifier)
+            ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
+            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
             .let(::CatalogueRefGetTreeResult)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
         logger.info("catalogueListAvailableParents: $query")
-        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language)
+        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language, true)
             .let(::CatalogueListAvailableParentsResult)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction = f2Function { query ->
         logger.info("catalogueListAvailableThemes: $query")
@@ -161,7 +163,6 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableThemesResult)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueListAvailableOwners(): CatalogueListAvailableOwnersFunction = f2Function { query ->
         logger.info("catalogueListAvailableOwners: $query")
@@ -170,47 +171,52 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableOwnersResult)
     }
 
-    @PermitAll
     @GetMapping("/data/catalogues/{catalogueId}/img")
     suspend fun catalogueImgDownload(
         @PathVariable catalogueId: CatalogueId,
-    ): ResponseEntity<InputStreamResource> {
-        logger.info("catalogueLogoDownload: $catalogueId")
-        val file = serveFile(fileClient) {
-            logger.info("serveFile: $catalogueId")
-            fsService.getCatalogueFilePath(catalogueId)
-        }
-        logger.info("servedFile: $catalogueId")
-        return file
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("catalogueImgDownload: $catalogueId")
+
+        catalogueF2FinderService.get(catalogueId, null)
+            .let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
+            ?: return@serveFile null
+
+        fsService.getCatalogueFilePath(catalogueId)
     }
 
-    @PermitAll
     @PostMapping("/data/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
-//        cataloguePoliciesEnforcer.checkCreate()
+        cataloguePoliciesEnforcer.checkCreate()
         val event = catalogueF2AggregateService.create(command)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
 
-    @PermitAll
     @PostMapping("/data/catalogueUpdate")
     suspend fun catalogueUpdate(
         @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
-//        cataloguePoliciesEnforcer.checkUpdate()
-        val event = catalogueF2AggregateService.update(command)
+        cataloguePoliciesEnforcer.checkUpdate(command.id, command.draftId)
+        val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
+        val event = catalogueF2AggregateService.update(enforcedCommand)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
         return event
     }
 
-    @PermitAll
+    @Bean
+    override fun catalogueUpdateAccessRights(): CatalogueUpdateAccessRightsFunction = f2Function { command ->
+        logger.info("catalogueUpdateAccessRights: $command")
+        cataloguePoliciesEnforcer.checkUpdateAccessRights(command.id)
+        catalogueAggregateService.updateAccessRights(command)
+            .let { CatalogueUpdatedAccessRightsEventDTOBase(it.id) }
+    }
+
     @Bean
     override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { command ->
         logger.info("catalogueDelete: $command")
@@ -218,19 +224,17 @@ class CatalogueEndpoint(
         catalogueAggregateService.delete(command).toDTO()
     }
 
-    @PermitAll
     @Bean
     override fun catalogueLinkCatalogues(): CatalogueLinkCataloguesFunction = f2Function { command ->
         logger.info("catalogueLinkCatalogues: $command")
-//        cataloguePoliciesEnforcer.checkLinkCatalogues()
+        cataloguePoliciesEnforcer.checkLinkCatalogues(command.id)
         catalogueF2AggregateService.linkCatalogues(command)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction = f2Function { command ->
         logger.info("catalogueUnlinkCatalogues: $command")
-//        cataloguePoliciesEnforcer.checkLinkCatalogues()
+        cataloguePoliciesEnforcer.checkLinkCatalogues(command.id)
         CatalogueUnlinkCataloguesCommand(
             id = command.id,
             catalogues = command.catalogues,
@@ -238,30 +242,27 @@ class CatalogueEndpoint(
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
     }
 
-    @PermitAll
     @Bean
     override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { command ->
         logger.info("catalogueLinkDatasets: $command")
-//        cataloguePoliciesEnforcer.checkLinkDatasets()
+        cataloguePoliciesEnforcer.checkLinkDatasets(command.id)
         catalogueF2AggregateService.linkDatasets(command)
     }
 
-    @PermitAll
     @Bean
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = f2Function { command ->
         logger.info("catalogueLinkThemes: $command")
-//        cataloguePoliciesEnforcer.checkLinkThemes()
+        cataloguePoliciesEnforcer.checkLinkThemes(command.id)
         catalogueAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
-    @PermitAll
     @PostMapping("/data/catalogueSetImage")
     suspend fun catalogueSetImage(
         @RequestPart("command") command: CatalogueSetImageCommandDTOBase,
         @RequestPart("file", required = true) file: FilePart
     ): CatalogueSetImageEventDTOBase {
         logger.info("catalogueSetImage: $command")
-//        cataloguePoliciesEnforcer.checkSetImg()
+        cataloguePoliciesEnforcer.checkSetImage(command.id)
         return catalogueF2AggregateService.setImage(command.id, file)
             .let {
                 CatalogueSetImageEventDTOBase(

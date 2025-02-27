@@ -45,3 +45,27 @@ suspend fun <T> doWithRetry(retries: Int, block: suspend () -> T): T {
         doWithRetry(retries - 1, block)
     }
 }
+
+fun <T> StringBuilder.joinAppend(
+    values: Collection<T>,
+    separator: CharSequence = ", ",
+    prefix: CharSequence = "",
+    postfix: CharSequence = "",
+    limit: Int = -1,
+    truncated: CharSequence = "...",
+    appendValue: StringBuilder.(T) -> Unit = { append(it) },
+): StringBuilder {
+    append(prefix)
+    var count = 0
+    for (element in values) {
+        if (++count > 1) append(separator)
+        if (limit < 0 || count <= limit) {
+            appendValue(element)
+        } else {
+            append(truncated)
+            break
+        }
+    }
+    append(postfix)
+    return this
+}

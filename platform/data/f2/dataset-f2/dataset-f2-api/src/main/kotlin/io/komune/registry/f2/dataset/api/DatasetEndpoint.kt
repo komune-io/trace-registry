@@ -6,11 +6,11 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.dataset.api.data.DataProvider
+import io.komune.registry.f2.dataset.api.model.toCommand
+import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
-import io.komune.registry.f2.dataset.api.service.toCommand
-import io.komune.registry.f2.dataset.api.service.toDTO
 import io.komune.registry.f2.dataset.domain.DatasetApi
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
@@ -73,7 +73,6 @@ class DatasetEndpoint(
     @Bean
     override fun datasetPage(): DatasetPageFunction = f2Function { query ->
         logger.info("datasetPage: $query")
-        datasetPoliciesEnforcer.checkPage()
         datasetF2FinderService.page(
             datasetId = query.datasetId,
             title = query.title,
@@ -152,7 +151,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetCreate(): DatasetCreateFunction = f2Function { command ->
         logger.info("datasetCreate: $command")
-//        datasetPoliciesEnforcer.checkCreation()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         datasetF2AggregateService.create(command)
     }
 
@@ -160,14 +159,14 @@ class DatasetEndpoint(
     @Bean
     override fun datasetDelete(): DatasetDeleteFunction = f2Function { command ->
         logger.info("datasetDelete: $command")
-        datasetPoliciesEnforcer.checkDelete(command.id)
-        datasetAggregateService.delete(command).toDTO()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
+        datasetF2AggregateService.delete(command)
     }
 
     @PermitAll
     @Bean
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { command ->
-        datasetPoliciesEnforcer.checkLinkDatasets()
+//        datasetPoliciesEnforcer.checkLinkDatasets()
         datasetAggregateService.linkDatasets(command.toCommand()).toDTO()
     }
 
@@ -175,7 +174,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { command ->
         logger.info("datasetLinkThemes: $command")
-        datasetPoliciesEnforcer.checkLinkThemes()
+//        datasetPoliciesEnforcer.checkLinkThemes()
         datasetAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
@@ -209,7 +208,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { command ->
         logger.info("datasetAddJsonDistribution: $command")
-//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         datasetF2AggregateService.addJsonDistribution(command)
     }
 
@@ -220,7 +219,7 @@ class DatasetEndpoint(
         @RequestPart("file", required = true) file: FilePart
     ): DatasetAddedMediaDistributionEventDTOBase {
         logger.info("datasetAddMediaDistribution: $command")
-//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         return datasetF2AggregateService.addMediaDistribution(command, file)
     }
 
@@ -228,7 +227,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction = f2Function { command ->
         logger.info("datasetUpdateJsonDistribution: $command")
-//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         datasetF2AggregateService.updateJsonDistribution(command)
     }
 
@@ -239,7 +238,7 @@ class DatasetEndpoint(
         @RequestPart("file", required = true) file: FilePart
     ): DatasetUpdatedMediaDistributionEventDTOBase {
         logger.info("datasetUpdateMediaDistribution: $command")
-//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         return datasetF2AggregateService.updateMediaDistribution(command, file)
     }
 
@@ -247,7 +246,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction = f2Function { command ->
         logger.info("datasetRemoveDistribution: $command")
-//        datasetPoliciesEnforcer.checkUpdateDistributions()
+        datasetPoliciesEnforcer.checkUpdateDraft(command.draftId)
         datasetF2AggregateService.removeDistribution(command)
     }
 }

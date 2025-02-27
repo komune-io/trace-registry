@@ -11,6 +11,10 @@ import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeSubDataset
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
+import io.komune.registry.f2.catalogue.api.model.descendantsIds
+import io.komune.registry.f2.catalogue.api.model.toCommand
+import io.komune.registry.f2.catalogue.api.model.toDTO
+import io.komune.registry.f2.catalogue.api.model.toUpdateCommand
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase

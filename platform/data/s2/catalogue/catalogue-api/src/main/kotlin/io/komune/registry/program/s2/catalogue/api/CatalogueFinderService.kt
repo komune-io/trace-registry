@@ -10,13 +10,13 @@ import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toModel
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
-import io.komune.registry.s2.catalogue.domain.CatalogueFinder
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Criterion
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,44 +24,45 @@ class CatalogueFinderService(
 	private val cataloguePageQueryDB: CataloguePageQueryDB,
 	private val catalogueRepository: CatalogueRepository,
 	private val meiliSearch: CatalogueSnapMeiliSearchRepository
-): CatalogueFinder {
-	override suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
+) {
+	suspend fun getOrNull(id: CatalogueId): CatalogueModel? {
 		return catalogueRepository.findById(id)
 			.orElse(null)
 			?.toModel()
 	}
 
-	override suspend fun get(id: CatalogueId): CatalogueModel {
+	suspend fun get(id: CatalogueId): CatalogueModel {
 		return getOrNull(id)
 			?: throw NotFoundException("Catalogue", id)
 	}
 
-	override suspend fun getByIdentifierOrNull(identifier: CatalogueIdentifier): CatalogueModel? {
+	suspend fun getByIdentifierOrNull(identifier: CatalogueIdentifier): CatalogueModel? {
 		return catalogueRepository.findByIdentifier(identifier)?.toModel()
 	}
 
-	override suspend fun getByIdentifier(identifier: CatalogueIdentifier): CatalogueModel {
+	suspend fun getByIdentifier(identifier: CatalogueIdentifier): CatalogueModel {
 		return getByIdentifierOrNull(identifier)
 			?: throw NotFoundException("Catalogue with identifier", identifier)
 	}
 
-	override suspend fun getAll(): List<CatalogueModel> {
+	suspend fun getAll(): List<CatalogueModel> {
 		return catalogueRepository.findAll().map {
 			it.toModel()
 		}
 	}
 
-	override suspend fun page(
-		id: Match<CatalogueId>?,
-		identifier: Match<CatalogueIdentifier>?,
-		title: Match<String>?,
-		parentIdentifier: String?,
-		language: Match<String>?,
-		type: Match<String>?,
-		childrenIds: Match<CatalogueId>?,
-		status: Match<CatalogueState>?,
-		hidden: Match<Boolean>?,
-		offset: OffsetPagination?
+	suspend fun page(
+		id: Match<CatalogueId>? = null,
+		identifier: Match<CatalogueIdentifier>? = null,
+		title: Match<String>? = null,
+		parentIdentifier: String? = null,
+		language: Match<String>? = null,
+		type: Match<String>? = null,
+		childrenIds: Match<CatalogueId>? = null,
+		status: Match<CatalogueState>? = null,
+		hidden: Match<Boolean>? = null,
+		freeCriterion: Criterion? = null,
+		offset: OffsetPagination? = null
 	): PageDTO<CatalogueModel> {
 		val childIdFilter = parentIdentifier
 			?.let { pIdentifier ->
@@ -82,6 +83,7 @@ class CatalogueFinderService(
 			childrenIds = childrenIds,
 			status = status,
 			hidden = hidden,
+			freeCriterion = freeCriterion,
 			offset = offset,
 		).map {
 			it.toModel()
@@ -89,17 +91,18 @@ class CatalogueFinderService(
 	}
 
 	suspend fun search(
-		language: String,
-		query: String?,
-		accessRights: List<String>?,
-		catalogueIds: List<String>?,
-		parentIdentifier: List<String>?,
-		type: List<String>?,
-		themeIds: List<String>?,
-		licenseId: List<String>?,
+		query: String? = null,
+		language: Match<String>? = null,
+		accessRights: Match<String>? = null,
+		catalogueIds: Match<String>? = null,
+		parentIdentifier: Match<String>? = null,
+		type: Match<String>? = null,
+		themeIds: Match<String>? = null,
+		licenseId: Match<String>? = null,
+		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
-		return meiliSearch.searchFilters(
+		return meiliSearch.search(
 			language = language,
 			query = query,
 			accessRights = accessRights,
@@ -107,6 +110,7 @@ class CatalogueFinderService(
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,
+			freeCriterion = freeCriterion,
 			page = page
 		)
 	}
