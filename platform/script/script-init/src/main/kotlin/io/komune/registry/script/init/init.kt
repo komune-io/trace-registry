@@ -19,6 +19,9 @@ fun main(): Unit = runBlocking {
             clientId = "tr-registry-script-api",
             clientSecret = "secret"
         ),
+        source = SourceProperties(
+            folder = "./import"
+        ),
         flag = ModuleFlagProperties(
             control = true,
             data = true,
