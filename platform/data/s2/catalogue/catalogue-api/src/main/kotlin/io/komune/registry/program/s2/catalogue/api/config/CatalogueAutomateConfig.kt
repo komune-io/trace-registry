@@ -14,7 +14,7 @@ import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import kotlin.reflect.KClass
 import org.springframework.core.annotation.Order
 
-@Order(20)
+@Order(10)
 @Configuration
 class CatalogueAutomateConfig(
 	aggregate: CatalogueAutomateExecutor,
