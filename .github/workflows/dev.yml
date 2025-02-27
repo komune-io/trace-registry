@@ -138,23 +138,3 @@ jobs:
       DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
       DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
-
-#  deploy_dev:
-#    name: Deploy to Dev
-#    if: github.ref == 'refs/heads/main'
-#    uses: ./.github/workflows/deploy.yml
-#    with:
-#      environment: dev
-#  deploy_preprod:
-#    name: Deploy to Preprod
-#    if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')
-#    uses: ./.github/workflows/deploy.yml
-#    with:
-#      environment: preprod
-#
-#  deploy_prod:
-#    name: Deploy to Prod
-#    if: github.ref == 'refs/heads/prod'
-#    uses: ./.github/workflows/deploy.yml
-#    with:
-#      environment: prod
