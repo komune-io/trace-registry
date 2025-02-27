@@ -50,6 +50,12 @@ export default defineConfig(async () => {
           /kotlin/,
         ]
       }
-    }
+    },
+    resolve: {
+      alias: {
+        '~bootstrap': '../../node_modules/bootstrap',
+        '~react-data-grid': '../../node_modules/react-data-grid',
+      },
+    },
   }
 })
