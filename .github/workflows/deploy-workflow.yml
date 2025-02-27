@@ -1,4 +1,4 @@
-# .github/workflows/deploy.yml
+# .github/workflows/deploy-workflow.yml
 name: Deployment Workflow
 
 on:
@@ -76,7 +76,6 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
       - name: Ensure Docker Context Exists
         shell: bash
         run: |
@@ -96,8 +95,6 @@ jobs:
         shell: bash
         run: |
           echo "Deploying Docker services to Prod environment..."
-        
           make -f Makefile_deploy.mk proxy deploy
           make -f Makefile_deploy.mk connect deploy
-          make -f Makefile_deploy.mk connect-init deploy
           make -f Makefile_deploy.mk registry deploy

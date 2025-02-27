@@ -1,4 +1,4 @@
-# .github/workflows/manual-deploy.yml
+# .github/workflows/manual-deploy-workflow.yml
 name: Manual Deployment
 
 on:
@@ -15,9 +15,9 @@ on:
         type: boolean
 
 jobs:
-  deploy:
+  deploy-dev:
     name: Deploy to ${{ github.event.inputs.environment }}
-    uses: ./.github/workflows/deploy.yml
+    uses: deploy-workflow.yml
     secrets:
       DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       DOCKER_CONTEXT: ${{ secrets.DOCKER_CONTEXT }}
