@@ -8,7 +8,6 @@ import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toModel
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
 import io.komune.registry.s2.commons.exception.NotFoundException
-import io.komune.registry.s2.dataset.domain.DatasetFinder
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
@@ -21,31 +20,31 @@ import org.springframework.stereotype.Service
 class DatasetFinderService(
     private val datasetPageQueryDB: DatasetPageQueryDB,
     private val datasetRepository: DatasetRepository
-): DatasetFinder {
-	override suspend fun getOrNull(id: DatasetId): DatasetModel? {
+) {
+	suspend fun getOrNull(id: DatasetId): DatasetModel? {
 		return datasetRepository.findById(id).orElse(null)?.toModel()
 	}
 
-	override suspend fun getOrNullByIdentifier(id: DatasetIdentifier, language: String): DatasetModel? {
+	suspend fun getOrNullByIdentifier(id: DatasetIdentifier, language: String): DatasetModel? {
 		return datasetRepository.findByIdentifierAndLanguage(id, language)
 			.orElse(null)
 			?.toModel()
 	}
 
-	override suspend fun get(id: DatasetId): DatasetModel {
+	suspend fun get(id: DatasetId): DatasetModel {
 		return getOrNull(id) ?: throw NotFoundException("Dataset", id)
 	}
 
-	override suspend fun getAll(): List<DatasetModel> {
+	suspend fun getAll(): List<DatasetModel> {
 		return datasetRepository.findAll().map { it.toModel() }
 	}
 
-	override suspend fun page(
-		id: Match<DatasetId>?,
-		identifier: Match<DatasetIdentifier>?,
-		title: Match<String>?,
-		status: Match<DatasetState>?,
-		offset: OffsetPagination?
+	suspend fun page(
+		id: Match<DatasetId>? = null,
+		identifier: Match<DatasetIdentifier>? = null,
+		title: Match<String>? = null,
+		status: Match<DatasetState>? = null,
+		offset: OffsetPagination? = null
 	): PageDTO<DatasetModel> {
 		return datasetPageQueryDB.execute(
 			id = id,
@@ -58,12 +57,12 @@ class DatasetFinderService(
 		}
 	}
 
-	override suspend fun listByIdentifier(identifier: String): List<DatasetModel> {
+	suspend fun listByIdentifier(identifier: String): List<DatasetModel> {
 		return datasetRepository.findAllByIdentifier(identifier)
 			.map { it.toModel() }
 	}
 
-	override suspend fun getDistribution(datasetId: DatasetId, distributionId: DistributionId): DistributionModel {
+	suspend fun getDistribution(datasetId: DatasetId, distributionId: DistributionId): DistributionModel {
 		return datasetRepository.findById(datasetId)
 			.orElseThrow { NotFoundException("Dataset", datasetId) }
 			.distributions

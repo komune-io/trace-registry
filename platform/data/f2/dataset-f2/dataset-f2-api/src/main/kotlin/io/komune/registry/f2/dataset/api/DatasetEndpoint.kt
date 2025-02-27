@@ -193,7 +193,7 @@ class DatasetEndpoint(
             ).path
         }
         val result = datasetAggregateService.setImageCommand(
-            cmd = DatasetSetImageCommand(
+            command = DatasetSetImageCommand(
                 id = command.id,
                 img = filePath,
             )

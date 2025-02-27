@@ -1,6 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {
+    config,
     TransactionCertificateSummary,
     TransactionPdfCertificate,
     useAssetTransactionGetQuery,
@@ -11,7 +12,6 @@ import {useRoutesDefinition} from "components";
 import {ArrowBackIosNewRounded} from "@mui/icons-material";
 import {Stack} from "@mui/material";
 import {useCallback} from "react";
-import {config} from "domain-components/src/config";
 
 export interface TransactionViewProps {
 }

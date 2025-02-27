@@ -46,7 +46,7 @@ export const usePersonnalMenu = (t: TFunction) => {
 
 export const MenuHeader = () => {
 
-    const { cataloguesCreateSector, cataloguesCreateSolution, cataloguesCreateSystem } = useRoutesDefinition()
+    const { cataloguesCreateSector, cataloguesCreateSolution, cataloguesCreateSystem, cataloguesCreateProject } = useRoutesDefinition()
 
     const { t } = useTranslation()
 
@@ -67,6 +67,11 @@ export const MenuHeader = () => {
         label: t("newSector"),
         icon: <GridIcon />,
         to: cataloguesCreateSector()
+    }, {
+        key: "newProject",
+        label: t("newProject"),
+        icon: <GridIcon />,
+        to: cataloguesCreateProject()
     }], [t])
 
     const { buttonProps, menu } = useButtonMenu({

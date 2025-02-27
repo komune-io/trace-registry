@@ -7,6 +7,7 @@ import { DraftValidationPage } from "./DraftValidationPage/DraftValidationPage";
 import { ContributionListPage } from "./ContributionListPage/ContributionListPage";
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
 import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
+import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
 
 
 export const catalogPages: PageRoute[] = [
@@ -25,6 +26,10 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/create/sector",
     element: <CatalogueCreationPage type="100m-sector" />
+  },
+  {
+    path: "catalogues/create/project",
+    element: <CatalogueCreationPage type="100m-project" />
   },
   {
     path: "catalogues/:catalogueId/:draftId/edit",
@@ -49,6 +54,10 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/search",
     element: <CatalogueSearchPage  />
+  },
+  {
+    path: "catalogues/:catalogueId/:draftId/:datasetId/graph",
+    element: <GraphCreationPage  />
   },
   {
     path: "catalogues/*",

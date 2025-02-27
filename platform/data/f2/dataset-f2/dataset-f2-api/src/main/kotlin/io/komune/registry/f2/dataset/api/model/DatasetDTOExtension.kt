@@ -85,6 +85,7 @@ fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
 
 fun DistributionModel.toDTO() = DistributionDTOBase(
     id = id,
+    name = name,
     downloadPath = downloadPath,
     mediaType = mediaType,
     issued = issued,

@@ -4,7 +4,7 @@ import { DescriptedLimitedChipList, useRoutesDefinition } from 'components'
 import { useMemo } from "react"
 import { LinkButton } from '@komune-io/g2'
 import { t } from 'i18next'
-import {config} from "../../../config";
+import { config } from "../../../config";
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 
 export interface CatalogueCardProps extends CardProps {

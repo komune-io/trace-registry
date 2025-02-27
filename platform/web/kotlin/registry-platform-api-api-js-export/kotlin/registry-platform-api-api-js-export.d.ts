@@ -2866,6 +2866,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
         readonly id: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly jsonContent: string;
 
     }
@@ -2879,6 +2880,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddMediaDistributionCommandDTO {
         readonly id: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly mediaType: string;
 
     }
@@ -2984,6 +2986,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly jsonContent: string;
 
     }
@@ -2998,6 +3001,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly mediaType: string;
 
     }
@@ -3060,6 +3064,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
 export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface DistributionDTO {
         readonly id: string;
+        readonly name?: string;
         readonly downloadPath: io.komune.fs.s2.file.domain.model.FilePathDTO/* io.komune.fs.s2.file.domain.model.FilePath */;
         readonly mediaType: string;
         readonly issued: number;

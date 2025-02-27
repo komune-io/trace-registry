@@ -1,0 +1,100 @@
+# .github/workflows/deploy-workflow.yml
+name: Deployment Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Target deployment environment: dev, preprod, or prod'
+        required: true
+        type: string
+      run_reset:
+        description: 'Set to "true" to perform a reset (stack removal) before deployment (non-prod only)'
+        required: false
+        default: "false"
+        type: string
+    secrets:
+      DOCKER_CONTEXT_SSH_KEY:
+        required: true
+      DOCKER_CONTEXT:
+        required: true
+      SERVER_IP:
+        required: true
+      SERVER_PORT:
+        required: true
+      SERVER_USER:
+        required: true
+      SECRET_MINIO_ROOT:
+        required: true
+      SECRET_POSTGRES:
+        required: true
+      SECRET_KC_REALM_ROOT_CLIENT:
+        required: true
+      SECRET_KC_ROOT_IM_CLIENT:
+        required: true
+      SECRET_KC_REGISTRY_SCRIPT_APP_CLIENT:
+        required: true
+      SECRET_KC_APP_CLIENT:
+        required: true
+      SECRET_REGISTRY_BREVO_TOKEN:
+        required: true
+      SECRET_KC_ROOT_PASS:
+        required: true
+      SECRET_KC_ADMIN_PASS:
+        required: true
+      SECRET_TRAEFIK_DASHBOARD_PASSWORD:
+        required: true
+      SECRET_MEILI_MASTER_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      SECRET_MINIO_ROOT: ${{ secrets.SECRET_MINIO_ROOT }}
+      SECRET_POSTGRES: ${{ secrets.SECRET_POSTGRES }}
+      SECRET_KC_REALM_ROOT_CLIENT: ${{ secrets.SECRET_KC_REALM_ROOT_CLIENT }}
+      SECRET_KC_ROOT_IM_CLIENT: ${{ secrets.SECRET_KC_ROOT_IM_CLIENT }}
+      SECRET_KC_REGISTRY_SCRIPT_APP_CLIENT: ${{ secrets.SECRET_KC_REGISTRY_SCRIPT_APP_CLIENT }}
+      SECRET_KC_APP_CLIENT: ${{ secrets.SECRET_KC_APP_CLIENT }}
+      SECRET_REGISTRY_BREVO_TOKEN: ${{ secrets.SECRET_REGISTRY_BREVO_TOKEN }}
+      SECRET_KC_ROOT_PASS: ${{ secrets.SECRET_KC_ROOT_PASS }}
+      SECRET_KC_ADMIN_PASS: ${{ secrets.SECRET_KC_ADMIN_PASS }}
+      SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
+      SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
+      HOST_NAME_BASE: ${{ vars.HOST_NAME_BASE }}
+      ENVIRONMENT: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
+      - name: Add remote host to known_hosts
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      - name: Ensure Docker Context Exists
+        shell: bash
+        run: |
+          echo "Ensuring docker context 100m_${{ inputs.environment }} exists..."
+          if ! docker context ls -q | grep -w "100m_${{ inputs.environment }}" ; then
+            docker context create 100m_${{ inputs.environment }} --docker "${{ secrets.DOCKER_CONTEXT }}"
+          fi
+          docker context use 100m_${{ inputs.environment }}
+          docker context ls
+      - name: Create Environment File
+        shell: bash
+        run: |
+          echo "Creating environment file for ${{ inputs.environment }}..."
+          cp infra/docker-compose-deploy/.env_dev_default infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
+          cat infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
+      - name: Deploy Docker Services (Prod)
+        shell: bash
+        run: |
+          echo "Deploying Docker services to Prod environment..."
+          make -f Makefile_deploy.mk proxy deploy
+          make -f Makefile_deploy.mk connect deploy
+          make -f Makefile_deploy.mk registry deploy

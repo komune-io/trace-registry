@@ -1,0 +1,29 @@
+services:
+
+  im-gateway:
+    image: ${DOCKER_REPOSITORY}im-gateway:${VERSION_IM}
+    env_file:
+      - .env_dev
+    environment:
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
+      - connect_im_keycloak_url=${PUBLIC_URL_KC}
+      - connect_im_keycloak_realm=${KC_ROOT_REALM}
+      - connect_im_keycloak_clientId=${KC_IM_CLIENT_ID}
+      - connect_im_keycloak_clientSecret=${KC_IM_CLIENT_SECRET}
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.im-gateway.loadbalancer.server.port: 8009
+      traefik.http.routers.im-gateway.rule: Host(`${HOST_NAME_CONNECT}`) && PathPrefix(`/im`)
+      traefik.http.routers.im-gateway.entrypoints: websecure
+      traefik.http.routers.im-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.strip-prefix-im-gateway.stripprefix.prefixes: /im
+      traefik.http.routers.im-gateway.middlewares: strip-prefix-im-gateway
+
+      traefik.docker.network: ${DOCKER_NETWORK}
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

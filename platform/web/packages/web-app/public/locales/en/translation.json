@@ -141,6 +141,16 @@
   "edition": "Edition",
   "operation": "Operation",
   "validate": "Validate",
+  "country": "Country",
+  "region": "Region",
+  "optionnal": "(optional)",
+  "co2Projects": "CO2 projects",
+  "graphs": "Graphs",
+  "createAGraph": "Create a graph",
+  "unsupportedFormatError": "Unsupported format. Please use one of the following formats: {{formats}}",
+  "dragDropText": "Drag and drop or click to select a file",
+  "maxFileSize": "Maximum file size: {{size}} MB",
+  "file": "File",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -279,7 +289,8 @@
     "types": {
       "100m-sector": "Sector",
       "100m-solution": "Solution",
-      "100m-system": "System"
+      "100m-system": "System",
+      "100m-project": "Project"
     },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
@@ -313,7 +324,14 @@
     "consultContribution": "Consult my contribution",
     "newContributionReplace": "Creating a new contribution will replace your existing contribution",
     "createNewContribution": "Create a new contribution",
-    "titleRequired": "You must provide the title of the sheet"
+    "titleRequired": "You must provide the title of the sheet",
+    "planetaryLimits": "Label(s) planetary boundaries",
+    "projectOwner": "Project leader",
+    "noOrganization": "No organization were found",
+    "uploadCsv": "Upload a CSV file",
+    "chooseDataset": "Choose your dataset",
+    "graphConfiguration": "Configure your graph",
+    "noProject": "No project was found"
   },
   "editor": {
     "imageUrl": "Image URL",

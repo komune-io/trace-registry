@@ -13,12 +13,14 @@ const strictRoutesAuthorizations = {
     "catalogues/create/solution": "open",
     "catalogues/create/system": "open",
     "catalogues/create/sector": "open",
+    "catalogues/create/project": "open",
     "catalogues/:catalogueId/:draftId/edit": "open",
     "catalogues/:catalogueId/:draftId/view": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
     "catalogues/:catalogueId/:draftId/verify": "open",
     "catalogues/search": "open",
+    "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
     "catalogues/*": "open",
 } as const
 

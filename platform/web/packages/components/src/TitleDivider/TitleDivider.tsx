@@ -9,12 +9,13 @@ export interface TitleDividerProps extends Omit<EditableTitleProps, "ref"> {
     status?: {
         label: string
         color: string
-    }
+    },
+    actions?: React.ReactNode
     size?: "h5" | "h6" | "subtitle1"
 }
 
 export const TitleDivider = (props: TitleDividerProps) => {
-    const { title, status, size = "h5", onDebouncedChange, onChange, ...other } = props
+    const { title, status, size = "h5", onDebouncedChange, onChange, actions, ...other } = props
 
     const canEdit = !!onChange || !!onDebouncedChange
 
@@ -62,6 +63,7 @@ export const TitleDivider = (props: TitleDividerProps) => {
                 </IconButton>
                 }
                 <Box flex={1} />
+                {actions}
                 {status && <Chip {...status} />}
             </Stack>
             <Divider

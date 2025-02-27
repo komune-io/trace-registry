@@ -1,0 +1,28 @@
+services:
+
+  im-init:
+    image: ${DOCKER_REPOSITORY}im-script:${VERSION_IM}
+    env_file:
+      - .env_dev
+    environment:
+      - im_script_init_auth_serverUrl=${PUBLIC_URL_KC}
+      - im_script_init_auth_username=${KC_ROOT_USER}
+      - im_script_init_auth_password=${KC_ROOT_PASS}
+      - im_script_init_json=file:/tmp/init.json
+    configs:
+      - source: im_init_config
+        target: /tmp/init.json
+    networks:
+      - net
+    deploy:
+      restart_policy:
+        condition: none
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true
+
+configs:
+  im_init_config:
+    file: ./build/config/init.json

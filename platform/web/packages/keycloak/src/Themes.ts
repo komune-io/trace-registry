@@ -1,15 +1,15 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
+import {config} from "./config.ts";
 
-
+const configTheme = config().theme
 export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
     //@ts-ignore
-    primary: window._env_?.theme?.primaryColor ?? "#492161",
-    secondary: "#353945",
-    //@ts-ignore
-    background: window._env_?.theme?.backgroundColor ?? "#F6F4F7",
+    primary: configTheme?.colors?.primary ?? "#492161",
+    secondary: configTheme?.colors?.secondary ?? "#353945",
+    background:  configTheme?.colors?.background ?? "#F6F4F7",
   },
   logoUrl: "/logo.png",
   shadows: [

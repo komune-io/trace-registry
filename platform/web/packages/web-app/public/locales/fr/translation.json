@@ -141,6 +141,16 @@
     "edition": "Edition",
     "operation": "Opération",
     "validate": "Valider",
+    "country": "Pays",
+    "region": "Région",
+    "optionnal": "(facultatif)",
+    "co2Projects": "Projets CO2",
+    "graphs": "Graphes",
+    "createAGraph": "Créer un graphe",
+    "unsupportedFormatError": "Format non supporté. Veuillez utiliser l’un des formats suivants: {{formats}}",
+    "dragDropText": "Drag & drop ou cliquez pour choisir un fichier",
+    "maxFileSize": "Taille maximale d'un fichier: {{size}} MB",
+    "file": "Fichier",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -279,7 +289,8 @@
         "types": {
             "100m-sector": "Secteur",
             "100m-solution": "Solution",
-            "100m-system": "Système"
+            "100m-system": "Système",
+            "100m-project": "Projet"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
@@ -313,7 +324,14 @@
         "consultContribution": "Consulter ma contribution",
         "newContributionReplace": "Créer une nouvelle contribution remplacera votre contribution existante",
         "createNewContribution": "Créer une nouvelle contribution",
-        "titleRequired": "Vous devez renseigner le titre de la fiche"
+        "titleRequired": "Vous devez renseigner le titre de la fiche",
+        "planetaryLimits": "Libellé(s) limites planétaires",
+        "projectOwner": "Porteur du projet",
+        "noOrganization": "Aucune organisation n'a été trouvé",
+        "uploadCsv": "Déposer un fichier CSV",
+        "chooseDataset": "Choisir votre jeu de données",
+        "graphConfiguration": "Configurez votre graphe",
+        "noProject": "Aucun projet n'a été trouvé"
     },
     "editor": {
         "imageUrl": "URL de l'image",

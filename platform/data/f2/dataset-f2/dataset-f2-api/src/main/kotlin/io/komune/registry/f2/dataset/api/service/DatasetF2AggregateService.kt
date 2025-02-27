@@ -65,7 +65,13 @@ class DatasetF2AggregateService(
     suspend fun addJsonDistribution(command: DatasetAddJsonDistributionCommandDTOBase): DatasetAddedJsonDistributionEventDTOBase {
         val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
 
-        val event = addDistribution(draftedDatasetId, "${UUID.randomUUID()}.json", "application/json", command.jsonContent.toByteArray())
+        val event = addDistribution(
+            datasetId = draftedDatasetId,
+            filename = "${UUID.randomUUID()}.json",
+            name = command.name,
+            mediaType = "application/json",
+            content = command.jsonContent.toByteArray()
+        )
 
         return DatasetAddedJsonDistributionEventDTOBase(
             id = draftedDatasetId,
@@ -84,7 +90,13 @@ class DatasetF2AggregateService(
             ?.let { ".$it" }
             .orEmpty()
 
-        val event = addDistribution(draftedDatasetId, "${UUID.randomUUID()}$fileExtension", command.mediaType, file.contentByteArray())
+        val event = addDistribution(
+            datasetId = draftedDatasetId,
+            filename = "${UUID.randomUUID()}$fileExtension",
+            name = command.name,
+            mediaType = command.mediaType,
+            content = file.contentByteArray()
+        )
 
         return DatasetAddedMediaDistributionEventDTOBase(
             id = draftedDatasetId,
@@ -103,6 +115,7 @@ class DatasetF2AggregateService(
         val event = DatasetUpdateDistributionCommand(
             id = draftedDatasetId,
             distributionId = command.distributionId,
+            name = command.name,
             downloadPath = path,
             mediaType = "application/json"
         ).let { datasetAggregateService.updateDistribution(it) }
@@ -137,6 +150,7 @@ class DatasetF2AggregateService(
             id = draftedDatasetId,
             distributionId = command.distributionId,
             downloadPath = newPath,
+            name = command.name,
             mediaType = command.mediaType
         ).let { datasetAggregateService.updateDistribution(it) }
 
@@ -210,13 +224,14 @@ class DatasetF2AggregateService(
     }
 
     private suspend fun addDistribution(
-        datasetId: DatasetId, name: String, mediaType: String, content: ByteArray
+        datasetId: DatasetId, filename: String, name: String?, mediaType: String, content: ByteArray
     ): DatasetAddedDistributionEvent {
-        val path = FsPath.Dataset.distribution(datasetId, name)
+        val path = FsPath.Dataset.distribution(datasetId, filename)
         fileClient.fileUpload(path.toUploadCommand(), content)
 
         return DatasetAddDistributionCommand(
             id = datasetId,
+            name = name,
             downloadPath = path,
             mediaType = mediaType
         ).let { datasetAggregateService.addDistribution(it) }

@@ -8,6 +8,7 @@ typealias DistributionId = String
 @Serializable
 data class DistributionModel(
     val id: DistributionId,
+    val name: String?,
     val downloadPath: FilePath,
     val mediaType: String,
     val issued: Long,

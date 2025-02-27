@@ -1,0 +1,31 @@
+services:
+
+  fs-gateway:
+    image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
+    env_file:
+      - .env_dev
+    environment:
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
+      - fs_s3_internal-url=http://minio:9000
+      - fs_s3_external-url=http://localhost:9000
+      - fs_s3_username=${MINIO_ROOT_USERNAME}
+      - fs_s3_password=${MINIO_ROOT_PASSWORD}
+      - fs_s3_bucket=registry-local
+      - fs_init_buckets=registry-local
+#      - fs_kb_url=${KB_HOST_NAME}
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.fs-gateway.loadbalancer.server.port: 8090
+      traefik.http.routers.fs-gateway.rule: Host(`${HOST_NAME_CONNECT}`) && PathPrefix(`/fs`)
+      traefik.http.routers.fs-gateway.entrypoints: websecure
+      traefik.http.routers.fs-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.strip-prefix-fs-gateway.stripprefix.prefixes: /fs
+      traefik.http.routers.fs-gateway.middlewares: strip-prefix-fs-gateway
+      traefik.docker.network: ${DOCKER_NETWORK}
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

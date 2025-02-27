@@ -9,9 +9,9 @@ export interface CatalogueRefTree extends io.komune.registry.f2.catalogue.domain
 export interface CatalogueDraft extends io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO {
 }
 
-export type CatalogueTypes = "100m-sector" | "100m-solution" | "100m-system"
+export type CatalogueTypes = "100m-sector" | "100m-solution" | "100m-system" | "100m-project"
 
-export const catalogueTypes: CatalogueTypes[] = ["100m-sector", "100m-solution", "100m-system"]
+export const catalogueTypes: CatalogueTypes[] = ["100m-sector", "100m-solution", "100m-system", "100m-project"]
 
 export type CatalogueStatus = io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 

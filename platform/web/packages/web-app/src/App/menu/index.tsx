@@ -123,10 +123,6 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
   }
 }
 
-export const maybeAddItem = <T,>(condition: boolean, item: T): T[] => {
-  return condition ? [item] : [];
-}
-
 const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
   const newPath = [...currentPaths, item.identifier]
   const ref = cataloguesAll(item.identifier, ...currentPaths)
