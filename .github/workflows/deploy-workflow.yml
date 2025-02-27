@@ -1,6 +1,3 @@
-# .github/workflows/deploy-workflow.yml
-name: Deployment Workflow
-
 on:
   workflow_call:
     inputs:

@@ -60,12 +60,13 @@ class ImportScript(
         importRepository =  ImportRepository(dataClient)
     }
 
-    suspend fun run(root: String) {
-        logger.info("Importing data from $root")
+    suspend fun run() {
+        val source = properties.source.folder
+        logger.info("Importing data from $source")
 
-        val rootDirectory = File(root)
+        val rootDirectory = File(source)
         if (!rootDirectory.exists() || !rootDirectory.isDirectory) {
-            throw IllegalArgumentException("Root directory does not exist: $root")
+            throw IllegalArgumentException("Root directory does not exist: $source")
         }
 
         val settingsFile = File(rootDirectory, "settings.json")
@@ -308,7 +309,10 @@ class ImportScript(
                     file = resourceFile.toSimpleFile(),
                     draftId = draftId
                 )
-                matchedPathToActualPath[path] = "/data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
+                val registryPath = properties.registry?.path?.let {
+                    if (!it.endsWith("/")) "$it/" else it
+                } ?: "/"
+                matchedPathToActualPath[path] = "${registryPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
             }
 
             modifiedText = modifiedText.replace(imageMatch.value, "![$alt](${matchedPathToActualPath[path]} $title)")
