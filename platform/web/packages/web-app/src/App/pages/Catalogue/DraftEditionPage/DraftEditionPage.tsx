@@ -1,14 +1,14 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueEditionHeader, CatalogueSections, CatalogueTypes, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
+import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { maybeAddItem } from 'App/menu';
 import { useDraftMutations } from './useDraftMutations';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
 import { Typography } from '@mui/material';
+import { useDraftTabs } from './useDraftTabs';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId } = useParams()
@@ -47,19 +47,14 @@ export const DraftEditionPage = () => {
 
   const title = catalogue?.title ?? t("sheetEdition")
 
-  const tabs: Tab[] = useMemo(() => {
-    const tabs: Tab[] = [...maybeAddItem(!simplified, {
-      key: 'metadata',
-      label: t('metadata'),
-      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
-    }), {
-      key: 'info',
-      label: t('informations'),
-      component: <CatalogueSections isLoading={isDefLoading} onSectionChange={onSectionChange} catalogue={catalogue} />,
-    },
-    ]
-    return tabs
-  }, [t, catalogue, metadataFormState, simplified, onSectionChange, isDefLoading, draft])
+  const tabs: Tab[] = useDraftTabs({
+    metadataFormState, 
+    catalogue, 
+    draft,
+    isLoading: isDefLoading,
+    onSectionChange,
+    withMetadata: simplified
+  })
 
   const onChangeTitle = useCallback(
     (title: string) => {
