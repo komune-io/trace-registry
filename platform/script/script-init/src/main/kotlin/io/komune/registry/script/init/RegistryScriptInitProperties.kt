@@ -5,32 +5,38 @@ import f2.client.domain.RealmId
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "registry.script.init")
-class RegistryScriptInitProperties(
+data class RegistryScriptInitProperties(
     val auth: AuthProperties,
     val registry: ServiceProperties?,
     val cccev: ServiceProperties?,
     val im: ServiceProperties,
     val nbProject: Int,
+    val source: SourceProperties,
     val admin: ApiKeyProperties,
     val flag: ModuleFlagProperties
 )
 
-class AuthProperties(
+data class AuthProperties(
     val url: String,
     val realmId: RealmId,
 )
 
-class ServiceProperties(
-    val url: String
+data class ServiceProperties(
+    val url: String,
+    val path: String? = null
 )
 
-class ApiKeyProperties(
+data class SourceProperties(
+    val folder: String
+)
+
+data class ApiKeyProperties(
     val name: String,
     val clientId: String,
     val clientSecret: String
 )
 
-class ModuleFlagProperties(
+data class ModuleFlagProperties(
     val control: Boolean = false,
     val data: Boolean = false,
     val project: Boolean = false,

@@ -11,6 +11,7 @@ registry:
       max: 1
       delayMillis: 10000
     init:
+      source: ./import
       auth:
         realmId: registry-local
         url: http://im-keycloak:8080
@@ -20,6 +21,7 @@ registry:
         url: http://localhost:8083
       registry:
         url: http://localhost:8070
+        path: /api
       admin:
         name: Komune
         clientId: registry-script-app
