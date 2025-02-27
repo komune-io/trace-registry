@@ -2,7 +2,6 @@ package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
-import io.komune.registry.s2.dataset.domain.DatasetAggregate
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -28,129 +27,131 @@ import java.util.UUID
 class DatasetAggregateService(
 	private val automate: DatasetAutomateExecutor,
 	private val sequenceRepository: SequenceRepository,
-): DatasetAggregate {
+) {
 
 	companion object {
 		const val DATASET_ID_SEQUENCE = "dataset_id_sequence"
 	}
 
-	override suspend fun create(cmd: DatasetCreateCommand): DatasetCreatedEvent = automate.init(cmd) {
+	suspend fun create(command: DatasetCreateCommand): DatasetCreatedEvent = automate.init(command) {
 		DatasetCreatedEvent(
-			id = "${sequenceRepository.nextValOf(DATASET_ID_SEQUENCE)}-${cmd.identifier}",
+			id = "${sequenceRepository.nextValOf(DATASET_ID_SEQUENCE)}-${command.identifier}",
 			date = System.currentTimeMillis(),
-			identifier = cmd.identifier,
-			title = cmd.title,
-			type = cmd.type,
-			description = cmd.description,
-			language = cmd.language,
-			wasGeneratedBy = cmd.wasGeneratedBy,
-			source = cmd.source,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
-			accessRights = cmd.accessRights,
-			license = cmd.license,
-			temporalResolution = cmd.temporalResolution,
-			conformsTo = cmd.conformsTo,
-			format = cmd.format,
-			theme = cmd.theme,
-			keywords = cmd.keywords,
-			homepage = cmd.homepage,
-			landingPage = cmd.landingPage,
-			version = cmd.version,
-			versionNotes = cmd.versionNotes,
-			length = cmd.length,
-			releaseDate = cmd.releaseDate,
+			identifier = command.identifier,
+			title = command.title,
+			type = command.type,
+			description = command.description,
+			language = command.language,
+			wasGeneratedBy = command.wasGeneratedBy,
+			source = command.source,
+			creator = command.creator,
+			publisher = command.publisher,
+			validator = command.validator,
+			accessRights = command.accessRights,
+			license = command.license,
+			temporalResolution = command.temporalResolution,
+			conformsTo = command.conformsTo,
+			format = command.format,
+			theme = command.theme,
+			keywords = command.keywords,
+			homepage = command.homepage,
+			landingPage = command.landingPage,
+			version = command.version,
+			versionNotes = command.versionNotes,
+			length = command.length,
+			releaseDate = command.releaseDate,
 		)
 	}
 
-	override suspend fun setImageCommand(cmd: DatasetSetImageCommand) = automate.transition(cmd) {
+	suspend fun setImageCommand(command: DatasetSetImageCommand) = automate.transition(command) {
 		DatasetSetImageEvent(
-			id = cmd.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
-			img = cmd.img,
+			img = command.img,
 		)
 	}
 
-	override suspend fun linkDatasets(
-		cmd: DatasetLinkDatasetsCommand
-	): DatasetLinkedDatasetsEvent = automate.transition(cmd) {
+	suspend fun linkDatasets(
+		command: DatasetLinkDatasetsCommand
+	): DatasetLinkedDatasetsEvent = automate.transition(command) {
 		DatasetLinkedDatasetsEvent(
-			id =  cmd.id,
+			id =  command.id,
 			date = System.currentTimeMillis(),
-			datasets = cmd.datasets
+			datasets = command.datasets
 		)
 	}
 
-	override suspend fun linkThemes(cmd: DatasetLinkThemesCommand): DatasetLinkedThemesEvent = automate.transition(cmd) {
+	suspend fun linkThemes(command: DatasetLinkThemesCommand): DatasetLinkedThemesEvent = automate.transition(command) {
 		DatasetLinkedThemesEvent(
-			id =  cmd.id,
+			id =  command.id,
 			date = System.currentTimeMillis(),
-			themes = cmd.themes
+			themes = command.themes
 		)
 	}
 
-	override suspend fun update(cmd: DatasetUpdateCommand): DatasetUpdatedEvent = automate.transition(cmd) {
+	suspend fun update(command: DatasetUpdateCommand): DatasetUpdatedEvent = automate.transition(command) {
 		DatasetUpdatedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			title = cmd.title,
-			type = cmd.type,
-			description = cmd.description,
-			language = cmd.language,
-			wasGeneratedBy = cmd.wasGeneratedBy,
-			source = cmd.source,
-			creator = cmd.creator,
-			publisher = cmd.publisher,
-			validator = cmd.validator,
-			accessRights = cmd.accessRights,
-			license = cmd.license,
-			temporalResolution = cmd.temporalResolution,
-			conformsTo = cmd.conformsTo,
-			format = cmd.format,
-			theme = cmd.theme,
-			keywords = cmd.keywords,
-			homepage = cmd.homepage,
-			landingPage = cmd.landingPage,
-			version = cmd.version,
-			versionNotes = cmd.versionNotes,
-			length = cmd.length,
-			releaseDate = cmd.releaseDate,
+			title = command.title,
+			type = command.type,
+			description = command.description,
+			language = command.language,
+			wasGeneratedBy = command.wasGeneratedBy,
+			source = command.source,
+			creator = command.creator,
+			publisher = command.publisher,
+			validator = command.validator,
+			accessRights = command.accessRights,
+			license = command.license,
+			temporalResolution = command.temporalResolution,
+			conformsTo = command.conformsTo,
+			format = command.format,
+			theme = command.theme,
+			keywords = command.keywords,
+			homepage = command.homepage,
+			landingPage = command.landingPage,
+			version = command.version,
+			versionNotes = command.versionNotes,
+			length = command.length,
+			releaseDate = command.releaseDate,
 		)
 	}
 
-	override suspend fun delete(cmd: DatasetDeleteCommand): DatasetDeletedEvent = automate.transition(cmd) {
+	suspend fun delete(command: DatasetDeleteCommand): DatasetDeletedEvent = automate.transition(command) {
 		DatasetDeletedEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
 		)
 	}
 
-	override suspend fun addDistribution(cmd: DatasetAddDistributionCommand) = automate.transition(cmd) {
+	suspend fun addDistribution(command: DatasetAddDistributionCommand) = automate.transition(command) {
 		DatasetAddedDistributionEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			distributionId = cmd.distributionId ?: UUID.randomUUID().toString(),
-			downloadPath = cmd.downloadPath,
-			mediaType = cmd.mediaType
+			name = command.name,
+			distributionId = command.distributionId ?: UUID.randomUUID().toString(),
+			downloadPath = command.downloadPath,
+			mediaType = command.mediaType
 		)
 	}
 
-	override suspend fun updateDistribution(cmd: DatasetUpdateDistributionCommand) = automate.transition(cmd) {
+	suspend fun updateDistribution(command: DatasetUpdateDistributionCommand) = automate.transition(command) {
 		DatasetUpdatedDistributionEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			distributionId = cmd.distributionId,
-			downloadPath = cmd.downloadPath,
-			mediaType = cmd.mediaType
+			distributionId = command.distributionId,
+			name = command.name,
+			downloadPath = command.downloadPath,
+			mediaType = command.mediaType
 		)
 	}
 
-	override suspend fun removeDistribution(cmd: DatasetRemoveDistributionCommand) = automate.transition(cmd) {
+	suspend fun removeDistribution(command: DatasetRemoveDistributionCommand) = automate.transition(command) {
 		DatasetRemovedDistributionEvent(
 			id = it.id,
 			date = System.currentTimeMillis(),
-			distributionId = cmd.distributionId
+			distributionId = command.distributionId
 		)
 	}
 }

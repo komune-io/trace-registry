@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DatasetAddDistributionCommand(
     override val id: DatasetId,
+    val name: String?,
     val distributionId: DistributionId? = null,
     val downloadPath: FilePath,
     val mediaType: String,
@@ -17,6 +18,7 @@ data class DatasetAddDistributionCommand(
 data class DatasetAddedDistributionEvent(
     override val id: DatasetId,
     override val date: Long,
+    val name: String?,
     val distributionId: DistributionId,
     val downloadPath: FilePath,
     val mediaType: String,

@@ -634,6 +634,16 @@ export declare namespace io.komune.im.f2.user.domain.command {
     }
 }
 export declare namespace io.komune.im.f2.user.domain.command {
+    interface UserDisableMfaCommandDTO extends f2.dsl.cqrs.Command {
+        readonly id: string;
+
+    }
+    interface UserDisabledMfaEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.im.f2.user.domain.command {
     interface UserResetPasswordCommandDTO extends f2.dsl.cqrs.Command {
         readonly id: string;
 
@@ -693,6 +703,7 @@ export declare namespace io.komune.im.f2.user.domain.model {
         readonly address?: io.komune.im.commons.model.AddressDTO;
         readonly phone?: string;
         readonly roles: io.komune.im.f2.privilege.domain.role.model.RoleDTO[];
+        readonly mfa?: string[];
         readonly attributes: Record<string, string>;
         readonly enabled: boolean;
         readonly disabledBy?: string;
@@ -708,6 +719,8 @@ export declare namespace io.komune.im.f2.user.domain.policies {
         checkRefList(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, organizationId?: string): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
+        canConfigureMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
+        canDisableMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
         canUpdateMemberOf(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdateRole(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canDisable(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
@@ -2843,6 +2856,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
         readonly id: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly jsonContent: string;
 
     }
@@ -2856,6 +2870,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddMediaDistributionCommandDTO {
         readonly id: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly mediaType: string;
 
     }
@@ -2960,6 +2975,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly jsonContent: string;
 
     }
@@ -2974,6 +2990,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly draftId: string;
+        readonly name?: string;
         readonly mediaType: string;
 
     }
@@ -3036,6 +3053,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
 export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface DistributionDTO {
         readonly id: string;
+        readonly name?: string;
         readonly downloadPath: io.komune.fs.s2.file.domain.model.FilePathDTO/* io.komune.fs.s2.file.domain.model.FilePath */;
         readonly mediaType: string;
         readonly issued: number;

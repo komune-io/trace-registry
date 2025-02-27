@@ -42,6 +42,7 @@ fun DatasetEntity.toModel() = DatasetModel(
 
 fun DistributionEntity.toModel() = DistributionModel(
     id = id,
+    name = name,
     downloadPath = FilePath.from(downloadPath),
     mediaType = mediaType,
     issued = issued,

@@ -474,6 +474,7 @@ class CatalogueF2AggregateService(
             if (originalDataset.distributions.any { it.id == distribution.id }) {
                 DatasetUpdateDistributionCommand(
                     id = datasetId,
+                    name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType
@@ -481,6 +482,7 @@ class CatalogueF2AggregateService(
             } else {
                 DatasetAddDistributionCommand(
                     id = datasetId,
+                    name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType

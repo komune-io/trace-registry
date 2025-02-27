@@ -84,6 +84,7 @@ class ImportRepository(
     ): DistributionId {
         return (DatasetAddMediaDistributionCommandDTOBase(
             id = datasetId,
+            name = null,
             mediaType = mediaType,
             draftId = draftId
         ) to SimpleFile(
