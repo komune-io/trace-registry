@@ -90,10 +90,19 @@ jobs:
           echo "Creating environment file for ${{ inputs.environment }}..."
           cp infra/docker-compose-deploy/.env_dev_default infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
           cat infra/docker-compose-deploy/.env_dev_100m_${{ inputs.environment }}
-      - name: Deploy Docker Services (Prod)
+
+      - name: Deploying proxy services to ${{ inputs.environment }} environment...
         shell: bash
         run: |
-          echo "Deploying Docker services to Prod environment..."
+          echo "Deploying proxy services to ${{ inputs.environment }} environment..."
           make -f Makefile_deploy.mk proxy deploy
+      - name: Deploying connect services to ${{ inputs.environment }} environment...
+        shell: bash
+        run: |
+          echo "Deploying connect services to ${{ inputs.environment }} environment..."
           make -f Makefile_deploy.mk connect deploy
+      - name: Deploying registy services to ${{ inputs.environment }} environment...
+        shell: bash
+        run: |
+          echo "Deploying registy services to ${{ inputs.environment }} environment..."
           make -f Makefile_deploy.mk registry deploy
