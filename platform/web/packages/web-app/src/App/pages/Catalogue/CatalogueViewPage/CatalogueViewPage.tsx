@@ -9,10 +9,9 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage, SectionTab, Tab } from 'template'
-import { InfoTicket, useRoutesDefinition, useToggleState } from 'components'
+import { InfoTicket, maybeAddItem, useRoutesDefinition, useToggleState } from 'components'
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
-import { maybeAddItem } from "../../../menu";
 import { CircularProgress, IconButton, Stack } from '@mui/material'
 import { EditRounded } from '@mui/icons-material'
 import { useQueryClient } from '@tanstack/react-query'

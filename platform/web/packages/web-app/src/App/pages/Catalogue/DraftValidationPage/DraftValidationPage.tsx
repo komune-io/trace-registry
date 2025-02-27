@@ -1,12 +1,13 @@
 import { TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueMetadataForm, CatalogueSections, CatalogueTypes, CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
+import { CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
 import { AppPage, SectionTab, Tab } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
+import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 
 export const DraftValidationPage = () => {
   const { draftId, catalogueId } = useParams()
@@ -41,19 +42,12 @@ export const DraftValidationPage = () => {
 
   const title = catalogue?.title ?? t("sheetValidation")
 
-  const tabs: Tab[] = useMemo(() => {
-    const tabs: Tab[] = [{
-      key: 'metadata',
-      label: t('metadata'),
-      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
-    }, {
-      key: 'info',
-      label: t('informations'),
-      component: <CatalogueSections isLoading={catalogueDraftQuery.isInitialLoading} catalogue={catalogue} />,
-    },
-    ]
-    return tabs
-  }, [t, catalogue, metadataFormState, catalogueDraftQuery.isInitialLoading, draft])
+  const tabs: Tab[] = useDraftTabs({
+    metadataFormState,
+    catalogue,
+    draft,
+    isLoading: catalogueDraftQuery.isInitialLoading,
+  })
 
   const rejectDraft = useCatalogueDraftRejectCommand({})
 
