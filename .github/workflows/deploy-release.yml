@@ -1,4 +1,4 @@
-name: Release Workflow
+name: Deployment Release
 on:
   release:
     types: [published]
@@ -47,4 +47,4 @@ jobs:
       SECRET_TRAEFIK_DASHBOARD_PASSWORD: ${{ secrets.SECRET_TRAEFIK_DASHBOARD_PASSWORD }}
       SECRET_MEILI_MASTER_KEY: ${{ secrets.SECRET_MEILI_MASTER_KEY }}
     with:
-      environment: rod
+      environment: prod
