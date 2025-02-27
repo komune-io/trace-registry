@@ -49,7 +49,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           // form fields
           title: metadataFormState.values.title,
           description: metadataFormState.values.description,
-          themes: metadataFormState.values.themes ? [metadataFormState.values.themes] : undefined,
+          themes: metadataFormState.values.themes && catalogue?.type !== "100m-project" ? [metadataFormState.values.themes] : metadataFormState.values.themes,
           license: metadataFormState.values.license,
           accessRights: metadataFormState.values.accessRights,
           parentId: metadataFormState.values.parentId,
