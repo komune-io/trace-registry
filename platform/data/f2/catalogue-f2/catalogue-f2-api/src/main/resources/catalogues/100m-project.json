@@ -7,6 +7,10 @@
   "structure": "item",
   "i18n": {
     "enable": true,
-    "translationType": "100m-translation"
+    "translationType": "100m-translation",
+    "datasets": [{
+      "type": "graphs",
+      "identifierSuffix": "-graphs"
+    }]
   }
 }
