@@ -53,6 +53,8 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           license: metadataFormState.values.license,
           accessRights: metadataFormState.values.accessRights,
           parentId: metadataFormState.values.parentId,
+          location: metadataFormState.values.location,
+          ownerOrganizationId: metadataFormState.values.ownerOrganizationId,
           // keeping the same values
           structure: metadataFormState.values.structure,
           hidden: metadataFormState.values.hidden,

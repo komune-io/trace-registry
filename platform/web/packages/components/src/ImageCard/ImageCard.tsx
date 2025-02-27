@@ -8,12 +8,13 @@ import { DeleteRounded, EditRounded, MoreVert } from '@mui/icons-material'
 export interface ImageCardProps {
     imageUrl: string
     onDelete?: () => Promise<any>
+    onClick?: () => void
     editUrl?: string
     label?: string
 }
 
 export const ImageCard = (props: ImageCardProps) => {
-    const { imageUrl, onDelete, editUrl, label } = props
+    const { imageUrl, onDelete, editUrl, label, onClick } = props
 
     const { t } = useTranslation()
 
@@ -35,11 +36,11 @@ export const ImageCard = (props: ImageCardProps) => {
 
     const { buttonProps, menu } = useButtonMenu({
         items: menuItems,
-
     })
 
     return (
         <Paper
+            onClick={onClick}
             sx={{
                 px: 2,
                 py: 1.5,
@@ -47,6 +48,7 @@ export const ImageCard = (props: ImageCardProps) => {
                 display: "flex",
                 flexDirection: "column",
                 positon: "relative",
+                cursor: onClick ? "pointer" : undefined,
                 "& .cardImage": {
                     width: "280px",
                     height: "auto"

@@ -31,12 +31,13 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
     })
 
     const onSaveMemo = useCallback(
-        async (/* values: any */) => {
+        async (values: any) => {
            const res = await uploadMedia.mutateAsync({
                 command: {
                     id: datasetId,
                     mediaType: currentCsv!.type,
                     draftId: draftId!,
+                    name: values.name
                 },
                 files: [{
                     file: currentCsv!

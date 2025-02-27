@@ -60,6 +60,10 @@ export const catalogPages: PageRoute[] = [
     element: <GraphCreationPage  />
   },
   {
+    path: "catalogues/:catalogueId/:draftId/graph",
+    element: <GraphCreationPage  />
+  },
+  {
     path: "catalogues/*",
     element: <CataloguesRouter root="standards" />
   }

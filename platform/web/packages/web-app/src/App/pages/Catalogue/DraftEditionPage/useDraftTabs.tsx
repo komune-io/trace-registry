@@ -1,7 +1,6 @@
-import { maybeAddItem } from 'components'
+import { maybeAddItem, Tab } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tab } from 'template'
 import { FormComposableState } from '@komune-io/g2'
 import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager } from 'domain-components'
 import { EditorState } from 'lexical'
