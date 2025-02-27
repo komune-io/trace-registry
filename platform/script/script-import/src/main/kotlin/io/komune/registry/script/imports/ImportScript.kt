@@ -275,6 +275,7 @@ class ImportScript(
 
     }
 
+    @Suppress("NestedBlockDepth")
     private suspend fun createMarkdownDatasetMediaDistribution(
         datasetId: DatasetId,
         resourcesDatasetId: DatasetId,
