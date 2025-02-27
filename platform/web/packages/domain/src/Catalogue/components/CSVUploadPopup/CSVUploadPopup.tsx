@@ -1,5 +1,6 @@
 import { Button, FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import { Accordion, MultiFileDropzone, TmsPopUp } from 'components'
 import { useDatasetAddMediaDistributionCommand } from 'components/src/LexicalEditor/api'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -16,6 +17,7 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
     const { open, onClose, datasetId } = props
     const { t } = useTranslation()
     const { draftId } = useParams()
+    const queryClient = useQueryClient()
 
     const [currentCsv, setCurrentCsv] = useState<File | undefined>(undefined)
 
@@ -27,12 +29,12 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
     )
 
     const uploadMedia = useDatasetAddMediaDistributionCommand({
-        
+
     })
 
     const onSaveMemo = useCallback(
         async (values: any) => {
-           const res = await uploadMedia.mutateAsync({
+            const res = await uploadMedia.mutateAsync({
                 command: {
                     id: datasetId,
                     mediaType: currentCsv!.type,
@@ -44,6 +46,7 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                 }]
             })
             if (res) {
+                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
                 onClose
             }
         },
@@ -89,7 +92,7 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={"Déposer un fichier CSV"}
+            title={t("cataogues.csvDeposit")}
         >
             {!currentCsv ? <MultiFileDropzone fileTypesAllowed={["csv"]} onAdd={onAddFile} /> :
                 <>

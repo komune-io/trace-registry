@@ -331,7 +331,8 @@
         "uploadCsv": "Déposer un fichier CSV",
         "chooseDataset": "Choisir votre jeu de données",
         "graphConfiguration": "Configurez votre graphe",
-        "noProject": "Aucun projet n'a été trouvé"
+        "noProject": "Aucun projet n'a été trouvé",
+        "csvDeposit": "Déposer un fichier CSV"
     },
     "editor": {
         "imageUrl": "URL de l'image",
@@ -380,7 +381,8 @@
         "data/catalogueDraftSubmit": "Le brouillon n'a pas pu être soumis",
         "data/catalogueDraftValidate": "Le brouillon n'a pas pu être validé",
         "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté",
-        "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé"
+        "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé",
+        "data/datasetDelete": "Le graphe n'a pas pu être supprimé"
       },
       "success": {
         "data/catalogueCreate": "La fiche a bien été créée",
@@ -392,7 +394,8 @@
         "data/catalogueDraftSubmit": "Le brouillon a bien été soumis",
         "data/catalogueDraftValidate": "Le brouillon a bien été validé",
         "data/catalogueDraftReject": "Le brouillon a bien été rejeté",
-        "data/catalogueDraftDelete": "Le brouillon a bien été supprimé"
+        "data/catalogueDraftDelete": "Le brouillon a bien été supprimé",
+        "data/datasetDelete": "Le graphe a bien été supprimé"
       }
     }
 }
