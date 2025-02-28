@@ -90,9 +90,17 @@ class ImportScript(
     private suspend fun initEntities(importContext: ImportContext) {
         logger.info("Initializing basic entities...")
 
+        logger.info("Initializing Concepts entities...")
         initConcepts(importContext)
+        logger.info("Initialized Concepts entities.")
+
+        logger.info("Initializing Licenses entities...")
         initLicenses(importContext)
+        logger.info("Initialized Licenses entities.")
+
+        logger.info("Initializing Standard Catalogue entities...")
         initCatalogues(importContext)
+        logger.info("Initialized Standard Catalogue entities.")
 
         logger.info("Initialized basic entities.")
     }
@@ -189,7 +197,7 @@ class ImportScript(
 
 
         importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.let {
+        catalogueData.parentIdentifier(importContext)?.map {
             importContext.catalogueParents[catalogue.id] = it
         }
 
@@ -384,13 +392,13 @@ class ImportScript(
             }
     }
 
-    private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): CatalogueIdentifier? {
-        return parent?.let {
-            return if(parentType == null || it.startsWith(parentType)) {
-                it
+    private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): List<CatalogueIdentifier>? {
+        return parents?.map { parent ->
+            if(parent.type == null || parent.identifier.startsWith(parent.type)) {
+                parent.identifier
             } else {
-                val mapParentType = importContext.mapCatalogueType(parentType)
-                "$mapParentType-$it"
+                val mapParentType = importContext.mapCatalogueType(parent.type)
+                "$mapParentType-${parent.identifier}"
             }
         }
     }

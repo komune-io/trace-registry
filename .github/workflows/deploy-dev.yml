@@ -14,7 +14,7 @@ on:
         type: boolean
 
 jobs:
-  deploy-dev:
+  dev-deploy:
     name: Deploy to ${{ github.event.inputs.environment }}
     uses: ./.github/workflows/deploy-workflow.yml
     secrets:
