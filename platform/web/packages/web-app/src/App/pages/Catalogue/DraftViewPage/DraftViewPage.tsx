@@ -1,6 +1,6 @@
-import { TitleDivider } from 'components'
+import { TitleDivider, SectionTab, Tab } from 'components'
 import { useCatalogueDraftGetQuery } from 'domain-components'
-import { AppPage, SectionTab, Tab } from 'template'
+import { AppPage } from 'template'
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

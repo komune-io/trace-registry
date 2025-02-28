@@ -14,7 +14,7 @@ interface CatalogueEditionHeaderProps {
     onSave?: () => Promise<any>
     onValidate?: () => Promise<any>
     onDelete?: () => Promise<any>
-    onSubmit: (reason: string) => Promise<any>
+    onSubmit?: (reason: string) => Promise<any>
     disabled?: boolean
 }
 
@@ -75,7 +75,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             >
                 {t("catalogues.saveTheDraft")}
             </Button>}
-            {draft?.status !== "SUBMITTED" && <Button
+            {draft?.status !== "SUBMITTED" && onSubmit && <Button
             onClick={toggle}
             disabled={disabled}
             >

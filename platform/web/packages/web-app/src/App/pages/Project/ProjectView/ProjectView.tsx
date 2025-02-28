@@ -10,8 +10,8 @@ import {
 } from 'domain-components'
 import { useNavigate, useParams } from 'react-router-dom'
 import React, { useCallback, useMemo } from 'react'
-import { useExtendedAuth, useRoutesDefinition, useConfirmationPopUp } from 'components'
-import { AppPage, SectionTab, Tab } from 'template'
+import { useExtendedAuth, useRoutesDefinition, useConfirmationPopUp, SectionTab, Tab  } from 'components'
+import { AppPage} from 'template'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { useProjectListFilesQuery } from "domain-components";
 

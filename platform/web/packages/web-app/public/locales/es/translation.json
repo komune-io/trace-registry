@@ -331,7 +331,8 @@
     "uploadCsv": "Subir un archivo CSV",
     "chooseDataset": "Elegir su conjunto de datos",
     "graphConfiguration": "Configurar su gráfico",
-    "noProject": "Ningún proyecto ha sido encontrado"
+    "noProject": "Ningún proyecto ha sido encontrado",
+    "csvDeposit": "Subir un archivo CSV"
   },
   "editor": {
     "imageUrl": "URL de la imagen",
@@ -341,6 +342,7 @@
     "addTable": "Agregar una tabla",
     "rowsNumber": "Número de filas",
     "columnsNumber": "Número de columnas",
+    "gallery": "Galería",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",
@@ -378,7 +380,8 @@
       "data/catalogueDraftSubmit": "No se pudo enviar el borrador para validación",
       "data/catalogueDraftValidate": "No se pudo validar el borrador",
       "data/catalogueDraftReject": "No se pudo rechazar el borrador",
-      "data/catalogueDraftDelete": "No se pudo eliminar el borrador"
+      "data/catalogueDraftDelete": "No se pudo eliminar el borrador",
+      "data/datasetDelete": "No se pudo eliminar el gráfico"
     },
     "success": {
       "data/catalogueCreate": "La ficha ha sido creada correctamente",
@@ -390,7 +393,8 @@
       "data/catalogueDraftSubmit": "El borrador ha sido enviado para validación",
       "data/catalogueDraftValidate": "El borrador ha sido validado",
       "data/catalogueDraftReject": "El borrador ha sido rechazado",
-      "data/catalogueDraftDelete": "El borrador ha sido eliminado"
+      "data/catalogueDraftDelete": "El borrador ha sido eliminado",
+      "data/datasetDelete": "El gráfico ha sido eliminado correctamente"
     }
   }
 }

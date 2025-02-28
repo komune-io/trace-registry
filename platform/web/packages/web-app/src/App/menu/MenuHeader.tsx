@@ -1,6 +1,6 @@
 import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useRoutesDefinition } from 'components'
+import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ export const usePersonnalMenu = (t: TFunction) => {
     const location = useLocation()
 
     const { cataloguesToVerify, cataloguesContributions } = useRoutesDefinition()
+    const {policies} = useExtendedAuth()
 
     const totalToVerify = useCatalogueDraftPageQuery({
         query: {
@@ -35,10 +36,11 @@ export const usePersonnalMenu = (t: TFunction) => {
                 label: t("sheetsToValidate"),
                 icon: <DoneRounded />,
                 number: totalToVerify,
+                isVisible: policies.draft.canAudit(),
                 isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify, cataloguesContributions, totalToVerify])
+    }, [location, t, cataloguesToVerify, cataloguesContributions, totalToVerify, policies.draft.canAudit])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -47,6 +49,7 @@ export const usePersonnalMenu = (t: TFunction) => {
 export const MenuHeader = () => {
 
     const { cataloguesCreateSector, cataloguesCreateSolution, cataloguesCreateSystem, cataloguesCreateProject } = useRoutesDefinition()
+    const {policies} = useExtendedAuth()
 
     const { t } = useTranslation()
 
@@ -85,7 +88,7 @@ export const MenuHeader = () => {
                 pr: 1
             }}
         >
-            <CustomButton
+            {policies.audit.canCreate() && <CustomButton
                 sx={{
                     width: "100%"
                 }}
@@ -93,7 +96,7 @@ export const MenuHeader = () => {
                 {...buttonProps}
             >
                 {t("newCatalogue")}
-            </CustomButton>
+            </CustomButton>}
             {menu}
             <Menu
                 sx={{

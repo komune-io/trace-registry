@@ -3034,7 +3034,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly versionNotes?: string;
         readonly length?: number;
         readonly img?: string;
-        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase[];
+        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConcept[];
         readonly status: io.komune.registry.s2.dataset.domain.automate.DatasetState;
         readonly homepage?: string;

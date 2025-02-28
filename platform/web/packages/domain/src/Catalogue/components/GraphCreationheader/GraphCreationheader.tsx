@@ -30,6 +30,9 @@ export const GraphCreationheader = (props: GraphCreationheaderProps) => {
             <IconButton
             component={Link}
             to={goBackUrl}
+            sx={{
+                color: "rgba(0, 0, 0, 0.54) !important"
+            }}
             >
                 <CloseRounded />
             </IconButton>

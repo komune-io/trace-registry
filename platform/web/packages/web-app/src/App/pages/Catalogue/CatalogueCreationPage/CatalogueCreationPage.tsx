@@ -21,7 +21,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
 
     const createCommand = useCatalogueCreateCommand({})
 
-    const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") : t("newSector")
+    const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") :  type === "100m-project" ? t("newProject") : t("newSector")
 
     const onCreate = useCallback(
       async (values: CatalogueCreateCommand & {illustration?: File}) => {

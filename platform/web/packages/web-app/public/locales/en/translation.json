@@ -331,7 +331,8 @@
     "uploadCsv": "Upload a CSV file",
     "chooseDataset": "Choose your dataset",
     "graphConfiguration": "Configure your graph",
-    "noProject": "No project was found"
+    "noProject": "No project was found",
+    "csvDeposit": "Deposit a CSV file"
   },
   "editor": {
     "imageUrl": "Image URL",
@@ -341,6 +342,7 @@
     "addTable": "Add a table",
     "rowsNumber": "Number of rows",
     "columnsNumber": "Number of columns",
+    "gallery": "Gallery",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",
@@ -378,7 +380,8 @@
       "data/catalogueDraftSubmit": "The draft could not be submitted",
       "data/catalogueDraftValidate": "The draft could not be validated",
       "data/catalogueDraftReject": "The draft could not be rejected",
-      "data/catalogueDraftDelete": "The draft could not be deleted"
+      "data/catalogueDraftDelete": "The draft could not be deleted",
+      "data/datasetDelete": "The graph could not be deleted"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",

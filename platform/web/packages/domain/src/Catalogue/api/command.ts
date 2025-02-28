@@ -132,3 +132,16 @@ export const useCatalogueDraftDeleteCommand = (
         CatalogueDraftDeletedEvent
     >('data/catalogueDraftDelete', requestProps, params)
 }
+
+export interface DatasetDeleteCommand extends io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTO { }
+export interface DatasetDeletedEvent extends io.komune.registry.f2.dataset.domain.command.DatasetDeletedEventDTO { }
+
+export const useDatasetDeleteCommand = (
+    params: CommandParams<DatasetDeleteCommand, DatasetDeletedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetDeleteCommand,
+        DatasetDeletedEvent
+    >('data/datasetDelete', requestProps, params)
+}

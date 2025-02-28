@@ -1,26 +1,44 @@
 import { useFormComposable } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
+import { useRoutesDefinition } from 'components'
 import {
   GraphCreationheader,
   GraphDatasetForm,
   GraphForm,
+  useCatalogueDraftGetQuery,
 } from 'domain-components'
-import { useCallback, useEffect} from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
+  const {catalogueId, draftId, datasetId} = useParams()
+  const {cataloguesCatalogueIdDraftIdEdit} = useRoutesDefinition()
 
+  const catalogueDraftQuery = useCatalogueDraftGetQuery({
+    query: {
+      id: draftId! 
+    },
+    options: {
+      enabled: !!datasetId
+    }
+  })
+
+  const draft = catalogueDraftQuery.data?.item
+
+  const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
+
+  console.log(dataset)
 
   const navigate = useNavigate()
 
   const onClose = useCallback(
     () => {
-      navigate("/")
+      navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!))
     },
-    [navigate],
+    [navigate, catalogueId, draftId],
   )
 
   useEffect(() => {
@@ -28,7 +46,7 @@ export const GraphCreationPage = () => {
   }, [t])
 
   const graphFormState = useFormComposable({
-
+    isLoading: catalogueDraftQuery.isInitialLoading
   })
 
   return (
@@ -47,7 +65,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title={t("createAGraph")} goBackUrl={"/"} />
+      <GraphCreationheader title={t("createAGraph")} goBackUrl={cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!)} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -57,7 +75,7 @@ export const GraphCreationPage = () => {
         }}
       >
         <GraphDatasetForm formState={graphFormState} />
-       <GraphForm onSave={() => {return Promise.resolve()}} />
+        <GraphForm onSave={() => { return Promise.resolve() }} />
       </Stack>
     </Dialog>
   )

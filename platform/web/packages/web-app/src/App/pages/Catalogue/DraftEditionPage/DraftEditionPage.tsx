@@ -1,6 +1,6 @@
-import { languages, LanguageSelector, TitleDivider, useRoutesDefinition } from 'components'
+import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth  } from 'components'
 import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
-import { AppPage, SectionTab, Tab } from 'template'
+import { AppPage} from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +18,8 @@ export const DraftEditionPage = () => {
   const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
+  const {policies} = useExtendedAuth()
 
-  const simplified = false
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -52,8 +52,7 @@ export const DraftEditionPage = () => {
     catalogue, 
     draft,
     isLoading: isDefLoading,
-    onSectionChange,
-    withMetadata: simplified
+    onSectionChange
   })
 
   const onChangeTitle = useCallback(
@@ -92,7 +91,6 @@ export const DraftEditionPage = () => {
     [createDraft.mutateAsync, catalogueId, catalogue],
   )
 
-
   return (
     <AppPage
       title={title}
@@ -101,10 +99,10 @@ export const DraftEditionPage = () => {
     >
       <CatalogueEditionHeader
         draft={draft}
-        onDelete={onDelete}
-        onSubmit={onSubmit}
+        onDelete={policies.draft.canDelete(draft) ? onDelete : undefined}
+        onSubmit={policies.draft.canSubmit(draft) ? onSubmit : undefined}
         onSave={onSave}
-        onValidate={!simplified ? onValidate : undefined}
+        onValidate={policies.audit.canUpdate(draft?.catalogue) ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}
       />
@@ -115,7 +113,7 @@ export const DraftEditionPage = () => {
         {t("catalogues.titleRequired")}
       </Typography>
       }
-      <TitleDivider title={title} onChange={!simplified ? onChangeTitle : undefined} />
+      <TitleDivider title={title} onChange={policies.draft.canUpdate(draft) ? onChangeTitle : undefined} />
       <LanguageSelector
         //@ts-ignore
         languages={languages}
