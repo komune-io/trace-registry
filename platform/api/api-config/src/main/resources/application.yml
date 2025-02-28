@@ -40,15 +40,6 @@ f2:
     issuer-base-uri: http://im-keycloak:8080
 
 platform:
-  meilisearch:
-    url: http://localhost:7700
-    secret: secret
-  flag:
-    module:
-      control: true
-      data: true
-      project: true
-      identity: true
   brevo:
     token: secret
     from: wikico2@kosm.io
@@ -59,10 +50,24 @@ platform:
       email: test@kosm.io
     template:
       charter: 1
+  flag:
+    module:
+      control: true
+      data: true
+      project: true
+      identity: true
   i18n:
     ordered-locales: fr,en,es
     catalogue:
       default-translation-type: translation
+  identity:
+    onboarding:
+      default-roles:
+        organization: rg_role_org_reader
+        user: rg_role_user_admin
+  meilisearch:
+    url: http://localhost:7700
+    secret: secret
   search:
     indexed-catalogue: 100m-solution,100m-sector,100m-system
 

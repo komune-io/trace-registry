@@ -10,12 +10,12 @@ import io.komune.im.f2.user.domain.query.UserGetByEmailQuery
 import io.komune.registry.api.commons.exception.OrganizationNameAlreadyExistsException
 import io.komune.registry.api.commons.exception.UserEmailAlreadyExistsException
 import io.komune.registry.api.commons.exception.UserUnacceptedTermsException
+import io.komune.registry.f2.user.api.config.OnboardingConfig
 import io.komune.registry.f2.user.domain.command.UserOnboardCommandDTOBase
 import io.komune.registry.f2.user.domain.command.UserOnboardedEventDTOBase
 import io.komune.registry.infra.brevo.config.BrevoClient
 import io.komune.registry.infra.brevo.config.BrevoContact
 import io.komune.registry.infra.im.ImClient
-import io.komune.registry.s2.commons.auth.Roles
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Service
@@ -24,7 +24,8 @@ import s2.spring.utils.logger.Logger
 @Service
 class UserF2AggregateService(
     private val brevoClient: BrevoClient,
-    private val imClient: ImClient
+    private val imClient: ImClient,
+    private val onboardingConfig: OnboardingConfig
 ) {
     private val logger by Logger()
 
@@ -43,7 +44,7 @@ class UserF2AggregateService(
         try {
             context.organizationId = OrganizationCreateCommand(
                 name = command.organizationName,
-                roles = listOf(Roles.STAKEHOLDER)
+                roles = onboardingConfig.defaultOrganizationRoles
             ).invokeWith(imClient.organization.organizationCreate()).id
         } catch (e: F2Exception) {
             if (e.error.code == 409 && e.message.orEmpty().startsWith("Organization")) {
@@ -55,7 +56,7 @@ class UserF2AggregateService(
             email = command.email,
             password = command.password,
             memberOf = context.organizationId,
-            roles = listOf(Roles.STAKEHOLDER_USER),
+            roles = onboardingConfig.defaultUserRoles,
             givenName = command.givenName,
             familyName = command.familyName,
             attributes = mapOf(

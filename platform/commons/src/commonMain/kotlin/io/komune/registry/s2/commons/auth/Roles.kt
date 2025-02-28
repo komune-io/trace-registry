@@ -1,11 +1,11 @@
 package io.komune.registry.s2.commons.auth
 
-import s2.dsl.automate.S2Role
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
 @JsExport
 @JsName("Roles")
+@Deprecated("Will be removed, use Permissions instead.")
 object Roles {
     const val ORCHESTRATOR = "tr_orchestrator"
     const val ORCHESTRATOR_ADMIN = "tr_orchestrator_admin"
@@ -18,15 +18,4 @@ object Roles {
     const val STAKEHOLDER = "tr_stakeholder"
     const val STAKEHOLDER_ADMIN = "tr_stakeholder_admin"
     const val STAKEHOLDER_USER = "tr_stakeholder_user"
-}
-
-enum class Role(val value: String): S2Role {
-    ORCHESTRATOR_ADMIN(Roles.ORCHESTRATOR_ADMIN),
-    ORCHESTRATOR_USER(Roles.ORCHESTRATOR_USER),
-    PROJECT_MANAGER_ADMIN(Roles.PROJECT_MANAGER_ADMIN),
-    PROJECT_MANAGER_USER(Roles.PROJECT_MANAGER_USER),
-    STAKEHOLDER_ADMIN(Roles.STAKEHOLDER_ADMIN),
-    STAKEHOLDER_USER(Roles.STAKEHOLDER_USER);
-
-    override fun toString() = value
 }

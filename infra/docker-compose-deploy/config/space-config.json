@@ -143,7 +143,7 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_configuration"]
+      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_catalogue_audit", "rg_feat_configuration"]
     }, {
       "name": "rg_role_org_validator",
       "description": "Grant its users the right to validate records, thus ensuring the quality and consistency of the contents in the registry.",
