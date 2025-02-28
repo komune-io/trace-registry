@@ -90,9 +90,17 @@ class ImportScript(
     private suspend fun initEntities(importContext: ImportContext) {
         logger.info("Initializing basic entities...")
 
+        logger.info("Initializing Concepts entities...")
         initConcepts(importContext)
+        logger.info("Initialized Concepts entities.")
+
+        logger.info("Initializing Licenses entities...")
         initLicenses(importContext)
+        logger.info("Initialized Licenses entities.")
+
+        logger.info("Initializing Standard Catalogue entities...")
         initCatalogues(importContext)
+        logger.info("Initialized Standard Catalogue entities.")
 
         logger.info("Initialized basic entities.")
     }

@@ -2,6 +2,7 @@
     "space": "${KC_REALM}",
     "theme": "${KC_REALM_THEME}",
     "locales": ["en", "fr", "es"],
+    "mfa": ["OTP"],
     "settings": {
         "login": {
             "registrationAllowed": true,

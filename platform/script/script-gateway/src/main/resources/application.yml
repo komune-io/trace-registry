@@ -24,7 +24,7 @@ registry:
         path: /api
       admin:
         name: Komune
-        clientId: registry-script-app
+        clientId: tr-komune-import-api-key
         clientSecret: secret
       flag:
         control: false

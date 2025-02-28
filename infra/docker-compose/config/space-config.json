@@ -275,7 +275,7 @@
         "postalCode": "34000",
         "city": "Montpellier"
       },
-      "roles": ["rg_role_org_orchestrator"],
+      "roles": ["rg_role_org_orchestrator", "rg_role_org_validator"],
       "users": [
         {
           "email": "connect@komune.io",
@@ -296,6 +296,16 @@
           "attributes": {
             "job": "Frileuse"
           }
+        }
+      ],
+      "apiKeys": [
+        {
+          "name": "import",
+          "secret": "secret",
+          "roles": [
+            "rg_role_user_orchestrator",
+            "rg_role_user_validator"
+          ]
         }
       ]
     },
