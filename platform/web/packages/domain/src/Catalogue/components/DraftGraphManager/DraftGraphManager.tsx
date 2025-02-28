@@ -37,7 +37,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
 
 
     const graphsDisplay = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.map((dataset) => {
-        const imageDistribution = dataset.distributions.find((dist) => dist.mediaType === "image/svg+xml")
+        const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
         if (!imageDistribution) return
         return (
             <ImageCard

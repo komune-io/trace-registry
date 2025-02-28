@@ -1,5 +1,5 @@
 import { useAuth, KeycloackService } from "@komune-io/g2"
-import { Roles, userEffectiveRoles, usePermissionListQuery, useRoleListQuery, } from "./roles";
+import { Roles, userEffectiveRoles, } from "./roles";
 import { Routes, routesAuthorizations, RoutesRoles } from "./routes";
 import {io} from "registry-platform-api-api-js-export";
 
@@ -35,14 +35,7 @@ export type Policies = typeof policies
 
 
 export const useExtendedAuth = () => {
-    const auth = useAuth<StaticServices, Roles, Policies>(userEffectiveRoles, staticServices, policies)
-    const permissionsQuery = usePermissionListQuery({ query: {} })
-    const rolesQuery = useRoleListQuery({ query: {} })
-    return {
-        ...auth,
-        roles: rolesQuery.data?.items,
-        permissions: permissionsQuery.data?.items
-    }
+    return useAuth<StaticServices, Roles, Policies>(userEffectiveRoles, staticServices, policies)
 }
 
 const matches = (authorization: RoutesRoles, isAuthedUserId: boolean, isAuthedOrgId: boolean, hasRole: (roles: (Roles)[]) => boolean) => {
