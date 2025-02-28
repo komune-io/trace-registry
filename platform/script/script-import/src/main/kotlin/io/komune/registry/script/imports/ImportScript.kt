@@ -189,7 +189,7 @@ class ImportScript(
 
 
         importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.let {
+        catalogueData.parentIdentifier(importContext)?.map {
             importContext.catalogueParents[catalogue.id] = it
         }
 
@@ -384,13 +384,13 @@ class ImportScript(
             }
     }
 
-    private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): CatalogueIdentifier? {
-        return parent?.let {
-            return if(parentType == null || it.startsWith(parentType)) {
-                it
+    private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): List<CatalogueIdentifier>? {
+        return parents?.map { parent ->
+            if(parent.type == null || parent.identifier.startsWith(parent.type)) {
+                parent.identifier
             } else {
-                val mapParentType = importContext.mapCatalogueType(parentType)
-                "$mapParentType-$it"
+                val mapParentType = importContext.mapCatalogueType(parent.type)
+                "$mapParentType-${parent.identifier}"
             }
         }
     }

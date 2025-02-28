@@ -8,6 +8,7 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.script.imports.ImportContext
 import java.io.File
+import kotlinx.serialization.Serializable
 
 typealias CataloguePartialIdentifier = String
 
@@ -17,11 +18,18 @@ data class CatalogueImportData(
     val img: String?,
     val structure: String?,
     val themes: List<ConceptIdentifier>?,
-    val parent: String?,
-    val parentType: String?,
+    val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,
     val children: List<CatalogueId>?,
 )
+
+
+@Serializable
+data class CatalogueParent(
+    val type: String,
+    val identifier: String
+)
+
 
 data class CatalogueTranslationData(
     val title: String?,
