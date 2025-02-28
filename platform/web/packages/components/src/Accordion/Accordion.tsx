@@ -33,13 +33,7 @@ export const Accordion = forwardRef((props: AccordionProps, ref: ForwardedRef<HT
                 sx={{
                     px: 0,
                     minHeight: size === "small" ? "0px !important" : undefined,
-                    "& .MuiAccordionSummary-content.Mui-expanded": {
-                        my: size === "small" ? 0 : 1.5
-                    },
-                    "& .MuiAccordionSummary-content": {
-                        my: size === "small" ? 0 : undefined
-                    },
-                    borderBottom: size === "medium" ? (theme) => `2px ${theme.palette.divider} solid` : undefined,
+                    borderBottom:(theme) => `1px ${theme.palette.divider} solid`,
                     cursor: noExpandIcon ? "default" : undefined,
                 }}
             >
@@ -48,7 +42,7 @@ export const Accordion = forwardRef((props: AccordionProps, ref: ForwardedRef<HT
             <AccordionDetails
                 sx={{
                     p: size === "medium" ? 3 : 0,
-                    pt: size === "small" ? 1 : undefined,
+                    pt: size === "small" ? 2 : undefined,
                 }}
             >
                 {children}

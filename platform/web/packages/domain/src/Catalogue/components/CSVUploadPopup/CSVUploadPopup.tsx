@@ -3,7 +3,8 @@ import { Stack, Typography } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query'
 import { Accordion, MultiFileDropzone, TmsPopUp } from 'components'
 import { useDatasetAddMediaDistributionCommand } from 'components/src/LexicalEditor/api'
-import React, { useCallback, useMemo, useState } from 'react'
+import { DataGrid, parseCsv } from 'raw-graph'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
@@ -15,11 +16,16 @@ interface CSVUploadPopupProps {
 
 export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
     const { open, onClose, datasetId } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { draftId } = useParams()
     const queryClient = useQueryClient()
 
     const [currentCsv, setCurrentCsv] = useState<File | undefined>(undefined)
+    const [parsed, setParsed] = useState<{
+        dataset: any;
+        dataTypes: any;
+        errors: any;
+    } | undefined>(undefined)
 
     const onAddFile = useCallback(
         (files: File[]) => {
@@ -87,12 +93,22 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
         }
     })
 
+    useEffect(() => {
+        if (currentCsv) {
+            parseCsv(currentCsv, i18n.language).then((res) => {
+                setParsed(res)
+            })
+        }
+    }, [currentCsv])
 
     return (
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("cataogues.csvDeposit")}
+            title={t("catalogues.csvDeposit")}
+            sx={{
+                width: "1000px"
+            }}
         >
             {!currentCsv ? <MultiFileDropzone fileTypesAllowed={["csv"]} onAdd={onAddFile} /> :
                 <>
@@ -100,7 +116,7 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                         fields={fields}
                         formState={formState}
                     />
-                    <Accordion
+                    {parsed && <Accordion
                         size='small'
                         summary={
                             <Typography
@@ -111,7 +127,13 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                         }
                         defaultExpanded
                     >
-                    </Accordion>
+                        <DataGrid
+                            dataTypes={parsed.dataTypes}
+                            dataset={parsed.dataset}
+                            errors={parsed.errors}
+                            userDataset={parsed.dataset}
+                        />
+                    </Accordion>}
                 </>
             }
             <Stack

@@ -28,7 +28,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
     }), {
       key: 'info',
       label: t('informations'),
-      component: <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={readOnly} catalogue={catalogue} />,
+      component: <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />,
     },
     ...maybeAddItem(catalogue?.type === "100m-project" && canUpdate, {
       key: 'project',
