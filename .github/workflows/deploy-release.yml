@@ -6,7 +6,7 @@ on:
 jobs:
   deploy-preprod:
     name: Deploy to ${{ github.event.inputs.environment }}
-    uses: deploy-workflow.yml
+    uses: ./.github/workflows/deploy-workflow.yml
     secrets:
       DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       DOCKER_CONTEXT: ${{ secrets.DOCKER_CONTEXT }}
@@ -29,7 +29,7 @@ jobs:
 
   deploy-prod:
     needs: deploy-preprod
-    uses: deploy-workflow.yml
+    uses: ./.github/workflows/deploy-workflow.yml
     secrets:
       DOCKER_CONTEXT_SSH_KEY: ${{ secrets.DOCKER_CONTEXT_SSH_KEY }}
       DOCKER_CONTEXT: ${{ secrets.DOCKER_CONTEXT }}
