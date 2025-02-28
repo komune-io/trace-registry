@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class OnboardingConfig {
-    @Value("\${platform.identity.onboarding.defaultRoles.organization}")
+    @Value("\${platform.identity.onboarding.default-roles.organization}")
     private lateinit var defaultOrganizationRolesStr: String
 
-    @Value("\${platform.identity.onboarding.defaultRoles.user}")
+    @Value("\${platform.identity.onboarding.default-roles.user}")
     private lateinit var defaultUserRolesStr: String
 
     val defaultOrganizationRoles by lazy { defaultOrganizationRolesStr.parseList() }
