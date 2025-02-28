@@ -1,6 +1,5 @@
 package io.komune.registry.s2.order.domain
 
-import io.komune.registry.s2.commons.auth.Role
 import io.komune.registry.s2.commons.model.S2SourcingEvent
 import io.komune.registry.s2.order.domain.command.OrderCancelCommand
 import io.komune.registry.s2.order.domain.command.OrderCanceledEvent
@@ -16,52 +15,53 @@ import io.komune.registry.s2.order.domain.command.OrderSubmitCommand
 import io.komune.registry.s2.order.domain.command.OrderSubmittedEvent
 import io.komune.registry.s2.order.domain.command.OrderUpdateCommand
 import io.komune.registry.s2.order.domain.command.OrderUpdatedEvent
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
+import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 val s2Order = s2Sourcing {
     name = "OrderS2"
     init<OrderPlaceCommand, OrderPlacedEvent> {
         to = OrderState.DRAFT
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
     transaction<OrderSubmitCommand, OrderSubmittedEvent> {
         from = OrderState.DRAFT
         to = OrderState.SUBMITTED
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
     transaction<OrderPendCommand, OrderPendedEvent> {
         from = OrderState.SUBMITTED
         to = OrderState.PENDING
-        role = Role.ORCHESTRATOR_USER
+        role = OrderRole.User
     }
     selfTransaction<OrderUpdateCommand, OrderUpdatedEvent> {
         states += OrderState.DRAFT
         states += OrderState.SUBMITTED
         states += OrderState.PENDING
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
     transaction<OrderCompleteCommand, OrderCompletedEvent> {
         from = OrderState.PENDING
         to = OrderState.COMPLETED
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
     transaction<OrderCancelCommand, OrderCanceledEvent> {
         froms += OrderState.SUBMITTED
         froms += OrderState.PENDING
         to = OrderState.CANCELLED
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
     transaction<OrderDeleteCommand, OrderDeletedEvent> {
         from = OrderState.DRAFT
         from = OrderState.CANCELLED
         to = OrderState.DELETED
-        role = Role.STAKEHOLDER_USER
+        role = OrderRole.User
     }
 }
 
@@ -85,6 +85,11 @@ enum class OrderState(override val position: Int): S2State {
     COMPLETED(3),
     CANCELLED(4),
     DELETED(5)
+}
+
+enum class OrderRole(val value: String): S2Role {
+    User("User");
+    override fun toString() = value
 }
 
 @JsExport
