@@ -88,7 +88,7 @@ class DatasetEndpoint(
     @Bean
     override fun datasetGet(): DatasetGetFunction = f2Function { query ->
         logger.info("datasetGet: $query")
-        datasetF2FinderService.getById(query.id)
+        datasetF2FinderService.getOrNull(query.id)
             .let(::DatasetGetResult)
     }
 

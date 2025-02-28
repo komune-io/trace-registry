@@ -76,13 +76,17 @@ class CatalogueDraftF2AggregateService(
             datasetIds = datasetIdMap.values.toList()
         ).let { catalogueAggregateService.linkDatasets(it) }
 
-        return CatalogueDraftCreateCommand(
+        val event = CatalogueDraftCreateCommand(
             catalogueId = draftedCatalogueId,
             originalCatalogueId = command.catalogueId,
             language = command.language,
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
+
+        catalogueF2AggregateService.linkCatalogueDatasetsToDraft(event.id, draftedCatalogueId)
+
+        return event
     }
 
     suspend fun submit(command: CatalogueDraftSubmitCommand): CatalogueDraftSubmittedEvent {

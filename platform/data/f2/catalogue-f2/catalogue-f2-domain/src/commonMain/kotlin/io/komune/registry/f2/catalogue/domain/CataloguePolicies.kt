@@ -7,10 +7,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.utils.isNotNullAnd
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 @JsExport
-@JsName("CataloguePolicies")
 object CataloguePolicies {
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasOneOfRoles(Permissions.Catalogue.WRITE_ORG, Permissions.Catalogue.WRITE_ALL, Permissions.CatalogueDraft.CREATE)
@@ -30,7 +28,6 @@ object CataloguePolicies {
         return canWrite(authedUser, catalogue)
     }
 
-    @Suppress("FunctionOnlyReturningConstant")
     fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
         authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && authedUser.memberOf.orEmpty() == it.creatorOrganization?.id
                 || authedUser.hasRole(Permissions.Catalogue.DELETE_ALL)

@@ -4,6 +4,7 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.toUploadCommand
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.dataset.api.exception.DatasetDraftInvalidException
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
@@ -33,6 +34,7 @@ import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.ktor.utils.io.core.toByteArray
@@ -58,6 +60,8 @@ class DatasetF2AggregateService(
             id = draft.catalogueId,
             datasetIds = listOf(event.id)
         ).let { catalogueAggregateService.linkDatasets(it) }
+
+        linkDatasetToDraft(command.draftId, event.id)
 
         return event.toDTO()
     }
@@ -208,6 +212,21 @@ class DatasetF2AggregateService(
         ).let { catalogueAggregateService.unlinkDatasets(it) }
 
         return event.toDTO()
+    }
+
+    suspend fun linkDatasetToDraft(draftId: CatalogueDraftId, datasetId: DatasetId) {
+        val dataset = datasetFinderService.get(datasetId)
+
+        if (dataset.draftId != draftId) {
+            DatasetLinkToDraftCommand(
+                id = datasetId,
+                draftId = draftId
+            ).let { datasetAggregateService.linkToDraft(it) }
+        }
+
+        dataset.datasetIds.mapAsync { linkedDatasetId ->
+            linkDatasetToDraft(draftId, linkedDatasetId)
+        }
     }
 
     private suspend fun getDraftedDatasetId(datasetId: DatasetId, draftId: CatalogueDraftId): DatasetId {

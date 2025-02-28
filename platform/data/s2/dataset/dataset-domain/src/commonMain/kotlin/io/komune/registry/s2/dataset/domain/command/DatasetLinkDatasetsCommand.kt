@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DatasetLinkDatasetsCommand(
     override val id: DatasetId,
-    val datasets: List<DatasetId> = emptyList()
+    val datasetIds: List<DatasetId>
 ): DatasetCommand
 
 @Serializable
 data class DatasetLinkedDatasetsEvent(
     override val id: DatasetId,
-    val datasets: List<DatasetId> = emptyList(),
-    override val date: Long
+    override val date: Long,
+    val datasetIds: List<DatasetId>,
 ): DatasetEvent

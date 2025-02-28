@@ -11,6 +11,7 @@ import io.komune.registry.s2.dataset.domain.model.DistributionModel
 fun DatasetEntity.toModel() = DatasetModel(
     id = id,
     identifier = identifier,
+    draftId = draftId,
     status = status,
     title = title,
     img = img?.toString(),
@@ -37,6 +38,7 @@ fun DatasetEntity.toModel() = DatasetModel(
     issued = issued,
     modified = modified,
     releaseDate = releaseDate,
+    datasetIds = datasetIds.toList(),
     distributions = distributions?.sortedBy { it.issued }?.map { it.toModel() }.orEmpty(),
 )
 

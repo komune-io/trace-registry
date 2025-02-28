@@ -22,6 +22,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -68,6 +69,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
@@ -110,6 +112,8 @@ class CatalogueF2AggregateService(
             baseVersion = 0,
             datasetIdMap = emptyMap()
         ).let { catalogueDraftAggregateService.create(it).id }
+
+        linkCatalogueDatasetsToDraft(draftId, draftedCatalogueEvent.id)
 
         if (command.autoValidateDraft) {
             validateDraft(draftId)
@@ -169,6 +173,8 @@ class CatalogueF2AggregateService(
 
         command.parentId?.let { replaceParent(draft.originalCatalogueId, it) }
 
+        linkCatalogueDatasetsToDraft(draft.id, draft.catalogueId)
+
         return CatalogueUpdatedEventDTOBase(
             id = command.id,
             draftId = draft.id
@@ -201,6 +207,14 @@ class CatalogueF2AggregateService(
             parentId = command.id,
             datasetIds = command.datasetIds
         )
+
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
+        if (draft != null) {
+            command.datasetIds.mapAsync { datasetId ->
+                datasetF2AggregateService.linkDatasetToDraft(draft.id, datasetId)
+            }
+        }
+
         return CatalogueLinkedDatasetsEventDTOBase(command.id)
     }
 
@@ -240,7 +254,7 @@ class CatalogueF2AggregateService(
         }
         linkDatasets(draft.originalCatalogueId, datasetIds)
 
-        originalCatalogue.catalogueIds.filter { it !in datasetIds }
+        originalCatalogue.datasetIds.filter { it !in datasetIds }
             .nullIfEmpty()
             ?.let {
                 CatalogueUnlinkDatasetsCommand(
@@ -261,6 +275,13 @@ class CatalogueF2AggregateService(
                     reason = "Another draft has been validated for this version."
                 ).let { catalogueDraftAggregateService.reject(it) }
             }
+    }
+
+    suspend fun linkCatalogueDatasetsToDraft(draftId: CatalogueDraftId, catalogueId: CatalogueId) {
+        val catalogue = catalogueFinderService.get(catalogueId)
+        catalogue.datasetIds.mapAsync { datasetId ->
+            datasetF2AggregateService.linkDatasetToDraft(draftId, datasetId)
+        }
     }
 
     private suspend fun doCreate(

@@ -12,7 +12,6 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
-import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -91,7 +90,7 @@ class CatalogueI18nService(
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
             datasets = translated.datasetIds
-                .map { datasetFinderService.get(it).toDTO() }
+                .map { cache.datasets.get(it) }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED },
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,

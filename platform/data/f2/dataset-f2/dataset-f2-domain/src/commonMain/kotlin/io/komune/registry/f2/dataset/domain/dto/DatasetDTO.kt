@@ -155,13 +155,9 @@ interface DatasetDTO{
     val img: String?
 
     /**
-     * A variable representing a list of dataset references.
-     *
-     * This variable holds a list of `DatasetRefDTOBase` objects that
-     * may include references to various datasets. It is nullable, meaning
-     * it can either contain a list of `DatasetRefDTOBase` objects or be null.
+     * Children of the dataset.
      */
-    val datasets: List<DatasetRefDTOBase>?
+    val datasets: List<DatasetDTO>?
 
     /**
      * A list of theme concepts represented as SkosConcept objects.
@@ -247,7 +243,7 @@ data class DatasetDTOBase(
     override val versionNotes: String? = null,
     override val length: Int? = null,
     override val img: String? = null,
-    override val datasets: List<DatasetRefDTOBase>? = null,
+    override val datasets: List<DatasetDTOBase>? = null,
     override val themes: List<SkosConcept>? = null,
     override val status: DatasetState,
     override val homepage: String? = null,
