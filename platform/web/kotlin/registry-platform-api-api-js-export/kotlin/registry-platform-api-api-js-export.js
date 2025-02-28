@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -94,16 +94,16 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -15533,9 +15533,6 @@ if (typeof Math.imul === 'undefined') {
   protoOf(IdentitiesInfo).b12 = function () {
     return this.e12_1;
   };
-  protoOf(IdentitiesInfo).z11 = function () {
-    return this.c12_1;
-  };
   function TransactionDTO() {
   }
   function Companion_31() {
@@ -15675,9 +15672,6 @@ if (typeof Math.imul === 'undefined') {
   protoOf(SsmBatchProperties).zx = function () {
     return this.a13_1;
   };
-  protoOf(SsmBatchProperties).xx = function () {
-    return this.y12_1;
-  };
   function SsmChaincodePropertiesDTO() {
   }
   function Companion_33() {
@@ -15758,9 +15752,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(Agent).d13 = function () {
     return this.g13_1;
-  };
-  protoOf(Agent).b13 = function () {
-    return this.e13_1;
   };
   protoOf(Agent).equals = function (other) {
     if (this === other)
@@ -15871,8 +15862,6 @@ if (typeof Math.imul === 'undefined') {
     if (!(this.j13_1 === tmp0_other_with_cast.j13_1))
       return false;
     if (!(this.k13_1 === tmp0_other_with_cast.k13_1))
-      return false;
-    if (!(this.i13_1 === tmp0_other_with_cast.i13_1))
       return false;
     return true;
   };
@@ -16302,7 +16291,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf(SsmSession).m14 = function () {
     return this.p14_1;
   };
-  protoOf(SsmSession).r13 = function () {
+  protoOf(SsmSession).s13 = function () {
     return this.q14_1;
   };
   protoOf(SsmSession).sx = function () {
@@ -16390,7 +16379,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf(SsmSessionState).m14 = function () {
     return this.y14_1;
   };
-  protoOf(SsmSessionState).r13 = function () {
+  protoOf(SsmSessionState).s13 = function () {
     return this.z14_1;
   };
   protoOf(SsmSessionState).sx = function () {
@@ -16484,8 +16473,6 @@ if (typeof Math.imul === 'undefined') {
     if (!(this.e15_1 === tmp0_other_with_cast.e15_1))
       return false;
     if (!(this.f15_1 === tmp0_other_with_cast.f15_1))
-      return false;
-    if (!(this.d15_1 === tmp0_other_with_cast.d15_1))
       return false;
     return true;
   };
@@ -18058,9 +18045,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(S2InitTransition).q15 = function () {
     return this.i19_1;
-  };
-  protoOf(S2InitTransition).o15 = function () {
-    return this.g19_1;
   };
   function Companion_67() {
   }
@@ -19772,9 +19756,6 @@ if (typeof Math.imul === 'undefined') {
     }
     return tmp;
   };
-  protoOf(BigDecimal).e1e = function (other) {
-    return this.u1d(other, computeMode(this, other, ScaleOps_Max_getInstance()));
-  };
   protoOf(BigDecimal).d1e = function (other) {
     if (isNumber(other)) {
       if (RuntimePlatform_instance.m1e().equals(Platform_JS_getInstance())) {
@@ -20043,8 +20024,6 @@ if (typeof Math.imul === 'undefined') {
     if (!this.i1b_1.equals(tmp0_other_with_cast.i1b_1))
       return false;
     if (!this.j1b_1.equals(tmp0_other_with_cast.j1b_1))
-      return false;
-    if (!this.h1b_1.equals(tmp0_other_with_cast.h1b_1))
       return false;
     return true;
   };
@@ -20378,8 +20357,6 @@ if (typeof Math.imul === 'undefined') {
     if (!this.z1b_1.equals(tmp0_other_with_cast.z1b_1))
       return false;
     if (!this.a1c_1.equals(tmp0_other_with_cast.a1c_1))
-      return false;
-    if (!this.y1b_1.equals(tmp0_other_with_cast.y1b_1))
       return false;
     return true;
   };
@@ -23488,13 +23465,7 @@ if (typeof Math.imul === 'undefined') {
   protoOf(BigInteger63Arithmetic).m1j = function (_this__u8e3s4, other) {
     return this.m1g(_this__u8e3s4, other);
   };
-  protoOf(BigInteger63Arithmetic).j1k = function (_this__u8e3s4, other) {
-    return this.m1g(_this__u8e3s4, other);
-  };
-  protoOf(BigInteger63Arithmetic).j1j = function (_this__u8e3s4, other) {
-    return this.h1f(_this__u8e3s4, other);
-  };
-  protoOf(BigInteger63Arithmetic).d1k = function (_this__u8e3s4, other) {
+  protoOf(BigInteger63Arithmetic).c1k = function (_this__u8e3s4, other) {
     // Inline function 'kotlin.ulongArrayOf' call
     var tmp$ret$0 = _ULongArray___init__impl__twm1l3(longArrayOf([other]));
     return this.g1g(_this__u8e3s4, tmp$ret$0);
@@ -24547,8 +24518,6 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals(this.n1p_1, tmp0_other_with_cast.n1p_1))
       return false;
-    if (!equals(this.s1o_1, tmp0_other_with_cast.s1o_1))
-      return false;
     return true;
   };
   function Companion_79() {
@@ -24580,9 +24549,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(AssetPoolCreatedEvent).m18 = function () {
     return this.q1p_1;
-  };
-  protoOf(AssetPoolCreatedEvent).k18 = function () {
-    return this.v1o_1;
   };
   protoOf(AssetPoolCreatedEvent).toString = function () {
     return 'AssetPoolCreatedEvent(id=' + this.p1p_1 + ', date=' + this.q1p_1.toString() + ', status=' + this.r1p_1 + ', vintage=' + this.s1p_1 + ', indicator=' + this.t1p_1 + ', granularity=' + this.u1p_1 + ', metadata=' + this.v1p_1 + ')';
@@ -24616,8 +24582,6 @@ if (typeof Math.imul === 'undefined') {
     if (!equals(this.u1p_1, tmp0_other_with_cast.u1p_1))
       return false;
     if (!equals(this.v1p_1, tmp0_other_with_cast.v1p_1))
-      return false;
-    if (!equals(this.a1p_1, tmp0_other_with_cast.a1p_1))
       return false;
     return true;
   };
@@ -24662,8 +24626,6 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!this.b1q_1.equals(tmp0_other_with_cast.b1q_1))
       return false;
-    if (!this.g1p_1.equals(tmp0_other_with_cast.g1p_1))
-      return false;
     return true;
   };
   function Companion_80() {
@@ -24683,9 +24645,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(AssetPoolEmittedTransactionEvent).m18 = function () {
     return this.d1q_1;
-  };
-  protoOf(AssetPoolEmittedTransactionEvent).k18 = function () {
-    return this.i1p_1;
   };
   protoOf(AssetPoolEmittedTransactionEvent).toString = function () {
     return 'AssetPoolEmittedTransactionEvent(id=' + this.c1q_1 + ', date=' + this.d1q_1.toString() + ', transactionId=' + this.e1q_1 + ', certificate=' + this.f1q_1 + ')';
@@ -24791,8 +24750,6 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!equals(this.l1q_1, tmp0_other_with_cast.l1q_1))
       return false;
-    if (!equals(this.q1p_1, tmp0_other_with_cast.q1p_1))
-      return false;
     return true;
   };
   function Companion_81() {
@@ -24824,9 +24781,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(AssetPoolUpdatedEvent).m18 = function () {
     return this.o1q_1;
-  };
-  protoOf(AssetPoolUpdatedEvent).k18 = function () {
-    return this.t1p_1;
   };
   protoOf(AssetPoolUpdatedEvent).toString = function () {
     return 'AssetPoolUpdatedEvent(id=' + this.n1q_1 + ', date=' + this.o1q_1.toString() + ', status=' + this.p1q_1 + ', vintage=' + this.q1q_1 + ', indicator=' + this.r1q_1 + ', granularity=' + this.s1q_1 + ', metadata=' + this.t1q_1 + ')';
@@ -24860,8 +24814,6 @@ if (typeof Math.imul === 'undefined') {
     if (!equals(this.s1q_1, tmp0_other_with_cast.s1q_1))
       return false;
     if (!equals(this.t1q_1, tmp0_other_with_cast.t1q_1))
-      return false;
-    if (!equals(this.y1p_1, tmp0_other_with_cast.y1p_1))
       return false;
     return true;
   };
@@ -25182,8 +25134,6 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!(this.g1r_1 === tmp0_other_with_cast.g1r_1))
       return false;
-    if (!(this.l1q_1 === tmp0_other_with_cast.l1q_1))
-      return false;
     return true;
   };
   function Companion_84() {
@@ -25205,9 +25155,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(ProjectAddedAssetPoolEvent).e1r = function () {
     return this.j1r_1;
-  };
-  protoOf(ProjectAddedAssetPoolEvent).j1q = function () {
-    return this.o1q_1;
   };
   protoOf(ProjectAddedAssetPoolEvent).toString = function () {
     return 'ProjectAddedAssetPoolEvent(id=' + this.h1r_1 + ', date=' + this.i1r_1.toString() + ', poolId=' + this.j1r_1 + ')';
@@ -25267,8 +25214,6 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!(this.m1r_1 === tmp0_other_with_cast.m1r_1))
       return false;
-    if (!(this.r1q_1 === tmp0_other_with_cast.r1q_1))
-      return false;
     return true;
   };
   function Companion_86() {
@@ -25290,9 +25235,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(ProjectChangedPrivacyEvent).k1r = function () {
     return this.p1r_1;
-  };
-  protoOf(ProjectChangedPrivacyEvent).p1q = function () {
-    return this.u1q_1;
   };
   protoOf(ProjectChangedPrivacyEvent).toString = function () {
     return 'ProjectChangedPrivacyEvent(id=' + this.n1r_1 + ', date=' + this.o1r_1.toString() + ', isPrivate=' + this.p1r_1 + ')';
@@ -25838,9 +25780,7 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!this.f1u_1.equals(tmp0_other_with_cast.f1u_1))
       return false;
-    if (!equals(this.g1u_1, tmp0_other_with_cast.g1u_1))
-      return false;
-    if (!(this.h1u_1 == tmp0_other_with_cast.h1u_1))
+    if (!(this.g1u_1 == tmp0_other_with_cast.g1u_1))
       return false;
     if (!(this.h1u_1 == tmp0_other_with_cast.h1u_1))
       return false;
@@ -25858,27 +25798,27 @@ if (typeof Math.imul === 'undefined') {
       return false;
     if (!(this.o1u_1 == tmp0_other_with_cast.o1u_1))
       return false;
-    if (!equals(this.p1u_1, tmp0_other_with_cast.p1u_1))
+    if (!(this.p1u_1 == tmp0_other_with_cast.p1u_1))
       return false;
-    if (!(this.q1u_1 == tmp0_other_with_cast.q1u_1))
+    if (!equals(this.q1u_1, tmp0_other_with_cast.q1u_1))
       return false;
-    if (!equals(this.r1u_1, tmp0_other_with_cast.r1u_1))
+    if (!(this.r1u_1 == tmp0_other_with_cast.r1u_1))
       return false;
     if (!(this.s1u_1 == tmp0_other_with_cast.s1u_1))
       return false;
-    if (!(this.t1u_1 == tmp0_other_with_cast.t1u_1))
+    if (!equals(this.t1u_1, tmp0_other_with_cast.t1u_1))
       return false;
-    if (!equals(this.u1u_1, tmp0_other_with_cast.u1u_1))
+    if (!(this.u1u_1 == tmp0_other_with_cast.u1u_1))
       return false;
     if (!(this.v1u_1 == tmp0_other_with_cast.v1u_1))
       return false;
-    if (!(this.w1u_1 == tmp0_other_with_cast.w1u_1))
+    if (!equals(this.w1u_1, tmp0_other_with_cast.w1u_1))
       return false;
     if (!equals(this.x1u_1, tmp0_other_with_cast.x1u_1))
       return false;
     if (!equals(this.y1u_1, tmp0_other_with_cast.y1u_1))
       return false;
-    if (!(this.z1u_1 == tmp0_other_with_cast.z1u_1))
+    if (!equals(this.z1u_1, tmp0_other_with_cast.z1u_1))
       return false;
     if (!(this.a1v_1 == tmp0_other_with_cast.a1v_1))
       return false;
@@ -28106,9 +28046,6 @@ if (typeof Math.imul === 'undefined') {
   protoOf(CatalogueDraftCreatedEvent).m18 = function () {
     return this.n24_1;
   };
-  protoOf(CatalogueDraftCreatedEvent).k18 = function () {
-    return this.k23_1;
-  };
   protoOf(CatalogueDraftCreatedEvent).toString = function () {
     return 'CatalogueDraftCreatedEvent(id=' + this.m24_1 + ', date=' + this.n24_1.toString() + ', catalogueId=' + this.o24_1 + ', originalCatalogueId=' + this.p24_1 + ', language=' + this.q24_1 + ', baseVersion=' + this.r24_1 + ', datasetIdMap=' + this.s24_1 + ', creatorId=' + this.t24_1 + ')';
   };
@@ -28462,9 +28399,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(CatalogueDraftValidatedEvent).m18 = function () {
     return this.k25_1;
-  };
-  protoOf(CatalogueDraftValidatedEvent).k18 = function () {
-    return this.h24_1;
   };
   protoOf(CatalogueDraftValidatedEvent).toString = function () {
     return 'CatalogueDraftValidatedEvent(id=' + this.j25_1 + ', date=' + this.k25_1.toString() + ')';
@@ -30355,9 +30289,6 @@ if (typeof Math.imul === 'undefined') {
   protoOf(OrderPlaceCommand).ut = function () {
     return this.z2a_1;
   };
-  protoOf(OrderPlaceCommand).st = function () {
-    return this.m26_1;
-  };
   protoOf(OrderPlaceCommand).toString = function () {
     return 'OrderPlaceCommand(from=' + this.u2a_1 + ', to=' + this.v2a_1 + ', by=' + this.w2a_1 + ', poolId=' + this.x2a_1 + ', quantity=' + this.y2a_1 + ', type=' + this.z2a_1 + ')';
   };
@@ -30387,8 +30318,6 @@ if (typeof Math.imul === 'undefined') {
     if (!this.y2a_1.equals(tmp0_other_with_cast.y2a_1))
       return false;
     if (!this.z2a_1.equals(tmp0_other_with_cast.z2a_1))
-      return false;
-    if (!this.m26_1.equals(tmp0_other_with_cast.m26_1))
       return false;
     return true;
   };
@@ -30422,9 +30351,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(OrderPlacedEvent).m18 = function () {
     return this.c2b_1;
-  };
-  protoOf(OrderPlacedEvent).k18 = function () {
-    return this.p26_1;
   };
   protoOf(OrderPlacedEvent).toString = function () {
     return 'OrderPlacedEvent(id=' + this.b2b_1 + ', date=' + this.c2b_1.toString() + ', poolId=' + this.d2b_1 + ', from=' + this.e2b_1 + ', to=' + this.f2b_1 + ', by=' + this.g2b_1 + ', quantity=' + this.h2b_1 + ', type=' + this.i2b_1 + ')';
@@ -30461,8 +30387,6 @@ if (typeof Math.imul === 'undefined') {
     if (!this.h2b_1.equals(tmp0_other_with_cast.h2b_1))
       return false;
     if (!this.i2b_1.equals(tmp0_other_with_cast.i2b_1))
-      return false;
-    if (!this.v26_1.equals(tmp0_other_with_cast.v26_1))
       return false;
     return true;
   };
@@ -30506,9 +30430,6 @@ if (typeof Math.imul === 'undefined') {
   protoOf(OrderUpdateCommand).t2a = function () {
     return this.m2b_1;
   };
-  protoOf(OrderUpdateCommand).g26 = function () {
-    return this.z26_1;
-  };
   protoOf(OrderUpdateCommand).toString = function () {
     return 'OrderUpdateCommand(id=' + this.k2b_1 + ', poolId=' + this.l2b_1 + ', quantity=' + this.m2b_1 + ')';
   };
@@ -30549,9 +30470,6 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(OrderUpdatedEvent).m18 = function () {
     return this.o2b_1;
-  };
-  protoOf(OrderUpdatedEvent).k18 = function () {
-    return this.b27_1;
   };
   protoOf(OrderUpdatedEvent).toString = function () {
     return 'OrderUpdatedEvent(id=' + this.n2b_1 + ', date=' + this.o2b_1.toString() + ', poolId=' + this.p2b_1 + ', quantity=' + this.q2b_1 + ')';
@@ -31217,9 +31135,6 @@ if (typeof Math.imul === 'undefined') {
   defineProp(protoOf(Block), 'transactions', function () {
     return this.r11();
   });
-  defineProp(protoOf(Block), 'transactions', function () {
-    return this.p11();
-  });
   defineProp(protoOf(EnvelopeType), 'name', protoOf(EnvelopeType).k7);
   defineProp(protoOf(EnvelopeType), 'ordinal', protoOf(EnvelopeType).l7);
   protoOf($serializer_8).yi = typeParametersSerializers;
@@ -31347,9 +31262,6 @@ if (typeof Math.imul === 'undefined') {
   });
   defineProp(protoOf(SsmSessionState), 'current', function () {
     return this.v14();
-  });
-  defineProp(protoOf(SsmSessionState), 'current', function () {
-    return this.t14();
   });
   defineProp(protoOf(SsmSessionState), 'iteration', function () {
     return this.u13();
@@ -31802,9 +31714,6 @@ if (typeof Math.imul === 'undefined') {
   });
   defineProp(protoOf(OrderPlaceCommand), 'to', function () {
     return this.p15();
-  });
-  defineProp(protoOf(OrderPlaceCommand), 'to', function () {
-    return this.n15();
   });
   defineProp(protoOf(OrderPlaceCommand), 'by', function () {
     return this.s2a();
