@@ -31,6 +31,9 @@ class CatalogueDraftSnapMeiliSearchRepository(
     CatalogueDraftSearchableEntity::class,
 ) {
 
+    private val store = config.eventStore()
+    private val loader = ViewLoader(store, config.view)
+
     override val searchableAttributes = arrayOf(
         CatalogueDraftSearchableEntity::originalCatalogueIdentifier.name,
         CatalogueDraftSearchableEntity::title.name
@@ -54,9 +57,6 @@ class CatalogueDraftSnapMeiliSearchRepository(
             val existingDraft = get(entity.id)
 
             if (existingDraft == null) {
-                val store = config.eventStore()
-                val loader = ViewLoader(store, config.view)
-
                 val draftedCatalogue = loader.load(entity.catalogueId)!!
                 val originalCatalogue = loader.load(entity.originalCatalogueId)!!
 
