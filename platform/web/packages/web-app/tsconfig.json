@@ -21,6 +21,6 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src", "../domain/src/Catalog/components/useCatalogsRouteParams/index.ts", "../domain/src/Catalogue/components/GraphForm/dataset.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.vite.json" }]
 }

@@ -62,7 +62,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           versionNotes: metadataFormState.values.versionNotes,
           language: metadataFormState.values.language,
           id: catalogueId!,
-          draftId: draftId!,
         },
         files: metadataFormState.values.illustration ? [{
           file: metadataFormState.values.illustration

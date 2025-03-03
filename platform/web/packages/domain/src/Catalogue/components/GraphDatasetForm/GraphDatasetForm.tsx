@@ -17,7 +17,7 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
     const csvDistributions = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [draft])
 
     const name = useMemo((): FormComposableField[] => [{
-        name: "name",
+        name: "title",
         label: t("name"),
         type: "textField",
         required: true

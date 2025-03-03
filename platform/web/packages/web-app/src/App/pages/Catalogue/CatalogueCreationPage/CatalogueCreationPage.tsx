@@ -30,6 +30,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
         const res = await createCommand.mutateAsync({
           command: {
             ...command,
+            withDraft: true,
             language: i18n.language,
             type
           },
@@ -40,7 +41,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
 
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          navigate(cataloguesCatalogueIdDraftIdEdit(res.id, res.draftId))
+          navigate(cataloguesCatalogueIdDraftIdEdit(res.id, res.draftId!))
         }
       },
       [createCommand.mutateAsync, type, i18n.language],

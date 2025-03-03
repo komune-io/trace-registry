@@ -1,13 +1,12 @@
-import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions, parseCsv } from "raw-graph"
+import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions } from "raw-graph"
 import {
     getOptionsConfig,
     getDefaultOptionsValues
     //@ts-ignore
 } from '@rawgraphs/rawgraphs-core'
-import { dataSet, dataTypes } from './dataset'
 //@ts-ignore
 import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
-import { useCallback, useRef, useState, useEffect } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
 import { Helmet } from "react-helmet";
@@ -15,30 +14,26 @@ import { Button } from "@komune-io/g2"
 import { useTranslation } from "react-i18next"
 import { useCsvDownloadDistribution } from "../../api"
 
-export interface GraphFormProps {
-    onSave: (graphSvg: Blob) => Promise<any>
+export interface RawGraphState {
+    chart: string
+    mapping: any
+    visualOptions: any
     distributionId?: string
+}
+
+export interface GraphFormProps {
+    onSave: (graphSvg: Blob, state: RawGraphState) => Promise<any>
+    csvDistributionId?: string
     graphDatasetId?: string
 }
 
 export const GraphForm = (props: GraphFormProps) => {
-    const { onSave, distributionId, graphDatasetId } = props
-    const { t, i18n } = useTranslation()
-     const [parsed, setParsed] = useState<{
-            dataset: any;
-            dataTypes: any;
-            errors: any;
-        } | undefined>(undefined)
+    const { onSave, csvDistributionId, graphDatasetId } = props
+    const { t } = useTranslation()
+    
 
-    const csvQuery = useCsvDownloadDistribution(graphDatasetId, distributionId)
+    const {parsed} = useCsvDownloadDistribution(graphDatasetId, csvDistributionId)
 
-    useEffect(() => {
-        if (csvQuery.data) {
-            parseCsv(csvQuery.data, i18n.language).then((res) => {
-                setParsed(res)
-            })
-        }
-    }, [csvQuery.data])
 
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
@@ -73,9 +68,13 @@ export const GraphForm = (props: GraphFormProps) => {
                 rawViz._node.firstChild
             )
             var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
-            await onSave(svg)
+            await onSave(svg, {
+                chart: currentChart,
+                mapping,
+                visualOptions
+            })
         },
-        [rawViz, onSave]
+        [rawViz, onSave, currentChart, mapping, visualOptions]
     )
 
     if(!parsed) return <></>
@@ -106,15 +105,15 @@ export const GraphForm = (props: GraphFormProps) => {
             <DataMapping
                 ref={dataMappingRef}
                 dimensions={currentChart.dimensions}
-                dataTypes={dataTypes}
+                dataTypes={parsed.dataTypes}
                 mapping={mapping}
                 setMapping={setMapping}
             />
             {
                 currentChart && <ChartPreviewWithOptions
                     chart={currentChart}
-                    dataset={dataSet}
-                    dataTypes={dataTypes}
+                    dataset={parsed.dataset}
+                    dataTypes={parsed.dataTypes}
                     mapping={mapping}
                     visualOptions={visualOptions}
                     setVisualOptions={setVisualOptions}
