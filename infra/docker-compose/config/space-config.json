@@ -40,16 +40,18 @@
       "webUrl": "${PUBLIC_URL_ADMIN}"
     }
   ],
-  "features": [{
-    "name": "rg_feat_catalogue",
-    "description": "Access to catalogue and dataset features"
-  }, {
-    "name": "rg_feat_catalogue_audit",
-    "description": "Access to catalogue audition features"
-  }, {
-    "name": "rg_feat_configuration",
-    "description": "Access to platform configurations"
-  }],
+  "features": [
+    {
+      "name": "rg_feat_catalogue",
+      "description": "Access to catalogue and dataset features"
+    }, {
+      "name": "rg_feat_catalogue_audit",
+      "description": "Access to catalogue audition features"
+    }, {
+      "name": "rg_feat_configuration",
+      "description": "Access to platform configurations"
+    }
+  ],
   "permissions": [{
     "name": "fs_file_read",
     "description": "Ability to read files from the filesystem."

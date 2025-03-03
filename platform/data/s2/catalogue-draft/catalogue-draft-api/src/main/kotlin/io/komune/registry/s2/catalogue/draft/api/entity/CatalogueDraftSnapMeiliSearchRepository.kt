@@ -9,6 +9,7 @@ import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.match
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateConfig
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
@@ -20,14 +21,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import kotlin.reflect.KCallable
+import s2.sourcing.dsl.view.ViewLoader
 
 @Service
 class CatalogueDraftSnapMeiliSearchRepository(
-    private val catalogueFinderService: CatalogueFinderService,
+    private val config: CatalogueAutomateConfig,
 ) : MeiliSearchSnapRepository<CatalogueDraftSearchableEntity>(
     MeiliIndex.CATALOGUE_DRAFTS,
     CatalogueDraftSearchableEntity::class,
 ) {
+
+    private val store = config.eventStore()
+    private val loader = ViewLoader(store, config.view)
 
     override val searchableAttributes = arrayOf(
         CatalogueDraftSearchableEntity::originalCatalogueIdentifier.name,
@@ -52,8 +57,8 @@ class CatalogueDraftSnapMeiliSearchRepository(
             val existingDraft = get(entity.id)
 
             if (existingDraft == null) {
-                val draftedCatalogue = catalogueFinderService.get(entity.catalogueId)
-                val originalCatalogue = catalogueFinderService.get(entity.originalCatalogueId)
+                val draftedCatalogue = loader.load(entity.catalogueId)!!
+                val originalCatalogue = loader.load(entity.originalCatalogueId)!!
 
                 val document = CatalogueDraftSearchableEntity(
                     id = entity.id,
