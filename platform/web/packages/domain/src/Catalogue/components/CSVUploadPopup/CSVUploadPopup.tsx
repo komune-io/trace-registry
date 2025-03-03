@@ -4,13 +4,13 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Accordion, MultiFileDropzone, TmsPopUp } from 'components'
 import { useDatasetAddMediaDistributionCommand } from 'components/src/LexicalEditor/api'
 import { DataGrid, parseCsv } from 'raw-graph'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 interface CSVUploadPopupProps {
     open: boolean
-    onClose: (event: React.ChangeEvent<{}>) => void
+    onClose: () => void
     datasetId: string
 }
 
@@ -53,7 +53,8 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
             })
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
-                onClose
+                onClose()
+                setCurrentCsv(undefined)
             }
         },
         [datasetId, currentCsv, uploadMedia.mutateAsync, onClose],

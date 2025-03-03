@@ -14,12 +14,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
-  const {catalogueId, draftId, datasetId} = useParams()
-  const {cataloguesCatalogueIdDraftIdEdit} = useRoutesDefinition()
+  const { catalogueId, draftId, datasetId } = useParams()
+  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
-      id: draftId! 
+      id: draftId!
     },
     options: {
       enabled: !!datasetId
@@ -27,6 +27,8 @@ export const GraphCreationPage = () => {
   })
 
   const draft = catalogueDraftQuery.data?.item
+
+  const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
 
   const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
 
@@ -75,7 +77,11 @@ export const GraphCreationPage = () => {
         }}
       >
         <GraphDatasetForm formState={graphFormState} />
-        <GraphForm onSave={() => { return Promise.resolve() }} />
+        <GraphForm
+          onSave={() => { return Promise.resolve() }}
+          distributionId={graphFormState.values.distributionId}
+          graphDatasetId={graphDataset?.id}
+        />
       </Stack>
     </Dialog>
   )

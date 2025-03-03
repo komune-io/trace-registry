@@ -4,7 +4,7 @@ import { Catalogue } from '../../model'
 import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
 import { RichtTextEditor } from 'components';
-import { useDatasetDownloadDistribution } from '../../api';
+import { useLexicalDownloadDistribution } from '../../api';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -20,7 +20,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
     const {
         query,
         dataSet
-    } = useDatasetDownloadDistribution(catalogue)
+    } = useLexicalDownloadDistribution(catalogue)
 
     const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
 

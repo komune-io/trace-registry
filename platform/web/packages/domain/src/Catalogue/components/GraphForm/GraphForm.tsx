@@ -1,4 +1,4 @@
-import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions } from "raw-graph"
+import { ChartSelector, DataGrid, DataMapping, charts, ChartPreviewWithOptions, parseCsv } from "raw-graph"
 import {
     getOptionsConfig,
     getDefaultOptionsValues
@@ -7,20 +7,39 @@ import {
 import { dataSet, dataTypes } from './dataset'
 //@ts-ignore
 import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState, useEffect } from 'react'
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
 import { Helmet } from "react-helmet";
 import { Button } from "@komune-io/g2"
 import { useTranslation } from "react-i18next"
+import { useCsvDownloadDistribution } from "../../api"
 
 export interface GraphFormProps {
     onSave: (graphSvg: Blob) => Promise<any>
+    distributionId?: string
+    graphDatasetId?: string
 }
 
 export const GraphForm = (props: GraphFormProps) => {
-    const { onSave } = props
-    const { t } = useTranslation()
+    const { onSave, distributionId, graphDatasetId } = props
+    const { t, i18n } = useTranslation()
+     const [parsed, setParsed] = useState<{
+            dataset: any;
+            dataTypes: any;
+            errors: any;
+        } | undefined>(undefined)
+
+    const csvQuery = useCsvDownloadDistribution(graphDatasetId, distributionId)
+
+    useEffect(() => {
+        if (csvQuery.data) {
+            parseCsv(csvQuery.data, i18n.language).then((res) => {
+                setParsed(res)
+            })
+        }
+    }, [csvQuery.data])
+
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
     const [visualOptions, setVisualOptions] = useState(() => {
@@ -59,6 +78,7 @@ export const GraphForm = (props: GraphFormProps) => {
         [rawViz, onSave]
     )
 
+    if(!parsed) return <></>
     return (
         <Stack
             className="rawGraph-container"
@@ -68,11 +88,11 @@ export const GraphForm = (props: GraphFormProps) => {
                 <link rel="stylesheet" href={rawGraphScssUrl} />
             </Helmet>
             <DataGrid
-                dataset={dataSet}
-                dataTypes={dataTypes}
+                dataset={parsed.dataset}
+                dataTypes={parsed.dataTypes}
                 coerceTypes={() => { }}
-                errors={[]}
-                userDataset={dataSet}
+                errors={parsed.errors}
+                userDataset={parsed.dataset}
             />
             <TitleDivider
                 title={"2. " + t("catalogues.graphConfiguration")}

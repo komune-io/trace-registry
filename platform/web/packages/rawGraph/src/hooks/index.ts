@@ -49,7 +49,6 @@ export const parseCsv = async (csv: Blob, lng: string) => {
         decimal: '.',
         group: ',',
     })
-    console.log(resultData)
     return {
         dataset: resultData.dataset,
         dataTypes: resultData.dataTypes,
