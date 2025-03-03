@@ -4,7 +4,7 @@ import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.repository.AssertionBlockingCrudEntity

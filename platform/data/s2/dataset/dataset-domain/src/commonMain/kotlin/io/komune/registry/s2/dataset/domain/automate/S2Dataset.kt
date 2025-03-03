@@ -73,17 +73,6 @@ val s2Dataset = s2Sourcing {
 }
 
 /**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias DatasetId = String
-/**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias DatasetIdentifier = String
-
-/**
  * @d2 automate
  * @visual automate platform/api/api-init/build/s2-documenter/Dataset.json
  * @order 1

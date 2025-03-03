@@ -7,10 +7,10 @@ import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId

@@ -1,9 +1,8 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.SimpleFile
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport

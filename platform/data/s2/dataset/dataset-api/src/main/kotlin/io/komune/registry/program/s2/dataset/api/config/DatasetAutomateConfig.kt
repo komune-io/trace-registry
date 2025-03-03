@@ -4,7 +4,7 @@ import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.program.s2.dataset.api.DatasetEvolver
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetSnapRepository
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.automate.s2Dataset
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent

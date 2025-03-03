@@ -29,10 +29,10 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValida
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -80,7 +80,7 @@ class DCatGraphClient(
 
                 catalogue.datasets?.forEach { dataset ->
                     if (dataset.identifier !in createdDatasets) {
-                        val datasetId = dataset.getOrCreate(catalogueId, drafts)
+                        val datasetId = dataset.getOrCreate(catalogueId)
                         createdDatasets[dataset.identifier] = datasetId
                     }
                 }
@@ -222,13 +222,13 @@ class DCatGraphClient(
 //        }
 //    }
 
-    private suspend fun DcatDataset.getOrCreate(catalogueId: CatalogueId, drafts: DraftMutableMap): DatasetId {
+    private suspend fun DcatDataset.getOrCreate(catalogueId: CatalogueId): DatasetId {
         val client = datasetClient
         return DatasetGetByIdentifierQuery(
             identifier = identifier,
             language = language
         ).invokeWith(client.datasetGetByIdentifier()).item?.id
-            ?: createDataset(catalogueId, drafts)
+            ?: createDataset(catalogueId)
     }
 
     suspend fun linkDatasetToCatalogue(catalogueId: String, datasets: List<DatasetId>) {
@@ -240,10 +240,10 @@ class DCatGraphClient(
         ).invokeWith(client.catalogueLinkDatasets())
     }
 
-    private suspend fun DcatDataset.createDataset(catalogueId: CatalogueId, drafts: DraftMutableMap): DatasetId {
-        val draftId = drafts.getOrCreateDraft(catalogueId, language)
+    private suspend fun DcatDataset.createDataset(catalogueId: CatalogueId): DatasetId {
         return DatasetCreateCommandDTOBase(
             identifier = identifier,
+            catalogueId = catalogueId,
             title = title,
             type = type,
             description = description,
@@ -266,7 +266,6 @@ class DCatGraphClient(
             versionNotes = versionNotes,
             length = length,
             releaseDate = releaseDate,
-            draftId = draftId
         ).invokeWith(datasetClient.datasetCreate()).id.also {
             println("Created dataset ${identifier} with id ${it}")
         }
@@ -279,7 +278,7 @@ class DCatGraphClient(
         CatalogueDraftCreateCommandDTOBase(
             catalogueId = catalogueId,
             language = language
-        ).invokeWith(catalogueDraftClient.catalogueDraftCreate()).id
+        ).invokeWith(catalogueDraftClient.catalogueDraftCreate()).item.id
     }
 }
 

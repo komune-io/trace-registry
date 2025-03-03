@@ -3,7 +3,7 @@ package io.komune.registry.f2.dataset.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName

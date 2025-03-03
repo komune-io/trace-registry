@@ -5,20 +5,20 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import f2.dsl.fnc.invokeWith
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
+import io.komune.registry.data.test.bdd.f2.dataset.data.dataset
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.f2.dataset.api.DatasetEndpoint
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesCommandDTOBase
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.data.test.bdd.VerCucumberStepsDefinition
-import io.komune.registry.data.test.bdd.f2.dataset.data.dataset
-import kotlin.jvm.optionals.getOrNull
+import io.komune.registry.s2.commons.model.DatasetId
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
+import kotlin.jvm.optionals.getOrNull
 
 class DatasetLinkF2Steps: En, VerCucumberStepsDefinition() {
 

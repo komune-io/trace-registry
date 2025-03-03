@@ -1,6 +1,6 @@
 package io.komune.registry.s2.dataset.domain.command
 
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
 

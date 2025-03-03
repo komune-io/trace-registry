@@ -9,8 +9,8 @@ import io.komune.registry.infra.redis.PageQueryDB
 import io.komune.registry.infra.redis.match
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.`DatasetEntity$`
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Repository
 

@@ -1,44 +1,9 @@
 package io.komune.registry.script.imports
 
 import cccev.dsl.client.DataClient
-import cccev.dsl.client.toUpdateCommand
-import cccev.dsl.model.nullIfEmpty
-import com.fasterxml.jackson.module.kotlin.readValue
-import f2.dsl.fnc.invokeWith
-import io.komune.registry.api.commons.utils.jsonMapper
-import io.komune.registry.f2.catalogue.client.catalogueCreate
-import io.komune.registry.f2.catalogue.client.catalogueUpdate
-import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
-import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
-import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateCommandDTOBase
-import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
-import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
-import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
-import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.CatalogueIdentifier
-import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.commons.model.SimpleFile
-import io.komune.registry.s2.concept.domain.ConceptId
-import io.komune.registry.s2.concept.domain.ConceptIdentifier
-import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.license.domain.LicenseIdentifier
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.script.imports.model.CatalogueDatasetSettings
-import io.komune.registry.script.imports.model.CatalogueImportData
-import io.komune.registry.script.imports.model.CatalogueImportSettings
-import io.komune.registry.script.imports.model.ImportSettings
-import io.komune.registry.script.imports.model.loadJsonCatalogue
 import io.komune.registry.script.init.RegistryScriptInitProperties
 import io.komune.registry.script.init.asAuthRealm
 import kotlinx.coroutines.runBlocking
-import org.slf4j.LoggerFactory
-import java.io.File
-import java.nio.file.Files
 
 class ImportScript(
     private val properties: RegistryScriptInitProperties

@@ -2,7 +2,7 @@ package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 

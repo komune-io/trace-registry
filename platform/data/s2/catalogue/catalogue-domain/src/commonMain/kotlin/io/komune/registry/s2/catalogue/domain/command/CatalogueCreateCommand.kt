@@ -3,6 +3,7 @@ package io.komune.registry.s2.catalogue.domain.command
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId

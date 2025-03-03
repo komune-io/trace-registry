@@ -1,11 +1,11 @@
 package io.komune.registry.f2.dataset.api.service
 
+import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.f2.dataset.api.exception.DatasetDraftInvalidException
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
@@ -31,9 +31,10 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsComma
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand

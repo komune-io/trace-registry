@@ -10,9 +10,9 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.RedisTable
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id

@@ -14,8 +14,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.UserId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand

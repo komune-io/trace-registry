@@ -11,8 +11,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service

@@ -38,7 +38,7 @@ import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
