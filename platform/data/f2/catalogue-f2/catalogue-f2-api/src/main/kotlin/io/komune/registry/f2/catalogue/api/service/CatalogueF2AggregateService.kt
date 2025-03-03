@@ -66,7 +66,6 @@ class CatalogueF2AggregateService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
-    private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
