@@ -246,7 +246,6 @@ export const DataGrid = ({
     24 + 8 * (Math.floor(Math.log10(userDataset.length)) + 1)
   
   const equalDinstribution = (containerEl?.getBoundingClientRect().width - idColumnWidth - 1) / Object.keys(dataTypes).length
-  console.log(containerEl?.getBoundingClientRect().width)
   const columnWidth = equalDinstribution ? Math.max(equalDinstribution, 170) : 170;
 
   const columns = useMemo(() => {

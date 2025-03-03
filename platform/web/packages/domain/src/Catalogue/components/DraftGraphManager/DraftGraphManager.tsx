@@ -1,13 +1,14 @@
-import { Paper, Stack, Typography } from '@mui/material'
+import { Paper, Stack } from '@mui/material'
 import { CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
-import { Accordion, CustomButton, CustomLinkButton, ImageCard, TitleDivider, useRoutesDefinition, useToggleState } from 'components'
+import { CustomButton, CustomLinkButton, ImageCard, TitleDivider, useRoutesDefinition, useToggleState } from 'components'
 import { AddCircleOutlineRounded } from '@mui/icons-material'
 import { CSVUploadPopup } from '../CSVUploadPopup'
 import { useCallback, useMemo } from 'react'
 import { g2Config } from '@komune-io/g2'
 import { useDatasetDeleteCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
+import { CsvAccordion } from '../CsvAccordion'
 
 export interface DraftGraphManagerProps {
     draft?: CatalogueDraft
@@ -35,8 +36,9 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
         [draft],
     )
 
+    const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
 
-    const graphsDisplay = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.map((dataset) => {
+    const graphsDisplay = useMemo(() => graphDataset?.datasets?.map((dataset) => {
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
         if (!imageDistribution) return
         return (
@@ -47,9 +49,11 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 label={dataset.title}
             />
         )
-    }), [draft, onDelete])
+    }), [graphDataset, onDelete])
 
-    const csvDistributions = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [draft])
+    const csvDistributions = useMemo(() => graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [graphDataset])
+
+    const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} /> ), [csvDistributions, graphDataset])
 
     console.log(csvDistributions)
 
@@ -102,21 +106,11 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                         </CustomButton>
                     }
                 />
-                <Accordion
-                    size='small'
-                    summary={
-                        <Typography
-                            variant='subtitle1'
-                        >
-                            Relevé Fevrier 2025
-                        </Typography>
-                    }
-                >
-                </Accordion>
+                {distributionsDisplay}
                 <CSVUploadPopup
                     open={open}
                     onClose={toggle}
-                    datasetId=""
+                    datasetId={graphDataset?.id ?? ""}
                 />
             </Paper>
         </>

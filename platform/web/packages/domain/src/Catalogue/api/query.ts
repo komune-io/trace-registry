@@ -97,7 +97,7 @@ export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, Licens
   )
 }
 
-export const useDatasetDownloadDistribution = (catalogue?: Catalogue) => {
+export const useLexicalDownloadDistribution = (catalogue?: Catalogue) => {
   const dataSet = useMemo(() => {
     if (!catalogue) return
     return findLexicalDataset(catalogue)
@@ -127,6 +127,29 @@ export const useDatasetDownloadDistribution = (catalogue?: Catalogue) => {
     query,
     dataSet
   }
+}
+
+export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: string) => {
+
+  const distributionContentQuery = useCallback(
+    async () => {
+      if (!datasetId || !distributionId) return 
+      const res = await request<Blob>({
+        url: `${g2Config().platform.url}/data/datasetDownloadDistribution/${datasetId}/${distributionId}`,
+        method: "GET",
+        returnType: "blob"
+        // errorHandler: errorHandler(path),
+      });
+      return res
+    },
+    [datasetId, distributionId],
+  )
+
+  return useQuery({
+    queryKey: ["data/datasetDownloadDistribution", { id: datasetId, distributionId }],
+    queryFn: distributionContentQuery,
+    enabled: !!datasetId && !!distributionId
+  })
 }
 
 export const findLexicalDataset = (catalogue: Catalogue) => {
