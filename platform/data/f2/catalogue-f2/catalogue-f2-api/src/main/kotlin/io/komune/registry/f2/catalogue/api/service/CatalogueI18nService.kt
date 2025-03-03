@@ -14,7 +14,6 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
-import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -32,7 +31,6 @@ class CatalogueI18nService(
     private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
-    private val datasetFinderService: DatasetFinderService,
     private val i18nService: I18nService,
 ) : CatalogueCachedService() {
 

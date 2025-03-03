@@ -1,7 +1,8 @@
 package io.komune.registry.f2.catalogue.draft.domain.command
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO
+import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import kotlinx.serialization.Serializable
@@ -41,9 +42,9 @@ data class CatalogueDraftCreateCommandDTOBase(
 @JsExport
 interface CatalogueDraftCreatedEventDTO {
     /**
-     * Id of the created draft.
+     * Created draft.
      */
-    val id: CatalogueDraftId
+    val item: CatalogueDraftDTO
 }
 
 /**
@@ -51,5 +52,5 @@ interface CatalogueDraftCreatedEventDTO {
  */
 @Serializable
 data class CatalogueDraftCreatedEventDTOBase(
-    override val id: CatalogueDraftId
+    override val item: CatalogueDraftDTOBase
 ) : CatalogueDraftCreatedEventDTO

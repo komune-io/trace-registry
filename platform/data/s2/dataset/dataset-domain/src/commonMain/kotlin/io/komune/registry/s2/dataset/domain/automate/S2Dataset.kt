@@ -16,6 +16,8 @@ import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCom
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
@@ -41,6 +43,10 @@ val s2Dataset = s2Sourcing {
         role = DatasetRole.Issuer
     }
     selfTransaction<DatasetLinkDatasetsCommand, DatasetLinkedDatasetsEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetUnlinkDatasetsCommand, DatasetUnlinkedDatasetsEvent> {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }

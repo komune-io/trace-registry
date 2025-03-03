@@ -31,8 +31,6 @@ interface DatasetUpdateMediaDistributionCommandDTO {
      */
     val distributionId: DistributionId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Name of the distribution.
      */
@@ -53,7 +51,6 @@ interface DatasetUpdateMediaDistributionCommandDTO {
 data class DatasetUpdateMediaDistributionCommandDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
-    override val draftId: CatalogueDraftId,
     override val name: String?,
     override val mediaType: String
 ) : DatasetUpdateMediaDistributionCommandDTO

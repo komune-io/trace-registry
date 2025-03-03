@@ -20,7 +20,6 @@ typealias DatasetDeleteFunction = F2Function<DatasetDeleteCommandDTOBase, Datase
 @JsName("DatasetDeleteCommandDTO")
 interface DatasetDeleteCommandDTO {
     val id: DatasetId
-    val draftId: CatalogueDraftId
 }
 
 /**
@@ -28,7 +27,6 @@ interface DatasetDeleteCommandDTO {
  */
 data class DatasetDeleteCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId
 ): DatasetDeleteCommandDTO
 
 /**

@@ -18,8 +18,11 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import org.springframework.stereotype.Service
+import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class CatalogueDraftF2AggregateService(
@@ -56,20 +59,7 @@ class CatalogueDraftF2AggregateService(
             initDatasets = translatedOriginalCatalogue == null
         ).id }
 
-        val datasetIdMap = baseCatalogue.datasetIds.mapAsync { datasetId ->
-            val dataset = datasetFinderService.get(datasetId)
-            val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
-            dataset.distributions.mapAsync { distribution ->
-                DatasetAddDistributionCommand(
-                    id = newId,
-                    name = distribution.name,
-                    distributionId = distribution.id,
-                    downloadPath = distribution.downloadPath,
-                    mediaType = distribution.mediaType,
-                ).let { datasetAggregateService.addDistribution(it) }
-            }
-            datasetId to newId
-        }.toMap()
+        val datasetIdMap = copyDatasets(baseCatalogue.datasetIds)
 
         CatalogueLinkDatasetsCommand(
             id = draftedCatalogueId,
@@ -99,5 +89,37 @@ class CatalogueDraftF2AggregateService(
         ).let { catalogueAggregateService.updateVersionNotes(it) }
 
         return event
+    }
+
+    private suspend fun copyDatasets(datasetIds: List<DatasetId>): Map<DatasetId, DatasetId> {
+        val now = System.currentTimeMillis()
+        val idMap = ConcurrentHashMap<DatasetId, DatasetId>()
+
+        datasetIds.mapAsync { datasetId ->
+            val dataset = datasetFinderService.get(datasetId)
+            val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
+            idMap[datasetId] = newId
+
+            dataset.distributions.mapAsync { distribution ->
+                DatasetAddDistributionCommand(
+                    id = newId,
+                    name = distribution.name,
+                    distributionId = distribution.id,
+                    downloadPath = distribution.downloadPath,
+                    mediaType = distribution.mediaType,
+                ).let { datasetAggregateService.addDistribution(it) }
+            }
+
+            val childrenIds = copyDatasets(dataset.datasetIds)
+                .also(idMap::putAll)
+                .values
+
+            DatasetLinkDatasetsCommand(
+                id = newId,
+                datasetIds = childrenIds.toList()
+            ).let { datasetAggregateService.linkDatasets(it) }
+        }
+
+        return idMap
     }
 }

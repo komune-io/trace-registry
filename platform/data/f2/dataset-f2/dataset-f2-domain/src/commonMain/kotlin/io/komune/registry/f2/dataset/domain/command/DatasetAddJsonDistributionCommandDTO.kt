@@ -26,8 +26,6 @@ interface DatasetAddJsonDistributionCommandDTO {
      */
     val id: DatasetId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Name of the distribution.
      */
@@ -46,7 +44,6 @@ interface DatasetAddJsonDistributionCommandDTO {
 @Serializable
 data class DatasetAddJsonDistributionCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId,
     override val name: String?,
     override val jsonContent: String
 ) : DatasetAddJsonDistributionCommandDTO

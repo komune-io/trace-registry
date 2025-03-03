@@ -33,7 +33,9 @@ interface DatasetCreateCommandDTO {
      */
     val identifier: DatasetIdentifier
 
-    val draftId: CatalogueDraftId
+    val parentId: DatasetId?
+
+    val catalogueId: CatalogueId?
 
     /**
      * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
@@ -77,7 +79,8 @@ interface DatasetCreateCommandDTO {
 @Serializable
 data class DatasetCreateCommandDTOBase(
     override val identifier: String,
-    override val draftId: CatalogueDraftId,
+    override val parentId: DatasetId? = null,
+    override val catalogueId: CatalogueId? = null,
     override val title: String,
     override val type: String,
     override val description: String? = null,

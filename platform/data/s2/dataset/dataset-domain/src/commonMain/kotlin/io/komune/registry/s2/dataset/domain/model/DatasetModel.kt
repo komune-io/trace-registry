@@ -5,12 +5,13 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class DatasetModel(
-    val id: String,
+    val id: DatasetId,
     val identifier: String,
     val draftId: CatalogueDraftId?,
     val status: DatasetState,
@@ -39,6 +40,6 @@ data class DatasetModel(
     val issued: Long?,
     val modified: Long?,
     val releaseDate: String?,
-    val datasetIds: List<String>,
+    val datasetIds: List<DatasetId>,
     val distributions: List<DistributionModel>
 )

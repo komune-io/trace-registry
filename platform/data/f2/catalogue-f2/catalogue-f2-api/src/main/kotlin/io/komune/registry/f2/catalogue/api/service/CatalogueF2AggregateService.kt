@@ -48,6 +48,7 @@ import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -55,8 +56,11 @@ import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -245,23 +249,7 @@ class CatalogueF2AggregateService(
             versionNotes = draft.versionNotes,
         ).let { doUpdate(it) }
 
-        val datasetIds = draftedCatalogue.datasetIds.mapAsync { draftedDatasetId ->
-            val originalDatasetId = draft.datasetIdMap.entries
-                .firstOrNull { it.value == draftedDatasetId }
-                ?.key
-
-            applyDatasetUpdates(draftedDatasetId, originalDatasetId)
-        }
-        linkDatasets(draft.originalCatalogueId, datasetIds)
-
-        originalCatalogue.datasetIds.filter { it !in datasetIds }
-            .nullIfEmpty()
-            ?.let {
-                CatalogueUnlinkDatasetsCommand(
-                    id = draft.originalCatalogueId,
-                    datasetIds = it
-                ).let { catalogueAggregateService.unlinkDatasets(it) }
-            }
+        applyDatasetUpdatesInDraft(draft, draftedCatalogue, originalCatalogue)
 
         catalogueDraftFinderService.page(
             originalCatalogueId = ExactMatch(draft.originalCatalogueId),
@@ -503,8 +491,59 @@ class CatalogueF2AggregateService(
         ).let { catalogueAggregateService.addTranslations(it) }
     }
 
-    private suspend fun applyDatasetUpdates(draftedDatasetId: DatasetId, originalDatasetId: DatasetId?): DatasetId {
-        val draftedDataset = datasetFinderService.get(draftedDatasetId)
+    private suspend fun applyDatasetUpdatesInDraft(
+        draft: CatalogueDraftModel,
+        draftedCatalogue: CatalogueModel,
+        originalCatalogue: CatalogueModel
+    ) {
+        val datasetIds = applyDatasetUpdates(draft, draftedCatalogue.datasetIds)
+        linkDatasets(draft.originalCatalogueId, datasetIds)
+
+        originalCatalogue.datasetIds.filter { it !in datasetIds }
+            .nullIfEmpty()
+            ?.let {
+                CatalogueUnlinkDatasetsCommand(
+                    id = draft.originalCatalogueId,
+                    datasetIds = it
+                ).let { catalogueAggregateService.unlinkDatasets(it) }
+            }
+    }
+
+    private suspend fun applyDatasetUpdates(draft: CatalogueDraftModel, datasetIds: List<DatasetId>): List<DatasetId> {
+        return datasetIds.mapAsync { draftedDatasetId ->
+            val originalDatasetId = draft.datasetIdMap.entries
+                .firstOrNull { it.value == draftedDatasetId }
+                ?.key
+
+            val draftedDataset = datasetFinderService.get(draftedDatasetId)
+
+            // create or update dataset
+            val updatedDataset = applyDatasetContentUpdates(draftedDataset, originalDatasetId)
+
+            // recursively repeat the process for child datasets
+            val childrenIds = applyDatasetUpdates(draft, draftedDataset.datasetIds)
+
+            // link newly created datasets
+            DatasetLinkDatasetsCommand(
+                id = updatedDataset.id,
+                datasetIds = childrenIds
+            ).let { datasetAggregateService.linkDatasets(it) }
+
+            // unlink removed datasets
+            updatedDataset.datasetIds.filter { it !in childrenIds }
+                .nullIfEmpty()
+                ?.let {
+                    DatasetUnlinkDatasetsCommand(
+                        id = updatedDataset.id,
+                        datasetIds = it
+                    ).let { datasetAggregateService.unlinkDatasets(it) }
+                }
+
+            updatedDataset.id
+        }
+    }
+
+    private suspend fun applyDatasetContentUpdates(draftedDataset: DatasetModel, originalDatasetId: DatasetId?): DatasetModel {
         val draftedDatasetIdentifier = draftedDataset.identifier.substringBeforeLast("-draft")
 
         val datasetId = if (originalDatasetId == null) {
@@ -515,10 +554,10 @@ class CatalogueF2AggregateService(
                 .let { datasetAggregateService.update(it).id }
         }
 
-        val originalDataset = datasetFinderService.get(datasetId)
+        val updatedDataset = datasetFinderService.get(datasetId)
 
         draftedDataset.distributions.mapAsync { distribution ->
-            if (originalDataset.distributions.any { it.id == distribution.id }) {
+            if (updatedDataset.distributions.any { it.id == distribution.id }) {
                 DatasetUpdateDistributionCommand(
                     id = datasetId,
                     name = distribution.name,
@@ -536,7 +575,7 @@ class CatalogueF2AggregateService(
                 ).let { datasetAggregateService.addDistribution(it) }
             }
         }
-        originalDataset.distributions.filter { distribution ->
+        updatedDataset.distributions.filter { distribution ->
             draftedDataset.distributions.none { it.id == distribution.id }
         }.mapAsync { distribution ->
             DatasetRemoveDistributionCommand(
@@ -545,6 +584,6 @@ class CatalogueF2AggregateService(
             ).let { datasetAggregateService.removeDistribution(it) }
         }
 
-        return datasetId
+        return updatedDataset
     }
 }

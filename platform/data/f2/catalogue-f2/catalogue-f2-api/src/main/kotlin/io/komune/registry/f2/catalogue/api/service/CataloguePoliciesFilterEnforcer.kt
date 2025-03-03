@@ -1,9 +1,9 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.ExactMatch
-import io.komune.im.commons.auth.AuthedUserDTO
 import io.komune.im.commons.auth.hasRole
 import io.komune.im.commons.auth.policies.PolicyEnforcer
+import io.komune.registry.f2.catalogue.domain.CataloguePolicies
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
@@ -11,8 +11,6 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.FieldCriterion
-import io.komune.registry.s2.commons.model.OrganizationId
-import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.commons.model.orCriterionOf
 import org.springframework.stereotype.Service
 
@@ -36,7 +34,8 @@ class CataloguePoliciesFilterEnforcer : PolicyEnforcer() {
 
     suspend fun enforceCatalogue(catalogue: CatalogueDTOBase): CatalogueDTOBase? = enforceAuthed { authedUser ->
         catalogue.takeIf {
-            authedUser.canSeeCatalogue(
+            CataloguePolicies.canReadCatalogueWith(
+                authedUser = authedUser,
                 accessRights = it.accessRights,
                 creatorOrganizationId = it.creatorOrganization?.id,
                 ownerOrganizationId = it.ownerOrganization?.id,
@@ -47,26 +46,13 @@ class CataloguePoliciesFilterEnforcer : PolicyEnforcer() {
 
     suspend fun enforceCatalogue(catalogue: CatalogueModel): CatalogueModel? = enforceAuthed { authedUser ->
         catalogue.takeIf {
-            authedUser.canSeeCatalogue(
+            CataloguePolicies.canReadCatalogueWith(
+                authedUser = authedUser,
                 accessRights = it.accessRights,
                 creatorOrganizationId = it.creatorOrganizationId,
                 ownerOrganizationId = it.ownerOrganizationId,
                 creatorId = it.creatorId
             )
         }
-    }
-
-    private fun AuthedUserDTO.canSeeCatalogue(
-        accessRights: CatalogueAccessRight,
-        creatorOrganizationId: OrganizationId?,
-        ownerOrganizationId: OrganizationId?,
-        creatorId: UserId?
-    ): Boolean = when {
-        hasRole(Permissions.Catalogue.READ_ALL) -> true
-        hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
-                || creatorOrganizationId == memberOf.orEmpty()
-                || ownerOrganizationId == memberOf.orEmpty()
-                || creatorId == id
-        else -> creatorId == id
     }
 }

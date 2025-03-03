@@ -54,24 +54,34 @@ class DatasetF2AggregateService(
 ) {
 
     suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
-        val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, null)
-        val event = datasetAggregateService.create(command.toCommand().copy(identifier = "${command.identifier}-draft"))
+        val draftId = command.catalogueId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it)?.id }
+            ?: command.parentId?.let { datasetFinderService.get(it).draftId }
 
-        CatalogueLinkDatasetsCommand(
-            id = draft.catalogueId,
-            datasetIds = listOf(event.id)
-        ).let { catalogueAggregateService.linkDatasets(it) }
+        val event = datasetAggregateService.create(command.toCommand()
+            .copy(identifier = if (draftId != null) { "${command.identifier}-draft" } else { command.identifier }))
 
-        linkDatasetToDraft(command.draftId, event.id)
+        command.catalogueId?.let {
+            CatalogueLinkDatasetsCommand(
+                id = it,
+                datasetIds = listOf(event.id)
+            ).let { catalogueAggregateService.linkDatasets(it) }
+        }
+
+        command.parentId?.let {
+            DatasetLinkDatasetsCommand(
+                id = it,
+                datasetIds = listOf(event.id)
+            ).let { datasetAggregateService.linkDatasets(it) }
+        }
+
+        draftId?.let { linkDatasetToDraft(it, event.id) }
 
         return event.toDTO()
     }
 
     suspend fun addJsonDistribution(command: DatasetAddJsonDistributionCommandDTOBase): DatasetAddedJsonDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
         val event = addDistribution(
-            datasetId = draftedDatasetId,
+            datasetId = command.id,
             filename = "${UUID.randomUUID()}.json",
             name = command.name,
             mediaType = "application/json",
@@ -79,7 +89,7 @@ class DatasetF2AggregateService(
         )
 
         return DatasetAddedJsonDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
@@ -87,8 +97,6 @@ class DatasetF2AggregateService(
     suspend fun addMediaDistribution(
         command: DatasetAddMediaDistributionCommandDTOBase, file: FilePart
     ): DatasetAddedMediaDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
         val fileExtension = file.filename()
             .substringAfterLast('.', "")
             .ifBlank { null }
@@ -96,7 +104,7 @@ class DatasetF2AggregateService(
             .orEmpty()
 
         val event = addDistribution(
-            datasetId = draftedDatasetId,
+            datasetId = command.id,
             filename = "${UUID.randomUUID()}$fileExtension",
             name = command.name,
             mediaType = command.mediaType,
@@ -104,21 +112,19 @@ class DatasetF2AggregateService(
         )
 
         return DatasetAddedMediaDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
 
     suspend fun updateJsonDistribution(command: DatasetUpdateJsonDistributionCommandDTOBase): DatasetUpdatedJsonDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
-
-        val path = distribution.downloadPath.copy(objectId = draftedDatasetId)
+        val path = distribution.downloadPath.copy(objectId = command.id)
         fileClient.fileUpload(path.toUploadCommand(), command.jsonContent.toByteArray())
 
         val event = DatasetUpdateDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId,
             name = command.name,
             downloadPath = path,
@@ -126,7 +132,7 @@ class DatasetF2AggregateService(
         ).let { datasetAggregateService.updateDistribution(it) }
 
         return DatasetUpdatedJsonDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
@@ -134,9 +140,7 @@ class DatasetF2AggregateService(
     suspend fun updateMediaDistribution(
         command: DatasetUpdateMediaDistributionCommandDTOBase, file: FilePart
     ): DatasetUpdatedMediaDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
         val fileExtension = file.filename()
             .substringAfterLast('.', "")
@@ -146,20 +150,21 @@ class DatasetF2AggregateService(
 
         val oldPath = distribution.downloadPath
         val newPath = oldPath.copy(
-            objectId = draftedDatasetId,
+            objectId = command.id,
             name = oldPath.name.substringBeforeLast('.') + fileExtension
         )
         fileClient.fileUpload(newPath.toUploadCommand(), file.contentByteArray())
 
         val event = DatasetUpdateDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId,
             downloadPath = newPath,
             name = command.name,
             mediaType = command.mediaType
         ).let { datasetAggregateService.updateDistribution(it) }
 
-        if (oldPath != newPath && oldPath.objectId == draftedDatasetId) {
+        // should only happen if extension has changed
+        if (oldPath != newPath && oldPath.objectId == command.id) {
             FileDeleteCommand(
                 objectType = oldPath.objectType,
                 objectId = oldPath.objectId,
@@ -169,23 +174,21 @@ class DatasetF2AggregateService(
         }
 
         return DatasetUpdatedMediaDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
 
     suspend fun removeDistribution(command: DatasetRemoveDistributionCommandDTOBase): DatasetRemovedDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
         DatasetRemoveDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId
         ).let { datasetAggregateService.removeDistribution(it) }
 
         val path = distribution.downloadPath
-        if (path.objectId == draftedDatasetId) {
+        if (path.objectId == command.id) {
             FileDeleteCommand(
                 objectType = path.objectType,
                 objectId = path.objectId,
@@ -195,22 +198,22 @@ class DatasetF2AggregateService(
         }
 
         return DatasetRemovedDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId
         )
     }
 
     suspend fun delete(command: DatasetDeleteCommandDTOBase): DatasetDeletedEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
+        val event = datasetAggregateService.delete(command.toCommand())
 
-        val event = command.toCommand()
-            .copy(id = draftedDatasetId)
-            .let { datasetAggregateService.delete(it) }
-
-        CatalogueUnlinkDatasetsCommand(
-            id = catalogueDraftFinderService.get(command.draftId).catalogueId,
-            datasetIds = listOf(draftedDatasetId)
-        ).let { catalogueAggregateService.unlinkDatasets(it) }
+        catalogueFinderService.page(
+            datasetIds = ExactMatch(command.id)
+        ).items.mapAsync { catalogue ->
+            CatalogueUnlinkDatasetsCommand(
+                id = catalogue.id,
+                datasetIds = listOf(command.id)
+            ).let { catalogueAggregateService.unlinkDatasets(it) }
+        }
 
         return event.toDTO()
     }
@@ -228,19 +231,6 @@ class DatasetF2AggregateService(
         dataset.datasetIds.mapAsync { linkedDatasetId ->
             linkDatasetToDraft(draftId, linkedDatasetId)
         }
-    }
-
-    private suspend fun getDraftedDatasetId(datasetId: DatasetId, draftId: CatalogueDraftId): DatasetId {
-        val draft = catalogueDraftFinderService.get(draftId)
-
-        val catalogue = catalogueFinderService.get(draft.catalogueId)
-        val draftedDatasetId = draft.datasetIdMap[datasetId] ?: datasetId
-
-        if (draftedDatasetId !in catalogue.datasetIds) {
-            throw DatasetDraftInvalidException(draft.id, datasetId)
-        }
-
-        return draftedDatasetId
     }
 
     private suspend fun addDistribution(

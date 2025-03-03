@@ -18,6 +18,8 @@ import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCom
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
@@ -85,6 +87,16 @@ class DatasetAggregateService(
 		command: DatasetLinkDatasetsCommand
 	): DatasetLinkedDatasetsEvent = automate.transition(command) {
 		DatasetLinkedDatasetsEvent(
+			id =  command.id,
+			date = System.currentTimeMillis(),
+			datasetIds = command.datasetIds
+		)
+	}
+
+	suspend fun unlinkDatasets(
+		command: DatasetUnlinkDatasetsCommand
+	): DatasetUnlinkedDatasetsEvent = automate.transition(command) {
+		DatasetUnlinkedDatasetsEvent(
 			id =  command.id,
 			date = System.currentTimeMillis(),
 			datasetIds = command.datasetIds

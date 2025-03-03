@@ -17,6 +17,7 @@ import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
+import io.komune.registry.s2.commons.model.DatasetId
 import org.springframework.stereotype.Service
 
 @Service
@@ -59,6 +60,7 @@ class CatalogueFinderService(
 		language: Match<String>? = null,
 		type: Match<String>? = null,
 		childrenIds: Match<CatalogueId>? = null,
+		datasetIds: Match<DatasetId>? = null,
 		status: Match<CatalogueState>? = null,
 		hidden: Match<Boolean>? = null,
 		freeCriterion: Criterion? = null,
@@ -81,6 +83,7 @@ class CatalogueFinderService(
 			language = language,
 			type = type,
 			childrenIds = childrenIds,
+			datasetIds = datasetIds,
 			status = status,
 			hidden = hidden,
 			freeCriterion = freeCriterion,

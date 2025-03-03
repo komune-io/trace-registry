@@ -1430,6 +1430,7 @@ export declare namespace s2.dsl.automate.model {
     }
 }
 export declare namespace io.komune.registry.s2.commons.auth {
+    /** @deprecated Will be removed, use Permissions instead. */
     const Roles: {
         get ORCHESTRATOR(): string;
         get ORCHESTRATOR_ADMIN(): string;
@@ -2865,7 +2866,6 @@ export declare namespace io.komune.registry.s2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly jsonContent: string;
 
@@ -2879,7 +2879,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddMediaDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly mediaType: string;
 
@@ -2893,7 +2892,8 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetCreateCommandDTO {
         readonly identifier: string;
-        readonly draftId: string;
+        readonly parentId?: string;
+        readonly catalogueId?: string;
         readonly title: string;
         readonly type: string;
         readonly description?: string;
@@ -2927,7 +2927,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetDeleteCommandDTO {
         readonly id: string;
-        readonly draftId: string;
 
     }
     interface DatasetDeletedEventDTO {
@@ -2960,7 +2959,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetRemoveDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly distributionId: string;
 
     }
@@ -2985,7 +2983,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateJsonDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly jsonContent: string;
 
@@ -3000,7 +2997,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateMediaDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly mediaType: string;
 
@@ -3677,7 +3673,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
 
     }
     interface CatalogueDraftCreatedEventDTO {
-        readonly id: string;
+        readonly item: io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO;
 
     }
 }

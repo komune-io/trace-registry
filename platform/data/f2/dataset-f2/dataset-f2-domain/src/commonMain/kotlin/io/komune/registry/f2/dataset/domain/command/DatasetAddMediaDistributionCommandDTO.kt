@@ -27,8 +27,6 @@ interface DatasetAddMediaDistributionCommandDTO {
      */
     val id: DatasetId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Name of the distribution.
      */
@@ -47,7 +45,6 @@ interface DatasetAddMediaDistributionCommandDTO {
 @Serializable
 data class DatasetAddMediaDistributionCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId,
     override val name: String?,
     override val mediaType: String
 ) : DatasetAddMediaDistributionCommandDTO

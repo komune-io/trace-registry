@@ -31,8 +31,6 @@ interface DatasetUpdateJsonDistributionCommandDTO {
      */
     val distributionId: DistributionId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Name of the distribution.
      */
@@ -52,7 +50,6 @@ interface DatasetUpdateJsonDistributionCommandDTO {
 data class DatasetUpdateJsonDistributionCommandDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
-    override val draftId: CatalogueDraftId,
     override val name: String?,
     override val jsonContent: String
 ) : DatasetUpdateJsonDistributionCommandDTO

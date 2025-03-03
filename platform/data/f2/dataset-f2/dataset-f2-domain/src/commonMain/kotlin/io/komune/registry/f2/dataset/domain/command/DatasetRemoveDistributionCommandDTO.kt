@@ -26,8 +26,6 @@ interface DatasetRemoveDistributionCommandDTO {
      */
     val id: DatasetId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Id of the distribution to remove.
      */
@@ -40,7 +38,6 @@ interface DatasetRemoveDistributionCommandDTO {
 @Serializable
 data class DatasetRemoveDistributionCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId,
     override val distributionId: DistributionId
 ) : DatasetRemoveDistributionCommandDTO
 
