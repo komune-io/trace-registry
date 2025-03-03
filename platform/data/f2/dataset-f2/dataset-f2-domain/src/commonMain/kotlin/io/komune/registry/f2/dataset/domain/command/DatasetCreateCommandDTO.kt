@@ -31,7 +31,7 @@ interface DatasetCreateCommandDTO {
     /**
      * Custom identifier of the new dataset.
      */
-    val identifier: DatasetIdentifier
+    val identifier: DatasetIdentifier?
 
     val parentId: DatasetId?
 
@@ -78,7 +78,7 @@ interface DatasetCreateCommandDTO {
  */
 @Serializable
 data class DatasetCreateCommandDTOBase(
-    override val identifier: String,
+    override val identifier: DatasetIdentifier?,
     override val parentId: DatasetId? = null,
     override val catalogueId: CatalogueId? = null,
     override val title: String,

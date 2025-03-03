@@ -2891,7 +2891,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetCreateCommandDTO {
-        readonly identifier: string;
+        readonly identifier?: string;
         readonly parentId?: string;
         readonly catalogueId?: string;
         readonly title: string;

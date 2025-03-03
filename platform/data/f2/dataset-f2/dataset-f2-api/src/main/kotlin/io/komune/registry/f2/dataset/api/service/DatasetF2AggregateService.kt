@@ -23,6 +23,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributi
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
 import io.komune.registry.infra.fs.FsPath
+import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
@@ -51,14 +52,22 @@ class DatasetF2AggregateService(
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fileClient: FileClient,
+    private val sequenceRepository: SequenceRepository
 ) {
+
+    companion object {
+        const val IDENTIFIER_SEQUENCE = "dataset_seq"
+    }
 
     suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
         val draftId = command.catalogueId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it)?.id }
             ?: command.parentId?.let { datasetFinderService.get(it).draftId }
 
-        val event = datasetAggregateService.create(command.toCommand()
-            .copy(identifier = if (draftId != null) { "${command.identifier}-draft" } else { command.identifier }))
+        val identifierSuffix = "-draft".takeIf { draftId != null } ?: ""
+        val datasetIdentifier = command.identifier
+            ?: "${command.type}-${sequenceRepository.nextValOf(IDENTIFIER_SEQUENCE)}"
+
+        val event = datasetAggregateService.create(command.toCommand("$datasetIdentifier$identifierSuffix"))
 
         command.catalogueId?.let {
             CatalogueLinkDatasetsCommand(

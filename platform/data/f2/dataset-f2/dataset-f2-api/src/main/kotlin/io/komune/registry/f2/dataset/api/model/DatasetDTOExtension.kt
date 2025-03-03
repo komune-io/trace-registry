@@ -15,6 +15,7 @@ import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -96,7 +97,7 @@ fun DistributionModel.toDTO() = DistributionDTOBase(
     modified = modified,
 )
 
-fun DatasetCreateCommandDTOBase.toCommand() = DatasetCreateCommand(
+fun DatasetCreateCommandDTOBase.toCommand(identifier: DatasetIdentifier) = DatasetCreateCommand(
     identifier = identifier,
     title = title,
     type = type,
