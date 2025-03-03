@@ -8,7 +8,6 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.match
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateConfig
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
@@ -49,13 +48,14 @@ class CatalogueDraftSnapMeiliSearchRepository(
 
     suspend fun save(entity: CatalogueDraftEntity) {
         if (entity.deleted) {
+            logger.info("CatalogueDraft[${entity.id}, deleted] -  Skip indexing")
             remove(entity.id)
             return
         }
 
         try {
             val existingDraft = get(entity.id)
-
+            logger.info("CatalogueDraft[${entity.id}] - indexing...")
             if (existingDraft == null) {
                 val draftedCatalogue = loader.load(entity.catalogueId)!!
                 val originalCatalogue = loader.load(entity.originalCatalogueId)!!
@@ -74,15 +74,17 @@ class CatalogueDraftSnapMeiliSearchRepository(
                 )
 
                 index.addDocuments(listOf(document).toJson(), "id")
+                logger.info("CatalogueDraft[${entity.id}] - index created")
+                return
+            } else {
+                val updatedDraft = existingDraft.copy(
+                    status = entity.status,
+                    modified = System.currentTimeMillis()
+                )
+                index.updateDocuments(listOf(updatedDraft).toJson(), "id")
+                logger.info("CatalogueDraft[${entity.id}] - index updated")
                 return
             }
-
-            val updatedDraft = existingDraft.copy(
-                status = entity.status,
-                modified = System.currentTimeMillis()
-            )
-            index.updateDocuments(listOf(updatedDraft).toJson(), "id")
-
         } catch (e: Exception) {
             logger.error("save catalogue error", e)
         }
