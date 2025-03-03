@@ -191,8 +191,11 @@ class CatalogueEndpoint(
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
         cataloguePoliciesEnforcer.checkCreate()
-        val event = catalogueF2AggregateService.create(command)
+
+        val enforceCommand = cataloguePoliciesEnforcer.enforceCommand(command)
+        val event = catalogueF2AggregateService.create(enforceCommand)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
+
         return event
     }
 
@@ -202,10 +205,12 @@ class CatalogueEndpoint(
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
-        cataloguePoliciesEnforcer.checkUpdate(command.id, command.draftId)
+        cataloguePoliciesEnforcer.checkUpdate(command.id)
+
         val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
         val event = catalogueF2AggregateService.update(enforcedCommand)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
+
         return event
     }
 

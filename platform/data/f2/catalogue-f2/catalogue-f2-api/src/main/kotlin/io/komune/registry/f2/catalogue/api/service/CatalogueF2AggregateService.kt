@@ -44,6 +44,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
@@ -85,20 +86,23 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun create(command: CatalogueCreateCommandDTOBase): CatalogueCreatedEventDTOBase {
+        if (!command.withDraft) {
+            return doCreate(command).let {
+                CatalogueCreatedEventDTOBase(
+                    id = it.id,
+                    identifier = it.identifier,
+                    draftId = null
+                )
+            }
+        }
+
+        requireNotNull(command.language) { "Language is required for a catalogue draft." }
+
         // creates basic structure of the catalogue
         val originalCatalogueEvent = command.copy(
             language = null,
             hidden = true
         ).let { doCreate(it) }
-
-        // drafts are only for translations
-        if (command.language == null) {
-            return CatalogueCreatedEventDTOBase(
-                id = originalCatalogueEvent.id,
-                identifier = originalCatalogueEvent.identifier,
-                draftId = ""
-            )
-        }
 
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
@@ -118,10 +122,6 @@ class CatalogueF2AggregateService(
         ).let { catalogueDraftAggregateService.create(it).id }
 
         linkCatalogueDatasetsToDraft(draftId, draftedCatalogueEvent.id)
-
-        if (command.autoValidateDraft) {
-            validateDraft(draftId)
-        }
 
         return CatalogueCreatedEventDTOBase(
             id = originalCatalogueEvent.id,
@@ -172,17 +172,17 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
-        val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, command.id)
-        doUpdate(command.copy(id = draft.catalogueId))
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
+            ?.checkLanguage(command.language)
 
-        command.parentId?.let { replaceParent(draft.originalCatalogueId, it) }
+        doUpdate(command)
 
-        linkCatalogueDatasetsToDraft(draft.id, draft.catalogueId)
+        // TODO if draft, don't apply change but store the info in the draft
+        command.parentId?.let { replaceParent(draft?.originalCatalogueId ?: command.id, it) }
 
-        return CatalogueUpdatedEventDTOBase(
-            id = command.id,
-            draftId = draft.id
-        )
+        draft?.let { linkCatalogueDatasetsToDraft(draft.id, draft.catalogueId) }
+
+        return CatalogueUpdatedEventDTOBase(command.id)
     }
 
     suspend fun linkCatalogues(command: CatalogueLinkCataloguesCommandDTOBase): CatalogueLinkedCataloguesEventDTOBase {
@@ -243,7 +243,7 @@ class CatalogueF2AggregateService(
 
         catalogueDraftAggregateService.validate(CatalogueDraftValidateCommand(draftId))
 
-        draftedCatalogue.toUpdateCommand("", draft.language).copy(
+        draftedCatalogue.toUpdateCommand(draft.language).copy(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
             versionNotes = draft.versionNotes,
@@ -339,7 +339,6 @@ class CatalogueF2AggregateService(
             val translationId = catalogue.translationIds[command.language]!!
             CatalogueUpdateCommandDTOBase(
                 id = translationId,
-                draftId = "",
                 title = command.title,
                 description = command.description,
                 language = command.language,

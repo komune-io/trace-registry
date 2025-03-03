@@ -67,7 +67,7 @@ interface CatalogueCreateCommandDTO {
      */
     val hidden: Boolean?
 
-    val autoValidateDraft: Boolean
+    val withDraft: Boolean
 }
 
 /**
@@ -91,7 +91,7 @@ data class CatalogueCreateCommandDTOBase(
     override val location: Location? = null,
     override val versionNotes: String? = null,
     override val hidden: Boolean? = null,
-    override val autoValidateDraft: Boolean = false,
+    override val withDraft: Boolean = false,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -112,9 +112,9 @@ interface CatalogueCreatedEventDTO: Event {
     val identifier: CatalogueIdentifier
 
     /**
-     * Id of the initialized draft.
+     * Id of the initialized draft, if any.
      */
-    val draftId: CatalogueDraftId
+    val draftId: CatalogueDraftId?
 }
 
 /**
@@ -124,5 +124,5 @@ interface CatalogueCreatedEventDTO: Event {
 data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
-    override val draftId: CatalogueDraftId,
+    override val draftId: CatalogueDraftId?,
 ): CatalogueCreatedEventDTO

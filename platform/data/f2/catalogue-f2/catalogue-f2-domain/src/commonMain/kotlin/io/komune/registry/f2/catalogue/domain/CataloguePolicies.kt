@@ -4,7 +4,6 @@ import io.komune.im.commons.auth.AuthedUserDTO
 import io.komune.im.commons.auth.hasOneOfRoles
 import io.komune.im.commons.auth.hasRole
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -15,7 +14,11 @@ import kotlin.js.JsExport
 @JsExport
 object CataloguePolicies {
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Permissions.Catalogue.WRITE_ORG, Permissions.Catalogue.WRITE_ALL, Permissions.CatalogueDraft.CREATE)
+        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE)
+    }
+
+    fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasOneOfRoles(Permissions.Catalogue.WRITE_ORG, Permissions.Catalogue.WRITE_ALL)
     }
 
     fun canUpdate(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {

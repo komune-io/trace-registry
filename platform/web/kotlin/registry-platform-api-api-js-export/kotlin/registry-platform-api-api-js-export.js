@@ -32,6 +32,11 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -42,11 +47,6 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
-}
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -1261,7 +1261,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueUpdatedAccessRightsEventDTO, 'CatalogueUpdatedAccessRightsEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(CatalogueUpdateCommandDTO, 'CatalogueUpdateCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueUpdatedEventDTO, 'CatalogueUpdatedEventDTO', interfaceMeta, VOID, [Event]);
-  setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta);
+  setMetadataFor(CatalogueAccessDataDTO, 'CatalogueAccessDataDTO', interfaceMeta);
+  setMetadataFor(CatalogueDTO, 'CatalogueDTO', interfaceMeta, VOID, [CatalogueAccessDataDTO]);
   setMetadataFor(CatalogueDraftRefDTO, 'CatalogueDraftRefDTO', interfaceMeta);
   setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta);
   setMetadataFor(CatalogueRefTreeDTO, 'CatalogueRefTreeDTO', interfaceMeta, VOID, [CatalogueRefDTO]);
@@ -29802,7 +29803,16 @@ if (typeof Math.imul === 'undefined') {
   function CataloguePolicies() {
   }
   protoOf(CataloguePolicies).canCreate = function (authedUser) {
-    return hasOneOfRoles_0(authedUser, ['rg_perm_catalogue_write_org', 'rg_perm_catalogue_write_all', 'rg_perm_catalogue_draft_create']);
+    var tmp;
+    if (this.canCreateWithoutDraft(authedUser)) {
+      tmp = true;
+    } else {
+      tmp = hasRole_0(authedUser, 'rg_perm_catalogue_draft_create');
+    }
+    return tmp;
+  };
+  protoOf(CataloguePolicies).canCreateWithoutDraft = function (authedUser) {
+    return hasOneOfRoles_0(authedUser, ['rg_perm_catalogue_write_org', 'rg_perm_catalogue_write_all']);
   };
   protoOf(CataloguePolicies).canUpdate = function (authedUser, catalogue) {
     return canWrite_1(this, authedUser, catalogue);
@@ -29919,6 +29929,8 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueUpdateCommandDTO() {
   }
   function CatalogueUpdatedEventDTO() {
+  }
+  function CatalogueAccessDataDTO() {
   }
   function CatalogueDTO() {
   }
@@ -33885,6 +33897,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$dto = $io$komune$registry$f2$catalogue$domain.dto || ($io$komune$registry$f2$catalogue$domain.dto = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
