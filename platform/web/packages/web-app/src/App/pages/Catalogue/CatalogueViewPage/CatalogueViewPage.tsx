@@ -114,7 +114,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-                navigate(cataloguesCatalogueIdDraftIdEdit(catalogue.id, res.id))
+                navigate(cataloguesCatalogueIdDraftIdEdit(catalogue.id, res.item?.id))
             }
         },
         [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],

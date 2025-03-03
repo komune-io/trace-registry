@@ -44,7 +44,6 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                 command: {
                     id: datasetId,
                     mediaType: currentCsv!.type,
-                    draftId: draftId!,
                     name: values.name
                 },
                 files: [{

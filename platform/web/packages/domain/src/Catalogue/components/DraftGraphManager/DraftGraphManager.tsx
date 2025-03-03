@@ -26,7 +26,6 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
     const onDelete = useCallback(
         async (datasetId: string) => {
             const res = await deleteDatasetCommand.mutateAsync({
-                draftId: draft?.id!,
                 id: datasetId
             })
             if (res) {

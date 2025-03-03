@@ -44,7 +44,6 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
             command: {
                 id: editor._config.namespace,
                 mediaType: file.type,
-                draftId: draftId!
             },
             files: [{
                 file: file
