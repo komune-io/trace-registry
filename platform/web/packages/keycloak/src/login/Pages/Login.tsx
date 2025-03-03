@@ -6,19 +6,25 @@ import { FormComposableField, useFormComposable, FormComposable, Action, Link, v
 import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material"
 import { KcContext } from "../KcContext";
+import {getKcClsx} from "keycloakify/login/lib/kcClsx";
 
 export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes, } = props;
 
     const { realm, url, usernameHidden, login, auth } = kcContext;
 
-    const { msgStr } = i18n;
+    const { kcClsx } = getKcClsx({
+        doUseDefaultCss,
+        classes
+    });
+
+    const { msgStr, msg } = i18n;
     const [isAuthenticating, setAuthenticating] = useState(false)
     const { t } = useTranslation()
 
     const initialValues = useMemo(() => ({
         ...login,
-        email: login.username,
+        email: login.username || auth.attemptedUsername,
         credentialId: auth?.selectedCredential
     }), [login, realm, auth?.selectedCredential])
 
@@ -42,7 +48,18 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
                 textFieldType: "text",
                 disabled: usernameHidden,
             },
-            validator: validators.requiredField(t)
+            validator: validators.requiredField(t),
+            customDisplay: (input) => (
+              <Stack
+                gap={2}
+                alignItems="flex-end"
+              >
+                  {input}
+                  {auth !== undefined && auth.showUsername && !auth.showResetCredentials &&
+                    <LoginRestartFlowButton {...props}/>
+                  }
+              </Stack>
+            )
         }, {
             name: "credentialId",
             type: "hidden"
@@ -143,3 +160,24 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
         </Template>
     );
 }
+
+
+export const LoginRestartFlowButton = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) => {
+    const { kcContext, i18n, doUseDefaultCss, classes} = props;
+
+    const { url } = kcContext;
+
+    const { msgStr } = i18n;
+    const { kcClsx } = getKcClsx({
+        doUseDefaultCss,
+        classes
+    });
+
+    return (
+      <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
+          <Link sx={{ color: "#828282", }} variant="caption" href={url.loginRestartFlowUrl}>{msgStr("restartLoginTooltip")}</Link>
+      </div>
+    );
+}
+
+// fa-sync-alt fas
