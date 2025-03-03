@@ -29,7 +29,7 @@ class CataloguePoliciesEnforcer(
             val draft = getDraftRef(draftId)
             CatalogueDraftPolicies.canUpdate(authedUser, draft)
         } else {
-            val catalogue = catalogueF2FinderService.get(catalogueId, null)
+            val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
             CataloguePolicies.canUpdate(authedUser, catalogue)
         }
     }
@@ -37,43 +37,43 @@ class CataloguePoliciesEnforcer(
     suspend fun checkUpdateAccessRights(
         catalogueId: CatalogueId
     ) = checkAuthed("update access rights of catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canUpdateAccessRights(authedUser, catalogue)
     }
 
     suspend fun checkSetImage(catalogueId: CatalogueId) = checkAuthed("set image of catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canSetImg(authedUser, catalogue)
     }
 
     suspend fun checkDelete(catalogueId: CatalogueId) = checkAuthed("delete the catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canDelete(authedUser, catalogue)
     }
 
     suspend fun checkLinkCatalogues(
         catalogueId: CatalogueId
     ) = checkAuthed("link catalogues to catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canLinkCatalogues(authedUser, catalogue)
     }
 
     suspend fun checkLinkThemes(
         catalogueId: CatalogueId
     ) = checkAuthed("link themes to catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canLinkThemes(authedUser, catalogue)
     }
 
     suspend fun checkLinkDatasets(
         catalogueId: CatalogueId
     ) = checkAuthed("link datasets to catalogue [$catalogueId]") { authedUser ->
-        val catalogue = catalogueF2FinderService.get(catalogueId, null)
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canLinkDatasets(authedUser, catalogue)
     }
 
     suspend fun enforceCommand(command: CatalogueUpdateCommandDTOBase) = enforceAuthed { authedUser ->
-        val catalogue = catalogueF2FinderService.get(command.id, null)
+        val catalogue = catalogueF2FinderService.getAccessData(command.id)
         command.copy(
             accessRights = command.accessRights
                 .takeIf { CataloguePolicies.canUpdateAccessRights(authedUser, catalogue) }

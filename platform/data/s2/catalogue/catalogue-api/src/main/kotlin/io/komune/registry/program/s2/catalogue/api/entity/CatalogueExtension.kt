@@ -1,6 +1,8 @@
 package io.komune.registry.program.s2.catalogue.api.entity
 
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.commons.model.CatalogueId
 
 fun CatalogueEntity.toModel(): CatalogueModel {
     return CatalogueModel(
@@ -32,4 +34,14 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         version = version,
         versionNotes = versionNotes
     )
+}
+
+suspend fun CatalogueModel.descendantsIds(
+    getCatalogue: suspend (CatalogueId) -> CatalogueModel
+): Set<CatalogueId> = buildSet {
+    val childrenIds = catalogueIds.toMutableSet()
+    catalogueIds.mapAsync { childId ->
+        childrenIds += getCatalogue(childId).descendantsIds(getCatalogue)
+    }
+    return childrenIds
 }

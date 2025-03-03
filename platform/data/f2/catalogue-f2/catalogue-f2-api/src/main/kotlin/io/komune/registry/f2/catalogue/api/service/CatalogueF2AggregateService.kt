@@ -11,7 +11,6 @@ import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.f2.catalogue.api.config.CatalogueTypeSubDataset
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
-import io.komune.registry.f2.catalogue.api.model.descendantsIds
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.api.model.toUpdateCommand
@@ -27,6 +26,7 @@ import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.program.s2.dataset.api.entity.toCreateCommand
@@ -395,8 +395,8 @@ class CatalogueF2AggregateService(
             throw CatalogueParentTypeInvalidException(typeConfiguration.type, parent.type)
         }
 
-        val catalogueDescendants = catalogueF2FinderService.getRefTreeOrNull(catalogueId, null)?.descendantsIds()
-        if (catalogueId == parent.id || catalogueDescendants?.contains(parent.id) == true) {
+        val catalogueDescendants = catalogueFinderService.get(catalogueId).descendantsIds(catalogueFinderService::get)
+        if (catalogueId == parent.id || parent.id in catalogueDescendants) {
             throw CatalogueParentIsDescendantException(catalogueId, parent.id)
         }
     }

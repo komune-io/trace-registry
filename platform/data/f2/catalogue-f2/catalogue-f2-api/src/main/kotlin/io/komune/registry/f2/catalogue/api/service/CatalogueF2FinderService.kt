@@ -6,7 +6,8 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
-import io.komune.registry.f2.catalogue.api.model.descendantsIds
+import io.komune.registry.f2.catalogue.api.model.toAccessData
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
@@ -17,6 +18,7 @@ import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
@@ -51,6 +53,10 @@ class CatalogueF2FinderService(
     ): CatalogueDTOBase {
         return getOrNull(id, language)
             ?: throw NotFoundException("Catalogue", id)
+    }
+
+    suspend fun getAccessData(id: CatalogueId): CatalogueAccessData {
+        return catalogueFinderService.get(id).toAccessDataCached()
     }
 
     suspend fun getByIdentifierOrNull(
@@ -192,7 +198,7 @@ class CatalogueF2FinderService(
         onlyAccessibleByAuthedUser: Boolean
     ): List<CatalogueRefDTOBase> {
         val allowedParentTypes = catalogueConfig.typeConfigurations[type]?.parentTypes
-        val descendantsIds = id?.let { getRefTreeOrNull(it, language)?.descendantsIds() }
+        val descendantsIds = id?.let { catalogueFinderService.getOrNull(it)?.descendantsIds(catalogueFinderService::get) }
 
         return catalogueFinderService.page(
             type = allowedParentTypes?.let { CollectionMatch(it) },
@@ -220,5 +226,12 @@ class CatalogueF2FinderService(
             roles = roles?.toList(),
             offset = limit?.let { OffsetPagination(0, it) }
         ).items
+    }
+
+    private suspend fun CatalogueModel.toAccessDataCached() = withCache { cache ->
+        toAccessData(
+            getOrganization = cache.organizations::get,
+            getUser = cache.users::get
+        )
     }
 }
