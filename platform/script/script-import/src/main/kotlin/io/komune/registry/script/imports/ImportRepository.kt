@@ -11,6 +11,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionC
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -56,9 +57,10 @@ class ImportRepository(
 
     suspend fun getOrCreateDataset(
         identifier: DatasetIdentifier,
+        parentId: DatasetId?,
+        catalogueId: CatalogueId?,
         language: Language,
         type: String,
-        draftId: CatalogueDraftId
     ): DatasetId {
         val datasetId = DatasetGetByIdentifierQuery(identifier, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
@@ -66,10 +68,11 @@ class ImportRepository(
             ?.id
             ?: DatasetCreateCommandDTOBase(
                 identifier = identifier,
+                parentId = parentId,
+                catalogueId = catalogueId,
                 type = type,
                 title = "",
                 language = language,
-                draftId = draftId
             ).invokeWith(dataClient.dataset.datasetCreate()).id
 
         return datasetId
@@ -79,13 +82,11 @@ class ImportRepository(
         datasetId: DatasetId,
         mediaType: String,
         file: SimpleFile,
-        draftId: CatalogueDraftId
     ): DistributionId {
         return (DatasetAddMediaDistributionCommandDTOBase(
             id = datasetId,
             name = null,
             mediaType = mediaType,
-            draftId = draftId
         ) to SimpleFile(
             name = file.name,
             content = file.content

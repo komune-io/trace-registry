@@ -100,7 +100,7 @@ class CatalogueDraftF2AggregateService(
             val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
             idMap[datasetId] = newId
 
-            dataset.distributions.mapAsync { distribution ->
+            dataset.distributions.forEach { distribution ->
                 DatasetAddDistributionCommand(
                     id = newId,
                     name = distribution.name,

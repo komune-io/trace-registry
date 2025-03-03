@@ -16,8 +16,6 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
-import io.komune.registry.f2.catalogue.draft.client.CatalogueDraftClient
-import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateCommandDTOBase
 import io.komune.registry.f2.concept.client.ConceptClient
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.DatasetClient
@@ -25,15 +23,13 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.license.client.LicenseClient
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
-import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
-import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
@@ -41,16 +37,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
-typealias DraftMutableMap = MutableMap<Pair<CatalogueId, Language>, CatalogueDraftId>
-
 class DCatGraphClient(
     private val catalogueClient: CatalogueClient,
-    private val catalogueDraftClient: CatalogueDraftClient,
     private val conceptClient: ConceptClient,
     private val datasetClient: DatasetClient,
     private val licenseClient: LicenseClient,
 ) {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Suppress("ComplexMethod", "LongMethod")
     suspend fun create(allCatalogues: Flow<DCatApCatalogueModel>): Flow<CatalogueIdentifier> {
         val visitedCatalogueKeys = mutableSetOf<CatalogueIdentifier>()
@@ -69,12 +63,9 @@ class DCatGraphClient(
 
         return allCatalogues.flatMapConcat(DCatApCatalogueModel::flatten)
             .map { catalogue ->
-                val drafts: DraftMutableMap = mutableMapOf()
-
                 val catalogueIdentifier = initCatalogue(
                     catalogue,
                     createdCatalogues,
-                    drafts
                 )
                 val catalogueId = createdCatalogues[catalogueIdentifier]!!
 
@@ -83,9 +74,6 @@ class DCatGraphClient(
                         val datasetId = dataset.getOrCreate(catalogueId)
                         createdDatasets[dataset.identifier] = datasetId
                     }
-                }
-                drafts.forEach { (_, draftId) ->
-                    CatalogueDraftValidateCommand(draftId).invokeWith(catalogueDraftClient.catalogueDraftValidate())
                 }
                 catalogueIdentifier
             }
@@ -118,8 +106,7 @@ class DCatGraphClient(
 
     private suspend fun initCatalogue(
         catalogue: DCatApCatalogueModel,
-        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>,
-        drafts: DraftMutableMap
+        createdCatalogues: MutableMap<CatalogueIdentifier, CatalogueId>
     ): CatalogueIdentifier {
         val existingCatalogue = CatalogueGetByIdentifierQuery(
             identifier = catalogue.identifier,
@@ -148,8 +135,7 @@ class DCatGraphClient(
         catalogue.translations
             ?.filterKeys { it !in existingCatalogue.availableLanguages }
             ?.map { (_, translation) ->
-                val draftId = drafts.getOrCreateDraft(existingCatalogue.id, translation.language)
-                (existingCatalogue.toUpdateCommand(draftId).copy(
+                (existingCatalogue.toUpdateCommand().copy(
                     title = translation.title,
                     description = translation.description,
                     language = translation.language
@@ -203,8 +189,7 @@ class DCatGraphClient(
             },
             license = catalogue.license?.let {
                 LicenseGetByIdentifierQuery(it.identifier).invokeWith(licenseClient.licenseGetByIdentifier()).item?.id
-            },
-            autoValidateDraft = true
+            }
         ) to catalogue.img?.let { SimpleFile(
             name = it,
             content = PathMatchingResourcePatternResolver().getResource(it).contentAsByteArray
@@ -270,16 +255,6 @@ class DCatGraphClient(
             println("Created dataset ${identifier} with id ${it}")
         }
     }
-
-    private suspend fun DraftMutableMap.getOrCreateDraft(
-        catalogueId: CatalogueId,
-        language: Language
-    ) = getOrPut(catalogueId to language) {
-        CatalogueDraftCreateCommandDTOBase(
-            catalogueId = catalogueId,
-            language = language
-        ).invokeWith(catalogueDraftClient.catalogueDraftCreate()).item.id
-    }
 }
 
 
@@ -292,7 +267,7 @@ fun CatalogueRefDTOBase.toDsl(): DCatApCatalogueModel = DCatApCatalogueModel(
     title = title,
 )
 
-fun CatalogueDTOBase.toUpdateCommand(draftId: CatalogueDraftId) = CatalogueUpdateCommandDTOBase(
+fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
     id = id,
     title = title,
     description = description,
@@ -302,6 +277,5 @@ fun CatalogueDTOBase.toUpdateCommand(draftId: CatalogueDraftId) = CatalogueUpdat
     themes = themes?.map { it.id },
     accessRights = accessRights,
     license = license?.id,
-    hidden = hidden,
-    draftId = draftId
+    hidden = hidden
 )

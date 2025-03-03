@@ -14,7 +14,7 @@ fun <T> intersectNotNullsOrNull(vararg collections: Collection<T>?): Set<T>? {
         .reduceOrNull(Set<T>::intersect)
 }
 
-suspend fun <T, R> Collection<T>.mapAsyncDeferred(transform: suspend (T) -> R): List<Deferred<R>> = coroutineScope {
+suspend fun <T, R> Iterable<T>.mapAsyncDeferred(transform: suspend (T) -> R): List<Deferred<R>> = coroutineScope {
     map {
         async {
             transform(it)
@@ -22,9 +22,9 @@ suspend fun <T, R> Collection<T>.mapAsyncDeferred(transform: suspend (T) -> R): 
     }
 }
 
-suspend fun <T, R> Collection<T>.mapAsync(transform: suspend (T) -> R): List<R> = mapAsyncDeferred(transform).awaitAll()
+suspend fun <T, R> Iterable<T>.mapAsync(transform: suspend (T) -> R): List<R> = mapAsyncDeferred(transform).awaitAll()
 
-suspend fun <T, R> Collection<T>.mapAsyncDeferredIndexed(transform: suspend (Int, T) -> R): List<Deferred<R>> = coroutineScope {
+suspend fun <T, R> Iterable<T>.mapAsyncDeferredIndexed(transform: suspend (Int, T) -> R): List<Deferred<R>> = coroutineScope {
     mapIndexed { index, item ->
         async {
             transform(index, item)
@@ -32,7 +32,7 @@ suspend fun <T, R> Collection<T>.mapAsyncDeferredIndexed(transform: suspend (Int
     }
 }
 
-suspend fun <T, R> Collection<T>.mapAsyncIndexed(transform: suspend (Int, T) -> R): List<R> = mapAsyncDeferredIndexed(transform).awaitAll()
+suspend fun <T, R> Iterable<T>.mapAsyncIndexed(transform: suspend (Int, T) -> R): List<R> = mapAsyncDeferredIndexed(transform).awaitAll()
 
 suspend fun <T> doWithRetry(retries: Int, block: suspend () -> T): T {
     return try {
