@@ -10,7 +10,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
+import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
@@ -23,15 +25,20 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.UserId
 
-fun CatalogueRefTreeDTOBase.descendantsIds(): Set<CatalogueId> = buildSet {
-    catalogues?.forEach {
-        add(it.id)
-        addAll(it.descendantsIds())
-    }
-}
+suspend fun CatalogueModel.toAccessData(
+    getOrganization: suspend (OrganizationId) -> OrganizationRef?,
+    getUser: suspend (UserId) -> UserRef,
+) = CatalogueAccessData(
+    id = id,
+    creator = creatorId?.let { getUser(it) },
+    creatorOrganization = creatorOrganizationId?.let { getOrganization(it) },
+    ownerOrganization = ownerOrganizationId?.let { getOrganization(it) },
+    accessRights = accessRights
+)
 
 fun CatalogueCreateCommandDTOBase.toCommand(
     identifier: String,

@@ -31,7 +31,7 @@ import kotlin.js.JsExport
  * @order 10
  */
 @JsExport
-interface CatalogueDTO {
+interface CatalogueDTO : CatalogueAccessDataDTO {
     /**
      * A unique identifier represented as a string.
      *
@@ -39,7 +39,7 @@ interface CatalogueDTO {
      * within the system. It should be treated as a read-only
      * property to avoid unintended mutations.
      */
-    val id: String
+    override val id: String
 
     /**
      * A unique string used to identify a specific entity within a system.
@@ -134,11 +134,11 @@ interface CatalogueDTO {
     /**
      * The agent responsible for creating the catalogue.
      */
-    val creator: UserRefDTO?
+    override val creator: UserRefDTO?
 
-    val creatorOrganization: OrganizationRefDTO?
+    override val creatorOrganization: OrganizationRefDTO?
 
-    val ownerOrganization: OrganizationRefDTO?
+    override val ownerOrganization: OrganizationRefDTO?
 
     /**
      * The agent responsible for making the dataset available.
@@ -154,7 +154,7 @@ interface CatalogueDTO {
      * Describes the access rights to the dataset. This can indicate permissions, restrictions, or special authorizations
      * applicable to the dataset.
      */
-    val accessRights: CatalogueAccessRight
+    override val accessRights: CatalogueAccessRight
 
     /**
      * A legal document under which the catalogue is made available.

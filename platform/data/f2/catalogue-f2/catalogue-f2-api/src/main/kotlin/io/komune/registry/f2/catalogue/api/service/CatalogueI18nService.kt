@@ -95,7 +95,7 @@ class CatalogueI18nService(
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED },
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
-            language = translated.language.orEmpty(),
+            language = translated.language!!,
             availableLanguages = translated.translationIds.keys.toList(),
             structure = translated.structure,
             homepage = translated.homepage,
@@ -152,7 +152,6 @@ class CatalogueI18nService(
      * 2. If the catalogue is already in the desired language, return it as is.
      * 3. Else, if the catalogue has no translations:
      *   - If the catalogue has a language and alternative language is allowed, return it as is.
-     *   - Else, if the catalogue has no language and the desired language is null, return it as is.
      *   - Otherwise, return null.
      * 4. Else, if the desired language is not in the translations and alternative language is not allowed, return null.
      * 5. Else, return the catalogue translated to the first existing translation found in the order:
@@ -165,7 +164,6 @@ class CatalogueI18nService(
             language != null && catalogue.language == language -> return catalogue
             catalogue.translationIds.isEmpty() -> return when {
                 otherLanguageIfAbsent && catalogue.language != null -> catalogue
-                language == null && catalogue.language == null -> catalogue
                 else -> null
             }
             language != null && language !in catalogue.translationIds && !otherLanguageIfAbsent -> return null
