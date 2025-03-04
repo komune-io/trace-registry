@@ -50,6 +50,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -171,6 +172,7 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableOwnersResult)
     }
 
+    @PermitAll
     @GetMapping("/data/catalogues/{catalogueId}/img")
     suspend fun catalogueImgDownload(
         @PathVariable catalogueId: CatalogueId,
