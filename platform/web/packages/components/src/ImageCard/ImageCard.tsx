@@ -47,10 +47,11 @@ export const ImageCard = (props: ImageCardProps) => {
                 gap: 1.5,
                 display: "flex",
                 flexDirection: "column",
-                positon: "relative",
+                position: "relative",
                 cursor: onClick ? "pointer" : undefined,
+                border: "1px solid #E4DEE7",
                 "& .cardImage": {
-                    width: "280px",
+                    width: "242px",
                     height: "auto"
                 }
             }}
@@ -60,7 +61,7 @@ export const ImageCard = (props: ImageCardProps) => {
                 className="cardImage"
             />
             {label && <Typography
-                variant='h4'
+                variant='h5'
                 sx={{
                     fontWeight: 700
                 }}

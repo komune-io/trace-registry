@@ -52,7 +52,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
 
     const csvDistributions = useMemo(() => graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [graphDataset])
 
-    const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} /> ), [csvDistributions, graphDataset])
+    const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} />), [csvDistributions, graphDataset])
 
     console.log(csvDistributions)
 
@@ -81,6 +81,8 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 <Stack
                     direction="row"
                     gap={3}
+                    flexWrap="wrap"
+                    alignItems="flex-start"
                 >
                     {graphsDisplay}
                 </Stack>

@@ -116,6 +116,8 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
             <Stack
                 direction="row"
                 gap={3}
+                flexWrap="wrap"
+                alignItems="flex-start"
             >
                 {graphsDisplay}
             </Stack>
@@ -127,6 +129,9 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
             open={open}
             onClose={onClose}
             title={t("editor.addImage")}
+            sx={{
+                width: "1024px"
+            }}
         >
             <SectionTab
                 currentTab={currentTab}

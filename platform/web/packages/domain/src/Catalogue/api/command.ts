@@ -171,3 +171,16 @@ export const useDatasetAddMediaDistributionCommand = (
         DatasetAddedMediaDistributionEvent
     >('data/datasetAddMediaDistribution', requestProps, params)
 }
+
+export interface DatasetUpdateMediaDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTO { }
+export interface DatasetUpdatedMediaDistributionEvent extends io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTO { }
+
+export const useDatasetUpdateMediaDistributionCommand = (
+    params: CommandParams<CommandWithFile<DatasetUpdateMediaDistributionCommand>, DatasetUpdatedMediaDistributionEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandWithFileRequest<
+        DatasetUpdateMediaDistributionCommand,
+        DatasetUpdatedMediaDistributionEvent
+    >('data/datasetUpdateMediaDistribution', requestProps, params)
+}
