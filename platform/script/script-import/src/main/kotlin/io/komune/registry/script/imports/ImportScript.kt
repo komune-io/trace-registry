@@ -37,6 +37,7 @@ import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
+import java.util.concurrent.ConcurrentHashMap
 
 class ImportScript(
     private val properties: RegistryScriptInitProperties
@@ -191,7 +192,7 @@ class ImportScript(
 
 
         importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.map {
+        catalogueData.parentIdentifier(importContext)?.forEach {
             importContext.catalogueParents[catalogue.id] = it
         }
 
@@ -396,10 +397,10 @@ class ImportContext(
     val rootDirectory: File,
     val settings: CatalogueImportSettings
 ) {
-    val concepts = mutableMapOf<ConceptIdentifier, ConceptId>()
-    val licenses = mutableMapOf<LicenseIdentifier, LicenseId>()
-    val catalogues = mutableMapOf<CatalogueIdentifier, CatalogueId>()
-    val catalogueParents = mutableMapOf<CatalogueId, CatalogueIdentifier>()
+    val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId>()
+    val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
+    val catalogues = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
+    val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueIdentifier>()
 
     fun mapCatalogueType(type: String): String {
         return settings
