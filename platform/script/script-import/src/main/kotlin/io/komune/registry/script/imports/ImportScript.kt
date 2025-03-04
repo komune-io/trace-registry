@@ -324,15 +324,16 @@ class ImportScript(
 
     private suspend fun connectCatalogues(importContext: ImportContext) {
         logger.info("Linking catalogues...")
-        importContext.catalogueParents.entries.mapAsync { (catalogueId, parentIdentifier) ->
-            logger.info("Linking [${catalogueId} -> $parentIdentifier]")
+        val size = importContext.catalogueParents.entries.size
+        importContext.catalogueParents.entries.mapAsyncIndexed { index, (catalogueId, parentIdentifier) ->
+            logger.info("($index/$size) Linking [${catalogueId} -> $parentIdentifier]")
             val parentId = importContext.catalogues[parentIdentifier]
                 ?: run {
                     if (importContext.settings.useDefaultIfUnknownParent) {
                         val defaultParentId = getDefaultParentId(catalogueId, importContext)
                         logger.warn("Catalogue[$catalogueId] => ParentCatalogue $parentIdentifier not found. " +
                                 "Using default [${defaultParentId}] or ignoring if not specified.")
-                        defaultParentId ?: return@mapAsync
+                        defaultParentId ?: return@mapAsyncIndexed
                     } else {
                         throw IllegalArgumentException("Parent catalogue not found: $parentIdentifier")
                     }
