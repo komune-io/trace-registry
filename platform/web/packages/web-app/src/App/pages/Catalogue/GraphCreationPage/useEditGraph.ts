@@ -1,22 +1,21 @@
 import { FormComposableState } from '@komune-io/g2'
 import { useQueryClient } from '@tanstack/react-query'
-import { CatalogueDraft, Dataset, RawGraphState, useDatasetCreateCommand, useDatasetUpdateJsonDistributionCommand, useDatasetUpdateMediaDistributionCommand } from 'domain-components'
+import { CatalogueDraft, Dataset, RawGraphState, useDatasetUpdateCommand, useDatasetUpdateJsonDistributionCommand, useDatasetUpdateMediaDistributionCommand } from 'domain-components'
 import { useCallback, useMemo } from 'react'
 
 interface useEditGraphParams {
     graphFormState: FormComposableState
-    graphDataset?: Dataset
     draft?: CatalogueDraft
     onClose: () => void
     dataset?: Dataset
 }
 
 export const useEditGraph = (params: useEditGraphParams) => {
-    const {draft, graphDataset, graphFormState, onClose, dataset} = params
+    const {draft, graphFormState, onClose, dataset} = params
 
     const queryClient = useQueryClient()
 
-    const createDataset = useDatasetCreateCommand({})
+    const updateDataset = useDatasetUpdateCommand({})
 
     const updateMediaDistribution = useDatasetUpdateMediaDistributionCommand({})
 
@@ -29,12 +28,10 @@ export const useEditGraph = (params: useEditGraphParams) => {
         async (graphSvg: Blob, state: RawGraphState) => {
             const errors = graphFormState.validateForm()
             if (Object.keys(errors).length > 0) return
-            if (!draft || !graphDataset) return
-            const updateRes = await createDataset.mutateAsync({
+            if (!draft) return
+            const updateRes = await updateDataset.mutateAsync({
                 title: graphFormState.values.title,
-                language: draft.language,
-                type: "rawGraph",
-                parentId: graphDataset.id
+                id: dataset?.id!,
             })
 
             if (updateRes) {
@@ -61,8 +58,9 @@ export const useEditGraph = (params: useEditGraphParams) => {
                 onClose()
             }
         },
-        [graphFormState.values, draft, graphDataset, onClose, jsonDistribution, mediaDistribution],
+        [graphFormState.values, draft, onClose, jsonDistribution, mediaDistribution, dataset],
     )
+
     return {
         onUpdateChart
     }

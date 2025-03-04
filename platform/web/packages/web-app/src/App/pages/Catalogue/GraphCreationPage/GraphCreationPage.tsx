@@ -75,7 +75,6 @@ export const GraphCreationPage = () => {
 
   const { onUpdateChart } = useEditGraph({
     draft,
-    graphDataset,
     graphFormState,
     onClose,
     dataset
