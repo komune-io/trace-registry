@@ -1,6 +1,5 @@
 import { useFormComposable } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
-import { useQueryClient } from '@tanstack/react-query'
 import { useRoutesDefinition } from 'components'
 import {
   GraphCreationheader,
@@ -8,38 +7,19 @@ import {
   GraphForm,
   RawGraphState,
   useCatalogueDraftGetQuery,
-  useDatasetAddJsonDistributionCommand,
-  useDatasetAddMediaDistributionCommand,
-  useDatasetCreateCommand,
+  useDownloadDistribution,
 } from 'domain-components'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useSaveGraph } from './useSaveGraph'
+import { useEditGraph } from './useEditGraph'
 
 
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, datasetId } = useParams()
   const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
-
-  const queryClient = useQueryClient()
-
-  const catalogueDraftQuery = useCatalogueDraftGetQuery({
-    query: {
-      id: draftId!
-    },
-    options: {
-      enabled: !!datasetId
-    }
-  })
-
-  const draft = catalogueDraftQuery.data?.item
-
-  const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
-
-  const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
-
-  console.log(dataset)
 
   const navigate = useNavigate()
 
@@ -51,56 +31,55 @@ export const GraphCreationPage = () => {
   )
 
   useEffect(() => {
-    document.title = "WikiCO2 | " + t("search")
+    document.title = "WikiCO2 | " + t("createAGraph")
   }, [t])
 
-  const graphFormState = useFormComposable({
-    isLoading: catalogueDraftQuery.isInitialLoading
+
+
+  const catalogueDraftQuery = useCatalogueDraftGetQuery({
+    query: {
+      id: draftId!
+    }
   })
 
-  const createDataset = useDatasetCreateCommand({})
-  
-  const addMediaDistribution = useDatasetAddMediaDistributionCommand({})
+  const draft = catalogueDraftQuery.data?.item
 
-  const addJsonDistribution = useDatasetAddJsonDistributionCommand({})
+  const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
 
-  const onSaveChart = useCallback(
-    async (graphSvg: Blob, state: RawGraphState) => {
-      const errors = graphFormState.validateForm()
-      if (Object.keys(errors).length > 0) return
-      if (!draft || !graphDataset) return 
-      const createRes = await createDataset.mutateAsync({
-        title: graphFormState.values.title,
-        language: draft.language,
-        type: "rawGraph",
-        parentId: graphDataset.id
-      })
+  const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
+  const distribution = useMemo(() => dataset?.distributions?.find((dist) => dist.mediaType === "application/json"), [dataset])
 
-      if (createRes) {
-        await addJsonDistribution.mutateAsync({
-          id: createRes.id,
-          jsonContent: JSON.stringify({
-            ...state,
-            csvDistributionId: graphFormState.values.distributionId
-          }),
-        })
-        await addMediaDistribution.mutateAsync({
-          command: {
-            id: createRes.id,
-            mediaType: "image/svg+xml",
-          },
-          files: [{
-            //@ts-ignore
-            file: graphSvg
-          }]
-        })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
-        onClose()
-      }
-    },
-    [graphFormState.values, draft, graphDataset, onClose],
-  )
-  
+  const rawGraphStateDistrib = useDownloadDistribution<RawGraphState>("json", dataset?.id, distribution?.id)
+
+  const initialValues = useMemo(() => {
+    if (!rawGraphStateDistrib.data || !dataset) return
+    return {
+      title: dataset.title,
+      distributionId: rawGraphStateDistrib.data.csvDistributionId
+    }
+  }, [rawGraphStateDistrib.data, dataset])
+
+  const graphFormState = useFormComposable({
+    isLoading: catalogueDraftQuery.isInitialLoading,
+    formikConfig: {
+      initialValues
+    }
+  })
+
+  const { onSaveChart } = useSaveGraph({
+    draft,
+    graphDataset,
+    graphFormState,
+    onClose
+  })
+
+  const { onUpdateChart } = useEditGraph({
+    draft,
+    graphFormState,
+    onClose,
+    dataset
+  })
+
   return (
     <Dialog
       fullScreen
@@ -128,9 +107,10 @@ export const GraphCreationPage = () => {
       >
         <GraphDatasetForm draft={draft} formState={graphFormState} />
         <GraphForm
-          onSave={onSaveChart}
+          onSave={!!dataset ? onUpdateChart : onSaveChart}
           csvDistributionId={graphFormState.values.distributionId}
           graphDatasetId={graphDataset?.id}
+          state={rawGraphStateDistrib.data ?? undefined}
         />
       </Stack>
     </Dialog>

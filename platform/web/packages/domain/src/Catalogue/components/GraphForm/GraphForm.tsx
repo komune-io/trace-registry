@@ -6,7 +6,7 @@ import {
 } from '@rawgraphs/rawgraphs-core'
 //@ts-ignore
 import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
 import { Helmet } from "react-helmet";
@@ -18,17 +18,18 @@ export interface RawGraphState {
     chart: string
     mapping: any
     visualOptions: any
-    distributionId?: string
+    csvDistributionId?: string
 }
 
 export interface GraphFormProps {
     onSave: (graphSvg: Blob, state: RawGraphState) => Promise<any>
     csvDistributionId?: string
     graphDatasetId?: string
+    state?: RawGraphState
 }
 
 export const GraphForm = (props: GraphFormProps) => {
-    const { onSave, csvDistributionId, graphDatasetId } = props
+    const { onSave, csvDistributionId, graphDatasetId, state } = props
     const { t } = useTranslation()
     
 
@@ -44,6 +45,15 @@ export const GraphForm = (props: GraphFormProps) => {
     const [rawViz, setRawViz] = useState<any>(null)
     const dataMappingRef = useRef<any>(null)
 
+    useEffect(() => {
+      if (state) {
+        const selectedChart = charts.find((chart) => chart.metadata.name === state.chart)
+        if (selectedChart) setCurrentChart(selectedChart)
+        setMapping(state.mapping)
+        setVisualOptions(state.visualOptions)
+      }
+    }, [state])
+    
     const clearLocalMapping = useCallback(() => {
         if (dataMappingRef.current) {
             dataMappingRef.current.clearLocalMapping()
@@ -69,7 +79,7 @@ export const GraphForm = (props: GraphFormProps) => {
             )
             var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
             await onSave(svg, {
-                chart: currentChart,
+                chart: currentChart.metadata.name,
                 mapping,
                 visualOptions
             })
