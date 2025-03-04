@@ -32,7 +32,9 @@ suspend fun <T, R> Iterable<T>.mapAsyncDeferred(transform: suspend (T) -> R): Li
 
 suspend fun <T, R> Iterable<T>.mapAsync(transform: suspend (T) -> R): List<R> = mapAsyncDeferred(transform).awaitAll()
 
-suspend fun <T, R> Iterable<T>.mapAsyncDeferredIndexed(chunkItemsNumber: Int, transform: suspend (Int, T) -> R): List<Deferred<R>> = coroutineScope {
+suspend fun <T, R> Iterable<T>.mapAsyncDeferredIndexed(
+    chunkItemsNumber: Int, transform: suspend (Int, T) -> R
+): List<Deferred<R>> = coroutineScope {
     mapIndexed { index, item ->
         async {
             transform(chunkItemsNumber+index, item)
