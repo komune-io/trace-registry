@@ -22,10 +22,8 @@ class DatasetAutomateConfig(
 	aggregate,
 	evolver,
 	datasetSnapRepository,
-	"Dataset"
+	DatasetEntity::class
 ) {
-	override fun redisEntityType() = DatasetEntity::class
-
 	override fun automate() = s2Dataset
 	override fun entityType(): KClass<DatasetEvent> = DatasetEvent::class
 }

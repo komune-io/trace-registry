@@ -23,7 +23,7 @@ abstract class RegistryS2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXE
 	aggregate: EXECUTOR,
 	evolver: View<EVENT, ENTITY>,
 	projectSnapRepository: SnapRepository<ENTITY, ID>,
-	protected val entityName: String
+	private val redisEntityType: KClass<ENTITY>
 ) : S2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
 	aggregate,
 	evolver,
@@ -44,13 +44,13 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 
 	override fun afterPropertiesSet() {
 		super.afterPropertiesSet()
-		val entityType = redisEntityType().java
+		val entityType = redisEntityType.java
 		val count = entityStream.of(entityType).count()
 		if (count == 0L) {
 			try {
 				runBlocking {
 					logger.info("/////////////////////////")
-					logger.info("Replay $entityName history")
+					logger.info("Replay ${entityType.name} history")
 					executor.replayHistory()
 					logger.info("/////////////////////////")
 				}
@@ -59,8 +59,6 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 			}
 		}
 	}
-
-	abstract fun redisEntityType(): KClass<ENTITY>
 
 	override fun json(): Json = Json {
 		serializersModule = SerializersModule {

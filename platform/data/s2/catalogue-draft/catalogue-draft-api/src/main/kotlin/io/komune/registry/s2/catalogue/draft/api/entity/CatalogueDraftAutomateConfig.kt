@@ -23,10 +23,8 @@ class CatalogueDraftAutomateConfig(
 	aggregate,
 	evolver,
 	projectSnapRepository,
-	entityName = "CatalogueDraft"
+	CatalogueDraftEntity::class
 ) {
-	override fun redisEntityType() = CatalogueDraftEntity::class
-
 	override fun automate() = s2CatalogueDraft
 	override fun entityType(): KClass<CatalogueDraftEvent> = CatalogueDraftEvent::class
 }
