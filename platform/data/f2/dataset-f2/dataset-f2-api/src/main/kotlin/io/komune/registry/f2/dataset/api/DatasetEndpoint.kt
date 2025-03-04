@@ -41,6 +41,7 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
+import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -103,6 +104,7 @@ class DatasetEndpoint(
         datasetF2FinderService.getAllRefs()
     }
 
+    @PermitAll
     @GetMapping("/data/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun datasetLogoDownload(
         @PathVariable datasetId: DatasetId,
@@ -129,6 +131,7 @@ class DatasetEndpoint(
             .let(::DatasetListLanguagesResult)
     }
 
+    @PermitAll
     @GetMapping("/data/datasetDownloadDistribution/{datasetId}/{distributionId}")
     suspend fun datasetDownloadDistribution(
         @PathVariable datasetId: DatasetId,
