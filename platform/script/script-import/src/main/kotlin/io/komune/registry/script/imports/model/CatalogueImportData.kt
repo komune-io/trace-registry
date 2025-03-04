@@ -30,7 +30,6 @@ data class CatalogueParent(
     val identifier: String
 )
 
-
 data class CatalogueTranslationData(
     val title: String?,
     val description: String?,

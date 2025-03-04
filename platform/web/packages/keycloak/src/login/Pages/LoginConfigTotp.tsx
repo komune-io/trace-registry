@@ -21,7 +21,6 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
     totpSecret: totp.totpSecret
   }), [mode, totp])
 
-
   const formState = useFormComposable({
     formikConfig: {
       initialValues
@@ -63,7 +62,6 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
       label: msgStr("authenticatorCode"),
       validator: validators.requiredField(t)
     }, {
-      key: "totpSecret",
       name: "totpSecret",
       type: "hidden"
     }, ...maybeAddItem<FormComposableField>(!!mode, {

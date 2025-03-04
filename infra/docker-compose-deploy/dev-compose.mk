@@ -32,6 +32,11 @@ connect-init:
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_INIT_FILE),$(MAKECMDGOALS)))
 	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_INIT_FILE)"
 
+registry-db:
+	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
+	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
+	$(MAKE) $(MAKE_OPTS) --no-print-directory exec-common ACTION=$(ACTION) SERVICE=$(SERVICE) SERVICES_ALL="$(DOCKER_COMPOSE_REGISTRY_FILE)"
+
 registry:
 	$(eval ACTION := $(filter $(ACTIONS),$(MAKECMDGOALS)))
 	$(eval SERVICE := $(filter $(DOCKER_COMPOSE_FILE),$(MAKECMDGOALS)))
