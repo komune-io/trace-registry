@@ -40,7 +40,6 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
-import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -69,7 +68,6 @@ class DatasetEndpoint(
 
     private val logger = LoggerFactory.getLogger(DatasetEndpoint::class.java)
 
-    @PermitAll
     @Bean
     override fun datasetPage(): DatasetPageFunction = f2Function { query ->
         logger.info("datasetPage: $query")
@@ -84,7 +82,6 @@ class DatasetEndpoint(
         )
     }
 
-    @PermitAll
     @Bean
     override fun datasetGet(): DatasetGetFunction = f2Function { query ->
         logger.info("datasetGet: $query")
@@ -92,7 +89,6 @@ class DatasetEndpoint(
             .let(::DatasetGetResult)
     }
 
-    @PermitAll
     @Bean
     override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = f2Function { query ->
         logger.info("datasetGetByIdentifier: $query")
@@ -100,14 +96,12 @@ class DatasetEndpoint(
             .let(::DatasetGetByIdentifierResult)
     }
 
-    @PermitAll
     @Bean
     override fun datasetRefList(): DatasetRefListFunction = f2Function { query ->
         logger.info("datasetRefList: $query")
         datasetF2FinderService.getAllRefs()
     }
 
-    @PermitAll
     @GetMapping("/data/datasets/{datasetId}/logo", produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     suspend fun datasetLogoDownload(
         @PathVariable datasetId: DatasetId,
@@ -118,7 +112,6 @@ class DatasetEndpoint(
             ?.let { FilePath.from(it) }
     }
 
-    @PermitAll
     @Bean
     override fun datasetData(): DatasetDataFunction = f2Function { query ->
         logger.info("datasetData: $query")
@@ -126,7 +119,6 @@ class DatasetEndpoint(
         DatasetDataResult(items = items)
     }
 
-    @PermitAll
     @Bean
     override fun datasetListLanguages(): DatasetListLanguagesFunction = f2Function { query ->
         logger.info("datasetListLanguages: $query")
@@ -136,7 +128,6 @@ class DatasetEndpoint(
             .let(::DatasetListLanguagesResult)
     }
 
-    @PermitAll
     @GetMapping("/data/datasetDownloadDistribution/{datasetId}/{distributionId}")
     suspend fun datasetDownloadDistribution(
         @PathVariable datasetId: DatasetId,
@@ -147,7 +138,6 @@ class DatasetEndpoint(
             .downloadPath
     }
 
-    @PermitAll
     @Bean
     override fun datasetCreate(): DatasetCreateFunction = f2Function { command ->
         logger.info("datasetCreate: $command")
@@ -155,7 +145,6 @@ class DatasetEndpoint(
         datasetF2AggregateService.create(command)
     }
 
-    @PermitAll
     @Bean
     override fun datasetDelete(): DatasetDeleteFunction = f2Function { command ->
         logger.info("datasetDelete: $command")
@@ -163,14 +152,12 @@ class DatasetEndpoint(
         datasetF2AggregateService.delete(command)
     }
 
-    @PermitAll
     @Bean
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = f2Function { command ->
         datasetPoliciesEnforcer.checkUpdate(command.id)
         datasetAggregateService.linkDatasets(command.toCommand()).toDTO()
     }
 
-    @PermitAll
     @Bean
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = f2Function { command ->
         logger.info("datasetLinkThemes: $command")
@@ -178,7 +165,6 @@ class DatasetEndpoint(
         datasetAggregateService.linkThemes(command.toCommand()).toDTO()
     }
 
-    @PermitAll
     @PostMapping("/data/datasetSetImage")
     suspend fun datasetSetImage(
         @RequestPart("command") command: DatasetSetImageCommandDTOBase,
@@ -204,7 +190,6 @@ class DatasetEndpoint(
         )
     }
 
-    @PermitAll
     @Bean
     override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { command ->
         logger.info("datasetAddJsonDistribution: $command")
@@ -212,7 +197,6 @@ class DatasetEndpoint(
         datasetF2AggregateService.addJsonDistribution(command)
     }
 
-    @PermitAll
     @PostMapping("/data/datasetAddMediaDistribution")
     suspend fun datasetAddMediaDistribution(
         @RequestPart("command") command: DatasetAddMediaDistributionCommandDTOBase,
@@ -223,7 +207,6 @@ class DatasetEndpoint(
         return datasetF2AggregateService.addMediaDistribution(command, file)
     }
 
-    @PermitAll
     @Bean
     override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction = f2Function { command ->
         logger.info("datasetUpdateJsonDistribution: $command")
@@ -231,7 +214,6 @@ class DatasetEndpoint(
         datasetF2AggregateService.updateJsonDistribution(command)
     }
 
-    @PermitAll
     @PostMapping("/data/datasetUpdateMediaDistribution")
     suspend fun datasetUpdateMediaDistribution(
         @RequestPart("command") command: DatasetUpdateMediaDistributionCommandDTOBase,
@@ -242,7 +224,6 @@ class DatasetEndpoint(
         return datasetF2AggregateService.updateMediaDistribution(command, file)
     }
 
-    @PermitAll
     @Bean
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction = f2Function { command ->
         logger.info("datasetRemoveDistribution: $command")

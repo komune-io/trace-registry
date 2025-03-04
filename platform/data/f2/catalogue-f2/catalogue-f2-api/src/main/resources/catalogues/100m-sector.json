@@ -1,6 +1,9 @@
 {
   "type": "100m-sector",
-  "identifierSequence": "seq_100m_sector",
+  "identifierSequence": {
+    "name": "seq_100m_sector",
+    "startValue": 2000
+  },
   "parentTypes": ["100m-sectors", "100m-sector"],
   "structure": "item",
   "i18n": {

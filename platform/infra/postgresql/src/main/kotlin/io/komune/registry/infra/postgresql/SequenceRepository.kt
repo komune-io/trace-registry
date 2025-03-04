@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class SequenceRepository(
     val client: DatabaseClient
 ) {
-    suspend fun nextValOf(sequence: String): Long {
+    suspend fun nextValOf(sequence: String, startValue: Long = 1, increment: Long = 1): Long {
         try {
             return client.sql("SELECT nextval('$sequence');")
                 .fetch()
@@ -18,7 +18,7 @@ class SequenceRepository(
                 .values
                 .first() as Long
         } catch (e: BadSqlGrammarException) {
-            client.sql("CREATE SEQUENCE $sequence;").await()
+            client.sql("CREATE SEQUENCE $sequence START WITH $startValue INCREMENT BY $increment;").await()
             return nextValOf(sequence)
         }
     }

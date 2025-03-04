@@ -2,7 +2,7 @@ package io.komune.registry.f2.catalogue.api.config
 
 data class CatalogueTypeConfiguration(
     val type: String,
-    val identifierSequence: String?,
+    val identifierSequence: SequenceConfiguration?,
     val parentTypes: Set<String>?,
     val conceptSchemes: Set<String>?,
     val ownerRoles: Set<String>?,
@@ -21,4 +21,10 @@ data class CatalogueTypeI18n(
 data class CatalogueTypeSubDataset(
     val type: String,
     val identifierSuffix: String
+)
+
+data class SequenceConfiguration(
+    val name: String,
+    val startValue: Long = 1,
+    val increment: Long = 1
 )
