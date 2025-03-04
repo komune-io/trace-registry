@@ -55,6 +55,7 @@ export const useEditGraph = (params: useEditGraphParams) => {
                     }]
                 })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id! }] })
+                queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution", { id: updateRes.id, distributionId: jsonDistribution?.id! }] })
                 onClose()
             }
         },

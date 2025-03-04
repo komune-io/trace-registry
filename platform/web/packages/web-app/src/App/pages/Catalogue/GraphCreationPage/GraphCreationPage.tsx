@@ -30,9 +30,11 @@ export const GraphCreationPage = () => {
     [navigate, catalogueId, draftId],
   )
 
+  const title = datasetId ? t("editAGraph") : t("createAGraph")
+
   useEffect(() => {
-    document.title = "WikiCO2 | " + t("createAGraph")
-  }, [t])
+    document.title = "WikiCO2 | " + title
+  }, [t, title])
 
 
 
@@ -96,7 +98,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title={t("createAGraph")} goBackUrl={cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!)} />
+      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!)} />
       <Stack
         sx={{
           maxWidth: 1200,
