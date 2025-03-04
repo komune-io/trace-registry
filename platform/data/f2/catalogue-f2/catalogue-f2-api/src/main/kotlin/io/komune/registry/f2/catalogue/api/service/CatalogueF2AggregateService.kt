@@ -155,7 +155,9 @@ class CatalogueF2AggregateService(
             homepage = command.homepage ?: originalCatalogue.homepage,
             themes = command.themes ?: originalCatalogue.themeIds,
             accessRights = command.accessRights ?: originalCatalogue.accessRights,
-            license = command.license ?: originalCatalogue.licenseId
+            license = command.license ?: originalCatalogue.licenseId,
+            location = command.location ?: originalCatalogue.location,
+            ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
         ).let { doCreate(it, isTranslation = true, initDatasets) }
 
         if (initDatasets && translationType != command.type) {
