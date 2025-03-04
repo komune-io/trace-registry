@@ -5,8 +5,8 @@ import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreatedEvent
 import io.komune.registry.s2.license.domain.command.LicenseUpdateCommand
 import io.komune.registry.s2.license.domain.command.LicenseUpdatedEvent
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class LicenseAggregateService(

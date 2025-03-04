@@ -3,9 +3,9 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * List available owners for a given type of catalogue.

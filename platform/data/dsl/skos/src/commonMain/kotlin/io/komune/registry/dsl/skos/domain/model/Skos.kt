@@ -1,7 +1,7 @@
 package io.komune.registry.dsl.skos.domain.model
 
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class SkosContext(

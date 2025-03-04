@@ -9,11 +9,11 @@ import io.komune.registry.f2.asset.order.domain.query.AssetOrderGetQueryDTOBase
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderGetResultDTOBase
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageQueryDTOBase
 import io.komune.registry.f2.asset.order.domain.query.AssetOrderPageResult
+import io.komune.registry.project.test.bdd.VerCucumberStepsDefinition
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.BigDecimalAsString
 import io.komune.registry.s2.order.domain.OrderId
-import io.komune.registry.project.test.bdd.VerCucumberStepsDefinition
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.data.TestContextKey

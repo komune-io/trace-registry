@@ -1,7 +1,7 @@
+import io.komune.registry.s2.order.domain.s2Order
 import org.junit.jupiter.api.Test
 import s2.automate.documenter.S2Documenter
 import s2.automate.documenter.writeS2Automate
-import io.komune.registry.s2.order.domain.s2Order
 
 class S2OrderTest {
 

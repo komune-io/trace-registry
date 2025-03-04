@@ -5,9 +5,9 @@ import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
+import kotlin.coroutines.coroutineContext
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
-import kotlin.coroutines.coroutineContext
 
 open class CatalogueCachedService {
 

@@ -14,11 +14,11 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesCommandDTOB
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.s2.commons.model.DatasetId
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey
-import kotlin.jvm.optionals.getOrNull
 
 class DatasetLinkF2Steps: En, VerCucumberStepsDefinition() {
 

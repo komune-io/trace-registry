@@ -4,7 +4,6 @@ import cccev.dsl.client.CCCEVClient
 import cccev.dsl.client.model.unflatten
 import cccev.dsl.model.Certification
 import cccev.dsl.model.CertificationId
-import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.InformationConceptDTO
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementId

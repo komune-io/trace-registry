@@ -5,8 +5,8 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.concept.domain.command.ConceptCreatedEvent
 import io.komune.registry.s2.concept.domain.command.ConceptUpdateCommand
 import io.komune.registry.s2.concept.domain.command.ConceptUpdatedEvent
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class ConceptAggregateService(

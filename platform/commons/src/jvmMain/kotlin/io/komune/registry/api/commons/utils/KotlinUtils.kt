@@ -1,8 +1,6 @@
 package io.komune.registry.api.commons.utils
 
-import f2.dsl.fnc.operators.Batch
 import f2.dsl.fnc.operators.CHUNK_DEFAULT_SIZE
-import f2.dsl.fnc.operators.batch
 import f2.dsl.fnc.operators.flattenConcurrently
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async

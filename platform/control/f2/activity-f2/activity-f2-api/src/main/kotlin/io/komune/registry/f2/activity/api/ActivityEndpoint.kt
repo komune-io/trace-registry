@@ -9,7 +9,6 @@ import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.invokeWith
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.serveFile
-import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.f2.activity.api.service.ActivityF2ExecutorService
 import io.komune.registry.f2.activity.api.service.ActivityF2FinderService
 import io.komune.registry.f2.activity.api.service.ActivityPoliciesEnforcer
@@ -26,6 +25,7 @@ import io.komune.registry.f2.activity.domain.command.ActivityStepFulfilledEventD
 import io.komune.registry.f2.activity.domain.query.ActivityPageFunction
 import io.komune.registry.f2.activity.domain.query.ActivityStepEvidenceDownloadQuery
 import io.komune.registry.f2.activity.domain.query.ActivityStepPageFunction
+import io.komune.registry.s2.commons.exception.NotFoundException
 import jakarta.annotation.security.PermitAll
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean

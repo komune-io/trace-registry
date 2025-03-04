@@ -8,14 +8,13 @@ import io.komune.registry.s2.license.domain.command.LicenseCreatedEvent
 import io.komune.registry.s2.license.domain.command.LicenseEvent
 import io.komune.registry.s2.license.domain.command.LicenseUpdatedEvent
 import io.komune.registry.s2.license.domain.s2License
-import kotlinx.coroutines.runBlocking
+import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import kotlin.reflect.KClass
 
 @Configuration
 class LicenseAutomateConfig(

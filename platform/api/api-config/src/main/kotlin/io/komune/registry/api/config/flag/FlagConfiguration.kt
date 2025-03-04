@@ -4,6 +4,7 @@ import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2Function
 import f2.dsl.fnc.f2SupplierSingle
 import jakarta.annotation.security.PermitAll
+import java.net.URI
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.expression.BeanFactoryResolver
 import org.springframework.messaging.Message
-import java.net.URI
 
 @EnableConfigurationProperties(FlagProperties::class)
 @Configuration(proxyBeanMethods = false)

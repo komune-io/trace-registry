@@ -1,8 +1,8 @@
 package io.komune.registry.s2.license.domain.command
 
 import io.komune.registry.s2.license.domain.LicenseId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Update a license.

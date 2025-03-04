@@ -8,10 +8,10 @@ import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.automate.s2Dataset
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
+import kotlin.reflect.KClass
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import kotlin.reflect.KClass
 
 @Configuration
 class DatasetAutomateConfig(

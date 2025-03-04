@@ -5,8 +5,8 @@ import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Create a draft.

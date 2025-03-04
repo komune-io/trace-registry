@@ -4,12 +4,12 @@ import com.meilisearch.sdk.Client
 import com.meilisearch.sdk.Index
 import com.meilisearch.sdk.exceptions.MeilisearchApiException
 import com.meilisearch.sdk.model.Settings
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
-import s2.spring.utils.logger.Logger
 import kotlin.reflect.KClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
+import s2.spring.utils.logger.Logger
 
 abstract class MeiliSearchSnapRepository<Entity: Any>(
     protected val indexName: String,

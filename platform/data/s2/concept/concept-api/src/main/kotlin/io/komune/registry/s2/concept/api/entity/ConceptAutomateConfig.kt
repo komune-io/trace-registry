@@ -8,14 +8,13 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreatedEvent
 import io.komune.registry.s2.concept.domain.command.ConceptEvent
 import io.komune.registry.s2.concept.domain.command.ConceptUpdatedEvent
 import io.komune.registry.s2.concept.domain.s2Concept
-import kotlinx.coroutines.runBlocking
+import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import kotlin.reflect.KClass
 
 @Configuration
 class ConceptAutomateConfig(

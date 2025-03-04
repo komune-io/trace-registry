@@ -3,6 +3,7 @@ package io.komune.registry.f2.dcs.api.converter
 import cccev.dsl.model.DataUnit
 import cccev.dsl.model.DataUnitOption
 import cccev.dsl.model.DataUnitType
+import cccev.dsl.model.DataUnitTypeValues
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.XSDBoolean
 import cccev.dsl.model.XSDDate
@@ -12,7 +13,6 @@ import cccev.dsl.model.builder.informationConcept
 import cccev.dsl.model.constraint
 import cccev.dsl.model.criterion
 import cccev.dsl.model.informationRequirement
-import cccev.dsl.model.DataUnitTypeValues
 import io.komune.registry.f2.dcs.api.model.DcsCode
 import io.komune.registry.f2.dcs.api.validator.DcsValidator
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep

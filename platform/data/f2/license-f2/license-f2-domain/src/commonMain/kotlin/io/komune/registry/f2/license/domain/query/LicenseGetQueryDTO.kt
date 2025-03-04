@@ -4,8 +4,8 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
 import io.komune.registry.s2.license.domain.LicenseId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Get a license by id.
