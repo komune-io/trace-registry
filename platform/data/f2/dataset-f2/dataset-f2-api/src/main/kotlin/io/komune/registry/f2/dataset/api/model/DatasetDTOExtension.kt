@@ -17,6 +17,7 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.UserId
+import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
@@ -61,7 +62,9 @@ suspend fun DatasetModel.toDTO(
         license = license,
         format = format,
         issued = issued,
-        datasets = datasetIds.map { getDataset(it).toDTO(getDataset) },
+        datasets = datasetIds
+            .map { getDataset(it).toDTO(getDataset) }
+            .filter { it.status != DatasetState.DELETED },
         distributions = distributions.map { it.toDTO() },
     )
 }

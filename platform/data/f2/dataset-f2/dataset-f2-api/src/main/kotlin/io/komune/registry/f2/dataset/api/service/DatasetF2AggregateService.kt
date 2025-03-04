@@ -241,6 +241,15 @@ class DatasetF2AggregateService(
             ).let { catalogueAggregateService.unlinkDatasets(it) }
         }
 
+        datasetFinderService.page(
+            datasetIds = ExactMatch(command.id)
+        ).items.mapAsync { dataset ->
+            DatasetUnlinkDatasetsCommand(
+                id = dataset.id,
+                datasetIds = listOf(command.id)
+            ).let { datasetAggregateService.unlinkDatasets(it) }
+        }
+
         return event.toDTO()
     }
 
