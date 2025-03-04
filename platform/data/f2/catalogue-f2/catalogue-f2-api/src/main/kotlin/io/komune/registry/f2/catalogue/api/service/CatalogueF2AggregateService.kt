@@ -272,6 +272,7 @@ class CatalogueF2AggregateService(
         }
     }
 
+    @Suppress("CyclomaticComplexMethod")
     private suspend fun doCreate(
         command: CatalogueCreateCommandDTOBase,
         isTranslation: Boolean = false,
