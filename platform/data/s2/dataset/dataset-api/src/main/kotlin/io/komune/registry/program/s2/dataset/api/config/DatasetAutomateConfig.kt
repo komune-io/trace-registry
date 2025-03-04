@@ -1,6 +1,6 @@
 package io.komune.registry.program.s2.dataset.api.config
 
-import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
+import io.komune.registry.infra.redis.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.program.s2.dataset.api.DatasetEvolver
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetSnapRepository
@@ -24,6 +24,8 @@ class DatasetAutomateConfig(
 	datasetSnapRepository,
 	"Dataset"
 ) {
+	override fun redisEntityType() = DatasetEntity::class
+
 	override fun automate() = s2Dataset
 	override fun entityType(): KClass<DatasetEvent> = DatasetEvent::class
 }

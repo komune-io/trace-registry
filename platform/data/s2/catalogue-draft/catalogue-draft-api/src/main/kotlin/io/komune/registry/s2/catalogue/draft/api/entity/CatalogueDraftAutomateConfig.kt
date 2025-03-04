@@ -1,6 +1,6 @@
 package io.komune.registry.s2.catalogue.draft.api.entity
 
-import io.komune.registry.infra.postgresql.RegistryS2SourcingSpringDataAdapter
+import io.komune.registry.infra.redis.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftEvolver
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent
@@ -19,12 +19,14 @@ class CatalogueDraftAutomateConfig(
 	evolver: CatalogueDraftEvolver,
 	projectSnapRepository: CatalogueDraftSnapRepository
 ): RegistryS2SourcingSpringDataAdapter<
-		CatalogueDraftEntity, CatalogueDraftState, CatalogueDraftEvent, CatalogueDraftId, CatalogueDraftAutomateExecutor>(
+        CatalogueDraftEntity, CatalogueDraftState, CatalogueDraftEvent, CatalogueDraftId, CatalogueDraftAutomateExecutor>(
 	aggregate,
 	evolver,
 	projectSnapRepository,
 	entityName = "CatalogueDraft"
 ) {
+	override fun redisEntityType() = CatalogueDraftEntity::class
+
 	override fun automate() = s2CatalogueDraft
 	override fun entityType(): KClass<CatalogueDraftEvent> = CatalogueDraftEvent::class
 }
