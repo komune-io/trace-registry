@@ -6,7 +6,7 @@ lint:
 	./gradlew detekt
 
 build:
-	VERSION=${VERSION} ./gradlew build --refresh-dependencies --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
+	VERSION=${VERSION} ./gradlew build --stacktrace -x test -x jvmTest -x allTests -x jsBrowserTest
 
 test-pre:
 	@make dev-envsubst
