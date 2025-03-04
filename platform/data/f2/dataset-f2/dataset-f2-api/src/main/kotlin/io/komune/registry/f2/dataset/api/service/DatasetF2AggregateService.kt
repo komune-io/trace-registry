@@ -18,8 +18,10 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetDeletedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
 import io.komune.registry.infra.fs.FsPath
@@ -28,6 +30,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -38,6 +41,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEven
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.ktor.utils.io.core.toByteArray
 import org.springframework.http.codec.multipart.FilePart
@@ -86,6 +90,19 @@ class DatasetF2AggregateService(
         draftId?.let { linkDatasetToDraft(it, event.id) }
 
         return event.toDTO()
+    }
+
+    suspend fun update(command: DatasetUpdateCommandDTOBase): DatasetUpdatedEventDTOBase {
+        val dataset = datasetFinderService.get(command.id)
+        dataset.toUpdateCommand().copy(
+            title = command.title,
+            description = command.description
+        ).let { datasetAggregateService.update(it) }
+
+        return DatasetUpdatedEventDTOBase(
+            id = command.id,
+            identifier = dataset.identifier
+        )
     }
 
     suspend fun addJsonDistribution(command: DatasetAddJsonDistributionCommandDTOBase): DatasetAddedJsonDistributionEventDTOBase {
@@ -222,6 +239,15 @@ class DatasetF2AggregateService(
                 id = catalogue.id,
                 datasetIds = listOf(command.id)
             ).let { catalogueAggregateService.unlinkDatasets(it) }
+        }
+
+        datasetFinderService.page(
+            datasetIds = ExactMatch(command.id)
+        ).items.mapAsync { dataset ->
+            DatasetUnlinkDatasetsCommand(
+                id = dataset.id,
+                datasetIds = listOf(command.id)
+            ).let { datasetAggregateService.unlinkDatasets(it) }
         }
 
         return event.toDTO()

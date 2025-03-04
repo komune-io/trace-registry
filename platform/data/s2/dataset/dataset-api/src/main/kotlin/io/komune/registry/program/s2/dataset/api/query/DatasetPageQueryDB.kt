@@ -23,13 +23,14 @@ class DatasetPageQueryDB(
         id: Match<DatasetId>? = null,
         identifier: Match<DatasetIdentifier>? = null,
         title: Match<String>? = null,
-        parentIdentifier: Match<DatasetIdentifier>? = null,
+        datasetIds: Match<DatasetId>? = null,
         status: Match<DatasetState>? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<DatasetEntity> = doQuery(offset) {
         match(`DatasetEntity$`.ID, id)
         match(`DatasetEntity$`.IDENTIFIER, identifier)
         match(`DatasetEntity$`.TITLE, title)
+        match(`DatasetEntity$`.DATASET_IDS, datasetIds)
         match(`DatasetEntity$`.STATUS as TextField<DatasetEntity, DatasetState>, status)
     }
 }

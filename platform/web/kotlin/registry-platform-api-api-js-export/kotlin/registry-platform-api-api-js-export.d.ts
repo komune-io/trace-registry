@@ -2980,6 +2980,19 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetUpdateCommandDTO {
+        readonly id: string;
+        readonly title: string;
+        readonly description?: string;
+
+    }
+    interface DatasetUpdatedEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateJsonDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
