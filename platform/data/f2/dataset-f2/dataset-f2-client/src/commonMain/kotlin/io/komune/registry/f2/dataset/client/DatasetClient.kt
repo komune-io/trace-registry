@@ -14,6 +14,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
@@ -46,6 +47,7 @@ fun datasetClient(urlBase: String, authRealmProvider: AuthRealmProvider): F2Supp
 @JsName("DatasetClient")
 open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetCreate(): DatasetCreateFunction = client.function("data/${this::datasetCreate.name}")
+    override fun datasetUpdate(): DatasetUpdateFunction = client.function("data/${this::datasetUpdate.name}")
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = client.function("data/${this::datasetLinkDatasets.name}")
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = client.function("data/${this::datasetLinkThemes.name}")
     override fun datasetDelete(): DatasetDeleteFunction = client.function("data/${this::datasetDelete.name}")

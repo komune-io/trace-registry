@@ -71,6 +71,7 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var modified: Long? = null
     var releaseDate: String? = null
 
+    @TagIndexed
     var datasetIds: Set<DatasetId> = emptySet()
     var distributions: List<DistributionEntity>? = null
 

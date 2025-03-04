@@ -43,6 +43,7 @@ class DatasetFinderService(
 		id: Match<DatasetId>? = null,
 		identifier: Match<DatasetIdentifier>? = null,
 		title: Match<String>? = null,
+		datasetIds: Match<DatasetId>? = null,
 		status: Match<DatasetState>? = null,
 		offset: OffsetPagination? = null
 	): PageDTO<DatasetModel> {
@@ -50,6 +51,7 @@ class DatasetFinderService(
 			id = id,
 			identifier = identifier,
 			title = title,
+			datasetIds = datasetIds,
 			status = status,
 			offset = offset,
 		).map {
