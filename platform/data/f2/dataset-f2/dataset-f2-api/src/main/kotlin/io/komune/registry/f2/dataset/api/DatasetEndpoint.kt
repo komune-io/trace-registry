@@ -153,7 +153,6 @@ class DatasetEndpoint(
         datasetF2AggregateService.update(command)
     }
 
-    @PermitAll
     @Bean
     override fun datasetDelete(): DatasetDeleteFunction = f2Function { command ->
         logger.info("datasetDelete: $command")
