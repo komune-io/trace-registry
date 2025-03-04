@@ -3,7 +3,7 @@ package io.komune.registry.f2.dataset.domain.command
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName

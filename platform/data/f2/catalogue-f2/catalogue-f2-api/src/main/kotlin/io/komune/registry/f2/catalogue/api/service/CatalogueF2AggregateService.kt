@@ -22,6 +22,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -43,19 +44,24 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -68,6 +74,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
@@ -79,20 +86,23 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun create(command: CatalogueCreateCommandDTOBase): CatalogueCreatedEventDTOBase {
+        if (!command.withDraft) {
+            return doCreate(command).let {
+                CatalogueCreatedEventDTOBase(
+                    id = it.id,
+                    identifier = it.identifier,
+                    draftId = null
+                )
+            }
+        }
+
+        requireNotNull(command.language) { "Language is required for a catalogue draft." }
+
         // creates basic structure of the catalogue
         val originalCatalogueEvent = command.copy(
             language = null,
             hidden = true
         ).let { doCreate(it) }
-
-        // drafts are only for translations
-        if (command.language == null) {
-            return CatalogueCreatedEventDTOBase(
-                id = originalCatalogueEvent.id,
-                identifier = originalCatalogueEvent.identifier,
-                draftId = ""
-            )
-        }
 
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
@@ -111,9 +121,7 @@ class CatalogueF2AggregateService(
             datasetIdMap = emptyMap()
         ).let { catalogueDraftAggregateService.create(it).id }
 
-        if (command.autoValidateDraft) {
-            validateDraft(draftId)
-        }
+        linkCatalogueDatasetsToDraft(draftId, draftedCatalogueEvent.id)
 
         return CatalogueCreatedEventDTOBase(
             id = originalCatalogueEvent.id,
@@ -164,15 +172,17 @@ class CatalogueF2AggregateService(
     }
 
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
-        val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, command.id)
-        doUpdate(command.copy(id = draft.catalogueId))
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
+            ?.checkLanguage(command.language)
 
-        command.parentId?.let { replaceParent(draft.originalCatalogueId, it) }
+        doUpdate(command)
 
-        return CatalogueUpdatedEventDTOBase(
-            id = command.id,
-            draftId = draft.id
-        )
+        // TODO if draft, don't apply change but store the info in the draft
+        command.parentId?.let { replaceParent(draft?.originalCatalogueId ?: command.id, it) }
+
+        draft?.let { linkCatalogueDatasetsToDraft(draft.id, draft.catalogueId) }
+
+        return CatalogueUpdatedEventDTOBase(command.id)
     }
 
     suspend fun linkCatalogues(command: CatalogueLinkCataloguesCommandDTOBase): CatalogueLinkedCataloguesEventDTOBase {
@@ -201,6 +211,14 @@ class CatalogueF2AggregateService(
             parentId = command.id,
             datasetIds = command.datasetIds
         )
+
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
+        if (draft != null) {
+            command.datasetIds.mapAsync { datasetId ->
+                datasetF2AggregateService.linkDatasetToDraft(draft.id, datasetId)
+            }
+        }
+
         return CatalogueLinkedDatasetsEventDTOBase(command.id)
     }
 
@@ -225,29 +243,13 @@ class CatalogueF2AggregateService(
 
         catalogueDraftAggregateService.validate(CatalogueDraftValidateCommand(draftId))
 
-        draftedCatalogue.toUpdateCommand("", draft.language).copy(
+        draftedCatalogue.toUpdateCommand(draft.language).copy(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
             versionNotes = draft.versionNotes,
         ).let { doUpdate(it) }
 
-        val datasetIds = draftedCatalogue.datasetIds.mapAsync { draftedDatasetId ->
-            val originalDatasetId = draft.datasetIdMap.entries
-                .firstOrNull { it.value == draftedDatasetId }
-                ?.key
-
-            applyDatasetUpdates(draftedDatasetId, originalDatasetId)
-        }
-        linkDatasets(draft.originalCatalogueId, datasetIds)
-
-        originalCatalogue.catalogueIds.filter { it !in datasetIds }
-            .nullIfEmpty()
-            ?.let {
-                CatalogueUnlinkDatasetsCommand(
-                    id = draft.originalCatalogueId,
-                    datasetIds = it
-                ).let { catalogueAggregateService.unlinkDatasets(it) }
-            }
+        applyDatasetUpdatesInDraft(draft, draftedCatalogue, originalCatalogue)
 
         catalogueDraftFinderService.page(
             originalCatalogueId = ExactMatch(draft.originalCatalogueId),
@@ -261,6 +263,13 @@ class CatalogueF2AggregateService(
                     reason = "Another draft has been validated for this version."
                 ).let { catalogueDraftAggregateService.reject(it) }
             }
+    }
+
+    suspend fun linkCatalogueDatasetsToDraft(draftId: CatalogueDraftId, catalogueId: CatalogueId) {
+        val catalogue = catalogueFinderService.get(catalogueId)
+        catalogue.datasetIds.mapAsync { datasetId ->
+            datasetF2AggregateService.linkDatasetToDraft(draftId, datasetId)
+        }
     }
 
     private suspend fun doCreate(
@@ -330,7 +339,6 @@ class CatalogueF2AggregateService(
             val translationId = catalogue.translationIds[command.language]!!
             CatalogueUpdateCommandDTOBase(
                 id = translationId,
-                draftId = "",
                 title = command.title,
                 description = command.description,
                 language = command.language,
@@ -482,8 +490,59 @@ class CatalogueF2AggregateService(
         ).let { catalogueAggregateService.addTranslations(it) }
     }
 
-    private suspend fun applyDatasetUpdates(draftedDatasetId: DatasetId, originalDatasetId: DatasetId?): DatasetId {
-        val draftedDataset = datasetFinderService.get(draftedDatasetId)
+    private suspend fun applyDatasetUpdatesInDraft(
+        draft: CatalogueDraftModel,
+        draftedCatalogue: CatalogueModel,
+        originalCatalogue: CatalogueModel
+    ) {
+        val datasetIds = applyDatasetUpdates(draft, draftedCatalogue.datasetIds)
+        linkDatasets(draft.originalCatalogueId, datasetIds)
+
+        originalCatalogue.datasetIds.filter { it !in datasetIds }
+            .nullIfEmpty()
+            ?.let {
+                CatalogueUnlinkDatasetsCommand(
+                    id = draft.originalCatalogueId,
+                    datasetIds = it
+                ).let { catalogueAggregateService.unlinkDatasets(it) }
+            }
+    }
+
+    private suspend fun applyDatasetUpdates(draft: CatalogueDraftModel, datasetIds: List<DatasetId>): List<DatasetId> {
+        return datasetIds.mapAsync { draftedDatasetId ->
+            val originalDatasetId = draft.datasetIdMap.entries
+                .firstOrNull { it.value == draftedDatasetId }
+                ?.key
+
+            val draftedDataset = datasetFinderService.get(draftedDatasetId)
+
+            // create or update dataset
+            val updatedDataset = applyDatasetContentUpdates(draftedDataset, originalDatasetId)
+
+            // recursively repeat the process for child datasets
+            val childrenIds = applyDatasetUpdates(draft, draftedDataset.datasetIds)
+
+            // link newly created datasets
+            DatasetLinkDatasetsCommand(
+                id = updatedDataset.id,
+                datasetIds = childrenIds
+            ).let { datasetAggregateService.linkDatasets(it) }
+
+            // unlink removed datasets
+            updatedDataset.datasetIds.filter { it !in childrenIds }
+                .nullIfEmpty()
+                ?.let {
+                    DatasetUnlinkDatasetsCommand(
+                        id = updatedDataset.id,
+                        datasetIds = it
+                    ).let { datasetAggregateService.unlinkDatasets(it) }
+                }
+
+            updatedDataset.id
+        }
+    }
+
+    private suspend fun applyDatasetContentUpdates(draftedDataset: DatasetModel, originalDatasetId: DatasetId?): DatasetModel {
         val draftedDatasetIdentifier = draftedDataset.identifier.substringBeforeLast("-draft")
 
         val datasetId = if (originalDatasetId == null) {
@@ -494,10 +553,10 @@ class CatalogueF2AggregateService(
                 .let { datasetAggregateService.update(it).id }
         }
 
-        val originalDataset = datasetFinderService.get(datasetId)
+        val updatedDataset = datasetFinderService.get(datasetId)
 
         draftedDataset.distributions.mapAsync { distribution ->
-            if (originalDataset.distributions.any { it.id == distribution.id }) {
+            if (updatedDataset.distributions.any { it.id == distribution.id }) {
                 DatasetUpdateDistributionCommand(
                     id = datasetId,
                     name = distribution.name,
@@ -515,7 +574,7 @@ class CatalogueF2AggregateService(
                 ).let { datasetAggregateService.addDistribution(it) }
             }
         }
-        originalDataset.distributions.filter { distribution ->
+        updatedDataset.distributions.filter { distribution ->
             draftedDataset.distributions.none { it.id == distribution.id }
         }.mapAsync { distribution ->
             DatasetRemoveDistributionCommand(
@@ -524,6 +583,6 @@ class CatalogueF2AggregateService(
             ).let { datasetAggregateService.removeDistribution(it) }
         }
 
-        return datasetId
+        return updatedDataset
     }
 }

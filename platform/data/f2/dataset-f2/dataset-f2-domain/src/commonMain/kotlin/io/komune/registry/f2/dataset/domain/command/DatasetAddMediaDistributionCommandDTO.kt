@@ -1,9 +1,8 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.SimpleFile
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -28,8 +27,6 @@ interface DatasetAddMediaDistributionCommandDTO {
      */
     val id: DatasetId
 
-    val draftId: CatalogueDraftId
-
     /**
      * Name of the distribution.
      */
@@ -48,7 +45,6 @@ interface DatasetAddMediaDistributionCommandDTO {
 @Serializable
 data class DatasetAddMediaDistributionCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId,
     override val name: String?,
     override val mediaType: String
 ) : DatasetAddMediaDistributionCommandDTO

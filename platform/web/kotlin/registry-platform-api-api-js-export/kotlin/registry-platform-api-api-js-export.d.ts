@@ -1430,6 +1430,7 @@ export declare namespace s2.dsl.automate.model {
     }
 }
 export declare namespace io.komune.registry.s2.commons.auth {
+    /** @deprecated Will be removed, use Permissions instead. */
     const Roles: {
         get ORCHESTRATOR(): string;
         get ORCHESTRATOR_ADMIN(): string;
@@ -2865,7 +2866,6 @@ export declare namespace io.komune.registry.s2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly jsonContent: string;
 
@@ -2879,7 +2879,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddMediaDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly mediaType: string;
 
@@ -2892,8 +2891,9 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetCreateCommandDTO {
-        readonly identifier: string;
-        readonly draftId: string;
+        readonly identifier?: string;
+        readonly parentId?: string;
+        readonly catalogueId?: string;
         readonly title: string;
         readonly type: string;
         readonly description?: string;
@@ -2927,7 +2927,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetDeleteCommandDTO {
         readonly id: string;
-        readonly draftId: string;
 
     }
     interface DatasetDeletedEventDTO {
@@ -2960,7 +2959,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetRemoveDistributionCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly distributionId: string;
 
     }
@@ -2985,7 +2983,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateJsonDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly jsonContent: string;
 
@@ -3000,7 +2997,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateMediaDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly draftId: string;
         readonly name?: string;
         readonly mediaType: string;
 
@@ -3332,13 +3328,14 @@ export declare namespace io.komune.registry.f2.user.domain.model {
 export declare namespace io.komune.registry.f2.catalogue.domain {
     const CataloguePolicies: {
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canUpdateAccessRights(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
-        canLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO): boolean;
+        canCreateWithoutDraft(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canUpdateAccessRights(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
     };
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
@@ -3359,13 +3356,13 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO/* Nullable<io.komune.registry.s2.commons.model.Location> */;
         readonly versionNotes?: string;
         readonly hidden?: boolean;
-        readonly autoValidateDraft: boolean;
+        readonly withDraft: boolean;
 
     }
     interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
         readonly identifier: string;
-        readonly draftId: string;
+        readonly draftId?: string;
 
     }
 }
@@ -3449,7 +3446,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueUpdateCommandDTO {
         readonly id: string;
-        readonly draftId: string;
         readonly parentId?: string;
         readonly title: string;
         readonly description?: string;
@@ -3467,12 +3463,21 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     }
     interface CatalogueUpdatedEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
-        readonly draftId: string;
 
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
-    interface CatalogueDTO {
+    interface CatalogueAccessDataDTO {
+        readonly id: string;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly ownerOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueDTO extends io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO {
         readonly id: string;
         readonly identifier: string;
         readonly parentId?: string;
@@ -3677,7 +3682,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.command {
 
     }
     interface CatalogueDraftCreatedEventDTO {
-        readonly id: string;
+        readonly item: io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO;
 
     }
 }

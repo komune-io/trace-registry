@@ -47,7 +47,6 @@ export const DragDropPasteImgPlugin = (): null => {
                 command: {
                     id: editor._config.namespace,
                     mediaType: file.type,
-                    draftId: draftId!,
                 },
                 files: [{
                     file: file

@@ -1,11 +1,16 @@
 import { useFormComposable } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRoutesDefinition } from 'components'
 import {
   GraphCreationheader,
   GraphDatasetForm,
   GraphForm,
+  RawGraphState,
   useCatalogueDraftGetQuery,
+  useDatasetAddJsonDistributionCommand,
+  useDatasetAddMediaDistributionCommand,
+  useDatasetCreateCommand,
 } from 'domain-components'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,12 +19,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
-  const {catalogueId, draftId, datasetId} = useParams()
-  const {cataloguesCatalogueIdDraftIdEdit} = useRoutesDefinition()
+  const { catalogueId, draftId, datasetId } = useParams()
+  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+
+  const queryClient = useQueryClient()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
-      id: draftId! 
+      id: draftId!
     },
     options: {
       enabled: !!datasetId
@@ -27,6 +34,8 @@ export const GraphCreationPage = () => {
   })
 
   const draft = catalogueDraftQuery.data?.item
+
+  const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
 
   const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
 
@@ -49,6 +58,49 @@ export const GraphCreationPage = () => {
     isLoading: catalogueDraftQuery.isInitialLoading
   })
 
+  const createDataset = useDatasetCreateCommand({})
+  
+  const addMediaDistribution = useDatasetAddMediaDistributionCommand({})
+
+  const addJsonDistribution = useDatasetAddJsonDistributionCommand({})
+
+  const onSaveChart = useCallback(
+    async (graphSvg: Blob, state: RawGraphState) => {
+      const errors = graphFormState.validateForm()
+      if (Object.keys(errors).length > 0) return
+      if (!draft || !graphDataset) return 
+      const createRes = await createDataset.mutateAsync({
+        title: graphFormState.values.title,
+        language: draft.language,
+        type: "rawGraph",
+        parentId: graphDataset.id
+      })
+
+      if (createRes) {
+        await addJsonDistribution.mutateAsync({
+          id: createRes.id,
+          jsonContent: JSON.stringify({
+            ...state,
+            csvDistributionId: graphFormState.values.distributionId
+          }),
+        })
+        await addMediaDistribution.mutateAsync({
+          command: {
+            id: createRes.id,
+            mediaType: "image/svg+xml",
+          },
+          files: [{
+            //@ts-ignore
+            file: graphSvg
+          }]
+        })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
+        onClose()
+      }
+    },
+    [graphFormState.values, draft, graphDataset, onClose],
+  )
+  
   return (
     <Dialog
       fullScreen
@@ -74,8 +126,12 @@ export const GraphCreationPage = () => {
           pr: 3
         }}
       >
-        <GraphDatasetForm formState={graphFormState} />
-        <GraphForm onSave={() => { return Promise.resolve() }} />
+        <GraphDatasetForm draft={draft} formState={graphFormState} />
+        <GraphForm
+          onSave={onSaveChart}
+          csvDistributionId={graphFormState.values.distributionId}
+          graphDatasetId={graphDataset?.id}
+        />
       </Stack>
     </Dialog>
   )

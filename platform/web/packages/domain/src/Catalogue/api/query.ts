@@ -1,8 +1,10 @@
 import { g2Config, QueryParams, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
 import { io } from "registry-platform-api-api-js-export";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Catalogue } from "../model";
 import { useQuery } from "@tanstack/react-query";
+import { parseCsv } from "raw-graph";
+import { useTranslation } from "react-i18next";
 
 export interface CatalogueGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO { }
 export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetResultDTO { }
@@ -97,35 +99,64 @@ export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, Licens
   )
 }
 
-export const useDatasetDownloadDistribution = (catalogue?: Catalogue) => {
+export const useDownloadDistribution = <T>(returnType: "json" | "text" | "objectUrl" | "blob", datasetId?: string, distributionId?: string) => {
+
+  const distributionContentQuery = useCallback(
+    async () => {
+      if (!datasetId || !distributionId) return
+      const res = await request<T>({
+        url: `${g2Config().platform.url}/data/datasetDownloadDistribution/${datasetId}/${distributionId}`,
+        method: "GET",
+        returnType
+        // errorHandler: errorHandler(path),
+      });
+      return res
+    },
+    [datasetId, distributionId],
+  )
+
+  return useQuery({
+    queryKey: ["data/datasetDownloadDistribution", { id: datasetId, distributionId }],
+    queryFn: distributionContentQuery,
+    enabled: !!datasetId && !!distributionId
+  })
+}
+
+export const useLexicalDownloadDistribution = (catalogue?: Catalogue) => {
   const dataSet = useMemo(() => {
     if (!catalogue) return
     return findLexicalDataset(catalogue)
   }, [catalogue])
 
-  const distributionContentQuery = useCallback(
-    async () => {
-      if (!dataSet) return
-      const res = await request<any>({
-        url: `${g2Config().platform.url}/data/datasetDownloadDistribution/${dataSet.dataSet.id}/${dataSet.distribution.id}`,
-        method: "GET",
-        returnType: dataSet.distribution.mediaType === "application/json" ? "json" : "text"
-        // errorHandler: errorHandler(path),
-      });
-      return res
-    },
-    [dataSet],
-  )
-
-  const query = useQuery({
-    queryKey: ["data/datasetDownloadDistribution", { id: dataSet?.dataSet.id, distributionId: dataSet?.distribution.id }],
-    queryFn: distributionContentQuery,
-    enabled: !!dataSet,
-  })
+  const query = useDownloadDistribution<any>("json", dataSet?.dataSet.id, dataSet?.distribution.id)
 
   return {
     query,
     dataSet
+  }
+}
+
+export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: string) => {
+  const [parsed, setParsed] = useState<{
+    dataset: any;
+    dataTypes: any;
+    errors: any;
+  } | undefined>(undefined)
+  const {i18n} = useTranslation()
+
+  const query = useDownloadDistribution<Blob>("blob", datasetId, distributionId)
+
+  useEffect(() => {
+    if (query.data) {
+      parseCsv(query.data, i18n.language).then((res) => {
+        setParsed(res)
+      })
+    }
+  }, [query.data, i18n.language])
+
+  return {
+    query,
+    parsed
   }
 }
 

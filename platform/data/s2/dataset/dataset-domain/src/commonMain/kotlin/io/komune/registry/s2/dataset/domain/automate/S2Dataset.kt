@@ -8,12 +8,16 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
@@ -30,11 +34,19 @@ val s2Dataset = s2Sourcing {
         to = DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
+    selfTransaction<DatasetLinkToDraftCommand, DatasetLinkedToDraftEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
     selfTransaction<DatasetSetImageCommand, DatasetSetImageEvent> {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
     selfTransaction<DatasetLinkDatasetsCommand, DatasetLinkedDatasetsEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetUnlinkDatasetsCommand, DatasetUnlinkedDatasetsEvent> {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
@@ -65,17 +77,6 @@ val s2Dataset = s2Sourcing {
         role = DatasetRole.Issuer
     }
 }
-
-/**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias DatasetId = String
-/**
- * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
- */
-typealias DatasetIdentifier = String
 
 /**
  * @d2 automate

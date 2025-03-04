@@ -1,37 +1,44 @@
-import { FormComposable, FormComposableField, FormComposableState } from '@komune-io/g2'
+import { FormComposable, FormComposableField, FormComposableState, Option } from '@komune-io/g2'
 import { SearchIcon, TitleDivider } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CatalogueDraft } from '../../model'
 
 interface GraphDatasetFormProps {
     formState: FormComposableState
+    draft?: CatalogueDraft
 }
 
 export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
-    const { formState } = props
+    const { formState, draft } = props
 
     const { t } = useTranslation()
 
+    const csvDistributions = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [draft])
+
     const name = useMemo((): FormComposableField[] => [{
-        name: "name",
+        name: "title",
         label: t("name"),
         type: "textField",
         required: true
     }], [t])
 
     const projects = useMemo((): FormComposableField[] => [{
-        name: "dataset",
+        name: "distributionId",
         type: "autoComplete",
         label: t("co2Projects"),
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
-            options: [],
+            options: csvDistributions?.map((dist):Option => ({
+                key: dist.id,
+                label: dist.name
+            })),
             noOptionsText: t("catalogues.noProject"),
             optionsResultLimit: 50
         },
         required: true
-    }], [t])
+    }], [t, csvDistributions])
 
     return (
         <>

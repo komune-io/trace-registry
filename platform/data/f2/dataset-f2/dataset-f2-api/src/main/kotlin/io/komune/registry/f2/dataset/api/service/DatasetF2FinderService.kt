@@ -4,14 +4,17 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,10 +22,12 @@ class DatasetF2FinderService(
     private val datasetFinderService: DatasetFinderService,
 ) {
 
-    suspend fun getById(
-        id: DatasetIdentifier,
-    ): DatasetDTOBase? {
-        return datasetFinderService.getOrNull(id)?.toDTO()
+    suspend fun getOrNull(id: DatasetId): DatasetDTOBase? {
+        return datasetFinderService.getOrNull(id)?.toDTOCached()
+    }
+
+    suspend fun get(id: DatasetId): DatasetDTOBase {
+        return datasetFinderService.get(id).toDTOCached()
     }
 
     suspend fun getAllRefs(): DatasetRefListResult {
@@ -34,7 +39,7 @@ class DatasetF2FinderService(
         identifier: DatasetIdentifier,
         language: String
     ): DatasetDTOBase? {
-        return datasetFinderService.getOrNullByIdentifier(identifier, language)?.toDTO()
+        return datasetFinderService.getOrNullByIdentifier(identifier, language)?.toDTOCached()
     }
 
     suspend fun page(
@@ -43,6 +48,8 @@ class DatasetF2FinderService(
         status: String?,
         offset: OffsetPagination? = null
     ): DatasetPageResult {
+        val cache = Cache()
+
         val defaultValue = status?.let { DatasetState.valueOf(it) } ?: DatasetState.ACTIVE
         val datasets = datasetFinderService.page(
             id = datasetId?.let { ExactMatch(it) },
@@ -50,9 +57,20 @@ class DatasetF2FinderService(
             status = ExactMatch(defaultValue),
             offset = offset
         )
+
+        datasets.items.forEach { cache.datasets.register(it.id, it) }
+
         return DatasetPageResult(
-            items = datasets.items.map { it.toDTO() },
+            items = datasets.items.map { it.toDTOCached(cache) },
             total = datasets.total
         )
+    }
+
+    private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
+        getDataset = cache.datasets::get
+    )
+
+    private inner class Cache {
+        val datasets = SimpleCache(datasetFinderService::get)
     }
 }

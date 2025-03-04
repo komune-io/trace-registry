@@ -14,9 +14,21 @@ typealias CatalogueId = String
 
 /**
  * @d2 hidden
- * @visual json "2ac68753-eb5e-4148-8dc2-40b741a350d4"
+ * @visual json "5d650c7c-ac6a-4ece-9f96-875d057d9178"
  */
 typealias CatalogueIdentifier = String
+
+/**
+ * @d2 hidden
+ * @visual json "df670565-ba7b-45c6-b619-d3b1b02843ea"
+ */
+typealias DatasetId = String
+
+/**
+ * @d2 hidden
+ * @visual json "cf6bf852-5b09-4788-83c2-1f7e1c0a4b24"
+ */
+typealias DatasetIdentifier = String
 
 /**
  * @d2 hidden

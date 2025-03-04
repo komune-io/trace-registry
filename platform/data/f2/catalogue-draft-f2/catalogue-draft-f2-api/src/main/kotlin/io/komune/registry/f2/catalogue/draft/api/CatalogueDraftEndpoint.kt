@@ -79,6 +79,7 @@ class CatalogueDraftEndpoint(
         logger.info("catalogueDraftCreate: $command")
         catalogueDraftPoliciesEnforcer.checkCreate()
         catalogueDraftF2AggregateService.create(command).id
+            .let { catalogueDraftF2FinderService.get(it) }
             .let(::CatalogueDraftCreatedEventDTOBase)
     }
 

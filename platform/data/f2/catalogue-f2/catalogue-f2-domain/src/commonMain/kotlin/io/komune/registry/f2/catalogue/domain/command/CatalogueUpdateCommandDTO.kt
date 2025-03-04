@@ -3,7 +3,6 @@ package io.komune.registry.f2.catalogue.domain.command
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
@@ -34,8 +33,6 @@ interface CatalogueUpdateCommandDTO {
      * Id of the catalogue to update.
      */
     val id: CatalogueId
-
-    val draftId: CatalogueDraftId
 
     val parentId: CatalogueId?
 
@@ -71,7 +68,6 @@ interface CatalogueUpdateCommandDTO {
 @Serializable
 data class CatalogueUpdateCommandDTOBase(
     override val id: CatalogueId,
-    override val draftId: CatalogueDraftId,
     override val parentId: CatalogueId? = null,
     override val title: String,
     override val description: String? = null,
@@ -97,7 +93,6 @@ interface CatalogueUpdatedEventDTO: Event {
      * Id of the updated catalogue.
      */
     val id: CatalogueId
-    val draftId: CatalogueDraftId
 }
 
 /**
@@ -106,5 +101,4 @@ interface CatalogueUpdatedEventDTO: Event {
 @Serializable
 data class CatalogueUpdatedEventDTOBase(
     override val id: CatalogueId,
-    override val draftId: CatalogueDraftId,
 ): CatalogueUpdatedEventDTO

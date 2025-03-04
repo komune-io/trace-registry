@@ -1,18 +1,17 @@
 package io.komune.registry.s2.dataset.domain.command
 
 import io.komune.registry.s2.commons.model.DatasetId
-import io.komune.registry.s2.dataset.domain.model.DistributionId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DatasetRemoveDistributionCommand(
+data class DatasetUnlinkDatasetsCommand(
     override val id: DatasetId,
-    val distributionId: DistributionId,
+    val datasetIds: List<DatasetId>
 ): DatasetCommand
 
 @Serializable
-data class DatasetRemovedDistributionEvent(
+data class DatasetUnlinkedDatasetsEvent(
     override val id: DatasetId,
-    val distributionId: DistributionId,
     override val date: Long,
+    val datasetIds: List<DatasetId>,
 ): DatasetEvent

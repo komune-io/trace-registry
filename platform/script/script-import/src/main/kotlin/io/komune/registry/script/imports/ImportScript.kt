@@ -6,6 +6,8 @@ import cccev.dsl.model.nullIfEmpty
 import com.fasterxml.jackson.module.kotlin.readValue
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.api.commons.utils.jsonMapper
+import io.komune.registry.api.commons.utils.mapAsync
+import io.komune.registry.api.commons.utils.mapAsyncIndexed
 import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
@@ -13,15 +15,11 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
-import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
-import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
-import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -57,7 +55,7 @@ class ImportScript(
             }
             DataClient(properties.registry!!.url, authRealm)
         }
-        importRepository =  ImportRepository(dataClient)
+        importRepository = ImportRepository(dataClient)
     }
 
     suspend fun run() {
@@ -130,7 +128,6 @@ class ImportScript(
         catalogues.forEach { catalogueData ->
             importCatalogue(catalogueData, importContext)
         }
-        importContext.validateDrafts()
     }
 
     private suspend fun importCatalogues(importContext: ImportContext) {
@@ -142,14 +139,12 @@ class ImportScript(
 
         val catalogueFiles = importContext.rootDirectory.walk()
             .filter { pathMatcher.matches(it.toPath()) }
+            .toList()
 
-        val nbCatalogues = catalogueFiles.count()
-
-        catalogueFiles.forEachIndexed { i, catalogueFile ->
-            logger.info("(${i + 1}/${nbCatalogues}) Importing catalogue from ${catalogueFile.absolutePath}...")
+        catalogueFiles.mapAsyncIndexed { i, catalogueFile ->
+            logger.info("(${i + 1}/${catalogueFiles.size}) Importing catalogue from ${catalogueFile.absolutePath}...")
             importCatalogue(catalogueFile, importContext)
         }
-        importContext.validateDrafts()
 
         connectCatalogues(importContext)
         logger.info("Imported catalogues.")
@@ -160,7 +155,7 @@ class ImportScript(
         val catalogue = importCatalogue(fixedData, importContext)
         logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
         importContext.settings.datasets?.forEach {
-            importDataset(catalogue, it, jsonFile.parentFile, importContext)
+            importDataset(catalogue, it, jsonFile.parentFile)
         }
     }
 
@@ -185,8 +180,7 @@ class ImportScript(
                     themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                     accessRights = importContext.settings.defaults?.accessRights,
                     license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                    catalogues = catalogueData.children,
-                    autoValidateDraft = true
+                    catalogues = catalogueData.children
                 ) to imageFile
                 val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
@@ -202,8 +196,7 @@ class ImportScript(
         }
 
         catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
-            val draftId = importContext.draftIdFor(catalogue.id, translation.language)
-            (catalogue.toUpdateCommand(draftId).copy(
+            (catalogue.toUpdateCommand().copy(
                 title = translation.title.orEmpty(),
                 description = translation.description,
                 language = translation.language,
@@ -225,8 +218,7 @@ class ImportScript(
     private suspend fun importDataset(
         catalogue: CatalogueDTOBase,
         dataset: CatalogueDatasetSettings,
-        directory: File,
-        importContext: ImportContext
+        directory: File
     ) {
         dataset.translations.forEach { (language, path) ->
             val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
@@ -242,14 +234,12 @@ class ImportScript(
                 return@forEach
             }
 
-            val draftId = importContext.draftIdFor(catalogue.id, language)
-
             val datasetId = DatasetCreateCommandDTOBase(
                 identifier = identifier,
+                catalogueId = catalogue.id,
                 type = dataset.type,
                 title = "",
                 language = language,
-                draftId = draftId
             ).invokeWith(dataClient.dataset.datasetCreate()).id
 
             when (dataset.mediaType) {
@@ -258,9 +248,10 @@ class ImportScript(
                         ?.let {
                             importRepository.getOrCreateDataset(
                                 identifier = "${catalogue.identifier}-$language-$it",
+                                parentId = null,
+                                catalogueId = catalogue.id,
                                 language = language,
                                 type = "resources",
-                                draftId = draftId
                             )
                         } ?: datasetId
 
@@ -268,15 +259,13 @@ class ImportScript(
                         datasetId = datasetId,
                         resourcesDatasetId = resourceDatasetId,
                         datasetSettings = dataset,
-                        file = file,
-                        draftId = draftId
+                        file = file
                     )
                 }
                 else -> importRepository.createDatasetMediaDistribution(
                     datasetId = datasetId,
                     mediaType = dataset.mediaType,
-                    file = file.toSimpleFile(),
-                    draftId = draftId
+                    file = file.toSimpleFile()
                 )
             }
         }
@@ -288,8 +277,7 @@ class ImportScript(
         datasetId: DatasetId,
         resourcesDatasetId: DatasetId,
         datasetSettings: CatalogueDatasetSettings,
-        file: File,
-        draftId: CatalogueDraftId
+        file: File
     ) {
         val rawText = file.readText()
 
@@ -315,8 +303,7 @@ class ImportScript(
                 val distributionId = importRepository.createDatasetMediaDistribution(
                     datasetId = resourcesDatasetId,
                     mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
-                    file = resourceFile.toSimpleFile(),
-                    draftId = draftId
+                    file = resourceFile.toSimpleFile()
                 )
                 val registryPath = properties.registry?.path?.let {
                     if (!it.endsWith("/")) "$it/" else it
@@ -330,14 +317,13 @@ class ImportScript(
         importRepository.createDatasetMediaDistribution(
             datasetId = datasetId,
             mediaType = "text/markdown",
-            file = SimpleFile(file.name, modifiedText.toByteArray()),
-            draftId = draftId
+            file = SimpleFile(file.name, modifiedText.toByteArray())
         )
     }
 
     private suspend fun connectCatalogues(importContext: ImportContext) {
         logger.info("Linking catalogues...")
-        importContext.catalogueParents.forEach { (catalogueId, parentIdentifier) ->
+        importContext.catalogueParents.entries.mapAsync { (catalogueId, parentIdentifier) ->
             logger.info("Linking [${catalogueId} -> $parentIdentifier]")
             val parentId = importContext.catalogues[parentIdentifier]
                 ?: run {
@@ -345,7 +331,7 @@ class ImportScript(
                         val defaultParentId = getDefaultParentId(catalogueId, importContext)
                         logger.warn("Catalogue[$catalogueId] => ParentCatalogue $parentIdentifier not found. " +
                                 "Using default [${defaultParentId}] or ignoring if not specified.")
-                        defaultParentId ?: return@forEach
+                        defaultParentId ?: return@mapAsync
                     } else {
                         throw IllegalArgumentException("Parent catalogue not found: $parentIdentifier")
                     }
@@ -394,7 +380,7 @@ class ImportScript(
 
     private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): List<CatalogueIdentifier>? {
         return parents?.map { parent ->
-            if(parent.type == null || parent.identifier.startsWith(parent.type)) {
+            if (parent.identifier.startsWith(parent.type)) {
                 parent.identifier
             } else {
                 val mapParentType = importContext.mapCatalogueType(parent.type)
@@ -404,25 +390,6 @@ class ImportScript(
     }
 
     private fun File.toSimpleFile() = SimpleFile(name, readBytes())
-
-    private suspend fun ImportContext.draftIdFor(catalogueId: CatalogueId, language: Language): CatalogueDraftId {
-        return drafts.getOrPut(catalogueId to language) {
-            CatalogueDraftCreateCommandDTOBase(
-                catalogueId = catalogueId,
-                language = language
-            ).invokeWith(dataClient.catalogueDraft.catalogueDraftCreate()).id
-        }
-    }
-
-    private suspend fun ImportContext.validateDrafts() {
-        logger.info("Validating drafts...")
-        drafts.values.forEachIndexed { i, draftId ->
-            logger.info("(${i + 1}/${drafts.size}) Validating draft [$draftId] ")
-            CatalogueDraftValidateCommand(draftId)
-                .invokeWith(dataClient.catalogueDraft.catalogueDraftValidate())
-        }
-        drafts.clear()
-    }
 }
 
 class ImportContext(
@@ -434,16 +401,11 @@ class ImportContext(
     val catalogues = mutableMapOf<CatalogueIdentifier, CatalogueId>()
     val catalogueParents = mutableMapOf<CatalogueId, CatalogueIdentifier>()
 
-    val drafts = mutableMapOf<Pair<CatalogueId, Language>, CatalogueDraftId>()
-
     fun mapCatalogueType(type: String): String {
         return settings
             .mapping
             ?.catalogueTypes
             ?.get(type)
-            ?: run {
-//                logger.info("Warning: Catalogue type [$type] mapping not found. Using it as-is.")
-                type
-            }
+            ?: type
     }
 }

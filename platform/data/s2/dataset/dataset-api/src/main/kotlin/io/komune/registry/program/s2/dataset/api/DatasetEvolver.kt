@@ -10,8 +10,10 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
@@ -22,8 +24,10 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 
 	override suspend fun evolve(event: DatasetEvent, model: DatasetEntity?): DatasetEntity? = when (event) {
 		is DatasetCreatedEvent -> create(event)
+		is DatasetLinkedToDraftEvent -> model?.linkToDraft(event)
 		is DatasetUpdatedEvent -> model?.update(event)
 		is DatasetLinkedDatasetsEvent -> model?.addDatasets(event)
+		is DatasetUnlinkedDatasetsEvent -> model?.removeDatasets(event)
 		is DatasetLinkedThemesEvent -> model?.addThemes(event)
 		is DatasetDeletedEvent -> model?.delete(event)
 		is DatasetSetImageEvent -> model?.setImage(event)
@@ -38,6 +42,10 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		status = DatasetState.ACTIVE
 		identifier = event.identifier
 		issued = event.date
+	}
+
+	private suspend fun DatasetEntity.linkToDraft(event: DatasetLinkedToDraftEvent) = apply {
+		draftId = event.draftId
 	}
 
 	private suspend fun DatasetEntity.setImage(event: DatasetSetImageEvent) = apply {
@@ -59,6 +67,11 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	}
 
 	private suspend fun DatasetEntity.addDatasets(event: DatasetLinkedDatasetsEvent) = apply {
+		datasetIds += event.datasetIds
+	}
+
+	private suspend fun DatasetEntity.removeDatasets(event: DatasetUnlinkedDatasetsEvent) = apply {
+		datasetIds -= event.datasetIds
 	}
 
 	private suspend fun DatasetEntity.addDistribution(event: DatasetAddedDistributionEvent) = apply {

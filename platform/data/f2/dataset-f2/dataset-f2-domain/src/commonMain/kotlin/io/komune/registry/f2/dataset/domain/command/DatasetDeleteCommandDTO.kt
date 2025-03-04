@@ -1,8 +1,7 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -21,7 +20,6 @@ typealias DatasetDeleteFunction = F2Function<DatasetDeleteCommandDTOBase, Datase
 @JsName("DatasetDeleteCommandDTO")
 interface DatasetDeleteCommandDTO {
     val id: DatasetId
-    val draftId: CatalogueDraftId
 }
 
 /**
@@ -29,7 +27,6 @@ interface DatasetDeleteCommandDTO {
  */
 data class DatasetDeleteCommandDTOBase(
     override val id: DatasetId,
-    override val draftId: CatalogueDraftId
 ): DatasetDeleteCommandDTO
 
 /**

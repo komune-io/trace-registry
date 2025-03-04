@@ -3,7 +3,7 @@ package io.komune.registry.f2.dataset.api.data
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.features.query.FileListQuery
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement

@@ -14,6 +14,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -27,7 +29,9 @@ import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
 
-fun DatasetModel.toDTO(): DatasetDTOBase {
+suspend fun DatasetModel.toDTO(
+    getDataset: suspend (DatasetId) -> DatasetModel,
+): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
         identifier = identifier,
@@ -57,6 +61,7 @@ fun DatasetModel.toDTO(): DatasetDTOBase {
         license = license,
         format = format,
         issued = issued,
+        datasets = datasetIds.map { getDataset(it).toDTO(getDataset) },
         distributions = distributions.map { it.toDTO() },
     )
 }
@@ -92,7 +97,7 @@ fun DistributionModel.toDTO() = DistributionDTOBase(
     modified = modified,
 )
 
-fun DatasetCreateCommandDTOBase.toCommand() = DatasetCreateCommand(
+fun DatasetCreateCommandDTOBase.toCommand(identifier: DatasetIdentifier) = DatasetCreateCommand(
     identifier = identifier,
     title = title,
     type = type,
@@ -125,7 +130,7 @@ fun DatasetCreatedEvent.toDTO() = DatasetCreatedEventDTOBase(
 
 fun DatasetLinkDatasetsCommandDTOBase.toCommand() = DatasetLinkDatasetsCommand(
     id = id,
-    datasets = datasets
+    datasetIds = datasets
 )
 
 fun DatasetLinkedDatasetsEvent.toDTO() = DatasetLinkedDatasetsEventDTOBase(

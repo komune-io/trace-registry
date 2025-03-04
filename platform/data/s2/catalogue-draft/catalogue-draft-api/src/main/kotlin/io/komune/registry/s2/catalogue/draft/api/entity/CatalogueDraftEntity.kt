@@ -4,10 +4,10 @@ import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.commons.model.UserId

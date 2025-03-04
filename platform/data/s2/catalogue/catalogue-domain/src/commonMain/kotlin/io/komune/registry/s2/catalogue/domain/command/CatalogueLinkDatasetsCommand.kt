@@ -1,9 +1,8 @@
 package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DatasetId
 import kotlinx.serialization.Serializable
-
-typealias DatasetId = String
 
 @Serializable
 data class CatalogueLinkDatasetsCommand(

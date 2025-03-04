@@ -85,7 +85,7 @@ export const DraftEditionPage = () => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         catalogueDraftQuery.refetch()
-        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.id))
+        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.item.id))
       }
     },
     [createDraft.mutateAsync, catalogueId, catalogue],

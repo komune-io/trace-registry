@@ -8,7 +8,7 @@ import io.komune.registry.data.test.bdd.f2.catalogue.data.catalogue
 import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.s2.catalogue.domain.command.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd
 import s2.bdd.data.TestContextKey

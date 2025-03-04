@@ -6,9 +6,9 @@ import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
-import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -31,9 +31,11 @@ interface DatasetCreateCommandDTO {
     /**
      * Custom identifier of the new dataset.
      */
-    val identifier: DatasetIdentifier
+    val identifier: DatasetIdentifier?
 
-    val draftId: CatalogueDraftId
+    val parentId: DatasetId?
+
+    val catalogueId: CatalogueId?
 
     /**
      * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
@@ -76,8 +78,9 @@ interface DatasetCreateCommandDTO {
  */
 @Serializable
 data class DatasetCreateCommandDTOBase(
-    override val identifier: String,
-    override val draftId: CatalogueDraftId,
+    override val identifier: DatasetIdentifier?,
+    override val parentId: DatasetId? = null,
+    override val catalogueId: CatalogueId? = null,
     override val title: String,
     override val type: String,
     override val description: String? = null,

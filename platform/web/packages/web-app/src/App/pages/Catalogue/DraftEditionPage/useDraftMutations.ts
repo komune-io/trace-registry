@@ -62,7 +62,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           versionNotes: metadataFormState.values.versionNotes,
           language: metadataFormState.values.language,
           id: catalogueId!,
-          draftId: draftId!,
         },
         files: metadataFormState.values.illustration ? [{
           file: metadataFormState.values.illustration
@@ -76,16 +75,14 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           await updateJsonDistribution.mutateAsync({
             id: dataset.dataSet.id,
             jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
-            distributionId: dataset.distribution.id,
-            draftId: draftId!
+            distributionId: dataset.distribution.id
           })
         } else {
           const dataSetId = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")?.id
           if (dataSetId) {
             await addJsonDistribution.mutateAsync({
               id: dataSetId,
-              jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
-              draftId: draftId!
+              jsonContent: JSON.stringify(editorStateRef.current?.toJSON())
             })
           }
         }

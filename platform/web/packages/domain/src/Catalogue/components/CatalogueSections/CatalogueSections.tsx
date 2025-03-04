@@ -2,7 +2,7 @@ import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
-import { useDatasetDownloadDistribution } from '../../api'
+import { useLexicalDownloadDistribution } from '../../api'
 import { CircularProgress, Stack } from '@mui/material'
 
 interface CatalogueSectionsProps {
@@ -18,7 +18,7 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
     const {
         query,
         dataSet
-    } = useDatasetDownloadDistribution(catalogue)
+    } = useLexicalDownloadDistribution(catalogue)
 
     // const reportAddSection = useReportAddSection()
     // const handleAddSection = useCallback(async (index: number) => {

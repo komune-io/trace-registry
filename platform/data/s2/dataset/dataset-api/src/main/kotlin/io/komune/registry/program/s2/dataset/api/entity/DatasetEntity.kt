@@ -9,9 +9,10 @@ import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
+import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.RedisTable
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
@@ -28,6 +29,9 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
 
     @Indexed
     lateinit var identifier: DatasetIdentifier
+
+    @TagIndexed
+    var draftId: CatalogueDraftId? = null
 
     @Searchable(nostem=true)
     var title: String = ""
@@ -67,6 +71,7 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var modified: Long? = null
     var releaseDate: String? = null
 
+    var datasetIds: Set<DatasetId> = emptySet()
     var distributions: List<DistributionEntity>? = null
 
     override fun s2Id() = id

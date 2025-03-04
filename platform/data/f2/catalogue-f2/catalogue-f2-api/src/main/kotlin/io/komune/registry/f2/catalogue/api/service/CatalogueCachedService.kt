@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.registry.f2.catalogue.api.model.CatalogueCacheContext
+import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
@@ -11,7 +12,10 @@ import kotlin.coroutines.coroutineContext
 open class CatalogueCachedService {
 
     @Autowired
-    lateinit var licenseF2FinderService: LicenseF2FinderService
+    protected lateinit var datasetF2FinderService: DatasetF2FinderService
+
+    @Autowired
+    protected lateinit var licenseF2FinderService: LicenseF2FinderService
 
     @Autowired
     protected lateinit var organizationF2FinderService: OrganizationF2FinderService
@@ -24,6 +28,7 @@ open class CatalogueCachedService {
 
         if (cache == null) {
             val cacheContext = CatalogueCacheContext(
+                datasetF2FinderService = datasetF2FinderService,
                 licenseF2FinderService = licenseF2FinderService,
                 organizationF2FinderService = organizationF2FinderService,
                 userF2FinderService = userF2FinderService

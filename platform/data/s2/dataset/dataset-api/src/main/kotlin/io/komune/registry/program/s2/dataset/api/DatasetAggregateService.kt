@@ -10,12 +10,16 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
@@ -63,6 +67,14 @@ class DatasetAggregateService(
 		)
 	}
 
+	suspend fun linkToDraft(command: DatasetLinkToDraftCommand) = automate.transition(command) {
+		DatasetLinkedToDraftEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			draftId = command.draftId
+		)
+	}
+
 	suspend fun setImageCommand(command: DatasetSetImageCommand) = automate.transition(command) {
 		DatasetSetImageEvent(
 			id = command.id,
@@ -77,7 +89,17 @@ class DatasetAggregateService(
 		DatasetLinkedDatasetsEvent(
 			id =  command.id,
 			date = System.currentTimeMillis(),
-			datasets = command.datasets
+			datasetIds = command.datasetIds
+		)
+	}
+
+	suspend fun unlinkDatasets(
+		command: DatasetUnlinkDatasetsCommand
+	): DatasetUnlinkedDatasetsEvent = automate.transition(command) {
+		DatasetUnlinkedDatasetsEvent(
+			id =  command.id,
+			date = System.currentTimeMillis(),
+			datasetIds = command.datasetIds
 		)
 	}
 

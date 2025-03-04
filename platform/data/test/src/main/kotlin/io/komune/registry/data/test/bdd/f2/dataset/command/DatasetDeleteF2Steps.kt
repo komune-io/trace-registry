@@ -41,7 +41,6 @@ class DatasetDeleteF2Steps: En, VerCucumberStepsDefinition() {
     private suspend fun deleteDataset(params: DatasetDeleteParams) {
         command = DatasetDeleteCommandDTOBase(
             id = context.datasetIds[params.identifier] ?: params.identifier,
-            draftId = TODO()
         )
         command.invokeWith(datasetEndpoint.datasetDelete())
     }

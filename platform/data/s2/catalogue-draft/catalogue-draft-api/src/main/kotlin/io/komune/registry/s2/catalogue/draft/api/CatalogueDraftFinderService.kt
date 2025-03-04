@@ -8,13 +8,11 @@ import f2.spring.exception.NotFoundException
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftEntity
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftRepository
 import io.komune.registry.s2.catalogue.draft.api.entity.toModel
-import io.komune.registry.s2.catalogue.draft.api.exception.CatalogueDraftInvalidException
 import io.komune.registry.s2.catalogue.draft.api.query.CatalogueDraftPageQueryDB
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Service
 
@@ -32,20 +30,6 @@ class CatalogueDraftFinderService(
     suspend fun get(id: CatalogueDraftId): CatalogueDraftModel {
         return getOrNull(id)
             ?: throw NotFoundException("CatalogueDraft", id)
-    }
-
-    suspend fun getAndCheck(id: CatalogueDraftId, language: Language, catalogueId: CatalogueId?): CatalogueDraftModel {
-        val draft = get(id)
-
-        if (draft.language != language || catalogueId !in listOf(null, draft.originalCatalogueId, draft.catalogueId)) {
-            throw CatalogueDraftInvalidException(
-                draftId = draft.id,
-                catalogueId = catalogueId,
-                language = language
-            )
-        }
-
-        return draft
     }
 
     suspend fun getByCatalogueIdOrNull(catalogueId: CatalogueId): CatalogueDraftModel? {

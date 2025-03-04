@@ -145,3 +145,29 @@ export const useDatasetDeleteCommand = (
         DatasetDeletedEvent
     >('data/datasetDelete', requestProps, params)
 }
+
+export interface DatasetCreateCommand extends io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTO { }
+export interface DatasetCreatedEvent extends io.komune.registry.f2.dataset.domain.command.DatasetCreatedEventDTO { }
+
+export const useDatasetCreateCommand = (
+    params: CommandParams<DatasetCreateCommand, DatasetCreatedEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetCreateCommand,
+        DatasetCreatedEvent
+    >('data/datasetCreate', requestProps, params)
+}
+
+export interface DatasetAddMediaDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTO { }
+export interface DatasetAddedMediaDistributionEvent extends io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTO { }
+
+export const useDatasetAddMediaDistributionCommand = (
+    params: CommandParams<CommandWithFile<DatasetAddMediaDistributionCommand>, DatasetAddedMediaDistributionEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandWithFileRequest<
+        DatasetAddMediaDistributionCommand,
+        DatasetAddedMediaDistributionEvent
+    >('data/datasetAddMediaDistribution', requestProps, params)
+}

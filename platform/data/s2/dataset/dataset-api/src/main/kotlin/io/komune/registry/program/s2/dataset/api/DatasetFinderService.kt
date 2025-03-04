@@ -8,8 +8,8 @@ import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toModel
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
 import io.komune.registry.s2.commons.exception.NotFoundException
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
-import io.komune.registry.s2.dataset.domain.automate.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionId

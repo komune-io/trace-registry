@@ -24,7 +24,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
@@ -82,9 +81,8 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     versionNotes = versionNotes.takeIf { withTranslatable }
 )
 
-fun CatalogueModel.toUpdateCommand(draftId: CatalogueDraftId, language: Language) = CatalogueUpdateCommandDTOBase(
+fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
     id = id,
-    draftId = draftId,
     title = title,
     description = description,
     language = language,

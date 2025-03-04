@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.CataloguePolicies
+import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
@@ -22,11 +23,9 @@ class CataloguePoliciesEnforcer(
         CataloguePolicies.canCreate(authedUser)
     }
 
-    suspend fun checkUpdate(
-        catalogueId: CatalogueId, draftId: CatalogueDraftId?
-    ) = checkAuthed("update catalogue [$catalogueId]${draftId?.let { " of draft [$draftId]" }.orEmpty()}") { authedUser ->
-        if (draftId != null) {
-            val draft = getDraftRef(draftId)
+    suspend fun checkUpdate(catalogueId: CatalogueId) = checkAuthed("update catalogue [$catalogueId]") { authedUser ->
+        val draft = getDraftRefOfCatalogueOrNull(catalogueId)
+        if (draft != null) {
             CatalogueDraftPolicies.canUpdate(authedUser, draft)
         } else {
             val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
@@ -72,6 +71,12 @@ class CataloguePoliciesEnforcer(
         CataloguePolicies.canLinkDatasets(authedUser, catalogue)
     }
 
+    suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->
+        command.copy(
+            withDraft = command.withDraft || !CataloguePolicies.canCreateWithoutDraft(authedUser)
+        )
+    }
+
     suspend fun enforceCommand(command: CatalogueUpdateCommandDTOBase) = enforceAuthed { authedUser ->
         val catalogue = catalogueF2FinderService.getAccessData(command.id)
         command.copy(
@@ -81,7 +86,7 @@ class CataloguePoliciesEnforcer(
         )
     }
 
-    private suspend fun getDraftRef(draftId: CatalogueDraftId): CatalogueDraftRefDTOBase {
-        return catalogueDraftFinderService.get(draftId).toRef(userF2FinderService::getRef)
+    private suspend fun getDraftRefOfCatalogueOrNull(catalogueId: CatalogueDraftId): CatalogueDraftRefDTOBase? {
+        return catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)?.toRef(userF2FinderService::getRef)
     }
 }

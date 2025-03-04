@@ -1,10 +1,11 @@
 package io.komune.registry.f2.dataset.api.service
 
+import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.toUploadCommand
-import io.komune.registry.f2.dataset.api.exception.DatasetDraftInvalidException
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
@@ -22,6 +23,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributi
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
 import io.komune.registry.infra.fs.FsPath
+import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
@@ -30,9 +32,11 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsComma
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.model.CatalogueDraftId
-import io.komune.registry.s2.dataset.domain.automate.DatasetId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.ktor.utils.io.core.toByteArray
@@ -48,25 +52,45 @@ class DatasetF2AggregateService(
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fileClient: FileClient,
+    private val sequenceRepository: SequenceRepository
 ) {
 
-    suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
-        val draft = catalogueDraftFinderService.getAndCheck(command.draftId, command.language, null)
-        val event = datasetAggregateService.create(command.toCommand().copy(identifier = "${command.identifier}-draft"))
+    companion object {
+        const val IDENTIFIER_SEQUENCE = "dataset_seq"
+    }
 
-        CatalogueLinkDatasetsCommand(
-            id = draft.catalogueId,
-            datasetIds = listOf(event.id)
-        ).let { catalogueAggregateService.linkDatasets(it) }
+    suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
+        val draftId = command.catalogueId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it)?.id }
+            ?: command.parentId?.let { datasetFinderService.get(it).draftId }
+
+        val identifierSuffix = "-draft".takeIf { draftId != null } ?: ""
+        val datasetIdentifier = command.identifier
+            ?: "${command.type}-${sequenceRepository.nextValOf(IDENTIFIER_SEQUENCE)}"
+
+        val event = datasetAggregateService.create(command.toCommand("$datasetIdentifier$identifierSuffix"))
+
+        command.catalogueId?.let {
+            CatalogueLinkDatasetsCommand(
+                id = it,
+                datasetIds = listOf(event.id)
+            ).let { catalogueAggregateService.linkDatasets(it) }
+        }
+
+        command.parentId?.let {
+            DatasetLinkDatasetsCommand(
+                id = it,
+                datasetIds = listOf(event.id)
+            ).let { datasetAggregateService.linkDatasets(it) }
+        }
+
+        draftId?.let { linkDatasetToDraft(it, event.id) }
 
         return event.toDTO()
     }
 
     suspend fun addJsonDistribution(command: DatasetAddJsonDistributionCommandDTOBase): DatasetAddedJsonDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
         val event = addDistribution(
-            datasetId = draftedDatasetId,
+            datasetId = command.id,
             filename = "${UUID.randomUUID()}.json",
             name = command.name,
             mediaType = "application/json",
@@ -74,7 +98,7 @@ class DatasetF2AggregateService(
         )
 
         return DatasetAddedJsonDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
@@ -82,8 +106,6 @@ class DatasetF2AggregateService(
     suspend fun addMediaDistribution(
         command: DatasetAddMediaDistributionCommandDTOBase, file: FilePart
     ): DatasetAddedMediaDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
         val fileExtension = file.filename()
             .substringAfterLast('.', "")
             .ifBlank { null }
@@ -91,7 +113,7 @@ class DatasetF2AggregateService(
             .orEmpty()
 
         val event = addDistribution(
-            datasetId = draftedDatasetId,
+            datasetId = command.id,
             filename = "${UUID.randomUUID()}$fileExtension",
             name = command.name,
             mediaType = command.mediaType,
@@ -99,21 +121,19 @@ class DatasetF2AggregateService(
         )
 
         return DatasetAddedMediaDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
 
     suspend fun updateJsonDistribution(command: DatasetUpdateJsonDistributionCommandDTOBase): DatasetUpdatedJsonDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
-
-        val path = distribution.downloadPath.copy(objectId = draftedDatasetId)
+        val path = distribution.downloadPath.copy(objectId = command.id)
         fileClient.fileUpload(path.toUploadCommand(), command.jsonContent.toByteArray())
 
         val event = DatasetUpdateDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId,
             name = command.name,
             downloadPath = path,
@@ -121,7 +141,7 @@ class DatasetF2AggregateService(
         ).let { datasetAggregateService.updateDistribution(it) }
 
         return DatasetUpdatedJsonDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
@@ -129,9 +149,7 @@ class DatasetF2AggregateService(
     suspend fun updateMediaDistribution(
         command: DatasetUpdateMediaDistributionCommandDTOBase, file: FilePart
     ): DatasetUpdatedMediaDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
         val fileExtension = file.filename()
             .substringAfterLast('.', "")
@@ -141,20 +159,21 @@ class DatasetF2AggregateService(
 
         val oldPath = distribution.downloadPath
         val newPath = oldPath.copy(
-            objectId = draftedDatasetId,
+            objectId = command.id,
             name = oldPath.name.substringBeforeLast('.') + fileExtension
         )
         fileClient.fileUpload(newPath.toUploadCommand(), file.contentByteArray())
 
         val event = DatasetUpdateDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId,
             downloadPath = newPath,
             name = command.name,
             mediaType = command.mediaType
         ).let { datasetAggregateService.updateDistribution(it) }
 
-        if (oldPath != newPath && oldPath.objectId == draftedDatasetId) {
+        // should only happen if extension has changed
+        if (oldPath != newPath && oldPath.objectId == command.id) {
             FileDeleteCommand(
                 objectType = oldPath.objectType,
                 objectId = oldPath.objectId,
@@ -164,23 +183,21 @@ class DatasetF2AggregateService(
         }
 
         return DatasetUpdatedMediaDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = event.distributionId
         )
     }
 
     suspend fun removeDistribution(command: DatasetRemoveDistributionCommandDTOBase): DatasetRemovedDistributionEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
-
-        val distribution = datasetFinderService.getDistribution(draftedDatasetId, command.distributionId)
+        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
         DatasetRemoveDistributionCommand(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId
         ).let { datasetAggregateService.removeDistribution(it) }
 
         val path = distribution.downloadPath
-        if (path.objectId == draftedDatasetId) {
+        if (path.objectId == command.id) {
             FileDeleteCommand(
                 objectType = path.objectType,
                 objectId = path.objectId,
@@ -190,37 +207,39 @@ class DatasetF2AggregateService(
         }
 
         return DatasetRemovedDistributionEventDTOBase(
-            id = draftedDatasetId,
+            id = command.id,
             distributionId = command.distributionId
         )
     }
 
     suspend fun delete(command: DatasetDeleteCommandDTOBase): DatasetDeletedEventDTOBase {
-        val draftedDatasetId = getDraftedDatasetId(command.id, command.draftId)
+        val event = datasetAggregateService.delete(command.toCommand())
 
-        val event = command.toCommand()
-            .copy(id = draftedDatasetId)
-            .let { datasetAggregateService.delete(it) }
-
-        CatalogueUnlinkDatasetsCommand(
-            id = catalogueDraftFinderService.get(command.draftId).catalogueId,
-            datasetIds = listOf(draftedDatasetId)
-        ).let { catalogueAggregateService.unlinkDatasets(it) }
+        catalogueFinderService.page(
+            datasetIds = ExactMatch(command.id)
+        ).items.mapAsync { catalogue ->
+            CatalogueUnlinkDatasetsCommand(
+                id = catalogue.id,
+                datasetIds = listOf(command.id)
+            ).let { catalogueAggregateService.unlinkDatasets(it) }
+        }
 
         return event.toDTO()
     }
 
-    private suspend fun getDraftedDatasetId(datasetId: DatasetId, draftId: CatalogueDraftId): DatasetId {
-        val draft = catalogueDraftFinderService.get(draftId)
+    suspend fun linkDatasetToDraft(draftId: CatalogueDraftId, datasetId: DatasetId) {
+        val dataset = datasetFinderService.get(datasetId)
 
-        val catalogue = catalogueFinderService.get(draft.catalogueId)
-        val draftedDatasetId = draft.datasetIdMap[datasetId] ?: datasetId
-
-        if (draftedDatasetId !in catalogue.datasetIds) {
-            throw DatasetDraftInvalidException(draft.id, datasetId)
+        if (dataset.draftId != draftId) {
+            DatasetLinkToDraftCommand(
+                id = datasetId,
+                draftId = draftId
+            ).let { datasetAggregateService.linkToDraft(it) }
         }
 
-        return draftedDatasetId
+        dataset.datasetIds.mapAsync { linkedDatasetId ->
+            linkDatasetToDraft(draftId, linkedDatasetId)
+        }
     }
 
     private suspend fun addDistribution(
