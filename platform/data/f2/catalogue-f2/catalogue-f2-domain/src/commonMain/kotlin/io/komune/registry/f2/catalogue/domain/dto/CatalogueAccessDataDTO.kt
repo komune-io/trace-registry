@@ -3,8 +3,8 @@ package io.komune.registry.f2.catalogue.domain.dto
 import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface CatalogueAccessDataDTO {

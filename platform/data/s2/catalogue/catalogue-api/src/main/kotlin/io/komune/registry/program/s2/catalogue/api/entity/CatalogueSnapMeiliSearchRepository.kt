@@ -54,32 +54,32 @@ class CatalogueSnapMeiliSearchRepository(
         CatalogueModel::modified.name
     )
 
-    suspend fun save(entity: CatalogueEntity) {
+    suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
         if (entity.status == CatalogueState.DELETED) {
             remove(entity.id)
-            return
+            return@withContext
         }
 
         updateDraft(entity)
 
         if (!entity.type.contains("translation")) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return
+            return@withContext
         }
 
         val domain = catalogueI18nService.rebuildModel(entity)
 
         if (domain == null) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return
+            return@withContext
         }
         if (domain.hidden) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}] is hidden")
-            return
+            return@withContext
         }
         if (!indexedCatalogueTypes.contains(domain.type)) {
             logger.info("Skip catalogue: $entity, [type: ${entity.type}] is not contained in ${searchProperties.indexedCatalogue}")
-            return
+            return@withContext
         }
 
         logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")

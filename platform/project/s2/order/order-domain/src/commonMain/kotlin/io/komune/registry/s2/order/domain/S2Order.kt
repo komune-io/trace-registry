@@ -15,14 +15,14 @@ import io.komune.registry.s2.order.domain.command.OrderSubmitCommand
 import io.komune.registry.s2.order.domain.command.OrderSubmittedEvent
 import io.komune.registry.s2.order.domain.command.OrderUpdateCommand
 import io.komune.registry.s2.order.domain.command.OrderUpdatedEvent
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 val s2Order = s2Sourcing {
     name = "OrderS2"

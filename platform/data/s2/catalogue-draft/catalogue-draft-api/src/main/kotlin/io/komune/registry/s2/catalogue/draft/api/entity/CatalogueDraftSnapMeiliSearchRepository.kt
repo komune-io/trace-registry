@@ -16,10 +16,10 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchab
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.MeiliIndex
 import io.komune.registry.s2.commons.model.UserId
+import kotlin.reflect.KCallable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
-import kotlin.reflect.KCallable
 import s2.sourcing.dsl.view.ViewLoader
 
 @Service

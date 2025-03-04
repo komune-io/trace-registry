@@ -2,7 +2,6 @@ package io.komune.registry.f2.asset.order.domain.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.order.domain.OrderId
-import io.komune.registry.s2.order.domain.command.OrderCancelCommand
 import kotlin.js.JsExport
 
 /**

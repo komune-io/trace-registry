@@ -14,8 +14,8 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmit
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class CatalogueDraftAggregateService(

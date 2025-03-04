@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.meilisearch.sdk.Client
 import com.meilisearch.sdk.Config
-import com.meilisearch.sdk.json.JacksonJsonHandler
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull

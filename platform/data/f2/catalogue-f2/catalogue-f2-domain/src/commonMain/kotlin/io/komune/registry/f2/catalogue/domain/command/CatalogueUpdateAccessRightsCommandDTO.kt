@@ -4,8 +4,8 @@ import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateAccessRightsCommand
 import io.komune.registry.s2.commons.model.CatalogueId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Update the access rights of a catalogue.

@@ -1,8 +1,8 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
 import io.komune.registry.s2.commons.model.Language
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * Minimal information about a [Catalogue][CatalogueDTO]

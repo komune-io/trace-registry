@@ -1,5 +1,6 @@
 package io.komune.registry.s2.concept.api.entity
 
+import io.komune.registry.infra.redis.RegistryS2SourcingSpringDataAdapter
 import io.komune.registry.s2.concept.api.ConceptEvolver
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptState
@@ -7,45 +8,26 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreatedEvent
 import io.komune.registry.s2.concept.domain.command.ConceptEvent
 import io.komune.registry.s2.concept.domain.command.ConceptUpdatedEvent
 import io.komune.registry.s2.concept.domain.s2Concept
-import kotlinx.coroutines.runBlocking
+import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
-import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
-import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
-import kotlin.reflect.KClass
 
 @Configuration
 class ConceptAutomateConfig(
     aggregate: ConceptAutomateExecutor,
     evolver: ConceptEvolver,
     projectSnapRepository: ConceptSnapRepository,
-    private val repository: ConceptRepository
-): S2SourcingSpringDataAdapter<ConceptEntity, ConceptState, ConceptEvent, ConceptId, ConceptAutomateExecutor>(
+): RegistryS2SourcingSpringDataAdapter<ConceptEntity, ConceptState, ConceptEvent, ConceptId, ConceptAutomateExecutor>(
 	aggregate,
 	evolver,
-	projectSnapRepository
+	projectSnapRepository,
+	ConceptEntity::class
 ) {
 
-	private val logger = LoggerFactory.getLogger(ConceptAutomateConfig::class.java)
-	override fun afterPropertiesSet() {
-		super.afterPropertiesSet()
-		if (repository.count() == 0L) {
-			try {
-				runBlocking {
-					logger.info("/////////////////////////")
-					logger.info("Replay Concept history")
-					executor.replayHistory()
-					logger.info("/////////////////////////")
-				}
-			} catch (e: Exception) {
-				logger.error("Replay history error", e)
-			}
-		}
-	}
 
 	override fun automate() = s2Concept
 

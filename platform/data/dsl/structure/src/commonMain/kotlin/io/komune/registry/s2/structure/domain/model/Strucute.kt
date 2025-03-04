@@ -1,7 +1,7 @@
 package io.komune.registry.s2.structure.domain.model
 
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias StructureId = String
 

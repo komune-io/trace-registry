@@ -2,11 +2,11 @@ package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.S2SourcingEvent
+import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Command
 import s2.dsl.automate.S2InitCommand
-import kotlin.js.JsExport
-import kotlin.js.JsName
 
 @JsExport
 @JsName("CatalogueEvent")

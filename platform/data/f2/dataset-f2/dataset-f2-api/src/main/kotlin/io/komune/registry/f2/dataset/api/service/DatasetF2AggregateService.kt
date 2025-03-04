@@ -44,9 +44,9 @@ import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCom
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.ktor.utils.io.core.toByteArray
+import java.util.UUID
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class DatasetF2AggregateService(
