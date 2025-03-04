@@ -1,6 +1,9 @@
 {
   "type": "100m-system",
-  "identifierSequence": "seq_100m_system",
+  "identifierSequence": {
+    "name": "seq_100m_system",
+    "startValue": 2000
+  },
   "parentTypes": ["100m-systems", "100m-system"],
   "structure": "item",
   "i18n": {

@@ -1,6 +1,9 @@
 {
   "type": "100m-solution",
-  "identifierSequence": "seq_100m_solution",
+  "identifierSequence": {
+    "name": "seq_100m_solution",
+    "startValue": 2000
+  },
   "parentTypes": ["100m-solutions", "100m-solution", "100m-system"],
   "conceptSchemes": ["100m-solution-categories"],
   "structure": "item",

@@ -281,7 +281,11 @@ class CatalogueF2AggregateService(
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
         val catalogueIdentifier = command.identifier
-            ?: "${command.type}-${sequenceRepository.nextValOf(typeConfiguration?.identifierSequence ?: DEFAULT_SEQUENCE)}"
+            ?: run {
+                typeConfiguration?.identifierSequence
+                    ?.let { sequenceRepository.nextValOf(it.name, it.startValue, it.increment) }
+                    ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
+            }.let { "${command.type}-$it" }
 
         val createCommand = command.toCommand(
             identifier = catalogueIdentifier,
