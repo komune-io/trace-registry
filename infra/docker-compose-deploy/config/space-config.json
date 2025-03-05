@@ -109,7 +109,7 @@
     }, {
       "name": "rg_perm_catalogue_draft_write_all",
       "description": "Ability to edit catalogue drafts of all users",
-      "features":  [["rg_feat_catalogue"]]
+      "features":  [["rg_feat_catalogue"], ["rg_feat_catalogue_audit"]]
     }, {
       "name": "rg_perm_catalogue_draft_delete_all",
       "description": "Ability to delete catalogue drafts of all users",
@@ -204,7 +204,7 @@
         "es": "Admin"
       },
       "permissions": [
-        "im_organization_write_own",
+        "im_organization_write_own", "im_role_read",
         "im_user_read", "im_user_write", "im_user_role_write",
         "rg_perm_catalogue_read_org"
       ]
@@ -217,7 +217,7 @@
         "en": "Reader",
         "es": "Lector"
       },
-      "permissions": ["im_user_read", "rg_perm_catalogue_read_org"]
+      "permissions": ["im_user_read", "im_role_read", "rg_perm_catalogue_read_org"]
     }, {
       "name": "rg_role_user_contributor",
       "description": "Grant the right to submit contributions and proposals for modifications to the registry records.",
@@ -228,7 +228,7 @@
         "es": "Contribuidor"
       },
       "permissions": [
-        "im_user_read",
+        "im_user_read", "im_role_read",
         "rg_perm_catalogue_read_org", "rg_perm_catalogue_publish_org",
         "rg_perm_catalogue_draft_create"
       ]
@@ -242,8 +242,8 @@
         "es": "Validador"
       },
       "permissions": [
-        "im_user_read",
-        "rg_perm_catalogue_draft_audit", "rg_perm_catalogue_draft_read_all"
+        "im_user_read", "im_role_read",
+        "rg_perm_catalogue_draft_audit", "rg_perm_catalogue_draft_read_all", "rg_perm_catalogue_draft_write_all"
       ]
     }, {
       "name": "rg_role_user_orchestrator",
