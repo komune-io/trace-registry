@@ -1,5 +1,5 @@
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueCreateCommand, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
+import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -11,11 +11,12 @@ interface useDraftMutationsParams {
   setTab: (tab: string) => void
   catalogue?: Catalogue
   refetchDraft: () => void
+  draft?: CatalogueDraft
   afterValidateNavigate?: string
 }
 
 export const useDraftMutations = (params: useDraftMutationsParams) => {
-  const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate } = params
+  const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate, draft } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
@@ -61,7 +62,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           homepage: metadataFormState.values.homepage,
           versionNotes: metadataFormState.values.versionNotes,
           language: metadataFormState.values.language,
-          id: catalogueId!,
+          id: draft?.catalogue.id!,
         },
         files: metadataFormState.values.illustration ? [{
           file: metadataFormState.values.illustration
@@ -97,7 +98,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         return res
       }
     },
-    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, catalogueId, draftId, catalogue, refetchDraft],
+    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, draft, draftId, catalogue, refetchDraft],
   )
 
   const validateDraft = useCatalogueDraftValidateCommand({})
