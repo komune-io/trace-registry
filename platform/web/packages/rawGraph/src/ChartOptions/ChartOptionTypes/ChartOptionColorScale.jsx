@@ -71,7 +71,7 @@ const ChartOptionColorScale = ({
 
   const [interpolators, setInterpolators] = useState(
     get(value, 'scaleType')
-      ? Object.keys(colorPresets[get(value, 'scaleType')])
+      ? Object.keys(colorPresets[get(value, 'scaleType')]).filter((intr) => intr !== "interpolateTurbo") // interpolateTurbo crashing the interface
       : []
   )
 
@@ -217,7 +217,7 @@ const ChartOptionColorScale = ({
 
       //update interpolators
       const nextInterpolators = colorPresets[nextScaleType]
-        ? Object.keys(colorPresets[nextScaleType])
+        ? Object.keys(colorPresets[nextScaleType]).filter((intr) => intr !== "interpolateTurbo") // interpolateTurbo crashing the interface
         : []
       setInterpolators(nextInterpolators)
 

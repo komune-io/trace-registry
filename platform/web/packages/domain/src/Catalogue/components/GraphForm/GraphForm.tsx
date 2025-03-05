@@ -28,14 +28,15 @@ export interface GraphFormProps {
     state?: RawGraphState
 }
 
+const emptyFunction = () => {}
+
 export const GraphForm = (props: GraphFormProps) => {
     const { onSave, csvDistributionId, graphDatasetId, state } = props
     const { t } = useTranslation()
     
 
     const {parsed} = useCsvDownloadDistribution(graphDatasetId, csvDistributionId)
-
-
+    
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
     const [visualOptions, setVisualOptions] = useState(() => {
@@ -99,7 +100,7 @@ export const GraphForm = (props: GraphFormProps) => {
             <DataGrid
                 dataset={parsed.dataset}
                 dataTypes={parsed.dataTypes}
-                coerceTypes={() => { }}
+                coerceTypes={emptyFunction}
                 errors={parsed.errors}
                 userDataset={parsed.dataset}
             />
@@ -128,7 +129,7 @@ export const GraphForm = (props: GraphFormProps) => {
                     visualOptions={visualOptions}
                     setVisualOptions={setVisualOptions}
                     setRawViz={setRawViz}
-                    setMappingLoading={() => { }}
+                    setMappingLoading={emptyFunction}
                 />
             }
             <Button
