@@ -100,9 +100,7 @@ export const GraphForm = (props: GraphFormProps) => {
             <DataGrid
                 dataset={parsed.dataset}
                 dataTypes={parsed.dataTypes}
-                coerceTypes={emptyFunction}
                 errors={parsed.errors}
-                userDataset={parsed.dataset}
             />
             <TitleDivider
                 title={"2. " + t("catalogues.graphConfiguration")}

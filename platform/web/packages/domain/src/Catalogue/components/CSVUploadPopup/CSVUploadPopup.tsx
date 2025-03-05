@@ -131,7 +131,6 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                             dataTypes={parsed.dataTypes}
                             dataset={parsed.dataset}
                             errors={parsed.errors}
-                            userDataset={parsed.dataset}
                         />
                     </Accordion>}
                 </>
