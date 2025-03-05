@@ -25,9 +25,10 @@ import org.springframework.stereotype.Service
 typealias OrganizationName = String
 
 @Service
-class ImService(
-    var imClient: ImClient,
-) {
+class ImService {
+
+    @Autowired
+    private lateinit  var imClient: ImClient
 
     private val organizationNameCache = SimpleCache<OrganizationName, OrganizationId?> { name ->
         OrganizationPageQuery(
