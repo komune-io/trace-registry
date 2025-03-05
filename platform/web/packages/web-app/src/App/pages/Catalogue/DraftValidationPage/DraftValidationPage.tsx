@@ -37,7 +37,8 @@ export const DraftValidationPage = () => {
     setTab,
     refetchDraft: catalogueDraftQuery.refetch,
     catalogue,
-    afterValidateNavigate: cataloguesToVerify()
+    afterValidateNavigate: cataloguesToVerify(),
+    draft
   })
 
   const title = catalogue?.title ?? t("sheetValidation")

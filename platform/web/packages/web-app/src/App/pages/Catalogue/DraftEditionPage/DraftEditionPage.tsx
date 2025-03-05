@@ -42,7 +42,8 @@ export const DraftEditionPage = () => {
     metadataFormState,
     setTab,
     catalogue,
-    refetchDraft: catalogueDraftQuery.refetch
+    refetchDraft: catalogueDraftQuery.refetch,
+    draft
   })
 
   const title = catalogue?.title ?? t("sheetEdition")

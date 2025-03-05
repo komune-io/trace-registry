@@ -54,8 +54,6 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
 
     const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} />), [csvDistributions, graphDataset])
 
-    console.log(csvDistributions)
-
     return (
         <>
             <Paper
