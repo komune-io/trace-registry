@@ -3,8 +3,8 @@ package io.komune.registry.f2.license.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.license.domain.model.LicenseDTO
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 /**
  * List all licenses.

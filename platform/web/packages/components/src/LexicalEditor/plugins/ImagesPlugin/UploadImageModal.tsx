@@ -34,8 +34,8 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
     const uploadImage = useDatasetAddMediaDistributionCommand({})
 
     const onClickImage = useCallback((src: string) => {
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: "graph", src: src });
         onClose();
+        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: "graph", src: src });
     }, [onClose, editor])
 
     const onSubmit = useCallback(async (values: any) => {
@@ -90,11 +90,13 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         return (
             <ImageCard
                 imageUrl={src}
-                onClick={() => onClickImage(src)}
+                onClick={() => {
+                    open && onClickImage(src)
+                }}
                 label={dataset.title}
             />
         )
-    }), [draft, onClickImage])
+    }), [draft, onClickImage, open])
 
 
     const tabs = useMemo((): Tab[] => [{

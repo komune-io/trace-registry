@@ -21,8 +21,8 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmit
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
-import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
+import org.springframework.stereotype.Service
 
 @Service
 class CatalogueDraftF2AggregateService(

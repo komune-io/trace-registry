@@ -2,9 +2,9 @@ package io.komune.registry.f2.dataset.domain.query
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.DatasetIdentifier
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * Get available languages of a dataset by identifier.

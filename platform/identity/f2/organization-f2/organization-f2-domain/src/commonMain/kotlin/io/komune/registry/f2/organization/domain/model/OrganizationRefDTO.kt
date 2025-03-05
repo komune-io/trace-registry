@@ -1,8 +1,8 @@
 package io.komune.registry.f2.organization.domain.model
 
 import io.komune.registry.s2.commons.model.OrganizationId
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 @JsExport
 interface OrganizationRefDTO {

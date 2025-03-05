@@ -2,6 +2,7 @@ package io.komune.registry.project.test.bdd.s2.project.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import io.komune.registry.project.test.bdd.VerCucumberStepsDefinition
 import io.komune.registry.s2.commons.model.GeoLocation
 import io.komune.registry.s2.project.api.ProjectAggregateService
 import io.komune.registry.s2.project.api.entity.ProjectRepository
@@ -9,7 +10,6 @@ import io.komune.registry.s2.project.domain.command.ProjectCreateCommand
 import io.komune.registry.s2.project.domain.model.DateTime
 import io.komune.registry.s2.project.domain.model.OrganizationRef
 import io.komune.registry.s2.project.domain.model.SdgNumber
-import io.komune.registry.project.test.bdd.VerCucumberStepsDefinition
 import java.util.UUID
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions

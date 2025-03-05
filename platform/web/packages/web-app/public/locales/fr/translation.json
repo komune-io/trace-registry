@@ -147,6 +147,7 @@
     "co2Projects": "Projets CO2",
     "graphs": "Graphes",
     "createAGraph": "Créer un graphe",
+    "editAGraph": "Editer un graphe",
     "unsupportedFormatError": "Format non supporté. Veuillez utiliser l’un des formats suivants: {{formats}}",
     "dragDropText": "Drag & drop ou cliquez pour choisir un fichier",
     "maxFileSize": "Taille maximale d'un fichier: {{size}} MB",

@@ -285,20 +285,14 @@
           "password": "traceconnect",
           "firstname": "Admin",
           "lastname": "Admin",
-          "roles": ["rg_role_user_orchestrator"],
-          "attributes": {
-            "job": "Admin (I think)"
-          }
+          "roles": ["rg_role_user_orchestrator"]
         },
         {
           "email": "sandra@geffroi.com",
           "password": "traceconnect",
           "firstname": "Sandra",
           "lastname": "Geffroi",
-          "roles": ["rg_role_user_admin"],
-          "attributes": {
-            "job": "Frileuse"
-          }
+          "roles": ["rg_role_user_admin"]
         }
       ]
     },
@@ -317,10 +311,7 @@
           "password": "traceconnect",
           "firstname": "Fred",
           "lastname": "Ajance",
-          "roles": ["rg_role_user_admin"],
-          "attributes": {
-            "job": "Frais d'agence"
-          }
+          "roles": ["rg_role_user_admin"]
         },
         {
           "email": "thibault@metyfeppeur.com",
@@ -334,10 +325,7 @@
           "password": "traceconnect",
           "firstname": "Jess",
           "lastname": "Croke",
-          "roles": ["rg_role_user_reader"],
-          "attribute": {
-            "job": "Escroc"
-          }
+          "roles": ["rg_role_user_reader"]
         }
       ]
     }

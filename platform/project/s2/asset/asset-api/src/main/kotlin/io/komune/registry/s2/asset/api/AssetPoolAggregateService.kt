@@ -30,8 +30,8 @@ import io.komune.registry.s2.asset.domain.command.transaction.AssetTransactionEm
 import io.komune.registry.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.respectsGranularity
-import org.springframework.stereotype.Service
 import java.util.UUID
+import org.springframework.stereotype.Service
 
 @Service
 class AssetPoolAggregateService(

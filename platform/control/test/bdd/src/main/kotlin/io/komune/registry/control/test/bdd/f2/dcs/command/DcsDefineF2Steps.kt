@@ -8,11 +8,11 @@ import cccev.f2.requirement.query.RequirementGetByIdentifierQuery
 import f2.dsl.fnc.invokeWith
 import io.cucumber.java8.En
 import io.komune.registry.api.commons.utils.parseFile
+import io.komune.registry.control.test.bdd.VerCucumberStepsDefinition
 import io.komune.registry.f2.dcs.api.DcsEndpoint
 import io.komune.registry.f2.dcs.domain.command.DataCollectionStepDefineCommand
 import io.komune.registry.f2.dcs.domain.model.DataCollectionStep
 import io.komune.registry.f2.dcs.domain.query.DataCollectionStepGetQuery
-import io.komune.registry.control.test.bdd.VerCucumberStepsDefinition
 import kotlin.reflect.jvm.javaMethod
 import org.springframework.beans.factory.annotation.Autowired
 

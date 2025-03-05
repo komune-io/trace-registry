@@ -4,10 +4,12 @@ import com.meilisearch.sdk.Client
 import com.meilisearch.sdk.Index
 import com.meilisearch.sdk.exceptions.MeilisearchApiException
 import com.meilisearch.sdk.model.Settings
+import kotlin.reflect.KClass
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import s2.spring.utils.logger.Logger
-import kotlin.reflect.KClass
 
 abstract class MeiliSearchSnapRepository<Entity: Any>(
     protected val indexName: String,
@@ -38,8 +40,8 @@ abstract class MeiliSearchSnapRepository<Entity: Any>(
         }
     }
 
-    open suspend fun get(id: String): Entity? {
-        return try {
+    open suspend fun get(id: String): Entity? = withContext(Dispatchers.IO) {
+        try {
             index.getDocument(id, entityClass.java)
         } catch (e: MeilisearchApiException) {
             if (e.code == "document_not_found") {
@@ -55,8 +57,8 @@ abstract class MeiliSearchSnapRepository<Entity: Any>(
         }
     }
 
-    open suspend fun remove(id: String): Boolean {
-        return try {
+    open suspend fun remove(id: String): Boolean = withContext(Dispatchers.IO) {
+        try {
             index.deleteDocument(id)
             true
         } catch (e: Exception) {

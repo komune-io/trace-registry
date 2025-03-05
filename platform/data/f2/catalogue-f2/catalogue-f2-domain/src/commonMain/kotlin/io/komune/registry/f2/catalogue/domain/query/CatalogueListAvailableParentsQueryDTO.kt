@@ -5,9 +5,9 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
-import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlinx.serialization.Serializable
 
 /**
  * List available parents catalogues for a given type of catalogue.

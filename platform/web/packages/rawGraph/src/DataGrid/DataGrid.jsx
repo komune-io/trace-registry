@@ -344,7 +344,6 @@ export const DataGrid = ({
         sortColumn={sortColumn}
         sortDirection={sortDirection}
         onSort={handleSort}
-        height={432}
         onRowsUpdate={(update) => {
           if (update.action === 'CELL_UPDATE') {
             const newDataset = [...userDataset]
