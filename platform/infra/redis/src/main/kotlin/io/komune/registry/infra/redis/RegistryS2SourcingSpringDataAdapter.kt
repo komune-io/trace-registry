@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.springframework.beans.factory.annotation.Autowired
+import redis.clients.jedis.exceptions.JedisDataException
 import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
@@ -45,7 +46,12 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 	override fun afterPropertiesSet() {
 		super.afterPropertiesSet()
 		val entityType = redisEntityType.java
-		val count = entityStream.of(entityType).count()
+		val count = try {
+			entityStream.of(entityType).count()
+		} catch (e: JedisDataException) {
+			logger.error("Error counting ${entityType.name} stream, ${e.message}")
+			0L
+		}
 		if (count == 0L) {
 			try {
 				runBlocking {
