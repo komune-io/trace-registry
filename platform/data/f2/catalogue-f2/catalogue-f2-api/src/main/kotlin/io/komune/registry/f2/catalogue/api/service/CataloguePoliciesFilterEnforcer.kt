@@ -28,7 +28,10 @@ class CataloguePoliciesFilterEnforcer : PolicyEnforcer() {
                 FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(organizationId)),
                 FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id)),
             )
-            else -> FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id))
+            else -> orCriterionOf(
+                FieldCriterion(CatalogueCriterionField.AccessRights, ExactMatch(CatalogueAccessRight.PUBLIC)),
+                FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id))
+            )
         }
     }
 

@@ -80,6 +80,6 @@ object CataloguePolicies {
                 || creatorOrganizationId == authedUser.memberOf.orEmpty()
                 || ownerOrganizationId == authedUser.memberOf.orEmpty()
                 || creatorId == authedUser.id
-        else -> creatorId == authedUser.id
+        else -> accessRights == CatalogueAccessRight.PUBLIC || creatorId == authedUser.id
     }
 }
