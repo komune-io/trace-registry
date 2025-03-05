@@ -23,11 +23,10 @@ data class CatalogueImportData(
     val children: List<CatalogueId>?,
 )
 
-
 @Serializable
 data class CatalogueParent(
     val type: String,
-    val identifier: String
+    val identifier: String?
 )
 
 data class CatalogueTranslationData(

@@ -6,7 +6,6 @@ import cccev.dsl.model.nullIfEmpty
 import com.fasterxml.jackson.module.kotlin.readValue
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.api.commons.utils.jsonMapper
-import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.commons.utils.mapAsyncIndexed
 import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
@@ -280,10 +279,31 @@ class ImportScript(
         datasetSettings: CatalogueDatasetSettings,
         file: File
     ) {
+        val registryPath = properties.registry?.path?.let {
+            if (!it.endsWith("/")) "$it/" else it
+        } ?: "/"
         val rawText = file.readText()
 
         val matchedPathToActualPath = mutableMapOf<String, String>()
         var modifiedText = rawText
+
+        Regex("""\[(.*?)\]\((.*?)\)""").findAll(rawText).forEach { linkMatch ->
+            val title = linkMatch.groupValues[1]
+            val path = linkMatch.groupValues[2]
+
+            val catalogueLinkRegExp = Regex("""#100m-([\w]+)/(\w+)""")
+            val catalogueLinkMatch = catalogueLinkRegExp.find(path)
+            if(catalogueLinkMatch != null) {
+                val objectType = catalogueLinkMatch.groupValues[1]
+                val objectId = catalogueLinkMatch.groupValues[2]
+                val url = "${registryPath}catalogues/100m-${objectType}-$objectId"
+                matchedPathToActualPath[path] = url
+                logger.info("Catalogue[$path] replace by: $url")
+                modifiedText = modifiedText.replace(linkMatch.value, "![$title](${matchedPathToActualPath[path]})")
+            }
+
+        }
+
 
         Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
             val alt = imageMatch.groupValues[1]
@@ -306,10 +326,9 @@ class ImportScript(
                     mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
                     file = resourceFile.toSimpleFile()
                 )
-                val registryPath = properties.registry?.path?.let {
-                    if (!it.endsWith("/")) "$it/" else it
-                } ?: "/"
-                matchedPathToActualPath[path] = "${registryPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
+                val url = "${registryPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
+                logger.info("Catalogue[$path] replace by: $url")
+                matchedPathToActualPath[path] = url
             }
 
             modifiedText = modifiedText.replace(imageMatch.value, "![$alt](${matchedPathToActualPath[path]} $title)")
@@ -382,13 +401,16 @@ class ImportScript(
 
     private fun CatalogueImportData.parentIdentifier(importContext: ImportContext): List<CatalogueIdentifier>? {
         return parents?.map { parent ->
-            if (parent.identifier.startsWith(parent.type)) {
+            if (parent.identifier != null && parent.identifier.startsWith(parent.type)) {
                 parent.identifier
             } else {
                 val mapParentType = importContext.mapCatalogueType(parent.type)
-                "$mapParentType-${parent.identifier}"
+                parent.identifier?.let {
+                    "$mapParentType-${parent.identifier}"
+                } ?: mapParentType
             }
         }
+
     }
 
     private fun File.toSimpleFile() = SimpleFile(name, readBytes())
