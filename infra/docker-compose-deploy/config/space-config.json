@@ -42,8 +42,8 @@
   ],
   "features": [
     {
-    "name": "rg_feat_catalogue",
-    "description": "Access to catalogue and dataset features"
+      "name": "rg_feat_catalogue",
+      "description": "Access to catalogue and dataset features"
     }, {
       "name": "rg_feat_catalogue_audit",
       "description": "Access to catalogue audition features"
@@ -204,10 +204,9 @@
         "es": "Admin"
       },
       "permissions": [
-        "im_organization_write_own", "im_user_read", "im_user_write",
-        "rg_perm_catalogue_read_org", "rg_perm_catalogue_publish_org",
-        "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit", "rg_perm_catalogue_draft_read_all",
-        "rg_perm_configuration_concept_write", "rg_perm_configuration_license_write"
+        "im_organization_write_own",
+        "im_user_read", "im_user_write", "im_user_role_write",
+        "rg_perm_catalogue_read_org"
       ]
     }, {
       "name": "rg_role_user_reader",
@@ -258,7 +257,7 @@
       "permissions": [
         "feat_im_all",
         "im_organization_read", "im_organization_write", "im_organization_write_own",
-        "im_user_read", "im_user_write",
+        "im_user_read", "im_user_write", "im_user_role_write",
         "im_role_read",  "im_role_write",
         "im_apikey_read", "im_apikey_write",
         "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all",
