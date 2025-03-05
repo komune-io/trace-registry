@@ -5,6 +5,5 @@ export * from "./DataMapping"
 export * from "./ChartPreview"
 export * from "./ChartPreviewWithOptions"
 export * from './hooks'
-export * from './Exporter'
 
 

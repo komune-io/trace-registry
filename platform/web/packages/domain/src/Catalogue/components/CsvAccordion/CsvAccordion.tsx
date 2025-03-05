@@ -29,7 +29,6 @@ export const CsvAccordion = (props: CsvAccordionProps) => {
                 dataTypes={parsed.dataTypes}
                 dataset={parsed.dataset}
                 errors={parsed.errors}
-                userDataset={parsed.dataset}
             />}
         </Accordion>
     )
