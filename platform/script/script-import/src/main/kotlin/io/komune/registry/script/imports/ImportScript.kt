@@ -296,10 +296,10 @@ class ImportScript(
             if(catalogueLinkMatch != null) {
                 val objectType = catalogueLinkMatch.groupValues[1]
                 val objectId = catalogueLinkMatch.groupValues[2]
-                val url = "${registryPath}catalogues/100m-${objectType}-$objectId"
+                val url = "${registryPath}catalogues/100m-${objectType}-$objectId/"
                 matchedPathToActualPath[path] = url
                 logger.info("Catalogue[$path] replace by: $url")
-                modifiedText = modifiedText.replace(linkMatch.value, "![$title](${matchedPathToActualPath[path]})")
+                modifiedText = modifiedText.replace(linkMatch.value, "[$title](${matchedPathToActualPath[path]})")
             }
 
         }

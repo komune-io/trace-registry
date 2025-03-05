@@ -294,7 +294,17 @@
           "lastname": "Geffroi",
           "roles": ["rg_role_user_admin"]
         }
-      ]
+      ],
+      "apiKeys": [
+        {
+          "name": "import",
+          "secret": "${KC_IMPORT_CLIENT_SECRET}",
+          "roles": [
+            "rg_role_user_orchestrator",
+            "rg_role_user_contributor",
+            "rg_role_user_validator"
+          ]
+        },
     },
     {
       "name": "Monsstrai Company",
