@@ -1,4 +1,4 @@
-import { FormComposableState } from '@komune-io/g2'
+import { FormComposableState, successHandler } from '@komune-io/g2'
 import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
@@ -15,13 +15,15 @@ interface useDraftMutationsParams {
   afterValidateNavigate?: string
 }
 
+const emptyFunction = () => { }
+
 export const useDraftMutations = (params: useDraftMutationsParams) => {
   const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate, draft } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
-  const {cataloguesAll, cataloguesContributions} = useRoutesDefinition()
+  const { cataloguesAll, cataloguesContributions } = useRoutesDefinition()
 
   const onSectionChange = useCallback(
     (editorState: EditorState) => {
@@ -30,14 +32,14 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     [],
   )
 
-  const catalogueUpdate = useCatalogueUpdateCommand({})
+  const catalogueUpdate = useCatalogueUpdateCommand({}, { successHandler: emptyFunction })
 
   const addJsonDistribution = useDatasetAddJsonDistributionCommand({})
 
   const updateJsonDistribution = useDatasetUpdateJsonDistributionCommand({})
 
   const onSave = useCallback(
-    async () => {
+    async (withSucessMessage: boolean = true) => {
       const errors = await metadataFormState.validateForm()
       if (Object.keys(errors).length > 0) {
         setTab("metadata")
@@ -71,9 +73,11 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
       const dataset = catalogue ? findLexicalDataset(catalogue) : undefined
 
+      let lexicalUpdate: Promise<any> | undefined = undefined
+
       if (editorStateRef.current) {
         if (dataset && dataset.distribution.mediaType === "application/json") {
-          await updateJsonDistribution.mutateAsync({
+          lexicalUpdate = updateJsonDistribution.mutateAsync({
             id: dataset.dataSet.id,
             jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
             distributionId: dataset.distribution.id
@@ -81,12 +85,17 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         } else {
           const dataSetId = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")?.id
           if (dataSetId) {
-            await addJsonDistribution.mutateAsync({
+            lexicalUpdate = addJsonDistribution.mutateAsync({
               id: dataSetId,
               jsonContent: JSON.stringify(editorStateRef.current?.toJSON())
             })
           }
         }
+      }
+
+      if (lexicalUpdate) {
+        const lexicalRes = await lexicalUpdate
+        if (!lexicalRes) return
       }
 
       const res = await update
@@ -95,6 +104,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         refetchDraft()
+        if (withSucessMessage) successHandler("draftUpdated")
         return res
       }
     },
@@ -105,7 +115,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
   const onValidate = useCallback(
     async () => {
-      const updateRes = await onSave()
+      const updateRes = await onSave(false)
       if (updateRes) {
         const res = await validateDraft.mutateAsync({
           id: draftId!,
@@ -113,9 +123,9 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          queryClient.invalidateQueries({queryKey: ["data/cataloguePage"]})
-          queryClient.invalidateQueries({queryKey: ["data/catalogueRefGetTree"]})
-          queryClient.invalidateQueries({queryKey: ["data/catalogueListAvailableParents"]})
+          queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
           navigate(afterValidateNavigate ?? cataloguesAll(catalogueId))
         }
       }
@@ -127,7 +137,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
   const onSubmit = useCallback(
     async (reason: string) => {
-      const updateRes = await onSave()
+      const updateRes = await onSave(false)
       if (updateRes) {
         const res = await submitDraft.mutateAsync({
           id: draftId!,
@@ -144,7 +154,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     [onSave, draftId, catalogueId],
 
   )
-  
+
   const deleteCatalogue = useCatalogueDraftDeleteCommand({})
 
   const onDelete = useCallback(

@@ -26,8 +26,6 @@ export const DataGrid = (props: DataGridProps) => {
   const idColumnWidth =
     24 + 8 * (Math.floor(Math.log10(dataset.length)) + 1);
 
-    console.log(idColumnWidth)
-
   const equalDinstribution =
     ((containerEl?.getBoundingClientRect().width ?? 0) - idColumnWidth - 1) /
     Object.keys(dataTypes).length;

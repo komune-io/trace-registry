@@ -1,5 +1,5 @@
 import { io } from "registry-platform-api-api-js-export";
-import { useCommandWithFileRequest, CommandParams, CommandWithFile, useAuthenticatedRequest, useCommandRequest } from "@komune-io/g2"
+import { useCommandWithFileRequest, CommandParams, CommandWithFile, useAuthenticatedRequest, useCommandRequest, CommandResquestOptions } from "@komune-io/g2"
 
 export interface CatalogueCreateCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTO { }
 export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO { }
@@ -19,26 +19,28 @@ export interface CatalogueUpdateCommand extends io.komune.registry.f2.catalogue.
 export interface CatalogueUpdatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTO { }
 
 export const useCatalogueUpdateCommand = (
-    params: CommandParams<CommandWithFile<CatalogueUpdateCommand>, CatalogueUpdatedEvent>
+    params: CommandParams<CommandWithFile<CatalogueUpdateCommand>, CatalogueUpdatedEvent>,
+    options?: CommandResquestOptions
 ) => {
     const requestProps = useAuthenticatedRequest()
     return useCommandWithFileRequest<
         CatalogueUpdateCommand,
         CatalogueUpdatedEvent
-    >('data/catalogueUpdate', requestProps, params)
+    >('data/catalogueUpdate', requestProps, params, options)
 }
 
 export interface DatasetAddJsonDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTO { }
 export interface DatasetAddedJsonDistributionEvent extends io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTO { }
 
 export const useDatasetAddJsonDistributionCommand = (
-    params: CommandParams<DatasetAddJsonDistributionCommand, DatasetAddedJsonDistributionEvent>
+    params: CommandParams<DatasetAddJsonDistributionCommand, DatasetAddedJsonDistributionEvent>,
+    options?: CommandResquestOptions
 ) => {
     const requestProps = useAuthenticatedRequest()
     return useCommandRequest<
         DatasetAddJsonDistributionCommand,
         DatasetAddedJsonDistributionEvent
-    >('data/datasetAddJsonDistribution', requestProps, params)
+    >('data/datasetAddJsonDistribution', requestProps, params, options)
 }
 
 export interface DatasetUpdateJsonDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTO { }
@@ -176,13 +178,14 @@ export interface DatasetAddMediaDistributionCommand extends io.komune.registry.f
 export interface DatasetAddedMediaDistributionEvent extends io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTO { }
 
 export const useDatasetAddMediaDistributionCommand = (
-    params: CommandParams<CommandWithFile<DatasetAddMediaDistributionCommand>, DatasetAddedMediaDistributionEvent>
+    params: CommandParams<CommandWithFile<DatasetAddMediaDistributionCommand>, DatasetAddedMediaDistributionEvent>,
+    options?: CommandResquestOptions
 ) => {
     const requestProps = useAuthenticatedRequest()
     return useCommandWithFileRequest<
         DatasetAddMediaDistributionCommand,
         DatasetAddedMediaDistributionEvent
-    >('data/datasetAddMediaDistribution', requestProps, params)
+    >('data/datasetAddMediaDistribution', requestProps, params, options)
 }
 
 export interface DatasetUpdateMediaDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTO { }
