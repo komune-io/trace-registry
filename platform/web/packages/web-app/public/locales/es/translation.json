@@ -371,9 +371,9 @@
       "data/licenseList": "No se pudo recuperar la lista de licencias",
       "data/datasetDownloadDistribution": "No se pudo recuperar el contenido de la ficha",
       "data/catalogueCreate": "No se pudo crear la ficha",
-      "data/catalogueUpdate": "No se pudieron guardar las modificaciones de los metadatos de la ficha",
-      "data/datasetAddJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
-      "data/datasetUpdateJsonDistribution": "No se pudieron guardar las modificaciones del contenido de la ficha",
+      "data/catalogueUpdate": "No se pudieron guardar las modificaciones de la ficha",
+      "data/datasetAddJsonDistribution": "No se pudieron guardar las modificaciones",
+      "data/datasetUpdateJsonDistribution": "No se pudieron guardar las modificaciones",
       "data/catalogueDelete": "No se pudo eliminar la ficha",
       "data/catalogueDraftPage": "No se pudo recuperar la lista de borradores",
       "data/catalogueDraftGet": "No se pudo recuperar el borrador",
@@ -382,20 +382,25 @@
       "data/catalogueDraftValidate": "No se pudo validar el borrador",
       "data/catalogueDraftReject": "No se pudo rechazar el borrador",
       "data/catalogueDraftDelete": "No se pudo eliminar el borrador",
-      "data/datasetDelete": "No se pudo eliminar el gráfico"
+      "data/datasetAddMediaDistribution": "No se pudo guardar el archivo",
+      "data/datasetDelete": "No se pudo eliminar el gráfico",
+      "data/datasetCreate": "No se pudo crear el gráfico",
+      "data/datasetUpdate": "No se pudo modificar el gráfico"
     },
     "success": {
       "data/catalogueCreate": "La ficha ha sido creada correctamente",
-      "data/catalogueUpdate": "Las modificaciones de los metadatos de la ficha han sido guardadas correctamente",
-      "data/datasetAddJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
-      "data/datasetUpdateJsonDistribution": "Las modificaciones del contenido de la ficha han sido guardadas correctamente",
+      "data/catalogueUpdate": "Las modificaciones de la ficha han sido guardadas correctamente",
       "data/catalogueDelete": "La ficha ha sido eliminada correctamente",
       "data/catalogueDraftCreate": "El borrador ha sido creado correctamente",
       "data/catalogueDraftSubmit": "El borrador ha sido enviado para validación",
       "data/catalogueDraftValidate": "El borrador ha sido validado",
       "data/catalogueDraftReject": "El borrador ha sido rechazado",
       "data/catalogueDraftDelete": "El borrador ha sido eliminado",
-      "data/datasetDelete": "El gráfico ha sido eliminado correctamente"
+      "data/datasetDelete": "El gráfico ha sido eliminado correctamente",
+      "data/datasetAddMediaDistribution": "El archivo ha sido guardado correctamente",
+      "draftUpdated": "El borrador ha sido guardado correctamente",
+      "graphCreated": "El gráfico ha sido creado correctamente",
+      "graphUpdated": "El gráfico ha sido modificado correctamente"
     }
   }
 }

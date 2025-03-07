@@ -35,6 +35,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ImageResizer from './ImageResizer';
 import { $isImageNode } from './ImageNode';
+import { UnCachedImage } from '../../../UnCachedImage';
 
 
 export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> =
@@ -50,6 +51,7 @@ export const ImageComponent = ({
     resizable,
     caption,
     captionsEnabled,
+    unCached
 }: {
     altText: string;
     caption: LexicalEditor;
@@ -60,6 +62,7 @@ export const ImageComponent = ({
     src: string;
     width: 'inherit' | number;
     captionsEnabled: boolean;
+    unCached?: boolean
 }): JSX.Element => {
     const imageRef = useRef<null | HTMLImageElement>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -277,24 +280,25 @@ export const ImageComponent = ({
 
     const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
     const isFocused = isSelected || isResizing;
+
+    const imgProps = {
+        className:  isFocused
+        ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
+        : undefined,
+        src,
+        alt: altText,
+        ref: imageRef,
+        style: {
+            width,
+            height,
+            maxWidth
+        }
+    }
+    
     return (
         <>
         <div draggable={draggable}>
-            <img
-                className={
-                    isFocused
-                        ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
-                        : undefined
-                }
-                src={src}
-                alt={altText}
-                ref={imageRef}
-                style={{
-                    width,
-                    height,
-                    maxWidth
-                }}
-            />
+            {unCached ? <UnCachedImage {...imgProps} /> : <img {...imgProps} />}
         </div>
 
         {resizable && $isNodeSelection(selection) && isFocused && (

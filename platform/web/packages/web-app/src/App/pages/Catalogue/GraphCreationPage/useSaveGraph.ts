@@ -1,4 +1,4 @@
-import { FormComposableState } from '@komune-io/g2'
+import { errorHandler as G2errorHandler, FormComposableState, successHandler } from '@komune-io/g2'
 import { useQueryClient } from '@tanstack/react-query'
 import { CatalogueDraft, Dataset, RawGraphState, useDatasetAddJsonDistributionCommand, useDatasetAddMediaDistributionCommand, useDatasetCreateCommand } from 'domain-components'
 import { useCallback } from 'react'
@@ -10,16 +10,23 @@ interface useSaveGraphParams {
     onClose: () => void
 }
 
+const emptyFunction = () => { }
+
 export const useSaveGraph = (params: useSaveGraphParams) => {
-    const {draft, graphDataset, graphFormState, onClose} = params
+    const { draft, graphDataset, graphFormState, onClose } = params
 
     const queryClient = useQueryClient()
+    const errorHandler = useCallback(
+        G2errorHandler("data/datasetCreate"),
+        [],
+    )
+
 
     const createDataset = useDatasetCreateCommand({})
 
-    const addMediaDistribution = useDatasetAddMediaDistributionCommand({})
+    const addMediaDistribution = useDatasetAddMediaDistributionCommand({}, { errorHandler, successHandler: emptyFunction })
 
-    const addJsonDistribution = useDatasetAddJsonDistributionCommand({})
+    const addJsonDistribution = useDatasetAddJsonDistributionCommand({}, { errorHandler })
 
     const onSaveChart = useCallback(
         async (graphSvg: Blob, state: RawGraphState) => {
@@ -32,28 +39,33 @@ export const useSaveGraph = (params: useSaveGraphParams) => {
                 type: "rawGraph",
                 parentId: graphDataset.id
             })
+            if (!createRes) return
 
-            if (createRes) {
-                await addJsonDistribution.mutateAsync({
+            const jsonRes = await addJsonDistribution.mutateAsync({
+                id: createRes.id,
+                jsonContent: JSON.stringify({
+                    ...state,
+                    csvDistributionId: graphFormState.values.distributionId
+                }),
+            })
+            if (!jsonRes) return
+
+            const file = new File([graphSvg], graphFormState.values.title + ".svg", { type: "image/svg+xml", lastModified: new Date().getTime() });
+            const mediaRes = await addMediaDistribution.mutateAsync({
+                command: {
                     id: createRes.id,
-                    jsonContent: JSON.stringify({
-                        ...state,
-                        csvDistributionId: graphFormState.values.distributionId
-                    }),
-                })
-                const file = new File([graphSvg], graphFormState.values.title + ".svg", { type: "image/svg+xml", lastModified: new Date().getTime() });
-                await addMediaDistribution.mutateAsync({
-                    command: {
-                        id: createRes.id,
-                        mediaType: "image/svg+xml",
-                    },
-                    files: [{
-                        file
-                    }]
-                })
-                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id! }] })
-                onClose()
-            }
+                    mediaType: "image/svg+xml",
+                },
+                files: [{
+                    file
+                }]
+            })
+            if (!mediaRes) return
+
+            successHandler("graphCreated")
+            queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id! }] })
+            onClose()
+
         },
         [graphFormState.values, draft, graphDataset, onClose],
     )

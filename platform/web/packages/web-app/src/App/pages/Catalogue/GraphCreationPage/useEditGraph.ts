@@ -1,4 +1,4 @@
-import { FormComposableState } from '@komune-io/g2'
+import { FormComposableState, successHandler } from '@komune-io/g2'
 import { useQueryClient } from '@tanstack/react-query'
 import { CatalogueDraft, Dataset, RawGraphState, useDatasetUpdateCommand, useDatasetUpdateJsonDistributionCommand, useDatasetUpdateMediaDistributionCommand } from 'domain-components'
 import { useCallback, useMemo } from 'react'
@@ -11,7 +11,7 @@ interface useEditGraphParams {
 }
 
 export const useEditGraph = (params: useEditGraphParams) => {
-    const {draft, graphFormState, onClose, dataset} = params
+    const { draft, graphFormState, onClose, dataset } = params
 
     const queryClient = useQueryClient()
 
@@ -33,31 +33,35 @@ export const useEditGraph = (params: useEditGraphParams) => {
                 title: graphFormState.values.title,
                 id: dataset?.id!,
             })
+            if (!updateRes) return
 
-            if (updateRes) {
-                await updateJsonDistribution.mutateAsync({
+            const jsonRes = await updateJsonDistribution.mutateAsync({
+                id: updateRes.id,
+                distributionId: jsonDistribution?.id!,
+                jsonContent: JSON.stringify({
+                    ...state,
+                    csvDistributionId: graphFormState.values.distributionId
+                }),
+            })
+            if (!jsonRes) return
+
+            const file = new File([graphSvg], graphFormState.values.title + ".svg", { type: "image/svg+xml", lastModified: new Date().getTime() });
+            const fileRes = await updateMediaDistribution.mutateAsync({
+                command: {
                     id: updateRes.id,
-                    distributionId: jsonDistribution?.id!,
-                    jsonContent: JSON.stringify({
-                        ...state,
-                        csvDistributionId: graphFormState.values.distributionId
-                    }),
-                })
-                const file = new File([graphSvg], graphFormState.values.title + ".svg", { type: "image/svg+xml", lastModified: new Date().getTime() });
-                await updateMediaDistribution.mutateAsync({
-                    command: {
-                        id: updateRes.id,
-                        distributionId: mediaDistribution?.id!,
-                        mediaType: "image/svg+xml"
-                    },
-                    files: [{
-                        file
-                    }]
-                })
-                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id! }] })
-                queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution", { id: updateRes.id, distributionId: jsonDistribution?.id! }] })
-                onClose()
-            }
+                    distributionId: mediaDistribution?.id!,
+                    mediaType: "image/svg+xml"
+                },
+                files: [{
+                    file
+                }]
+            })
+            if (!fileRes) return
+
+            successHandler("graphUpdated")
+            queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id! }] })
+            queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution", { id: updateRes.id, distributionId: jsonDistribution?.id! }] })
+            onClose()
         },
         [graphFormState.values, draft, onClose, jsonDistribution, mediaDistribution, dataset],
     )

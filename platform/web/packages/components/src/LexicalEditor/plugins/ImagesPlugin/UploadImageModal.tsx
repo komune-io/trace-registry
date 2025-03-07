@@ -35,7 +35,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
 
     const onClickImage = useCallback((src: string) => {
         onClose();
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: "graph", src: src });
+        editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: "graph", src: src, unCached: true });
     }, [onClose, editor])
 
     const onSubmit = useCallback(async (values: any) => {
