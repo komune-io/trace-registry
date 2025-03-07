@@ -10,20 +10,17 @@ import io.komune.im.f2.organization.domain.query.OrganizationPageQuery
 import io.komune.registry.f2.organization.api.model.toRef
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.infra.im.ImClient
+import io.komune.registry.infra.im.ImService
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.OrganizationId
 import org.springframework.stereotype.Service
 
 @Service
 class OrganizationF2FinderService(
-    private val imClient: ImClient
+    private val imService: ImService
 ) {
     suspend fun getRef(id: OrganizationId): OrganizationRef {
-        return OrganizationGetQuery(id)
-            .invokeWith(imClient.organization.organizationGet())
-            .item
-            ?.toRef()
-            ?: throw NotFoundException("Organization", id)
+        return imService.getOrganizationById(id).toRef()
     }
 
     suspend fun page(
@@ -31,12 +28,7 @@ class OrganizationF2FinderService(
         roles: List<String>? = null,
         offset: OffsetPagination? = null
     ): PageDTO<OrganizationRef> {
-        return OrganizationPageQuery(
-            name = name,
-            roles = roles,
-            offset = offset?.offset,
-            limit = offset?.limit
-        ).invokeWith(imClient.organization.organizationPage())
+        return imService.getPage(name, roles, offset)
             .map(OrganizationDTO::toRef)
     }
 }
