@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { maybeAddItem } from '../utils'
 import { useTranslation } from 'react-i18next'
 import { DeleteRounded, EditRounded, MoreVert } from '@mui/icons-material'
+import { UnCachedImage } from '../UnCachedImage'
 
 export interface ImageCardProps {
     imageUrl: string
@@ -56,7 +57,7 @@ export const ImageCard = (props: ImageCardProps) => {
                 }
             }}
         >
-            <img
+            <UnCachedImage
                 src={imageUrl}
                 className="cardImage"
             />
