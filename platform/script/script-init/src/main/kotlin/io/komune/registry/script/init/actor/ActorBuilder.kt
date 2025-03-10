@@ -4,7 +4,7 @@ import f2.client.domain.AuthRealmClientSecret
 import f2.dsl.fnc.invoke
 import f2.dsl.fnc.invokeWith
 import io.komune.im.apikey.domain.command.ApiKeyOrganizationAddKeyCommand
-import io.komune.im.commons.auth.ImRole
+import io.komune.im.commons.auth.ImPermission
 import io.komune.im.f2.apikey.client.apiKeyClient
 import io.komune.im.f2.organization.client.organizationClient
 import io.komune.im.f2.organization.domain.command.OrganizationCreateCommand
@@ -52,7 +52,7 @@ class ActorBuilder(
         val projectManagerKey = ApiKeyOrganizationAddKeyCommand(
             organizationId = projectManagerCreated.id,
             name = "${UUID.randomUUID()}",
-            roles = listOf(ImRole.ORCHESTRATOR_ADMIN.identifier)
+            roles = listOf("orchestrator-admin")
         ).invokeWith(apikeyClient().apiKeyCreate())
 
         val nameProjectManager = projectManager.item!!.name
