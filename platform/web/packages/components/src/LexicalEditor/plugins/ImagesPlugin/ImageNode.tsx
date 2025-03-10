@@ -32,6 +32,7 @@ import type {
     src: string;
     width?: number;
     captionsEnabled?: boolean;
+    unCached?: boolean;
   }
   
   function isGoogleDocCheckboxImg(img: HTMLImageElement): boolean {
@@ -61,6 +62,7 @@ import type {
       maxWidth?: number;
       src: string;
       width?: number;
+      unCached?: boolean;
     },
     SerializedLexicalNode
   >;
@@ -70,6 +72,7 @@ import type {
     __altText: string;
     __width: 'inherit' | number;
     __height: 'inherit' | number;
+    __unCached?: boolean;
     __maxWidth?: number;
     __caption: LexicalEditor;
     // Captions cannot yet be used within editor cells
@@ -89,11 +92,12 @@ import type {
         node.__caption,
         node.__captionsEnabled,
         node.__key,
+        node.__unCached,
       );
     }
   
     static importJSON(serializedNode: SerializedImageNode): ImageNode {
-      const {altText, height, width, maxWidth, caption, src} =
+      const {altText, height, width, maxWidth, caption, src, unCached} =
         serializedNode;
       const node = $createImageNode({
         altText,
@@ -101,6 +105,7 @@ import type {
         maxWidth,
         src,
         width,
+        unCached
       });
       const nestedEditor = node.__caption;
       const editorState = nestedEditor.parseEditorState(caption.editorState);
@@ -137,6 +142,7 @@ import type {
       caption?: LexicalEditor,
       captionsEnabled?: boolean,
       key?: NodeKey,
+      unCached?: boolean
     ) {
       super(key);
       this.__src = src;
@@ -150,6 +156,7 @@ import type {
           nodes: [],
         });
       this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
+      this.__unCached = unCached;
     }
   
     exportJSON(): SerializedImageNode {
@@ -162,6 +169,7 @@ import type {
         type: 'image',
         version: 1,
         width: this.__width === 'inherit' ? 0 : this.__width,
+        unCached: this.__unCached
       };
     }
   
@@ -217,6 +225,7 @@ import type {
             nodeKey={this.getKey()}
             caption={this.__caption}
             captionsEnabled={this.__captionsEnabled}
+            unCached={this.__unCached}
             resizable={true}
           />
         </Suspense>
@@ -233,6 +242,7 @@ import type {
     width,
     caption,
     key,
+    unCached,
   }: ImagePayload): ImageNode {
     return $applyNodeReplacement(
       new ImageNode(
@@ -244,6 +254,7 @@ import type {
         caption,
         captionsEnabled,
         key,
+        unCached,
       ),
     );
   }
