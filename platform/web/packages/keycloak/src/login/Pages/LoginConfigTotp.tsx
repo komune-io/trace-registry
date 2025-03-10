@@ -18,6 +18,7 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
 
   const initialValues = useMemo(() => ({
     mode: mode,
+    userLabel: "mfa",
     totpSecret: totp.totpSecret
   }), [mode, totp])
 
@@ -68,10 +69,6 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
       name: "mode",
       type: "hidden"
     }), {
-      name: "userLabel",
-      type: "textField",
-      label: msgStr("loginTotpDeviceName"),
-    }, {
       name: "logout-sessions",
       type: "checkBox",
       label: msgStr("logoutOtherSessions"),
