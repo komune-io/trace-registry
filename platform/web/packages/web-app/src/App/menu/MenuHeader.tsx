@@ -1,6 +1,6 @@
 import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
+import { CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,22 +58,22 @@ export const MenuHeader = () => {
     const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
         label: t("newSystem"),
-        icon: <GridIcon />,
+        icon: iconPack.system,
         to: cataloguesCreateSystem()
     }, {
         key: "newSolution",
         label: t("newSolution"),
-        icon: <GridIcon />,
+        icon: iconPack.caseStudy,
         to: cataloguesCreateSolution()
     }, {
         key: "newSector",
         label: t("newSector"),
-        icon: <GridIcon />,
+        icon: iconPack.sector,
         to: cataloguesCreateSector()
     }, {
         key: "newProject",
         label: t("newProject"),
-        icon: <GridIcon />,
+        icon: iconPack.solution,
         to: cataloguesCreateProject()
     }], [t])
 

@@ -4,7 +4,7 @@ import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
 import { AccountCircle, Login, Logout } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { GridIcon, useExtendedAuth, useRoutesDefinition, Menu } from "components";
+import { useExtendedAuth, useRoutesDefinition, Menu, iconPack } from "components";
 import { g2Config } from "@komune-io/g2";
 import { CatalogueRefTree, useCatalogueRefGetTreeQuery } from "domain-components";
 import { Stack } from "@mui/material";
@@ -75,7 +75,7 @@ export const useMenu = (t: TFunction) => {
         key: "systems",
         to: cataloguesAll(systemMenu?.identifier),
         label: t("systems"),
-        icon: <GridIcon />,
+        icon: iconPack.system,
         isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
         items: systemSubMenu ?? []
       },
@@ -83,7 +83,7 @@ export const useMenu = (t: TFunction) => {
         key: "Secteur",
         to: cataloguesAll(secteurMenu?.identifier),
         label: "Secteur",
-        icon: <GridIcon />,
+        icon: iconPack.sector,
         isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
         items: secteurSubMenu ?? []
       }
