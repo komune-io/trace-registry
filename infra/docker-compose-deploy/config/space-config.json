@@ -52,76 +52,78 @@
       "description": "Access to platform configurations"
     }
   ],
-  "permissions": [{
-    "name": "fs_file_read",
-    "description": "Ability to read files from the filesystem."
-  }, {
-    "name": "fs_file_write",
-    "description": "Ability to write or modify files in the filesystem."
-  }, {
-    "name": "fs_policy_write",
-    "description": "Ability to write or change policies in the filesystem."
-  }, {
-    "name": "rg_perm_catalogue_read_org",
-    "description": "Ability to view catalogue of their organization",
-    "features": [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_read_all",
-    "description": "Ability to view catalogue of all organizations",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_write_org",
-    "description": "Ability to write in catalogues of their organization",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_write_all",
-    "description": "Ability to write in catalogues of all organizations",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_publish_org",
-    "description": "Ability to publish catalogues of their organization",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_publish_all",
-    "description": "Ability to publish catalogues of all organizations",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_delete_org",
-    "description": "Ability to delete catalogues of their organization",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_delete_all",
-    "description": "Ability to delete catalogues of all organizations",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_draft_create",
-    "description": "Ability to create a catalogue draft",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_draft_audit",
-    "description": "Ability to audit a catalogue draft",
-    "features":  [["rg_feat_catalogue_audit"]]
-  }, {
-    "name": "rg_perm_catalogue_draft_read_all",
-    "description": "Ability to view catalogue drafts of all users",
-    "features":  [["rg_feat_catalogue"], ["rg_feat_catalogue_audit"]]
-  }, {
-    "name": "rg_perm_catalogue_draft_write_all",
-    "description": "Ability to edit catalogue drafts of all users",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_catalogue_draft_delete_all",
-    "description": "Ability to delete catalogue drafts of all users",
-    "features":  [["rg_feat_catalogue"]]
-  }, {
-    "name": "rg_perm_configuration_concept_write",
-    "description": "Ability to configure concepts",
-    "features":  [["rg_feat_configuration"]]
-  }, {
-    "name": "rg_perm_configuration_license_write",
-    "description": "Ability to configure licenses",
-    "features":  [["rg_feat_configuration"]]
-  }],
+  "permissions": [
+    {
+      "name": "fs_file_read",
+      "description": "Ability to read files from the filesystem."
+    }, {
+      "name": "fs_file_write",
+      "description": "Ability to write or modify files in the filesystem."
+    }, {
+      "name": "fs_policy_write",
+      "description": "Ability to write or change policies in the filesystem."
+    }, {
+      "name": "rg_perm_catalogue_read_org",
+      "description": "Ability to view catalogue of their organization",
+      "features": [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_read_all",
+      "description": "Ability to view catalogue of all organizations",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_write_org",
+      "description": "Ability to write in catalogues of their organization",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_write_all",
+      "description": "Ability to write in catalogues of all organizations",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_publish_org",
+      "description": "Ability to publish catalogues of their organization",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_publish_all",
+      "description": "Ability to publish catalogues of all organizations",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_delete_org",
+      "description": "Ability to delete catalogues of their organization",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_delete_all",
+      "description": "Ability to delete catalogues of all organizations",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_draft_create",
+      "description": "Ability to create a catalogue draft",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_draft_audit",
+      "description": "Ability to audit a catalogue draft",
+      "features":  [["rg_feat_catalogue_audit"]]
+    }, {
+      "name": "rg_perm_catalogue_draft_read_all",
+      "description": "Ability to view catalogue drafts of all users",
+      "features":  [["rg_feat_catalogue"], ["rg_feat_catalogue_audit"]]
+    }, {
+      "name": "rg_perm_catalogue_draft_write_all",
+      "description": "Ability to edit catalogue drafts of all users",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_catalogue_draft_delete_all",
+      "description": "Ability to delete catalogue drafts of all users",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
+      "name": "rg_perm_configuration_concept_write",
+      "description": "Ability to configure concepts",
+      "features":  [["rg_feat_configuration"]]
+    }, {
+      "name": "rg_perm_configuration_license_write",
+      "description": "Ability to configure licenses",
+      "features":  [["rg_feat_configuration"]]
+    }
+  ],
   "roles": [
     {
       "name": "rg_role_org_orchestrator",
@@ -207,7 +209,11 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue", "im_role_read"]
+      "permissions": [
+        "feat_im_own",
+        "im_role_read",
+        "rg_feat_catalogue"
+      ]
     }, {
       "name": "rg_role_user_admin",
       "description": "Grant the right to manage everything within their organization, including other users and their roles.",
@@ -272,7 +278,7 @@
         "feat_im_all",
         "im_organization_read", "im_organization_write", "im_organization_write_own",
         "im_user_read", "im_user_write", "im_user_role_write",
-        "im_role_read",  "im_role_write",
+        "im_role_write",
         "im_apikey_read", "im_apikey_write",
         "im_mfa_force_otp",
         "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all",
@@ -315,8 +321,7 @@
           "name": "import",
           "secret": "${KC_IMPORT_CLIENT_SECRET}",
           "roles": [
-            "rg_role_user_orchestrator",
-            "rg_role_user_validator"
+            "rg_role_user_orchestrator"
           ]
         }
       ]
