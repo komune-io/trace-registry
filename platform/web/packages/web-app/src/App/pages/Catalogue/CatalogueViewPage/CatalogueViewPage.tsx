@@ -4,7 +4,7 @@ import {
     CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
     useCatalogueDraftCreateCommand,
     DraftReplacementModal,
-    useCatalogueDraftDeleteCommand,
+    useCatalogueDraftDeleteCommand, DatasetDataSection,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

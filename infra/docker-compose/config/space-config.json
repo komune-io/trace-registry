@@ -1,5 +1,5 @@
 {
-  "space": "${KC_REALM}",
+  "identifier": "${KC_REALM}",
   "appClients": [
     {
       "clientId": "${KC_APP_CLIENT_ID}",
@@ -141,8 +141,13 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_catalogue_audit", "rg_feat_configuration"]
-    }, {
+      "permissions": [
+        "feat_im_own", "rg_feat_catalogue",
+        "im_role_read",
+        "rg_feat_catalogue_audit", "rg_feat_configuration"
+      ]
+    },
+    {
       "name": "rg_role_org_validator",
       "description": "Grant its users the right to validate records, thus ensuring the quality and consistency of the contents in the registry.",
       "targets": ["ORGANIZATION"],
@@ -158,8 +163,13 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue_audit"]
-    }, {
+      "permissions": [
+        "feat_im_own",
+        "im_role_read",
+        "rg_feat_catalogue_audit"
+      ]
+    },
+    {
       "name": "rg_role_org_contributor",
       "description": "Grant its users the right to submit contributions and proposals for modifications to the registry records.",
       "targets": ["ORGANIZATION"],
@@ -175,8 +185,14 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue", "rg_feat_catalogue_audit"]
-    }, {
+      "permissions": [
+        "feat_im_own",
+        "im_role_read",
+        "rg_feat_catalogue",
+        "rg_feat_catalogue_audit"
+      ]
+    },
+    {
       "name": "rg_role_org_reader",
       "description": "Grant its users read-only access, allowing them to view and search records without being able to modify or validate them.",
       "targets": ["ORGANIZATION"],
@@ -191,7 +207,7 @@
           "rg_role_user_reader"
         ]
       },
-      "permissions": ["feat_im_own", "rg_feat_catalogue"]
+      "permissions": ["feat_im_own", "rg_feat_catalogue", "im_role_read"]
     }, {
       "name": "rg_role_user_admin",
       "description": "Grant the right to manage everything within their organization, including other users and their roles.",
@@ -258,6 +274,7 @@
         "im_user_read", "im_user_write", "im_user_role_write",
         "im_role_read",  "im_role_write",
         "im_apikey_read", "im_apikey_write",
+        "im_mfa_force_otp",
         "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all",
         "rg_perm_catalogue_publish_all", "rg_perm_catalogue_delete_all",
         "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit",
