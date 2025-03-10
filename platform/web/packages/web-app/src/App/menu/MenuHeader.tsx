@@ -1,4 +1,4 @@
-import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
+import { AddCircleOutlineRounded} from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
 import { CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
@@ -27,14 +27,14 @@ export const usePersonnalMenu = (t: TFunction) => {
                 key: "contributions",
                 to: cataloguesContributions(),
                 label: t("myContributions"),
-                icon: <FolderRounded />,
+                icon: iconPack.contribution,
                 isSelected: location.pathname.includes(cataloguesContributions())
             },
             {
-                key: "Secteur",
+                key: "sheetsToValidate",
                 to: cataloguesToVerify(),
                 label: t("sheetsToValidate"),
-                icon: <DoneRounded />,
+                icon: iconPack.validate,
                 number: totalToVerify,
                 isVisible: policies.draft.canAudit(),
                 isSelected: location.pathname.includes(cataloguesToVerify())

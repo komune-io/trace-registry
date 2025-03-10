@@ -1,5 +1,5 @@
 import { IconButton, InputBase, InputBaseProps, Paper, PaperProps } from '@mui/material'
-import { SearchIcon } from '../Icons'
+import { iconPackSrc, PngIcon } from '../Icons'
 import { ChangeEvent, useCallback, useState } from 'react'
 
 export interface SearchFilterProps extends InputBaseProps {
@@ -39,16 +39,16 @@ export const SearchFilter = (props: SearchFilterProps) => {
     return (
         <Paper
             {...rootProps}
+            elevation={0}
             sx={{
                 py: "2px",
                 pl: "12px",
                 pr: "16px",
                 display: 'flex',
                 alignItems: 'center',
-                maxWidth: 400,
                 width: "100%",
-                border: "2px solid #E4DEE7",
-                borderRadius: 1.5,
+                border: "1px solid rgba(0, 0, 0, 0.10)",
+                borderRadius: 0,
                 ...rootProps?.sx
             }}
         >
@@ -56,6 +56,10 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 sx={{ 
                     ml: 1, 
                     flex: 1,
+                    "& .MuiInputBase-input::placeholder": {
+                        color: "#323338",
+                        opacity: 1
+                    },
                     ...sx
                 }}
                 placeholder={placeholder}
@@ -66,7 +70,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 inputProps={{ 'aria-label': placeholder }}
             />
             <IconButton sx={{color: "black"}} onClick={onSearchMemo} type="button" aria-label="search">
-                <SearchIcon />
+                <PngIcon src={iconPackSrc.search} size="big" />
             </IconButton>
         </Paper>
     )

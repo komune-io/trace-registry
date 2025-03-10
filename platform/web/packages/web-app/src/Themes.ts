@@ -8,7 +8,7 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
     primary: config().theme?.colors?.primary ?? "#492161",
     secondary: config().theme?.colors?.secondary ?? "#353945",
-    background: config().theme?.colors?.background ?? "#F6F4F7",
+    background: config().theme?.colors?.background ?? "#FFFFFF",
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
