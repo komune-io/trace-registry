@@ -13,12 +13,7 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
 
     const { realm, url, usernameHidden, login, auth } = kcContext;
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
-
-    const { msgStr, msg } = i18n;
+    const { msgStr } = i18n;
     const [isAuthenticating, setAuthenticating] = useState(false)
     const { t } = useTranslation()
 
