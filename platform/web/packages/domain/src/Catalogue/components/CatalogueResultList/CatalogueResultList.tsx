@@ -79,7 +79,8 @@ const CatalogueResult = (props: Catalogue) => {
                     justifyContent: "center",
                     width: "140px",
                     height: "80px",
-                    borderRadius: 1
+                    borderRadius: 1,
+                    flexShrink: 0
                 }}
             >
                 <Typography
