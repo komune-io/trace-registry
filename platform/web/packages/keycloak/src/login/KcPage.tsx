@@ -4,12 +4,15 @@ import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
 import DefaultTemplate from "keycloakify/login/Template";
-import {Info, Login, Register, ResetPassword, UpdatePassword} from "./Pages";
+import {Info, Login, Register, LoginResetPassword, LoginUpdatePassword} from "./Pages";
 import Template from "./Template"
 import { useTranslation } from "react-i18next";
 import LoginOtp from "./Pages/LoginOtp.tsx";
 import LoginConfigTotp from "./Pages/LoginConfigTotp.tsx";
 import LoginVerifyEmail from "./Pages/LoginVerifyEmail.tsx";
+import Error from "./Pages/Error.tsx";
+import LoginPageExpired from "./Pages/LoginPageExpired.tsx";
+import LogoutConfirm from "./Pages/LogoutConfirm.tsx";
 const UserProfileFormFields = lazy(
     () => import("keycloakify/login/UserProfileFormFields")
 );
@@ -33,14 +36,17 @@ export default function KcPage(props: { kcContext: KcContext }) {
         <Suspense>
             {(() => {
                 switch (kcContext.pageId) {
-                    case "login.ftl": return <Login {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
-                    case "login-otp.ftl": return <LoginOtp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
-                    case "login-config-totp.ftl": return <LoginConfigTotp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
-                    case "login-reset-password.ftl": return <ResetPassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
-                    case "login-update-password.ftl": return <UpdatePassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
-                    case "register.ftl": return <Register {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "error.ftl": return <Error {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
                     case "info.ftl": return <Info {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "login.ftl": return <Login {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-config-totp.ftl": return <LoginConfigTotp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-otp.ftl": return <LoginOtp {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-page-expired.ftl": return <LoginPageExpired {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />
+                    case "login-reset-password.ftl": return <LoginResetPassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "login-update-password.ftl": return <LoginUpdatePassword {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
                     case "login-verify-email.ftl": return <LoginVerifyEmail {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "logout-confirm.ftl": return <LogoutConfirm {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
+                    case "register.ftl": return <Register {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
                     default:
                         return (
                             <DefaultPage
