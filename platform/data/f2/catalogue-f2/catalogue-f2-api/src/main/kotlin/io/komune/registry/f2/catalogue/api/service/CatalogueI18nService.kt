@@ -78,7 +78,7 @@ class CatalogueI18nService(
         CatalogueDTOBase(
             id = translated.id,
             identifier = originalCatalogue?.identifier ?: translated.identifier,
-            parentId = parent?.id,
+            parent = parent?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) },
             status = translated.status,
             title = translated.title,
             description = translated.description,

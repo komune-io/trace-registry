@@ -12,14 +12,13 @@ import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
-import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDTO
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * dcat:Catalog represents a catalog, which is a dataset in which each individual item is a metadata record
@@ -46,7 +45,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      */
     val identifier: String
 
-    val parentId: CatalogueId?
+    val parent: CatalogueRefDTO?
 
     /**
      * A nullable string that holds a brief description.
@@ -193,7 +192,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
 data class CatalogueDTOBase(
     override val id: String,
     override val identifier: String,
-    override val parentId: CatalogueId?,
+    override val parent: CatalogueRefDTOBase?,
     override val description: String?,
     override val homepage: String? = null,
     override val title: String,
