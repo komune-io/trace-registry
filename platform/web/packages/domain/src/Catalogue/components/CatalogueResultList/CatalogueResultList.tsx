@@ -1,7 +1,7 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
-import { Chip, g2Config, useTheme } from "@komune-io/g2"
+import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
 import { useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
@@ -42,11 +42,10 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, img, type, parentId } = props
+    const { title, themes, id, type, parentId } = props
     const theme = useTheme()
     const catType = type.split("-").pop() ?? ""
-    const { t, i18n } = useTranslation()
-    const [noImage, setnoImage] = useState(!img)
+    const { i18n } = useTranslation()
 
     const refsQuery = useCatalogueRefListQuery({
         query: {
@@ -71,7 +70,7 @@ const CatalogueResult = (props: Catalogue) => {
                 textDecoration: "none"
             }}
         >
-            {noImage && <Box
+            <Box
                 sx={{
                     bgcolor: theme.colors.custom[catType] ?? "#F9DC44",
                     display: "flex",
@@ -92,17 +91,7 @@ const CatalogueResult = (props: Catalogue) => {
                 >
                     {identifierNumber}
                 </Typography>
-            </Box>}
-            {!noImage && <img
-                alt={t("sheetIllustration")}
-                src={g2Config().platform.url + img}
-                style={{
-                    height: "72px",
-                    width: "auto",
-                    borderRadius: "8px"
-                }}
-                onError={() => setnoImage(true)}
-            />}
+            </Box>
             <Stack
                 gap={1}
             >

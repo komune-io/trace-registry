@@ -36,7 +36,9 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
                 backgroundColor: "transparent !important",
                 gap: "7px",
                 py: 0.5,
-                px: 1.25
+                px: 1.25,
+                width: "150px",
+                ...sx
             }}
             disableRipple
             {...other}

@@ -4,7 +4,7 @@ import { iconPack, SelectableChipGroup, useUrlSavedState } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
-  CatalogueSearchHeader, CatalogueSearchQuery, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchQuery, catalogueTypes, FacetDistribution,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -57,16 +57,20 @@ export const CatalogueSearchPage = () => {
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
-  const typeDistribution = distributions["type"]?.map((distribution) => {
-    const type = distribution.id.split("-").pop() ?? ""
-    return {
-      key: distribution.id,
-      label: `${distribution.name} - ${distribution.size}`,
-      color: theme.colors.custom[type],
-      //@ts-ignore
-      icon: iconPack[type]
-    }
-  })
+  const typeDistribution = useMemo(() => {
+    return catalogueTypes.map((type) => {
+      const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
+      const typeSimple = type.split("-").pop() ?? ""
+      const typeLabel = t("catalogues.types." + type)
+      return {
+        key: type,
+        label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
+        color: theme.colors.custom[typeSimple],
+         //@ts-ignore
+        icon: iconPack[typeSimple]
+      }
+    })
+  }, [theme, distributions])
 
   
   return (
