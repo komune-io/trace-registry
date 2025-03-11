@@ -11,11 +11,11 @@ import {
 } from '@mui/material'
 import { useCallback, useMemo } from 'react'
 import {
-    DropdownMenu,
     useTheme,
 } from '@komune-io/g2'
 import { TMSMenuItems } from '../hooks'
 import { LocalTheme } from '../utils'
+import { DropdownMenu } from '../DropdownMenu'
 
 
 
@@ -80,7 +80,7 @@ const Item = (props: TMSMenuItems) => {
                         transform: theme.local?.rotation
                     },
                     p: 0.75,
-                    my: 0.5
+                    mt: 0.5
                 }}
                 {...componentProps}
                 {...other}

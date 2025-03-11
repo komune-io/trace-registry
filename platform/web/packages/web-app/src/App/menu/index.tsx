@@ -142,8 +142,7 @@ export const CustomMenu = () => {
   return (
     <Stack
       sx={{
-        pl: 2,
-        pr: 1,
+        px: 1,
         pb: 2,
         height: "100%"
       }}
