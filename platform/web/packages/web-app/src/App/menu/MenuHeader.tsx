@@ -63,7 +63,7 @@ export const MenuHeader = () => {
     }, {
         key: "newSolution",
         label: t("newSolution"),
-        icon: iconPack.caseStudy,
+        icon: iconPack.solution,
         to: cataloguesCreateSolution()
     }, {
         key: "newSector",
@@ -73,7 +73,7 @@ export const MenuHeader = () => {
     }, {
         key: "newProject",
         label: t("newProject"),
-        icon: iconPack.solution,
+        icon: iconPack.project,
         to: cataloguesCreateProject()
     }], [t])
 

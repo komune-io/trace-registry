@@ -1,4 +1,4 @@
-import caseStudy from './caseStudy.png';
+import project from './project.png';
 import home from './home.png';
 import sector from './sector.png';
 import system from './system.png';
@@ -9,7 +9,7 @@ import contribution from './contribution.png';
 import { PngIcon } from './PngIcon';
 
 export const iconPackSrc = {
-    caseStudy,
+    project,
     home,
     sector,
     system,

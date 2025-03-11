@@ -9,6 +9,16 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     primary: config().theme?.colors?.primary ?? "#492161",
     secondary: config().theme?.colors?.secondary ?? "#353945",
     background: config().theme?.colors?.background ?? "#FFFFFF",
+    custom: {
+      //@ts-ignore
+      solution: "#F9DC44",
+      //@ts-ignore
+      project: "#EEBBFD",
+      //@ts-ignore
+      system: "#D0E9A7",
+      //@ts-ignore
+      sector: "#A3BDFD"
+    }
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
