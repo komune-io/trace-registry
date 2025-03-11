@@ -142,8 +142,8 @@ export const CustomMenu = () => {
   return (
     <Stack
       sx={{
-        gap: 2,
-        px: 0,
+        pl: 2,
+        pr: 1,
         pb: 2,
         height: "100%"
       }}
@@ -152,7 +152,6 @@ export const CustomMenu = () => {
       <Stack
         alignItems="center"
         flexGrow={1}
-        overflow="auto"
         width="100%"
       >
         <Menu

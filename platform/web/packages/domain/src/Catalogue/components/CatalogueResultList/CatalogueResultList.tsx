@@ -3,7 +3,7 @@ import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { useRoutesDefinition } from 'components'
+import { LocalTheme, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
 import { useTranslation } from 'react-i18next'
 
@@ -43,7 +43,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 
 const CatalogueResult = (props: Catalogue) => {
     const { title, themes, id, type, parentId } = props
-    const theme = useTheme()
+    const theme = useTheme<LocalTheme>()
     const catType = type.split("-").pop() ?? ""
     const { i18n } = useTranslation()
 
@@ -72,7 +72,7 @@ const CatalogueResult = (props: Catalogue) => {
         >
             <Box
                 sx={{
-                    bgcolor: theme.colors.custom[catType] ?? "#F9DC44",
+                    bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

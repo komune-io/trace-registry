@@ -1,6 +1,6 @@
 import { useTheme } from '@komune-io/g2'
 import { CircularProgress, Dialog, Stack, Typography } from '@mui/material'
-import { iconPack, SelectableChipGroup, useUrlSavedState } from 'components'
+import { iconPack, SelectableChipGroup, useUrlSavedState, LocalTheme } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
@@ -15,7 +15,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 
 export const CatalogueSearchPage = () => {
   const { t, i18n } = useTranslation()
-  const theme = useTheme()
+  const theme = useTheme<LocalTheme>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
@@ -65,14 +65,13 @@ export const CatalogueSearchPage = () => {
       return {
         key: type,
         label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
-        color: theme.colors.custom[typeSimple],
-         //@ts-ignore
+        color: theme.local?.colors[typeSimple],
         icon: iconPack[typeSimple]
       }
     })
   }, [theme, distributions])
 
-  
+
   return (
     <Dialog
       fullScreen

@@ -205,6 +205,7 @@ export const TABLE: ElementTransformer = {
                 // It's TableCellNode so it's just to make flow happy
                 if ($isTableCellNode(cell)) {
                     rowOutput.push(
+                        //@ts-ignore
                         $convertToMarkdownString(MARKDOWN_TRANSFORMERS, cell).replace(
                             /\n/g,
                             '\\n',
