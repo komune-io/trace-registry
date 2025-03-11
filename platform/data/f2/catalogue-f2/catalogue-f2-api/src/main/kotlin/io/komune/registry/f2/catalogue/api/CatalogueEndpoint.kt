@@ -178,11 +178,6 @@ class CatalogueEndpoint(
         @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("catalogueImgDownload: $catalogueId")
-
-        catalogueF2FinderService.get(catalogueId, null)
-            .let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
-            ?: return@serveFile null
-
         fsService.getCatalogueFilePath(catalogueId)
     }
 
