@@ -1,10 +1,11 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
-import {Chip} from "@komune-io/g2"
+import { Chip, g2Config, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
 import { useRoutesDefinition } from 'components'
-import { useCatalogueIdentifierNumber } from '../../api'
+import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
+import { useTranslation } from 'react-i18next'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -41,9 +42,21 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id } = props
+    const { title, themes, id, img, type, parentId } = props
+    const theme = useTheme()
+    const catType = type.split("-").pop() ?? ""
+    const { t, i18n } = useTranslation()
+    const [noImage, setnoImage] = useState(!img)
 
-    const {cataloguesAll} = useRoutesDefinition()
+    const refsQuery = useCatalogueRefListQuery({
+        query: {
+            language: i18n.language
+        }
+    })
+
+    const parent = useMemo(() => refsQuery.data?.items.find((parent) => parent.id === parentId), [refsQuery.data?.items, parentId])
+
+    const { cataloguesAll } = useRoutesDefinition()
 
     const identifierNumber = useCatalogueIdentifierNumber(props)
 
@@ -58,43 +71,42 @@ const CatalogueResult = (props: Catalogue) => {
                 textDecoration: "none"
             }}
         >
-            <Box
-            sx={{
-                bgcolor: "#F9DC44",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "140px",
-                height: "80px",
-                borderRadius: 1
-            }}
+            {noImage && <Box
+                sx={{
+                    bgcolor: theme.colors.custom[catType] ?? "#F9DC44",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "140px",
+                    height: "80px",
+                    borderRadius: 1
+                }}
             >
                 <Typography
-                sx={{
-                    fontSize: "2rem",
-                    fontWeight: 600
-                }}
+                    sx={{
+                        fontFamily: "Milanesa Serif",
+                        fontSize: "2rem",
+                        fontWeight: 700
+                    }}
                 >
                     {identifierNumber}
                 </Typography>
-            </Box>
-            {/* !noImage && <img
+            </Box>}
+            {!noImage && <img
                 alt={t("sheetIllustration")}
-                src={g2Config().platform.url + `/data/catalogues/${id}/img`}
+                src={g2Config().platform.url + img}
                 style={{
                     height: "72px",
                     width: "auto",
                     borderRadius: "8px"
                 }}
                 onError={() => setnoImage(true)}
-            /> */}
+            />}
             <Stack
                 gap={1}
             >
                 <Typography
-                    variant='subtitle2'
-                    color="primary"
-
+                    variant='h5'
                 >
                     {title}
                 </Typography>
@@ -103,9 +115,9 @@ const CatalogueResult = (props: Catalogue) => {
                     alignItems="center"
                     gap={1}
                 >
-                    <Chip color="#1F1F1F" label={"System"}   />
+                    {parent && <Chip color="#1F1F1F" label={parent.title} />}
                     {themes?.map((theme) => (
-                        <Chip key={theme.id} color="#492161" label={theme.prefLabel}   />
+                        <Chip key={theme.id} color="#492161" label={theme.prefLabel} />
                     ))}
                 </Stack>
             </Stack>

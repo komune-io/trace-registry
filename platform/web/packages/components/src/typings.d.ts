@@ -22,17 +22,17 @@ declare module "*.svg?react" {
 }
 
 declare module "*.png" {
-  const value: any;
+  const value: string;
   export = value;
 }
 
 declare module "*.jpg" {
-  const value: any;
+  const value: string;
   export = value;
 }
 
 declare module "*.pdf" {
-  const value: any;
+  const value: string;
   export = value;
 }
 

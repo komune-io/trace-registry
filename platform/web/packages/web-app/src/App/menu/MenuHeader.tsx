@@ -1,6 +1,6 @@
-import { AddCircleOutlineRounded, DoneRounded, FolderRounded } from '@mui/icons-material'
+import { AddCircleOutlineRounded} from '@mui/icons-material'
 import { Divider, Stack } from '@mui/material'
-import { CustomButton, GridIcon, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
+import { CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -27,14 +27,14 @@ export const usePersonnalMenu = (t: TFunction) => {
                 key: "contributions",
                 to: cataloguesContributions(),
                 label: t("myContributions"),
-                icon: <FolderRounded />,
+                icon: iconPack.contribution,
                 isSelected: location.pathname.includes(cataloguesContributions())
             },
             {
-                key: "Secteur",
+                key: "sheetsToValidate",
                 to: cataloguesToVerify(),
                 label: t("sheetsToValidate"),
-                icon: <DoneRounded />,
+                icon: iconPack.validate,
                 number: totalToVerify,
                 isVisible: policies.draft.canAudit(),
                 isSelected: location.pathname.includes(cataloguesToVerify())
@@ -58,22 +58,22 @@ export const MenuHeader = () => {
     const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
         label: t("newSystem"),
-        icon: <GridIcon />,
+        icon: iconPack.system,
         to: cataloguesCreateSystem()
     }, {
         key: "newSolution",
         label: t("newSolution"),
-        icon: <GridIcon />,
+        icon: iconPack.solution,
         to: cataloguesCreateSolution()
     }, {
         key: "newSector",
         label: t("newSector"),
-        icon: <GridIcon />,
+        icon: iconPack.sector,
         to: cataloguesCreateSector()
     }, {
         key: "newProject",
         label: t("newProject"),
-        icon: <GridIcon />,
+        icon: iconPack.project,
         to: cataloguesCreateProject()
     }], [t])
 

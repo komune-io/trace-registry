@@ -8,7 +8,17 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
   colors: {
     primary: config().theme?.colors?.primary ?? "#492161",
     secondary: config().theme?.colors?.secondary ?? "#353945",
-    background: config().theme?.colors?.background ?? "#F6F4F7",
+    background: config().theme?.colors?.background ?? "#FFFFFF",
+    custom: {
+      //@ts-ignore
+      solution: "#F9DC44",
+      //@ts-ignore
+      project: "#EEBBFD",
+      //@ts-ignore
+      system: "#D0E9A7",
+      //@ts-ignore
+      sector: "#A3BDFD"
+    }
   },
   permanentHeader: PermanentHeader,
   logoUrl: "/logo.png",
@@ -32,29 +42,62 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
 
 export const muiTheme: Partial<ThemeOptions> = {
   typography: {
-    fontFamily: '"Lexend", roboto, sans-serif',
+    fontFamily: '"Degular", roboto, sans-serif',
     allVariants: {
       fontWeight: 400,
-      color: "#13151a"
+      color: "#000000"
+    },
+    body1: {
+      fontSize: "1.125rem",
+    },
+    body2: {
+      fontSize: "0.938rem",
+    },
+    caption:  {
+      fontSize: "0.813rem",
     },
     subtitle1: {
-      lineHeight: 1.5
+      fontSize: "1.188rem",
     },
     subtitle2: {
-      lineHeight: 1.43
+      fontSize: "1rem",
     },
-    caption: {
-      lineHeight: 1.35
+    button: {
+      fontSize: "1rem",
+      fontWeight: 700
+    },
+    h1: {
+      fontSize: "3.25rem",
+      fontWeight: 700
+    },
+    h2: {
+      fontSize: "3rem",
+      fontWeight: 700
+    },
+    h3: {
+      fontSize: "2.625rem",
+      fontWeight: 700
+    },
+    h4: {
+      fontSize: "2rem",
+      fontWeight: 700
+    },
+    h5: {
+      fontSize: "1.375rem",
+      fontWeight: 700
+    },
+    h6: {
+      fontSize: "1.2rem",
+      fontWeight: 700
     }
   },
   components: {
-    MuiButton: {
+    MuiInputLabel: {
       styleOverrides: {
-        contained: {
-          borderRadius: "8px !important"
+        root: {
+          fontSize: "1rem",
         }
-      },
-
+      }
     }
   }
 
