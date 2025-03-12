@@ -2,7 +2,7 @@ import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
-import { AccountCircle, Login, Logout } from "@mui/icons-material";
+import { Login } from "@mui/icons-material";
 import { TFunction } from "i18next";
 import { useExtendedAuth, useRoutesDefinition, Menu, iconPack } from "components";
 import { g2Config } from "@komune-io/g2";
@@ -101,13 +101,13 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
   const loggedMenu: MenuItem[] = useMemo(() => [{
     key: "profil",
     to: `${adminUrl}/myProfil`,
-    label: t("profil"),
-    icon: <AccountCircle />
+    label: t("administration"),
+    icon: iconPack.settings
   }, {
     key: "logout",
     action: logout,
     label: t("logout"),
-    icon: <Logout />
+    icon: iconPack.outArrow
   }], [logout, t])
 
   const notLoggedMenu: MenuItem[] = useMemo(() => [{

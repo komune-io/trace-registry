@@ -10,6 +10,8 @@ export const App = () => {
   const { service, keycloak } = useExtendedAuth()
   const user = useMemo(() => service.getUser(), [service.getUser])
   const { loggedMenu, notLoggedMenu } = useUserMenu(keycloak.logout,  keycloak.login, t)
+
+  console.log(user?.roles)
   
   return (
     <StandAloneAppLayout
@@ -35,10 +37,10 @@ export const App = () => {
 
       scrollableContent={<CustomMenu />}
       userMenuProps={{
+        //@ts-ignore
         currentUser: user ? {
           givenName: user.firstName ?? "",
           familyName: user.lastName ?? "",
-          role: "Admin"
         } : undefined,
         loggedMenu,
         notLoggedMenu,
