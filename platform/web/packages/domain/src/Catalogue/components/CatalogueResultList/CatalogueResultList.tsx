@@ -4,8 +4,7 @@ import { Box, Divider, Stack, Typography } from '@mui/material'
 import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
 import { LocalTheme, useRoutesDefinition } from 'components'
-import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
-import { useTranslation } from 'react-i18next'
+import { useCatalogueIdentifierNumber } from '../../api'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -42,18 +41,9 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, type, parentId } = props
+    const { title, themes, id, type, parent } = props
     const theme = useTheme<LocalTheme>()
     const catType = type.split("-").pop() ?? ""
-    const { i18n } = useTranslation()
-
-    const refsQuery = useCatalogueRefListQuery({
-        query: {
-            language: i18n.language
-        }
-    })
-
-    const parent = useMemo(() => refsQuery.data?.items.find((parent) => parent.id === parentId), [refsQuery.data?.items, parentId])
 
     const { cataloguesAll } = useRoutesDefinition()
 
