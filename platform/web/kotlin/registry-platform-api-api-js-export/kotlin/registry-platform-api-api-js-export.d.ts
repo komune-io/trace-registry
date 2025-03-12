@@ -192,11 +192,12 @@ export declare namespace io.komune.im.commons.auth {
         readonly identifier?: string;
         readonly memberOf?: string;
         readonly roles?: Array<string>;
+        readonly acr?: string;
 
     }
 }
 export declare namespace io.komune.im.commons.auth {
-    type ImRole = "ORCHESTRATOR" | "ORCHESTRATOR_ADMIN" | "ORCHESTRATOR_USER" | "IM_USER_READ" | "IM_USER_ROLE_READ" | "IM_USER_WRITE" | "IM_ORGANIZATION_READ" | "IM_ORGANIZATION_WRITE" | "IM_MY_ORGANIZATION_WRITE" | "IM_APIKEY_READ" | "IM_APIKEY_WRITE" | "IM_SPACE_READ" | "IM_SPACE_WRITE" | "IM_ROLE_READ" | "IM_ROLE_WRITE";
+    type ImPermission = "IM_FORCE_MFA_OTP" | "IM_USER_READ" | "IM_USER_ROLE_READ" | "IM_USER_WRITE" | "IM_ORGANIZATION_READ" | "IM_ORGANIZATION_WRITE" | "IM_MY_ORGANIZATION_WRITE" | "IM_ORGANIZATION_API_KEY_READ" | "IM_ORGANIZATION_STATUS_WRITE" | "IM_APIKEY_READ" | "IM_APIKEY_WRITE" | "IM_SPACE_READ" | "IM_SPACE_WRITE" | "IM_ROLE_READ" | "IM_ROLE_WRITE";
 }
 export declare namespace io.komune.im.commons.exception {
     const ExceptionCodes: {
@@ -721,6 +722,7 @@ export declare namespace io.komune.im.f2.user.domain.policies {
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
         canConfigureMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
         canDisableMfa(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
+        canDisableMfaAcr(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
         canUpdateMemberOf(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdateRole(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canDisable(authedUser: io.komune.im.commons.auth.AuthedUserDTO, user: io.komune.im.f2.user.domain.model.UserDTO): boolean;
@@ -3493,7 +3495,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueDTO extends io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO {
         readonly id: string;
         readonly identifier: string;
-        readonly parentId?: string;
+        readonly parent?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO;
         readonly description?: string;
         readonly homepage?: string;
         readonly title: string;

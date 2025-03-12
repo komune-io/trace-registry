@@ -15,6 +15,7 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
       themes: catalogue.type !== "100m-project" ? (catalogue.themes ?? [])[0]?.id : catalogue.themes?.map((theme) => theme.id),
       license: catalogue.license?.id,
       ownerOrganizationId: catalogue.ownerOrganization?.id,
+      parentId: catalogue.parent?.id,
       illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
     }) : undefined, [catalogue])
   
