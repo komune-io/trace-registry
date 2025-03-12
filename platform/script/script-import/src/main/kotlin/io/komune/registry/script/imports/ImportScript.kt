@@ -280,7 +280,7 @@ class ImportScript(
         file: File
     ) {
         val registryPath = properties.registry?.path?.let {
-            if (!it.endsWith("/")) "$it/" else it
+            if (it.endsWith("/")) it else "$it/"
         } ?: "/"
         val rawText = file.readText()
 
