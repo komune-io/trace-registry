@@ -1,6 +1,6 @@
-import { Button, InputForm } from '@komune-io/g2'
+import { InputForm } from '@komune-io/g2'
 import { Stack } from '@mui/material'
-import { TmsPopUp } from 'components'
+import { TmsPopUp, CustomButton } from 'components'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -50,20 +50,20 @@ export const RejectModal = (props: RejectModalProps) => {
                 alignItems="center"
                 justifyContent="flex-end"
             >
-                <Button
+                <CustomButton
                     variant='text'
                     onClick={onClose}
                 >
                     {t("cancel")}
-                </Button>
+                </CustomButton>
 
-                <Button
+                <CustomButton
                     color="error"
                     disabled={!value}
                     onClick={onRejectMemo}
                 >
                     {t("reject")}
-                </Button>
+                </CustomButton>
             </Stack>
         </TmsPopUp>
     )

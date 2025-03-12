@@ -1,6 +1,5 @@
-import { Button } from '@komune-io/g2'
 import { Typography } from '@mui/material'
-import { TmsPopUp, WarningTicket } from 'components'
+import { TmsPopUp, WarningTicket, CustomButton } from 'components'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -29,14 +28,14 @@ export const DraftReplacementModal = (props: DraftReplacementModalProps) => {
                     {t("catalogues.newContributionReplace")}
                 </Typography>
             </WarningTicket>
-            <Button
+            <CustomButton
                 sx={{
                     alignSelf: 'flex-end'
                 }}
                 onClick={onCreate}
             >
                 {t("catalogues.createNewContribution")}
-            </Button>
+            </CustomButton>
         </TmsPopUp>
     )
 }

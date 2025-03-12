@@ -7,10 +7,9 @@ import {
 //@ts-ignore
 import rawGraphScssUrl from "raw-graph/rawGraphTheme.scss?url"
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { TitleDivider } from "components"
+import { TitleDivider, CustomButton } from "components"
 import { Stack } from "@mui/material"
 import { Helmet } from "react-helmet";
-import { Button } from "@komune-io/g2"
 import { useTranslation } from "react-i18next"
 import { useCsvDownloadDistribution } from "../../api"
 
@@ -130,7 +129,7 @@ export const GraphForm = (props: GraphFormProps) => {
                     setMappingLoading={emptyFunction}
                 />
             }
-            <Button
+            <CustomButton
                 disabled={!rawViz}
                 onClick={onSaveMemo}
                 sx={{
@@ -138,7 +137,7 @@ export const GraphForm = (props: GraphFormProps) => {
                 }}
             >
                 {t("save")}
-            </Button>
+            </CustomButton>
         </Stack>
     )
 }

@@ -2,9 +2,8 @@ import { useMemo } from 'react'
 import { Catalogue, CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
-import { Button } from '@komune-io/g2'
 import { DeleteRounded, MoreVert } from '@mui/icons-material'
-import { useButtonMenu, useConfirmationPopUp, useToggleState } from 'components'
+import { useButtonMenu, useConfirmationPopUp, useToggleState, CustomButton } from 'components'
 import { DraftStatusChip } from '../DraftTable'
 import { SubmitModal } from './SubmitModal'
 
@@ -63,24 +62,24 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
         >
             {draft && <DraftStatusChip status={draft?.status} />}
             <Box flex={1} />
-            {onValidate && <Button
+            {onValidate && <CustomButton
             onClick={onValidate}
             disabled={disabled}
             >
                 {t("validate")}
-            </Button>}
-            {onSave && <Button
+            </CustomButton>}
+            {onSave && <CustomButton
                 onClick={onSave}
                 disabled={disabled}
             >
                 {t("catalogues.saveTheDraft")}
-            </Button>}
-            {draft?.status !== "SUBMITTED" && onSubmit && <Button
+            </CustomButton>}
+            {draft?.status !== "SUBMITTED" && onSubmit && <CustomButton
             onClick={toggle}
             disabled={disabled}
             >
                 {t("sendForValidation")}
-            </Button>}
+            </CustomButton>}
             <IconButton
                 {...buttonProps}
                 size={"small"}

@@ -1,6 +1,6 @@
-import { Button, InputForm } from '@komune-io/g2'
+import { InputForm } from '@komune-io/g2'
 import { Stack } from '@mui/material'
-import { TmsPopUp } from 'components'
+import { TmsPopUp, CustomButton } from 'components'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -52,19 +52,19 @@ export const SubmitModal = (props: SubmitModalProps) => {
                 alignItems="center"
                 justifyContent="flex-end"
             >
-                <Button
+                <CustomButton
                     variant='text'
                     onClick={onClose}
                 >
                     {t("cancel")}
-                </Button>
+                </CustomButton>
 
-                <Button
+                <CustomButton
                     disabled={!value}
                     onClick={onSubmitMemo}
                 >
                     {t("submit")}
-                </Button>
+                </CustomButton>
             </Stack>
         </TmsPopUp>
     )

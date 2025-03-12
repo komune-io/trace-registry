@@ -1,7 +1,7 @@
-import { Button, FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
+import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query'
-import { Accordion, MultiFileDropzone, TmsPopUp } from 'components'
+import { Accordion, MultiFileDropzone, TmsPopUp, CustomButton } from 'components'
 import { useDatasetAddMediaDistributionCommand } from 'components/src/LexicalEditor/api'
 import { DataGrid, parseCsv } from 'raw-graph'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -141,18 +141,18 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
                 justifyContent="flex-end"
                 alignItems="center"
             >
-                <Button
+                <CustomButton
                     onClick={onClose}
                     variant='text'
                 >
                     {t("cancel")}
-                </Button>
-                <Button
+                </CustomButton>
+                <CustomButton
                     onClick={formState.submitForm}
                     disabled={!currentCsv}
                 >
                     {t("save")}
-                </Button>
+                </CustomButton>
             </Stack>
 
         </TmsPopUp>

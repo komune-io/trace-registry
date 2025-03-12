@@ -1,4 +1,4 @@
-import { Action, Actions, FormComposable, FormComposableField, g2Config, useFormComposable } from "@komune-io/g2"
+import { FormComposable, FormComposableField, g2Config, useFormComposable } from "@komune-io/g2"
 import { useCallback, useMemo, useState } from 'react';
 import { TmsPopUp } from '../../../TmsPopUp';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import { SectionTab, Tab } from "../../../SectionTab";
 import { useCatalogueDraftGetQuery } from "domain-components";
 import { ImageCard } from "../../../ImageCard";
 import { Stack } from "@mui/material";
+import { CustomButton } from "../../../CustomButton";
 
 export interface UploadImageModalProps {
     open: boolean
@@ -69,20 +70,6 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         }
     }]), [t])
 
-    const actions = useMemo((): Action[] => [{
-        key: "cancel",
-        label: t("cancel"),
-        onClick: onClose,
-        variant: "text",
-        size: "large"
-    }, {
-        key: "validate",
-        label: t("validate"),
-        onClick: formState.submitForm,
-        disabled: !formState.values.image,
-        size: "large",
-    }], [formState.submitForm, formState.values])
-
     const graphsDisplay = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.map((dataset) => {
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
         if (!imageDistribution) return
@@ -108,7 +95,26 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
                     fields={fields}
                     formState={formState}
                 />
-                <Actions actions={actions} />
+                <Stack
+                    direction="row"
+                    gap={1}
+                    alignItems="center"
+                    justifyContent="flex-end"
+                >
+                    <CustomButton
+                        variant='text'
+                        onClick={onClose}
+                    >
+                        {t("cancel")}
+                    </CustomButton>
+
+                    <CustomButton
+                        disabled={!formState.values.image}
+                        onClick={formState.submitForm}
+                    >
+                        {t("validate")}
+                    </CustomButton>
+                </Stack>
             </>
         )
     }, {
@@ -124,7 +130,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
                 {graphsDisplay}
             </Stack>
         )
-    }], [t, fields, formState, actions, graphsDisplay])
+    }], [t, fields, formState, graphsDisplay])
 
     return (
         <TmsPopUp

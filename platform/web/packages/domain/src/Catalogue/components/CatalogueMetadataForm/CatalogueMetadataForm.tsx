@@ -1,6 +1,6 @@
-import { Button, FormComposable, FormComposableField, FormComposableState, useFormComposable, validators } from '@komune-io/g2'
+import { FormComposable, FormComposableField, FormComposableState, useFormComposable, validators } from '@komune-io/g2'
 import { Paper } from '@mui/material'
-import { maybeAddItem, SearchIcon, useExtendedAuth } from 'components'
+import { maybeAddItem, SearchIcon, useExtendedAuth, CustomButton } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { extractCatalogueIdentifierNumber, useCatalogueListAvailableOwnersQuery, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
@@ -218,14 +218,14 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     }
                 }}
             />
-            {!formState && <Button
+            {!formState && <CustomButton
                 onClick={localFormState.submitForm}
                 sx={{
                     alignSelf: "flex-end"
                 }}
             >
                 {t("create")}
-            </Button>}
+            </CustomButton>}
         </Paper>
     )
 }
