@@ -19,7 +19,7 @@ window._env_ = {
         colors: {
             primary: "#492161",
             secondary: "#353945",
-            background: "#F6F4F7"
+            background: "#FFFFFF"
         }
     }
 };

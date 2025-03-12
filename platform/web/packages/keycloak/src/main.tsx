@@ -15,7 +15,7 @@ G2ConfigBuilder(window._env_)
 
 if (import.meta.env.DEV) {
     window.kcContext = getKcContextMock({
-        pageId: "login-verify-email.ftl",
+        pageId: "login-page-expired.ftl",
         overrides: {
             locale: {
                 currentLanguageTag: "fr"

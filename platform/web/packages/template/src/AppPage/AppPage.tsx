@@ -74,12 +74,11 @@ export const AppPage = (props: AppPageProps) => {
                     <Stack
                         direction="row"
                         alignItems="center"
-                        justifyContent="center"
                         gap={2}
                         flexGrow={1}
                     >
-                        {header}
                         {!bgcolor && <CatalogueSearchBar />}
+                        {header}
                     </Stack>
                     <LanguageSelector />
                 </Stack>}

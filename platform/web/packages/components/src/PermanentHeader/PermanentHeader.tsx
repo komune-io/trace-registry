@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom"
 import { Menu } from "@mui/icons-material";
 import {ElementType} from "react";
 import {Link} from "@komune-io/g2"
+import { LogoIcon } from "../Icons";
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
@@ -36,10 +37,9 @@ export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: Perman
                     gap: "10px"
                 }}
             >
-                <img src="/logo.png" style={{ width: "auto", height: "35px" }} />
-                WikiCO2
+                <LogoIcon sx={{width: "154px", height: "54px"}} />
             </Link>
-            <IconButton onClick={toggleOpenDrawer}>
+            <IconButton sx={{color: "black"}} onClick={toggleOpenDrawer}>
                 <Menu />
             </IconButton>
         </Box>

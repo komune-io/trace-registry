@@ -11,9 +11,11 @@ import {
 } from '@mui/material'
 import { useCallback, useMemo } from 'react'
 import {
-    DropdownMenu,
+    useTheme,
 } from '@komune-io/g2'
 import { TMSMenuItems } from '../hooks'
+import { LocalTheme } from '../utils'
+import { DropdownMenu } from '../DropdownMenu'
 
 
 
@@ -22,7 +24,7 @@ interface MenuProps extends ListProps {
 }
 
 export const Menu = (props: MenuProps) => {
-    const { menu, classes, ...other } = props
+    const { menu, classes, sx, ...other } = props
     const uiMenu = useMemo(
         () =>
             menu.map((item) => (
@@ -33,7 +35,13 @@ export const Menu = (props: MenuProps) => {
             )),
         [classes, menu]
     )
-    return <List {...other}>{uiMenu}</List>
+    return <List
+        sx={{
+           gap: 1,
+           py: 0,
+            ...sx
+        }}
+        {...other}>{uiMenu}</List>
 }
 
 
@@ -50,6 +58,7 @@ const Item = (props: TMSMenuItems) => {
         number,
         ...other
     } = props
+    const theme = useTheme<LocalTheme>()
     const onItemClick = useCallback(
         () => onClick && !href && onClick(),
         [onClick, href]
@@ -62,7 +71,16 @@ const Item = (props: TMSMenuItems) => {
                 href={href}
                 selected={isSelected}
                 sx={{
-                    color: "secondary.main"
+                    color: "#000000 !important",
+                    bgcolor: isSelected ? `${alpha("#000000", 0.05)} !important` : undefined,
+                    transform: isSelected ? theme.local?.rotation : undefined,
+                    transition: "0.2s",
+                    "&:hover": {
+                        bgcolor: alpha("#000000", 0.1),
+                        transform: theme.local?.rotation
+                    },
+                    p: 0.75,
+                    mt: 0.5
                 }}
                 {...componentProps}
                 {...other}
@@ -79,15 +97,15 @@ const Item = (props: TMSMenuItems) => {
                 )}
                 {!!label && (
                     <ListItemText
-                        primaryTypographyProps={{ color: 'inherit', variant: isSelected ? "subtitle2" : "body2" }}
+                        primaryTypographyProps={{ color: 'inherit', variant: "body2", fontWeight: "bold" }}
                         primary={label}
                     />
                 )}
                 {!!number && (
                     <Box
                         sx={{
-                            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
-                            color: "primary.main",
+                            bgcolor: alpha("#000000", 0.1),
+                            color: "#000000",
                             width: "26px",
                             height: "26px",
                             display: "flex",
@@ -109,16 +127,7 @@ const Item = (props: TMSMenuItems) => {
                 <DropdownMenu
                     items={items}
                     sx={{
-                        pl: 2,
-                        '& .MuiAccordionSummary-root:hover .MuiAccordionSummary-content': {
-                            bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
-                        },
-                        '& .MuiListItemButton-root:hover > .MenuItem-divider': {
-                            bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1)
-                        },
-                        '& .MuiListItemButton-root': {
-                            color: "text.secondary"
-                        }
+                        pl: 0.5,
                     }}
                 />
             </Collapse>}

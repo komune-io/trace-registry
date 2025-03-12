@@ -2,9 +2,9 @@ import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@komune-io/g2-components'
 import { useLocation } from "react-router";
-import { AccountCircle, Login, Logout } from "@mui/icons-material";
+import { Login } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import { GridIcon, useExtendedAuth, useRoutesDefinition, Menu } from "components";
+import { useExtendedAuth, useRoutesDefinition, Menu, iconPack } from "components";
 import { g2Config } from "@komune-io/g2";
 import { CatalogueRefTree, useCatalogueRefGetTreeQuery } from "domain-components";
 import { Stack } from "@mui/material";
@@ -75,7 +75,7 @@ export const useMenu = (t: TFunction) => {
         key: "systems",
         to: cataloguesAll(systemMenu?.identifier),
         label: t("systems"),
-        icon: <GridIcon />,
+        icon: iconPack.system,
         isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
         items: systemSubMenu ?? []
       },
@@ -83,7 +83,7 @@ export const useMenu = (t: TFunction) => {
         key: "Secteur",
         to: cataloguesAll(secteurMenu?.identifier),
         label: "Secteur",
-        icon: <GridIcon />,
+        icon: iconPack.sector,
         isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
         items: secteurSubMenu ?? []
       }
@@ -101,13 +101,13 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
   const loggedMenu: MenuItem[] = useMemo(() => [{
     key: "profil",
     to: `${adminUrl}/myProfil`,
-    label: t("profil"),
-    icon: <AccountCircle />
+    label: t("administration"),
+    icon: iconPack.settings
   }, {
     key: "logout",
     action: logout,
     label: t("logout"),
-    icon: <Logout />
+    icon: iconPack.outArrow
   }], [logout, t])
 
   const notLoggedMenu: MenuItem[] = useMemo(() => [{
@@ -142,8 +142,7 @@ export const CustomMenu = () => {
   return (
     <Stack
       sx={{
-        gap: 2,
-        px: 0,
+        px: 1,
         pb: 2,
         height: "100%"
       }}
@@ -152,7 +151,6 @@ export const CustomMenu = () => {
       <Stack
         alignItems="center"
         flexGrow={1}
-        overflow="auto"
         width="100%"
       >
         <Menu

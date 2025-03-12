@@ -99,7 +99,7 @@ export const DraftTable = (props: DraftTableProps) => {
 
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
-            let url = undefined
+            let url: string | undefined = undefined
             if (!toEdit) {
                 url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
             } else {

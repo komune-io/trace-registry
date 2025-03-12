@@ -2,15 +2,16 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useMemo, useCallback, type FormEventHandler, useState } from "react";
-import { FormComposableField, useFormComposable, FormComposable, Action, validators } from "@komune-io/g2";
+import { FormComposableField, useFormComposable, FormComposable, Action, Link, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
+import { Typography } from "@mui/material";
 
-export const UpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "login-update-password.ftl" }>, I18n>) => {
+export const LoginResetPassword = (props: PageProps<Extract<KcContext, { pageId: "login-reset-password.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { url, realm, auth, isAppInitiatedAction } = kcContext;
+    const { url, realm, auth } = kcContext;
 
     const { msg, msgStr } = i18n;
     const { t } = useTranslation()
@@ -27,40 +28,24 @@ export const UpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "lo
 
     const fields = useMemo((): FormComposableField[] => {
         return [{
-            name: "password",
+            name: "email",
             type: "textField",
-            label: msgStr("passwordNew"),
+            label: msgStr("email"),
             params: {
-                textFieldType: "password",
+                textFieldType: "email",
             },
-            validator: validators.password(t)
-        },{
-            name: "password-confirm",
-            type: "textField",
-            label: msgStr("passwordConfirm"),
-            params: {
-                textFieldType: "password",
-            },
-            validator: validators.passwordCheck(t),
+            validator: validators.email(t)
         }]
     }, [realm, msgStr, t])
 
     const actions = useMemo((): Action[] => {
-        return [...(isAppInitiatedAction ? [{
-            key: "cancel",
-            label: msgStr("doCancel"),
-            type: "submit",
-            isLoading: isLoading,
-            name: "cancel-aia",
-            value: "true",
-            variant: "text"
-        }as Action] : [] ), {
+        return [{
             key: "logIn",
-            label: msgStr("doRegister"),
+            label: msg("resetPasswordSend"),
             type: "submit",
             isLoading: isLoading
         }]
-    }, [isLoading, msgStr, isAppInitiatedAction])
+    }, [isLoading, msg])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
         e.preventDefault();
@@ -74,8 +59,9 @@ export const UpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "lo
 
         const formElement = e.target as HTMLFormElement;
 
-        //NOTE: Keycloak expect password-new
-        formElement.querySelector("input[name='password']")?.setAttribute("name", "password-new");
+        //NOTE: Even if we login with email Keycloak expect username and password in
+        //the POST request.
+        formElement.querySelector("input[name='email']")?.setAttribute("name", "username");
 
         formElement.submit();
     }, [formState.validateForm]);
@@ -83,8 +69,18 @@ export const UpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "lo
     return (
         <Template
             {...{ kcContext, i18n, doUseDefaultCss, classes }}
-            headerNode={msg("updatePasswordTitle")}
+            headerNode={msg("emailForgotTitle")}
         >
+            <Typography
+                variant="body2"
+            >
+                {msg("resetPasswordInstructions")}
+            </Typography>
+            <Typography
+                variant="body2"
+            >
+                {msg("resetPasswordNoEmailInstructions")}
+            </Typography>
             <FormComposable
                 fields={fields}
                 formState={formState}
@@ -92,7 +88,14 @@ export const UpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "lo
                 action={url.loginAction}
                 method="post"
                 onSubmit={onSubmit}
-            />
+            >
+                <Typography
+                    variant="caption"
+                >
+                    {msg("resetPasswordNote")}
+                </Typography>
+            </FormComposable>
+            <Link sx={{ alignSelf: "flex-end" }} variant="body2" href={url.loginUrl}>{msgStr("backToLogin")}</Link>
         </Template>
     );
 }

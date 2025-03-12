@@ -1,10 +1,11 @@
 import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
-import {Chip} from "@komune-io/g2"
+import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { useRoutesDefinition } from 'components'
-import { useCatalogueIdentifierNumber } from '../../api'
+import { LocalTheme, useRoutesDefinition } from 'components'
+import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
+import { useTranslation } from 'react-i18next'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -41,9 +42,20 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id } = props
+    const { title, themes, id, type, parentId } = props
+    const theme = useTheme<LocalTheme>()
+    const catType = type.split("-").pop() ?? ""
+    const { i18n } = useTranslation()
 
-    const {cataloguesAll} = useRoutesDefinition()
+    const refsQuery = useCatalogueRefListQuery({
+        query: {
+            language: i18n.language
+        }
+    })
+
+    const parent = useMemo(() => refsQuery.data?.items.find((parent) => parent.id === parentId), [refsQuery.data?.items, parentId])
+
+    const { cataloguesAll } = useRoutesDefinition()
 
     const identifierNumber = useCatalogueIdentifierNumber(props)
 
@@ -59,42 +71,32 @@ const CatalogueResult = (props: Catalogue) => {
             }}
         >
             <Box
-            sx={{
-                bgcolor: "#F9DC44",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "140px",
-                height: "80px",
-                borderRadius: 1
-            }}
+                sx={{
+                    bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "140px",
+                    height: "80px",
+                    borderRadius: 1,
+                    flexShrink: 0
+                }}
             >
                 <Typography
-                sx={{
-                    fontSize: "2rem",
-                    fontWeight: 600
-                }}
+                    sx={{
+                        fontFamily: "Milanesa Serif",
+                        fontSize: "2rem",
+                        fontWeight: 700
+                    }}
                 >
                     {identifierNumber}
                 </Typography>
             </Box>
-            {/* !noImage && <img
-                alt={t("sheetIllustration")}
-                src={g2Config().platform.url + `/data/catalogues/${id}/img`}
-                style={{
-                    height: "72px",
-                    width: "auto",
-                    borderRadius: "8px"
-                }}
-                onError={() => setnoImage(true)}
-            /> */}
             <Stack
                 gap={1}
             >
                 <Typography
-                    variant='subtitle2'
-                    color="primary"
-
+                    variant='h5'
                 >
                     {title}
                 </Typography>
@@ -103,9 +105,9 @@ const CatalogueResult = (props: Catalogue) => {
                     alignItems="center"
                     gap={1}
                 >
-                    <Chip color="#1F1F1F" label={"System"}   />
+                    {parent && <Chip color="#1F1F1F" label={parent.title} />}
                     {themes?.map((theme) => (
-                        <Chip key={theme.id} color="#492161" label={theme.prefLabel}   />
+                        <Chip key={theme.id} color="#492161" label={theme.prefLabel} />
                     ))}
                 </Stack>
             </Stack>

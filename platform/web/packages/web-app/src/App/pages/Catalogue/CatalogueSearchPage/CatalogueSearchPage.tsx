@@ -1,18 +1,21 @@
-import { Dialog, Stack, Typography } from '@mui/material'
-import { SelectableChipGroup, useUrlSavedState } from 'components'
+import { useTheme } from '@komune-io/g2'
+import { CircularProgress, Dialog, Stack, Typography } from '@mui/material'
+import { iconPack, SelectableChipGroup, useUrlSavedState, LocalTheme } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
-  CatalogueSearchHeader, CatalogueSearchQuery, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchQuery, catalogueTypes, FacetDistribution,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FixedPagination, OffsetPagination } from 'template'
+import { keepPreviousData } from '@tanstack/react-query'
 
 export const CatalogueSearchPage = () => {
   const { t, i18n } = useTranslation()
+  const theme = useTheme<LocalTheme>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
@@ -42,18 +45,33 @@ export const CatalogueSearchPage = () => {
     }
   })
 
-  const { data } = useCatalogueSearchQuery({
+  const { data, isFetching } = useCatalogueSearchQuery({
     query: {
       ...state,
       language: i18n.language,
+    },
+    options: {
+      placeholderData: keepPreviousData
     }
   })
+
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
-  const typeDistribution = distributions["type"]?.map((distribution) => ({
-    key: distribution.id,
-    label: `${distribution.name} - ${distribution.size}`
-  }))
+  const typeDistribution = useMemo(() => {
+    return catalogueTypes.map((type) => {
+      const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
+      const typeSimple = type.split("-").pop() ?? ""
+      const typeLabel = t("catalogues.types." + type)
+      return {
+        key: type,
+        label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
+        color: theme.local?.colors[typeSimple],
+        icon: iconPack[typeSimple]
+      }
+    })
+  }, [theme, distributions])
+
+
   return (
     <Dialog
       fullScreen
@@ -83,6 +101,7 @@ export const CatalogueSearchPage = () => {
           options={typeDistribution}
           values={state.type}
           onChange={changeValueCallback('type')}
+          forTypes
         />
         <Stack
           direction="row"
@@ -99,14 +118,19 @@ export const CatalogueSearchPage = () => {
             onChangeLicenses={changeValueCallback('licenseId')}
             onChangeThemes={changeValueCallback('themeIds')}
           />
-          <Stack gap={3} flex={1}>
+          {isFetching ? <Stack direction="row" justifyContent="center" flex={1} pt={6}>
+            <CircularProgress size={60} />
+          </Stack> : <Stack gap={3} flex={1}>
             {data && <Typography
               variant="subtitle1"
+              sx={{
+                fontWeight: "bold"
+              }}
             >
               {t("resultNumber", { total: data.total })}
             </Typography>}
             <CatalogueResultListByType items={data?.items} />
-          </Stack>
+          </Stack>}
         </Stack>
       </Stack>
       <FixedPagination
