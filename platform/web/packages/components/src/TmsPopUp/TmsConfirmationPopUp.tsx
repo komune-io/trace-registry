@@ -1,8 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { Typography } from '@mui/material'
+import React, { useCallback, useState } from 'react'
+import { Stack, Typography } from '@mui/material'
 import { TmsPopUp, TmsPopUpProps } from './TmsPopUp'
-import { TextField, Actions, Action, BasicProps, MergeMuiElementProps } from '@komune-io/g2'
+import { TextField, BasicProps, MergeMuiElementProps } from '@komune-io/g2'
 import { cx } from '@emotion/css'
+import { CustomButton } from '../CustomButton'
 
 interface TmsConfirmationPopUpClasses {
   strongConfirmationText?: string
@@ -134,25 +135,6 @@ export const TmsConfirmationPopUp = (props: TmsConfirmationPopUpProps) => {
     [onClose]
   )
 
-  const actions = useMemo(
-    (): Action[] => [
-      {
-        key: 'TmsConfirmationPopUp-' + cancelText,
-        label: cancelText,
-        variant: 'text',
-        onClick: handleClose
-      },
-      {
-        key: 'TmsConfirmationPopUp-' + validateText,
-        label: validateText,
-        onClick: onConfirm,
-        color: variant === 'deletion' ? "error" : "success",
-        disabled: error
-      }
-    ],
-    [validateText, cancelText, handleClose, onConfirm, error, variant]
-  )
-
   return (
     <TmsPopUp
       open={open}
@@ -188,9 +170,27 @@ export const TmsConfirmationPopUp = (props: TmsConfirmationPopUpProps) => {
       ) : (
         children
       )}
-      <Actions
-        actions={actions}
-      />
+      <Stack
+        direction="row"
+        gap={1}
+        alignItems="center"
+        justifyContent="flex-end"
+      >
+        <CustomButton
+          variant='text'
+          onClick={onClose}
+        >
+          {cancelText}
+        </CustomButton>
+
+        <CustomButton
+          color={variant === 'deletion' ? "error" : "success"}
+          disabled={error}
+          onClick={onConfirm}
+        >
+          {validateText}
+        </CustomButton>
+      </Stack>
     </TmsPopUp>
   )
 }

@@ -1,9 +1,11 @@
-import { Action, Actions, FormComposable, FormComposableField, useFormComposable } from "@komune-io/g2"
+import { FormComposable, FormComposableField, useFormComposable } from "@komune-io/g2"
 import { useCallback, useMemo } from 'react';
 import { INSERT_LAYOUT_COMMAND } from './LayoutPlugin';
 import { TmsPopUp } from '../../../TmsPopUp';
 import { useTranslation } from 'react-i18next';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { Stack } from "@mui/material";
+import { CustomButton } from "../../../CustomButton";
 
 export interface LayoutModalProps {
     open: boolean
@@ -45,19 +47,6 @@ export const LayoutModal = (props: LayoutModalProps) => {
         required: true
     }]), [t])
 
-    const actions = useMemo((): Action[] => [{
-        key: "cancel",
-        label: t("cancel"),
-        onClick: onClose,
-        variant: "text",
-        size: "large"
-    }, {
-        key: "validate",
-        label: t("validate"),
-        onClick: formState.submitForm,
-        size: "large",
-    }], [formState.submitForm])
-
     return (
         <TmsPopUp
             open={open}
@@ -68,7 +57,25 @@ export const LayoutModal = (props: LayoutModalProps) => {
                 fields={fields}
                 formState={formState}
             />
-            <Actions actions={actions} />
+            <Stack
+                direction="row"
+                gap={1}
+                alignItems="center"
+                justifyContent="flex-end"
+            >
+                <CustomButton
+                    variant='text'
+                    onClick={onClose}
+                >
+                    {t("cancel")}
+                </CustomButton>
+
+                <CustomButton
+                    onClick={formState.submitForm}
+                >
+                    {t("validate")}
+                </CustomButton>
+            </Stack>
         </TmsPopUp>
     )
 }

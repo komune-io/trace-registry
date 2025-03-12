@@ -1,7 +1,7 @@
-import { Button, Link } from '@komune-io/g2'
+import { Link } from '@komune-io/g2'
 import { EmailRounded, InfoRounded } from '@mui/icons-material'
 import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Tooltip, useRoutesDefinition, useToggleState } from 'components'
+import { Tooltip, useRoutesDefinition, useToggleState, CustomButton } from 'components'
 import { t } from 'i18next'
 import { RejectModal } from './RejectModal'
 import { CatalogueDraft } from '../../model'
@@ -107,17 +107,17 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                 </Stack>
             </Stack>
             <Box flex={1} />
-            <Button
+            <CustomButton
                 onClick={onAccept}
             >
                 {t("accept")}
-            </Button>
-            <Button
+            </CustomButton>
+            <CustomButton
                 onClick={toggle}
                 color="error"
             >
                 {t("reject")}
-            </Button>
+            </CustomButton>
             <RejectModal
                 open={open}
                 onClose={toggle}

@@ -83,6 +83,9 @@ export const MenuHeader = () => {
     return (
         <Stack
             gap={2}
+            sx={{
+                pt:1,
+            }}
         >
             {policies.audit.canCreate() && <CustomButton
                 sx={{

@@ -1,9 +1,11 @@
-import { Action, Actions, FormComposable, FormComposableField, useFormComposable } from "@komune-io/g2"
+import { FormComposable, FormComposableField, useFormComposable } from "@komune-io/g2"
 import { useCallback, useMemo } from 'react';
 import { TmsPopUp } from '../../../TmsPopUp';
 import { useTranslation } from 'react-i18next';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { INSERT_TABLE_COMMAND } from "@lexical/table";
+import { Stack } from "@mui/material";
+import { CustomButton } from "../../../CustomButton";
 
 export interface TableModalProps {
     open: boolean
@@ -50,26 +52,12 @@ export const TableModal = (props: TableModalProps) => {
 
     const disabled = useMemo(() => {
         const row = Number(formState.values.rows);
-            const column = Number(formState.values.columns);
-            if (row && row > 0 && row <= 500 && column && column > 0 && column <= 50) {
-              return false
-            }
-            return true
+        const column = Number(formState.values.columns);
+        if (row && row > 0 && row <= 500 && column && column > 0 && column <= 50) {
+            return false
+        }
+        return true
     }, [formState.values])
-
-    const actions = useMemo((): Action[] => [{
-        key: "cancel",
-        label: t("cancel"),
-        onClick: onClose,
-        variant: "text",
-        size: "large"
-    }, {
-        key: "validate",
-        label: t("validate"),
-        onClick: formState.submitForm,
-        disabled,
-        size: "large",
-    }], [formState.submitForm, disabled])
 
     return (
         <TmsPopUp
@@ -81,7 +69,26 @@ export const TableModal = (props: TableModalProps) => {
                 fields={fields}
                 formState={formState}
             />
-            <Actions actions={actions} />
+            <Stack
+                direction="row"
+                gap={1}
+                alignItems="center"
+                justifyContent="flex-end"
+            >
+                <CustomButton
+                    variant='text'
+                    onClick={onClose}
+                >
+                    {t("cancel")}
+                </CustomButton>
+
+                <CustomButton
+                    onClick={formState.submitForm}
+                    disabled={disabled}
+                >
+                    {t("validate")}
+                </CustomButton>
+            </Stack>
         </TmsPopUp>
     )
 }
