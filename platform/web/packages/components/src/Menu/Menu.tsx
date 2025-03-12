@@ -128,15 +128,6 @@ const Item = (props: TMSMenuItems) => {
                     items={items}
                     sx={{
                         pl: 0.5,
-                        '& .MuiAccordionSummary-root:hover .MuiAccordionSummary-content': {
-                            bgcolor: alpha("#000000", 0.1)
-                        },
-                        '& .MuiListItemButton-root:hover > .MenuItem-divider': {
-                            bgcolor: alpha("#000000", 0.1)
-                        },
-                        '& .MuiListItemButton-root': {
-                            color: "text.secondary"
-                        }
                     }}
                 />
             </Collapse>}

@@ -10,8 +10,9 @@ import {
   styled
 } from '@mui/material'
 import React, { useCallback, useState } from 'react'
-import { MenuItems } from '@komune-io/g2'
+import { MenuItems, useTheme } from '@komune-io/g2'
 import { ChevronRightRounded } from '@mui/icons-material'
+import { LocalTheme } from '../utils'
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -44,6 +45,7 @@ export const SpecialBehaviorAccordion = (
     ...otherItemProps
   } = item
   const [customExpanded, setcustomExpanded] = useState(expanded)
+  const g2Theme = useTheme<LocalTheme>()
 
   useDidUpdate(() => {
     setcustomExpanded(expanded)
@@ -60,29 +62,30 @@ export const SpecialBehaviorAccordion = (
     <Accordion expanded={customExpanded} onChange={onChange} {...other}>
       <AccordionSummary
         aria-controls={`${label}-content`}
-        sx={(theme) => ({
+        sx={{
           pr: 0,
           pl: 0,
           minHeight: 0,
+          transition: "0.2s",
+          bgcolor: isSelected ? alpha('#000000', 0.05) : undefined,
+          transform: isSelected ? g2Theme.local?.rotation : undefined,
           '& .MuiAccordionSummary-content': {
-            color: isSelected ? 'primary.main' : 'text.secondary',
+            color: "#000000",
             width: '100%',
             display: 'flex',
             alignItems: 'center',
             gap: 1,
-            bgcolor: isSelected
-              ? alpha(theme.palette.primary.main, 0.1)
-              : undefined,
-            borderRadius: 0.5,
+            borderRadius: 0,
             px: 0.5,
             my: 0.75,
             ml: 0.5,
             minWidth: 0
           },
-          '&:hover .MuiAccordionSummary-content': {
-            bgcolor: 'secondary.main'
+          "&:hover": {
+            bgcolor: alpha('#000000', 0.05),
+            transform: g2Theme.local?.rotation
           }
-        })}
+        }}
       >
         {icon}
         <Typography

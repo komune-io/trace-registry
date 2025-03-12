@@ -1,4 +1,4 @@
-import { MenuItems } from '@komune-io/g2'
+import { MenuItems, useTheme } from '@komune-io/g2'
 import {
   ListItemText,
   ListItemButton,
@@ -9,15 +9,17 @@ import {
   alpha
 } from '@mui/material'
 import { SpecialBehaviorAccordion } from './SpecialBehaviorAccordion'
+import { LocalTheme } from '../utils'
 
 export interface DropdownMenuProps extends MenuListProps {
   items: MenuItems[]
+  topLevel?: boolean
 }
 
 export const DropdownMenu = (props: DropdownMenuProps) => {
-  const { items, sx, ...other } = props
+  const { items, sx, topLevel = true, ...other } = props
 
-  const display = items.map((item) => <Item {...item} key={item.key} />)
+  const display = items.map((item) => <Item topLevel={topLevel} {...item} key={item.key} />)
   return (
     <List
       sx={{
@@ -31,7 +33,7 @@ export const DropdownMenu = (props: DropdownMenuProps) => {
   )
 }
 
-const Item = (props: MenuItems<{}>) => {
+const Item = (props: MenuItems<{}> & {topLevel: boolean}) => {
   const {
     items,
     isSelected,
@@ -40,8 +42,10 @@ const Item = (props: MenuItems<{}>) => {
     component,
     componentProps,
     href,
+    topLevel,
     ...other
   } = props
+  const g2Theme = useTheme<LocalTheme>()
 
   const childIsSelected = items ? someItemsSelected(items) : false
   const isOpen = childIsSelected || isSelected
@@ -71,11 +75,8 @@ const Item = (props: MenuItems<{}>) => {
           sx={{
             cursor: 'normal',
             bgcolor: 'transparent',
-            width: 'calc(100% - 12px)',
+            width: topLevel ? "100%" : 'calc(100% - 12px)',
             px: 0,
-            "&:hover": {
-              bgcolor: alpha('#000000', 0.05)
-            },  
             '&:not(:last-child)': {
               borderBottom: 0
             },
@@ -86,7 +87,7 @@ const Item = (props: MenuItems<{}>) => {
           childIsSelected={childIsSelected}
           item={props}
         >
-          <DropdownMenu items={items} />
+          <DropdownMenu topLevel={false} items={items} />
         </SpecialBehaviorAccordion>
       </ListItemButton>
     )
@@ -96,26 +97,24 @@ const Item = (props: MenuItems<{}>) => {
       href={href}
       disableRipple
       disableTouchRipple
-      sx={(theme) => ({
-        '& .MenuItem-divider': {
-          bgcolor: isSelected
-            ? alpha(theme.palette.primary.main, 0.1)
-            : undefined,
-          color: isSelected ? 'primary.main' : undefined,
-          borderRadius: 0.5,
-          px: 0.5
+      sx={{
+        "& .MenuItem-divider": {
+          transition: "0.2s",
+          bgcolor: isSelected ? alpha('#000000', 0.05) : undefined,
+          transform: isSelected ? g2Theme.local?.rotation : undefined,
         },
         '&:hover .MenuItem-divider': {
-          bgcolor: 'secondary.main'
+          bgcolor: alpha('#000000', 0.05),
+          transform: g2Theme.local?.rotation
         },
         '&:hover': {
-          bgcolor: 'unset'
+          bgcolor: "unset"
         },
         gap: 2,
         p: 0,
         py: 0.5,
         color: 'text.secondary'
-      })}
+      }}
       {...componentProps}
       {...other}
     >
