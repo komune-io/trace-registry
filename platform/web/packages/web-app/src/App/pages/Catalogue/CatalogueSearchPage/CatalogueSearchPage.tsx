@@ -1,10 +1,10 @@
 import { useTheme } from '@komune-io/g2'
 import { CircularProgress, Dialog, Stack, Typography } from '@mui/material'
-import { iconPack, SelectableChipGroup, useUrlSavedState } from 'components'
+import { iconPack, SelectableChipGroup, useUrlSavedState, LocalTheme } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
-  CatalogueSearchHeader, CatalogueSearchQuery, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchQuery, catalogueTypes, FacetDistribution,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -15,7 +15,7 @@ import { keepPreviousData } from '@tanstack/react-query'
 
 export const CatalogueSearchPage = () => {
   const { t, i18n } = useTranslation()
-  const theme = useTheme()
+  const theme = useTheme<LocalTheme>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
@@ -57,18 +57,21 @@ export const CatalogueSearchPage = () => {
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
-  const typeDistribution = distributions["type"]?.map((distribution) => {
-    const type = distribution.id.split("-").pop() ?? ""
-    return {
-      key: distribution.id,
-      label: `${distribution.name} - ${distribution.size}`,
-      color: theme.colors.custom[type],
-      //@ts-ignore
-      icon: iconPack[type]
-    }
-  })
+  const typeDistribution = useMemo(() => {
+    return catalogueTypes.map((type) => {
+      const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
+      const typeSimple = type.split("-").pop() ?? ""
+      const typeLabel = t("catalogues.types." + type)
+      return {
+        key: type,
+        label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
+        color: theme.local?.colors[typeSimple],
+        icon: iconPack[typeSimple]
+      }
+    })
+  }, [theme, distributions])
 
-  
+
   return (
     <Dialog
       fullScreen

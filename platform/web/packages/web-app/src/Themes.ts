@@ -1,29 +1,19 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
-import { PermanentHeader } from "components";
+import { LocalTheme, PermanentHeader } from "components";
 import { config } from "domain-components";
 
-export const theme: DeepPartial<AruiTheme> = {// to complete and to use
+export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
   colors: {
-    primary: config().theme?.colors?.primary ?? "#492161",
+    primary: config().theme?.colors?.primary ?? "#000000",
     secondary: config().theme?.colors?.secondary ?? "#353945",
     background: config().theme?.colors?.background ?? "#FFFFFF",
-    custom: {
-      //@ts-ignore
-      solution: "#F9DC44",
-      //@ts-ignore
-      project: "#EEBBFD",
-      //@ts-ignore
-      system: "#D0E9A7",
-      //@ts-ignore
-      sector: "#A3BDFD"
-    }
   },
   permanentHeader: PermanentHeader,
-  logoUrl: "/logo.png",
+  logoUrl: "/logo.svg",
   shadows: [
-    "none", 
+    "none",
     "0px 4px 8px 0px #E4DEE7",
     '0px 5px 12px rgba(0, 0, 0, 0.21)',
     '0px 6px 16px rgba(0, 0, 0, 0.22)',
@@ -38,6 +28,15 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     '0px 15px 52px rgba(0, 0, 0, 0.31)'
   ],
   bgColorOnMenu: true,
+  local: {
+    colors: {
+      solution: "#F9DC44",
+      project: "#EEBBFD",
+      system: "#D0E9A7",
+      sector: "#A3BDFD"
+    },
+    rotation: "rotate(-2deg)"
+  }
 };
 
 export const muiTheme: Partial<ThemeOptions> = {
@@ -53,7 +52,7 @@ export const muiTheme: Partial<ThemeOptions> = {
     body2: {
       fontSize: "0.938rem",
     },
-    caption:  {
+    caption: {
       fontSize: "0.813rem",
     },
     subtitle1: {

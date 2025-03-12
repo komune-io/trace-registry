@@ -1,5 +1,5 @@
 import { AddCircleOutlineRounded} from '@mui/icons-material'
-import { Divider, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { TFunction } from 'i18next'
 import { useMemo } from 'react'
@@ -83,10 +83,6 @@ export const MenuHeader = () => {
     return (
         <Stack
             gap={2}
-            sx={{
-                pl: 2,
-                pr: 1
-            }}
         >
             {policies.audit.canCreate() && <CustomButton
                 sx={{
@@ -104,7 +100,6 @@ export const MenuHeader = () => {
                 }}
                 menu={personnalMenu}
             />
-            <Divider sx={{ my: 2 }} flexItem />
         </Stack>
     )
 }

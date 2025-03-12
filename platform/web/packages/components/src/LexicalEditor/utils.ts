@@ -91,7 +91,7 @@ export function $getNextSiblingOrParentSibling(
 ): null | [LexicalNode, number] {
   let node_: null | LexicalNode = node;
   // Find immediate sibling or nearest parent sibling
-  let sibling = null;
+  let sibling: LexicalNode | null = null;
   let depthDiff = 0;
 
   while (sibling === null && node_ !== null) {

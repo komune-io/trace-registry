@@ -152,6 +152,7 @@
   "dragDropText": "Arrastra y suelta o haz clic para elegir un archivo",
   "maxFileSize": "Tamaño máximo de un archivo: {{size}} MB",
   "file": "Archivo",
+  "administration": "Administración",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

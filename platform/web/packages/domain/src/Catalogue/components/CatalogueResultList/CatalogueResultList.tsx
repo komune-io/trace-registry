@@ -1,9 +1,9 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
-import { Chip, g2Config, useTheme } from "@komune-io/g2"
+import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { useRoutesDefinition } from 'components'
+import { LocalTheme, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber, useCatalogueRefListQuery } from '../../api'
 import { useTranslation } from 'react-i18next'
 
@@ -42,11 +42,10 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, img, type, parentId } = props
-    const theme = useTheme()
+    const { title, themes, id, type, parentId } = props
+    const theme = useTheme<LocalTheme>()
     const catType = type.split("-").pop() ?? ""
-    const { t, i18n } = useTranslation()
-    const [noImage, setnoImage] = useState(!img)
+    const { i18n } = useTranslation()
 
     const refsQuery = useCatalogueRefListQuery({
         query: {
@@ -71,15 +70,16 @@ const CatalogueResult = (props: Catalogue) => {
                 textDecoration: "none"
             }}
         >
-            {noImage && <Box
+            <Box
                 sx={{
-                    bgcolor: theme.colors.custom[catType] ?? "#F9DC44",
+                    bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     width: "140px",
                     height: "80px",
-                    borderRadius: 1
+                    borderRadius: 1,
+                    flexShrink: 0
                 }}
             >
                 <Typography
@@ -91,17 +91,7 @@ const CatalogueResult = (props: Catalogue) => {
                 >
                     {identifierNumber}
                 </Typography>
-            </Box>}
-            {!noImage && <img
-                alt={t("sheetIllustration")}
-                src={g2Config().platform.url + img}
-                style={{
-                    height: "72px",
-                    width: "auto",
-                    borderRadius: "8px"
-                }}
-                onError={() => setnoImage(true)}
-            />}
+            </Box>
             <Stack
                 gap={1}
             >
