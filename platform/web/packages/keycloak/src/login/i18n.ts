@@ -7,6 +7,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
     .withThemeName<ThemeName>()
     .withCustomTranslations({
         en: {
+            emailForgotTitle: "Reset your password ?",
             alphanumericalCharsOnly: "Only alphanumerical characters",
             gender: "Gender",
             doForgotPassword: "Forgot password ?",
@@ -42,6 +43,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpScanBarcode: "Scan a qr code instead"
         },
         fr: {
+            emailForgotTitle: "Réinitialisation de votre mot de passe ?",
             alphanumericalCharsOnly: "Caractère alphanumérique uniquement:",
             gender: "Genre",
             doForgotPassword: "Mot de passe oublié ?",
@@ -77,6 +79,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpScanBarcode: "Scanner un qr code à la place"
         },
         es: {
+            emailForgotTitle: "¿Restablecer la contraseña?",
             alphanumericalCharsOnly: "Solo caracteres alfanuméricos",
             gender: "Género",
             doForgotPassword: "¿Olvidaste tu contraseña?",
