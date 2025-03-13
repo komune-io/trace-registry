@@ -279,9 +279,10 @@ class ImportScript(
         datasetSettings: CatalogueDatasetSettings,
         file: File
     ) {
-        val registryPath = properties.registry?.path?.let {
+        val registryApiPath = properties.registry?.path?.let {
             if (it.endsWith("/")) it else "$it/"
         } ?: "/"
+        val registryWebPath = "/"
         val rawText = file.readText()
 
         val matchedPathToActualPath = mutableMapOf<String, String>()
@@ -296,12 +297,11 @@ class ImportScript(
             if(catalogueLinkMatch != null) {
                 val objectType = catalogueLinkMatch.groupValues[1]
                 val objectId = catalogueLinkMatch.groupValues[2]
-                val url = "${registryPath}catalogues/100m-${objectType}-$objectId/"
+                val url = "${registryWebPath}catalogues/100m-${objectType}-$objectId/"
                 matchedPathToActualPath[path] = url
                 logger.info("Catalogue[$path] replace by: $url")
                 modifiedText = modifiedText.replace(linkMatch.value, "[$title](${matchedPathToActualPath[path]})")
             }
-
         }
 
 
@@ -326,7 +326,7 @@ class ImportScript(
                     mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
                     file = resourceFile.toSimpleFile()
                 )
-                val url = "${registryPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
+                val url = "${registryApiPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
                 logger.info("Catalogue[$path] replace by: $url")
                 matchedPathToActualPath[path] = url
             }
