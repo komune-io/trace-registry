@@ -55,7 +55,7 @@ const CatalogueResult = (props: Catalogue) => {
             alignItems="center"
             gap={3}
             component={Link}
-            to={cataloguesAll(undefined, id)}
+            to={cataloguesAll(id)}
             sx={{
                 textDecoration: "none"
             }}

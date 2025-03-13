@@ -73,18 +73,18 @@ export const useMenu = (t: TFunction) => {
     return [
       {
         key: "systems",
-        to: cataloguesAll(systemMenu?.identifier),
+        to: cataloguesAll(systemMenu?.identifier!),
         label: t("systems"),
         icon: iconPack.system,
-        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier)),
+        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier!)),
         items: systemSubMenu ?? []
       },
       {
         key: "Secteur",
-        to: cataloguesAll(secteurMenu?.identifier),
-        label: "Secteur",
+        to: cataloguesAll(secteurMenu?.identifier!),
+        label: t("sectors"),
         icon: iconPack.sector,
-        isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier)),
+        isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier!)),
         items: secteurSubMenu ?? []
       }
     ]
@@ -123,9 +123,9 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
   }
 }
 
-const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (tab?: string, ...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
+const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
   const newPath = [...currentPaths, item.identifier]
-  const ref = cataloguesAll(item.identifier, ...currentPaths)
+  const ref = cataloguesAll(...currentPaths, item.identifier)
   return {
     key: item.identifier,
     to: ref,

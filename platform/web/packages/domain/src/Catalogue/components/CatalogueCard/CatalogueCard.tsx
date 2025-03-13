@@ -1,99 +1,84 @@
-import { Box, Card, CardProps, Divider, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
-import { DescriptedLimitedChipList, useRoutesDefinition } from 'components'
-import { useMemo } from "react"
-import { LinkButton } from '@komune-io/g2'
+import { LocalTheme, useRoutesDefinition } from 'components'
+import { useState } from "react"
+import { g2Config, useTheme } from '@komune-io/g2'
 import { t } from 'i18next'
-import { config } from "../../../config";
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
+import { Link } from 'react-router-dom'
 
-export interface CatalogueCardProps extends CardProps {
+export interface CatalogueCardProps {
     catalogue?: Catalogue
     isLoading?: boolean
 }
 
 export const CatalogueCard = (props: CatalogueCardProps) => {
-    const { catalogue, isLoading, ...other } = props
+    const { catalogue, isLoading } = props
+    const [noimage, setnoimage] = useState(!catalogue?.img)
+    const { cataloguesAll } = useRoutesDefinition()
     const { ids } = useCataloguesRouteParams()
-    const {cataloguesAll} = useRoutesDefinition()
+    const theme = useTheme<LocalTheme>()
 
-    const projectsCountLabel = useMemo(() => {
-        type Dataset = {type: string, length: number}
-        const datasets = (catalogue?.datasets ?? [])as Dataset[]
-        // const count = datasets
-        //     .filter((dataset: Dataset) => dataset.type === "project")
-        //     .map((dataset: Dataset) => dataset.length)
-        //     .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0))
-        return datasets.length > 0 ? t("catalogues.verifiedProjects", { count: datasets.length }) : ""
-    }, [catalogue?.datasets])
+
+    const catType = catalogue?.type.split("-").pop() ?? ""
 
     return (
-        <Card
-            {...other}
+        <Paper
+            sx={{
+                border: "1px solid #E4DEE7",
+                width: "282px",
+                borderRadius: 1,
+                overflow: "hidden",
+                "& .illustration": {
+                    width: "100%",
+                    flexShrink: 0,
+                    height: "150px",
+                    objectFit: "cover",
+                },
+                "& *": {
+                    textDecoration: "none"
+                }
+            }}
         >
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%"
+            <Link
+                to={cataloguesAll( ...ids, catalogue?.identifier ?? "")}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
                 }}
-                gap={2}
-                padding={1.5}
             >
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{
-                        "& .catalogLogo": {
-                            width: "auto",
-                            height: "auto",
-                            maxWidth: "80px",
-                            maxHeight: "40px"
-                        }
-                    }}
-                    gap={2}
-                >
-                    {catalogue?.img ? <img
-                        className='catalogLogo'
-                        src={`${config().platform.url}${catalogue.img}`}
-                        alt="The standard logo"
-                    /> : isLoading ? <Skeleton sx={{width: "80px", height: "40px"}} animation="wave" /> : <Box />}
-                    <Typography
-                        variant="subtitle1"
-                        color="primary"
-                    >
-                        {isLoading ? <Skeleton animation="wave" width="50px" /> : catalogue?.title}
-                    </Typography>
-                </Stack>
-                <DescriptedLimitedChipList
-                    description={catalogue?.description}
-                    isLoading={isLoading}
-                />
-                <Box
-                flexGrow={1}
-                sx={{
-                    margin: (theme) => theme.spacing(-1, 0)
-                }}
-                />
-                <Divider />
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    gap={2}
-                >
-                    <Typography
-                        variant='caption'
+                {!noimage && !isLoading ?
+                    <img src={g2Config().platform.url + catalogue?.img} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
+                    :
+                    <Box
                         sx={{
-                            color: "text.secondary"
+                            bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
+                            width: "100%",
+                            height: "150px",
+                            flexShrink: 0
                         }}
+                    />
+                }
+                <Stack
+                    sx={{
+                        py: 1.5,
+                        px: 2.25,
+                        pb: 2,
+                        gap: 1.25
+                    }}
+                >
+                    <Typography
+                        variant='h5'
                     >
-                        {isLoading ? <Skeleton animation="wave" width="100px" /> : projectsCountLabel}
+                        {isLoading ? <Skeleton animation="wave" width="100px" /> : catalogue?.title}
                     </Typography>
-                    <LinkButton to={cataloguesAll(undefined, ...ids, catalogue?.identifier ?? "")} >{t("explore")}</LinkButton>
+                    <Typography
+                        variant='body2'
+                    >
+                        {isLoading ? <Skeleton animation="wave" width="100%" height="150px" /> : catalogue?.description}
+                    </Typography>
                 </Stack>
-            </Box>
-        </Card>
+            </Link>
+        </Paper>
     )
 }

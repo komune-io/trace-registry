@@ -153,6 +153,12 @@
   "maxFileSize": "Tamaño máximo de un archivo: {{size}} MB",
   "file": "Archivo",
   "administration": "Administración",
+  "sectors": "Sectores",
+  "exploreSystems": "Explorar sistemas",
+  "exploreSectors": "Explorar sectores",
+  "seeAll": "Ver todos",
+  "seeAllSystems": "Ver todos los sistemas",
+  "seeAllSectors": "Ver todos los sectores",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

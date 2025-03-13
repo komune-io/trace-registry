@@ -3,12 +3,12 @@ import {ProjectList, ProjectView} from "./Project";
 import {TransactionView} from "./Transaction/TransactionView/TransactionView";
 import {TransactionList} from "./Transaction/TransactionList/TransactionList";
 import { ProjectCreate } from "./Project/ProjectCreate/ProjectCreate";
-import {CataloguesRouter} from "./Catalogue/CataloguesRouter/CataloguesRouter";
+import { CataloguesEntryPoint } from "./Catalogue/CataloguesEntryPoint/CataloguesEntryPoint";
 
 export const registryPages: PageRoute[] = [
   {
     path: "",
-    element: <CataloguesRouter root="100m-systems" />
+    element: <CataloguesEntryPoint identifier="100m-systems" />
   },
   {
     path: "projects",

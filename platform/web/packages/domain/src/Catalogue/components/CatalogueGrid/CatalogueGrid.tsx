@@ -13,9 +13,9 @@ export const CatalogueGrid = (props: CatalogueGridProps) => {
         <Box
             sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))"
+                gridTemplateColumns: "repeat(auto-fill, minmax(282px, 1fr))"
             }}
-            gap={4}
+            gap={3}
         >
             { isLoading ?
                     Array.from({length: 4}, (_, index) => (
