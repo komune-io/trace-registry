@@ -40,7 +40,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     useEffect(() => {
       if (tab && !tabKeys.includes(tab)) {
         const params = searchParams.toString() ? "?" + searchParams.toString() : ""
-        navigate(splat + "/" + "info" as TabKeys + params)
+        navigate(splat + "/" + "info" as TabKeys + params, {replace: true})
       }
     }, [splat])
 

@@ -1,24 +1,22 @@
 import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
-import { LocalTheme, useRoutesDefinition } from 'components'
+import { addLineClampStyles, LocalTheme, useRoutesDefinition } from 'components'
 import { useState } from "react"
 import { g2Config, useTheme } from '@komune-io/g2'
 import { t } from 'i18next'
-import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 import { Link } from 'react-router-dom'
 
 export interface CatalogueCardProps {
     catalogue?: Catalogue
     isLoading?: boolean
+    parentIds?: string[]
 }
 
 export const CatalogueCard = (props: CatalogueCardProps) => {
-    const { catalogue, isLoading } = props
+    const { catalogue, isLoading, parentIds } = props
     const [noimage, setnoimage] = useState(!catalogue?.img)
     const { cataloguesAll } = useRoutesDefinition()
-    const { ids } = useCataloguesRouteParams()
     const theme = useTheme<LocalTheme>()
-
 
     const catType = catalogue?.type.split("-").pop() ?? ""
 
@@ -41,7 +39,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
             }}
         >
             <Link
-                to={cataloguesAll( ...ids, catalogue?.identifier ?? "")}
+                to={cataloguesAll( ...(parentIds ?? []), catalogue?.identifier ?? "")}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -74,6 +72,9 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     </Typography>
                     <Typography
                         variant='body2'
+                        sx={{
+                            ...addLineClampStyles(8)
+                        }}
                     >
                         {isLoading ? <Skeleton animation="wave" width="100%" height="150px" /> : catalogue?.description}
                     </Typography>

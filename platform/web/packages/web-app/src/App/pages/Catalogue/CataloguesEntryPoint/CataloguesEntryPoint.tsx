@@ -44,6 +44,7 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
             catalogue={subCatalogue}
             seeAllLink={cataloguesTab("subCatalogues", identifier, subCatalogue.identifier)}
             titleVariant="h4"
+            parentIds={[identifier]}
         />
     )), [data?.items, identifier])
 

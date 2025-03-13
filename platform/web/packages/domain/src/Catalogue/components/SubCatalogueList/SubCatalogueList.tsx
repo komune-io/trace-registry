@@ -15,29 +15,32 @@ export interface SubCatalogueListProps {
     linkLabel?: string
     seeAllLink?: string
     titleVariant?: "h3" | "h4"
+    parentIds?: string[]
 }
 
 
 export const SubCatalogueList = (props: SubCatalogueListProps) => {
-    const { catalogue, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant } = props
+    const { catalogue, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant, parentIds } = props
 
     const { i18n } = useTranslation()
 
+    const identifier = catalogue?.identifier ?? catalogueIdentifier
+
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
-            parentIdentifier: catalogue?.identifier ?? catalogueIdentifier,
+            parentIdentifier: identifier,
             language: i18n.language
         },
         options: {
-            enabled: (catalogue?.identifier ?? catalogueIdentifier) !== undefined
+            enabled: identifier !== undefined
         }
     })
 
     const globalLoading = isLoading || subCatalogueLoading
 
     const dataDislpay = useMemo(() => data?.items.slice(0, 4).map((subCatalogue) => (
-        <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} />
-    )), [data?.items])
+        <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), identifier!]} />
+    )), [data?.items, parentIds, identifier])
 
     return (
         <Stack
