@@ -1,6 +1,4 @@
-import { useQueryRequest } from "@komune-io/g2"
-import { useNoAuthenticatedRequest } from "../../config"
-
+import {useNoAuthenticatedRequest, useQueryRequest} from "@komune-io/g2"
 
 export interface FlagProperties{
   module: ModuleFlagProperties
