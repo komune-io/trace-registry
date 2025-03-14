@@ -1,5 +1,4 @@
 import {PageRoute} from "App/routes";
-import { CataloguesRouter } from "./CataloguesRouter/CataloguesRouter";
 import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreationPage";
 import { DraftEditionPage } from "./DraftEditionPage/DraftEditionPage";
 import { DraftToValidateListPage } from "./DraftToValidateListPage/DraftToValidateListPage";
@@ -8,13 +7,11 @@ import { ContributionListPage } from "./ContributionListPage/ContributionListPag
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
 import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
 import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
+import { CatalogueViewPage } from "./CatalogueViewPage/CatalogueViewPage";
+import { CataloguesEntryPoint } from "./CataloguesEntryPoint/CataloguesEntryPoint";
 
 
 export const catalogPages: PageRoute[] = [
-  {
-    path: "catalogues",
-    element: <CataloguesRouter root="standards" />
-  },
   {
     path: "catalogues/create/solution",
     element: <CatalogueCreationPage type="100m-solution" />
@@ -64,7 +61,19 @@ export const catalogPages: PageRoute[] = [
     element: <GraphCreationPage  />
   },
   {
+    path: "catalogues/100m-systems",
+    element: <CataloguesEntryPoint identifier="100m-systems" />
+  },
+  {
+    path: "catalogues/100m-sectors",
+    element: <CataloguesEntryPoint identifier="100m-sectors" />
+  },
+  {
+    path: "catalogues",
+    element: <CatalogueViewPage />
+  },
+  {
     path: "catalogues/*",
-    element: <CataloguesRouter root="standards" />
+    element: <CatalogueViewPage />
   }
 ]

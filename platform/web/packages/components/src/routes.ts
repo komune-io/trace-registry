@@ -10,6 +10,8 @@ const strictRoutesAuthorizations = {
     "transactions/:transactionId": "open",
     "transactions": "open",
     "catalogues": "open",
+    "catalogues/100m-systems": "open",
+    "catalogues/100m-sectors": "open",
     "catalogues/create/solution": "open",
     "catalogues/create/system": "open",
     "catalogues/create/sector": "open",
@@ -49,9 +51,8 @@ for (let route in strictRoutesAuthorizations) {
 
 export const useRoutesDefinition = () => {
     const cataloguesAll = useCallback(
-      (tab?: string, ...objectIds: string[]) => {
-        const ends =  `/${tab ? tab : ""}`
-       return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds) + ends + "/"
+      (...objectIds: string[]) => {
+       return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds)
       },
       [],
     )

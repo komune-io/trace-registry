@@ -36,16 +36,20 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center"
-                    gap={2}
+                    gap={5}
                 >
                     <Typography
-                        variant='h4'
+                        variant='h1'
                     >
                         {catalogue?.title}
                     </Typography>
                     <Typography
-                        variant='subtitle1'
                         color="primary"
+                        sx={{
+                            fontFamily: "Milanesa Serif",
+                            fontSize: "1.5rem",
+                            fontWeight: 700
+                        }}
                     >
                         {identifierNumber}
                     </Typography>

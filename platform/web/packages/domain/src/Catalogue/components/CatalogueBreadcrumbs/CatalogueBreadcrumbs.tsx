@@ -14,14 +14,12 @@ export const CatalogueBreadcrumbs = () => {
         }
     })
 
-
-
     const crumbs = useMemo(() => {
         const refs = refsQuery.data?.items
         return [
             ...ids.map((id, index): Crumb => ({
                 label: refs?.find((ref) => ref.identifier === id && ref.language === i18n.language)?.title ?? id,
-                url: cataloguesAll(undefined, ...ids.slice(0, index + 1))
+                url: cataloguesAll( ...ids.slice(0, index + 1))
             }))
         ]
     }, [ids, cataloguesAll, catalogues, t, refsQuery.data?.items])

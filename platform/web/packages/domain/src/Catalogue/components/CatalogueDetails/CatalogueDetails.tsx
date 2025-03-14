@@ -80,7 +80,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 flexShrink: 0
             }}
         >
-            <TitleDivider size='h6' title={t("informations")} />
+            <TitleDivider size='h3' title={t("informations")} />
             <DetailsForm
                 isLoading={isLoading}
                 title={t("publication")}

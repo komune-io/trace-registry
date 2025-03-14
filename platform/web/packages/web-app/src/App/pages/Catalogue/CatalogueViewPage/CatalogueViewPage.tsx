@@ -1,39 +1,62 @@
 import {
     CatalogueBreadcrumbs,
-    Catalogue,
     CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
     useCatalogueDraftCreateCommand,
     DraftReplacementModal,
     useCatalogueDraftDeleteCommand,
+    useCatalogueGetByIdentifierQuery,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { AppPage } from 'template'
 import { InfoTicket, maybeAddItem, useRoutesDefinition, useToggleState, SectionTab, Tab, useExtendedAuth } from 'components'
-import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
+import { SyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { CircularProgress, IconButton, Stack } from '@mui/material'
 import { EditRounded } from '@mui/icons-material'
 import { useQueryClient } from '@tanstack/react-query'
-import { LinkButton } from '@komune-io/g2'
+import { LinkButton, NoMatchPage } from '@komune-io/g2'
+
+const tabKeys = ['info', 'subCatalogues']
+
+type TabKeys = (typeof tabKeys)[number];
 
 interface CatalogueViewPageProps {
-    catalogue?: Catalogue
-    isLoading: boolean
 }
 export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
-    const { catalogue, isLoading } = props
+    const {} = props
     const { t, i18n } = useTranslation()
     const { ids, tab } = useCataloguesRouteParams()
+    const { "*": splat } = useParams()
     const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
     const [draftLoading, setdraftLoading] = useState(false)
     const queryClient = useQueryClient()
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
     const {policies} = useExtendedAuth()
+    const [searchParams] = useSearchParams()
+    const catalogueIdentifier = ids[ids.length - 1]
+   const navigate = useNavigate()
 
-    
+    useEffect(() => {
+      if (tab && !tabKeys.includes(tab)) {
+        const params = searchParams.toString() ? "?" + searchParams.toString() : ""
+        navigate(splat + "/" + "info" as TabKeys + params, {replace: true})
+      }
+    }, [splat])
 
-    const navigate = useNavigate()
+    const catalogueGet = useCatalogueGetByIdentifierQuery({
+        query: {
+            identifier: catalogueIdentifier!,
+            language: searchParams.get("language") ?? i18n.language
+        }, 
+        options:  {
+            enabled: !!catalogueIdentifier
+        }
+    })
+
+    const catalogue = catalogueGet.data?.item
+    const isLoading = catalogueGet.isLoading
+
     const currentTab = useMemo(() => tab ?? "info", [tab])
 
     const { cataloguesTab } = useRoutesDefinition()
@@ -64,14 +87,14 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const items = data?.items ?? []
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [{
-            key: 'info',
+            key: 'info' as TabKeys,
             label: t('informations'),
             component: (<CatalogueInformation
                 catalogue={catalogue}
                 isLoading={isLoading}
             />)
         }, ...maybeAddItem(items.length > 0, {
-            key: 'subCatalogues',
+            key: 'subCatalogues' as TabKeys,
             label: t('subCatalogues'),
             component: (<CatalogueGrid items={data?.items} isLoading={false} />)
         })
@@ -120,6 +143,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],
     )
 
+    if (!catalogueGet.isLoading && !catalogueGet.data?.item) return <NoMatchPage />
     return (
         <AppPage
             title={catalogue?.title}

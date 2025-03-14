@@ -6,7 +6,7 @@ export interface EditableTitleProps extends Omit<InputBaseProps, "onChange" | "s
     title?: string
     onChange?: (title: string) => void
     onDebouncedChange?: (title: string) => void
-    size?: "h5" | "h6" | "subtitle1"
+    size?: "h3" | "h5" | "h6" | "subtitle1"
     readOnly?: boolean
 }
 
@@ -33,8 +33,8 @@ export const EditableTitle = forwardRef((props: EditableTitleProps, ref?: Forwar
             onClick={onClick}
             sx={{
                 width: "100%",
-                fontSize: size === "h5" ? "1.5rem" : size === "h6" ? "1.25rem" : "1rem",
-                fontWeight: size === "subtitle1" ? 600 : 400,
+                fontSize: size === "h3" ? "2.625rem" : size === "h5" ? "1.5rem" : size === "h6" ? "1.25rem" : "1rem",
+                fontWeight: size === "subtitle1" ? 600 : 700,
                 "& .MuiInputBase-input::placeholder": {
                     color: "#CBC9C4"
                 },

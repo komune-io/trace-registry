@@ -87,7 +87,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                 >
                    {draft.baseVersion !== 0 && <Link
                         variant="body2"
-                        href={cataloguesAll(undefined, catalogueId!) + "?language=" + draft.language}
+                        href={cataloguesAll(catalogueId!) + "?language=" + draft.language}
                         target='_blank'
                     >
                         {t("catalogues.consultOriginal")}

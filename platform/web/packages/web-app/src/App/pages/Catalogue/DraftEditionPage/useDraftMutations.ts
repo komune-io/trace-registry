@@ -126,7 +126,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
           queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
-          navigate(afterValidateNavigate ?? cataloguesAll(catalogueId))
+          navigate(afterValidateNavigate ?? cataloguesAll(catalogueId!))
         }
       }
     },
@@ -165,7 +165,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(cataloguesAll(undefined, catalogueId!))
+        navigate(cataloguesAll(catalogueId!))
       }
     },
     [deleteCatalogue.mutateAsync, draftId, catalogueId],
