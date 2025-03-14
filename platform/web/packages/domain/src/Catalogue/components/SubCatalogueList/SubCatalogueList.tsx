@@ -31,7 +31,8 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
         query: {
             parentIdentifier: identifier,
             language: i18n.language,
-            type
+            type,
+            limit: 4
         },
         options: {
             enabled: identifier !== undefined
@@ -40,7 +41,7 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
 
     const globalLoading = isLoading || subCatalogueLoading
 
-    const dataDislpay = useMemo(() => data?.items.slice(0, 4).map((subCatalogue) => (
+    const dataDislpay = useMemo(() => data?.items.map((subCatalogue) => (
         <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), identifier!]} />
     )), [data?.items, parentIds, identifier])
 
