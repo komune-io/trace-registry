@@ -1,6 +1,6 @@
 import {QueryParams, useQueryRequest} from "@komune-io/g2-utils"
 import {io} from "registry-platform-api-api-js-export";
-import {useNoAuthenticatedRequest} from "../../config"
+import {useNoAuthenticatedRequest} from "@komune-io/g2";
 
 export interface AssetTransactionPageQuery extends io.komune.registry.f2.asset.pool.domain.query.AssetTransactionPageQueryDTO { }
 export interface AssetTransactionPageResult extends io.komune.registry.f2.asset.pool.domain.query.AssetTransactionPageResultDTO { }

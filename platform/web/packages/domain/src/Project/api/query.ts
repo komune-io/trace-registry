@@ -1,6 +1,6 @@
 import { QueryParams, useQueryRequest } from "@komune-io/g2-utils"
 import {io} from "registry-platform-api-api-js-export";
-import { useNoAuthenticatedRequest } from "../../config"
+import {useNoAuthenticatedRequest} from "@komune-io/g2";
 
 export interface ProjectPageQuery extends io.komune.registry.f2.project.domain.query.ProjectPageQueryDTO { }
 export interface ProjectPageResult extends io.komune.registry.f2.project.domain.query.ProjectPageResultDTO { }
