@@ -33,6 +33,7 @@ import {
 } from '@rawgraphs/rawgraphs-charts'
 
 import { calendarHeatmap } from '@rawgraphs/rawgraphs-calendar-heatmap'
+import HtmlChart from "./Charts/HtmlChart";
 
 // New charts, not included into first release.
 // Comment at necessity.
@@ -69,4 +70,5 @@ export const charts = [
     violinplot,
     voronoidiagram,
     voronoitreemap,
+    HtmlChart
 ]
