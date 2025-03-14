@@ -15,7 +15,7 @@ import {
 } from '@komune-io/g2'
 import { TMSMenuItems } from '../hooks'
 import { LocalTheme } from '../utils'
-import { DropdownMenu } from '../DropdownMenu'
+import { DropdownMenu, someItemsSelected } from '../DropdownMenu'
 
 
 
@@ -63,6 +63,7 @@ const Item = (props: TMSMenuItems) => {
         () => onClick && !href && onClick(),
         [onClick, href]
     )
+    const childIsSelected = items ? someItemsSelected(items) : false
     return (
         <>
             <ListItemButton
@@ -123,7 +124,7 @@ const Item = (props: TMSMenuItems) => {
                     </Box>
                 )}
             </ListItemButton>
-            {items && items.length > 0 && <Collapse in={isSelected}>
+            {items && items.length > 0 && <Collapse in={isSelected || childIsSelected}>
                 <DropdownMenu
                     items={items}
                     sx={{

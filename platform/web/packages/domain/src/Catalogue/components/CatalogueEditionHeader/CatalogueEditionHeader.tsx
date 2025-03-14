@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 import { Catalogue, CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
-import { DeleteRounded, MoreVert } from '@mui/icons-material'
-import { useButtonMenu, useConfirmationPopUp, useToggleState, CustomButton } from 'components'
+import { MoreVert } from '@mui/icons-material'
+import { useButtonMenu, useConfirmationPopUp, useToggleState, CustomButton, iconPack } from 'components'
 import { DraftStatusChip } from '../DraftTable'
 import { SubmitModal } from './SubmitModal'
 
@@ -44,7 +44,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             key: "delete",
             label: t("delete"),
             color: "#B01717",
-            icon: <DeleteRounded />,
+            icon: iconPack.trash,
             onClick: handleOpen
         }] : [])
     ], [t, handleOpen, onDelete])

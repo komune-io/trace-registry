@@ -25,7 +25,7 @@ export const TitleSeeAllLink = (props: TitleSeeAllLinkProps) => {
                 justifyContent={'space-between'}
             >
                 <Typography variant={titleVariant}>
-                    {!title && isLoading ? <Skeleton animation="wave" width="100px" /> : title}
+                    {!title && isLoading ? <Skeleton animation="wave" width="150px" /> : title}
                 </Typography>
 
                 <CustomLinkButton

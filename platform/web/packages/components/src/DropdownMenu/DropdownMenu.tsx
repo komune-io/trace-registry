@@ -24,6 +24,7 @@ export const DropdownMenu = (props: DropdownMenuProps) => {
     <List
       sx={{
         p: 'unset',
+        pt: 1.5,
         ...sx
       }}
       {...other}
@@ -33,7 +34,7 @@ export const DropdownMenu = (props: DropdownMenuProps) => {
   )
 }
 
-const Item = (props: MenuItems<{}> & {topLevel: boolean}) => {
+const Item = (props: MenuItems<{}> & { topLevel: boolean }) => {
   const {
     items,
     isSelected,
@@ -137,7 +138,10 @@ const Item = (props: MenuItems<{}> & {topLevel: boolean}) => {
           sx={{ m: 0 }}
           primaryTypographyProps={{
             noWrap: true,
-            sx: { color: 'currentcolor' },
+            sx: {
+              color: '#000000',
+              fontWeight: isSelected ? 600 : undefined
+            },
             variant: 'body2'
           }}
         >
@@ -148,7 +152,7 @@ const Item = (props: MenuItems<{}> & {topLevel: boolean}) => {
   )
 }
 
-const someItemsSelected = (items: MenuItems[]) => {
+export const someItemsSelected = (items: MenuItems[]) => {
   const isSelected = items.some((item) => item.isSelected)
   if (isSelected) return true
   const childIsSelected = items.some((item) => {
