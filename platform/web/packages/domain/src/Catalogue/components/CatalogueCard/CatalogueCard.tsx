@@ -5,6 +5,7 @@ import { useState } from "react"
 import { g2Config, useTheme } from '@komune-io/g2'
 import { t } from 'i18next'
 import { Link } from 'react-router-dom'
+import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 
 export interface CatalogueCardProps {
     catalogue?: Catalogue
@@ -17,6 +18,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
     const [noimage, setnoimage] = useState(!catalogue?.img)
     const { cataloguesAll } = useRoutesDefinition()
     const theme = useTheme<LocalTheme>()
+    const { ids } = useCataloguesRouteParams()
 
     const catType = catalogue?.type.split("-").pop() ?? ""
 
@@ -39,7 +41,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
             }}
         >
             <Link
-                to={cataloguesAll( ...(parentIds ?? []), catalogue?.identifier ?? "")}
+                to={cataloguesAll( ...(parentIds ?? ids), catalogue?.identifier ?? "")}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',

@@ -57,8 +57,8 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
         >
             <CatalogueBreadcrumbs />
             <ContentIllustrated
-                title='Découvrez les Systèmes : Une Vision Structurée pour la Décarbonation'
-                description={description}
+                title={catalogue?.title ?? 'Découvrez les Systèmes : Une Vision Structurée pour la Décarbonation'}
+                description={catalogue?.description ?? description}
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
                 color={identifier === "100m-systems" ? theme.local?.colors.system : theme.local?.colors.sector}
             />

@@ -72,13 +72,13 @@ export const MarkdownStyleContainer = styled(Box, {
   ...(titlesTopLevel === 'h1'
     ? {
       '& h1': {
-        ...theme.typography.h4
+        ...theme.typography.h3
       },
       '& h2': {
-        ...theme.typography.h5
+        ...theme.typography.h4
       },
       '& h3': {
-        ...theme.typography.h6
+        ...theme.typography.h5
       },
       '& h4': {
         ...theme.typography.h6
@@ -110,9 +110,6 @@ export const MarkdownStyleContainer = styled(Box, {
         ...theme.typography.h6
       }
     }),
-  '& h1, h2, h3, h4, h5, h6': {
-    fontWeight: 500
-  },
   "& .editor-layout-container": {
     display: "grid",
     gap: readOnly ? "28px" : "28px",

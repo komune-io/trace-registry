@@ -11,7 +11,7 @@ export interface TitleDividerProps extends Omit<EditableTitleProps, "ref"> {
         color: string
     },
     actions?: React.ReactNode
-    size?: "h5" | "h6" | "subtitle1"
+    size?: "h3" | "h5" | "h6" | "subtitle1"
 }
 
 export const TitleDivider = (props: TitleDividerProps) => {
@@ -38,7 +38,7 @@ export const TitleDivider = (props: TitleDividerProps) => {
 
     return (
         <Stack
-            gap={size === "subtitle1" ? 1.5 : 2}
+            gap={1}
         >
             <Stack
                 gap={size === "subtitle1" ? 1.5 : 2}
