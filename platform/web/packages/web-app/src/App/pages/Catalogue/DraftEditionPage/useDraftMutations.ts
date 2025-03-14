@@ -165,7 +165,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(cataloguesAll(catalogueId!))
+        navigate(cataloguesContributions())
       }
     },
     [deleteCatalogue.mutateAsync, draftId, catalogueId],

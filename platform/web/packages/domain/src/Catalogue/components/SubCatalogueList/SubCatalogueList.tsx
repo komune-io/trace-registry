@@ -1,4 +1,4 @@
-import { Catalogue } from '../../model'
+import { Catalogue, CatalogueTypes } from '../../model'
 import { useCataloguePageQuery } from '../../api'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/material'
@@ -16,11 +16,12 @@ export interface SubCatalogueListProps {
     seeAllLink?: string
     titleVariant?: "h3" | "h4"
     parentIds?: string[]
+    type?: CatalogueTypes[]
 }
 
 
 export const SubCatalogueList = (props: SubCatalogueListProps) => {
-    const { catalogue, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant, parentIds } = props
+    const { catalogue, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant, parentIds, type } = props
 
     const { i18n } = useTranslation()
 
@@ -29,7 +30,9 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
             parentIdentifier: identifier,
-            language: i18n.language
+            language: i18n.language,
+            type,
+            limit: 4
         },
         options: {
             enabled: identifier !== undefined
@@ -38,10 +41,11 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
 
     const globalLoading = isLoading || subCatalogueLoading
 
-    const dataDislpay = useMemo(() => data?.items.slice(0, 4).map((subCatalogue) => (
+    const dataDislpay = useMemo(() => data?.items.map((subCatalogue) => (
         <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), identifier!]} />
     )), [data?.items, parentIds, identifier])
 
+    if ((!dataDislpay || dataDislpay.length === 0) && !globalLoading) return <></>
     return (
         <Stack
             gap={5}

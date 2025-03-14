@@ -6,6 +6,7 @@ import { g2Config, useTheme } from '@komune-io/g2'
 import { t } from 'i18next'
 import { Link } from 'react-router-dom'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
+import { useCatalogueIdentifierNumber } from '../../api'
 
 export interface CatalogueCardProps {
     catalogue?: Catalogue
@@ -21,6 +22,8 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
     const { ids } = useCataloguesRouteParams()
 
     const catType = catalogue?.type.split("-").pop() ?? ""
+
+    const identifierNumber = useCatalogueIdentifierNumber(catalogue)
 
     return (
         <Paper
@@ -41,7 +44,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
             }}
         >
             <Link
-                to={cataloguesAll( ...(parentIds ?? ids), catalogue?.identifier ?? "")}
+                to={cataloguesAll(...(parentIds ?? ids), catalogue?.identifier ?? "")}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -53,11 +56,24 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     <Box
                         sx={{
                             bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                             width: "100%",
                             height: "150px",
                             flexShrink: 0
                         }}
-                    />
+                    >
+                        <Typography
+                            sx={{
+                                fontFamily: "Milanesa Serif",
+                                fontSize: "2rem",
+                                fontWeight: 700
+                            }}
+                        >
+                            {identifierNumber}
+                        </Typography>
+                    </Box>
                 }
                 <Stack
                     sx={{
@@ -70,7 +86,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     <Typography
                         variant='h5'
                     >
-                        {isLoading ? <Skeleton animation="wave" width="100px" /> : catalogue?.title}
+                        {isLoading ? <Skeleton animation="wave" width="150px" /> : catalogue?.title}
                     </Typography>
                     <Typography
                         variant='body2'

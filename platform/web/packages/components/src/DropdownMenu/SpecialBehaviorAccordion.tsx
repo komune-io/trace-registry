@@ -94,7 +94,8 @@ export const SpecialBehaviorAccordion = (
           sx={{
             flexGrow: 1,
             textDecoration: 'none',
-            color: 'currentcolor'
+            color: 'currentcolor',
+            fontWeight: isSelected ? 600 : undefined
           }}
           //@ts-ignore
           variant='body2'

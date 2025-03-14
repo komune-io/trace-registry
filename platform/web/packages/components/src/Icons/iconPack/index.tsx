@@ -8,6 +8,7 @@ import validate from './validate.png';
 import contribution from './contribution.png';
 import settings from './settings.png';
 import outArrow from './outArrow.png';
+import trash from "./trash.png";
 import { PngIcon } from './PngIcon';
 
 export const iconPackSrc = {
@@ -20,7 +21,8 @@ export const iconPackSrc = {
     validate,
     contribution,
     settings,
-    outArrow
+    outArrow,
+    trash
 } as const
 
 type IconPack = Record<keyof typeof iconPackSrc, JSX.Element>;

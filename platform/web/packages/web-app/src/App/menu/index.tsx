@@ -76,7 +76,7 @@ export const useMenu = (t: TFunction) => {
         to: cataloguesAll(systemMenu?.identifier!),
         label: t("systems"),
         icon: iconPack.system,
-        isSelected: location.pathname === "/" || location.pathname.includes(cataloguesAll(systemMenu?.identifier!)),
+        isSelected: location.pathname === "/" || location.pathname === cataloguesAll(systemMenu?.identifier!),
         items: systemSubMenu ?? []
       },
       {
@@ -84,7 +84,7 @@ export const useMenu = (t: TFunction) => {
         to: cataloguesAll(secteurMenu?.identifier!),
         label: t("sectors"),
         icon: iconPack.sector,
-        isSelected: location.pathname.includes(cataloguesAll(secteurMenu?.identifier!)),
+        isSelected: location.pathname === cataloguesAll(secteurMenu?.identifier!),
         items: secteurSubMenu ?? []
       }
     ]
@@ -126,11 +126,14 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
 const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
   const newPath = [...currentPaths, item.identifier]
   const ref = cataloguesAll(...currentPaths, item.identifier)
+  const splitedPath = location.pathname.split("/")
+  splitedPath.pop()
+  const pahtWithoutTab = splitedPath.join("/")
   return {
     key: item.identifier,
     to: ref,
     label: item.title,
-    isSelected: location.pathname.includes(ref),
+    isSelected: pahtWithoutTab === ref,
     items: item.catalogues?.map(mapCatalogueRef(newPath, cataloguesAll))
   } as MenuItem
 }
