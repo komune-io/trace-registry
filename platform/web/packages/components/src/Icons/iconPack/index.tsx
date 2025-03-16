@@ -9,7 +9,7 @@ import contribution from './contribution.png';
 import settings from './settings.png';
 import outArrow from './outArrow.png';
 import trash from "./trash.png";
-import { PngIcon } from './PngIcon';
+import { Icon } from "../PngIcon";
 
 export const iconPackSrc = {
     project,
@@ -28,7 +28,5 @@ export const iconPackSrc = {
 type IconPack = Record<keyof typeof iconPackSrc, JSX.Element>;
 
 export const iconPack = Object.keys(iconPackSrc).reduce<IconPack>(
-    (obj, key) => ({ ...obj, [key]: <PngIcon src={iconPackSrc[key as keyof typeof iconPackSrc]} /> }
+    (obj, key) => ({ ...obj, [key]: <Icon src={iconPackSrc[key as keyof typeof iconPackSrc]} /> }
     ), {} as IconPack);
-
-export { PngIcon } from './PngIcon';

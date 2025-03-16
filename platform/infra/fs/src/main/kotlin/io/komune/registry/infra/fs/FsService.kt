@@ -25,12 +25,12 @@ class FsService(
 		return fileClient.fileGet(listOf(query)).first().item
 	}
 
-	suspend fun getCatalogueFilePath(catalogueId: String): FilePath {
+	suspend fun getCatalogueFilePath(catalogueId: String, imageName: String? = null): FilePath {
 		return FilePath(
 			objectType = FsPath.Catalogue.TYPE,
 			objectId = catalogueId,
 			directory = FsPath.Catalogue.MEDIA,
-			name = FsPath.Catalogue.DEFAULT_IMAGE_NAME,
+			name = imageName ?: FsPath.Catalogue.DEFAULT_IMAGE_NAME,
 		)
 	}
 
@@ -38,7 +38,7 @@ class FsService(
 		filePart: FilePart,
 		objectId: String,
 	): FileUploadedEvent {
-		val path = getCatalogueFilePath(objectId)
+		val path = getCatalogueFilePath(objectId, filePart.filename())
 		return fileClient.fileUpload(
 			command = path.toUploadCommand(
 				metadata = emptyMap(),
@@ -61,5 +61,4 @@ class FsService(
 			file = filePart.contentByteArray()
 		)
 	}
-
 }

@@ -1,9 +1,13 @@
 export interface PlatformConfig {
     url: string
 }
+export interface AdminConfig {
+    url: string
+}
 
 export interface Config {
     platform: PlatformConfig
+    admin: AdminConfig
     theme?: ThemeConfig
 }
 

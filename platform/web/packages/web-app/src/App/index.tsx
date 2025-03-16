@@ -35,10 +35,10 @@ export const App = () => {
 
       scrollableContent={<CustomMenu />}
       userMenuProps={{
-        //@ts-ignore
         currentUser: user ? {
           givenName: user.firstName ?? "",
           familyName: user.lastName ?? "",
+          role: ""
         } : undefined,
         loggedMenu,
         notLoggedMenu,

@@ -1,5 +1,5 @@
 import { IconButton, InputBase, InputBaseProps, Paper, PaperProps } from '@mui/material'
-import { iconPackSrc, PngIcon } from '../Icons'
+import { iconPackSrc, Icon } from '../Icons'
 import { ChangeEvent, useCallback, useState } from 'react'
 
 export interface SearchFilterProps extends InputBaseProps {
@@ -70,7 +70,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 inputProps={{ 'aria-label': placeholder }}
             />
             <IconButton sx={{color: "black"}} onClick={onSearchMemo} type="button" aria-label="search">
-                <PngIcon src={iconPackSrc.search} size="big" />
+                <Icon src={iconPackSrc.search} size="big" />
             </IconButton>
         </Paper>
     )

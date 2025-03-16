@@ -17,8 +17,6 @@ import { TMSMenuItems } from '../hooks'
 import { LocalTheme } from '../utils'
 import { DropdownMenu, someItemsSelected } from '../DropdownMenu'
 
-
-
 interface MenuProps extends ListProps {
     menu: TMSMenuItems[]
 }
@@ -33,7 +31,7 @@ export const Menu = (props: MenuProps) => {
                     key={item.key}
                 />
             )),
-        [classes, menu]
+        [menu]
     )
     return <List
         sx={{

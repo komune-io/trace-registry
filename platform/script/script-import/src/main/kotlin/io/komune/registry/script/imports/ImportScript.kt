@@ -122,10 +122,10 @@ class ImportScript(
     }
 
 
-    private suspend fun initCatalogues(importContext: ImportContext) {
-        val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return
+    private suspend fun initCatalogues(importContext: ImportContext): List<CatalogueDTOBase> {
+        val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return emptyList()
 
-        catalogues.forEach { catalogueData ->
+        return catalogues.map { catalogueData ->
             importCatalogue(catalogueData, importContext)
         }
     }
@@ -211,7 +211,8 @@ class ImportScript(
         importContext: ImportContext
     ): SimpleFile? {
         val imageContent = catalogueData.img?.let { getImage(it, importContext) }
-        val imageFile = imageContent?.let { SimpleFile("image", it) }
+        val fileExtension = catalogueData.img?.let { File(it).extension }
+        val imageFile = imageContent?.let { SimpleFile("image.${fileExtension}", it) }
         return imageFile
     }
 

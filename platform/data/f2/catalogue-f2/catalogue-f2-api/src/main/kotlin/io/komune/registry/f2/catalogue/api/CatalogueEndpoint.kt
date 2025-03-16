@@ -181,6 +181,16 @@ class CatalogueEndpoint(
         fsService.getCatalogueFilePath(catalogueId)
     }
 
+    @PermitAll
+    @GetMapping("/data/catalogues/{catalogueId}/img/{imageName}")
+    suspend fun catalogueImgDownload(
+        @PathVariable catalogueId: CatalogueId,
+        @PathVariable imageName: String
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("catalogueImgDownload: $catalogueId, $imageName")
+        fsService.getCatalogueFilePath(catalogueId, imageName)
+    }
+
     @PostMapping("/data/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,

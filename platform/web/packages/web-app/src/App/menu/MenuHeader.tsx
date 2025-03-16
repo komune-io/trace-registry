@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { getMenu, MenuItem } from '.'
 import { useCatalogueDraftPageQuery } from 'domain-components'
 
-export const usePersonnalMenu = (t: TFunction) => {
+export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
 
     const { cataloguesToVerify, cataloguesContributions } = useRoutesDefinition()
@@ -53,7 +53,7 @@ export const MenuHeader = () => {
 
     const { t } = useTranslation()
 
-    const personnalMenu = usePersonnalMenu(t)
+    const personalMenu = usePersonalMenu(t)
 
     const items = useMemo((): TMSMenuItem[] => [{
         key: "newSystem",
@@ -101,7 +101,7 @@ export const MenuHeader = () => {
                 sx={{
                     width: "100%"
                 }}
-                menu={personnalMenu}
+                menu={personalMenu}
             />
         </Stack>
     )
