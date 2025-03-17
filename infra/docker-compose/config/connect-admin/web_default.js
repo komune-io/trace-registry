@@ -12,7 +12,7 @@ window._env_ = {
       url: "${PUBLIC_URL_KC}"
     },
     applications: [{
-      name: "Wiki 100 Millions",
+      name: "${REGISTRY_APP_NAME}",
       url: "${PUBLIC_URL_REGISTRY}",
       icon: "${PUBLIC_URL_REGISTRY}/favicon.ico",
     }],
