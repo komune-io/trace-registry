@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DatasetCreateCommand(
     val identifier: String,
-    val title: String,
+    val title: String?,
     val type: String,
     val description: String? = null,
     val language: String,
@@ -36,7 +36,7 @@ data class DatasetCreateCommand(
 
 sealed interface DatasetDataEvent : DatasetEvent {
     override val id: DatasetId
-    val title: String
+    val title: String?
     val type: String
     val description: String?
     val language: String
@@ -65,7 +65,7 @@ sealed interface DatasetDataEvent : DatasetEvent {
 data class DatasetCreatedEvent(
     override val id: DatasetId,
     val identifier: String,
-    override val title: String,
+    override val title: String?,
     override val type: String,
     override val description: String? = null,
     override val language: String,

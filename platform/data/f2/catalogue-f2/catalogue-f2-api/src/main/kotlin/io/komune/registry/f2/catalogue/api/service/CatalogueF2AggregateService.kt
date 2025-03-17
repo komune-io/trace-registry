@@ -427,9 +427,13 @@ class CatalogueF2AggregateService(
 
         datasets.map { dataset ->
             val identifier = "$parentIdentifier${dataset.identifierSuffix}"
-            DatasetCreateCommand(
+            val title = dataset.title?.get(language) ?: ""
+            val all = datasetFinderService.listByIdentifier(identifier)
+            val existing = all.find { it.language == language }
+
+            existing?.id ?: DatasetCreateCommand(
                 identifier = identifier,
-                title = identifier,
+                title = title,
                 type = dataset.type,
                 language = language,
                 format = null,
@@ -554,7 +558,9 @@ class CatalogueF2AggregateService(
 
         val datasetId = if (originalDatasetId == null) {
             draftedDataset.toCreateCommand(draftedDatasetIdentifier)
-                .let { datasetAggregateService.create(it).id }
+                .let {
+                    datasetAggregateService.create(it).id
+                }
         } else {
             draftedDataset.toUpdateCommand(originalDatasetId)
                 .let { datasetAggregateService.update(it).id }

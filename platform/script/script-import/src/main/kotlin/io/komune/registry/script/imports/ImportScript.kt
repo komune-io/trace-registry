@@ -15,10 +15,10 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
+import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
-import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -218,34 +218,17 @@ class ImportScript(
 
     private suspend fun importDataset(
         catalogue: CatalogueDTOBase,
-        dataset: CatalogueDatasetSettings,
+        datasetSettings: CatalogueDatasetSettings,
         directory: File
     ) {
-        dataset.translations.forEach { (language, path) ->
+        datasetSettings.translations.forEach { (language, path) ->
             val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
                 ?: return@forEach
 
-            val identifier = "${catalogue.identifier}-$language-${dataset.type}"
-
-            val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
-                .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-                .item
-
-            if (existingDataset != null) {
-                return@forEach
-            }
-
-            val datasetId = DatasetCreateCommandDTOBase(
-                identifier = identifier,
-                catalogueId = catalogue.id,
-                type = dataset.type,
-                title = "",
-                language = language,
-            ).invokeWith(dataClient.dataset.datasetCreate()).id
-
-            when (dataset.mediaType) {
+            val dataset = initDataset(language, datasetSettings, catalogue)
+            when (datasetSettings.mediaType) {
                 "text/markdown" -> {
-                    val resourceDatasetId = dataset.resourcesDataset
+                    val resourceDataset = datasetSettings.resourcesDataset
                         ?.let {
                             importRepository.getOrCreateDataset(
                                 identifier = "${catalogue.identifier}-$language-$it",
@@ -254,18 +237,18 @@ class ImportScript(
                                 language = language,
                                 type = "resources",
                             )
-                        } ?: datasetId
+                        } ?: dataset
 
                     createMarkdownDatasetMediaDistribution(
-                        datasetId = datasetId,
-                        resourcesDatasetId = resourceDatasetId,
-                        datasetSettings = dataset,
+                        dataset = dataset,
+                        resourcesDataset = resourceDataset,
+                        datasetSettings = datasetSettings,
                         file = file
                     )
                 }
                 else -> importRepository.createDatasetMediaDistribution(
-                    datasetId = datasetId,
-                    mediaType = dataset.mediaType,
+                    dataset = dataset,
+                    mediaType = datasetSettings.mediaType,
                     file = file.toSimpleFile()
                 )
             }
@@ -273,10 +256,35 @@ class ImportScript(
 
     }
 
+    suspend fun initDataset(language: String, dataset: CatalogueDatasetSettings, catalogue: CatalogueDTOBase): DatasetDTOBase {
+        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
+        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
+            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+            .item
+
+        if (existingDataset != null) {
+            return existingDataset
+        }
+
+        val title = dataset.title?.get(language)
+        println("Creating dataset[$identifier] $title")
+        DatasetCreateCommandDTOBase(
+            identifier = identifier,
+            catalogueId = catalogue.id,
+            type = dataset.type,
+            title = title,
+            language = language,
+        ).invokeWith(dataClient.dataset.datasetCreate())
+
+        return DatasetGetByIdentifierQuery(identifier, language)
+            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+            .item!!
+    }
+
     @Suppress("NestedBlockDepth")
     private suspend fun createMarkdownDatasetMediaDistribution(
-        datasetId: DatasetId,
-        resourcesDatasetId: DatasetId,
+        dataset: DatasetDTOBase,
+        resourcesDataset: DatasetDTOBase,
         datasetSettings: CatalogueDatasetSettings,
         file: File
     ) {
@@ -323,11 +331,11 @@ class ImportScript(
                 }
 
                 val distributionId = importRepository.createDatasetMediaDistribution(
-                    datasetId = resourcesDatasetId,
+                    dataset = resourcesDataset,
                     mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
                     file = resourceFile.toSimpleFile()
                 )
-                val url = "${registryApiPath}data/datasetDownloadDistribution/$resourcesDatasetId/$distributionId"
+                val url = "${registryApiPath}data/datasetDownloadDistribution/${resourcesDataset.id}/$distributionId"
                 logger.info("Catalogue[$path] replace by: $url")
                 matchedPathToActualPath[path] = url
             }
@@ -336,7 +344,7 @@ class ImportScript(
         }
 
         importRepository.createDatasetMediaDistribution(
-            datasetId = datasetId,
+            dataset = dataset,
             mediaType = "text/markdown",
             file = SimpleFile(file.name, modifiedText.toByteArray())
         )

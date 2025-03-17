@@ -14,6 +14,7 @@ data class CatalogueImportSettings(
 )
 
 data class CatalogueDatasetSettings(
+    val title: Map<Language, String>?,
     val type: String,
     val mediaType: String,
     val translations: Map<Language, String>,

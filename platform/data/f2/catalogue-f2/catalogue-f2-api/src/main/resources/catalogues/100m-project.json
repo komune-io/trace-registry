@@ -11,9 +11,25 @@
   "i18n": {
     "enable": true,
     "translationType": "100m-translation",
-    "datasets": [{
-      "type": "graphs",
-      "identifierSuffix": "-graphs"
-    }]
+    "datasets": [
+      {
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Informations",
+          "en": "Informations",
+          "es": "Informaciones"
+        }
+      },
+      {
+        "type": "graphs",
+        "identifierSuffix": "-graphs",
+        "title": {
+          "fr": "Graphiques",
+          "en": "Charts",
+          "es": "Gráficos"
+        }
+      }
+    ]
   }
 }

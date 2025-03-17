@@ -40,7 +40,7 @@ interface DatasetCreateCommandDTO {
     /**
      * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.title]
      */
-    val title: String
+    val title: String?
 
     /**
      * @ref [io.komune.registry.f2.dataset.domain.dto.DatasetDTO.type]
@@ -81,7 +81,7 @@ data class DatasetCreateCommandDTOBase(
     override val identifier: DatasetIdentifier?,
     override val parentId: DatasetId? = null,
     override val catalogueId: CatalogueId? = null,
-    override val title: String,
+    override val title: String?,
     override val type: String,
     override val description: String? = null,
     override val language: String,

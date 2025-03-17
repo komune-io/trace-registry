@@ -1,10 +1,10 @@
 import {
   CatalogueBreadcrumbs,
-  CatalogueInformation, CatalogueGrid, useCataloguePageQuery,
+  CatalogueGrid, useCataloguePageQuery,
   useCatalogueDraftCreateCommand,
   DraftReplacementModal,
   useCatalogueDraftDeleteCommand,
-  Catalogue,
+  Catalogue, DatasetDataSection,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -18,9 +18,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { LinkButton } from '@komune-io/g2'
 import {useLocation} from "react-router";
 
-const tabKeys = ['info', 'subCatalogues']
-
-type TabKeys = (typeof tabKeys)[number];
 
 interface CatalogueViewPageProps {
   catalogue: Catalogue
@@ -40,27 +37,30 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
     const navigate = useNavigate()
     const location = useLocation();
 
-    const currentTab = useMemo(() => {
-        const tab = location.hash.replace('#', '')
-        return !tab || tab === '' ? "info" : tab
-      },
-      [location]
-    )
-
     const { cataloguesTab } = useRoutesDefinition()
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
         navigate(cataloguesTab(value, ...ids))
     }, [ids])
 
-    // TODO Disable Dataset table, let's see if it's useful for rowgraph
-    // const datasetTab: Tab[] = catalogue?.datasets?.map((dataset) => {
-    //     return {
-    //         key: dataset.identifier,
-    //         label: dataset.title,
-    //         component: (<DatasetDataSection item={dataset} isLoading={false} />)
-    //     }
-    // }) ?? []
+    const datasetTab: Tab[] = catalogue?.datasets
+      ?.filter((it) => {
+        return it.title != undefined && it.title != ""
+      })
+      ?.map((dataset) => {
+        return {
+            key: dataset.identifier,
+            label: dataset.title,
+            component: (<DatasetDataSection catalogue={catalogue} item={dataset} isLoading={false} />)
+        }
+    }) ?? []
 
+
+  const currentTab = useMemo(() => {
+      const tab = location.hash.replace('#', '')
+      return !tab || tab === '' ? datasetTab[0]?.key : tab
+    },
+    [location]
+  )
 
     const { data } = useCataloguePageQuery({
         query: {
@@ -74,18 +74,14 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
 
     const items = data?.items ?? []
     const tabs: Tab[] = useMemo(() => {
-        const tabs: Tab[] = [{
-            key: 'info' as TabKeys,
-            label: t('informations'),
-            component: (<CatalogueInformation
-                catalogue={catalogue}
-            />)
-        }, ...maybeAddItem(items.length > 0, {
-            key: 'subCatalogues' as TabKeys,
+        const tabs: Tab[] = [
+          ...datasetTab
+          , ...maybeAddItem(items.length > 0, {
+            key: 'subCatalogues',
             label: t('subCatalogues'),
             component: (<CatalogueGrid items={data?.items} isLoading={false} />)
         })
-            // , ...datasetTab
+
         ]
         return tabs
     }, [t, data, catalogue])
