@@ -13,7 +13,7 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
     secondary: config().theme?.colors?.secondary ?? "#353945",
     background: config().theme?.colors?.background ?? "#FFFFFF",
   },
-  logoUrl: config().theme.logo.url,
+  logoUrl: config().theme?.logo?.url ?? "/trace.png",
   shadows: [
     "none",
     "0px 4px 8px 0px #E4DEE7",

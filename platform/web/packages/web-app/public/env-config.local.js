@@ -21,5 +21,8 @@ window._env_ = {
             secondary: "#353945",
             background: "#FFFFFF"
         }
+    },
+    logo: {
+        url: "/trace.png",
     }
 };

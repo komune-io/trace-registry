@@ -37,7 +37,7 @@ export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: Perman
                     gap: "10px"
                 }}
             >
-                <img src={config().theme.logo.url} style={{width: "154px", height: "54px"}} alt="platform log" />
+                <img src={config()?.theme?.logo?.url ?? "trace.png"} style={{width: "154px", height: "54px"}} alt="platform log" />
             </Link>
             <IconButton sx={{color: "black"}} onClick={toggleOpenDrawer}>
                 <Menu />
