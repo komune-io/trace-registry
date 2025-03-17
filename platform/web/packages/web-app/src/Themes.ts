@@ -11,7 +11,7 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
     background: config().theme?.colors?.background ?? "#FFFFFF",
   },
   permanentHeader: PermanentHeader,
-  logoUrl: config().logo,
+  logoUrl: config().theme.logo.url,
   shadows: [
     "none",
     "0px 4px 8px 0px #E4DEE7",

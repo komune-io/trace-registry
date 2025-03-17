@@ -4,13 +4,15 @@ export interface PlatformConfig {
 
 export interface Config {
     platform: PlatformConfig
-    theme?: ThemeConfig
-    logo: string
+    theme: ThemeConfig
 }
 
 export interface ThemeConfig {
     colors?: ThemeColorsConfig,
     rotation?: string
+    logo: {
+        url: string
+    }
 }
 
 export interface ThemeColorsConfig {
