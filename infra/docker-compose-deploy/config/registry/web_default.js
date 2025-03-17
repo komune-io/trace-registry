@@ -17,12 +17,12 @@ window._env_ = {
   },
   theme: {
     colors: {
-      primary: "#492161",
-      secondary: "#353945",
-      background: "#F6F4F7"
+      primary: "#${REGISTRY_THEME_COLORS_PRIMARY}",
+      secondary: "#${REGISTRY_THEME_COLORS_SECONDARY}",
+      background: "#${REGISTRY_THEME_COLORS_BACKGROUND}"
     },
     logo: {
-      url: "${PUBLIC_URL_REGISTRY}/logo.svg",
+      url: "/${REGISTRY_THEME_LOGO_FILE}",
     }
   }
 };

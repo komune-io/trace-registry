@@ -6,6 +6,8 @@ services:
         target: /var/www/env-config.js
       - source: registry_web_oidc_config
         target: /var/www/OidcTrustedDomains.js
+      - source: registry_web_logo
+        target: /var/www/${REGISTRY_THEME_LOGO_FILE}
     labels:
       traefik.enable: "true"
       traefik.http.services.registry-web.loadbalancer.server.port: "80"
@@ -26,3 +28,5 @@ configs:
     file: ./build/config/registry/web_default.js
   registry_web_oidc_config:
     file: ./build/config/registry/OidcTrustedDomains.js
+  registry_web_logo:
+    file: ./build/config/registry/${REGISTRY_THEME_LOGO_FILE}
