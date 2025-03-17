@@ -1,16 +1,18 @@
 
-import {type FormEventHandler, useCallback, useMemo, useState} from "react";
+import { type FormEventHandler, useCallback, useMemo, useState } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-import {Action, FormComposable, FormComposableField, useFormComposable, validators} from "@komune-io/g2";
-import {useTranslation} from "react-i18next";
-import {maybeAddItem} from "./LoginConfigTotp.tsx";
+import { FormComposable, FormComposableField, useFormComposable, validators } from "@komune-io/g2";
+import { useTranslation } from "react-i18next";
+import { maybeAddItem } from "./LoginConfigTotp.tsx";
+import { CustomButton } from "../CustomButton";
+import { Typography } from "@mui/material";
 
 export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "login-otp.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const { otpLogin, url, messagesPerField, auth } = kcContext;
 
   const { msg, msgStr } = i18n;
@@ -24,21 +26,6 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
     }
   })
 
-  const actions = useMemo((): Action[] => {
-    return [{
-      key: "login",
-      label: msgStr("doLogIn"),
-      type: "submit",
-      sx: {
-        width: "90%",
-        alignSelf: "center",
-        mt: 1
-      },
-      isLoading: isAuthenticating,
-      size: "large"
-    }]}, [isAuthenticating, msgStr])
-
-
   const fields = useMemo((): FormComposableField[] => {
     return [...maybeAddItem<FormComposableField>(otpLogin.userOtpCredentials.length > 1, {
       name: "selectedCredentialId",
@@ -50,7 +37,7 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
 
         }))
       },
-    }),{
+    }), {
       name: "otp",
       type: "textField",
       label: msgStr("loginOtpOneTime"),
@@ -83,6 +70,11 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
       displayMessage={!messagesPerField.existsError("totp")}
       headerNode={auth?.attemptedUsername ?? msg("doLogIn")}
     >
+      <Typography
+      variant="body2"
+      >
+        {msgStr("loginOtpInfo")}
+      </Typography>
       <FormComposable
         sx={{
           "& .AruiActions-Wrapper": {
@@ -91,11 +83,23 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
         }}
         fields={fields}
         formState={formState}
-        actions={actions}
         action={url.loginAction}
         method="post"
         onSubmit={onSubmit}
-      />
+      >
+        <CustomButton
+          type="submit"
+          sx={{
+            width: "80%",
+            alignSelf: "center",
+            mt: 2
+          }}
+          isLoading={isAuthenticating}
+          size="large"
+        >
+          {msgStr("doLogIn")}
+        </CustomButton>
+      </FormComposable>
     </Template>
   );
 }

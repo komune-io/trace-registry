@@ -2,11 +2,12 @@
 import { useMemo, useCallback, useState, type FormEventHandler } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { I18n } from "../i18n";
-import { FormComposableField, useFormComposable, FormComposable, Action, Link, validators } from "@komune-io/g2";
+import { FormComposableField, useFormComposable, FormComposable, Link, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material"
 import { KcContext } from "../KcContext";
-import {getKcClsx} from "keycloakify/login/lib/kcClsx";
+import { getKcClsx } from "keycloakify/login/lib/kcClsx";
+import { CustomButton } from "../CustomButton";
 
 export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes, } = props;
@@ -45,15 +46,15 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
             },
             validator: validators.requiredField(t),
             customDisplay: (input) => (
-              <Stack
-                gap={2}
-                alignItems="flex-end"
-              >
-                  {input}
-                  {auth !== undefined && auth.showUsername && !auth.showResetCredentials &&
-                    <LoginRestartFlowButton {...props}/>
-                  }
-              </Stack>
+                <Stack
+                    gap={2}
+                    alignItems="flex-end"
+                >
+                    {input}
+                    {auth !== undefined && auth.showUsername && !auth.showResetCredentials &&
+                        <LoginRestartFlowButton {...props} />
+                    }
+                </Stack>
             )
         }, {
             name: "credentialId",
@@ -80,21 +81,6 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
         }
         ]
     }, [realm, msgStr, usernameHidden, t])
-
-    const actions = useMemo((): Action[] => {
-        return [{
-            key: "logIn",
-            label: msgStr("signIn"),
-            type: "submit",
-            sx: {
-                width: "90%",
-                alignSelf: "center",
-                mt: 1
-            },
-            isLoading: isAuthenticating,
-            size: "large"
-        }]
-    }, [isAuthenticating, msgStr])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
         e.preventDefault();
@@ -128,37 +114,49 @@ export const Login = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" 
                 }}
                 fields={fields}
                 formState={formState}
-                actions={actions}
                 action={url.loginAction}
                 method="post"
                 onSubmit={onSubmit}
-            />
-            <Link
-                    variant="body2"
-                    href={url.registrationUrl}
+            >
+                <CustomButton
+                    type="submit"
                     sx={{
-                        color: "#828282",
-                        textDecoration: "unset !important",
-                        mt: -1,
-                        alignSelf: "center"
+                        width: "80%",
+                        alignSelf: "center",
+                        mt: 2
                     }}
+                    isLoading={isAuthenticating}
+                    size="large"
                 >
-                    {`${msgStr("dontHaveAccount")} `}
-                    <span
+                    {msgStr("signIn")}
+                </CustomButton>
+            </FormComposable>
+            <Link
+                variant="body2"
+                href={url.registrationUrl}
+                sx={{
+                    color: "#828282",
+                    textDecoration: "unset !important",
+                    mt: -1,
+                    alignSelf: "center"
+                }}
+            >
+                {`${msgStr("dontHaveAccount")} `}
+                <span
                     style={{
                         textDecoration: "underline"
                     }}
-                    >
-                       {msgStr("signUp")}
-                    </span>
-                </Link>
+                >
+                    {msgStr("signUp")}
+                </span>
+            </Link>
         </Template>
     );
 }
 
 
 export const LoginRestartFlowButton = (props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) => {
-    const { kcContext, i18n, doUseDefaultCss, classes} = props;
+    const { kcContext, i18n, doUseDefaultCss, classes } = props;
 
     const { url } = kcContext;
 
@@ -169,9 +167,9 @@ export const LoginRestartFlowButton = (props: PageProps<Extract<KcContext, { pag
     });
 
     return (
-      <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
-          <Link sx={{ color: "#828282", }} variant="caption" href={url.loginRestartFlowUrl}>{msgStr("restartLoginTooltip")}</Link>
-      </div>
+        <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
+            <Link sx={{ color: "#828282", }} variant="caption" href={url.loginRestartFlowUrl}>{msgStr("restartLoginTooltip")}</Link>
+        </div>
     );
 }
 

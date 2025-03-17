@@ -3,10 +3,11 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useCallback, useMemo, useState } from "react";
-import { Button, FormComposable, FormComposableField, Link, useFormComposable, validators } from "@komune-io/g2";
+import { FormComposable, FormComposableField, Link, useFormComposable, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Stack, Typography } from "@mui/material";
 import { UserOnboardCommand, useUserOnboardCommand } from "../api";
+import { CustomButton } from "../CustomButton";
 
 export const Register = (props: PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -132,15 +133,15 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 gap={2}
                 alignItems="center"
             >
-               {!success && <Button
+               {!success && <CustomButton
                     onClick={formState.submitForm}
                     sx={{
-                        width: "90%",
+                        width: "80%",
                     }}
                     size="large"
                 >
                     {msgStr("signUp")}
-                </Button>}
+                </CustomButton>}
                 <Link
                     variant="body2"
                     href={url.loginUrl}

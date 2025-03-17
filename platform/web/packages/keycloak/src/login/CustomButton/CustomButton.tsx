@@ -1,7 +1,6 @@
 import { Button, ButtonProps, useTheme } from '@komune-io/g2'
 import { forwardRef } from 'react';
-import { LocalTheme } from '../utils';
-
+import { LocalTheme } from '../../Themes';
 
 export const CustomButton = forwardRef((props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
   const { sx, children, size, ...other } = props

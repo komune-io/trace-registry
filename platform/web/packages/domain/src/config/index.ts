@@ -1,4 +1,3 @@
-
 export interface PlatformConfig {
     url: string
 }
@@ -6,10 +5,12 @@ export interface PlatformConfig {
 export interface Config {
     platform: PlatformConfig
     theme?: ThemeConfig
+    logo: string
 }
 
 export interface ThemeConfig {
     colors?: ThemeColorsConfig,
+    rotation?: string
 }
 
 export interface ThemeColorsConfig {
@@ -17,7 +18,6 @@ export interface ThemeColorsConfig {
     secondary?: string,
     background?: string
 }
-
 
 // @ts-ignore
 export const config: () => Config = () => window._env_.config

@@ -22,7 +22,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             signUp: "Sign up",
             registerTitle: "Welcome on board !",
             optionnal: "(optionnal)",
-            signInTitle: "Log in to your account",
+            signInTitle: "Sign in",
             dontHaveAccount: "Don't have an account ?",
             proceedWithAction: "Click here to proceed",
             emailNeedValidation: "Your account has been created, a validation email has been sent to your email address. You must validate it before signing in the application.",
@@ -40,7 +40,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep2: "Open the application and enter the following key:",
             loginTotpManualStep3: "Use the following configuration values if the application allows setting them:",
             loginTotpStep3DeviceName: "Provide a Device Name to help you manage your OTP devices.",
-            loginTotpScanBarcode: "Scan a qr code instead"
+            loginTotpScanBarcode: "Scan a qr code instead",
+            loginOtpInfo: "Please enter the code provided by your authentication app."
         },
         fr: {
             emailForgotTitle: "Réinitialisation de votre mot de passe ?",
@@ -54,11 +55,11 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             resetPasswordNote: "Note: Assurez vous de renseigner l'adresse mail que vous avez utilisé pour créer votre compte.",
             resetPasswordSend: "Envoyer les instructions de renouvellement",
             alreadyHaveAccount: "Vous avez déjà un compte ?",
-            signIn: "Se connecter",
+            signIn: "Connexion",
             registerTitle: "Bienvenu(e) à bord !",
             optionnal: "(optionnel)",
             signUp: "Je m'inscris",
-            signInTitle: "Connexion à votre compte",
+            signInTitle: "Connexion",
             dontHaveAccount: "Vous n'avez pas de compte ?",
             proceedWithAction: "Cliquez ici pour continuer",
             emailNeedValidation: "Votre compte a été créé, un email de validation a été envoyé à votre adresse email. Vous devez le valider avant de pouvoir vous connecter à l'application.",
@@ -76,7 +77,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep2: "Ouvrez l'application et saisissez la clé ci-dessous:",
             loginTotpManualStep3: "Utilisez les valeurs de configuration suivantes si l'application permet leurs éditions:",
             loginTotpStep3DeviceName: "Renseignez le nom de l'appareil pour vous aider à gérer vos appareils OTP.",
-            loginTotpScanBarcode: "Scanner un qr code à la place"
+            loginTotpScanBarcode: "Scanner un qr code à la place",
+            loginOtpInfo: "Veuillez saisir le code fourni par votre application d’authentification."
         },
         es: {
             emailForgotTitle: "¿Restablecer la contraseña?",
@@ -90,11 +92,11 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             resetPasswordNote: "Nota: Asegúrese de proporcionar la dirección de correo electrónico que utilizó para crear su cuenta.",
             resetPasswordSend: "Enviar instrucciones de restablecimiento",
             alreadyHaveAccount: "¿Ya tienes una cuenta?",
-            signIn: "Iniciar sesión",
+            signIn: "Conexión",
             signUp: "Registrarse",
             registerTitle: "¡Bienvenido a bordo!",
             optionnal: "(opcional)",
-            signInTitle: "Inicia sesión en tu cuenta",
+            signInTitle: "Conexión",
             dontHaveAccount: "¿No tienes una cuenta?",
             proceedWithAction: "Haga clic aquí para continuar",
             emailNeedValidation: "Su cuenta ha sido creada, se ha enviado un correo electrónico de validación a su dirección de correo electrónico. Debe validarlo antes de iniciar sesión en la aplicación.",
@@ -112,7 +114,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep2: "Abra la aplicación e ingrese la siguiente clave:",
             loginTotpManualStep3: "Utilice los siguientes valores de configuración si la aplicación permite configurarlos:",
             loginTotpStep3DeviceName: "Proporcione un nombre de dispositivo para ayudarle a gestionar sus dispositivos OTP.",
-            loginTotpScanBarcode: "Escanear un código QR en su lugar"
+            loginTotpScanBarcode: "Escanear un código QR en su lugar",
+            loginOtpInfo: "Por favor, introduzca el código proporcionado por su aplicación de autenticación."
         }
     })
     .build();
