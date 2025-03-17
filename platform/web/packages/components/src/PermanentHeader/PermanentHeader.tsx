@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom"
 import { Menu } from "@mui/icons-material";
 import {ElementType} from "react";
 import {Link} from "@komune-io/g2"
-import { LogoIcon } from "../Icons";
+import { config } from "domain-components";
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
@@ -37,7 +37,7 @@ export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: Perman
                     gap: "10px"
                 }}
             >
-                <LogoIcon sx={{width: "154px", height: "54px"}} />
+                <img src={config().logo} style={{width: "154px", height: "54px"}} alt="platform log" />
             </Link>
             <IconButton sx={{color: "black"}} onClick={toggleOpenDrawer}>
                 <Menu />

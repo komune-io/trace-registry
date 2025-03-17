@@ -1,6 +1,7 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
+import { config } from "./config";
 
 export type LocalTheme = {
   rotation: string
@@ -8,11 +9,11 @@ export type LocalTheme = {
 
 export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
   colors: {
-    primary: "#000000",
-    secondary: "#353945",
-    background: "#FFFFFF",
+    primary: config().theme?.colors?.primary ?? "#000000",
+    secondary: config().theme?.colors?.secondary ?? "#353945",
+    background: config().theme?.colors?.background ?? "#FFFFFF",
   },
-  logoUrl: "/logo.svg",
+  logoUrl: config().logo,
   shadows: [
     "none",
     "0px 4px 8px 0px #E4DEE7",
@@ -29,7 +30,7 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
     '0px 15px 52px rgba(0, 0, 0, 0.31)'
   ],
   local: {
-    rotation: "rotate(-2deg)"
+    rotation: config().theme?.rotation ?? "rotate(-2deg)"
   }
 };
 
