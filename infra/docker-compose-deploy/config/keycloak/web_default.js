@@ -5,9 +5,9 @@ window._env_ = {
     },
     theme: {
       colors: {
-        primary: "${REGISTRY_THEME_COLORS_PRIMARY}",
-        secondary: "${REGISTRY_THEME_COLORS_SECONDARY}",
-        background: "${REGISTRY_THEME_COLORS_BACKGROUND}"
+        primary: "#${REGISTRY_THEME_COLORS_PRIMARY}",
+        secondary: "#${REGISTRY_THEME_COLORS_SECONDARY}",
+        background: "#${REGISTRY_THEME_COLORS_BACKGROUND}"
       },
       logo: {
         url: "${PUBLIC_URL_REGISTRY}/${REGISTRY_THEME_LOGO_FILE}",
