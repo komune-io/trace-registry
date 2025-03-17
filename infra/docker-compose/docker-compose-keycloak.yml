@@ -18,6 +18,8 @@ services:
       JDBC_PARAMS: "ssl=false"
 #      KC_HOSTNAME_STRICT_HTTPS: "false"
       KC_HOSTNAME_STRICT_HTTPS: "true"
+#    command:
+#      - "--log-level=trace"
     labels:
       traefik.enable: "true"
       traefik.http.services.im-keycloak.loadbalancer.server.port: "8080"
