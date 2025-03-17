@@ -2,8 +2,9 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useMemo, useCallback, type FormEventHandler, useState } from "react";
-import { FormComposableField, useFormComposable, FormComposable, Action, validators } from "@komune-io/g2";
+import { FormComposableField, useFormComposable, FormComposable, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
+import { CustomButton } from "../CustomButton";
 
 export const LoginUpdatePassword = (props: PageProps<Extract<KcContext, { pageId: "login-update-password.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -34,7 +35,7 @@ export const LoginUpdatePassword = (props: PageProps<Extract<KcContext, { pageId
                 textFieldType: "password",
             },
             validator: validators.password(t)
-        },{
+        }, {
             name: "password-confirm",
             type: "textField",
             label: msgStr("passwordConfirm"),
@@ -44,23 +45,6 @@ export const LoginUpdatePassword = (props: PageProps<Extract<KcContext, { pageId
             validator: validators.passwordCheck(t),
         }]
     }, [realm, msgStr, t])
-
-    const actions = useMemo((): Action[] => {
-        return [...(isAppInitiatedAction ? [{
-            key: "cancel",
-            label: msgStr("doCancel"),
-            type: "submit",
-            isLoading: isLoading,
-            name: "cancel-aia",
-            value: "true",
-            variant: "text"
-        }as Action] : [] ), {
-            key: "logIn",
-            label: msgStr("doRegister"),
-            type: "submit",
-            isLoading: isLoading
-        }]
-    }, [isLoading, msgStr, isAppInitiatedAction])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
         e.preventDefault();
@@ -88,11 +72,42 @@ export const LoginUpdatePassword = (props: PageProps<Extract<KcContext, { pageId
             <FormComposable
                 fields={fields}
                 formState={formState}
-                actions={actions}
                 action={url.loginAction}
                 method="post"
                 onSubmit={onSubmit}
-            />
+            >
+                {isAppInitiatedAction && (
+                    <CustomButton
+                        type="submit"
+                        sx={{
+                            width: "80%",
+                            alignSelf: "center",
+                            mt: 1
+                        }}
+                        isLoading={isLoading}
+                        name="cancel-aia"
+                        value="true"
+                        size="large"
+                        variant="text"
+                    >
+                        {msgStr("doCancel")}
+                    </CustomButton>
+                )}
+                <CustomButton
+                    type="submit"
+                    sx={{
+                        width: "80%",
+                        alignSelf: "center",
+                        mt: 2
+                    }}
+                    isLoading={isLoading}
+                    size="large"
+                    disabled={isAppInitiatedAction}
+                >
+                    {msgStr("doRegister")}
+                </CustomButton>
+                
+            </FormComposable>
         </Template>
     );
 }

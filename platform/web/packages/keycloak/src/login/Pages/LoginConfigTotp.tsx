@@ -3,9 +3,10 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { type FormEventHandler, useCallback, useMemo, useState } from "react";
-import { Action, FormComposable, FormComposableField, Link, useFormComposable, validators } from "@komune-io/g2";
+import { FormComposable, FormComposableField, Link, useFormComposable, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Stack, Typography } from "@mui/material";
+import { CustomButton } from "../CustomButton";
 
 export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pageId: "login-config-totp.ftl" }>, I18n>) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -27,34 +28,6 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
       initialValues
     }
   })
-
-  const actions = useMemo((): Action[] => {
-    return [{
-      key: "logIn",
-      label: msgStr("doSubmit"),
-      type: "submit",
-      sx: {
-        width: "90%",
-        alignSelf: "center",
-        mt: 1
-      },
-      isLoading: isAuthenticating,
-      size: "large"
-    }, ...maybeAddItem<Action>(!!isAppInitiatedAction, {
-      key: "cancelTOTPBtn",
-      label: msgStr("doCancel"),
-      type: "submit",
-      sx: {
-        width: "90%",
-        alignSelf: "center",
-        mt: 1
-      },
-      value: "true",
-      isLoading: isAuthenticating,
-      size: "large"
-    })]
-  }, [isAuthenticating, msgStr])
-
 
   const fields = useMemo((): FormComposableField[] => {
     return [{
@@ -108,11 +81,37 @@ export default function LoginConfigTotp(props: PageProps<Extract<KcContext, { pa
         }}
         fields={fields}
         formState={formState}
-        actions={actions}
         action={url.loginAction}
         method="post"
         onSubmit={onSubmit}
-      />
+      >
+        <CustomButton
+          type="submit"
+          sx={{
+            width: "80%",
+            alignSelf: "center",
+            mt: 2
+          }}
+          isLoading={isAuthenticating}
+          size="large"
+        >
+          {msgStr("doSubmit")}
+        </CustomButton>
+        {isAppInitiatedAction && <CustomButton
+          type="submit"
+          sx={{
+            width: "80%",
+            alignSelf: "center"
+          }}
+          name="cancel-aia"
+          value="true"
+          isLoading={isAuthenticating}
+          size="large"
+          variant="text"
+        >
+          {msgStr("doCancel")}
+        </CustomButton>}
+      </ FormComposable >
     </Template>
   );
 }

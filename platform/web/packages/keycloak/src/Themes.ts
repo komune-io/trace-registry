@@ -1,19 +1,20 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
-import {config} from "./config.ts";
 
-const configTheme = config().theme
-export const theme: DeepPartial<AruiTheme> = {// to complete and to use
+export type LocalTheme = {
+  rotation: string
+}
+
+export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
   colors: {
-    //@ts-ignore
-    primary: configTheme?.colors?.primary ?? "#492161",
-    secondary: configTheme?.colors?.secondary ?? "#353945",
-    background:  configTheme?.colors?.background ?? "#F6F4F7",
+    primary: "#000000",
+    secondary: "#353945",
+    background: "#FFFFFF",
   },
-  logoUrl: "/logo.png",
+  logoUrl: "/logo.svg",
   shadows: [
-    "none", 
+    "none",
     "0px 4px 8px 0px #E4DEE7",
     '0px 5px 12px rgba(0, 0, 0, 0.21)',
     '0px 6px 16px rgba(0, 0, 0, 0.22)',
@@ -27,33 +28,69 @@ export const theme: DeepPartial<AruiTheme> = {// to complete and to use
     '0px 14px 48px rgba(0, 0, 0, 0.3)',
     '0px 15px 52px rgba(0, 0, 0, 0.31)'
   ],
+  local: {
+    rotation: "rotate(-2deg)"
+  }
 };
 
 export const muiTheme: Partial<ThemeOptions> = {
   typography: {
-    fontFamily: '"Lexend", roboto, sans-serif',
+    fontFamily: '"Degular", roboto, sans-serif',
     allVariants: {
       fontWeight: 400,
-      color: "#13151a"
+      color: "#000000"
     },
-    subtitle1: {
-      lineHeight: 1.5
+    body1: {
+      fontSize: "1.125rem",
     },
-    subtitle2: {
-      lineHeight: 1.43
+    body2: {
+      fontSize: "0.938rem",
     },
     caption: {
-      lineHeight: 1.35
+      fontSize: "0.813rem",
+    },
+    subtitle1: {
+      fontSize: "1.188rem",
+    },
+    subtitle2: {
+      fontSize: "1rem",
+    },
+    button: {
+      fontSize: "1rem",
+      fontWeight: 700
+    },
+    h1: {
+      fontSize: "3.25rem",
+      fontWeight: 700
+    },
+    h2: {
+      fontSize: "3rem",
+      fontWeight: 700
+    },
+    h3: {
+      fontSize: "2.625rem",
+      fontWeight: 700
+    },
+    h4: {
+      fontSize: "2rem",
+      fontWeight: 700
+    },
+    h5: {
+      fontSize: "1.375rem",
+      fontWeight: 700
+    },
+    h6: {
+      fontSize: "1.2rem",
+      fontWeight: 700
     }
   },
   components: {
-    MuiButton: {
+    MuiInputLabel: {
       styleOverrides: {
-        contained: {
-          borderRadius: "8px !important"
+        root: {
+          fontSize: "1rem",
         }
-      },
-
+      }
     }
   }
 

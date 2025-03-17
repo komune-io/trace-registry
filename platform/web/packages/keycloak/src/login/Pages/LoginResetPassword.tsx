@@ -2,9 +2,10 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { useMemo, useCallback, type FormEventHandler, useState } from "react";
-import { FormComposableField, useFormComposable, FormComposable, Action, Link, validators } from "@komune-io/g2";
+import { FormComposableField, useFormComposable, FormComposable, Link, validators } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
+import { CustomButton } from "../CustomButton";
 
 export const LoginResetPassword = (props: PageProps<Extract<KcContext, { pageId: "login-reset-password.ftl" }>, I18n>) => {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -37,15 +38,6 @@ export const LoginResetPassword = (props: PageProps<Extract<KcContext, { pageId:
             validator: validators.email(t)
         }]
     }, [realm, msgStr, t])
-
-    const actions = useMemo((): Action[] => {
-        return [{
-            key: "logIn",
-            label: msg("resetPasswordSend"),
-            type: "submit",
-            isLoading: isLoading
-        }]
-    }, [isLoading, msg])
 
     const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>(async (e) => {
         e.preventDefault();
@@ -84,7 +76,6 @@ export const LoginResetPassword = (props: PageProps<Extract<KcContext, { pageId:
             <FormComposable
                 fields={fields}
                 formState={formState}
-                actions={actions}
                 action={url.loginAction}
                 method="post"
                 onSubmit={onSubmit}
@@ -94,6 +85,12 @@ export const LoginResetPassword = (props: PageProps<Extract<KcContext, { pageId:
                 >
                     {msg("resetPasswordNote")}
                 </Typography>
+                <CustomButton
+                    type="submit"
+                    isLoading={isLoading}
+                >
+                    {msgStr("resetPasswordSend")}
+                </CustomButton>
             </FormComposable>
             <Link sx={{ alignSelf: "flex-end" }} variant="body2" href={url.loginUrl}>{msgStr("backToLogin")}</Link>
         </Template>
