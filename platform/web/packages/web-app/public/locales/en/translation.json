@@ -149,8 +149,6 @@
   "file": "File",
   "administration": "Administration",
   "seeAll": "See all",
-  "seeAllSystems": "See all the systems",
-  "seeAllSectors": "See all the sectors",
   "mySheets": "My sheets",
   "roles": {
     "super_admin": "Global admin",
