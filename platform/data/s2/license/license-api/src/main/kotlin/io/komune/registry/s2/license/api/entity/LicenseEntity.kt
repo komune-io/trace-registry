@@ -3,6 +3,7 @@ package io.komune.registry.s2.license.api.entity
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
+import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.s2.license.domain.LicenseState
@@ -10,7 +11,7 @@ import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
 
-@Document("License")
+@Document(RedisTable.LICENSE)
 open class LicenseEntity: WithS2Id<LicenseId>, WithS2State<LicenseState>  {
 
     @Id
