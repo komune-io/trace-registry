@@ -2,6 +2,7 @@ package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
+import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service
 class DatasetAggregateService(
 	private val automate: DatasetAutomateExecutor,
 	private val sequenceRepository: SequenceRepository,
+	private val datasetRepository: DatasetRepository,
 ) {
 
 	companion object {
@@ -38,6 +40,10 @@ class DatasetAggregateService(
 	}
 
 	suspend fun create(command: DatasetCreateCommand): DatasetCreatedEvent = automate.init(command) {
+		val existing = datasetRepository.findByIdentifierAndLanguage(command.identifier, command.language)
+		existing.ifPresent {
+			throw IllegalArgumentException("Dataset with identifier ${command.identifier} and language ${command.language} already exists")
+		}
 		DatasetCreatedEvent(
 			id = "${sequenceRepository.nextValOf(DATASET_ID_SEQUENCE)}-${command.identifier}",
 			date = System.currentTimeMillis(),

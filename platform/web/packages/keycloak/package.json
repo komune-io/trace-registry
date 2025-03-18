@@ -10,7 +10,7 @@
         "storybook": "storybook dev -p 6006",
         "format": "prettier . --write"
     },
-    "license": "MIT",
+    "license": "Apache-2.0",
     "keywords": [],
     "dependencies": {
         "keycloakify": "^11.5.2",

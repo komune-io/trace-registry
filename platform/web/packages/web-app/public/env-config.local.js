@@ -20,6 +20,9 @@ window._env_ = {
             primary: "#492161",
             secondary: "#353945",
             background: "#FFFFFF"
+        },
+        logo: {
+            url: "/logo.svg",
         }
     },
     logo: {

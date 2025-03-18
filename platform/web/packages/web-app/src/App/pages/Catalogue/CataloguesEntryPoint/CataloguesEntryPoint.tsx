@@ -4,68 +4,57 @@ import { ContentIllustrated, LocalTheme, useRoutesDefinition } from 'components'
 import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
-    useCatalogueGetByIdentifierQuery,
     SubCatalogueList,
-    CatalogueTypes,
+    CatalogueTypes, Catalogue,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppPage } from 'template'
 
 interface CataloguesEntryPointProps {
-    identifier: string
+    catalogue: Catalogue
 }
 
 export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
-    const { identifier } = props
+    const { catalogue } = props
     const { t, i18n } = useTranslation()
     const { cataloguesTab } = useRoutesDefinition()
     const theme = useTheme<LocalTheme>()
-    const catalogueGet = useCatalogueGetByIdentifierQuery({
-        query: {
-            identifier: identifier,
-            language: i18n.language
-        }
-    })
 
-    const catalogue = catalogueGet.data?.item
-
-    const title = identifier === "100m-systems" ? t('systems') : t('sectors')
-
-    const typeFilter = identifier === "100m-systems" ? ["100m-system"] as CatalogueTypes[] : ["100m-sector"] as CatalogueTypes[]
+    const typeFilter = catalogue?.identifier === "100m-systems" ? ["100m-system"] as CatalogueTypes[] : ["100m-sector"] as CatalogueTypes[]
 
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
-            parentIdentifier: identifier,
+            parentIdentifier: catalogue?.identifier,
             language: i18n.language,
-            type: typeFilter
+            // type: typeFilter
         }
     })
 
     const dataDisplay = useMemo(() => data?.items.map((subCatalogue) => (
-        <SubCatalogueList
+      catalogue?.identifier && <SubCatalogueList
             key={subCatalogue.id}
             catalogue={subCatalogue}
-            seeAllLink={cataloguesTab("subCatalogues", identifier, subCatalogue.identifier)}
+            seeAllLink={cataloguesTab("subCatalogues", catalogue?.identifier, subCatalogue.identifier)}
             titleVariant="h4"
-            parentIds={[identifier]}
+            parentIds={[catalogue?.identifier]}
             type={typeFilter}
         />
-    )), [data?.items, identifier, typeFilter])
+    )), [data?.items, catalogue?.identifier, typeFilter])
 
     return (
         <AppPage
-            title={title}
+            title={catalogue?.title ?? ""}
             sx={{
                 paddingBottom: "90px"
             }}
         >
             <CatalogueBreadcrumbs />
             <ContentIllustrated
-                title={catalogue?.title ?? 'Découvrez les Systèmes : Une Vision Structurée pour la Décarbonation'}
-                description={catalogue?.description ?? description}
+                title={catalogue?.title ?? ""}
+                description={catalogue?.description ?? ""}
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
-                color={identifier === "100m-systems" ? theme.local?.colors.system : theme.local?.colors.sector}
+                color={ catalogue?.identifier === "100m-systems" ? theme.local?.colors.system : theme.local?.colors.sector}
             />
             <Stack
                 gap={5}
@@ -73,7 +62,8 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
                 <Typography
                     variant="h3"
                 >
-                    {identifier === "100m-systems" ? t("exploreSystems") : t("exploreSectors")}
+                    {/* Replace by lexical distribution*/}
+                    {  `${t("explore")} ${catalogue?.title?.toLowerCase() ?? ""}`}
                 </Typography>
                 {subCatalogueLoading ? (
                     <>
@@ -89,9 +79,3 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
         </AppPage>
     )
 }
-
-const description = `
-Les systèmes constituent la colonne vertébrale de l'approche WikiCO2. Ils regroupent des domaines technologiques clés et des sous-systèmes pour vous aider à identifier les leviers d’action adaptés à vos projets. Chaque système offre une vue d’ensemble des solutions disponibles.
-
-Grâce à cette organisation, vous pouvez explorer les technologies et processus spécifiques à chaque système, comprendre leur fonctionnement, et évaluer leur impact environnemental. Que vous travailliez dans l'industrie, l'énergie, la construction, ou d'autres secteurs, cette approche structurée vous guide pas à pas vers des actions efficaces et durables.
-`

@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DatasetUpdateCommand(
     override val id: DatasetId,
-    val title: String,
+    val title: String?,
     val type: String,
     val description: String? = null,
     val language: String,
@@ -37,7 +37,7 @@ data class DatasetUpdateCommand(
 @Serializable
 data class DatasetUpdatedEvent(
     override val id: DatasetId,
-    override val title: String,
+    override val title: String?,
     override val type: String,
     override val description: String? = null,
     override val language: String,

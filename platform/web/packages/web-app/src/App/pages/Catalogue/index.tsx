@@ -7,10 +7,9 @@ import { ContributionListPage } from "./ContributionListPage/ContributionListPag
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
 import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
 import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
-import { CatalogueViewPage } from "./CatalogueViewPage/CatalogueViewPage";
-import { CataloguesEntryPoint } from "./CataloguesEntryPoint/CataloguesEntryPoint";
 import { OrganizationDraftPage } from "./OrganizationDraftPage/OrganizationDraftPage";
 
+import {CataloguesRouter} from "./CataloguesRouter/CataloguesRouter";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -66,19 +65,11 @@ export const catalogPages: PageRoute[] = [
     element: <GraphCreationPage  />
   },
   {
-    path: "catalogues/100m-systems",
-    element: <CataloguesEntryPoint identifier="100m-systems" />
-  },
-  {
-    path: "catalogues/100m-sectors",
-    element: <CataloguesEntryPoint identifier="100m-sectors" />
-  },
-  {
     path: "catalogues",
-    element: <CatalogueViewPage />
+    element: <CataloguesRouter />
   },
   {
     path: "catalogues/*",
-    element: <CatalogueViewPage />
+    element: <CataloguesRouter />
   }
 ]

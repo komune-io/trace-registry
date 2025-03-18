@@ -34,7 +34,7 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var draftId: CatalogueDraftId? = null
 
     @Searchable(nostem=true)
-    var title: String = ""
+    var title: String? = null
 
     var img: FilePath? = null
 

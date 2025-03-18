@@ -3,7 +3,8 @@ import { Link as RouterLink } from "react-router-dom"
 import { Menu } from "@mui/icons-material";
 import {ElementType} from "react";
 import {Link} from "@komune-io/g2"
-import { config } from "domain-components";
+import {config} from "domain-components";
+import {Logo} from "../Icons";
 
 export interface PermanentHeaderProps {
     toggleOpenDrawer: () => void
@@ -11,6 +12,7 @@ export interface PermanentHeaderProps {
 
 export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: PermanentHeaderProps) => {
     const {toggleOpenDrawer} = props
+    const {theme} = config()
     return (
         <Box
             sx={{
@@ -37,7 +39,7 @@ export const PermanentHeader: ElementType<PermanentHeaderProps> = (props: Perman
                     gap: "10px"
                 }}
             >
-                <img src={config()?.theme?.logo?.url ?? "trace.png"} style={{width: "154px", height: "54px"}} alt="platform log" />
+                <Logo src={theme?.logo?.url ?? "trace.png"} style={{width: "154px", height: "54px"}} />
             </Link>
             <IconButton sx={{color: "black"}} onClick={toggleOpenDrawer}>
                 <Menu />

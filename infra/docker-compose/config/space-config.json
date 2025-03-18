@@ -13,7 +13,8 @@
         "view-users",
         "query-groups",
         "manage-realm"
-      ]
+      ],
+      "homeUrl": "${PUBLIC_URL_REGISTRY}"
     },
     {
       "clientId": "${KC_REGISTRY_SCRIPT_APP_CLIENT_ID}",

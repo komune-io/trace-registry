@@ -86,7 +86,7 @@ interface DatasetDTO{
      * This variable holds the main heading or caption, which is typically concise and
      * descriptive, summarizing the core subject or purpose of the content it labels.
      */
-    val title: String
+    val title: String?
 
     /**
      * The release date of the dataset. It denotes the date when the dataset was made available to the public.
@@ -232,7 +232,7 @@ data class DatasetDTOBase(
     override val conformsTo: List<SkosConceptScheme>? = null,
     override val creator: Agent? = null,
     override val description: String? = null,
-    override val title: String,
+    override val title: String? = null,
     override val releaseDate: String? = null,
     override val language: String,
     override val publisher: Agent? = null,
@@ -261,7 +261,7 @@ data class DatasetDTOBase(
 interface DatasetRefDTO {
     val id: String
     val identifier: String
-    val title: String
+    val title: String?
     val type: String
     val description: String?
     val homepage: String?
@@ -276,7 +276,7 @@ interface DatasetRefDTO {
 data class DatasetRefDTOBase(
     override val id: String,
     override val identifier: String,
-    override val title: String,
+    override val title: String?,
     override val type: String,
     override val description: String? = null,
     override val homepage: String? = null,
