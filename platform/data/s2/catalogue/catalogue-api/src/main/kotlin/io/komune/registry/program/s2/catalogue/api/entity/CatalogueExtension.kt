@@ -14,7 +14,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         type = type,
         language = language,
         structure = structure,
-        img = img?.let { "/data/catalogues/${id}/img" },
+        img = img?.let { "/data/catalogues/${id}/img/${it.name}" },
         description = description,
         translationIds = translationIds,
         catalogueIds = catalogueIds.toList(),

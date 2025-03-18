@@ -1,7 +1,6 @@
 import {io} from "registry-platform-api-api-js-export";
 import {QueryParams, useQueryRequest} from "@komune-io/g2-utils";
-import {useNoAuthenticatedRequest} from "../../config";
-import {useFetchBinary} from "@komune-io/g2";
+import {useFetchBinary, useNoAuthenticatedRequest} from "@komune-io/g2";
 
 export interface ActivityPageQuery extends io.komune.registry.f2.activity.domain.query.ActivityPageQueryDTO { }
 export interface ActivityPageResult extends io.komune.registry.f2.activity.domain.query.ActivityPageResultDTO { }

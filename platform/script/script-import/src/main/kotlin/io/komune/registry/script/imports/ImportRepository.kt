@@ -9,7 +9,9 @@ import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
+import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
+import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
@@ -61,7 +63,7 @@ class ImportRepository(
         catalogueId: CatalogueId?,
         language: Language,
         type: String,
-    ): DatasetId {
+    ): DatasetDTOBase {
         val datasetId = DatasetGetByIdentifierQuery(identifier, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item
@@ -75,16 +77,23 @@ class ImportRepository(
                 language = language,
             ).invokeWith(dataClient.dataset.datasetCreate()).id
 
-        return datasetId
+        return DatasetGetQuery(id = datasetId).invokeWith(dataClient.dataset.datasetGet()).item!!
     }
 
     suspend fun createDatasetMediaDistribution(
-        datasetId: DatasetId,
+        dataset: DatasetDTOBase,
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
+        // Basic filtering to avoid creating duplicate distributions
+        val existingDistribution = dataset.distributions?.find {
+            it.mediaType == mediaType
+        }
+        if(existingDistribution != null) {
+            return existingDistribution.id
+        }
         return (DatasetAddMediaDistributionCommandDTOBase(
-            id = datasetId,
+            id = dataset.id,
             name = null,
             mediaType = mediaType,
         ) to SimpleFile(

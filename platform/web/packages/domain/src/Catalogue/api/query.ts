@@ -161,7 +161,6 @@ export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: 
 }
 
 export const findLexicalDataset = (catalogue: Catalogue) => {
-
   const dataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
   const distribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "application/json")
 
@@ -170,7 +169,7 @@ export const findLexicalDataset = (catalogue: Catalogue) => {
     distribution
   }
 
-  const markdownDataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical-markdown")
+  const markdownDataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
 
   const markdownDistribution = markdownDataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
 

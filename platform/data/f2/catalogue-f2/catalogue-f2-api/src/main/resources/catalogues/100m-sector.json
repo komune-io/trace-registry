@@ -8,6 +8,17 @@
   "structure": "item",
   "i18n": {
     "enable": true,
-    "translationType": "100m-translation"
+    "translationType": "100m-translation",
+    "datasets": [
+      {
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Informations",
+          "en": "Informations",
+          "es": "Informaciones"
+        }
+      }
+    ]
   }
 }

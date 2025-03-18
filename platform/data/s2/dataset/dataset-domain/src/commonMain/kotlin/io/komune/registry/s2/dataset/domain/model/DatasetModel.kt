@@ -15,7 +15,7 @@ data class DatasetModel(
     val identifier: String,
     val draftId: CatalogueDraftId?,
     val status: DatasetState,
-    val title: String,
+    val title: String?,
     val img: String?,
     val type: String,
     val description: String?,

@@ -1,41 +1,22 @@
 import { Paper, Stack } from '@mui/material'
-import {CatalogueDraft} from '../../model'
+import {Catalogue} from '../../model'
 import { useTranslation } from 'react-i18next'
-import { CustomButton, CustomLinkButton, ImageCard, TitleDivider, useRoutesDefinition, useToggleState } from 'components'
-import { AddCircleOutlineRounded } from '@mui/icons-material'
+import { ImageCard, TitleDivider, useToggleState } from 'components'
 import { CSVUploadPopup } from '../CSVUploadPopup'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { g2Config } from '@komune-io/g2'
-import { useDatasetDeleteCommand } from '../../api'
-import { useQueryClient } from '@tanstack/react-query'
 import { CsvAccordion } from '../CsvAccordion'
 
-export interface DraftGraphManagerProps {
-    draft?: CatalogueDraft
+export interface CatalogueGraphManagerProps {
+    catalogue?: Catalogue
 }
 
-export const DraftGraphManager = (props: DraftGraphManagerProps) => {
-    const { draft } = props
+export const CatalogueGraphManager = (props: CatalogueGraphManagerProps) => {
+    const { catalogue } = props
     const { t } = useTranslation()
-    const { cataloguesCatalogueIdDraftIdDatasetIdGraph } = useRoutesDefinition()
     const [open, _, toggle] = useToggleState()
-    const queryClient = useQueryClient()
 
-    const deleteDatasetCommand = useDatasetDeleteCommand({})
-
-    const onDelete = useCallback(
-        async (datasetId: string) => {
-            const res = await deleteDatasetCommand.mutateAsync({
-                id: datasetId
-            })
-            if (res) {
-                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
-            }
-        },
-        [draft],
-    )
-
-    const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
+    const graphDataset = useMemo(() => catalogue?.datasets?.find((dataset) => dataset.type === "graphs"), [catalogue])
 
     const graphsDisplay = useMemo(() => graphDataset?.datasets?.map((dataset) => {
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
@@ -43,12 +24,10 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
         return (
             <ImageCard
                 imageUrl={g2Config().platform.url + `/data/datasetDownloadDistribution/${dataset.id}/${imageDistribution.id}`}
-                editUrl={cataloguesCatalogueIdDraftIdDatasetIdGraph(draft?.originalCatalogueId!, draft?.id!, dataset.id)}
-                onDelete={() => onDelete(dataset.id)}
                 label={dataset.title}
             />
         )
-    }), [graphDataset, onDelete])
+    }), [graphDataset])
 
     const csvDistributions = useMemo(() => graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [graphDataset])
 
@@ -67,14 +46,6 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 <TitleDivider
                     size='h6'
                     title={t("graphs")}
-                    actions={
-                        <CustomLinkButton
-                            to={cataloguesCatalogueIdDraftIdDatasetIdGraph(draft?.originalCatalogueId!, draft?.id!)}
-                            startIcon={<AddCircleOutlineRounded />}
-                        >
-                            {t("createAGraph")}
-                        </CustomLinkButton>
-                    }
                 />
                 <Stack
                     direction="row"
@@ -96,14 +67,6 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 <TitleDivider
                     size='h6'
                     title={t('co2Projects')}
-                    actions={
-                        <CustomButton
-                            onClick={toggle}
-                            startIcon={<AddCircleOutlineRounded />}
-                        >
-                            {t("catalogues.uploadCsv")}
-                        </CustomButton>
-                    }
                 />
                 {distributionsDisplay}
                 <CSVUploadPopup

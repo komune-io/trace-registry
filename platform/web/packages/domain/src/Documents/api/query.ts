@@ -1,11 +1,10 @@
 import { QueryParams, useQueryRequest, useFetchBinary } from "@komune-io/g2-utils"
 import {io} from "registry-platform-api-api-js-export";
-import { useNoAuthenticatedRequest } from "../../config"
 import { useQuery } from "@tanstack/react-query";
 import {useCallback} from "react"
 import {request} from "@komune-io/g2-utils";
 import { Message } from "components";
-import {QueryOptions} from "@komune-io/g2";
+import {QueryOptions, useNoAuthenticatedRequest} from "@komune-io/g2";
 
 export interface ProjectListFilesQuery extends io.komune.registry.f2.project.domain.query.ProjectListFilesQueryDTO  { }
 export interface ProjectListFilesResult extends io.komune.registry.f2.project.domain.query.ProjectListFilesResultDTO  { }

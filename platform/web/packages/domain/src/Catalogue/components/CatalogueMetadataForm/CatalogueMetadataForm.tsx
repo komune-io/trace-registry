@@ -85,7 +85,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     }, {
         name: "location.region",
         type: "textField",
-        label: t("region") + " " + t("optionnal"),
+        label: t("region") + " " + t("optional"),
     }, {
         name: "ownerOrganizationId",
         type: "autoComplete",
@@ -140,7 +140,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         label: t("illustration"),
         params: {
             fileTypesAllowed: ["png", "jpeg", "svg"],
-            outterLabel: t("illustration") + " " + t("optionnal")
+            outterLabel: t("illustration") + " " + t("optional")
         }
     },
     ...(type === "100m-solution" ? [{

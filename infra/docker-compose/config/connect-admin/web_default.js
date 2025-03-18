@@ -25,6 +25,11 @@ window._env_ = {
       logo: {
         url: "${PUBLIC_URL_REGISTRY}/${REGISTRY_THEME_LOGO_FILE}",
       }
-    }
+    },
+    applications: [{
+      name: "Wiki 100 millions",
+      url: "${PUBLIC_URL_REGISTRY}",
+      icon: "${PUBLIC_URL_REGISTRY}/logo.svg",
+    }],
   }
 };

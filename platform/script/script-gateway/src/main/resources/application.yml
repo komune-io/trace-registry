@@ -11,7 +11,7 @@ registry:
       max: 1
       delayMillis: 10000
     init:
-      source: ./import/fiches
+      source: ./import/fiches_dev_v2
       auth:
         realmId: registry-local
         url: http://im-keycloak:8080
