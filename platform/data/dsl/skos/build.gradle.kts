@@ -7,7 +7,6 @@ plugins {
 dependencies {
 	commonMainApi(project(":platform:commons"))
 
-    Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
 }
 

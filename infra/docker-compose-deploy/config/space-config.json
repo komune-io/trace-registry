@@ -115,7 +115,11 @@
       "description": "Ability to delete catalogue drafts of all users",
       "features":  [["rg_feat_catalogue"]]
     }, {
-      "name": "rg_perm_configuration_concept_write",
+      "name": "rg_perm_configuration_cccev_write",
+      "description": "Ability to configure cccev (i.e. information concepts, data units, ...)",
+      "features":  [["rg_feat_configuration"]]
+    }, {
+    "name": "rg_perm_configuration_cccev_write", "rg_perm_configuration_concept_write",
       "description": "Ability to configure concepts",
       "features":  [["rg_feat_configuration"]]
     }, {
@@ -285,7 +289,7 @@
         "rg_perm_catalogue_publish_all", "rg_perm_catalogue_delete_all",
         "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit",
         "rg_perm_catalogue_draft_read_all", "rg_perm_catalogue_draft_write_all", "rg_perm_catalogue_draft_delete_all",
-        "rg_perm_configuration_concept_write", "rg_perm_configuration_license_write"
+        "rg_perm_configuration_cccev_write", "rg_perm_configuration_concept_write", "rg_perm_configuration_license_write"
       ]
     }
   ],

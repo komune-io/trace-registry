@@ -32,9 +32,39 @@ typealias DatasetIdentifier = String
 
 /**
  * @d2 hidden
+ * @visual json "4396b4a1-2bcf-4e4f-8973-d5472c75a7a5"
+ */
+typealias DataUnitId = String
+
+/**
+ * @d2 hidden
+ * @visual json "unit-meter"
+ */
+typealias DataUnitIdentifier = String
+
+/**
+ * @d2 hidden
+ * @visual json "1f398f00-a016-4ff2-96ce-e33e135116bb"
+ */
+typealias InformationConceptId = String
+
+/**
+ * @d2 hidden
+ * @visual json "94e50cc9-7786-47f3-acfc-3e251ed8053e"
+ */
+typealias InformationConceptIdentifier = String
+
+/**
+ * @d2 hidden
  * @visual json "f29d4956-be0a-414b-ae99-529acd963380"
  */
 typealias OrganizationId = String
+
+/**
+ * @d2 hidden
+ * @visual json "98b7e74e-0bfa-4929-b269-ecd941063f00"
+ */
+typealias SupportedValueId = String
 
 /**
  * @d2 hidden
