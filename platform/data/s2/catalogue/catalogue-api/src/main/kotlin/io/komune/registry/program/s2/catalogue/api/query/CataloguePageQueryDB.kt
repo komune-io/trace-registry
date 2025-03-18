@@ -17,6 +17,7 @@ import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.CriterionField
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.OrganizationId
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -32,6 +33,7 @@ class CataloguePageQueryDB(
         type: Match<String>? = null,
         childrenIds: Match<CatalogueId>? = null,
         datasetIds: Match<DatasetId>? = null,
+        creatorOrganizationId: Match<OrganizationId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
         freeCriterion: Criterion? = null,
@@ -44,6 +46,7 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.TYPE, type)
         match(`CatalogueEntity$`.CATALOGUE_IDS, childrenIds)
         match(`CatalogueEntity$`.DATASET_IDS, datasetIds)
+        match(`CatalogueEntity$`.CREATOR_ORGANIZATION_ID, creatorOrganizationId)
         match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS, status)
         criterion(freeCriterion) { it.toRedisField() }

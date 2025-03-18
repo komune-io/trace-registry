@@ -49,7 +49,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
       ?.map((dataset) => {
         return {
             key: dataset.identifier,
-            label: dataset.title,
+            label: dataset.title!,
             component: (<DatasetRouterSection catalogue={catalogue} item={dataset} isLoading={false} />)
         }
     }) ?? []
