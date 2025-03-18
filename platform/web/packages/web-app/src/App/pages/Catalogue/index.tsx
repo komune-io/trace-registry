@@ -7,7 +7,7 @@ import { ContributionListPage } from "./ContributionListPage/ContributionListPag
 import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
 import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
 import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
-import { OrganizationDraftPage } from "./OrganizationDraftPage/OrganizationDraftPage";
+import { OrganizationCataloguesPage } from "./OrganizationCataloguesPage/OrganizationCataloguesPage";
 
 import {CataloguesRouter} from "./CataloguesRouter/CataloguesRouter";
 
@@ -50,7 +50,7 @@ export const catalogPages: PageRoute[] = [
   },
   {
     path: "catalogues/myOrganization",
-    element: <OrganizationDraftPage  />
+    element: <OrganizationCataloguesPage  />
   },
   {
     path: "catalogues/search",

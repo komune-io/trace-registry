@@ -1,7 +1,7 @@
 import {
-    useDraftsFilters,
-    DraftTable,
-    useCatalogueDraftPageQuery
+    useCataloguePageQuery,
+    CatalogueTable,
+    useCataloguesFilters
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
@@ -9,21 +9,24 @@ import { useMemo } from "react"
 import { useExtendedAuth } from 'components'
 
 
-export const OrganizationDraftPage = () => {
-    const { t } = useTranslation()
+export const OrganizationCataloguesPage = () => {
+    const { t, i18n } = useTranslation()
     const { service } = useExtendedAuth()
 
-    const { submittedFilters, setOffset, component } = useDraftsFilters({
+    const { submittedFilters, setOffset, component } = useCataloguesFilters({
     })
 
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
 
-    const { data, isInitialLoading } = useCatalogueDraftPageQuery({
+    const { data, isInitialLoading } = useCataloguePageQuery({
         query: {
             ...submittedFilters,
-            
-            creatorId: service.getUserId()
+            language: submittedFilters.language ?? i18n.language,
+            creatorOrganizationId: service.getUser()?.memberOf
+        },
+        options: {
+            enabled: !!service.getUser()?.memberOf
         }
     })
 
@@ -36,9 +39,7 @@ export const OrganizationDraftPage = () => {
             }}
         >
             {component}
-            <DraftTable
-                withStatus
-                toEdit
+            <CatalogueTable
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}
