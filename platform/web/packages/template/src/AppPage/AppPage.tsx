@@ -1,6 +1,6 @@
 import { Box, Stack, StackProps, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode, useEffect } from "react";
-import { LanguageSelector } from 'components';
+import { Co2Counter, LanguageSelector } from 'components';
 import { CatalogueSearchBar } from "domain-components"
 import { useThemeContext } from '@komune-io/g2';
 
@@ -21,11 +21,11 @@ export const AppPage = (props: AppPageProps) => {
     const theme = useTheme()
 
     const isMobile =
-    g2Theme.drawerAbsolutePositionBreakpoint === 'always'
-      ? true
-      : useMediaQuery(
-          theme.breakpoints.down(g2Theme.drawerAbsolutePositionBreakpoint!)
-        )
+        g2Theme.drawerAbsolutePositionBreakpoint === 'always'
+            ? true
+            : useMediaQuery(
+                theme.breakpoints.down(g2Theme.drawerAbsolutePositionBreakpoint!)
+            )
 
 
     useEffect(() => {
@@ -80,6 +80,15 @@ export const AppPage = (props: AppPageProps) => {
                         {!bgcolor && <CatalogueSearchBar />}
                         {header}
                     </Stack>
+                    {!bgcolor &&
+                        <Co2Counter
+                            count={128003}
+                            sx={{
+                                flexGrow: 1,
+                                justifyContent: "center"
+                            }}
+                        />
+                    }
                     <LanguageSelector />
                 </Stack>}
             </Box>

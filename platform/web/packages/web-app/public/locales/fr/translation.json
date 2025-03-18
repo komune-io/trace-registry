@@ -150,6 +150,7 @@
     "administration": "Administration",
     "seeAll": "Voir tous",
     "mySheets": "Mes fiches",
+    "co2TonsAvoided": "Tonnes de CO2 économisées",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
