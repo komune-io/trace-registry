@@ -14,6 +14,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValueEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
@@ -33,6 +34,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		is DatasetSetImageEvent -> model?.setImage(event)
 		is DatasetAddedDistributionEvent -> model?.addDistribution(event)
 		is DatasetUpdatedDistributionEvent -> model?.updateDistribution(event)
+		is DatasetUpdatedDistributionAggregatorValueEvent -> model?.updateDistributionAggregatorValue(event)
 		is DatasetRemovedDistributionEvent -> model?.removeDistribution(event)
 	}
 
@@ -80,6 +82,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 			name = event.name,
 			downloadPath = event.downloadPath.toString(),
 			mediaType = event.mediaType,
+			aggregators = emptyMap(),
 			issued = event.date,
 			modified = event.date
 		)
@@ -93,6 +96,21 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 					name = event.name,
 					downloadPath = event.downloadPath.toString(),
 					mediaType = event.mediaType,
+					modified = event.date
+				) ?: distribution
+		}
+		modified = event.date
+	}
+
+	private suspend fun DatasetEntity.updateDistributionAggregatorValue(event: DatasetUpdatedDistributionAggregatorValueEvent) = apply {
+		distributions = distributions.orEmpty().map { distribution ->
+			distribution.takeIf { it.id == event.distributionId }
+				?.copy(
+					aggregators = if (event.supportedValueId != null) {
+						distribution.aggregators + (event.informationConceptId to event.supportedValueId!!)
+					} else {
+						distribution.aggregators - event.informationConceptId
+					},
 					modified = event.date
 				) ?: distribution
 		}

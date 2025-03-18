@@ -47,6 +47,7 @@ fun DistributionEntity.toModel() = DistributionModel(
     name = name,
     downloadPath = FilePath.from(downloadPath),
     mediaType = mediaType,
+    aggregators = aggregators,
     issued = issued,
     modified = modified,
 )

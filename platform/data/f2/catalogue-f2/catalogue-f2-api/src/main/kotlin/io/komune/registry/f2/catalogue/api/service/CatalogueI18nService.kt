@@ -91,7 +91,7 @@ class CatalogueI18nService(
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
             datasets = translated.datasetIds
-                .map { cache.datasets.get(it) }
+                .map { cache.datasets.get(it).toDTOCached() }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED },
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
@@ -112,6 +112,7 @@ class CatalogueI18nService(
             issued = translated.issued,
             modified = translated.modified,
             pendingDrafts = pendingDrafts?.map { it.toRef(cache.users::get) },
+            aggregators = translated.computeAggregators(),
             version = translated.version,
             versionNotes = translated.versionNotes,
         )
@@ -195,5 +196,27 @@ class CatalogueI18nService(
             ),
             creatorId = ExactMatch(creatorId)
         ).items
+    }
+
+    private suspend fun CatalogueModel.computeAggregators(): List<InformationConceptComputedDTOBase> = withCache { cache ->
+        val translations = translationIds.values.mapAsync { catalogueFinderService.get(it) }
+        val allDatasetIds = datasetIds + translations.flatMap { it.datasetIds }
+        val allDatasets = allDatasetIds.map { cache.datasets.get(it) }
+
+        val aggregatorValues = mutableMapOf<InformationConceptId, List<String>>()
+        allDatasets.forEach { dataset ->
+            dataset.distributions.forEach { distribution ->
+                distribution.aggregators.forEach { (conceptId, valueId) ->
+                    val supportedValue = cache.supportedValues.get(valueId)
+                    aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
+                }
+            }
+        }
+
+        aggregatorValues.map { (conceptId, values) ->
+            val value = values.sumOf { it.toBigDecimal() }.toString()
+            cache.informationConcepts.get(conceptId)
+                .toComputedDTO(value, language!!, cache.dataUnits::get)
+        }
     }
 }

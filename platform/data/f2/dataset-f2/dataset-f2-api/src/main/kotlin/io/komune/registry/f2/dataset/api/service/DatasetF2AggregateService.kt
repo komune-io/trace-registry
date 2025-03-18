@@ -34,6 +34,10 @@ import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
+import io.komune.registry.s2.cccev.domain.model.CsvSqlProcessorInput
+import io.komune.registry.s2.cccev.domain.model.ProcessorType
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
@@ -42,17 +46,19 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.ktor.utils.io.core.toByteArray
-import java.util.UUID
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class DatasetF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val cccevAggregateService: CccevAggregateService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fileClient: FileClient,
@@ -129,13 +135,41 @@ class DatasetF2AggregateService(
             ?.let { ".$it" }
             .orEmpty()
 
+        val contentByteArray = file.contentByteArray()
         val event = addDistribution(
             datasetId = command.id,
             filename = "${UUID.randomUUID()}$fileExtension",
             name = command.name,
             mediaType = command.mediaType,
-            content = file.contentByteArray()
+            content = contentByteArray
         )
+
+        command.aggregator?.let { aggregatorConfig ->
+            val valueEvent = InformationConceptComputeValueCommand(
+                id = aggregatorConfig.informationConceptId,
+                processorInput = when (aggregatorConfig.processorType) {
+                    ProcessorType.CSV_SQL -> {
+                        require(command.mediaType == "text/csv") {
+                            "${ProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
+                        }
+
+                        CsvSqlProcessorInput(
+                            query = aggregatorConfig.query,
+                            content = contentByteArray,
+                            valueIfEmpty = aggregatorConfig.valueIfEmpty
+                        )
+                    }
+                    ProcessorType.SUM -> throw UnsupportedOperationException("SUM aggregator not supported for dataset distribution")
+                }
+            ).let { cccevAggregateService.computeValue(it) }
+
+            DatasetUpdateDistributionAggregatorValueCommand(
+                id = command.id,
+                distributionId = event.distributionId,
+                informationConceptId = valueEvent.id,
+                supportedValueId = valueEvent.supportedValueId
+            ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+        }
 
         return DatasetAddedMediaDistributionEventDTOBase(
             id = command.id,

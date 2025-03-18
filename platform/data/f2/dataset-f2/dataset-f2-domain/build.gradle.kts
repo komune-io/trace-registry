@@ -5,8 +5,11 @@ plugins {
 }
 
 dependencies {
+	commonMainApi(project(Modules.data.f2.cccev.domain))
+
 	commonMainApi(project(Modules.data.s2.catalogue.domain))
 	commonMainApi(project(Modules.data.s2.catalogueDraft.domain))
+	commonMainApi(project(Modules.data.s2.cccev.domain))
 	commonMainApi(project(Modules.data.s2.dataset.domain))
 	commonMainApi(project(Modules.data.dsl.dcat))
 

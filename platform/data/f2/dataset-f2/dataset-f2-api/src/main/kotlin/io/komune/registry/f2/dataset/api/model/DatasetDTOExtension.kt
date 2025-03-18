@@ -1,6 +1,7 @@
 package io.komune.registry.f2.dataset.api.model
 
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
+import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
@@ -14,8 +15,15 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.cccev.domain.model.DataUnitModel
+import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
+import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
+import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
+import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -32,6 +40,9 @@ import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
 suspend fun DatasetModel.toDTO(
     getDataset: suspend (DatasetId) -> DatasetModel,
+    getDataUnit: suspend (DataUnitId) -> DataUnitModel,
+    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
+    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel
 ): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
@@ -63,9 +74,9 @@ suspend fun DatasetModel.toDTO(
         format = format,
         issued = issued,
         datasets = datasetIds
-            .map { getDataset(it).toDTO(getDataset) }
+            .map { getDataset(it).toDTO(getDataset, getDataUnit, getInformationConcept, getSupportedValue) }
             .filter { it.status != DatasetState.DELETED },
-        distributions = distributions.map { it.toDTO() },
+        distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue) },
     )
 }
 
@@ -91,11 +102,20 @@ fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
     )
 }
 
-fun DistributionModel.toDTO() = DistributionDTOBase(
+suspend fun DistributionModel.toDTO(
+    language: Language,
+    getDataUnit: suspend (DataUnitId) -> DataUnitModel,
+    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
+    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
+) = DistributionDTOBase(
     id = id,
     name = name,
     downloadPath = downloadPath,
     mediaType = mediaType,
+    aggregators = aggregators.map { (conceptId, valueId) ->
+        val supportedValue = getSupportedValue(valueId)
+        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, language, getDataUnit)
+    },
     issued = issued,
     modified = modified,
 )
