@@ -34,6 +34,11 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       key: 'project',
       label: t('co2Projects'),
       component: <DraftGraphManager draft={draft} />,
+    }),
+    ...maybeAddItem(catalogue?.type === "100m-chart" && canUpdate, {
+      key: 'graph',
+      label: t('graph'),
+      component: <DraftGraphManager draft={draft} />,
     })
     ]
     return tabs

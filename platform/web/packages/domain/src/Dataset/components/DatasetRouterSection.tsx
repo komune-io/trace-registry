@@ -4,6 +4,7 @@ import {DocumentsPage, FilePath} from "../../Documents";
 import {ActivitiesSection} from "../../Project/components/ActivitiesSection";
 import {Activity} from "../../Activity";
 import {Catalogue, CatalogueInformation} from "../../Catalogue";
+import {CatalogueGraphManager} from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
@@ -11,7 +12,7 @@ interface DatasetDataSectionProps {
     isLoading: boolean
 }
 
-export const DatasetDataSection = (props: DatasetDataSectionProps) => {
+export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     const { catalogue, item, isLoading } = props
     const fileListQuery = useDatasetDataQuery({ query: { id: item.id! } })
     if(item.type === "document" ) {
@@ -35,8 +36,7 @@ export const DatasetDataSection = (props: DatasetDataSectionProps) => {
         )
     }  else if(item.type === "graph" ) {
         return (
-            // TODO HERE DO Composable table
-           <div>Graph Comming Soon</div>
+          <CatalogueGraphManager catalogue={catalogue} />
         )
     } else {
         return (

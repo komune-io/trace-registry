@@ -4,7 +4,7 @@ import {
   useCatalogueDraftCreateCommand,
   DraftReplacementModal,
   useCatalogueDraftDeleteCommand,
-  Catalogue, DatasetDataSection,
+  Catalogue, DatasetRouterSection,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -50,7 +50,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         return {
             key: dataset.identifier,
             label: dataset.title,
-            component: (<DatasetDataSection catalogue={catalogue} item={dataset} isLoading={false} />)
+            component: (<DatasetRouterSection catalogue={catalogue} item={dataset} isLoading={false} />)
         }
     }) ?? []
 
