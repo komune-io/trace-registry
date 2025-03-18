@@ -159,6 +159,7 @@
     "seeAll": "Voir tous",
     "seeAllSystems": "Voir tous les systèmes",
     "seeAllSectors": "voir tous les secteurs",
+    "mySheets": "Mes fiches",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -310,7 +311,7 @@
         "sectoralScopes": "Champs sectoriels",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
-        "noData": "Aucune fiche n'a été trouvé",
+        "noData": "Aucune fiche n'a été trouvée",
         "noDataToValidate": "Aucune fiche à valider",
         "reviewModifications": "Revue de la modification proposée par {{name}}",
         "consultOriginal": "Consulter l'original",

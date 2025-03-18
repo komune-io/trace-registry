@@ -20,6 +20,7 @@ const strictRoutesAuthorizations = {
     "catalogues/:catalogueId/:draftId/view": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
+    "catalogues/myOrganization": "open",
     "catalogues/:catalogueId/:draftId/verify": "open",
     "catalogues/search": "open",
     "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",

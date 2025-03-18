@@ -41,7 +41,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep3: "Use the following configuration values if the application allows setting them:",
             loginTotpStep3DeviceName: "Provide a Device Name to help you manage your OTP devices.",
             loginTotpScanBarcode: "Scan a qr code instead",
-            loginOtpInfo: "Please enter the code provided by your authentication app."
+            loginOtpInfo: "Please enter the code provided by your authentication app.",
+            verifyIdentity: "Verify your identity"
         },
         fr: {
             emailForgotTitle: "Réinitialisation de votre mot de passe ?",
@@ -78,7 +79,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep3: "Utilisez les valeurs de configuration suivantes si l'application permet leurs éditions:",
             loginTotpStep3DeviceName: "Renseignez le nom de l'appareil pour vous aider à gérer vos appareils OTP.",
             loginTotpScanBarcode: "Scanner un qr code à la place",
-            loginOtpInfo: "Veuillez saisir le code fourni par votre application d’authentification."
+            loginOtpInfo: "Veuillez saisir le code fourni par votre application d’authentification.",
+            verifyIdentity: "Vérifiez votre identité"
         },
         es: {
             emailForgotTitle: "¿Restablecer la contraseña?",
@@ -115,7 +117,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpManualStep3: "Utilice los siguientes valores de configuración si la aplicación permite configurarlos:",
             loginTotpStep3DeviceName: "Proporcione un nombre de dispositivo para ayudarle a gestionar sus dispositivos OTP.",
             loginTotpScanBarcode: "Escanear un código QR en su lugar",
-            loginOtpInfo: "Por favor, introduzca el código proporcionado por su aplicación de autenticación."
+            loginOtpInfo: "Por favor, introduzca el código proporcionado por su aplicación de autenticación.",
+            verifyIdentity: "Verifique su identidad"
         }
     })
     .build();

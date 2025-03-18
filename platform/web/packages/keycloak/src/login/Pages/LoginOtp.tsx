@@ -13,7 +13,7 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
 
   const { t } = useTranslation()
-  const { otpLogin, url, messagesPerField, auth } = kcContext;
+  const { otpLogin, url, messagesPerField } = kcContext;
 
   const { msg, msgStr } = i18n;
   const [isAuthenticating, setAuthenticating] = useState(false)
@@ -68,7 +68,7 @@ export default function LoginOtp(props: PageProps<Extract<KcContext, { pageId: "
       doUseDefaultCss={doUseDefaultCss}
       classes={classes}
       displayMessage={!messagesPerField.existsError("totp")}
-      headerNode={auth?.attemptedUsername ?? msg("doLogIn")}
+      headerNode={msg("verifyIdentity")}
     >
       <Typography
       variant="body2"
