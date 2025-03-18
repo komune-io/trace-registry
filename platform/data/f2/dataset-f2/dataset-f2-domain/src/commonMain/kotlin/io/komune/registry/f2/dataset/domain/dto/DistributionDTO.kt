@@ -1,7 +1,7 @@
 package io.komune.registry.f2.dataset.domain.dto
 
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.s2.dataset.domain.model.DistributionId
+import io.komune.registry.s2.commons.model.DistributionId
 import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 

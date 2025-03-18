@@ -44,6 +44,12 @@ typealias DataUnitIdentifier = String
 
 /**
  * @d2 hidden
+ * @visual json "fd37c43d-4260-4311-9f50-9312119c4375"
+ */
+typealias DistributionId = String
+
+/**
+ * @d2 hidden
  * @visual json "1f398f00-a016-4ff2-96ce-e33e135116bb"
  */
 typealias InformationConceptId = String

@@ -16,10 +16,10 @@ import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
-import io.komune.registry.s2.dataset.domain.model.DistributionId
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ConceptInitData
