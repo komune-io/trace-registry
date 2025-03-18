@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.api.service
 
-import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
@@ -11,6 +10,8 @@ import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
@@ -20,8 +21,10 @@ import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
 

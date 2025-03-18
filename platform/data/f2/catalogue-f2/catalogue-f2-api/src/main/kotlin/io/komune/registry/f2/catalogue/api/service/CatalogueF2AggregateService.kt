@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.api.service
 
-import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
@@ -55,6 +54,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
