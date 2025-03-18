@@ -39,6 +39,8 @@ interface DatasetAddMediaDistributionCommandDTO {
      * @example "image/png"
      */
     val mediaType: String
+
+    val aggregator: AggregatorConfigDTO?
 }
 
 /**
@@ -48,7 +50,8 @@ interface DatasetAddMediaDistributionCommandDTO {
 data class DatasetAddMediaDistributionCommandDTOBase(
     override val id: DatasetId,
     override val name: String?,
-    override val mediaType: String
+    override val mediaType: String,
+    override val aggregator: AggregatorConfig?
 ) : DatasetAddMediaDistributionCommandDTO
 
 /**

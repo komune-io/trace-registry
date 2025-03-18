@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
@@ -184,6 +186,8 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      */
     val pendingDrafts: List<CatalogueDraftRefDTO>?
 
+    val aggregators: List<InformationConceptComputedDTO>
+
     val version: Int
     val versionNotes: String?
 }
@@ -217,6 +221,7 @@ data class CatalogueDTOBase(
     override val modified: Long,
     override val hidden: Boolean = false,
     override val pendingDrafts: List<CatalogueDraftRefDTOBase>? = null,
+    override val aggregators: List<InformationConceptComputedDTOBase>,
     override val version: Int,
     override val versionNotes: String? = null,
 ): CatalogueDTO

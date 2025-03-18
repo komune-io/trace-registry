@@ -96,6 +96,7 @@ class ImportRepository(
             id = dataset.id,
             name = null,
             mediaType = mediaType,
+            aggregator = null
         ) to SimpleFile(
             name = file.name,
             content = file.content

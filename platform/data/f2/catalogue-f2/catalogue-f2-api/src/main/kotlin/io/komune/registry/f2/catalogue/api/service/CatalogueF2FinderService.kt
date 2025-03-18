@@ -111,7 +111,9 @@ class CatalogueF2FinderService(
         )
 
         CataloguePageResult(
-            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
+            items = catalogues.items
+                .mapNotNull { catalogueI18nService.translateToDTO(it, language, false) }
+                .sortedBy(CatalogueDTOBase::title),
             total = catalogues.total
         )
     }

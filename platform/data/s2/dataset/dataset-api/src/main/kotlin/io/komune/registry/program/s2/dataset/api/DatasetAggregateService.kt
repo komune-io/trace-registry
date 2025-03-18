@@ -22,11 +22,13 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValueEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class DatasetAggregateService(
@@ -172,6 +174,16 @@ class DatasetAggregateService(
 			name = command.name,
 			downloadPath = command.downloadPath,
 			mediaType = command.mediaType
+		)
+	}
+
+	suspend fun updateDistributionAggregatorValue(command: DatasetUpdateDistributionAggregatorValueCommand) = automate.transition(command) {
+		DatasetUpdatedDistributionAggregatorValueEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			distributionId = command.distributionId,
+			informationConceptId = command.informationConceptId,
+			supportedValueId = command.supportedValueId
 		)
 	}
 
