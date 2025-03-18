@@ -89,6 +89,7 @@ class CatalogueF2FinderService(
         catalogueId: Match<String>? = null,
         parentIdentifier: String? = null,
         language: String,
+        otherLanguageIfAbsent: Boolean = false,
         title: Match<String>? = null,
         type: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
@@ -111,7 +112,9 @@ class CatalogueF2FinderService(
         )
 
         CataloguePageResult(
-            items = catalogues.items.mapNotNull { catalogueI18nService.translateToDTO(it, language, false) },
+            items = catalogues.items
+                .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
+                .sortedBy(CatalogueDTOBase::title),
             total = catalogues.total
         )
     }

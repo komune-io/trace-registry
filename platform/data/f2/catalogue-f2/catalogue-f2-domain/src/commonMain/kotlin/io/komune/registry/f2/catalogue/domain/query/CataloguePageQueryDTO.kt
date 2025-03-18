@@ -31,6 +31,7 @@ interface CataloguePageQueryDTO {
     val title: String?
     val status: String?
     val language: String
+    val otherLanguageIfAbsent: Boolean
     val type: List<String>?
     val creatorOrganizationId: OrganizationId?
     val offset: Int?
@@ -46,6 +47,7 @@ data class CataloguePageQuery(
     override val title: String? = null,
     override val status: String? = null,
     override val language: String,
+    override val otherLanguageIfAbsent: Boolean = false,
     override val type: List<String>?,
     override val creatorOrganizationId: OrganizationId?,
     override val offset: Int?,
