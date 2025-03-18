@@ -4,6 +4,7 @@ import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.s2.commons.model.OrganizationId
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -31,6 +32,7 @@ interface CataloguePageQueryDTO {
     val status: String?
     val language: String
     val type: List<String>?
+    val creatorOrganizationId: OrganizationId?
     val offset: Int?
     val limit: Int?
 }
@@ -45,6 +47,7 @@ data class CataloguePageQuery(
     override val status: String? = null,
     override val language: String,
     override val type: List<String>?,
+    override val creatorOrganizationId: OrganizationId?,
     override val offset: Int?,
     override val limit: Int?,
 ): CataloguePageQueryDTO

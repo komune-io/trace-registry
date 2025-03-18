@@ -18,6 +18,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.OrganizationId
 import org.springframework.stereotype.Service
 
 @Service
@@ -61,6 +62,7 @@ class CatalogueFinderService(
 		type: Match<String>? = null,
 		childrenIds: Match<CatalogueId>? = null,
 		datasetIds: Match<DatasetId>? = null,
+		creatorOrganizationId: Match<OrganizationId>? = null,
 		status: Match<CatalogueState>? = null,
 		hidden: Match<Boolean>? = null,
 		freeCriterion: Criterion? = null,
@@ -84,6 +86,7 @@ class CatalogueFinderService(
 			type = type,
 			childrenIds = childrenIds,
 			datasetIds = datasetIds,
+			creatorOrganizationId = creatorOrganizationId,
 			status = status,
 			hidden = hidden,
 			freeCriterion = freeCriterion,
