@@ -65,8 +65,16 @@ export const useCatalogueMenu = () => {
   const menu: MenuItem[] = useMemo(() => {
     return catalogues.map((item) => {
       const catalogue = item.type == "menu" ? item.catalogues![0] : item
+
+      const baseUrl = platform.url.endsWith('/')
+        ? platform.url.slice(0, -1) // remove trailing slash
+        : platform.url;  console.log(item.img)
+      const path = item.img?.startsWith("/")
+        ? item.img
+        : `/${item.img}`
+      console.log(`${baseUrl}${path}`)
       const icon = item.img ?
-        <Icon src={new URL(item.img, platform.url).toString()} /> : iconPack.system
+        <Icon src={`${baseUrl}${path}`} /> : iconPack.system
       const items = catalogue.catalogues?.map(mapCatalogueRef([catalogue.identifier], cataloguesAll))
       return {
         key: catalogue.id,

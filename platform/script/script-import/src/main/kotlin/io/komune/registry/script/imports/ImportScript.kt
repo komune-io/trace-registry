@@ -313,7 +313,6 @@ class ImportScript(
             }
         }
 
-
         Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
             val alt = imageMatch.groupValues[1]
             val path = imageMatch.groupValues[2]

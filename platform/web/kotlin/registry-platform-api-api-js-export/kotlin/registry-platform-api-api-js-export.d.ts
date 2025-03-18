@@ -252,6 +252,9 @@ export declare namespace io.komune.im.core.user.domain.command {
 
     }
 }
+export declare namespace io.komune.im.core.mfa.domain.model {
+    type ImMfaPasswordOtpFlowAcr = "PASSWORD_ONLY" | "PASSWORD_OTP";
+}
 export declare namespace io.komune.im.core.organization.domain.command {
     interface OrganizationDeleteCommandDTO extends f2.dsl.cqrs.Command {
         readonly id: string;
@@ -2896,7 +2899,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly identifier?: string;
         readonly parentId?: string;
         readonly catalogueId?: string;
-        readonly title: string;
+        readonly title?: string;
         readonly type: string;
         readonly description?: string;
         readonly language: string;
@@ -3033,7 +3036,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly conformsTo?: io.komune.registry.dsl.skos.domain.model.SkosConceptScheme[];
         readonly creator?: io.komune.registry.dsl.dcat.domain.model.Agent;
         readonly description?: string;
-        readonly title: string;
+        readonly title?: string;
         readonly releaseDate?: string;
         readonly language: string;
         readonly publisher?: io.komune.registry.dsl.dcat.domain.model.Agent;
@@ -3061,7 +3064,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface DatasetRefDTO {
         readonly id: string;
         readonly identifier: string;
-        readonly title: string;
+        readonly title?: string;
         readonly type: string;
         readonly description?: string;
         readonly homepage?: string;
@@ -3628,6 +3631,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly status?: string;
         readonly language: string;
         readonly type?: string[];
+        readonly creatorOrganizationId?: string;
         readonly offset?: number;
         readonly limit?: number;
 

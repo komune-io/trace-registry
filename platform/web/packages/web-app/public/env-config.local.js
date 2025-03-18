@@ -24,8 +24,5 @@ window._env_ = {
         logo: {
             url: "/logo.svg",
         }
-    },
-    logo: {
-        url: "/trace.png",
     }
 };
