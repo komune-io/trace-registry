@@ -90,6 +90,7 @@ class CatalogueEndpoint(
             parentIdentifier = query.parentIdentifier,
             language = query.language,
             type = query.type?.let(::CollectionMatch),
+            creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),
             offset = OffsetPagination(

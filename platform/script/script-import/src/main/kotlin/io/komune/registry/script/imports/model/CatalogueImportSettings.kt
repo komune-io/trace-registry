@@ -1,6 +1,9 @@
 package io.komune.registry.script.imports.model
 
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.cccev.domain.model.DataUnitType
+import io.komune.registry.s2.commons.model.DataUnitIdentifier
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 
@@ -30,6 +33,8 @@ data class PathReplacement(
 data class CatalogueInitSettings(
     val concepts: List<ConceptInitData>?,
     val licenses: List<LicenseInitData>?,
+    val dataUnits: List<DataUnitInitData>?,
+    val informationConcepts: List<InformationConceptInitData>?,
     val catalogues: List<CatalogueImportData>?
 )
 
@@ -44,6 +49,19 @@ data class LicenseInitData(
     val identifier: String,
     val name: String,
     val url: String?
+)
+
+data class DataUnitInitData(
+    val identifier: DataUnitIdentifier,
+    val name: Map<Language, String>,
+    val abbreviation: Map<Language, String> = emptyMap(),
+    val type: DataUnitType
+)
+
+data class InformationConceptInitData(
+    val identifier: InformationConceptIdentifier,
+    val name: Map<Language, String>,
+    val unit: DataUnitIdentifier
 )
 
 data class CatalogueMappingSettings(

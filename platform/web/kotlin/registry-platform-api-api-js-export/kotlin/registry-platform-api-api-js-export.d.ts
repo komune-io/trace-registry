@@ -3871,6 +3871,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly status?: string;
         readonly language: string;
         readonly type?: string[];
+        readonly creatorOrganizationId?: string;
         readonly offset?: number;
         readonly limit?: number;
 
