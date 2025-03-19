@@ -2,6 +2,7 @@ package io.komune.registry.s2.cccev.api.entity.value
 
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Searchable
+import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.cccev.domain.SupportedValueState
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.RedisTable
@@ -19,6 +20,7 @@ open class SupportedValueEntity: WithS2Id<SupportedValueId>, WithS2State<Support
     @Searchable(nostem=true)
     open lateinit var status: SupportedValueState
 
+    @TagIndexed
     lateinit var conceptId: InformationConceptId
 
     lateinit var value: String

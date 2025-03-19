@@ -2,6 +2,10 @@ package io.komune.registry.s2.cccev.domain
 
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
@@ -11,6 +15,17 @@ val s2SupportedValue = s2Sourcing {
     name = "SupportedValue"
     init<SupportedValueCreateCommand, SupportedValueCreatedEvent> {
         to = SupportedValueState.COMPUTED
+        role = SupportedValueRole.User
+    }
+    transaction<SupportedValueValidateCommand, SupportedValueValidatedEvent> {
+        from = SupportedValueState.COMPUTED
+        to = SupportedValueState.VALIDATED
+        role = SupportedValueRole.User
+    }
+    transaction<SupportedValueDeprecateCommand, SupportedValueDeprecatedEvent> {
+        froms += SupportedValueState.COMPUTED
+        froms += SupportedValueState.VALIDATED
+        to = SupportedValueState.DEPRECATED
         role = SupportedValueRole.User
     }
 }
@@ -24,7 +39,8 @@ val s2SupportedValue = s2Sourcing {
 @Serializable
 enum class SupportedValueState(override val position: Int): S2State {
     COMPUTED(0),
-    DELETED(1)
+    VALIDATED(1),
+    DEPRECATED(2)
 }
 
 enum class SupportedValueRole(val value: String): S2Role {

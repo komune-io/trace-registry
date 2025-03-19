@@ -6,7 +6,6 @@ sealed interface ProcessorInput {
 
 data class SumProcessorInput(
     val values: Collection<String>,
-    val valueIfEmpty: String
 ) : ProcessorInput {
     override val query: String = "SUM"
 }

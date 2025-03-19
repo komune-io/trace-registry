@@ -24,6 +24,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributi
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
+import io.komune.registry.f2.dataset.domain.dto.AggregatorConfig
 import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -36,10 +37,14 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCom
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.cccev.api.CccevAggregateService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.model.CsvSqlProcessorInput
 import io.komune.registry.s2.cccev.domain.model.ProcessorType
+import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
@@ -144,31 +149,14 @@ class DatasetF2AggregateService(
             content = contentByteArray
         )
 
-        command.aggregator?.let { aggregatorConfig ->
-            val valueEvent = InformationConceptComputeValueCommand(
-                id = aggregatorConfig.informationConceptId,
-                processorInput = when (aggregatorConfig.processorType) {
-                    ProcessorType.CSV_SQL -> {
-                        require(command.mediaType == "text/csv") {
-                            "${ProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
-                        }
-
-                        CsvSqlProcessorInput(
-                            query = aggregatorConfig.query,
-                            content = contentByteArray,
-                            valueIfEmpty = aggregatorConfig.valueIfEmpty
-                        )
-                    }
-                    ProcessorType.SUM -> throw UnsupportedOperationException("SUM aggregator not supported for dataset distribution")
-                }
-            ).let { cccevAggregateService.computeValue(it) }
-
-            DatasetUpdateDistributionAggregatorValueCommand(
-                id = command.id,
+        command.aggregator?.let {
+            computeDistributionAggregator(
+                datasetId = command.id,
                 distributionId = event.distributionId,
-                informationConceptId = valueEvent.id,
-                supportedValueId = valueEvent.supportedValueId
-            ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                aggregatorConfig = it,
+                mediaType = command.mediaType,
+                contentByteArray = contentByteArray
+            )
         }
 
         return DatasetAddedMediaDistributionEventDTOBase(
@@ -240,7 +228,9 @@ class DatasetF2AggregateService(
     }
 
     suspend fun removeDistribution(command: DatasetRemoveDistributionCommandDTOBase): DatasetRemovedDistributionEventDTOBase {
-        val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
+        val dataset = datasetFinderService.get(command.id)
+        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
+            ?: throw NotFoundException("Distribution", command.distributionId)
 
         DatasetRemoveDistributionCommand(
             id = command.id,
@@ -255,6 +245,12 @@ class DatasetF2AggregateService(
                 directory = path.directory,
                 name = path.name
             ).let { fileClient.fileDelete(listOf(it)) }
+        }
+
+        if (dataset.draftId == null) {
+            distribution.aggregators.forEach { (_, supportedValueId) ->
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
+            }
         }
 
         return DatasetRemovedDistributionEventDTOBase(
@@ -314,5 +310,50 @@ class DatasetF2AggregateService(
             downloadPath = path,
             mediaType = mediaType
         ).let { datasetAggregateService.addDistribution(it) }
+    }
+
+    private suspend fun computeDistributionAggregator(
+        datasetId: DatasetId,
+        distributionId: DistributionId,
+        aggregatorConfig: AggregatorConfig,
+        mediaType: String,
+        contentByteArray: ByteArray
+    ) {
+        val dataset = datasetFinderService.get(datasetId)
+        val oldDistribution = dataset.distributions.first { it.id == distributionId }
+
+        val valueEvent = InformationConceptComputeValueCommand(
+            id = aggregatorConfig.informationConceptId,
+            processorInput = when (aggregatorConfig.processorType) {
+                ProcessorType.CSV_SQL -> {
+                    require(mediaType == "text/csv") {
+                        "${ProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
+                    }
+
+                    CsvSqlProcessorInput(
+                        query = aggregatorConfig.query,
+                        content = contentByteArray,
+                        valueIfEmpty = aggregatorConfig.valueIfEmpty
+                    )
+                }
+                ProcessorType.SUM -> throw UnsupportedOperationException("SUM aggregator not supported for dataset distribution")
+            }
+        ).let { cccevAggregateService.computeValue(it) }
+
+        if (dataset.draftId == null) {
+            cccevAggregateService.validateValue(SupportedValueValidateCommand(valueEvent.supportedValueId))
+
+            oldDistribution.aggregators[aggregatorConfig.informationConceptId]?.let { supportedValueId ->
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
+            }
+        }
+
+        DatasetUpdateDistributionAggregatorValueCommand(
+            id = datasetId,
+            distributionId = distributionId,
+            informationConceptId = valueEvent.id,
+            supportedValueId = valueEvent.supportedValueId
+        ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+
     }
 }

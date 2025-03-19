@@ -10,6 +10,7 @@ import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.cccev.domain.CccevApi
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreateFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierFunction
@@ -52,6 +53,8 @@ open class CccevClient(val client: F2Client) : CccevApi {
         = client.function("data/${this::informationConceptGetByIdentifier.name}")
     override fun informationConceptList(): InformationConceptListFunction
         = client.function("data/${this::informationConceptList.name}")
+    override fun informationConceptGetGlobalValue(): InformationConceptGetGlobalValueFunction
+        = client.function("data/${this::informationConceptGetGlobalValue.name}")
 
 
     override fun dataUnitCreate(): DataUnitCreateFunction = client.function("data/${this::dataUnitCreate.name}")

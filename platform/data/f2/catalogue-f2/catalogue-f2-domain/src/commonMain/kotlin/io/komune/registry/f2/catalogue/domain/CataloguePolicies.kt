@@ -52,6 +52,10 @@ object CataloguePolicies {
         return canWrite(authedUser, catalogue)
     }
 
+    fun canSetAggregator(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
+        return canWrite(authedUser, catalogue)
+    }
+
     private fun canWrite(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
         canWriteOnCatalogueWith(authedUser, it.creatorOrganization?.id, it.ownerOrganization?.id)
     }
