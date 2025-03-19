@@ -11,6 +11,7 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DatasetF2FinderService(
+    private val cccevFinderService: CccevFinderService,
     private val datasetFinderService: DatasetFinderService,
 ) {
 
@@ -67,10 +69,16 @@ class DatasetF2FinderService(
     }
 
     private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
-        getDataset = cache.datasets::get
+        getDataset = cache.datasets::get,
+        getDataUnit = cache.dataUnits::get,
+        getInformationConcept = cache.informationConcepts::get,
+        getSupportedValue = cache.supportedValues::get
     )
 
     private inner class Cache {
         val datasets = SimpleCache(datasetFinderService::get)
+        val dataUnits = SimpleCache(cccevFinderService::getUnit)
+        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val supportedValues = SimpleCache(cccevFinderService::getValue)
     }
 }

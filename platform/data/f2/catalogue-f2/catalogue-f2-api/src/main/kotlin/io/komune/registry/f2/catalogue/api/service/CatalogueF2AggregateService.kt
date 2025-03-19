@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.api.service
 
-import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
@@ -50,18 +49,24 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import io.komune.registry.s2.dataset.domain.model.DistributionModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -73,6 +78,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val cccevAggregateService: CccevAggregateService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
@@ -558,9 +564,7 @@ class CatalogueF2AggregateService(
 
         val datasetId = if (originalDatasetId == null) {
             draftedDataset.toCreateCommand(draftedDatasetIdentifier)
-                .let {
-                    datasetAggregateService.create(it).id
-                }
+                .let { datasetAggregateService.create(it).id }
         } else {
             draftedDataset.toUpdateCommand(originalDatasetId)
                 .let { datasetAggregateService.update(it).id }
@@ -569,15 +573,8 @@ class CatalogueF2AggregateService(
         val updatedDataset = datasetFinderService.get(datasetId)
 
         draftedDataset.distributions.mapAsync { distribution ->
-            if (updatedDataset.distributions.any { it.id == distribution.id }) {
-                DatasetUpdateDistributionCommand(
-                    id = datasetId,
-                    name = distribution.name,
-                    distributionId = distribution.id,
-                    downloadPath = distribution.downloadPath,
-                    mediaType = distribution.mediaType
-                ).let { datasetAggregateService.updateDistribution(it) }
-            } else {
+            val existingDistribution = updatedDataset.distributions.firstOrNull { it.id == distribution.id }
+            if (existingDistribution == null) {
                 DatasetAddDistributionCommand(
                     id = datasetId,
                     name = distribution.name,
@@ -585,7 +582,16 @@ class CatalogueF2AggregateService(
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType
                 ).let { datasetAggregateService.addDistribution(it) }
+            } else {
+                DatasetUpdateDistributionCommand(
+                    id = datasetId,
+                    name = distribution.name,
+                    distributionId = distribution.id,
+                    downloadPath = distribution.downloadPath,
+                    mediaType = distribution.mediaType
+                ).let { datasetAggregateService.updateDistribution(it) }
             }
+            applyDistributionAggregatorsUpdate(datasetId, distribution, existingDistribution)
         }
         updatedDataset.distributions.filter { distribution ->
             draftedDataset.distributions.none { it.id == distribution.id }
@@ -594,8 +600,45 @@ class CatalogueF2AggregateService(
                 id = datasetId,
                 distributionId = distribution.id
             ).let { datasetAggregateService.removeDistribution(it) }
+            distribution.aggregators.forEach { (_, valueId) ->
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+            }
         }
 
         return updatedDataset
+    }
+
+    private suspend fun applyDistributionAggregatorsUpdate(
+        datasetId: DatasetId, distribution: DistributionModel, originalDistribution: DistributionModel?
+    ) {
+        distribution.aggregators.forEach { (conceptId, valueId) ->
+            val existingValueId = originalDistribution?.aggregators?.get(conceptId)
+            if (existingValueId != valueId) {
+                DatasetUpdateDistributionAggregatorValueCommand(
+                    id = datasetId,
+                    distributionId = distribution.id,
+                    informationConceptId = conceptId,
+                    supportedValueId = valueId
+                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+
+                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
+                existingValueId?.let {
+                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it))
+                }
+            }
+        }
+
+        originalDistribution?.aggregators
+            ?.filterKeys { it !in distribution.aggregators }
+            ?.forEach { (conceptId, valueId) ->
+                DatasetUpdateDistributionAggregatorValueCommand(
+                    id = datasetId,
+                    distributionId = distribution.id,
+                    informationConceptId = conceptId,
+                    supportedValueId = null
+                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+            }
     }
 }

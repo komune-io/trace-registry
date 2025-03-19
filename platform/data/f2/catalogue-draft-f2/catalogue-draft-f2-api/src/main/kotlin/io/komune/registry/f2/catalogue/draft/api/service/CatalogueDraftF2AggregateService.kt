@@ -21,8 +21,9 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmit
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
-import java.util.concurrent.ConcurrentHashMap
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import org.springframework.stereotype.Service
+import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class CatalogueDraftF2AggregateService(
@@ -108,6 +109,15 @@ class CatalogueDraftF2AggregateService(
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType,
                 ).let { datasetAggregateService.addDistribution(it) }
+
+                distribution.aggregators.forEach { (conceptId, valueId) ->
+                    DatasetUpdateDistributionAggregatorValueCommand(
+                        id = newId,
+                        distributionId = distribution.id,
+                        informationConceptId = conceptId,
+                        supportedValueId = valueId
+                    ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                }
             }
 
             val childrenIds = copyDatasets(dataset.datasetIds)

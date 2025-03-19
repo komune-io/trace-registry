@@ -1,9 +1,11 @@
 package io.komune.registry.f2.dataset.domain.dto
 
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.s2.dataset.domain.model.DistributionId
-import kotlin.js.JsExport
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
+import io.komune.registry.s2.commons.model.DistributionId
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * @d2 model
@@ -32,6 +34,8 @@ interface DistributionDTO {
      */
     val mediaType: String
 
+    val aggregators: List<InformationConceptComputedDTO>
+
     /**
      * Date of issuance of the distribution.
      * @example 1617235200000
@@ -54,6 +58,7 @@ data class DistributionDTOBase(
     override val name: String?,
     override val downloadPath: FilePath,
     override val mediaType: String,
+    override val aggregators: List<InformationConceptComputedDTOBase>,
     override val issued: Long,
     override val modified: Long
 ) : DistributionDTO
