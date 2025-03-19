@@ -36,7 +36,6 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
     )
 
     const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
-
     const graphsDisplay = useMemo(() => graphDataset?.datasets?.map((dataset) => {
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
         if (!imageDistribution) return
@@ -50,8 +49,10 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
         )
     }), [graphDataset, onDelete])
 
-    const csvDistributions = useMemo(() => graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv"), [graphDataset])
-
+    const csvDistributions = useMemo(() =>
+      graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv")
+      , [graphDataset]
+    )
     const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} />), [csvDistributions, graphDataset])
 
     return (

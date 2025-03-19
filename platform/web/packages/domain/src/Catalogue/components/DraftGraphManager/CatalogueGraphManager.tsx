@@ -17,7 +17,6 @@ export const CatalogueGraphManager = (props: CatalogueGraphManagerProps) => {
     const [open, _, toggle] = useToggleState()
 
     const graphDataset = useMemo(() => catalogue?.datasets?.find((dataset) => dataset.type === "graphs"), [catalogue])
-
     const graphsDisplay = useMemo(() => graphDataset?.datasets?.map((dataset) => {
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
         if (!imageDistribution) return
