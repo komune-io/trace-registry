@@ -85,7 +85,8 @@ export const AppPage = (props: AppPageProps) => {
                             count={128003}
                             sx={{
                                 flexGrow: 1,
-                                justifyContent: "center"
+                                justifyContent: "center",
+                                height: "10px",
                             }}
                         />
                     }
