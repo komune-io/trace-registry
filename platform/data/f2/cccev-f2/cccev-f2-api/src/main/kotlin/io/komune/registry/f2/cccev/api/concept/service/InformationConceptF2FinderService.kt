@@ -1,8 +1,10 @@
 package io.komune.registry.f2.cccev.api.concept.service
 
 import io.komune.registry.api.commons.model.SimpleCache
+import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
 import io.komune.registry.f2.cccev.api.concept.model.toDTO
 import io.komune.registry.f2.cccev.api.concept.model.toTranslatedDTO
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTOBase
 import io.komune.registry.s2.cccev.api.CccevFinderService
@@ -35,11 +37,28 @@ class InformationConceptF2FinderService(
             .sortedBy { it.name ?: "z".repeat(10) }
     }
 
+    suspend fun getGlobalValue(identifier: InformationConceptIdentifier, language: Language): InformationConceptComputedDTOBase? {
+        val concept = cccevFinderService.getConceptByIdentifierOrNull(identifier)
+            ?: return null
+
+        val value = cccevFinderService.computeGlobalValueForConcept(concept.id)
+
+        return concept.toComputedDTOCached(value, language)
+    }
+
     private suspend fun InformationConceptModel.toDTOCached(cache: Cache = Cache()) = toDTO(
         getUnit = cache.units::get
     )
 
     private suspend fun InformationConceptModel.toTranslatedDTOCached(language: Language, cache: Cache = Cache()) = toTranslatedDTO(
+        language = language,
+        getUnit = cache.units::get
+    )
+
+    private suspend fun InformationConceptModel.toComputedDTOCached(
+        value: String, language: Language, cache: Cache = Cache()
+    ) = toComputedDTO(
+        value = value,
         language = language,
         getUnit = cache.units::get
     )

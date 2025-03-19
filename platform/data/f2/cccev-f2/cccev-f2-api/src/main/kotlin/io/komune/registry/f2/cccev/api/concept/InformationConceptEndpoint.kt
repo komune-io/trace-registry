@@ -8,6 +8,8 @@ import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCrea
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreatedEventDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierResult
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueFunction
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueResult
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
@@ -37,6 +39,13 @@ class InformationConceptEndpoint(
         logger.info("informationConceptList: $query")
         informationConceptF2FinderService.listTranslated(query.language)
             .let(::InformationConceptListResult)
+    }
+
+    @Bean
+    override fun informationConceptGetGlobalValue(): InformationConceptGetGlobalValueFunction = f2Function { query ->
+        logger.info("informationConceptGetGlobalValue: $query")
+        informationConceptF2FinderService.getGlobalValue(query.identifier, query.language)
+            .let(::InformationConceptGetGlobalValueResult)
     }
 
     @Bean

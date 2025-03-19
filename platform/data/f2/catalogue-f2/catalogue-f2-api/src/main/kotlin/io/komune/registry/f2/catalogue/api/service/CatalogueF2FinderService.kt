@@ -86,7 +86,7 @@ class CatalogueF2FinderService(
     }
 
     suspend fun page(
-        catalogueId: Match<String>? = null,
+        id: Match<String>? = null,
         parentIdentifier: String? = null,
         language: String,
         title: Match<String>? = null,
@@ -99,7 +99,7 @@ class CatalogueF2FinderService(
     ): CataloguePageResult = withCache {
         val defaultValue = status?.let { CatalogueState.valueOf(it) } ?: CatalogueState.ACTIVE
         val catalogues = catalogueFinderService.page(
-            id = catalogueId,
+            id = id,
             title = title,
             parentIdentifier = parentIdentifier,
             type = type,
@@ -180,7 +180,7 @@ class CatalogueF2FinderService(
         } ?: emptyList<FacetDistributionDTO>()
 
         val translatedCatalogues = page(
-            catalogueId = CollectionMatch(catalogueTranslations.items.map { it.id.substringBeforeLast('-') }),
+            id = CollectionMatch(catalogueTranslations.items.map { it.id.substringBeforeLast('-') }),
             language = language
         ).items.associateBy { "${it.id}-$language" }
 

@@ -16,10 +16,13 @@ import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.AggregatorScope
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.cccev.api.processor.compute
+import io.komune.registry.s2.cccev.domain.model.SumProcessorInput
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
@@ -27,6 +30,7 @@ import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
+import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class CatalogueI18nService(
@@ -203,18 +207,33 @@ class CatalogueI18nService(
         val allDatasetIds = datasetIds + translations.flatMap { it.datasetIds }
         val allDatasets = allDatasetIds.map { cache.datasets.get(it) }
 
-        val aggregatorValues = mutableMapOf<InformationConceptId, List<String>>()
-        allDatasets.forEach { dataset ->
-            dataset.distributions.forEach { distribution ->
+        val (globalAggregators, localAggregators) = aggregators.partition { aggregator ->
+            aggregator.scope == AggregatorScope.GLOBAL
+        }
+        val globalConceptIds = globalAggregators.map { aggregator -> aggregator.informationConceptId }.toSet()
+
+        val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<String>>()
+
+        localAggregators.forEach { aggregator ->
+            aggregatorValues[aggregator.informationConceptId] = emptyList()
+        }
+
+        allDatasets.mapAsync { dataset ->
+            dataset.distributions.mapAsync { distribution ->
                 distribution.aggregators.forEach { (conceptId, valueId) ->
-                    val supportedValue = cache.supportedValues.get(valueId)
-                    aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
+                    if (conceptId !in globalConceptIds) {
+                        val supportedValue = cache.supportedValues.get(valueId)
+                        aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
+                    }
                 }
             }
         }
+        globalConceptIds.mapAsync { conceptId ->
+            aggregatorValues[conceptId] = listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
+        }
 
         aggregatorValues.map { (conceptId, values) ->
-            val value = values.sumOf { it.toBigDecimal() }.toString()
+            val value = SumProcessorInput(values).compute()
             cache.informationConcepts.get(conceptId)
                 .toComputedDTO(value, language!!, cache.dataUnits::get)
         }

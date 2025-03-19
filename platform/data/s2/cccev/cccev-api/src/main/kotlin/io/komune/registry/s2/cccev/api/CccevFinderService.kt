@@ -7,8 +7,11 @@ import io.komune.registry.s2.cccev.api.entity.unit.toModel
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueEntity
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
 import io.komune.registry.s2.cccev.api.entity.value.toModel
+import io.komune.registry.s2.cccev.api.processor.compute
+import io.komune.registry.s2.cccev.domain.SupportedValueState
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
+import io.komune.registry.s2.cccev.domain.model.SumProcessorInput
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.DataUnitId
@@ -81,5 +84,10 @@ class CccevFinderService(
     suspend fun list(ids: List<SupportedValueId>): List<SupportedValueModel> {
         return valueRepository.findAllById(ids)
             .map(SupportedValueEntity::toModel)
+    }
+
+    suspend fun computeGlobalValueForConcept(id: InformationConceptId): String {
+        val supportedValues = valueRepository.findAllByConceptIdAndStatus(id, SupportedValueState.VALIDATED)
+        return SumProcessorInput(supportedValues.map { it.value }).compute()
     }
 }

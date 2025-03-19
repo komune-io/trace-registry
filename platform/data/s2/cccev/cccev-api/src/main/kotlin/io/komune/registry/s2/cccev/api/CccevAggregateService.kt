@@ -12,6 +12,10 @@ import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
 import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreatedEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -55,6 +59,20 @@ class CccevAggregateService(
             id = command.id,
             date = System.currentTimeMillis(),
             supportedValueId = valueId
+        )
+    }
+
+    suspend fun validateValue(command: SupportedValueValidateCommand) = valueAutomate.transition(command) {
+        SupportedValueValidatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+        )
+    }
+
+    suspend fun deprecateValue(command: SupportedValueDeprecateCommand) = valueAutomate.transition(command) {
+        SupportedValueDeprecatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
         )
     }
 

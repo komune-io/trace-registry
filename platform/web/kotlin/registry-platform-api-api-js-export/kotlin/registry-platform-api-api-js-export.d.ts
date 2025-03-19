@@ -2538,6 +2538,17 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.query {
     }
 }
 export declare namespace io.komune.registry.f2.cccev.domain.concept.query {
+    interface InformationConceptGetGlobalValueQueryDTO {
+        readonly identifier: string;
+        readonly language: string;
+
+    }
+    interface InformationConceptGetGlobalValueResultDTO {
+        readonly item?: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.concept.query {
     interface InformationConceptListQueryDTO {
         readonly language: string;
 
@@ -2954,11 +2965,29 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueRemoveAggregatorCommandDTO {
+        readonly id: string;
+        readonly informationConceptId: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueSetAggregatorCommandDTO {
+        readonly id: string;
+        readonly informationConceptId: string;
+        readonly scope: io.komune.registry.s2.catalogue.domain.model.AggregatorScope;
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueUpdateAccessRightsCommandDTO {
         readonly id: string;
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
 
     }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    type AggregatorScope = "GLOBAL";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
@@ -3551,6 +3580,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
         canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canSetAggregator(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
     };
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
@@ -3620,6 +3650,18 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueSetAggregatorCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorCommandDTO {
+        readonly id: string;
+        readonly informationConceptId: string;
+        readonly scope: io.komune.registry.s2.catalogue.domain.model.AggregatorScope;
+
+    }
+    interface CatalogueSetAggregatorEventDTO {
         readonly id: string;
 
     }
