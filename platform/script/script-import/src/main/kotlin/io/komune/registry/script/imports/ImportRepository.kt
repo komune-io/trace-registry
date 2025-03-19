@@ -5,6 +5,8 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
@@ -13,6 +15,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
+import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -23,6 +27,8 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ConceptInitData
+import io.komune.registry.script.imports.model.DataUnitInitData
+import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
 
@@ -55,6 +61,38 @@ class ImportRepository(
                 name = license.name,
                 url = license.url,
             ).invokeWith(dataClient.license.licenseCreate()).id
+        }
+
+    suspend fun getOrCreateDataUnit(dataUnit: DataUnitInitData) = DataUnitGetByIdentifierQuery(dataUnit.identifier)
+        .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            DataUnitCreateCommand(
+                identifier = dataUnit.identifier,
+                name = dataUnit.name,
+                abbreviation = dataUnit.abbreviation,
+                type = dataUnit.type,
+            ).invokeWith(dataClient.cccev.dataUnitCreate()).id
+        }
+
+    suspend fun getOrCreateInformationConcept(
+        informationConcept: InformationConceptInitData
+    ) = InformationConceptGetByIdentifierQuery(informationConcept.identifier)
+        .invokeWith(dataClient.cccev.informationConceptGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            val unit = DataUnitGetByIdentifierQuery(informationConcept.unit)
+                .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
+                .item
+                ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
+
+            InformationConceptCreateCommand(
+                identifier = informationConcept.identifier,
+                name = informationConcept.name,
+                unitId = unit.id,
+            ).invokeWith(dataClient.cccev.informationConceptCreate()).id
         }
 
     suspend fun getOrCreateDataset(

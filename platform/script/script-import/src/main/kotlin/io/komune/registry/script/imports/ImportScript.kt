@@ -2,7 +2,6 @@ package io.komune.registry.script.imports
 
 import cccev.dsl.client.DataClient
 import cccev.dsl.client.toUpdateCommand
-import cccev.dsl.model.nullIfEmpty
 import com.fasterxml.jackson.module.kotlin.readValue
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.api.commons.utils.jsonMapper
@@ -100,34 +99,56 @@ class ImportScript(
         initCatalogues(importContext)
         logger.info("Initialized Standard Catalogue entities.")
 
+        logger.info("Initializing Data Units entities...")
+        initDataUnits(importContext)
+        logger.info("Initialized Data Units entities.")
+
+        logger.info("Initializing Information Concepts entities...")
+        initInformationConcepts(importContext)
+        logger.info("Initialized Information Concepts entities.")
+
         logger.info("Initialized basic entities.")
     }
 
     private suspend fun initConcepts(importContext: ImportContext) {
-        val concepts = importContext.settings.init?.concepts.nullIfEmpty() ?: return
-
-        concepts.forEach { concept ->
-            val conceptId = importRepository.getOrCreateConcept(concept)
-            importContext.concepts[concept.identifier] = conceptId
-        }
+        importContext.settings.init
+            ?.concepts
+            ?.forEach { concept ->
+                val conceptId = importRepository.getOrCreateConcept(concept)
+                importContext.concepts[concept.identifier] = conceptId
+            }
     }
 
     private suspend fun initLicenses(importContext: ImportContext) {
-        val licenses = importContext.settings.init?.licenses.nullIfEmpty() ?: return
-
-        licenses.forEach { license ->
-            val licenseId = importRepository.getOrCreateLicense(license)
-            importContext.licenses[license.identifier] = licenseId
-        }
+        importContext.settings.init
+            ?.licenses
+            ?.forEach { license ->
+                val licenseId = importRepository.getOrCreateLicense(license)
+                importContext.licenses[license.identifier] = licenseId
+            }
     }
 
+    private suspend fun initDataUnits(importContext: ImportContext) {
+        importContext.settings.init
+            ?.dataUnits
+            ?.forEach { dataUnit ->
+                importRepository.getOrCreateDataUnit(dataUnit)
+            }
+    }
+
+    private suspend fun initInformationConcepts(importContext: ImportContext) {
+        importContext.settings.init
+            ?.informationConcepts
+            ?.forEach { informationConcept ->
+                importRepository.getOrCreateInformationConcept(informationConcept)
+            }
+    }
 
     private suspend fun initCatalogues(importContext: ImportContext): List<CatalogueDTOBase> {
-        val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return emptyList()
-
-        return catalogues.map { catalogueData ->
-            importCatalogue(catalogueData, importContext)
-        }
+        return importContext.settings.init
+            ?.catalogues
+            ?.map { catalogueData -> importCatalogue(catalogueData, importContext) }
+            .orEmpty()
     }
 
     private suspend fun importCatalogues(importContext: ImportContext) {
