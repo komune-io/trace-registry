@@ -31,10 +31,6 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
 
     const globalLoading = isLoading || subCatalogueLoading
 
-    console.log(globalLoading)
-
-    console.log(data)
-
     const dataDislpay = useMemo(() => data?.items.map((subCatalogue) => (
         <TitledImg
             key={subCatalogue.id}

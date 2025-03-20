@@ -68,11 +68,10 @@ export const useCatalogueMenu = () => {
 
       const baseUrl = platform.url.endsWith('/')
         ? platform.url.slice(0, -1) // remove trailing slash
-        : platform.url;  console.log(item.img)
+        : platform.url;
       const path = item.img?.startsWith("/")
         ? item.img
         : `/${item.img}`
-      console.log(`${baseUrl}${path}`)
       const icon = item.img ?
         <Icon src={`${baseUrl}${path}`} /> : iconPack.system
       const items = catalogue.catalogues?.map(mapCatalogueRef([catalogue.identifier], cataloguesAll))
