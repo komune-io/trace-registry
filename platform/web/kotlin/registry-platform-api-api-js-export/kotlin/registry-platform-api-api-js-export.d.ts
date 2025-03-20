@@ -3870,7 +3870,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly title?: string;
         readonly status?: string;
         readonly language: string;
-        readonly otherLanguageIfAbsent: boolean;
+        readonly otherLanguageIfAbsent?: boolean;
         readonly type?: string[];
         readonly creatorOrganizationId?: string;
         readonly offset?: number;
@@ -3909,8 +3909,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueSearchQueryDTO {
         readonly offset?: number;
         readonly limit?: number;
-        readonly language: string;
         readonly query?: string;
+        readonly language: string;
+        readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
         readonly parentIdentifier?: string[];

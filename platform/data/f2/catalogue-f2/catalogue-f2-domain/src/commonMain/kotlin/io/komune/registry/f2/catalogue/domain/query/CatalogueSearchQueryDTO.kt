@@ -28,8 +28,9 @@ interface CatalogueSearchQueryDTO {
     val offset: Int?
     val limit: Int?
 
-    val language: String
     val query: String?
+    val language: String
+    val otherLanguageIfAbsent: Boolean?
 
     val accessRights: List<String>?
     val catalogueIds: List<String>?
@@ -49,8 +50,9 @@ data class CatalogueSearchQuery(
     override val offset: Int?,
     override val limit: Int?,
 
-    override val language: String,
     override val query: String? = null,
+    override val language: String,
+    override val otherLanguageIfAbsent: Boolean = false,
 
     override val accessRights: List<String>? = null,
     override val catalogueIds: List<String>? = null,

@@ -1,12 +1,8 @@
-import {
-    CatalogueTable,
-    useCataloguesFilters,
-    useCatalogueSearchQuery
-} from 'domain-components'
-import { useTranslation } from 'react-i18next'
-import { AppPage, Offset, OffsetPagination } from 'template'
-import { useMemo } from "react"
-import { useExtendedAuth } from 'components'
+import {CatalogueTable, useCatalogueSearchQuery, useCataloguesFilters} from 'domain-components'
+import {useTranslation} from 'react-i18next'
+import {AppPage, Offset, OffsetPagination} from 'template'
+import {useMemo} from "react"
+import {useExtendedAuth} from 'components'
 
 
 export const OrganizationCataloguesPage = () => {
@@ -24,6 +20,7 @@ export const OrganizationCataloguesPage = () => {
             ...submittedFilters,
             language: i18n.language,
             creatorOrganizationId: service.getUser()?.memberOf,
+            otherLanguageIfAbsent: true
         },
         options: {
             enabled: !!service.getUser()?.memberOf

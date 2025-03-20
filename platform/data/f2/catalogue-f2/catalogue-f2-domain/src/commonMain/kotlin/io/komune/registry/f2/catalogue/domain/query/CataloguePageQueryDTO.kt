@@ -31,7 +31,7 @@ interface CataloguePageQueryDTO {
     val title: String?
     val status: String?
     val language: String
-    val otherLanguageIfAbsent: Boolean
+    val otherLanguageIfAbsent: Boolean?
     val type: List<String>?
     val creatorOrganizationId: OrganizationId?
     val offset: Int?

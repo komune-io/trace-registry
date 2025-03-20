@@ -55,6 +55,7 @@ class CatalogueAggregateService(
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId ?: authedUser?.memberOf,
 			structure = command.structure,
+			isTranslationOf = command.isTranslationOf,
 			catalogueIds = command.catalogueIds,
 			datasetIds = command.datasetIds,
 			creatorId = authedUser?.id,

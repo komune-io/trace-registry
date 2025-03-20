@@ -56,6 +56,8 @@ class CatalogueSnapMeiliSearchRepository(
         CatalogueModel::modified.name
     )
 
+    override val distinctAttribute: String? = CatalogueModel::isTranslationOf.name
+
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
         if (entity.status == CatalogueState.DELETED) {
             remove(entity.id)
@@ -64,27 +66,21 @@ class CatalogueSnapMeiliSearchRepository(
 
         updateDraft(entity)
 
-        if (!entity.type.contains("translation")) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
+        if (entity.isTranslationOf == null) {
             return@withContext
         }
 
         val domain = catalogueI18nService.rebuildModel(entity)
+            ?: return@withContext
 
-        if (domain == null) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return@withContext
-        }
         if (domain.hidden) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is hidden")
-            return@withContext
-        }
-        if (!indexedCatalogueTypes.contains(domain.type)) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is not contained in ${searchProperties.indexedCatalogue}")
             return@withContext
         }
 
-        logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
+        if (domain.type !in indexedCatalogueTypes) {
+            return@withContext
+        }
+
         try {
             val jsonString = objectMapper.writeValueAsString(listOf(domain))
             val existing = get(domain.id)
