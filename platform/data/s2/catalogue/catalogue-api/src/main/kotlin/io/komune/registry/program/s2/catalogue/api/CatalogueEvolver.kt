@@ -53,6 +53,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		type = event.type
 		catalogueIds = event.catalogueIds
 		datasetIds = event.datasetIds
+		isTranslationOf = event.isTranslationOf
 		creatorId = event.creatorId
 		creatorOrganizationId = event.creatorOrganizationId
 		issued = event.date

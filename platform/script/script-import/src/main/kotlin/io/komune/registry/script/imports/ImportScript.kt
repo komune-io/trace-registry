@@ -19,12 +19,14 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.CatalogueImportSettings
@@ -219,67 +221,90 @@ class ImportScript(
     private suspend fun importDataset(
         catalogue: CatalogueDTOBase,
         datasetSettings: CatalogueDatasetSettings,
-        directory: File
+        directory: File,
+        datasetParent: DatasetDTOBase? = null,
     ) {
-        datasetSettings.translations.forEach { (language, path) ->
-            val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
-                ?: return@forEach
-
-            val dataset = initDataset(language, datasetSettings, catalogue)
-            when (datasetSettings.mediaType) {
-                "text/markdown" -> {
-                    val resourceDataset = datasetSettings.resourcesDataset
-                        ?.let {
-                            importRepository.getOrCreateDataset(
-                                identifier = "${catalogue.identifier}-$language-$it",
-                                parentId = null,
-                                catalogueId = catalogue.id,
-                                language = language,
-                                type = "resources",
-                            )
-                        } ?: dataset
-
-                    createMarkdownDatasetMediaDistribution(
-                        dataset = dataset,
-                        resourcesDataset = resourceDataset,
-                        datasetSettings = datasetSettings,
-                        file = file
-                    )
+        datasetSettings.media.forEach { media ->
+            media.translations.forEach { (language, path) ->
+                if(catalogue.id == "100m-chart-17") {
+                    println(path)
                 }
-                else -> importRepository.createDatasetMediaDistribution(
-                    dataset = dataset,
-                    mediaType = datasetSettings.mediaType,
-                    file = file.toSimpleFile()
-                )
+                val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
+                    ?: return@forEach
+
+                val dataset = importRepository.initDataset(language, datasetSettings, catalogue, datasetParent)
+                importDistribution(media, path, datasetParent, file, dataset, datasetSettings, catalogue, language)
+                datasetSettings.datasets?.forEach {
+                    importDataset(catalogue, it, directory, dataset)
+                }
             }
         }
 
+
     }
 
-    suspend fun initDataset(language: String, dataset: CatalogueDatasetSettings, catalogue: CatalogueDTOBase): DatasetDTOBase {
-        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
-        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item
+    private suspend fun ImportScript.importDistribution(
+        media: CatalogueDatasetMediaSettings,
+        path: String,
+        datasetParent: DatasetDTOBase?,
+        file: File,
+        dataset: DatasetDTOBase,
+        datasetSettings: CatalogueDatasetSettings,
+        catalogue: CatalogueDTOBase,
+        language: Language
+    ) {
+        when (media.mediaType) {
+            "application/json" -> {
+                if (path.endsWith("piechart.json")) {
+                    val lastDataSet = datasetParent?.let {
+                        importRepository.getDataset(datasetParent.id)
+                    }
+                    lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
+                        val rawText = file.readText()
+                        val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
+                        importRepository.createDatasetMediaDistribution(
+                            dataset = dataset,
+                            mediaType = media.mediaType,
+                            file = SimpleFile(file.name, newText.toByteArray())
+                        )
+                    }
+                }
+            }
 
-        if (existingDataset != null) {
-            return existingDataset
+            "text/markdown" -> {
+                val resourceDataset = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
+
+                createMarkdownDatasetMediaDistribution(
+                    dataset = dataset,
+                    resourcesDataset = resourceDataset,
+                    datasetSettings = datasetSettings,
+                    file = file
+                )
+            }
+
+            else -> importRepository.createDatasetMediaDistribution(
+                dataset = dataset,
+                mediaType = media.mediaType,
+                file = file.toSimpleFile()
+            )
         }
-
-        val title = dataset.title?.get(language)
-        println("Creating dataset[$identifier] $title")
-        DatasetCreateCommandDTOBase(
-            identifier = identifier,
-            catalogueId = catalogue.id,
-            type = dataset.type,
-            title = title,
-            language = language,
-        ).invokeWith(dataClient.dataset.datasetCreate())
-
-        return DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item!!
     }
+
+    private suspend fun getOrCreateResourceDataset(
+        datasetSettings: CatalogueDatasetSettings,
+        catalogue: CatalogueDTOBase,
+        language: Language,
+        dataset: DatasetDTOBase
+    ) = datasetSettings.resourcesDataset
+        ?.let {
+            importRepository.getOrCreateDataset(
+                identifier = "${catalogue.identifier}-$language-$it",
+                parentId = null,
+                catalogueId = catalogue.id,
+                language = language,
+                type = "resources",
+            )
+        } ?: dataset
 
     @Suppress("NestedBlockDepth")
     private suspend fun createMarkdownDatasetMediaDistribution(

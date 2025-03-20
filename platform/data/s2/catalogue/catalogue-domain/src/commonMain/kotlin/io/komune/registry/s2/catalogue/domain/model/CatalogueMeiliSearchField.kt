@@ -12,4 +12,5 @@ enum class CatalogueMeiliSearchField(override val identifier: String): MeiliSear
     CREATOR_ID(CatalogueModel::creatorId.name),
     CREATOR_ORGANIZATION_ID(CatalogueModel::creatorOrganizationId.name),
     OWNER_ORGANIZATION_ID(CatalogueModel::ownerOrganizationId.name),
+    AVAILABLE_LANGUAGES(CatalogueModel::availableLanguages.name),
 }

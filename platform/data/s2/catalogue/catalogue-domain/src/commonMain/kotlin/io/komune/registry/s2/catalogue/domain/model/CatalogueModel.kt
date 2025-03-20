@@ -25,6 +25,7 @@ data class CatalogueModel(
     var structure: Structure? = null,
     val themeIds: List<ConceptId>? = null,
     val translationIds: Map<Language, CatalogueId>,
+    val isTranslationOf: CatalogueId?,
     val datasetIds: List<DatasetId>,
     val catalogueIds: List<CatalogueId>,
     val status: CatalogueState,
@@ -42,4 +43,6 @@ data class CatalogueModel(
     val modified: Long,
     val version: Int,
     val versionNotes: String?,
-)
+) {
+    val availableLanguages = translationIds.keys
+}

@@ -1,12 +1,8 @@
-import {
-    useCataloguePageQuery,
-    CatalogueTable,
-    useCataloguesFilters
-} from 'domain-components'
-import { useTranslation } from 'react-i18next'
-import { AppPage, Offset, OffsetPagination } from 'template'
-import { useMemo } from "react"
-import { useExtendedAuth } from 'components'
+import {CatalogueTable, useCatalogueSearchQuery, useCataloguesFilters} from 'domain-components'
+import {useTranslation} from 'react-i18next'
+import {AppPage, Offset, OffsetPagination} from 'template'
+import {useMemo} from "react"
+import {useExtendedAuth} from 'components'
 
 
 export const OrganizationCataloguesPage = () => {
@@ -19,11 +15,12 @@ export const OrganizationCataloguesPage = () => {
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
 
-    const { data, isInitialLoading } = useCataloguePageQuery({
+    const { data, isInitialLoading } = useCatalogueSearchQuery({
         query: {
             ...submittedFilters,
-            language: submittedFilters.language ?? i18n.language,
-            creatorOrganizationId: service.getUser()?.memberOf
+            language: i18n.language,
+            creatorOrganizationId: service.getUser()?.memberOf,
+            otherLanguageIfAbsent: true
         },
         options: {
             enabled: !!service.getUser()?.memberOf

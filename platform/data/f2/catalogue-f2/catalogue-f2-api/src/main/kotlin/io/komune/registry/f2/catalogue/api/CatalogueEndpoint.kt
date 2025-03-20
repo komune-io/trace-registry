@@ -89,6 +89,7 @@ class CatalogueEndpoint(
             status = query.status,
             parentIdentifier = query.parentIdentifier,
             language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
@@ -104,14 +105,16 @@ class CatalogueEndpoint(
     override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
         logger.info("catalogueSearch: $query")
         catalogueF2FinderService.search(
-            language = query.language,
             query = query.query,
+            language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
             licenseId = query.licenseId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
             themeIds = query.themeIds?.let(::CollectionMatch),
+            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(
                 offset = query.offset ?: 0,

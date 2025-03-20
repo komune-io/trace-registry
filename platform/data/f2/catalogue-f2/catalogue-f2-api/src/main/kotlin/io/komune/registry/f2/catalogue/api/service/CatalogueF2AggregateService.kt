@@ -164,7 +164,7 @@ class CatalogueF2AggregateService(
             license = command.license ?: originalCatalogue.licenseId,
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
-        ).let { doCreate(it, isTranslation = true, initDatasets) }
+        ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
         if (initDatasets && translationType != command.type) {
             val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
@@ -284,6 +284,7 @@ class CatalogueF2AggregateService(
     private suspend fun doCreate(
         command: CatalogueCreateCommandDTOBase,
         isTranslation: Boolean = false,
+        isTranslationOf: CatalogueId? = null,
         initDatasets: Boolean = true,
     ): CatalogueCreatedEvent {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
@@ -299,6 +300,7 @@ class CatalogueF2AggregateService(
         val createCommand = command.toCommand(
             identifier = catalogueIdentifier,
             withTranslatable = !i18nEnabled,
+            isTranslationOf = isTranslationOf,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
         ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
@@ -492,7 +494,7 @@ class CatalogueF2AggregateService(
             description = description,
             language = language,
             versionNotes = versionNotes,
-        ).let { doCreate(it, isTranslation = true, initDatasets = initDatasets) }
+        ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets) }
 
         createAndLinkDatasets(
             datasets = additionalDatasets,

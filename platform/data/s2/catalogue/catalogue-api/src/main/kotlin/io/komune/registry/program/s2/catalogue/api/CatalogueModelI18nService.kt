@@ -12,23 +12,24 @@ class CatalogueModelI18nService(
 ) {
 
     suspend fun rebuildModel(catalogue: CatalogueEntity): CatalogueModel? {
-        if (!catalogue.type.contains("translation")) {
-            return null
-        }
+        val originalId = catalogue.isTranslationOf
+            ?: return null
 
-        val genId = catalogue.identifier.substringBeforeLast('-')
-        val catalogueBase = catalogueRepository.findByIdentifier(genId)?.toModel()
-        return catalogueBase?.translate(catalogue)
+        return catalogueRepository.findById(originalId)
+            .orElse(null)
+            ?.toModel()
+            ?.translate(catalogue)
     }
 
-    private suspend fun CatalogueModel.translate(catalogueTranslated: CatalogueEntity): CatalogueModel? {
+    private suspend fun CatalogueModel.translate(catalogueTranslated: CatalogueEntity): CatalogueModel {
         return this.copy(
             id = catalogueTranslated.id,
             language = catalogueTranslated.language,
             title = catalogueTranslated.title,
             description = catalogueTranslated.description,
             datasetIds = this.datasetIds + catalogueTranslated.datasetIds,
-            catalogueIds = this.catalogueIds + catalogueTranslated.catalogueIds
+            catalogueIds = this.catalogueIds + catalogueTranslated.catalogueIds,
+            isTranslationOf = catalogueTranslated.isTranslationOf
         )
     }
 }

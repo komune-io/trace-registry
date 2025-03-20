@@ -68,7 +68,7 @@ export const useCatalogueMenu = () => {
 
       const baseUrl = platform.url.endsWith('/')
         ? platform.url.slice(0, -1) // remove trailing slash
-        : platform.url;
+        : platform.url
       const path = item.img?.startsWith("/")
         ? item.img
         : `/${item.img}`

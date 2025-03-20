@@ -2,7 +2,7 @@ import {languages, useCustomFilters} from 'components'
 import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
-import { CataloguePageQuery} from '../../api'
+import { CatalogueSearchQuery} from '../../api'
 import {catalogueTypes} from '../../model'
 
 interface useCataloguesFiltersParams {
@@ -12,21 +12,14 @@ interface useCataloguesFiltersParams {
 export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
     const {initialValues} = params ?? {}
     const {t} = useTranslation()
-    const filters = useMemo((): FilterComposableField<keyof CataloguePageQuery>[] => [
+    const filters = useMemo((): FilterComposableField<keyof CatalogueSearchQuery>[] => [
         {
-            name: 'catalogueId',
+            name: 'query',
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
-                placeholder: t("identifier")
-            }
-        },
-        {
-            name: 'title',
-            type: 'textField',
-            params: { 
-                textFieldType: 'search', 
-                placeholder: t("name")
+                style: { width: "200px"},
+                placeholder: t("search")
             },
             mandatory: true
         },
@@ -41,10 +34,11 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
             }
         },
         {
-            name: 'language',
+            name: 'availableLanguages',
             type: 'select',
             params: {
                 label: t("langue"),
+                multiple: true,
                 options: Object.keys(languages).map((lang) => ({
                     key: lang,
                     label: lang

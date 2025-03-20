@@ -20,8 +20,10 @@ import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
 import io.komune.registry.s2.commons.model.Criterion
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.MeiliIndex
+import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
@@ -54,6 +56,8 @@ class CatalogueSnapMeiliSearchRepository(
         CatalogueModel::modified.name
     )
 
+    override val distinctAttribute: String? = CatalogueModel::isTranslationOf.name
+
     suspend fun save(entity: CatalogueEntity) = withContext(Dispatchers.IO) {
         if (entity.status == CatalogueState.DELETED) {
             remove(entity.id)
@@ -62,27 +66,21 @@ class CatalogueSnapMeiliSearchRepository(
 
         updateDraft(entity)
 
-        if (!entity.type.contains("translation")) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
+        if (entity.isTranslationOf == null) {
             return@withContext
         }
 
         val domain = catalogueI18nService.rebuildModel(entity)
+            ?: return@withContext
 
-        if (domain == null) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}]")
-            return@withContext
-        }
         if (domain.hidden) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is hidden")
-            return@withContext
-        }
-        if (!indexedCatalogueTypes.contains(domain.type)) {
-            logger.info("Skip catalogue: $entity, [type: ${entity.type}] is not contained in ${searchProperties.indexedCatalogue}")
             return@withContext
         }
 
-        logger.info("Index catalogue[${domain.id}, ${domain.identifier}], type: ${domain.type}")
+        if (domain.type !in indexedCatalogueTypes) {
+            return@withContext
+        }
+
         try {
             val jsonString = objectMapper.writeValueAsString(listOf(domain))
             val existing = get(domain.id)
@@ -136,6 +134,8 @@ class CatalogueSnapMeiliSearchRepository(
         type: Match<String>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
+        creatorOrganizationId: Match<OrganizationId>? = null,
+        availableLanguages: Match<Language>? = null,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): FacetPage<CatalogueModel> = withContext(Dispatchers.IO) {
@@ -147,6 +147,8 @@ class CatalogueSnapMeiliSearchRepository(
                 match(CatalogueMeiliSearchField.TYPE, type),
                 match(CatalogueMeiliSearchField.THEME_IDS, themeIds),
                 match(CatalogueMeiliSearchField.LICENSE_ID, licenseId),
+                match(CatalogueMeiliSearchField.CREATOR_ORGANIZATION_ID, creatorOrganizationId),
+                match(CatalogueMeiliSearchField.AVAILABLE_LANGUAGES, availableLanguages),
                 criterion(freeCriterion)
             )
 
