@@ -1,7 +1,7 @@
 import {
-    useCataloguePageQuery,
     CatalogueTable,
-    useCataloguesFilters
+    useCataloguesFilters,
+    useCatalogueSearchQuery
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
@@ -19,11 +19,11 @@ export const OrganizationCataloguesPage = () => {
     const pagination = useMemo((): OffsetPagination => ({ offset: submittedFilters.offset ?? Offset.default.offset, limit: submittedFilters.limit ?? Offset.default.limit }), [submittedFilters.offset, submittedFilters.limit])
 
 
-    const { data, isInitialLoading } = useCataloguePageQuery({
+    const { data, isInitialLoading } = useCatalogueSearchQuery({
         query: {
             ...submittedFilters,
-            language: submittedFilters.language ?? i18n.language,
-            creatorOrganizationId: service.getUser()?.memberOf
+            language: i18n.language,
+            creatorOrganizationId: service.getUser()?.memberOf,
         },
         options: {
             enabled: !!service.getUser()?.memberOf
