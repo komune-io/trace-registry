@@ -84,6 +84,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var location: Location? = null
 
+    var aggregators: List<CatalogueAggregatorEntity> = emptyList()
+
     @Indexed
     var hidden: Boolean = false
 

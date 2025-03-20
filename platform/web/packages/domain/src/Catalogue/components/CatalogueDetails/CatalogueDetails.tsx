@@ -3,7 +3,8 @@ import { FormComposable, FormComposableField, useFormComposable } from '@komune-
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue } from '../../model'
-import { TitleDivider } from 'components'
+import { Co2Counter, TitleDivider } from 'components'
+import { useCatalogueCo2Counter } from '../../api'
 
 type simplifiedReadonlyFields = Record<string, {
     value: string,
@@ -72,6 +73,8 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     //     },
     // }), [catalogue, t])
 
+    const count = useCatalogueCo2Counter()
+
     return (
         <Stack
             gap={3}
@@ -81,6 +84,9 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             }}
         >
             <TitleDivider size='h3' title={t("informations")} />
+            {count && <Co2Counter
+                count={count}
+            />}
             <DetailsForm
                 isLoading={isLoading}
                 title={t("publication")}
@@ -91,7 +97,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 title={t("classification")}
                 values={classificationValues}
             />
-           {/*  <DetailsForm
+            {/*  <DetailsForm
                 isLoading={isLoading}
                 title={t("versionManagement")}
                 values={versionValues}

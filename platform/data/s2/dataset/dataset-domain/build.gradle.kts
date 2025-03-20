@@ -5,9 +5,7 @@ plugins {
 }
 
 dependencies {
-	commonMainApi(project(":platform:data:dsl:dcat"))
-}
+	commonMainApi(project(Modules.data.dsl.dcat))
 
-tasks.withType<Test>().configureEach {
-	useJUnitPlatform()
+	Dependencies.Mpp.fs(::commonMainApi)
 }

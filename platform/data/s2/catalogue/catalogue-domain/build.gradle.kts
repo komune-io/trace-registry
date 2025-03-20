@@ -10,4 +10,6 @@ dependencies {
 
 	commonMainApi(project(Modules.data.dsl.dcat))
 	commonMainApi(project(Modules.data.dsl.structure))
+
+	Dependencies.Mpp.fs(::commonMainApi)
 }

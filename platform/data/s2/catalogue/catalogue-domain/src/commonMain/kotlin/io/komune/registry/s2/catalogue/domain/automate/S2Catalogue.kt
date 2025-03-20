@@ -12,8 +12,12 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveAggregatorCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -26,11 +30,11 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNote
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRightsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
+import kotlin.js.JsExport
 
 val s2Catalogue = s2Sourcing {
     name = "Catalogue"
@@ -79,6 +83,14 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueUpdateAccessRightsCommand, CatalogueUpdatedAccessRightsEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueSetAggregatorCommand, CatalogueSetAggregatorEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueRemoveAggregatorCommand, CatalogueRemovedAggregatorEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

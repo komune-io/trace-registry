@@ -149,6 +149,8 @@
     "file": "Fichier",
     "administration": "Administration",
     "seeAll": "Voir tous",
+    "mySheets": "Mes fiches",
+    "co2TonsAvoided": "Tonnes de CO2 économisées",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -300,7 +302,7 @@
         "sectoralScopes": "Champs sectoriels",
         "newSection": "Nouvelle section",
         "createAdraft": "Créer un brouillon",
-        "noData": "Aucune fiche n'a été trouvé",
+        "noData": "Aucune fiche n'a été trouvée",
         "noDataToValidate": "Aucune fiche à valider",
         "reviewModifications": "Revue de la modification proposée par {{name}}",
         "consultOriginal": "Consulter l'original",

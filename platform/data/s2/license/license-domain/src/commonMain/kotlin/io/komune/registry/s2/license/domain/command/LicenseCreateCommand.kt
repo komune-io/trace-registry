@@ -2,8 +2,8 @@ package io.komune.registry.s2.license.domain.command
 
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Create a license.
@@ -40,6 +40,7 @@ data class LicenseCreateCommand(
     override val url: String?
 ) : LicenseInitCommand, LicenseCreateCommandDTO
 
+@Serializable
 sealed interface LicenseDataEvent : LicenseEvent {
     override val id: LicenseId
     override val date: Long

@@ -29,6 +29,8 @@ object Versions {
 	const val meilisearch = "0.14.2"
 	const val datafaker = "1.8.1"
 	const val html2pdf = "5.0.0"
+	const val hsqldb = "2.7.4"
+	const val jacksonCsv = "2.18.3"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val javaSnapshotTesting = "4.0.8"
 	const val ktor = FixersVersions.Kotlin.ktor
@@ -283,6 +285,13 @@ object Modules {
 				const val domain = "$BASE-domain"
 			}
 
+			object cccev {
+				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
 			object license {
 				private const val BASE = "${f2.BASE}:license-f2:license-f2"
 				const val api = "$BASE-api"
@@ -314,6 +323,12 @@ object Modules {
 
 			object dataset {
 				private const val BASE = "${s2.BASE}:dataset:dataset"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+
+			object cccev {
+				private const val BASE = "${s2.BASE}:cccev:cccev"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}

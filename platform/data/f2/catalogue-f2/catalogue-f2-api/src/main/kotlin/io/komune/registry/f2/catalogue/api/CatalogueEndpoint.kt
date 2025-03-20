@@ -21,6 +21,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
@@ -82,7 +84,7 @@ class CatalogueEndpoint(
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
         catalogueF2FinderService.page(
-            catalogueId = query.catalogueId?.let(::ExactMatch),
+            id = query.catalogueId?.let(::ExactMatch),
             title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status,
             parentIdentifier = query.parentIdentifier,
@@ -284,5 +286,13 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
+    }
+
+    @Bean
+    override fun catalogueSetAggregator(): CatalogueSetAggregatorFunction = f2Function { command ->
+        logger.info("catalogueSetAggregator: $command")
+        cataloguePoliciesEnforcer.checkSetAggregator(command.id)
+        catalogueAggregateService.setAggregator(command)
+            .let { CatalogueSetAggregatorEventDTOBase(command.id) }
     }
 }

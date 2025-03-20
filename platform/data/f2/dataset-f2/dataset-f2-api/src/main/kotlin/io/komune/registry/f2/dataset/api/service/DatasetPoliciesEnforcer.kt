@@ -1,6 +1,5 @@
 package io.komune.registry.f2.dataset.api.service
 
-import cccev.dsl.model.nullIfEmpty
 import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.im.commons.auth.AuthedUserDTO
 import io.komune.im.commons.auth.hasOneOfRoles
@@ -17,6 +16,7 @@ import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import org.springframework.stereotype.Service
 
 @Service

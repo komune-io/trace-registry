@@ -149,6 +149,8 @@
   "file": "Archivo",
   "administration": "Administración",
   "seeAll": "Ver todos",
+  "mySheets": "Mis fichas",
+  "co2TonsAvoided": "Toneladas de CO₂ ahorradas",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
