@@ -119,6 +119,7 @@ class CatalogueF2FinderService(
         )
     }
 
+    @Suppress("LongMethod")
     suspend fun search(
         language: Language,
         query: String?,
@@ -128,6 +129,8 @@ class CatalogueF2FinderService(
         type: Match<String>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
+        creatorOrganizationId: Match<OrganizationId>? = null,
+        availableLanguages: Match<Language>? = null,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache { cache ->
@@ -140,11 +143,11 @@ class CatalogueF2FinderService(
             parentIdentifier = parentIdentifier,
             type = type,
             themeIds = themeIds,
+            creatorOrganizationId = creatorOrganizationId,
+            availableLanguages = availableLanguages,
             freeCriterion = freeCriterion,
             page = page
         )
-
-//        catalogues.distribution[CatalogueModel::accessRights.name]
 
         val accessRightsDistribution = catalogueTranslations.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
             FacetDistribution(

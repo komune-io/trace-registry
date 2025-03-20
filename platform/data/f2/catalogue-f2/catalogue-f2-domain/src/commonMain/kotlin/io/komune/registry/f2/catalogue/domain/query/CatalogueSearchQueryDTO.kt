@@ -5,6 +5,9 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
+import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.OrganizationId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -21,7 +24,6 @@ typealias CatalogueSearchFunction = F2Function<CatalogueSearchQuery, CatalogueSe
  * @parent [CatalogueSearchFunction]
  */
 @JsExport
-@JsName("CatalogueSearchQueryDTO")
 interface CatalogueSearchQueryDTO {
     val offset: Int?
     val limit: Int?
@@ -35,11 +37,14 @@ interface CatalogueSearchQueryDTO {
     val type: List<String>?
     val themeIds: List<String>?
     val licenseId: List<String>?
+    val creatorOrganizationId: OrganizationId?
+    val availableLanguages: List<Language>?
 }
 
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueSearchQuery(
     override val offset: Int?,
     override val limit: Int?,
@@ -52,8 +57,9 @@ data class CatalogueSearchQuery(
     override val parentIdentifier: List<String>? = null,
     override val themeIds: List<String>?,
     override val licenseId: List<String>?,
-    override val type: List<String>?
-
+    override val type: List<String>?,
+    override val creatorOrganizationId: OrganizationId?,
+    override val availableLanguages: List<Language>?,
 ): CatalogueSearchQueryDTO
 
 /**

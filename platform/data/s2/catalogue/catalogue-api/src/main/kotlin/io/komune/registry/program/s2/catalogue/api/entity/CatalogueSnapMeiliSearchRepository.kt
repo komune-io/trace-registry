@@ -20,8 +20,10 @@ import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
 import io.komune.registry.s2.commons.model.Criterion
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.MeiliIndex
+import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
@@ -136,6 +138,8 @@ class CatalogueSnapMeiliSearchRepository(
         type: Match<String>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
+        creatorOrganizationId: Match<OrganizationId>? = null,
+        availableLanguages: Match<Language>? = null,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): FacetPage<CatalogueModel> = withContext(Dispatchers.IO) {
@@ -147,6 +151,8 @@ class CatalogueSnapMeiliSearchRepository(
                 match(CatalogueMeiliSearchField.TYPE, type),
                 match(CatalogueMeiliSearchField.THEME_IDS, themeIds),
                 match(CatalogueMeiliSearchField.LICENSE_ID, licenseId),
+                match(CatalogueMeiliSearchField.CREATOR_ORGANIZATION_ID, creatorOrganizationId),
+                match(CatalogueMeiliSearchField.AVAILABLE_LANGUAGES, availableLanguages),
                 criterion(freeCriterion)
             )
 

@@ -3677,6 +3677,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly type?: string[];
         readonly themeIds?: string[];
         readonly licenseId?: string[];
+        readonly creatorOrganizationId?: string;
+        readonly availableLanguages?: string[];
 
     }
     interface CatalogueSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
