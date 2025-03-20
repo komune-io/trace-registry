@@ -16,10 +16,15 @@ data class CatalogueImportSettings(
 data class CatalogueDatasetSettings(
     val title: Map<Language, String>?,
     val type: String,
+    val media: List<CatalogueDatasetMediaSettings>,
+    val resourcesDataset: String?,
+    val resourcesPathPrefix: PathReplacement?,
+    val datasets: List<CatalogueDatasetSettings>?
+)
+
+data class CatalogueDatasetMediaSettings(
     val mediaType: String,
     val translations: Map<Language, String>,
-    val resourcesDataset: String?,
-    val resourcesPathPrefix: PathReplacement?
 )
 
 data class PathReplacement(
