@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { NoMatchPage } from '@komune-io/g2'
 import { useSearchParams } from 'react-router-dom'
 import {CataloguesEntryPoint} from "../CataloguesEntryPoint/CataloguesEntryPoint";
+import { MosaicCatalogueEntryPoint } from '../MosaicCatalogueEntryPoint/MosaicCatalogueEntryPoint'
 
 interface CataloguesRouterProps {
 }
@@ -26,6 +27,8 @@ export const CataloguesRouter = (_: CataloguesRouterProps) => {
   if (catalogueGet.isInitialLoading || catalogueGet.isLoading || !catalogueGet?.data?.item) return <></>
   return catalogueGet.data?.item?.structure?.type === "item" ? (
     <CatalogueViewPage catalogue={catalogueGet.data.item} />
+  ) : catalogueGet.data?.item?.structure?.type === "mosaic" ? (
+    <MosaicCatalogueEntryPoint catalogue={catalogueGet.data.item} />
   ) : (
     <CataloguesEntryPoint catalogue={catalogueGet.data.item} />
   )
