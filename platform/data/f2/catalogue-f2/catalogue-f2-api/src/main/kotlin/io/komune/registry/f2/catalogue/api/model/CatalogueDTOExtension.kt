@@ -24,6 +24,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
@@ -42,6 +43,7 @@ suspend fun CatalogueModel.toAccessData(
 fun CatalogueCreateCommandDTOBase.toCommand(
     identifier: String,
     withTranslatable: Boolean,
+    isTranslationOf: CatalogueId?,
     hidden: Boolean
 ) = CatalogueCreateCommand(
     identifier = identifier,
@@ -55,6 +57,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     themeIds = themes?.toSet().orEmpty(),
     catalogueIds = catalogues?.toSet().orEmpty(),
     datasetIds = emptySet(),
+    isTranslationOf = isTranslationOf,
     accessRights = accessRights,
     licenseId = license,
     location = location,

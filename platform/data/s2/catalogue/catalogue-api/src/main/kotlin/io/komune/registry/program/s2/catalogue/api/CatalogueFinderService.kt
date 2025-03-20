@@ -18,6 +18,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import org.springframework.stereotype.Service
 
@@ -105,6 +106,8 @@ class CatalogueFinderService(
 		type: Match<String>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
+		creatorOrganizationId: Match<OrganizationId>? = null,
+		availableLanguages: Match<Language>? = null,
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
@@ -116,6 +119,8 @@ class CatalogueFinderService(
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,
+			creatorOrganizationId = creatorOrganizationId,
+			availableLanguages = availableLanguages,
 			freeCriterion = freeCriterion,
 			page = page
 		)

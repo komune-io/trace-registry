@@ -18,6 +18,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         img = img?.let { "/data/catalogues/${id}/img/${it.name}" },
         description = description,
         translationIds = translationIds,
+        isTranslationOf = isTranslationOf,
         catalogueIds = catalogueIds.toList(),
         datasetIds = datasetIds.toList(),
         themeIds = themeIds.toList(),
