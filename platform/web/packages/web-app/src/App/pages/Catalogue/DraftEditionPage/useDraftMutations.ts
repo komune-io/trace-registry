@@ -108,7 +108,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         return res
       }
     },
-    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, draft, draftId, catalogue, refetchDraft],
+    [metadataFormState.values, catalogueUpdate.mutateAsync, metadataFormState.values, draft, draftId, catalogue, refetchDraft, queryClient.invalidateQueries],
   )
 
   const validateDraft = useCatalogueDraftValidateCommand({})
@@ -130,7 +130,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         }
       }
     },
-    [onSave, catalogueId, afterValidateNavigate],
+    [onSave, catalogueId, afterValidateNavigate, queryClient.invalidateQueries],
   )
 
   const submitDraft = useCatalogueDraftSubmitCommand({})
@@ -151,7 +151,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         }
       }
     },
-    [onSave, draftId, catalogueId],
+    [onSave, draftId, catalogueId, queryClient.invalidateQueries],
 
   )
 
@@ -168,7 +168,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         navigate(cataloguesContributions())
       }
     },
-    [deleteCatalogue.mutateAsync, draftId, catalogueId],
+    [deleteCatalogue.mutateAsync, draftId, catalogueId, queryClient.invalidateQueries],
   )
 
   return {

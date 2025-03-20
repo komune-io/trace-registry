@@ -1,9 +1,10 @@
 package io.komune.registry.s2.dataset.domain.model
 
 import io.komune.fs.s2.file.domain.model.FilePath
+import io.komune.registry.s2.commons.model.DistributionId
+import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.SupportedValueId
 import kotlinx.serialization.Serializable
-
-typealias DistributionId = String
 
 @Serializable
 data class DistributionModel(
@@ -11,6 +12,7 @@ data class DistributionModel(
     val name: String?,
     val downloadPath: FilePath,
     val mediaType: String,
+    val aggregators: Map<InformationConceptId, SupportedValueId>,
     val issued: Long,
     val modified: Long
 )

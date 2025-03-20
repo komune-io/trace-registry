@@ -13,14 +13,15 @@ export interface MustUsedCatalogueSectionProps {
 
 export const MustUsedCatalogueSection = (props: MustUsedCatalogueSectionProps) => {
     const {catalogue} = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const {ids } = useCataloguesRouteParams()
     const { cataloguesAll } = useRoutesDefinition()
     const cataloguePage = useCataloguePageQuery({
         query: {
             parentIdentifier: props.catalogue?.identifier,
             offset: 0,
-            limit: 4
+            limit: 4,
+            language: i18n.language
         },
     })
 

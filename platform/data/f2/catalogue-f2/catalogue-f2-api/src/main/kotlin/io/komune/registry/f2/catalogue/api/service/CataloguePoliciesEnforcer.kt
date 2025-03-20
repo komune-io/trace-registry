@@ -71,6 +71,13 @@ class CataloguePoliciesEnforcer(
         CataloguePolicies.canLinkDatasets(authedUser, catalogue)
     }
 
+    suspend fun checkSetAggregator(
+        catalogueId: CatalogueId
+    ) = checkAuthed("set aggregator on catalogue [$catalogueId]") { authedUser ->
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
+        CataloguePolicies.canLinkDatasets(authedUser, catalogue)
+    }
+
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->
         command.copy(
             withDraft = command.withDraft || !CataloguePolicies.canCreateWithoutDraft(authedUser)

@@ -10,9 +10,9 @@ import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
+import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import io.komune.registry.s2.dataset.domain.model.DistributionId
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
 import org.springframework.stereotype.Service
 
