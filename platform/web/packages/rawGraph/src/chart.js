@@ -1,7 +1,6 @@
 import {
     alluvialdiagram,
     arcdiagram,
-    barchart,
     barchartmultiset,
     barchartstacked,
     beeswarm,
@@ -17,10 +16,8 @@ import {
     ganttChart,
     hexagonalBinning,
     horizongraph,
-    linechart,
     matrixplot,
     parallelcoordinates,
-    piechart,
     radarchart,
     sankeydiagram,
     slopechart,
@@ -34,13 +31,17 @@ import {
 
 import { calendarHeatmap } from '@rawgraphs/rawgraphs-calendar-heatmap'
 import PieChart from "./Chart/PieChart";
+import BarChart from "./Chart/BarChart";
+import LineChart from "./Chart/LineChart";
 
 // New charts, not included into first release.
 // Comment at necessity.
 export const charts = [
+    PieChart,
+    BarChart,
+    LineChart,
     alluvialdiagram,
     arcdiagram,
-    barchart,
     barchartmultiset,
     barchartstacked,
     beeswarm,
@@ -57,10 +58,8 @@ export const charts = [
     ganttChart,
     hexagonalBinning,
     horizongraph,
-    linechart,
     matrixplot,
     parallelcoordinates,
-    piechart,
     radarchart,
     sankeydiagram,
     slopechart,
@@ -70,5 +69,4 @@ export const charts = [
     violinplot,
     voronoidiagram,
     voronoitreemap,
-    PieChart,
 ]

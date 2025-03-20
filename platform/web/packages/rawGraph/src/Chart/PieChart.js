@@ -1,13 +1,14 @@
 import { select, pie, arc, scaleOrdinal, schemeCategory10 } from 'd3';
 import { getDimensionAggregator } from '@rawgraphs/rawgraphs-core';
+import {piechart} from "@rawgraphs/rawgraphs-charts";
 
 const metadata = {
-    name: 'Custom Pie Chart',
-    id: 'rawgraphs.custompiechart',
+    name: 'Pie Chart',
+    id: 'registry.piechart',
     categories: ['proportions'],
     description: 'A simple pie chart visualization based on categorical data.',
-    code: 'https://github.com/your-repo/custom-piechart',
-    tutorial: 'https://your-tutorial-link.com',
+    code: 'https://github.com/komune-io/trace-registry',
+    icon: piechart.metadata.icon
 };
 
 const dimensions = [
@@ -35,9 +36,9 @@ const dimensions = [
 ];
 
 const mapData = function (data, mapping, dataTypes, dimensions) {
-    const sizeKey = mapping.yvalueChart?.value || 'yvalueChart';
-    const labelKey = mapping.xlabelChart?.value || 'xlabelChart';
-    const colorKey = mapping.color?.value || labelKey;
+    const sizeKey = mapping.yvalueChart?.value;
+    const labelKey = mapping.xlabelChart?.value;
+    const colorKey = mapping.color?.value;
 
     const sizeAggregator = getDimensionAggregator(
         'yvalueChart',
@@ -59,7 +60,6 @@ function render(svgNode, data, visualOptions, mapping, originalData, styles) {
     select(svgNode).selectAll('*').remove();
 
     const radius = Math.min(width, height) / 2;
-    const color = scaleOrdinal(schemeCategory10);
 
     const svg = select(svgNode)
         .attr('width', showLegend ? width + legendWidth : width)
@@ -67,9 +67,13 @@ function render(svgNode, data, visualOptions, mapping, originalData, styles) {
         .append('g')
         .attr('transform', `translate(${width / 2}, ${height / 2})`);
 
-    const pieData = pie().value(d => d.size)(data);
+    const pieData = pie().value(d => d.size).sort(null)(data);
     const arcGenerator = arc().innerRadius(0).outerRadius(radius);
 
+    const getAngle = d => {
+        const angle = (180 / Math.PI * (d.startAngle + d.endAngle) / 2 - 90);
+        return angle > 90 ? angle - 180 : angle; // Ensure labels on small slices are rotated correctly
+    };
     const arcs = svg.selectAll('.arc')
         .data(pieData)
         .enter()
@@ -81,10 +85,18 @@ function render(svgNode, data, visualOptions, mapping, originalData, styles) {
         .attr('fill', d => colorScale ? colorScale(d.data.color) : color(d.data.color));
 
     arcs.append('text')
-        .attr('transform', d => `translate(${arcGenerator.centroid(d)})`)
+        .attr('transform', d => {
+            const pos = arcGenerator.centroid(d);
+            const angle = getAngle(d);
+            const textLength = d.data.label.length * 16; // Approximate text width
+            const arcWidth = Math.abs(d.endAngle - d.startAngle) * radius;
+            return arcWidth > textLength ? `translate(${pos})` : `translate(${pos}) rotate(${angle})`;
+        })
+        .attr('dy', 5)
         .attr('text-anchor', 'middle')
         .attr('font-size', '12px')
         .attr('fill', 'white')
+        .style('font-weight', 'bold')
         .text(d => d.data.label);
 }
 
@@ -100,12 +112,6 @@ const visualOptions = {
         label: 'Height',
         default: 600,
         group: 'artboard',
-    },
-    background: {
-        type: 'color',
-        label: 'Background Color',
-        default: '#ffffff',
-        group: 'colors',
     },
     showLegend: {
         type: 'boolean',
@@ -128,12 +134,12 @@ const visualOptions = {
     },
     colorScale: {
         type: 'colorScale',
-        label: 'Color scale',
-        dimension: 'color',
-        default: {
-            scaleType: 'ordinal',
-            interpolator: 'schemeCategory10',
-        },
+            label: 'Color scale',
+            dimension: 'color',
+            default: {
+                scaleType: 'ordinal',
+                    interpolator: 'schemeCategory10',
+                },
         group: 'colors',
     },
 };
