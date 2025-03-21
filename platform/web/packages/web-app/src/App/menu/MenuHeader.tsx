@@ -11,7 +11,7 @@ import { useCatalogueDraftPageQuery } from 'domain-components'
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
 
-    const { cataloguesToVerify, cataloguesContributions } = useRoutesDefinition()
+    const { cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization } = useRoutesDefinition()
     const {policies} = useExtendedAuth()
 
     const totalToVerify = useCatalogueDraftPageQuery({
@@ -23,6 +23,13 @@ export const usePersonalMenu = (t: TFunction) => {
 
     const menu = useMemo((): MenuItem[] => {
         return [
+            {
+                key: "mySheets",
+                to: cataloguesMyOrganization(),
+                label: t("mySheets"),
+                icon: iconPack.folder,
+                isSelected: location.pathname.includes(cataloguesMyOrganization())
+            },
             {
                 key: "contributions",
                 to: cataloguesContributions(),
@@ -40,7 +47,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify, cataloguesContributions, totalToVerify, policies.draft.canAudit])
+    }, [location, t, cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, totalToVerify, policies.draft.canAudit])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }

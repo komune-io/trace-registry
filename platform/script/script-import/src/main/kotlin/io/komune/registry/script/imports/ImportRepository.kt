@@ -25,6 +25,7 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
+import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ConceptInitData
 import io.komune.registry.script.imports.model.DataUnitInitData
@@ -118,11 +119,43 @@ class ImportRepository(
         return DatasetGetQuery(id = datasetId).invokeWith(dataClient.dataset.datasetGet()).item!!
     }
 
+    suspend fun initDataset(
+        language: String,
+        dataset: CatalogueDatasetSettings,
+        catalogue: CatalogueDTOBase,
+        datasetParent: DatasetDTOBase? = null,
+    ): DatasetDTOBase {
+        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
+        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
+            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+            .item
+
+        if (existingDataset != null) {
+            return existingDataset
+        }
+
+        val title = dataset.title?.get(language)
+        logger.info("Creating dataset[$identifier] $title")
+        DatasetCreateCommandDTOBase(
+            identifier = identifier,
+            catalogueId = catalogue.id,
+            type = dataset.type,
+            title = title,
+            language = language,
+            parentId = datasetParent?.id,
+        ).invokeWith(dataClient.dataset.datasetCreate())
+
+        return DatasetGetByIdentifierQuery(identifier, language)
+            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+            .item!!
+    }
+
     suspend fun createDatasetMediaDistribution(
         dataset: DatasetDTOBase,
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
+        logger.info("Creating distribution[${dataset.identifier}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType
@@ -132,7 +165,7 @@ class ImportRepository(
         }
         return (DatasetAddMediaDistributionCommandDTOBase(
             id = dataset.id,
-            name = null,
+            name = file.name,
             mediaType = mediaType,
             aggregator = null
         ) to SimpleFile(
@@ -146,6 +179,16 @@ class ImportRepository(
             return CatalogueGetByIdentifierQuery(catalogueData.identifier, null)
                 .invokeWith(dataClient.catalogue.catalogueGetByIdentifier())
                 .item
+        } catch (e: F2Exception) {
+            logger.error(e.error.message, e)
+            return null
+        }
+    }
+    suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {
+        try {
+            return DatasetGetQuery(datasetId)
+                .invokeWith(dataClient.dataset.datasetGet())
+                .item!!
         } catch (e: F2Exception) {
             logger.error(e.error.message, e)
             return null

@@ -1,0 +1,24 @@
+{
+  "type": "100m-planetary-boundaries",
+  "identifierSequence": {
+    "name": "seq_100m_planetary_boundaries",
+    "startValue": 1
+  },
+  "parentTypes": ["100m"],
+  "structure": "mosaic",
+  "i18n": {
+    "enable": true,
+    "translationType": "100m-translation",
+    "datasets": [
+      {
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Informations",
+          "en": "Informations",
+          "es": "Informaciones"
+        }
+      }
+    ]
+  }
+}

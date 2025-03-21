@@ -18,6 +18,7 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
             type: 'textField',
             params: { 
                 textFieldType: 'search', 
+                style: { width: "200px"},
                 placeholder: t("search")
             },
             mandatory: true

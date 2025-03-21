@@ -66,6 +66,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var translationIds: Map<Language, CatalogueId> = emptyMap()
 
+    var isTranslationOf: CatalogueId? = null
+
     @TagIndexed
     var creatorId: UserId? = null
 
@@ -101,4 +103,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     override fun toString(): String {
         return "[$id] - $title - $status"
     }
+
+    // Gnegnegne CatalogueEntity is not a proper JavaBean because isTranslationOf has no standard getter.
+    fun getIsTranslationOf() = isTranslationOf
 }

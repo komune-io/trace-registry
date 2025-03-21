@@ -34,7 +34,7 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
             catalogue={catalogue}
           />
         )
-    }  else if(item.type === "graph" ) {
+    }  else if(item.type === "graphs" ) {
         return (
           <CatalogueGraphManager catalogue={catalogue} />
         )

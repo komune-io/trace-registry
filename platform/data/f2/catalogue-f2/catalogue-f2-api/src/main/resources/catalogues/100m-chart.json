@@ -12,8 +12,8 @@
     "enable": true,
     "translationType": "100m-translation",
     "datasets": [{
-      "type": "graph",
-      "identifierSuffix": "-graph",
+      "type": "graphs",
+      "identifierSuffix": "-graphs",
       "title": {
         "fr": "Graphiques",
         "en": "Charts",

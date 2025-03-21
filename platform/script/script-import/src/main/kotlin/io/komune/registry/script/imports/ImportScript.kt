@@ -18,12 +18,15 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.CatalogueImportSettings
@@ -58,12 +61,11 @@ class ImportScript(
     }
 
     suspend fun run() {
-        val source = properties.source.folder
-        logger.info("Importing data from $source")
+        val rootDirectory = getRootDir()
 
-        val rootDirectory = File(source)
+        logger.info("Importing data from ${rootDirectory}")
         if (!rootDirectory.exists() || !rootDirectory.isDirectory) {
-            throw IllegalArgumentException("Root directory does not exist: $source")
+            throw IllegalArgumentException("Root directory does not exist: $rootDirectory")
         }
 
         val settingsFile = File(rootDirectory, "settings.json")
@@ -82,6 +84,12 @@ class ImportScript(
 
         initEntities(importContext)
         importCatalogues(importContext)
+    }
+
+    private fun getRootDir(): File {
+        val source = properties.source.folder
+        val rootDirectory = File(source)
+        return rootDirectory
     }
 
     private suspend fun initEntities(importContext: ImportContext) {
@@ -145,10 +153,15 @@ class ImportScript(
     }
 
     private suspend fun initCatalogues(importContext: ImportContext): List<CatalogueDTOBase> {
-        return importContext.settings.init
-            ?.catalogues
-            ?.map { catalogueData -> importCatalogue(catalogueData, importContext) }
-            .orEmpty()
+        val catalogues = importContext.settings.init?.catalogues?.nullIfEmpty() ?: return emptyList()
+
+        return catalogues.flatMapIndexed { i, catalogueData ->
+            logger.info("(${i + 1}/${catalogues.size}) Initializing catalogue ${catalogueData.identifier}...")
+            importCatalogue(catalogueData, importContext).map {
+                logger.info("Initialized catalogue[id:${it.id}, identifier: ${it.identifier}] ${it.title}.")
+                it
+            }
+        }
     }
 
     private suspend fun importCatalogues(importContext: ImportContext) {
@@ -173,58 +186,61 @@ class ImportScript(
 
     private suspend fun importCatalogue(jsonFile: File, importContext: ImportContext) {
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
-        val catalogue = importCatalogue(fixedData, importContext)
-        logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
-        importContext.settings.datasets?.forEach {
-            importDataset(catalogue, it, jsonFile.parentFile)
+        val catalogues = importCatalogue(fixedData, importContext).forEach { catalogue ->
+            logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
+            importContext.settings.datasets?.map {
+                importDataset(catalogue, it, jsonFile.parentFile)
+            }
         }
     }
 
     private suspend fun importCatalogue(
         catalogueData: CatalogueImportData,
         importContext: ImportContext
-    ): CatalogueDTOBase {
-        val catalogue = importRepository.getCatalogue(catalogueData)
-            ?: run {
-                val translation = catalogueData.languages.values.firstOrNull()
-                    ?: throw IllegalArgumentException("No translation specified for catalogue ${catalogueData.identifier}")
-
-                val imageFile = buildImageFile(catalogueData, importContext)
-
-                val createCommand = CatalogueCreateCommandDTOBase(
-                    identifier = catalogueData.identifier,
-                    title = translation.title.orEmpty(),
-                    description = translation.description,
-                    type = importContext.mapCatalogueType(catalogueData.type),
-                    language = translation.language,
-                    structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
-                    themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
-                    accessRights = importContext.settings.defaults?.accessRights,
-                    license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                    catalogues = catalogueData.children
-                ) to imageFile
-                val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
-
-                CatalogueGetQuery(catalogueId, null)
-                    .invokeWith(dataClient.catalogue.catalogueGet())
-                    .item!!
-            }
-
-
-        importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.forEach {
-            importContext.catalogueParents[catalogue.id] = it
+    ): List<CatalogueDTOBase> {
+        val existing = importRepository.getCatalogue(catalogueData)
+        if (existing != null) {
+            logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
+            return listOf(existing)
         }
-
-        catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
-            (catalogue.toUpdateCommand().copy(
+        return catalogueData.languages.map { (_, translation) ->
+            val imageFile = buildImageFile(catalogueData, importContext)
+            logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
+            val createCommand = CatalogueCreateCommandDTOBase(
+                identifier = catalogueData.identifier,
                 title = translation.title.orEmpty(),
                 description = translation.description,
+                type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-            ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
-        }
+                structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
+                themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
+                accessRights = importContext.settings.defaults?.accessRights,
+                license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
+                catalogues = catalogueData.children
+            ) to imageFile
+            val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
-        return catalogue
+            val catalogue = CatalogueGetQuery(catalogueId, null)
+                .invokeWith(dataClient.catalogue.catalogueGet())
+                .item!!
+            importContext.catalogues[catalogueData.identifier] = catalogue.id
+            catalogueData.parentIdentifier(importContext)?.forEach {
+                importContext.catalogueParents[catalogue.id] = it
+            }
+
+            catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
+                (catalogue.toUpdateCommand().copy(
+                    title = translation.title.orEmpty(),
+                    description = translation.description,
+                    language = translation.language,
+                ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
+            }
+            val root = getRootDir()
+            catalogueData.datasets?.forEach { datasetSettings ->
+                importDataset(catalogue, datasetSettings, root)
+            }
+            catalogue
+        }
     }
 
     private fun buildImageFile(
@@ -240,67 +256,94 @@ class ImportScript(
     private suspend fun importDataset(
         catalogue: CatalogueDTOBase,
         datasetSettings: CatalogueDatasetSettings,
-        directory: File
+        directory: File,
+        datasetParent: DatasetDTOBase? = null,
     ) {
-        datasetSettings.translations.forEach { (language, path) ->
-            val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
-                ?: return@forEach
+        datasetSettings.media.forEach { media ->
+            media.translations.forEach { (language, path) ->
+                val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
+                    ?: return@forEach
 
-            val dataset = initDataset(language, datasetSettings, catalogue)
-            when (datasetSettings.mediaType) {
-                "text/markdown" -> {
-                    val resourceDataset = datasetSettings.resourcesDataset
-                        ?.let {
-                            importRepository.getOrCreateDataset(
-                                identifier = "${catalogue.identifier}-$language-$it",
-                                parentId = null,
-                                catalogueId = catalogue.id,
-                                language = language,
-                                type = "resources",
-                            )
-                        } ?: dataset
-
-                    createMarkdownDatasetMediaDistribution(
-                        dataset = dataset,
-                        resourcesDataset = resourceDataset,
-                        datasetSettings = datasetSettings,
-                        file = file
-                    )
+                val dataset = importRepository.initDataset(language, datasetSettings, catalogue, datasetParent)
+                importDistribution(media, path, datasetParent, file, dataset, datasetSettings, catalogue, language)
+                datasetSettings.datasets?.forEach {
+                    importDataset(catalogue, it, directory, dataset)
                 }
-                else -> importRepository.createDatasetMediaDistribution(
-                    dataset = dataset,
-                    mediaType = datasetSettings.mediaType,
-                    file = file.toSimpleFile()
-                )
             }
         }
 
+
     }
 
-    suspend fun initDataset(language: String, dataset: CatalogueDatasetSettings, catalogue: CatalogueDTOBase): DatasetDTOBase {
-        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
-        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item
+    private suspend fun ImportScript.importDistribution(
+        media: CatalogueDatasetMediaSettings,
+        path: String,
+        datasetParent: DatasetDTOBase?,
+        file: File,
+        dataset: DatasetDTOBase,
+        datasetSettings: CatalogueDatasetSettings,
+        catalogue: CatalogueDTOBase,
+        language: Language
+    ) {
+        when (media.mediaType) {
+            "application/json" -> {
+                if (path.endsWith("piechart.json")) {
+                    val lastDataSet = datasetParent?.let {
+                        importRepository.getDataset(datasetParent.id)
+                    }
+                    lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
+                        val rawText = file.readText()
+                        val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
+                        importRepository.createDatasetMediaDistribution(
+                            dataset = dataset,
+                            mediaType = media.mediaType,
+                            file = SimpleFile(file.name, newText.toByteArray())
+                        )
+                    }
+                } else {
+                    val rawText = file.readText()
+                    importRepository.createDatasetMediaDistribution(
+                        dataset = dataset,
+                        mediaType = media.mediaType,
+                        file = SimpleFile(file.name, rawText.toByteArray())
+                    )
+                }
+            }
 
-        if (existingDataset != null) {
-            return existingDataset
+            "text/markdown" -> {
+                val resourceDataset = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
+
+                createMarkdownDatasetMediaDistribution(
+                    dataset = dataset,
+                    resourcesDataset = resourceDataset,
+                    datasetSettings = datasetSettings,
+                    file = file
+                )
+            }
+
+            else -> importRepository.createDatasetMediaDistribution(
+                dataset = dataset,
+                mediaType = media.mediaType,
+                file = file.toSimpleFile()
+            )
         }
-
-        val title = dataset.title?.get(language)
-        println("Creating dataset[$identifier] $title")
-        DatasetCreateCommandDTOBase(
-            identifier = identifier,
-            catalogueId = catalogue.id,
-            type = dataset.type,
-            title = title,
-            language = language,
-        ).invokeWith(dataClient.dataset.datasetCreate())
-
-        return DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item!!
     }
+
+    private suspend fun getOrCreateResourceDataset(
+        datasetSettings: CatalogueDatasetSettings,
+        catalogue: CatalogueDTOBase,
+        language: Language,
+        dataset: DatasetDTOBase
+    ) = datasetSettings.resourcesDataset
+        ?.let {
+            importRepository.getOrCreateDataset(
+                identifier = "${catalogue.identifier}-$language-$it",
+                parentId = null,
+                catalogueId = catalogue.id,
+                language = language,
+                type = "resources",
+            )
+        } ?: dataset
 
     @Suppress("NestedBlockDepth")
     private suspend fun createMarkdownDatasetMediaDistribution(
@@ -373,7 +416,7 @@ class ImportScript(
     private suspend fun connectCatalogues(importContext: ImportContext) {
         logger.info("Linking catalogues...")
         val size = importContext.catalogueParents.entries.size
-        importContext.catalogueParents.entries.mapAsyncIndexed { index, (catalogueId, parentIdentifier) ->
+        importContext.catalogueParents.entries.mapIndexed { index, (catalogueId, parentIdentifier) ->
             logger.info("($index/$size) Linking [${catalogueId} -> $parentIdentifier]")
             val parentId = importContext.catalogues[parentIdentifier]
                 ?: run {
@@ -381,7 +424,7 @@ class ImportScript(
                         val defaultParentId = getDefaultParentId(catalogueId, importContext)
                         logger.warn("Catalogue[$catalogueId] => ParentCatalogue $parentIdentifier not found. " +
                                 "Using default [${defaultParentId}] or ignoring if not specified.")
-                        defaultParentId ?: return@mapAsyncIndexed
+                        defaultParentId ?: return@mapIndexed
                     } else {
                         throw IllegalArgumentException("Parent catalogue not found: $parentIdentifier")
                     }

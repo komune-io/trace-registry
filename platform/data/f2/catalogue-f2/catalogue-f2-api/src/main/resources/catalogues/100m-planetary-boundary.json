@@ -1,8 +1,8 @@
 {
   "type": "100m-planetary-boundary",
   "identifierSequence": {
-    "name": "seq_100m_sector",
-    "startValue": 2000
+    "name": "seq_100m_planetary_boundary",
+    "startValue": 1
   },
   "parentTypes": ["100m-planetary-boundaries"],
   "structure": "item",

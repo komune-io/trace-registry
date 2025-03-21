@@ -89,6 +89,7 @@ class CatalogueF2FinderService(
         id: Match<String>? = null,
         parentIdentifier: String? = null,
         language: String,
+        otherLanguageIfAbsent: Boolean = false,
         title: Match<String>? = null,
         type: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
@@ -112,21 +113,25 @@ class CatalogueF2FinderService(
 
         CataloguePageResult(
             items = catalogues.items
-                .mapNotNull { catalogueI18nService.translateToDTO(it, language, false) }
+                .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
                 .sortedBy(CatalogueDTOBase::title),
             total = catalogues.total
         )
     }
 
+    @Suppress("LongMethod")
     suspend fun search(
-        language: Language,
         query: String?,
+        language: Language,
+        otherLanguageIfAbsent: Boolean = false,
         accessRights: Match<String>? = null,
         catalogueIds: Match<String>? = null,
         parentIdentifier: Match<String>? = null,
         type: Match<String>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
+        creatorOrganizationId: Match<OrganizationId>? = null,
+        availableLanguages: Match<Language>? = null,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache { cache ->
@@ -139,11 +144,11 @@ class CatalogueF2FinderService(
             parentIdentifier = parentIdentifier,
             type = type,
             themeIds = themeIds,
+            creatorOrganizationId = creatorOrganizationId,
+            availableLanguages = availableLanguages,
             freeCriterion = freeCriterion,
             page = page
         )
-
-//        catalogues.distribution[CatalogueModel::accessRights.name]
 
         val accessRightsDistribution = catalogueTranslations.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
             FacetDistribution(
@@ -180,12 +185,13 @@ class CatalogueF2FinderService(
         } ?: emptyList<FacetDistributionDTO>()
 
         val translatedCatalogues = page(
-            id = CollectionMatch(catalogueTranslations.items.map { it.id.substringBeforeLast('-') }),
-            language = language
-        ).items.associateBy { "${it.id}-$language" }
+            id = CollectionMatch(catalogueTranslations.items.map { it.isTranslationOf!! }),
+            language = language,
+            otherLanguageIfAbsent = otherLanguageIfAbsent
+        ).items.associateBy { it.id }
 
         CatalogueSearchResult(
-            items = catalogueTranslations.items.mapNotNull { translatedCatalogues[it.id] },
+            items = catalogueTranslations.items.mapNotNull { translatedCatalogues[it.isTranslationOf] },
             total = catalogueTranslations.total,
             distribution = mapOf(
                 CatalogueModel::accessRights.name to accessRightsDistribution,

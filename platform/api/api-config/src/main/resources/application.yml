@@ -57,7 +57,7 @@ platform:
       project: true
       identity: true
   i18n:
-    ordered-locales: fr,en,es
+    ordered-locales: en,fr,es
     catalogue:
       default-translation-type: translation
   identity:
