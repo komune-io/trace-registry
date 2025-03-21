@@ -132,10 +132,11 @@ class ImportScript(
     private suspend fun initCatalogues(importContext: ImportContext): List<CatalogueDTOBase> {
         val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return emptyList()
 
-        return catalogues.mapIndexed { i, catalogueData ->
+        return catalogues.flatMapIndexed { i, catalogueData ->
             logger.info("(${i + 1}/${catalogues.size}) Initializing catalogue ${catalogueData.identifier}...")
-            importCatalogue(catalogueData, importContext).also {
+            importCatalogue(catalogueData, importContext).map {
                 logger.info("Initialized catalogue[id:${it.id}, identifier: ${it.identifier}] ${it.title}.")
+                it
             }
         }
     }
@@ -162,62 +163,61 @@ class ImportScript(
 
     private suspend fun importCatalogue(jsonFile: File, importContext: ImportContext) {
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
-        val catalogue = importCatalogue(fixedData, importContext)
-        logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
-        importContext.settings.datasets?.map { it ->
-            importDataset(catalogue, it, jsonFile.parentFile)
+        val catalogues = importCatalogue(fixedData, importContext).forEach { catalogue ->
+            logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
+            importContext.settings.datasets?.map { it ->
+                importDataset(catalogue, it, jsonFile.parentFile)
+            }
         }
     }
 
     private suspend fun importCatalogue(
         catalogueData: CatalogueImportData,
         importContext: ImportContext
-    ): CatalogueDTOBase {
-        val catalogue = importRepository.getCatalogue(catalogueData)
-            ?: run {
-                val translation = catalogueData.languages.values.firstOrNull()
-                    ?: throw IllegalArgumentException("No translation specified for catalogue ${catalogueData.identifier}")
-
-                val imageFile = buildImageFile(catalogueData, importContext)
-
-                val createCommand = CatalogueCreateCommandDTOBase(
-                    identifier = catalogueData.identifier,
-                    title = translation.title.orEmpty(),
-                    description = translation.description,
-                    type = importContext.mapCatalogueType(catalogueData.type),
-                    language = translation.language,
-                    structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
-                    themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
-                    accessRights = importContext.settings.defaults?.accessRights,
-                    license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                    catalogues = catalogueData.children
-                ) to imageFile
-                val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
-
-                CatalogueGetQuery(catalogueId, null)
-                    .invokeWith(dataClient.catalogue.catalogueGet())
-                    .item!!
-            }
-
-
-        importContext.catalogues[catalogueData.identifier] = catalogue.id
-        catalogueData.parentIdentifier(importContext)?.forEach {
-            importContext.catalogueParents[catalogue.id] = it
+    ): List<CatalogueDTOBase> {
+        val existing = importRepository.getCatalogue(catalogueData)
+        if(existing!= null) {
+            logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
+            return listOf(existing)
         }
-
-        catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
-            (catalogue.toUpdateCommand().copy(
+        return  catalogueData.languages.map { (_, translation) ->
+            val imageFile = buildImageFile(catalogueData, importContext)
+            logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
+            val createCommand = CatalogueCreateCommandDTOBase(
+                identifier = catalogueData.identifier,
                 title = translation.title.orEmpty(),
                 description = translation.description,
+                type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-            ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
-        }
-        val root = getRootDir()
-        catalogueData.datasets?.forEach { datasetSettings ->
-            importDataset(catalogue, datasetSettings, root)
-        }
+                structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
+                themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
+                accessRights = importContext.settings.defaults?.accessRights,
+                license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
+                catalogues = catalogueData.children
+            ) to imageFile
+            val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
-        return catalogue
+            val catalogue = CatalogueGetQuery(catalogueId, null)
+                .invokeWith(dataClient.catalogue.catalogueGet())
+                .item!!
+            importContext.catalogues[catalogueData.identifier] = catalogue.id
+            catalogueData.parentIdentifier(importContext)?.forEach {
+                importContext.catalogueParents[catalogue.id] = it
+            }
+
+            catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
+                (catalogue.toUpdateCommand().copy(
+                    title = translation.title.orEmpty(),
+                    description = translation.description,
+                    language = translation.language,
+                ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
+            }
+            val root = getRootDir()
+            catalogueData.datasets?.forEach { datasetSettings ->
+                importDataset(catalogue, datasetSettings, root)
+            }
+            catalogue
+        }
     }
 
     private fun buildImageFile(
