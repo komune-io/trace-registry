@@ -188,8 +188,8 @@ class ImportScript(
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
         val catalogues = importCatalogue(fixedData, importContext).forEach { catalogue ->
             logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
-            importContext.settings.datasets?.map {
-                importDataset(catalogue, it, jsonFile.parentFile)
+            importContext.settings.datasets?.map { dataset ->
+                importDataset(catalogue, dataset, jsonFile.parentFile)
             }
         }
     }
