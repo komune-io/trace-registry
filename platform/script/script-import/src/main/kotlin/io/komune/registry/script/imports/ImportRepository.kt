@@ -97,7 +97,7 @@ class ImportRepository(
         }
 
         val title = dataset.title?.get(language)
-        println("Creating dataset[$identifier] $title")
+        logger.info("Creating dataset[$identifier] $title")
         DatasetCreateCommandDTOBase(
             identifier = identifier,
             catalogueId = catalogue.id,
@@ -117,6 +117,7 @@ class ImportRepository(
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
+        logger.info("Creating distribution[${dataset.identifier}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType

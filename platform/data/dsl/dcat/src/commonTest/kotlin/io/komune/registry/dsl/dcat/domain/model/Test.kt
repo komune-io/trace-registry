@@ -50,7 +50,7 @@ val dataset = dataset {
     distributions {
         distribution {
             identifier = "programs/verra"
-            mediaType = "text/json"
+            mediaType = "application/json"
             downloadURL = "https://trace/download"
 //            accessService = DataServiceModel(
 //                identifier = "identifier",

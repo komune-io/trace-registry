@@ -169,12 +169,10 @@ export const findLexicalDataset = (catalogue: Catalogue) => {
     distribution
   }
 
-  const markdownDataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
+  const markdownDistribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
 
-  const markdownDistribution = markdownDataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
-
-  if (markdownDataSet && markdownDistribution) return {
-    dataSet: markdownDataSet,
+  if (dataSet && markdownDistribution) return {
+    dataSet,
     distribution: markdownDistribution
   }
 
