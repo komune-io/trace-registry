@@ -21,6 +21,7 @@ data class CatalogueImportData(
     val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,
     val children: List<CatalogueId>?,
+    val datasets: List<CatalogueDatasetSettings>?,
 )
 
 @Serializable
@@ -32,7 +33,8 @@ data class CatalogueParent(
 data class CatalogueTranslationData(
     val title: String?,
     val description: String?,
-    val language: Language
+    val language: Language,
+
 )
 
 fun File.loadJsonCatalogue(

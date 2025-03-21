@@ -45,6 +45,16 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
                     <RichtTextEditor markdown={query.data} readOnly />
                 </Box>
             }
+            {dataSet?.distribution.mediaType === "application/json" && query.data &&
+                <Box
+                    alignSelf="center"
+                    padding={5}
+                    maxWidth="700px"
+                >
+                    <RichtTextEditor
+                      editorState={JSON.stringify(query.data)} readOnly />
+                </Box>
+            }
             <Stack
                 gap={5}
             >

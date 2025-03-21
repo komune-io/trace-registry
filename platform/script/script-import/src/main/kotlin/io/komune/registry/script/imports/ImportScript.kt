@@ -61,12 +61,11 @@ class ImportScript(
     }
 
     suspend fun run() {
-        val source = properties.source.folder
-        logger.info("Importing data from $source")
+        val rootDirectory = getRootDir()
 
-        val rootDirectory = File(source)
+        logger.info("Importing data from ${rootDirectory}")
         if (!rootDirectory.exists() || !rootDirectory.isDirectory) {
-            throw IllegalArgumentException("Root directory does not exist: $source")
+            throw IllegalArgumentException("Root directory does not exist: $rootDirectory")
         }
 
         val settingsFile = File(rootDirectory, "settings.json")
@@ -85,6 +84,12 @@ class ImportScript(
 
         initEntities(importContext)
         importCatalogues(importContext)
+    }
+
+    private fun getRootDir(): File {
+        val source = properties.source.folder
+        val rootDirectory = File(source)
+        return rootDirectory
     }
 
     private suspend fun initEntities(importContext: ImportContext) {
@@ -127,8 +132,11 @@ class ImportScript(
     private suspend fun initCatalogues(importContext: ImportContext): List<CatalogueDTOBase> {
         val catalogues = importContext.settings.init?.catalogues.nullIfEmpty() ?: return emptyList()
 
-        return catalogues.map { catalogueData ->
-            importCatalogue(catalogueData, importContext)
+        return catalogues.mapIndexed { i, catalogueData ->
+            logger.info("(${i + 1}/${catalogues.size}) Initializing catalogue ${catalogueData.identifier}...")
+            importCatalogue(catalogueData, importContext).also {
+                logger.info("Initialized catalogue[id:${it.id}, identifier: ${it.identifier}] ${it.title}.")
+            }
         }
     }
 
@@ -156,7 +164,7 @@ class ImportScript(
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
         val catalogue = importCatalogue(fixedData, importContext)
         logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
-        importContext.settings.datasets?.forEach {
+        importContext.settings.datasets?.map { it ->
             importDataset(catalogue, it, jsonFile.parentFile)
         }
     }
@@ -204,6 +212,10 @@ class ImportScript(
                 language = translation.language,
             ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
         }
+        val root = getRootDir()
+        catalogueData.datasets?.forEach { datasetSettings ->
+            importDataset(catalogue, datasetSettings, root)
+        }
 
         return catalogue
     }
@@ -226,9 +238,6 @@ class ImportScript(
     ) {
         datasetSettings.media.forEach { media ->
             media.translations.forEach { (language, path) ->
-                if(catalogue.id == "100m-chart-17") {
-                    println(path)
-                }
                 val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
                     ?: return@forEach
 
@@ -268,6 +277,13 @@ class ImportScript(
                             file = SimpleFile(file.name, newText.toByteArray())
                         )
                     }
+                } else {
+                    val rawText = file.readText()
+                    importRepository.createDatasetMediaDistribution(
+                        dataset = dataset,
+                        mediaType = media.mediaType,
+                        file = SimpleFile(file.name, rawText.toByteArray())
+                    )
                 }
             }
 
@@ -377,7 +393,7 @@ class ImportScript(
     private suspend fun connectCatalogues(importContext: ImportContext) {
         logger.info("Linking catalogues...")
         val size = importContext.catalogueParents.entries.size
-        importContext.catalogueParents.entries.mapAsyncIndexed { index, (catalogueId, parentIdentifier) ->
+        importContext.catalogueParents.entries.mapIndexed { index, (catalogueId, parentIdentifier) ->
             logger.info("($index/$size) Linking [${catalogueId} -> $parentIdentifier]")
             val parentId = importContext.catalogues[parentIdentifier]
                 ?: run {
@@ -385,7 +401,7 @@ class ImportScript(
                         val defaultParentId = getDefaultParentId(catalogueId, importContext)
                         logger.warn("Catalogue[$catalogueId] => ParentCatalogue $parentIdentifier not found. " +
                                 "Using default [${defaultParentId}] or ignoring if not specified.")
-                        defaultParentId ?: return@mapAsyncIndexed
+                        defaultParentId ?: return@mapIndexed
                     } else {
                         throw IllegalArgumentException("Parent catalogue not found: $parentIdentifier")
                     }
