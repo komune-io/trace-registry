@@ -128,7 +128,7 @@ export const useLexicalDownloadDistribution = (catalogue?: Catalogue) => {
     return findLexicalDataset(catalogue)
   }, [catalogue])
 
-  const query = useDownloadDistribution<any>(dataSet?.distribution.mediaType === "application/json" ? "json" : "text", dataSet?.dataSet.id, dataSet?.distribution.id)
+  const query = useDownloadDistribution<any>(dataSet?.distribution?.mediaType === "application/json" ? "json" : "text", dataSet?.dataSet?.id, dataSet?.distribution?.id)
 
   return {
     query,
@@ -176,7 +176,9 @@ export const findLexicalDataset = (catalogue: Catalogue) => {
     distribution: markdownDistribution
   }
 
-  return undefined
+  return {
+    dataSet
+  }
 }
 
 export interface CatalogueDraftPageQuery extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageQueryDTO { }

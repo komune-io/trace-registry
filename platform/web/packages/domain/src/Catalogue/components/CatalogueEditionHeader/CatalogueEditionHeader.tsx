@@ -10,7 +10,6 @@ import { SubmitModal } from './SubmitModal'
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
     draft?: CatalogueDraft
-    onSave?: () => Promise<any>
     onValidate?: () => Promise<any>
     onDelete?: () => Promise<any>
     onSubmit?: (reason: string) => Promise<any>
@@ -18,7 +17,7 @@ interface CatalogueEditionHeaderProps {
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSave, onSubmit, onDelete, onValidate, draft, disabled } = props
+    const { catalogue, onSubmit, onDelete, onValidate, draft, disabled } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -67,12 +66,6 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             disabled={disabled}
             >
                 {t("validate")}
-            </CustomButton>}
-            {onSave && <CustomButton
-                onClick={onSave}
-                disabled={disabled}
-            >
-                {t("catalogues.saveTheDraft")}
             </CustomButton>}
             {draft?.status !== "SUBMITTED" && onSubmit && <CustomButton
             onClick={toggle}

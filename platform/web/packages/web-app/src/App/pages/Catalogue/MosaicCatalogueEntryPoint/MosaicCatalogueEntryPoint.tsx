@@ -36,7 +36,7 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
                 color={theme.local?.colors.solution}
             />
-            {dataSet?.distribution.mediaType === "text/markdown" && query.data &&
+            {dataSet?.distribution?.mediaType === "text/markdown" && query.data &&
                 <Box
                     alignSelf="center"
                     padding={5}
@@ -45,7 +45,7 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
                     <RichtTextEditor markdown={query.data} readOnly />
                 </Box>
             }
-            {dataSet?.distribution.mediaType === "application/json" && query.data &&
+            {dataSet?.distribution?.mediaType === "application/json" && query.data &&
                 <Box
                     alignSelf="center"
                     padding={5}
