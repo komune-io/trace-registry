@@ -38,7 +38,7 @@ export const DraftEditionPage = () => {
     isLoading: isDefLoading
   })
 
-  const { onDelete, onSave, onSectionChange, onSubmit, onValidate } = useDraftMutations({
+  const { onDelete, onSectionChange, onSubmit, onValidate } = useDraftMutations({
     metadataFormState,
     setTab,
     catalogue,
@@ -103,7 +103,6 @@ export const DraftEditionPage = () => {
         draft={draft}
         onDelete={policies.draft.canDelete(draft) ? onDelete : undefined}
         onSubmit={policies.draft.canSubmit(draft) ? onSubmit : undefined}
-        onSave={onSave}
         onValidate={policies.audit.canUpdate(draft?.catalogue) ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}

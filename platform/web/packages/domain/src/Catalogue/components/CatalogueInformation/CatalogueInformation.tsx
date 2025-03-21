@@ -22,7 +22,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         dataSet
     } = useLexicalDownloadDistribution(catalogue)
 
-    const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
+    const isMarkdown = dataSet?.distribution?.mediaType === "text/markdown"
 
     return (
         <>
