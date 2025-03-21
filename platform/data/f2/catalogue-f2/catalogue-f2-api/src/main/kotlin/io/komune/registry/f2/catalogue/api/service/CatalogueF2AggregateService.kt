@@ -40,6 +40,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -57,6 +58,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -297,13 +299,8 @@ class CatalogueF2AggregateService(
                     ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
             }.let { "${command.type}-$it" }
 
-        val createCommand = command.toCommand(
-            identifier = catalogueIdentifier,
-            withTranslatable = !i18nEnabled,
-            isTranslationOf = isTranslationOf,
-            hidden = command.hidden ?: typeConfiguration?.hidden ?: false
-        ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
-        val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
+        val catalogueCreatedEvent =
+            getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
         command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration) }
 
@@ -330,7 +327,50 @@ class CatalogueF2AggregateService(
             )
         }
 
-        return catalogueCreatedEvent
+        return CatalogueCreatedEvent(
+             id = catalogueCreatedEvent.id,
+            identifier = catalogueCreatedEvent.identifier,
+            title = catalogueCreatedEvent.title,
+            type =catalogueCreatedEvent.type,
+            language = catalogueCreatedEvent.language,
+            description = catalogueCreatedEvent.description,
+            themeIds = catalogueCreatedEvent.themeIds?.toSet() ?: emptySet(),
+            homepage = catalogueCreatedEvent.homepage,
+            structure = catalogueCreatedEvent.structure,
+            isTranslationOf = catalogueCreatedEvent.isTranslationOf,
+            catalogueIds = catalogueCreatedEvent.catalogueIds.toSet(),
+            datasetIds = catalogueCreatedEvent.datasetIds.toSet(),
+            creatorId = catalogueCreatedEvent.creatorId,
+            creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
+            ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
+            accessRights = catalogueCreatedEvent.accessRights,
+            licenseId = catalogueCreatedEvent.licenseId,
+            location = catalogueCreatedEvent.location,
+            versionNotes = catalogueCreatedEvent.versionNotes,
+            hidden = catalogueCreatedEvent.hidden,
+            date = catalogueCreatedEvent.modified,
+        )
+    }
+
+    private suspend fun getOrCreate(
+        command: CatalogueCreateCommandDTOBase,
+        catalogueIdentifier: CatalogueIdentifier,
+        i18nEnabled: Boolean,
+        isTranslationOf: CatalogueId?,
+        typeConfiguration: CatalogueTypeConfiguration?
+    ): CatalogueModel {
+        val existing  = catalogueFinderService.getByIdentifierOrNull(catalogueIdentifier)
+        if(existing != null) {
+            return existing
+        }
+        val createCommand = command.toCommand(
+            identifier = catalogueIdentifier,
+            withTranslatable = !i18nEnabled,
+            isTranslationOf = isTranslationOf,
+            hidden = command.hidden ?: typeConfiguration?.hidden ?: false
+        ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
+        val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
+        return catalogueFinderService.get(catalogueIdentifier)
     }
 
     private suspend fun doUpdate(
