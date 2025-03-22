@@ -6,7 +6,7 @@ import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
-import { extractCatalogueIdentifierNumber } from '../../api';
+import { extractCatalogueIdentifier } from '../../api';
 
 function useCatalogueColumn() {
     const { t } = useTranslation();
@@ -15,7 +15,7 @@ function useCatalogueColumn() {
             id: generators.text({
                 header: t("identifier"),
                 getCellProps: (catalogue) => ({
-                    value: extractCatalogueIdentifierNumber(catalogue.identifier),
+                    value: extractCatalogueIdentifier(catalogue.identifier),
                     componentProps: {
                         sx: {
                             fontWeight: 600

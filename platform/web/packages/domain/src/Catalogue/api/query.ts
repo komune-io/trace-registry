@@ -1,10 +1,7 @@
 import { g2Config, QueryParams, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
 import { io } from "registry-platform-api-api-js-export";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Catalogue } from "../model";
+import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { parseCsv } from "raw-graph";
-import { useTranslation } from "react-i18next";
 
 export interface CatalogueGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO { }
 export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetResultDTO { }
@@ -120,63 +117,6 @@ export const useDownloadDistribution = <T>(returnType: "json" | "text" | "object
     queryFn: distributionContentQuery,
     enabled: !!datasetId && !!distributionId
   })
-}
-
-export const useLexicalDownloadDistribution = (catalogue?: Catalogue) => {
-  const dataSet = useMemo(() => {
-    if (!catalogue) return
-    return findLexicalDataset(catalogue)
-  }, [catalogue])
-
-  const query = useDownloadDistribution<any>(dataSet?.distribution.mediaType === "application/json" ? "json" : "text", dataSet?.dataSet.id, dataSet?.distribution.id)
-
-  return {
-    query,
-    dataSet
-  }
-}
-
-export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: string) => {
-  const [parsed, setParsed] = useState<{
-    dataset: any;
-    dataTypes: any;
-    errors: any;
-  } | undefined>(undefined)
-  const {i18n} = useTranslation()
-
-  const query = useDownloadDistribution<Blob>("blob", datasetId, distributionId)
-
-  useEffect(() => {
-    if (query.data) {
-      parseCsv(query.data, i18n.language).then((res) => {
-        setParsed(res)
-      })
-    }
-  }, [query.data, i18n.language])
-
-  return {
-    query,
-    parsed
-  }
-}
-
-export const findLexicalDataset = (catalogue: Catalogue) => {
-  const dataSet = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
-  const distribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "application/json")
-
-  if (dataSet && distribution) return {
-    dataSet,
-    distribution
-  }
-
-  const markdownDistribution = dataSet?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
-
-  if (dataSet && markdownDistribution) return {
-    dataSet,
-    distribution: markdownDistribution
-  }
-
-  return undefined
 }
 
 export interface CatalogueDraftPageQuery extends io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageQueryDTO { }

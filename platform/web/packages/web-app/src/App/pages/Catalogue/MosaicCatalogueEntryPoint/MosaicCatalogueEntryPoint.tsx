@@ -4,10 +4,9 @@ import { ContentIllustrated, LocalTheme } from 'components'
 import {
     CatalogueBreadcrumbs,
     Catalogue,
-    SubCatalogueGrid,
+    SubCatalogueGrid, CatalogueLexical,
 } from 'domain-components'
 import { AppPage } from 'template'
-import {CatalogueLexical} from "../components/CatalogueLexical";
 
 
 interface MosaicCatalogueEntryPointProps {

@@ -17,7 +17,8 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
 
     const {
         query,
-        dataSet
+        dataset,
+        distribution
     } = useLexicalDownloadDistribution(catalogue)
 
     // const reportAddSection = useReportAddSection()
@@ -43,11 +44,11 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
     // }, [reportAddSection.mutateAsync, refetchReport, report])
 
     const sectionsDisplay = useMemo(() => {
-        const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
+        const isMarkdown = distribution?.mediaType === "text/markdown"
 
         return (
             <Fragment
-                key={dataSet?.dataSet.id ?? "newSection"}
+                key={dataset?.id ?? "newSection"}
             >
 
                 {/* !readOnly && <AddSectionDivider
@@ -59,14 +60,14 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
                     editorState={!isMarkdown && query.data ? JSON.stringify(query.data): undefined}
                     catalogue={catalogue}
                     onChange={onSectionChange}
-                    namespace={dataSet?.dataSet.id}
+                    namespace={dataset?.id}
                 />
                 {/* index === sections.length - 1 && !readOnly && <AddSectionDivider
                     onAddSection={handleAddSection(section.position.index + 1)}
                 /> */}
             </Fragment>
         )
-    }, [catalogue, readOnly, onSectionChange, query.data, dataSet])
+    }, [catalogue, readOnly, onSectionChange, query.data, dataset])
 
     return (
         <Stack

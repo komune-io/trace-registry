@@ -78,7 +78,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       if (editorStateRef.current) {
         if (dataset && dataset.distribution.mediaType === "application/json") {
           lexicalUpdate = updateJsonDistribution.mutateAsync({
-            id: dataset.dataSet.id,
+            id: dataset.dataset.id,
             jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
             distributionId: dataset.distribution.id
           })
