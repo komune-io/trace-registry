@@ -294,7 +294,9 @@ class ImportScript(
                     lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
                         val rawText = file.readText()
                         val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
-                        logger.info("Replacing Dataset[${dataset.id},${dataset.identifier}] Parent[${datasetParent.id}, ${datasetParent.identifier}] #csvDistributionId with ${csvDistribution.id}")
+                        logger.info(
+                            "Replacing Dataset[${dataset.id},${dataset.identifier}] Parent[${datasetParent.id}, " +
+                                    "${datasetParent.identifier}] #csvDistributionId with ${csvDistribution.id}")
                         importRepository.createDatasetMediaDistribution(
                             dataset = dataset,
                             mediaType = media.mediaType,
