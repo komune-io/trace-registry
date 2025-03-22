@@ -36,9 +36,9 @@ const dimensions = [
 ];
 
 const mapData = function (data, mapping, dataTypes, dimensions) {
-    const sizeKey = mapping.yvalueChart?.value;
-    const labelKey = mapping.xlabelChart?.value;
-    const colorKey = mapping.color?.value;
+    const sizeKey = mapping.yvalueChart?.value || 'yvalueChart';
+    const labelKey = mapping.xlabelChart?.value || 'xlabelChart';
+    const colorKey = mapping.color?.value || labelKey;
 
     const sizeAggregator = getDimensionAggregator(
         'yvalueChart',
@@ -134,12 +134,12 @@ const visualOptions = {
     },
     colorScale: {
         type: 'colorScale',
-            label: 'Color scale',
-            dimension: 'color',
-            default: {
-                scaleType: 'ordinal',
-                    interpolator: 'schemeCategory10',
-                },
+        label: 'Color scale',
+        dimension: 'color',
+        default: {
+            scaleType: 'ordinal',
+            interpolator: 'schemeCategory10',
+            },
         group: 'colors',
     },
 };

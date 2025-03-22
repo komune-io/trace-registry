@@ -1,13 +1,12 @@
-import { Catalogue, CatalogueTypes } from '../../model'
-import { useCataloguePageQuery } from '../../api'
-import { useTranslation } from 'react-i18next'
+import {Catalogue, CatalogueRef} from '../../model'
 import { Stack } from '@mui/material'
 import { TitleSeeAllLink } from 'components'
 import { CatalogueCard } from '../CatalogueCard'
 import { useMemo } from 'react'
 
 export interface SubCatalogueListProps {
-    catalogue?: Catalogue
+    catalogue?: Catalogue | CatalogueRef
+    subCatalogues?: CatalogueRef[]
     catalogueIdentifier?: string
     isLoading?: boolean
     title?: string
@@ -16,34 +15,19 @@ export interface SubCatalogueListProps {
     seeAllLink?: string
     titleVariant?: "h3" | "h4"
     parentIds?: string[]
-    type?: CatalogueTypes[]
 }
 
 
 export const SubCatalogueList = (props: SubCatalogueListProps) => {
-    const { catalogue, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant, parentIds, type } = props
-
-    const { i18n } = useTranslation()
+    const { catalogue, subCatalogues, isLoading, description, linkLabel, title, seeAllLink, catalogueIdentifier, titleVariant, parentIds } = props
 
     const identifier = catalogue?.identifier ?? catalogueIdentifier
 
-    const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
-        query: {
-            parentIdentifier: identifier,
-            language: i18n.language,
-            type,
-            limit: 4
-        },
-        options: {
-            enabled: identifier !== undefined
-        }
-    })
+    const globalLoading = isLoading
 
-    const globalLoading = isLoading || subCatalogueLoading
-
-    const dataDislpay = useMemo(() => data?.items.map((subCatalogue) => (
+    const dataDislpay = useMemo(() => subCatalogues?.slice(0,4)?.map((subCatalogue) => (
         <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), identifier!]} />
-    )), [data?.items, parentIds, identifier])
+    )), [subCatalogues, parentIds, identifier])
 
     if ((!dataDislpay || dataDislpay.length === 0) && !globalLoading) return <></>
     return (

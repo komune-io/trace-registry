@@ -13,6 +13,18 @@ import {CataloguesRouter} from "./CataloguesRouter/CataloguesRouter";
 
 export const catalogPages: PageRoute[] = [
   {
+    path: "",
+    element: <CataloguesRouter />
+  },
+  {
+    path: "catalogues",
+    element: <CataloguesRouter />
+  },
+  {
+    path: "catalogues/*",
+    element: <CataloguesRouter />
+  },
+  {
     path: "catalogues/create/solution",
     element: <CatalogueCreationPage type="100m-solution" />
   },
@@ -63,13 +75,5 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/:catalogueId/:draftId/graph",
     element: <GraphCreationPage  />
-  },
-  {
-    path: "catalogues",
-    element: <CataloguesRouter />
-  },
-  {
-    path: "catalogues/*",
-    element: <CataloguesRouter />
   }
 ]

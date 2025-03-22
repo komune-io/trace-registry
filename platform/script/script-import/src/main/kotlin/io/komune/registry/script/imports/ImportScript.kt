@@ -18,6 +18,7 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.commons.utils.nullIfEmpty
@@ -186,7 +187,7 @@ class ImportScript(
 
     private suspend fun importCatalogue(jsonFile: File, importContext: ImportContext) {
         val fixedData = jsonFile.loadJsonCatalogue(importContext)
-        val catalogues = importCatalogue(fixedData, importContext).forEach { catalogue ->
+        importCatalogue(fixedData, importContext).forEach { catalogue ->
             logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
             importContext.settings.datasets?.map { dataset ->
                 importDataset(catalogue, dataset, jsonFile.parentFile)
@@ -257,21 +258,23 @@ class ImportScript(
         catalogue: CatalogueDTOBase,
         datasetSettings: CatalogueDatasetSettings,
         directory: File,
-        datasetParent: DatasetDTOBase? = null,
+        datasetParents: Map<String, DatasetDTOBase>? = null,
     ) {
         datasetSettings.media.forEach { media ->
-            media.translations.forEach { (language, path) ->
+            val datasetByLangue: Map<String, DatasetDTOBase> = media.translations.mapValues { (language, path) ->
                 val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
                     ?: return@forEach
 
+                val datasetParent = datasetParents?.get(language)
+
                 val dataset = importRepository.initDataset(language, datasetSettings, catalogue, datasetParent)
                 importDistribution(media, path, datasetParent, file, dataset, datasetSettings, catalogue, language)
-                datasetSettings.datasets?.forEach {
-                    importDataset(catalogue, it, directory, dataset)
-                }
+                dataset
+            }
+            datasetSettings.datasets?.forEach {
+                importDataset(catalogue, it, directory, datasetByLangue)
             }
         }
-
 
     }
 
@@ -287,13 +290,14 @@ class ImportScript(
     ) {
         when (media.mediaType) {
             "application/json" -> {
-                if (path.endsWith("piechart.json")) {
+                if (path.endsWith("chart.json")) {
                     val lastDataSet = datasetParent?.let {
                         importRepository.getDataset(datasetParent.id)
                     }
                     lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
                         val rawText = file.readText()
                         val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
+                        logger.info("Replacing Dataset[${dataset.id},${dataset.identifier}] Parent[${datasetParent.id}, ${datasetParent.identifier}] #csvDistributionId with ${csvDistribution.id}")
                         importRepository.createDatasetMediaDistribution(
                             dataset = dataset,
                             mediaType = media.mediaType,
@@ -336,8 +340,9 @@ class ImportScript(
         dataset: DatasetDTOBase
     ) = datasetSettings.resourcesDataset
         ?.let {
+            val identifer = importRepository.getLocalizedDatasetIdentifier(catalogue, language, it)
             importRepository.getOrCreateDataset(
-                identifier = "${catalogue.identifier}-$language-$it",
+                identifier = identifer,
                 parentId = null,
                 catalogueId = catalogue.id,
                 language = language,

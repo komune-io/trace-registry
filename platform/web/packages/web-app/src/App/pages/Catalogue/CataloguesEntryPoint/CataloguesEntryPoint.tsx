@@ -5,7 +5,7 @@ import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
     SubCatalogueList,
-    CatalogueTypes, Catalogue,
+    Catalogue,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,13 +21,10 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
     const { cataloguesTab } = useRoutesDefinition()
     const theme = useTheme<LocalTheme>()
 
-    const typeFilter = catalogue?.identifier === "100m-systems" ? ["100m-system"] as CatalogueTypes[] : ["100m-sector"] as CatalogueTypes[]
-
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
             parentIdentifier: catalogue?.identifier,
             language: i18n.language,
-            // type: typeFilter
         }
     })
 
@@ -35,12 +32,12 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
       catalogue?.identifier && <SubCatalogueList
             key={subCatalogue.id}
             catalogue={subCatalogue}
+            subCatalogues={subCatalogue.catalogues}
             seeAllLink={cataloguesTab("subCatalogues", catalogue?.identifier, subCatalogue.identifier)}
             titleVariant="h4"
             parentIds={[catalogue?.identifier]}
-            type={typeFilter}
         />
-    )), [data?.items, catalogue?.identifier, typeFilter])
+    )), [data?.items, catalogue?.identifier])
 
     return (
         <AppPage

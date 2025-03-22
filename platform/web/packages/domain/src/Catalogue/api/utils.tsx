@@ -1,7 +1,7 @@
-import {Catalogue} from "../model";
+import {Catalogue, CatalogueRef} from "../model";
 import {useMemo} from "react";
 
-export const useCatalogueIdentifierNumber = (catalogue?: Catalogue)=> {
+export const useCatalogueIdentifierNumber = (catalogue?: Catalogue | CatalogueRef)=> {
   return useMemo(() => extractCatalogueIdentifierNumber(catalogue?.identifier), [catalogue?.identifier])
 }
 
