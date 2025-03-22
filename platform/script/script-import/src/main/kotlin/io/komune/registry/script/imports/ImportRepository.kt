@@ -122,7 +122,7 @@ class ImportRepository(
         catalogue: CatalogueDTOBase,
         datasetParent: DatasetDTOBase?,
     ): DatasetDTOBase {
-        val identifierLocalized = getLocalizedDatasetIdentifier(catalogue, language, dataset.type)
+        val identifierLocalized = getDatasetIdentifier(catalogue, language, dataset.type)
         val existingDataset = DatasetGetByIdentifierQuery(identifierLocalized, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item
@@ -148,16 +148,11 @@ class ImportRepository(
             .item!!
     }
 
-    fun getLocalizedDatasetIdentifier(
+    fun getDatasetIdentifier(
         catalogue: CatalogueDTOBase,
         language: String,
         type: String
     ) = "${catalogue.identifier}-${language}-${type}"
-
-    private fun getDatasetIdentifier(
-        catalogue: CatalogueDTOBase,
-        dataset: CatalogueDatasetSettings
-    ) = "${catalogue.identifier}-${dataset.type}"
 
     suspend fun createDatasetMediaDistribution(
         dataset: DatasetDTOBase,

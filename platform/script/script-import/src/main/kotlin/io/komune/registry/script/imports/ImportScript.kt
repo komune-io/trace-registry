@@ -13,12 +13,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
-import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
-import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
-import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.commons.utils.nullIfEmpty
@@ -340,7 +337,7 @@ class ImportScript(
         dataset: DatasetDTOBase
     ) = datasetSettings.resourcesDataset
         ?.let {
-            val identifer = importRepository.getLocalizedDatasetIdentifier(catalogue, language, it)
+            val identifer = importRepository.getDatasetIdentifier(catalogue, language, it)
             importRepository.getOrCreateDataset(
                 identifier = identifer,
                 parentId = null,
