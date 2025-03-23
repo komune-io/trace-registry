@@ -3783,6 +3783,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
         readonly id: string;
         readonly identifier: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly title: string;
         readonly language: string;
         readonly availableLanguages: string[];
@@ -3802,6 +3803,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly type: string;
         readonly description?: string;
         readonly img?: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
 
     }

@@ -3,8 +3,7 @@ import { Stack } from '@mui/material';
 import { Catalogue } from '../../model'
 import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
-import { RichtTextEditor } from 'components';
-import { useLexicalDownloadDistribution } from '../../api';
+import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -17,12 +16,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         isLoading,
     } = props
 
-    const {
-        query,
-        dataSet
-    } = useLexicalDownloadDistribution(catalogue)
-
-    const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
+    const {editor} = useCatalogueDistributionLexicalEditor(catalogue)
 
     return (
         <>
@@ -39,11 +33,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                     gap={5}
                     flexGrow={1}
                 >
-                    <RichtTextEditor
-                        readOnly
-                        markdown={isMarkdown && query.data ? query.data : undefined}
-                        editorState={!isMarkdown && query.data ? JSON.stringify(query.data) : undefined}
-                    />
+                    {editor}
                 </Stack>
                 <CatalogueDetails
                     catalogue={catalogue}

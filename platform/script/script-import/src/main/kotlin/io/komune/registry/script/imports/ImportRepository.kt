@@ -103,10 +103,7 @@ class ImportRepository(
         language: Language,
         type: String,
     ): DatasetDTOBase {
-        val datasetId = DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item
-            ?.id
+        val datasetId = getDatasetByIdentifier(identifier, language)?.id
             ?: DatasetCreateCommandDTOBase(
                 identifier = identifier,
                 parentId = parentId,
@@ -123,10 +120,10 @@ class ImportRepository(
         language: String,
         dataset: CatalogueDatasetSettings,
         catalogue: CatalogueDTOBase,
-        datasetParent: DatasetDTOBase? = null,
+        datasetParent: DatasetDTOBase?,
     ): DatasetDTOBase {
-        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
-        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
+        val identifierLocalized = getDatasetIdentifier(catalogue, language, dataset.type)
+        val existingDataset = DatasetGetByIdentifierQuery(identifierLocalized, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item
 
@@ -135,9 +132,10 @@ class ImportRepository(
         }
 
         val title = dataset.title?.get(language)
-        logger.info("Creating dataset[$identifier] $title")
-        DatasetCreateCommandDTOBase(
-            identifier = identifier,
+        logger.info("Creating dataset[$identifierLocalized] $title")
+
+        val created = DatasetCreateCommandDTOBase(
+            identifier = identifierLocalized,
             catalogueId = catalogue.id,
             type = dataset.type,
             title = title,
@@ -145,17 +143,23 @@ class ImportRepository(
             parentId = datasetParent?.id,
         ).invokeWith(dataClient.dataset.datasetCreate())
 
-        return DatasetGetByIdentifierQuery(identifier, language)
+        return DatasetGetByIdentifierQuery(created.identifier, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item!!
     }
+
+    fun getDatasetIdentifier(
+        catalogue: CatalogueDTOBase,
+        language: String,
+        type: String
+    ) = "${catalogue.identifier}-${language}-${type}"
 
     suspend fun createDatasetMediaDistribution(
         dataset: DatasetDTOBase,
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
-        logger.info("Creating distribution[${dataset.identifier}] ${file.name} ${mediaType}")
+        logger.info("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType
@@ -194,4 +198,15 @@ class ImportRepository(
             return null
         }
     }
+    suspend fun getDatasetByIdentifier(identifier: DatasetIdentifier, language: String): DatasetDTOBase? {
+        try {
+            return DatasetGetByIdentifierQuery(identifier, language)
+                .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+                .item
+        } catch (e: F2Exception) {
+            logger.error(e.error.message, e)
+            return null
+        }
+    }
+
 }

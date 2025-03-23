@@ -2,8 +2,8 @@ import { Fragment, useMemo } from 'react'
 import { Catalogue } from '../../model'
 import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
-import { useLexicalDownloadDistribution } from '../../api'
 import { CircularProgress, Stack } from '@mui/material'
+import {useLexicalDistribution} from "../../api";
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
@@ -15,58 +15,23 @@ interface CatalogueSectionsProps {
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
     const { catalogue, readOnly = false, onSectionChange, isLoading } = props
 
-    const {
-        query,
-        dataSet
-    } = useLexicalDownloadDistribution(catalogue)
-
-    // const reportAddSection = useReportAddSection()
-    // const handleAddSection = useCallback(async (index: number) => {
-    //     const res = await reportAddSection.mutateAsync({
-    //         id: report.id,
-    //         index
-    //     })
-    //     if (res) {
-    //         queryClient.invalidateQueries({ queryKey: ["auditGet", { id: report.auditId }] })
-    //         await refetchReport()
-    //         setTimeout(() => {
-    //             const createdSection = document.getElementById(res.sectionId) as HTMLElement
-    //             if (createdSection) {
-    //                 createdSection.scrollIntoView({
-    //                     behavior: "smooth",
-    //                     block: "center"
-    //                 })
-    //             }
-    //         }, 500);
-
-    //     }
-    // }, [reportAddSection.mutateAsync, refetchReport, report])
+    const lexicalDistribution = useLexicalDistribution(catalogue)
 
     const sectionsDisplay = useMemo(() => {
-        const isMarkdown = dataSet?.distribution.mediaType === "text/markdown"
 
         return (
             <Fragment
-                key={dataSet?.dataSet.id ?? "newSection"}
+                key={lexicalDistribution.dataset?.id ?? "newSection"}
             >
-
-                {/* !readOnly && <AddSectionDivider
-                    onAddSection={handleAddSection(section.position.index)}
-                /> */}
                 <SectionEditor
+                    {...lexicalDistribution}
                     readOnly={readOnly}
-                    markdown={isMarkdown && query.data ? query.data : undefined}
-                    editorState={!isMarkdown && query.data ? JSON.stringify(query.data): undefined}
-                    catalogue={catalogue}
                     onChange={onSectionChange}
-                    namespace={dataSet?.dataSet.id}
+                    namespace={lexicalDistribution.dataset?.id}
                 />
-                {/* index === sections.length - 1 && !readOnly && <AddSectionDivider
-                    onAddSection={handleAddSection(section.position.index + 1)}
-                /> */}
             </Fragment>
         )
-    }, [catalogue, readOnly, onSectionChange, query.data, dataSet])
+    }, [catalogue, readOnly, onSectionChange, lexicalDistribution.dataset?.id])
 
     return (
         <Stack

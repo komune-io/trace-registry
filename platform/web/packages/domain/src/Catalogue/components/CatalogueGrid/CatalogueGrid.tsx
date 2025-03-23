@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import { CatalogueCard } from '../CatalogueCard'
-import { Catalogue } from '../../model'
+import {Catalogue, CatalogueRef} from '../../model'
 
 export interface CatalogueGridProps {
-    items?: Catalogue[]
+    items?: Catalogue[] | CatalogueRef[]
     isLoading?: boolean
 }
 

@@ -5,7 +5,7 @@ import { CustomButton } from './CustomButton'
 
 
 export const CustomLinkButton = forwardRef((props: ButtonProps & LinkProps, ref: ForwardedRef<HTMLButtonElement>) => {
-  const { sx, children, ...other } = props
+  const { children, ...other } = props
 
   return (
     <CustomButton
