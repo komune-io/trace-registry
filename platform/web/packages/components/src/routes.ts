@@ -50,8 +50,10 @@ for (let route in strictRoutesAuthorizations) {
     routesDefinitions[camelCasedRoute] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
 }
 
+export type CatalogueAll = (...objectIds: string[]) => string
+
 export const useRoutesDefinition = () => {
-    const cataloguesAll = useCallback(
+    const cataloguesAll: CatalogueAll = useCallback(
       (...objectIds: string[]) => {
        return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds)
       },

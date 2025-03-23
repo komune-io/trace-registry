@@ -1,11 +1,12 @@
 import { Link, LinkProps } from "react-router-dom";
 import { useMemo } from "react";
 import { MenuItems } from '@komune-io/g2-components'
-import { useLocation } from "react-router";
+import { useLocation  } from "react-router";
+import { Location } from "history";
 import { Login } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import {useExtendedAuth, useRoutesDefinition, Menu, iconPack, Icon} from "components";
-import { CatalogueRefTree, config, useCatalogueRefGetTreeQuery } from "domain-components";
+import {useExtendedAuth, useRoutesDefinition, Menu, iconPack, Icon, CatalogueAll} from "components";
+import {CatalogueRefTree, config, useCatalogueRefGetTreeQuery} from "domain-components";
 import { Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { MenuHeader } from "./MenuHeader";
@@ -46,13 +47,37 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItem<LinkProps>
   return finalMenu
 }
 
-export const useCatalogueMenu = () => {
+function asMenu(item: CatalogueRefTree, flat: boolean, cataloguesAll: CatalogueAll, location: Location<any>) {
+  const { platform } = config()
+  const catalogue = item.type == "menu" ? item.catalogues![0] : item
+  const catalogueLink = flat ? cataloguesAll(catalogue?.identifier!) : cataloguesAll(catalogue?.identifier!, catalogue?.catalogues?.[0]?.identifier!)
+
+  const baseUrl = platform.url.endsWith('/')
+    ? platform.url.slice(0, -1) // remove trailing slash
+    : platform.url
+  const path = item.img?.startsWith("/")
+    ? item.img
+    : `/${item.img}`
+  const icon = item.img ?
+    <Icon src={`${baseUrl}${path}`}/> : undefined
+  const items = catalogue.catalogues?.map(mapCatalogueRef([catalogue.identifier], cataloguesAll))
+  return {
+    key: catalogue.id,
+    to: catalogueLink,
+    label: item.title,
+    icon: icon,
+    isSelected: location.pathname === catalogueLink,
+    items: items
+  }
+}
+
+export const useCatalogueMenu = (identifier: string, flat: boolean = true) => {
   const location = useLocation()
   const { i18n } = useTranslation()
-  const {platform} = config()
+
   const catalogueRefGetTreeQuery = useCatalogueRefGetTreeQuery({
     query: {
-      identifier: "menu",
+      identifier: identifier,
       language: i18n.language
     },
     options: {
@@ -60,31 +85,21 @@ export const useCatalogueMenu = () => {
     }
   })
   const { cataloguesAll } = useRoutesDefinition()
-  const catalogues = catalogueRefGetTreeQuery.data?.item?.catalogues ?? []
 
   const menu: MenuItem[] = useMemo(() => {
-    return catalogues.map((item) => {
-      const catalogue = item.type == "menu" ? item.catalogues![0] : item
+    const catalogue = catalogueRefGetTreeQuery.data?.item
+    if(!catalogue) return []
 
-      const baseUrl = platform.url.endsWith('/')
-        ? platform.url.slice(0, -1) // remove trailing slash
-        : platform.url
-      const path = item.img?.startsWith("/")
-        ? item.img
-        : `/${item.img}`
-      const icon = item.img ?
-        <Icon src={`${baseUrl}${path}`} /> : iconPack.system
-      const items = catalogue.catalogues?.map(mapCatalogueRef([catalogue.identifier], cataloguesAll))
-      return {
-        key: catalogue.id,
-        to: cataloguesAll(catalogue?.identifier!),
-        label: item.title,
-        icon: icon,
-        isSelected: location.pathname === cataloguesAll(catalogue?.identifier!),
-        items: items
-      }
+    const subCatalogues = catalogue.catalogues ?? []
+    const subMenu = subCatalogues.map((item) => {
+      return asMenu(item, flat, cataloguesAll, location);
     })
-  }, [catalogues, location.pathname, cataloguesAll])
+    if(flat) return subMenu
+
+    const mainMenu = asMenu(catalogue, flat, cataloguesAll, location);
+    return [mainMenu]
+
+  }, [catalogueRefGetTreeQuery.data?.item, location.pathname, cataloguesAll])
   return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
 
@@ -130,8 +145,8 @@ const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (...objectIds: s
   } as MenuItem
 }
 
-export const CustomMenu = () => {
-  const menu = useCatalogueMenu()
+export const AppMenu = () => {
+  const menu = useCatalogueMenu("menu")
 
   return (
     <Stack
@@ -152,6 +167,32 @@ export const CustomMenu = () => {
             width: "100%"
           }}
           menu={menu}
+        />
+      </Stack>
+
+    </Stack>
+  )
+}
+export const ConfigMenu = () => {
+  const menuConfig = useCatalogueMenu("menu-config", false)
+
+  return (
+    <Stack
+      sx={{
+        px: 1,
+        pb: 2,
+      }}
+    >
+      <Stack
+        alignItems="bottom"
+        flexGrow={1}
+        width="100%"
+      >
+        <Menu
+          sx={{
+            width: "100%"
+          }}
+          menu={menuConfig}
         />
       </Stack>
     </Stack>
