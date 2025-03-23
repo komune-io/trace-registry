@@ -3,7 +3,7 @@ import {Stack} from '@mui/material'
 import {ContentIllustrated, useRoutesDefinition} from 'components'
 import {
     useCataloguePageQuery,
-    Catalogue, SubCatalogueList, orderByCatalogueIdentifierNumber, useLexicalDownloadDistribution,
+    Catalogue, SubCatalogueList, orderByCatalogueIdentifierNumber, useLexicalDistribution,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -59,21 +59,21 @@ export const CatalogueHomeSection = (props: CatalogueContentProps) => {
             language: i18n.language,
         }
     })
-    const lexicalDownloadDistribution = useLexicalDownloadDistribution(catalogue)
+    const lexicalDistribution = useLexicalDistribution(catalogue)
 
     const dataDisplay = useMemo(() => {
         return data?.items
           ?.map((item) => {
             return <SubCatalogueList
               key={item.id}
-              lexicalDownloadDistribution={lexicalDownloadDistribution}
+              lexicalDistribution={lexicalDistribution}
               catalogue={catalogue}
               subCatalogues={item.catalogues}
               seeAllLink={cataloguesAll(item?.identifier)}
               titleVariant="h4"
             />
         })
-    }, [data?.items, lexicalDownloadDistribution])
+    }, [data?.items, lexicalDistribution])
     return <>
         <ContentIllustrated
           title={catalogue?.title ?? ""}

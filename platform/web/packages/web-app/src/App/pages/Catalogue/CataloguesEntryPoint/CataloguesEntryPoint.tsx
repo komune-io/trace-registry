@@ -1,11 +1,11 @@
 import { g2Config, useTheme } from '@komune-io/g2'
-import { Typography, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { ContentIllustrated, LocalTheme, useRoutesDefinition } from 'components'
 import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
     SubCatalogueList,
-    Catalogue,
+    Catalogue, DistributionLexicalEditor, useLexicalDistribution,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,7 @@ interface CataloguesEntryPointProps {
 
 export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
     const { catalogue } = props
-    const { t, i18n } = useTranslation()
+    const { i18n } = useTranslation()
     const { cataloguesTab } = useRoutesDefinition()
     const theme = useTheme<LocalTheme>()
 
@@ -27,17 +27,20 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
             language: i18n.language,
         }
     })
+    const lexicalDistribution = useLexicalDistribution(catalogue)
 
-    const dataDisplay = useMemo(() => data?.items.map((subCatalogue) => (
-      catalogue?.identifier && <SubCatalogueList
+    const dataDisplay = useMemo(() => data?.items.map((subCatalogue) => {
+        return (
+          catalogue?.identifier && <SubCatalogueList
             key={subCatalogue.id}
             catalogue={subCatalogue}
             subCatalogues={subCatalogue.catalogues}
             seeAllLink={cataloguesTab("subCatalogues", catalogue?.identifier, subCatalogue.identifier)}
             titleVariant="h4"
             parentIds={[catalogue?.identifier]}
-        />
-    )), [data?.items, catalogue?.identifier])
+          />
+        )
+    }), [data?.items, catalogue?.identifier])
 
     return (
         <AppPage
@@ -56,12 +59,7 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
             <Stack
                 gap={5}
             >
-                <Typography
-                    variant="h3"
-                >
-                    {/* Replace by lexical distribution*/}
-                    {  `${t("explore")} ${catalogue?.title?.toLowerCase() ?? ""}`}
-                </Typography>
+                <DistributionLexicalEditor readOnly {...lexicalDistribution} />
                 {subCatalogueLoading ? (
                     <>
                         <SubCatalogueList titleVariant="h4" isLoading />

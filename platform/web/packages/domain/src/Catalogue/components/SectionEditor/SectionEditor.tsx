@@ -1,22 +1,19 @@
 import {
-    LexicalEditorProps,
-    RichtTextEditor,
     SectionPaper,
 } from 'components'
 import { Stack } from '@mui/material'
 import { EditorState } from 'lexical'
-import { Catalogue } from '../../model'
 import { t } from 'i18next'
+import {DistributionLexicalEditor, DistributionLexicalEditorProps} from "../DistributionLexicalEditor";
 
 
-export interface SectionEditorProps extends LexicalEditorProps {
-    catalogue?: Catalogue
+export interface SectionEditorProps extends DistributionLexicalEditorProps {
     onChange?: (editorState: EditorState) => void
     readOnly?: boolean
 }
 
 export const SectionEditor = (props: SectionEditorProps) => {
-    const { onChange, catalogue, readOnly = false, ...other } = props
+    const { onChange, readOnly = false, ...other } = props
     // const lexicalStateRef = useRef<EditorState | undefined>(undefined)
     // const queryClient = useQueryClient()
 
@@ -55,11 +52,8 @@ export const SectionEditor = (props: SectionEditorProps) => {
 
     return (
         <SectionPaper
-            id={catalogue?.id}
+            id={other.dataset?.id}
         >
-            {/* !readOnly && <SectionSettings
-                refetchReport={reloadSection}
-            /> */}
             <Stack
                 sx={{
                     maxWidth: "750px",
@@ -75,7 +69,7 @@ export const SectionEditor = (props: SectionEditorProps) => {
                     }
                 }}
             >
-                <RichtTextEditor
+                <DistributionLexicalEditor
                     readOnly={readOnly}
                     displayToolBarOnFocus
                     onChange={onChange}

@@ -1,36 +1,28 @@
-import { useEffect, useMemo, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import { Catalogue } from "../model";
-import { UseQueryResult} from "@tanstack/react-query";
 import { parseCsv } from "raw-graph";
 import { useTranslation } from "react-i18next";
 import { Dataset, Distribution } from "../../Dataset";
 import {useDownloadDistribution} from "./query";
 
 
-export interface LexicalDownloadDistribution {
-  query: UseQueryResult<string, Error>
+export interface LexicalDistribution {
   dataset?: Dataset
   distribution?: Distribution
 }
 
-export const useLexicalDownloadDistribution = (catalogue?: Catalogue): LexicalDownloadDistribution => {
+export const useLexicalDistribution = (catalogue?: Catalogue): LexicalDistribution => {
   const dataset = useMemo(() => {
     if (!catalogue) return
     return findLexicalDataset(catalogue)
   }, [catalogue])
 
-  const query = useDownloadDistribution<any>(
-    dataset?.distribution.mediaType === "application/json"
-      ? "json"
-      : "text", dataset?.dataset.id, dataset?.distribution.id
-  )
-
   return {
-    query,
     dataset: dataset?.dataset,
     distribution: dataset?.distribution,
   }
 }
+
 
 export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: string) => {
   const [parsed, setParsed] = useState<{
@@ -79,3 +71,4 @@ export const findLexicalDataset = (catalogue: Catalogue): DatasetWithDistributio
 
   return undefined
 }
+

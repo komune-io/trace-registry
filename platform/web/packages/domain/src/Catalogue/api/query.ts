@@ -97,7 +97,6 @@ export const useLicenseListQuery = (params: QueryParams<LicenseListQuery, Licens
 }
 
 export const useDownloadDistribution = <T>(returnType: "json" | "text" | "objectUrl" | "blob", datasetId?: string, distributionId?: string) => {
-
   const distributionContentQuery = useCallback(
     async () => {
       if (!datasetId || !distributionId) return
@@ -109,7 +108,7 @@ export const useDownloadDistribution = <T>(returnType: "json" | "text" | "object
       });
       return res
     },
-    [datasetId, distributionId],
+    [returnType, datasetId, distributionId],
   )
 
   return useQuery({

@@ -1,15 +1,18 @@
-import {LexicalDownloadDistribution} from "domain-components";
-import {RichtTextEditor} from "components";
+import {LexicalDistribution, useDownloadDistribution} from "domain-components";
+import {LexicalEditorProps, RichtTextEditor} from "components";
 
-interface DistributionLexicalEditorProps extends LexicalDownloadDistribution {
-  readOnly?: boolean
+export interface DistributionLexicalEditorProps extends LexicalDistribution, Omit<LexicalEditorProps, "markdown" | "editorState"> {
 }
 
 export const DistributionLexicalEditor = (props: DistributionLexicalEditorProps) => {
-  const {readOnly = true, query, distribution}  = props
-  const data = query.data
+  const {readOnly = true, dataset, distribution, ...other}  = props
+  const contentType = distribution?.mediaType === "application/json" ? "json" : "text"
+  const {data} = useDownloadDistribution<any>(
+    contentType, dataset?.id, distribution?.id
+  )
   const isMarkdown = distribution?.mediaType === "text/markdown"
   return (<RichtTextEditor
+    {...other}
     readOnly={readOnly}
     markdown={isMarkdown && data ? data : undefined}
     editorState={!isMarkdown && data ? JSON.stringify(data) : undefined}

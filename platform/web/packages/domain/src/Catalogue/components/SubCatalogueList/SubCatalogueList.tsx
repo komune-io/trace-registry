@@ -3,13 +3,13 @@ import { Stack } from '@mui/material'
 import { TitleSeeAllLink } from 'components'
 import { CatalogueCard } from '../CatalogueCard'
 import { useMemo } from 'react'
-import {LexicalDownloadDistribution} from "../../api";
+import {LexicalDistribution} from "../../api";
 
 export interface SubCatalogueListProps {
     catalogue?: Catalogue
     subCatalogues?: CatalogueRef[]
     catalogueIdentifier?: string
-    lexicalDownloadDistribution?: LexicalDownloadDistribution
+    lexicalDistribution?: LexicalDistribution
     isLoading?: boolean
     title?: string
     description?: string
@@ -22,7 +22,7 @@ export interface SubCatalogueListProps {
 
 export const SubCatalogueList = (props: SubCatalogueListProps) => {
     const { catalogue, subCatalogues,
-        isLoading, description, linkLabel, title, lexicalDownloadDistribution,
+        isLoading, description, linkLabel, title, lexicalDistribution,
         seeAllLink, catalogueIdentifier, titleVariant, parentIds
     } = props
 
@@ -46,7 +46,7 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
                 description={description}
                 linkLabel={linkLabel}
                 titleVariant={titleVariant}
-                lexicalDownloadDistribution={lexicalDownloadDistribution}
+                lexicalDistribution={lexicalDistribution}
             />
             <Stack
                 gap={3}

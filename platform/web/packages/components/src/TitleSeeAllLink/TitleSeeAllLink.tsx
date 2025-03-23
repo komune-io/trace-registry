@@ -1,10 +1,10 @@
 import { Skeleton, Stack, Typography } from '@mui/material'
 import { CustomLinkButton } from '../CustomButton'
 import { useTranslation } from 'react-i18next'
-import {DistributionLexicalEditor, LexicalDownloadDistribution} from "domain-components";
+import {DistributionLexicalEditor, LexicalDistribution} from "domain-components";
 
 interface TitleSeeAllLinkProps {
-    lexicalDownloadDistribution?: LexicalDownloadDistribution
+    lexicalDistribution?: LexicalDistribution
     title?: string
     link?: string
     linkLabel?: string
@@ -14,7 +14,7 @@ interface TitleSeeAllLinkProps {
 }
 
 export const TitleSeeAllLink = (props: TitleSeeAllLinkProps) => {
-    const { title, link, linkLabel, description, isLoading, titleVariant = "h3", lexicalDownloadDistribution } = props
+    const { title, link, linkLabel, description, isLoading, titleVariant = "h3", lexicalDistribution } = props
     const { t } = useTranslation()
     return (
         <Stack
@@ -27,8 +27,8 @@ export const TitleSeeAllLink = (props: TitleSeeAllLinkProps) => {
                 justifyContent={'space-between'}
             >
                 {
-                    lexicalDownloadDistribution
-                    ? <DistributionLexicalEditor {...lexicalDownloadDistribution} />
+                    lexicalDistribution
+                    ? <DistributionLexicalEditor {...lexicalDistribution} />
                     : <Typography variant={titleVariant}>
                           {!title && isLoading ? <Skeleton animation="wave" width="150px" /> : title}
                       </Typography>

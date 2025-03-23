@@ -1,10 +1,10 @@
 import { g2Config, useTheme } from '@komune-io/g2'
-import { Stack } from '@mui/material'
+import {Box, Stack} from '@mui/material'
 import { ContentIllustrated, LocalTheme } from 'components'
 import {
     CatalogueBreadcrumbs,
     Catalogue,
-    SubCatalogueGrid, CatalogueLexical,
+    SubCatalogueGrid, useCatalogueDistributionLexicalEditor,
 } from 'domain-components'
 import { AppPage } from 'template'
 
@@ -16,7 +16,7 @@ interface MosaicCatalogueEntryPointProps {
 export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps) => {
     const { catalogue } = props
     const theme = useTheme<LocalTheme>()
-
+    const distributionLexicalEditor = useCatalogueDistributionLexicalEditor(catalogue)
     return (
         <AppPage
           title={catalogue?.title ?? ""}
@@ -31,12 +31,13 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
               illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
               color={theme.local?.colors.solution}
             />
-            <CatalogueLexical
-              catalogue={catalogue}
+            <Box
               alignSelf="center"
               padding={5}
               maxWidth="700px"
-            />
+            >
+                {distributionLexicalEditor.editor}
+            </Box>
             <Stack
               gap={5}
             >
