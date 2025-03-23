@@ -1,11 +1,12 @@
 import {useCataloguesRouteParams, useCatalogueGetByIdentifierQuery} from 'domain-components'
-import { CatalogueViewPage } from '../CatalogueViewPage/CatalogueViewPage'
 import { useTranslation } from 'react-i18next'
 import { NoMatchPage } from '@komune-io/g2'
 import { useSearchParams } from 'react-router-dom'
-import {CataloguesEntryPoint} from "../../Structure/CataloguesEntryPoint/CataloguesEntryPoint";
-import {MosaicCatalogueEntryPoint} from "../../Structure/MosaicCatalogueEntryPoint/MosaicCatalogueEntryPoint";
-import {CatalogueHomeEntryPoint} from "../../Structure/CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
+import {CataloguesEntryPoint} from "../CataloguesEntryPoint/CataloguesEntryPoint";
+import {MosaicCatalogueEntryPoint} from "../CatalogueMosaicEntryPoint/MosaicCatalogueEntryPoint";
+import {CatalogueHomeEntryPoint} from "../CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
+import {CatalogueViewPage} from "../../Catalogue/CatalogueViewPage/CatalogueViewPage";
+import {CatalogueTableEntryPoint} from "../CatalogueTableEntryPoint/CatalogueTableEntryPoint";
 
 interface CataloguesRouterProps {
 }
@@ -32,6 +33,8 @@ export const CataloguesRouter = (_: CataloguesRouterProps) => {
     return <MosaicCatalogueEntryPoint catalogue={catalogueGet.data.item} />
   } else if(catalogueGet.data?.item?.structure?.type === "home") {
     return <CatalogueHomeEntryPoint catalogue={catalogueGet.data.item} />
+  } else if(catalogueGet.data?.item?.structure?.type === "table") {
+    return <CatalogueTableEntryPoint catalogue={catalogueGet.data.item} />
   } else {
     return <CatalogueViewPage catalogue={catalogueGet.data.item} />
   }

@@ -52,6 +52,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
+                structure = translated.structure,
             )
         }
     }
@@ -137,6 +138,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
+                structure = translated.structure,
                 catalogues = translated.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     catalogueFinderService.page(
                         id = CollectionMatch(catalogueIds),

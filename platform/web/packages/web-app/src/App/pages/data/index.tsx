@@ -1,5 +1,4 @@
 import {PageRoute} from "App/routes";
-import {CataloguesRouter} from "./Catalogue/CataloguesStructureRouter/CataloguesRouter";
 import {CatalogueCreationPage} from "./Catalogue/CatalogueCreationPage/CatalogueCreationPage";
 import {DraftEditionPage} from "./Draft/DraftEditionPage/DraftEditionPage";
 import {DraftViewPage} from "./Draft/DraftViewPage/DraftViewPage";
@@ -9,6 +8,7 @@ import {ContributionListPage} from "./Catalogue/ContributionListPage/Contributio
 import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage/OrganizationCataloguesPage";
 import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSearchPage";
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
+import {CataloguesRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
 
 export const catalogPages: PageRoute[] = [
   {
