@@ -3,7 +3,7 @@ import {ProjectList, ProjectView} from "./Project";
 import {TransactionView} from "./Transaction/TransactionView/TransactionView";
 import {TransactionList} from "./Transaction/TransactionList/TransactionList";
 import { ProjectCreate } from "./Project/ProjectCreate/ProjectCreate";
-import {CataloguesRouter} from "./Catalogue/CataloguesRouter/CataloguesRouter";
+import {CataloguesRouter} from "./data/Catalogue/CataloguesStructureRouter/CataloguesRouter";
 
 export const registryPages: PageRoute[] = [
   {

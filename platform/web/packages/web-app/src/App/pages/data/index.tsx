@@ -1,15 +1,14 @@
 import {PageRoute} from "App/routes";
-import { CatalogueCreationPage } from "./CatalogueCreationPage/CatalogueCreationPage";
-import { DraftEditionPage } from "./DraftEditionPage/DraftEditionPage";
-import { DraftToValidateListPage } from "./DraftToValidateListPage/DraftToValidateListPage";
-import { DraftValidationPage } from "./DraftValidationPage/DraftValidationPage";
-import { ContributionListPage } from "./ContributionListPage/ContributionListPage";
-import { CatalogueSearchPage } from "./CatalogueSearchPage/CatalogueSearchPage";
-import { DraftViewPage } from "./DraftViewPage/DraftViewPage";
-import { GraphCreationPage } from "./GraphCreationPage/GraphCreationPage";
-import { OrganizationCataloguesPage } from "./OrganizationCataloguesPage/OrganizationCataloguesPage";
-
-import {CataloguesRouter} from "./CataloguesRouter/CataloguesRouter";
+import {CataloguesRouter} from "./Catalogue/CataloguesStructureRouter/CataloguesRouter";
+import {CatalogueCreationPage} from "./Catalogue/CatalogueCreationPage/CatalogueCreationPage";
+import {DraftEditionPage} from "./Draft/DraftEditionPage/DraftEditionPage";
+import {DraftViewPage} from "./Draft/DraftViewPage/DraftViewPage";
+import {DraftValidationPage} from "./Draft/DraftValidationPage/DraftValidationPage";
+import {DraftToValidateListPage} from "./Draft/DraftToValidateListPage/DraftToValidateListPage";
+import {ContributionListPage} from "./Catalogue/ContributionListPage/ContributionListPage";
+import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage/OrganizationCataloguesPage";
+import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSearchPage";
+import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
 
 export const catalogPages: PageRoute[] = [
   {

@@ -4,7 +4,7 @@ import { Routes, useExtendedAuth } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
 import {useMemo} from "react"
-import { catalogPages } from "App/pages/Catalogue";
+import { catalogPages } from "App/pages/data";
 
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]

@@ -3,9 +3,9 @@ import { CatalogueViewPage } from '../CatalogueViewPage/CatalogueViewPage'
 import { useTranslation } from 'react-i18next'
 import { NoMatchPage } from '@komune-io/g2'
 import { useSearchParams } from 'react-router-dom'
-import {CataloguesEntryPoint} from "../CataloguesEntryPoint/CataloguesEntryPoint";
-import { MosaicCatalogueEntryPoint } from '../MosaicCatalogueEntryPoint/MosaicCatalogueEntryPoint'
-import {CatalogueHomeEntryPoint} from "../CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
+import {CataloguesEntryPoint} from "../../Structure/CataloguesEntryPoint/CataloguesEntryPoint";
+import {MosaicCatalogueEntryPoint} from "../../Structure/MosaicCatalogueEntryPoint/MosaicCatalogueEntryPoint";
+import {CatalogueHomeEntryPoint} from "../../Structure/CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
 
 interface CataloguesRouterProps {
 }
