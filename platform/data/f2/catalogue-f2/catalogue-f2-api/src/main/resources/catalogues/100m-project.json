@@ -22,6 +22,32 @@
         }
       },
       {
+        "type": "indicator",
+        "identifierSuffix": "-indicator",
+        "title": {
+          "fr": "Indicateurs",
+          "en": "Indicators",
+          "es": "Indicadores"
+        }
+      },
+      {
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Informations",
+          "en": "Informations",
+          "es": "Informaciones"
+        }
+      },{
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Methodologie de calcul",
+          "en": "Calculation methodology",
+          "es": "Metodología de cálculo"
+        }
+      },
+      {
         "type": "graphs",
         "identifierSuffix": "-graphs",
         "title": {

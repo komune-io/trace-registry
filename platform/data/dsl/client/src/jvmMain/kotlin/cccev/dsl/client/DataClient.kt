@@ -7,6 +7,8 @@ import io.komune.registry.f2.catalogue.client.CatalogueClient
 import io.komune.registry.f2.catalogue.client.catalogueClient
 import io.komune.registry.f2.catalogue.draft.client.CatalogueDraftClient
 import io.komune.registry.f2.catalogue.draft.client.catalogueDraftClient
+import io.komune.registry.f2.cccev.client.CccevClient
+import io.komune.registry.f2.cccev.client.cccevClient
 import io.komune.registry.f2.concept.client.ConceptClient
 import io.komune.registry.f2.concept.client.conceptClient
 import io.komune.registry.f2.dataset.client.DatasetClient
@@ -19,7 +21,8 @@ class DataClient(
     val catalogueDraft: CatalogueDraftClient,
     val concept: ConceptClient,
     val dataset: DatasetClient,
-    val license: LicenseClient
+    val license: LicenseClient,
+    val cccev: CccevClient
 ) {
 
     companion object {
@@ -37,7 +40,8 @@ class DataClient(
                 catalogueDraft = f2Client.catalogueDraftClient().invoke(),
                 concept = f2Client.conceptClient().invoke(),
                 dataset = f2Client.datasetClient().invoke(),
-                license = f2Client.licenseClient().invoke()
+                license = f2Client.licenseClient().invoke(),
+                cccev = f2Client.cccevClient().invoke(),
             )
         }
     }

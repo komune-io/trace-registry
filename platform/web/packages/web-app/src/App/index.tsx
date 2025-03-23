@@ -1,7 +1,7 @@
 import { StandAloneAppLayout } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
-import { CustomMenu, useUserMenu } from "./menu";
+import {AppMenu, ConfigMenu, useUserMenu} from "./menu";
 import { useMemo } from "react";
 import { useExtendedAuth } from "components";
 
@@ -33,7 +33,8 @@ export const App = () => {
         }
       }}
 
-      scrollableContent={<CustomMenu />}
+      scrollableContent={<AppMenu />}
+      bottomContent={<ConfigMenu />}
       userMenuProps={{
         currentUser: user ? {
           givenName: user.firstName ?? "",

@@ -95,9 +95,9 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     const dataset = catalogue ? findLexicalDataset(catalogue) : undefined
 
     if (editorStateRef.current) {
-      if (dataset?.dataSet && dataset.distribution?.mediaType === "application/json") {
+      if (dataset?.dataset && dataset.distribution?.mediaType === "application/json") {
         const res = await updateJsonDistribution.mutateAsync({
-          id: dataset.dataSet?.id,
+          id: dataset.dataset?.id,
           jsonContent: JSON.stringify(editorStateRef.current?.toJSON()),
           distributionId: dataset.distribution?.id
         })

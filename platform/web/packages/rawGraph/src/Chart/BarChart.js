@@ -36,9 +36,9 @@ const dimensions = [
 ];
 
 const mapData = function (data, mapping, dataTypes, dimensions) {
-    const categoryKey = mapping.category?.value;
-    const seriesKey = mapping.series?.value;
-    const valueKey = mapping.value?.value;
+    const categoryKey = mapping.category?.value || 'category';
+    const seriesKey = mapping.series?.value || 'series';
+    const valueKey = mapping.value?.value || 'value';
 
     const valueAggregator = getDimensionAggregator(
         'value',

@@ -5,6 +5,8 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
@@ -13,6 +15,8 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
+import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -24,6 +28,8 @@ import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ConceptInitData
+import io.komune.registry.script.imports.model.DataUnitInitData
+import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
 
@@ -58,6 +64,38 @@ class ImportRepository(
             ).invokeWith(dataClient.license.licenseCreate()).id
         }
 
+    suspend fun getOrCreateDataUnit(dataUnit: DataUnitInitData) = DataUnitGetByIdentifierQuery(dataUnit.identifier)
+        .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            DataUnitCreateCommand(
+                identifier = dataUnit.identifier,
+                name = dataUnit.name,
+                abbreviation = dataUnit.abbreviation,
+                type = dataUnit.type,
+            ).invokeWith(dataClient.cccev.dataUnitCreate()).id
+        }
+
+    suspend fun getOrCreateInformationConcept(
+        informationConcept: InformationConceptInitData
+    ) = InformationConceptGetByIdentifierQuery(informationConcept.identifier)
+        .invokeWith(dataClient.cccev.informationConceptGetByIdentifier())
+        .item
+        ?.id
+        ?: run {
+            val unit = DataUnitGetByIdentifierQuery(informationConcept.unit)
+                .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
+                .item
+                ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
+
+            InformationConceptCreateCommand(
+                identifier = informationConcept.identifier,
+                name = informationConcept.name,
+                unitId = unit.id,
+            ).invokeWith(dataClient.cccev.informationConceptCreate()).id
+        }
+
     suspend fun getOrCreateDataset(
         identifier: DatasetIdentifier,
         parentId: DatasetId?,
@@ -65,10 +103,7 @@ class ImportRepository(
         language: Language,
         type: String,
     ): DatasetDTOBase {
-        val datasetId = DatasetGetByIdentifierQuery(identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item
-            ?.id
+        val datasetId = getDatasetByIdentifier(identifier, language)?.id
             ?: DatasetCreateCommandDTOBase(
                 identifier = identifier,
                 parentId = parentId,
@@ -85,10 +120,10 @@ class ImportRepository(
         language: String,
         dataset: CatalogueDatasetSettings,
         catalogue: CatalogueDTOBase,
-        datasetParent: DatasetDTOBase? = null,
+        datasetParent: DatasetDTOBase?,
     ): DatasetDTOBase {
-        val identifier = "${catalogue.identifier}-$language-${dataset.type}"
-        val existingDataset = DatasetGetByIdentifierQuery(identifier, language)
+        val identifierLocalized = getDatasetIdentifier(catalogue, language, dataset.type)
+        val existingDataset = DatasetGetByIdentifierQuery(identifierLocalized, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item
 
@@ -97,9 +132,10 @@ class ImportRepository(
         }
 
         val title = dataset.title?.get(language)
-        logger.info("Creating dataset[$identifier] $title")
-        DatasetCreateCommandDTOBase(
-            identifier = identifier,
+        logger.info("Creating dataset[$identifierLocalized] $title")
+
+        val created = DatasetCreateCommandDTOBase(
+            identifier = identifierLocalized,
             catalogueId = catalogue.id,
             type = dataset.type,
             title = title,
@@ -107,17 +143,23 @@ class ImportRepository(
             parentId = datasetParent?.id,
         ).invokeWith(dataClient.dataset.datasetCreate())
 
-        return DatasetGetByIdentifierQuery(identifier, language)
+        return DatasetGetByIdentifierQuery(created.identifier, language)
             .invokeWith(dataClient.dataset.datasetGetByIdentifier())
             .item!!
     }
+
+    fun getDatasetIdentifier(
+        catalogue: CatalogueDTOBase,
+        language: String,
+        type: String
+    ) = "${catalogue.identifier}-${language}-${type}"
 
     suspend fun createDatasetMediaDistribution(
         dataset: DatasetDTOBase,
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
-        logger.info("Creating distribution[${dataset.identifier}] ${file.name} ${mediaType}")
+        logger.info("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType
@@ -156,4 +198,15 @@ class ImportRepository(
             return null
         }
     }
+    suspend fun getDatasetByIdentifier(identifier: DatasetIdentifier, language: String): DatasetDTOBase? {
+        try {
+            return DatasetGetByIdentifierQuery(identifier, language)
+                .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+                .item
+        } catch (e: F2Exception) {
+            logger.error(e.error.message, e)
+            return null
+        }
+    }
+
 }

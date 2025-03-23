@@ -7,7 +7,7 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
-import { extractCatalogueIdentifierNumber } from '../../api';
+import { extractCatalogueIdentifier } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
     const { t } = useTranslation();
@@ -16,7 +16,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
             id: generators.text({
                 header: t("identifier"),
                 getCellProps: (draft) => ({
-                    value: extractCatalogueIdentifierNumber(draft.originalCatalogueId),
+                    value: extractCatalogueIdentifier(draft.originalCatalogueId),
                     componentProps: {
                         sx: {
                             fontWeight: 600

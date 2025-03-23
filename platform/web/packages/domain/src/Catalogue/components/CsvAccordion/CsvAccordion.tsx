@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material'
 import { Accordion } from 'components'
-import { Distribution } from '../../model'
 import { useCsvDownloadDistribution } from '../../api'
 import { DataGrid } from 'raw-graph'
+import {Distribution} from "../../../Dataset";
 
 interface CsvAccordionProps {
     datasetId: string

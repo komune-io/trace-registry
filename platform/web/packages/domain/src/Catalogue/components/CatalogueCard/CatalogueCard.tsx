@@ -1,5 +1,5 @@
 import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material'
-import { Catalogue } from '../../model'
+import {Catalogue, CatalogueRef} from '../../model'
 import { addLineClampStyles, LocalTheme, useRoutesDefinition } from 'components'
 import { useState } from "react"
 import { g2Config, useTheme } from '@komune-io/g2'
@@ -9,7 +9,7 @@ import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 import { useCatalogueIdentifierNumber } from '../../api'
 
 export interface CatalogueCardProps {
-    catalogue?: Catalogue
+    catalogue?: Catalogue | CatalogueRef
     isLoading?: boolean
     parentIds?: string[]
 }
