@@ -12,8 +12,6 @@ function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: L
     return item.catalogues?.flatMap( (it) => asMenu(it, cataloguesAll, location)) ?? []
   }
   const catalogue = isAlias(item) ? item.catalogues?.[0]! : item
-  console.log("asMenu item", item.identifier, item.structure, isAlias(item))
-  console.log("asMenu catalogue", catalogue.identifier, catalogue.structure?.type, isAlias(catalogue))
   const catalogueLink = isBranch(catalogue)
     ? cataloguesAll(catalogue?.identifier!)
     : cataloguesAll(item?.identifier!, catalogue?.identifier!)

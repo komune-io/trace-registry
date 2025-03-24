@@ -16,15 +16,14 @@ export const CataloguesRouter = (_: CataloguesRouterProps) => {
   const {i18n} = useTranslation()
   const [searchParams] = useSearchParams()
   const catalogueIdentifier = ids[ids.length - 1] ?? "home"
+
   const catalogueGet = useCatalogueGetByIdentifierQuery({
     query: {
-      identifier: catalogueIdentifier!,
+      identifier: catalogueIdentifier,
       language: searchParams.get("language") ?? i18n.language
-    },
-    options:  {
-      enabled: !!catalogueIdentifier
     }
   })
+
   if (!catalogueGet.isLoading && !catalogueGet.data?.item) return <NoMatchPage />
   if (catalogueGet.isInitialLoading || catalogueGet.isLoading || !catalogueGet?.data?.item) return <></>
   if(catalogueGet.data?.item?.structure?.type === "grid") {
