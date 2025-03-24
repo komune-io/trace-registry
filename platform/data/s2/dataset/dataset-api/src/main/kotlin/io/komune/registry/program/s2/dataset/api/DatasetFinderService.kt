@@ -8,6 +8,7 @@ import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toModel
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
 import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.DistributionId
@@ -33,6 +34,13 @@ class DatasetFinderService(
 
 	suspend fun get(id: DatasetId): DatasetModel {
 		return getOrNull(id) ?: throw NotFoundException("Dataset", id)
+	}
+
+	suspend fun getOrNullByIdAndType(id: DatasetId, type: String): DatasetModel? {
+		return datasetRepository.findByIdAndType(id, type).orElse(null)?.toModel()
+	}
+	suspend fun getByIdAndType(id: DatasetId, type: String): DatasetModel {
+		return getOrNullByIdAndType(id, type) ?: throw NotFoundException("Dataset", id)
 	}
 
 	suspend fun getAll(): List<DatasetModel> {
@@ -72,4 +80,5 @@ class DatasetFinderService(
 			?.toModel()
 			?: throw NotFoundException("Distribution", distributionId)
 	}
+
 }

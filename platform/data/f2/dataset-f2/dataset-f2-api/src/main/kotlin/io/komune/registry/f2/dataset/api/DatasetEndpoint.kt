@@ -32,6 +32,8 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetResult
+import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchResult
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
@@ -65,7 +67,7 @@ class DatasetEndpoint(
     private val datasetFinderService: DatasetFinderService,
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val fileClient: FileClient,
-    private val fsService: FsService,
+    private val fsService: FsService
 ): DatasetApi {
 
     private val logger = LoggerFactory.getLogger(DatasetEndpoint::class.java)
@@ -129,6 +131,15 @@ class DatasetEndpoint(
             .map { it.language }
             .distinct()
             .let(::DatasetListLanguagesResult)
+    }
+
+    override fun datasetGraphSearch(): DatasetGraphSearchFunction = f2Function { query ->
+        logger.info("datasetGraphSearch: $query")
+        datasetF2FinderService.graphSearch(
+            query.rootCatalogueIdentifier,
+            query.language,
+            query.datasetType
+        ).let(::DatasetGraphSearchResult)
     }
 
     @PermitAll

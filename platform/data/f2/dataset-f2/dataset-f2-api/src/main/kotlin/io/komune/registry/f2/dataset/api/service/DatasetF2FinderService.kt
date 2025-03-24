@@ -10,18 +10,25 @@ import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class DatasetF2FinderService(
     private val cccevFinderService: CccevFinderService,
     private val datasetFinderService: DatasetFinderService,
+
+    private val catalogueFinderService: CatalogueFinderService
 ) {
 
     suspend fun getOrNull(id: DatasetId): DatasetDTOBase? {
@@ -81,4 +88,48 @@ class DatasetF2FinderService(
         val informationConcepts = SimpleCache(cccevFinderService::getConcept)
         val supportedValues = SimpleCache(cccevFinderService::getValue)
     }
+
+    suspend fun graphSearch(
+        rootCatalogueIdentifier: CatalogueIdentifier,
+        language: String,
+        datasetType: String?
+    ): List<DatasetDTOBase> = coroutineScope {
+
+        val visitedCatalogues = mutableSetOf<CatalogueIdentifier>()
+        val visitedDatasets = mutableSetOf<DatasetIdentifier>()
+
+        suspend fun traverseCatalogue(catalogueId: CatalogueIdentifier): List<DatasetDTOBase> {
+            if (!visitedCatalogues.add(catalogueId)) {
+                return emptyList() // already visited
+            }
+
+            val catalogue = catalogueFinderService.get(catalogueId)
+
+            // Fetch datasets in parallel
+            val datasetDeferred = catalogue.datasetIds
+                .filter { visitedDatasets.add(it) } // Avoid duplicates
+                .mapNotNull { datasetId ->
+                    async {
+                        if (datasetType != null) {
+                            datasetFinderService.getByIdAndType(datasetId, datasetType).toDTOCached()
+                        } else {
+                            datasetFinderService.get(datasetId).toDTOCached()
+                        }
+                    }
+                }
+
+            // Traverse sub-catalogues in parallel
+            val subCatalogueDeferred = catalogue.catalogueIds.map { subId ->
+                async { traverseCatalogue(subId) }
+            }
+
+            val datasets = datasetDeferred.awaitAll().filterNotNull()
+            val subDatasets = subCatalogueDeferred.awaitAll().flatten()
+
+            return (datasets + subDatasets)
+        }
+
+        traverseCatalogue(rootCatalogueIdentifier)
+    }
+
 }
