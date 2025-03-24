@@ -18,7 +18,6 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
     const lexicalDistribution = useLexicalDistribution(catalogue)
 
     const sectionsDisplay = useMemo(() => {
-
         return (
             <Fragment
                 key={lexicalDistribution.dataset?.id ?? "newSection"}
