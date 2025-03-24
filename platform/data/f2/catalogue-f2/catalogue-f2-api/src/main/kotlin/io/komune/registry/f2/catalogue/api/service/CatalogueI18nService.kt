@@ -67,7 +67,7 @@ class CatalogueI18nService(
         val translated = translate(catalogue, language, otherLanguageIfAbsent)
             ?: return@withCache null
 
-        val themes = translated.themeIds?.mapNotNull {
+        val themes = translated.themeIds.mapNotNull {
             conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
         }
 
@@ -91,12 +91,15 @@ class CatalogueI18nService(
             status = translated.status,
             title = translated.title,
             description = translated.description,
-            catalogues = translated.catalogueIds.mapNotNull { childId ->
+            catalogues = translated.childrenCatalogueIds.mapNotNull { childId ->
                 catalogueFinderService.get(childId)
                     .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
-            datasets = translated.datasetIds
+            datasets = translated.childrenDatasetIds
+                .map { cache.datasets.get(it).toDTOCached() }
+                .filter { it.language == translated.language && it.status != DatasetState.DELETED },
+            referencedDatasets = translated.referencedDatasetIds
                 .map { cache.datasets.get(it).toDTOCached() }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED },
             themes = themes,
@@ -140,7 +143,7 @@ class CatalogueI18nService(
                 description = translated.description,
                 img = translated.img,
                 structure = translated.structure,
-                catalogues = translated.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
+                catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     catalogueFinderService.page(
                         id = CollectionMatch(catalogueIds),
                         hidden = ExactMatch(false),
@@ -186,8 +189,8 @@ class CatalogueI18nService(
             language = translation.language,
             title = translation.title,
             description = translation.description,
-            datasetIds = catalogue.datasetIds + translation.datasetIds,
-            catalogueIds = catalogue.catalogueIds + translation.catalogueIds,
+            childrenDatasetIds = catalogue.childrenDatasetIds + translation.childrenDatasetIds,
+            childrenCatalogueIds = catalogue.childrenCatalogueIds + translation.childrenCatalogueIds,
             version = translation.version,
             versionNotes = translation.versionNotes,
         )
@@ -207,7 +210,7 @@ class CatalogueI18nService(
 
     private suspend fun CatalogueModel.computeAggregators(): List<InformationConceptComputedDTOBase> = withCache { cache ->
         val translations = translationIds.values.mapAsync { catalogueFinderService.get(it) }
-        val allDatasetIds = datasetIds + translations.flatMap { it.datasetIds }
+        val allDatasetIds = childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
         val allDatasets = allDatasetIds.map { cache.datasets.get(it) }
 
         val (globalAggregators, localAggregators) = aggregators.partition { aggregator ->

@@ -143,7 +143,7 @@ class CatalogueSnapMeiliSearchRepository(
             val filters = listOfNotNull(
                 match(CatalogueMeiliSearchField.LANGUAGE, language),
                 match(CatalogueMeiliSearchField.ACCESS_RIGHTS, accessRights),
-                match(CatalogueMeiliSearchField.CATALOGUE_IDS, catalogueIds),
+                match(CatalogueMeiliSearchField.CHILDREN_CATALOGUE_IDS, catalogueIds),
                 match(CatalogueMeiliSearchField.TYPE, type),
                 match(CatalogueMeiliSearchField.THEME_IDS, themeIds),
                 match(CatalogueMeiliSearchField.LICENSE_ID, licenseId),
@@ -161,7 +161,7 @@ class CatalogueSnapMeiliSearchRepository(
                         CatalogueModel::licenseId.name,
                         CatalogueModel::accessRights.name,
                         CatalogueModel::themeIds.name,
-                        CatalogueModel::catalogueIds.name,
+                        CatalogueModel::childrenCatalogueIds.name,
                         CatalogueModel::type.name
                     )
                 ).filter(filters.toTypedArray())

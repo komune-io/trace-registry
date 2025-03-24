@@ -3749,9 +3749,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly img?: string;
         readonly type: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
-        readonly themes?: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
-        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
-        readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
+        readonly catalogues: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly datasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
+        readonly referencedDatasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;

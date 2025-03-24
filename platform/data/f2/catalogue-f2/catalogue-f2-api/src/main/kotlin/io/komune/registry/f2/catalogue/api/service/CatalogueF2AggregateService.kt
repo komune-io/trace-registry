@@ -40,7 +40,6 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
-import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -58,7 +57,6 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -161,7 +159,7 @@ class CatalogueF2AggregateService(
             type = translationType,
             structure = command.structure ?: originalCatalogue.structure,
             homepage = command.homepage ?: originalCatalogue.homepage,
-            themes = command.themes ?: originalCatalogue.themeIds,
+            themes = command.themes ?: originalCatalogue.themeIds.toList(),
             accessRights = command.accessRights ?: originalCatalogue.accessRights,
             license = command.license ?: originalCatalogue.licenseId,
             location = command.location ?: originalCatalogue.location,
@@ -277,7 +275,7 @@ class CatalogueF2AggregateService(
 
     suspend fun linkCatalogueDatasetsToDraft(draftId: CatalogueDraftId, catalogueId: CatalogueId) {
         val catalogue = catalogueFinderService.get(catalogueId)
-        catalogue.datasetIds.mapAsync { datasetId ->
+        catalogue.childrenDatasetIds.mapAsync { datasetId ->
             datasetF2AggregateService.linkDatasetToDraft(draftId, datasetId)
         }
     }
@@ -338,8 +336,8 @@ class CatalogueF2AggregateService(
             homepage = catalogueCreatedEvent.homepage,
             structure = catalogueCreatedEvent.structure,
             isTranslationOf = catalogueCreatedEvent.isTranslationOf,
-            catalogueIds = catalogueCreatedEvent.catalogueIds.toSet(),
-            datasetIds = catalogueCreatedEvent.datasetIds.toSet(),
+            catalogueIds = catalogueCreatedEvent.childrenCatalogueIds.toSet(),
+            datasetIds = catalogueCreatedEvent.childrenDatasetIds.toSet(),
             creatorId = catalogueCreatedEvent.creatorId,
             creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
             ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
@@ -419,7 +417,7 @@ class CatalogueF2AggregateService(
     private suspend fun replaceParent(catalogueId: CatalogueId, parentId: CatalogueId) {
         val parent = catalogueFinderService.get(parentId)
 
-        if (catalogueId in parent.catalogueIds) {
+        if (catalogueId in parent.childrenCatalogueIds) {
             return
         }
 
@@ -440,7 +438,7 @@ class CatalogueF2AggregateService(
     private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
         val parent = catalogueFinderService.get(parentId)
 
-        if (catalogueId in parent.catalogueIds) {
+        if (catalogueId in parent.childrenCatalogueIds) {
             return
         }
 
@@ -554,10 +552,10 @@ class CatalogueF2AggregateService(
         draftedCatalogue: CatalogueModel,
         originalCatalogue: CatalogueModel
     ) {
-        val datasetIds = applyDatasetUpdates(draft, draftedCatalogue.datasetIds)
+        val datasetIds = applyDatasetUpdates(draft, draftedCatalogue.childrenDatasetIds)
         linkDatasets(draft.originalCatalogueId, datasetIds)
 
-        originalCatalogue.datasetIds.filter { it !in datasetIds }
+        originalCatalogue.childrenDatasetIds.filter { it !in datasetIds }
             .nullIfEmpty()
             ?.let {
                 CatalogueUnlinkDatasetsCommand(
@@ -567,7 +565,7 @@ class CatalogueF2AggregateService(
             }
     }
 
-    private suspend fun applyDatasetUpdates(draft: CatalogueDraftModel, datasetIds: List<DatasetId>): List<DatasetId> {
+    private suspend fun applyDatasetUpdates(draft: CatalogueDraftModel, datasetIds: Collection<DatasetId>): List<DatasetId> {
         return datasetIds.mapAsync { draftedDatasetId ->
             val originalDatasetId = draft.datasetIdMap.entries
                 .firstOrNull { it.value == draftedDatasetId }

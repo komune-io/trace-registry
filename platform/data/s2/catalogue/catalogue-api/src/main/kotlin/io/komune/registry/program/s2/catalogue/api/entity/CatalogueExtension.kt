@@ -19,9 +19,10 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         description = description,
         translationIds = translationIds,
         isTranslationOf = isTranslationOf,
-        catalogueIds = catalogueIds.toList(),
-        datasetIds = datasetIds.toList(),
-        themeIds = themeIds.toList(),
+        childrenCatalogueIds = childrenCatalogueIds,
+        childrenDatasetIds = childrenDatasetIds,
+        referencedDatasetIds = referencedDatasetIds,
+        themeIds = themeIds,
         creatorId = creatorId,
         creatorOrganizationId = creatorOrganizationId,
         ownerOrganizationId = ownerOrganizationId,
@@ -42,8 +43,8 @@ fun CatalogueEntity.toModel(): CatalogueModel {
 suspend fun CatalogueModel.descendantsIds(
     getCatalogue: suspend (CatalogueId) -> CatalogueModel
 ): Set<CatalogueId> = buildSet {
-    val childrenIds = catalogueIds.toMutableSet()
-    catalogueIds.mapAsync { childId ->
+    val childrenIds = childrenCatalogueIds.toMutableSet()
+    childrenCatalogueIds.mapAsync { childId ->
         childrenIds += getCatalogue(childId).descendantsIds(getCatalogue)
     }
     return childrenIds

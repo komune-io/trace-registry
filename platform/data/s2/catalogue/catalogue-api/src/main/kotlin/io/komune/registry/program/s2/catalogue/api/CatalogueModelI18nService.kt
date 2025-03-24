@@ -27,8 +27,8 @@ class CatalogueModelI18nService(
             language = catalogueTranslated.language,
             title = catalogueTranslated.title,
             description = catalogueTranslated.description,
-            datasetIds = this.datasetIds + catalogueTranslated.datasetIds,
-            catalogueIds = this.catalogueIds + catalogueTranslated.catalogueIds,
+            childrenDatasetIds = this.childrenDatasetIds + catalogueTranslated.childrenDatasetIds,
+            childrenCatalogueIds = this.childrenCatalogueIds + catalogueTranslated.childrenCatalogueIds,
             isTranslationOf = catalogueTranslated.isTranslationOf
         )
     }

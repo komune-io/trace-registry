@@ -60,7 +60,7 @@ class CatalogueDraftF2AggregateService(
             initDatasets = translatedOriginalCatalogue == null
         ).id }
 
-        val datasetIdMap = copyDatasets(baseCatalogue.datasetIds)
+        val datasetIdMap = copyDatasets(baseCatalogue.childrenDatasetIds)
 
         CatalogueLinkDatasetsCommand(
             id = draftedCatalogueId,
@@ -92,7 +92,7 @@ class CatalogueDraftF2AggregateService(
         return event
     }
 
-    private suspend fun copyDatasets(datasetIds: List<DatasetId>): Map<DatasetId, DatasetId> {
+    private suspend fun copyDatasets(datasetIds: Collection<DatasetId>): Map<DatasetId, DatasetId> {
         val now = System.currentTimeMillis()
         val idMap = ConcurrentHashMap<DatasetId, DatasetId>()
 

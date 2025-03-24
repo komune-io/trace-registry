@@ -6,7 +6,7 @@ enum class CatalogueMeiliSearchField(override val identifier: String): MeiliSear
     LANGUAGE(CatalogueModel::language.name),
     ACCESS_RIGHTS(CatalogueModel::accessRights.name),
     THEME_IDS(CatalogueModel::themeIds.name),
-    CATALOGUE_IDS(CatalogueModel::catalogueIds.name),
+    CHILDREN_CATALOGUE_IDS(CatalogueModel::childrenCatalogueIds.name),
     LICENSE_ID(CatalogueModel::licenseId.name),
     TYPE(CatalogueModel::type.name),
     CREATOR_ID(CatalogueModel::creatorId.name),

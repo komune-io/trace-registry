@@ -35,7 +35,7 @@ class AssertionCatalogue(
         fun hasDatasets(
             datasets: List<DatasetId>,
         ) = also {
-            Assertions.assertThat(catalogue.datasetIds).containsAll(datasets)
+            Assertions.assertThat(catalogue.childrenDatasetIds).containsAll(datasets)
         }
     }
 }

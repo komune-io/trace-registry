@@ -50,7 +50,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var description: String? = null
 
     @TagIndexed
-    var themeIds: Set<ConceptId> = emptySet()
+    var themeIds: MutableSet<ConceptId> = mutableSetOf()
 
     @Searchable(nostem=true)
     var homepage: String? = null
@@ -59,12 +59,15 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var structure: Structure? = null
 
     @TagIndexed
-    var catalogueIds: Set<CatalogueId> = emptySet()
+    var childrenCatalogueIds: MutableSet<CatalogueId> = mutableSetOf()
 
     @TagIndexed
-    var datasetIds: Set<DatasetId> = emptySet()
+    var childrenDatasetIds: MutableSet<DatasetId> = mutableSetOf()
 
-    var translationIds: Map<Language, CatalogueId> = emptyMap()
+    @TagIndexed
+    var referencedDatasetIds: MutableSet<DatasetId> = mutableSetOf()
+
+    var translationIds: MutableMap<Language, CatalogueId> = mutableMapOf()
 
     var isTranslationOf: CatalogueId? = null
 
@@ -86,7 +89,7 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var location: Location? = null
 
-    var aggregators: List<CatalogueAggregatorEntity> = emptyList()
+    var aggregators: MutableList<CatalogueAggregatorEntity> = mutableListOf()
 
     @Indexed
     var hidden: Boolean = false
