@@ -4059,6 +4059,33 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.f2.entity.domain.model {
+    interface EntityRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly type: io.komune.registry.f2.entity.domain.model.EntityType;
+        readonly name: string;
+        readonly language?: string;
+        readonly availableLanguages: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.entity.domain.model {
+    type EntityType = "CATALOGUE";
+}
+export declare namespace io.komune.registry.f2.entity.domain.query {
+    interface EntityRefGetQueryDTO {
+        readonly id: string;
+        readonly type: io.komune.registry.f2.entity.domain.model.EntityType;
+        readonly language: string;
+        readonly otherLanguageIfAbsent?: boolean;
+
+    }
+    interface EntityRefGetQueryResultDTO {
+        readonly item?: io.komune.registry.f2.entity.domain.model.EntityRefDTO;
+
+    }
+}
 export declare namespace io.komune.registry.s2.order.domain {
     interface OrderInitCommand extends s2.dsl.automate.S2InitCommand {
 
