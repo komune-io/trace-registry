@@ -21,6 +21,7 @@ class InformationConceptEvolver: View<InformationConceptEvent, InformationConcep
 		identifier = event.identifier
 		name = event.name
 		unitId = event.unitId
+		aggregator = event.aggregator
 		issued = event.date
 		modified = event.date
 	}

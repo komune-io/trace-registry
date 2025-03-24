@@ -9,9 +9,10 @@ import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
 import io.komune.registry.s2.cccev.api.entity.value.toModel
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.SupportedValueState
+import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
-import io.komune.registry.s2.cccev.domain.model.SumProcessorInput
+import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.DataUnitId
@@ -87,7 +88,12 @@ class CccevFinderService(
     }
 
     suspend fun computeGlobalValueForConcept(id: InformationConceptId): String {
+        val aggregatorType = getConcept(id).aggregator
+            ?: throw IllegalStateException("Aggregator not defined for concept $id")
+
         val supportedValues = valueRepository.findAllByConceptIdAndStatus(id, SupportedValueState.VALIDATED)
-        return SumProcessorInput(supportedValues.map { it.value }).compute()
+        return when (aggregatorType) {
+            AggregatorType.SUM -> SumAggregatorInput(supportedValues.map { it.value }).compute()
+        }
     }
 }

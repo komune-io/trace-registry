@@ -4,6 +4,7 @@ import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import io.komune.registry.s2.cccev.domain.InformationConceptState
+import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -28,6 +29,8 @@ open class InformationConceptEntity: WithS2Id<InformationConceptId>, WithS2State
     var name: Map<Language, String> = emptyMap()
 
     lateinit var unitId: DataUnitId
+
+    var aggregator: AggregatorType? = null
 
     var issued: Long? = null
     var modified: Long? = null

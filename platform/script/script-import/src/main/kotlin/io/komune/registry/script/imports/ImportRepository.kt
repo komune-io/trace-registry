@@ -93,6 +93,7 @@ class ImportRepository(
                 identifier = informationConcept.identifier,
                 name = informationConcept.name,
                 unitId = unit.id,
+                aggregator = informationConcept.aggregator,
             ).invokeWith(dataClient.cccev.informationConceptCreate()).id
         }
 

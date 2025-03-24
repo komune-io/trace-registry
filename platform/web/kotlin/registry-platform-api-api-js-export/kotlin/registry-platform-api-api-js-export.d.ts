@@ -2420,6 +2420,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unitId: string;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
 
     }
 }
@@ -2478,7 +2479,8 @@ export declare namespace io.komune.registry.s2.cccev.domain.model {
     type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type ProcessorType = "CSV_SQL" | "SUM";
+    type FileProcessorType = "CSV_SQL";
+    type AggregatorType = "SUM";
 }
 export declare namespace io.komune.registry.f2.cccev.domain.concept {
     const InformationConceptPolicies: {
@@ -2490,6 +2492,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unitId: string;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
 
     }
     interface InformationConceptCreatedEventDTO {
@@ -3244,7 +3247,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface AggregatorConfigDTO {
         readonly informationConceptId: string;
-        readonly processorType: io.komune.registry.s2.cccev.domain.model.ProcessorType;
+        readonly processorType: io.komune.registry.s2.cccev.domain.model.FileProcessorType;
         readonly query: string;
         readonly valueIfEmpty: string;
 

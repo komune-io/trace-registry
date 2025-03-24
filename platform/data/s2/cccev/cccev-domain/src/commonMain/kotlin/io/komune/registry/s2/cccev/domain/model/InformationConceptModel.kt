@@ -9,5 +9,6 @@ data class InformationConceptModel(
     val id: InformationConceptId,
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
-    val unitId: DataUnitId
+    val unitId: DataUnitId,
+    val aggregator: AggregatorType?,
 )

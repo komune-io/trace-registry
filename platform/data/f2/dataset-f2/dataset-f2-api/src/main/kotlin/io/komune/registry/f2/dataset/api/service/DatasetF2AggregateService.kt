@@ -39,8 +39,8 @@ import io.komune.registry.s2.cccev.api.CccevAggregateService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
-import io.komune.registry.s2.cccev.domain.model.CsvSqlProcessorInput
-import io.komune.registry.s2.cccev.domain.model.ProcessorType
+import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
+import io.komune.registry.s2.cccev.domain.model.FileProcessorType
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.DatasetId
@@ -325,18 +325,17 @@ class DatasetF2AggregateService(
         val valueEvent = InformationConceptComputeValueCommand(
             id = aggregatorConfig.informationConceptId,
             processorInput = when (aggregatorConfig.processorType) {
-                ProcessorType.CSV_SQL -> {
+                FileProcessorType.CSV_SQL -> {
                     require(mediaType == "text/csv") {
-                        "${ProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
+                        "${FileProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
                     }
 
-                    CsvSqlProcessorInput(
+                    CsvSqlFileProcessorInput(
                         query = aggregatorConfig.query,
                         content = contentByteArray,
                         valueIfEmpty = aggregatorConfig.valueIfEmpty
                     )
                 }
-                ProcessorType.SUM -> throw UnsupportedOperationException("SUM aggregator not supported for dataset distribution")
             }
         ).let { cccevAggregateService.computeValue(it) }
 

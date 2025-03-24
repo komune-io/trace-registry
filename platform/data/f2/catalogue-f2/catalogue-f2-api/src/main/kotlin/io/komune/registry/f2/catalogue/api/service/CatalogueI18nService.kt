@@ -22,7 +22,8 @@ import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.api.processor.compute
-import io.komune.registry.s2.cccev.domain.model.SumProcessorInput
+import io.komune.registry.s2.cccev.domain.model.AggregatorType
+import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
@@ -231,13 +232,20 @@ class CatalogueI18nService(
             }
         }
         globalConceptIds.mapAsync { conceptId ->
-            aggregatorValues[conceptId] = listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
+            aggregatorValues[conceptId] = try {
+                listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
+            } catch (e: UnsupportedOperationException) {
+                emptyList()
+            }
         }
 
-        aggregatorValues.map { (conceptId, values) ->
-            val value = SumProcessorInput(values).compute()
-            cache.informationConcepts.get(conceptId)
-                .toComputedDTO(value, language!!, cache.dataUnits::get)
+        aggregatorValues.mapNotNull { (conceptId, values) ->
+            val concept = cache.informationConcepts.get(conceptId)
+
+            when (concept.aggregator) {
+                AggregatorType.SUM -> SumAggregatorInput(values).compute()
+                null -> null
+            }?.let { concept.toComputedDTO(it, language!!, cache.dataUnits::get) }
         }
     }
 }
