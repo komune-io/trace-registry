@@ -2968,6 +2968,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueReferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueRemoveAggregatorCommandDTO {
         readonly id: string;
         readonly informationConceptId: string;
@@ -3258,6 +3265,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly id: string;
         readonly identifier: string;
         readonly type: string;
+        readonly catalogueId: string;
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
         readonly accessRights?: string;
@@ -3582,7 +3590,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
         canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
-        canLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canReferenceDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canSetAggregator(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
     };
 }
@@ -3636,23 +3644,23 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueLinkDatasetsCommandDTO {
-        readonly id: string;
-        readonly datasetIds: string[];
-
-    }
-    interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueLinkThemesCommandDTO {
         readonly id: string;
         readonly themes: string[];
 
     }
     interface CatalogueLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueReferenceDatasetsCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+    interface CatalogueReferencedDatasetsEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
 
     }

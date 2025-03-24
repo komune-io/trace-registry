@@ -36,6 +36,10 @@ class CatalogueDraftFinderService(
         return catalogueDraftRepository.findByCatalogueId(catalogueId)?.toModel()
     }
 
+    suspend fun existsByCatalogueId(catalogueId: CatalogueId): Boolean {
+        return catalogueDraftRepository.findByCatalogueId(catalogueId) != null
+    }
+
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
         catalogueId: Match<CatalogueId>? = null,

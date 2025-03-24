@@ -64,18 +64,18 @@ class CataloguePoliciesEnforcer(
         CataloguePolicies.canLinkThemes(authedUser, catalogue)
     }
 
-    suspend fun checkLinkDatasets(
+    suspend fun checkReferenceDatasets(
         catalogueId: CatalogueId
-    ) = checkAuthed("link datasets to catalogue [$catalogueId]") { authedUser ->
+    ) = checkAuthed("reference datasets in catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
-        CataloguePolicies.canLinkDatasets(authedUser, catalogue)
+        CataloguePolicies.canReferenceDatasets(authedUser, catalogue)
     }
 
     suspend fun checkSetAggregator(
         catalogueId: CatalogueId
     ) = checkAuthed("set aggregator on catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
-        CataloguePolicies.canLinkDatasets(authedUser, catalogue)
+        CataloguePolicies.canSetAggregator(authedUser, catalogue)
     }
 
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->

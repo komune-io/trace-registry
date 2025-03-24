@@ -10,7 +10,6 @@ import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
@@ -214,15 +213,6 @@ class DCatGraphClient(
             language = language
         ).invokeWith(client.datasetGetByIdentifier()).item?.id
             ?: createDataset(catalogueId)
-    }
-
-    suspend fun linkDatasetToCatalogue(catalogueId: String, datasets: List<DatasetId>) {
-        val client = catalogueClient
-        println("Linking catalogue $catalogueId to datasets $datasets")
-        CatalogueLinkDatasetsCommandDTOBase(
-            id = catalogueId,
-            datasetIds = datasets
-        ).invokeWith(client.catalogueLinkDatasets())
     }
 
     private suspend fun DcatDataset.createDataset(catalogueId: CatalogueId): DatasetId {

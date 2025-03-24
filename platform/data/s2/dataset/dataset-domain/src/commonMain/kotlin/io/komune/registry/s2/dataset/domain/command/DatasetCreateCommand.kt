@@ -4,12 +4,14 @@ import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class DatasetCreateCommand(
     val identifier: String,
+    val catalogueId: CatalogueId,
     val title: String?,
     val type: String,
     val description: String? = null,
@@ -65,6 +67,7 @@ sealed interface DatasetDataEvent : DatasetEvent {
 data class DatasetCreatedEvent(
     override val id: DatasetId,
     val identifier: String,
+    val catalogueId: CatalogueId,
     override val title: String?,
     override val type: String,
     override val description: String? = null,

@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -47,6 +48,7 @@ suspend fun DatasetModel.toDTO(
     return DatasetDTOBase(
         id = id,
         identifier = identifier,
+        catalogueId = catalogueId,
         title = title,
         type = type,
         img = img?.let {"/datasets/${id}/logo" },
@@ -120,8 +122,12 @@ suspend fun DistributionModel.toDTO(
     modified = modified,
 )
 
-fun DatasetCreateCommandDTOBase.toCommand(identifier: DatasetIdentifier) = DatasetCreateCommand(
+fun DatasetCreateCommandDTOBase.toCommand(
+    identifier: DatasetIdentifier,
+    catalogueId: CatalogueId
+) = DatasetCreateCommand(
     identifier = identifier,
+    catalogueId = catalogueId,
     title = title,
     type = type,
     description = description,

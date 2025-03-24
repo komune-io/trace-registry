@@ -4,7 +4,7 @@ import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
-import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import kotlinx.serialization.Serializable
@@ -13,7 +13,7 @@ import kotlinx.serialization.Serializable
 data class DatasetModel(
     val id: DatasetId,
     val identifier: String,
-    val draftId: CatalogueDraftId?,
+    val catalogueId: CatalogueId,
     val status: DatasetState,
     val title: String?,
     val img: String?,

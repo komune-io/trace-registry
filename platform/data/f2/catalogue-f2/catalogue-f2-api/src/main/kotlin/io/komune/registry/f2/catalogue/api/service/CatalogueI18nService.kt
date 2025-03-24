@@ -76,7 +76,7 @@ class CatalogueI18nService(
             ?.let { catalogueFinderService.get(it) }
 
         val parent = catalogueFinderService.page(
-            childrenIds = ExactMatch(originalCatalogue?.id ?: translated.id),
+            childrenCatalogueIds = ExactMatch(originalCatalogue?.id ?: translated.id),
             offset = OffsetPagination(0, 1)
         ).items.firstOrNull()
 

@@ -1,6 +1,7 @@
 package io.komune.registry.program.s2.dataset.api.entity
 
 import io.komune.fs.s2.file.domain.model.FilePath
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -11,7 +12,7 @@ import io.komune.registry.s2.dataset.domain.model.DistributionModel
 fun DatasetEntity.toModel() = DatasetModel(
     id = id,
     identifier = identifier,
-    draftId = draftId,
+    catalogueId = catalogueId,
     status = status,
     title = title,
     img = img?.toString(),
@@ -52,8 +53,12 @@ fun DistributionEntity.toModel() = DistributionModel(
     modified = modified,
 )
 
-fun DatasetModel.toCreateCommand(identifier: DatasetIdentifier) = DatasetCreateCommand(
+fun DatasetModel.toCreateCommand(
+    identifier: DatasetIdentifier,
+    catalogueId: CatalogueId
+) = DatasetCreateCommand(
     identifier = identifier,
+    catalogueId = catalogueId,
     title = title,
     type = type,
     description = description,

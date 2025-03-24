@@ -42,17 +42,16 @@ import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCo
 import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
 import io.komune.registry.s2.cccev.domain.model.FileProcessorType
 import io.komune.registry.s2.commons.exception.NotFoundException
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.ktor.utils.io.core.toByteArray
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -75,15 +74,28 @@ class DatasetF2AggregateService(
     }
 
     suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
-        val draftId = command.catalogueId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it)?.id }
-            ?: command.parentId?.let { datasetFinderService.get(it).draftId }
+        requireNotNull(command.catalogueId ?: command.parentId) {
+            "Either 'catalogueId' or 'parentId' must be provided"
+        }
+        val parent = command.parentId?.let { datasetFinderService.get(it) }
+        val catalogueId = parent?.catalogueId ?: command.catalogueId!!
 
-        val identifierSuffix = "-draft".takeIf { draftId != null } ?: ""
+        require(command.parentId == null || catalogueId == parent?.catalogueId) {
+            "New dataset cannot belong to a different catalogue than its parent"
+        }
+
+        val isDraft = catalogueDraftFinderService.existsByCatalogueId(catalogueId)
+
+        val identifierSuffix = "-draft".takeIf { isDraft }.orEmpty()
         val datasetIdentifier = command.identifier
             ?: "${command.type}-${sequenceRepository.nextValOf(IDENTIFIER_SEQUENCE)}"
 
-        val event = datasetAggregateService.create(command.toCommand("$datasetIdentifier$identifierSuffix"))
+        val event = datasetAggregateService.create(command.toCommand(
+            identifier = "$datasetIdentifier$identifierSuffix",
+            catalogueId = catalogueId
+        ))
 
+        // only create direct link in the catalogue if specified in the command
         command.catalogueId?.let {
             CatalogueLinkDatasetsCommand(
                 id = it,
@@ -97,8 +109,6 @@ class DatasetF2AggregateService(
                 datasetIds = listOf(event.id)
             ).let { datasetAggregateService.linkDatasets(it) }
         }
-
-        draftId?.let { linkDatasetToDraft(it, event.id) }
 
         return event.toDTO()
     }
@@ -247,7 +257,7 @@ class DatasetF2AggregateService(
             ).let { fileClient.fileDelete(listOf(it)) }
         }
 
-        if (dataset.draftId == null) {
+        if (dataset.isInDraft()) {
             distribution.aggregators.forEach { (_, supportedValueId) ->
                 cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
             }
@@ -263,7 +273,7 @@ class DatasetF2AggregateService(
         val event = datasetAggregateService.delete(command.toCommand())
 
         catalogueFinderService.page(
-            datasetIds = ExactMatch(command.id)
+            childrenDatasetIds = ExactMatch(command.id)
         ).items.mapAsync { catalogue ->
             CatalogueUnlinkDatasetsCommand(
                 id = catalogue.id,
@@ -281,21 +291,6 @@ class DatasetF2AggregateService(
         }
 
         return event.toDTO()
-    }
-
-    suspend fun linkDatasetToDraft(draftId: CatalogueDraftId, datasetId: DatasetId) {
-        val dataset = datasetFinderService.get(datasetId)
-
-        if (dataset.draftId != draftId) {
-            DatasetLinkToDraftCommand(
-                id = datasetId,
-                draftId = draftId
-            ).let { datasetAggregateService.linkToDraft(it) }
-        }
-
-        dataset.datasetIds.mapAsync { linkedDatasetId ->
-            linkDatasetToDraft(draftId, linkedDatasetId)
-        }
     }
 
     private suspend fun addDistribution(
@@ -339,7 +334,7 @@ class DatasetF2AggregateService(
             }
         ).let { cccevAggregateService.computeValue(it) }
 
-        if (dataset.draftId == null) {
+        if (dataset.isInDraft()) {
             cccevAggregateService.validateValue(SupportedValueValidateCommand(valueEvent.supportedValueId))
 
             oldDistribution.aggregators[aggregatorConfig.informationConceptId]?.let { supportedValueId ->
@@ -354,5 +349,9 @@ class DatasetF2AggregateService(
             supportedValueId = valueEvent.supportedValueId
         ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
 
+    }
+
+    private suspend fun DatasetModel.isInDraft(): Boolean {
+        return catalogueDraftFinderService.existsByCatalogueId(catalogueId)
     }
 }

@@ -9,7 +9,7 @@ import io.komune.registry.dsl.dcat.domain.model.Activity
 import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
-import io.komune.registry.s2.commons.model.CatalogueDraftId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.RedisTable
@@ -31,7 +31,7 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     lateinit var identifier: DatasetIdentifier
 
     @TagIndexed
-    var draftId: CatalogueDraftId? = null
+    lateinit var catalogueId: CatalogueId
 
     @Searchable(nostem=true)
     var title: String? = null

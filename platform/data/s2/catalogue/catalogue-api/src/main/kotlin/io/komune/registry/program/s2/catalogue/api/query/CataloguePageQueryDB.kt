@@ -31,8 +31,9 @@ class CataloguePageQueryDB(
         title: Match<String>? = null,
         language: Match<String>? = null,
         type: Match<String>? = null,
-        childrenIds: Match<CatalogueId>? = null,
-        datasetIds: Match<DatasetId>? = null,
+        childrenCatalogueIds: Match<CatalogueId>? = null,
+        childrenDatasetIds: Match<DatasetId>? = null,
+        referencedDatasetIds: Match<DatasetId>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
@@ -44,8 +45,9 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.TITLE, title)
         match(`CatalogueEntity$`.LANGUAGE, language)
         match(`CatalogueEntity$`.TYPE, type)
-        match(`CatalogueEntity$`.CHILDREN_CATALOGUE_IDS, childrenIds)
-        match(`CatalogueEntity$`.CHILDREN_DATASET_IDS, datasetIds)
+        match(`CatalogueEntity$`.CHILDREN_CATALOGUE_IDS, childrenCatalogueIds)
+        match(`CatalogueEntity$`.CHILDREN_DATASET_IDS, childrenDatasetIds)
+        match(`CatalogueEntity$`.REFERENCED_DATASET_IDS, referencedDatasetIds)
         match(`CatalogueEntity$`.CREATOR_ORGANIZATION_ID, creatorOrganizationId)
         match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS, status)

@@ -61,8 +61,9 @@ class CatalogueFinderService(
 		parentIdentifier: String? = null,
 		language: Match<String>? = null,
 		type: Match<String>? = null,
-		childrenIds: Match<CatalogueId>? = null,
-		datasetIds: Match<DatasetId>? = null,
+		childrenCatalogueIds: Match<CatalogueId>? = null,
+		childrenDatasetIds: Match<DatasetId>? = null,
+		referencedDatasetIds: Match<DatasetId>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
 		status: Match<CatalogueState>? = null,
 		hidden: Match<Boolean>? = null,
@@ -85,16 +86,15 @@ class CatalogueFinderService(
 			title = title,
 			language = language,
 			type = type,
-			childrenIds = childrenIds,
-			datasetIds = datasetIds,
+			childrenCatalogueIds = childrenCatalogueIds,
+			childrenDatasetIds = childrenDatasetIds,
+			referencedDatasetIds = referencedDatasetIds,
 			creatorOrganizationId = creatorOrganizationId,
 			status = status,
 			hidden = hidden,
 			freeCriterion = freeCriterion,
 			offset = offset,
-		).map {
-			it.toModel()
-		}
+		).map { it.toModel() }
 	}
 
 	suspend fun search(
