@@ -64,6 +64,9 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             title={t("catalogues.createIndicatorBlock")}
             onSave={formState.submitForm}
             onCancel={onClose}
+            sx={{
+                width: 1000
+            }}
         >
             <FormComposable
                 fields={fields}

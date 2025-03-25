@@ -64,9 +64,12 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("catalogues.createIndicatorBlock")}
+            title={t("catalogues.addIndicator")}
             onSave={formState.submitForm}
             onCancel={onClose}
+            sx={{
+                width: 1000
+            }}
         >
             <FormComposable
                 fields={fields}

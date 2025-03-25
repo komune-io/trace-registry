@@ -47,10 +47,10 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                 actions={
                     <>
                         <CustomButton
-
+                            onClick={toggle}
                             startIcon={<AddCircleOutlineRounded />}
                         >
-                            {t("catalogues.AddIndicator")}
+                            {t("catalogues.addIndicator")}
                         </CustomButton>
                         <IconButton
                         {...buttonProps}

@@ -151,6 +151,10 @@
     "seeAll": "Voir tous",
     "mySheets": "Mes fiches",
     "co2TonsAvoided": "Tonnes de CO2 économisées",
+    "minValue": "Valeur minimale",
+    "maxValue": "Valeur maximale",
+    "value": "Valeur",
+    "context": "Contexte",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -333,7 +337,17 @@
         "chooseDataset": "Choisir votre jeu de données",
         "graphConfiguration": "Configurez votre graphe",
         "noProject": "Aucun projet n'a été trouvé",
-        "csvDeposit": "Déposer un fichier CSV"
+        "csvDeposit": "Déposer un fichier CSV",
+        "addIndicator": "Ajouter un indicateur",
+        "linkedSolution": "Solution liée",
+        "indicatorNameDetails": "Les blocs d’indicateurs permettent d’ajouter des données clés (quantitatives ou qualitatives) à une fiche. Les données saisies sont automatiquement intégrés à la Synthèse économique de la fiche.",
+        "indicatorSolutionDetails": "Lorsqu’un bloc est lié à une solution, il apparaît dans la section \"Solutions\" de la fiche projet et remonte dans la section \"Étude de cas\" de la solution si la fiche projet est publiée.",
+        "noSolution": "Aucune solution n'a été trouvée",
+        "createIndicatorBlock": "Créer un bloc d'indicateurs",
+        "noIndicatorBlock": "Aucun bloc d’indicateurs associé à cette fiche",
+        "economicSynthesis": "Synthèse économique",
+        "noIndicatorAssociated": "Aucun indicateur associé à cette fiche",
+        "indicatorBlock": "Bloc d'indicateurs"
     },
     "editor": {
         "imageUrl": "URL de l'image",
