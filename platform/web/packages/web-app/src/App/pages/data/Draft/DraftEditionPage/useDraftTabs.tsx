@@ -2,7 +2,7 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -34,6 +34,11 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       key: 'project',
       label: t('co2Projects'),
       component: <DraftGraphManager draft={draft} />,
+    }),
+    ...maybeAddItem(canUpdate, {
+      key: 'indicator',
+      label: t('indicators'),
+      component: <DraftIndicatorManager draft={draft} />,
     }),
     ...maybeAddItem(catalogue?.type === "100m-chart" && canUpdate, {
       key: 'graph',

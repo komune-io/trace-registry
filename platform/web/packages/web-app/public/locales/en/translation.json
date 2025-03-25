@@ -151,6 +151,10 @@
   "seeAll": "See all",
   "mySheets": "My sheets",
   "co2TonsAvoided": "Tons of CO₂ saved",
+  "minValue": "Minimum value",
+  "maxValue": "Maximum value",
+  "value": "Value",
+  "context": "Context",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -332,7 +336,16 @@
     "chooseDataset": "Choose your dataset",
     "graphConfiguration": "Configure your graph",
     "noProject": "No project was found",
-    "csvDeposit": "Deposit a CSV file"
+    "csvDeposit": "Deposit a CSV file",
+    "addIndicator": "Add an indicator",
+    "linkedSolution": "Linked solution",
+    "indicatorNameDetails": "Indicator blocks allow you to add key data (quantitative or qualitative) to a sheet. The entered data is automatically integrated into the economic summary of the sheet.",
+    "indicatorSolutionDetails": "When a block is linked to a solution, it appears in the \"Solutions\" section of the project sheet and is included in the \"Case Study\" section of the solution if the project sheet is published.",
+    "noSolution": "No solution was found",
+    "createIndicatorBlock": "Create an indicator block",
+    "noIndicatorBlock": "No indicator block associated with this sheet",
+    "noIndicatorAssociated": "No indicator associated with this sheet",
+    "indicatorBlock": "Indicator block"
   },
   "editor": {
     "imageUrl": "Image URL",

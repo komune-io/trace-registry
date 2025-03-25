@@ -6,8 +6,10 @@ import {
   Typography
 } from '@mui/material'
 import { CloseRounded } from '@mui/icons-material'
+import { CustomButton } from '../CustomButton'
+import { useTranslation } from 'react-i18next'
 
-export interface TmsPopUpProps extends Omit<DialogProps, "title" > {
+export interface TmsPopUpProps extends Omit<DialogProps, "title"> {
   /**
    * Define if the po-up is open
    */
@@ -24,6 +26,8 @@ export interface TmsPopUpProps extends Omit<DialogProps, "title" > {
    * The content that will be displayed in the body of the pop-up
    */
   children?: React.ReactNode
+  onCancel?: () => void
+  onSave?: () => void
 }
 
 const TmsPopUpBase = (
@@ -38,10 +42,13 @@ const TmsPopUpBase = (
     title,
     PaperProps,
     sx,
+    onCancel,
+    onSave,
     ...other
   } = props
 
   const isTextTitle = typeof title === "string"
+  const {t} = useTranslation()
 
   return (
     <Dialog
@@ -74,16 +81,16 @@ const TmsPopUpBase = (
         }}
       >
         {
-          title ? isTextTitle ? 
-          <Typography
-          variant='h6'
-          >
-            {title}
-          </Typography>
-          :
-          title
-          :
-          <div />
+          title ? isTextTitle ?
+            <Typography
+              variant='h6'
+            >
+              {title}
+            </Typography>
+            :
+            title
+            :
+            <div />
         }
         <CloseRounded
           sx={{
@@ -94,7 +101,27 @@ const TmsPopUpBase = (
           onClick={onClose}
         />
       </Stack>
-        {children}
+      {children}
+      {(onSave || onCancel) && (
+        <Stack
+          direction={"row"}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+          gap={2}
+        >
+          {onCancel && <CustomButton
+            onClick={onCancel}
+            variant='text'
+          >
+            {t("cancel")}
+          </CustomButton>}
+          {onSave && <CustomButton
+            onClick={onSave}
+          >
+            {t("save")}
+          </CustomButton>}
+        </Stack>
+      )}
     </Dialog>
   )
 }

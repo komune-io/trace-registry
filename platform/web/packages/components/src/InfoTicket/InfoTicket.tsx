@@ -4,7 +4,7 @@ import React from 'react'
 
 export interface InfoTicketProps {
   title: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const InfoTicket = (props: InfoTicketProps) => {
