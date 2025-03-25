@@ -35,7 +35,6 @@ import io.komune.registry.script.init.asAuthRealm
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.nio.file.Files
 import java.util.concurrent.ConcurrentHashMap
 
 class ImportScript(
@@ -45,6 +44,7 @@ class ImportScript(
 
     private val dataClient: DataClient
     private val importRepository: ImportRepository
+    private val markdownMediaImport: MarkdownMediaImport
 
     init {
         val authRealm = properties.asAuthRealm()
@@ -56,6 +56,7 @@ class ImportScript(
             DataClient(properties.registry!!.url, authRealm)
         }
         importRepository = ImportRepository(dataClient)
+        markdownMediaImport = MarkdownMediaImport(properties, importRepository)
     }
 
     suspend fun run() {
@@ -171,7 +172,7 @@ class ImportScript(
 
         val catalogueFiles = importContext.rootDirectory.walk()
             .filter { pathMatcher.matches(it.toPath()) }
-            .toList()
+            .toSortedSet()
 
         catalogueFiles.mapAsyncIndexed { i, catalogueFile ->
             logger.info("(${i + 1}/${catalogueFiles.size}) Importing catalogue from ${catalogueFile.absolutePath}...")
@@ -288,21 +289,7 @@ class ImportScript(
         when (media.mediaType) {
             "application/json" -> {
                 if (path.endsWith("chart.json")) {
-                    val lastDataSet = datasetParent?.let {
-                        importRepository.getDataset(datasetParent.id)
-                    }
-                    lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
-                        val rawText = file.readText()
-                        val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
-                        logger.info(
-                            "Replacing Dataset[${dataset.id},${dataset.identifier}] Parent[${datasetParent.id}, " +
-                                    "${datasetParent.identifier}] #csvDistributionId with ${csvDistribution.id}")
-                        importRepository.createDatasetMediaDistribution(
-                            dataset = dataset,
-                            mediaType = media.mediaType,
-                            file = SimpleFile(file.name, newText.toByteArray())
-                        )
-                    }
+                    createChartDatasetMediaDistribution(datasetParent, file, dataset, media)
                 } else {
                     val rawText = file.readText()
                     importRepository.createDatasetMediaDistribution(
@@ -315,8 +302,8 @@ class ImportScript(
 
             "text/markdown" -> {
                 val resourceDataset = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
-
-                createMarkdownDatasetMediaDistribution(
+                val chartDatasets = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
+                markdownMediaImport.createMarkdownDatasetMediaDistribution(
                     dataset = dataset,
                     resourcesDataset = resourceDataset,
                     datasetSettings = datasetSettings,
@@ -328,6 +315,30 @@ class ImportScript(
                 dataset = dataset,
                 mediaType = media.mediaType,
                 file = file.toSimpleFile()
+            )
+        }
+    }
+
+    private suspend fun createChartDatasetMediaDistribution(
+        datasetParent: DatasetDTOBase?,
+        file: File,
+        dataset: DatasetDTOBase,
+        media: CatalogueDatasetMediaSettings
+    ) {
+        val lastDataSet = datasetParent?.let {
+            importRepository.getDataset(datasetParent.id)
+        }
+        lastDataSet?.distributions?.find { it.mediaType == "text/csv" }?.let { csvDistribution ->
+            val rawText = file.readText()
+            val newText = rawText.replace("#csvDistributionId", csvDistribution.id)
+            logger.info(
+                "Replacing Dataset[${dataset.id},${dataset.identifier}] Parent[${datasetParent.id}, " +
+                        "${datasetParent.identifier}] #csvDistributionId with ${csvDistribution.id}"
+            )
+            importRepository.createDatasetMediaDistribution(
+                dataset = dataset,
+                mediaType = media.mediaType,
+                file = SimpleFile(file.name, newText.toByteArray())
             )
         }
     }
@@ -348,74 +359,6 @@ class ImportScript(
                 type = "resources",
             )
         } ?: dataset
-
-    @Suppress("NestedBlockDepth")
-    private suspend fun createMarkdownDatasetMediaDistribution(
-        dataset: DatasetDTOBase,
-        resourcesDataset: DatasetDTOBase,
-        datasetSettings: CatalogueDatasetSettings,
-        file: File
-    ) {
-        val registryApiPath = properties.registry?.path?.let {
-            if (it.endsWith("/")) it else "$it/"
-        } ?: "/"
-        val registryWebPath = "/"
-        val rawText = file.readText()
-
-        val matchedPathToActualPath = mutableMapOf<String, String>()
-        var modifiedText = rawText
-
-        Regex("""\[(.*?)\]\((.*?)\)""").findAll(rawText).forEach { linkMatch ->
-            val title = linkMatch.groupValues[1]
-            val path = linkMatch.groupValues[2]
-
-            val catalogueLinkRegExp = Regex("""#100m-([\w]+)/(\w+)""")
-            val catalogueLinkMatch = catalogueLinkRegExp.find(path)
-            if(catalogueLinkMatch != null) {
-                val objectType = catalogueLinkMatch.groupValues[1]
-                val objectId = catalogueLinkMatch.groupValues[2]
-                val url = "${registryWebPath}catalogues/100m-${objectType}-$objectId/"
-                matchedPathToActualPath[path] = url
-                logger.info("Catalogue[$path] replace by: $url")
-                modifiedText = modifiedText.replace(linkMatch.value, "[$title](${matchedPathToActualPath[path]})")
-            }
-        }
-
-        Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
-            val alt = imageMatch.groupValues[1]
-            val path = imageMatch.groupValues[2]
-            val title = imageMatch.groupValues[3]
-
-            if (path !in matchedPathToActualPath) {
-                val resourcePath = datasetSettings.resourcesPathPrefix?.let { pathPrefix ->
-                    path.takeIf { it.startsWith(pathPrefix.original) }
-                        ?.replaceFirst(pathPrefix.original, pathPrefix.replacement)
-                } ?: path
-                val resourceFile = file.resolveSibling(resourcePath)
-                if (!resourceFile.exists() || !resourceFile.isFile) {
-                    logger.warn("Resource file not found at path [$resourcePath]. Ignoring")
-                    return@forEach
-                }
-
-                val distributionId = importRepository.createDatasetMediaDistribution(
-                    dataset = resourcesDataset,
-                    mediaType = Files.probeContentType(resourceFile.toPath()) ?: "application/octet-stream",
-                    file = resourceFile.toSimpleFile()
-                )
-                val url = "${registryApiPath}data/datasetDownloadDistribution/${resourcesDataset.id}/$distributionId"
-                logger.info("Catalogue[$path] replace by: $url")
-                matchedPathToActualPath[path] = url
-            }
-
-            modifiedText = modifiedText.replace(imageMatch.value, "![$alt](${matchedPathToActualPath[path]} $title)")
-        }
-
-        importRepository.createDatasetMediaDistribution(
-            dataset = dataset,
-            mediaType = "text/markdown",
-            file = SimpleFile(file.name, modifiedText.toByteArray())
-        )
-    }
 
     private suspend fun connectCatalogues(importContext: ImportContext) {
         logger.info("Linking catalogues...")
@@ -488,8 +431,6 @@ class ImportScript(
         }
 
     }
-
-    private fun File.toSimpleFile() = SimpleFile(name, readBytes())
 }
 
 class ImportContext(
@@ -509,3 +450,5 @@ class ImportContext(
             ?: type
     }
 }
+
+fun File.toSimpleFile() = SimpleFile(name, readBytes())
