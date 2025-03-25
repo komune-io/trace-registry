@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Paper } from '@mui/material'
 import { AddIndicatorModal } from './AddIndicatorModal'
 import { Dataset } from '../../../Dataset'
+import { IndicatorTable } from '../IndicatorTable'
 
 export interface IndicatorBlockProps {
     dataset: Dataset
@@ -28,9 +29,11 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
         color: "#B01717",
     }], [t])
 
-    const { buttonProps, menu} = useButtonMenu({
+    const { buttonProps, menu } = useButtonMenu({
         items: options
     })
+
+    const indicators = (dataset.distributions ?? [])[0]?.aggregators ?? []
 
     return (
         <Paper
@@ -53,7 +56,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                             {t("catalogues.addIndicator")}
                         </CustomButton>
                         <IconButton
-                        {...buttonProps}
+                            {...buttonProps}
                         >
                             <MoreVert />
                         </IconButton>
@@ -61,9 +64,12 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                     </>
                 }
             />
-            <InfoTicket 
-            title={t("catalogues.noIndicatorAssociated")}
-            />
+            {indicators ?
+                <IndicatorTable data={indicators} />
+                :
+                <InfoTicket
+                    title={t("catalogues.noIndicatorAssociated")}
+                />}
             <AddIndicatorModal open={open} onClose={toggle} dataset={dataset} />
         </Paper>
     )

@@ -3,32 +3,32 @@ import { iconPack } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
-import { G2ColumnDef, TableV2, useTable } from '@komune-io/g2'
-import { Dataset } from '../../../Dataset'
+import { G2ColumnDef, TableCellText, TableV2, useTable } from '@komune-io/g2'
+import { InformationConcept } from '../../model'
 
 export interface IndicatorTableProps {
-    dataset: Dataset
+    data: InformationConcept[]
 }
 
 export const IndicatorTable = (props: IndicatorTableProps) => {
-    const { dataset } = props
+    const { data } = props
     const { t } = useTranslation()
 
-    const columns = useMemo((): G2ColumnDef<{}>[] => [{
+    const columns = useMemo((): G2ColumnDef<InformationConcept>[] => [{
         accessorKey: "type",
         header: t("type"),
-        cell: (row) => (<></>)
+        cell: ({row}) => (<TableCellText value={row.original.name} />)
     }, {
         accessorKey: "value",
         header: t("value"),
-        cell: (row) => (<></>)
+        cell: ({row}) => (<TableCellText value={row.original.value} />)
     }, {
         accessorKey: "context",
         header: t("context"),
-        cell: (row) => (<></>)
+        cell: ({row}) => (<TableCellText value={row.original.valueDescription} />)
     }, {
         accessorKey: "options",
-        cell: (row) => (
+        cell: ({row}) => (
             <Stack
                 direction="row"
                 alignItems="center"
@@ -44,12 +44,12 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
     }], [t])
 
     const tableState = useTable({
-        data: [],
+        data,
         columns
     })
 
     return (
-        <TableV2
+        <TableV2<InformationConcept>
             tableState={tableState}
         />
     )
