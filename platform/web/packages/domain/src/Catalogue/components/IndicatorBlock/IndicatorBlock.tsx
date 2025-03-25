@@ -1,0 +1,70 @@
+import { AddCircleOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
+import { CustomButton, iconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CatalogueDraft } from '../../model'
+import { IconButton, Paper } from '@mui/material'
+import { AddIndicatorModal } from './AddIndicatorModal'
+
+export interface IndicatorBlockProps {
+    draft?: CatalogueDraft
+}
+
+export const IndicatorBlock = (props: IndicatorBlockProps) => {
+    const { draft } = props
+    const { t } = useTranslation()
+
+    const [open, _, toggle] = useToggleState()
+
+
+    const options = useMemo((): TMSMenuItem[] => [{
+        key: "edit",
+        label: t("edit"),
+        icon: <EditRounded />
+    }, {
+        key: "delete",
+        label: t("delete"),
+        icon: iconPack.trash,
+        color: "#B01717",
+    }], [t])
+
+    const { buttonProps, menu} = useButtonMenu({
+        items: options
+    })
+
+    return (
+        <Paper
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 5,
+                p: 4
+            }}
+        >
+            <TitleDivider
+                size='h6'
+                title={t("catalogues.economicSynthesis")}
+                actions={
+                    <>
+                        <CustomButton
+
+                            startIcon={<AddCircleOutlineRounded />}
+                        >
+                            {t("catalogues.AddIndicator")}
+                        </CustomButton>
+                        <IconButton
+                        {...buttonProps}
+                        >
+                            <MoreVert />
+                        </IconButton>
+                        {menu}
+                    </>
+                }
+            />
+            <InfoTicket 
+            title={t("catalogues.noIndicatorAssociated")}
+            />
+            <AddIndicatorModal open={open} onClose={toggle} draft={draft} />
+        </Paper>
+    )
+}
