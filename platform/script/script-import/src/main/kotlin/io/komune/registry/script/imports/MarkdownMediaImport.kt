@@ -50,17 +50,24 @@ class MarkdownMediaImport(
             }
         }
 
+<<<<<<< HEAD
         if (!graphDataset.containsKey(dataset.language)) {
             graphDataset[dataset.language] = importRepository.findRawGraphDataSet(language = dataset.language)
         }
         val graphs = graphDataset[dataset.language] ?: emptyList()
 
+=======
+>>>>>>> 5e0b8809 (feat(import): add MarkdownMediaImport class for handling markdown dataset media distribution)
         Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
             val alt = imageMatch.groupValues[1]
             val path = imageMatch.groupValues[2]
             val title = imageMatch.groupValues[3]
             if(alt == "chart") {
+<<<<<<< HEAD
                 val rawGraphPath = getRawGraphPath(graphs)
+=======
+                val rawGraphPath = getRawGraphPath(dataset.language)
+>>>>>>> 5e0b8809 (feat(import): add MarkdownMediaImport class for handling markdown dataset media distribution)
                 // ../../../../app//#14" => 14
                 val regex = Regex("#(\\d+)")
                 val match = regex.find(path)?.groupValues?.get(1)?.toInt()
