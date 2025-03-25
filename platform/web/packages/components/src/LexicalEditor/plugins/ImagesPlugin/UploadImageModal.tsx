@@ -9,8 +9,7 @@ import { useParams } from "react-router-dom";
 import { SectionTab, Tab } from "../../../SectionTab";
 import { Stack } from "@mui/material";
 import { CustomButton } from "../../../CustomButton";
-import {ResourceGallery} from "../../../dataset";
-import {GraphGallery} from "../../../dataset/GraphGallery";
+import { ResourceGallery, GraphGallery } from "../../../dataset";
 
 export interface UploadImageModalProps {
     open: boolean
