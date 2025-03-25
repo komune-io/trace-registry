@@ -7,30 +7,22 @@ import { INSERT_IMAGE_COMMAND } from "./ImagesPlugin";
 import { useDatasetAddMediaDistributionCommand } from '../../api';
 import { useParams } from "react-router-dom";
 import { SectionTab, Tab } from "../../../SectionTab";
-import { useCatalogueDraftGetQuery } from "domain-components";
-import { ImageCard } from "../../../ImageCard";
 import { Stack } from "@mui/material";
 import { CustomButton } from "../../../CustomButton";
+import { ResourceGallery, GraphGallery } from "../../../dataset";
 
 export interface UploadImageModalProps {
     open: boolean
     onClose: () => void
 }
 
+
 export const UploadImageModal = (props: UploadImageModalProps) => {
     const { onClose, open } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { draftId } = useParams()
     const [editor] = useLexicalComposerContext();
     const [currentTab, setCurrentTab] = useState("upload")
-
-    const catalogueDraftQuery = useCatalogueDraftGetQuery({
-        query: {
-            id: draftId!
-        },
-    })
-
-    const draft = catalogueDraftQuery.data?.item
 
     const uploadImage = useDatasetAddMediaDistributionCommand({})
 
@@ -70,21 +62,6 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         }
     }]), [t])
 
-    const graphsDisplay = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.map((dataset) => {
-        const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
-        if (!imageDistribution) return
-        const src = g2Config().platform.url + `/data/datasetDownloadDistribution/${dataset.id}/${imageDistribution.id}`
-        return (
-            <ImageCard
-                imageUrl={src}
-                onClick={() => {
-                    open && onClickImage(src)
-                }}
-                label={dataset.title}
-            />
-        )
-    }), [draft, onClickImage, open])
-
 
     const tabs = useMemo((): Tab[] => [{
         key: "upload",
@@ -118,19 +95,14 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
             </>
         )
     }, {
-        key: "galery",
+        key: "gallery",
         label: t("editor.gallery"),
-        component: (
-            <Stack
-                direction="row"
-                gap={3}
-                flexWrap="wrap"
-                alignItems="flex-start"
-            >
-                {graphsDisplay}
-            </Stack>
-        )
-    }], [t, fields, formState, graphsDisplay])
+        component: <ResourceGallery draftId={draftId!} onClickImage={onClickImage} open={open} />
+    }, {
+        key: "charts",
+        label: t("editor.charts"),
+        component: <GraphGallery language={i18n.language} onClickImage={onClickImage} open={open} />
+    }], [t, fields, formState, draftId, onClickImage, onClose, open])
 
     return (
         <TmsPopUp

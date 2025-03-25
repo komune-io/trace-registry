@@ -27,7 +27,6 @@ export const CatalogueTableEntryPoint = (props: CatalogueTableEntryPointProps) =
         limit: submittedFilters.limit ?? Offset.default.limit }
     ), [submittedFilters.offset, submittedFilters.limit])
 
-    console.log("catalogue?.identifier", catalogue?.identifier)
     const { data, isInitialLoading } = useCataloguePageQuery({
         query: {
             ...submittedFilters,

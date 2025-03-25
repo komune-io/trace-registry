@@ -4,24 +4,33 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.core.mfa.domain.model.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class DatasetF2FinderService(
     private val cccevFinderService: CccevFinderService,
     private val datasetFinderService: DatasetFinderService,
+
+    private val catalogueFinderService: CatalogueFinderService
 ) {
 
     suspend fun getOrNull(id: DatasetId): DatasetDTOBase? {
@@ -81,4 +90,58 @@ class DatasetF2FinderService(
         val informationConcepts = SimpleCache(cccevFinderService::getConcept)
         val supportedValues = SimpleCache(cccevFinderService::getValue)
     }
+
+    suspend fun graphSearch(
+        rootCatalogueIdentifier: CatalogueIdentifier,
+        language: String,
+        datasetType: String?
+    ): List<DatasetDTOBase> = coroutineScope {
+        val authedOrganizationId = io.komune.f2.spring.boot.auth.AuthenticationProvider.getOrganizationId()
+        val visitedCatalogues = mutableSetOf<CatalogueIdentifier>()
+        val visitedDatasets = mutableSetOf<DatasetIdentifier>()
+
+        suspend fun traverseCatalogue(catalogueIdentifier: CatalogueIdentifier): List<DatasetDTOBase> {
+            if (!visitedCatalogues.add(catalogueIdentifier)) {
+                return emptyList() // already visited
+            }
+
+            val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
+                .takeIf {
+                   (it.language == null || it.language == language ) &&
+                           it.accessRights == CatalogueAccessRight.PUBLIC ||
+                          (
+                              it.accessRights == CatalogueAccessRight.PRIVATE &&
+                                      it.ownerOrganizationId == authedOrganizationId
+                          )
+
+                }
+            val datasetIds = catalogue?.datasetIds ?: emptyList()
+            val catalogueIds = catalogue?.catalogueIds ?: emptyList()
+            // Fetch datasets in parallel
+            val datasetDeferred = datasetIds
+                .filter { visitedDatasets.add(it) } // Avoid duplicates
+                .let {
+                    datasetFinderService.getByIds(it)
+                }
+                .filter {
+                    (datasetType == null || it.type == datasetType) && it.language == language
+                }.map {
+                    it.toDTOCached()
+                }
+
+
+            // Traverse sub-catalogues in parallel
+            val subCatalogueDeferred = catalogueIds.map { subId ->
+                async { traverseCatalogue(subId) }
+            }
+
+            val datasets = datasetDeferred
+            val subDatasets = subCatalogueDeferred.awaitAll().flatten()
+
+            return (datasets + subDatasets)
+        }
+
+        traverseCatalogue(rootCatalogueIdentifier)
+    }
+
 }
