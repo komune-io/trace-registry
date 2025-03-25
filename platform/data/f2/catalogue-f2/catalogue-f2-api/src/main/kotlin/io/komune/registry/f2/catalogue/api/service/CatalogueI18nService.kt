@@ -248,7 +248,7 @@ class CatalogueI18nService(
             when (concept.aggregator) {
                 AggregatorType.SUM -> SumAggregatorInput(values).compute()
                 null -> null
-            }?.let { concept.toComputedDTO(it, language!!, cache.dataUnits::get) }
+            }?.let { concept.toComputedDTO(it, null, language!!, cache.dataUnits::get) }
         }
     }
 }

@@ -2503,6 +2503,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
 export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
     interface InformationConceptComputedDTO extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {
         readonly value?: string;
+        readonly valueDescription?: string;
         readonly id: string;
         readonly identifier: string;
         readonly language: string;

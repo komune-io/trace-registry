@@ -32,6 +32,7 @@ suspend fun InformationConceptModel.toTranslatedDTO(
 
 suspend fun InformationConceptModel.toComputedDTO(
     value: String,
+    valueDescription: String?,
     language: Language,
     getUnit: suspend (DataUnitId) -> DataUnitModel,
 ) = InformationConceptComputedDTOBase(
@@ -40,5 +41,6 @@ suspend fun InformationConceptModel.toComputedDTO(
     language = language,
     name = name[language],
     unit = getUnit(unitId).toTranslatedDTO(language),
-    value = value
+    value = value,
+    valueDescription = valueDescription,
 )

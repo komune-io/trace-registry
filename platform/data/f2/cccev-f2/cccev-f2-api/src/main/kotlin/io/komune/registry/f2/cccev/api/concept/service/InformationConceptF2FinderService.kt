@@ -43,7 +43,7 @@ class InformationConceptF2FinderService(
 
         val value = cccevFinderService.computeGlobalValueForConcept(concept.id)
 
-        return concept.toComputedDTOCached(value, language)
+        return concept.toComputedDTOCached(value, null, language)
     }
 
     private suspend fun InformationConceptModel.toDTOCached(cache: Cache = Cache()) = toDTO(
@@ -56,9 +56,10 @@ class InformationConceptF2FinderService(
     )
 
     private suspend fun InformationConceptModel.toComputedDTOCached(
-        value: String, language: Language, cache: Cache = Cache()
+        value: String, valueDescription: String?, language: Language, cache: Cache = Cache()
     ) = toComputedDTO(
         value = value,
+        valueDescription = valueDescription,
         language = language,
         getUnit = cache.units::get
     )

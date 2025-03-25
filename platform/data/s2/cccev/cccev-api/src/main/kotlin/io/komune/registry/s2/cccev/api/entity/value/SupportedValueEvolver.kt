@@ -23,6 +23,7 @@ class SupportedValueEvolver: View<SupportedValueEvent, SupportedValueEntity> {
 		conceptId = event.conceptId
 		value = event.value
 		query = event.query
+		description = event.description
 		issued = event.date
 		modified = event.date
 	}
