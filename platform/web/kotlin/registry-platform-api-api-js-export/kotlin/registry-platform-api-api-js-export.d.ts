@@ -3344,6 +3344,18 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetGraphSearchQueryDTO {
+        readonly rootCatalogueIdentifier: string;
+        readonly language: string;
+        readonly datasetType?: string;
+
+    }
+    interface DatasetGraphSearchResultDTO {
+        readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
     interface DatasetListLanguagesQueryDTO {
         readonly identifier: string;
 

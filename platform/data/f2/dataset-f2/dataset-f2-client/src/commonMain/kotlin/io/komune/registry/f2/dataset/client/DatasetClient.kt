@@ -19,6 +19,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributio
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
@@ -64,4 +65,8 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
         = client.function("data/${this::datasetUpdateJsonDistribution.name}")
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction
         = client.function("data/${this::datasetRemoveDistribution.name}")
+
+    override fun datasetGraphSearch(): DatasetGraphSearchFunction
+        = client.function("data/${this::datasetGraphSearch.name}")
+
 }

@@ -31,7 +31,7 @@ export const CatalogueHomeEntryPoint = (props: CatalogueHomeEntryPointProps) => 
             catalogue={subCatalogue}
 
         />
-    )), [catalogue])
+    )), [data])
 
     return (
         <AppPage

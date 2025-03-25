@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DatasetRepository: RedisRepository<DatasetEntity, DatasetId> {
+    fun findByIdAndType(id: String, type: String): Optional<DatasetEntity>
     fun findByIdentifierAndLanguage(identifier: String, language: String): Optional<DatasetEntity>
     fun findAllByIdentifier(identifier: String): List<DatasetEntity>
 }
