@@ -4,6 +4,7 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
+import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.toModel
 import io.komune.registry.program.s2.dataset.api.query.DatasetPageQueryDB
@@ -35,12 +36,12 @@ class DatasetFinderService(
 	suspend fun get(id: DatasetId): DatasetModel {
 		return getOrNull(id) ?: throw NotFoundException("Dataset", id)
 	}
+	suspend fun getByIds(ids: List<DatasetId>): List<DatasetModel> {
+		return datasetRepository.findAllById(ids).map { it.toModel() }
+	}
 
 	suspend fun getOrNullByIdAndType(id: DatasetId, type: String): DatasetModel? {
 		return datasetRepository.findByIdAndType(id, type).orElse(null)?.toModel()
-	}
-	suspend fun getByIdAndType(id: DatasetId, type: String): DatasetModel {
-		return getOrNullByIdAndType(id, type) ?: throw NotFoundException("Dataset", id)
 	}
 
 	suspend fun getAll(): List<DatasetModel> {

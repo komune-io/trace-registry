@@ -98,32 +98,34 @@ class DatasetF2FinderService(
         val visitedCatalogues = mutableSetOf<CatalogueIdentifier>()
         val visitedDatasets = mutableSetOf<DatasetIdentifier>()
 
-        suspend fun traverseCatalogue(catalogueId: CatalogueIdentifier): List<DatasetDTOBase> {
-            if (!visitedCatalogues.add(catalogueId)) {
+        suspend fun traverseCatalogue(catalogueIdentifier: CatalogueIdentifier): List<DatasetDTOBase> {
+            if (!visitedCatalogues.add(catalogueIdentifier)) {
                 return emptyList() // already visited
             }
 
-            val catalogue = catalogueFinderService.get(catalogueId)
-
+            val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
+                .takeIf { it.language == null || it.language == language }
+            val datasetIds = catalogue?.datasetIds ?: emptyList()
+            val catalogueIds = catalogue?.catalogueIds ?: emptyList()
             // Fetch datasets in parallel
-            val datasetDeferred = catalogue.datasetIds
+            val datasetDeferred = datasetIds
                 .filter { visitedDatasets.add(it) } // Avoid duplicates
-                .mapNotNull { datasetId ->
-                    async {
-                        if (datasetType != null) {
-                            datasetFinderService.getByIdAndType(datasetId, datasetType).toDTOCached()
-                        } else {
-                            datasetFinderService.get(datasetId).toDTOCached()
-                        }
-                    }
+                .let {
+                    datasetFinderService.getByIds(it)
+                }
+                .filter {
+                    (datasetType == null || it.type == datasetType) && it.language == language
+                }.map {
+                    it.toDTOCached()
                 }
 
+
             // Traverse sub-catalogues in parallel
-            val subCatalogueDeferred = catalogue.catalogueIds.map { subId ->
+            val subCatalogueDeferred = catalogueIds.map { subId ->
                 async { traverseCatalogue(subId) }
             }
 
-            val datasets = datasetDeferred.awaitAll().filterNotNull()
+            val datasets = datasetDeferred
             val subDatasets = subCatalogueDeferred.awaitAll().flatten()
 
             return (datasets + subDatasets)

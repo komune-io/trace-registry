@@ -133,6 +133,7 @@ class DatasetEndpoint(
             .let(::DatasetListLanguagesResult)
     }
 
+    @Bean
     override fun datasetGraphSearch(): DatasetGraphSearchFunction = f2Function { query ->
         logger.info("datasetGraphSearch: $query")
         datasetF2FinderService.graphSearch(

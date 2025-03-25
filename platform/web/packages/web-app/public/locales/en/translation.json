@@ -343,6 +343,7 @@
     "rowsNumber": "Number of rows",
     "columnsNumber": "Number of columns",
     "gallery": "Gallery",
+    "charts": "Charts",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",
