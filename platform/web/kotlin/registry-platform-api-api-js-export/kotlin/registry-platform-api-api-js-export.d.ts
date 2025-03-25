@@ -2476,7 +2476,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.value {
     }
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
+    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "NUMBER_RANGE" | "STRING";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
     type FileProcessorType = "CSV_SQL";
@@ -3094,6 +3094,24 @@ export declare namespace io.komune.registry.f2.dataset.domain {
         csvSum(informationConceptId: string, column: string): io.komune.registry.f2.dataset.domain.dto.AggregatorConfigDTO;
     };
 }
+export declare namespace io.komune.registry.f2.dataset.domain {
+    const SupportedValueUtils: {
+        buildRangeValue(min?: number, max?: number): string;
+        parseRangeValue(value: string): Array<Nullable<number>>;
+    };
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddEmptyDistributionCommandDTO {
+        readonly id: string;
+        readonly name?: string;
+
+    }
+    interface DatasetAddedEmptyDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
         readonly id: string;
@@ -3225,6 +3243,21 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetUpdateDistributionValueCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+        readonly value?: string;
+        readonly description?: string;
+
+    }
+    interface DatasetUpdatedDistributionValueEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateJsonDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
@@ -3316,8 +3349,8 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface DistributionDTO {
         readonly id: string;
         readonly name?: string;
-        readonly downloadPath: io.komune.fs.s2.file.domain.model.FilePathDTO/* io.komune.fs.s2.file.domain.model.FilePath */;
-        readonly mediaType: string;
+        readonly downloadPath?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
+        readonly mediaType?: string;
         readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO[];
         readonly issued: number;
         readonly modified: number;

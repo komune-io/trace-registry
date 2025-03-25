@@ -101,10 +101,6 @@ class ImportScript(
         initLicenses(importContext)
         logger.info("Initialized Licenses entities.")
 
-        logger.info("Initializing Standard Catalogue entities...")
-        initCatalogues(importContext)
-        logger.info("Initialized Standard Catalogue entities.")
-
         logger.info("Initializing Data Units entities...")
         initDataUnits(importContext)
         logger.info("Initialized Data Units entities.")
@@ -112,6 +108,10 @@ class ImportScript(
         logger.info("Initializing Information Concepts entities...")
         initInformationConcepts(importContext)
         logger.info("Initialized Information Concepts entities.")
+
+        logger.info("Initializing Standard Catalogue entities...")
+        initCatalogues(importContext)
+        logger.info("Initialized Standard Catalogue entities.")
 
         logger.info("Initialized basic entities.")
     }
@@ -210,7 +210,7 @@ class ImportScript(
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-                structure = (catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure)),
+                structure = (catalogueData.structure ?: importContext.settings.defaults?.structure)?.let(::Structure),
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },

@@ -24,6 +24,7 @@ interface DataUnitGetByIdentifierResultDTO {
     val item: DataUnitDTO?
 }
 
+@Serializable
 data class DataUnitGetByIdentifierResult(
     override val item: DataUnitDTOBase?
 ) : DataUnitGetByIdentifierResultDTO

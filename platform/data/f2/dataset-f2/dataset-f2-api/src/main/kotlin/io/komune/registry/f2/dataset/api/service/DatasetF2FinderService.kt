@@ -1,10 +1,10 @@
 package io.komune.registry.f2.dataset.api.service
 
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.im.core.mfa.domain.model.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
@@ -96,6 +96,7 @@ class DatasetF2FinderService(
         language: String,
         datasetType: String?
     ): List<DatasetDTOBase> = coroutineScope {
+        val cache = Cache()
         val authedOrganizationId = io.komune.f2.spring.boot.auth.AuthenticationProvider.getOrganizationId()
         val visitedCatalogues = mutableSetOf<CatalogueIdentifier>()
         val visitedDatasets = mutableSetOf<DatasetIdentifier>()
@@ -115,18 +116,17 @@ class DatasetF2FinderService(
                           )
 
                 }
-            val datasetIds = catalogue?.datasetIds ?: emptyList()
-            val catalogueIds = catalogue?.catalogueIds ?: emptyList()
+            val datasetIds = catalogue?.childrenDatasetIds.orEmpty()
+            val catalogueIds = catalogue?.childrenCatalogueIds.orEmpty()
             // Fetch datasets in parallel
             val datasetDeferred = datasetIds
                 .filter { visitedDatasets.add(it) } // Avoid duplicates
                 .let {
-                    datasetFinderService.getByIds(it)
-                }
-                .filter {
+                    datasetFinderService.page(id = CollectionMatch(it)).items
+                }.filter {
                     (datasetType == null || it.type == datasetType) && it.language == language
                 }.map {
-                    it.toDTOCached()
+                    it.toDTOCached(cache)
                 }
 
 
