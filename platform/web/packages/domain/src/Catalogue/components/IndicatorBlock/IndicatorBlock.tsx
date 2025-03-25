@@ -2,16 +2,16 @@ import { AddCircleOutlineRounded, EditRounded, MoreVert } from '@mui/icons-mater
 import { CustomButton, iconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CatalogueDraft } from '../../model'
 import { IconButton, Paper } from '@mui/material'
 import { AddIndicatorModal } from './AddIndicatorModal'
+import { Dataset } from '../../../Dataset'
 
 export interface IndicatorBlockProps {
-    draft?: CatalogueDraft
+    dataset: Dataset
 }
 
 export const IndicatorBlock = (props: IndicatorBlockProps) => {
-    const { draft } = props
+    const { dataset } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -43,7 +43,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
         >
             <TitleDivider
                 size='h6'
-                title={t("catalogues.economicSynthesis")}
+                title={dataset.title ?? ""}
                 actions={
                     <>
                         <CustomButton
@@ -64,7 +64,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
             <InfoTicket 
             title={t("catalogues.noIndicatorAssociated")}
             />
-            <AddIndicatorModal open={open} onClose={toggle} draft={draft} />
+            <AddIndicatorModal open={open} onClose={toggle} dataset={dataset} />
         </Paper>
     )
 }

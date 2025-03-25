@@ -2,16 +2,16 @@ import { FormComposable, FormComposableField, useFormComposable } from '@komune-
 import { TmsPopUp, SearchIcon } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CatalogueDraft } from '../../model'
+import { Dataset } from '../../../Dataset'
 
 interface AddIndicatorModalProps {
     open: boolean
     onClose: () => void
-    draft?: CatalogueDraft
+    dataset?: Dataset
 }
 
 export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
-    const { open, onClose, draft } = props
+    const { open, onClose, dataset } = props
     const { t } = useTranslation()
 
     const contextualFields = useMemo(() => ({
@@ -57,7 +57,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             optionsResultLimit: 50
         },
         required: true
-    }], [t, draft, formState.values.type])
+    }], [t, formState.values.type])
 
 
     return (

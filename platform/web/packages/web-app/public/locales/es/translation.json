@@ -344,7 +344,6 @@
     "noSolution": "No se encontró ninguna solución",
     "createIndicatorBlock": "Crear un bloque de indicadores",
     "noIndicatorBlock": "No hay bloques de indicadores asociados a esta ficha",
-    "economicSynthesis": "Síntesis económica",
     "noIndicatorAssociated": "No hay indicadores asociados a esta ficha",
     "indicatorBlock": "Bloque de indicadores"
   },

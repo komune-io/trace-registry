@@ -344,7 +344,6 @@
     "noSolution": "No solution was found",
     "createIndicatorBlock": "Create an indicator block",
     "noIndicatorBlock": "No indicator block associated with this sheet",
-    "economicSynthesis": "Economic synthesis",
     "noIndicatorAssociated": "No indicator associated with this sheet",
     "indicatorBlock": "Indicator block"
   },
