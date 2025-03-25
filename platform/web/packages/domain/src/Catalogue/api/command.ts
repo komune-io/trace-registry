@@ -200,3 +200,29 @@ export const useDatasetUpdateMediaDistributionCommand = (
         DatasetUpdatedMediaDistributionEvent
     >('data/datasetUpdateMediaDistribution', requestProps, params)
 }
+
+export interface DatasetAddEmptyDistributionCommand extends io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTO { }
+export interface DatasetAddedEmptyDistributionEvent extends io.komune.registry.f2.dataset.domain.command.DatasetAddedEmptyDistributionEventDTO { }
+
+export const useDatasetAddEmptyDistributionCommand = (
+    params: CommandParams<DatasetAddEmptyDistributionCommand, DatasetAddedEmptyDistributionEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetAddEmptyDistributionCommand,
+        DatasetAddedEmptyDistributionEvent
+    >('data/datasetAddEmptyDistribution', requestProps, params)
+}
+
+export interface CatalogueReferenceDatasetsCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTO { }
+export interface CatalogueReferencedDatasetsEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueReferencedDatasetsEventDTO { }
+
+export const useCatalogueReferenceDatasetsCommand = (
+    params: CommandParams<CatalogueReferenceDatasetsCommand, CatalogueReferencedDatasetsEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueReferenceDatasetsCommand,
+        CatalogueReferencedDatasetsEvent
+    >('data/catalogueReferenceDatasets', requestProps, params)
+}

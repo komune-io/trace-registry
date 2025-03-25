@@ -1,9 +1,11 @@
-import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
+import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
 import { TmsPopUp, SearchIcon, maybeAddItem } from 'components'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand } from '../../api'
+import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 
 interface CreateIndicatorBlockModalProps {
     open: boolean
@@ -13,7 +15,57 @@ interface CreateIndicatorBlockModalProps {
 
 export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps) => {
     const { open, onClose, draft } = props
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const queryClient = useQueryClient()
+
+    const [searchCatalogues, setSearchCatalogues] = useState("")
+
+    const solutionList = useCatalogueSearchQuery({
+        query: {
+            language: i18n.language,
+            type: ["100m-solution"] as CatalogueTypes[],
+            query: searchCatalogues!,
+            limit: 20
+        },
+        options: {
+            enabled: !!searchCatalogues,
+            placeholderData: keepPreviousData
+        }
+    })
+
+
+    const addEmptyDistribution = useDatasetAddEmptyDistributionCommand({})
+
+    const createDataset = useDatasetCreateCommand({})
+
+    const referenceDataset = useCatalogueReferenceDatasetsCommand({})
+
+    const onSubmit = useCallback(
+      async (values: any) => {
+        const res = await createDataset.mutateAsync({
+            language: i18n.language,
+            type: "indicator",
+            title: values.name,
+            catalogueId: draft?.catalogue.id
+        })
+
+        if (res) {
+            const addDistribRes = await addEmptyDistribution.mutateAsync({
+                id: res.id
+            })
+            const refRes = await referenceDataset.mutateAsync({
+                id: values.solution.id, 
+                datasetIds: [res.id]
+            })
+            if (addDistribRes && refRes) {
+                queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
+                onClose()
+            } 
+        }
+      },
+      [i18n.language, draft],
+    )
+    
 
     const fields = useMemo((): FormComposableField[] => [{
         name: "name",
@@ -37,9 +89,14 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
-            options: [],
-            noOptionsText: t("catalogues.noSolution"),
-            optionsResultLimit: 50
+            onInputChange: (_, value) => setSearchCatalogues(value),
+            onBlur: () => setSearchCatalogues(""),
+            options: solutionList.data?.items.map((solution): Option => ({
+                key: solution.id,
+                label: solution.title
+            })),
+            returnFullObject: true,
+            noOptionsText: t("catalogues.noSolution")
         },
         customDisplay: (input) => (
             <Stack
@@ -51,10 +108,10 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
                 {input}
             </Stack>
         )
-    })], [t, draft])
+    })], [t, draft, solutionList.data?.items])
 
     const formState = useFormComposable({
-        onSubmit: () => onClose()
+        onSubmit
     })
 
     return (
@@ -80,7 +137,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
                     }
                 }}
             />
-            
+
         </TmsPopUp>
     )
 }
