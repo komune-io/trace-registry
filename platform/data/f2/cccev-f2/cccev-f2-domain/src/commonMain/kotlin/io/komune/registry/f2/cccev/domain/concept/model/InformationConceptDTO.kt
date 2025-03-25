@@ -5,6 +5,7 @@ import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTOBase
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 @JsExport
@@ -15,6 +16,7 @@ interface InformationConceptDTO {
     val unit: DataUnitDTO
 }
 
+@Serializable
 data class InformationConceptDTOBase(
     override val id: InformationConceptId,
     override val identifier: InformationConceptIdentifier,

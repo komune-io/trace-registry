@@ -4,5 +4,5 @@ import kotlin.js.JsExport
 
 @JsExport
 enum class DataUnitType {
-    BOOLEAN, DATE, NUMBER, STRING
+    BOOLEAN, DATE, NUMBER, NUMBER_RANGE, STRING
 }

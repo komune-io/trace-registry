@@ -4,6 +4,7 @@ import io.komune.registry.s2.cccev.domain.model.DataUnitType
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.Language
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 @JsExport
@@ -15,6 +16,7 @@ interface DataUnitDTO {
     val abbreviation: Map<Language, String>
 }
 
+@Serializable
 data class DataUnitDTOBase(
     override val id: DataUnitId,
     override val identifier: DataUnitIdentifier,

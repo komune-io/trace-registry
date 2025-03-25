@@ -12,6 +12,7 @@ import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.domain.DatasetApi
+import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
@@ -22,6 +23,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
@@ -214,6 +216,13 @@ class DatasetEndpoint(
     }
 
     @Bean
+    override fun datasetAddEmptyDistribution(): DatasetAddEmptyDistributionFunction = f2Function { command ->
+        logger.info("datasetAddEmptyDistribution: $command")
+        datasetPoliciesEnforcer.checkUpdate(command.id)
+        datasetF2AggregateService.addEmptyDistribution(command)
+    }
+
+    @Bean
     override fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction = f2Function { command ->
         logger.info("datasetAddJsonDistribution: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
@@ -245,6 +254,13 @@ class DatasetEndpoint(
         logger.info("datasetUpdateMediaDistribution: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
         return datasetF2AggregateService.updateMediaDistribution(command, file)
+    }
+
+    @Bean
+    override fun datasetUpdateDistributionValue(): DatasetUpdateDistributionValueFunction = f2Function { command ->
+        logger.info("datasetUpdateDistributionValue: $command")
+        datasetPoliciesEnforcer.checkUpdate(command.id)
+        datasetF2AggregateService.updateDistributionValue(command)
     }
 
     @Bean

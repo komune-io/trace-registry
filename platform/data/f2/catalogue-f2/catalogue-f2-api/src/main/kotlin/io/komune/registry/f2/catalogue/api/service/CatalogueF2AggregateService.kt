@@ -620,7 +620,7 @@ class CatalogueF2AggregateService(
         }
         updatedDataset.distributions.filter { distribution ->
             draftedDataset.distributions.none { it.id == distribution.id }
-        }.mapAsync { distribution ->
+        }.map { distribution ->
             DatasetRemoveDistributionCommand(
                 id = datasetId,
                 distributionId = distribution.id

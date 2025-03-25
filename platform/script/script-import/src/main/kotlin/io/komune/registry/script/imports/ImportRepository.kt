@@ -6,6 +6,7 @@ import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateCommandDTOBase
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
@@ -16,7 +17,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
-import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -69,7 +69,7 @@ class ImportRepository(
         .item
         ?.id
         ?: run {
-            DataUnitCreateCommand(
+            DataUnitCreateCommandDTOBase(
                 identifier = dataUnit.identifier,
                 name = dataUnit.name,
                 abbreviation = dataUnit.abbreviation,

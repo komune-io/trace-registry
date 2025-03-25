@@ -26,13 +26,13 @@ interface DistributionDTO {
     /**
      * FS Path to download the content of the distribution.
      */
-    val downloadPath: FilePath
+    val downloadPath: FilePath?
 
     /**
      * Media type of the content of distribution.
      * @example "image/png"
      */
-    val mediaType: String
+    val mediaType: String?
 
     val aggregators: List<InformationConceptComputedDTO>
 
@@ -56,8 +56,8 @@ interface DistributionDTO {
 data class DistributionDTOBase(
     override val id: DistributionId,
     override val name: String?,
-    override val downloadPath: FilePath,
-    override val mediaType: String,
+    override val downloadPath: FilePath?,
+    override val mediaType: String?,
     override val aggregators: List<InformationConceptComputedDTOBase>,
     override val issued: Long,
     override val modified: Long
