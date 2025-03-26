@@ -19,6 +19,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferencedDatasetsEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferencedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.infra.fs.FsService
@@ -211,6 +213,11 @@ class CatalogueF2AggregateService(
     suspend fun referenceDatasets(command: CatalogueReferenceDatasetsCommandDTOBase): CatalogueReferencedDatasetsEventDTOBase {
         catalogueAggregateService.referenceDatasets(command)
         return CatalogueReferencedDatasetsEventDTOBase(command.id)
+    }
+
+    suspend fun unreferenceDatasets(command: CatalogueUnreferenceDatasetsCommandDTOBase): CatalogueUnreferencedDatasetsEventDTOBase {
+        catalogueAggregateService.unreferenceDatasets(command)
+        return CatalogueUnreferencedDatasetsEventDTOBase(command.id)
     }
 
     suspend fun setImage(id: CatalogueId, image: FilePart): CatalogueSetImageEvent {

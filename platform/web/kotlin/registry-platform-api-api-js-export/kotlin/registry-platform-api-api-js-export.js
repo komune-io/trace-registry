@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -1191,6 +1191,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_123, 'Companion', objectMeta);
   setMetadataFor($serializer_81, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(CatalogueUnlinkedDatasetsEvent, 'CatalogueUnlinkedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_78});
+  setMetadataFor(CatalogueUnreferenceDatasetsCommandDTO, 'CatalogueUnreferenceDatasetsCommandDTO', interfaceMeta);
   setMetadataFor(Companion_124, 'Companion', objectMeta);
   setMetadataFor($serializer_82, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
   setMetadataFor(CatalogueUnreferencedDatasetsEvent, 'CatalogueUnreferencedDatasetsEvent', classMeta, VOID, [CatalogueEvent], VOID, VOID, {0: $serializer_getInstance_79});
@@ -1358,6 +1359,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueSetImageEventDTO, 'CatalogueSetImageEventDTO', interfaceMeta);
   setMetadataFor(CatalogueUnlinkCataloguesCommandDTO, 'CatalogueUnlinkCataloguesCommandDTO', interfaceMeta);
   setMetadataFor(CatalogueUnlinkCataloguesEventDTO, 'CatalogueUnlinkedCataloguesEventDTO', interfaceMeta, VOID, [Event]);
+  setMetadataFor(CatalogueUnreferenceDatasetsCommandDTO_0, 'CatalogueUnreferenceDatasetsCommandDTO', interfaceMeta, VOID, [CatalogueUnreferenceDatasetsCommandDTO]);
+  setMetadataFor(CatalogueUnreferencedDatasetsEventDTO, 'CatalogueUnreferencedDatasetsEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(CatalogueUpdateAccessRightsCommandDTO_0, 'CatalogueUpdateAccessRightsCommandDTO', interfaceMeta, VOID, [CatalogueUpdateAccessRightsCommandDTO]);
   setMetadataFor(CatalogueUpdatedAccessRightsEventDTO, 'CatalogueUpdatedAccessRightsEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(CatalogueUpdateCommandDTO, 'CatalogueUpdateCommandDTO', interfaceMeta);
@@ -28709,7 +28712,7 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_72 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent', this, 3);
     tmp0_serialDesc.ti('id', false);
-    tmp0_serialDesc.ti('datasets', true);
+    tmp0_serialDesc.ti('datasets', false);
     tmp0_serialDesc.ti('date', false);
     this.n25_1 = tmp0_serialDesc;
   }
@@ -28731,7 +28734,6 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueReferencedDatasetsEvent(id, datasets, date) {
     Companion_getInstance_117();
-    datasets = datasets === VOID ? emptyList() : datasets;
     this.o25_1 = id;
     this.p25_1 = datasets;
     this.q25_1 = date;
@@ -29195,6 +29197,8 @@ if (typeof Math.imul === 'undefined') {
       return false;
     return true;
   };
+  function CatalogueUnreferenceDatasetsCommandDTO() {
+  }
   function Companion_124() {
     Companion_instance_124 = this;
     var tmp = this;
@@ -29213,7 +29217,7 @@ if (typeof Math.imul === 'undefined') {
     $serializer_instance_79 = this;
     var tmp0_serialDesc = new PluginGeneratedSerialDescriptor('io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferencedDatasetsEvent', this, 3);
     tmp0_serialDesc.ti('id', false);
-    tmp0_serialDesc.ti('datasets', true);
+    tmp0_serialDesc.ti('datasets', false);
     tmp0_serialDesc.ti('date', false);
     this.x26_1 = tmp0_serialDesc;
   }
@@ -29235,7 +29239,6 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueUnreferencedDatasetsEvent(id, datasets, date) {
     Companion_getInstance_124();
-    datasets = datasets === VOID ? emptyList() : datasets;
     this.y26_1 = id;
     this.z26_1 = datasets;
     this.a27_1 = date;
@@ -31693,6 +31696,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueUnlinkCataloguesCommandDTO() {
   }
   function CatalogueUnlinkCataloguesEventDTO() {
+  }
+  function CatalogueUnreferenceDatasetsCommandDTO_0() {
+  }
+  function CatalogueUnreferencedDatasetsEventDTO() {
   }
   function CatalogueUpdateAccessRightsCommandDTO_0() {
   }
@@ -35656,6 +35663,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
     var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
     var $io$komune$registry$s2$catalogue$domain = $io$komune$registry$s2$catalogue.domain || ($io$komune$registry$s2$catalogue.domain = {});
+    var $io$komune$registry$s2$catalogue$domain$command = $io$komune$registry$s2$catalogue$domain.command || ($io$komune$registry$s2$catalogue$domain.command = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$catalogue = $io$komune$registry$s2.catalogue || ($io$komune$registry$s2.catalogue = {});
+    var $io$komune$registry$s2$catalogue$domain = $io$komune$registry$s2$catalogue.domain || ($io$komune$registry$s2$catalogue.domain = {});
     var $io$komune$registry$s2$catalogue$domain$model = $io$komune$registry$s2$catalogue$domain.model || ($io$komune$registry$s2$catalogue$domain.model = {});
     $io$komune$registry$s2$catalogue$domain$model.AggregatorScope = AggregatorScope;
     $io$komune$registry$s2$catalogue$domain$model.AggregatorScope.values = values_10;
@@ -36017,6 +36031,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     defineProp($io$komune$registry$f2$catalogue$domain, 'CataloguePolicies', CataloguePolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$command = $io$komune$registry$f2$catalogue$domain.command || ($io$komune$registry$f2$catalogue$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

@@ -25,12 +25,12 @@ interface CatalogueReferenceDatasetsCommandDTO {
 @Serializable
 data class CatalogueReferenceDatasetsCommand(
     override val id: CatalogueId,
-    val datasetIds: List<DatasetId> = emptyList()
-): CatalogueCommand
+    override val datasetIds: List<DatasetId>
+): CatalogueCommand, CatalogueReferenceDatasetsCommandDTO
 
 @Serializable
 data class CatalogueReferencedDatasetsEvent(
     override val id: CatalogueId,
-    val datasets: List<DatasetId> = emptyList(),
+    val datasets: List<DatasetId>,
     override val date: Long
 ): CatalogueEvent
