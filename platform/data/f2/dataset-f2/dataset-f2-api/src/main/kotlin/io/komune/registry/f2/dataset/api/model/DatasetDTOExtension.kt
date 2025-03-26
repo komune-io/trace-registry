@@ -38,17 +38,18 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
-
 suspend fun DatasetModel.toDTO(
     getDataset: suspend (DatasetId) -> DatasetModel,
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
     getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
+    getReferencingCatalogues: suspend (DatasetId) -> List<CatalogueId>,
     getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel
 ): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
         identifier = identifier,
         catalogueId = catalogueId,
+        referencingCatalogueIds = getReferencingCatalogues(id),
         title = title,
         type = type,
         img = img?.let {"/datasets/${id}/logo" },
@@ -76,7 +77,7 @@ suspend fun DatasetModel.toDTO(
         format = format,
         issued = issued,
         datasets = datasetIds
-            .map { getDataset(it).toDTO(getDataset, getDataUnit, getInformationConcept, getSupportedValue) }
+            .map { getDataset(it).toDTO(getDataset, getDataUnit, getInformationConcept, getReferencingCatalogues, getSupportedValue) }
             .filter { it.status != DatasetState.DELETED },
         distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue) },
     )

@@ -44,7 +44,15 @@ interface DatasetDTO {
      */
     val type: String
 
+    /**
+     * Id of the catalogue that contains the dataset.
+     */
     val catalogueId: CatalogueId
+
+    /**
+     * Ids of catalogues that reference the dataset.
+     */
+    val referencingCatalogueIds: List<CatalogueId>
 
     /**
      * Describes the temporal resolution of the dataset, indicating the time intervals at
@@ -229,6 +237,7 @@ data class DatasetDTOBase(
     override val id: String,
     override val identifier: String,
     override val catalogueId: CatalogueId,
+    override val referencingCatalogueIds: List<CatalogueId>,
     override val type: String,
     override val temporalResolution: String? = null,
     override val wasGeneratedBy: Activity? = null,

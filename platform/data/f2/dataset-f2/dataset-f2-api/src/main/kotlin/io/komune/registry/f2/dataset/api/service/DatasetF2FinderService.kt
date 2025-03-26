@@ -15,6 +15,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -29,7 +30,6 @@ import org.springframework.stereotype.Service
 class DatasetF2FinderService(
     private val cccevFinderService: CccevFinderService,
     private val datasetFinderService: DatasetFinderService,
-
     private val catalogueFinderService: CatalogueFinderService
 ) {
 
@@ -75,20 +75,6 @@ class DatasetF2FinderService(
             items = datasets.items.map { it.toDTOCached(cache) },
             total = datasets.total
         )
-    }
-
-    private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
-        getDataset = cache.datasets::get,
-        getDataUnit = cache.dataUnits::get,
-        getInformationConcept = cache.informationConcepts::get,
-        getSupportedValue = cache.supportedValues::get
-    )
-
-    private inner class Cache {
-        val datasets = SimpleCache(datasetFinderService::get)
-        val dataUnits = SimpleCache(cccevFinderService::getUnit)
-        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
-        val supportedValues = SimpleCache(cccevFinderService::getValue)
     }
 
     suspend fun graphSearch(
@@ -144,4 +130,24 @@ class DatasetF2FinderService(
         traverseCatalogue(rootCatalogueIdentifier)
     }
 
+    private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
+        getDataset = cache.datasets::get,
+        getDataUnit = cache.dataUnits::get,
+        getInformationConcept = cache.informationConcepts::get,
+        getReferencingCatalogues = cache.cataloguesReferencingDatasets::get,
+        getSupportedValue = cache.supportedValues::get
+    )
+
+    private inner class Cache {
+        val datasets = SimpleCache(datasetFinderService::get)
+        val dataUnits = SimpleCache(cccevFinderService::getUnit)
+        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val supportedValues = SimpleCache(cccevFinderService::getValue)
+
+        val cataloguesReferencingDatasets = SimpleCache<DatasetId, List<CatalogueId>> { datasetId ->
+            catalogueFinderService.page(
+                referencedDatasetIds = ExactMatch(datasetId),
+            ).items.map { it.isTranslationOf ?: it.id }.distinct()
+        }
+    }
 }
