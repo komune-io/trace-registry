@@ -3082,6 +3082,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueUnreferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueUpdateAccessRightsCommandDTO {
         readonly id: string;
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
@@ -3748,6 +3755,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueUnlinkCataloguesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueUnreferenceDatasetsCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+    interface CatalogueUnreferencedDatasetsEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
 
     }
