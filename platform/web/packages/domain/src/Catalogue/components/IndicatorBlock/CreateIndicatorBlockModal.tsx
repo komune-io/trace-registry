@@ -4,7 +4,7 @@ import { TmsPopUp, SearchIcon, maybeAddItem } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { Dataset } from '../../../Dataset'
 
@@ -45,6 +45,8 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
 
     const referenceDataset = useCatalogueReferenceDatasetsCommand({})
 
+    const unreferenceDataset = useCatalogueUnreferenceDatasetsCommand({})
+
     const onSubmit = useCallback(
       async (values: any) => {
         const res = editDataset ? await updateDataset.mutateAsync({
@@ -61,17 +63,22 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             const addDistribRes = editDataset ? true : await addEmptyDistribution.mutateAsync({
                 id: res.id
             })
+            const unrefRes = editDataset ? await unreferenceDataset.mutateAsync({
+                id: editDataset.referencingCatalogueIds[0], 
+                datasetIds: [editDataset.id]
+            }) : true
             const refRes = await referenceDataset.mutateAsync({
                 id: values.solution.key, 
                 datasetIds: [res.id]
             })
-            if (addDistribRes && refRes) {
+            
+            if (addDistribRes && unrefRes && refRes) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
                 onClose()
             } 
         }
       },
-      [i18n.language, indicatorsDataset, draft],
+      [i18n.language, indicatorsDataset, draft, unreferenceDataset],
     )
     
 
@@ -121,7 +128,10 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
     const initialValues = useMemo(() => {
         if (editDataset) {
             return {
-                name: editDataset.title
+                name: editDataset.title,
+                solution: {
+                    key: editDataset.referencingCatalogueIds[0]
+                }
             }
         }
         return {}
