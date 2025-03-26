@@ -227,6 +227,19 @@ export const useCatalogueReferenceDatasetsCommand = (
     >('data/catalogueReferenceDatasets', requestProps, params)
 }
 
+export interface CatalogueUnreferenceDatasetsCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommandDTO { }
+export interface CatalogueUnreferencedDatasetsEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferencedDatasetsEventDTO { }
+
+export const useCatalogueUnreferenceDatasetsCommand = (
+    params: CommandParams<CatalogueUnreferenceDatasetsCommand, CatalogueUnreferencedDatasetsEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueUnreferenceDatasetsCommand,
+        CatalogueUnreferencedDatasetsEvent
+    >('data/catalogueUnreferenceDatasets', requestProps, params)
+}
+
 export interface DatasetUpdateDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTO { }
 export interface DatasetUpdatedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetUpdatedDistributionValueEventDTO { }
 

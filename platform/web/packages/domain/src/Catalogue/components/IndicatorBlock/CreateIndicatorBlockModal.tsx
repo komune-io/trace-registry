@@ -4,21 +4,25 @@ import { TmsPopUp, SearchIcon, maybeAddItem } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand } from '../../api'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
+import { Dataset } from '../../../Dataset'
 
 interface CreateIndicatorBlockModalProps {
     open: boolean
     onClose: () => void
     draft?: CatalogueDraft
+    editDataset?: Dataset
 }
 
 export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps) => {
-    const { open, onClose, draft } = props
+    const { open, onClose, draft, editDataset } = props
     const { t, i18n } = useTranslation()
     const queryClient = useQueryClient()
 
     const [searchCatalogues, setSearchCatalogues] = useState("")
+
+    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicator"), [draft])
 
     const solutionList = useCatalogueSearchQuery({
         query: {
@@ -33,37 +37,48 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         }
     })
 
-
     const addEmptyDistribution = useDatasetAddEmptyDistributionCommand({})
 
     const createDataset = useDatasetCreateCommand({})
 
+    const updateDataset = useDatasetUpdateCommand({})
+
     const referenceDataset = useCatalogueReferenceDatasetsCommand({})
+
+    const unreferenceDataset = useCatalogueUnreferenceDatasetsCommand({})
 
     const onSubmit = useCallback(
       async (values: any) => {
-        const res = await createDataset.mutateAsync({
+        const res = editDataset ? await updateDataset.mutateAsync({
+            title: values.name,
+            id: editDataset.id
+        }) : await createDataset.mutateAsync({
             language: i18n.language,
             type: "indicator",
             title: values.name,
-            catalogueId: draft?.catalogue.id
+            parentId: indicatorsDataset?.id
         })
 
         if (res) {
-            const addDistribRes = await addEmptyDistribution.mutateAsync({
+            const addDistribRes = editDataset ? true : await addEmptyDistribution.mutateAsync({
                 id: res.id
             })
+            const unrefRes = editDataset ? await unreferenceDataset.mutateAsync({
+                id: editDataset.referencingCatalogueIds[0], 
+                datasetIds: [editDataset.id]
+            }) : true
             const refRes = await referenceDataset.mutateAsync({
-                id: values.solution.id, 
+                id: values.solution.key, 
                 datasetIds: [res.id]
             })
-            if (addDistribRes && refRes) {
+            
+            if (addDistribRes && unrefRes && refRes) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
                 onClose()
             } 
         }
       },
-      [i18n.language, draft],
+      [i18n.language, indicatorsDataset, draft, unreferenceDataset],
     )
     
 
@@ -110,15 +125,30 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         )
     })], [t, draft, solutionList.data?.items])
 
+    const initialValues = useMemo(() => {
+        if (editDataset) {
+            return {
+                name: editDataset.title,
+                solution: {
+                    key: editDataset.referencingCatalogueIds[0]
+                }
+            }
+        }
+        return {}
+    }, [editDataset])
+
     const formState = useFormComposable({
-        onSubmit
+        onSubmit,
+        formikConfig: {
+            initialValues
+        }
     })
 
     return (
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("catalogues.createIndicatorBlock")}
+            title={editDataset ? t("catalogues.editIndicatorBlock") : t("catalogues.createIndicatorBlock")} 
             onSave={formState.submitForm}
             onCancel={onClose}
             sx={{
