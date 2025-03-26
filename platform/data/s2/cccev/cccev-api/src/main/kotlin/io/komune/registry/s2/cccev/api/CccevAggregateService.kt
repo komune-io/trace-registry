@@ -32,7 +32,8 @@ class CccevAggregateService(
             identifier = command.identifier,
             name = command.name,
             unitId = command.unitId,
-            aggregator = command.aggregator
+            aggregator = command.aggregator,
+            themeIds = command.themeIds.toSet()
         )
     }
 

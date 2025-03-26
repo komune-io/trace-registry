@@ -5,6 +5,7 @@ import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.concept.domain.ConceptId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -14,6 +15,7 @@ interface InformationConceptCreateCommandDTO {
     val name: Map<Language, String>
     val unitId: DataUnitId
     val aggregator: AggregatorType?
+    val themeIds: List<ConceptId>
 }
 
 @Serializable
@@ -21,7 +23,8 @@ data class InformationConceptCreateCommand(
     override val identifier: InformationConceptIdentifier,
     override val name: Map<Language, String>,
     override val unitId: DataUnitId,
-    override val aggregator: AggregatorType?
+    override val aggregator: AggregatorType?,
+    override val themeIds: List<ConceptId>
 ) : InformationConceptInitCommand, InformationConceptCreateCommandDTO
 
 @Serializable
@@ -31,5 +34,6 @@ data class InformationConceptCreatedEvent(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
     val unitId: DataUnitId,
-    val aggregator: AggregatorType?
+    val aggregator: AggregatorType?,
+    val themeIds: Set<ConceptId>
 ) : InformationConceptEvent

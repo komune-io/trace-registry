@@ -56,7 +56,7 @@ class CatalogueI18nService(
         }
     }
 
-    @Suppress("CyclomaticComplexMethod")
+    @Suppress("CyclomaticComplexMethod", "LongMethod")
     suspend fun translateToDTO(
         catalogue: CatalogueModel,
         language: Language?,
@@ -66,7 +66,9 @@ class CatalogueI18nService(
             ?: return@withCache null
 
         val themes = translated.themeIds.mapNotNull {
-            conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
+            cache.themes.get(it).let {
+                conceptF2FinderService.translate(it, language ?: translated.language!!, otherLanguageIfAbsent)
+            }
         }
 
         val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
@@ -246,7 +248,7 @@ class CatalogueI18nService(
             when (concept.aggregator) {
                 AggregatorType.SUM -> SumAggregatorInput(values).compute()
                 null -> null
-            }?.let { concept.toComputedDTO(it, null, language!!, cache.dataUnits::get) }
+            }?.let { concept.toComputedDTO(it, null, language!!, cache.themes::get, cache.dataUnits::get) }
         }
     }
 }

@@ -22,8 +22,8 @@
         }
       },
       {
-        "type": "indicator",
-        "identifierSuffix": "-indicator",
+        "type": "indicators",
+        "identifierSuffix": "-indicators",
         "title": {
           "fr": "Indicateurs",
           "en": "Indicators",

@@ -27,6 +27,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDT
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedAccessRightsEventDTOBase
@@ -265,6 +266,13 @@ class CatalogueEndpoint(
         logger.info("catalogueReferenceDatasets: $command")
         cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
         catalogueF2AggregateService.referenceDatasets(command)
+    }
+
+    @Bean
+    override fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction = f2Function { command ->
+        logger.info("catalogueUnreferenceDatasets: $command")
+        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
+        catalogueF2AggregateService.unreferenceDatasets(command)
     }
 
     @Bean

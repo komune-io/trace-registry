@@ -68,7 +68,8 @@ data class InformationConceptInitData(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
     val unit: DataUnitIdentifier,
-    val aggregator: AggregatorType?
+    val aggregator: AggregatorType?,
+    val themes: List<ConceptIdentifier>?,
 )
 
 data class CatalogueMappingSettings(

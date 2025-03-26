@@ -12,11 +12,13 @@ import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.concept.api.ConceptFinderService
 import org.springframework.stereotype.Service
 
 @Service
 class InformationConceptF2FinderService(
-    private val cccevFinderService: CccevFinderService
+    private val cccevFinderService: CccevFinderService,
+    private val conceptFinderService: ConceptFinderService
 ) {
     suspend fun getOrNull(id: InformationConceptId): InformationConceptDTOBase? {
         return cccevFinderService.getConceptOrNull(id)?.toDTOCached()
@@ -47,11 +49,13 @@ class InformationConceptF2FinderService(
     }
 
     private suspend fun InformationConceptModel.toDTOCached(cache: Cache = Cache()) = toDTO(
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
     private suspend fun InformationConceptModel.toTranslatedDTOCached(language: Language, cache: Cache = Cache()) = toTranslatedDTO(
         language = language,
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
@@ -61,10 +65,12 @@ class InformationConceptF2FinderService(
         value = value,
         valueDescription = valueDescription,
         language = language,
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
     private inner class Cache {
+        val themes = SimpleCache(conceptFinderService::get)
         val units = SimpleCache(cccevFinderService::getUnit)
     }
 }
