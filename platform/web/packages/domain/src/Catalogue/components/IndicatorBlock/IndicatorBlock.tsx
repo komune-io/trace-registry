@@ -1,6 +1,6 @@
 import { AddCircleOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
 import { CustomButton, iconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Paper } from '@mui/material'
 import { AddIndicatorModal } from './AddIndicatorModal'
@@ -9,16 +9,20 @@ import { IndicatorTable } from '../IndicatorTable'
 import { useDatasetDeleteCommand } from '../../api'
 import { useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
+import { CreateIndicatorBlockModal } from './CreateIndicatorBlockModal'
+import { CatalogueDraft } from '../../model'
 
 export interface IndicatorBlockProps {
     dataset: Dataset
+    draft?: CatalogueDraft
 }
 
 export const IndicatorBlock = (props: IndicatorBlockProps) => {
-    const { dataset } = props
-    const {draftId} = useParams()
+    const { dataset, draft } = props
+    const { draftId } = useParams()
     const queryClient = useQueryClient()
     const { t } = useTranslation()
+    const [editDataset, seteditDataset] = useState(false)
 
     const [open, _, toggle] = useToggleState()
 
@@ -37,7 +41,8 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
     const options = useMemo((): TMSMenuItem[] => [{
         key: "edit",
         label: t("edit"),
-        icon: <EditRounded />
+        icon: <EditRounded />,
+        onClick: () => seteditDataset(true)
     }, {
         key: "delete",
         label: t("delete"),
@@ -83,13 +88,19 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                     </>
                 }
             />
-            {indicators ?
+            {indicators && indicators.length > 0 ?
                 <IndicatorTable dataset={dataset} data={indicators} />
                 :
                 <InfoTicket
                     title={t("catalogues.noIndicatorAssociated")}
                 />}
             <AddIndicatorModal open={open} onClose={toggle} dataset={dataset} />
+            <CreateIndicatorBlockModal
+                open={editDataset}
+                onClose={() => seteditDataset(false)}
+                editDataset={dataset}
+                draft={draft}
+            />
         </Paper>
     )
 }

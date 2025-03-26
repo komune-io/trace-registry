@@ -338,14 +338,17 @@
     "noProject": "Ningún proyecto ha sido encontrado",
     "csvDeposit": "Subir un archivo CSV",
     "addIndicator": "Agregar un indicador",
+    "editIndicator": "Editar un indicador",
     "linkedSolution": "Solución vinculada",
     "indicatorNameDetails": "Los bloques de indicadores permiten agregar datos clave (cuantitativos o cualitativos) a una ficha. Los datos ingresados se integran automáticamente en la Síntesis económica de la ficha.",
     "indicatorSolutionDetails": "Cuando un bloque está vinculado a una solución, aparece en la sección \"Soluciones\" de la ficha del proyecto y se muestra en la sección \"Estudio de caso\" de la solución si la ficha del proyecto está publicada.",
     "noSolution": "No se encontró ninguna solución",
     "createIndicatorBlock": "Crear un bloque de indicadores",
+    "editIndicatorBlock": "Editar un bloque de indicadores",
     "noIndicatorBlock": "No hay bloques de indicadores asociados a esta ficha",
     "noIndicatorAssociated": "No hay indicadores asociados a esta ficha",
-    "indicatorBlock": "Bloque de indicadores"
+    "indicatorBlock": "Bloque de indicadores",
+    "noType": "No se encontró ningún tipo"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

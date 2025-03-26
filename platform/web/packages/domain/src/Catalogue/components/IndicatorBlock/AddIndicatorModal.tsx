@@ -1,10 +1,10 @@
-import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
+import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
 import { TmsPopUp, SearchIcon } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dataset } from '../../../Dataset'
 import { useDatasetUpdateDistributionValueCommand, useInformationConceptListQuery } from '../../api'
-import { buildRangeValue, DataUnitType } from '../../model'
+import { buildRangeValue, DataUnitType, InformationConcept, parseRangeValue } from '../../model'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
@@ -12,10 +12,11 @@ interface AddIndicatorModalProps {
     open: boolean
     onClose: () => void
     dataset?: Dataset
+    editIndicator?: InformationConcept
 }
 
 export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
-    const { open, onClose, dataset } = props
+    const { open, onClose, dataset, editIndicator } = props
     const {draftId} = useParams()
     const { t, i18n } = useTranslation()
     const queryClient = useQueryClient()
@@ -54,12 +55,31 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
         }
       },
-      [distribution, dataset, onClose, draftId],
+      [distribution, dataset, onClose, draftId, editIndicator],
     )
-    
+
+    const initialValues = useMemo(() => {
+        if (!editIndicator) return undefined
+        let values: any = {}
+        const unitType = editIndicator.unit.type
+        if (unitType === "NUMBER") {
+            values.numberValue = Number(editIndicator.value)
+        } else if (unitType === "STRING") {
+            values.stringValue = Number(editIndicator.value)
+        } else {
+            const [minValue, maxValue] = parseRangeValue(editIndicator.value ?? "")
+            values.minValue = minValue
+            values.maxValue = maxValue
+        }
+        values.type = editIndicator
+        return values
+    }, [editIndicator])
 
     const formState = useFormComposable({
-        onSubmit
+        onSubmit,
+        formikConfig: {
+            initialValues
+        }
     })
 
     const contextualFields = useMemo(() => ({
@@ -125,24 +145,24 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
-            options: typeList?.map((type): Option => ({
-                key: type.id,
-                label: type.name
-            })),
+            options: typeList,
             noOptionsText: t("catalogues.noType"),
-            returnFullObject: true
+            getOptionLabel: (option: any) => option.name,
+            getOptionKey: (option: any) => option.id,
+            returnFullObject: true,
+            disabled: !!editIndicator
         },
         required: true
     },
     ...composeValuesFieldsOnType
-    ], [t, composeValuesFieldsOnType, typeList])
+    ], [t, composeValuesFieldsOnType, typeList, editIndicator])
 
 
     return (
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t("catalogues.addIndicator")}
+            title={editIndicator ? t("catalogues.editIndicator") : t("catalogues.addIndicator")}
             onSave={formState.submitForm}
             onCancel={onClose}
             sx={{
