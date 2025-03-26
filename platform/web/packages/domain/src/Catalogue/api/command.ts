@@ -226,3 +226,16 @@ export const useCatalogueReferenceDatasetsCommand = (
         CatalogueReferencedDatasetsEvent
     >('data/catalogueReferenceDatasets', requestProps, params)
 }
+
+export interface DatasetUpdateDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTO { }
+export interface DatasetUpdatedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetUpdatedDistributionValueEventDTO { }
+
+export const useDatasetUpdateDistributionValueCommand = (
+    params: CommandParams<DatasetUpdateDistributionValueCommand, DatasetUpdatedDistributionValueEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetUpdateDistributionValueCommand,
+        DatasetUpdatedDistributionValueEvent
+    >('data/datasetUpdateDistributionValue', requestProps, params)
+}

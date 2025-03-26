@@ -28,7 +28,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         cell: ({row}) => (<TableCellText value={row.original.valueDescription} />)
     }, {
         accessorKey: "options",
-        cell: ({row}) => (
+        cell: (/* {row} */) => (
             <Stack
                 direction="row"
                 alignItems="center"

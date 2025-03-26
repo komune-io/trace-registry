@@ -33,7 +33,9 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
         items: options
     })
 
-    const indicators = (dataset.distributions ?? [])[0]?.aggregators ?? []
+    const distribution = (dataset.distributions ?? [])[0]
+
+    const indicators = distribution?.aggregators ?? []
 
     return (
         <Paper
