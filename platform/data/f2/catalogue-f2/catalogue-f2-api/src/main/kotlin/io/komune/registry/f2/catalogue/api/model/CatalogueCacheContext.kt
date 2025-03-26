@@ -10,11 +10,13 @@ import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.concept.api.ConceptFinderService
 import kotlin.coroutines.CoroutineContext
 
 internal class CatalogueCacheContext(
     private val catalogueFinderService: CatalogueFinderService,
     private val cccevFinderService: CccevFinderService,
+    private val conceptFinderService: ConceptFinderService,
     private val licenseF2FinderService: LicenseF2FinderService,
     private val datasetFinderService: DatasetFinderService,
     private val organizationF2FinderService: OrganizationF2FinderService,
@@ -34,6 +36,7 @@ internal class CatalogueCacheContext(
     val informationConcepts = SimpleCache(cccevFinderService::getConcept)
     val supportedValues = SimpleCache(cccevFinderService::getValue)
 
+    val themes = SimpleCache(conceptFinderService::get)
     val licenses = SimpleCache(licenseF2FinderService::getOrNull)
 
     val organizations = SimpleCache(organizationF2FinderService::getRef)

@@ -89,11 +89,19 @@ class ImportRepository(
                 .item
                 ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
 
+            val themes = informationConcept.themes?.map { identifier ->
+                ConceptGetByIdentifierQuery(informationConcept.unit)
+                    .invokeWith(dataClient.concept.conceptGetByIdentifier())
+                    .item
+                    ?: throw IllegalArgumentException("Theme not found: $identifier")
+            }.orEmpty()
+
             InformationConceptCreateCommand(
                 identifier = informationConcept.identifier,
                 name = informationConcept.name,
                 unitId = unit.id,
                 aggregator = informationConcept.aggregator,
+                themeIds = themes.map { it.id },
             ).invokeWith(dataClient.cccev.informationConceptCreate()).id
         }
 

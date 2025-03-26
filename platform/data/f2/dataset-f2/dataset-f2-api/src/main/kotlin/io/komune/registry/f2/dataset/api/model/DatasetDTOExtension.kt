@@ -26,6 +26,8 @@ import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.model.UserId
+import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.concept.domain.model.ConceptModel
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -43,7 +45,8 @@ suspend fun DatasetModel.toDTO(
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
     getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
     getReferencingCatalogues: suspend (DatasetId) -> List<CatalogueId>,
-    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel
+    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
+    getTheme: suspend (ConceptId) -> ConceptModel
 ): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
@@ -77,9 +80,15 @@ suspend fun DatasetModel.toDTO(
         format = format,
         issued = issued,
         datasets = datasetIds
-            .map { getDataset(it).toDTO(getDataset, getDataUnit, getInformationConcept, getReferencingCatalogues, getSupportedValue) }
-            .filter { it.status != DatasetState.DELETED },
-        distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue) },
+            .map { getDataset(it).toDTO(
+                getDataset = getDataset,
+                getDataUnit = getDataUnit,
+                getInformationConcept = getInformationConcept,
+                getReferencingCatalogues = getReferencingCatalogues,
+                getSupportedValue = getSupportedValue,
+                getTheme = getTheme
+            ) }.filter { it.status != DatasetState.DELETED },
+        distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue, getTheme) },
     )
 }
 
@@ -110,6 +119,7 @@ suspend fun DistributionModel.toDTO(
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
     getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
     getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
+    getTheme: suspend (ConceptId) -> ConceptModel
 ) = DistributionDTOBase(
     id = id,
     name = name,
@@ -117,7 +127,7 @@ suspend fun DistributionModel.toDTO(
     mediaType = mediaType,
     aggregators = aggregators.map { (conceptId, valueId) ->
         val supportedValue = getSupportedValue(valueId)
-        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, supportedValue.description, language, getDataUnit)
+        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, supportedValue.description, language, getTheme, getDataUnit)
     },
     issued = issued,
     modified = modified,
