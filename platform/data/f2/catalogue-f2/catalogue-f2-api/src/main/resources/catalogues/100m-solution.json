@@ -19,6 +19,15 @@
           "en": "Informations",
           "es": "Informaciones"
         }
+      },
+      {
+        "type": "indicators",
+        "identifierSuffix": "-indicators",
+        "title": {
+          "fr": "Indicateurs",
+          "en": "Indicators",
+          "es": "Indicadores"
+        }
       }
     ]
   }
