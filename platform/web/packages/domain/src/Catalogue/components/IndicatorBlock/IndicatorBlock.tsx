@@ -1,11 +1,14 @@
 import { AddCircleOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
 import { CustomButton, iconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Paper } from '@mui/material'
 import { AddIndicatorModal } from './AddIndicatorModal'
 import { Dataset } from '../../../Dataset'
 import { IndicatorTable } from '../IndicatorTable'
+import { useDatasetDeleteCommand } from '../../api'
+import { useParams } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 
 export interface IndicatorBlockProps {
     dataset: Dataset
@@ -13,9 +16,22 @@ export interface IndicatorBlockProps {
 
 export const IndicatorBlock = (props: IndicatorBlockProps) => {
     const { dataset } = props
+    const {draftId} = useParams()
+    const queryClient = useQueryClient()
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
+
+    const deleteDataset = useDatasetDeleteCommand({})
+
+    const onDelete = useCallback(async () => {
+        const res = await deleteDataset.mutateAsync({
+            id: dataset.id
+        })
+        if (res) {
+            queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
+        }
+    }, [dataset, draftId])
 
 
     const options = useMemo((): TMSMenuItem[] => [{
@@ -27,7 +43,8 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
         label: t("delete"),
         icon: iconPack.trash,
         color: "#B01717",
-    }], [t])
+        onClick: onDelete
+    }], [t, onDelete])
 
     const { buttonProps, menu } = useButtonMenu({
         items: options
@@ -67,7 +84,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                 }
             />
             {indicators ?
-                <IndicatorTable data={indicators} />
+                <IndicatorTable dataset={dataset} data={indicators} />
                 :
                 <InfoTicket
                     title={t("catalogues.noIndicatorAssociated")}
