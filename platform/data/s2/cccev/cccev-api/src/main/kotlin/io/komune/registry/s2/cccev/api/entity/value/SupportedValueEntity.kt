@@ -27,6 +27,8 @@ open class SupportedValueEntity: WithS2Id<SupportedValueId>, WithS2State<Support
 
     var query: String? = null
 
+    var description: String? = null
+
     var issued: Long? = null
     var modified: Long? = null
 

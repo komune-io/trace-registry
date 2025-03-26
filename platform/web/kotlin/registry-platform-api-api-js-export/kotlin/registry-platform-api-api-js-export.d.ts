@@ -2415,11 +2415,45 @@ export declare namespace io.komune.registry.f2.dcs.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptCreateCommandDTO {
+        readonly identifier?: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
+        s2Id(): string;
+        readonly id: string;
+
+    }
+    interface ConceptInitCommand extends s2.dsl.automate.S2InitCommand {
+
+    }
+    interface ConceptCommand extends s2.dsl.automate.S2Command<string> {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.concept.domain.command {
+    interface ConceptUpdateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCommand {
+        readonly id: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+}
 export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
     interface InformationConceptCreateCommandDTO {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unitId: string;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly themeIds: string[];
 
     }
 }
@@ -2475,10 +2509,97 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.value {
     }
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
+    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "NUMBER_RANGE" | "STRING";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type ProcessorType = "CSV_SQL" | "SUM";
+    type FileProcessorType = "CSV_SQL";
+    type AggregatorType = "SUM";
+}
+export declare namespace io.komune.registry.f2.concept.domain {
+    const ConceptPolicies: {
+        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+    };
+}
+export declare namespace io.komune.registry.f2.concept.domain.command {
+    interface ConceptCreateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCreateCommandDTO {
+        readonly identifier?: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+    interface ConceptCreatedEventDTO {
+        readonly id: string;
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.command {
+    interface ConceptUpdateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptUpdateCommandDTO {
+        readonly id: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+    interface ConceptUpdatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.model {
+    interface ConceptDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly prefLabels: Record<string, string>;
+        readonly definitions: Record<string, string>;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.model {
+    interface ConceptTranslatedDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly language: string;
+        readonly prefLabel: string;
+        readonly definition: string;
+        readonly schemes: kotlin.collections.Set<string>;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.query {
+    interface ConceptGetByIdentifierQueryDTO {
+        readonly identifier: string;
+
+    }
+    interface ConceptGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.query {
+    interface ConceptGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface ConceptGetResultDTO {
+        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.concept.domain.query {
+    interface ConceptGetTranslatedQueryDTO {
+        readonly id: string;
+        readonly language: string;
+        readonly otherLanguageIfAbsent: boolean;
+
+    }
+    interface ConceptGetTranslatedResultDTO {
+        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO;
+
+    }
 }
 export declare namespace io.komune.registry.f2.cccev.domain.concept {
     const InformationConceptPolicies: {
@@ -2490,6 +2611,8 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unitId: string;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly themeIds: string[];
 
     }
     interface InformationConceptCreatedEventDTO {
@@ -2500,11 +2623,13 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
 export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
     interface InformationConceptComputedDTO extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {
         readonly value?: string;
+        readonly valueDescription?: string;
         readonly id: string;
         readonly identifier: string;
         readonly language: string;
         readonly name?: string;
         readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
+        readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
 
     }
 }
@@ -2514,6 +2639,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+        readonly themes: io.komune.registry.f2.concept.domain.model.ConceptDTO[];
 
     }
 }
@@ -2524,6 +2650,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
         readonly language: string;
         readonly name?: string;
         readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
+        readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
 
     }
 }
@@ -2604,38 +2731,6 @@ export declare namespace io.komune.registry.f2.cccev.domain.unit.query {
     }
     interface DataUnitGetByIdentifierResultDTO {
         readonly item?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
-
-    }
-}
-export declare namespace io.komune.registry.s2.concept.domain.command {
-    interface ConceptCreateCommandDTO {
-        readonly identifier?: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly schemes: kotlin.collections.Set<string>;
-
-    }
-}
-export declare namespace io.komune.registry.s2.concept.domain.command {
-    interface ConceptEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-    interface ConceptInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface ConceptCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.concept.domain.command {
-    interface ConceptUpdateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCommand {
-        readonly id: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly schemes: kotlin.collections.Set<string>;
 
     }
 }
@@ -2965,6 +3060,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueReferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueRemoveAggregatorCommandDTO {
         readonly id: string;
         readonly informationConceptId: string;
@@ -3082,6 +3184,24 @@ export declare namespace io.komune.registry.f2.dataset.domain {
     const AggregatorConfigBuilder: {
         csvSum(informationConceptId: string, column: string): io.komune.registry.f2.dataset.domain.dto.AggregatorConfigDTO;
     };
+}
+export declare namespace io.komune.registry.f2.dataset.domain {
+    const SupportedValueUtils: {
+        buildRangeValue(min?: number, max?: number): string;
+        parseRangeValue(value: string): Array<Nullable<number>>;
+    };
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddEmptyDistributionCommandDTO {
+        readonly id: string;
+        readonly name?: string;
+
+    }
+    interface DatasetAddedEmptyDistributionEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddJsonDistributionCommandDTO {
@@ -3214,6 +3334,21 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetUpdateDistributionValueCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+        readonly value?: string;
+        readonly description?: string;
+
+    }
+    interface DatasetUpdatedDistributionValueEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdateJsonDistributionCommandDTO {
         readonly id: string;
         readonly distributionId: string;
@@ -3244,7 +3379,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface AggregatorConfigDTO {
         readonly informationConceptId: string;
-        readonly processorType: io.komune.registry.s2.cccev.domain.model.ProcessorType;
+        readonly processorType: io.komune.registry.s2.cccev.domain.model.FileProcessorType;
         readonly query: string;
         readonly valueIfEmpty: string;
 
@@ -3255,6 +3390,8 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly id: string;
         readonly identifier: string;
         readonly type: string;
+        readonly catalogueId: string;
+        readonly referencingCatalogueIds: string[];
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
         readonly accessRights?: string;
@@ -3304,8 +3441,8 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface DistributionDTO {
         readonly id: string;
         readonly name?: string;
-        readonly downloadPath: io.komune.fs.s2.file.domain.model.FilePathDTO/* io.komune.fs.s2.file.domain.model.FilePath */;
-        readonly mediaType: string;
+        readonly downloadPath?: io.komune.fs.s2.file.domain.model.FilePathDTO/* Nullable<io.komune.fs.s2.file.domain.model.FilePath> */;
+        readonly mediaType?: string;
         readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO[];
         readonly issued: number;
         readonly modified: number;
@@ -3387,92 +3524,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
     interface DatasetRefListResultDTO {
         readonly items: io.komune.registry.f2.dataset.domain.dto.DatasetRefDTO[];
         readonly total: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain {
-    const ConceptPolicies: {
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.concept.domain.command {
-    interface ConceptCreateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptCreateCommandDTO {
-        readonly identifier?: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly schemes: kotlin.collections.Set<string>;
-
-    }
-    interface ConceptCreatedEventDTO {
-        readonly id: string;
-        readonly identifier: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.command {
-    interface ConceptUpdateCommandDTO extends io.komune.registry.s2.concept.domain.command.ConceptUpdateCommandDTO {
-        readonly id: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly schemes: kotlin.collections.Set<string>;
-
-    }
-    interface ConceptUpdatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.model {
-    interface ConceptDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly prefLabels: Record<string, string>;
-        readonly definitions: Record<string, string>;
-        readonly schemes: kotlin.collections.Set<string>;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.model {
-    interface ConceptTranslatedDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly language: string;
-        readonly prefLabel: string;
-        readonly definition: string;
-        readonly schemes: kotlin.collections.Set<string>;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.query {
-    interface ConceptGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface ConceptGetByIdentifierResultDTO {
-        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.query {
-    interface ConceptGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface ConceptGetResultDTO {
-        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.concept.domain.query {
-    interface ConceptGetTranslatedQueryDTO {
-        readonly id: string;
-        readonly language: string;
-        readonly otherLanguageIfAbsent: boolean;
-
-    }
-    interface ConceptGetTranslatedResultDTO {
-        readonly item?: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO;
 
     }
 }
@@ -3591,7 +3642,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
         canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
-        canLinkDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canReferenceDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canSetAggregator(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
     };
 }
@@ -3645,23 +3696,23 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueLinkDatasetsCommandDTO {
-        readonly id: string;
-        readonly datasetIds: string[];
-
-    }
-    interface CatalogueLinkDatasetsEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueLinkThemesCommandDTO {
         readonly id: string;
         readonly themes: string[];
 
     }
     interface CatalogueLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueReferenceDatasetsCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTO {
+        readonly id: string;
+        readonly datasetIds: string[];
+
+    }
+    interface CatalogueReferencedDatasetsEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
 
     }
@@ -3758,9 +3809,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly img?: string;
         readonly type: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
-        readonly themes?: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
-        readonly datasets?: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
-        readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
+        readonly catalogues: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly datasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
+        readonly referencedDatasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
@@ -4056,6 +4108,33 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.query {
     interface CatalogueDraftPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.entity.domain.model {
+    interface EntityRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly type: io.komune.registry.f2.entity.domain.model.EntityType;
+        readonly name: string;
+        readonly language?: string;
+        readonly availableLanguages: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.entity.domain.model {
+    type EntityType = "CATALOGUE";
+}
+export declare namespace io.komune.registry.f2.entity.domain.query {
+    interface EntityRefGetQueryDTO {
+        readonly id: string;
+        readonly type: io.komune.registry.f2.entity.domain.model.EntityType;
+        readonly language: string;
+        readonly otherLanguageIfAbsent?: boolean;
+
+    }
+    interface EntityRefGetQueryResultDTO {
+        readonly item?: io.komune.registry.f2.entity.domain.model.EntityRefDTO;
 
     }
 }

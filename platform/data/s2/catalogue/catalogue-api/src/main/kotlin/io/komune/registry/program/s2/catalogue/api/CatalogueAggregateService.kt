@@ -15,6 +15,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveAggregatorCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
@@ -27,6 +29,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesC
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateAccessRightsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
@@ -148,6 +152,26 @@ class CatalogueAggregateService(
 		command: CatalogueUnlinkDatasetsCommand
 	): CatalogueUnlinkedDatasetsEvent = automate.transition(command) {
 		CatalogueUnlinkedDatasetsEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			datasets = command.datasetIds
+		)
+	}
+
+	suspend fun referenceDatasets(
+		command: CatalogueReferenceDatasetsCommand
+	): CatalogueReferencedDatasetsEvent = automate.transition(command) {
+		CatalogueReferencedDatasetsEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			datasets = command.datasetIds
+		)
+	}
+
+	suspend fun unreferenceDatasets(
+		command: CatalogueUnreferenceDatasetsCommand
+	): CatalogueUnreferencedDatasetsEvent = automate.transition(command) {
+		CatalogueUnreferencedDatasetsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			datasets = command.datasetIds

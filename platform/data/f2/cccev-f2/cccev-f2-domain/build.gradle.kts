@@ -7,6 +7,8 @@ plugins {
 dependencies {
 	commonMainApi(project(Modules.data.s2.cccev.domain))
 
+	commonMainApi(project(Modules.data.f2.concept.domain))
+
 	Dependencies.Mpp.f2(::commonMainApi)
 	Dependencies.Mpp.fs(::commonMainApi)
 }

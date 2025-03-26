@@ -1,6 +1,7 @@
 package io.komune.registry.script.imports.model
 
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.DataUnitType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -66,7 +67,9 @@ data class DataUnitInitData(
 data class InformationConceptInitData(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
-    val unit: DataUnitIdentifier
+    val unit: DataUnitIdentifier,
+    val aggregator: AggregatorType?,
+    val themes: List<ConceptIdentifier>?,
 )
 
 data class CatalogueMappingSettings(

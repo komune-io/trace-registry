@@ -148,3 +148,14 @@ export const useCatalogueListAvailableOwnersQuery = (params: QueryParams<Catalog
     "data/catalogueListAvailableOwners", requestProps, params
   )
 }
+
+export interface InformationConceptListQuery extends io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListQueryDTO  { }
+export interface InformationConceptListResult extends io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResultDTO { }
+
+export const useInformationConceptListQuery = (params: QueryParams<InformationConceptListQuery, InformationConceptListResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<InformationConceptListQuery, InformationConceptListResult>(
+    "data/informationConceptList", requestProps, params
+  )
+}
+

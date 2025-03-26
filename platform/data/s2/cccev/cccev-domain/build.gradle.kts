@@ -7,5 +7,7 @@ plugins {
 dependencies {
 	commonMainApi(project(Modules.commons))
 
+	commonMainApi(project(Modules.data.s2.concept.domain))
+
 	Dependencies.Mpp.s2(::commonMainApi)
 }

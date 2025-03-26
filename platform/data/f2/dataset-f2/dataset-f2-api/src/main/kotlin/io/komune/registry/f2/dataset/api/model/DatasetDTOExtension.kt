@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -25,6 +26,8 @@ import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.model.UserId
+import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.s2.concept.domain.model.ConceptModel
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -37,16 +40,19 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
 
-
 suspend fun DatasetModel.toDTO(
     getDataset: suspend (DatasetId) -> DatasetModel,
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
     getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
-    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel
+    getReferencingCatalogues: suspend (DatasetId) -> List<CatalogueId>,
+    getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
+    getTheme: suspend (ConceptId) -> ConceptModel
 ): DatasetDTOBase {
     return DatasetDTOBase(
         id = id,
         identifier = identifier,
+        catalogueId = catalogueId,
+        referencingCatalogueIds = getReferencingCatalogues(id),
         title = title,
         type = type,
         img = img?.let {"/datasets/${id}/logo" },
@@ -74,9 +80,15 @@ suspend fun DatasetModel.toDTO(
         format = format,
         issued = issued,
         datasets = datasetIds
-            .map { getDataset(it).toDTO(getDataset, getDataUnit, getInformationConcept, getSupportedValue) }
-            .filter { it.status != DatasetState.DELETED },
-        distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue) },
+            .map { getDataset(it).toDTO(
+                getDataset = getDataset,
+                getDataUnit = getDataUnit,
+                getInformationConcept = getInformationConcept,
+                getReferencingCatalogues = getReferencingCatalogues,
+                getSupportedValue = getSupportedValue,
+                getTheme = getTheme
+            ) }.filter { it.status != DatasetState.DELETED },
+        distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue, getTheme) },
     )
 }
 
@@ -107,6 +119,7 @@ suspend fun DistributionModel.toDTO(
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
     getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
     getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
+    getTheme: suspend (ConceptId) -> ConceptModel
 ) = DistributionDTOBase(
     id = id,
     name = name,
@@ -114,14 +127,18 @@ suspend fun DistributionModel.toDTO(
     mediaType = mediaType,
     aggregators = aggregators.map { (conceptId, valueId) ->
         val supportedValue = getSupportedValue(valueId)
-        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, language, getDataUnit)
+        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, supportedValue.description, language, getTheme, getDataUnit)
     },
     issued = issued,
     modified = modified,
 )
 
-fun DatasetCreateCommandDTOBase.toCommand(identifier: DatasetIdentifier) = DatasetCreateCommand(
+fun DatasetCreateCommandDTOBase.toCommand(
+    identifier: DatasetIdentifier,
+    catalogueId: CatalogueId
+) = DatasetCreateCommand(
     identifier = identifier,
+    catalogueId = catalogueId,
     title = title,
     type = type,
     description = description,

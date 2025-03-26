@@ -48,7 +48,7 @@ object CataloguePolicies {
         return canWrite(authedUser, catalogue)
     }
 
-    fun canLinkDatasets(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
+    fun canReferenceDatasets(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
         return canWrite(authedUser, catalogue)
     }
 

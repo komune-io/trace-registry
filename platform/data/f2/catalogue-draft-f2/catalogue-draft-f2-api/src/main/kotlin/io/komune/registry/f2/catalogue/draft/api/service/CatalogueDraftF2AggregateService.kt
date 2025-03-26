@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreatedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
@@ -60,7 +61,7 @@ class CatalogueDraftF2AggregateService(
             initDatasets = translatedOriginalCatalogue == null
         ).id }
 
-        val datasetIdMap = copyDatasets(baseCatalogue.datasetIds)
+        val datasetIdMap = copyDatasets(baseCatalogue.childrenDatasetIds, draftedCatalogueId)
 
         CatalogueLinkDatasetsCommand(
             id = draftedCatalogueId,
@@ -74,8 +75,6 @@ class CatalogueDraftF2AggregateService(
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
-
-        catalogueF2AggregateService.linkCatalogueDatasetsToDraft(event.id, draftedCatalogueId)
 
         return event
     }
@@ -92,13 +91,16 @@ class CatalogueDraftF2AggregateService(
         return event
     }
 
-    private suspend fun copyDatasets(datasetIds: List<DatasetId>): Map<DatasetId, DatasetId> {
+    private suspend fun copyDatasets(datasetIds: Collection<DatasetId>, catalogueId: CatalogueId): Map<DatasetId, DatasetId> {
         val now = System.currentTimeMillis()
         val idMap = ConcurrentHashMap<DatasetId, DatasetId>()
 
         datasetIds.mapAsync { datasetId ->
             val dataset = datasetFinderService.get(datasetId)
-            val newId = datasetAggregateService.create(dataset.toCreateCommand("${dataset.identifier}-draft-$now")).id
+            val newId = datasetAggregateService.create(dataset.toCreateCommand(
+                identifier = "${dataset.identifier}-draft-$now",
+                catalogueId = catalogueId
+            )).id
             idMap[datasetId] = newId
 
             dataset.distributions.forEach { distribution ->
@@ -120,7 +122,7 @@ class CatalogueDraftF2AggregateService(
                 }
             }
 
-            val childrenIds = copyDatasets(dataset.datasetIds)
+            val childrenIds = copyDatasets(dataset.datasetIds, catalogueId)
                 .also(idMap::putAll)
                 .values
 

@@ -341,6 +341,21 @@ object Modules {
 		}
 	}
 
+	object global {
+		private const val BASE = ":platform:global"
+
+		object f2 {
+			private const val BASE = "${global.BASE}:f2"
+
+			object entity {
+				private const val BASE = "${f2.BASE}:entity-f2:entity-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+		}
+	}
+
 	object identity {
 		private const val BASE = ":platform:identity"
 

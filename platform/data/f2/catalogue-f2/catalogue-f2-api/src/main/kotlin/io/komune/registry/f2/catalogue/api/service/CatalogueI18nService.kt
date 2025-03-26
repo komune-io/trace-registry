@@ -14,7 +14,6 @@ import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.AggregatorScope
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -22,7 +21,8 @@ import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.api.processor.compute
-import io.komune.registry.s2.cccev.domain.model.SumProcessorInput
+import io.komune.registry.s2.cccev.domain.model.AggregatorType
+import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
@@ -35,7 +35,6 @@ import java.util.concurrent.ConcurrentHashMap
 @Service
 class CatalogueI18nService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
-    private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val i18nService: I18nService,
@@ -57,7 +56,7 @@ class CatalogueI18nService(
         }
     }
 
-    @Suppress("CyclomaticComplexMethod")
+    @Suppress("CyclomaticComplexMethod", "LongMethod")
     suspend fun translateToDTO(
         catalogue: CatalogueModel,
         language: Language?,
@@ -66,8 +65,10 @@ class CatalogueI18nService(
         val translated = translate(catalogue, language, otherLanguageIfAbsent)
             ?: return@withCache null
 
-        val themes = translated.themeIds?.mapNotNull {
-            conceptF2FinderService.getTranslatedOrNull(it, language ?: translated.language!!, otherLanguageIfAbsent)
+        val themes = translated.themeIds.mapNotNull {
+            cache.themes.get(it).let {
+                conceptF2FinderService.translate(it, language ?: translated.language!!, otherLanguageIfAbsent)
+            }
         }
 
         val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
@@ -75,7 +76,7 @@ class CatalogueI18nService(
             ?.let { catalogueFinderService.get(it) }
 
         val parent = catalogueFinderService.page(
-            childrenIds = ExactMatch(originalCatalogue?.id ?: translated.id),
+            childrenCatalogueIds = ExactMatch(originalCatalogue?.id ?: translated.id),
             offset = OffsetPagination(0, 1)
         ).items.firstOrNull()
 
@@ -90,12 +91,15 @@ class CatalogueI18nService(
             status = translated.status,
             title = translated.title,
             description = translated.description,
-            catalogues = translated.catalogueIds.mapNotNull { childId ->
+            catalogues = translated.childrenCatalogueIds.mapNotNull { childId ->
                 catalogueFinderService.get(childId)
                     .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
-            datasets = translated.datasetIds
+            datasets = translated.childrenDatasetIds
+                .map { cache.datasets.get(it).toDTOCached() }
+                .filter { it.language == translated.language && it.status != DatasetState.DELETED },
+            referencedDatasets = translated.referencedDatasetIds
                 .map { cache.datasets.get(it).toDTOCached() }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED },
             themes = themes,
@@ -139,7 +143,7 @@ class CatalogueI18nService(
                 description = translated.description,
                 img = translated.img,
                 structure = translated.structure,
-                catalogues = translated.catalogueIds.nullIfEmpty()?.let { catalogueIds ->
+                catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     catalogueFinderService.page(
                         id = CollectionMatch(catalogueIds),
                         hidden = ExactMatch(false),
@@ -185,8 +189,8 @@ class CatalogueI18nService(
             language = translation.language,
             title = translation.title,
             description = translation.description,
-            datasetIds = catalogue.datasetIds + translation.datasetIds,
-            catalogueIds = catalogue.catalogueIds + translation.catalogueIds,
+            childrenDatasetIds = catalogue.childrenDatasetIds + translation.childrenDatasetIds,
+            childrenCatalogueIds = catalogue.childrenCatalogueIds + translation.childrenCatalogueIds,
             version = translation.version,
             versionNotes = translation.versionNotes,
         )
@@ -206,7 +210,7 @@ class CatalogueI18nService(
 
     private suspend fun CatalogueModel.computeAggregators(): List<InformationConceptComputedDTOBase> = withCache { cache ->
         val translations = translationIds.values.mapAsync { catalogueFinderService.get(it) }
-        val allDatasetIds = datasetIds + translations.flatMap { it.datasetIds }
+        val allDatasetIds = childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
         val allDatasets = allDatasetIds.map { cache.datasets.get(it) }
 
         val (globalAggregators, localAggregators) = aggregators.partition { aggregator ->
@@ -231,13 +235,20 @@ class CatalogueI18nService(
             }
         }
         globalConceptIds.mapAsync { conceptId ->
-            aggregatorValues[conceptId] = listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
+            aggregatorValues[conceptId] = try {
+                listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
+            } catch (e: UnsupportedOperationException) {
+                emptyList()
+            }
         }
 
-        aggregatorValues.map { (conceptId, values) ->
-            val value = SumProcessorInput(values).compute()
-            cache.informationConcepts.get(conceptId)
-                .toComputedDTO(value, language!!, cache.dataUnits::get)
+        aggregatorValues.mapNotNull { (conceptId, values) ->
+            val concept = cache.informationConcepts.get(conceptId)
+
+            when (concept.aggregator) {
+                AggregatorType.SUM -> SumAggregatorInput(values).compute()
+                null -> null
+            }?.let { concept.toComputedDTO(it, null, language!!, cache.themes::get, cache.dataUnits::get) }
         }
     }
 }

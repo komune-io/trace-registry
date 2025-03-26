@@ -2,7 +2,7 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -21,21 +21,27 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
   const canUpdate = policies.draft.canUpdate(draft)
 
   return useMemo((): Tab[] => {
+    const type = catalogue?.type as CatalogueTypes
     const tabs: Tab[] = [...maybeAddItem(canUpdate, {
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={catalogue?.type as CatalogueTypes} />,
+      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={type} />,
     }), {
       key: 'info',
       label: t('informations'),
       component: <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />,
     },
-    ...maybeAddItem(catalogue?.type === "100m-project" && canUpdate, {
+    ...maybeAddItem(type === "100m-project" && canUpdate, {
       key: 'project',
       label: t('co2Projects'),
       component: <DraftGraphManager draft={draft} />,
     }),
-    ...maybeAddItem(catalogue?.type === "100m-chart" && canUpdate, {
+    ...maybeAddItem((type === "100m-project" || type === "100m-solution") && canUpdate, {
+      key: 'indicator',
+      label: t('indicators'),
+      component: <DraftIndicatorManager draft={draft} />,
+    }),
+    ...maybeAddItem(type === "100m-chart" && canUpdate, {
       key: 'graph',
       label: t('graph'),
       component: <DraftGraphManager draft={draft} />,

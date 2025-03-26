@@ -7,7 +7,8 @@ import kotlinx.serialization.Serializable
 data class SupportedValueCreateCommand(
     val conceptId: InformationConceptId,
     val value: String,
-    val query: String?
+    val query: String?,
+    val description: String?,
 ) : SupportedValueInitCommand
 
 @Serializable
@@ -16,5 +17,6 @@ data class SupportedValueCreatedEvent(
     override val date: Long,
     val conceptId: InformationConceptId,
     val value: String,
-    val query: String?
+    val query: String?,
+    val description: String?,
 ) : SupportedValueEvent

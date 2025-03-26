@@ -11,10 +11,8 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
@@ -50,6 +48,7 @@ class DatasetAggregateService(
 			id = "${sequenceRepository.nextValOf(DATASET_ID_SEQUENCE)}-${command.identifier}",
 			date = System.currentTimeMillis(),
 			identifier = command.identifier,
+			catalogueId = command.catalogueId,
 			title = command.title,
 			type = command.type,
 			description = command.description,
@@ -72,14 +71,6 @@ class DatasetAggregateService(
 			versionNotes = command.versionNotes,
 			length = command.length,
 			releaseDate = command.releaseDate,
-		)
-	}
-
-	suspend fun linkToDraft(command: DatasetLinkToDraftCommand) = automate.transition(command) {
-		DatasetLinkedToDraftEvent(
-			id = command.id,
-			date = System.currentTimeMillis(),
-			draftId = command.draftId
 		)
 	}
 

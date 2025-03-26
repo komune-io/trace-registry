@@ -8,10 +8,8 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
@@ -34,10 +32,6 @@ val s2Dataset = s2Sourcing {
     name = "Dataset"
     init<DatasetCreateCommand, DatasetCreatedEvent> {
         to = DatasetState.ACTIVE
-        role = DatasetRole.Issuer
-    }
-    selfTransaction<DatasetLinkToDraftCommand, DatasetLinkedToDraftEvent> {
-        states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
     selfTransaction<DatasetSetImageCommand, DatasetSetImageEvent> {

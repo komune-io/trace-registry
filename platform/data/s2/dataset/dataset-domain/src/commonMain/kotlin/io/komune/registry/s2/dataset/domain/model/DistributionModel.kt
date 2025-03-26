@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 data class DistributionModel(
     val id: DistributionId,
     val name: String?,
-    val downloadPath: FilePath,
-    val mediaType: String,
+    val downloadPath: FilePath?,
+    val mediaType: String?,
     val aggregators: Map<InformationConceptId, SupportedValueId>,
     val issued: Long,
     val modified: Long

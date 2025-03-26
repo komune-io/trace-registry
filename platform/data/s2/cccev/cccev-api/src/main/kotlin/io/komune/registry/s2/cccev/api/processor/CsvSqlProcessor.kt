@@ -3,20 +3,20 @@ package io.komune.registry.s2.cccev.api.processor
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import io.komune.registry.api.commons.utils.joinAppend
-import io.komune.registry.s2.cccev.domain.model.CsvSqlProcessorInput
+import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
 import java.sql.Connection
 import java.sql.DriverManager
 
-data object CsvSqlProcessor : Processor<CsvSqlProcessorInput> {
-    const val TYPE_DECIMAL = "DECIMAL(20,6)"
-    const val TYPE_VARCHAR = "VARCHAR(255)"
-    const val TABLE_NAME = "data"
+data object CsvSqlProcessor : Processor<CsvSqlFileProcessorInput> {
+    private const val TYPE_DECIMAL = "DECIMAL(20,6)"
+    private const val TYPE_VARCHAR = "VARCHAR(255)"
+    private const val TABLE_NAME = "data"
 
     init {
         Class.forName("org.hsqldb.jdbc.JDBCDriver")
     }
 
-    override fun compute(input: CsvSqlProcessorInput): String {
+    override fun compute(input: CsvSqlFileProcessorInput): String {
         return executeCsvQuery(input.content, input.query) ?: input.valueIfEmpty
     }
 

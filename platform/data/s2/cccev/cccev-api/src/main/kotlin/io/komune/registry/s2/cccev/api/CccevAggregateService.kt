@@ -32,6 +32,8 @@ class CccevAggregateService(
             identifier = command.identifier,
             name = command.name,
             unitId = command.unitId,
+            aggregator = command.aggregator,
+            themeIds = command.themeIds.toSet()
         )
     }
 
@@ -52,13 +54,25 @@ class CccevAggregateService(
         val valueId = SupportedValueCreateCommand(
             conceptId = concept.id,
             value = value,
-            query = command.processorInput.query
+            query = command.processorInput.query,
+            description = null
         ).let { createValue(it).id }
 
         InformationConceptComputedValueEvent(
             id = command.id,
             date = System.currentTimeMillis(),
             supportedValueId = valueId
+        )
+    }
+
+    suspend fun createValue(command: SupportedValueCreateCommand) = valueAutomate.init(command) {
+        SupportedValueCreatedEvent(
+            id = UUID.randomUUID().toString(),
+            date = System.currentTimeMillis(),
+            conceptId = command.conceptId,
+            value = command.value,
+            query = command.query,
+            description = command.description
         )
     }
 
@@ -73,16 +87,6 @@ class CccevAggregateService(
         SupportedValueDeprecatedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
-        )
-    }
-
-    private suspend fun createValue(command: SupportedValueCreateCommand) = valueAutomate.init(command) {
-        SupportedValueCreatedEvent(
-            id = UUID.randomUUID().toString(),
-            date = System.currentTimeMillis(),
-            conceptId = command.conceptId,
-            value = command.value,
-            query = command.query
         )
     }
 }

@@ -12,11 +12,13 @@ import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.concept.api.ConceptFinderService
 import org.springframework.stereotype.Service
 
 @Service
 class InformationConceptF2FinderService(
-    private val cccevFinderService: CccevFinderService
+    private val cccevFinderService: CccevFinderService,
+    private val conceptFinderService: ConceptFinderService
 ) {
     suspend fun getOrNull(id: InformationConceptId): InformationConceptDTOBase? {
         return cccevFinderService.getConceptOrNull(id)?.toDTOCached()
@@ -43,27 +45,32 @@ class InformationConceptF2FinderService(
 
         val value = cccevFinderService.computeGlobalValueForConcept(concept.id)
 
-        return concept.toComputedDTOCached(value, language)
+        return concept.toComputedDTOCached(value, null, language)
     }
 
     private suspend fun InformationConceptModel.toDTOCached(cache: Cache = Cache()) = toDTO(
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
     private suspend fun InformationConceptModel.toTranslatedDTOCached(language: Language, cache: Cache = Cache()) = toTranslatedDTO(
         language = language,
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
     private suspend fun InformationConceptModel.toComputedDTOCached(
-        value: String, language: Language, cache: Cache = Cache()
+        value: String, valueDescription: String?, language: Language, cache: Cache = Cache()
     ) = toComputedDTO(
         value = value,
+        valueDescription = valueDescription,
         language = language,
+        getTheme = cache.themes::get,
         getUnit = cache.units::get
     )
 
     private inner class Cache {
+        val themes = SimpleCache(conceptFinderService::get)
         val units = SimpleCache(cccevFinderService::getUnit)
     }
 }

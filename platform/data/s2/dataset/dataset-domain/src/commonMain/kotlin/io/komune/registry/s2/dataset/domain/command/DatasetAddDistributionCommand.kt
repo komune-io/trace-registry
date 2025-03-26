@@ -10,8 +10,8 @@ data class DatasetAddDistributionCommand(
     override val id: DatasetId,
     val name: String?,
     val distributionId: DistributionId? = null,
-    val downloadPath: FilePath,
-    val mediaType: String,
+    val downloadPath: FilePath?,
+    val mediaType: String?,
 ): DatasetCommand
 
 @Serializable
@@ -20,6 +20,6 @@ data class DatasetAddedDistributionEvent(
     override val date: Long,
     val name: String?,
     val distributionId: DistributionId,
-    val downloadPath: FilePath,
-    val mediaType: String,
+    val downloadPath: FilePath?,
+    val mediaType: String?,
 ): DatasetEvent

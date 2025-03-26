@@ -167,3 +167,12 @@ include(
 	"platform:data:s2:license:license-api",
 	"platform:data:s2:license:license-domain",
 )
+
+///////////////////////////////
+// Global
+///////////////////////////////
+include(
+	"platform:global:f2:entity-f2:entity-f2-api",
+	"platform:global:f2:entity-f2:entity-f2-client",
+	"platform:global:f2:entity-f2:entity-f2-domain",
+)

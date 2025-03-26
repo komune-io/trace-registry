@@ -7,5 +7,6 @@ data class SupportedValueModel(
     val id: SupportedValueId,
     val conceptId: InformationConceptId,
     val value: String,
-    val query: String?
+    val query: String?,
+    val description: String?,
 )

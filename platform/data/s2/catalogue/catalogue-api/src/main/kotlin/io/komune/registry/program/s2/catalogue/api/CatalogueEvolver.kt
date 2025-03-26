@@ -11,12 +11,14 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRightsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
@@ -36,8 +38,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueRemovedTranslationsEvent -> model?.removeTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueUnlinkedCataloguesEvent -> model?.removeCatalogues(event)
-		is CatalogueLinkedDatasetsEvent -> model?.addDataset(event)
-		is CatalogueUnlinkedDatasetsEvent -> model?.removeDataset(event)
+		is CatalogueLinkedDatasetsEvent -> model?.addDatasets(event)
+		is CatalogueUnlinkedDatasetsEvent -> model?.removeDatasets(event)
+		is CatalogueReferencedDatasetsEvent -> model?.referenceDatasets(event)
+		is CatalogueUnreferencedDatasetsEvent -> model?.unreferenceDatasets(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueSetImageEvent -> model?.setImage(event)
 		is CatalogueSetAggregatorEvent -> model?.setAggregator(event)
@@ -51,8 +55,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		status = CatalogueState.ACTIVE
 		identifier = event.identifier
 		type = event.type
-		catalogueIds = event.catalogueIds
-		datasetIds = event.datasetIds
+		childrenCatalogueIds += event.catalogueIds
+		childrenDatasetIds += event.datasetIds
 		isTranslationOf = event.isTranslationOf
 		creatorId = event.creatorId
 		creatorOrganizationId = event.creatorOrganizationId
@@ -95,20 +99,28 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		themeIds += event.themes
 	}
 
-	private suspend fun CatalogueEntity.addDataset(event: CatalogueLinkedDatasetsEvent) = apply {
-		datasetIds += event.datasets
+	private suspend fun CatalogueEntity.addDatasets(event: CatalogueLinkedDatasetsEvent) = apply {
+		childrenDatasetIds += event.datasets
 	}
 
-	private suspend fun CatalogueEntity.removeDataset(event: CatalogueUnlinkedDatasetsEvent) = apply {
-		datasetIds -= event.datasets.toSet()
+	private suspend fun CatalogueEntity.removeDatasets(event: CatalogueUnlinkedDatasetsEvent) = apply {
+		childrenDatasetIds -= event.datasets.toSet()
+	}
+
+	private suspend fun CatalogueEntity.referenceDatasets(event: CatalogueReferencedDatasetsEvent) = apply {
+		referencedDatasetIds += event.datasets
+	}
+
+	private suspend fun CatalogueEntity.unreferenceDatasets(event: CatalogueUnreferencedDatasetsEvent) = apply {
+		referencedDatasetIds -= event.datasets.toSet()
 	}
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
-		catalogueIds += event.catalogues
+		childrenCatalogueIds += event.catalogues
 	}
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
-		catalogueIds -= event.catalogues.toSet()
+		childrenCatalogueIds -= event.catalogues.toSet()
 	}
 
 	private suspend fun CatalogueEntity.setAggregator(event: CatalogueSetAggregatorEvent) = apply {
@@ -124,14 +136,14 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
 	private suspend fun CatalogueEntity.removeAggregator(event: CatalogueRemovedAggregatorEvent) = apply {
-		aggregators = aggregators.filter { it.informationConceptId != event.informationConceptId }
+		aggregators.removeIf { it.informationConceptId == event.informationConceptId }
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title
 		language = event.language
 		description = event.description
-		themeIds = event.themeIds
+		themeIds += event.themeIds
 		homepage = event.homepage
 		ownerOrganizationId = event.ownerOrganizationId
 		structure = event.structure

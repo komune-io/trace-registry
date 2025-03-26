@@ -5,9 +5,10 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * dcat:Dataset represents a collection of data, published or curated by a single agent or identifiable community.
@@ -21,7 +22,7 @@ import kotlinx.serialization.Serializable
  * @order 10
  */
 @JsExport
-interface DatasetDTO{
+interface DatasetDTO {
     /**
      * A unique identifier for an entity, used for distinguishing it from other entities.
      */
@@ -42,6 +43,16 @@ interface DatasetDTO{
      * differentiation of types is necessary.
      */
     val type: String
+
+    /**
+     * Id of the catalogue that contains the dataset.
+     */
+    val catalogueId: CatalogueId
+
+    /**
+     * Ids of catalogues that reference the dataset.
+     */
+    val referencingCatalogueIds: List<CatalogueId>
 
     /**
      * Describes the temporal resolution of the dataset, indicating the time intervals at
@@ -225,6 +236,8 @@ interface DatasetDTO{
 data class DatasetDTOBase(
     override val id: String,
     override val identifier: String,
+    override val catalogueId: CatalogueId,
+    override val referencingCatalogueIds: List<CatalogueId>,
     override val type: String,
     override val temporalResolution: String? = null,
     override val wasGeneratedBy: Activity? = null,

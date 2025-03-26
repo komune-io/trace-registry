@@ -106,23 +106,23 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      * This variable holds a list of `SkosConceptDTO` objects, which are used to represent
      * themes in a structured and standardized format. SKOS (Simple Knowledge Organization System)
      * is a common data model for sharing and linking knowledge organization systems via the Web.
-     *
-     * `themes` can be null, indicating that there are no themes available or the data has not been initialized.
      */
-    val themes: List<ConceptTranslatedDTO>?
+    val themes: List<ConceptTranslatedDTO>
 
     /**
-     * Represents a list of datasets associated with the catalog.
+     * Children catalogues owned by this catalogue.
      */
-    val datasets: List<DatasetDTO>?
+    val catalogues: List<CatalogueRefDTO>
 
     /**
-     * A nullable list of `CatalogueRefDTO` objects.
-     * Represents a collection of catalog references.
+     * Datasets owned by this catalogue.
      */
-//    val services: List<DataService>
+    val datasets: List<DatasetDTO>
 
-    val catalogues: List<CatalogueRefDTO>?
+    /**
+     * Datasets owned by other catalogues that are referenced by this catalogue.
+     */
+    val referencedDatasets: List<DatasetDTO>
 
     /**
      * Represents the current state of the catalogue in the application.
@@ -205,9 +205,10 @@ data class CatalogueDTOBase(
     override val language: String,
     override val availableLanguages: List<Language>,
     override val structure: Structure? = null,
-    override val themes: List<ConceptTranslatedDTOBase>? = null,
-    override val datasets: List<DatasetDTOBase>? = null,
-    override val catalogues: List<CatalogueRefDTOBase>? = null,
+    override val themes: List<ConceptTranslatedDTOBase>,
+    override val catalogues: List<CatalogueRefDTOBase>,
+    override val datasets: List<DatasetDTOBase>,
+    override val referencedDatasets: List<DatasetDTOBase>,
     override val status: CatalogueState,
     override val creator: UserRef? = null,
     override val creatorOrganization: OrganizationRef? = null,

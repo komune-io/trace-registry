@@ -8,8 +8,10 @@ import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
+import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetAddedEmptyDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
@@ -19,8 +21,10 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeletedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
@@ -37,22 +41,25 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCom
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.cccev.api.CccevAggregateService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
-import io.komune.registry.s2.cccev.domain.model.CsvSqlProcessorInput
-import io.komune.registry.s2.cccev.domain.model.ProcessorType
+import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
+import io.komune.registry.s2.cccev.domain.model.FileProcessorType
 import io.komune.registry.s2.commons.exception.NotFoundException
-import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
+import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkToDraftCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import io.komune.registry.s2.dataset.domain.model.DistributionModel
 import io.ktor.utils.io.core.toByteArray
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -75,15 +82,28 @@ class DatasetF2AggregateService(
     }
 
     suspend fun create(command: DatasetCreateCommandDTOBase): DatasetCreatedEventDTOBase {
-        val draftId = command.catalogueId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it)?.id }
-            ?: command.parentId?.let { datasetFinderService.get(it).draftId }
+        requireNotNull(command.catalogueId ?: command.parentId) {
+            "Either 'catalogueId' or 'parentId' must be provided"
+        }
+        val parent = command.parentId?.let { datasetFinderService.get(it) }
+        val catalogueId = parent?.catalogueId ?: command.catalogueId!!
 
-        val identifierSuffix = "-draft".takeIf { draftId != null } ?: ""
+        require(command.parentId == null || catalogueId == parent?.catalogueId) {
+            "New dataset cannot belong to a different catalogue than its parent"
+        }
+
+        val isDraft = catalogueDraftFinderService.existsByCatalogueId(catalogueId)
+
+        val identifierSuffix = "-draft".takeIf { isDraft }.orEmpty()
         val datasetIdentifier = command.identifier
             ?: "${command.type}-${sequenceRepository.nextValOf(IDENTIFIER_SEQUENCE)}"
 
-        val event = datasetAggregateService.create(command.toCommand("$datasetIdentifier$identifierSuffix"))
+        val event = datasetAggregateService.create(command.toCommand(
+            identifier = "$datasetIdentifier$identifierSuffix",
+            catalogueId = catalogueId
+        ))
 
+        // only create direct link in the catalogue if specified in the command
         command.catalogueId?.let {
             CatalogueLinkDatasetsCommand(
                 id = it,
@@ -98,8 +118,6 @@ class DatasetF2AggregateService(
             ).let { datasetAggregateService.linkDatasets(it) }
         }
 
-        draftId?.let { linkDatasetToDraft(it, event.id) }
-
         return event.toDTO()
     }
 
@@ -113,6 +131,20 @@ class DatasetF2AggregateService(
         return DatasetUpdatedEventDTOBase(
             id = command.id,
             identifier = dataset.identifier
+        )
+    }
+
+    suspend fun addEmptyDistribution(command: DatasetAddEmptyDistributionCommandDTOBase): DatasetAddedEmptyDistributionEventDTOBase {
+        val event = DatasetAddDistributionCommand(
+            id = command.id,
+            name = command.name,
+            downloadPath = null,
+            mediaType = null
+        ).let { datasetAggregateService.addDistribution(it) }
+
+        return DatasetAddedEmptyDistributionEventDTOBase(
+            id = event.id,
+            distributionId = event.distributionId
         )
     }
 
@@ -168,7 +200,9 @@ class DatasetF2AggregateService(
     suspend fun updateJsonDistribution(command: DatasetUpdateJsonDistributionCommandDTOBase): DatasetUpdatedJsonDistributionEventDTOBase {
         val distribution = datasetFinderService.getDistribution(command.id, command.distributionId)
 
-        val path = distribution.downloadPath.copy(objectId = command.id)
+        val path = distribution.downloadPath
+            ?.copy(objectId = command.id)
+            ?: FsPath.Dataset.distribution(command.id, "${UUID.randomUUID()}.json")
         fileClient.fileUpload(path.toUploadCommand(), command.jsonContent.toByteArray())
 
         val event = DatasetUpdateDistributionCommand(
@@ -197,10 +231,10 @@ class DatasetF2AggregateService(
             .orEmpty()
 
         val oldPath = distribution.downloadPath
-        val newPath = oldPath.copy(
+        val newPath = oldPath?.copy(
             objectId = command.id,
             name = oldPath.name.substringBeforeLast('.') + fileExtension
-        )
+        ) ?: FsPath.Dataset.distribution(command.id, "${UUID.randomUUID()}$fileExtension")
         fileClient.fileUpload(newPath.toUploadCommand(), file.contentByteArray())
 
         val event = DatasetUpdateDistributionCommand(
@@ -212,7 +246,7 @@ class DatasetF2AggregateService(
         ).let { datasetAggregateService.updateDistribution(it) }
 
         // should only happen if extension has changed
-        if (oldPath != newPath && oldPath.objectId == command.id) {
+        if (oldPath != newPath && oldPath?.objectId == command.id) {
             FileDeleteCommand(
                 objectType = oldPath.objectType,
                 objectId = oldPath.objectId,
@@ -227,6 +261,35 @@ class DatasetF2AggregateService(
         )
     }
 
+    suspend fun updateDistributionValue(
+        command: DatasetUpdateDistributionValueCommandDTOBase
+    ): DatasetUpdatedDistributionValueEventDTOBase {
+        val dataset = datasetFinderService.get(command.id)
+        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
+            ?: throw NotFoundException("Distribution", command.distributionId)
+
+        val newValueId = command.value?.let { value ->
+            SupportedValueCreateCommand(
+                conceptId = command.informationConceptId,
+                value = value,
+                description = command.description,
+                query = null
+            ).let { cccevAggregateService.createValue(it).id }
+        }
+
+        updateDistributionValue(
+            dataset = dataset,
+            distribution = distribution,
+            conceptId = command.informationConceptId,
+            valueId = newValueId
+        )
+
+        return DatasetUpdatedDistributionValueEventDTOBase(
+            id = command.id,
+            distributionId = command.distributionId
+        )
+    }
+
     suspend fun removeDistribution(command: DatasetRemoveDistributionCommandDTOBase): DatasetRemovedDistributionEventDTOBase {
         val dataset = datasetFinderService.get(command.id)
         val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
@@ -238,7 +301,7 @@ class DatasetF2AggregateService(
         ).let { datasetAggregateService.removeDistribution(it) }
 
         val path = distribution.downloadPath
-        if (path.objectId == command.id) {
+        if (path?.objectId == command.id) {
             FileDeleteCommand(
                 objectType = path.objectType,
                 objectId = path.objectId,
@@ -247,7 +310,7 @@ class DatasetF2AggregateService(
             ).let { fileClient.fileDelete(listOf(it)) }
         }
 
-        if (dataset.draftId == null) {
+        if (!dataset.isInDraft()) {
             distribution.aggregators.forEach { (_, supportedValueId) ->
                 cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
             }
@@ -263,7 +326,7 @@ class DatasetF2AggregateService(
         val event = datasetAggregateService.delete(command.toCommand())
 
         catalogueFinderService.page(
-            datasetIds = ExactMatch(command.id)
+            childrenDatasetIds = ExactMatch(command.id)
         ).items.mapAsync { catalogue ->
             CatalogueUnlinkDatasetsCommand(
                 id = catalogue.id,
@@ -281,21 +344,6 @@ class DatasetF2AggregateService(
         }
 
         return event.toDTO()
-    }
-
-    suspend fun linkDatasetToDraft(draftId: CatalogueDraftId, datasetId: DatasetId) {
-        val dataset = datasetFinderService.get(datasetId)
-
-        if (dataset.draftId != draftId) {
-            DatasetLinkToDraftCommand(
-                id = datasetId,
-                draftId = draftId
-            ).let { datasetAggregateService.linkToDraft(it) }
-        }
-
-        dataset.datasetIds.mapAsync { linkedDatasetId ->
-            linkDatasetToDraft(draftId, linkedDatasetId)
-        }
     }
 
     private suspend fun addDistribution(
@@ -325,35 +373,58 @@ class DatasetF2AggregateService(
         val valueEvent = InformationConceptComputeValueCommand(
             id = aggregatorConfig.informationConceptId,
             processorInput = when (aggregatorConfig.processorType) {
-                ProcessorType.CSV_SQL -> {
+                FileProcessorType.CSV_SQL -> {
                     require(mediaType == "text/csv") {
-                        "${ProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
+                        "${FileProcessorType.CSV_SQL} aggregator requires media type 'text/csv'"
                     }
 
-                    CsvSqlProcessorInput(
+                    CsvSqlFileProcessorInput(
                         query = aggregatorConfig.query,
                         content = contentByteArray,
                         valueIfEmpty = aggregatorConfig.valueIfEmpty
                     )
                 }
-                ProcessorType.SUM -> throw UnsupportedOperationException("SUM aggregator not supported for dataset distribution")
             }
         ).let { cccevAggregateService.computeValue(it) }
 
-        if (dataset.draftId == null) {
-            cccevAggregateService.validateValue(SupportedValueValidateCommand(valueEvent.supportedValueId))
+        updateDistributionValue(
+            dataset = dataset,
+            distribution = oldDistribution,
+            conceptId = aggregatorConfig.informationConceptId,
+            valueId = valueEvent.supportedValueId
+        )
+    }
 
-            oldDistribution.aggregators[aggregatorConfig.informationConceptId]?.let { supportedValueId ->
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
+    private suspend fun updateDistributionValue(
+        dataset: DatasetModel,
+        distribution: DistributionModel,
+        conceptId: InformationConceptId,
+        valueId: SupportedValueId?
+    ) {
+        val currentValueId = distribution.aggregators[conceptId]
+        if (currentValueId == valueId) {
+            return
+        }
+
+        if (!dataset.isInDraft()) {
+            if (valueId != null) {
+                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
+            }
+
+            if (currentValueId != null) {
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(currentValueId))
             }
         }
 
         DatasetUpdateDistributionAggregatorValueCommand(
-            id = datasetId,
-            distributionId = distributionId,
-            informationConceptId = valueEvent.id,
-            supportedValueId = valueEvent.supportedValueId
+            id = dataset.id,
+            distributionId = distribution.id,
+            informationConceptId = conceptId,
+            supportedValueId = valueId
         ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+    }
 
+    private suspend fun DatasetModel.isInDraft(): Boolean {
+        return catalogueDraftFinderService.existsByCatalogueId(catalogueId)
     }
 }

@@ -6,5 +6,6 @@ fun SupportedValueEntity.toModel() = SupportedValueModel(
     id = id,
     conceptId = conceptId,
     value = value,
-    query = query
+    query = query,
+    description = description,
 )

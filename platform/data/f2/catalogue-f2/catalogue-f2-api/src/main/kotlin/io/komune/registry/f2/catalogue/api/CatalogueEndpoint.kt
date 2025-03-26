@@ -19,8 +19,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
@@ -261,10 +261,10 @@ class CatalogueEndpoint(
     }
 
     @Bean
-    override fun catalogueLinkDatasets(): CatalogueLinkDatasetsFunction = f2Function { command ->
-        logger.info("catalogueLinkDatasets: $command")
-        cataloguePoliciesEnforcer.checkLinkDatasets(command.id)
-        catalogueF2AggregateService.linkDatasets(command)
+    override fun catalogueReferenceDatasets(): CatalogueReferenceDatasetsFunction = f2Function { command ->
+        logger.info("catalogueReferenceDatasets: $command")
+        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
+        catalogueF2AggregateService.referenceDatasets(command)
     }
 
     @Bean

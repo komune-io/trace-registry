@@ -1,10 +1,10 @@
 package io.komune.registry.f2.dataset.api.service
 
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.im.core.mfa.domain.model.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
@@ -15,11 +15,14 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
+import io.komune.registry.s2.concept.api.ConceptFinderService
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import io.ktor.util.collections.ConcurrentSet
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -27,10 +30,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class DatasetF2FinderService(
+    private val catalogueFinderService: CatalogueFinderService,
     private val cccevFinderService: CccevFinderService,
+    private val conceptFinderService: ConceptFinderService,
     private val datasetFinderService: DatasetFinderService,
-
-    private val catalogueFinderService: CatalogueFinderService
 ) {
 
     suspend fun getOrNull(id: DatasetId): DatasetDTOBase? {
@@ -77,28 +80,15 @@ class DatasetF2FinderService(
         )
     }
 
-    private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
-        getDataset = cache.datasets::get,
-        getDataUnit = cache.dataUnits::get,
-        getInformationConcept = cache.informationConcepts::get,
-        getSupportedValue = cache.supportedValues::get
-    )
-
-    private inner class Cache {
-        val datasets = SimpleCache(datasetFinderService::get)
-        val dataUnits = SimpleCache(cccevFinderService::getUnit)
-        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
-        val supportedValues = SimpleCache(cccevFinderService::getValue)
-    }
-
     suspend fun graphSearch(
         rootCatalogueIdentifier: CatalogueIdentifier,
         language: String,
         datasetType: String?
     ): List<DatasetDTOBase> = coroutineScope {
+        val cache = Cache()
         val authedOrganizationId = io.komune.f2.spring.boot.auth.AuthenticationProvider.getOrganizationId()
-        val visitedCatalogues = mutableSetOf<CatalogueIdentifier>()
-        val visitedDatasets = mutableSetOf<DatasetIdentifier>()
+        val visitedCatalogues = ConcurrentSet<CatalogueIdentifier>()
+        val visitedDatasets = ConcurrentSet<DatasetIdentifier>()
 
         suspend fun traverseCatalogue(catalogueIdentifier: CatalogueIdentifier): List<DatasetDTOBase> {
             if (!visitedCatalogues.add(catalogueIdentifier)) {
@@ -115,18 +105,18 @@ class DatasetF2FinderService(
                           )
 
                 }
-            val datasetIds = catalogue?.datasetIds ?: emptyList()
-            val catalogueIds = catalogue?.catalogueIds ?: emptyList()
+            val datasetIds = catalogue?.childrenDatasetIds.orEmpty()
+            val catalogueIds = catalogue?.childrenCatalogueIds.orEmpty()
             // Fetch datasets in parallel
             val datasetDeferred = datasetIds
                 .filter { visitedDatasets.add(it) } // Avoid duplicates
                 .let {
-                    datasetFinderService.getByIds(it)
-                }
-                .filter {
+                    datasetFinderService.page(id = CollectionMatch(it)).items
+                }.filter {
                     (datasetType == null || it.type == datasetType) && it.language == language
                 }.map {
-                    it.toDTOCached()
+                    cache.datasets.register(it.id, it)
+                    it.toDTOCached(cache)
                 }
 
 
@@ -144,4 +134,26 @@ class DatasetF2FinderService(
         traverseCatalogue(rootCatalogueIdentifier)
     }
 
+    private suspend fun DatasetModel.toDTOCached(cache: Cache = Cache()) = toDTO(
+        getDataset = cache.datasets::get,
+        getDataUnit = cache.dataUnits::get,
+        getInformationConcept = cache.informationConcepts::get,
+        getReferencingCatalogues = cache.cataloguesReferencingDatasets::get,
+        getSupportedValue = cache.supportedValues::get,
+        getTheme = cache.themes::get
+    )
+
+    private inner class Cache {
+        val datasets = SimpleCache(datasetFinderService::get)
+        val dataUnits = SimpleCache(cccevFinderService::getUnit)
+        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val supportedValues = SimpleCache(cccevFinderService::getValue)
+        val themes = SimpleCache(conceptFinderService::get)
+
+        val cataloguesReferencingDatasets = SimpleCache<DatasetId, List<CatalogueId>> { datasetId ->
+            catalogueFinderService.page(
+                referencedDatasetIds = ExactMatch(datasetId),
+            ).items.map { it.isTranslationOf ?: it.id }.distinct()
+        }
+    }
 }

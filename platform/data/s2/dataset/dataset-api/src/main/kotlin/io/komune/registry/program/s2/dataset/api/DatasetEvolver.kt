@@ -10,7 +10,6 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
-import io.komune.registry.s2.dataset.domain.command.DatasetLinkedToDraftEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
@@ -25,7 +24,6 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 
 	override suspend fun evolve(event: DatasetEvent, model: DatasetEntity?): DatasetEntity? = when (event) {
 		is DatasetCreatedEvent -> create(event)
-		is DatasetLinkedToDraftEvent -> model?.linkToDraft(event)
 		is DatasetUpdatedEvent -> model?.update(event)
 		is DatasetLinkedDatasetsEvent -> model?.addDatasets(event)
 		is DatasetUnlinkedDatasetsEvent -> model?.removeDatasets(event)
@@ -43,11 +41,8 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		id = event.id
 		status = DatasetState.ACTIVE
 		identifier = event.identifier
+		catalogueId = event.catalogueId
 		issued = event.date
-	}
-
-	private suspend fun DatasetEntity.linkToDraft(event: DatasetLinkedToDraftEvent) = apply {
-		draftId = event.draftId
 	}
 
 	private suspend fun DatasetEntity.setImage(event: DatasetSetImageEvent) = apply {

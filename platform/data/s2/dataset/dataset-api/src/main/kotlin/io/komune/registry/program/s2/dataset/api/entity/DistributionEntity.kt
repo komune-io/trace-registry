@@ -7,8 +7,8 @@ import io.komune.registry.s2.commons.model.SupportedValueId
 data class DistributionEntity(
     var id: DistributionId,
     var name: String?,
-    var downloadPath: String,
-    var mediaType: String,
+    var downloadPath: String?,
+    var mediaType: String?,
     var aggregators: Map<InformationConceptId, SupportedValueId>,
     var issued: Long,
     var modified: Long
