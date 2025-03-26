@@ -5,6 +5,7 @@ import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import kotlin.coroutines.coroutineContext
 
 open class CatalogueCachedService {
+
+    @Autowired
+    protected lateinit var catalogueFinderService: CatalogueFinderService
 
     @Autowired
     protected lateinit var cccevFinderService: CccevFinderService
@@ -34,6 +38,7 @@ open class CatalogueCachedService {
 
         if (cache == null) {
             val cacheContext = CatalogueCacheContext(
+                catalogueFinderService = catalogueFinderService,
                 cccevFinderService = cccevFinderService,
                 datasetFinderService = datasetFinderService,
                 licenseF2FinderService = licenseF2FinderService,
@@ -54,6 +59,7 @@ open class CatalogueCachedService {
             getDataset = cache.datasets::get,
             getDataUnit = cache.dataUnits::get,
             getInformationConcept = cache.informationConcepts::get,
+            getReferencingCatalogues = cache.cataloguesReferencingDatasets::get,
             getSupportedValue = cache.supportedValues::get
         )
     }

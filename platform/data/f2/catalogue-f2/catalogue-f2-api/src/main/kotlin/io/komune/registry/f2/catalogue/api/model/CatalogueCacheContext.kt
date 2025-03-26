@@ -1,14 +1,19 @@
 package io.komune.registry.f2.catalogue.api.model
 
+import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DatasetId
 import kotlin.coroutines.CoroutineContext
 
 internal class CatalogueCacheContext(
+    private val catalogueFinderService: CatalogueFinderService,
     private val cccevFinderService: CccevFinderService,
     private val licenseF2FinderService: LicenseF2FinderService,
     private val datasetFinderService: DatasetFinderService,
@@ -19,6 +24,11 @@ internal class CatalogueCacheContext(
     companion object Key : CoroutineContext.Key<CatalogueCacheContext>
 
     val datasets = SimpleCache(datasetFinderService::get)
+    val cataloguesReferencingDatasets = SimpleCache<DatasetId, List<CatalogueId>> { datasetId ->
+        catalogueFinderService.page(
+            referencedDatasetIds = ExactMatch(datasetId),
+        ).items.map { it.isTranslationOf ?: it.id }.distinct()
+    }
 
     val dataUnits = SimpleCache(cccevFinderService::getUnit)
     val informationConcepts = SimpleCache(cccevFinderService::getConcept)

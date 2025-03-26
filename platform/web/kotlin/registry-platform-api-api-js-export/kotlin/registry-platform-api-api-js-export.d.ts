@@ -3300,6 +3300,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly identifier: string;
         readonly type: string;
         readonly catalogueId: string;
+        readonly referencingCatalogueIds: string[];
         readonly temporalResolution?: string;
         readonly wasGeneratedBy?: io.komune.registry.dsl.dcat.domain.model.Activity;
         readonly accessRights?: string;

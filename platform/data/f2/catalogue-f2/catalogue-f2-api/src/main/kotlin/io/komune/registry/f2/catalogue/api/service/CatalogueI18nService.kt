@@ -14,7 +14,6 @@ import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.AggregatorScope
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -36,7 +35,6 @@ import java.util.concurrent.ConcurrentHashMap
 @Service
 class CatalogueI18nService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
-    private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val i18nService: I18nService,
