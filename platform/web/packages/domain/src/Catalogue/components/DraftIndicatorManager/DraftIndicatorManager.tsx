@@ -39,7 +39,7 @@ export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
                 <InfoTicket title={t("catalogues.noIndicatorBlock")} />
             )}
             {blocks}
-            <CreateIndicatorBlockModal open={open} onClose={toggle} draft={draft} />
+            {open && <CreateIndicatorBlockModal open onClose={toggle} draft={draft} />}
         </>
     )
 }

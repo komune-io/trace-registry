@@ -6,10 +6,11 @@ interface UseMetadataFormStateParams {
     catalogue?: Catalogue
     isLoading?: boolean
     readOnly?: boolean
+    onSubmit?: (values: any) => void
 }
 
 export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
-    const {catalogue, isLoading, readOnly} = params
+    const {catalogue, isLoading, readOnly, onSubmit} = params
    const formInitialValues = useMemo(() => catalogue ? ({
       ...catalogue,
       themes: catalogue.type !== "100m-project" ? (catalogue.themes ?? [])[0]?.id : catalogue.themes?.map((theme) => theme.id),
@@ -20,6 +21,7 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
     }) : undefined, [catalogue])
   
     return useFormComposable({
+      onSubmit,
       isLoading,
       readOnly,
       formikConfig: {

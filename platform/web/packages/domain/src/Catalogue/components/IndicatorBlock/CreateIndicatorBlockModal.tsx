@@ -75,14 +75,14 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             const addDistribRes = editDataset ? true : await addEmptyDistribution.mutateAsync({
                 id: res.id
             })
-            const unrefRes = editDataset ? await unreferenceDataset.mutateAsync({
+            const unrefRes = editDataset?.referencingCatalogueIds[0] ? await unreferenceDataset.mutateAsync({
                 id: editDataset.referencingCatalogueIds[0], 
                 datasetIds: [editDataset.id]
             }) : true
-            const refRes = await referenceDataset.mutateAsync({
+            const refRes = values.solution ? await referenceDataset.mutateAsync({
                 id: values.solution.key, 
                 datasetIds: [res.id]
-            })
+            }) : true
             
             if (addDistribRes && unrefRes && refRes) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
@@ -144,10 +144,10 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         if (editDataset) {
             return {
                 name: editDataset.title,
-                solution: {
+                solution: editDataset.referencingCatalogueIds[0] ? {
                     key: editDataset.referencingCatalogueIds[0],
                     label: ref?.name
-                }
+                } : undefined
             }
         }
         return {}

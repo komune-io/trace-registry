@@ -1,4 +1,3 @@
-import { FormComposableState } from '@komune-io/g2'
 import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
@@ -8,8 +7,6 @@ import { useRefetchOnDismount, useRoutesDefinition } from 'components'
 import { useDebouncedCallback } from '@mantine/hooks'
 
 interface useDraftMutationsParams {
-  metadataFormState: FormComposableState
-  setTab: (tab: string) => void
   catalogue?: Catalogue
   refetchDraft: () => void
   draft?: CatalogueDraft
@@ -19,7 +16,7 @@ interface useDraftMutationsParams {
 const emptyFunction = () => { }
 
 export const useDraftMutations = (params: useDraftMutationsParams) => {
-  const { metadataFormState, setTab, catalogue, refetchDraft, afterValidateNavigate, draft } = params
+  const { catalogue, refetchDraft, afterValidateNavigate, draft } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
@@ -44,35 +41,30 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
   const updateJsonDistribution = useDatasetUpdateJsonDistributionCommand({})
 
-  const onSaveMetadata = useDebouncedCallback(async () => {
-    const errors = await metadataFormState.validateForm()
-    if (Object.keys(errors).length > 0) {
-      setTab("metadata")
-      return
-    }
-    const command = { ...metadataFormState.values } as CatalogueCreateCommand & { illustration?: File }
+  const onSaveMetadata = useCallback(async (values: any) => {
+    const command = { ...values } as CatalogueCreateCommand & { illustration?: File }
     delete command.illustration
     const res = await catalogueUpdate.mutateAsync({
       command: {
         // form fields
-        title: metadataFormState.values.title,
-        description: metadataFormState.values.description,
-        themes: metadataFormState.values.themes && catalogue?.type !== "100m-project" ? [metadataFormState.values.themes] : metadataFormState.values.themes,
-        license: metadataFormState.values.license,
-        accessRights: metadataFormState.values.accessRights,
-        parentId: metadataFormState.values.parentId,
-        location: metadataFormState.values.location,
-        ownerOrganizationId: metadataFormState.values.ownerOrganizationId,
+        title: values.title,
+        description: values.description,
+        themes: values.themes && catalogue?.type !== "100m-project" ? [values.themes] : values.themes,
+        license: values.license,
+        accessRights: values.accessRights,
+        parentId: values.parentId,
+        location: values.location,
+        ownerOrganizationId: values.ownerOrganizationId,
         // keeping the same values
-        structure: metadataFormState.values.structure,
-        hidden: metadataFormState.values.hidden,
-        homepage: metadataFormState.values.homepage,
-        versionNotes: metadataFormState.values.versionNotes,
-        language: metadataFormState.values.language,
+        structure: values.structure,
+        hidden: values.hidden,
+        homepage: values.homepage,
+        versionNotes: values.versionNotes,
+        language: values.language,
         id: draft?.catalogue.id!,
       },
-      files: metadataFormState.values.illustration ? [{
-        file: metadataFormState.values.illustration
+      files: values.illustration ? [{
+        file: values.illustration
       }] : []
     })
 
@@ -80,7 +72,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       doRefetchOnDismount()
       return res
     }
-  }, 500)
+  }, [catalogue, draft, doRefetchOnDismount])
 
   const onSaveLexical = useDebouncedCallback(async () => {
     const dataset = catalogue ? findLexicalDataset(catalogue) : undefined

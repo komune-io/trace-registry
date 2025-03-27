@@ -27,18 +27,17 @@ export const DraftValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
-  const metadataFormState = useMetadataFormState({
-    catalogue,
-    isLoading: catalogueDraftQuery.isInitialLoading
-  })
-
-  const { onValidate } = useDraftMutations({
-    metadataFormState,
-    setTab,
+  const { onValidate, onSaveMetadata } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,
     catalogue,
     afterValidateNavigate: cataloguesToVerify(),
     draft
+  })
+
+  const metadataFormState = useMetadataFormState({
+    onSubmit: onSaveMetadata,
+    catalogue,
+    isLoading: catalogueDraftQuery.isInitialLoading
   })
 
   const title = catalogue?.title ?? t("sheetValidation")

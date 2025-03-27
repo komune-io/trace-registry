@@ -94,13 +94,13 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                 <InfoTicket
                     title={t("catalogues.noIndicatorAssociated")}
                 />}
-            <AddIndicatorModal open={open} onClose={toggle} dataset={dataset} />
-            <CreateIndicatorBlockModal
-                open={editDataset}
+            {open && <AddIndicatorModal open onClose={toggle} dataset={dataset} />}
+            {editDataset && <CreateIndicatorBlockModal
+                open
                 onClose={() => seteditDataset(false)}
                 editDataset={dataset}
                 draft={draft}
-            />
+            />}
         </Paper>
     )
 }
