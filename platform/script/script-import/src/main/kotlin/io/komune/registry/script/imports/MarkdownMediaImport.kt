@@ -114,7 +114,7 @@ class MarkdownMediaImport(
             val match = regex.find(input)?.value?.toIntOrNull() ?: return@mapNotNull null
 
             val id = graph.distributions
-                ?.find { it.downloadPath.name.endsWith(".svg") }
+                ?.find { it.downloadPath?.name?.endsWith(".svg") ?: false }
                 ?.id
 
             if (id != null) match to  "data/datasetDownloadDistribution/${graph.id}/${id}" else null
