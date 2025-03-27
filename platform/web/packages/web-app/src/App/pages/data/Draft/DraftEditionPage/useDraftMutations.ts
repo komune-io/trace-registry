@@ -1,11 +1,11 @@
 import { FormComposableState } from '@komune-io/g2'
 import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRefetchOnDismount, useRoutesDefinition } from 'components'
-import { useDebouncedCallback, useDidUpdate } from '@mantine/hooks'
+import { useDebouncedCallback } from '@mantine/hooks'
 
 interface useDraftMutationsParams {
   metadataFormState: FormComposableState
@@ -25,7 +25,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
   const { cataloguesAll, cataloguesContributions } = useRoutesDefinition()
-  const [isInit, setisInit] = useState(false)
 
   const refetchDraftData = useCallback(
     () => {
@@ -82,14 +81,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       return res
     }
   }, 500)
-
-  useDidUpdate(() => {
-    if (isInit) {
-      onSaveMetadata()
-    } else {
-      setisInit(true)
-    }
-  }, [metadataFormState.values])
 
   const onSaveLexical = useDebouncedCallback(async () => {
     const dataset = catalogue ? findLexicalDataset(catalogue) : undefined

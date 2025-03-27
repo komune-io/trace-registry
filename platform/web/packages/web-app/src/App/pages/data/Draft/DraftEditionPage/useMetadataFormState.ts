@@ -23,7 +23,8 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
       isLoading,
       readOnly,
       formikConfig: {
-        initialValues: formInitialValues
-      }
+        initialValues: formInitialValues,
+      },
+      submitOnChange: true
     })
 }

@@ -1,12 +1,13 @@
 import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
 import { TmsPopUp, SearchIcon, maybeAddItem } from 'components'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueSearchQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand, useEntityRefGetQuery } from '../../api'
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { Dataset } from '../../../Dataset'
+import { useDebouncedState } from '@mantine/hooks'
 
 interface CreateIndicatorBlockModalProps {
     open: boolean
@@ -20,9 +21,20 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
     const { t, i18n } = useTranslation()
     const queryClient = useQueryClient()
 
-    const [searchCatalogues, setSearchCatalogues] = useState("")
+    const [searchCatalogues, setSearchCatalogues] = useDebouncedState("", 400)
 
-    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicator"), [draft])
+    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicators"), [draft])
+
+    const ref = useEntityRefGetQuery({
+        query: {
+            id: editDataset?.referencingCatalogueIds[0]!,
+            language: i18n.language,
+            type: "CATALOGUE"
+        },
+        options: {
+            enabled: !!editDataset?.referencingCatalogueIds[0]
+        }
+    }).data?.item
 
     const solutionList = useCatalogueSearchQuery({
         query: {
@@ -105,13 +117,16 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
             onInputChange: (_, value) => setSearchCatalogues(value),
-            onBlur: () => setSearchCatalogues(""),
-            options: solutionList.data?.items.map((solution): Option => ({
+            // onBlur: () => setSearchCatalogues(""),
+            options: solutionList.data ? solutionList.data.items.map((solution): Option => ({
                 key: solution.id,
                 label: solution.title
-            })),
+            })) : ref ? [{
+                key: ref?.id,
+                label: ref?.name
+            }] : undefined,
             returnFullObject: true,
-            noOptionsText: t("catalogues.noSolution")
+            noOptionsText: !solutionList.data ? t("typeToSearch") : t("catalogues.noSolution"),
         },
         customDisplay: (input) => (
             <Stack
@@ -123,19 +138,20 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
                 {input}
             </Stack>
         )
-    })], [t, draft, solutionList.data?.items])
+    })], [t, draft, setSearchCatalogues, solutionList.data?.items, ref])
 
     const initialValues = useMemo(() => {
         if (editDataset) {
             return {
                 name: editDataset.title,
                 solution: {
-                    key: editDataset.referencingCatalogueIds[0]
+                    key: editDataset.referencingCatalogueIds[0],
+                    label: ref?.name
                 }
             }
         }
         return {}
-    }, [editDataset])
+    }, [editDataset, ref])
 
     const formState = useFormComposable({
         onSubmit,

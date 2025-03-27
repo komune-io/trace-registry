@@ -15,7 +15,7 @@ export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
 
     const [open, _, toggle] = useToggleState()
 
-    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicator"), [draft])
+    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicators"), [draft])
 
     const blocks = useMemo(() => indicatorsDataset?.datasets?.filter((dataset) => dataset.type === "indicator").map((dataset) => (
         <IndicatorBlock key={dataset.id} dataset={dataset} draft={draft}  />
@@ -35,7 +35,7 @@ export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
                     </CustomButton>
                 }
             />
-            {!blocks || blocks.length === 0 && (
+            {(!blocks || blocks.length === 0) && (
                 <InfoTicket title={t("catalogues.noIndicatorBlock")} />
             )}
             {blocks}

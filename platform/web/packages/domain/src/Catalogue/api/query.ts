@@ -159,3 +159,12 @@ export const useInformationConceptListQuery = (params: QueryParams<InformationCo
   )
 }
 
+export interface EntityRefGetQuery extends io.komune.registry.f2.entity.domain.query.EntityRefGetQueryDTO { }
+export interface EntityRefGetQueryResult extends io.komune.registry.f2.entity.domain.query.EntityRefGetQueryResultDTO { }
+
+export const useEntityRefGetQuery = (params: QueryParams<EntityRefGetQuery, EntityRefGetQueryResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<EntityRefGetQuery, EntityRefGetQueryResult>(
+    "data/entityRefGet", requestProps, params
+  )
+}
