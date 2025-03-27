@@ -6,6 +6,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
+import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.imports.ImportContext
 import kotlinx.serialization.Serializable
 import java.io.File
@@ -16,7 +17,7 @@ data class CatalogueImportData(
     val identifier: CataloguePartialIdentifier,
     val type: String,
     val img: String?,
-    val structure: String?,
+    val structure: Structure?,
     val themes: List<ConceptIdentifier>?,
     val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,

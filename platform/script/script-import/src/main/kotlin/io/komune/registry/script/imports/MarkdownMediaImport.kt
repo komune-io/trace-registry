@@ -18,7 +18,7 @@ class MarkdownMediaImport(
 
     private val graphDataset: HashMap<Language, List<DatasetDTOBase>> = hashMapOf()
 
-    @Suppress("NestedBlockDepth")
+    @Suppress("NestedBlockDepth", "LongMethod", "CyclomaticComplexMethod")
     suspend fun createMarkdownDatasetMediaDistribution(
         dataset: DatasetDTOBase,
         resourcesDataset: DatasetDTOBase,
@@ -100,14 +100,14 @@ class MarkdownMediaImport(
         )
     }
 
-    private suspend fun getRawGraphPath(graphs: List<DatasetDTOBase>): Map<Int, String> {
+    private fun getRawGraphPath(graphs: List<DatasetDTOBase>): Map<Int, String> {
         return graphs.mapNotNull { graph ->
             val input = graph.identifier // Assuming this holds something like "100m-chart-339-fr-rawGraph"
             val regex = Regex("(?<=chart-)\\d+(?=-[a-z]{2}-rawGraph)")
             val match = regex.find(input)?.value?.toIntOrNull() ?: return@mapNotNull null
 
             val id = graph.distributions
-                ?.find { it.downloadPath.name.endsWith(".svg") }
+                ?.find { it.downloadPath?.name?.endsWith(".svg") ?: false }
                 ?.id
 
             if (id != null) match to  "data/datasetDownloadDistribution/${graph.id}/${id}" else null

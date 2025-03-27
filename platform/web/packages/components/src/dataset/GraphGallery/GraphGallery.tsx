@@ -23,11 +23,8 @@ export const GraphGallery = (props: ChartsGalleryProps) => {
   })
   const graphsDisplay = useMemo(() => {
     const datasets = datasetGraphSearchQuery.data?.items ?? []
-    console.log("datasetGraphSearchQuery.datasets", datasets)
     return datasets?.map((dataset) => {
       const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
-      console.log("datasetGraphSearchQuery", dataset.distributions)
-      console.log("datasetGraphSearchQuery", imageDistribution)
       if (!imageDistribution) return
       const src = g2Config().platform.url + `/data/datasetDownloadDistribution/${dataset.id}/${imageDistribution.id}`
       return (
