@@ -120,11 +120,16 @@ class ImportRepository(
     suspend fun findRawGraphDataSet(
         language: Language,
     ): List<DatasetDTOBase> {
-        return DatasetGraphSearchQuery(
-            rootCatalogueIdentifier = "100m-charts",
-            datasetType = "rawGraph",
-            language = language
-        ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+        return try {
+             DatasetGraphSearchQuery(
+                rootCatalogueIdentifier = "100m-charts",
+                datasetType = "rawGraph",
+                language = language
+            ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+        }catch (e: F2Exception) {
+            logger.error(e.error.message, e)
+            emptyList()
+        }
     }
 
     suspend fun initDataset(

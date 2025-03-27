@@ -16,6 +16,8 @@ class MarkdownMediaImport(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    private val graphDataset: HashMap<Language, List<DatasetDTOBase>> = hashMapOf()
+
     @Suppress("NestedBlockDepth")
     suspend fun createMarkdownDatasetMediaDistribution(
         dataset: DatasetDTOBase,
@@ -48,12 +50,17 @@ class MarkdownMediaImport(
             }
         }
 
+        if (!graphDataset.containsKey(dataset.language)) {
+            graphDataset[dataset.language] = importRepository.findRawGraphDataSet(language = dataset.language)
+        }
+        val graphs = graphDataset[dataset.language] ?: emptyList()
+
         Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
             val alt = imageMatch.groupValues[1]
             val path = imageMatch.groupValues[2]
             val title = imageMatch.groupValues[3]
             if(alt == "chart") {
-                val rawGraphPath = getRawGraphPath(dataset.language)
+                val rawGraphPath = getRawGraphPath(graphs)
                 // ../../../../app//#14" => 14
                 val regex = Regex("#(\\d+)")
                 val match = regex.find(path)?.groupValues?.get(1)?.toInt()
@@ -93,11 +100,10 @@ class MarkdownMediaImport(
         )
     }
 
-    private suspend fun getRawGraphPath(language: Language): Map<Int, String> {
-        val graphs = importRepository.findRawGraphDataSet(language = language)
+    private suspend fun getRawGraphPath(graphs: List<DatasetDTOBase>): Map<Int, String> {
         return graphs.mapNotNull { graph ->
             val input = graph.identifier // Assuming this holds something like "100m-chart-339-fr-rawGraph"
-            val regex = Regex("(?<=chart-)\\d+(?=-fr)")
+            val regex = Regex("(?<=chart-)\\d+(?=-[a-z]{2}-rawGraph)")
             val match = regex.find(input)?.value?.toIntOrNull() ?: return@mapNotNull null
 
             val id = graph.distributions
