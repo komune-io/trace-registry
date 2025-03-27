@@ -3,6 +3,7 @@ package io.komune.registry.f2.cccev.domain.concept.command
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.InformationConceptId
 import kotlin.js.JsExport
+import kotlinx.serialization.Serializable
 
 typealias InformationConceptCreateFunction = F2Function<InformationConceptCreateCommandDTOBase, InformationConceptCreatedEventDTOBase>
 
@@ -16,6 +17,7 @@ interface InformationConceptCreatedEventDTO {
     val id: InformationConceptId
 }
 
+@Serializable
 data class InformationConceptCreatedEventDTOBase(
     override val id: InformationConceptId
 ) : InformationConceptCreatedEventDTO
