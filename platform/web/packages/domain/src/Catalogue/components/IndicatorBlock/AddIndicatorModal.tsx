@@ -72,6 +72,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             values.maxValue = maxValue
         }
         values.type = editIndicator
+        values.context = editIndicator.valueDescription
         return values
     }, [editIndicator])
 
@@ -133,7 +134,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         if (unitType === "NUMBER") {
             return [contextualFields.numberValue, contextualFields.context]
         } else if (unitType === "STRING") {
-            return [contextualFields.stringValue, contextualFields.context]
+            return [contextualFields.stringValue]
         }
         return [contextualFields.minValue, contextualFields.maxValue, contextualFields.context]
     }, [formState.values.type])

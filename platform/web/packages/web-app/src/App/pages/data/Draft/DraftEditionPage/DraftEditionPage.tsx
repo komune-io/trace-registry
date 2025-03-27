@@ -33,18 +33,19 @@ export const DraftEditionPage = () => {
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
-  const metadataFormState = useMetadataFormState({
-    catalogue,
-    isLoading: isDefLoading
-  })
-
-  const { onDelete, onSectionChange, onSubmit, onValidate } = useDraftMutations({
-    metadataFormState,
-    setTab,
+  const { onDelete, onSectionChange, onSubmit, onValidate, onSaveMetadata } = useDraftMutations({
     catalogue,
     refetchDraft: catalogueDraftQuery.refetch,
     draft
   })
+
+  const metadataFormState = useMetadataFormState({
+    onSubmit: onSaveMetadata,
+    catalogue,
+    isLoading: isDefLoading
+  })
+
+
 
   const title = catalogue?.title ?? t("sheetEdition")
 

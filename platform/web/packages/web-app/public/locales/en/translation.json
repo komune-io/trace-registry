@@ -155,6 +155,8 @@
   "maxValue": "Maximum value",
   "value": "Value",
   "context": "Context",
+  "fromTo": "From {{from}} to {{to}}",
+  "typeToSearch": "Insert text to start a search",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
