@@ -21,7 +21,7 @@ registry:
         url: http://localhost:8083
       registry:
         url: http://localhost:8070
-        path: /api
+        path: http://localhost:8070/
       admin:
         name: Komune
         clientId: tr-komune-import-api-key

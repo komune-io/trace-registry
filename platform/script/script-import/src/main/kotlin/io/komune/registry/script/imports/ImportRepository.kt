@@ -15,6 +15,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
+import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -123,6 +124,21 @@ class ImportRepository(
             ).invokeWith(dataClient.dataset.datasetCreate()).id
 
         return DatasetGetQuery(id = datasetId).invokeWith(dataClient.dataset.datasetGet()).item!!
+    }
+
+    suspend fun findRawGraphDataSet(
+        language: Language,
+    ): List<DatasetDTOBase> {
+        return try {
+             DatasetGraphSearchQuery(
+                rootCatalogueIdentifier = "100m-charts",
+                datasetType = "rawGraph",
+                language = language
+            ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+        }catch (e: F2Exception) {
+            logger.error(e.error.message, e)
+            emptyList()
+        }
     }
 
     suspend fun initDataset(
