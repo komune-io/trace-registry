@@ -302,7 +302,6 @@ class ImportScript(
 
             "text/markdown" -> {
                 val resourceDataset = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
-                val chartDatasets = getOrCreateResourceDataset(datasetSettings, catalogue, language, dataset)
                 markdownMediaImport.createMarkdownDatasetMediaDistribution(
                     dataset = dataset,
                     resourcesDataset = resourceDataset,

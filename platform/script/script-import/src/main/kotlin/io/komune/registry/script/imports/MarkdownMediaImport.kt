@@ -18,7 +18,7 @@ class MarkdownMediaImport(
 
     private val graphDataset: HashMap<Language, List<DatasetDTOBase>> = hashMapOf()
 
-    @Suppress("NestedBlockDepth")
+    @Suppress("NestedBlockDepth", "LongMethod", "CyclomaticComplexMethod")
     suspend fun createMarkdownDatasetMediaDistribution(
         dataset: DatasetDTOBase,
         resourcesDataset: DatasetDTOBase,
