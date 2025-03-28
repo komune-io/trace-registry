@@ -91,7 +91,7 @@ class CccevFinderService(
         val aggregatorType = getConcept(id).aggregator
             ?: throw IllegalStateException("Aggregator not defined for concept $id")
 
-        val supportedValues = valueRepository.findAllByConceptIdAndStatus(id, SupportedValueState.VALIDATED)
+        val supportedValues = valueRepository.findAllByConceptIdAndStatusAndRangeIsFalse(id, SupportedValueState.VALIDATED)
         return when (aggregatorType) {
             AggregatorType.SUM -> SumAggregatorInput(supportedValues.map { it.value }).compute()
         }

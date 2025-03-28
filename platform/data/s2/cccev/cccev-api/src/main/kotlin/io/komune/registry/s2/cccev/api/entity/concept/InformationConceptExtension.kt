@@ -6,7 +6,7 @@ fun InformationConceptEntity.toModel() = InformationConceptModel(
     id = id,
     identifier = identifier,
     name = name,
-    unitId = unitId,
+    unit = unit,
     aggregator = aggregator,
     themeIds = themeIds
 )

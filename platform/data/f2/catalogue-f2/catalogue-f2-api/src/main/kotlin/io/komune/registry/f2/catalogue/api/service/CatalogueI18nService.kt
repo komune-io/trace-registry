@@ -23,6 +23,7 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
+import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
@@ -229,6 +230,8 @@ class CatalogueI18nService(
                 distribution.aggregators.forEach { (conceptId, valueId) ->
                     if (conceptId !in globalConceptIds) {
                         val supportedValue = cache.supportedValues.get(valueId)
+                            .takeUnless { it.isRange }
+                            ?: return@forEach
                         aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
                     }
                 }
@@ -245,10 +248,24 @@ class CatalogueI18nService(
         aggregatorValues.mapNotNull { (conceptId, values) ->
             val concept = cache.informationConcepts.get(conceptId)
 
-            when (concept.aggregator) {
+            if (concept.aggregator == null || concept.unit == null) {
+                return@mapNotNull null
+            }
+
+            when (concept.aggregator!!) {
                 AggregatorType.SUM -> SumAggregatorInput(values).compute()
-                null -> null
-            }?.let { concept.toComputedDTO(it, null, language!!, cache.themes::get, cache.dataUnits::get) }
+            }.let { aggregatedValue ->
+                val supportedValue = SupportedValueModel(
+                    id = "",
+                    conceptId = conceptId,
+                    unit = concept.unit!!,
+                    isRange = false,
+                    value = aggregatedValue,
+                    query = null,
+                    description = null,
+                )
+                concept.toComputedDTO(supportedValue, language!!, cache.themes::get, cache.dataUnits::get)
+            }
         }
     }
 }
