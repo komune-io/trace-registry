@@ -17,8 +17,8 @@ class DataUnitEvolver: View<DataUnitEvent, DataUnitEntity> {
 		id = event.id
 		status = DataUnitState.CREATED
 		identifier = event.identifier
-		name = event.name
-		abbreviation = event.abbreviation
+		name = event.name.toMutableMap()
+		abbreviation = event.abbreviation.toMutableMap()
 		type = event.type
 		issued = event.date
 		modified = event.date

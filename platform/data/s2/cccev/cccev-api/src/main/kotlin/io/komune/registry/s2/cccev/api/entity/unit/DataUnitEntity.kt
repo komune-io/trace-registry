@@ -27,9 +27,9 @@ open class DataUnitEntity: WithS2Id<DataUnitId>, WithS2State<DataUnitState>  {
 
     lateinit var type: DataUnitType
 
-    var name: Map<Language, String> = emptyMap()
+    var name: MutableMap<Language, String> = mutableMapOf()
 
-    var abbreviation: Map<Language, String> = emptyMap()
+    var abbreviation: MutableMap<Language, String> = mutableMapOf()
 
     var issued: Long? = null
     var modified: Long? = null

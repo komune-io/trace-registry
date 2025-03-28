@@ -2451,7 +2451,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
     interface InformationConceptCreateCommandDTO {
         readonly identifier: string;
         readonly name: Record<string, string>;
-        readonly unitId: string;
+        readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
         readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
         readonly themeIds: string[];
 
@@ -2509,7 +2509,18 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.value {
     }
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "NUMBER_RANGE" | "STRING";
+    interface CompositeDataUnitRefDTO {
+        readonly leftUnitId: string;
+        readonly rightUnitId?: string;
+        readonly operator?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator;
+
+    }
+}
+export declare namespace io.komune.registry.s2.cccev.domain.model {
+    type CompositeDataUnitOperator = "DIVISION";
+}
+export declare namespace io.komune.registry.s2.cccev.domain.model {
+    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
     type FileProcessorType = "CSV_SQL";
@@ -2610,7 +2621,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
     interface InformationConceptCreateCommandDTO extends io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommandDTO {
         readonly identifier: string;
         readonly name: Record<string, string>;
-        readonly unitId: string;
+        readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
         readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
         readonly themeIds: string[];
 
@@ -2622,13 +2633,14 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
 }
 export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
     interface InformationConceptComputedDTO extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {
+        readonly unit: io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTO;
+        readonly isRange: boolean;
         readonly value?: string;
         readonly valueDescription?: string;
         readonly id: string;
         readonly identifier: string;
         readonly language: string;
         readonly name?: string;
-        readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
         readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
 
     }
@@ -2638,7 +2650,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
         readonly id: string;
         readonly identifier: string;
         readonly name: Record<string, string>;
-        readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+        readonly unit?: io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitDTO;
         readonly themes: io.komune.registry.f2.concept.domain.model.ConceptDTO[];
 
     }
@@ -2649,7 +2661,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
         readonly identifier: string;
         readonly language: string;
         readonly name?: string;
-        readonly unit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
+        readonly unit?: io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTO;
         readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
 
     }
@@ -2704,6 +2716,22 @@ export declare namespace io.komune.registry.f2.cccev.domain.unit.command {
     }
 }
 export declare namespace io.komune.registry.f2.cccev.domain.unit.model {
+    interface CompositeDataUnitDTO {
+        readonly leftUnit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+        readonly rightUnit?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+        readonly operator?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.unit.model {
+    interface CompositeDataUnitTranslatedDTO {
+        readonly leftUnit: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
+        readonly rightUnit?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO;
+        readonly operator?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.unit.model {
     interface DataUnitDTO {
         readonly id: string;
         readonly identifier: string;
@@ -2731,6 +2759,16 @@ export declare namespace io.komune.registry.f2.cccev.domain.unit.query {
     }
     interface DataUnitGetByIdentifierResultDTO {
         readonly item?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.unit.query {
+    interface DataUnitListQueryDTO {
+        readonly language: string;
+
+    }
+    interface DataUnitListResultDTO {
+        readonly items: io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO[];
 
     }
 }
@@ -3189,7 +3227,7 @@ export declare namespace io.komune.registry.s2.dataset.domain.command {
 }
 export declare namespace io.komune.registry.f2.dataset.domain {
     const AggregatorConfigBuilder: {
-        csvSum(informationConceptId: string, column: string): io.komune.registry.f2.dataset.domain.dto.AggregatorConfigDTO;
+        csvSum(informationConceptId: string, unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO, column: string): io.komune.registry.f2.dataset.domain.dto.AggregatorConfigDTO;
     };
 }
 export declare namespace io.komune.registry.f2.dataset.domain {
@@ -3345,6 +3383,8 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly informationConceptId: string;
+        readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
+        readonly isRange: boolean;
         readonly value?: string;
         readonly description?: string;
 
@@ -3386,6 +3426,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 export declare namespace io.komune.registry.f2.dataset.domain.dto {
     interface AggregatorConfigDTO {
         readonly informationConceptId: string;
+        readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
         readonly processorType: io.komune.registry.s2.cccev.domain.model.FileProcessorType;
         readonly query: string;
         readonly valueIfEmpty: string;

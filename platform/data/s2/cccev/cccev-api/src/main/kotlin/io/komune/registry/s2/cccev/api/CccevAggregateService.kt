@@ -31,7 +31,7 @@ class CccevAggregateService(
             date = System.currentTimeMillis(),
             identifier = command.identifier,
             name = command.name,
-            unitId = command.unitId,
+            unit = command.unit,
             aggregator = command.aggregator,
             themeIds = command.themeIds.toSet()
         )
@@ -53,6 +53,8 @@ class CccevAggregateService(
 
         val valueId = SupportedValueCreateCommand(
             conceptId = concept.id,
+            unit = command.unit,
+            isRange = false,
             value = value,
             query = command.processorInput.query,
             description = null
@@ -70,6 +72,8 @@ class CccevAggregateService(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
             conceptId = command.conceptId,
+            unit = command.unit,
+            isRange = command.isRange,
             value = command.value,
             query = command.query,
             description = command.description

@@ -40,6 +40,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsComma
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
@@ -71,6 +72,7 @@ class DatasetF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val cccevAggregateService: CccevAggregateService,
+    private val cccevFinderService: CccevFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fileClient: FileClient,
@@ -269,8 +271,11 @@ class DatasetF2AggregateService(
             ?: throw NotFoundException("Distribution", command.distributionId)
 
         val newValueId = command.value?.let { value ->
+            val concept = cccevFinderService.getConcept(command.informationConceptId)
             SupportedValueCreateCommand(
                 conceptId = command.informationConceptId,
+                unit = concept.unit ?: command.unit,
+                isRange = command.isRange,
                 value = value,
                 description = command.description,
                 query = null
@@ -369,9 +374,11 @@ class DatasetF2AggregateService(
     ) {
         val dataset = datasetFinderService.get(datasetId)
         val oldDistribution = dataset.distributions.first { it.id == distributionId }
+        val concept = cccevFinderService.getConcept(aggregatorConfig.informationConceptId)
 
         val valueEvent = InformationConceptComputeValueCommand(
             id = aggregatorConfig.informationConceptId,
+            unit = concept.unit ?: aggregatorConfig.unit,
             processorInput = when (aggregatorConfig.processorType) {
                 FileProcessorType.CSV_SQL -> {
                     require(mediaType == "text/csv") {

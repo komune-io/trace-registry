@@ -9,6 +9,7 @@ import io.komune.registry.f2.concept.api.model.toDTO
 import io.komune.registry.f2.concept.api.model.toTranslatedDTO
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
+import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptId
@@ -21,7 +22,7 @@ suspend fun InformationConceptModel.toDTO(
     id = id,
     identifier = identifier,
     name = name,
-    unit = getUnit(unitId).toDTO(),
+    unit = unit?.toDTO(getUnit),
     themes = themeIds.map { getTheme(it).toDTO() }
 )
 
@@ -34,13 +35,12 @@ suspend fun InformationConceptModel.toTranslatedDTO(
     identifier = identifier,
     language = language,
     name = name[language],
-    unit = getUnit(unitId).toTranslatedDTO(language),
+    unit = unit?.toTranslatedDTO(language, getUnit),
     themes = themeIds.map { getTheme(it).toTranslatedDTO(language) }
 )
 
 suspend fun InformationConceptModel.toComputedDTO(
-    value: String,
-    valueDescription: String?,
+    value: SupportedValueModel,
     language: Language,
     getTheme: suspend (ConceptId) -> ConceptModel,
     getUnit: suspend (DataUnitId) -> DataUnitModel,
@@ -49,8 +49,9 @@ suspend fun InformationConceptModel.toComputedDTO(
     identifier = identifier,
     language = language,
     name = name[language],
-    unit = getUnit(unitId).toTranslatedDTO(language),
+    unit = value.unit.toTranslatedDTO(language, getUnit),
     themes = themeIds.map { getTheme(it).toTranslatedDTO(language) },
-    value = value,
-    valueDescription = valueDescription,
+    isRange = value.isRange,
+    value = value.value,
+    valueDescription = value.description,
 )

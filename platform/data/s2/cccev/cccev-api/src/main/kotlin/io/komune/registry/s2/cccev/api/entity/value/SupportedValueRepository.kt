@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface SupportedValueRepository: RedisRepository<SupportedValueEntity, SupportedValueId> {
-    fun findAllByConceptIdAndStatus(conceptId: InformationConceptId, status: SupportedValueState): List<SupportedValueEntity>
+    fun findAllByConceptIdAndStatusAndRangeIsFalse(
+        conceptId: InformationConceptId, status: SupportedValueState
+    ): List<SupportedValueEntity>
 }

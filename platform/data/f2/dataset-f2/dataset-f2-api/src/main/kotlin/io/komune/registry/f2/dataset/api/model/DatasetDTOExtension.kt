@@ -127,7 +127,7 @@ suspend fun DistributionModel.toDTO(
     mediaType = mediaType,
     aggregators = aggregators.map { (conceptId, valueId) ->
         val supportedValue = getSupportedValue(valueId)
-        getInformationConcept(conceptId).toComputedDTO(supportedValue.value, supportedValue.description, language, getTheme, getDataUnit)
+        getInformationConcept(conceptId).toComputedDTO(supportedValue, language, getTheme, getDataUnit)
     },
     issued = issued,
     modified = modified,

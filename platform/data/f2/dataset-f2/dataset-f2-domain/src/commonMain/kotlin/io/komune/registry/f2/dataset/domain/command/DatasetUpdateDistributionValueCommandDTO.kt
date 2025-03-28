@@ -1,6 +1,8 @@
 package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.commons.model.InformationConceptId
@@ -34,6 +36,10 @@ interface DatasetUpdateDistributionValueCommandDTO {
 
     val informationConceptId: InformationConceptId
 
+    val unit: CompositeDataUnitRefDTO
+
+    val isRange: Boolean
+
     val value: String?
 
     val description: String?
@@ -47,6 +53,8 @@ data class DatasetUpdateDistributionValueCommandDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
     override val informationConceptId: InformationConceptId,
+    override val unit: CompositeDataUnitModel,
+    override val isRange: Boolean,
     override val value: String?,
     override val description: String?
 ) : DatasetUpdateDistributionValueCommandDTO
