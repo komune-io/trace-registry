@@ -19,8 +19,8 @@ class InformationConceptEvolver: View<InformationConceptEvent, InformationConcep
 		id = event.id
 		status = InformationConceptState.ACTIVE
 		identifier = event.identifier
-		name = event.name
-		unitId = event.unitId
+		name = event.name.toMutableMap()
+		unit = event.unit
 		aggregator = event.aggregator
 		themeIds = event.themeIds.toMutableSet()
 		issued = event.date

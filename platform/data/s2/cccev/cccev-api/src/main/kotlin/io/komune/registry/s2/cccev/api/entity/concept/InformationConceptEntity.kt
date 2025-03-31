@@ -6,7 +6,7 @@ import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.cccev.domain.InformationConceptState
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
-import io.komune.registry.s2.commons.model.DataUnitId
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -28,9 +28,9 @@ open class InformationConceptEntity: WithS2Id<InformationConceptId>, WithS2State
     @Indexed
     lateinit var identifier: InformationConceptIdentifier
 
-    var name: Map<Language, String> = emptyMap()
+    var name: MutableMap<Language, String> = mutableMapOf()
 
-    lateinit var unitId: DataUnitId
+    var unit: CompositeDataUnitModel? = null
 
     var aggregator: AggregatorType? = null
 

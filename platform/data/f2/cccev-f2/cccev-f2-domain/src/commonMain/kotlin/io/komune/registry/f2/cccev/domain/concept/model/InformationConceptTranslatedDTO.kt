@@ -1,7 +1,7 @@
 package io.komune.registry.f2.cccev.domain.concept.model
 
-import io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTO
-import io.komune.registry.f2.cccev.domain.unit.model.DataUnitTranslatedDTOBase
+import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTO
+import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTOBase
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.s2.commons.model.InformationConceptId
@@ -15,7 +15,7 @@ interface InformationConceptTranslatedDTO {
     val identifier: InformationConceptIdentifier
     val language: Language
     val name: String?
-    val unit: DataUnitTranslatedDTO
+    val unit: CompositeDataUnitTranslatedDTO?
     val themes: List<ConceptTranslatedDTO>
 }
 
@@ -24,6 +24,6 @@ data class InformationConceptTranslatedDTOBase(
     override val identifier: InformationConceptIdentifier,
     override val language: Language,
     override val name: String?,
-    override val unit: DataUnitTranslatedDTOBase,
+    override val unit: CompositeDataUnitTranslatedDTOBase?,
     override val themes: List<ConceptTranslatedDTOBase>
 ) : InformationConceptTranslatedDTO

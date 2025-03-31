@@ -159,6 +159,16 @@ export const useInformationConceptListQuery = (params: QueryParams<InformationCo
   )
 }
 
+export interface DataUnitListQuery extends io.komune.registry.f2.cccev.domain.unit.query.DataUnitListQueryDTO { }
+export interface DataUnitListResult extends io.komune.registry.f2.cccev.domain.unit.query.DataUnitListResultDTO { }
+
+export const useDataUnitListQuery = (params: QueryParams<DataUnitListQuery, DataUnitListResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<DataUnitListQuery, DataUnitListResult>(
+    "data/dataUnitList", requestProps, params
+  )
+}
+
 export interface EntityRefGetQuery extends io.komune.registry.f2.entity.domain.query.EntityRefGetQueryDTO { }
 export interface EntityRefGetQueryResult extends io.komune.registry.f2.entity.domain.query.EntityRefGetQueryResultDTO { }
 

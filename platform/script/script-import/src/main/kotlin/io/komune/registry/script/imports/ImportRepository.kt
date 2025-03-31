@@ -18,6 +18,7 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -100,7 +101,7 @@ class ImportRepository(
             InformationConceptCreateCommand(
                 identifier = informationConcept.identifier,
                 name = informationConcept.name,
-                unitId = unit.id,
+                unit = CompositeDataUnitModel(unit.id, null, null),
                 aggregator = informationConcept.aggregator,
                 themeIds = themes.map { it.id },
             ).invokeWith(dataClient.cccev.informationConceptCreate()).id

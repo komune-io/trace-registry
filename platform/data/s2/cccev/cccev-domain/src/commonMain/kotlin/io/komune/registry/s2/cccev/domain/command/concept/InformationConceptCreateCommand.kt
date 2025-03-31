@@ -1,7 +1,8 @@
 package io.komune.registry.s2.cccev.domain.command.concept
 
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
-import io.komune.registry.s2.commons.model.DataUnitId
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -13,7 +14,7 @@ import kotlin.js.JsExport
 interface InformationConceptCreateCommandDTO {
     val identifier: InformationConceptIdentifier
     val name: Map<Language, String>
-    val unitId: DataUnitId
+    val unit: CompositeDataUnitRefDTO?
     val aggregator: AggregatorType?
     val themeIds: List<ConceptId>
 }
@@ -22,7 +23,7 @@ interface InformationConceptCreateCommandDTO {
 data class InformationConceptCreateCommand(
     override val identifier: InformationConceptIdentifier,
     override val name: Map<Language, String>,
-    override val unitId: DataUnitId,
+    override val unit: CompositeDataUnitModel?,
     override val aggregator: AggregatorType?,
     override val themeIds: List<ConceptId>
 ) : InformationConceptInitCommand, InformationConceptCreateCommandDTO
@@ -33,7 +34,7 @@ data class InformationConceptCreatedEvent(
     override val date: Long,
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
-    val unitId: DataUnitId,
+    val unit: CompositeDataUnitModel?,
     val aggregator: AggregatorType?,
     val themeIds: Set<ConceptId>
 ) : InformationConceptEvent

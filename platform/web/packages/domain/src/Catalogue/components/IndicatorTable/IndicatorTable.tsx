@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
 import { formatNumber, G2ColumnDef, TableCellNumber, TableCellText, TableV2, useTable } from '@komune-io/g2'
 import { InformationConcept, parseRangeValue } from '../../model'
-import { useDatasetUpdateDistributionValueCommand } from '../../api'
+import { useDatasetRemoveDistributionValueCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { Dataset } from '../../../Dataset'
@@ -23,16 +23,17 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
     const queryClient = useQueryClient()
     const [editIndicator, setEditIndicator] = useState<InformationConcept | undefined>(undefined)
 
-    const updateDistributionValue = useDatasetUpdateDistributionValueCommand({})
+    const removeDistributionValue = useDatasetRemoveDistributionValueCommand({})
 
     const distribution = (dataset.distributions ?? [])[0]
 
     const deleteIndicator = useCallback(
         async (infoConcept: InformationConcept) => {
-            const res = await updateDistributionValue.mutateAsync({
+            const res = await removeDistributionValue.mutateAsync({
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
-                informationConceptId: infoConcept.id
+                informationConceptId: infoConcept.id,
+
             })
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
@@ -50,16 +51,16 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         accessorKey: "value",
         header: t("value"),
         cell: ({ row }) => {
-            const type = row.original.unit.type
-            if (type === "NUMBER") {
-                return <TableCellNumber value={Number(row.original.value)} />
-            }
-            if (type === "NUMBER_RANGE") {
+            const type = row.original.unit.leftUnit?.type
+            if (row.original.isRange) {
                 const range = parseRangeValue(row.original.value ?? "")
                 const from = range[0]
                 const to = range[1]
                 if (!from || !to) return <></>
                 return <TableCellText value={t("fromTo", {from: formatNumber(from, i18n.language), to: formatNumber(to, i18n.language)})} />
+            }
+            if (type === "NUMBER") {
+                return <TableCellNumber value={Number(row.original.value)} />
             }
             return <TableCellText value={row.original.value} />
         }

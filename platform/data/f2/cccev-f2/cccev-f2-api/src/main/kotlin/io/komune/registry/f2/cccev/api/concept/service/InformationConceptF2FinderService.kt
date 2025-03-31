@@ -9,6 +9,7 @@ import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBas
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTOBase
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
+import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -43,9 +44,20 @@ class InformationConceptF2FinderService(
         val concept = cccevFinderService.getConceptByIdentifierOrNull(identifier)
             ?: return null
 
-        val value = cccevFinderService.computeGlobalValueForConcept(concept.id)
+        if (concept.unit == null) {
+            return null
+        }
+        val value = SupportedValueModel(
+            id = "",
+            conceptId = concept.id,
+            unit = concept.unit!!,
+            isRange = false,
+            value = cccevFinderService.computeGlobalValueForConcept(concept.id),
+            description = null,
+            query = null
+        )
 
-        return concept.toComputedDTOCached(value, null, language)
+        return concept.toComputedDTOCached(value, language)
     }
 
     private suspend fun InformationConceptModel.toDTOCached(cache: Cache = Cache()) = toDTO(
@@ -60,10 +72,9 @@ class InformationConceptF2FinderService(
     )
 
     private suspend fun InformationConceptModel.toComputedDTOCached(
-        value: String, valueDescription: String?, language: Language, cache: Cache = Cache()
+        value: SupportedValueModel, language: Language, cache: Cache = Cache()
     ) = toComputedDTO(
         value = value,
-        valueDescription = valueDescription,
         language = language,
         getTheme = cache.themes::get,
         getUnit = cache.units::get

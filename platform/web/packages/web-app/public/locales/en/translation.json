@@ -157,6 +157,7 @@
   "context": "Context",
   "fromTo": "From {{from}} to {{to}}",
   "typeToSearch": "Insert text to start a search",
+  "unit": "Unit",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -350,7 +351,8 @@
     "noIndicatorBlock": "No indicator block associated with this sheet",
     "noIndicatorAssociated": "No indicator associated with this sheet",
     "indicatorBlock": "Indicator block",
-    "noType": "No type was found"
+    "noType": "No type was found",
+    "defineValueRange": "Define a range of values"
   },
   "editor": {
     "imageUrl": "Image URL",

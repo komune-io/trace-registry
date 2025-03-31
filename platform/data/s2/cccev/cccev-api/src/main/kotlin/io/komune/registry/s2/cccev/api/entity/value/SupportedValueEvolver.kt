@@ -21,6 +21,8 @@ class SupportedValueEvolver: View<SupportedValueEvent, SupportedValueEntity> {
 		id = event.id
 		status = SupportedValueState.COMPUTED
 		conceptId = event.conceptId
+		unit = event.unit
+		isRange = event.isRange
 		value = event.value
 		query = event.query
 		description = event.description

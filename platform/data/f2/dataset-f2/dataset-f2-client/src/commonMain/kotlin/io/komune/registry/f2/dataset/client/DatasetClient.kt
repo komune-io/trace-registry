@@ -15,6 +15,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
@@ -69,6 +70,8 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
         = client.function("data/${this::datasetUpdateJsonDistribution.name}")
     override fun datasetUpdateDistributionValue(): DatasetUpdateDistributionValueFunction
         = client.function("data/${this::datasetUpdateDistributionValue.name}")
+    override fun datasetRemoveDistributionValue(): DatasetRemoveDistributionValueFunction
+        = client.function("data/${this::datasetRemoveDistributionValue.name}")
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction
         = client.function("data/${this::datasetRemoveDistribution.name}")
 
