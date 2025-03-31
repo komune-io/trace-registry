@@ -27,6 +27,8 @@ class DataUnitF2FinderService(
     }
 
     suspend fun list(language: Language): List<DataUnitTranslatedDTOBase> {
-        return cccevFinderService.listUnits().map { it.toTranslatedDTO(language) }
+        return cccevFinderService.listUnits()
+            .map { it.toTranslatedDTO(language) }
+            .sortedBy { it.name ?: it.abbreviation }
     }
 }
