@@ -65,6 +65,16 @@ class FlagConfiguration(
     }
 
     @Bean
+    fun global(
+        functionCatalog: FunctionCatalog,
+        functionProperties: FunctionProperties,
+        beanFactory: BeanFactory,
+        callback: MessageRoutingCallback
+    ): RoutingFunction {
+        return RoutingFunction(functionCatalog, functionProperties, BeanFactoryResolver(beanFactory), callback)
+    }
+
+    @Bean
     fun identity(
         functionCatalog: FunctionCatalog,
         functionProperties: FunctionProperties,
