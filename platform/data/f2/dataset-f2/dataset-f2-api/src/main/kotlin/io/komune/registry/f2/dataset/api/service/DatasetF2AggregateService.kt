@@ -19,7 +19,9 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetDeletedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTOBase
@@ -270,17 +272,16 @@ class DatasetF2AggregateService(
         val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
             ?: throw NotFoundException("Distribution", command.distributionId)
 
-        val newValueId = command.value?.let { value ->
-            val concept = cccevFinderService.getConcept(command.informationConceptId)
-            SupportedValueCreateCommand(
-                conceptId = command.informationConceptId,
-                unit = concept.unit ?: command.unit,
-                isRange = command.isRange,
-                value = value,
-                description = command.description,
-                query = null
-            ).let { cccevAggregateService.createValue(it).id }
-        }
+        val concept = cccevFinderService.getConcept(command.informationConceptId)
+        val newValueId = SupportedValueCreateCommand(
+            conceptId = command.informationConceptId,
+            unit = concept.unit ?: command.unit,
+            isRange = command.isRange,
+            value = command.value,
+            description = command.description,
+            query = null
+        ).let { cccevAggregateService.createValue(it).id }
+
 
         updateDistributionValue(
             dataset = dataset,
@@ -292,6 +293,27 @@ class DatasetF2AggregateService(
         return DatasetUpdatedDistributionValueEventDTOBase(
             id = command.id,
             distributionId = command.distributionId
+        )
+    }
+
+    suspend fun removeDistributionValue(
+        command: DatasetRemoveDistributionValueCommandDTOBase
+    ): DatasetRemovedDistributionValueEventDTOBase {
+        val dataset = datasetFinderService.get(command.id)
+        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
+            ?: throw NotFoundException("Distribution", command.distributionId)
+
+        updateDistributionValue(
+            dataset = dataset,
+            distribution = distribution,
+            conceptId = command.informationConceptId,
+            valueId = null
+        )
+
+        return DatasetRemovedDistributionValueEventDTOBase(
+            id = command.id,
+            distributionId = command.distributionId,
+            informationConceptId = command.informationConceptId
         )
     }
 

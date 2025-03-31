@@ -5,6 +5,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
@@ -20,5 +21,6 @@ interface DatasetCommandApi {
     fun datasetAddJsonDistribution(): DatasetAddJsonDistributionFunction
     fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction
     fun datasetUpdateDistributionValue(): DatasetUpdateDistributionValueFunction
+    fun datasetRemoveDistributionValue(): DatasetRemoveDistributionValueFunction
     fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction
 }

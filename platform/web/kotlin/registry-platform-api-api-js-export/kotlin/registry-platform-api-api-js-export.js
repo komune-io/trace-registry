@@ -1305,6 +1305,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(DatasetLinkThemesEventDTO, 'DatasetLinkedThemesEventDTO', interfaceMeta, VOID, [Event]);
   setMetadataFor(DatasetRemoveDistributionCommandDTO, 'DatasetRemoveDistributionCommandDTO', interfaceMeta);
   setMetadataFor(DatasetRemovedDistributionEventDTO, 'DatasetRemovedDistributionEventDTO', interfaceMeta);
+  setMetadataFor(DatasetRemoveDistributionValueCommandDTO, 'DatasetRemoveDistributionValueCommandDTO', interfaceMeta);
+  setMetadataFor(DatasetRemovedDistributionValueEventDTO, 'DatasetRemovedDistributionValueEventDTO', interfaceMeta);
   setMetadataFor(DatasetSetImageCommandDTO, 'DatasetSetImageCommandDTO', interfaceMeta);
   setMetadataFor(DatasetSetImageEventDTO, 'DatasetSetImageEventDTO', interfaceMeta);
   setMetadataFor(DatasetUpdateCommandDTO, 'DatasetUpdateCommandDTO', interfaceMeta);
@@ -31461,6 +31463,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function DatasetRemovedDistributionEventDTO() {
   }
+  function DatasetRemoveDistributionValueCommandDTO() {
+  }
+  function DatasetRemovedDistributionValueEventDTO() {
+  }
   function DatasetSetImageCommandDTO() {
   }
   function DatasetSetImageEventDTO() {
@@ -35958,6 +35964,13 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
     var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
     defineProp($io$komune$registry$f2$dataset$domain, 'SupportedValueUtils', SupportedValueUtils_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$dataset = $io$komune$registry$f2.dataset || ($io$komune$registry$f2.dataset = {});
+    var $io$komune$registry$f2$dataset$domain = $io$komune$registry$f2$dataset.domain || ($io$komune$registry$f2$dataset.domain = {});
+    var $io$komune$registry$f2$dataset$domain$command = $io$komune$registry$f2$dataset$domain.command || ($io$komune$registry$f2$dataset$domain.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

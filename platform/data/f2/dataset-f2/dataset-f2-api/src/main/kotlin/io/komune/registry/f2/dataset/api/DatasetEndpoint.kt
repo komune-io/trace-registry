@@ -21,6 +21,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueFunction
@@ -261,6 +262,13 @@ class DatasetEndpoint(
         logger.info("datasetUpdateDistributionValue: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
         datasetF2AggregateService.updateDistributionValue(command)
+    }
+
+    @Bean
+    override fun datasetRemoveDistributionValue(): DatasetRemoveDistributionValueFunction = f2Function { command ->
+        logger.info("datasetRemoveDistributionValue: $command")
+        datasetPoliciesEnforcer.checkUpdate(command.id)
+        datasetF2AggregateService.removeDistributionValue(command)
     }
 
     @Bean

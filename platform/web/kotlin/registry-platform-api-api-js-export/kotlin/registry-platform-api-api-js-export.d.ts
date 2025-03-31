@@ -3355,6 +3355,20 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetRemoveDistributionValueCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+
+    }
+    interface DatasetRemovedDistributionValueEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetSetImageCommandDTO {
         readonly id: string;
 
@@ -3385,7 +3399,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly informationConceptId: string;
         readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
         readonly isRange: boolean;
-        readonly value?: string;
+        readonly value: string;
         readonly description?: string;
 
     }
