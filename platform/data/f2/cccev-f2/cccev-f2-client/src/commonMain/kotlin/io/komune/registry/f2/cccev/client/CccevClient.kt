@@ -14,6 +14,7 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlo
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierFunction
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -60,4 +61,5 @@ open class CccevClient(val client: F2Client) : CccevApi {
     override fun dataUnitCreate(): DataUnitCreateFunction = client.function("data/${this::dataUnitCreate.name}")
     override fun dataUnitGetByIdentifier(): DataUnitGetByIdentifierFunction
         = client.function("data/${this::dataUnitGetByIdentifier.name}")
+    override fun dataUnitList(): DataUnitListFunction = client.function("data/${this::dataUnitList.name}")
 }

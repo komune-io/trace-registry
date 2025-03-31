@@ -25,4 +25,8 @@ class DataUnitF2FinderService(
     suspend fun getByIdentifierOrNull(identifier: DataUnitIdentifier): DataUnitDTOBase? {
         return cccevFinderService.getUnitByIdentifierOrNull(identifier)?.toDTO()
     }
+
+    suspend fun list(language: Language): List<DataUnitTranslatedDTOBase> {
+        return cccevFinderService.listUnits().map { it.toTranslatedDTO(language) }
+    }
 }

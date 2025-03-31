@@ -8,6 +8,8 @@ import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateFunction
 import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreatedEventDTOBase
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierResult
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListFunction
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,6 +30,13 @@ class DataUnitEndpoint(
         logger.info("dataUnitGetByIdentifier: $query")
         dataUnitF2FinderService.getByIdentifierOrNull(query.identifier)
             .let(::DataUnitGetByIdentifierResult)
+    }
+
+    @Bean
+    override fun dataUnitList(): DataUnitListFunction = f2Function { query ->
+        logger.info("dataUnitList: $query")
+        dataUnitF2FinderService.list(query.language)
+            .let(::DataUnitListResult)
     }
 
     @Bean

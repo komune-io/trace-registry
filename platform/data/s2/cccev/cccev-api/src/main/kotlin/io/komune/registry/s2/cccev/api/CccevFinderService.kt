@@ -69,6 +69,11 @@ class CccevFinderService(
             ?.toModel()
     }
 
+    suspend fun listUnits(): List<DataUnitModel> {
+        return unitRepository.findAll()
+            .map { it.toModel() }
+    }
+
     /* ------------------------------ SUPPORTED VALUE ------------------------------ */
 
     suspend fun getValueOrNull(id: SupportedValueId): SupportedValueModel? {
