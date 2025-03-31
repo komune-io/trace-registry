@@ -6,6 +6,8 @@ import io.komune.registry.f2.cccev.api.concept.service.InformationConceptPolicie
 import io.komune.registry.f2.cccev.domain.concept.InformationConceptApi
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreateFunction
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreatedEventDTOBase
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdateFunction
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdatedEventDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierResult
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueFunction
@@ -54,5 +56,13 @@ class InformationConceptEndpoint(
         informationConceptPoliciesEnforcer.checkCreate()
         cccevAggregateService.createConcept(command)
             .let { InformationConceptCreatedEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun informationConceptUpdate(): InformationConceptUpdateFunction = f2Function { command ->
+        logger.info("informationConceptUpdate: $command")
+        informationConceptPoliciesEnforcer.checkCreate()
+        cccevAggregateService.updateConcept(command)
+            .let { InformationConceptUpdatedEventDTOBase(it.id) }
     }
 }

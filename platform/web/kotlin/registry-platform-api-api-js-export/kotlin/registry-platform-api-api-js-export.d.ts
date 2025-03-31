@@ -2471,6 +2471,16 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
 
     }
 }
+export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
+    interface InformationConceptUpdateCommandDTO {
+        readonly id: string;
+        readonly name: Record<string, string>;
+        readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly themeIds: string[];
+
+    }
+}
 export declare namespace io.komune.registry.s2.cccev.domain.command.unit {
     interface DataUnitCreateCommandDTO {
         readonly identifier: string;
@@ -2627,6 +2637,20 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
 
     }
     interface InformationConceptCreatedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
+    interface InformationConceptUpdateCommandDTO extends io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdateCommandDTO {
+        readonly id: string;
+        readonly name: Record<string, string>;
+        readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly themeIds: string[];
+
+    }
+    interface InformationConceptUpdatedEventDTO {
         readonly id: string;
 
     }

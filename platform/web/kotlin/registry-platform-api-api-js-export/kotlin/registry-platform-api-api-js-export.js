@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -1057,6 +1057,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Companion_96, 'Companion', objectMeta);
   setMetadataFor(InformationConceptInitCommand, 'InformationConceptInitCommand', interfaceMeta, VOID, [S2InitCommand]);
   setMetadataFor(InformationConceptCommand, 'InformationConceptCommand', interfaceMeta, VOID, [S2Command]);
+  setMetadataFor(InformationConceptUpdateCommandDTO_0, 'InformationConceptUpdateCommandDTO', interfaceMeta);
   setMetadataFor(DataUnitCreateCommandDTO, 'DataUnitCreateCommandDTO', interfaceMeta);
   setMetadataFor(Companion_97, 'Companion', objectMeta);
   setMetadataFor($serializer_58, '$serializer', objectMeta, VOID, [GeneratedSerializer]);
@@ -1102,6 +1103,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InformationConceptPolicies, 'InformationConceptPolicies', objectMeta);
   setMetadataFor(InformationConceptCreateCommandDTO_1, 'InformationConceptCreateCommandDTO', interfaceMeta, VOID, [InformationConceptCreateCommandDTO_0]);
   setMetadataFor(InformationConceptCreatedEventDTO_0, 'InformationConceptCreatedEventDTO', interfaceMeta);
+  setMetadataFor(InformationConceptUpdateCommandDTO_1, 'InformationConceptUpdateCommandDTO', interfaceMeta, VOID, [InformationConceptUpdateCommandDTO_0]);
+  setMetadataFor(InformationConceptUpdatedEventDTO_0, 'InformationConceptUpdatedEventDTO', interfaceMeta);
   setMetadataFor(InformationConceptTranslatedDTO, 'InformationConceptTranslatedDTO', interfaceMeta);
   setMetadataFor(InformationConceptComputedDTO, 'InformationConceptComputedDTO', interfaceMeta, VOID, [InformationConceptTranslatedDTO]);
   setMetadataFor(InformationConceptDTO_0, 'InformationConceptDTO', interfaceMeta);
@@ -27168,6 +27171,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function InformationConceptCommand() {
   }
+  function InformationConceptUpdateCommandDTO_0() {
+  }
   function DataUnitCreateCommandDTO() {
   }
   function Companion_97() {
@@ -27774,6 +27779,10 @@ if (typeof Math.imul === 'undefined') {
   function InformationConceptCreateCommandDTO_1() {
   }
   function InformationConceptCreatedEventDTO_0() {
+  }
+  function InformationConceptUpdateCommandDTO_1() {
+  }
+  function InformationConceptUpdatedEventDTO_0() {
   }
   function InformationConceptComputedDTO() {
   }
@@ -35455,6 +35464,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$s2$cccev = $io$komune$registry$s2.cccev || ($io$komune$registry$s2.cccev = {});
     var $io$komune$registry$s2$cccev$domain = $io$komune$registry$s2$cccev.domain || ($io$komune$registry$s2$cccev.domain = {});
     var $io$komune$registry$s2$cccev$domain$command = $io$komune$registry$s2$cccev$domain.command || ($io$komune$registry$s2$cccev$domain.command = {});
+    var $io$komune$registry$s2$cccev$domain$command$concept = $io$komune$registry$s2$cccev$domain$command.concept || ($io$komune$registry$s2$cccev$domain$command.concept = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$s2 = $io$komune$registry.s2 || ($io$komune$registry.s2 = {});
+    var $io$komune$registry$s2$cccev = $io$komune$registry$s2.cccev || ($io$komune$registry$s2.cccev = {});
+    var $io$komune$registry$s2$cccev$domain = $io$komune$registry$s2$cccev.domain || ($io$komune$registry$s2$cccev.domain = {});
+    var $io$komune$registry$s2$cccev$domain$command = $io$komune$registry$s2$cccev$domain.command || ($io$komune$registry$s2$cccev$domain.command = {});
     var $io$komune$registry$s2$cccev$domain$command$unit = $io$komune$registry$s2$cccev$domain$command.unit || ($io$komune$registry$s2$cccev$domain$command.unit = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
@@ -35583,6 +35600,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$cccev$domain = $io$komune$registry$f2$cccev.domain || ($io$komune$registry$f2$cccev.domain = {});
     var $io$komune$registry$f2$cccev$domain$concept = $io$komune$registry$f2$cccev$domain.concept || ($io$komune$registry$f2$cccev$domain.concept = {});
     defineProp($io$komune$registry$f2$cccev$domain$concept, 'InformationConceptPolicies', InformationConceptPolicies_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$cccev = $io$komune$registry$f2.cccev || ($io$komune$registry$f2.cccev = {});
+    var $io$komune$registry$f2$cccev$domain = $io$komune$registry$f2$cccev.domain || ($io$komune$registry$f2$cccev.domain = {});
+    var $io$komune$registry$f2$cccev$domain$concept = $io$komune$registry$f2$cccev$domain.concept || ($io$komune$registry$f2$cccev$domain.concept = {});
+    var $io$komune$registry$f2$cccev$domain$concept$command = $io$komune$registry$f2$cccev$domain$concept.command || ($io$komune$registry$f2$cccev$domain$concept.command = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

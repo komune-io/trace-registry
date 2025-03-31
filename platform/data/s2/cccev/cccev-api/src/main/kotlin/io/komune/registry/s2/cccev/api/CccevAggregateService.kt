@@ -8,6 +8,8 @@ import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComp
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputedValueEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdateCommand
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdatedEvent
 import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
 import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreatedEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
@@ -30,6 +32,17 @@ class CccevAggregateService(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
             identifier = command.identifier,
+            name = command.name,
+            unit = command.unit,
+            aggregator = command.aggregator,
+            themeIds = command.themeIds.toSet()
+        )
+    }
+
+    suspend fun updateConcept(command: InformationConceptUpdateCommand) = conceptAutomate.transition(command) {
+        InformationConceptUpdatedEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
             name = command.name,
             unit = command.unit,
             aggregator = command.aggregator,
