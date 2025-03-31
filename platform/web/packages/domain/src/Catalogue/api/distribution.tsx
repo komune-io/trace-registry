@@ -49,11 +49,11 @@ export const useCsvDownloadDistribution = (datasetId?: string, distributionId?: 
 }
 
 export interface DatasetWithDistribution {
-  dataset: Dataset
-  distribution: Distribution
+  dataset?: Dataset
+  distribution?: Distribution
 }
 
-export const findLexicalDataset = (catalogue: Catalogue): DatasetWithDistribution | undefined => {
+export const findLexicalDataset = (catalogue: Catalogue): DatasetWithDistribution => {
   const dataset = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
   const distribution = dataset?.distributions?.find((distribution) => distribution.mediaType === "application/json")
 
@@ -69,6 +69,8 @@ export const findLexicalDataset = (catalogue: Catalogue): DatasetWithDistributio
     distribution: markdownDistribution
   }
 
-  return undefined
+  return {
+    dataset
+  }
 }
 

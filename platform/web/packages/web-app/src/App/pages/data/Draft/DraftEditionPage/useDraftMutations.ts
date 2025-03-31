@@ -1,4 +1,4 @@
-import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
+import { Catalogue, CatalogueCreateCommand, CatalogueDraft, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useRef, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -10,18 +10,17 @@ interface useDraftMutationsParams {
   catalogue?: Catalogue
   refetchDraft: () => void
   draft?: CatalogueDraft
-  afterValidateNavigate?: string
 }
 
 const emptyFunction = () => { }
 
 export const useDraftMutations = (params: useDraftMutationsParams) => {
-  const { catalogue, refetchDraft, afterValidateNavigate, draft } = params
+  const { catalogue, refetchDraft, draft } = params
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const editorStateRef = useRef<EditorState | undefined>(undefined)
   const navigate = useNavigate()
-  const { cataloguesAll, cataloguesContributions } = useRoutesDefinition()
+  const { cataloguesContributions } = useRoutesDefinition()
 
   const refetchDraftData = useCallback(
     () => {
@@ -104,51 +103,12 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     }
   }, 500)
 
-
   const onSectionChange = useCallback(
     (editorState: EditorState) => {
       editorStateRef.current = editorState
       onSaveLexical()
     },
     [onSaveLexical],
-  )
-
-  const validateDraft = useCatalogueDraftValidateCommand({})
-
-  const onValidate = useCallback(
-    async () => {
-        const res = await validateDraft.mutateAsync({
-          id: draftId!,
-        })
-        if (res) {
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
-          navigate(afterValidateNavigate ?? cataloguesAll(catalogueId!))
-        }
-    },
-    [catalogueId, afterValidateNavigate, queryClient.invalidateQueries],
-  )
-
-  const submitDraft = useCatalogueDraftSubmitCommand({})
-
-  const onSubmit = useCallback(
-    async (reason: string) => {
-        const res = await submitDraft.mutateAsync({
-          id: draftId!,
-          versionNotes: reason
-        })
-        if (res) {
-          refetchDraft()
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          navigate(cataloguesContributions() + "?successfullContribution=true")
-        }
-    },
-    [draftId, catalogueId, queryClient.invalidateQueries],
-
   )
 
   const deleteCatalogue = useCatalogueDraftDeleteCommand({})
@@ -171,8 +131,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     onSaveMetadata,
     onSaveLexical,
     onDelete,
-    onValidate,
-    onSubmit,
     onSectionChange
   }
 }
