@@ -4,7 +4,6 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.DataUnitId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlinx.serialization.Serializable
 
 typealias DataUnitCreateFunction = F2Function<DataUnitCreateCommandDTOBase, DataUnitCreatedEventDTOBase>
 
