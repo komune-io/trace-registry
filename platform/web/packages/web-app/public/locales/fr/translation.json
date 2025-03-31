@@ -157,6 +157,7 @@
     "context": "Contexte",
     "fromTo": "De  {{from}}  à  {{to}}",
     "typeToSearch": "Insérez du texte pour lancer une rechercher",
+    "unit": "Unité",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -351,7 +352,8 @@
         "noIndicatorBlock": "Aucun bloc d’indicateurs associé à cette fiche",
         "noIndicatorAssociated": "Aucun indicateur associé à cette fiche",
         "indicatorBlock": "Bloc d'indicateurs",
-        "noType": "Aucun type n'a été trouvé"
+        "noType": "Aucun type n'a été trouvé",
+        "defineValueRange": "Définir une plage de valeurs"
     },
     "editor": {
         "imageUrl": "URL de l'image",

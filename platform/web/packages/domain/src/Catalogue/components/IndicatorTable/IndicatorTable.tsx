@@ -32,7 +32,8 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
             const res = await updateDistributionValue.mutateAsync({
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
-                informationConceptId: infoConcept.id
+                informationConceptId: infoConcept.id,
+                
             })
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
@@ -50,16 +51,16 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         accessorKey: "value",
         header: t("value"),
         cell: ({ row }) => {
-            const type = row.original.unit.type
-            if (type === "NUMBER") {
-                return <TableCellNumber value={Number(row.original.value)} />
-            }
-            if (type === "NUMBER_RANGE") {
+            const type = row.original.unit.leftUnit?.type
+            if (row.original.isRange) {
                 const range = parseRangeValue(row.original.value ?? "")
                 const from = range[0]
                 const to = range[1]
                 if (!from || !to) return <></>
                 return <TableCellText value={t("fromTo", {from: formatNumber(from, i18n.language), to: formatNumber(to, i18n.language)})} />
+            }
+            if (type === "NUMBER") {
+                return <TableCellNumber value={Number(row.original.value)} />
             }
             return <TableCellText value={row.original.value} />
         }

@@ -13,6 +13,8 @@ export interface InformationConcept extends io.komune.registry.f2.cccev.domain.c
     
 }
 
+export interface InformationConceptTranslated extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {}
+
 export type CatalogueTypes = "100m-sector" | "100m-solution" | "100m-system" | "100m-project" | "100m-chart"
 
 export const catalogueTypes: CatalogueTypes[] = ["100m-sector", "100m-solution", "100m-system", "100m-project"]
@@ -24,7 +26,6 @@ export const catalogueStatus: CatalogueStatus[] = ["ACTIVE", "DELETED"]
 export type DraftStatus = io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 
 export const draftStatus: DraftStatus[] = ["DRAFT", "REJECTED", "SUBMITTED", "UPDATE_REQUESTED", "VALIDATED", "DELETED"]
-
 
 export type DataUnitType =  io.komune.registry.s2.cccev.domain.model.DataUnitType
 
