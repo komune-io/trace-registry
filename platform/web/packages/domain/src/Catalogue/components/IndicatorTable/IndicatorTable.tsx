@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
 import { formatNumber, G2ColumnDef, TableCellNumber, TableCellText, TableV2, useTable } from '@komune-io/g2'
 import { InformationConcept, parseRangeValue } from '../../model'
-import { useDatasetUpdateDistributionValueCommand } from '../../api'
+import { useDatasetRemoveDistributionValueCommand² } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { Dataset } from '../../../Dataset'
@@ -23,17 +23,17 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
     const queryClient = useQueryClient()
     const [editIndicator, setEditIndicator] = useState<InformationConcept | undefined>(undefined)
 
-    const updateDistributionValue = useDatasetUpdateDistributionValueCommand({})
+    const removeDistributionValue = useDatasetRemoveDistributionValueCommand({})
 
     const distribution = (dataset.distributions ?? [])[0]
 
     const deleteIndicator = useCallback(
         async (infoConcept: InformationConcept) => {
-            const res = await updateDistributionValue.mutateAsync({
+            const res = await removeDistributionValue.mutateAsync({
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
                 informationConceptId: infoConcept.id,
-                
+
             })
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })

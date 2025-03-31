@@ -252,3 +252,16 @@ export const useDatasetUpdateDistributionValueCommand = (
         DatasetUpdatedDistributionValueEvent
     >('data/datasetUpdateDistributionValue', requestProps, params)
 }
+
+export interface DatasetRemoveDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTO { }
+export interface DatasetRemovedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionValueEventDTO { }
+
+export const useDatasetRemoveDistributionValueCommand = (
+    params: CommandParams<DatasetRemoveDistributionValueCommand, DatasetRemovedDistributionValueEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetRemoveDistributionValueCommand,
+        DatasetRemovedDistributionValueEvent
+    >('data/datasetRemoveDistributionValue', requestProps, params)
+}
