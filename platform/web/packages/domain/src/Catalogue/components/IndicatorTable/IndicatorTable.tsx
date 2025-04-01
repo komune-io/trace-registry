@@ -52,7 +52,6 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         header: t("value"),
         cell: ({ row }) => {
             const type = row.original.unit.leftUnit?.type
-            console.log(row.original.value)
             let value = ""
             if (row.original.isRange) {
                 const range = parseRangeValue(row.original.value ?? "")

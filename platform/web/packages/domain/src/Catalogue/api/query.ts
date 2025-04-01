@@ -178,3 +178,13 @@ export const useEntityRefGetQuery = (params: QueryParams<EntityRefGetQuery, Enti
     "data/entityRefGet", requestProps, params
   )
 }
+
+export interface InformationConceptGetGlobalValueQuery extends io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueQueryDTO { }
+export interface InformationConceptGetGlobalValueResult extends io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueResultDTO { }
+
+export const useInformationConceptGetGlobalValueQuery = (params: QueryParams<InformationConceptGetGlobalValueQuery, InformationConceptGetGlobalValueResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<InformationConceptGetGlobalValueQuery, InformationConceptGetGlobalValueResult>(
+    "data/informationConceptGetGlobalValue", requestProps, params
+  )
+}
