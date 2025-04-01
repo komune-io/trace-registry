@@ -43,8 +43,9 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         async (values: any) => {
 
             const type = values.type as InformationConceptTranslated
-            const selectedUnit = units?.find((unit) => unit.id === formState.values.firstUnit)
-            const unitType = type.unit?.leftUnit?.type ?? selectedUnit?.type
+            const selectedUnit = units?.find((unit) => unit.id === values.leftUnit)
+            const unitType =  selectedUnit?.type ?? type.unit?.leftUnit?.type
+            console.log(unitType)
             let value: any = undefined
             if (unitType === "NUMBER") {
                 value = values.numberValue
@@ -59,8 +60,8 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                 informationConceptId: type.id,
                 isRange: values.isRange,
                 unit: {
-                    leftUnitId: type.unit?.leftUnit?.id ?? values.firstUnit,
-                    rightUnitId: type.unit?.rightUnit?.id ?? values.secondUnit,
+                    leftUnitId: type.unit?.leftUnit?.id ?? values.leftUnit,
+                    rightUnitId: type.unit?.rightUnit?.id ?? values.rightUnit,
                     operator: "DIVISION"
                 },
                 value,
@@ -71,7 +72,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
             }
         },
-        [distribution, dataset, onClose, draftId, editIndicator],
+        [distribution, dataset, onClose, draftId, editIndicator, units],
     )
 
     const initialValues = useMemo(() => {
@@ -89,8 +90,8 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         }
         values.type = editIndicator
         values.context = editIndicator.valueDescription
-        values.firstUnit = editIndicator.unit.leftUnit?.id
-        values.secondUnit = editIndicator.unit.rightUnit?.id
+        values.leftUnit = editIndicator.unit.leftUnit?.id
+        values.rightUnit = editIndicator.unit.rightUnit?.id
         values.isRange = editIndicator.isRange
         return values
     }, [editIndicator])
@@ -103,14 +104,14 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
     })
 
     const contextualFields = useMemo(() => ({
-        firstUnit: {
-            name: "firstUnit",
+        leftUnit: {
+            name: "leftUnit",
             type: "select",
             label: t("unit"),
             params: {
                 options: units?.map((unit) => ({
-                    label: unit.name,
-                    value: unit.id
+                    label: unit.abbreviation ?? unit.name,
+                    key: unit.id
                 })),
             },
             customDisplay: (input) => (
@@ -132,14 +133,14 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             ),
             required: true
         } as FormComposableField,
-        secondUnit: {
-            name: "secondUnit",
+        rightUnit: {
+            name: "rightUnit",
             type: "select",
             label: t("unit") + " " + t("optional"),
             params: {
                 options: units?.map((unit) => ({
-                    label: unit.name,
-                    value: unit.id
+                    label: unit.abbreviation ?? unit.name,
+                    key: unit.id
                 }))
             }
         } as FormComposableField,
@@ -212,17 +213,17 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                 return [contextualFields.numberValue, contextualFields.context]
             }
         }
-        let unitFields = [contextualFields.firstUnit, contextualFields.secondUnit, contextualFields.isRange]
-        const selectedUnit = units?.find((unit) => unit.id === formState.values.firstUnit)
+        let unitFields = [contextualFields.leftUnit, contextualFields.rightUnit]
+        const selectedUnit = units?.find((unit) => unit.id === formState.values.leftUnit)
         if (formState.values.isRange) {
-            unitFields.push(contextualFields.minValue, contextualFields.maxValue, contextualFields.context)
+            unitFields.push(contextualFields.isRange, contextualFields.minValue, contextualFields.maxValue, contextualFields.context)
         } else if (selectedUnit?.type === "STRING") {
             unitFields.push(contextualFields.stringValue)
         } else if (selectedUnit?.type === "NUMBER") {
-            unitFields.push(contextualFields.numberValue, contextualFields.context)
+            unitFields.push(contextualFields.isRange, contextualFields.numberValue, contextualFields.context)
         }
         return unitFields
-    }, [contextualFields, units, formState.values.type, formState.values.firstUnit, formState.values.isRange])
+    }, [contextualFields, units, formState.values.type, formState.values.leftUnit, formState.values.isRange])
 
     const fields = useMemo((): FormComposableField[] => [{
         name: "type",
