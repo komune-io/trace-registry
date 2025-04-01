@@ -175,7 +175,7 @@ export interface EntityRefGetQueryResult extends io.komune.registry.f2.entity.do
 export const useEntityRefGetQuery = (params: QueryParams<EntityRefGetQuery, EntityRefGetQueryResult>) => {
   const requestProps = useAuthenticatedRequest()
   return useQueryRequest<EntityRefGetQuery, EntityRefGetQueryResult>(
-    "data/entityRefGet", requestProps, params
+    "global/entityRefGet", requestProps, params
   )
 }
 
