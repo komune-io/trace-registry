@@ -45,7 +45,7 @@ class MarkdownMediaImport(
                 val objectId = catalogueLinkMatch.groupValues[2]
                 val url = "${registryWebPath}catalogues/100m-${objectType}-$objectId/"
                 matchedPathToActualPath[path] = url
-                logger.info("Catalogue[$path] replace by: $url")
+                logger.debug("Catalogue[$path] replace by: $url")
                 modifiedText = modifiedText.replace(linkMatch.value, "[$title](${matchedPathToActualPath[path]})")
             }
         }
@@ -66,7 +66,7 @@ class MarkdownMediaImport(
                 val match = regex.find(path)?.groupValues?.get(1)?.toInt()
                 rawGraphPath[match]?.let {
                     val url = "${registryApiPath}${it}"
-                    logger.info("Path[$path] replace by: $url")
+                    logger.debug("Path[$path] replace by: $url")
                     matchedPathToActualPath[path] = url
                 }
             } else if (path !in matchedPathToActualPath) {
@@ -86,7 +86,7 @@ class MarkdownMediaImport(
                     file = resourceFile.toSimpleFile()
                 )
                 val url = "${registryApiPath}data/datasetDownloadDistribution/${resourcesDataset.id}/$distributionId"
-                logger.info("Path[$path] replace by: $url")
+                logger.debug("Path[$path] replace by: $url")
                 matchedPathToActualPath[path] = url
             }
 
