@@ -11,7 +11,8 @@ data class RegistryScriptInitProperties(
     val cccev: ServiceProperties?,
     val im: ServiceProperties,
     val nbProject: Int,
-    val source: SourceProperties,
+    val source: String?,
+    val sources: ArrayList<String>? = null,
     val admin: ApiKeyProperties,
     val flag: ModuleFlagProperties
 )
@@ -24,10 +25,6 @@ data class AuthProperties(
 data class ServiceProperties(
     val url: String,
     val path: String? = null
-)
-
-data class SourceProperties(
-    val folder: String
 )
 
 data class ApiKeyProperties(
