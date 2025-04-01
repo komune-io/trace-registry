@@ -2838,7 +2838,7 @@ export declare namespace io.komune.registry.dsl.skos.domain.model {
 }
 export declare namespace io.komune.registry.s2.structure.domain.model {
     interface StructureDTO {
-        readonly type: string;
+        readonly type?: string;
         readonly definitions: Record<string, string>;
 
     }
@@ -3326,6 +3326,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly versionNotes?: string;
         readonly length?: number;
         readonly releaseDate?: string;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
 
     }
     interface DatasetCreatedEventDTO extends f2.dsl.cqrs.Event {
@@ -3507,6 +3508,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly issued?: number;
         readonly modified?: number;
         readonly distributions?: io.komune.registry.f2.dataset.domain.dto.DistributionDTO[];
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
 
     }
     interface DatasetRefDTO {
@@ -3520,6 +3522,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly display?: string;
         readonly themes?: io.komune.registry.dsl.skos.domain.model.SkosConceptDTO[];
         readonly status?: io.komune.registry.s2.dataset.domain.automate.DatasetState;
+        readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
 
     }
 }

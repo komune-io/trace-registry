@@ -4,18 +4,20 @@ import { SectionEditor } from '../SectionEditor'
 import { EditorState } from 'lexical'
 import { CircularProgress, Stack } from '@mui/material'
 import {useLexicalDistribution} from "../../api";
+import {Dataset} from "../../../Dataset";
 
 interface CatalogueSectionsProps {
     catalogue?: Catalogue
+    dataset?: Dataset
     readOnly?: boolean
     onSectionChange?: (editorState: EditorState) => void
     isLoading?: boolean
 }
 
 export const CatalogueSections = (props: CatalogueSectionsProps) => {
-    const { catalogue, readOnly = false, onSectionChange, isLoading } = props
+    const { catalogue, dataset, readOnly = false, onSectionChange, isLoading } = props
 
-    const lexicalDistribution = useLexicalDistribution(catalogue)
+    const lexicalDistribution = useLexicalDistribution(catalogue, dataset)
 
     const sectionsDisplay = useMemo(() => {
         return (

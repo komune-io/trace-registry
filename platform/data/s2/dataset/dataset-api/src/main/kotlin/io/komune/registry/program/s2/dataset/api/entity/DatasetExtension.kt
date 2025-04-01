@@ -41,6 +41,7 @@ fun DatasetEntity.toModel() = DatasetModel(
     releaseDate = releaseDate,
     datasetIds = datasetIds.toList(),
     distributions = distributions?.sortedBy { it.issued }?.map { it.toModel() }.orEmpty(),
+    structure = structure,
 )
 
 fun DistributionEntity.toModel() = DistributionModel(
@@ -80,6 +81,7 @@ fun DatasetModel.toCreateCommand(
     version = version,
     versionNotes = versionNotes,
     length = length,
+    structure = structure,
     releaseDate = releaseDate,
 )
 
@@ -107,4 +109,5 @@ fun DatasetModel.toUpdateCommand(id: DatasetId = this.id) = DatasetUpdateCommand
     versionNotes = versionNotes,
     length = length,
     releaseDate = releaseDate,
+    structure = structure,
 )

@@ -9,6 +9,8 @@ import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
+import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlinx.serialization.Serializable
@@ -71,6 +73,7 @@ interface DatasetCreateCommandDTO {
     val versionNotes: String?
     val length: Int?
     val releaseDate: String?
+    val structure: StructureDTO?
 }
 
 /**
@@ -103,6 +106,7 @@ data class DatasetCreateCommandDTOBase(
     override val versionNotes: String? = null,
     override val length: Int? = null,
     override val releaseDate: String? = null,
+    override val structure: Structure? = null,
 ): DatasetCreateCommandDTO
 
 /**

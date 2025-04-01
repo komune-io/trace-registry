@@ -467,6 +467,7 @@ class CatalogueF2AggregateService(
                 type = dataset.type,
                 language = language,
                 format = null,
+                structure = dataset.structure,
             ).let { datasetAggregateService.create(it).id }
         }.let { datasetIds ->
             linkDatasets(

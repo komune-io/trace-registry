@@ -7,6 +7,8 @@ import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -230,6 +232,8 @@ interface DatasetDTO {
     val modified: Long?
 
     val distributions: List<DistributionDTO>?
+
+    val structure: StructureDTO?
 }
 
 @Serializable
@@ -268,6 +272,7 @@ data class DatasetDTOBase(
     override val issued: Long? = null,
     override val modified: Long? = null,
     override val distributions: List<DistributionDTOBase>? = null,
+    override val structure: Structure?
 ): DatasetDTO
 
 @JsExport
@@ -282,6 +287,7 @@ interface DatasetRefDTO {
     val display: String?
     val themes: List<SkosConceptDTO>?
     val status: DatasetState?
+    val structure: StructureDTO?
 }
 
 
@@ -297,4 +303,5 @@ data class DatasetRefDTOBase(
     override val display: String? = null,
     override val themes: List<SkosConcept>? = null,
     override val status: DatasetState? = null,
+    override val structure: Structure?
 ): DatasetRefDTO

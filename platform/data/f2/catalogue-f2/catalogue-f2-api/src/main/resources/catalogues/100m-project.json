@@ -4,9 +4,16 @@
     "name": "seq_100m_project",
     "startValue": 2000
   },
-  "parentTypes": ["100m-projects", "100m-sector"],
-  "conceptSchemes": ["earth-limits"],
-  "ownerRoles": ["rg_role_org_contributor"],
+  "parentTypes": [
+    "100m-projects",
+    "100m-sector"
+  ],
+  "conceptSchemes": [
+    "earth-limits"
+  ],
+  "ownerRoles": [
+    "rg_role_org_contributor"
+  ],
   "structure": "item",
   "i18n": {
     "enable": true,
@@ -19,6 +26,12 @@
           "fr": "Informations",
           "en": "Informations",
           "es": "Informaciones"
+        },
+        "structure": {
+          "definitions": {
+            "position": "10",
+            "display": "read,write"
+          }
         }
       },
       {
@@ -28,23 +41,27 @@
           "fr": "Indicateurs",
           "en": "Indicators",
           "es": "Indicadores"
+        },
+        "structure": {
+          "definitions": {
+            "position": "20",
+            "display": "read,write"
+          }
         }
       },
       {
         "type": "lexical",
-        "identifierSuffix": "-lexical",
-        "title": {
-          "fr": "Informations",
-          "en": "Informations",
-          "es": "Informaciones"
-        }
-      },{
-        "type": "lexical",
-        "identifierSuffix": "-lexical",
+        "identifierSuffix": "-calculation-methodology",
         "title": {
           "fr": "Methodologie de calcul",
           "en": "Calculation methodology",
           "es": "Metodología de cálculo"
+        },
+        "structure": {
+          "definitions": {
+            "position": "30",
+            "display": "read,write"
+          }
         }
       },
       {
@@ -54,6 +71,13 @@
           "fr": "Graphiques",
           "en": "Charts",
           "es": "Gráficos"
+        },
+        "structure": {
+          "definitions": {
+            "position": "40",
+            "display": "write"
+
+          }
         }
       }
     ]

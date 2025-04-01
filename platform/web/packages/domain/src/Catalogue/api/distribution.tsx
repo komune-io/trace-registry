@@ -11,15 +11,15 @@ export interface LexicalDistribution {
   distribution?: Distribution
 }
 
-export const useLexicalDistribution = (catalogue?: Catalogue): LexicalDistribution => {
-  const dataset = useMemo(() => {
+export const useLexicalDistribution = (catalogue?: Catalogue, dataset?: Dataset): LexicalDistribution => {
+  const datasetDistribution = useMemo(() => {
     if (!catalogue) return
-    return findLexicalDataset(catalogue)
+    return findLexicalDataset(catalogue, dataset)
   }, [catalogue])
 
   return {
-    dataset: dataset?.dataset,
-    distribution: dataset?.distribution,
+    dataset: datasetDistribution?.dataset,
+    distribution: datasetDistribution?.distribution,
   }
 }
 
@@ -53,24 +53,24 @@ export interface DatasetWithDistribution {
   distribution?: Distribution
 }
 
-export const findLexicalDataset = (catalogue: Catalogue): DatasetWithDistribution => {
-  const dataset = catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
-  const distribution = dataset?.distributions?.find((distribution) => distribution.mediaType === "application/json")
+export const findLexicalDataset = (catalogue: Catalogue, dataset?: Dataset): DatasetWithDistribution => {
+  const datasetFound = dataset ?? catalogue?.datasets?.find((dataSet) => dataSet.type === "lexical")
+  const distribution = datasetFound?.distributions?.find((distribution) => distribution.mediaType === "application/json")
 
-  if (dataset && distribution) return {
-    dataset,
-    distribution
+  if (datasetFound && distribution) return {
+    dataset: datasetFound,
+    distribution: distribution
   }
 
-  const markdownDistribution = dataset?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
+  const markdownDistribution = datasetFound?.distributions?.find((distribution) => distribution.mediaType === "text/markdown")
 
-  if (dataset && markdownDistribution) return {
-    dataset,
+  if (datasetFound && markdownDistribution) return {
+    dataset: datasetFound,
     distribution: markdownDistribution
   }
 
   return {
-    dataset
+    dataset: datasetFound
   }
 }
 
