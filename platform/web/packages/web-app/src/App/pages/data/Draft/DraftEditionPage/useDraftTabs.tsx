@@ -26,7 +26,27 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       key: 'metadata',
       label: t('metadata'),
       component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={type} />,
-    }), {
+    }),
+    ...(catalogue?.datasets.map((dataset): Tab | undefined => {
+      let component: React.ReactNode | undefined = undefined
+
+      if (dataset.type === "lexical") {
+        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />
+      } else if (dataset.type === "graphs" && canUpdate) {
+        component = <DraftGraphManager dataset={dataset} draft={draft} />
+      } else if (dataset.type === "indicators" && canUpdate) {
+        component = <DraftIndicatorManager dataset={dataset} draft={draft} />
+      } 
+
+      if (component) {
+        return {
+          key: dataset.type,
+          label: dataset.title!,
+          component
+        }
+      }
+      return undefined
+    }) ?? []).filter(Boolean) as Tab[], /* {
       key: 'info',
       label: t('informations'),
       component: <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />,
@@ -45,7 +65,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       key: 'graph',
       label: t('graph'),
       component: <DraftGraphManager draft={draft} />,
-    })
+    }) */
     ]
     return tabs
   }, [t, catalogue, metadataFormState, canUpdate, onSectionChange, isLoading, draft, readOnly])

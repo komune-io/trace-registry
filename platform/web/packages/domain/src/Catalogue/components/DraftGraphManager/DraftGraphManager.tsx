@@ -9,13 +9,15 @@ import { g2Config } from '@komune-io/g2'
 import { useDatasetDeleteCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { CsvAccordion } from '../CsvAccordion'
+import { Dataset } from '../../../Dataset'
 
 export interface DraftGraphManagerProps {
     draft?: CatalogueDraft
+    dataset: Dataset
 }
 
 export const DraftGraphManager = (props: DraftGraphManagerProps) => {
-    const { draft } = props
+    const { draft, dataset } = props
     const { t } = useTranslation()
     const { cataloguesCatalogueIdDraftIdDatasetIdGraph } = useRoutesDefinition()
     const [open, _, toggle] = useToggleState()
@@ -35,8 +37,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
         [draft],
     )
 
-    const graphDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs"), [draft])
-    const graphsDisplay = useMemo(() => graphDataset?.datasets?.map((dataset) => {
+    const graphsDisplay = useMemo(() => dataset?.datasets?.map((dataset) => {
         const configDistribution = dataset.distributions?.find((dist) => dist.mediaType === "application/json")
         const imageDistribution = dataset.distributions?.find((dist) => dist.mediaType === "image/svg+xml")
 
@@ -49,13 +50,13 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 label={dataset.title}
             />
         )
-    }), [graphDataset, onDelete])
+    }), [dataset, onDelete])
 
     const csvDistributions = useMemo(() =>
-      graphDataset?.distributions?.filter((dist) => dist.mediaType === "text/csv")
-      , [graphDataset]
+        dataset?.distributions?.filter((dist) => dist.mediaType === "text/csv")
+      , [dataset]
     )
-    const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={graphDataset?.id!} distribution={distrib} />), [csvDistributions, graphDataset])
+    const distributionsDisplay = useMemo(() => csvDistributions?.map((distrib) => <CsvAccordion key={distrib.id} datasetId={dataset?.id!} distribution={distrib} />), [csvDistributions, dataset])
 
     return (
         <>
@@ -112,7 +113,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 <CSVUploadPopup
                     open={open}
                     onClose={toggle}
-                    datasetId={graphDataset?.id ?? ""}
+                    datasetId={dataset?.id ?? ""}
                 />
             </Paper>
         </>

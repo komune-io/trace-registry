@@ -13,7 +13,7 @@ import { useDraftValidations } from './useDraftValidations';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId } = useParams()
-  const [tab, setTab] = useState("info")
+  const [tab, setTab] = useState("lexical")
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()

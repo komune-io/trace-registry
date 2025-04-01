@@ -56,8 +56,6 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
 
   const onSubmit = useCallback(
     async (reason: string) => {
-      const isValide = await validateMetadata()
-      if (!isValide) return
       const res = await submitDraft.mutateAsync({
         id: draftId!,
         versionNotes: reason
@@ -69,7 +67,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
         navigate(cataloguesContributions() + "?successfullContribution=true")
       }
     },
-    [draftId, catalogueId, queryClient.invalidateQueries, validateMetadata],
+    [draftId, catalogueId, queryClient.invalidateQueries],
 
   )
 
