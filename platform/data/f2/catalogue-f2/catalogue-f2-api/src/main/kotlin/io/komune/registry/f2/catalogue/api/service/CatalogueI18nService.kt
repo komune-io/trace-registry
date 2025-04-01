@@ -25,11 +25,13 @@ import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 
@@ -211,8 +213,8 @@ class CatalogueI18nService(
 
     private suspend fun CatalogueModel.computeAggregators(): List<InformationConceptComputedDTOBase> = withCache { cache ->
         val translations = translationIds.values.mapAsync { catalogueFinderService.get(it) }
-        val allDatasetIds = childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
-        val allDatasets = allDatasetIds.map { cache.datasets.get(it) }
+        val childrenDatasetIds = childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
+        val descendantDatasets = childrenDatasetIds.allDescendants()
 
         val (globalAggregators, localAggregators) = aggregators.partition { aggregator ->
             aggregator.scope == AggregatorScope.GLOBAL
@@ -225,7 +227,7 @@ class CatalogueI18nService(
             aggregatorValues[aggregator.informationConceptId] = emptyList()
         }
 
-        allDatasets.mapAsync { dataset ->
+        descendantDatasets.mapAsync { dataset ->
             dataset.distributions.mapAsync { distribution ->
                 distribution.aggregators.forEach { (conceptId, valueId) ->
                     if (conceptId !in globalConceptIds) {
@@ -267,5 +269,13 @@ class CatalogueI18nService(
                 concept.toComputedDTO(supportedValue, language!!, cache.themes::get, cache.dataUnits::get)
             }
         }
+    }
+
+    private suspend fun Collection<DatasetId>.allDescendants(): List<DatasetModel> = withCache { cache ->
+        ifEmpty { return@withCache emptyList() }
+
+        val datasets = mapAsync { cache.datasets.get(it) }
+        val childrenIds = datasets.flatMap { it.datasetIds }
+        datasets + childrenIds.allDescendants()
     }
 }
