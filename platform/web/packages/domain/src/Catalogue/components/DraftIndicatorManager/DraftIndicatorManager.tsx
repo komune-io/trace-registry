@@ -4,22 +4,22 @@ import { CustomButton, InfoTicket, TitleDivider, useToggleState } from 'componen
 import { AddCircleOutlineRounded } from '@mui/icons-material'
 import { CreateIndicatorBlockModal, IndicatorBlock } from '../IndicatorBlock'
 import { useMemo } from 'react'
+import { Dataset } from '../../../Dataset'
 
 export interface DraftIndicatorManagerProps {
     draft?: CatalogueDraft
+    dataset: Dataset
 }
 
 export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
-    const { draft } = props
+    const { draft, dataset } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
 
-    const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicators"), [draft])
-
-    const blocks = useMemo(() => indicatorsDataset?.datasets?.filter((dataset) => dataset.type === "indicator").map((dataset) => (
+    const blocks = useMemo(() => dataset?.datasets?.filter((dataset) => dataset.type === "indicator").map((dataset) => (
         <IndicatorBlock key={dataset.id} dataset={dataset} draft={draft}  />
-    )), [indicatorsDataset, draft])
+    )), [dataset, draft])
 
     return (
         <>
