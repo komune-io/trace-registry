@@ -106,7 +106,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
     const contextualFields = useMemo(() => ({
         leftUnit: {
             name: "leftUnit",
-            type: "select",
+            type: "autoComplete",
             label: t("unit"),
             params: {
                 options: units?.map((unit) => ({
@@ -135,7 +135,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         } as FormComposableField,
         rightUnit: {
             name: "rightUnit",
-            type: "select",
+            type: "autoComplete",
             label: t("unit") + " " + t("optional"),
             params: {
                 options: units?.map((unit) => ({

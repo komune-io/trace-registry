@@ -1,8 +1,10 @@
 import { Box, Stack, StackProps, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode, useEffect } from "react";
 import { Co2Counter, LanguageSelector } from 'components';
-import { CatalogueSearchBar } from "domain-components"
+import { CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery } from "domain-components"
 import { useThemeContext } from '@komune-io/g2';
+import { useTranslation } from 'react-i18next';
+import { MutationStatus, useMutationState } from '@tanstack/react-query';
 
 export interface AppPageProps extends StackProps {
     title?: string
@@ -17,6 +19,7 @@ export interface AppPageProps extends StackProps {
 export const AppPage = (props: AppPageProps) => {
     const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, customHeader, ...other } = props
 
+    const { i18n } = useTranslation()
     const { openDrawer, theme: g2Theme } = useThemeContext()
     const theme = useTheme()
 
@@ -35,6 +38,35 @@ export const AppPage = (props: AppPageProps) => {
             document.title = "WikiCO2"
         }
     }, [title])
+
+    const getCounter = useInformationConceptGetGlobalValueQuery({
+        query: {
+            identifier: "100m-counter-co2e",
+            language: i18n.language
+        }
+    })
+
+    const counter = getCounter.data?.item
+
+    const validateSates = useMutationState<{ status: MutationStatus, result?: CatalogueDraftValidatedEvent }>({
+        filters: { mutationKey: ['data/catalogueDraftValidate'], status: 'success' },
+        //@ts-ignore
+        select: (mutation) => {
+            return {
+                status: mutation.state.status,
+                result: mutation.state.data
+            }
+        }
+    })
+
+    console.log(validateSates)
+
+    useEffect(() => {
+        const lastValidation = validateSates[validateSates.length - 1]
+        if (lastValidation && lastValidation.result?.id) {
+            getCounter.refetch()
+        }
+    }, [validateSates])
 
     return (
         <Stack
@@ -80,9 +112,9 @@ export const AppPage = (props: AppPageProps) => {
                         {!bgcolor && <CatalogueSearchBar />}
                         {header}
                     </Stack>
-                    {!bgcolor &&
+                    {!bgcolor && counter?.value &&
                         <Co2Counter
-                            count={128003}
+                            count={Number(counter.value)}
                             sx={{
                                 flexGrow: 1,
                                 justifyContent: "center",

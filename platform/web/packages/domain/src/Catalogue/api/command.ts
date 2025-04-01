@@ -106,7 +106,13 @@ export const useCatalogueDraftValidateCommand = (
     return useCommandRequest<
         CatalogueDraftValidateCommand,
         CatalogueDraftValidatedEvent
-    >('data/catalogueDraftValidate', requestProps, params)
+    >('data/catalogueDraftValidate', requestProps, {
+        ...params,
+        options: {
+            ...params?.options,
+            mutationKey: ['data/catalogueDraftValidate']
+        }
+    })
 }
 
 export interface CatalogueDraftRejectCommand extends io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftRejectCommandDTO { }

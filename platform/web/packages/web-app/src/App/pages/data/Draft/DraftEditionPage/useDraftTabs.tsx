@@ -46,26 +46,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
         }
       }
       return undefined
-    }) ?? []).filter(Boolean) as Tab[], /* {
-      key: 'info',
-      label: t('informations'),
-      component: <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />,
-    },
-    ...maybeAddItem(type === "100m-project" && canUpdate, {
-      key: 'project',
-      label: t('co2Projects'),
-      component: <DraftGraphManager draft={draft} />,
-    }),
-    ...maybeAddItem((type === "100m-project" || type === "100m-solution") && canUpdate, {
-      key: 'indicator',
-      label: t('indicators'),
-      component: <DraftIndicatorManager draft={draft} />,
-    }),
-    ...maybeAddItem(type === "100m-chart" && canUpdate, {
-      key: 'graph',
-      label: t('graph'),
-      component: <DraftGraphManager draft={draft} />,
-    }) */
+    }) ?? []).filter(Boolean) as Tab[]
     ]
     return tabs
   }, [t, catalogue, metadataFormState, canUpdate, onSectionChange, isLoading, draft, readOnly])
