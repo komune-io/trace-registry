@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Catalogue, CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
@@ -13,14 +13,30 @@ interface CatalogueEditionHeaderProps {
     onValidate?: () => Promise<any>
     onDelete?: () => Promise<any>
     onSubmit?: (reason: string) => Promise<any>
+    beforeSubmit?: () => Promise<boolean>
     disabled?: boolean
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSubmit, onDelete, onValidate, draft, disabled } = props
+    const { catalogue, onSubmit, beforeSubmit,  onDelete, onValidate, draft, disabled } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
+
+    const onOpenSubmitModal = useCallback(
+      async () => {
+        if (beforeSubmit) {
+            const res = await beforeSubmit()
+            if (res) {
+                toggle()
+            }
+        } else {
+            toggle()
+        }
+      },
+      [toggle, beforeSubmit],
+    )
+    
 
     const {
         popup,
@@ -68,7 +84,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
                 {t("validate")}
             </CustomButton>}
             {draft?.status !== "SUBMITTED" && onSubmit && <CustomButton
-            onClick={toggle}
+            onClick={onOpenSubmitModal}
             disabled={disabled}
             >
                 {t("sendForValidation")}

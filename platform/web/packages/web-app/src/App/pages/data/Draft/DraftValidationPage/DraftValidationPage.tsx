@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
+import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';
 
 export const DraftValidationPage = () => {
   const { draftId, catalogueId } = useParams()
@@ -27,10 +28,9 @@ export const DraftValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
-  const { onValidate, onSaveMetadata } = useDraftMutations({
+  const { onSaveMetadata } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,
     catalogue,
-    afterValidateNavigate: cataloguesToVerify(),
     draft
   })
 
@@ -39,6 +39,13 @@ export const DraftValidationPage = () => {
     catalogue,
     isLoading: catalogueDraftQuery.isInitialLoading
   })
+
+  const { onValidate } = useDraftValidations({
+      metadataFormState,
+      refetchDraft: catalogueDraftQuery.refetch,
+      setTab,
+      afterValidateNavigate: cataloguesToVerify(),
+    })
 
   const title = catalogue?.title ?? t("sheetValidation")
 

@@ -16,5 +16,12 @@ export const DistributionLexicalEditor = (props: DistributionLexicalEditorProps)
     readOnly={readOnly}
     markdown={isMarkdown && data ? data : undefined}
     editorState={!isMarkdown && data ? JSON.stringify(data) : undefined}
+    styleContainerProps={{
+      sx: {
+        "h1, h2, h3, h4, h5, h6": {
+          borderBottom: "unset",
+        },
+      }
+    }}
   />)
 }

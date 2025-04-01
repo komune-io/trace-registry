@@ -1,6 +1,6 @@
-import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth  } from 'components'
+import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth } from 'components'
 import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
-import { AppPage} from 'template'
+import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
 import { Typography } from '@mui/material';
 import { useDraftTabs } from './useDraftTabs';
+import { useDraftValidations } from './useDraftValidations';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId } = useParams()
@@ -18,7 +19,7 @@ export const DraftEditionPage = () => {
   const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
-  const {policies} = useExtendedAuth()
+  const { policies } = useExtendedAuth()
 
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
@@ -33,7 +34,7 @@ export const DraftEditionPage = () => {
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
-  const { onDelete, onSectionChange, onSubmit, onValidate, onSaveMetadata } = useDraftMutations({
+  const { onDelete, onSectionChange, onSaveMetadata } = useDraftMutations({
     catalogue,
     refetchDraft: catalogueDraftQuery.refetch,
     draft
@@ -45,13 +46,17 @@ export const DraftEditionPage = () => {
     isLoading: isDefLoading
   })
 
-
+  const { onSubmit, onValidate, validateMetadata } = useDraftValidations({
+    metadataFormState,
+    refetchDraft: catalogueDraftQuery.refetch,
+    setTab,
+  })
 
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useDraftTabs({
-    metadataFormState, 
-    catalogue, 
+    metadataFormState,
+    catalogue,
     draft,
     isLoading: isDefLoading,
     onSectionChange
@@ -104,6 +109,7 @@ export const DraftEditionPage = () => {
         draft={draft}
         onDelete={policies.draft.canDelete(draft) ? onDelete : undefined}
         onSubmit={policies.draft.canSubmit(draft) ? onSubmit : undefined}
+        beforeSubmit={validateMetadata}
         onValidate={policies.audit.canUpdate(draft?.catalogue) ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}

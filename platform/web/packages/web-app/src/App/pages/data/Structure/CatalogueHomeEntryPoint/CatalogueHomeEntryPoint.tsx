@@ -37,7 +37,14 @@ export const CatalogueHomeEntryPoint = (props: CatalogueHomeEntryPointProps) => 
         <AppPage
           title={catalogue?.title ?? ""}
           sx={{
-              paddingBottom: "90px"
+            gap: {
+                md: 9,
+                sm: 4,
+            },
+            py: {
+                md: 9,
+                sm: 4,
+            },
           }}
         >
             {dataDisplay}
