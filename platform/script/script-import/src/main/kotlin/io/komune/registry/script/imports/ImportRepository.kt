@@ -16,6 +16,7 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
+import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
@@ -37,10 +38,27 @@ import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
 
 class ImportRepository(
-    private val dataClient: DataClient
+    private val dataClient: DataClient,
+    private val importContext: ImportContext,
 ) {
-
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    suspend fun fetchPreExistingDatasets() {
+        var offset = 0
+        val limit = 500
+
+        do {
+            val result = DatasetPageQuery(
+                offset = offset,
+                limit = limit
+            ).invokeWith(dataClient.dataset.datasetPage())
+
+            result.items.forEach {
+                importContext.preExistingDatasets[it.identifier] = it
+            }
+            offset += limit
+        } while (result.total > offset)
+    }
 
     suspend fun getOrCreateConcept(concept: ConceptInitData) = ConceptGetByIdentifierQuery(concept.identifier)
         .invokeWith(dataClient.concept.conceptGetByIdentifier())
@@ -109,7 +127,7 @@ class ImportRepository(
         type: String,
         title: String = ""
     ): DatasetDTOBase {
-        val datasetId = getDatasetByIdentifier(identifier, language)?.id
+        return importContext.preExistingDatasets[identifier]
             ?: DatasetCreateCommandDTOBase(
                 identifier = identifier,
                 parentId = parentId,
@@ -117,9 +135,11 @@ class ImportRepository(
                 type = type,
                 title = title,
                 language = language,
-            ).invokeWith(dataClient.dataset.datasetCreate()).id
-
-        return DatasetGetQuery(id = datasetId).invokeWith(dataClient.dataset.datasetGet()).item!!
+            ).invokeWith(dataClient.dataset.datasetCreate())
+                .id
+                .let(::DatasetGetQuery)
+                .invokeWith(dataClient.dataset.datasetGet())
+                .item!!
     }
 
     suspend fun findRawGraphDataSet(
@@ -144,10 +164,8 @@ class ImportRepository(
         datasetParent: DatasetDTOBase?,
     ): DatasetDTOBase {
         val identifierLocalized = getDatasetIdentifier(catalogue, language, dataset.type)
-        val existingDataset = DatasetGetByIdentifierQuery(identifierLocalized, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item
 
+        val existingDataset = importContext.preExistingDatasets[identifierLocalized]
         if (existingDataset != null) {
             return existingDataset
         }
@@ -209,6 +227,7 @@ class ImportRepository(
             return null
         }
     }
+
     suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {
         try {
             return DatasetGetQuery(datasetId)
@@ -219,15 +238,4 @@ class ImportRepository(
             return null
         }
     }
-    suspend fun getDatasetByIdentifier(identifier: DatasetIdentifier, language: String): DatasetDTOBase? {
-        try {
-            return DatasetGetByIdentifierQuery(identifier, language)
-                .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-                .item
-        } catch (e: F2Exception) {
-            logger.error(e.error.message, e)
-            return null
-        }
-    }
-
 }

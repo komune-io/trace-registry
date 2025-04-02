@@ -2,10 +2,12 @@ package io.komune.registry.script.imports
 
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTOBase
+import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -27,6 +29,8 @@ class ImportContext(
 
     val dataUnits = ConcurrentHashMap<DataUnitIdentifier, DataUnitDTOBase>()
     val informationConcepts = ConcurrentHashMap<InformationConceptIdentifier, InformationConceptDTOBase>()
+
+    val preExistingDatasets = ConcurrentHashMap<DatasetIdentifier, DatasetDTOBase>()
 
     fun mapCatalogueType(type: String): String {
         return settings
