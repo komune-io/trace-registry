@@ -3,13 +3,14 @@ import { iconPack } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
-import { formatNumber, G2ColumnDef, TableCellText, TableV2, useTable } from '@komune-io/g2'
-import { InformationConcept, parseRangeValue } from '../../model'
+import { G2ColumnDef, TableCellText, TableV2, useTable } from '@komune-io/g2'
+import { InformationConcept } from '../../model'
 import { useDatasetRemoveDistributionValueCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { Dataset } from '../../../Dataset'
 import { AddIndicatorModal } from '../IndicatorBlock/AddIndicatorModal'
+import { formatInformationConceptValue } from '../IndicatorVisualization'
 
 export interface IndicatorTableProps {
     data: InformationConcept[]
@@ -51,25 +52,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         accessorKey: "value",
         header: t("value"),
         cell: ({ row }) => {
-            const type = row.original.unit.leftUnit?.type
-            let value = ""
-            if (row.original.isRange) {
-                const range = parseRangeValue(row.original.value ?? "")
-                const from = range[0]
-                const to = range[1]
-                if (from && to) {
-                    value = t("fromTo", { from: formatNumber(from, i18n.language), to: formatNumber(to, i18n.language) })
-                }
-            } else if (type === "NUMBER") {
-                value = formatNumber(Number(row.original.value), i18n.language)
-            } else {
-                value = row.original.value ?? ""
-            }
-            if (type !== "STRING") {
-                const unit = row.original.unit
-                value += ` ${unit?.leftUnit?.abbreviation ?? unit?.leftUnit?.name ?? ""} ${unit.rightUnit ? "/ " + (unit.rightUnit?.abbreviation ?? unit?.rightUnit?.name ?? "") : ""}`
-            }
-            return <TableCellText value={value} />
+            return <TableCellText value={formatInformationConceptValue(row.original, t, i18n.language)} />
         }
     }, {
         accessorKey: "context",

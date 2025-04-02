@@ -9,7 +9,7 @@ import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 
 export const DraftViewPage = () => {
   const { draftId } = useParams()
-  const [tab, setTab] = useState("lexical")
+  const [tab, setTab] = useState("metadata")
   const { t } = useTranslation()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
