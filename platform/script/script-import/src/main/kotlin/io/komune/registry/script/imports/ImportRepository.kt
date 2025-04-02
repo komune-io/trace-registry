@@ -5,8 +5,8 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
-import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateCommandDTOBase
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
@@ -20,9 +20,11 @@ import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.DistributionId
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
@@ -30,7 +32,6 @@ import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ConceptInitData
-import io.komune.registry.script.imports.model.DataUnitInitData
 import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
@@ -66,46 +67,39 @@ class ImportRepository(
             ).invokeWith(dataClient.license.licenseCreate()).id
         }
 
-    suspend fun getOrCreateDataUnit(dataUnit: DataUnitInitData) = DataUnitGetByIdentifierQuery(dataUnit.identifier)
+    suspend fun getDataUnit(identifier: DataUnitIdentifier) = DataUnitGetByIdentifierQuery(identifier)
         .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
         .item
-        ?.id
-        ?: run {
-            DataUnitCreateCommandDTOBase(
-                identifier = dataUnit.identifier,
-                name = dataUnit.name,
-                abbreviation = dataUnit.abbreviation,
-                type = dataUnit.type,
-            ).invokeWith(dataClient.cccev.dataUnitCreate()).id
-        }
 
-    suspend fun getOrCreateInformationConcept(
-        informationConcept: InformationConceptInitData
-    ) = InformationConceptGetByIdentifierQuery(informationConcept.identifier)
+    suspend fun getInformationConcept(identifier: InformationConceptIdentifier) = InformationConceptGetByIdentifierQuery(identifier)
         .invokeWith(dataClient.cccev.informationConceptGetByIdentifier())
         .item
-        ?.id
-        ?: run {
-            val unit = DataUnitGetByIdentifierQuery(informationConcept.unit)
-                .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
-                .item
-                ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
 
-            val themes = informationConcept.themes?.map { identifier ->
-                ConceptGetByIdentifierQuery(informationConcept.unit)
-                    .invokeWith(dataClient.concept.conceptGetByIdentifier())
+    suspend fun createInformationConcept(
+        informationConcept: InformationConceptInitData
+    ): InformationConceptDTOBase {
+        val unit = informationConcept.unit?.let {
+                DataUnitGetByIdentifierQuery(it)
+                    .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
                     .item
-                    ?: throw IllegalArgumentException("Theme not found: $identifier")
-            }.orEmpty()
+                    ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
+            }
 
-            InformationConceptCreateCommand(
-                identifier = informationConcept.identifier,
-                name = informationConcept.name,
-                unit = CompositeDataUnitModel(unit.id, null, null),
-                aggregator = informationConcept.aggregator,
-                themeIds = themes.map { it.id },
-            ).invokeWith(dataClient.cccev.informationConceptCreate()).id
-        }
+        val themes = informationConcept.themes?.map { identifier ->
+            ConceptGetByIdentifierQuery(identifier)
+                .invokeWith(dataClient.concept.conceptGetByIdentifier())
+                .item
+                ?: throw IllegalArgumentException("Theme not found: $identifier")
+        }.orEmpty()
+
+        return InformationConceptCreateCommand(
+            identifier = informationConcept.identifier,
+            name = informationConcept.name,
+            unit = unit?.let { CompositeDataUnitModel(it.id, null, null) },
+            aggregator = informationConcept.aggregator,
+            themeIds = themes.map { it.id },
+        ).invokeWith(dataClient.cccev.informationConceptCreate()).item
+    }
 
     suspend fun getOrCreateDataset(
         identifier: DatasetIdentifier,
@@ -113,6 +107,7 @@ class ImportRepository(
         catalogueId: CatalogueId?,
         language: Language,
         type: String,
+        title: String = ""
     ): DatasetDTOBase {
         val datasetId = getDatasetByIdentifier(identifier, language)?.id
             ?: DatasetCreateCommandDTOBase(
@@ -120,7 +115,7 @@ class ImportRepository(
                 parentId = parentId,
                 catalogueId = catalogueId,
                 type = type,
-                title = "",
+                title = title,
                 language = language,
             ).invokeWith(dataClient.dataset.datasetCreate()).id
 

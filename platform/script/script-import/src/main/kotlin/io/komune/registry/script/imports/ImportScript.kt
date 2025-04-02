@@ -10,9 +10,13 @@ import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
+import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListQuery
+import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateCommandDTOBase
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListQuery
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -20,22 +24,18 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptId
-import io.komune.registry.s2.concept.domain.ConceptIdentifier
-import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
+import io.komune.registry.script.imports.indicators.IndicatorInitializer
 import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
-import io.komune.registry.script.imports.model.CatalogueImportSettings
 import io.komune.registry.script.imports.model.ImportSettings
 import io.komune.registry.script.imports.model.loadJsonCatalogue
 import io.komune.registry.script.init.RegistryScriptInitProperties
 import io.komune.registry.script.init.asAuthRealm
-import java.io.File
-import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class ImportScript(
     private val properties: RegistryScriptInitProperties
@@ -45,6 +45,7 @@ class ImportScript(
     private val dataClient: DataClient
     private val importRepository: ImportRepository
     private val markdownMediaImport: MarkdownMediaImport
+    private lateinit var indicatorInitializer: IndicatorInitializer
 
     init {
         val authRealm = properties.asAuthRealm()
@@ -86,6 +87,7 @@ class ImportScript(
             .catalogue
             ?: return true
         val importContext = ImportContext(rootDirectory, catalogueSettings)
+        indicatorInitializer = IndicatorInitializer(dataClient, importContext, importRepository)
 
         if (!catalogueSettings.jsonPathPattern.endsWith(".json")) {
             throw IllegalArgumentException("Invalid JSON path pattern: ${catalogueSettings.jsonPathPattern}")
@@ -152,18 +154,38 @@ class ImportScript(
     }
 
     private suspend fun initDataUnits(importContext: ImportContext) {
+        DataUnitListQuery("en").invokeWith(dataClient.cccev.dataUnitList())
+            .items
+            .mapAsyncIndexed { _, unit ->
+                importContext.dataUnits[unit.identifier] = importRepository.getDataUnit(unit.identifier)!!
+            }
         importContext.settings.init
             ?.dataUnits
             ?.forEach { dataUnit ->
-                importRepository.getOrCreateDataUnit(dataUnit)
+                importContext.dataUnits[dataUnit.identifier]
+                    ?: run {
+                        DataUnitCreateCommandDTOBase(
+                            identifier = dataUnit.identifier,
+                            name = dataUnit.name,
+                            abbreviation = dataUnit.abbreviation,
+                            type = dataUnit.type,
+                        ).invokeWith(dataClient.cccev.dataUnitCreate()).item
+                    }.also { importContext.dataUnits[it.identifier] = it }
             }
     }
 
     private suspend fun initInformationConcepts(importContext: ImportContext) {
+        InformationConceptListQuery("en").invokeWith(dataClient.cccev.informationConceptList())
+            .items
+            .mapAsyncIndexed { _, concept ->
+                importContext.informationConcepts[concept.identifier] = importRepository.getInformationConcept(concept.identifier)!!
+            }
         importContext.settings.init
             ?.informationConcepts
             ?.forEach { informationConcept ->
-                importRepository.getOrCreateInformationConcept(informationConcept)
+                importContext.informationConcepts[informationConcept.identifier]
+                    ?: importRepository.createInformationConcept(informationConcept)
+                        .also { importContext.informationConcepts[it.identifier] = it }
             }
     }
 
@@ -197,7 +219,8 @@ class ImportScript(
             importCatalogue(catalogueFile, importContext)
         }
 
-        connectCatalogues(importContext)
+        connectCataloguesParents(importContext)
+        connectCataloguesDatasetsReferences(importContext)
         logger.info("Imported catalogues.")
     }
 
@@ -232,7 +255,7 @@ class ImportScript(
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-                structure = (catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure)),
+                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
@@ -294,6 +317,11 @@ class ImportScript(
             }
         }
 
+        datasetSettings.indicators?.forEach { (language, path) ->
+            val indicatorsDirectory = directory.resolve(path).takeIf { it.exists() && it.isDirectory }
+                ?: return@forEach
+            indicatorInitializer.initialize(catalogue, language, indicatorsDirectory)
+        }
     }
 
     private suspend fun ImportScript.importDistribution(
@@ -379,7 +407,7 @@ class ImportScript(
             )
         } ?: dataset
 
-    private suspend fun connectCatalogues(importContext: ImportContext) {
+    private suspend fun connectCataloguesParents(importContext: ImportContext) {
         logger.info("Linking catalogues...")
         val size = importContext.catalogueParents.entries.size
         importContext.catalogueParents.entries.mapIndexed { index, (catalogueId, parentIdentifier) ->
@@ -402,6 +430,21 @@ class ImportScript(
                 id = parentId,
                 catalogues = listOf(catalogueId)
             ).invokeWith(dataClient.catalogue.catalogueLinkCatalogues())
+        }
+    }
+
+    private suspend fun connectCataloguesDatasetsReferences(importContext: ImportContext) {
+        logger.info("Linking catalogues datasets references...")
+        val size = importContext.catalogueDatasetReferences.size
+        importContext.catalogueDatasetReferences.entries.mapIndexed { index, (catalogueIdentifier, datasetIds) ->
+            logger.info("($index/${size}) Linking [${catalogueIdentifier} -> $datasetIds]")
+            val catalogueId = importContext.catalogues[catalogueIdentifier]
+                ?: throw IllegalArgumentException("Catalogue not found: $catalogueIdentifier")
+
+            CatalogueReferenceDatasetsCommandDTOBase(
+                id = catalogueId,
+                datasetIds = datasetIds
+            ).invokeWith(dataClient.catalogue.catalogueReferenceDatasets())
         }
     }
 
@@ -451,24 +494,6 @@ class ImportScript(
             }
         }
 
-    }
-}
-
-class ImportContext(
-    val rootDirectory: File,
-    val settings: CatalogueImportSettings
-) {
-    val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId>()
-    val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
-    val catalogues = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
-    val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueIdentifier>()
-
-    fun mapCatalogueType(type: String): String {
-        return settings
-            .mapping
-            ?.catalogueTypes
-            ?.get(type)
-            ?: type
     }
 }
 

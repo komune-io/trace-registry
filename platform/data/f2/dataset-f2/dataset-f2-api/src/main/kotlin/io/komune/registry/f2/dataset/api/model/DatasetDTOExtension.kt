@@ -134,7 +134,7 @@ suspend fun DistributionModel.toDTO(
             val supportedValue = getSupportedValue(valueId)
             concept.toComputedDTO(supportedValue, language, getTheme, getDataUnit)
         }
-    },
+    }.sortedBy { "${it.name} ${it.value}" },
     issued = issued,
     modified = modified,
 )

@@ -55,7 +55,8 @@ class InformationConceptEndpoint(
         logger.info("informationConceptCreate: $command")
         informationConceptPoliciesEnforcer.checkCreate()
         cccevAggregateService.createConcept(command)
-            .let { InformationConceptCreatedEventDTOBase(it.id) }
+            .let { informationConceptF2FinderService.get(it.id) }
+            .let { InformationConceptCreatedEventDTOBase(it) }
     }
 
     @Bean

@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service
 class DataUnitF2FinderService(
     private val cccevFinderService: CccevFinderService
 ) {
+    suspend fun get(id: DataUnitId): DataUnitDTOBase {
+        return cccevFinderService.getUnit(id).toDTO()
+    }
+
     suspend fun getOrNull(id: DataUnitId): DataUnitDTOBase? {
         return cccevFinderService.getUnitOrNull(id)?.toDTO()
     }

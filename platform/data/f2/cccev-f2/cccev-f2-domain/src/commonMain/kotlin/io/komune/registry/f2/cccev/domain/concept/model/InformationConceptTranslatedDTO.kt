@@ -7,6 +7,7 @@ import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 @JsExport
@@ -19,6 +20,7 @@ interface InformationConceptTranslatedDTO {
     val themes: List<ConceptTranslatedDTO>
 }
 
+@Serializable
 data class InformationConceptTranslatedDTOBase(
     override val id: InformationConceptId,
     override val identifier: InformationConceptIdentifier,

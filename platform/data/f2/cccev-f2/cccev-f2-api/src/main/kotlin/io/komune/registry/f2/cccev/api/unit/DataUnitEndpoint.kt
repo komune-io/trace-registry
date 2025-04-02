@@ -8,6 +8,8 @@ import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateFunction
 import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreatedEventDTOBase
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierResult
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetFunction
+import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetResult
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
@@ -24,6 +26,13 @@ class DataUnitEndpoint(
     private val dataUnitPoliciesEnforcer: DataUnitPoliciesEnforcer
 ) : DataUnitApi {
     private val logger by Logger()
+
+    @Bean
+    override fun dataUnitGet(): DataUnitGetFunction = f2Function { query ->
+        logger.info("dataUnitGet: $query")
+        dataUnitF2FinderService.getOrNull(query.id)
+            .let(::DataUnitGetResult)
+    }
 
     @Bean
     override fun dataUnitGetByIdentifier(): DataUnitGetByIdentifierFunction = f2Function { query ->
@@ -44,6 +53,7 @@ class DataUnitEndpoint(
         logger.info("dataUnitCreate: $command")
         dataUnitPoliciesEnforcer.checkCreate()
         cccevAggregateService.createUnit(command)
-            .let { DataUnitCreatedEventDTOBase(it.id) }
+            .let { dataUnitF2FinderService.get(it.id) }
+            .let { DataUnitCreatedEventDTOBase(it) }
     }
 }

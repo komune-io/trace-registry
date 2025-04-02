@@ -23,7 +23,8 @@ data class CatalogueDatasetSettings(
     val media: List<CatalogueDatasetMediaSettings>,
     val resourcesDataset: String?,
     val resourcesPathPrefix: PathReplacement?,
-    val datasets: List<CatalogueDatasetSettings>?
+    val datasets: List<CatalogueDatasetSettings>?,
+    val indicators: Map<Language, String>?,
 )
 
 data class CatalogueDatasetMediaSettings(
@@ -67,7 +68,7 @@ data class DataUnitInitData(
 data class InformationConceptInitData(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
-    val unit: DataUnitIdentifier,
+    val unit: DataUnitIdentifier?,
     val aggregator: AggregatorType?,
     val themes: List<ConceptIdentifier>?,
 )
