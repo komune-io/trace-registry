@@ -112,6 +112,10 @@
       "description": "Ability to edit catalogue drafts of all users",
       "features":  [["rg_feat_catalogue"]]
     }, {
+      "name": "rg_perm_catalogue_write_any_type",
+      "description": "Ability to create or update any type of catalogue",
+      "features":  [["rg_feat_catalogue"]]
+    }, {
       "name": "rg_perm_catalogue_draft_delete_all",
       "description": "Ability to delete catalogue drafts of all users",
       "features":  [["rg_feat_catalogue"]]
@@ -120,7 +124,7 @@
       "description": "Ability to configure cccev (i.e. information concepts, data units, ...)",
       "features":  [["rg_feat_configuration"]]
     }, {
-    "name": "rg_perm_configuration_concept_write",
+      "name": "rg_perm_configuration_concept_write",
       "description": "Ability to configure concepts",
       "features":  [["rg_feat_configuration"]]
     }, {
@@ -173,6 +177,29 @@
       "permissions": [
         "feat_im_own",
         "im_role_read",
+        "rg_feat_catalogue_audit"
+      ]
+    },
+    {
+      "name": "rg_role_org_expert",
+      "description": "Grant its users the right to submit contributions and proposals for modifications to the registry records.",
+      "targets": ["ORGANIZATION"],
+      "locale": {
+        "fr": "Expert CO2",
+        "en": "Expert CO2",
+        "es": "Experto CO2"
+      },
+      "bindings": {
+        "USER": [
+          "rg_role_user_admin",
+          "rg_role_user_expert",
+          "rg_role_user_reader"
+        ]
+      },
+      "permissions": [
+        "feat_im_own",
+        "im_role_read",
+        "rg_feat_catalogue",
         "rg_feat_catalogue_audit"
       ]
     },
@@ -244,6 +271,20 @@
       },
       "permissions": ["im_user_read", "rg_perm_catalogue_read_org"]
     }, {
+      "name": "rg_role_user_expert",
+      "description": "Grant the right to submit contributions and proposals for modifications to the registry records.",
+      "targets": ["USER", "API_KEY"],
+      "locale": {
+        "fr": "Expert",
+        "en": "Expert",
+        "es": "Experto"
+      },
+      "permissions": [
+        "im_user_read",
+        "rg_perm_catalogue_read_org", "rg_perm_catalogue_publish_org",
+        "rg_perm_catalogue_draft_create"
+      ]
+    }, {
       "name": "rg_role_user_contributor",
       "description": "Grant the right to submit contributions and proposals for modifications to the registry records.",
       "targets": ["USER", "API_KEY"],
@@ -286,7 +327,7 @@
         "im_role_write",
         "im_apikey_read", "im_apikey_write",
         "im_mfa_force_otp",
-        "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all",
+        "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all", "rg_perm_catalogue_write_any_type",
         "rg_perm_catalogue_publish_all", "rg_perm_catalogue_delete_all",
         "rg_perm_catalogue_draft_create", "rg_perm_catalogue_draft_audit",
         "rg_perm_catalogue_draft_read_all", "rg_perm_catalogue_draft_write_all", "rg_perm_catalogue_draft_delete_all",
