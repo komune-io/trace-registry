@@ -156,8 +156,11 @@
   "value": "Value",
   "context": "Context",
   "fromTo": "From {{from}} to {{to}}",
+  "minimum": "Minimum {{min}}",
+  "maximum": "Maximum {{max}}",
   "typeToSearch": "Insert text to start a search",
   "unit": "Unit",
+  "previsualization": "Previsualization",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -352,7 +355,8 @@
     "noIndicatorAssociated": "No indicator associated with this sheet",
     "indicatorBlock": "Indicator block",
     "noType": "No type was found",
-    "defineValueRange": "Define a range of values"
+    "defineValueRange": "Define a range of values",
+    "minOrMaxValueRequired": "Minimum or maximum value is required"
   },
   "editor": {
     "imageUrl": "Image URL",

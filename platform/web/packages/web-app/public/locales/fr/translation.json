@@ -156,8 +156,11 @@
     "value": "Valeur",
     "context": "Contexte",
     "fromTo": "De  {{from}}  à  {{to}}",
+    "minimum": "Minimum {{min}}",
+    "maximum": "Maximum {{max}}",
     "typeToSearch": "Insérez du texte pour lancer une rechercher",
     "unit": "Unité",
+    "previsualization": "Prévisualisation",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -353,7 +356,8 @@
         "noIndicatorAssociated": "Aucun indicateur associé à cette fiche",
         "indicatorBlock": "Bloc d'indicateurs",
         "noType": "Aucun type n'a été trouvé",
-        "defineValueRange": "Définir une plage de valeurs"
+        "defineValueRange": "Définir une plage de valeurs",
+        "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale"
     },
     "editor": {
         "imageUrl": "URL de l'image",
