@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.api.config
 
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.structure.domain.model.Structure
 
 data class CatalogueTypeConfiguration(
     val type: String,
@@ -24,6 +25,7 @@ data class CatalogueTypeSubDataset(
     val type: String,
     val identifierSuffix: String,
     val title: Map<Language, String>?,
+    val structure: Structure?,
 )
 
 data class SequenceConfiguration(

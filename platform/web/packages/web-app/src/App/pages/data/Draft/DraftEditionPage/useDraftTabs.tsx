@@ -31,7 +31,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       let component: React.ReactNode | undefined = undefined
 
       if (dataset.type === "lexical") {
-        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} />
+        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} dataset={dataset} />
       } else if (dataset.type === "graphs" && canUpdate) {
         component = <DraftGraphManager dataset={dataset} draft={draft} />
       } else if (dataset.type === "indicators" && canUpdate) {
@@ -40,7 +40,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
 
       if (component) {
         return {
-          key: dataset.type,
+          key: dataset.identifier,
           label: dataset.title!,
           component
         }

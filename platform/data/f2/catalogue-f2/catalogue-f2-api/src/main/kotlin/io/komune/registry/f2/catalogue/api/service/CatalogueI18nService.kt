@@ -101,10 +101,12 @@ class CatalogueI18nService(
             },
             datasets = translated.childrenDatasetIds
                 .map { cache.datasets.get(it).toDTOCached() }
-                .filter { it.language == translated.language && it.status != DatasetState.DELETED },
+                .filter { it.language == translated.language && it.status != DatasetState.DELETED }
+                .sortedBy { it.structure?.definitions?.get("position") ?: it.title },
             referencedDatasets = translated.referencedDatasetIds
                 .map { cache.datasets.get(it).toDTOCached() }
-                .filter { it.language == translated.language && it.status != DatasetState.DELETED },
+                .filter { it.language == translated.language && it.status != DatasetState.DELETED }
+                .sortedBy { it.structure?.definitions?.get("position") ?: it.title },
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,

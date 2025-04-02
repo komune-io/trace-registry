@@ -5,6 +5,7 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -31,6 +32,7 @@ data class DatasetUpdateCommand(
     val version: String? = null,
     val versionNotes: String? = null,
     val length: Int? = null,
+    val structure: Structure? = null,
     val releaseDate: String? = null
 ): DatasetCommand
 
@@ -58,6 +60,7 @@ data class DatasetUpdatedEvent(
     override val version: String? = null,
     override val versionNotes: String? = null,
     override val length: Int? = null,
+    override val structure: Structure? = null,
     override val releaseDate: String? = null,
     override val date: Long,
 ): DatasetDataEvent

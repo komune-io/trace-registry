@@ -89,6 +89,7 @@ suspend fun DatasetModel.toDTO(
                 getTheme = getTheme
             ) }.filter { it.status != DatasetState.DELETED },
         distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue, getTheme) },
+        structure = structure,
     )
 }
 
@@ -102,6 +103,7 @@ fun DatasetModel.toRefDTO(): DatasetRefDTOBase {
         themes = themes?.toList(),
         type = type,
         img = img,
+        structure = structure,
     )
 }
 
@@ -111,6 +113,7 @@ fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
         identifier = identifier,
         title = title,
         type = type,
+        structure = structure,
     )
 }
 
@@ -160,6 +163,7 @@ fun DatasetCreateCommandDTOBase.toCommand(
     version = version,
     versionNotes = versionNotes,
     length = length,
+    structure = structure,
     releaseDate = releaseDate,
 )
 

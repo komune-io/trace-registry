@@ -14,6 +14,7 @@ import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -74,6 +75,7 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     @TagIndexed
     var datasetIds: Set<DatasetId> = emptySet()
     var distributions: List<DistributionEntity>? = null
+    var structure: Structure? = null
 
     override fun s2Id() = id
     override fun s2State() = status

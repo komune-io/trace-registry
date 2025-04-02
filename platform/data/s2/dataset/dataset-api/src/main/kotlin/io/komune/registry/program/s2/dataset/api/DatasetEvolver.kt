@@ -140,5 +140,6 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		length = event.length
 		modified = event.date
 		releaseDate = event.releaseDate
+		structure = event.structure
 	}
 }

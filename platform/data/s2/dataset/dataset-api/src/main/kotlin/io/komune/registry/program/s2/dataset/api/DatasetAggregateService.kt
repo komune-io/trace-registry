@@ -71,6 +71,7 @@ class DatasetAggregateService(
 			versionNotes = command.versionNotes,
 			length = command.length,
 			releaseDate = command.releaseDate,
+			structure = command.structure,
 		)
 	}
 
@@ -136,6 +137,7 @@ class DatasetAggregateService(
 			versionNotes = command.versionNotes,
 			length = command.length,
 			releaseDate = command.releaseDate,
+			structure = command.structure,
 		)
 	}
 

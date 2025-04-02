@@ -7,12 +7,12 @@ typealias StructureId = String
 
 @JsExport
 interface StructureDTO {
-    val type: String
+    val type: String?
     val definitions: Map<String, String>
 }
 
 @Serializable
 data class Structure(
-    override val type: String,
+    override val type: String?,
     override val definitions: Map<String, String> = emptyMap(),
 ): StructureDTO
