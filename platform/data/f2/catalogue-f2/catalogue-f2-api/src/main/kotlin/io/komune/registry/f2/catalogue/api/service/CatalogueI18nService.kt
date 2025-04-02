@@ -10,36 +10,26 @@ import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
-import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
-import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
-import io.komune.registry.s2.catalogue.domain.model.AggregatorScope
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
-import io.komune.registry.s2.cccev.api.processor.compute
-import io.komune.registry.s2.cccev.domain.model.AggregatorType
-import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
-import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.DatasetId
-import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
-import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
-import java.util.concurrent.ConcurrentHashMap
 
 @Service
 class CatalogueI18nService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
+    private val catalogueInformationConceptService: CatalogueInformationConceptService,
     private val i18nService: I18nService,
 ) : CatalogueCachedService() {
 
@@ -86,6 +76,7 @@ class CatalogueI18nService(
         val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
+        val aggregators =  catalogueInformationConceptService.computeAggregators(translated)
 
         CatalogueDTOBase(
             id = translated.id,
@@ -126,7 +117,7 @@ class CatalogueI18nService(
             issued = translated.issued,
             modified = translated.modified,
             pendingDrafts = pendingDrafts?.map { it.toRef(cache.users::get) },
-            aggregators = translated.computeAggregators(),
+            aggregators = aggregators,
             version = translated.version,
             versionNotes = translated.versionNotes,
         )
@@ -213,72 +204,4 @@ class CatalogueI18nService(
         ).items
     }
 
-    private suspend fun CatalogueModel.computeAggregators(): List<InformationConceptComputedDTOBase> = withCache { cache ->
-        val translations = translationIds.values.mapAsync { catalogueFinderService.get(it) }
-        val childrenDatasetIds = childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
-        val descendantDatasets = childrenDatasetIds.allDescendants()
-
-        val (globalAggregators, localAggregators) = aggregators.partition { aggregator ->
-            aggregator.scope == AggregatorScope.GLOBAL
-        }
-        val globalConceptIds = globalAggregators.map { aggregator -> aggregator.informationConceptId }.toSet()
-
-        val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<String>>()
-
-        localAggregators.forEach { aggregator ->
-            aggregatorValues[aggregator.informationConceptId] = emptyList()
-        }
-
-        descendantDatasets.mapAsync { dataset ->
-            dataset.distributions.mapAsync { distribution ->
-                distribution.aggregators.forEach { (conceptId, valueIds) ->
-                    if (conceptId !in globalConceptIds) {
-                        val supportedValues = valueIds.mapNotNull {
-                            cache.supportedValues.get(it).takeUnless { it.isRange }?.value
-                        }.ifEmpty { return@forEach }
-
-                        aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValues
-                    }
-                }
-            }
-        }
-        globalConceptIds.mapAsync { conceptId ->
-            aggregatorValues[conceptId] = try {
-                listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
-            } catch (e: UnsupportedOperationException) {
-                emptyList()
-            }
-        }
-
-        aggregatorValues.mapNotNull { (conceptId, values) ->
-            val concept = cache.informationConcepts.get(conceptId)
-
-            if (concept.aggregator == null || concept.unit == null) {
-                return@mapNotNull null
-            }
-
-            when (concept.aggregator!!) {
-                AggregatorType.SUM -> SumAggregatorInput(values).compute()
-            }.let { aggregatedValue ->
-                val supportedValue = SupportedValueModel(
-                    id = "",
-                    conceptId = conceptId,
-                    unit = concept.unit!!,
-                    isRange = false,
-                    value = aggregatedValue,
-                    query = null,
-                    description = null,
-                )
-                concept.toComputedDTO(supportedValue, language!!, cache.themes::get, cache.dataUnits::get)
-            }
-        }
-    }
-
-    private suspend fun Collection<DatasetId>.allDescendants(): List<DatasetModel> = withCache { cache ->
-        ifEmpty { return@withCache emptyList() }
-
-        val datasets = mapAsync { cache.datasets.get(it) }
-        val childrenIds = datasets.flatMap { it.datasetIds }
-        datasets + childrenIds.allDescendants()
-    }
 }

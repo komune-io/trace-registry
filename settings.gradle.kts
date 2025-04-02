@@ -30,7 +30,8 @@ include(
 	"platform:infra:meilisearch",
 	"platform:infra:pdf",
 	"platform:infra:postgresql",
-	"platform:infra:redis"
+	"platform:infra:redis",
+	"platform:infra:svg"
 )
 
 ///////////////////////////////

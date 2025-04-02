@@ -7,9 +7,11 @@ import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
+import io.komune.fs.spring.utils.buildResponseForFile
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
+import io.komune.registry.f2.catalogue.api.service.CatalogueCertificateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
@@ -53,6 +55,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -77,6 +80,7 @@ class CatalogueEndpoint(
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val fsService: FsService,
     private val fileClient: FileClient,
+    private val certificate: CatalogueCertificateService,
 ): CatalogueApi {
 
     private val logger by Logger()
@@ -140,7 +144,6 @@ class CatalogueEndpoint(
             .let(::CatalogueGetByIdentifierResult)
     }
 
-    // TODO remove
     @Bean
     override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
         logger.info("catalogueRefList: $query")
@@ -189,6 +192,16 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
+    @GetMapping("/data/catalogues/{catalogueIdentifier}/certificate")
+    suspend fun catalogueCertificateDownload(
+        @PathVariable catalogueIdentifier: CatalogueIdentifier,
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("catalogueCertificateDownload: $catalogueIdentifier")
+        val file = certificate.generateFiles(catalogueIdentifier)
+        return buildResponseForFile("certificate-$catalogueIdentifier.pdf", file)
+    }
+
+    @PermitAll
     @GetMapping("/data/catalogues/{catalogueId}/img/{imageName}")
     suspend fun catalogueImgDownload(
         @PathVariable catalogueId: CatalogueId,
@@ -208,7 +221,9 @@ class CatalogueEndpoint(
 
         val enforceCommand = cataloguePoliciesEnforcer.enforceCommand(command)
         val event = catalogueF2AggregateService.create(enforceCommand)
-        image?.let { catalogueF2AggregateService.setImage(event.id, it) }
+        image?.let {
+            catalogueF2AggregateService.setImage(event.id, it)
+        }
 
         return event
     }

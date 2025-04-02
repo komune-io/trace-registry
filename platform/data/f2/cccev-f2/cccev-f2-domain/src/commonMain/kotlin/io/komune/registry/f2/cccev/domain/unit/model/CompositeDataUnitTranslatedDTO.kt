@@ -16,4 +16,20 @@ data class CompositeDataUnitTranslatedDTOBase(
     override val leftUnit: DataUnitTranslatedDTOBase,
     override val rightUnit: DataUnitTranslatedDTOBase?,
     override val operator: CompositeDataUnitOperator?
-) : CompositeDataUnitTranslatedDTO
+) : CompositeDataUnitTranslatedDTO {
+
+    fun toAbbreviationString(): String {
+
+        return buildString {
+            append(leftUnit.abbreviation)
+            operator?.let {
+                append(" ")
+                append(it.symbol)
+            }
+            rightUnit?.let {
+                append(" ")
+                append(it.abbreviation)
+            }
+        }
+    }
+}

@@ -116,7 +116,7 @@ class AssetPoolAggregateService(
 				transactionId = transactionEvent.id,
 				date = transactionEvent.date,
 				issuedTo = transactionEvent.to!!,
-				quantity = transactionEvent.quantity,
+				quantity = transactionEvent.quantity.toPlainString(),
 				indicator = if (transactionEvent.quantity > 1) "tons" else "ton",
 			)
 

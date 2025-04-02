@@ -5,7 +5,7 @@ import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
     SubCatalogueList,
-    Catalogue, DistributionLexicalEditor, useLexicalDistribution,
+    Catalogue, useLexicalDistribution, DistributionLexicalEditor,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +28,6 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
         }
     })
     const lexicalDistribution = useLexicalDistribution(catalogue)
-
     const dataDisplay = useMemo(() => data?.items.map((subCatalogue) => {
         return (
           catalogue?.identifier && <SubCatalogueList
