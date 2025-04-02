@@ -95,7 +95,6 @@ class IndicatorInitializer(
 
     private suspend fun initializeIndicators(parentDataset: DatasetDTOBase, language: Language, csvFile: File) {
         val identifier = "${parentDataset.identifier}-indicator-${csvFile.nameWithoutExtension}"
-        importRepository.getDatasetByIdentifier(identifier, language)?.let { return }
 
         val indicators = parseIndicators(csvFile)
             .ifEmpty { return }
