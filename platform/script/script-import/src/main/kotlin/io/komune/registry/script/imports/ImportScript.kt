@@ -43,8 +43,8 @@ class ImportScript(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     private val dataClient: DataClient
-    private val importRepository: ImportRepository
-    private val markdownMediaImport: MarkdownMediaImport
+    private lateinit var importRepository: ImportRepository
+    private lateinit var markdownMediaImport: MarkdownMediaImport
     private lateinit var indicatorInitializer: IndicatorInitializer
 
     init {
@@ -56,15 +56,12 @@ class ImportScript(
             }
             DataClient(properties.registry!!.url, authRealm)
         }
-        importRepository = ImportRepository(dataClient)
-        markdownMediaImport = MarkdownMediaImport(properties, importRepository)
     }
 
     suspend fun run() {
         val rootDirectories = getRootDirs()
         rootDirectories.map { rootDirectory ->
             if (importFolder(rootDirectory)) return
-
         }
     }
 
@@ -86,8 +83,13 @@ class ImportScript(
         val catalogueSettings = jsonMapper.readValue<ImportSettings>(settingsFile)
             .catalogue
             ?: return true
+
         val importContext = ImportContext(rootDirectory, catalogueSettings)
+        importRepository = ImportRepository(dataClient, importContext)
+        markdownMediaImport = MarkdownMediaImport(properties, importRepository)
         indicatorInitializer = IndicatorInitializer(dataClient, importContext, importRepository)
+
+        importRepository.fetchPreExistingDatasets()
 
         if (!catalogueSettings.jsonPathPattern.endsWith(".json")) {
             throw IllegalArgumentException("Invalid JSON path pattern: ${catalogueSettings.jsonPathPattern}")
@@ -266,7 +268,12 @@ class ImportScript(
             val catalogue = CatalogueGetQuery(catalogueId, null)
                 .invokeWith(dataClient.catalogue.catalogueGet())
                 .item!!
+
             importContext.catalogues[catalogueData.identifier] = catalogue.id
+            catalogue.datasets.forEach {
+                importContext.preExistingDatasets[it.identifier] = it
+            }
+
             catalogueData.parentIdentifier(importContext)?.forEach {
                 importContext.catalogueParents[catalogue.id] = it
             }
@@ -278,6 +285,7 @@ class ImportScript(
                     language = translation.language,
                 ) to null).invokeWith(dataClient.catalogue.catalogueUpdate())
             }
+
             catalogueData.datasets?.forEach { datasetSettings ->
                 importDataset(catalogue, datasetSettings, importContext.rootDirectory)
             }

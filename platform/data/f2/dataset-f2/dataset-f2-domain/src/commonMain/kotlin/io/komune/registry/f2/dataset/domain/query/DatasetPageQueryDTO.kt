@@ -5,8 +5,8 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.DatasetId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Get a page of activities.
@@ -21,7 +21,6 @@ typealias DatasetPageFunction = F2Function<DatasetPageQuery, DatasetPageResult>
  * @parent [DatasetPageFunction]
  */
 @JsExport
-@JsName("DatasetPageQueryDTO")
 interface DatasetPageQueryDTO {
     /**
      * id of the dataset
@@ -36,6 +35,7 @@ interface DatasetPageQueryDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class DatasetPageQuery(
     override val datasetId: DatasetId? = null,
     override val title: String? = null,
@@ -49,12 +49,12 @@ data class DatasetPageQuery(
  * @parent [DatasetPageFunction]
  */
 @JsExport
-@JsName("DatasetPageResultDTO")
 interface DatasetPageResultDTO: PageDTO<DatasetDTO>
 
 /**
  * @d2 inherit
  */
+@Serializable
 data class DatasetPageResult(
     override val items: List<DatasetDTOBase>,
     override val total: Int
