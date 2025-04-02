@@ -156,8 +156,13 @@
   "value": "Valor",
   "context": "Contexto",
   "fromTo": "De {{from}} a {{to}}",
+  "minimum": "Mínimo {{min}}",
+  "maximum": "Máximo {{max}}",
   "typeToSearch": "Inserte texto para iniciar una búsqueda",
   "unit": "Unidad",
+  "previsualization": "Previsualización",
+  "cost": "Costo",
+  "gain": "Ganancia",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -352,7 +357,8 @@
     "noIndicatorAssociated": "No hay indicadores asociados a esta ficha",
     "indicatorBlock": "Bloque de indicadores",
     "noType": "No se encontró ningún tipo",
-    "defineValueRange": "Definir un rango de valores"
+    "defineValueRange": "Definir un rango de valores",
+    "minOrMaxValueRequired": "El valor mínimo o máximo es obligatorio"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

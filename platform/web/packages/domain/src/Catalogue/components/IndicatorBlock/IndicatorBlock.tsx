@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { CreateIndicatorBlockModal } from './CreateIndicatorBlockModal'
 import { CatalogueDraft } from '../../model'
+import { IndicatorVisualization } from '../IndicatorVisualization'
 
 export interface IndicatorBlockProps {
     dataset: Dataset
@@ -89,7 +90,10 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                 }
             />
             {indicators && indicators.length > 0 ?
-                <IndicatorTable dataset={dataset} data={indicators} />
+                <>
+                    <IndicatorTable dataset={dataset} data={indicators} />
+                    <IndicatorVisualization indicators={indicators} />
+                </>
                 :
                 <InfoTicket
                     title={t("catalogues.noIndicatorAssociated")}

@@ -45,15 +45,14 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             const type = values.type as InformationConceptTranslated
             const selectedUnit = units?.find((unit) => unit.id === values.leftUnit)
             const unitType =  selectedUnit?.type ?? type.unit?.leftUnit?.type
-            console.log(unitType)
             let value: any = undefined
-            if (unitType === "NUMBER") {
+            if (values.isRange) {
+                value = buildRangeValue(values.minValue, values.maxValue)
+            } else if (unitType === "NUMBER") {
                 value = values.numberValue
             } else if (unitType === "STRING") {
                 value = values.stringValue
-            } else {
-                value = buildRangeValue(values.minValue, values.maxValue)
-            }
+            } 
             const res = await updateDistributionValue.mutateAsync({
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
@@ -162,7 +161,11 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                 textFieldType: "number"
             },
             fullRow: true,
-            required: true
+            validator: (_, values) => {
+                if (values.minValue == null && values.maxValue == null) {
+                    return t("catalogues.minOrMaxValueRequired")
+                }
+            }
         } as FormComposableField,
         maxValue: {
             name: "maxValue",
@@ -172,7 +175,11 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                 textFieldType: "number"
             },
             fullRow: true,
-            required: true
+            validator: (_, values) => {
+                if (values.minValue == null && values.maxValue == null) {
+                    return t("catalogues.minOrMaxValueRequired")
+                }
+            }
         } as FormComposableField,
         numberValue: {
             name: "numberValue",
