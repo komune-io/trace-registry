@@ -9,6 +9,7 @@ import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.license.domain.LicenseId
@@ -31,6 +32,7 @@ class ImportContext(
     val informationConcepts = ConcurrentHashMap<InformationConceptIdentifier, InformationConceptDTOBase>()
 
     val preExistingDatasets = ConcurrentHashMap<DatasetIdentifier, DatasetDTOBase>()
+    val preExistinggraphDataset = ConcurrentHashMap<Language, List<DatasetDTOBase>>()
 
     fun mapCatalogueType(type: String): String {
         return settings

@@ -77,4 +77,8 @@ class DatasetFinderService(
 			?: throw NotFoundException("Distribution", distributionId)
 	}
 
+    fun exists(identifier: DatasetIdentifier, language: String): Boolean {
+		return datasetRepository.findByIdentifierAndLanguage(identifier, language).isPresent
+    }
+
 }

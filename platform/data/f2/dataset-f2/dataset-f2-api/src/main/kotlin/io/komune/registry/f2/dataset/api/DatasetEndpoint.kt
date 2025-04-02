@@ -32,6 +32,8 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributi
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataResult
+import io.komune.registry.f2.dataset.domain.query.DatasetExistsFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetExistsResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierResult
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
@@ -102,6 +104,12 @@ class DatasetEndpoint(
         logger.info("datasetGetByIdentifier: $query")
         datasetF2FinderService.getByIdentifier(query.identifier, query.language)
             .let(::DatasetGetByIdentifierResult)
+    }
+
+    @Bean
+    override fun datasetExists(): DatasetExistsFunction = f2Function { query ->
+        datasetFinderService.exists(query.identifier, query.language)
+            .let(::DatasetExistsResult)
     }
 
     @Bean

@@ -90,6 +90,7 @@ class ImportScript(
         indicatorInitializer = IndicatorInitializer(dataClient, importContext, importRepository)
 
         importRepository.fetchPreExistingDatasets()
+        importRepository.fetchPreExistingGraphDataset()
 
         if (!catalogueSettings.jsonPathPattern.endsWith(".json")) {
             throw IllegalArgumentException("Invalid JSON path pattern: ${catalogueSettings.jsonPathPattern}")
@@ -409,7 +410,7 @@ class ImportScript(
             importRepository.getOrCreateDataset(
                 identifier = identifer,
                 parentId = null,
-                catalogueId = catalogue.id,
+                catalogue = catalogue,
                 language = language,
                 type = "resources",
             )

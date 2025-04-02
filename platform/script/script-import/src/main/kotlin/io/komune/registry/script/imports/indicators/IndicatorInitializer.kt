@@ -85,7 +85,7 @@ class IndicatorInitializer(
         val parentDataset = importRepository.getOrCreateDataset(
             identifier = importRepository.getDatasetIdentifier(catalogue, language, "indicators"),
             parentId = null,
-            catalogueId = catalogue.id,
+            catalogue = catalogue,
             language = language,
             type = "indicators"
         )
@@ -102,7 +102,7 @@ class IndicatorInitializer(
         val dataset = importRepository.getOrCreateDataset(
             identifier = identifier,
             parentId = parentDataset.id,
-            catalogueId = null,
+            catalogue = null,
             language = language,
             type = "indicator",
             title = when (csvFile.nameWithoutExtension) {
