@@ -60,7 +60,38 @@ export const formatInformationConceptValue = (infoConcept: InformationConcept, t
 }
 
 const indicatorsToMardownString = (indicators: InformationConcept[], t: TFunction, language: string) => {
-    return indicators.map((indicator) => {
+    const indicatorsByTheme = {
+        cost: [] as InformationConcept[],
+        gain: [] as InformationConcept[]
+    }
+    indicators.forEach((indicator) => {
+        if (indicator.themes[0].identifier === "indicator-cost") {
+            indicatorsByTheme.cost.push(indicator)
+        } else if (indicator.themes[0].identifier === "indicator-gain") {
+            indicatorsByTheme.gain.push(indicator)
+        }
+    })
+
+    console.log(indicatorsByTheme.cost)
+
+    let markdown = "===COL===\n\n"
+    markdown += `---50---\n\n`
+    markdown += `### ${t("cost")}\n\n`
+
+    markdown += indicatorsByTheme.cost.map((indicator) => {
         return `- ${indicator.name}: ${formatInformationConceptValue(indicator, t, language)}`
     }).join("\n")
+
+    markdown += `\n\n---50---\n\n`
+    markdown += `### ${t("gain")}\n\n`
+
+    markdown += indicatorsByTheme.gain.map((indicator) => {
+        return `- ${indicator.name}: ${formatInformationConceptValue(indicator, t, language)}`
+    }).join("\n")
+
+    markdown += `===/COL===`
+
+    console.log(markdown)
+
+    return markdown
 }

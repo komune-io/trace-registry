@@ -161,6 +161,8 @@
     "typeToSearch": "Insérez du texte pour lancer une rechercher",
     "unit": "Unité",
     "previsualization": "Prévisualisation",
+    "cost": "Coût",
+    "gain": "Gain",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

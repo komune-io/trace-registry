@@ -59,8 +59,6 @@ export const AppPage = (props: AppPageProps) => {
         }
     })
 
-    console.log(validateSates)
-
     useEffect(() => {
         const lastValidation = validateSates[validateSates.length - 1]
         if (lastValidation && lastValidation.result?.id) {
