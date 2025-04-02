@@ -13,6 +13,7 @@ import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
+import io.komune.registry.f2.dataset.domain.query.DatasetExistsQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
@@ -20,7 +21,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
-import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -42,6 +42,21 @@ class ImportRepository(
     private val importContext: ImportContext,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    suspend fun fetchPreExistingGraphDataset() {
+        setOf("fr", "en", "es").forEach { language ->
+            importContext.preExistinggraphDataset[language] = try {
+                DatasetGraphSearchQuery(
+                    rootCatalogueIdentifier = "100m-charts",
+                    datasetType = "rawGraph",
+                    language = language
+                ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+            }catch (e: F2Exception) {
+                logger.error(e.error.message, e)
+                emptyList()
+            }
+        }
+    }
 
     suspend fun fetchPreExistingDatasets() {
         var offset = 0
@@ -122,39 +137,32 @@ class ImportRepository(
     suspend fun getOrCreateDataset(
         identifier: DatasetIdentifier,
         parentId: DatasetId?,
-        catalogueId: CatalogueId?,
+        catalogue: CatalogueDTOBase?,
         language: Language,
         type: String,
         title: String = ""
     ): DatasetDTOBase {
-        return importContext.preExistingDatasets[identifier]
-            ?: DatasetCreateCommandDTOBase(
-                identifier = identifier,
-                parentId = parentId,
-                catalogueId = catalogueId,
-                type = type,
-                title = title,
-                language = language,
-            ).invokeWith(dataClient.dataset.datasetCreate())
-                .id
-                .let(::DatasetGetQuery)
-                .invokeWith(dataClient.dataset.datasetGet())
-                .item!!
+        val existingDataset = findExistingDataset(identifier, language)
+        if (existingDataset != null) {
+            return existingDataset
+        }
+        logger.info("Creating dataset[$identifier] $title")
+        DatasetCreateCommandDTOBase(
+            identifier = identifier,
+            parentId = parentId,
+            catalogueId = catalogue?.id,
+            type = type,
+            title = title,
+            language = language,
+        ).invokeWith(dataClient.dataset.datasetCreate())
+
+        return getAndCache(identifier, language)
     }
 
-    suspend fun findRawGraphDataSet(
+    fun findRawGraphDataSet(
         language: Language,
     ): List<DatasetDTOBase> {
-        return try {
-             DatasetGraphSearchQuery(
-                rootCatalogueIdentifier = "100m-charts",
-                datasetType = "rawGraph",
-                language = language
-            ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
-        }catch (e: F2Exception) {
-            logger.error(e.error.message, e)
-            emptyList()
-        }
+        return importContext.preExistinggraphDataset[language] ?: emptyList()
     }
 
     suspend fun initDataset(
@@ -165,14 +173,14 @@ class ImportRepository(
     ): DatasetDTOBase {
         val identifierLocalized = getDatasetIdentifier(catalogue, language, dataset.type)
 
-        val existingDataset = importContext.preExistingDatasets[identifierLocalized]
+        val existingDataset = findExistingDataset(identifierLocalized, language)
         if (existingDataset != null) {
             return existingDataset
         }
 
-        val title = dataset.title?.get(language)
-        logger.debug("Creating dataset[$identifierLocalized] $title")
 
+        val title = dataset.title?.get(language)
+        logger.info("Creating dataset[$identifierLocalized] $title")
         val created = DatasetCreateCommandDTOBase(
             identifier = identifierLocalized,
             catalogueId = catalogue.id,
@@ -182,11 +190,41 @@ class ImportRepository(
             parentId = datasetParent?.id,
         ).invokeWith(dataClient.dataset.datasetCreate())
 
-        return DatasetGetByIdentifierQuery(created.identifier, language)
-            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
-            .item!!
+
+        return getAndCache(created.identifier, language)
     }
 
+    private suspend fun getAndCache(
+        identifier: DatasetIdentifier,
+        language: Language
+    ): DatasetDTOBase {
+        return DatasetGetByIdentifierQuery(identifier, language)
+            .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+            .item!!.also {
+                importContext.preExistingDatasets[identifier] = it
+            }
+    }
+
+    private suspend fun findExistingDataset(
+        identifierLocalized: String,
+        language: Language
+    ): DatasetDTOBase? {
+        val fetched = importContext.preExistingDatasets[identifierLocalized]
+        if(fetched != null) {
+            return fetched
+        }
+        val exists = DatasetExistsQuery(
+            identifier = identifierLocalized,
+            language = language
+        ).invokeWith(dataClient.dataset.datasetExists()).exists
+        return if (exists) {
+            DatasetGetByIdentifierQuery(identifierLocalized, language)
+                .invokeWith(dataClient.dataset.datasetGetByIdentifier())
+                .item.also {
+                    importContext.preExistingDatasets[identifierLocalized] = it!!
+                }
+        } else null
+    }
     fun getDatasetIdentifier(
         catalogue: CatalogueDTOBase,
         language: String,
@@ -198,7 +236,7 @@ class ImportRepository(
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
-        logger.debug("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
+        logger.info("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType

@@ -1,6 +1,7 @@
 package io.komune.registry.f2.dataset.domain
 
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetExistsFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchFunction
@@ -13,6 +14,7 @@ interface DatasetQueryApi {
     fun datasetPage(): DatasetPageFunction
     fun datasetGet(): DatasetGetFunction
     fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction
+    fun datasetExists(): DatasetExistsFunction
     fun datasetRefList(): DatasetRefListFunction
     fun datasetData(): DatasetDataFunction
     fun datasetListLanguages(): DatasetListLanguagesFunction

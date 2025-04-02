@@ -21,6 +21,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionVa
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
+import io.komune.registry.f2.dataset.domain.query.DatasetExistsFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchFunction
@@ -59,6 +60,7 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetPage(): DatasetPageFunction = client.function("data/${this::datasetPage.name}")
     override fun datasetGet(): DatasetGetFunction = client.function("data/${this::datasetGet.name}")
     override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = client.function("data/${this::datasetGetByIdentifier.name}")
+    override fun datasetExists(): DatasetExistsFunction = client.function("data/${this::datasetExists.name}")
     override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
     override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
     override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function("data/${this::datasetListLanguages.name}")

@@ -1,7 +1,6 @@
 package io.komune.registry.script.imports
 
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
-import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.init.RegistryScriptInitProperties
@@ -15,8 +14,6 @@ class MarkdownMediaImport(
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    private val graphDataset: HashMap<Language, List<DatasetDTOBase>> = hashMapOf()
 
     @Suppress("NestedBlockDepth", "LongMethod", "CyclomaticComplexMethod")
     suspend fun createMarkdownDatasetMediaDistribution(
@@ -50,10 +47,7 @@ class MarkdownMediaImport(
             }
         }
 
-        if (!graphDataset.containsKey(dataset.language)) {
-            graphDataset[dataset.language] = importRepository.findRawGraphDataSet(language = dataset.language)
-        }
-        val graphs = graphDataset[dataset.language] ?: emptyList()
+        val graphs = importRepository.findRawGraphDataSet(language = dataset.language)
 
         Regex("""!\[([^]]*)]\((.*?)(?=[")])(".*")?\)""").findAll(rawText).forEach { imageMatch ->
             val alt = imageMatch.groupValues[1]
