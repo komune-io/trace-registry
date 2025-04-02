@@ -16,7 +16,7 @@ object CertificateGenerator {
     private const val FIELD_PROJECT = "(title)"
     private const val FIELD_CARBON = "(nombre)"
     private const val FIELD_CARBON_INDICATOR = "(indicateur)"
-    private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
+//    private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
 
     fun fillPendingCertificate(
         transactionId: String,
