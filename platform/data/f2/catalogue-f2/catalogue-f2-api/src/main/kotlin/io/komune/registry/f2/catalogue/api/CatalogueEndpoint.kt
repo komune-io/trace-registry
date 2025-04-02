@@ -38,6 +38,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
@@ -182,6 +184,14 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableOwnersResult)
     }
 
+    @Bean
+    override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction = f2Function { query ->
+        logger.info("catalogueListAllowedTypes: $query")
+        catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
+            .sorted()
+            .let(::CatalogueListAllowedTypesResult)
+    }
+
     @PermitAll
     @GetMapping("/data/catalogues/{catalogueId}/img")
     suspend fun catalogueImgDownload(
@@ -217,7 +227,7 @@ class CatalogueEndpoint(
         @RequestPart("file", required = false) image: FilePart?
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
-        cataloguePoliciesEnforcer.checkCreate()
+        cataloguePoliciesEnforcer.checkCreate(command.type)
 
         val enforceCommand = cataloguePoliciesEnforcer.enforceCommand(command)
         val event = catalogueF2AggregateService.create(enforceCommand)

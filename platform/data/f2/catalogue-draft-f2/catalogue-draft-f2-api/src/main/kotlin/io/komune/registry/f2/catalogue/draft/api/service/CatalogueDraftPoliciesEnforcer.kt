@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.draft.api.service
 
 import io.komune.im.commons.auth.hasRole
 import io.komune.im.commons.auth.policies.PolicyEnforcer
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageQuery
@@ -11,11 +12,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class CatalogueDraftPoliciesEnforcer(
-    private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService
+    private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
+    private val catalogueF2FinderService: CatalogueF2FinderService
 ) : PolicyEnforcer() {
 
-    suspend fun checkCreate() = checkAuthed("create a catalogue draft") { authedUser ->
-        CatalogueDraftPolicies.canCreate(authedUser)
+    suspend fun checkCreate(
+        catalogueType: String
+    ) = checkAuthed("create a catalogue draft for type [$catalogueType]") { authedUser ->
+        CatalogueDraftPolicies.canCreate(authedUser) && (
+            authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
+                    || catalogueType in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
+        )
     }
 
     suspend fun checkUpdate(draftId: CatalogueDraftId) = checkAuthed("update catalogue draft [$draftId]") { authedUser ->

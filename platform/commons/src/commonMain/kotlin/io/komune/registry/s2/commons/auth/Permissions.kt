@@ -10,6 +10,7 @@ object Permissions {
         const val READ_ALL = "rg_perm_catalogue_read_all"
         const val WRITE_ORG = "rg_perm_catalogue_write_org"
         const val WRITE_ALL = "rg_perm_catalogue_write_all"
+        const val WRITE_ANY_TYPE = "rg_perm_catalogue_write_any_type"
     }
 
     object CatalogueDraft {

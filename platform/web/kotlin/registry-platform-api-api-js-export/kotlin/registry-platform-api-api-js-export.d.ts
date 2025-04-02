@@ -4028,6 +4028,15 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueListAllowedTypesQueryDTO {
+
+    }
+    interface CatalogueListAllowedTypesResultDTO {
+        readonly items: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueListAvailableOwnersQueryDTO {
         readonly type: string;
         readonly search?: string;
