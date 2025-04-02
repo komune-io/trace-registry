@@ -26,7 +26,7 @@ export const CataloguePdfCertificate = (props: CataloguePdfCertificateProps) => 
             {
               <PdfDisplayer
                 parentWidth={800}
-                file={`${config().platform.url}/data/catalogues/${catalogue.id}/certificate`}
+                file={`${config().platform.url}/data/catalogues/${catalogue.identifier}/certificate`}
               />
             }
        </Stack>
