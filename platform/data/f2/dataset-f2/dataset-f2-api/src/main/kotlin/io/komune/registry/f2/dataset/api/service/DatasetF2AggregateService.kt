@@ -8,9 +8,12 @@ import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
+import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTO
+import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetAddedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedEmptyDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
@@ -22,11 +25,11 @@ import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionCom
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemovedDistributionValueEventDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionValueCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetReplacedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateCommandDTOBase
-import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
-import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedJsonDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistributionEventDTOBase
@@ -47,6 +50,7 @@ import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComp
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
 import io.komune.registry.s2.cccev.domain.model.FileProcessorType
 import io.komune.registry.s2.commons.exception.NotFoundException
@@ -265,34 +269,27 @@ class DatasetF2AggregateService(
         )
     }
 
-    suspend fun updateDistributionValue(
-        command: DatasetUpdateDistributionValueCommandDTOBase
-    ): DatasetUpdatedDistributionValueEventDTOBase {
-        val dataset = datasetFinderService.get(command.id)
-        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
-            ?: throw NotFoundException("Distribution", command.distributionId)
+    suspend fun addDistributionValue(
+        command: DatasetAddDistributionValueCommandDTOBase
+    ): DatasetAddedDistributionValueEventDTOBase {
+        val newValueId = createAndUpdateDistributionValue(command, null)
 
-        val concept = cccevFinderService.getConcept(command.informationConceptId)
-        val newValueId = SupportedValueCreateCommand(
-            conceptId = command.informationConceptId,
-            unit = concept.unit ?: command.unit,
-            isRange = command.isRange,
-            value = command.value,
-            description = command.description,
-            query = null
-        ).let { cccevAggregateService.createValue(it).id }
-
-
-        updateDistributionValue(
-            dataset = dataset,
-            distribution = distribution,
-            conceptId = command.informationConceptId,
+        return DatasetAddedDistributionValueEventDTOBase(
+            id = command.id,
+            distributionId = command.distributionId,
             valueId = newValueId
         )
+    }
 
-        return DatasetUpdatedDistributionValueEventDTOBase(
+    suspend fun replaceDistributionValue(
+        command: DatasetReplaceDistributionValueCommandDTOBase
+    ): DatasetReplacedDistributionValueEventDTOBase {
+        val newValueId = createAndUpdateDistributionValue(command, command.valueId)
+
+        return DatasetReplacedDistributionValueEventDTOBase(
             id = command.id,
-            distributionId = command.distributionId
+            distributionId = command.distributionId,
+            valueId = newValueId
         )
     }
 
@@ -307,13 +304,15 @@ class DatasetF2AggregateService(
             dataset = dataset,
             distribution = distribution,
             conceptId = command.informationConceptId,
-            valueId = null
+            oldValueId = command.valueId,
+            newValueId = null
         )
 
         return DatasetRemovedDistributionValueEventDTOBase(
             id = command.id,
             distributionId = command.distributionId,
-            informationConceptId = command.informationConceptId
+            informationConceptId = command.informationConceptId,
+            valueId = command.valueId
         )
     }
 
@@ -338,8 +337,10 @@ class DatasetF2AggregateService(
         }
 
         if (!dataset.isInDraft()) {
-            distribution.aggregators.forEach { (_, supportedValueId) ->
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(supportedValueId))
+            distribution.aggregators.forEach { (_, supportedValueIds) ->
+                supportedValueIds.forEach {
+                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it))
+                }
             }
         }
 
@@ -420,28 +421,58 @@ class DatasetF2AggregateService(
             dataset = dataset,
             distribution = oldDistribution,
             conceptId = aggregatorConfig.informationConceptId,
-            valueId = valueEvent.supportedValueId
+            oldValueId = oldDistribution.aggregators[aggregatorConfig.informationConceptId]?.firstOrNull(),
+            newValueId = valueEvent.supportedValueId
         )
+    }
+
+    private suspend fun createAndUpdateDistributionValue(
+        command: DatasetAddDistributionValueCommandDTO, oldValueId: SupportedValueId?
+    ): SupportedValueId {
+        val dataset = datasetFinderService.get(command.id)
+        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
+            ?: throw NotFoundException("Distribution", command.distributionId)
+
+        val concept = cccevFinderService.getConcept(command.informationConceptId)
+        val newValueId = SupportedValueCreateCommand(
+            conceptId = command.informationConceptId,
+            unit = concept.unit ?: command.unit as CompositeDataUnitModel,
+            isRange = command.isRange,
+            value = command.value,
+            description = command.description,
+            query = null
+        ).let { cccevAggregateService.createValue(it).id }
+
+
+        updateDistributionValue(
+            dataset = dataset,
+            distribution = distribution,
+            conceptId = command.informationConceptId,
+            oldValueId = oldValueId,
+            newValueId = newValueId
+        )
+
+        return newValueId
     }
 
     private suspend fun updateDistributionValue(
         dataset: DatasetModel,
         distribution: DistributionModel,
         conceptId: InformationConceptId,
-        valueId: SupportedValueId?
+        oldValueId: SupportedValueId?,
+        newValueId: SupportedValueId?
     ) {
-        val currentValueId = distribution.aggregators[conceptId]
-        if (currentValueId == valueId) {
+        if (oldValueId == newValueId) {
             return
         }
 
         if (!dataset.isInDraft()) {
-            if (valueId != null) {
-                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
+            if (newValueId != null) {
+                cccevAggregateService.validateValue(SupportedValueValidateCommand(newValueId))
             }
 
-            if (currentValueId != null) {
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(currentValueId))
+            if (oldValueId != null) {
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(oldValueId))
             }
         }
 
@@ -449,7 +480,8 @@ class DatasetF2AggregateService(
             id = dataset.id,
             distributionId = distribution.id,
             informationConceptId = conceptId,
-            supportedValueId = valueId
+            oldSupportedValueId = oldValueId,
+            newSupportedValueId = newValueId
         ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
     }
 

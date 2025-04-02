@@ -6,24 +6,25 @@ import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.SupportedValueId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
 /**
- * Update the value of an aggregator in a distribution.
+ * Replace the value of an aggregator in a distribution.
  * @d2 function
  * @parent [io.komune.registry.f2.dataset.domain.D2DatasetF2Page]
- * @order 120
+ * @order 121
  */
-typealias DatasetUpdateDistributionValueFunction
-        = F2Function<DatasetUpdateDistributionValueCommandDTOBase, DatasetUpdatedDistributionValueEventDTOBase>
+typealias DatasetReplaceDistributionValueFunction
+        = F2Function<DatasetReplaceDistributionValueCommandDTOBase, DatasetReplacedDistributionValueEventDTOBase>
 
 /**
  * @d2 command
- * @parent [DatasetUpdateDistributionValueFunction]
+ * @parent [DatasetReplaceDistributionValueFunction]
  */
 @JsExport
-interface DatasetUpdateDistributionValueCommandDTO {
+interface DatasetReplaceDistributionValueCommandDTO {
     /**
      * Id of the dataset that contains the distribution to update.
      */
@@ -35,6 +36,11 @@ interface DatasetUpdateDistributionValueCommandDTO {
     val distributionId: DistributionId
 
     val informationConceptId: InformationConceptId
+
+    /**
+     * Id of the value to replace.
+     */
+    val valueId: SupportedValueId
 
     val unit: CompositeDataUnitRefDTO
 
@@ -49,22 +55,23 @@ interface DatasetUpdateDistributionValueCommandDTO {
  * @d2 inherit
  */
 @Serializable
-data class DatasetUpdateDistributionValueCommandDTOBase(
+data class DatasetReplaceDistributionValueCommandDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
     override val informationConceptId: InformationConceptId,
+    override val valueId: SupportedValueId,
     override val unit: CompositeDataUnitModel,
     override val isRange: Boolean,
     override val value: String,
     override val description: String?
-) : DatasetUpdateDistributionValueCommandDTO
+) : DatasetReplaceDistributionValueCommandDTO, DatasetAddDistributionValueCommandDTO
 
 /**
  * @d2 event
- * @parent [DatasetUpdateDistributionValueFunction]
+ * @parent [DatasetReplaceDistributionValueFunction]
  */
 @JsExport
-interface DatasetUpdatedDistributionValueEventDTO {
+interface DatasetReplacedDistributionValueEventDTO {
     /**
      * Id of the dataset to which the distribution was updated.
      */
@@ -74,13 +81,19 @@ interface DatasetUpdatedDistributionValueEventDTO {
      * Id of the updated distribution.
      */
     val distributionId: DistributionId
+
+    /**
+     * Id of the new value.
+     */
+    val valueId: SupportedValueId
 }
 
 /**
  * @d2 inherit
  */
 @Serializable
-data class DatasetUpdatedDistributionValueEventDTOBase(
+data class DatasetReplacedDistributionValueEventDTOBase(
     override val id: DatasetId,
-    override val distributionId: DistributionId
-) : DatasetUpdatedDistributionValueEventDTO
+    override val distributionId: DistributionId,
+    override val valueId: SupportedValueId
+) : DatasetReplacedDistributionValueEventDTO

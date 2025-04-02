@@ -2637,7 +2637,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
 
     }
     interface InformationConceptCreatedEventDTO {
-        readonly id: string;
+        readonly item: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTO;
 
     }
 }
@@ -2659,7 +2659,8 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
     interface InformationConceptComputedDTO extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {
         readonly unit: io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTO;
         readonly isRange: boolean;
-        readonly value?: string;
+        readonly valueId: string;
+        readonly value: string;
         readonly valueDescription?: string;
         readonly id: string;
         readonly identifier: string;
@@ -2735,7 +2736,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.unit.command {
 
     }
     interface DataUnitCreatedEventDTO {
-        readonly id: string;
+        readonly item: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
 
     }
 }
@@ -2782,6 +2783,16 @@ export declare namespace io.komune.registry.f2.cccev.domain.unit.query {
 
     }
     interface DataUnitGetByIdentifierResultDTO {
+        readonly item?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.unit.query {
+    interface DataUnitGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface DataUnitGetResultDTO {
         readonly item?: io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO;
 
     }
@@ -3261,6 +3272,24 @@ export declare namespace io.komune.registry.f2.dataset.domain {
     };
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddDistributionValueCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+        readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
+        readonly isRange: boolean;
+        readonly value: string;
+        readonly description?: string;
+
+    }
+    interface DatasetAddedDistributionValueEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly valueId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddEmptyDistributionCommandDTO {
         readonly id: string;
         readonly name?: string;
@@ -3384,12 +3413,33 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
         readonly id: string;
         readonly distributionId: string;
         readonly informationConceptId: string;
+        readonly valueId: string;
 
     }
     interface DatasetRemovedDistributionValueEventDTO {
         readonly id: string;
         readonly distributionId: string;
         readonly informationConceptId: string;
+        readonly valueId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetReplaceDistributionValueCommandDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly informationConceptId: string;
+        readonly valueId: string;
+        readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
+        readonly isRange: boolean;
+        readonly value: string;
+        readonly description?: string;
+
+    }
+    interface DatasetReplacedDistributionValueEventDTO {
+        readonly id: string;
+        readonly distributionId: string;
+        readonly valueId: string;
 
     }
 }
@@ -3414,23 +3464,6 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetUpdatedEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
         readonly identifier: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetUpdateDistributionValueCommandDTO {
-        readonly id: string;
-        readonly distributionId: string;
-        readonly informationConceptId: string;
-        readonly unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
-        readonly isRange: boolean;
-        readonly value: string;
-        readonly description?: string;
-
-    }
-    interface DatasetUpdatedDistributionValueEventDTO {
-        readonly id: string;
-        readonly distributionId: string;
 
     }
 }

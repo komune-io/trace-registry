@@ -52,6 +52,7 @@ suspend fun InformationConceptModel.toComputedDTO(
     unit = value.unit.toTranslatedDTO(language, getUnit),
     themes = themeIds.map { getTheme(it).toTranslatedDTO(language) },
     isRange = value.isRange,
+    valueId = value.id,
     value = value.value,
     valueDescription = value.description,
 )

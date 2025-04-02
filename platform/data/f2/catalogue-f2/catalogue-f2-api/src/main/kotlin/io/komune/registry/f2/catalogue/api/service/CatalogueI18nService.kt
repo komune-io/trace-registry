@@ -231,12 +231,13 @@ class CatalogueI18nService(
 
         descendantDatasets.mapAsync { dataset ->
             dataset.distributions.mapAsync { distribution ->
-                distribution.aggregators.forEach { (conceptId, valueId) ->
+                distribution.aggregators.forEach { (conceptId, valueIds) ->
                     if (conceptId !in globalConceptIds) {
-                        val supportedValue = cache.supportedValues.get(valueId)
-                            .takeUnless { it.isRange }
-                            ?: return@forEach
-                        aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
+                        val supportedValues = valueIds.mapNotNull {
+                            cache.supportedValues.get(it).takeUnless { it.isRange }?.value
+                        }.ifEmpty { return@forEach }
+
+                        aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValues
                     }
                 }
             }

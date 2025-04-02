@@ -128,9 +128,12 @@ suspend fun DistributionModel.toDTO(
     name = name,
     downloadPath = downloadPath,
     mediaType = mediaType,
-    aggregators = aggregators.map { (conceptId, valueId) ->
-        val supportedValue = getSupportedValue(valueId)
-        getInformationConcept(conceptId).toComputedDTO(supportedValue, language, getTheme, getDataUnit)
+    aggregators = aggregators.flatMap { (conceptId, valueIds) ->
+        val concept = getInformationConcept(conceptId)
+        valueIds.map { valueId ->
+            val supportedValue = getSupportedValue(valueId)
+            concept.toComputedDTO(supportedValue, language, getTheme, getDataUnit)
+        }
     },
     issued = issued,
     modified = modified,

@@ -112,13 +112,16 @@ class CatalogueDraftF2AggregateService(
                     mediaType = distribution.mediaType,
                 ).let { datasetAggregateService.addDistribution(it) }
 
-                distribution.aggregators.forEach { (conceptId, valueId) ->
-                    DatasetUpdateDistributionAggregatorValueCommand(
-                        id = newId,
-                        distributionId = distribution.id,
-                        informationConceptId = conceptId,
-                        supportedValueId = valueId
-                    ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                distribution.aggregators.forEach { (conceptId, valueIds) ->
+                    valueIds.forEach { valueId ->
+                        DatasetUpdateDistributionAggregatorValueCommand(
+                            id = newId,
+                            distributionId = distribution.id,
+                            informationConceptId = conceptId,
+                            oldSupportedValueId = null,
+                            newSupportedValueId = valueId
+                        ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                    }
                 }
             }
 
