@@ -1,6 +1,5 @@
 package io.komune.registry.infra.pdf
 
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Date
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -14,7 +13,7 @@ object CertificateGenerator {
     private const val FIELD_DATE = "(date)"
     private const val FIELD_CERTIFIED_BY = "(certifiedBy)"
     private const val FIELD_TRANSACTION = "(transaction)"
-    private const val FIELD_PROJECT = "(projet)"
+    private const val FIELD_PROJECT = "(title)"
     private const val FIELD_CARBON = "(nombre)"
     private const val FIELD_CARBON_INDICATOR = "(indicateur)"
     private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
@@ -23,10 +22,10 @@ object CertificateGenerator {
         transactionId: String,
         date: Long,
         issuedTo: String,
-        quantity: BigDecimal,
-        indicator: String,
+        quantity: String,
+        indicator: String?,
         certifiedBy: String? = null,
-        project: String? = null
+        title: String? = null
     ): ByteArray {
         return fill(
             TEMPLATE_CERTIFICATE_PENDING,
@@ -36,7 +35,7 @@ object CertificateGenerator {
             quantity,
             indicator,
             certifiedBy,
-            project
+            title
         )
     }
 
@@ -44,10 +43,12 @@ object CertificateGenerator {
         transactionId: String,
         date: Long,
         issuedTo: String,
-        quantity: BigDecimal,
-        indicator: String
+        quantity: String,
+        indicator: String?,
+        certifiedBy: String? = null,
+        title: String? = null
     ): ByteArray {
-        return fill(TEMPLATE_CERTIFICATE, transactionId, date, issuedTo, quantity, indicator)
+        return fill(TEMPLATE_CERTIFICATE, transactionId, date, issuedTo, quantity, indicator, certifiedBy, title)
     }
 
     private fun fill(
@@ -55,12 +56,11 @@ object CertificateGenerator {
         transactionId: String,
         date: Long,
         issuedTo: String,
-        quantity: BigDecimal,
-        indicator: String,
+        quantity: String,
+        indicator: String?,
         certifiedBy: String? = null,
-        project: String? = null
+        title: String? = null
     ): ByteArray {
-        val verb = if (quantity > BigDecimal.ONE) "will be" else "will be"
         var templateFilled = PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
             .readAllBytes()
@@ -68,16 +68,18 @@ object CertificateGenerator {
             .replace(FIELD_ISSUEDTO, issuedTo)
             .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
             .replace(FIELD_TRANSACTION, transactionId)
-            .replace(FIELD_CARBON, quantity.toPlainString())
-            .replace(FIELD_CARBON_INDICATOR, indicator)
-            .replace(FIELD_CARBON_INDICATOR_VERB, verb)
+            .replace(FIELD_CARBON, quantity)
+
+        indicator?.let {
+            templateFilled = templateFilled.replace(FIELD_CARBON_INDICATOR, indicator)
+        }
 
         certifiedBy?.let {
             templateFilled = templateFilled.replace(FIELD_CERTIFIED_BY, certifiedBy)
         }
 
-        project?.let {
-            templateFilled = templateFilled.replace(FIELD_PROJECT, project)
+        title?.let {
+            templateFilled = templateFilled.replace(FIELD_PROJECT, title)
         }
 
         return templateFilled.let(HtmlToPdfConverter::htmlToPdfB64)

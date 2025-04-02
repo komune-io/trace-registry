@@ -18,7 +18,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { LinkButton } from '@komune-io/g2'
 import {useLocation} from "react-router";
 
-
 interface CatalogueViewPageProps {
   catalogue: Catalogue
 }
@@ -48,7 +47,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
       })
       ?.map((dataset) => {
         return {
-            key: dataset.identifier,
+            key: dataset.id,
             label: dataset.title!,
             component: (<DatasetRouterSection catalogue={catalogue} item={dataset} isLoading={false} />)
         }
@@ -80,8 +79,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
             key: 'subCatalogues',
             label: t('subCatalogues'),
             component: (<CatalogueGrid items={data?.items} isLoading={false} />)
-        })
-
+        }),
         ]
         return tabs
     }, [t, data, catalogue])
@@ -128,9 +126,7 @@ export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
         [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],
     )
     return (
-        <AppPage
-            title={catalogue?.title}
-        >
+        <AppPage title={catalogue?.title}>
             <Stack
                 gap={2}
                 justifyContent="space-between"

@@ -57,7 +57,6 @@ export const TransactionView = (_: TransactionViewProps) => {
                     direction="row"
                     justifyContent="space-between"
                     alignItems="center"
-
                 >
                     <TransactionCertificateSummary isLoading={transactionQuery.isLoading} transaction={transaction} />
                     <TransactionPdfCertificate transaction={transaction} />

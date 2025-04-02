@@ -65,6 +65,22 @@
         }
       },
       {
+        "type": "attestations",
+        "identifierSuffix": "-attestations",
+        "title": {
+          "fr": "Attestations",
+          "en": "Attestations",
+          "es": "Atestados"
+        },
+        "structure": {
+          "definitions": {
+            "position": "40",
+            "display": "write"
+
+          }
+        }
+      },
+      {
         "type": "graphs",
         "identifierSuffix": "-graphs",
         "title": {
@@ -74,7 +90,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "40",
+            "position": "50",
             "display": "write"
 
           }

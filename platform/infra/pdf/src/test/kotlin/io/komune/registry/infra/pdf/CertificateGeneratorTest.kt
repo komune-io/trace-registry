@@ -17,7 +17,7 @@ class CertificateGeneratorTest {
             quantity = BigDecimal.TEN,
             indicator = "tonnes de CO2 économisées",
             certifiedBy = "Kerdos",
-            project = "Installation de panneaux potovoltaiques sur bâtiments tertiaires"
+            title = "Installation de panneaux potovoltaiques sur bâtiments tertiaires"
 
         )
         val pdf = File("build/certificate.pdf")

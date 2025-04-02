@@ -24,4 +24,5 @@ dependencies {
     implementation(project(Modules.api.config))
     implementation(project(Modules.infra.fs))
     implementation(project(Modules.infra.postgresql))
+    implementation(project(Modules.infra.pdf))
 }
