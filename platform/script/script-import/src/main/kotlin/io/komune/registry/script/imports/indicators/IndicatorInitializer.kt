@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import f2.dsl.fnc.invokeWith
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitDTOBase
@@ -19,6 +20,7 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.script.imports.ImportContext
 import io.komune.registry.script.imports.ImportRepository
+import kotlinx.coroutines.flow.asFlow
 import java.io.File
 
 class IndicatorInitializer(
@@ -74,8 +76,9 @@ class IndicatorInitializer(
         val pathMatcher = baseDirectory.toPath().fileSystem.getPathMatcher("glob:${baseDirectory.path}/*.csv")
         val csvFiles = importContext.rootDirectory.walk()
             .filter { pathMatcher.matches(it.toPath()) }
+            .toList()
 
-        if (csvFiles.count() == 0) {
+        if (csvFiles.isEmpty()) {
             return
         }
 
@@ -87,7 +90,7 @@ class IndicatorInitializer(
             type = "indicators"
         )
 
-        csvFiles.forEach { initializeIndicators(parentDataset, language, it) }
+        csvFiles.mapAsync { initializeIndicators(parentDataset, language, it) }
     }
 
     private suspend fun initializeIndicators(parentDataset: DatasetDTOBase, language: Language, csvFile: File) {
@@ -129,7 +132,7 @@ class IndicatorInitializer(
             name = null
         ).invokeWith(dataClient.dataset.datasetAddEmptyDistribution()).distributionId
 
-        indicators.forEach { indicator ->
+        val indicatorCommands = indicators.map { indicator ->
             DatasetAddDistributionValueCommandDTOBase(
                 id = dataset.id,
                 distributionId = distributionId,
@@ -138,8 +141,9 @@ class IndicatorInitializer(
                 isRange = indicator.isRange,
                 value = indicator.value,
                 description = indicator.description,
-            ).invokeWith(dataClient.dataset.datasetAddDistributionValue())
+            )
         }
+        dataClient.dataset.datasetAddDistributionValue().invoke(indicatorCommands.asFlow())
     }
 
     private fun parseIndicators(csvFile: File): Collection<Indicator> {
