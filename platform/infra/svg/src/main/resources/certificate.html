@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        /* globals.css */
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+        * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+        /* a blue color as a generic focus style */
+        button:focus-visible {
+            outline: 2px solid #4a90e2 !important;
+            outline: -webkit-focus-ring-color auto 5px !important;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        /* styleguide.css */
+        :root {
+            --texte-font-family: "Lato", Helvetica;
+            --texte-font-weight: 400;
+            --texte-font-size: 18px;
+            --texte-letter-spacing: 0px;
+            --texte-line-height: normal;
+            --texte-font-style: normal;
+            --h-3-font-family: "Degular Variable", Helvetica;
+            --h-3-font-weight: 700;
+            --h-3-font-size: 32px;
+            --h-3-letter-spacing: 0px;
+            --h-3-line-height: normal;
+            --h-3-font-style: normal;
+            --label-font-family: "Degular", Helvetica;
+            --label-font-weight: 600;
+            --label-font-size: 19px;
+            --label-letter-spacing: 0px;
+            --label-line-height: normal;
+            --label-font-style: normal;
+            --label-small-font-family: "Degular", Helvetica;
+            --label-small-font-weight: 600;
+            --label-small-font-size: 16px;
+            --label-small-letter-spacing: 0px;
+            --label-small-line-height: normal;
+            --label-small-font-style: normal;
+            --h-4-font-family: "Degular Variable", Helvetica;
+            --h-4-font-weight: 700;
+            --h-4-font-size: 22px;
+            --h-4-letter-spacing: 0px;
+            --h-4-line-height: normal;
+            --h-4-font-style: normal;
+            --caption-font-family: "Degular Variable", Helvetica;
+            --caption-font-weight: 400;
+            --caption-font-size: 15px;
+            --caption-letter-spacing: 0px;
+            --caption-line-height: normal;
+            --caption-font-style: normal;
+            --h1-font-family: "Degular", Helvetica;
+            --h1-font-weight: 700;
+            --h1-font-size: 52px;
+            --h1-letter-spacing: 0px;
+            --h1-line-height: 56px;
+            --h1-font-style: normal;
+            --h-2-font-family: "Degular Variable", Helvetica;
+            --h-2-font-weight: 700;
+            --h-2-font-size: 42px;
+            --h-2-letter-spacing: 0px;
+            --h-2-line-height: 42px;
+            --h-2-font-style: normal;
+            --variable-collection-purple-100: rgba(73, 33, 97, 1);
+            --variable-collection-purple-50: rgba(164, 144, 176, 1);
+            --variable-collection-purple-15: rgba(228, 222, 231, 1);
+            --variable-collection-purple-10: rgba(237, 233, 239, 1);
+            --variable-collection-purple-5: rgba(246, 244, 247, 1);
+            --variable-collection-purple-2: rgba(251, 251, 252, 1);
+        }
+
+        /* style.css */
+        .box {
+            width: 1822px;
+            height: 1410px;
+        }
+        .box .group {
+            /* position: fixed; */ /* <--- CHANGE MADE HERE */
+            width: 1824px;
+            height: 1410px;
+            top: 0;
+            left: 0;
+        }
+        .box .overlap {
+            position: relative;
+            width: 1822px;
+            height: 1410px;
+        }
+        .box .jaune {
+            position: absolute;
+            width: 1822px;
+            height: 1410px;
+            top: 0;
+            left: 0;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+        .box .overlap-group {
+            position: relative;
+            width: 1882px;
+            height: 1410px;
+        }
+        .box .group-wrapper {
+            position: absolute;
+            width: 1820px;
+            height: 1410px;
+            top: 0;
+            left: 0;
+            background-color: #f8e256;
+            border-radius: 15px;
+        }
+        .box .div {
+            position: relative;
+            width: 1760px;
+            height: 1325px;
+            top: 43px;
+            left: 30px;
+            background-color: #ffffff;
+            border-radius: 15px;
+        }
+        .box .certificate-of {
+            position: absolute;
+            width: 1294px;
+            height: 189px;
+            top: 78px;
+            left: 90px;
+        }
+        .box .overlap-2 {
+            position: relative;
+            width: 1822px;
+            height: 1210px;
+            top: -113px;
+            left: -89px;
+        }
+        .box .text-wrapper {
+            position: absolute;
+            width: 1517px;
+            top: 112px;
+            left: 127px;
+            font-family: "DM Serif Display-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 110px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .layer {
+            position: absolute;
+            width: 1822px;
+            height: 1210px;
+            top: 0;
+            left: 0;
+            transform: rotate(180deg);
+            mix-blend-mode: overlay;
+        }
+        .box .g {
+            height: 1210px;
+        }
+        .box .overlap-group-2 {
+            position: relative;
+            width: 1821px;
+            height: 1175px;
+            left: 1px;
+        }
+        .box .clip-path-group {
+            position: absolute;
+            width: 1821px;
+            height: 1175px;
+            top: 0;
+            left: 0;
+            transform: rotate(-180deg);
+        }
+        .box .overlap-wrapper {
+            position: absolute;
+            width: 473px;
+            height: 296px;
+            top: 1011px;
+            left: 1409px;
+        }
+        .box .overlap-3 {
+            position: relative;
+            width: 475px;
+            height: 296px;
+        }
+        .box .text-wrapper-2 {
+            position: absolute;
+            width: 222px;
+            top: 166px;
+            left: 0;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: normal;
+            white-space: nowrap;
+        }
+        .box .overlap-group-wrapper {
+            position: absolute;
+            width: 475px;
+            height: 296px;
+            top: 0;
+            left: 0;
+        }
+        .box .overlap-4 {
+            position: relative;
+            width: 471px;
+            height: 296px;
+        }
+        .box .div-wrapper {
+            position: absolute;
+            width: 296px;
+            height: 296px;
+            top: 0;
+            left: 1px;
+        }
+        .box .overlap-group-3 {
+            position: relative;
+            height: 296px;
+        }
+        .box .img {
+            position: absolute;
+            width: 274px;
+            height: 296px;
+            top: 0;
+            left: 11px;
+        }
+        .box .rect {
+            position: absolute;
+            width: 296px;
+            height: 5px;
+            top: 90px;
+            left: 0;
+        }
+        .box .rect-2 {
+            position: absolute;
+            width: 296px;
+            height: 2px;
+            top: 102px;
+            left: 0;
+        }
+        .box .rect-3 {
+            position: absolute;
+            width: 296px;
+            height: 5px;
+            top: 201px;
+            left: 0;
+        }
+        .box .rect-4 {
+            position: absolute;
+            width: 296px;
+            height: 2px;
+            top: 191px;
+            left: 0;
+        }
+        .box .polygon {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 67px;
+            left: 110px;
+        }
+        .box .polygon-2 {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 67px;
+            left: 136px;
+        }
+        .box .polygon-3 {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 67px;
+            left: 161px;
+        }
+        .box .polygon-4 {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 215px;
+            left: 110px;
+        }
+        .box .polygon-5 {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 215px;
+            left: 136px;
+        }
+        .box .polygon-6 {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 215px;
+            left: 161px;
+        }
+        .box .text-wrapper-3 {
+            position: absolute;
+            width: 101px;
+            top: 113px;
+            left: 0;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: normal;
+            white-space: nowrap;
+        }
+        .box .text-wrapper-4 {
+            position: absolute;
+            width: 471px;
+            top: 139px;
+            left: 0;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .certificate-of-2 {
+            position: absolute;
+            width: 1679px;
+            height: 189px;
+            top: 867px;
+            left: 90px;
+        }
+        .box .p {
+            position: absolute;
+            width: 1354px;
+            top: 13px;
+            left: 32px;
+            font-family: "Inter-Bold", Helvetica;
+            font-weight: 700;
+            color: #000000;
+            font-size: 48px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .text-wrapper-5 {
+            position: absolute;
+            top: 1025px;
+            left: 122px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 32px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .text-wrapper-6 {
+            position: absolute;
+            top: 812px;
+            left: 122px;
+            font-family: "DM Serif Display-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 36px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .group-2 {
+            position: absolute;
+            width: 896px;
+            height: 91px;
+            top: 1088px;
+            left: 122px;
+        }
+        .box .text-wrapper-7 {
+            position: absolute;
+            top: 0;
+            left: 3px;
+            font-family: "DM Serif Display-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 36px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .text-wrapper-8 {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 32px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .text-wrapper-9 {
+            position: absolute;
+            top: 52px;
+            left: 607px;
+            font-family: "Inter-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 32px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .text-wrapper-10 {
+            position: absolute;
+            top: 0;
+            left: 607px;
+            font-family: "DM Serif Display-Regular", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 36px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+        .box .group-3 {
+            position: absolute;
+            width: 1314px;
+            height: 348px;
+            top: 334px;
+            left: 255px;
+        }
+        .box .text-wrapper-11 {
+            position: absolute;
+            top: 1270px;
+            left: 121px;
+            font-family: "Inter-Thin", Helvetica;
+            font-weight: 100;
+            color: #000000;
+            font-size: 20px;
+            letter-spacing: 0;
+            line-height: normal;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="group">
+        <div class="overlap">
+            <div class="jaune">
+                <div class="overlap-group">
+                    <div class="group-wrapper"><div class="div"></div></div>
+                    <div class="certificate-of">
+                        <div class="overlap-2">
+                            <div class="text-wrapper">Attestation de dépot</div>
+                            <div class="layer">
+                                <div class="g">
+                                    <div class="overlap-group-2">
+                                        <img class="clip-path-group" src="img/clip-path-group.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-20.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-8.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-2.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-19.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-18.png" />
+                                        <img class="clip-path-group" src="img/image.png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlap-wrapper">
+                        <div class="overlap-3">
+                            <div class="text-wrapper-2">Émis par Objectif100M</div>
+                            <div class="overlap-group-wrapper">
+                                <div class="overlap-4">
+                                    <div class="div-wrapper">
+                                        <div class="overlap-group-3">
+                                            <img class="img" src="img/g-13806-3.png" />
+                                            <img class="rect" src="img/rect-13808-2.svg" />
+                                            <img class="rect-2" src="img/rect-13810.svg" />
+                                            <img class="rect-3" src="img/rect-13812-2.svg" />
+                                            <img class="rect-4" src="img/rect-13814.svg" />
+                                            <img class="polygon" src="img/polygon-13816-3.svg" />
+                                            <img class="polygon-2" src="img/polygon-13818-3.svg" />
+                                            <img class="polygon-3" src="img/polygon-13820-2.svg" />
+                                            <img class="polygon-4" src="img/polygon-13822-2.svg" />
+                                            <img class="polygon-5" src="img/polygon-13824-2.svg" />
+                                            <img class="polygon-6" src="img/polygon-13826.svg" />
+                                        </div>
+                                    </div>
+                                    <div class="text-wrapper-3">DÉPÔT N°</div>
+                                    <div class="text-wrapper-4">100M-qi8H8R7OM4xMUNMPuRAZxlY</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certificate-of-2">
+                        <p class="p">Installation de panneaux potovoltaiques sur bâtiments tertiaires</p>
+                    </div>
+                    <div class="text-wrapper-5">Déposé le [Date]</div>
+                    <div class="text-wrapper-6">Nom du projet</div>
+                    <div class="group-2">
+                        <div class="text-wrapper-7">Par</div>
+                        <div class="text-wrapper-8">[Créateur de la fiche]</div>
+                        <div class="text-wrapper-9">[Porteur du projet]</div>
+                        <div class="text-wrapper-10">Pour</div>
+                    </div>
+                    <img class="group-3" src="img/group-37503-2.png" />
+                </div>
+            </div>
+            <div class="jaune">
+                <div class="overlap-group">
+                    <div class="group-wrapper"><div class="div"></div></div>
+                    <div class="certificate-of">
+                        <div class="overlap-2">
+                            <div class="text-wrapper">Attestation de dépot</div>
+                            <div class="layer">
+                                <div class="g">
+                                    <div class="overlap-group-2">
+                                        <img class="clip-path-group" src="img/clip-path-group-13.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-4.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-15.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-7.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-17.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-5.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-12.png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlap-wrapper">
+                        <div class="overlap-3">
+                            <div class="text-wrapper-2">Émis par Objectif100M</div>
+                            <div class="overlap-group-wrapper">
+                                <div class="overlap-4">
+                                    <div class="div-wrapper">
+                                        <div class="overlap-group-3">
+                                            <img class="img" src="img/g-13806.png" />
+                                            <img class="rect" src="img/rect-13808-3.svg" />
+                                            <img class="rect-2" src="img/rect-13810-3.svg" />
+                                            <img class="rect-3" src="img/rect-13812-3.svg" />
+                                            <img class="rect-4" src="img/rect-13814-2.svg" />
+                                            <img class="polygon" src="img/polygon-13816-2.svg" />
+                                            <img class="polygon-2" src="img/polygon-13818-2.svg" />
+                                            <img class="polygon-3" src="img/polygon-13820.svg" />
+                                            <img class="polygon-4" src="img/polygon-13822-3.svg" />
+                                            <img class="polygon-5" src="img/polygon-13824-3.svg" />
+                                            <img class="polygon-6" src="img/polygon-13826-3.svg" />
+                                        </div>
+                                    </div>
+                                    <div class="text-wrapper-3">DÉPÔT N°</div>
+                                    <div class="text-wrapper-4">100M-qi8H8R7OM4xMUNMPuRAZxlY</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certificate-of-2">
+                        <p class="p">Installation de panneaux potovoltaiques sur bâtiments tertiaires</p>
+                    </div>
+                    <div class="text-wrapper-5">Déposé le [Date]</div>
+                    <div class="text-wrapper-6">Nom du projet</div>
+                    <div class="group-2">
+                        <div class="text-wrapper-7">Par</div>
+                        <div class="text-wrapper-8">[Créateur de la fiche]</div>
+                        <div class="text-wrapper-9">[Porteur du projet]</div>
+                        <div class="text-wrapper-10">Pour</div>
+                    </div>
+                    <img class="group-3" src="img/group-37503.png" />
+                </div>
+            </div>
+            <div class="jaune">
+                <div class="overlap-group">
+                    <div class="group-wrapper"><div class="div"></div></div>
+                    <div class="certificate-of">
+                        <div class="overlap-2">
+                            <div class="text-wrapper">Attestation de dépot</div>
+                            <div class="layer">
+                                <div class="g">
+                                    <div class="overlap-group-2">
+                                        <img class="clip-path-group" src="img/clip-path-group-3.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-16.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-11.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-6.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-14.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-9.png" />
+                                        <img class="clip-path-group" src="img/clip-path-group-10.png" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlap-wrapper">
+                        <div class="overlap-3">
+                            <div class="text-wrapper-2">Émis par Objectif100M</div>
+                            <div class="overlap-group-wrapper">
+                                <div class="overlap-4">
+                                    <div class="div-wrapper">
+                                        <div class="overlap-group-3">
+                                            <img class="img" src="img/g-13806-2.png" />
+                                            <img class="rect" src="img/rect-13808.svg" />
+                                            <img class="rect-2" src="img/rect-13810-2.svg" />
+                                            <img class="rect-3" src="img/rect-13812.svg" />
+                                            <img class="rect-4" src="img/rect-13814-3.svg" />
+                                            <img class="polygon" src="img/polygon-13816.svg" />
+                                            <img class="polygon-2" src="img/polygon-13818.svg" />
+                                            <img class="polygon-3" src="img/image.svg" />
+                                            <img class="polygon-4" src="img/polygon-13822.svg" />
+                                            <img class="polygon-5" src="img/polygon-13824.svg" />
+                                            <img class="polygon-6" src="img/polygon-13826-2.svg" />
+                                        </div>
+                                    </div>
+                                    <div class="text-wrapper-3">DÉPÔT N°</div>
+                                    <div class="text-wrapper-4">100M-qi8H8R7OM4xMUNMPuRAZxlY</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certificate-of-2">
+                        <p class="p">Installation de panneaux potovoltaiques sur bâtiments tertiaires</p>
+                    </div>
+                    <div class="text-wrapper-5">Déposé le [Date]</div>
+                    <div class="text-wrapper-6">Nom du projet</div>
+                    <div class="group-2">
+                        <div class="text-wrapper-7">Par</div>
+                        <div class="text-wrapper-8">[Créateur de la fiche]</div>
+                        <div class="text-wrapper-9">[Porteur du projet]</div>
+                        <div class="text-wrapper-10">Pour</div>
+                    </div>
+                    <img class="group-3" src="img/group-37503-3.png" />
+                </div>
+            </div>
+            <div class="text-wrapper-11">https://wiki.preprod.objectif100m.org/catalogues/100m-project-1022</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
