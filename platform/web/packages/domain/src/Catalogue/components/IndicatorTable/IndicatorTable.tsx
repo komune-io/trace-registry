@@ -34,7 +34,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
                 informationConceptId: infoConcept.id,
-
+                valueId: infoConcept.valueId,
             })
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })

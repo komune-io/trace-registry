@@ -3,7 +3,7 @@ import { TmsPopUp, SearchIcon } from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dataset } from '../../../Dataset'
-import { useDatasetUpdateDistributionValueCommand, useDataUnitListQuery, useInformationConceptListQuery } from '../../api'
+import { DatasetAddDistributionValueCommand, useDatasetAddDistributionValueCommand, useDatasetReplaceDistributionValueCommand, useDataUnitListQuery, useInformationConceptListQuery } from '../../api'
 import { buildRangeValue, InformationConcept, InformationConceptTranslated, parseRangeValue } from '../../model'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
@@ -23,7 +23,9 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
     const { t, i18n } = useTranslation()
     const queryClient = useQueryClient()
 
-    const updateDistributionValue = useDatasetUpdateDistributionValueCommand({})
+    const updateDistributionValue = useDatasetReplaceDistributionValueCommand({})
+
+    const addDistributionValue = useDatasetAddDistributionValueCommand({})
 
     const units = useDataUnitListQuery({
         query: {
@@ -53,7 +55,8 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
             } else if (unitType === "STRING") {
                 value = values.stringValue
             } 
-            const res = await updateDistributionValue.mutateAsync({
+
+            const command: DatasetAddDistributionValueCommand = {
                 distributionId: distribution?.id!,
                 id: dataset?.id!,
                 informationConceptId: type.id,
@@ -64,8 +67,13 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
                     operator: "DIVISION"
                 },
                 value,
-                description: values.context
-            })
+                description: values.context,
+            }
+            
+            const res = editIndicator ? await updateDistributionValue.mutateAsync({
+                ...command,
+                valueId: editIndicator?.valueId,
+            }) : await addDistributionValue.mutateAsync(command)
             if (res) {
                 onClose()
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })

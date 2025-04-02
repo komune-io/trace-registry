@@ -246,17 +246,30 @@ export const useCatalogueUnreferenceDatasetsCommand = (
     >('data/catalogueUnreferenceDatasets', requestProps, params)
 }
 
-export interface DatasetUpdateDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueCommandDTO { }
-export interface DatasetUpdatedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetUpdatedDistributionValueEventDTO { }
+export interface DatasetAddDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTO { }
+export interface DatasetAddedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetAddedDistributionValueEventDTO { }
 
-export const useDatasetUpdateDistributionValueCommand = (
-    params: CommandParams<DatasetUpdateDistributionValueCommand, DatasetUpdatedDistributionValueEvent>
+export const useDatasetAddDistributionValueCommand = (
+    params: CommandParams<DatasetAddDistributionValueCommand, DatasetAddedDistributionValueEvent>
 ) => {
     const requestProps = useAuthenticatedRequest()
     return useCommandRequest<
-        DatasetUpdateDistributionValueCommand,
-        DatasetUpdatedDistributionValueEvent
-    >('data/datasetUpdateDistributionValue', requestProps, params)
+        DatasetAddDistributionValueCommand,
+        DatasetAddedDistributionValueEvent
+    >('data/datasetAddDistributionValue', requestProps, params)
+}
+
+export interface DatasetReplaceDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionValueCommandDTO { }
+export interface DatasetReplacedDistributionValueEvent extends io.komune.registry.f2.dataset.domain.command.DatasetReplacedDistributionValueEventDTO { }
+
+export const useDatasetReplaceDistributionValueCommand = (
+    params: CommandParams<DatasetReplaceDistributionValueCommand, DatasetReplacedDistributionValueEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        DatasetReplaceDistributionValueCommand,
+        DatasetReplacedDistributionValueEvent
+    >('data/datasetReplaceDistributionValue', requestProps, params)
 }
 
 export interface DatasetRemoveDistributionValueCommand extends io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTO { }

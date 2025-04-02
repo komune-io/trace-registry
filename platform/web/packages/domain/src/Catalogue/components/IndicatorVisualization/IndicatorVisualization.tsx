@@ -1,4 +1,4 @@
-import { Accordion, RichtTextEditor} from 'components'
+import { Accordion, RichtTextEditor } from 'components'
 import { useMemo } from 'react'
 import { Typography } from '@mui/material'
 import { InformationConcept, parseRangeValue } from '../../model'
@@ -12,9 +12,9 @@ export interface IndicatorVisualizationProps {
 
 export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const { indicators } = props
-    const {t, i18n} = useTranslation()
+    const { t, i18n } = useTranslation()
 
-    const markdown = useMemo(() => indicatorsToMardownString(indicators, t, i18n.language), [indicators])
+    const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
     return (
         <Accordion
@@ -59,39 +59,46 @@ export const formatInformationConceptValue = (infoConcept: InformationConcept, t
     return value
 }
 
-const indicatorsToMardownString = (indicators: InformationConcept[], t: TFunction, language: string) => {
-    const indicatorsByTheme = {
-        cost: [] as InformationConcept[],
-        gain: [] as InformationConcept[]
+const infoConceptsToMarkdownListItem = (indicators: InformationConcept[], t: TFunction, language: string) => {
+    if (indicators.length === 1) {
+        return `- ${indicators[0].name}: ${formatInformationConceptValue(indicators[0], t, language)}`
+    } else {
+        return `\n\n**${indicators[0].name}**\n ${indicators.map((indicator) => `- ${formatInformationConceptValue(indicator, t, language)}`).join("\n")}`
     }
-    indicators.forEach((indicator) => {
-        if (indicator.themes[0].identifier === "indicator-cost") {
-            indicatorsByTheme.cost.push(indicator)
-        } else if (indicator.themes[0].identifier === "indicator-gain") {
-            indicatorsByTheme.gain.push(indicator)
-        }
-    })
+}
 
-    console.log(indicatorsByTheme.cost)
+const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFunction, language: string) => {
+    const indicatorsByIdentifier = indicators.reduce((acc, indicator) => {
+        const identifier = indicator.identifier
+        if (!acc[identifier]) {
+            acc[identifier] = []
+        }
+        acc[identifier].push(indicator)
+        return acc
+    }, {} as Record<string, InformationConcept[]>)
 
     let markdown = "===COL===\n\n"
     markdown += `---50---\n\n`
     markdown += `### ${t("cost")}\n\n`
 
-    markdown += indicatorsByTheme.cost.map((indicator) => {
-        return `- ${indicator.name}: ${formatInformationConceptValue(indicator, t, language)}`
+    markdown += Object.values(indicatorsByIdentifier).map((indicators) => {
+       if (indicators[0].themes[0].identifier === "indicator-cost") {
+            return infoConceptsToMarkdownListItem(indicators, t, language)
+        }
+        return ""
     }).join("\n")
 
     markdown += `\n\n---50---\n\n`
     markdown += `### ${t("gain")}\n\n`
 
-    markdown += indicatorsByTheme.gain.map((indicator) => {
-        return `- ${indicator.name}: ${formatInformationConceptValue(indicator, t, language)}`
-    }).join("\n")
+    markdown += Object.values(indicatorsByIdentifier).map((indicators) => {
+        if (indicators[0].themes[0].identifier === "indicator-gain") {
+             return infoConceptsToMarkdownListItem(indicators, t, language)
+         }
+         return ""
+     }).join("\n")
 
     markdown += `===/COL===`
-
-    console.log(markdown)
 
     return markdown
 }
