@@ -8,6 +8,7 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.dataset.domain.DatasetApi
+import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
@@ -16,7 +17,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
-import io.komune.registry.f2.dataset.domain.command.DatasetUpdateDistributionValueFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetUpdateJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetDataFunction
@@ -68,8 +69,10 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
         = client.function("data/${this::datasetAddJsonDistribution.name}")
     override fun datasetUpdateJsonDistribution(): DatasetUpdateJsonDistributionFunction
         = client.function("data/${this::datasetUpdateJsonDistribution.name}")
-    override fun datasetUpdateDistributionValue(): DatasetUpdateDistributionValueFunction
-        = client.function("data/${this::datasetUpdateDistributionValue.name}")
+    override fun datasetAddDistributionValue(): DatasetAddDistributionValueFunction
+        = client.function("data/${this::datasetAddDistributionValue.name}")
+    override fun datasetReplaceDistributionValue(): DatasetReplaceDistributionValueFunction
+        = client.function("data/${this::datasetReplaceDistributionValue.name}")
     override fun datasetRemoveDistributionValue(): DatasetRemoveDistributionValueFunction
         = client.function("data/${this::datasetRemoveDistributionValue.name}")
     override fun datasetRemoveDistribution(): DatasetRemoveDistributionFunction

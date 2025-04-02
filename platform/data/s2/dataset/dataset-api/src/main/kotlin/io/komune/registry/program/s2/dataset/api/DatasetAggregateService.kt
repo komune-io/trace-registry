@@ -176,7 +176,8 @@ class DatasetAggregateService(
 			date = System.currentTimeMillis(),
 			distributionId = command.distributionId,
 			informationConceptId = command.informationConceptId,
-			supportedValueId = command.supportedValueId
+			oldSupportedValueId = command.oldSupportedValueId,
+			newSupportedValueId = command.newSupportedValueId
 		)
 	}
 

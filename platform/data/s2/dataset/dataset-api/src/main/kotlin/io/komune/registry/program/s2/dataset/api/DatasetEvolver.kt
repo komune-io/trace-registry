@@ -77,7 +77,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 			name = event.name,
 			downloadPath = event.downloadPath.toString(),
 			mediaType = event.mediaType,
-			aggregators = emptyMap(),
+			aggregators = mutableMapOf(),
 			issued = event.date,
 			modified = event.date
 		)
@@ -98,17 +98,18 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 	}
 
 	private suspend fun DatasetEntity.updateDistributionAggregatorValue(event: DatasetUpdatedDistributionAggregatorValueEvent) = apply {
-		distributions = distributions.orEmpty().map { distribution ->
-			distribution.takeIf { it.id == event.distributionId }
-				?.copy(
-					aggregators = if (event.supportedValueId != null) {
-						distribution.aggregators + (event.informationConceptId to event.supportedValueId!!)
-					} else {
-						distribution.aggregators - event.informationConceptId
-					},
-					modified = event.date
-				) ?: distribution
+		if (event.oldSupportedValueId == event.newSupportedValueId) {
+			return@apply
 		}
+
+		val distribution = distributions.orEmpty().find { it.id == event.distributionId }
+			?: return@apply
+
+		val values = distribution.aggregators.getOrPut(event.informationConceptId) { mutableSetOf() }
+		event.oldSupportedValueId?.let { values -= it }
+		event.newSupportedValueId?.let { values += it }
+
+		distribution.modified = event.date
 		modified = event.date
 	}
 

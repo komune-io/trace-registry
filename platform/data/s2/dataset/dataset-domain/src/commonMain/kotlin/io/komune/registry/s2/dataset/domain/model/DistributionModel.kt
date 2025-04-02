@@ -12,7 +12,7 @@ data class DistributionModel(
     val name: String?,
     val downloadPath: FilePath?,
     val mediaType: String?,
-    val aggregators: Map<InformationConceptId, SupportedValueId>,
+    val aggregators: Map<InformationConceptId, Set<SupportedValueId>>,
     val issued: Long,
     val modified: Long
 )

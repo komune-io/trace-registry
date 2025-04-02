@@ -633,8 +633,10 @@ class CatalogueF2AggregateService(
                 id = datasetId,
                 distributionId = distribution.id
             ).let { datasetAggregateService.removeDistribution(it) }
-            distribution.aggregators.forEach { (_, valueId) ->
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+            distribution.aggregators.forEach { (_, valueIds) ->
+                valueIds.forEach { valueId ->
+                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+                }
             }
         }
 
@@ -644,34 +646,48 @@ class CatalogueF2AggregateService(
     private suspend fun applyDistributionAggregatorsUpdate(
         datasetId: DatasetId, distribution: DistributionModel, originalDistribution: DistributionModel?
     ) {
-        distribution.aggregators.forEach { (conceptId, valueId) ->
-            val existingValueId = originalDistribution?.aggregators?.get(conceptId)
-            if (existingValueId != valueId) {
+        distribution.aggregators.forEach { (conceptId, valueIds) ->
+            val existingValueIds = originalDistribution?.aggregators?.get(conceptId).orEmpty()
+
+            (valueIds - existingValueIds).forEach { valueId ->
                 DatasetUpdateDistributionAggregatorValueCommand(
                     id = datasetId,
                     distributionId = distribution.id,
                     informationConceptId = conceptId,
-                    supportedValueId = valueId
+                    oldSupportedValueId = null,
+                    newSupportedValueId = valueId
                 ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
 
                 cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
-                existingValueId?.let {
-                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it))
-                }
+            }
+
+            (existingValueIds - valueIds).forEach { valueId ->
+                DatasetUpdateDistributionAggregatorValueCommand(
+                    id = datasetId,
+                    distributionId = distribution.id,
+                    informationConceptId = conceptId,
+                    oldSupportedValueId = valueId,
+                    newSupportedValueId = null
+                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
             }
         }
 
         originalDistribution?.aggregators
             ?.filterKeys { it !in distribution.aggregators }
-            ?.forEach { (conceptId, valueId) ->
-                DatasetUpdateDistributionAggregatorValueCommand(
-                    id = datasetId,
-                    distributionId = distribution.id,
-                    informationConceptId = conceptId,
-                    supportedValueId = null
-                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+            ?.forEach { (conceptId, valueIds) ->
+                valueIds.forEach { valueId ->
+                    DatasetUpdateDistributionAggregatorValueCommand(
+                        id = datasetId,
+                        distributionId = distribution.id,
+                        informationConceptId = conceptId,
+                        oldSupportedValueId = valueId,
+                        newSupportedValueId = null
+                    ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
 
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
+                }
             }
     }
 }

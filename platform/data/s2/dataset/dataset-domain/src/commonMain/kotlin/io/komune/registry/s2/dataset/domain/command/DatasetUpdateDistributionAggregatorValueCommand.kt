@@ -11,7 +11,8 @@ data class DatasetUpdateDistributionAggregatorValueCommand(
     override val id: DatasetId,
     val distributionId: DistributionId,
     val informationConceptId: InformationConceptId,
-    val supportedValueId: SupportedValueId?
+    val oldSupportedValueId: SupportedValueId?,
+    val newSupportedValueId: SupportedValueId?
 ): DatasetCommand
 
 @Serializable
@@ -20,5 +21,6 @@ data class DatasetUpdatedDistributionAggregatorValueEvent(
     override val date: Long,
     val distributionId: DistributionId,
     val informationConceptId: InformationConceptId,
-    val supportedValueId: SupportedValueId?
+    val oldSupportedValueId: SupportedValueId?,
+    val newSupportedValueId: SupportedValueId?
 ): DatasetEvent

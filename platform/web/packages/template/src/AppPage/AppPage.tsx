@@ -1,10 +1,10 @@
-import { Box, Stack, StackProps, useMediaQuery, useTheme } from '@mui/material';
-import { ReactNode, useEffect } from "react";
-import { Co2Counter, LanguageSelector } from 'components';
-import { CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery } from "domain-components"
-import { useThemeContext } from '@komune-io/g2';
-import { useTranslation } from 'react-i18next';
-import { MutationStatus, useMutationState } from '@tanstack/react-query';
+import {Box, Stack, StackProps, useMediaQuery, useTheme} from '@mui/material';
+import {ReactNode, useEffect} from "react";
+import {Co2Counter, LanguageSelector} from 'components';
+import {CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery} from "domain-components"
+import {useThemeContext} from '@komune-io/g2';
+import {useTranslation} from 'react-i18next';
+import {MutationStatus, useMutationState} from '@tanstack/react-query';
 
 export interface AppPageProps extends StackProps {
     title?: string
@@ -41,7 +41,7 @@ export const AppPage = (props: AppPageProps) => {
 
     const getCounter = useInformationConceptGetGlobalValueQuery({
         query: {
-            identifier: "100m-counter-co2e",
+            identifier: "avoided-ghg",
             language: i18n.language
         }
     })

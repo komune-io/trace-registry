@@ -1,7 +1,8 @@
 package io.komune.registry.f2.cccev.domain.unit.command
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.s2.commons.model.DataUnitId
+import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTO
+import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTOBase
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -14,10 +15,10 @@ typealias DataUnitCreateCommandDTOBase = io.komune.registry.s2.cccev.domain.comm
 
 @JsExport
 interface DataUnitCreatedEventDTO {
-    val id: DataUnitId
+    val item: DataUnitDTO
 }
 
 @Serializable
 data class DataUnitCreatedEventDTOBase(
-    override val id: DataUnitId
+    override val item: DataUnitDTOBase
 ) : DataUnitCreatedEventDTO

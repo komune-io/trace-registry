@@ -9,7 +9,7 @@ data class DistributionEntity(
     var name: String?,
     var downloadPath: String?,
     var mediaType: String?,
-    var aggregators: Map<InformationConceptId, SupportedValueId>,
+    var aggregators: MutableMap<InformationConceptId, MutableSet<SupportedValueId>>,
     var issued: Long,
     var modified: Long
 )

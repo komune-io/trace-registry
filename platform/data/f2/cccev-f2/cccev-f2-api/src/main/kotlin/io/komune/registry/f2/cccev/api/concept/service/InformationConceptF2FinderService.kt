@@ -21,6 +21,10 @@ class InformationConceptF2FinderService(
     private val cccevFinderService: CccevFinderService,
     private val conceptFinderService: ConceptFinderService
 ) {
+    suspend fun get(id: InformationConceptId): InformationConceptDTOBase {
+        return cccevFinderService.getConcept(id).toDTOCached()
+    }
+
     suspend fun getOrNull(id: InformationConceptId): InformationConceptDTOBase? {
         return cccevFinderService.getConceptOrNull(id)?.toDTOCached()
     }
