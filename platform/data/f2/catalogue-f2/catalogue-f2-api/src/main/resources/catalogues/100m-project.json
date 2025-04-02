@@ -11,6 +11,11 @@
   "conceptSchemes": [
     "earth-limits"
   ],
+  "writerRoles": [
+    "rg_role_user_contributor",
+    "rg_role_user_expert",
+    "rg_role_user_orchestrator"
+  ],
   "ownerRoles": [
     "rg_role_org_contributor"
   ],

@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.domain
 
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
@@ -20,4 +21,5 @@ interface CatalogueQueryApi {
     fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
     fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction
     fun catalogueListAvailableOwners(): CatalogueListAvailableOwnersFunction
+    fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction
 }

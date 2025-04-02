@@ -4,6 +4,7 @@ import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.toAccessData
@@ -235,6 +236,17 @@ class CatalogueF2FinderService(
             roles = roles?.toList(),
             offset = limit?.let { OffsetPagination(0, it) }
         ).items
+    }
+
+    suspend fun listExplicitlyAllowedTypesToWrite(): List<String> {
+        val authedUser = AuthenticationProvider.getAuthedUser()
+            ?: return emptyList()
+
+        val authedUserRoles = authedUser.roles.orEmpty().toSet()
+
+        return catalogueConfig.typeConfigurations.values.filter { typeConfiguration ->
+            typeConfiguration.writerRoles.orEmpty().any { it in authedUserRoles }
+        }.map { it.type }
     }
 
     private suspend fun CatalogueModel.toAccessDataCached() = withCache { cache ->

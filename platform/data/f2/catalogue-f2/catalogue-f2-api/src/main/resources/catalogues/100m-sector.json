@@ -8,6 +8,10 @@
     "100m-sectors",
     "100m-sector"
   ],
+  "writerRoles": [
+    "rg_role_user_contributor",
+    "rg_role_user_orchestrator"
+  ],
   "structure": "item",
   "i18n": {
     "enable": true,

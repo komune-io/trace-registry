@@ -4,6 +4,10 @@
     "name": "seq_100m_system",
     "startValue": 2000
   },
+  "writerRoles": [
+    "rg_role_user_contributor",
+    "rg_role_user_orchestrator"
+  ],
   "parentTypes": ["100m-systems", "100m-system"],
   "structure": "item",
   "i18n": {

@@ -8,6 +8,7 @@ data class CatalogueTypeConfiguration(
     val identifierSequence: SequenceConfiguration?,
     val parentTypes: Set<String>?,
     val conceptSchemes: Set<String>?,
+    val writerRoles: Set<String>?,
     val ownerRoles: Set<String>?,
     val structure: String?,
     val i18n: CatalogueTypeI18n?,

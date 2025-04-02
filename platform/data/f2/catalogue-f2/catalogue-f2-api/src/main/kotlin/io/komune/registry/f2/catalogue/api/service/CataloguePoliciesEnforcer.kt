@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
+import io.komune.im.commons.auth.hasRole
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.CataloguePolicies
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
@@ -9,6 +10,7 @@ import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.stereotype.Service
@@ -19,8 +21,11 @@ class CataloguePoliciesEnforcer(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val userF2FinderService: UserF2FinderService
 ): PolicyEnforcer() {
-    suspend fun checkCreate() = checkAuthed("create a catalogue") { authedUser ->
-        CataloguePolicies.canCreate(authedUser)
+    suspend fun checkCreate(type: String) = checkAuthed("create a catalogue of type [$type]") { authedUser ->
+        CataloguePolicies.canCreate(authedUser) && (
+            authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
+                    || type in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
+        )
     }
 
     suspend fun checkUpdate(catalogueId: CatalogueId) = checkAuthed("update catalogue [$catalogueId]") { authedUser ->

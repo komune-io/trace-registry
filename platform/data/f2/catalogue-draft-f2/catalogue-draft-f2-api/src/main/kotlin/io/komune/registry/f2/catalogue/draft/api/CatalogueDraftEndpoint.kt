@@ -25,6 +25,7 @@ import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetFunct
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResult
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunction
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResult
+import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -38,7 +39,8 @@ class CatalogueDraftEndpoint(
     private val catalogueDraftF2AggregateService: CatalogueDraftF2AggregateService,
     private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
     private val catalogueDraftPoliciesEnforcer: CatalogueDraftPoliciesEnforcer,
-    private val catalogueF2AggregateService: CatalogueF2AggregateService
+    private val catalogueF2AggregateService: CatalogueF2AggregateService,
+    private val catalogueFinderService: CatalogueFinderService
 ) : CatalogueDraftApi {
 
     private val logger by Logger()
@@ -77,7 +79,8 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftCreate(): CatalogueDraftCreateFunction = f2Function { command ->
         logger.info("catalogueDraftCreate: $command")
-        catalogueDraftPoliciesEnforcer.checkCreate()
+        val catalogue = catalogueFinderService.get(command.catalogueId)
+        catalogueDraftPoliciesEnforcer.checkCreate(catalogue.type)
         catalogueDraftF2AggregateService.create(command).id
             .let { catalogueDraftF2FinderService.get(it) }
             .let(::CatalogueDraftCreatedEventDTOBase)

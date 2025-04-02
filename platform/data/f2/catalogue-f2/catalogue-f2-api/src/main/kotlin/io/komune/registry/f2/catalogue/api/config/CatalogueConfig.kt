@@ -14,7 +14,8 @@ class CatalogueConfig {
 
     private val logger by Logger()
 
-    final val typeConfigurations = PathMatchingResourcePatternResolver().getResources("$TEMPLATE_DIR/*.json")
+    final val typeConfigurations: Map<String, CatalogueTypeConfiguration> = PathMatchingResourcePatternResolver()
+        .getResources("$TEMPLATE_DIR/*.json")
         .associate { file ->
             val typeConfiguration = try {
                 jsonMapper.readValue(file.inputStream, CatalogueTypeConfiguration::class.java)
@@ -23,6 +24,6 @@ class CatalogueConfig {
                 throw e
             }
 
-            file.filename!!.substringBeforeLast('.') to typeConfiguration
+            typeConfiguration.type to typeConfiguration
         }
 }
