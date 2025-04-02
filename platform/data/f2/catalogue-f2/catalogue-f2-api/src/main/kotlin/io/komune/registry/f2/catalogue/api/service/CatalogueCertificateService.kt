@@ -7,7 +7,7 @@ import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.infra.fs.FsPath
-import io.komune.registry.infra.pdf.CertificateGenerator
+import io.komune.registry.infra.pdf.SvgCertificateGenerator
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import java.io.ByteArrayInputStream
@@ -60,7 +60,7 @@ class CatalogueCertificateService(
         value: String,
         concept: InformationConceptComputedDTOBase
     ): ByteArray {
-        return CertificateGenerator.fillFinalCertificate(
+        return SvgCertificateGenerator.fillFinalCertificate(
             transactionId = catalogue.id,
             date = catalogue.issued,
             issuedTo = catalogue.ownerOrganization?.name ?: "",

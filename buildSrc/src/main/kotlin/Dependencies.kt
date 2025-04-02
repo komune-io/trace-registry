@@ -382,6 +382,7 @@ object Modules {
 		const val fs = "$BASE:fs"
 		const val im = "$BASE:im"
 		const val pdf = "$BASE:pdf"
+		const val svg = "$BASE:svg"
 		const val postgresql = "$BASE:postgresql"
 		const val redis = "$BASE:redis"
 		const val meilisearch = "$BASE:meilisearch"

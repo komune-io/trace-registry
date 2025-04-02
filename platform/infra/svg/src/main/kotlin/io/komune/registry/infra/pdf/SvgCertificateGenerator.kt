@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
-object CertificateGenerator {
+object SvgCertificateGenerator {
     const val TEMPLATE_CERTIFICATE = "classpath:certificat.svg"
     const val TEMPLATE_CERTIFICATE_PENDING = "classpath:certificat.svg"
 
