@@ -77,11 +77,13 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
         return acc
     }, {} as Record<string, InformationConcept[]>)
 
+    const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => a.length > b.length ? 1 : a.length === b.length ? 0 : -1)
+
     let markdown = "===COL===\n\n"
     markdown += `---50---\n\n`
     markdown += `### ${t("cost")}\n\n`
 
-    markdown += Object.values(indicatorsByIdentifier).map((indicators) => {
+    markdown += indicatorsSorted.map((indicators) => {
        if (indicators[0].themes[0].identifier === "indicator-cost") {
             return infoConceptsToMarkdownListItem(indicators, t, language)
         }
@@ -91,7 +93,7 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     markdown += `\n\n---50---\n\n`
     markdown += `### ${t("gain")}\n\n`
 
-    markdown += Object.values(indicatorsByIdentifier).map((indicators) => {
+    markdown += indicatorsSorted.map((indicators) => {
         if (indicators[0].themes[0].identifier === "indicator-gain") {
              return infoConceptsToMarkdownListItem(indicators, t, language)
          }
