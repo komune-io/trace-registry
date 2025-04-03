@@ -73,8 +73,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     //     },
     // }), [catalogue, t])
 
-    const count = useCatalogueCo2Counter()
-
+    const count = useCatalogueCo2Counter(catalogue)
     return (
         <Stack
             gap={3}

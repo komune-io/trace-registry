@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.api.service
 
-import io.komune.fs.s2.file.client.FileClient
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.infra.pdf.SvgCertificateGenerator
