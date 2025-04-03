@@ -10,7 +10,7 @@ interface CatalogueSectionsProps {
     catalogue?: Catalogue
     dataset?: Dataset
     readOnly?: boolean
-    onSectionChange?: (editorState: EditorState) => void
+    onSectionChange?: (editorState: EditorState, dataset?: Dataset) => void
     isLoading?: boolean
 }
 
@@ -27,7 +27,7 @@ export const CatalogueSections = (props: CatalogueSectionsProps) => {
                 <SectionEditor
                     {...lexicalDistribution}
                     readOnly={readOnly}
-                    onChange={onSectionChange}
+                    onChange={(editorState) => onSectionChange && onSectionChange(editorState, lexicalDistribution.dataset)}
                     namespace={lexicalDistribution.dataset?.id}
                 />
             </Fragment>
