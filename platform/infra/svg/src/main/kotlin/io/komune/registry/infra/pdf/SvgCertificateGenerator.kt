@@ -1,42 +1,24 @@
 package io.komune.registry.infra.pdf
 
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.common.BitMatrix
+import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 object SvgCertificateGenerator {
-    const val TEMPLATE_CERTIFICATE = "classpath:certificat.svg"
-    const val TEMPLATE_CERTIFICATE_PENDING = "classpath:certificat.svg"
+    const val TEMPLATE_CERTIFICATE = "classpath:certificate.svg"
 
     private const val FIELD_ISSUEDTO = "(entreprise)"
     private const val FIELD_DATE = "(date)"
     private const val FIELD_CERTIFIED_BY = "(certifiedBy)"
     private const val FIELD_TRANSACTION = "(transaction)"
-    private const val FIELD_PROJECT = "(title)"
-    private const val FIELD_CARBON = "(nombre)"
-    private const val FIELD_CARBON_INDICATOR = "(indicateur)"
-//    private const val FIELD_CARBON_INDICATOR_VERB = "(indicateur_verb)"
-
-//    fun fillPendingCertificate(
-//        transactionId: String,
-//        date: Long,
-//        issuedTo: String,
-//        quantity: String,
-//        indicator: String?,
-//        certifiedBy: String? = null,
-//        title: String? = null
-//    ): ByteArray {
-//        return fill(
-//            TEMPLATE_CERTIFICATE_PENDING,
-//            transactionId,
-//            date,
-//            issuedTo,
-//            quantity,
-//            indicator,
-//            certifiedBy,
-//            title
-//        )
-//    }
+    private const val FIELD_TITLE = "(title)"
+    private const val FIELD_VALUE = "(value)"
+    private const val FIELD_UNIT = "(unit)"
+    private const val FIELD_QRCODE = "(qrcode)"
 
     fun fillFinalCertificate(
         transactionId: String,
@@ -60,6 +42,21 @@ object SvgCertificateGenerator {
         certifiedBy: String? = null,
         title: String? = null
     ): ByteArray {
+        var templateFilled = fillSvg(template, issuedTo, date, transactionId, quantity, indicator, certifiedBy, title)
+        println("$templateFilled")
+        return templateFilled.let(SvgToPdfConverter::convert)
+    }
+
+    fun fillSvg(
+        template: String,
+        issuedTo: String,
+        date: Long,
+        transactionId: String,
+        indicatorValue: String,
+        indicator: String?,
+        certifiedBy: String?,
+        title: String?
+    ): String {
         var templateFilled = PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
             .readAllBytes()
@@ -67,10 +64,10 @@ object SvgCertificateGenerator {
             .replace(FIELD_ISSUEDTO, issuedTo)
             .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
             .replace(FIELD_TRANSACTION, transactionId)
-            .replace(FIELD_CARBON, quantity)
+            .replace(FIELD_VALUE, indicatorValue)
 
         indicator?.let {
-            templateFilled = templateFilled.replace(FIELD_CARBON_INDICATOR, indicator)
+            templateFilled = templateFilled.replace(FIELD_UNIT, indicator)
         }
 
         certifiedBy?.let {
@@ -78,9 +75,33 @@ object SvgCertificateGenerator {
         }
 
         title?.let {
-            templateFilled = templateFilled.replace(FIELD_PROJECT, title)
+            templateFilled = templateFilled.replace(FIELD_TITLE, title)
         }
 
-        return templateFilled.let(SvgToPdfConverter::convert)
+        title?.let {
+            val qrCodeSvg = generateQrCodeSvg(title)
+            templateFilled = templateFilled.replace(FIELD_QRCODE, qrCodeSvg)
+        }
+        return templateFilled
     }
+}
+
+fun generateQrCodeSvg(text: String, size: Int = 115): String {
+    val bitMatrix: BitMatrix = MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
+
+    val svgWriter = StringWriter()
+
+    // Optional: wrap in a <g> tag for grouping
+    svgWriter.write("""<g id="qrcode" transform="translate(1390, 1028)">""")
+
+    for (y in 0 until bitMatrix.height) {
+        for (x in 0 until bitMatrix.width) {
+            if (bitMatrix[x, y]) {
+                svgWriter.write("""<rect x="$x" y="$y" width="1" height="1" fill="black" />""")
+            }
+        }
+    }
+
+    svgWriter.write("</g>")
+    return svgWriter.toString()
 }
