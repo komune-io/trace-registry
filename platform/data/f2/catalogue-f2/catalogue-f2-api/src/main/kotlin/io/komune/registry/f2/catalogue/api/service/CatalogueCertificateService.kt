@@ -1,12 +1,8 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import io.komune.fs.s2.file.client.FileClient
-import io.komune.fs.s2.file.domain.features.command.FileUploadedEvent
-import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
-import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.pdf.SvgCertificateGenerator
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -21,37 +17,18 @@ class CatalogueCertificateService(
 ) : CatalogueCachedService() {
 
     suspend fun generateFiles(catalogueId: CatalogueId): ByteArrayInputStream? {
-        val catalogue = catalogueFinderService.getByIdentifierOrNull(catalogueId)
+        val catalogue = catalogueFinderService.getOrNull(catalogueId)
         return catalogue?.let {
-            catalogueI18nService.translateToDTO(catalogue, null, false )
-            generateCatalogueFiles(it)
-        }?.first()?.let { ByteArrayInputStream(it) }
+            generateCatalogueFiles(catalogue)
+        }?.let { ByteArrayInputStream(it) }
     }
 
-    suspend fun generateCatalogueFiles(catalogue: CatalogueModel): List<ByteArray> {
-        val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(catalogue)
-        val dto = catalogueI18nService.translateToDTO(catalogue, "fr", false )!!
-        return concepts.mapNotNull { concept ->
-            concept.value?.let { value ->
-                generatePdf(dto, value, concept)
-            }
-        }
-    }
-
-    suspend fun generate(catalogue: CatalogueModel): List<FileUploadedEvent> {
-        val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(catalogue)
-        val dto = catalogueI18nService.translateToDTO(catalogue, null, false )!!
-        return concepts.mapNotNull { concept ->
-            concept.value?.let { value ->
-                val result = generatePdf(dto, value, concept)
-                val path = FilePath(
-                    objectType = FsPath.Organization.TYPE,
-                    objectId = catalogue.id,
-                    directory = FsPath.Organization.CERTIFICATE,
-                    name = "certificate-${catalogue.id}.pdf"
-                )
-                fileClient.fileUpload(path.toUploadCommand(), result)
-            }
+    suspend fun generateCatalogueFiles(catalogue: CatalogueModel): ByteArray? {
+        val model = catalogueI18nService.translate(catalogue, "fr", true )!!
+        val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(model)
+        val dto = catalogueI18nService.translateToDTO(catalogue, "fr", true )!!
+        return concepts.find { it.identifier == "avoided-ghg" }?.let { concept ->
+            generatePdf(dto, concept.value, concept)
         }
     }
 
