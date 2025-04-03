@@ -15,7 +15,7 @@ export const useLexicalDistribution = (catalogue?: Catalogue, dataset?: Dataset)
   const datasetDistribution = useMemo(() => {
     if (!catalogue) return
     return findLexicalDataset(catalogue, dataset)
-  }, [catalogue])
+  }, [catalogue, dataset])
 
   return {
     dataset: datasetDistribution?.dataset,

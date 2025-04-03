@@ -2,7 +2,7 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -10,7 +10,7 @@ export interface useDraftTabsParams {
   draft?: CatalogueDraft
   metadataFormState: FormComposableState
   isLoading?: boolean
-  onSectionChange?: (editorState: EditorState) => void
+  onSectionChange?: (editorState: EditorState, dataset?: Dataset) => void
   readOnly?: boolean
 }
 
