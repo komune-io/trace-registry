@@ -24,12 +24,21 @@ object SvgCertificateGenerator {
         transactionId: String,
         date: Long,
         issuedTo: String,
-        quantity: String,
-        indicator: String?,
+        indicatorValue: String,
+        indicatorUnit: String,
         certifiedBy: String? = null,
         title: String? = null
     ): ByteArray {
-        return fill(TEMPLATE_CERTIFICATE, transactionId, date, issuedTo, quantity, indicator, certifiedBy, title)
+        return fill(
+            template = TEMPLATE_CERTIFICATE,
+            issuedTo = issuedTo,
+            date = date,
+            transactionId = transactionId,
+            indicatorUnit = indicatorUnit,
+            indicatorValue = indicatorValue,
+            certifiedBy = certifiedBy,
+            title = title
+        )
     }
 
     private fun fill(
@@ -37,13 +46,21 @@ object SvgCertificateGenerator {
         transactionId: String,
         date: Long,
         issuedTo: String,
-        quantity: String,
-        indicator: String?,
+        indicatorValue: String,
+        indicatorUnit: String,
         certifiedBy: String? = null,
         title: String? = null
     ): ByteArray {
-        var templateFilled = fillSvg(template, issuedTo, date, transactionId, quantity, indicator, certifiedBy, title)
-        println("$templateFilled")
+        val templateFilled = fillSvg(
+            template = template,
+            issuedTo = issuedTo,
+            date = date,
+            transactionId = transactionId,
+            indicatorUnit = indicatorUnit,
+            indicatorValue = indicatorValue,
+            certifiedBy = certifiedBy,
+            title = title
+        )
         return templateFilled.let(SvgToPdfConverter::convert)
     }
 
@@ -53,7 +70,7 @@ object SvgCertificateGenerator {
         date: Long,
         transactionId: String,
         indicatorValue: String,
-        indicator: String?,
+        indicatorUnit: String?,
         certifiedBy: String?,
         title: String?
     ): String {
@@ -66,8 +83,8 @@ object SvgCertificateGenerator {
             .replace(FIELD_TRANSACTION, transactionId)
             .replace(FIELD_VALUE, indicatorValue)
 
-        indicator?.let {
-            templateFilled = templateFilled.replace(FIELD_UNIT, indicator)
+        indicatorUnit?.let {
+            templateFilled = templateFilled.replace(FIELD_UNIT, indicatorUnit)
         }
 
         certifiedBy?.let {

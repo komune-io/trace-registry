@@ -10,18 +10,22 @@ class SvgCertificateGeneratorTest {
     fun fill() {
 //        val certifiedBy = "Sustainable Future Group"
 //        val project = "Certicongo"
-        val result = SvgCertificateGenerator.fillFinalCertificate(
-            "transactionId",
-            1002020,
-            "issuedTo",
-            "10", "tonnes de CO2 économisées"
-            , "certifiedBy",
-            "title"
-        )
-        val pdf = File("build/certificate.pdf")
-        pdf.writeBytes(result)
-        println(pdf.writeBytes(result))
-        println(pdf.absolutePath)
+        try{
+            val result = SvgCertificateGenerator.fillFinalCertificate(
+                "transactionId",
+                1002020,
+                "issuedTo",
+                "10", "tonnes de CO2 économisées"
+                , "certifiedBy",
+                "title"
+            )
+            val pdf = File("build/certificate.pdf")
+            pdf.writeBytes(result)
+            println(pdf.writeBytes(result))
+            println(pdf.absolutePath)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     @Test

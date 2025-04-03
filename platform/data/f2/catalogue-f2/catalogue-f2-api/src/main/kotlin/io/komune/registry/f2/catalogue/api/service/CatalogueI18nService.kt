@@ -77,7 +77,11 @@ class CatalogueI18nService(
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
         val aggregators =  catalogueInformationConceptService.computeAggregators(translated)
-
+        val datasets = translated.childrenDatasetIds
+            .map { cache.datasets.get(it).toDTOCached() }
+            .filter { it.language == translated.language && it.status != DatasetState.DELETED }
+            .filterNot { it.type == "indicators" && aggregators.isEmpty() }
+            .sortedBy { it.structure?.definitions?.get("position") ?: it.title }
         CatalogueDTOBase(
             id = translated.id,
             identifier = originalCatalogue?.identifier ?: translated.identifier,
@@ -90,10 +94,7 @@ class CatalogueI18nService(
                     .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
-            datasets = translated.childrenDatasetIds
-                .map { cache.datasets.get(it).toDTOCached() }
-                .filter { it.language == translated.language && it.status != DatasetState.DELETED }
-                .sortedBy { it.structure?.definitions?.get("position") ?: it.title },
+            datasets = datasets,
             referencedDatasets = translated.referencedDatasetIds
                 .map { cache.datasets.get(it).toDTOCached() }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED }

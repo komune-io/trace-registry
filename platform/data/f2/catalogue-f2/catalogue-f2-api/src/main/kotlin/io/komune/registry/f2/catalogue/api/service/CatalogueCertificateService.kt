@@ -39,8 +39,8 @@ class CatalogueCertificateService(
             transactionId = catalogue.id,
             date = catalogue.issued,
             issuedTo = catalogue.ownerOrganization?.name ?: "",
-            quantity = value,
-            indicator = concept.unit.toAbbreviationString(),
+            indicatorValue = value,
+            indicatorUnit = concept.unit.toNameString(),
             title = catalogue.title,
             certifiedBy = catalogue.creatorOrganization?.name ?: ""
         )
