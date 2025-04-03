@@ -2,7 +2,10 @@ package io.komune.registry.program.s2.dataset.api
 
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
+import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
+import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
@@ -20,9 +23,9 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValueEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValuesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
@@ -159,9 +162,10 @@ class DatasetAggregateService(
 		)
 	}
 
-	suspend fun updateDistribution(command: DatasetUpdateDistributionCommand) = automate.transition(command) {
+	suspend fun updateDistribution(command: DatasetUpdateDistributionCommand) = automate.transition(command) { dataset ->
+		dataset.checkDistributionExists(command.distributionId)
 		DatasetUpdatedDistributionEvent(
-			id = it.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			distributionId = command.distributionId,
 			name = command.name,
@@ -170,22 +174,31 @@ class DatasetAggregateService(
 		)
 	}
 
-	suspend fun updateDistributionAggregatorValue(command: DatasetUpdateDistributionAggregatorValueCommand) = automate.transition(command) {
-		DatasetUpdatedDistributionAggregatorValueEvent(
-			id = it.id,
+	suspend fun updateDistributionAggregatorValues(
+		command: DatasetUpdateDistributionAggregatorValuesCommand
+	) = automate.transition(command) { dataset ->
+		dataset.checkDistributionExists(command.distributionId)
+		DatasetUpdatedDistributionAggregatorValuesEvent(
+			id = command.id,
 			date = System.currentTimeMillis(),
 			distributionId = command.distributionId,
-			informationConceptId = command.informationConceptId,
-			oldSupportedValueId = command.oldSupportedValueId,
-			newSupportedValueId = command.newSupportedValueId
+			removedSupportedValueIds = command.removeSupportedValueIds,
+			addedSupportedValueIds = command.addSupportedValueIds
 		)
 	}
 
-	suspend fun removeDistribution(command: DatasetRemoveDistributionCommand) = automate.transition(command) {
+	suspend fun removeDistribution(command: DatasetRemoveDistributionCommand) = automate.transition(command) { dataset ->
+		dataset.checkDistributionExists(command.distributionId)
 		DatasetRemovedDistributionEvent(
-			id = it.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			distributionId = command.distributionId
 		)
+	}
+
+	private fun DatasetEntity.checkDistributionExists(id: DistributionId) {
+		if (distributions.orEmpty().none { it.id == id }) {
+			throw NotFoundException("Distribution", id)
+		}
 	}
 }

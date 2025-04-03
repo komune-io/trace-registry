@@ -14,6 +14,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEv
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValueEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValuesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import org.springframework.stereotype.Service
@@ -22,6 +23,7 @@ import s2.sourcing.dsl.view.View
 @Service
 class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 
+	@Suppress("CyclomaticComplexMethod")
 	override suspend fun evolve(event: DatasetEvent, model: DatasetEntity?): DatasetEntity? = when (event) {
 		is DatasetCreatedEvent -> create(event)
 		is DatasetUpdatedEvent -> model?.update(event)
@@ -32,8 +34,15 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		is DatasetSetImageEvent -> model?.setImage(event)
 		is DatasetAddedDistributionEvent -> model?.addDistribution(event)
 		is DatasetUpdatedDistributionEvent -> model?.updateDistribution(event)
-		is DatasetUpdatedDistributionAggregatorValueEvent -> model?.updateDistributionAggregatorValue(event)
+		is DatasetUpdatedDistributionAggregatorValuesEvent -> model?.updateDistributionAggregatorValues(event)
 		is DatasetRemovedDistributionEvent -> model?.removeDistribution(event)
+		is DatasetUpdatedDistributionAggregatorValueEvent -> DatasetUpdatedDistributionAggregatorValuesEvent(
+			id = event.id,
+			distributionId = event.distributionId,
+			removedSupportedValueIds = event.oldSupportedValueId?.let { mapOf(event.informationConceptId to setOf(it)) },
+			addedSupportedValueIds = event.newSupportedValueId?.let { mapOf(event.informationConceptId to setOf(it)) },
+			date = event.date,
+		).let { model?.updateDistributionAggregatorValues(it) }
 	}
 
 	private suspend fun create(event: DatasetCreatedEvent) = DatasetEntity().apply {
@@ -97,17 +106,20 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		modified = event.date
 	}
 
-	private suspend fun DatasetEntity.updateDistributionAggregatorValue(event: DatasetUpdatedDistributionAggregatorValueEvent) = apply {
-		if (event.oldSupportedValueId == event.newSupportedValueId) {
-			return@apply
-		}
-
+	private suspend fun DatasetEntity.updateDistributionAggregatorValues(event: DatasetUpdatedDistributionAggregatorValuesEvent) = apply {
 		val distribution = distributions.orEmpty().find { it.id == event.distributionId }
 			?: return@apply
 
-		val values = distribution.aggregators.getOrPut(event.informationConceptId) { mutableSetOf() }
-		event.oldSupportedValueId?.let { values -= it }
-		event.newSupportedValueId?.let { values += it }
+		event.addedSupportedValueIds?.forEach { (conceptId, valueIds) ->
+			distribution.aggregators.getOrPut(conceptId) { mutableSetOf() } += valueIds
+		}
+
+		event.removedSupportedValueIds?.forEach { (conceptId, valueIds) ->
+			distribution.aggregators[conceptId]?.removeAll(valueIds)
+			if (distribution.aggregators[conceptId]?.isEmpty() == true) {
+				distribution.aggregators.remove(conceptId)
+			}
+		}
 
 		distribution.modified = event.date
 		modified = event.date

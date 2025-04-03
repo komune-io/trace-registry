@@ -236,7 +236,7 @@ class ImportRepository(
         mediaType: String,
         file: SimpleFile,
     ): DistributionId {
-        logger.info("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
+        logger.debug("Creating distribution[${dataset.id}] ${file.name} ${mediaType}")
         // Basic filtering to avoid creating duplicate distributions
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType

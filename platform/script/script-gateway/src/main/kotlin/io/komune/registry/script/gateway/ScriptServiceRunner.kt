@@ -4,6 +4,9 @@ import io.komune.registry.script.gateway.config.RetryProperties
 import io.komune.registry.script.gateway.extention.retryOnThrow
 import io.komune.registry.script.imports.ImportScript
 import io.komune.registry.script.init.RegistryScriptInitProperties
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
@@ -20,15 +23,18 @@ class ScriptServiceRunner(
     private val logger = LoggerFactory.getLogger(ScriptServiceRunner::class.java)
 
     override fun run(vararg args: String?) = runBlocking {
-        try {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
 //            val initScript = InitScript(properties)
 //            runScript("Init", initScript::run)
-            val importScript = ImportScript(properties)
-            runScript("Import") { importScript.run() }
-        } catch (_: RuntimeException) {
-        } finally {
-            context.close()
-        }
+                val importScript = ImportScript(properties)
+                runScript("Import") { importScript.run() }
+            } catch (e: RuntimeException) {
+                logger.error("ScriptServiceRunner failed", e)
+            } finally {
+                context.close()
+            }
+        }.join()
     }
 
     @Suppress("TooGenericExceptionThrown")

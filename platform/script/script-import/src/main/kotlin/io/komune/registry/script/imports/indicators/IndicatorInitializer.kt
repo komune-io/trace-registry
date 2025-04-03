@@ -20,7 +20,11 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.script.imports.ImportContext
 import io.komune.registry.script.imports.ImportRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class IndicatorInitializer(
@@ -72,14 +76,22 @@ class IndicatorInitializer(
         )
     }
 
-    suspend fun initialize(catalogue: CatalogueDTOBase, language: Language, baseDirectory: File) {
+    suspend fun initialize(catalogue: CatalogueDTOBase, language: Language, baseDirectory: File): Unit = withContext(Dispatchers.IO) {
         val pathMatcher = baseDirectory.toPath().fileSystem.getPathMatcher("glob:${baseDirectory.path}/*.csv")
-        val csvFiles = importContext.rootDirectory.walk()
-            .filter { pathMatcher.matches(it.toPath()) }
+
+        val csvFiles = baseDirectory.walk()
+            .filter { it.isFile }
+            .map { file ->
+                async(Dispatchers.IO) {
+                    if (pathMatcher.matches(file.toPath())) file else null
+                }
+            }
             .toList()
+            .awaitAll()
+            .filterNotNull()
 
         if (csvFiles.isEmpty()) {
-            return
+            return@withContext
         }
 
         val parentDataset = importRepository.getOrCreateDataset(

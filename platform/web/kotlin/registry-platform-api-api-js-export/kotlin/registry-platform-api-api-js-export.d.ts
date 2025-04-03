@@ -3285,7 +3285,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddedDistributionValueEventDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly valueId: string;
+        readonly valueIds: string[];
 
     }
 }
@@ -3439,7 +3439,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetReplacedDistributionValueEventDTO {
         readonly id: string;
         readonly distributionId: string;
-        readonly valueId: string;
+        readonly valueIds: string[];
 
     }
 }
@@ -3578,6 +3578,17 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
     }
     interface DatasetDataResultDTO {
         readonly items: kotlinx.serialization.json.JsonElement[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.query {
+    interface DatasetExistsQueryDTO {
+        readonly identifier: string;
+        readonly language: string;
+
+    }
+    interface DatasetExistsResultDTO {
+        readonly exists: boolean;
 
     }
 }
