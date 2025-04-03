@@ -1,6 +1,6 @@
-import { g2Config, useTheme } from '@komune-io/g2'
+import { g2Config } from '@komune-io/g2'
 import { Stack } from '@mui/material'
-import { ContentIllustrated, LocalTheme, useRoutesDefinition } from 'components'
+import { ContentIllustrated, useRoutesDefinition } from 'components'
 import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
@@ -19,7 +19,6 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
     const { catalogue } = props
     const { i18n } = useTranslation()
     const { cataloguesTab } = useRoutesDefinition()
-    const theme = useTheme<LocalTheme>()
 
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
@@ -60,7 +59,6 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
                 title={catalogue?.title ?? ""}
                 description={catalogue?.description ?? ""}
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
-                color={ catalogue?.identifier === "100m-systems" ? theme.local?.colors.system : theme.local?.colors.sector}
             />
             <Stack
                 gap={5}

@@ -8,20 +8,20 @@ import {ContributionListPage} from "./Catalogue/ContributionListPage/Contributio
 import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage/OrganizationCataloguesPage";
 import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSearchPage";
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
-import {CataloguesRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
+import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
 
 export const catalogPages: PageRoute[] = [
   {
     path: "",
-    element: <CataloguesRouter />
+    element: <CataloguesStructureRouter />
   },
   {
     path: "catalogues",
-    element: <CataloguesRouter />
+    element: <CataloguesStructureRouter />
   },
   {
     path: "catalogues/*",
-    element: <CataloguesRouter />
+    element: <CataloguesStructureRouter />
   },
   {
     path: "catalogues/create/solution",

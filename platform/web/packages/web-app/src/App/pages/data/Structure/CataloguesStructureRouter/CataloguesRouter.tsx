@@ -5,13 +5,13 @@ import { useSearchParams } from 'react-router-dom'
 import {CataloguesEntryPoint} from "../CataloguesEntryPoint/CataloguesEntryPoint";
 import {MosaicCatalogueEntryPoint} from "../CatalogueMosaicEntryPoint/MosaicCatalogueEntryPoint";
 import {CatalogueHomeEntryPoint} from "../CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
-import {CatalogueViewPage} from "../../Catalogue/CatalogueViewPage/CatalogueViewPage";
 import {CatalogueTableEntryPoint} from "../CatalogueTableEntryPoint/CatalogueTableEntryPoint";
+import {CatalogueViewEntryPoint} from "../CatalogueViewEntryPoint/CatalogueViewEntryPoint";
 
-interface CataloguesRouterProps {
+interface CataloguesStructureRouterProps {
 }
 
-export const CataloguesRouter = (_: CataloguesRouterProps) => {
+export const CataloguesStructureRouter = (_: CataloguesStructureRouterProps) => {
   const { ids } = useCataloguesRouteParams()
   const {i18n} = useTranslation()
   const [searchParams] = useSearchParams()
@@ -35,7 +35,7 @@ export const CataloguesRouter = (_: CataloguesRouterProps) => {
   } else if(catalogueGet.data?.item?.structure?.type === "table") {
     return <CatalogueTableEntryPoint catalogue={catalogueGet.data.item} />
   } else {
-    return <CatalogueViewPage catalogue={catalogueGet.data.item} />
+    return <CatalogueViewEntryPoint catalogue={catalogueGet.data.item} />
   }
 
 }

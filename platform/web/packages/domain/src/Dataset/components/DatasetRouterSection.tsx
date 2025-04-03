@@ -6,6 +6,7 @@ import {Activity} from "../../Activity";
 import {Catalogue, CatalogueInformation} from "../../Catalogue";
 import {CatalogueGraphManager} from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
 import {CataloguePdfCertificate} from "../../Catalogue/components/CataloguePdfCertificate";
+import {DatasetIndicator} from "./DatasetIndicator";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
@@ -33,6 +34,12 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
         return (
           <CatalogueInformation
             catalogue={catalogue}
+          />
+        )
+    } else if(item.type === "indicators" ) {
+        return (
+          <DatasetIndicator
+            item={item}
           />
         )
     } else if(item.type === "graphs" ) {

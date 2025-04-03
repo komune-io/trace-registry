@@ -447,13 +447,16 @@ class ImportScript(
         val size = importContext.catalogueDatasetReferences.size
         importContext.catalogueDatasetReferences.entries.mapIndexed { index, (catalogueIdentifier, datasetIds) ->
             logger.info("($index/${size}) Linking [${catalogueIdentifier} -> $datasetIds]")
-            val catalogueId = importContext.catalogues[catalogueIdentifier]
-                ?: throw IllegalArgumentException("Catalogue not found: $catalogueIdentifier")
-
-            CatalogueReferenceDatasetsCommandDTOBase(
-                id = catalogueId,
-                datasetIds = datasetIds
-            ).invokeWith(dataClient.catalogue.catalogueReferenceDatasets())
+            try {
+                val catalogueId = importContext.catalogues[catalogueIdentifier]
+                    ?: throw IllegalArgumentException("Catalogue not found: $catalogueIdentifier")
+                CatalogueReferenceDatasetsCommandDTOBase(
+                    id = catalogueId,
+                    datasetIds = datasetIds
+                ).invokeWith(dataClient.catalogue.catalogueReferenceDatasets())
+            } catch (e: Exception) {
+                logger.error("Error linking datasets to catalogue [$catalogueIdentifier]: ${e.message}")
+            }
         }
     }
 
