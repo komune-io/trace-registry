@@ -5,7 +5,7 @@ import { CustomButton, CustomLinkButton, ImageCard, TitleDivider, useRoutesDefin
 import { AddCircleOutlineRounded } from '@mui/icons-material'
 import { CSVUploadPopup } from '../CSVUploadPopup'
 import { useCallback, useMemo } from 'react'
-import { g2Config } from '@komune-io/g2'
+import { g2Config, successHandler } from '@komune-io/g2'
 import { useDatasetDeleteCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { CsvAccordion } from '../CsvAccordion'
@@ -31,6 +31,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 id: datasetId
             })
             if (res) {
+                successHandler("graphDeleted")
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
             }
         },

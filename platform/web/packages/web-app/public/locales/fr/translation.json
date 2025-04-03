@@ -411,9 +411,15 @@
             "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé",
             "data/datasetAddMediaDistribution": "Le fichier n'a pas pu être enregistré",
             "data/datasetUpdateMediaDistribution": "Les modifications n'ont pas pu être enregistrées",
-            "data/datasetDelete": "Le graphe n'a pas pu être supprimé",
-            "data/datasetCreate": "Le graphe n'a pas pu être créé",
-            "data/datasetUpdate": "Le graphe n'a pas pu être modifié"
+            "data/datasetDelete": "La suppresion a échoué",
+            "data/datasetCreate": "La création à échoué",
+            "data/datasetUpdate": "La modification à échoué",
+            "data/informationConceptList": "La liste des types d'indicateurs n'a pas pu être récupérée",
+            "data/dataUnitList": "La liste des unités disponible n'a pas pu être récupérée",
+            "data/informationConceptGetGlobalValue": "Le compteur de CO2 économisées n'a pas pu être récupéré",
+            "data/datasetAddDistributionValue": "L'indicateur n'a pas pu être créé",
+            "data/datasetReplaceDistributionValue": "L'indicateur n'a pas pu être modifié",
+            "data/datasetRemoveDistributionValue": "L'indicateur n'a pas pu être supprimé"
         },
         "success": {
             "data/catalogueCreate": "La fiche a bien été créée",
@@ -424,11 +430,17 @@
             "data/catalogueDraftValidate": "Le brouillon a bien été validé",
             "data/catalogueDraftReject": "Le brouillon a bien été rejeté",
             "data/catalogueDraftDelete": "Le brouillon a bien été supprimé",
-            "data/datasetDelete": "Le graphe a bien été supprimé",
             "data/datasetAddMediaDistribution": "Le fichier a bien été enregistré",
             "draftUpdated": "Le brouillon a bien été enregistré",
             "graphCreated": "Le graphe a bien été enregistré",
-            "graphUpdated": "Le graphe a bien été modifié"
+            "graphUpdated": "Le graphe a bien été modifié",
+            "graphDeleted": "Le graphe a bien été supprimé",
+            "indicatorBlockCreated": "Le bloc d'indicateurs a bien été enregistré",
+            "indicatorBlockUpdated": "Le bloc d'indicateurs a bien été modifié",
+            "indicatorBlockDeleted": "Le bloc d'indicateurs a bien été supprimé",
+            "data/datasetAddDistributionValue": "L'indicateur a bien été créé",
+            "data/datasetReplaceDistributionValue": "Les modifications de l'indicateur a bien été enregistrées",
+            "data/datasetRemoveDistributionValue": "L'indicateur a bien été supprimé"
         }
     }
 }
