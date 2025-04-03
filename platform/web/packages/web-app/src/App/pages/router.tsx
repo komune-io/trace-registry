@@ -3,12 +3,12 @@ import {ProjectList, ProjectView} from "./Project";
 import {TransactionView} from "./Transaction/TransactionView/TransactionView";
 import {TransactionList} from "./Transaction/TransactionList/TransactionList";
 import { ProjectCreate } from "./Project/ProjectCreate/ProjectCreate";
-import {CataloguesRouter} from "./data/Structure/CataloguesStructureRouter/CataloguesRouter";
+import {CataloguesStructureRouter} from "./data/Structure/CataloguesStructureRouter/CataloguesRouter";
 
 export const registryPages: PageRoute[] = [
   {
     path: "",
-    element: <CataloguesRouter />
+    element: <CataloguesStructureRouter />
   },
   {
     path: "projects",

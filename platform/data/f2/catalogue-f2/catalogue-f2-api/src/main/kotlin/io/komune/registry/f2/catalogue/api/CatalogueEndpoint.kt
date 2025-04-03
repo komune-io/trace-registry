@@ -202,13 +202,13 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/data/catalogues/{catalogueIdentifier}/certificate")
+    @GetMapping("/data/catalogues/{catalogueId}/certificate")
     suspend fun catalogueCertificateDownload(
-        @PathVariable catalogueIdentifier: CatalogueIdentifier,
+        @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> {
-        logger.info("catalogueCertificateDownload: $catalogueIdentifier")
-        val file = certificate.generateFiles(catalogueIdentifier)
-        return buildResponseForFile("certificate-$catalogueIdentifier.pdf", file)
+        logger.info("catalogueCertificateDownload: $catalogueId")
+        val file = certificate.generateFiles(catalogueId)
+        return buildResponseForFile("certificate-$catalogueId.pdf", file)
     }
 
     @PermitAll

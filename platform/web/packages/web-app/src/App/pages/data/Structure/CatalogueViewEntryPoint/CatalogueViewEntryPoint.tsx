@@ -18,11 +18,11 @@ import { useQueryClient } from '@tanstack/react-query'
 import { LinkButton } from '@komune-io/g2'
 import {useLocation} from "react-router";
 
-interface CatalogueViewPageProps {
+interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
 }
 
-export const CatalogueViewPage = (props: CatalogueViewPageProps) => {
+export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => {
     const {
       catalogue
     } = props

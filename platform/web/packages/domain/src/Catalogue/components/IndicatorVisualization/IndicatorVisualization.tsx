@@ -7,11 +7,12 @@ import { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 export interface IndicatorVisualizationProps {
+    title?: string
     indicators: InformationConcept[]
 }
 
 export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
-    const { indicators } = props
+    const { title, indicators } = props
     const { t, i18n } = useTranslation()
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
@@ -23,7 +24,7 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
                 <Typography
                     variant='h6'
                 >
-                    {t("previsualization")}
+                    { title ?? t("previsualization")}
                 </Typography>
             }
             defaultExpanded
