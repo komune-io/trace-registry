@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service
 class CatalogueCertificateService(
     private val conceptService: CatalogueInformationConceptService,
     private val catalogueI18nService: CatalogueI18nService,
-    private val fileClient: FileClient,
 ) : CatalogueCachedService() {
 
     suspend fun generateFiles(catalogueId: CatalogueId): ByteArrayInputStream? {
