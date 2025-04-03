@@ -2,7 +2,7 @@ import { TitleDivider, useRoutesDefinition, SectionTab, Tab } from 'components'
 import { CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
@@ -11,12 +11,18 @@ import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';
 
 export const DraftValidationPage = () => {
-  const { draftId, catalogueId } = useParams()
-  const [tab, setTab] = useState("metadata")
+  const { draftId, catalogueId, tab } = useParams()
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const { cataloguesToVerify } = useRoutesDefinition()
+  const { cataloguesToVerify, cataloguesCatalogueIdDraftIdVerifyTab } = useRoutesDefinition()
+
+  const setTab = useCallback(
+    (tab: string) => {
+      navigate(cataloguesCatalogueIdDraftIdVerifyTab(catalogueId!, draftId!, tab!))
+    },
+    [catalogueId, draftId, navigate],
+  )
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -83,7 +89,7 @@ export const DraftValidationPage = () => {
       <SectionTab
         keepMounted
         tabs={tabs}
-        currentTab={tab}
+        currentTab={tab ?? "metadata"}
         onTabChange={(_, value) => setTab(value)}
       />
     </AppPage>

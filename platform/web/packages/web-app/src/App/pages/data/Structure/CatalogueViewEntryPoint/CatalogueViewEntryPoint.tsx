@@ -28,7 +28,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
     } = props
     const { t, i18n } = useTranslation()
     const { ids } = useCataloguesRouteParams()
-    const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
     const [draftLoading, setDraftLoading] = useState(false)
     const queryClient = useQueryClient()
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
@@ -120,7 +120,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] }),
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
               ])
-              navigate(cataloguesCatalogueIdDraftIdEdit(catalogue.id, res.item?.id))
+              navigate(cataloguesCatalogueIdDraftIdEditTab(catalogue.id, res.item?.id))
             }
         },
         [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],
@@ -150,7 +150,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
                 title={t("catalogues.activeContribution")}
             >
                 <LinkButton
-                    to={cataloguesCatalogueIdDraftIdEdit(catalogue?.id!, currentLanguageDraft.id)}
+                    to={cataloguesCatalogueIdDraftIdEditTab(catalogue?.id!, currentLanguageDraft.id)}
                 >
                     {t("catalogues.consultContribution")}
                 </LinkButton>

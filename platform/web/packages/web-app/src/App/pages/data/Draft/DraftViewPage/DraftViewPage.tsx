@@ -1,16 +1,24 @@
-import { TitleDivider, SectionTab, Tab } from 'components'
+import { TitleDivider, SectionTab, Tab, useRoutesDefinition } from 'components'
 import { useCatalogueDraftGetQuery } from 'domain-components'
 import { AppPage } from 'template'
-import { useParams } from "react-router-dom";
-import { useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 
 export const DraftViewPage = () => {
-  const { draftId } = useParams()
-  const [tab, setTab] = useState("metadata")
+  const { catalogueId, draftId, tab } = useParams()
   const { t } = useTranslation()
+  const { cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
+  const navigate = useNavigate()
+  
+  const setTab = useCallback(
+    (tab: string) => {
+      navigate(cataloguesCatalogueIdDraftIdViewTab(catalogueId!, draftId!, tab!))
+    },
+    [catalogueId, draftId, navigate],
+  )
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -48,7 +56,7 @@ export const DraftViewPage = () => {
       <SectionTab
         keepMounted
         tabs={tabs}
-        currentTab={tab}
+        currentTab={tab ?? "metadata"}
         onTabChange={(_, value) => setTab(value)}
       />
     </AppPage>
