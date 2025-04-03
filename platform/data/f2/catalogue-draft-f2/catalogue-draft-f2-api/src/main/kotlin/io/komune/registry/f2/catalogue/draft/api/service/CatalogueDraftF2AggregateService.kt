@@ -22,7 +22,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 
@@ -114,13 +114,12 @@ class CatalogueDraftF2AggregateService(
 
                 distribution.aggregators.forEach { (conceptId, valueIds) ->
                     valueIds.forEach { valueId ->
-                        DatasetUpdateDistributionAggregatorValueCommand(
+                        DatasetUpdateDistributionAggregatorValuesCommand(
                             id = newId,
                             distributionId = distribution.id,
-                            informationConceptId = conceptId,
-                            oldSupportedValueId = null,
-                            newSupportedValueId = valueId
-                        ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                            removeSupportedValueIds = null,
+                            addSupportedValueIds = mapOf(conceptId to setOf(valueId))
+                        ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
                     }
                 }
             }

@@ -18,7 +18,8 @@ val s2SupportedValue = s2Sourcing {
         role = SupportedValueRole.User
     }
     transaction<SupportedValueValidateCommand, SupportedValueValidatedEvent> {
-        from = SupportedValueState.COMPUTED
+        froms += SupportedValueState.COMPUTED
+        froms += SupportedValueState.DEPRECATED
         to = SupportedValueState.VALIDATED
         role = SupportedValueRole.User
     }

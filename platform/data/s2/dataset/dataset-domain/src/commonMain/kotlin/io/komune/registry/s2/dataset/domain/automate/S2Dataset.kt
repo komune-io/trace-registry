@@ -17,9 +17,9 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValueEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValuesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import kotlinx.serialization.Serializable
@@ -68,7 +68,7 @@ val s2Dataset = s2Sourcing {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }
-    selfTransaction<DatasetUpdateDistributionAggregatorValueCommand, DatasetUpdatedDistributionAggregatorValueEvent> {
+    selfTransaction<DatasetUpdateDistributionAggregatorValuesCommand, DatasetUpdatedDistributionAggregatorValuesEvent> {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }

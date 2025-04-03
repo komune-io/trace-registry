@@ -1,6 +1,7 @@
 package io.komune.registry.f2.dataset.api
 
 import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.fnc.F2Function
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
@@ -50,6 +51,8 @@ import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.toList
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -108,6 +111,7 @@ class DatasetEndpoint(
 
     @Bean
     override fun datasetExists(): DatasetExistsFunction = f2Function { query ->
+        logger.info("datasetExists: $query")
         datasetFinderService.exists(query.identifier, query.language)
             .let(::DatasetExistsResult)
     }
@@ -267,10 +271,13 @@ class DatasetEndpoint(
     }
 
     @Bean
-    override fun datasetAddDistributionValue(): DatasetAddDistributionValueFunction = f2Function { command ->
-        logger.info("datasetAddDistributionValue: $command")
-        datasetPoliciesEnforcer.checkUpdate(command.id)
-        datasetF2AggregateService.addDistributionValue(command)
+    override fun datasetAddDistributionValue(): DatasetAddDistributionValueFunction = F2Function { commandFlow ->
+        val commands = commandFlow.toList()
+        logger.info("datasetAddDistributionValue: \n- ${commands.joinToString("\n- ")}")
+        commands.map { it.id }.distinct().forEach {
+            datasetPoliciesEnforcer.checkUpdate(it)
+        }
+        datasetF2AggregateService.addDistributionValues(commands).asFlow()
     }
 
     @Bean

@@ -64,7 +64,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.dataset.domain.model.DistributionModel
@@ -650,25 +650,23 @@ class CatalogueF2AggregateService(
             val existingValueIds = originalDistribution?.aggregators?.get(conceptId).orEmpty()
 
             (valueIds - existingValueIds).forEach { valueId ->
-                DatasetUpdateDistributionAggregatorValueCommand(
+                DatasetUpdateDistributionAggregatorValuesCommand(
                     id = datasetId,
                     distributionId = distribution.id,
-                    informationConceptId = conceptId,
-                    oldSupportedValueId = null,
-                    newSupportedValueId = valueId
-                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                    removeSupportedValueIds = null,
+                    addSupportedValueIds = mapOf(conceptId to setOf(valueId))
+                ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
 
                 cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
             }
 
             (existingValueIds - valueIds).forEach { valueId ->
-                DatasetUpdateDistributionAggregatorValueCommand(
+                DatasetUpdateDistributionAggregatorValuesCommand(
                     id = datasetId,
                     distributionId = distribution.id,
-                    informationConceptId = conceptId,
-                    oldSupportedValueId = valueId,
-                    newSupportedValueId = null
-                ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                    removeSupportedValueIds = mapOf(conceptId to setOf(valueId)),
+                    addSupportedValueIds = null
+                ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
 
                 cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
             }
@@ -678,13 +676,12 @@ class CatalogueF2AggregateService(
             ?.filterKeys { it !in distribution.aggregators }
             ?.forEach { (conceptId, valueIds) ->
                 valueIds.forEach { valueId ->
-                    DatasetUpdateDistributionAggregatorValueCommand(
+                    DatasetUpdateDistributionAggregatorValuesCommand(
                         id = datasetId,
                         distributionId = distribution.id,
-                        informationConceptId = conceptId,
-                        oldSupportedValueId = valueId,
-                        newSupportedValueId = null
-                    ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+                        removeSupportedValueIds = mapOf(conceptId to setOf(valueId)),
+                        addSupportedValueIds = null
+                    ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
 
                     cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
                 }

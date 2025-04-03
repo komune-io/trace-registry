@@ -83,9 +83,9 @@ interface DatasetReplacedDistributionValueEventDTO {
     val distributionId: DistributionId
 
     /**
-     * Id of the new value.
+     * Ids of the new values.
      */
-    val valueId: SupportedValueId
+    val valueIds: List<SupportedValueId>
 }
 
 /**
@@ -95,5 +95,5 @@ interface DatasetReplacedDistributionValueEventDTO {
 data class DatasetReplacedDistributionValueEventDTOBase(
     override val id: DatasetId,
     override val distributionId: DistributionId,
-    override val valueId: SupportedValueId
+    override val valueIds: List<SupportedValueId>
 ) : DatasetReplacedDistributionValueEventDTO

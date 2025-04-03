@@ -63,10 +63,9 @@ import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEven
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
-import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValueCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import io.komune.registry.s2.dataset.domain.model.DistributionModel
 import io.ktor.utils.io.core.toByteArray
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -269,43 +268,35 @@ class DatasetF2AggregateService(
         )
     }
 
-    suspend fun addDistributionValue(
-        command: DatasetAddDistributionValueCommandDTOBase
-    ): DatasetAddedDistributionValueEventDTOBase {
-        val newValueId = createAndUpdateDistributionValue(command, null)
-
-        return DatasetAddedDistributionValueEventDTOBase(
-            id = command.id,
-            distributionId = command.distributionId,
-            valueId = newValueId
-        )
+    suspend fun addDistributionValues(
+        commands: List<DatasetAddDistributionValueCommandDTOBase>
+    ): List<DatasetAddedDistributionValueEventDTOBase> {
+        return createAndUpdateDistributionValues(commands)
+            .map { event ->
+                DatasetAddedDistributionValueEventDTOBase(
+                    id = event.id,
+                    distributionId = event.distributionId,
+                    valueIds = event.valueIds
+                )
+            }
     }
 
     suspend fun replaceDistributionValue(
         command: DatasetReplaceDistributionValueCommandDTOBase
     ): DatasetReplacedDistributionValueEventDTOBase {
-        val newValueId = createAndUpdateDistributionValue(command, command.valueId)
-
-        return DatasetReplacedDistributionValueEventDTOBase(
-            id = command.id,
-            distributionId = command.distributionId,
-            valueId = newValueId
-        )
+        return createAndUpdateDistributionValues(listOf(command)).first()
     }
 
     suspend fun removeDistributionValue(
         command: DatasetRemoveDistributionValueCommandDTOBase
     ): DatasetRemovedDistributionValueEventDTOBase {
         val dataset = datasetFinderService.get(command.id)
-        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
-            ?: throw NotFoundException("Distribution", command.distributionId)
 
-        updateDistributionValue(
+        updateDistributionValues(
             dataset = dataset,
-            distribution = distribution,
-            conceptId = command.informationConceptId,
-            oldValueId = command.valueId,
-            newValueId = null
+            distributionId = command.distributionId,
+            removeValueIds = mapOf(command.informationConceptId to setOf(command.valueId)),
+            addValueIds = null
         )
 
         return DatasetRemovedDistributionValueEventDTOBase(
@@ -417,72 +408,79 @@ class DatasetF2AggregateService(
             }
         ).let { cccevAggregateService.computeValue(it) }
 
-        updateDistributionValue(
+        updateDistributionValues(
             dataset = dataset,
-            distribution = oldDistribution,
-            conceptId = aggregatorConfig.informationConceptId,
-            oldValueId = oldDistribution.aggregators[aggregatorConfig.informationConceptId]?.firstOrNull(),
-            newValueId = valueEvent.supportedValueId
+            distributionId = oldDistribution.id,
+            removeValueIds = oldDistribution.aggregators.filterKeys { it == aggregatorConfig.informationConceptId },
+            addValueIds = mapOf(aggregatorConfig.informationConceptId to setOf(valueEvent.supportedValueId))
         )
     }
 
-    private suspend fun createAndUpdateDistributionValue(
-        command: DatasetAddDistributionValueCommandDTO, oldValueId: SupportedValueId?
-    ): SupportedValueId {
-        val dataset = datasetFinderService.get(command.id)
-        val distribution = dataset.distributions.firstOrNull { it.id == command.distributionId }
-            ?: throw NotFoundException("Distribution", command.distributionId)
+    private suspend fun createAndUpdateDistributionValues(
+        commands: List<DatasetAddDistributionValueCommandDTO>
+    ): List<DatasetReplacedDistributionValueEventDTOBase> {
+        val concepts = commands.map { it.informationConceptId }
+            .distinct()
+            .associateWith { cccevFinderService.getConcept(it) }
 
-        val concept = cccevFinderService.getConcept(command.informationConceptId)
-        val newValueId = SupportedValueCreateCommand(
-            conceptId = command.informationConceptId,
-            unit = concept.unit ?: command.unit as CompositeDataUnitModel,
-            isRange = command.isRange,
-            value = command.value,
-            description = command.description,
-            query = null
-        ).let { cccevAggregateService.createValue(it).id }
+        return commands.groupBy { it.id }.flatMap { (datasetId, datasetCommands) ->
+            val dataset = datasetFinderService.get(datasetId)
+            datasetCommands.groupBy { it.distributionId }.map { (distributionId, distributionCommands) ->
+                val newValues = distributionCommands.map { command ->
+                    val concept = concepts[command.informationConceptId]!!
+                    SupportedValueCreateCommand(
+                        conceptId = command.informationConceptId,
+                        unit = concept.unit ?: command.unit as CompositeDataUnitModel,
+                        isRange = command.isRange,
+                        value = command.value,
+                        description = command.description,
+                        query = null
+                    ).let { cccevAggregateService.createValue(it) }
+                }.groupBy({ it.conceptId }, { it.id })
+                    .mapValues { (_, values) -> values.toSet() }
 
+                val removeValues = distributionCommands.mapNotNull { it as? DatasetReplaceDistributionValueCommandDTOBase }
+                    .groupBy({ it.informationConceptId }, { it.valueId })
+                    .mapValues { (_, values) -> values.toSet() }
 
-        updateDistributionValue(
-            dataset = dataset,
-            distribution = distribution,
-            conceptId = command.informationConceptId,
-            oldValueId = oldValueId,
-            newValueId = newValueId
-        )
+                updateDistributionValues(
+                    dataset = dataset,
+                    distributionId = distributionId,
+                    removeValueIds = removeValues,
+                    addValueIds = newValues
+                )
 
-        return newValueId
+                DatasetReplacedDistributionValueEventDTOBase(
+                    id = datasetId,
+                    distributionId = distributionId,
+                    valueIds = newValues.values.flatten()
+                )
+            }
+        }
     }
 
-    private suspend fun updateDistributionValue(
+    private suspend fun updateDistributionValues(
         dataset: DatasetModel,
-        distribution: DistributionModel,
-        conceptId: InformationConceptId,
-        oldValueId: SupportedValueId?,
-        newValueId: SupportedValueId?
+        distributionId: DistributionId,
+        removeValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
+        addValueIds: Map<InformationConceptId, Set<SupportedValueId>>?
     ) {
-        if (oldValueId == newValueId) {
-            return
-        }
-
         if (!dataset.isInDraft()) {
-            if (newValueId != null) {
-                cccevAggregateService.validateValue(SupportedValueValidateCommand(newValueId))
+            addValueIds?.values?.flatten()?.mapAsync { valueId ->
+                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
             }
 
-            if (oldValueId != null) {
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(oldValueId))
+            removeValueIds?.values?.flatten()?.mapAsync { valueId ->
+                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
             }
         }
 
-        DatasetUpdateDistributionAggregatorValueCommand(
+        DatasetUpdateDistributionAggregatorValuesCommand(
             id = dataset.id,
-            distributionId = distribution.id,
-            informationConceptId = conceptId,
-            oldSupportedValueId = oldValueId,
-            newSupportedValueId = newValueId
-        ).let { datasetAggregateService.updateDistributionAggregatorValue(it) }
+            distributionId = distributionId,
+            removeSupportedValueIds = removeValueIds,
+            addSupportedValueIds = addValueIds
+        ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
     }
 
     private suspend fun DatasetModel.isInDraft(): Boolean {
