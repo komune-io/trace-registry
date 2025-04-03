@@ -12,8 +12,8 @@ import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.s2.structure.domain.model.StructureDTO
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Update a catalogue.
@@ -50,6 +50,7 @@ interface CatalogueUpdateCommandDTO {
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val themes: List<ConceptId>?
+    val relatedCatalogueIds: Map<String, List<CatalogueId>>?
     val accessRights: CatalogueAccessRight?
     val license: LicenseId?
     val location: LocationDTO?
@@ -76,6 +77,7 @@ data class CatalogueUpdateCommandDTOBase(
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val themes: List<ConceptId>? = null,
+    override val relatedCatalogueIds: Map<String, List<CatalogueId>>? = null,
     override val accessRights: CatalogueAccessRight? = null,
     override val license: LicenseId? = null,
     override val location: Location? = null,

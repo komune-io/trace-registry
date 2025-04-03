@@ -17,12 +17,16 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
@@ -57,7 +61,6 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -284,6 +287,22 @@ class CatalogueEndpoint(
             catalogues = command.catalogues,
         ).let { catalogueAggregateService.unlinkCatalogues(it) }
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction = f2Function { command ->
+        logger.info("catalogueAddRelatedCatalogues: $command")
+        cataloguePoliciesEnforcer.checkUpdate(command.id)
+        catalogueAggregateService.addRelatedCatalogues(command)
+            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun catalogueRemoveRelatedCatalogues(): CatalogueRemoveRelatedCataloguesFunction = f2Function { command ->
+        logger.info("catalogueRemoveRelatedCatalogues: $command")
+        cataloguePoliciesEnforcer.checkUpdate(command.id)
+        catalogueAggregateService.removeRelatedCatalogues(command)
+            .let { CatalogueRemovedRelatedCataloguesEventDTOBase(it.id) }
     }
 
     @Bean
