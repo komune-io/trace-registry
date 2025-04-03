@@ -12,6 +12,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { CreateIndicatorBlockModal } from './CreateIndicatorBlockModal'
 import { CatalogueDraft } from '../../model'
 import { IndicatorVisualization } from '../IndicatorVisualization'
+import { successHandler } from '@komune-io/g2'
 
 export interface IndicatorBlockProps {
     dataset: Dataset
@@ -34,6 +35,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
             id: dataset.id
         })
         if (res) {
+            successHandler("indicatorBlockDeleted")
             queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
         }
     }, [dataset, draftId])

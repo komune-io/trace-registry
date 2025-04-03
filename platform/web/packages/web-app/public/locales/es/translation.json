@@ -410,9 +410,15 @@
       "data/catalogueDraftDelete": "No se pudo eliminar el borrador",
       "data/datasetAddMediaDistribution": "No se pudo guardar el archivo",
       "data/datasetUpdateMediaDistribution": "No se pudo guardar el archivo",
-      "data/datasetDelete": "No se pudo eliminar el gráfico",
-      "data/datasetCreate": "No se pudo crear el gráfico",
-      "data/datasetUpdate": "No se pudo modificar el gráfico"
+      "data/datasetDelete": "La eliminación falló",
+      "data/datasetCreate": "La creación falló",
+      "data/datasetUpdate": "La modificación falló",
+      "data/informationConceptList": "No se pudo recuperar la lista de tipos de indicadores",
+      "data/dataUnitList": "No se pudo recuperar la lista de unidades disponibles",
+      "data/informationConceptGetGlobalValue": "No se pudo recuperar el contador de CO2 ahorrado",
+      "data/datasetAddDistributionValue": "No se pudo crear el indicador",
+      "data/datasetReplaceDistributionValue": "No se pudo modificar el indicador",
+      "data/datasetRemoveDistributionValue": "No se pudo eliminar el indicador"
     },
     "success": {
       "data/catalogueCreate": "La ficha ha sido creada correctamente",
@@ -423,11 +429,17 @@
       "data/catalogueDraftValidate": "El borrador ha sido validado",
       "data/catalogueDraftReject": "El borrador ha sido rechazado",
       "data/catalogueDraftDelete": "El borrador ha sido eliminado",
-      "data/datasetDelete": "El gráfico ha sido eliminado correctamente",
       "data/datasetAddMediaDistribution": "El archivo ha sido guardado correctamente",
       "draftUpdated": "El borrador ha sido guardado correctamente",
       "graphCreated": "El gráfico ha sido creado correctamente",
-      "graphUpdated": "El gráfico ha sido modificado correctamente"
+      "graphUpdated": "El gráfico ha sido modificado correctamente",
+      "graphDeleted": "El gráfico ha sido eliminado correctamente",
+      "indicatorBlockCreated": "El bloque de indicadores ha sido guardado correctamente",
+      "indicatorBlockUpdated": "El bloque de indicadores ha sido modificado correctamente",
+      "indicatorBlockDeleted": "El bloque de indicadores ha sido eliminado correctamente",
+      "data/datasetAddDistributionValue": "El indicador ha sido creado correctamente",
+      "data/datasetReplaceDistributionValue": "Las modificaciones del indicador han sido guardadas correctamente",
+      "data/datasetRemoveDistributionValue": "El indicador ha sido eliminado correctamente"
     }
   }
 }

@@ -15,7 +15,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const { t, i18n } = useTranslation()
     
     const navigate = useNavigate()
-    const {cataloguesCatalogueIdDraftIdEdit} = useRoutesDefinition()
+    const {cataloguesCatalogueIdDraftIdEditTab} = useRoutesDefinition()
 
     const queryClient = useQueryClient()
 
@@ -41,7 +41,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
 
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-          navigate(cataloguesCatalogueIdDraftIdEdit(res.id, res.draftId!))
+          navigate(cataloguesCatalogueIdDraftIdEditTab(res.id, res.draftId!))
         }
       },
       [createCommand.mutateAsync, type, i18n.language],

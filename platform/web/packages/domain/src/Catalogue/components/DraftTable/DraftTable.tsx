@@ -87,7 +87,7 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
 
 export const DraftTable = (props: DraftTableProps) => {
     const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
-    const { cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdEdit, cataloguesCatalogueIdDraftIdView } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdEditTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
     const { t } = useTranslation()
 
     const columns = useDraftColumn(withStatus, withOperation)
@@ -101,20 +101,20 @@ export const DraftTable = (props: DraftTableProps) => {
         (row: Row<CatalogueDraft>) => {
             let url: string | undefined = undefined
             if (!toEdit) {
-                url = cataloguesCatalogueIdDraftIdVerify(row.original.originalCatalogueId, row.original.id)
+                url = cataloguesCatalogueIdDraftIdVerifyTab(row.original.originalCatalogueId, row.original.id)
             } else {
                 const status = row.original.status
                 if (status === "VALIDATED") {
-                    url = cataloguesCatalogueIdDraftIdView(row.original.originalCatalogueId, row.original.id)
+                    url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
                 } else {
-                    url = cataloguesCatalogueIdDraftIdEdit(row.original.originalCatalogueId, row.original.id)
+                    url = cataloguesCatalogueIdDraftIdEditTab(row.original.originalCatalogueId, row.original.id)
                 }
             }          
             return {
                 to: url,
             }
         },
-        [cataloguesCatalogueIdDraftIdVerify, cataloguesCatalogueIdDraftIdView, cataloguesCatalogueIdDraftIdEdit, toEdit],
+        [toEdit],
     )
 
     return (

@@ -188,3 +188,13 @@ export const useInformationConceptGetGlobalValueQuery = (params: QueryParams<Inf
     "data/informationConceptGetGlobalValue", requestProps, params
   )
 }
+
+export interface CatalogueListAllowedTypesQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesQueryDTO { }
+export interface CatalogueListAllowedTypesResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResultDTO { }
+
+export const useCatalogueListAllowedTypesQuery = (params: QueryParams<CatalogueListAllowedTypesQuery, CatalogueListAllowedTypesResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CatalogueListAllowedTypesQuery, CatalogueListAllowedTypesResult>(
+    "data/catalogueListAllowedTypes", requestProps, params
+  )
+}

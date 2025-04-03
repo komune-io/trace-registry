@@ -1,4 +1,4 @@
-import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
+import { FormComposable, FormComposableField, Option, successHandler, useFormComposable } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
 import { TmsPopUp, SearchIcon, maybeAddItem } from 'components'
 import { useCallback, useMemo } from 'react'
@@ -85,6 +85,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             }) : true
             
             if (addDistribRes && unrefRes && refRes) {
+                !editDataset ? successHandler("indicatorBlockCreated") : successHandler("indicatorBlockUpdated")
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft?.id! }] })
                 onClose()
             } 

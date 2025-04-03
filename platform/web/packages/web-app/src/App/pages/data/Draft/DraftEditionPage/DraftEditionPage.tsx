@@ -12,15 +12,20 @@ import { useDraftTabs } from './useDraftTabs';
 import { useDraftValidations } from './useDraftValidations';
 
 export const DraftEditionPage = () => {
-  const { draftId, catalogueId } = useParams()
-  const [tab, setTab] = useState("metadata")
+  const { draftId, catalogueId, tab } = useParams()
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
   const { policies } = useExtendedAuth()
 
+  const setTab = useCallback(
+    (tab: string) => {
+      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tab!))
+    },
+    [catalogueId, draftId, navigate],
+  )
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -77,7 +82,7 @@ export const DraftEditionPage = () => {
 
       const existingDraft = catalogue.pendingDrafts?.find(draft => draft.language === languageTag)
       if (existingDraft) {
-        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, existingDraft.id))
+        navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, existingDraft.id))
         return
       }
 
@@ -93,10 +98,10 @@ export const DraftEditionPage = () => {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         catalogueDraftQuery.refetch()
-        navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, res.item.id))
+        navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, res.item.id))
       }
     },
-    [createDraft.mutateAsync, catalogueId, catalogue],
+    [createDraft.mutateAsync, catalogueId, catalogue, tab],
   )
 
   return (
@@ -133,7 +138,7 @@ export const DraftEditionPage = () => {
       <SectionTab
         keepMounted
         tabs={tabs}
-        currentTab={tab}
+        currentTab={tab ?? "metadata"}
         onTabChange={(_, value) => setTab(value)}
       />
     </AppPage>

@@ -410,9 +410,15 @@
       "data/catalogueDraftDelete": "The draft could not be deleted",
       "data/datasetAddMediaDistribution": "The file could not be saved",
       "data/datasetUpdateMediaDistribution": "The file could not be saved",
-      "data/datasetDelete": "The graph could not be deleted",
-      "data/datasetCreate": "The graph could not be created",
-      "data/datasetUpdate": "The graph could not be updated"
+      "data/datasetDelete": "The deletion failed",
+      "data/datasetCreate": "The creation failed",
+      "data/datasetUpdate": "The modification failed",
+      "data/informationConceptList": "The list of indicator types could not be retrieved",
+      "data/dataUnitList": "The list of available units could not be retrieved",
+      "data/informationConceptGetGlobalValue": "The saved CO2 counter could not be retrieved",
+      "data/datasetAddDistributionValue": "The indicator could not be created",
+      "data/datasetReplaceDistributionValue": "The indicator could not be modified",
+      "data/datasetRemoveDistributionValue": "The indicator could not be deleted"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",
@@ -423,11 +429,17 @@
       "data/catalogueDraftValidate": "The draft has been successfully validated",
       "data/catalogueDraftReject": "The draft has been successfully rejected",
       "data/catalogueDraftDelete": "The draft has been successfully deleted",
-      "data/datasetDelete": "The graph has been successfully deleted",
       "data/datasetAddMediaDistribution": "The file has been successfully saved",
       "draftUpdated": "The draft has been successfully updated",
       "graphCreated": "The graph has been successfully created",
-      "graphUpdated": "The graph has been successfully updated"
+      "graphUpdated": "The graph has been successfully updated",
+      "graphDeleted": "The graph has been successfully deleted",
+      "indicatorBlockCreated": "The indicator block has been successfully saved",
+      "indicatorBlockUpdated": "The indicator block has been successfully updated",
+      "indicatorBlockDeleted": "The indicator block has been successfully deleted",
+      "data/datasetAddDistributionValue": "The indicator has been successfully created",
+      "data/datasetReplaceDistributionValue": "The indicator modifications have been successfully saved",
+      "data/datasetRemoveDistributionValue": "The indicator has been successfully deleted"
     }
   }
 }

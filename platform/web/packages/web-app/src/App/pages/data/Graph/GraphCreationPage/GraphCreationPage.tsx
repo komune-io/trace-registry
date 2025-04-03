@@ -19,24 +19,8 @@ import { useEditGraph } from './useEditGraph'
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, datasetId } = useParams()
-  const { cataloguesCatalogueIdDraftIdEdit } = useRoutesDefinition()
-
+  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
   const navigate = useNavigate()
-
-  const onClose = useCallback(
-    () => {
-      navigate(cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!))
-    },
-    [navigate, catalogueId, draftId],
-  )
-
-  const title = datasetId ? t("editAGraph") : t("createAGraph")
-
-  useEffect(() => {
-    document.title = "WikiCO2 | " + title
-  }, [t, title])
-
-
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
     query: {
@@ -50,6 +34,19 @@ export const GraphCreationPage = () => {
 
   const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
   const distribution = useMemo(() => dataset?.distributions?.find((dist) => dist.mediaType === "application/json"), [dataset])
+
+  const onClose = useCallback(
+    () => {
+      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.identifier!))
+    },
+    [navigate, catalogueId, draftId, graphDataset],
+  )
+
+  const title = datasetId ? t("editAGraph") : t("createAGraph")
+
+  useEffect(() => {
+    document.title = "WikiCO2 | " + title
+  }, [t, title])
 
   const rawGraphStateDistrib = useDownloadDistribution<RawGraphState>("json", dataset?.id, distribution?.id)
 
@@ -98,7 +95,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEdit(catalogueId!, draftId!)} />
+      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.identifier!)} />
       <Stack
         sx={{
           maxWidth: 1200,
