@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { getMenu, MenuItem } from '.'
-import { useCatalogueDraftPageQuery } from 'domain-components'
+import { CatalogueTypes, useCatalogueDraftPageQuery, useCatalogueListAllowedTypesQuery } from 'domain-components'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
@@ -61,28 +61,45 @@ export const MenuHeader = () => {
     const { t } = useTranslation()
 
     const personalMenu = usePersonalMenu(t)
+    const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
+        query: {
 
-    const items = useMemo((): TMSMenuItem[] => [{
-        key: "newSystem",
-        label: t("newSystem"),
-        icon: iconPack.system,
-        to: cataloguesCreateSystem()
-    }, {
-        key: "newSolution",
-        label: t("newSolution"),
-        icon: iconPack.solution,
-        to: cataloguesCreateSolution()
-    }, {
-        key: "newSector",
-        label: t("newSector"),
-        icon: iconPack.sector,
-        to: cataloguesCreateSector()
-    }, {
-        key: "newProject",
-        label: t("newProject"),
-        icon: iconPack.project,
-        to: cataloguesCreateProject()
-    }], [t])
+        }
+    }).data?.items
+
+    const items = useMemo(() => allowedCreationTypes?.map((type): TMSMenuItem | undefined => {
+        const catalogueType = type as CatalogueTypes
+        if (catalogueType === "100m-system") {
+            return {
+                key: "newSystem",
+                label: t("newSystem"),
+                icon: iconPack.system,
+                to: cataloguesCreateSystem()
+            }
+        } else if (catalogueType === "100m-solution") {
+            return {
+                key: "newSolution",
+                label: t("newSolution"),
+                icon: iconPack.solution,
+                to: cataloguesCreateSolution()
+            }
+        } else if (catalogueType === "100m-sector") {
+            return {
+                key: "newSector",
+                label: t("newSector"),
+                icon: iconPack.sector,
+                to: cataloguesCreateSector()
+            }
+        } else if (catalogueType === "100m-project") {
+            return {
+                key: "newProject",
+                label: t("newProject"),
+                icon: iconPack.project,
+                to: cataloguesCreateProject()
+            }
+        }
+        return
+    }).filter(Boolean) as TMSMenuItem[], [t, allowedCreationTypes])
 
     const { buttonProps, menu } = useButtonMenu({
         items
