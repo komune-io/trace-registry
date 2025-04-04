@@ -201,6 +201,8 @@ class ImportScript(
                 logger.info("Initialized catalogue[id:${it.id}, identifier: ${it.identifier}] ${it.title}.")
                 it
             }
+        }.also {
+            connectCataloguesParents(importContext)
         }
     }
 
@@ -217,27 +219,28 @@ class ImportScript(
             .filter { pathMatcher.matches(it.toPath()) }
             .toSortedSet()
 
-        catalogueFiles.mapAsyncIndexed { i, catalogueFile ->
+        val catalogues = catalogueFiles.mapAsyncIndexed { i, catalogueFile ->
             logger.info("(${i + 1}/${catalogueFiles.size}) Importing catalogue from ${catalogueFile.absolutePath}...")
-            importCatalogue(catalogueFile, importContext)
-        }
 
-        connectCataloguesParents(importContext)
-        connectCataloguesDatasetsReferences(importContext)
-        logger.info("Imported catalogues.")
-    }
-
-    private suspend fun importCatalogue(
-        jsonFile: File,
-        importContext: ImportContext,
-    ) {
-        val fixedData = jsonFile.loadJsonCatalogue(importContext)
-        importCatalogue(fixedData, importContext).forEach { catalogue ->
-            logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
-            importContext.settings.datasets?.map { dataset ->
-                importDataset(catalogue, dataset, jsonFile.parentFile)
+            val catalogueData = catalogueFile.loadJsonCatalogue(importContext)
+            catalogueFile to importCatalogue(catalogueData, importContext).onEach { catalogue ->
+                logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
             }
         }
+        connectCataloguesParents(importContext)
+
+        catalogues.mapAsyncIndexed { i, (catalogueFile, catalogueGroup) ->
+            logger.info("(${i + 1}/${catalogues.size}) Importing datasets of catalogues from ${catalogueFile.absolutePath}...")
+            catalogueGroup.forEach { catalogue ->
+                importContext.settings.datasets?.map { dataset ->
+                    importDataset(catalogue, dataset, catalogueFile.parentFile)
+                }
+            }
+            logger.info("Imported datasets of catalogues from ${catalogueFile.absolutePath}.")
+        }
+
+        connectCataloguesDatasetsReferences(importContext)
+        logger.info("Imported catalogues.")
     }
 
     private suspend fun importCatalogue(
@@ -406,9 +409,9 @@ class ImportScript(
         dataset: DatasetDTOBase
     ) = datasetSettings.resourcesDataset
         ?.let {
-            val identifer = importRepository.getDatasetIdentifier(catalogue, language, it)
+            val identifier = importRepository.getDatasetIdentifier(catalogue, language, it)
             importRepository.getOrCreateDataset(
-                identifier = identifer,
+                identifier = identifier,
                 parentId = null,
                 catalogue = catalogue,
                 language = language,
@@ -440,6 +443,7 @@ class ImportScript(
                 catalogues = listOf(catalogueId)
             ).invokeWith(dataClient.catalogue.catalogueLinkCatalogues())
         }
+        importContext.catalogueParents.clear()
     }
 
     private suspend fun connectCataloguesDatasetsReferences(importContext: ImportContext) {
@@ -458,6 +462,7 @@ class ImportScript(
                 logger.error("Error linking datasets to catalogue [$catalogueIdentifier]: ${e.message}")
             }
         }
+        importContext.catalogueDatasetReferences.clear()
     }
 
     private suspend fun getDefaultParentId(catalogueId: CatalogueId, importContext: ImportContext): CatalogueId? {
