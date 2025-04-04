@@ -26,8 +26,8 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
         val (globalAggregators, localAggregators) = catalogue.aggregators.partition { aggregator ->
             aggregator.scope == AggregatorScope.GLOBAL
         }
-        val globalConceptIds = globalAggregators.map { aggregator -> aggregator.informationConceptId }.toSet()
 
+        val globalConceptIds = globalAggregators.map { aggregator -> aggregator.informationConceptId }.toSet()
         val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<String>>()
 
         localAggregators.forEach { aggregator ->
@@ -38,8 +38,8 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
             dataset.distributions.mapAsync { distribution ->
                 distribution.aggregators.forEach { (conceptId, valueIds) ->
                     if (conceptId !in globalConceptIds) {
-                        val supportedValues = valueIds.mapNotNull {
-                            cache.supportedValues.get(it).takeUnless { it.isRange }?.value
+                        val supportedValues = valueIds.mapNotNull { valueId ->
+                            cache.supportedValues.get(valueId).takeUnless { it.isRange }?.value
                         }.ifEmpty { return@forEach }
 
                         aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValues
@@ -47,6 +47,7 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                 }
             }
         }
+
         globalConceptIds.mapAsync { conceptId ->
             aggregatorValues[conceptId] = try {
                 listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
