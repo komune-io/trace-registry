@@ -3,6 +3,7 @@ package io.komune.registry.program.s2.catalogue.api
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueAggregatorEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDataEvent
@@ -13,7 +14,9 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplacedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
@@ -38,6 +41,9 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueRemovedTranslationsEvent -> model?.removeTranslations(event)
 		is CatalogueLinkedCataloguesEvent -> model?.addCatalogues(event)
 		is CatalogueUnlinkedCataloguesEvent -> model?.removeCatalogues(event)
+		is CatalogueAddedRelatedCataloguesEvent -> model?.addRelatedCatalogues(event)
+		is CatalogueReplacedRelatedCataloguesEvent -> model?.replaceRelatedCatalogues(event)
+		is CatalogueRemovedRelatedCataloguesEvent -> model?.removeRelatedCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.addDatasets(event)
 		is CatalogueUnlinkedDatasetsEvent -> model?.removeDatasets(event)
 		is CatalogueReferencedDatasetsEvent -> model?.referenceDatasets(event)
@@ -121,6 +127,28 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
 		childrenCatalogueIds -= event.catalogues.toSet()
+	}
+
+	private suspend fun CatalogueEntity.addRelatedCatalogues(event: CatalogueAddedRelatedCataloguesEvent) = apply {
+		event.relatedCatalogueIds.forEach { (relation, catalogueIds) ->
+			relatedCatalogueIds.getOrPut(relation) { mutableSetOf() } += catalogueIds
+		}
+	}
+
+	private suspend fun CatalogueEntity.replaceRelatedCatalogues(event: CatalogueReplacedRelatedCataloguesEvent) = apply {
+		relatedCatalogueIds = event.relatedCatalogueIds
+			.mapValues { it.value.toMutableSet() }
+			.filter { it.value.isNotEmpty() }
+			.toMutableMap()
+	}
+
+	private suspend fun CatalogueEntity.removeRelatedCatalogues(event: CatalogueRemovedRelatedCataloguesEvent) = apply {
+		event.relatedCatalogueIds.forEach { (relation, catalogueIds) ->
+			relatedCatalogueIds[relation]?.removeAll(catalogueIds)
+			if (relatedCatalogueIds[relation]?.isEmpty() == true) {
+				relatedCatalogueIds.remove(relation)
+			}
+		}
 	}
 
 	private suspend fun CatalogueEntity.setAggregator(event: CatalogueSetAggregatorEvent) = apply {

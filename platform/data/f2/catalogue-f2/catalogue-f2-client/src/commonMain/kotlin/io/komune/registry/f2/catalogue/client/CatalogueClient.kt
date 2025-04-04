@@ -8,10 +8,12 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
@@ -67,6 +69,10 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueLinkCatalogues.name}")
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction
         = client.function("data/${this::catalogueUnlinkCatalogues.name}")
+    override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction
+        = client.function("data/${this::catalogueAddRelatedCatalogues.name}")
+    override fun catalogueRemoveRelatedCatalogues(): CatalogueRemoveRelatedCataloguesFunction
+        = client.function("data/${this::catalogueRemoveRelatedCatalogues.name}")
     override fun catalogueReferenceDatasets(): CatalogueReferenceDatasetsFunction
         = client.function("data/${this::catalogueReferenceDatasets.name}")
     override fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction

@@ -27,6 +27,7 @@ data class CatalogueModel(
     val translationIds: Map<Language, CatalogueId>,
     val isTranslationOf: CatalogueId?,
     val childrenCatalogueIds: Set<CatalogueId>,
+    val relatedCatalogueIds: Map<String, Set<CatalogueId>>,
     val childrenDatasetIds: Set<DatasetId>,
     val referencedDatasetIds: Set<DatasetId>,
     val status: CatalogueState,

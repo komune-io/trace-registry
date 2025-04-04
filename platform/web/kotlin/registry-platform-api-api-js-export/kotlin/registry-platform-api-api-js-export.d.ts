@@ -3119,6 +3119,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.automate {
     type CatalogueState = "ACTIVE" | "DELETED";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueAddRelatedCataloguesCommandDTO {
+        readonly id: string;
+        readonly relatedCatalogueIds: Record<string, string[]>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
         readonly id: string;
@@ -3143,6 +3150,13 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueRemoveAggregatorCommandDTO {
         readonly id: string;
         readonly informationConceptId: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.command {
+    interface CatalogueRemoveRelatedCataloguesCommandDTO {
+        readonly id: string;
+        readonly relatedCatalogueIds: Record<string, string[]>;
 
     }
 }
@@ -3780,6 +3794,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
     };
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueAddRelatedCataloguesCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommandDTO {
+        readonly id: string;
+        readonly relatedCatalogueIds: Record<string, string[]>;
+
+    }
+    interface CatalogueAddedRelatedCataloguesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueCreateCommandDTO {
         readonly identifier?: string;
         readonly parentId?: string;
@@ -3792,6 +3817,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly ownerOrganizationId?: string;
         readonly themes?: string[];
         readonly catalogues?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO/* Nullable<io.komune.registry.s2.commons.model.Location> */;
@@ -3846,6 +3872,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueReferencedDatasetsEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueRemoveRelatedCataloguesCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesCommandDTO {
+        readonly id: string;
+        readonly relatedCatalogueIds: Record<string, string[]>;
+
+    }
+    interface CatalogueRemovedRelatedCataloguesEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
 
     }
@@ -3918,6 +3955,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
         readonly themes?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
@@ -3955,6 +3993,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
         readonly catalogues: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
+        readonly relatedCatalogues: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[]>;
         readonly datasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly referencedDatasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;

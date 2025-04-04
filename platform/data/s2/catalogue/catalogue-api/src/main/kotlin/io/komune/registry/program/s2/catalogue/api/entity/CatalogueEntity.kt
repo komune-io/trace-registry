@@ -61,6 +61,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var childrenCatalogueIds: MutableSet<CatalogueId> = mutableSetOf()
 
+    var relatedCatalogueIds: MutableMap<String, MutableSet<CatalogueId>> = mutableMapOf()
+
     @TagIndexed
     var childrenDatasetIds: MutableSet<DatasetId> = mutableSetOf()
 

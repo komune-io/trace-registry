@@ -36,6 +36,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCo
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -263,7 +264,7 @@ class CatalogueF2AggregateService(
             }
     }
 
-    @Suppress("CyclomaticComplexMethod")
+    @Suppress("CyclomaticComplexMethod", "LongMethod")
     private suspend fun doCreate(
         command: CatalogueCreateCommandDTOBase,
         isTranslation: Boolean = false,
@@ -280,10 +281,16 @@ class CatalogueF2AggregateService(
                     ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
             }.let { "${command.type}-$it" }
 
-        val catalogueCreatedEvent =
-            getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
+        val catalogueCreatedEvent = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
         command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration) }
+
+        command.relatedCatalogueIds?.let {
+            CatalogueReplaceRelatedCataloguesCommand(
+                id = catalogueCreatedEvent.id,
+                relatedCatalogueIds = it
+            ).let { catalogueAggregateService.replaceRelatedCatalogues(it) }
+        }
 
         if (i18nEnabled) {
             createAndLinkTranslation(
@@ -309,7 +316,7 @@ class CatalogueF2AggregateService(
         }
 
         return CatalogueCreatedEvent(
-             id = catalogueCreatedEvent.id,
+            id = catalogueCreatedEvent.id,
             identifier = catalogueCreatedEvent.identifier,
             title = catalogueCreatedEvent.title,
             type =catalogueCreatedEvent.type,
@@ -341,7 +348,7 @@ class CatalogueF2AggregateService(
         typeConfiguration: CatalogueTypeConfiguration?
     ): CatalogueModel {
         val existing  = catalogueFinderService.getByIdentifierOrNull(catalogueIdentifier)
-        if(existing != null) {
+        if (existing != null) {
             return existing
         }
         val createCommand = command.toCommand(
@@ -351,13 +358,20 @@ class CatalogueF2AggregateService(
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
         ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
-        return catalogueFinderService.get(catalogueIdentifier)
+        return catalogueFinderService.get(catalogueCreatedEvent.id)
     }
 
     private suspend fun doUpdate(
         command: CatalogueUpdateCommandDTOBase
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
+
+        command.relatedCatalogueIds?.let {
+            CatalogueReplaceRelatedCataloguesCommand(
+                id = command.id,
+                relatedCatalogueIds = it
+            ).let { catalogueAggregateService.replaceRelatedCatalogues(it) }
+        }
 
         if (catalogue.language == command.language) {
             return command.toCommand(
