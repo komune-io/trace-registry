@@ -14,6 +14,10 @@ class CatalogueCertificateService(
     private val catalogueI18nService: CatalogueI18nService,
 ) : CatalogueCachedService() {
 
+    companion object {
+        const val COUNTER_CO2 = "counter-co2e"
+    }
+
     suspend fun generateFiles(catalogueId: CatalogueId): ByteArrayInputStream? {
         val catalogue = catalogueFinderService.getOrNull(catalogueId)
         return catalogue?.let {
@@ -25,7 +29,7 @@ class CatalogueCertificateService(
         val model = catalogueI18nService.translate(catalogue, "fr", true )!!
         val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(model)
         val dto = catalogueI18nService.translateToDTO(catalogue, "fr", true )!!
-        return concepts.find { it.identifier == "avoided-ghg" }?.let { concept ->
+        return concepts.find { it.identifier == COUNTER_CO2 }?.let { concept ->
             generatePdf(dto, concept.value, concept)
         }
     }
