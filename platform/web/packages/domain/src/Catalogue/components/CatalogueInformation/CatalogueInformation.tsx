@@ -4,9 +4,11 @@ import { Catalogue } from '../../model'
 import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
 import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
+import { Dataset } from '../../../Dataset';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
+    dataset: Dataset
     isLoading?: boolean
 }
 
@@ -14,9 +16,10 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
     const {
         catalogue,
         isLoading,
+        dataset
     } = props
 
-    const {editor} = useCatalogueDistributionLexicalEditor(catalogue)
+    const {editor} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
 
     return (
         <>

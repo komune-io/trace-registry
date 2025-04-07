@@ -70,7 +70,7 @@ export const ImageCard = (props: ImageCardProps) => {
             >
                 {label}
             </Typography>}
-            <IconButton
+            {menuItems.length > 0 && <IconButton
                 size='small'
                 {...buttonProps}
                 sx={{
@@ -80,7 +80,7 @@ export const ImageCard = (props: ImageCardProps) => {
                 }}
             >
                 <MoreVert />
-            </IconButton>
+            </IconButton>}
             {menu}
         </Paper>
     )
