@@ -16,13 +16,18 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
+import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
@@ -50,6 +55,7 @@ import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.infra.fs.FsService
@@ -57,7 +63,6 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -83,6 +88,7 @@ class CatalogueEndpoint(
     private val fsService: FsService,
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
+    private val catalogueSearchFinderService: CatalogueSearchFinderService,
 ): CatalogueApi {
 
     private val logger by Logger()
@@ -102,28 +108,6 @@ class CatalogueEndpoint(
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),
             offset = OffsetPagination(
-                offset = query.offset ?: 0,
-                limit = query.limit ?: 1000
-            ),
-        )
-    }
-
-    @Bean
-    override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
-        logger.info("catalogueSearch: $query")
-        catalogueF2FinderService.search(
-            query = query.query,
-            language = query.language,
-            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
-            accessRights = query.accessRights?.let(::CollectionMatch),
-            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
-            licenseId = query.licenseId?.let(::CollectionMatch),
-            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
-            type = query.type?.let(::CollectionMatch),
-            themeIds = query.themeIds?.let(::CollectionMatch),
-            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
-            page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
@@ -159,6 +143,50 @@ class CatalogueEndpoint(
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
             .let(::CatalogueRefGetTreeResult)
+    }
+
+    @Bean
+    override fun catalogueRefSearch(): CatalogueRefSearchFunction = f2Function { query ->
+        logger.info("catalogueRefSearch: $query")
+        catalogueSearchFinderService.searchRef(
+            query = query.query,
+            language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
+            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            page = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
+            ),
+        )
+    }
+
+    @Bean
+    override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
+        logger.info("catalogueSearch: $query")
+        catalogueSearchFinderService.searchCatalogue(
+            query = query.query,
+            language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
+            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            page = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
+            ),
+        )
     }
 
     @Bean
@@ -284,6 +312,22 @@ class CatalogueEndpoint(
             catalogues = command.catalogues,
         ).let { catalogueAggregateService.unlinkCatalogues(it) }
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction = f2Function { command ->
+        logger.info("catalogueAddRelatedCatalogues: $command")
+        cataloguePoliciesEnforcer.checkUpdate(command.id)
+        catalogueAggregateService.addRelatedCatalogues(command)
+            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun catalogueRemoveRelatedCatalogues(): CatalogueRemoveRelatedCataloguesFunction = f2Function { command ->
+        logger.info("catalogueRemoveRelatedCatalogues: $command")
+        cataloguePoliciesEnforcer.checkUpdate(command.id)
+        catalogueAggregateService.removeRelatedCatalogues(command)
+            .let { CatalogueRemovedRelatedCataloguesEventDTOBase(it.id) }
     }
 
     @Bean

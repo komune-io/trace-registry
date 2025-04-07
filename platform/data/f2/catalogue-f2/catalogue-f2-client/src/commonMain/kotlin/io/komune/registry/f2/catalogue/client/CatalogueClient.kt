@@ -8,10 +8,12 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
@@ -25,6 +27,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
@@ -67,6 +70,10 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueLinkCatalogues.name}")
     override fun catalogueUnlinkCatalogues(): CatalogueUnlinkCataloguesFunction
         = client.function("data/${this::catalogueUnlinkCatalogues.name}")
+    override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction
+        = client.function("data/${this::catalogueAddRelatedCatalogues.name}")
+    override fun catalogueRemoveRelatedCatalogues(): CatalogueRemoveRelatedCataloguesFunction
+        = client.function("data/${this::catalogueRemoveRelatedCatalogues.name}")
     override fun catalogueReferenceDatasets(): CatalogueReferenceDatasetsFunction
         = client.function("data/${this::catalogueReferenceDatasets.name}")
     override fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction
@@ -80,8 +87,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
         = client.function("data/${this::catalogueGetByIdentifier.name}")
-    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
-    override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
+
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction
@@ -90,4 +96,8 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueListAvailableOwners.name}")
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction
         = client.function("data/${this::catalogueListAllowedTypes.name}")
+
+    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
+    override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
+    override fun catalogueRefSearch(): CatalogueRefSearchFunction = client.function("data/${this::catalogueRefSearch.name}")
 }

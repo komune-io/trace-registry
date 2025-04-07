@@ -3,7 +3,9 @@ package io.komune.registry.program.s2.catalogue.api
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -18,9 +20,13 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveAggregatorCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplacedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
@@ -137,6 +143,36 @@ class CatalogueAggregateService(
 			id =  command.id,
 			date = System.currentTimeMillis(),
 			catalogues = command.catalogues
+		)
+	}
+
+	suspend fun addRelatedCatalogues(
+		command: CatalogueAddRelatedCataloguesCommand
+	): CatalogueAddedRelatedCataloguesEvent = automate.transition(command) {
+		CatalogueAddedRelatedCataloguesEvent(
+			id =  command.id,
+			date = System.currentTimeMillis(),
+			relatedCatalogueIds = command.relatedCatalogueIds.mapValues { it.value.toSet() }
+		)
+	}
+
+	suspend fun replaceRelatedCatalogues(
+		command: CatalogueReplaceRelatedCataloguesCommand
+	): CatalogueReplacedRelatedCataloguesEvent = automate.transition(command) {
+		CatalogueReplacedRelatedCataloguesEvent(
+			id =  command.id,
+			date = System.currentTimeMillis(),
+			relatedCatalogueIds = command.relatedCatalogueIds.mapValues { it.value.toSet() }
+		)
+	}
+
+	suspend fun removeRelatedCatalogues(
+		command: CatalogueRemoveRelatedCataloguesCommand
+	): CatalogueRemovedRelatedCataloguesEvent = automate.transition(command) {
+		CatalogueRemovedRelatedCataloguesEvent(
+			id =  command.id,
+			date = System.currentTimeMillis(),
+			relatedCatalogueIds = command.relatedCatalogueIds.mapValues { it.value.toSet() }
 		)
 	}
 

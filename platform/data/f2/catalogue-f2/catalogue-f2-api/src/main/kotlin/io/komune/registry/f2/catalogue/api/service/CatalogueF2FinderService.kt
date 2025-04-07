@@ -14,15 +14,12 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
-import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
-import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -115,89 +112,6 @@ class CatalogueF2FinderService(
                 .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
                 .sortedBy(CatalogueDTOBase::title),
             total = catalogues.total
-        )
-    }
-
-    @Suppress("LongMethod")
-    suspend fun search(
-        query: String?,
-        language: Language,
-        otherLanguageIfAbsent: Boolean = false,
-        accessRights: Match<String>? = null,
-        catalogueIds: Match<String>? = null,
-        parentIdentifier: Match<String>? = null,
-        type: Match<String>? = null,
-        themeIds: Match<String>? = null,
-        licenseId: Match<String>? = null,
-        creatorOrganizationId: Match<OrganizationId>? = null,
-        availableLanguages: Match<Language>? = null,
-        freeCriterion: Criterion? = null,
-        page: OffsetPagination? = null
-    ): CatalogueSearchResult = withCache { cache ->
-        val catalogueTranslations = catalogueFinderService.search(
-            query = query,
-            catalogueIds = catalogueIds,
-            accessRights = accessRights,
-            language = ExactMatch(language),
-            licenseId = licenseId,
-            parentIdentifier = parentIdentifier,
-            type = type,
-            themeIds = themeIds,
-            creatorOrganizationId = creatorOrganizationId,
-            availableLanguages = availableLanguages,
-            freeCriterion = freeCriterion,
-            page = page
-        )
-
-        val accessRightsDistribution = catalogueTranslations.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
-            FacetDistribution(
-                id = key,
-                name = key,
-                size = size
-            )
-        } ?: emptyList<FacetDistributionDTO>()
-        val themeDistribution = catalogueTranslations.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
-            val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
-            FacetDistribution(
-                id = theme?.id ?: key,
-                name = theme?.prefLabel ?: "",
-                size = size
-            )
-        } ?: emptyList<FacetDistributionDTO>()
-
-        val licenceDistribution = catalogueTranslations.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
-            val licence = cache.licenses.get(key)
-            FacetDistribution(
-                id = licence?.id ?: key,
-                name = licence?.name ?: "",
-                size = size
-            )
-        } ?: emptyList<FacetDistributionDTO>()
-
-        val cataloguesDistribution = catalogueTranslations.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
-            val catalogue = getOrNull("${key}s", language)
-            FacetDistribution(
-                id = key,
-                name = catalogue?.title ?: "",
-                size = size
-            )
-        } ?: emptyList<FacetDistributionDTO>()
-
-        val translatedCatalogues = page(
-            id = CollectionMatch(catalogueTranslations.items.map { it.isTranslationOf!! }),
-            language = language,
-            otherLanguageIfAbsent = otherLanguageIfAbsent
-        ).items.associateBy { it.id }
-
-        CatalogueSearchResult(
-            items = catalogueTranslations.items.mapNotNull { translatedCatalogues[it.isTranslationOf] },
-            total = catalogueTranslations.total,
-            distribution = mapOf(
-                CatalogueModel::accessRights.name to accessRightsDistribution,
-                CatalogueModel::type.name to cataloguesDistribution,
-                CatalogueModel::licenseId.name to licenceDistribution,
-                CatalogueModel::themeIds.name to themeDistribution,
-            ),
         )
     }
 
