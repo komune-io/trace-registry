@@ -7,7 +7,6 @@ data class CatalogueTypeConfiguration(
     val type: String,
     val identifierSequence: SequenceConfiguration?,
     val parentTypes: Set<String>?,
-    val relatedCatalogues: Set<RelatedCatalogues>?,
     val conceptSchemes: Set<String>?,
     val writerRoles: Set<String>?,
     val ownerRoles: Set<String>?,
@@ -15,11 +14,6 @@ data class CatalogueTypeConfiguration(
     val i18n: CatalogueTypeI18n?,
     val datasets: List<CatalogueTypeSubDataset>?,
     val hidden: Boolean = false
-)
-
-data class RelatedCatalogues(
-    val type: String,
-    val key: String
 )
 
 data class CatalogueTypeI18n(

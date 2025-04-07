@@ -16,12 +16,6 @@
     "rg_role_user_expert",
     "rg_role_user_orchestrator"
   ],
-  "relatedCatalogues": [
-    {
-      "type": "100m-planetary-boundary",
-      "key": "planetary-boundaries"
-    }
-  ],
   "ownerRoles": [
     "rg_role_org_contributor"
   ],

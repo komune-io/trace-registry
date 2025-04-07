@@ -110,7 +110,7 @@ class CatalogueSearchFinderService(
         )
     }
 
-    suspend fun searchInternal(
+    private suspend fun searchInternal(
         query: String?,
         language: Language,
         otherLanguageIfAbsent: Boolean = false,
@@ -187,8 +187,7 @@ class CatalogueSearchFinderService(
     }
 }
 
-
-data class CatalogueSearchResultLocal(
+private data class CatalogueSearchResultLocal(
     val items: List<CatalogueModel>,
     val total: Int,
     var distribution: Map<String, List<FacetDistributionDTO>>

@@ -51,16 +51,6 @@ suspend fun CatalogueModel.descendantsIds(
     return childrenIds
 }
 
-suspend fun CatalogueModel.descendantsRelatedIds(
-    getCatalogue: suspend (CatalogueId) -> CatalogueModel
-): Map<String, List<CatalogueId>> {
-    return relatedCatalogueIds?.mapValues { (_, values) ->
-        values.mapAsync { childId ->
-            getCatalogue(childId).descendantsIds(getCatalogue)
-        }.flatten()
-    } ?: emptyMap()
-}
-
 fun CatalogueAggregatorEntity.toModel() = CatalogueAggregatorModel(
     informationConceptId = informationConceptId,
     scope = scope
