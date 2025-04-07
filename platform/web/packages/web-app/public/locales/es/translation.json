@@ -302,7 +302,9 @@
       "100m-sector": "Sector",
       "100m-solution": "Solución",
       "100m-system": "Sistema",
-      "100m-project": "Proyecto"
+      "100m-project": "Proyecto",
+      "100m-chart": "Gráfico",
+      "100m-planetary-boundary": "Límite planetario"
     },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
@@ -350,7 +352,7 @@
     "linkedSolution": "Solución vinculada",
     "indicatorNameDetails": "Los bloques de indicadores permiten agregar datos clave (cuantitativos o cualitativos) a una ficha. Los datos ingresados se integran automáticamente en la Síntesis económica de la ficha.",
     "indicatorSolutionDetails": "Cuando un bloque está vinculado a una solución, aparece en la sección \"Soluciones\" de la ficha del proyecto y se muestra en la sección \"Estudio de caso\" de la solución si la ficha del proyecto está publicada.",
-    "noSolution": "No se encontró ninguna solución",
+    "noResult": "No se encontraron resultados",
     "createIndicatorBlock": "Crear un bloque de indicadores",
     "editIndicatorBlock": "Editar un bloque de indicadores",
     "noIndicatorBlock": "No hay bloques de indicadores asociados a esta ficha",

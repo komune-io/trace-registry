@@ -303,7 +303,8 @@
             "100m-solution": "Solution",
             "100m-system": "Système",
             "100m-project": "Projet",
-            "100m-chart": "Graphique"
+            "100m-chart": "Graphique",
+            "100m-planetary-boundary": "Limite planétaire"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
@@ -351,7 +352,7 @@
         "linkedSolution": "Solution liée",
         "indicatorNameDetails": "Les blocs d’indicateurs permettent d’ajouter des données clés (quantitatives ou qualitatives) à une fiche. Les données saisies sont automatiquement intégrés à la Synthèse économique de la fiche.",
         "indicatorSolutionDetails": "Lorsqu’un bloc est lié à une solution, il apparaît dans la section \"Solutions\" de la fiche projet et remonte dans la section \"Étude de cas\" de la solution si la fiche projet est publiée.",
-        "noSolution": "Aucune solution n'a été trouvée",
+        "noResult": "Aucun résultat trouvé",
         "createIndicatorBlock": "Créer un bloc d'indicateurs",
         "editIndicatorBlock": "Modifier le bloc d'indicateurs",
         "noIndicatorBlock": "Aucun bloc d’indicateurs associé à cette fiche",

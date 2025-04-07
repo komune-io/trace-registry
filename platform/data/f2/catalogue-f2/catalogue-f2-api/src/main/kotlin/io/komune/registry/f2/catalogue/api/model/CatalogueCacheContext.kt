@@ -25,11 +25,14 @@ internal class CatalogueCacheContext(
     override val key: CoroutineContext.Key<CatalogueCacheContext> = Key
     companion object Key : CoroutineContext.Key<CatalogueCacheContext>
 
+    val untranslatedCatalogues = SimpleCache(catalogueFinderService::get)
     val datasets = SimpleCache(datasetFinderService::get)
     val cataloguesReferencingDatasets = SimpleCache<DatasetId, List<CatalogueId>> { datasetId ->
         catalogueFinderService.page(
             referencedDatasetIds = ExactMatch(datasetId),
-        ).items.map { it.isTranslationOf ?: it.id }.distinct()
+        ).items
+            .onEach { catalogue -> untranslatedCatalogues.register(catalogue.id, catalogue) }
+            .map { it.isTranslationOf ?: it.id }.distinct()
     }
 
     val dataUnits = SimpleCache(cccevFinderService::getUnit)

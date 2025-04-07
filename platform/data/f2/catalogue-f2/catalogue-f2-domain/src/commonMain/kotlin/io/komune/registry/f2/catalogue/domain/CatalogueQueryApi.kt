@@ -9,6 +9,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 
 interface CatalogueQueryApi {
@@ -16,10 +17,13 @@ interface CatalogueQueryApi {
     fun catalogueSearch(): CatalogueSearchFunction
     fun catalogueGet(): CatalogueGetFunction
     fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
-    fun catalogueRefList(): CatalogueRefListFunction
-    fun catalogueRefGetTree(): CatalogueRefGetTreeFunction
+
     fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
     fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction
     fun catalogueListAvailableOwners(): CatalogueListAvailableOwnersFunction
     fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction
+
+    fun catalogueRefList(): CatalogueRefListFunction
+    fun catalogueRefGetTree(): CatalogueRefGetTreeFunction
+    fun catalogueRefSearch(): CatalogueRefSearchFunction
 }
