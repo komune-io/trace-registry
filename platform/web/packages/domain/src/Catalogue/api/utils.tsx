@@ -20,7 +20,7 @@ export const orderByCatalogueIdentifierNumber= (a: Catalogue|CatalogueRef, b: Ca
 
 export const useCatalogueCo2Counter = (catalogue?: Catalogue) => {
   return useMemo(() => {
-    const counterAggregate = catalogue?.aggregators.find((agr) => agr.identifier === "avoided-ghg")
+    const counterAggregate = catalogue?.aggregators.find((agr) => agr.identifier === "counter-co2eluc@")
     return counterAggregate?.value ? Number(counterAggregate.value) : undefined
   }, [catalogue])
 }

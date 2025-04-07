@@ -40,6 +40,7 @@ class InformationConceptF2FinderService(
     suspend fun listTranslated(language: Language): List<InformationConceptTranslatedDTOBase> {
         val cache = Cache()
         return cccevFinderService.listConcepts()
+            .filter { it.aggregator?.aggregatedConceptIds.isNullOrEmpty() }
             .map { it.toTranslatedDTOCached(language, cache) }
             .sortedBy { it.name ?: "z".repeat(10) }
     }

@@ -5,7 +5,7 @@ import com.redis.om.spring.annotations.Indexed
 import com.redis.om.spring.annotations.Searchable
 import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.cccev.domain.InformationConceptState
-import io.komune.registry.s2.cccev.domain.model.AggregatorType
+import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -32,7 +32,7 @@ open class InformationConceptEntity: WithS2Id<InformationConceptId>, WithS2State
 
     var unit: CompositeDataUnitModel? = null
 
-    var aggregator: AggregatorType? = null
+    var aggregator: AggregatorConfig? = null
 
     @TagIndexed
     var themeIds: MutableSet<ConceptId> = mutableSetOf()

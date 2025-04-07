@@ -41,7 +41,7 @@ export const AppPage = (props: AppPageProps) => {
 
     const getCounter = useInformationConceptGetGlobalValueQuery({
         query: {
-            identifier: "avoided-ghg",
+            identifier: "counter-co2e",
             language: i18n.language
         }
     })

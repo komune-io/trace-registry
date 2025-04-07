@@ -1,6 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
-import io.komune.fs.s2.file.client.FileClient
+import io.komune.registry.api.config.ui.UIProperties
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.infra.pdf.SvgCertificateGenerator
@@ -13,7 +13,12 @@ import org.springframework.stereotype.Service
 class CatalogueCertificateService(
     private val conceptService: CatalogueInformationConceptService,
     private val catalogueI18nService: CatalogueI18nService,
+    private val uiProperties: UIProperties,
 ) : CatalogueCachedService() {
+
+    companion object {
+        const val COUNTER_CO2 = "counter-co2e"
+    }
 
     suspend fun generateFiles(catalogueId: CatalogueId): ByteArrayInputStream? {
         val catalogue = catalogueFinderService.getOrNull(catalogueId)
@@ -26,7 +31,7 @@ class CatalogueCertificateService(
         val model = catalogueI18nService.translate(catalogue, "fr", true )!!
         val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(model)
         val dto = catalogueI18nService.translateToDTO(catalogue, "fr", true )!!
-        return concepts.find { it.identifier == "avoided-ghg" }?.let { concept ->
+        return concepts.find { it.identifier == COUNTER_CO2 }?.let { concept ->
             generatePdf(dto, concept.value, concept)
         }
     }
@@ -37,13 +42,14 @@ class CatalogueCertificateService(
         concept: InformationConceptComputedDTOBase
     ): ByteArray {
         return SvgCertificateGenerator.fillFinalCertificate(
+            title = catalogue.title,
             transactionId = catalogue.id,
             date = catalogue.issued,
+            certifiedBy = catalogue.creatorOrganization?.name ?: "",
             issuedTo = catalogue.ownerOrganization?.name ?: "",
-            quantity = value,
-            indicator = concept.unit.toAbbreviationString(),
-            title = catalogue.title,
-            certifiedBy = catalogue.creatorOrganization?.name ?: ""
+            indicatorValue = value,
+            indicatorUnit = concept.unit.toNameString(),
+            url = uiProperties.getCatalogueUrl(catalogue.id),
         )
     }
 }

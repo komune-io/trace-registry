@@ -20,7 +20,8 @@ data class DatasetUpdatedDistributionAggregatorValuesEvent(
     override val date: Long,
     val distributionId: DistributionId,
     val removedSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
-    val addedSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?
+    val addedSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
+    val updatedDatasetAggregators: Map<InformationConceptId, SupportedValueId?>
 ): DatasetEvent
 
 @Deprecated("Use DatasetUpdatedDistributionAggregatorValuesEvent instead")

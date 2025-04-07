@@ -3,7 +3,6 @@ package io.komune.registry.f2.catalogue.api.service
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.cccev.api.concept.model.toComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
-import io.komune.registry.s2.catalogue.domain.model.AggregatorScope
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
@@ -23,35 +22,14 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
         val childrenDatasetIds = catalogue.childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
         val descendantDatasets = childrenDatasetIds.allDescendants()
 
-        val (globalAggregators, localAggregators) = catalogue.aggregators.partition { aggregator ->
-            aggregator.scope == AggregatorScope.GLOBAL
-        }
-        val globalConceptIds = globalAggregators.map { aggregator -> aggregator.informationConceptId }.toSet()
-
         val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<String>>()
 
-        localAggregators.forEach { aggregator ->
-            aggregatorValues[aggregator.informationConceptId] = emptyList()
-        }
-
         descendantDatasets.mapAsync { dataset ->
-            dataset.distributions.mapAsync { distribution ->
-                distribution.aggregators.forEach { (conceptId, valueIds) ->
-                    if (conceptId !in globalConceptIds) {
-                        val supportedValues = valueIds.mapNotNull {
-                            cache.supportedValues.get(it).takeUnless { it.isRange }?.value
-                        }.ifEmpty { return@forEach }
-
-                        aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValues
-                    }
+            dataset.aggregators.forEach { (conceptId, valueId) ->
+                val supportedValue = valueId?.let { cache.supportedValues.get(it) }
+                if (supportedValue != null && !supportedValue.isRange) {
+                    aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
                 }
-            }
-        }
-        globalConceptIds.mapAsync { conceptId ->
-            aggregatorValues[conceptId] = try {
-                listOf(cccevFinderService.computeGlobalValueForConcept(conceptId))
-            } catch (e: UnsupportedOperationException) {
-                emptyList()
             }
         }
 
@@ -62,7 +40,7 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                 return@mapNotNull null
             }
 
-            when (concept.aggregator!!) {
+            when (concept.aggregator!!.type) {
                 AggregatorType.SUM -> SumAggregatorInput(values).compute()
             }.let { aggregatedValue ->
                 val supportedValue = SupportedValueModel(

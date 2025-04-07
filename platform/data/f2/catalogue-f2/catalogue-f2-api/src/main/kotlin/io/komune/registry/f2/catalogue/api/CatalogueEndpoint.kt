@@ -28,8 +28,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunctio
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
@@ -366,13 +364,5 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
-    }
-
-    @Bean
-    override fun catalogueSetAggregator(): CatalogueSetAggregatorFunction = f2Function { command ->
-        logger.info("catalogueSetAggregator: $command")
-        cataloguePoliciesEnforcer.checkSetAggregator(command.id)
-        catalogueAggregateService.setAggregator(command)
-            .let { CatalogueSetAggregatorEventDTOBase(command.id) }
     }
 }

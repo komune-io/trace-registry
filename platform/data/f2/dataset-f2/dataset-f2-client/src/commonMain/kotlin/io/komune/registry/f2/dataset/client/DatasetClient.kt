@@ -8,6 +8,7 @@ import f2.client.ktor.http.plugin.F2Auth
 import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.dataset.domain.DatasetApi
+import io.komune.registry.f2.dataset.domain.command.DatasetAddAggregatorsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
@@ -15,6 +16,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveAggregatorsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionValueFunction
@@ -57,13 +59,10 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetLinkDatasets(): DatasetLinkDatasetsFunction = client.function("data/${this::datasetLinkDatasets.name}")
     override fun datasetLinkThemes(): DatasetLinkThemesFunction = client.function("data/${this::datasetLinkThemes.name}")
     override fun datasetDelete(): DatasetDeleteFunction = client.function("data/${this::datasetDelete.name}")
-    override fun datasetPage(): DatasetPageFunction = client.function("data/${this::datasetPage.name}")
-    override fun datasetGet(): DatasetGetFunction = client.function("data/${this::datasetGet.name}")
-    override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = client.function("data/${this::datasetGetByIdentifier.name}")
-    override fun datasetExists(): DatasetExistsFunction = client.function("data/${this::datasetExists.name}")
-    override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
-    override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
-    override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function("data/${this::datasetListLanguages.name}")
+    override fun datasetAddAggregators(): DatasetAddAggregatorsFunction
+        = client.function("data/${this::datasetAddAggregators.name}")
+    override fun datasetRemoveAggregators(): DatasetRemoveAggregatorsFunction
+        = client.function("data/${this::datasetRemoveAggregators.name}")
 
     override fun datasetAddEmptyDistribution(): DatasetAddEmptyDistributionFunction
         = client.function("data/${this::datasetAddEmptyDistribution.name}")
@@ -82,5 +81,11 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
 
     override fun datasetGraphSearch(): DatasetGraphSearchFunction
         = client.function("data/${this::datasetGraphSearch.name}")
-
+    override fun datasetPage(): DatasetPageFunction = client.function("data/${this::datasetPage.name}")
+    override fun datasetGet(): DatasetGetFunction = client.function("data/${this::datasetGet.name}")
+    override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = client.function("data/${this::datasetGetByIdentifier.name}")
+    override fun datasetExists(): DatasetExistsFunction = client.function("data/${this::datasetExists.name}")
+    override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
+    override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
+    override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function("data/${this::datasetListLanguages.name}")
 }

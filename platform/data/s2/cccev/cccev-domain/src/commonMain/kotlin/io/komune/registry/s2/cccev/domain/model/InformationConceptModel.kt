@@ -10,6 +10,6 @@ data class InformationConceptModel(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
     val unit: CompositeDataUnitModel?,
-    val aggregator: AggregatorType?,
+    val aggregator: AggregatorConfig?,
     val themeIds: Set<ConceptId>,
 )

@@ -37,6 +37,10 @@ object Versions {
 	const val redisOm = "0.8.9"
 	const val r2dbcPostgresql = "1.0.7.RELEASE"
 	const val postgresql = "42.7.4"
+
+	const val xmlgraphicsBatik = "1.18"
+	const val xmlgraphicsFop = "2.10"
+	const val zxing = "3.5.3"
 }
 
 object Repo {
@@ -180,6 +184,15 @@ object Dependencies {
 
 		fun bignum(scope: Scope) = scope.add(
 			"com.ionspin.kotlin:bignum:${Versions.bignum}"
+		)
+
+		fun svg(scope: Scope) = scope.add(
+			"org.apache.xmlgraphics:batik-transcoder:${Versions.xmlgraphicsBatik}",
+			"org.apache.xmlgraphics:fop:${Versions.xmlgraphicsFop}",
+		)
+
+		fun qrcode(scope: Scope) = scope.add(
+			"com.google.zxing:core:${Versions.zxing}"
 		)
 
 		object Ktor {

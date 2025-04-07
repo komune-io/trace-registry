@@ -185,9 +185,9 @@
       "description": "Grant its users the right to submit contributions and proposals for modifications to the registry records.",
       "targets": ["ORGANIZATION"],
       "locale": {
-        "fr": "Expert CO2",
-        "en": "Expert CO2",
-        "es": "Experto CO2"
+        "fr": "Expert",
+        "en": "Expert",
+        "es": "Experto"
       },
       "bindings": {
         "USER": [

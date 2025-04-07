@@ -4,7 +4,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFun
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
@@ -18,6 +17,5 @@ interface CatalogueCommandApi {
     fun catalogueReferenceDatasets(): CatalogueReferenceDatasetsFunction
     fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction
     fun catalogueLinkThemes(): CatalogueLinkThemesFunction
-    fun catalogueSetAggregator(): CatalogueSetAggregatorFunction
     fun catalogueDelete(): CatalogueDeleteFunction
 }

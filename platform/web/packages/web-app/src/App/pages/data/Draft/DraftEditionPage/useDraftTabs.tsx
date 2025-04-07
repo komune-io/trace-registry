@@ -40,7 +40,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
 
       if (component) {
         return {
-          key: dataset.identifier,
+          key: dataset.id,
           label: dataset.title!,
           component
         }

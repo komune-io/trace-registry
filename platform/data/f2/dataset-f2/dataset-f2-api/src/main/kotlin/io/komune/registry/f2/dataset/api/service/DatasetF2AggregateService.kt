@@ -6,6 +6,7 @@ import io.komune.fs.s2.file.domain.features.command.FileDeleteCommand
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.registry.api.commons.utils.mapAsync
+import io.komune.registry.f2.dataset.api.config.DatasetConfig
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTO
@@ -54,10 +55,13 @@ import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
 import io.komune.registry.s2.cccev.domain.model.FileProcessorType
 import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.SupportedValueId
+import io.komune.registry.s2.commons.utils.nullIfEmpty
+import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
@@ -79,6 +83,7 @@ class DatasetF2AggregateService(
     private val cccevAggregateService: CccevAggregateService,
     private val cccevFinderService: CccevFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetConfig: DatasetConfig,
     private val datasetFinderService: DatasetFinderService,
     private val fileClient: FileClient,
     private val sequenceRepository: SequenceRepository
@@ -109,6 +114,12 @@ class DatasetF2AggregateService(
             identifier = "$datasetIdentifier$identifierSuffix",
             catalogueId = catalogueId
         ))
+
+        applyTypeConfigurations(
+            id = event.id,
+            type = command.type,
+            catalogueId = catalogueId
+        )
 
         // only create direct link in the catalogue if specified in the command
         command.catalogueId?.let {
@@ -363,6 +374,28 @@ class DatasetF2AggregateService(
         }
 
         return event.toDTO()
+    }
+
+    private suspend fun applyTypeConfigurations(id: DatasetId, type: String, catalogueId: CatalogueId) {
+        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
+            it.isTranslationOf?.let { masterId ->
+                catalogueFinderService.get(masterId)
+            } ?: it
+        }
+        datasetConfig.typeConfigurations[type]
+            ?.configurations
+            ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
+            ?.let { typeConfig ->
+                typeConfig.aggregators
+                    ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }
+                    ?.nullIfEmpty()
+                    ?.let { conceptIds ->
+                        DatasetAddAggregatorsCommand(
+                            id = id,
+                            informationConceptIds = conceptIds
+                        ).let { datasetAggregateService.addAggregators(it) }
+                    }
+            }
     }
 
     private suspend fun addDistribution(

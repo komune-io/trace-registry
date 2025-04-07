@@ -16,6 +16,8 @@ import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateComm
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreatedEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdateValueCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdatedValueEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
 import org.springframework.stereotype.Service
@@ -90,6 +92,14 @@ class CccevAggregateService(
             value = command.value,
             query = command.query,
             description = command.description
+        )
+    }
+
+    suspend fun updateValue(command: SupportedValueUpdateValueCommand) = valueAutomate.transition(command) {
+        SupportedValueUpdatedValueEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+            value = command.value
         )
     }
 

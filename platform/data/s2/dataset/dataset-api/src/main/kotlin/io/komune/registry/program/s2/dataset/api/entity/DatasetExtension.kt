@@ -42,6 +42,7 @@ fun DatasetEntity.toModel() = DatasetModel(
     datasetIds = datasetIds.toList(),
     distributions = distributions?.sortedBy { it.issued }?.map { it.toModel() }.orEmpty(),
     structure = structure,
+    aggregators = aggregatorIds.associateWith { aggregatorValueIds[it] },
 )
 
 fun DistributionEntity.toModel() = DistributionModel(
@@ -82,6 +83,7 @@ fun DatasetModel.toCreateCommand(
     versionNotes = versionNotes,
     length = length,
     structure = structure,
+    aggregators = aggregators.keys.toList(),
     releaseDate = releaseDate,
 )
 
