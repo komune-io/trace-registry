@@ -27,6 +27,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
@@ -86,8 +87,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
         = client.function("data/${this::catalogueGetByIdentifier.name}")
-    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
-    override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
+
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction
@@ -96,4 +96,8 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueListAvailableOwners.name}")
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction
         = client.function("data/${this::catalogueListAllowedTypes.name}")
+
+    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
+    override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
+    override fun catalogueRefSearch(): CatalogueRefSearchFunction = client.function("data/${this::catalogueRefSearch.name}")
 }

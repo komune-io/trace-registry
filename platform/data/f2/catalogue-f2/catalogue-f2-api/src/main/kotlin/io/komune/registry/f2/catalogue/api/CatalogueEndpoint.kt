@@ -16,6 +16,7 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
+import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
@@ -54,6 +55,7 @@ import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.infra.fs.FsService
@@ -86,6 +88,7 @@ class CatalogueEndpoint(
     private val fsService: FsService,
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
+    private val catalogueSearchFinderService: CatalogueSearchFinderService,
 ): CatalogueApi {
 
     private val logger by Logger()
@@ -105,28 +108,6 @@ class CatalogueEndpoint(
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),
             offset = OffsetPagination(
-                offset = query.offset ?: 0,
-                limit = query.limit ?: 1000
-            ),
-        )
-    }
-
-    @Bean
-    override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
-        logger.info("catalogueSearch: $query")
-        catalogueF2FinderService.search(
-            query = query.query,
-            language = query.language,
-            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
-            accessRights = query.accessRights?.let(::CollectionMatch),
-            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
-            licenseId = query.licenseId?.let(::CollectionMatch),
-            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
-            type = query.type?.let(::CollectionMatch),
-            themeIds = query.themeIds?.let(::CollectionMatch),
-            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
-            page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
             ),
@@ -162,6 +143,50 @@ class CatalogueEndpoint(
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
             .let(::CatalogueRefGetTreeResult)
+    }
+
+    @Bean
+    override fun catalogueRefSearch(): CatalogueRefSearchFunction = f2Function { query ->
+        logger.info("catalogueRefSearch: $query")
+        catalogueSearchFinderService.searchRef(
+            query = query.query,
+            language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
+            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            page = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
+            ),
+        )
+    }
+
+    @Bean
+    override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
+        logger.info("catalogueSearch: $query")
+        catalogueSearchFinderService.searchCatalogue(
+            query = query.query,
+            language = query.language,
+            otherLanguageIfAbsent = query.otherLanguageIfAbsent,
+            accessRights = query.accessRights?.let(::CollectionMatch),
+            catalogueIds = query.catalogueIds?.let(::CollectionMatch),
+            licenseId = query.licenseId?.let(::CollectionMatch),
+            parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
+            type = query.type?.let(::CollectionMatch),
+            themeIds = query.themeIds?.let(::CollectionMatch),
+            availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            page = OffsetPagination(
+                offset = query.offset ?: 0,
+                limit = query.limit ?: 1000
+            ),
+        )
     }
 
     @Bean

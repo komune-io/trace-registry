@@ -92,7 +92,7 @@ class CatalogueI18nService(
                     .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
             },
-            relatedCatalogues = translated.relatedCatalogueIds.mapValues { (_, catalogueIds) ->
+            relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
                 catalogueIds.mapNotNull { catalogueId ->
                     cache.untranslatedCatalogues.get(catalogueId)
                         .takeIf { it.status != CatalogueState.DELETED && !it.hidden }

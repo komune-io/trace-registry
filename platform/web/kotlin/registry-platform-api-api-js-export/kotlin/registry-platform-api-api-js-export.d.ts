@@ -2447,6 +2447,9 @@ export declare namespace io.komune.registry.s2.concept.domain.command {
 
     }
 }
+export declare namespace io.komune.registry.s2.cccev.domain.aggregator {
+    type AggregatorType = "SUM";
+}
 export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
     interface InformationConceptCreateCommandDTO {
         readonly identifier: string;
@@ -3993,7 +3996,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly themes: io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO[];
         readonly catalogues: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly relatedCatalogues: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[]>;
+        readonly relatedCatalogues?: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[]>;
         readonly datasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly referencedDatasets: io.komune.registry.f2.dataset.domain.dto.DatasetDTO[];
         readonly status: io.komune.registry.s2.catalogue.domain.automate.CatalogueState;
@@ -4160,6 +4163,30 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefListResultDTO {
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
         readonly total: number;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueRefSearchQueryDTO extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQueryDTO {
+        readonly offset?: number;
+        readonly limit?: number;
+        readonly query?: string;
+        readonly language: string;
+        readonly otherLanguageIfAbsent?: boolean;
+        readonly accessRights?: string[];
+        readonly catalogueIds?: string[];
+        readonly parentIdentifier?: string[];
+        readonly type?: string[];
+        readonly themeIds?: string[];
+        readonly licenseId?: string[];
+        readonly creatorOrganizationId?: string;
+        readonly availableLanguages?: string[];
+
+    }
+    interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
+        readonly total: number;
+        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase[];
+        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
 
     }
 }

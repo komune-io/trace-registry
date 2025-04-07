@@ -114,7 +114,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      */
     val catalogues: List<CatalogueRefDTO>
 
-    val relatedCatalogues: Map<String, List<CatalogueRefDTO>>
+    val relatedCatalogues: Map<String, List<CatalogueRefDTO>>?
 
     /**
      * Datasets owned by this catalogue.
@@ -209,7 +209,7 @@ data class CatalogueDTOBase(
     override val structure: Structure? = null,
     override val themes: List<ConceptTranslatedDTOBase>,
     override val catalogues: List<CatalogueRefDTOBase>,
-    override val relatedCatalogues: Map<String, List<CatalogueRefDTOBase>>,
+    override val relatedCatalogues: Map<String, List<CatalogueRefDTOBase>>? = null,
     override val datasets: List<DatasetDTOBase>,
     override val referencedDatasets: List<DatasetDTOBase>,
     override val status: CatalogueState,
