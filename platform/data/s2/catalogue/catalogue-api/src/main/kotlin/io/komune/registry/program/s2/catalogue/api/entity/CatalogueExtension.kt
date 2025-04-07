@@ -19,6 +19,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         translationIds = translationIds,
         isTranslationOf = isTranslationOf,
         childrenCatalogueIds = childrenCatalogueIds,
+        relatedCatalogueIds = relatedCatalogueIds,
         childrenDatasetIds = childrenDatasetIds,
         referencedDatasetIds = referencedDatasetIds,
         themeIds = themeIds,

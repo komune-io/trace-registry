@@ -89,6 +89,7 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     themes = themeIds.toList(),
+    relatedCatalogueIds = relatedCatalogueIds?.mapValues { it.value.toList() },
     accessRights = accessRights,
     license = licenseId,
     location = location,

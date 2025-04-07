@@ -50,7 +50,7 @@ fun File.loadJsonCatalogue(
 
 private fun CatalogueImportData.buildIdentifier(importContext: ImportContext): CatalogueIdentifier {
     val mapType = importContext.mapCatalogueType(type)
-    return if(identifier.startsWith(mapType)) {
+    return if (identifier.startsWith(mapType)) {
         identifier
     } else {
         "$mapType-$identifier"

@@ -66,17 +66,19 @@ class CatalogueI18nService(
 
         val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
             ?.originalCatalogueId
-            ?.let { catalogueFinderService.get(it) }
+            ?.let { cache.untranslatedCatalogues.get(it) }
 
         val parent = catalogueFinderService.page(
             childrenCatalogueIds = ExactMatch(originalCatalogue?.id ?: translated.id),
             offset = OffsetPagination(0, 1)
-        ).items.firstOrNull()
+        ).items
+            .onEach { cache.untranslatedCatalogues.register(it.id, it) }
+            .firstOrNull()
 
         val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
-        val aggregators =  catalogueInformationConceptService.computeAggregators(translated)
+        val aggregators = catalogueInformationConceptService.computeAggregators(translated)
         val datasets = translated.childrenDatasetIds
             .map { cache.datasets.get(it).toDTOCached() }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
@@ -90,9 +92,16 @@ class CatalogueI18nService(
             title = translated.title,
             description = translated.description,
             catalogues = translated.childrenCatalogueIds.mapNotNull { childId ->
-                catalogueFinderService.get(childId)
+                cache.untranslatedCatalogues.get(childId)
                     .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
                     ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
+            },
+            relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
+                catalogueIds.mapNotNull { catalogueId ->
+                    cache.untranslatedCatalogues.get(catalogueId)
+                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
+                        ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
+                }
             },
             datasets = datasets,
             referencedDatasets = translated.referencedDatasetIds
@@ -128,8 +137,8 @@ class CatalogueI18nService(
         catalogue: CatalogueModel,
         language: Language?,
         otherLanguageIfAbsent: Boolean,
-    ): CatalogueRefTreeDTOBase? {
-        return translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
+    ): CatalogueRefTreeDTOBase? = withCache { cache ->
+        translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
             CatalogueRefTreeDTOBase(
                 id = translated.id,
                 identifier = translated.identifier,
@@ -146,6 +155,7 @@ class CatalogueI18nService(
                         hidden = ExactMatch(false),
                         freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter()
                     ).items
+                        .onEach { cache.untranslatedCatalogues.register(it.id, it) }
                         .filter { it.status != CatalogueState.DELETED }
                         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
                         .filterNotNull()

@@ -1,6 +1,8 @@
 package io.komune.registry.s2.catalogue.domain.automate
 
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -14,8 +16,12 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReplacedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -59,6 +65,18 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueUnlinkCataloguesCommand, CatalogueUnlinkedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueAddRelatedCataloguesCommand, CatalogueAddedRelatedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueReplaceRelatedCataloguesCommand, CatalogueReplacedRelatedCataloguesEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueRemoveRelatedCataloguesCommand, CatalogueRemovedRelatedCataloguesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

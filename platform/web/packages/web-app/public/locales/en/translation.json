@@ -302,7 +302,9 @@
       "100m-sector": "Sector",
       "100m-solution": "Solution",
       "100m-system": "System",
-      "100m-project": "Project"
+      "100m-project": "Project",
+      "100m-chart": "Chart",
+      "100m-planetary-boundary": "Planetary boundary"
     },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
@@ -350,7 +352,7 @@
     "linkedSolution": "Linked solution",
     "indicatorNameDetails": "Indicator blocks allow you to add key data (quantitative or qualitative) to a sheet. The entered data is automatically integrated into the economic summary of the sheet.",
     "indicatorSolutionDetails": "When a block is linked to a solution, it appears in the \"Solutions\" section of the project sheet and is included in the \"Case Study\" section of the solution if the project sheet is published.",
-    "noSolution": "No solution was found",
+    "noResult": "No result was found",
     "createIndicatorBlock": "Create an indicator block",
     "editIndicatorBlock": "Edit an indicator block",
     "noIndicatorBlock": "No indicator block associated with this sheet",
