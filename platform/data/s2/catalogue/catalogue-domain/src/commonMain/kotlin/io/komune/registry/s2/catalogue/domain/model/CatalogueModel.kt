@@ -38,7 +38,6 @@ data class CatalogueModel(
     val accessRights: CatalogueAccessRight,
     val licenseId: LicenseId?,
     val location: Location?,
-    val aggregators: List<CatalogueAggregatorModel>,
     val hidden: Boolean,
     val issued: Long,
     val modified: Long,

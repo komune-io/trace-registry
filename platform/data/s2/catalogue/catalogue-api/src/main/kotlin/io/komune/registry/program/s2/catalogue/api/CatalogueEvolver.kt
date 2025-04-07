@@ -1,6 +1,5 @@
 package io.komune.registry.program.s2.catalogue.api
 
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueAggregatorEntity
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
@@ -12,9 +11,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesE
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
@@ -44,8 +41,6 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueUnreferencedDatasetsEvent -> model?.unreferenceDatasets(event)
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueSetImageEvent -> model?.setImage(event)
-		is CatalogueSetAggregatorEvent -> model?.setAggregator(event)
-		is CatalogueRemovedAggregatorEvent -> model?.removeAggregator(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 	}
 
@@ -121,22 +116,6 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
 		childrenCatalogueIds -= event.catalogues.toSet()
-	}
-
-	private suspend fun CatalogueEntity.setAggregator(event: CatalogueSetAggregatorEvent) = apply {
-		val existingAggregator = aggregators.find { it.informationConceptId == event.informationConceptId }
-		if (existingAggregator != null) {
-			existingAggregator.scope = event.scope
-		} else {
-			aggregators += CatalogueAggregatorEntity(
-				informationConceptId = event.informationConceptId,
-				scope = event.scope
-			)
-		}
-	}
-
-	private suspend fun CatalogueEntity.removeAggregator(event: CatalogueRemovedAggregatorEvent) = apply {
-		aggregators.removeIf { it.informationConceptId == event.informationConceptId }
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {

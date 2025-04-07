@@ -1,7 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api.entity
 
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.s2.catalogue.domain.model.CatalogueAggregatorModel
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueId
 
@@ -31,7 +30,6 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         accessRights = accessRights,
         licenseId = licenseId,
         location = location,
-        aggregators = aggregators.map { it.toModel() },
         hidden = hidden,
         issued = issued,
         modified = modified,
@@ -49,8 +47,3 @@ suspend fun CatalogueModel.descendantsIds(
     }
     return childrenIds
 }
-
-fun CatalogueAggregatorEntity.toModel() = CatalogueAggregatorModel(
-    informationConceptId = informationConceptId,
-    scope = scope
-)

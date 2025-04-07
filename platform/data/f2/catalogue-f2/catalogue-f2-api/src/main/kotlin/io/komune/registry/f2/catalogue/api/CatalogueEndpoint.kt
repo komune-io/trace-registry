@@ -23,8 +23,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
@@ -57,7 +55,6 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -322,13 +319,5 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
-    }
-
-    @Bean
-    override fun catalogueSetAggregator(): CatalogueSetAggregatorFunction = f2Function { command ->
-        logger.info("catalogueSetAggregator: $command")
-        cataloguePoliciesEnforcer.checkSetAggregator(command.id)
-        catalogueAggregateService.setAggregator(command)
-            .let { CatalogueSetAggregatorEventDTOBase(command.id) }
     }
 }

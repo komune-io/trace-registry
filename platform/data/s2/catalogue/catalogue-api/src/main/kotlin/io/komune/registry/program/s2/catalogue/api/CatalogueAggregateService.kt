@@ -17,12 +17,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEve
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveAggregatorCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemoveTranslationsCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -203,25 +199,6 @@ class CatalogueAggregateService(
 			id = it.id,
 			date = System.currentTimeMillis(),
 			versionNotes = command.versionNotes
-		)
-	}
-
-	suspend fun setAggregator(command: CatalogueSetAggregatorCommand): CatalogueSetAggregatorEvent = automate.transition(command) {
-		CatalogueSetAggregatorEvent(
-			id = it.id,
-			date = System.currentTimeMillis(),
-			informationConceptId = command.informationConceptId,
-			scope = command.scope
-		)
-	}
-
-	suspend fun removeAggregator(
-		command: CatalogueRemoveAggregatorCommand
-	): CatalogueRemovedAggregatorEvent = automate.transition(command) {
-		CatalogueRemovedAggregatorEvent(
-			id = it.id,
-			date = System.currentTimeMillis(),
-			informationConceptId = command.informationConceptId
 		)
 	}
 

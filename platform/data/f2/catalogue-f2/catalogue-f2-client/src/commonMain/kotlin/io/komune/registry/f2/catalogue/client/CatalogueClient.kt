@@ -12,7 +12,6 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueSetAggregatorFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
@@ -72,7 +71,6 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction
         = client.function("data/${this::catalogueUnreferenceDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
-    override fun catalogueSetAggregator(): CatalogueSetAggregatorFunction = client.function("data/${this::catalogueSetAggregator.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
 
     override fun cataloguePage(): CataloguePageFunction = client.function("data/${this::cataloguePage.name}")

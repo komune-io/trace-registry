@@ -89,8 +89,6 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var location: Location? = null
 
-    var aggregators: MutableList<CatalogueAggregatorEntity> = mutableListOf()
-
     @Indexed
     var hidden: Boolean = false
 
