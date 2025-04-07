@@ -82,7 +82,7 @@ class CatalogueI18nService(
         val datasets = translated.childrenDatasetIds
             .map { cache.datasets.get(it).toDTOCached() }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
-            .filterNot { it.type == "indicators" && aggregators.isEmpty() }
+            .filterNot { it.type == "attestations" && aggregators.isEmpty() }
             .sortedBy { it.structure?.definitions?.get("position") ?: it.title }
         CatalogueDTOBase(
             id = translated.id,
