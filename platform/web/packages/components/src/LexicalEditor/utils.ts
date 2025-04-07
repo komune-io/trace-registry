@@ -55,7 +55,7 @@ export function setFloatingElemPosition(
   const scrollerElem = anchorElem.parentElement;
 
   if (targetRect === null || !scrollerElem) {
-    floatingElem.style.opacity = '0';
+    if (!isLink) floatingElem.style.opacity = '0';
     floatingElem.style.transform = 'translate(-10000px, -10000px)';
     return;
   }
@@ -63,9 +63,14 @@ export function setFloatingElemPosition(
   const floatingElemRect = floatingElem.getBoundingClientRect();
   const anchorElementRect = anchorElem.getBoundingClientRect();
   const editorScrollerRect = scrollerElem.getBoundingClientRect();
-
+  console.log("///////")
+  console.log("targetRect.top", targetRect.top)
+  console.log("floatingElemRect.height", floatingElemRect.height)
+  console.log("verticalGap", verticalGap)
+  console.log("///////")
   let top = targetRect.top - floatingElemRect.height - verticalGap;
   let left = targetRect.left - horizontalOffset;
+ 
 
   if (top < editorScrollerRect.top) {
     // adjusted height for link element if the element is at top
@@ -82,7 +87,7 @@ export function setFloatingElemPosition(
   top -= anchorElementRect.top;
   left -= anchorElementRect.left;
 
-  floatingElem.style.opacity = '1';
+  if (!isLink) floatingElem.style.opacity = '1';
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 }
 
@@ -109,4 +114,26 @@ export function $getNextSiblingOrParentSibling(
     return null;
   }
   return [node_, depthDiff];
+}
+
+
+const SUPPORTED_URL_PROTOCOLS = new Set([
+  'http:',
+  'https:',
+  'mailto:',
+  'sms:',
+  'tel:',
+]);
+
+export function sanitizeUrl(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    // eslint-disable-next-line no-script-url
+    if (!SUPPORTED_URL_PROTOCOLS.has(parsedUrl.protocol)) {
+      return 'about:blank';
+    }
+  } catch {
+    return url;
+  }
+  return url;
 }

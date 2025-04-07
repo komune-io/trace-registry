@@ -12,10 +12,12 @@ export interface useDistributionLexicalEditorResult {
 }
 
 export const useCatalogueDistributionLexicalEditor = (
-  catalogue?: Catalogue, params?: UseLexicalDistributionEditorParams
+  catalogue?: Catalogue, 
+  dataset?: Dataset,
+  params?: UseLexicalDistributionEditorParams
 ): useDistributionLexicalEditorResult => {
   const {readOnly = true} = params || {}
-  const distributionDownload = useLexicalDistribution(catalogue)
+  const distributionDownload = useLexicalDistribution(catalogue, dataset)
   const editor = (<DistributionLexicalEditor readOnly={readOnly} {...distributionDownload}/>)
   return {
     ...distributionDownload,

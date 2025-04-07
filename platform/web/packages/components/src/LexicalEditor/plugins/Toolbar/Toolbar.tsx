@@ -214,7 +214,7 @@ export const Toolbar = (props: ToolbarProps) => {
       direction='row'
       zIndex={1}
       gap={0}
-      width='100%'
+      width='calc(100% + 12px)'
       alignItems='center'
     >
       <Stack direction='row' gap={0} width='100%' flexWrap='wrap'>

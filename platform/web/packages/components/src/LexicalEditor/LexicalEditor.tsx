@@ -34,6 +34,7 @@ import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { TableActionMenuPlugin, TableCellActionMenuPlugin, TableCellResizerPlugin } from './plugins/TablePlugin';
 import { ImageNode, ImagesPlugin } from './plugins/ImagesPlugin';
 import { DragDropPasteImgPlugin } from './plugins/DragDropPasteImgPlugin';
+import { LinkEditorPlugin } from './plugins/LinkEditorPlugin';
 
 const editorConfig: InitialConfigType = {
     namespace: 'Editor',
@@ -360,6 +361,10 @@ export const InnerEditor = (props: InnerEditorProps) => {
                             />
                             <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} />
                             <TableActionMenuPlugin anchorElem={floatingAnchorElem} />
+                            <LinkEditorPlugin
+                                anchorElem={floatingAnchorElem}
+
+                            />
                         </>
                     )}
                     {displayPlugins}
