@@ -2452,7 +2452,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
-        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorConfigDTO;
         readonly themeIds: string[];
 
     }
@@ -2476,7 +2476,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
         readonly id: string;
         readonly name: Record<string, string>;
         readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
-        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorConfigDTO;
         readonly themeIds: string[];
 
     }
@@ -2515,6 +2515,15 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.value {
     }
     interface SupportedValueCommand extends s2.dsl.automate.S2Command<string> {
         readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.cccev.domain.model {
+    interface AggregatorConfigDTO {
+        readonly type: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly persistValue: boolean;
+        readonly aggregatedConceptIds?: kotlin.collections.Set<string>;
+        readonly defaultValue?: string;
 
     }
 }
@@ -2632,7 +2641,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
         readonly identifier: string;
         readonly name: Record<string, string>;
         readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
-        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorConfigDTO;
         readonly themeIds: string[];
 
     }
@@ -2646,7 +2655,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
         readonly id: string;
         readonly name: Record<string, string>;
         readonly unit?: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO;
-        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorType;
+        readonly aggregator?: io.komune.registry.s2.cccev.domain.model.AggregatorConfigDTO;
         readonly themeIds: string[];
 
     }
@@ -3140,21 +3149,6 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.command {
-    interface CatalogueRemoveAggregatorCommandDTO {
-        readonly id: string;
-        readonly informationConceptId: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.catalogue.domain.command {
-    interface CatalogueSetAggregatorCommandDTO {
-        readonly id: string;
-        readonly informationConceptId: string;
-        readonly scope: io.komune.registry.s2.catalogue.domain.model.AggregatorScope;
-
-    }
-}
-export declare namespace io.komune.registry.s2.catalogue.domain.command {
     interface CatalogueUnreferenceDatasetsCommandDTO {
         readonly id: string;
         readonly datasetIds: string[];
@@ -3167,9 +3161,6 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
 
     }
-}
-export declare namespace io.komune.registry.s2.catalogue.domain.model {
-    type AggregatorScope = "GLOBAL";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
@@ -3247,6 +3238,13 @@ export declare namespace io.komune.registry.s2.dataset.domain.automate {
     type DatasetState = "ACTIVE" | "DELETED";
 }
 export declare namespace io.komune.registry.s2.dataset.domain.command {
+    interface DatasetAddAggregatorsCommandDTO {
+        readonly id: string;
+        readonly informationConceptIds: string[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.dataset.domain.command {
     interface DatasetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
         readonly id: string;
@@ -3260,6 +3258,13 @@ export declare namespace io.komune.registry.s2.dataset.domain.command {
 
     }
 }
+export declare namespace io.komune.registry.s2.dataset.domain.command {
+    interface DatasetRemoveAggregatorsCommandDTO {
+        readonly id: string;
+        readonly informationConceptIds: string[];
+
+    }
+}
 export declare namespace io.komune.registry.f2.dataset.domain {
     const AggregatorConfigBuilder: {
         csvSum(informationConceptId: string, unit: io.komune.registry.s2.cccev.domain.model.CompositeDataUnitRefDTO, column: string): io.komune.registry.f2.dataset.domain.dto.AggregatorConfigDTO;
@@ -3270,6 +3275,17 @@ export declare namespace io.komune.registry.f2.dataset.domain {
         buildRangeValue(min?: number, max?: number): string;
         parseRangeValue(value: string): Array<Nullable<number>>;
     };
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetAddAggregatorsCommandDTO extends io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommandDTO {
+        readonly id: string;
+        readonly informationConceptIds: string[];
+
+    }
+    interface DatasetAddedAggregatorsEventDTO {
+        readonly id: string;
+
+    }
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
     interface DatasetAddDistributionValueCommandDTO {
@@ -3392,6 +3408,17 @@ export declare namespace io.komune.registry.f2.dataset.domain.command {
 
     }
     interface DatasetLinkThemesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.dataset.domain.command {
+    interface DatasetRemoveAggregatorsCommandDTO extends io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommandDTO {
+        readonly id: string;
+        readonly informationConceptIds: string[];
+
+    }
+    interface DatasetRemovedAggregatorsEventDTO {
         readonly id: string;
 
     }
@@ -3542,6 +3569,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.dto {
         readonly modified?: number;
         readonly distributions?: io.komune.registry.f2.dataset.domain.dto.DistributionDTO[];
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
+        readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase[];
 
     }
     interface DatasetRefDTO {
@@ -3846,18 +3874,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueReferencedDatasetsEventDTO extends f2.dsl.cqrs.Event {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.command {
-    interface CatalogueSetAggregatorCommandDTO extends io.komune.registry.s2.catalogue.domain.command.CatalogueSetAggregatorCommandDTO {
-        readonly id: string;
-        readonly informationConceptId: string;
-        readonly scope: io.komune.registry.s2.catalogue.domain.model.AggregatorScope;
-
-    }
-    interface CatalogueSetAggregatorEventDTO {
         readonly id: string;
 
     }

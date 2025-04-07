@@ -20,6 +20,7 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
+import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
@@ -129,7 +130,18 @@ class ImportRepository(
             identifier = informationConcept.identifier,
             name = informationConcept.name,
             unit = unit?.let { CompositeDataUnitModel(it.id, null, null) },
-            aggregator = informationConcept.aggregator,
+            aggregator = informationConcept.aggregator?.let {
+                AggregatorConfig(
+                    type = it.type,
+                    persistValue = it.persistValue,
+                    aggregatedConceptIds = it.aggregatedConcepts?.map { conceptIdentifier ->
+                        importContext.informationConcepts[conceptIdentifier]
+                            ?.id
+                            ?: throw IllegalArgumentException("InformationConcept not found: $conceptIdentifier")
+                    }?.toSet(),
+                    defaultValue = it.defaultValue,
+                )
+            },
             themeIds = themes.map { it.id },
         ).invokeWith(dataClient.cccev.informationConceptCreate()).item
     }

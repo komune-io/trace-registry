@@ -1,6 +1,8 @@
 package io.komune.registry.s2.dataset.domain.automate
 
+import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedAggregatorsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
@@ -10,7 +12,9 @@ import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkThemesCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedAggregatorsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
@@ -73,6 +77,14 @@ val s2Dataset = s2Sourcing {
         role = DatasetRole.Issuer
     }
     selfTransaction<DatasetRemoveDistributionCommand, DatasetRemovedDistributionEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetAddAggregatorsCommand, DatasetAddedAggregatorsEvent> {
+        states += DatasetState.ACTIVE
+        role = DatasetRole.Issuer
+    }
+    selfTransaction<DatasetRemoveAggregatorsCommand, DatasetRemovedAggregatorsEvent> {
         states += DatasetState.ACTIVE
         role = DatasetRole.Issuer
     }

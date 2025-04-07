@@ -3,6 +3,7 @@ package io.komune.registry.program.s2.dataset.api
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DistributionEntity
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.command.DatasetAddedAggregatorsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetCreatedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetDataEvent
@@ -10,6 +11,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetDeletedEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedDatasetsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkedThemesEvent
+import io.komune.registry.s2.dataset.domain.command.DatasetRemovedAggregatorsEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetRemovedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkedDatasetsEvent
@@ -36,11 +38,14 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		is DatasetUpdatedDistributionEvent -> model?.updateDistribution(event)
 		is DatasetUpdatedDistributionAggregatorValuesEvent -> model?.updateDistributionAggregatorValues(event)
 		is DatasetRemovedDistributionEvent -> model?.removeDistribution(event)
+		is DatasetAddedAggregatorsEvent -> model?.addAggregators(event)
+		is DatasetRemovedAggregatorsEvent -> model?.removeAggregators(event)
 		is DatasetUpdatedDistributionAggregatorValueEvent -> DatasetUpdatedDistributionAggregatorValuesEvent(
 			id = event.id,
 			distributionId = event.distributionId,
 			removedSupportedValueIds = event.oldSupportedValueId?.let { mapOf(event.informationConceptId to setOf(it)) },
 			addedSupportedValueIds = event.newSupportedValueId?.let { mapOf(event.informationConceptId to setOf(it)) },
+			updatedDatasetAggregators = emptyMap(),
 			date = event.date,
 		).let { model?.updateDistributionAggregatorValues(it) }
 	}
@@ -51,6 +56,7 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 		status = DatasetState.ACTIVE
 		identifier = event.identifier
 		catalogueId = event.catalogueId
+		aggregatorIds = event.aggregators.orEmpty().toMutableSet()
 		issued = event.date
 	}
 
@@ -121,12 +127,26 @@ class DatasetEvolver: View<DatasetEvent, DatasetEntity> {
 			}
 		}
 
+		aggregatorValueIds += event.updatedDatasetAggregators
+
 		distribution.modified = event.date
 		modified = event.date
 	}
 
 	private suspend fun DatasetEntity.removeDistribution(event: DatasetRemovedDistributionEvent) = apply {
 		distributions = distributions.orEmpty().filter { it.id != event.distributionId }
+		modified = event.date
+	}
+
+	private suspend fun DatasetEntity.addAggregators(event: DatasetAddedAggregatorsEvent) = apply {
+		aggregatorIds += event.aggregators.keys
+		aggregatorValueIds += event.aggregators
+		modified = event.date
+	}
+
+	private suspend fun DatasetEntity.removeAggregators(event: DatasetRemovedAggregatorsEvent) = apply {
+		aggregatorIds -= event.informationConceptIds
+		aggregatorValueIds -= event.informationConceptIds
 		modified = event.date
 	}
 

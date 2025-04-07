@@ -8,6 +8,8 @@ plugins {
 dependencies {
 	api(project(Modules.data.s2.dataset.domain))
 
+	implementation(project(Modules.data.s2.cccev.api))
+
 	implementation(project(Modules.commons))
 	implementation(project(Modules.infra.postgresql))
 	implementation(project(Modules.infra.redis))

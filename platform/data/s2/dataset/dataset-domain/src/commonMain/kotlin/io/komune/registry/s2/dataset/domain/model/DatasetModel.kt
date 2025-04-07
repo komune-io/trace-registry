@@ -6,6 +6,8 @@ import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
@@ -43,5 +45,6 @@ data class DatasetModel(
     val releaseDate: String?,
     val datasetIds: List<DatasetId>,
     val distributions: List<DistributionModel>,
-    val structure: Structure?
+    val structure: Structure?,
+    val aggregators: Map<InformationConceptId, SupportedValueId?>
 )

@@ -1,0 +1,7 @@
+{
+    "type": "indicator",
+    "configurations": [{
+        "catalogueTypes": ["100m-project"],
+        "aggregators": ["counter-co2e"]
+    }]
+}

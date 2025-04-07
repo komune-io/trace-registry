@@ -6,6 +6,7 @@ import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -36,6 +37,7 @@ data class DatasetCreateCommand(
     val length: Int? = null,
     val releaseDate: String? = null,
     val structure: Structure?,
+    val aggregators: List<InformationConceptId>? = null,
 ): DatasetInitCommand
 
 sealed interface DatasetDataEvent : DatasetEvent {
@@ -94,5 +96,6 @@ data class DatasetCreatedEvent(
     override val length: Int? = null,
     override val releaseDate: String? = null,
     override val structure: Structure?,
+    val aggregators: Set<InformationConceptId>?,
     override val date: Long,
 ): DatasetDataEvent

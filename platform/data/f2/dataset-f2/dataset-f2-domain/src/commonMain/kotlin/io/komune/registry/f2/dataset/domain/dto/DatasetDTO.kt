@@ -5,6 +5,7 @@ import io.komune.registry.dsl.dcat.domain.model.Agent
 import io.komune.registry.dsl.skos.domain.model.SkosConcept
 import io.komune.registry.dsl.skos.domain.model.SkosConceptDTO
 import io.komune.registry.dsl.skos.domain.model.SkosConceptScheme
+import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -234,6 +235,8 @@ interface DatasetDTO {
     val distributions: List<DistributionDTO>?
 
     val structure: StructureDTO?
+
+    val aggregators: List<InformationConceptComputedDTOBase>
 }
 
 @Serializable
@@ -272,7 +275,8 @@ data class DatasetDTOBase(
     override val issued: Long? = null,
     override val modified: Long? = null,
     override val distributions: List<DistributionDTOBase>? = null,
-    override val structure: Structure?
+    override val structure: Structure?,
+    override val aggregators: List<InformationConceptComputedDTOBase> = emptyList()
 ): DatasetDTO
 
 @JsExport

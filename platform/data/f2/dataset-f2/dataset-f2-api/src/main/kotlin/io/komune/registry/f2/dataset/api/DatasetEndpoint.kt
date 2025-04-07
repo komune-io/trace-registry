@@ -13,17 +13,21 @@ import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
 import io.komune.registry.f2.dataset.api.service.DatasetF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.domain.DatasetApi
+import io.komune.registry.f2.dataset.domain.command.DatasetAddAggregatorsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetAddedAggregatorsEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedMediaDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetDeleteFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkDatasetsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetLinkThemesFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveAggregatorsFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetRemovedAggregatorsEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetReplaceDistributionValueFunction
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetSetImageEventDTOBase
@@ -227,6 +231,22 @@ class DatasetEndpoint(
             id = command.id,
             img = result.img,
         )
+    }
+
+    @Bean
+    override fun datasetAddAggregators(): DatasetAddAggregatorsFunction = f2Function { command ->
+        logger.info("datasetAddAggregators: $command")
+        datasetPoliciesEnforcer.checkUpdate(command.id)
+        datasetAggregateService.addAggregators(command)
+        DatasetAddedAggregatorsEventDTOBase(command.id)
+    }
+
+    @Bean
+    override fun datasetRemoveAggregators(): DatasetRemoveAggregatorsFunction = f2Function { command ->
+        logger.info("datasetRemoveAggregators: $command")
+        datasetPoliciesEnforcer.checkUpdate(command.id)
+        datasetAggregateService.removeAggregators(command)
+        DatasetRemovedAggregatorsEventDTOBase(command.id)
     }
 
     @Bean

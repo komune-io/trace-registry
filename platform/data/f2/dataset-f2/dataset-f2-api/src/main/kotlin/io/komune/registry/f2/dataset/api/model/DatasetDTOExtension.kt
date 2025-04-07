@@ -90,6 +90,13 @@ suspend fun DatasetModel.toDTO(
             ) }.filter { it.status != DatasetState.DELETED },
         distributions = distributions.map { it.toDTO(language, getDataUnit, getInformationConcept, getSupportedValue, getTheme) },
         structure = structure,
+        aggregators = aggregators.mapNotNull { (conceptId, valueId) ->
+            valueId?.let {
+                val concept = getInformationConcept(conceptId)
+                val value = getSupportedValue(it)
+                concept.toComputedDTO(value, language, getTheme, getDataUnit)
+            }
+        }.sortedBy { it.name },
     )
 }
 

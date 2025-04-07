@@ -87,13 +87,13 @@ class CccevFinderService(
             ?: throw NotFoundException("SupportedValue", id)
     }
 
-    suspend fun list(ids: List<SupportedValueId>): List<SupportedValueModel> {
+    suspend fun listValues(ids: List<SupportedValueId>): List<SupportedValueModel> {
         return valueRepository.findAllById(ids)
             .map(SupportedValueEntity::toModel)
     }
 
     suspend fun computeGlobalValueForConcept(id: InformationConceptId): String {
-        val aggregatorType = getConcept(id).aggregator
+        val aggregatorType = getConcept(id).aggregator?.type
             ?: throw IllegalStateException("Aggregator not defined for concept $id")
 
         val supportedValues = valueRepository.findAllByConceptIdAndStatus(id, SupportedValueState.VALIDATED)

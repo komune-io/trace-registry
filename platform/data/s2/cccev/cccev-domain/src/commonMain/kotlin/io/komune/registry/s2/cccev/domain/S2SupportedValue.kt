@@ -4,6 +4,8 @@ import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateComm
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreatedEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecatedEvent
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdateValueCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdatedValueEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
 import kotlinx.serialization.Serializable
@@ -15,6 +17,10 @@ val s2SupportedValue = s2Sourcing {
     name = "SupportedValue"
     init<SupportedValueCreateCommand, SupportedValueCreatedEvent> {
         to = SupportedValueState.COMPUTED
+        role = SupportedValueRole.User
+    }
+    selfTransaction<SupportedValueUpdateValueCommand, SupportedValueUpdatedValueEvent> {
+        states += SupportedValueState.entries
         role = SupportedValueRole.User
     }
     transaction<SupportedValueValidateCommand, SupportedValueValidatedEvent> {
