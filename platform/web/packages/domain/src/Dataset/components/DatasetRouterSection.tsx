@@ -1,12 +1,12 @@
-import {Dataset} from "../model";
-import {useDatasetDataQuery} from "../api";
-import {DocumentsPage, FilePath} from "../../Documents";
-import {ActivitiesSection} from "../../Project/components/ActivitiesSection";
-import {Activity} from "../../Activity";
-import {Catalogue, CatalogueInformation} from "../../Catalogue";
-import {CatalogueGraphManager} from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
-import {CataloguePdfCertificate} from "../../Catalogue/components/CataloguePdfCertificate";
-import {DatasetIndicator} from "./DatasetIndicator";
+import { Dataset } from "../model";
+import { useDatasetDataQuery } from "../api";
+import { DocumentsPage, FilePath } from "../../Documents";
+import { ActivitiesSection } from "../../Project/components/ActivitiesSection";
+import { Activity } from "../../Activity";
+import { Catalogue, CatalogueInformation } from "../../Catalogue";
+import { CatalogueGraphManager } from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
+import { CataloguePdfCertificate } from "../../Catalogue/components/CataloguePdfCertificate";
+import { DatasetIndicator } from "./DatasetIndicator";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
@@ -17,42 +17,43 @@ interface DatasetDataSectionProps {
 export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     const { catalogue, item, isLoading } = props
     const fileListQuery = useDatasetDataQuery({ query: { id: item.id! } })
-    if(item.type === "document" ) {
+    if (item.type === "document") {
         return (
             <DocumentsPage isLoading={isLoading || fileListQuery.isLoading} files={fileListQuery.data?.items ?? [] as FilePath[]} />
         )
-    } else if(item.type === "activity" && fileListQuery.data?.items) {
+    } else if (item.type === "activity" && fileListQuery.data?.items) {
         return (
-            <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items ?? [] as  Activity[]} />
+            <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items ?? [] as Activity[]} />
         )
-    } else if(item.type === "table" ) {
+    } else if (item.type === "table") {
         return (
             // TODO HERE DO Composable table
-           <div>Comming Soon</div>
+            <div>Comming Soon</div>
         )
-    } else if(item.type === "lexical" ) {
+    } else if (item.type === "lexical") {
         return (
-          <CatalogueInformation
-            catalogue={catalogue}
-          />
+            <CatalogueInformation
+                dataset={item}
+                catalogue={catalogue}
+            />
         )
-    } else if(item.type === "indicators" ) {
+    } else if (item.type === "indicators") {
         return (
-          <DatasetIndicator
-            item={item}
-          />
+            <DatasetIndicator
+                item={item}
+            />
         )
-    } else if(item.type === "graphs" ) {
+    } else if (item.type === "graphs") {
         return (
-          <CatalogueGraphManager catalogue={catalogue} />
+            <CatalogueGraphManager catalogue={catalogue} />
         )
-    } else if(item.type === "attestations" ) {
+    } else if (item.type === "attestations") {
         return (
-          <CataloguePdfCertificate catalogue={catalogue} />
+            <CataloguePdfCertificate catalogue={catalogue} />
         )
     } else {
         return (
-           <div>Comming Soon</div>
+            <div>Comming Soon</div>
         )
     }
 

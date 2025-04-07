@@ -208,8 +208,7 @@ export const Toolbar = (props: ToolbarProps) => {
     <Stack
       sx={{
         display: displayToolBarOnFocus ? isFocused ? "flex" : "none" : "flex",
-        "& .MuiToggleButton-root": { height: "44px", width: "44px" },
-        ml: "-6px"
+        "& .MuiToggleButton-root": { height: "44px", width: "44px" }
       }}
       className='editor-toolbar'
       direction='row'
