@@ -27,7 +27,8 @@ object SvgCertificateGenerator {
         indicatorValue: String,
         indicatorUnit: String,
         certifiedBy: String? = null,
-        title: String? = null
+        title: String? = null,
+        url: String? = null
     ): ByteArray {
         return fill(
             template = TEMPLATE_CERTIFICATE,
@@ -37,7 +38,8 @@ object SvgCertificateGenerator {
             indicatorUnit = indicatorUnit,
             indicatorValue = indicatorValue,
             certifiedBy = certifiedBy,
-            title = title
+            title = title,
+            url = url
         )
     }
 
@@ -49,7 +51,8 @@ object SvgCertificateGenerator {
         indicatorValue: String,
         indicatorUnit: String,
         certifiedBy: String? = null,
-        title: String? = null
+        title: String? = null,
+        url: String? = null
     ): ByteArray {
         val templateFilled = fillSvg(
             template = template,
@@ -59,7 +62,8 @@ object SvgCertificateGenerator {
             indicatorUnit = indicatorUnit,
             indicatorValue = indicatorValue,
             certifiedBy = certifiedBy,
-            title = title
+            title = title,
+                url = url
         )
         return templateFilled.let(SvgToPdfConverter::convert)
     }
@@ -72,7 +76,8 @@ object SvgCertificateGenerator {
         indicatorValue: String,
         indicatorUnit: String?,
         certifiedBy: String?,
-        title: String?
+        title: String?,
+        url: String? = null
     ): String {
         var templateFilled = PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
@@ -95,8 +100,8 @@ object SvgCertificateGenerator {
             templateFilled = templateFilled.replace(FIELD_TITLE, title)
         }
 
-        title?.let {
-            val qrCodeSvg = generateQrCodeSvg(title)
+        url?.let {
+            val qrCodeSvg = generateQrCodeSvg(url)
             templateFilled = templateFilled.replace(FIELD_QRCODE, qrCodeSvg)
         }
         return templateFilled

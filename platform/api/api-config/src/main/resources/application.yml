@@ -40,6 +40,10 @@ f2:
     issuer-base-uri: http://im-keycloak:8080
 
 platform:
+  ui:
+    url:  http://localhost:5173
+    template:
+      catalogue: ${platform.ui.url}/catalogues/{catalogueId}
   brevo:
     token: secret
     from: wikico2@kosm.io

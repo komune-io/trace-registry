@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
+import io.komune.registry.api.config.ui.UIProperties
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.infra.pdf.SvgCertificateGenerator
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service
 class CatalogueCertificateService(
     private val conceptService: CatalogueInformationConceptService,
     private val catalogueI18nService: CatalogueI18nService,
+    private val uiProperties: UIProperties,
 ) : CatalogueCachedService() {
 
     companion object {
@@ -40,13 +42,14 @@ class CatalogueCertificateService(
         concept: InformationConceptComputedDTOBase
     ): ByteArray {
         return SvgCertificateGenerator.fillFinalCertificate(
+            title = catalogue.title,
             transactionId = catalogue.id,
             date = catalogue.issued,
+            certifiedBy = catalogue.creatorOrganization?.name ?: "",
             issuedTo = catalogue.ownerOrganization?.name ?: "",
             indicatorValue = value,
             indicatorUnit = concept.unit.toNameString(),
-            title = catalogue.title,
-            certifiedBy = catalogue.creatorOrganization?.name ?: ""
+            url = uiProperties.getCatalogueUrl(catalogue.id),
         )
     }
 }
