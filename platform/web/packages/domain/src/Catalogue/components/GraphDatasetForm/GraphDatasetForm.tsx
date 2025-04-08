@@ -26,7 +26,7 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
     const projects = useMemo((): FormComposableField[] => [{
         name: "distributionId",
         type: "autoComplete",
-        label: t("co2Projects"),
+        label: t("datasets"),
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
@@ -34,7 +34,7 @@ export const GraphDatasetForm = (props: GraphDatasetFormProps) => {
                 key: dist.id,
                 label: dist.name
             })),
-            noOptionsText: t("catalogues.noProject"),
+            noOptionsText: t("catalogues.noDataset"),
             optionsResultLimit: 50
         },
         required: true

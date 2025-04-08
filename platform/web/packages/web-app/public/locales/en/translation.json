@@ -163,6 +163,8 @@
   "previsualization": "Previsualization",
   "cost": "Cost",
   "gain": "Gain",
+  "datasets": "Datasets",
+  "options": "Options",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -420,7 +422,8 @@
       "data/informationConceptGetGlobalValue": "The saved CO2 counter could not be retrieved",
       "data/datasetAddDistributionValue": "The indicator could not be created",
       "data/datasetReplaceDistributionValue": "The indicator could not be modified",
-      "data/datasetRemoveDistributionValue": "The indicator could not be deleted"
+      "data/datasetRemoveDistributionValue": "The indicator could not be deleted",
+      "noDataset": "No dataset found"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",

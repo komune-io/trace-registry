@@ -163,6 +163,8 @@
     "previsualization": "Prévisualisation",
     "cost": "Coût",
     "gain": "Gain",
+    "datasets": "Jeux de données",
+    "options": "Options",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -360,7 +362,8 @@
         "indicatorBlock": "Bloc d'indicateurs",
         "noType": "Aucun type n'a été trouvé",
         "defineValueRange": "Définir une plage de valeurs",
-        "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale"
+        "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
+        "noDataset": "Aucun jeu de données n'a été trouvé"
     },
     "editor": {
         "imageUrl": "URL de l'image",
