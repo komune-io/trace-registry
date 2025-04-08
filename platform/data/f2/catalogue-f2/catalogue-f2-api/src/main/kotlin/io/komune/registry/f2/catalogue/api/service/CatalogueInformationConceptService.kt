@@ -11,8 +11,8 @@ import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.SupportedValueData
-import io.komune.registry.s2.dataset.domain.model.AggregatedValueModel
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
+import java.math.BigDecimal
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 
@@ -34,29 +34,38 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                 aggregatedValues
             }
         }.flatten().groupBy { it.conceptId }
-
         val types = aggregatedByConcept.flatMap { (conceptId, aggregatedValues) ->
-            aggregatedValues.flatMap { aggregatedValue ->
+            aggregatedValues.mapNotNull { aggregatedValue ->
+                val info = cache.informationConcepts.get(conceptId)
+                val supportedValue =  cache.supportedValues.get(aggregatedValue.computedValue)
+                if (info.aggregator == null || info.unit == null || supportedValue.value == "0") {
+                    return@mapNotNull null
+                }
+//                if (supportedValue.isRange) {
+//                    return@flatMap emptyList()
+//                }
+
+
                 aggregatedValue.dependingValues.mapNotNull { dependingValue ->
-                    val info = cache.informationConcepts.get(dependingValue.key)
-                    val unitName = info.name["fr"]
+                    val aggregatedConcept = cache.informationConcepts.get(dependingValue.key)
+                    val unitName = aggregatedConcept.name["fr"]
                     val subAggragators = dependingValue.value.map {
                         cache.supportedValues.get(it)
-                    }.filter {
-                        !it.isRange
+                    }.filter { supportedValue ->
+                        !supportedValue.isRange
                     }.map { supportedValue ->
                         supportedValue.value
                     }
                     val sum = SumAggregatorInput(subAggragators).compute()
                     "$sum $unitName"
                 }
-            }
+            }.flatten()
         }
 
         aggregatedByConcept.forEach { (conceptId, aggregatedValues) ->
             aggregatedValues.forEach { aggregatedValue ->
                 val supportedValue =  cache.supportedValues.get(aggregatedValue.computedValue)
-                if (supportedValue != null && !supportedValue.isRange) {
+                if (!supportedValue.isRange) {
                     aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
                 }
             }
