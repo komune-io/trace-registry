@@ -860,14 +860,14 @@
   resolved "https://registry.npmjs.org/@js-joda/core/-/core-3.2.0.tgz#3e61e21b7b2b8a6be746df1335cf91d70db2a273"
   integrity sha512-PMqgJ0sw5B7FKb2d5bWYIoxjri+QlW/Pys7+Rw82jSH0QN3rB05jZ/VrrsUdh1w4+i2kw9JOejXGq/KhDOX7Kg==
 
-"@komune-io/g2-components@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-components/-/g2-components-0.7.0-alpha.2a20f78.tgz#f3c8b513482daa57485d16ecc245363451956695"
-  integrity sha512-hqZOCTE1EVDjOsnoTLJnBAk3K0lxQVUz6byO5vTXr1WN91qjp9+M5cmQV/Tohr1T0/I1UYXA3tAXn0nYIjtYag==
+"@komune-io/g2-components@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-components/-/g2-components-0.7.0-alpha.2f982f4.tgz#da0bdac0b557213c9bdd22a7340862721511a944"
+  integrity sha512-vd3VP2pvDiRW4fpUEH5xAhX+vR2ys8SzERr4EdhXMDbC/sZRtV1irJ96BImZhpJmD/FrH1VN0DH5IA3rGPucGg==
   dependencies:
-    "@komune-io/g2-notifications" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-notifications" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/dropzone" "^7.7.0"
     "@mantine/hooks" "^7.7.0"
     "@mui/icons-material" "^5.15.14"
@@ -876,16 +876,16 @@
     react-i18next "^14.1.0"
     react-router-dom "^6.22.3"
 
-"@komune-io/g2-composable@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-composable/-/g2-composable-0.7.0-alpha.2a20f78.tgz#6162af19d75bed7b69a9a8fed7e06bfff80d9d10"
-  integrity sha512-qg2UU6yZUrklZ7/iNmHq8EAT/9BiCYGoLJbVs0A5q7MPEf6U+oaZegL22XVYnL+iEqpOh0uN7aSKAmVA1axI3A==
+"@komune-io/g2-composable@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-composable/-/g2-composable-0.7.0-alpha.2f982f4.tgz#88cbce96a49696b47093633ec5c9050099410599"
+  integrity sha512-3G9ODi5ZY26rrk+4nPLJruQeHaG3d/qqVr90twT1zkbU0no8L1lqgOrKgT4Rgi3czr7ngxkZU2zdPYKEXVn2Yg==
   dependencies:
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-forms" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-layout" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-forms" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-layout" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/hooks" "^7.7.0"
     "@mui/icons-material" "^5.15.14"
     formik "^2.4.5"
@@ -895,13 +895,13 @@
     react-router-dom "^6.22.3"
     spel2js "^0.2.8"
 
-"@komune-io/g2-documentation@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-documentation/-/g2-documentation-0.7.0-alpha.2a20f78.tgz#46e9aa0f0dcc05d4a4e7c9c00b61ca98c95d3f4c"
-  integrity sha512-8x1ATqN2Jf/zCSP2ttjGoW7VGo7MVNJzKpyQ8rCKCgdQ6l3BS7IFbnyuX7OdxQkZlpSaoPg47CaxKE8ppZB+pQ==
+"@komune-io/g2-documentation@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-documentation/-/g2-documentation-0.7.0-alpha.2f982f4.tgz#214d85f8788a260013590f002e9f3075afcbfbc9"
+  integrity sha512-8ehEnE2CyFvyXl/QyZwOEHZioH7x7LmFHnoaE1mzc6EGOBFORQIJF4gYkzFWrw9NHGYLlKqKr879bkihwq1f7g==
   dependencies:
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     github-markdown-css "^4.0.0"
     react-markdown "^9.0.1"
     react-syntax-highlighter "^15.5.0"
@@ -909,14 +909,14 @@
     rehype-sanitize "^4.0.0"
     remark-gfm "^4.0.0"
 
-"@komune-io/g2-forms@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-forms/-/g2-forms-0.7.0-alpha.2a20f78.tgz#d976ff3599877c6491189dab468364c1603114e5"
-  integrity sha512-LFb4TawOXE7Q/ee/pRkA33+wdq1qmxCsQz4tVwaQf+Tajd6za4sihnt4YI5Ce3GCBvS8m+cnFrLzMog7TULpYw==
+"@komune-io/g2-forms@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-forms/-/g2-forms-0.7.0-alpha.2f982f4.tgz#bf689362f3a579a2041a491cfc00c348e14b88e9"
+  integrity sha512-Safx83Ei9x1jlennhTtio8MMZl9L/VOWTtcc4RUF6yX7Cl5HYr3x8VVGQo6RocU+ufBQ/wp3CK1399IvAAdwrw==
   dependencies:
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/hooks" "^7.6.2"
     "@mui/icons-material" "^5.15.14"
     "@mui/x-date-pickers" "^6.19.8"
@@ -933,16 +933,16 @@
     remark-gfm "^4.0.0"
     tinycolor2 "^1.6.0"
 
-"@komune-io/g2-fs@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-fs/-/g2-fs-0.7.0-alpha.2a20f78.tgz#18f8758551c72fcdc80f3ec540a12287d6b0ad02"
-  integrity sha512-5PKATvei7k3qumI/snTujx4W5sl4ygWCEGoxEoqDRbNRN8mMCr+heleDoceIilcgg6fhukDVpObG86e5tNl9RA==
+"@komune-io/g2-fs@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-fs/-/g2-fs-0.7.0-alpha.2f982f4.tgz#48365fb38607f7114fafb1208508ea95c896ff5b"
+  integrity sha512-xsI/+1YY7l/WrhMszT+kV/tkzTbBGup6gXYamt2R3XvWpie/oquamrPOaztIllACYGYJop1xUot7AmZ5bePh2Q==
   dependencies:
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-forms" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-providers" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-forms" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-providers" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/dropzone" "^7.7.0"
     "@mantine/hooks" "^7.7.0"
     "@mui/icons-material" "^5.15.14"
@@ -951,38 +951,38 @@
     react-i18next "^14.1.0"
     uuid "^9.0.1"
 
-"@komune-io/g2-im@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-im/-/g2-im-0.7.0-alpha.2a20f78.tgz#ce99365aac1d20a78baf17a08de31d3a16dfac3b"
-  integrity sha512-FhsIt6OBfNM8GR7v0osrluwuCmirnQQtwxdprsKHM5sreP7Jie/BGsX4eBx7lpYOCIHeyLtPN84RlwcHg1hbEg==
+"@komune-io/g2-im@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-im/-/g2-im-0.7.0-alpha.2f982f4.tgz#a9e01be2d060b6284a49c21a5c94a53c9f1aa9cb"
+  integrity sha512-/zIvb0UmpVqXA0rezDJ38/IcsgqL+LMULX3Q11qDoJutpK6vW5470aQHCQROb/Tk9ItJf/QBk/99kexVKVpilg==
   dependencies:
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-composable" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-forms" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-layout" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-notifications" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-providers" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-composable" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-forms" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-layout" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-notifications" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-providers" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/hooks" "^7.6.2"
     "@mui/icons-material" "^5.15.14"
     react-i18next "^14.1.0"
     react-router-dom "^6.22.3"
 
-"@komune-io/g2-layout@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-layout/-/g2-layout-0.7.0-alpha.2a20f78.tgz#dbf6ff2ed1168c01f640c3bfb1b0a6076d659a7d"
-  integrity sha512-I1uAWwXPy+fKd5ACZv4VYW8tmuvSlD5QWjlzaLEEiOpHf+XdmK2oi1//x4nut4nuG4bZ28VIGD+fY98B/mzVeA==
+"@komune-io/g2-layout@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-layout/-/g2-layout-0.7.0-alpha.2f982f4.tgz#a356b4bebc8beba747de6e04e1e033dbd09cc4b6"
+  integrity sha512-DWi6KWggzkoSEiXzN/4vDBVm+UZzuRqCzY4lmJhzi2X9Jy75m5Kpwm7MYzzxt8CaDsaq2iUHZ3ul678XN++Ltw==
   dependencies:
     "@dnd-kit/core" "^6.1.0"
     "@dnd-kit/modifiers" "^7.0.0"
     "@dnd-kit/sortable" "^8.0.0"
     "@dnd-kit/utilities" "^3.2.2"
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-forms" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-notifications" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-forms" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-notifications" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mui/icons-material" "^5.15.14"
     "@tanstack/react-table" "^8.15.0"
     "@types/react-table" "^7.7.12"
@@ -990,25 +990,25 @@
     react-router-dom "^6.22.3"
     react-table "^7.8.0"
 
-"@komune-io/g2-notifications@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-notifications/-/g2-notifications-0.7.0-alpha.2a20f78.tgz#cc1e6e6c6be20584e9922e3d06731a362082ddd2"
-  integrity sha512-7JBOai44wOYSfTgflIPQ4KIdlFIELmpmzGgBV7zzjIWpeXq3elCdYondxDl9epNvxaVgDZsJlDKRb+AI3eRpBw==
+"@komune-io/g2-notifications@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-notifications/-/g2-notifications-0.7.0-alpha.2f982f4.tgz#eeef1b5ff33c0d4bac4b7624f590b935488245d4"
+  integrity sha512-wKQP9Fh1jfI9KBNSiYbWFxqgo1H5TsCgdoDrU3iXY4gOHfRbfkTUvLz6KLXfEG37duhcmU/kipWXhF/EOI8wtQ==
   dependencies:
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mui/icons-material" "^5.15.14"
     notistack "3.0.1"
 
-"@komune-io/g2-providers@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-providers/-/g2-providers-0.7.0-alpha.2a20f78.tgz#1059469b793f8a98ed76deb9d356be749bde43fa"
-  integrity sha512-CoGbRR0W0KRujt3BwiaSiIEHHr+IKoc56WFRulNc5/suuJ45Jtfxd7PAHQ1xR8OZuiyZ5CrIuNhRGjXOwJIR9w==
+"@komune-io/g2-providers@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-providers/-/g2-providers-0.7.0-alpha.2f982f4.tgz#566b0024082a4279d0ddd6352b9be73b4b35c36f"
+  integrity sha512-N3+vUVTB3mMCZY6XKY17EJ0HCChQEc2ShwxG9v+T5NWnRk1sRJimfmwgkIV8a+8Re/1kzZxIDKGtxQ5mZmm3hA==
   dependencies:
     "@axa-fr/react-oidc" "^7.20.1"
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     "@mantine/core" "^7.7.0"
     i18next "^23.10.1"
     i18next-browser-languagedetector "^7.2.0"
@@ -1019,54 +1019,54 @@
     react-router-dom "^6.22.3"
     redux "^4.1.0"
 
-"@komune-io/g2-s2@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-s2/-/g2-s2-0.7.0-alpha.2a20f78.tgz#9e96484b23ec57bb392b4e9b30a8aa102e4fdbcf"
-  integrity sha512-CK5DE3oq8crWlG1lXM1xCTbq3axlqHPLLpx3/eguP5ZiLsPsFbL3T2uFLtBdExX7QRfjZGEWU/g5OT2yKEMKqQ==
+"@komune-io/g2-s2@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-s2/-/g2-s2-0.7.0-alpha.2f982f4.tgz#3361b1ae174f8867a202b049d4370646d1ada57e"
+  integrity sha512-r6DEwqC4qOmg8/MY2geIyfvBXJ/9re/cuiY/9M8c/Apnadk0OY74Chr0q4P20VcX3WgKnTA9qaE1qx8ZIqFQGw==
   dependencies:
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
     mermaid "^10.9.0"
     vis-data "^7.1.9"
     vis-network "^9.1.9"
 
-"@komune-io/g2-themes@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-themes/-/g2-themes-0.7.0-alpha.2a20f78.tgz#e4627986699c5815b595797e7792db8d8a02a125"
-  integrity sha512-Pl57v4QMlzysQIi67njtWiy2AEWnj1XiqBKjRPdfYHooGl+iB99lnzoU/2He1h2CYYKrqOLaWW6aAW/mWYKCfA==
+"@komune-io/g2-themes@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-themes/-/g2-themes-0.7.0-alpha.2f982f4.tgz#9426548c54491cd5455eee3819fb8bef12e04883"
+  integrity sha512-qlV84f38jK+iVqlLd20CMox5HxLL/r48Q7u3knr6qJL0JZY4ytQTipiQh1Yr15U2amisS1tmFXg6TY/kT8DsQQ==
   dependencies:
     "@mantine/hooks" "^7.6.2"
     ramda "^0.29.1"
     tinycolor2 "^1.6.0"
     tss-react "^4.9.6"
 
-"@komune-io/g2-utils@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2-utils/-/g2-utils-0.7.0-alpha.2a20f78.tgz#a8bfcc2e759c8f33e6643f368f76ed35f43787c9"
-  integrity sha512-xmqcdAAzraRQJyJyaHFKEK7HyyVU2LndjK41ksxwFS7++YhcSOal6Okfh/EltAi1aGKUlpSGCM0In2ZqojmH5Q==
+"@komune-io/g2-utils@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2-utils/-/g2-utils-0.7.0-alpha.2f982f4.tgz#0786a84332897d82b95282a00933393fad4ef2b3"
+  integrity sha512-2yXbALfl1IBQRmoDaE/1wktv2bzuiLrjav9/G/IB7hDI8OWVbnScAxRweVRcnYPNUDBlTmTIoqZEA7OMX0c/1w==
   dependencies:
     "@mantine/hooks" "^7.7.0"
     "@tanstack/react-query" "^5.28.6"
     i18next "^23.10.1"
     lodash-es "^4.17.21"
 
-"@komune-io/g2@0.7.0-alpha.2a20f78":
-  version "0.7.0-alpha.2a20f78"
-  resolved "https://registry.yarnpkg.com/@komune-io/g2/-/g2-0.7.0-alpha.2a20f78.tgz#23a53d4cc6c2e3fc68edbd0c6b9dafb075eec5ad"
-  integrity sha512-5dMPtkPFWVwA1OIQVEeGD9uKi1xMNlsQ5gVma/VUrM8LeJJ+17QDVKtD/0CXmAHBGdg4Scxq1zjJDxdrVv+jeA==
+"@komune-io/g2@0.7.0-alpha.2f982f4":
+  version "0.7.0-alpha.2f982f4"
+  resolved "https://registry.yarnpkg.com/@komune-io/g2/-/g2-0.7.0-alpha.2f982f4.tgz#f42244a5a601e7c1746709965c8b1f33a542be5e"
+  integrity sha512-fHtzpkY5GvlHRdE4GuLe97xvoJtdUqBFX+VhEdxej34TrpH9ZJdxPObxRqMB40G55tuieYq3qVjKjZsFkEsbLg==
   dependencies:
-    "@komune-io/g2-components" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-composable" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-documentation" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-forms" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-fs" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-im" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-layout" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-notifications" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-providers" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-s2" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-themes" "0.7.0-alpha.2a20f78"
-    "@komune-io/g2-utils" "0.7.0-alpha.2a20f78"
+    "@komune-io/g2-components" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-composable" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-documentation" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-forms" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-fs" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-im" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-layout" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-notifications" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-providers" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-s2" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-themes" "0.7.0-alpha.2f982f4"
+    "@komune-io/g2-utils" "0.7.0-alpha.2f982f4"
 
 "@komune-io/im-privilege-domain@0.20.0":
   version "0.20.0"

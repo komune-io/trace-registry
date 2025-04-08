@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRefetchOnDismount, useRoutesDefinition } from 'components'
 import { useDebouncedCallback } from '@mantine/hooks'
+import { convertRelatedCataloguesToIds } from 'domain-components/src/Catalogue/model/RelatedCatalogue';
 
 interface useDraftMutationsParams {
   catalogue?: Catalogue
@@ -53,6 +54,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         parentId: values.parentId,
         location: values.location,
         ownerOrganizationId: values.ownerOrganizationId,
+        relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
         // keeping the same values
         structure: values.structure,
         hidden: values.hidden,
