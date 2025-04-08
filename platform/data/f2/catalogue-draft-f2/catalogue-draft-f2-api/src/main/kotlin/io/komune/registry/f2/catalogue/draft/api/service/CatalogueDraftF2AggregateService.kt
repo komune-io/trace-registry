@@ -66,7 +66,8 @@ class CatalogueDraftF2AggregateService(
 
         CatalogueLinkDatasetsCommand(
             id = draftedCatalogueId,
-            datasetIds = datasetIdMap.values.toList()
+            // idMap also contains children's descendants, but link should only be for children
+            datasetIds = datasetIdMap.filterKeys { it in baseCatalogue.childrenDatasetIds }.values.toList()
         ).let { catalogueAggregateService.linkDatasets(it) }
 
         val event = CatalogueDraftCreateCommand(
