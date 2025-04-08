@@ -74,6 +74,12 @@ typealias SupportedValueId = String
 
 /**
  * @d2 hidden
+ * @visual json "98b7e74e-0bfa-4929-b269-ecd941063f00"
+ */
+typealias SupportedValueData = String
+
+/**
+ * @d2 hidden
  * @visual json "e1d04d62-69a2-49b5-b11c-2edb374826d4"
  */
 typealias UserId = String

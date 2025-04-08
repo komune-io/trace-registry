@@ -82,7 +82,8 @@ class InformationConceptF2FinderService(
         value = value,
         language = language,
         getTheme = cache.themes::get,
-        getUnit = cache.units::get
+        getUnit = cache.units::get,
+        aggregatedValue = ""
     )
 
     private inner class Cache {

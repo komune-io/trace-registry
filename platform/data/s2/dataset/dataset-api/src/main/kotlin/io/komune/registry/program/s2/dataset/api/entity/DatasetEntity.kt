@@ -14,8 +14,8 @@ import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.RedisTable
-import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.dataset.domain.automate.DatasetState
+import io.komune.registry.s2.dataset.domain.model.AggregatedValueModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
@@ -79,8 +79,11 @@ open class DatasetEntity: WithS2Id<DatasetId>, WithS2State<DatasetState>  {
     var distributions: List<DistributionEntity>? = null
     var structure: Structure? = null
 
+    /**
+     * Hack for redis, in aggregatorValueIds if the SupportedValueId is null, redis do not keep the map entry.
+     */
     var aggregatorIds: MutableSet<InformationConceptId> = mutableSetOf()
-    var aggregatorValueIds: MutableMap<InformationConceptId, SupportedValueId?> = mutableMapOf()
+    var aggregatorValueIds: MutableMap<InformationConceptId, AggregatedValueModel?> = mutableMapOf()
 
     override fun s2Id() = id
     override fun s2State() = status

@@ -42,6 +42,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionCom
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionAggregatorValuesEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEvent
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
+import io.komune.registry.s2.dataset.domain.model.AggregatedValueModel
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -248,7 +249,7 @@ class DatasetAggregateService(
 	suspend fun removeAggregators(command: DatasetRemoveAggregatorsCommand) = automate.transition(command) { dataset ->
 		command.informationConceptIds.forEach { conceptId ->
 			dataset.aggregatorValueIds[conceptId]?.let {
-				cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it))
+				cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it.computedValue))
 			}
 		}
 		DatasetRemovedAggregatorsEvent(
@@ -267,9 +268,9 @@ class DatasetAggregateService(
 	@Suppress("CyclomaticComplexMethod")
 	private suspend fun computeAndPersistAggregator(
 		conceptId: InformationConceptId,
-		existingValueId: SupportedValueId?,
+		existingValueId: AggregatedValueModel?,
 		distributionValues: Map<InformationConceptId, Set<SupportedValueId>>
-	): SupportedValueId? {
+	): AggregatedValueModel? {
 		val concept = cccevFinderService.getConcept(conceptId)
 		if (concept.aggregator == null || !concept.aggregator!!.persistValue || concept.unit == null) {
 			return null
@@ -289,16 +290,16 @@ class DatasetAggregateService(
 			}
 		}
 
-		return when {
+		val storedComputedValueId = when {
 			existingValueId != null && value != null -> {
 				SupportedValueUpdateValueCommand(
-					id = existingValueId,
+					id = existingValueId.computedValue,
 					value = value
 				).let { cccevAggregateService.updateValue(it).id }
 			}
 			existingValueId != null && value == null -> {
 				SupportedValueDeprecateCommand(
-					id = existingValueId
+					id = existingValueId.computedValue,
 				).let { cccevAggregateService.deprecateValue(it) }
 				null
 			}
@@ -313,6 +314,14 @@ class DatasetAggregateService(
 				).let { cccevAggregateService.createValue(it).id }
 			}
 			else -> null
+		}
+
+		return storedComputedValueId?.let {
+			AggregatedValueModel(
+				conceptId = conceptId,
+				computedValue = storedComputedValueId,
+				dependingValues = distributionValues
+			)
 		}
 	}
 

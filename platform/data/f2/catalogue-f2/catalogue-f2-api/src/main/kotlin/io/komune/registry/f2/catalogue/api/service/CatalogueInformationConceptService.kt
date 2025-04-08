@@ -10,6 +10,8 @@ import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.SupportedValueData
+import io.komune.registry.s2.dataset.domain.model.AggregatedValueModel
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
@@ -22,11 +24,35 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
         val childrenDatasetIds = catalogue.childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
         val descendantDatasets = childrenDatasetIds.allDescendants()
 
-        val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<String>>()
+        val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<SupportedValueData>>()
 
-        descendantDatasets.mapAsync { dataset ->
-            dataset.aggregators.forEach { (conceptId, valueId) ->
-                val supportedValue = valueId?.let { cache.supportedValues.get(it) }
+        val aggregatedByConcept: Map<InformationConceptId, List<AggregatedValueModel>> = descendantDatasets.mapAsync { dataset ->
+            dataset.aggregators.mapNotNull { (_, aggregatedValues) ->
+                aggregatedValues
+            }
+        }.flatten().groupBy { it.conceptId }
+
+        val types = aggregatedByConcept.flatMap { (conceptId, aggregatedValues) ->
+            aggregatedValues.flatMap { aggregatedValue ->
+                aggregatedValue.dependingValues.mapNotNull { dependingValue ->
+                    val info = cache.informationConcepts.get(dependingValue.key)
+                    val unitName = info.name["fr"]
+                    val subAggragators = dependingValue.value.map {
+                        cache.supportedValues.get(it)
+                    }.filter {
+                        !it.isRange
+                    }.map { supportedValue ->
+                        supportedValue.value
+                    }
+                    val sum = SumAggregatorInput(subAggragators).compute()
+                    "$sum $unitName"
+                }
+            }
+        }
+
+        aggregatedByConcept.forEach { (conceptId, aggregatedValues) ->
+            aggregatedValues.forEach { aggregatedValue ->
+                val supportedValue =  cache.supportedValues.get(aggregatedValue.computedValue)
                 if (supportedValue != null && !supportedValue.isRange) {
                     aggregatorValues[conceptId] = aggregatorValues.getOrDefault(conceptId, emptyList()) + supportedValue.value
                 }
@@ -52,7 +78,7 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                     query = null,
                     description = null,
                 )
-                concept.toComputedDTO(supportedValue, catalogue.language!!, cache.themes::get, cache.dataUnits::get)
+                concept.toComputedDTO(supportedValue, catalogue.language!!, types.joinToString(", "), cache.themes::get, cache.dataUnits::get)
             }
         }
     }

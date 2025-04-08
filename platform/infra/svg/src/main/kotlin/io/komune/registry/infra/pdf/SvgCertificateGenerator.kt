@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 object SvgCertificateGenerator {
     const val TEMPLATE_CERTIFICATE = "classpath:certificate.svg"
 
-    private const val FIELD_ISSUEDTO = "(entreprise)"
+    private const val FIELD_ISSUEDTO = "(enterprise)"
     private const val FIELD_DATE = "(date)"
     private const val FIELD_CERTIFIED_BY = "(certifiedBy)"
     private const val FIELD_TRANSACTION = "(transaction)"
@@ -19,6 +19,9 @@ object SvgCertificateGenerator {
     private const val FIELD_VALUE = "(value)"
     private const val FIELD_UNIT = "(unit)"
     private const val FIELD_QRCODE = "(qrcode)"
+    private const val FIELD_TYPE = "(type)"
+    private const val FIELD_VALIDATION = "(validation)"
+    private const val FIELD_VALIDATION_VALUE = "(Déclaré)"
 
     fun fillFinalCertificate(
         transactionId: String,
@@ -28,7 +31,8 @@ object SvgCertificateGenerator {
         indicatorUnit: String,
         certifiedBy: String? = null,
         title: String? = null,
-        url: String? = null
+        url: String? = null,
+        subUnit: String? = null
     ): ByteArray {
         return fill(
             template = TEMPLATE_CERTIFICATE,
@@ -39,7 +43,8 @@ object SvgCertificateGenerator {
             indicatorValue = indicatorValue,
             certifiedBy = certifiedBy,
             title = title,
-            url = url
+            url = url,
+            subUnit = subUnit
         )
     }
 
@@ -52,7 +57,8 @@ object SvgCertificateGenerator {
         indicatorUnit: String,
         certifiedBy: String? = null,
         title: String? = null,
-        url: String? = null
+        url: String? = null,
+        subUnit: String? = null
     ): ByteArray {
         val templateFilled = fillSvg(
             template = template,
@@ -63,7 +69,8 @@ object SvgCertificateGenerator {
             indicatorValue = indicatorValue,
             certifiedBy = certifiedBy,
             title = title,
-                url = url
+            subUnit = subUnit,
+            url = url
         )
         return templateFilled.let(SvgToPdfConverter::convert)
     }
@@ -77,7 +84,8 @@ object SvgCertificateGenerator {
         indicatorUnit: String?,
         certifiedBy: String?,
         title: String?,
-        url: String? = null
+        url: String? = null,
+        subUnit: String?
     ): String {
         var templateFilled = PathMatchingResourcePatternResolver().getResource(template)
             .inputStream
@@ -87,18 +95,11 @@ object SvgCertificateGenerator {
             .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
             .replace(FIELD_TRANSACTION, transactionId)
             .replace(FIELD_VALUE, indicatorValue)
-
-        indicatorUnit?.let {
-            templateFilled = templateFilled.replace(FIELD_UNIT, indicatorUnit)
-        }
-
-        certifiedBy?.let {
-            templateFilled = templateFilled.replace(FIELD_CERTIFIED_BY, certifiedBy)
-        }
-
-        title?.let {
-            templateFilled = templateFilled.replace(FIELD_TITLE, title)
-        }
+            .replace(FIELD_VALIDATION, FIELD_VALIDATION_VALUE)
+            .replace(FIELD_TYPE, subUnit ?: "")
+            .replace(FIELD_UNIT, indicatorUnit ?: "")
+            .replace(FIELD_CERTIFIED_BY, certifiedBy ?: "")
+            .replace(FIELD_TITLE, title ?: "")
 
         url?.let {
             val qrCodeSvg = generateQrCodeSvg(url)
@@ -108,13 +109,11 @@ object SvgCertificateGenerator {
     }
 }
 
-fun generateQrCodeSvg(text: String, size: Int = 115): String {
+fun generateQrCodeSvg(text: String, size: Int = 285): String {
     val bitMatrix: BitMatrix = MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
-
     val svgWriter = StringWriter()
-
     // Optional: wrap in a <g> tag for grouping
-    svgWriter.write("""<g id="qrcode" transform="translate(1390, 1028)">""")
+    svgWriter.write("""<g id="qrcode" transform="translate(1410, 700)">""")
 
     for (y in 0 until bitMatrix.height) {
         for (x in 0 until bitMatrix.width) {
