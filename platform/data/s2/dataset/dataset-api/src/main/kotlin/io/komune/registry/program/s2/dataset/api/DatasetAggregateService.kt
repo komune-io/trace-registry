@@ -4,12 +4,14 @@ import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
+import io.komune.registry.program.s2.dataset.api.entity.DistributionEntity
 import io.komune.registry.s2.cccev.api.CccevAggregateService
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdateValueCommand
+import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.SumAggregatorInput
 import io.komune.registry.s2.commons.exception.NotFoundException
@@ -44,6 +46,7 @@ import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedDistributionEv
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdatedEvent
 import io.komune.registry.s2.dataset.domain.model.AggregatedValueModel
 import org.springframework.stereotype.Service
+import s2.automate.core.error.AutomateException
 import java.util.UUID
 
 @Service
@@ -108,7 +111,7 @@ class DatasetAggregateService(
 		command: DatasetLinkDatasetsCommand
 	): DatasetLinkedDatasetsEvent = automate.transition(command) {
 		DatasetLinkedDatasetsEvent(
-			id =  command.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			datasetIds = command.datasetIds
 		)
@@ -118,7 +121,7 @@ class DatasetAggregateService(
 		command: DatasetUnlinkDatasetsCommand
 	): DatasetUnlinkedDatasetsEvent = automate.transition(command) {
 		DatasetUnlinkedDatasetsEvent(
-			id =  command.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			datasetIds = command.datasetIds
 		)
@@ -126,7 +129,7 @@ class DatasetAggregateService(
 
 	suspend fun linkThemes(command: DatasetLinkThemesCommand): DatasetLinkedThemesEvent = automate.transition(command) {
 		DatasetLinkedThemesEvent(
-			id =  command.id,
+			id = command.id,
 			date = System.currentTimeMillis(),
 			themes = command.themes
 		)
@@ -200,16 +203,23 @@ class DatasetAggregateService(
 
 		command.addSupportedValueIds?.forEach { (conceptId, valueIds) ->
 			distributionValues.getOrPut(conceptId) { mutableSetOf() }.addAll(valueIds)
+			if (command.validateAndDeprecateValues) {
+				valueIds.forEach { validateValue(it) }
+			}
 		}
 		command.removeSupportedValueIds?.forEach { (conceptId, valueIds) ->
 			distributionValues[conceptId]?.removeAll(valueIds)
+			if (command.validateAndDeprecateValues) {
+				valueIds.forEach { deprecateValue(it) }
+			}
 		}
 
 		val updatedAggregators = dataset.aggregatorIds.associateWith { conceptId ->
 			computeAndPersistAggregator(
 				conceptId = conceptId,
 				existingValueId = dataset.aggregatorValueIds[conceptId],
-				distributionValues = distributionValues
+				distributionValues = distributionValues,
+				validateValues = command.validateAndDeprecateValues
 			)
 		}
 
@@ -224,7 +234,14 @@ class DatasetAggregateService(
 	}
 
 	suspend fun removeDistribution(command: DatasetRemoveDistributionCommand) = automate.transition(command) { dataset ->
-		dataset.checkDistributionExists(command.distributionId)
+		val distribution = dataset.checkDistributionExists(command.distributionId)
+
+		if (command.deprecateValues) {
+			distribution.aggregators.forEach { (_, valueIds) ->
+				valueIds.forEach { deprecateValue(it) }
+			}
+		}
+
 		DatasetRemovedDistributionEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
@@ -233,24 +250,25 @@ class DatasetAggregateService(
 	}
 
 	suspend fun addAggregators(command: DatasetAddAggregatorsCommand) = automate.transition(command) { dataset ->
+		val aggregators = command.informationConceptIds.associateWith {
+			computeAndPersistAggregator(
+				conceptId = it,
+				existingValueId = dataset.aggregatorValueIds[it],
+				distributionValues = dataset.distributionValues(),
+				validateValues = command.validateComputedValues
+			)
+		}
+
 		DatasetAddedAggregatorsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			aggregators = command.informationConceptIds.associateWith {
-				computeAndPersistAggregator(
-					conceptId = it,
-					existingValueId = dataset.aggregatorValueIds[it],
-					distributionValues = dataset.distributionValues()
-				)
-			}
+			aggregators = aggregators
 		)
 	}
 
 	suspend fun removeAggregators(command: DatasetRemoveAggregatorsCommand) = automate.transition(command) { dataset ->
 		command.informationConceptIds.forEach { conceptId ->
-			dataset.aggregatorValueIds[conceptId]?.let {
-				cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it.computedValue))
-			}
+			dataset.aggregatorValueIds[conceptId]?.let { deprecateValue(it.computedValue) }
 		}
 		DatasetRemovedAggregatorsEvent(
 			id = command.id,
@@ -259,17 +277,17 @@ class DatasetAggregateService(
 		)
 	}
 
-	private fun DatasetEntity.checkDistributionExists(id: DistributionId) {
-		if (distributions.orEmpty().none { it.id == id }) {
-			throw NotFoundException("Distribution", id)
-		}
+	private fun DatasetEntity.checkDistributionExists(id: DistributionId): DistributionEntity {
+		return distributions.orEmpty().find { it.id == id }
+			?: throw NotFoundException("Distribution", id)
 	}
 
 	@Suppress("CyclomaticComplexMethod")
 	private suspend fun computeAndPersistAggregator(
 		conceptId: InformationConceptId,
 		existingValueId: AggregatedValueModel?,
-		distributionValues: Map<InformationConceptId, Set<SupportedValueId>>
+		distributionValues: Map<InformationConceptId, Set<SupportedValueId>>,
+		validateValues: Boolean
 	): AggregatedValueModel? {
 		val concept = cccevFinderService.getConcept(conceptId)
 		if (concept.aggregator == null || !concept.aggregator!!.persistValue || concept.unit == null) {
@@ -298,9 +316,7 @@ class DatasetAggregateService(
 				).let { cccevAggregateService.updateValue(it).id }
 			}
 			existingValueId != null && value == null -> {
-				SupportedValueDeprecateCommand(
-					id = existingValueId.computedValue,
-				).let { cccevAggregateService.deprecateValue(it) }
+				deprecateValue(existingValueId.computedValue)
 				null
 			}
 			value != null -> {
@@ -311,7 +327,13 @@ class DatasetAggregateService(
 					value = value,
 					query = null,
 					description = null
-				).let { cccevAggregateService.createValue(it).id }
+				).let {
+					val valueId = cccevAggregateService.createValue(it).id
+					if (validateValues) {
+						validateValue(valueId)
+					}
+					valueId
+				}
 			}
 			else -> null
 		}
@@ -334,4 +356,12 @@ class DatasetAggregateService(
 		}
 		return distributionValues
 	}
+
+	private suspend fun validateValue(id: SupportedValueId) = try {
+		cccevAggregateService.validateValue(SupportedValueValidateCommand(id))
+	} catch (_: AutomateException) {}
+
+	private suspend fun deprecateValue(id: SupportedValueId) = try {
+		cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(id))
+	} catch (_: AutomateException) {}
 }

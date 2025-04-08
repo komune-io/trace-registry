@@ -12,7 +12,8 @@ data class DatasetUpdateDistributionAggregatorValuesCommand(
     override val id: DatasetId,
     val distributionId: DistributionId,
     val removeSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
-    val addSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?
+    val addSupportedValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
+    val validateAndDeprecateValues: Boolean
 ): DatasetCommand
 
 @Serializable

@@ -10,6 +10,7 @@ import { useMetadataFormState } from './useMetadataFormState';
 import { Typography } from '@mui/material';
 import { useDraftTabs } from './useDraftTabs';
 import { useDraftValidations } from './useDraftValidations';
+import { useDebouncedCallback } from '@mantine/hooks';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -67,11 +68,17 @@ export const DraftEditionPage = () => {
     onSectionChange
   })
 
+  const validateAndSubmitMetadata = useDebouncedCallback(async () => {
+    const isValid = await validateMetadata()
+    if (isValid) metadataFormState.submitForm()
+  }, 500)
+
   const onChangeTitle = useCallback(
     (title: string) => {
       metadataFormState.setFieldValue("title", title)
+      validateAndSubmitMetadata()
     },
-    [metadataFormState.setFieldValue],
+    [metadataFormState.setFieldValue, validateAndSubmitMetadata],
   )
 
   const createDraft = useCatalogueDraftCreateCommand({})
