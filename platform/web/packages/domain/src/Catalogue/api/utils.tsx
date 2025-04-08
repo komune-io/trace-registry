@@ -5,12 +5,12 @@ export const useCatalogueIdentifierNumber = (catalogue?: Catalogue | CatalogueRe
   return useMemo(() => extractCatalogueIdentifierNumber(catalogue?.identifier), [catalogue?.identifier])
 }
 
-export const extractCatalogueIdentifier= (identifier?: string): string | undefined => {
+export const extractCatalogueIdentifier = (identifier?: string): string | undefined => {
   return identifier ? identifier.split("-").pop() : undefined
 }
-export const extractCatalogueIdentifierNumber= (identifier?: string): number | undefined => {
+export const extractCatalogueIdentifierNumber = (identifier?: string): number | undefined => {
   const value = extractCatalogueIdentifier(identifier)
-  return value ? Number(value) : undefined
+  return value && !isNaN(Number(value)) ? Number(value) : undefined
 }
 export const orderByCatalogueIdentifierNumber= (a: Catalogue|CatalogueRef, b: Catalogue|CatalogueRef): number => {
   const identifierA = extractCatalogueIdentifierNumber(a.identifier) ?? 0
