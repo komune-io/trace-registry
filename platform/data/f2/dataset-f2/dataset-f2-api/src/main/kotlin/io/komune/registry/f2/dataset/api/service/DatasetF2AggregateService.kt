@@ -9,11 +9,13 @@ import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.dataset.api.config.DatasetConfig
 import io.komune.registry.f2.dataset.api.model.toCommand
 import io.komune.registry.f2.dataset.api.model.toDTO
+import io.komune.registry.f2.dataset.domain.command.DatasetAddAggregatorsCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTO
 import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddJsonDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetAddedAggregatorsEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedDistributionValueEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedEmptyDistributionEventDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddedJsonDistributionEventDTOBase
@@ -49,8 +51,6 @@ import io.komune.registry.s2.cccev.api.CccevAggregateService
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
-import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
-import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CsvSqlFileProcessorInput
 import io.komune.registry.s2.cccev.domain.model.FileProcessorType
@@ -118,7 +118,8 @@ class DatasetF2AggregateService(
         applyTypeConfigurations(
             id = event.id,
             type = command.type,
-            catalogueId = catalogueId
+            catalogueId = catalogueId,
+            isDraft = isDraft
         )
 
         // only create direct link in the catalogue if specified in the command
@@ -149,6 +150,19 @@ class DatasetF2AggregateService(
         return DatasetUpdatedEventDTOBase(
             id = command.id,
             identifier = dataset.identifier
+        )
+    }
+
+    suspend fun addAggregators(command: DatasetAddAggregatorsCommandDTOBase): DatasetAddedAggregatorsEventDTOBase {
+        val dataset = datasetFinderService.get(command.id)
+        DatasetAddAggregatorsCommand(
+            id = command.id,
+            informationConceptIds = command.informationConceptIds,
+            validateComputedValues = !dataset.isInDraft()
+        ).let { datasetAggregateService.addAggregators(it) }
+
+        return DatasetAddedAggregatorsEventDTOBase(
+            id = command.id
         )
     }
 
@@ -325,7 +339,8 @@ class DatasetF2AggregateService(
 
         DatasetRemoveDistributionCommand(
             id = command.id,
-            distributionId = command.distributionId
+            distributionId = command.distributionId,
+            deprecateValues = !dataset.isInDraft()
         ).let { datasetAggregateService.removeDistribution(it) }
 
         val path = distribution.downloadPath
@@ -336,14 +351,6 @@ class DatasetF2AggregateService(
                 directory = path.directory,
                 name = path.name
             ).let { fileClient.fileDelete(listOf(it)) }
-        }
-
-        if (!dataset.isInDraft()) {
-            distribution.aggregators.forEach { (_, supportedValueIds) ->
-                supportedValueIds.forEach {
-                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(it))
-                }
-            }
         }
 
         return DatasetRemovedDistributionEventDTOBase(
@@ -376,15 +383,17 @@ class DatasetF2AggregateService(
         return event.toDTO()
     }
 
-    private suspend fun applyTypeConfigurations(id: DatasetId, type: String, catalogueId: CatalogueId) {
-        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
-            it.isTranslationOf?.let { masterId ->
-                catalogueFinderService.get(masterId)
-            } ?: it
-        }
+    private suspend fun applyTypeConfigurations(id: DatasetId, type: String, catalogueId: CatalogueId, isDraft: Boolean) {
+//        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
+//            it.isTranslationOf?.let { masterId ->
+//                catalogueFinderService.get(masterId)
+//            } ?: it
+//        }
         datasetConfig.typeConfigurations[type]
             ?.configurations
-            ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
+            // Quick fix because it.isTranslationOf is not provided in draft
+            ?.firstOrNull { it.catalogueTypes.any {catalogueId.startsWith(it) } }
+//            ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
             ?.let { typeConfig ->
                 typeConfig.aggregators
                     ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }
@@ -392,7 +401,8 @@ class DatasetF2AggregateService(
                     ?.let { conceptIds ->
                         DatasetAddAggregatorsCommand(
                             id = id,
-                            informationConceptIds = conceptIds
+                            informationConceptIds = conceptIds,
+                            validateComputedValues = !isDraft
                         ).let { datasetAggregateService.addAggregators(it) }
                     }
             }
@@ -498,21 +508,12 @@ class DatasetF2AggregateService(
         removeValueIds: Map<InformationConceptId, Set<SupportedValueId>>?,
         addValueIds: Map<InformationConceptId, Set<SupportedValueId>>?
     ) {
-        if (!dataset.isInDraft()) {
-            addValueIds?.values?.flatten()?.mapAsync { valueId ->
-                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
-            }
-
-            removeValueIds?.values?.flatten()?.mapAsync { valueId ->
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
-            }
-        }
-
         DatasetUpdateDistributionAggregatorValuesCommand(
             id = dataset.id,
             distributionId = distributionId,
             removeSupportedValueIds = removeValueIds,
-            addSupportedValueIds = addValueIds
+            addSupportedValueIds = addValueIds,
+            validateAndDeprecateValues = !dataset.isInDraft()
         ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
     }
 

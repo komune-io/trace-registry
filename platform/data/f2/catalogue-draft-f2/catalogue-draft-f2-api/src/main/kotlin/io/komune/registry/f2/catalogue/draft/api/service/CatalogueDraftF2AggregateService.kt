@@ -119,7 +119,8 @@ class CatalogueDraftF2AggregateService(
                             id = newId,
                             distributionId = distribution.id,
                             removeSupportedValueIds = null,
-                            addSupportedValueIds = mapOf(conceptId to setOf(valueId))
+                            addSupportedValueIds = mapOf(conceptId to setOf(valueId)),
+                            validateAndDeprecateValues = false
                         ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
                     }
                 }

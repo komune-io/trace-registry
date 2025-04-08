@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 data class DatasetRemoveDistributionCommand(
     override val id: DatasetId,
     val distributionId: DistributionId,
+    val deprecateValues: Boolean
 ): DatasetCommand
 
 @Serializable
