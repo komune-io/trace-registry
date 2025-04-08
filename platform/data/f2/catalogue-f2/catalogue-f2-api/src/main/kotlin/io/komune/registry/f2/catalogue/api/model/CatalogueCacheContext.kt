@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.api.model
 
 import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.registry.api.commons.model.SimpleCache
+import io.komune.registry.f2.cccev.api.unit.service.DataUnitF2FinderService
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService

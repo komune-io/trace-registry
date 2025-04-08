@@ -50,6 +50,8 @@ class CatalogueCertificateService(
             indicatorValue = value,
             indicatorUnit = concept.unit.toNameString(),
             url = uiProperties.getCatalogueUrl(catalogue.id),
+            subUnit = concept.aggregatedValue
         )
     }
+
 }

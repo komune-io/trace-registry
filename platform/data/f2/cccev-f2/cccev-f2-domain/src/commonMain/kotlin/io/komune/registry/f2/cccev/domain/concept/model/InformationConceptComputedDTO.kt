@@ -3,6 +3,8 @@ package io.komune.registry.f2.cccev.domain.concept.model
 import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTO
 import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitTranslatedDTOBase
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
+import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
+import io.komune.registry.s2.cccev.domain.model.AggregatorConfigDTO
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -17,6 +19,8 @@ interface InformationConceptComputedDTO : InformationConceptTranslatedDTO {
     val valueId: SupportedValueId
     val value: String
     val valueDescription: String?
+    // TODO Improve that
+    val aggregatedValue: String
 }
 
 @Serializable
@@ -30,5 +34,7 @@ data class InformationConceptComputedDTOBase(
     override val isRange: Boolean,
     override val valueId: SupportedValueId,
     override val value: String,
-    override val valueDescription: String?
-) : InformationConceptComputedDTO
+    override val valueDescription: String?,
+    override val aggregatedValue: String,
+
+    ) : InformationConceptComputedDTO
