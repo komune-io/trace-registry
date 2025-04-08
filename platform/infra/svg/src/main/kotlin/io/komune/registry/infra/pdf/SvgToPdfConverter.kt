@@ -17,6 +17,7 @@ object SvgToPdfConverter {
 	}
 }
 
+@Suppress("TooGenericExceptionThrown")
 fun convertSvgToPdf(svgInput: InputStream, pdfStream: OutputStream?) {
 	try {
 		val input = TranscoderInput(svgInput)
@@ -25,7 +26,6 @@ fun convertSvgToPdf(svgInput: InputStream, pdfStream: OutputStream?) {
 		val transcoder = PDFTranscoder()
 		transcoder.transcode(input, output)
 	} catch (e: Throwable) {
-		e.printStackTrace()
 		throw RuntimeException("Error converting SVG to PDF", e)
 	}
 

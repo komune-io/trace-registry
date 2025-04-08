@@ -19,14 +19,17 @@ import java.util.concurrent.ConcurrentHashMap
 @Service
 class CatalogueInformationConceptService : CatalogueCachedService() {
 
-    suspend fun computeAggregators(catalogue: CatalogueModel): List<InformationConceptComputedDTOBase> = withCache { cache ->
+    @Suppress("LongMethod")
+    suspend fun computeAggregators(
+        catalogue: CatalogueModel
+    ): List<InformationConceptComputedDTOBase> = withCache { cache ->
         val translations = catalogue.translationIds.values.mapAsync { catalogueFinderService.get(it) }
         val childrenDatasetIds = catalogue.childrenDatasetIds + translations.flatMap { it.childrenDatasetIds }
         val descendantDatasets = childrenDatasetIds.allDescendants()
 
         val aggregatorValues = ConcurrentHashMap<InformationConceptId, List<SupportedValueData>>()
 
-        val aggregatedByConcept: Map<InformationConceptId, List<AggregatedValueModel>> = descendantDatasets.mapAsync { dataset ->
+        val aggregatedByConcept = descendantDatasets.mapAsync { dataset ->
             dataset.aggregators.mapNotNull { (_, aggregatedValues) ->
                 aggregatedValues
             }
@@ -78,7 +81,12 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                     query = null,
                     description = null,
                 )
-                concept.toComputedDTO(supportedValue, catalogue.language!!, types.joinToString(", "), cache.themes::get, cache.dataUnits::get)
+                concept.toComputedDTO(
+                    supportedValue, catalogue.language!!,
+                    types.joinToString(", "),
+                    cache.themes::get,
+                    cache.dataUnits::get
+                )
             }
         }
     }
