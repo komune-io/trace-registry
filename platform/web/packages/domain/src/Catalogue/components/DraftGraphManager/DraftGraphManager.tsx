@@ -100,7 +100,7 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
             >
                 <TitleDivider
                     size='h6'
-                    title={t('co2Projects')}
+                    title={t('datasets')}
                     actions={
                         <CustomButton
                             onClick={toggle}
