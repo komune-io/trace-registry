@@ -164,6 +164,7 @@
   "cost": "Costo",
   "gain": "Ganancia",
   "datasets": "Conjuntos de datos",
+  "options": "Opciones",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

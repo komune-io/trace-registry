@@ -164,6 +164,7 @@
   "cost": "Cost",
   "gain": "Gain",
   "datasets": "Datasets",
+  "options": "Options",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
