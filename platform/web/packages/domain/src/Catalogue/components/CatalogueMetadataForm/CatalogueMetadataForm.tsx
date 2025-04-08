@@ -70,7 +70,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         draft: draft,
         relations: [{
             key: "relatedCatalogues.planetaryLimits",
-            title: t("catalogues.planetaryLimits"),
+            title: t("catalogues.planetaryLimits") + " " + t("optional"),
             type: "100m-planetary-boundary",
             multiple: true,
         }],

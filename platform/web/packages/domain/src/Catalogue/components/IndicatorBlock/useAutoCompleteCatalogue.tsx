@@ -109,6 +109,7 @@ const toComponents = (
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
       getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
       isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) =>   option.id=== catalogue.id,
+      className: "autoCompleteField",
       onFocus: onFocus,
       options: options,
       multiple: relation.multiple,
