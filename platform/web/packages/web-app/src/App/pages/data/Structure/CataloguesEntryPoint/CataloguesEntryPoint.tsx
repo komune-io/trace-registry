@@ -1,11 +1,12 @@
 import { g2Config } from '@komune-io/g2'
 import { Stack } from '@mui/material'
-import { ContentIllustrated, useRoutesDefinition } from 'components'
+import { ContentIllustrated, useExtendedAuth, useRoutesDefinition } from 'components'
 import {
     CatalogueBreadcrumbs,
     useCataloguePageQuery,
     SubCatalogueList,
     Catalogue, useLexicalDistribution, DistributionLexicalEditor,
+    CreateDraftButton,
 } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +20,7 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
     const { catalogue } = props
     const { i18n } = useTranslation()
     const { cataloguesTab } = useRoutesDefinition()
+    const {policies} = useExtendedAuth()
 
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
@@ -59,6 +61,9 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
                 title={catalogue?.title ?? ""}
                 description={catalogue?.description ?? ""}
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
+                actions={
+                    <CreateDraftButton catalogue={catalogue} canCreate={policies.audit.canUpdate(catalogue)} />
+                }
             />
             <Stack
                 gap={5}

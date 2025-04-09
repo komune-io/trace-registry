@@ -119,10 +119,13 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         params: {
             popupIcon: <SearchIcon style={{ transform: "none" }} />,
             className: "autoCompleteField",
-            options: filteredParents?.map((cat) => ({
-                key: cat.id,
-                label: `${extractCatalogueIdentifierNumber(cat.id)} - ${cat.title}`
-            })),
+            options: filteredParents?.map((cat) => {
+                const identifier = extractCatalogueIdentifierNumber(cat.id)
+                return {
+                    key: cat.id,
+                    label: `${identifier ? identifier + " -" : ""} ${cat.title}`
+                }
+            }),
             noOptionsText: t("catalogues.noData"),
             optionsResultLimit: 50
         },
