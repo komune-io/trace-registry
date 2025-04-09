@@ -7,16 +7,16 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
-import { extractCatalogueIdentifier } from '../../api';
+import { extractCatalogueIdentifierNumber } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
     const { t } = useTranslation();
     return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
-            id: generators.text({
+            id: generators.number({
                 header: t("identifier"),
                 getCellProps: (draft) => ({
-                    value: extractCatalogueIdentifier(draft.originalCatalogueId),
+                    value: extractCatalogueIdentifierNumber(draft.originalCatalogueId),
                     componentProps: {
                         sx: {
                             fontWeight: 600

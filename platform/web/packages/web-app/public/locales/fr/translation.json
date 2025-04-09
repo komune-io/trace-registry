@@ -306,7 +306,12 @@
             "100m-system": "Système",
             "100m-project": "Projet",
             "100m-chart": "Graphique",
-            "100m-planetary-boundary": "Limite planétaire"
+            "100m-planetary-boundary": "Limite planétaire",
+            "100m-planetary-boundaries": "Limites planétaires",
+            "100m-sectors": "Secteurs",
+            "100m-systems": "Systèmes",
+            "100m-home-sectors": "Accueil secteurs",
+            "100m-home-systems": "Accueil systèmes"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",

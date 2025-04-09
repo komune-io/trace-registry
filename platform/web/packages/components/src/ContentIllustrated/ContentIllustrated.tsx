@@ -6,11 +6,12 @@ export interface ContentIllustratedProps {
     title: string
     description: string
     illustration?: string
+    actions?: React.ReactNode
     color?: string
 }
 
 export const ContentIllustrated = (props: ContentIllustratedProps) => {
-    const { title, description, illustration, color } = props
+    const { title, description, illustration, color, actions } = props
 
     const [noimage, setnoimage] = useState(!illustration)
 
@@ -45,19 +46,26 @@ export const ContentIllustrated = (props: ContentIllustratedProps) => {
                     {description}
                 </Typography>
             </Stack>
-            {!noimage ?
-                <img src={illustration} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
-                :
-                <Box
-                    sx={{
-                        bgcolor: color ?? "#F9DC44",
-                        width: "500px",
-                        height: "340px",
-                        borderRadius: 3,
-                        flexShrink: 0
-                    }}
-                />
-            }
+            <Stack
+                gap={2}
+                alignItems={"flex-end"}
+            >
+                {actions}
+                {!noimage ?
+                    <img src={illustration} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
+                    :
+                    <Box
+                        sx={{
+                            bgcolor: color ?? "#F9DC44",
+                            width: "500px",
+                            height: "340px",
+                            borderRadius: 3,
+                            flexShrink: 0
+                        }}
+                    />
+                }
+            </Stack>
+
         </Stack>
     )
 }
