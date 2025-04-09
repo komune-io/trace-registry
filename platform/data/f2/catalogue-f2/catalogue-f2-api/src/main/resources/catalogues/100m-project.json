@@ -35,7 +35,8 @@
         "structure": {
           "definitions": {
             "position": "10",
-            "display": "read,write"
+            "display": "read,write",
+            "withCatalogueMetadata": "true"
           }
         }
       },
@@ -97,7 +98,6 @@
           "definitions": {
             "position": "50",
             "display": "write"
-
           }
         }
       }

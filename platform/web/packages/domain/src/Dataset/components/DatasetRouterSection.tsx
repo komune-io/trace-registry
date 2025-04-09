@@ -1,12 +1,12 @@
-import { Dataset } from "../model";
-import { useDatasetDataQuery } from "../api";
-import { DocumentsPage, FilePath } from "../../Documents";
-import { ActivitiesSection } from "../../Project/components/ActivitiesSection";
-import { Activity } from "../../Activity";
-import { Catalogue, CatalogueInformation } from "../../Catalogue";
-import { CatalogueGraphManager } from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
-import { CataloguePdfCertificate } from "../../Catalogue/components/CataloguePdfCertificate";
-import { DatasetIndicator } from "./DatasetIndicator";
+import {Dataset} from "../model";
+import {useDatasetDataQuery} from "../api";
+import {DocumentsPage, FilePath} from "../../Documents";
+import {ActivitiesSection} from "../../Project/components/ActivitiesSection";
+import {Activity} from "../../Activity";
+import {Catalogue, CatalogueInformation} from "../../Catalogue";
+import {CatalogueGraphManager} from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
+import {CataloguePdfCertificate} from "../../Catalogue/components/CataloguePdfCertificate";
+import {DatasetIndicator} from "./DatasetIndicator";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
@@ -28,7 +28,7 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     } else if (item.type === "table") {
         return (
             // TODO HERE DO Composable table
-            <div>Comming Soon</div>
+            <div>Coming Soon</div>
         )
     } else if (item.type === "lexical") {
 
@@ -55,7 +55,7 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
         )
     } else {
         return (
-            <div>Comming Soon</div>
+            <div>Coming Soon</div>
         )
     }
 
