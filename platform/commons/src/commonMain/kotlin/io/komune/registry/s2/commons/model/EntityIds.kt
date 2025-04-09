@@ -74,7 +74,7 @@ typealias SupportedValueId = String
 
 /**
  * @d2 hidden
- * @visual json "98b7e74e-0bfa-4929-b269-ecd941063f00"
+ * @visual json "666"
  */
 typealias SupportedValueData = String
 
