@@ -72,6 +72,11 @@ class IndicatorInitializer(
                 identifier = "positive-effects",
                 theme = "indicator-gain",
                 possibleValues = listOf("")
+            ),
+            IndicatorAlternativeParseData(
+                identifier = "co2-avoided",
+                theme = "indicator-gain",
+                possibleValues = listOf("Emissions GES évitées", "Avoided GHG emissions", "Emisiones de Gas de Efecto Invernadero")
             )
         )
     }
