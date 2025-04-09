@@ -2671,6 +2671,7 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.model {
         readonly valueId: string;
         readonly value: string;
         readonly valueDescription?: string;
+        readonly aggregatedValue: string;
         readonly id: string;
         readonly identifier: string;
         readonly language: string;
@@ -3252,13 +3253,6 @@ export declare namespace io.komune.registry.s2.dataset.domain.automate {
     type DatasetState = "ACTIVE" | "DELETED";
 }
 export declare namespace io.komune.registry.s2.dataset.domain.command {
-    interface DatasetAddAggregatorsCommandDTO {
-        readonly id: string;
-        readonly informationConceptIds: string[];
-
-    }
-}
-export declare namespace io.komune.registry.s2.dataset.domain.command {
     interface DatasetEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
         readonly id: string;
@@ -3291,7 +3285,7 @@ export declare namespace io.komune.registry.f2.dataset.domain {
     };
 }
 export declare namespace io.komune.registry.f2.dataset.domain.command {
-    interface DatasetAddAggregatorsCommandDTO extends io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommandDTO {
+    interface DatasetAddAggregatorsCommandDTO {
         readonly id: string;
         readonly informationConceptIds: string[];
 
@@ -3843,6 +3837,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO/* Nullable<io.komune.registry.s2.structure.domain.model.Structure> */;
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
+        readonly stakeholder?: string;
         readonly themes?: string[];
         readonly catalogues?: string[];
         readonly relatedCatalogueIds?: Record<string, string[]>;
@@ -3970,6 +3965,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
+        readonly stakeholder?: string;
         readonly themes?: string[];
         readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
@@ -4016,6 +4012,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly ownerOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly stakeholder?: string;
         readonly publisher?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;

@@ -135,6 +135,7 @@ class CatalogueF2AggregateService(
         )
     }
 
+    @Suppress("CyclomaticComplexMethod")
     suspend fun createOrphanTranslation(
         command: CatalogueCreateCommandDTOBase,
         originalCatalogueId: CatalogueId,
@@ -163,6 +164,7 @@ class CatalogueF2AggregateService(
             license = command.license ?: originalCatalogue.licenseId,
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
+            stakeholder = command.stakeholder ?: originalCatalogue.stakeholder,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
         if (initDatasets && translationType != command.type) {
@@ -331,6 +333,7 @@ class CatalogueF2AggregateService(
             creatorId = catalogueCreatedEvent.creatorId,
             creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
             ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
+            stakeholder = catalogueCreatedEvent.stakeholder,
             accessRights = catalogueCreatedEvent.accessRights,
             licenseId = catalogueCreatedEvent.licenseId,
             location = catalogueCreatedEvent.location,

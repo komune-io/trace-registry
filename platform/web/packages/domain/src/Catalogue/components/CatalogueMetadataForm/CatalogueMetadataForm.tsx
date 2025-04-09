@@ -3,7 +3,7 @@ import { Paper } from '@mui/material'
 import {maybeAddItem, SearchIcon, useExtendedAuth, CustomButton, maybeAddItems} from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifierNumber, useCatalogueListAvailableOwnersQuery, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
+import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
 import { CatalogueCreateCommand } from '../../api'
@@ -52,15 +52,6 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         }
     })
 
-    const listAvailableOwners = useCatalogueListAvailableOwnersQuery({
-        query: {
-            type: type!
-        },
-        options: {
-            enabled: type === "100m-project"
-        }
-    })
-
     const licenseListQuery = useLicenseListQuery({
         query: {
         }
@@ -89,23 +80,13 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             type: "textField",
             label: t("region") + " " + t("optional"),
         }, {
-            name: "ownerOrganizationId",
-            type: "autoComplete",
+            name: "stakeholder",
+            type: "textField",
             label: t("catalogues.projectOwner"),
-            params: {
-                popupIcon: <SearchIcon style={{ transform: "none" }} />,
-                className: "autoCompleteField",
-                options: listAvailableOwners.data?.items?.map((org) => ({
-                    key: org.id,
-                    label: org.name
-                })),
-                noOptionsText: t("catalogues.noOrganization"),
-                optionsResultLimit: 50
-            },
             required: true
         },
         ...(catalogueAutoComplete.formComposableField as MetadataField[]),
-    ], [t, catalogueThemesQuery.data?.items, listAvailableOwners.data?.items, catalogueAutoComplete.formComposableField])
+    ], [t, catalogueAutoComplete.formComposableField])
 
     const fields = useMemo((): MetadataField[] => [...(withTitle ? [{
         name: "title",

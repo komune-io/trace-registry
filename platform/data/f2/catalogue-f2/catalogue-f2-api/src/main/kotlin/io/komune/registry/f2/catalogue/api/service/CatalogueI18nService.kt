@@ -118,6 +118,7 @@ class CatalogueI18nService(
             creator = translated.creatorId?.let { cache.users.get(it) },
             creatorOrganization = translated.creatorOrganizationId?.let { cache.organizations.get(it) },
             ownerOrganization = translated.ownerOrganizationId?.let { cache.organizations.get(it) },
+            stakeholder = translated.stakeholder,
             publisher = translated.publisherId?.let { cache.users.get(it) },
             validator = translated.validatorId?.let { cache.users.get(it) },
             accessRights = translated.accessRights,

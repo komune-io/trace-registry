@@ -85,6 +85,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var publisherId: UserId? = null
     var validatorId: UserId? = null
 
+    var stakeholder: String? = null
+
     @Indexed(nostem = true, schemaFieldType = SchemaFieldType.TAG)
     var accessRights: CatalogueAccessRight = CatalogueAccessRight.PRIVATE
     var licenseId: LicenseId? = null
