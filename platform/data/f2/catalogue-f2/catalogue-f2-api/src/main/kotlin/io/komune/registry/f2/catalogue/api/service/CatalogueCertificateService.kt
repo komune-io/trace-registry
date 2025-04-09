@@ -6,8 +6,8 @@ import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComput
 import io.komune.registry.infra.pdf.SvgCertificateGenerator
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueId
-import java.io.ByteArrayInputStream
 import org.springframework.stereotype.Service
+import java.io.ByteArrayInputStream
 
 @Service
 class CatalogueCertificateService(
@@ -46,7 +46,7 @@ class CatalogueCertificateService(
             transactionId = catalogue.id,
             date = catalogue.issued,
             certifiedBy = catalogue.creatorOrganization?.name ?: "",
-            issuedTo = catalogue.ownerOrganization?.name ?: "",
+            issuedTo = catalogue.stakeholder ?: "",
             indicatorValue = value,
             indicatorUnit = concept.unit.toNameString(),
             url = uiProperties.getCatalogueUrl(catalogue.id),

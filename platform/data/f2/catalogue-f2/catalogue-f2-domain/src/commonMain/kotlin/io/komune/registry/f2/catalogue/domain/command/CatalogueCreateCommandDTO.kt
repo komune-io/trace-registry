@@ -54,6 +54,7 @@ interface CatalogueCreateCommandDTO {
     val structure: Structure?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
+    val stakeholder: String?
     val themes: List<ConceptId>?
     val catalogues: List<CatalogueId>?
     val relatedCatalogueIds: Map<String, List<CatalogueId>>?
@@ -85,6 +86,7 @@ data class CatalogueCreateCommandDTOBase(
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
+    override val stakeholder: String? = null,
     override val themes: List<ConceptId>? = null,
     override val catalogues: List<CatalogueId>? = null,
     override val relatedCatalogueIds: Map<String, List<CatalogueId>>? = null,

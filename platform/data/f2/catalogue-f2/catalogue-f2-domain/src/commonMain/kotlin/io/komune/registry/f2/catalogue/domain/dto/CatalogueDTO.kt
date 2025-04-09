@@ -143,6 +143,8 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
 
     override val ownerOrganization: OrganizationRefDTO?
 
+    val stakeholder: String?
+
     /**
      * The agent responsible for making the dataset available.
      */
@@ -216,6 +218,7 @@ data class CatalogueDTOBase(
     override val creator: UserRef? = null,
     override val creatorOrganization: OrganizationRef? = null,
     override val ownerOrganization: OrganizationRef? = null,
+    override val stakeholder: String? = null,
     override val publisher: UserRef? = null,
     override val validator: UserRef? = null,
     override val accessRights: CatalogueAccessRight,
