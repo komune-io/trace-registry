@@ -17,7 +17,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
   const { catalogueId, draftId } = useParams()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const { cataloguesAll, cataloguesContributions } = useRoutesDefinition()
+  const { cataloguesContributions } = useRoutesDefinition()
 
   const validateDraft = useCatalogueDraftValidateCommand({})
 
@@ -46,7 +46,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
         queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
-        navigate(afterValidateNavigate ?? cataloguesAll(catalogueId!))
+        navigate(afterValidateNavigate ?? cataloguesContributions())
       }
     },
     [catalogueId, afterValidateNavigate, queryClient.invalidateQueries, validateMetadata],
