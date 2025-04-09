@@ -342,7 +342,7 @@ class DatasetAggregateService(
 			AggregatedValueModel(
 				conceptId = conceptId,
 				computedValue = storedComputedValueId,
-				dependingValues = distributionValues
+				dependingValues = distributionValues.filterKeys { it in aggregatedConceptIds }
 			)
 		}
 	}
