@@ -31,6 +31,8 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
             <div>Comming Soon</div>
         )
     } else if (item.type === "lexical") {
+
+        console.log("item", item)
         return (
             <CatalogueInformation
                 dataset={item}
