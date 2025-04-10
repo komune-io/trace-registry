@@ -35,7 +35,8 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
 
     const datasetTab: Tab[] = catalogue?.datasets
       ?.filter((it) => {
-        return it.title != undefined && it.title != ""
+        const display = it.structure?.definitions?.display ?? ""
+        return display.includes("read")
       })
       ?.map((dataset) => {
         return {
