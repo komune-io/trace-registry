@@ -161,6 +161,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		versionNotes = event.versionNotes
 		hidden = event.hidden
 		modified = event.date
+		integrateCounter = event.integrateCounter
 		version++
 	}
 }
