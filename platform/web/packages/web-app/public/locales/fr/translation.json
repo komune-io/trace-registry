@@ -368,7 +368,8 @@
         "noType": "Aucun type n'a été trouvé",
         "defineValueRange": "Définir une plage de valeurs",
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
-        "noDataset": "Aucun jeu de données n'a été trouvé"
+        "noDataset": "Aucun jeu de données n'a été trouvé",
+        "integrateInCounter": "Intégrer ce projet au compteur CO₂"
     },
     "editor": {
         "imageUrl": "URL de l'image",

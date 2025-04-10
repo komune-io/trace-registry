@@ -367,7 +367,8 @@
     "indicatorBlock": "Indicator block",
     "noType": "No type was found",
     "defineValueRange": "Define a range of values",
-    "minOrMaxValueRequired": "Minimum or maximum value is required"
+    "minOrMaxValueRequired": "Minimum or maximum value is required",
+    "integrateInCounter": "Integrate this project into the CO₂ counter"
   },
   "editor": {
     "imageUrl": "Image URL",
