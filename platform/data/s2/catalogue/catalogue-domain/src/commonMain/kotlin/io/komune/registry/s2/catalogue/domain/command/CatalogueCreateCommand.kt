@@ -30,7 +30,8 @@ data class CatalogueCreateCommand(
     val licenseId: LicenseId?,
     val location: Location?,
     val versionNotes: String?,
-    val hidden: Boolean
+    val hidden: Boolean,
+    val integrateCounter: Boolean?
 ): CatalogueInitCommand
 
 sealed interface CatalogueDataEvent : CatalogueEvent {
@@ -47,6 +48,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val location: Location?
     val versionNotes: String?
     val hidden: Boolean
+    val integrateCounter: Boolean?
 }
 
 @Serializable
@@ -73,4 +75,5 @@ data class CatalogueCreatedEvent(
     override val versionNotes: String? = null,
     override val hidden: Boolean = false,
     override val date: Long,
+    override val integrateCounter: Boolean?
 ): CatalogueDataEvent

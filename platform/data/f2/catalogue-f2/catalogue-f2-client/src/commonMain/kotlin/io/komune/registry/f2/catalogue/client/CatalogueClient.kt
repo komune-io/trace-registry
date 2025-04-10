@@ -24,8 +24,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwners
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.ktor.client.plugins.logging.DEFAULT
@@ -95,7 +95,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction
         = client.function("data/${this::catalogueListAllowedTypes.name}")
 
-    override fun catalogueRefList(): CatalogueRefListFunction = client.function("data/${this::catalogueRefList.name}")
+    override fun catalogueRefGet(): CatalogueRefGetFunction = client.function("data/${this::catalogueRefGet.name}")
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = client.function("data/${this::catalogueRefGetTree.name}")
     override fun catalogueRefSearch(): CatalogueRefSearchFunction = client.function("data/${this::catalogueRefSearch.name}")
 }

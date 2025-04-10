@@ -194,6 +194,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
 
     val version: Int
     val versionNotes: String?
+    val integrateCounter: Boolean?
 }
 
 @Serializable
@@ -231,4 +232,5 @@ data class CatalogueDTOBase(
     override val aggregators: List<InformationConceptComputedDTOBase>,
     override val version: Int,
     override val versionNotes: String? = null,
+    override val integrateCounter: Boolean? = null,
 ): CatalogueDTO

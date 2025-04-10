@@ -3847,6 +3847,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly versionNotes?: string;
         readonly hidden?: boolean;
         readonly withDraft: boolean;
+        readonly integrateCounter?: boolean;
 
     }
     interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
@@ -3973,6 +3974,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly hidden?: boolean;
         readonly versionNotes?: string;
+        readonly integrateCounter?: boolean;
 
     }
     interface CatalogueUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -4025,6 +4027,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO[];
         readonly version: number;
         readonly versionNotes?: string;
+        readonly integrateCounter?: boolean;
 
     }
 }
@@ -4155,6 +4158,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueRefGetQueryDTO {
+        readonly id: string;
+        readonly language: string;
+
+    }
+    interface CatalogueRefGetResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefGetTreeQueryDTO {
         readonly identifier?: string;
         readonly language: string;
@@ -4162,17 +4176,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
     interface CatalogueRefGetTreeResultDTO {
         readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CatalogueRefListQueryDTO {
-        readonly language: string;
-
-    }
-    interface CatalogueRefListResultDTO {
-        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly total: number;
 
     }
 }

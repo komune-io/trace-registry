@@ -45,6 +45,7 @@ data class CatalogueModel(
     val modified: Long,
     val version: Int,
     val versionNotes: String?,
+    val integrateCounter: Boolean?,
 ) {
     val availableLanguages = translationIds.keys
 }

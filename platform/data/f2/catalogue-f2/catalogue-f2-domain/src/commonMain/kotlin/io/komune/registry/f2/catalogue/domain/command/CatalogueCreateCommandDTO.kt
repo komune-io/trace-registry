@@ -70,6 +70,8 @@ interface CatalogueCreateCommandDTO {
     val hidden: Boolean?
 
     val withDraft: Boolean
+
+    val integrateCounter: Boolean?
 }
 
 /**
@@ -96,6 +98,7 @@ data class CatalogueCreateCommandDTOBase(
     override val versionNotes: String? = null,
     override val hidden: Boolean? = null,
     override val withDraft: Boolean = false,
+    override val integrateCounter: Boolean? = null,
 ): CatalogueCreateCommandDTO
 
 /**

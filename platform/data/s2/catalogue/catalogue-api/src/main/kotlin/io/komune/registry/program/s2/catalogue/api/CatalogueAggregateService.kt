@@ -70,7 +70,8 @@ class CatalogueAggregateService(
 			accessRights = command.accessRights ?: CatalogueAccessRight.PRIVATE,
 			licenseId = command.licenseId,
 			location = command.location,
-			hidden = command.hidden
+			hidden = command.hidden,
+			integrateCounter = command.integrateCounter,
 		)
 	}
 
@@ -90,7 +91,8 @@ class CatalogueAggregateService(
 			licenseId = command.licenseId,
 			location = command.location,
 			hidden = command.hidden,
-			versionNotes = command.versionNotes
+			versionNotes = command.versionNotes,
+			integrateCounter = command.integrateCounter,
 		)
 	}
 

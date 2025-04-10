@@ -55,6 +55,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         location: values.location,
         stakeholder: values.stakeholder,
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
+        integrateCounter: values.integrateCounter,
         // keeping the same values
         structure: values.structure,
         hidden: values.hidden,

@@ -167,7 +167,13 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }))
         },
         required: true
-    }], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields, policies, draft])
+    },
+    ...maybeAddItem<MetadataField>(type === "100m-project", {
+        name: "integrateCounter",
+        type: "checkBox",
+        label: t("catalogues.integrateInCounter")
+    } )
+], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields, policies, draft])
 
     const onSubmitMemo = useCallback(
         async (values: any) => {

@@ -91,6 +91,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var accessRights: CatalogueAccessRight = CatalogueAccessRight.PRIVATE
     var licenseId: LicenseId? = null
 
+    var integrateCounter: Boolean? = null
+
     var location: Location? = null
 
     @Indexed

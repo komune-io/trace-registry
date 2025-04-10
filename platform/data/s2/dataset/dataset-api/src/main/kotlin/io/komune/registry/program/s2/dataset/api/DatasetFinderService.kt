@@ -47,6 +47,7 @@ class DatasetFinderService(
 		id: Match<DatasetId>? = null,
 		identifier: Match<DatasetIdentifier>? = null,
 		title: Match<String>? = null,
+		catalogueId: Match<String>? = null,
 		datasetIds: Match<DatasetId>? = null,
 		status: Match<DatasetState>? = null,
 		offset: OffsetPagination? = null
@@ -55,6 +56,7 @@ class DatasetFinderService(
 			id = id,
 			identifier = identifier,
 			title = title,
+			catalogueId = catalogueId,
 			datasetIds = datasetIds,
 			status = status,
 			offset = offset,
