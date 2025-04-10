@@ -384,27 +384,37 @@ class DatasetF2AggregateService(
     }
 
     private suspend fun applyTypeConfigurations(id: DatasetId, type: String, catalogueId: CatalogueId, isDraft: Boolean) {
-//        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
-//            it.isTranslationOf?.let { masterId ->
-//                catalogueFinderService.get(masterId)
-//            } ?: it
-//        }
-        datasetConfig.typeConfigurations[type]
+        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
+            it.isTranslationOf?.let { masterId ->
+                catalogueFinderService.get(masterId)
+            } ?: it
+        }
+        if(masterCatalogue.integrateCounter == true) {
+            applyCounterAggregators(type, catalogueId, id, isDraft)
+        }
+    }
+
+    private suspend fun applyCounterAggregators(
+        type: String,
+        catalogueId: CatalogueId,
+        id: DatasetId,
+        isDraft: Boolean
+    ) {
+        val typeConfig = datasetConfig.typeConfigurations[type]
             ?.configurations
             // Quick fix because it.isTranslationOf is not provided in draft
-            ?.firstOrNull { it.catalogueTypes.any {catalogueId.startsWith(it) } }
-//            ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
-            ?.let { typeConfig ->
-                typeConfig.aggregators
-                    ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }
-                    ?.nullIfEmpty()
-                    ?.let { conceptIds ->
-                        DatasetAddAggregatorsCommand(
-                            id = id,
-                            informationConceptIds = conceptIds,
-                            validateComputedValues = !isDraft
-                        ).let { datasetAggregateService.addAggregators(it) }
-                    }
+            ?.firstOrNull { config -> config.catalogueTypes.any { catalogueId.startsWith(it) } }
+            // ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
+
+        typeConfig?.aggregators
+            ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }
+            ?.nullIfEmpty()
+            ?.let { conceptIds ->
+                DatasetAddAggregatorsCommand(
+                    id = id,
+                    informationConceptIds = conceptIds,
+                    validateComputedValues = !isDraft
+                ).let { datasetAggregateService.addAggregators(it) }
             }
     }
 

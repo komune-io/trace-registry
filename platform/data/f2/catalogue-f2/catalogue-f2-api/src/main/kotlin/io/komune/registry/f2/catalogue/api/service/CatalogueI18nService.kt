@@ -78,11 +78,16 @@ class CatalogueI18nService(
         val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
-        val aggregators = catalogueInformationConceptService.computeAggregators(translated)
+        val aggregators = if(catalogue.integrateCounter == true) {
+            catalogueInformationConceptService.computeAggregators(translated)
+        } else {
+            emptyList()
+        }
+
         val datasets = translated.childrenDatasetIds
             .map { cache.datasets.get(it).toDTOCached() }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
-            .filterNot { it.type == "attestations" && aggregators.isEmpty() }
+            .filterNot { it.type == "attestations" && aggregators.none { it.value != "0" } }
             .sortedBy { it.structure?.definitions?.get("position") ?: it.title }
         CatalogueDTOBase(
             id = translated.id,
