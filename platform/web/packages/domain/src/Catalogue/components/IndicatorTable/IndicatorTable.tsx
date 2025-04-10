@@ -60,6 +60,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         cell: ({ row }) => (<TableCellText value={row.original.valueDescription} />)
     }, {
         accessorKey: "options",
+        header: t("options"),
         cell: ({ row }) => (
             <Stack
                 direction="row"

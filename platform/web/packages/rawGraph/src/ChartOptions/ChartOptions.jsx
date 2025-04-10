@@ -102,6 +102,7 @@ function WrapControlComponent({
     props.domain,
     props.mappedData,
     props.mapping,
+    props.visualOptions,
     remainingOptions,
   ])
 
@@ -202,6 +203,7 @@ const ChartOptions = ({
   error,
   mappedData,
 }) => {
+
   const optionsConfig = useMemo(() => {
     return getOptionsConfig(chart?.visualOptions)
   }, [chart])

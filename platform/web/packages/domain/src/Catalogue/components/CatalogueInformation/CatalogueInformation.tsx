@@ -21,8 +21,6 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
 
     const {editor} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
 
-    console.log(dataset)
-
     return (
         <>
             <CataloguePresentation

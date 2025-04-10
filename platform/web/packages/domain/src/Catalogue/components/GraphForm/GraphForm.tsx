@@ -27,15 +27,15 @@ export interface GraphFormProps {
     state?: RawGraphState
 }
 
-const emptyFunction = () => {}
+const emptyFunction = () => { }
 
 export const GraphForm = (props: GraphFormProps) => {
     const { onSave, csvDistributionId, graphDatasetId, state } = props
     const { t } = useTranslation()
-    
 
-    const {parsed} = useCsvDownloadDistribution(graphDatasetId, csvDistributionId)
-    
+
+    const { parsed } = useCsvDownloadDistribution(graphDatasetId, csvDistributionId)
+
     const [currentChart, setCurrentChart] = useState(charts[0])
     const [mapping, setMapping] = useState({})
     const [visualOptions, setVisualOptions] = useState(() => {
@@ -46,14 +46,14 @@ export const GraphForm = (props: GraphFormProps) => {
     const dataMappingRef = useRef<any>(null)
 
     useEffect(() => {
-      if (state) {
-        const selectedChart = charts.find((chart) => chart.metadata.name === state.chart)
-        if (selectedChart) setCurrentChart(selectedChart)
-        setMapping(state.mapping)
-        setVisualOptions(state.visualOptions)
-      }
+        if (state) {
+            const selectedChart = charts.find((chart) => chart.metadata.name === state.chart)
+            if (selectedChart) setCurrentChart(selectedChart)
+            setMapping(state.mapping)
+            setVisualOptions(state.visualOptions)
+        }
     }, [state])
-    
+
     const clearLocalMapping = useCallback(() => {
         if (dataMappingRef.current) {
             dataMappingRef.current.clearLocalMapping()
@@ -87,7 +87,7 @@ export const GraphForm = (props: GraphFormProps) => {
         [rawViz, onSave, currentChart, mapping, visualOptions]
     )
 
-    if(!parsed) return <></>
+    if (!parsed) return <></>
     return (
         <Stack
             className="rawGraph-container"
