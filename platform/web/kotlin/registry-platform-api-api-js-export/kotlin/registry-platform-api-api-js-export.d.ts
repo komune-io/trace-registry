@@ -4158,6 +4158,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueRefGetQueryDTO {
+        readonly id: string;
+        readonly language: string;
+
+    }
+    interface CatalogueRefGetResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefGetTreeQueryDTO {
         readonly identifier?: string;
         readonly language: string;
@@ -4165,17 +4176,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
     interface CatalogueRefGetTreeResultDTO {
         readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.query {
-    interface CatalogueRefListQueryDTO {
-        readonly language: string;
-
-    }
-    interface CatalogueRefListResultDTO {
-        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO[];
-        readonly total: number;
 
     }
 }

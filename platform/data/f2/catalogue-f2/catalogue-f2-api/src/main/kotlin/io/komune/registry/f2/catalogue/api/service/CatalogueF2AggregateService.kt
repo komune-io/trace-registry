@@ -396,6 +396,7 @@ class CatalogueF2AggregateService(
                 id = translationId,
                 title = command.title,
                 description = command.description,
+                integrateCounter = command.integrateCounter,
                 language = command.language,
                 versionNotes = command.versionNotes
             ).let { doUpdate(it) }

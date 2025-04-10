@@ -50,9 +50,9 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParent
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
-import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
@@ -128,11 +128,13 @@ class CatalogueEndpoint(
             .let(::CatalogueGetByIdentifierResult)
     }
 
+
+
     @Bean
-    override fun catalogueRefList(): CatalogueRefListFunction = f2Function { query ->
-        logger.info("catalogueRefList: $query")
-        catalogueF2FinderService.getAllRefs(query.language)
+    override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
+        catalogueF2FinderService.getRef(query.id, query.language)
     }
+
 
     @Bean
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->

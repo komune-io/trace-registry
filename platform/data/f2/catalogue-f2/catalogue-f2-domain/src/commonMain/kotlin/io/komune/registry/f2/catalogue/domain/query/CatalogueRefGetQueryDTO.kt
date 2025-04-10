@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -14,15 +15,16 @@ import kotlinx.serialization.Serializable
  * @parent [io.komune.registry.f2.catalogue.domain.D2CatalogueF2Page]
  * @order 30
  */
-typealias CatalogueRefListFunction = F2Function<CatalogueRefListQuery, CatalogueRefListResult>
+typealias CatalogueRefGetFunction = F2Function<CatalogueRefGetQuery, CatalogueRefGetResult>
 
 /**
  * @d2 query
- * @parent [CatalogueRefListFunction]
+ * @parent [CatalogueRefGetFunction]
  */
 @JsExport
-@JsName("CatalogueRefListQueryDTO")
-interface CatalogueRefListQueryDTO {
+@JsName("CatalogueRefGetQueryDTO")
+interface CatalogueRefGetQueryDTO {
+    val id: CatalogueId
     val language: Language
 }
 
@@ -30,26 +32,25 @@ interface CatalogueRefListQueryDTO {
  * @d2 inherit
  */
 @Serializable
-data class CatalogueRefListQuery(
+data class CatalogueRefGetQuery(
+    override val id: CatalogueId,
     override val language: Language
-): CatalogueRefListQueryDTO
+): CatalogueRefGetQueryDTO
 
 /**
  * @d2 event
- * @parent [CatalogueRefListFunction]
+ * @parent [CatalogueRefGetFunction]
  */
 @JsExport
-@JsName("CatalogueRefListResultDTO")
-interface CatalogueRefListResultDTO {
-    val items: List<CatalogueRefDTO>
-    val total: Int
+@JsName("CatalogueRefGetResultDTO")
+interface CatalogueRefGetResultDTO {
+    val item: CatalogueRefDTO?
 }
 
 /**
  * @d2 inherit
  */
 @Serializable
-data class CatalogueRefListResult(
-    override val items: List<CatalogueRefDTOBase>,
-    override val total: Int
-): CatalogueRefListResultDTO
+data class CatalogueRefGetResult(
+    override val item: CatalogueRefDTOBase?,
+): CatalogueRefGetResultDTO

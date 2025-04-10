@@ -32,11 +32,6 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
-}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -47,6 +42,11 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
+}
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -1433,10 +1433,10 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueListAvailableThemesResultDTO, 'CatalogueListAvailableThemesResultDTO', interfaceMeta);
   setMetadataFor(CataloguePageQueryDTO, 'CataloguePageQueryDTO', interfaceMeta);
   setMetadataFor(CataloguePageResultDTO, 'CataloguePageResultDTO', interfaceMeta, VOID, [PageDTO]);
+  setMetadataFor(CatalogueRefGetQueryDTO, 'CatalogueRefGetQueryDTO', interfaceMeta);
+  setMetadataFor(CatalogueRefGetResultDTO, 'CatalogueRefGetResultDTO', interfaceMeta);
   setMetadataFor(CatalogueRefGetTreeQueryDTO, 'CatalogueRefGetTreeQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueRefGetTreeResultDTO, 'CatalogueRefGetTreeResultDTO', interfaceMeta);
-  setMetadataFor(CatalogueRefListQueryDTO, 'CatalogueRefListQueryDTO', interfaceMeta);
-  setMetadataFor(CatalogueRefListResultDTO, 'CatalogueRefListResultDTO', interfaceMeta);
   setMetadataFor(CatalogueSearchQueryDTO, 'CatalogueSearchQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueRefSearchQueryDTO, 'CatalogueRefSearchQueryDTO', interfaceMeta, VOID, [CatalogueSearchQueryDTO]);
   setMetadataFor(CatalogueRefSearchResultDTO, 'CatalogueRefSearchResultDTO', interfaceMeta, VOID, [DistributionPageDTO]);
@@ -32503,13 +32503,13 @@ if (typeof Math.imul === 'undefined') {
   }
   function CataloguePageResultDTO() {
   }
+  function CatalogueRefGetQueryDTO() {
+  }
+  function CatalogueRefGetResultDTO() {
+  }
   function CatalogueRefGetTreeQueryDTO() {
   }
   function CatalogueRefGetTreeResultDTO() {
-  }
-  function CatalogueRefListQueryDTO() {
-  }
-  function CatalogueRefListResultDTO() {
   }
   function CatalogueRefSearchQueryDTO() {
   }
