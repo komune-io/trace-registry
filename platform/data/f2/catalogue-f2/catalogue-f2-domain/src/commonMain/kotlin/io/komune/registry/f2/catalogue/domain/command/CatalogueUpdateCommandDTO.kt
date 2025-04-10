@@ -62,6 +62,8 @@ interface CatalogueUpdateCommandDTO {
     val hidden: Boolean?
 
     val versionNotes: String?
+
+    val integrateCounter: Boolean?
 }
 
 /**
@@ -85,6 +87,7 @@ data class CatalogueUpdateCommandDTOBase(
     override val location: Location? = null,
     override val hidden: Boolean? = null,
     override val versionNotes: String? = null,
+    override val integrateCounter: Boolean? = null,
 ): CatalogueUpdateCommandDTO
 
 /**

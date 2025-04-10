@@ -60,6 +60,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     location = location,
     versionNotes = versionNotes.takeIf { withTranslatable },
     hidden = hidden,
+    integrateCounter = integrateCounter
 )
 
 fun CatalogueUpdateCommandDTOBase.toCommand(
@@ -79,7 +80,8 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     licenseId = license,
     location = location,
     hidden = hidden,
-    versionNotes = versionNotes.takeIf { withTranslatable }
+    versionNotes = versionNotes.takeIf { withTranslatable },
+    integrateCounter = integrateCounter,
 )
 
 fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
@@ -96,7 +98,8 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     accessRights = accessRights,
     license = licenseId,
     location = location,
-    hidden = hidden
+    hidden = hidden,
+    integrateCounter = integrateCounter,
 )
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(

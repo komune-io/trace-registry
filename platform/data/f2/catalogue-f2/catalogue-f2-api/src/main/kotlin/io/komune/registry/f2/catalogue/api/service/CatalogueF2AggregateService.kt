@@ -165,6 +165,7 @@ class CatalogueF2AggregateService(
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
             stakeholder = command.stakeholder ?: originalCatalogue.stakeholder,
+            integrateCounter = command.integrateCounter ?: originalCatalogue.integrateCounter,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
         if (initDatasets && translationType != command.type) {
@@ -324,7 +325,7 @@ class CatalogueF2AggregateService(
             type =catalogueCreatedEvent.type,
             language = catalogueCreatedEvent.language,
             description = catalogueCreatedEvent.description,
-            themeIds = catalogueCreatedEvent.themeIds?.toSet() ?: emptySet(),
+            themeIds = catalogueCreatedEvent.themeIds.toSet(),
             homepage = catalogueCreatedEvent.homepage,
             structure = catalogueCreatedEvent.structure,
             isTranslationOf = catalogueCreatedEvent.isTranslationOf,
@@ -340,6 +341,7 @@ class CatalogueF2AggregateService(
             versionNotes = catalogueCreatedEvent.versionNotes,
             hidden = catalogueCreatedEvent.hidden,
             date = catalogueCreatedEvent.modified,
+            integrateCounter = catalogueCreatedEvent.integrateCounter,
         )
     }
 

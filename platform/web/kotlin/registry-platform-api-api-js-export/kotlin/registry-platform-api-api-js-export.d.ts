@@ -3847,6 +3847,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly versionNotes?: string;
         readonly hidden?: boolean;
         readonly withDraft: boolean;
+        readonly integrateCounter?: boolean;
 
     }
     interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
@@ -3973,6 +3974,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly hidden?: boolean;
         readonly versionNotes?: string;
+        readonly integrateCounter?: boolean;
 
     }
     interface CatalogueUpdatedEventDTO extends f2.dsl.cqrs.Event {
