@@ -116,18 +116,21 @@ class IndicatorInitializer(
         val indicators = parseIndicators(csvFile)
             .ifEmpty { return }
 
+        val solutionNumber = Regex("""solution_(\d+)""").find(csvFile.nameWithoutExtension)?.groupValues?.get(1)
+
         val dataset = importRepository.getOrCreateDataset(
             identifier = identifier,
             parentId = parentDataset.id,
             catalogue = null,
             language = language,
             type = "indicator",
-            title = when (csvFile.nameWithoutExtension) {
-                "syntheseeco" -> when (language) {
+            title = when {
+                csvFile.nameWithoutExtension == "syntheseeco" -> when (language) {
                     "fr" -> "Synthèse économique"
                     "es" -> "Síntesis económica"
                     else -> "Economic synthesis"
                 }
+                solutionNumber != null -> ""
                 else -> csvFile.nameWithoutExtension.replace("_", " ").replaceFirstChar(Char::titlecaseChar)
             }
         )
@@ -136,7 +139,6 @@ class IndicatorInitializer(
             return
         }
 
-        val solutionNumber = Regex("""solution_(\d+)""").find(csvFile.nameWithoutExtension)?.groupValues?.get(1)
         if (solutionNumber != null) {
             val solutionIdentifier = "100m-solution-$solutionNumber"
             importContext.catalogueDatasetReferences[solutionIdentifier] =
