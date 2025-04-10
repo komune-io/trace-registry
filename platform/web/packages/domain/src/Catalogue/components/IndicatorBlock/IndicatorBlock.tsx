@@ -26,6 +26,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
     const { t } = useTranslation()
     const [editDataset, seteditDataset] = useState(false)
 
+
     const [open, _, toggle] = useToggleState()
 
     const deleteDataset = useDatasetDeleteCommand({})
@@ -94,7 +95,11 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
             {indicators && indicators.length > 0 ?
                 <>
                     <IndicatorTable dataset={dataset} data={indicators} />
-                    <IndicatorVisualization indicators={indicators} />
+                    <IndicatorVisualization
+                        title={t("previsualization")}
+                        indicators={indicators}
+                        referenceId={dataset.referencingCatalogueIds[0]}
+                    />
                 </>
                 :
                 <InfoTicket

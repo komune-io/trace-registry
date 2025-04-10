@@ -1,36 +1,78 @@
-import { Accordion, RichtTextEditor } from 'components'
+import { RichtTextEditor, useRoutesDefinition } from 'components'
 import { useMemo } from 'react'
-import { Typography } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import { InformationConcept, parseRangeValue } from '../../model'
-import { formatNumber } from '@komune-io/g2'
+import { formatNumber, Link } from '@komune-io/g2'
 import { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
+import { Link as RouterLink, LinkProps } from 'react-router-dom'
+import { extractCatalogueIdentifierNumber, useEntityRefGetQuery } from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
     indicators: InformationConcept[]
+    referenceId?: string
 }
 
 export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
-    const { title, indicators } = props
+    const { title, indicators, referenceId } = props
     const { t, i18n } = useTranslation()
+    const { cataloguesAll } = useRoutesDefinition()
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
+    const ref = useEntityRefGetQuery({
+        query: {
+            id: referenceId!,
+            language: i18n.language,
+            type: "CATALOGUE"
+        },
+        options: {
+            enabled: !!referenceId
+        }
+    }).data?.item
+
+    const relatedTitle = useMemo(() => {
+        if (!ref) return undefined
+        const identifier = extractCatalogueIdentifierNumber(ref.identifier)
+        return `Solution ${identifier ? identifier : ""} - ${ref.name}`
+    }, [ref])
+
     return (
-        <Accordion
-            size="small"
-            summary={
-                <Typography
-                    variant='h6'
-                >
-                    { title ?? t("previsualization")}
-                </Typography>
-            }
-            defaultExpanded
+        <Stack
+            gap={2}
         >
-            <RichtTextEditor markdown={markdown} readOnly />
-        </Accordion>
+            <Stack
+                gap={1}
+            >
+                <Stack
+                    gap={1}
+                    direction="row"
+                    alignItems="center"
+                >
+                   {title && <Typography
+                    variant='h6'
+                    >
+                        {title}
+                    </Typography>}
+                    {referenceId && relatedTitle ?
+                        <Link<LinkProps>
+                            variant="subtitle1"
+                            component={RouterLink}
+                            componentProps={{
+                                to: cataloguesAll(referenceId)
+                            }}
+                        >
+                            {relatedTitle}
+                        </Link>
+                        : undefined
+                    }
+                </Stack>
+                <Divider
+                />
+            </Stack>
+            < RichtTextEditor markdown={markdown} readOnly />
+        </Stack>
     )
 }
 
@@ -85,7 +127,7 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     markdown += `### ${t("cost")}\n\n`
 
     markdown += indicatorsSorted.map((indicators) => {
-       if (indicators[0].themes[0].identifier === "indicator-cost") {
+        if (indicators[0].themes[0].identifier === "indicator-cost") {
             return infoConceptsToMarkdownListItem(indicators, t, language)
         }
         return ""
@@ -96,10 +138,10 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
 
     markdown += indicatorsSorted.map((indicators) => {
         if (indicators[0].themes[0].identifier === "indicator-gain") {
-             return infoConceptsToMarkdownListItem(indicators, t, language)
-         }
-         return ""
-     }).join("\n")
+            return infoConceptsToMarkdownListItem(indicators, t, language)
+        }
+        return ""
+    }).join("\n")
 
     markdown += `===/COL===`
 
