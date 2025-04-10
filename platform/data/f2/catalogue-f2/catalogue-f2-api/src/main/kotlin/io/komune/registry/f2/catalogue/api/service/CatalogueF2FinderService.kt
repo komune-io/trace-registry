@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
@@ -64,11 +65,11 @@ class CatalogueF2FinderService(
             ?.let { catalogueI18nService.translateToDTO(it, language, false) }
     }
 
-    suspend fun getAllRefs(language: Language): CatalogueRefListResult {
-        val items = catalogueFinderService.getAll().mapNotNull {
+    suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefGetResult {
+        val item = catalogueFinderService.getOrNull(id)?.let {
             catalogueI18nService.translateToRefDTO(it, language, false)
         }
-        return CatalogueRefListResult(items = items, total = items.size)
+        return CatalogueRefGetResult(item = item)
     }
 
     suspend fun getRefTreeOrNull(id: CatalogueId, language: Language?): CatalogueRefTreeDTOBase? {
