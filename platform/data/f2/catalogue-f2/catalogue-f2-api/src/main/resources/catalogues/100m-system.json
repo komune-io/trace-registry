@@ -25,7 +25,8 @@
         "structure": {
           "definitions": {
             "position": "10",
-            "display": "read,write"
+            "display": "read,write",
+            "withCatalogueMetadata": "true"
           }
         }
       }

@@ -34,6 +34,7 @@ data class CatalogueModel(
     val creatorId: UserId?,
     val creatorOrganizationId: OrganizationId?,
     val ownerOrganizationId: OrganizationId?,
+    val stakeholder: String?,
     val publisherId: UserId?,
     val validatorId: UserId?,
     val accessRights: CatalogueAccessRight,

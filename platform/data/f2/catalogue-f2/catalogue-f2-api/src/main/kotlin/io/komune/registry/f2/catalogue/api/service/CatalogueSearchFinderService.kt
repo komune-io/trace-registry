@@ -54,8 +54,13 @@ class CatalogueSearchFinderService(
             page = page
         )
 
-        val refs = result.items.mapAsync {
-            catalogueI18nService.translateToRefDTO(it, language, otherLanguageIfAbsent)
+        val masterCatalogues = catalogueFinderService.page(
+            id = CollectionMatch(result.items.mapNotNull { it.isTranslationOf })
+        ).items.associateBy(CatalogueModel::id)
+
+        val refs = result.items.mapAsync { catalogue ->
+            val masterCatalogue = catalogue.isTranslationOf?.let { masterCatalogues[it] }
+            catalogueI18nService.translateToRefDTO(masterCatalogue ?: catalogue, language, otherLanguageIfAbsent)
         }.filterNotNull()
 
         CatalogueRefSearchResult(

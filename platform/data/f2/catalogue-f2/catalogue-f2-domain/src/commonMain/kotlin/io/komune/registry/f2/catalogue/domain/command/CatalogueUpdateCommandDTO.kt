@@ -49,6 +49,7 @@ interface CatalogueUpdateCommandDTO {
     val structure: StructureDTO?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
+    val stakeholder: String?
     val themes: List<ConceptId>?
     val relatedCatalogueIds: Map<String, List<CatalogueId>>?
     val accessRights: CatalogueAccessRight?
@@ -76,6 +77,7 @@ data class CatalogueUpdateCommandDTOBase(
     override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
+    override val stakeholder: String? = null,
     override val themes: List<ConceptId>? = null,
     override val relatedCatalogueIds: Map<String, List<CatalogueId>>? = null,
     override val accessRights: CatalogueAccessRight? = null,

@@ -1,6 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { UnCachedImage } from '../UnCachedImage'
 
 export interface ContentIllustratedProps {
     title: string
@@ -32,6 +33,7 @@ export const ContentIllustrated = (props: ContentIllustratedProps) => {
         >
             <Stack
                 gap={5}
+                flexGrow={1}
             >
                 <Typography
                     variant='h1'
@@ -52,7 +54,7 @@ export const ContentIllustrated = (props: ContentIllustratedProps) => {
             >
                 {actions}
                 {!noimage ?
-                    <img src={illustration} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
+                    <UnCachedImage src={illustration} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
                     :
                     <Box
                         sx={{

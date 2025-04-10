@@ -11,6 +11,7 @@ import io.komune.registry.s2.cccev.domain.model.DataUnitModel
 import io.komune.registry.s2.cccev.domain.model.InformationConceptModel
 import io.komune.registry.s2.cccev.domain.model.SupportedValueModel
 import io.komune.registry.s2.commons.model.DataUnitId
+import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.concept.domain.model.ConceptModel
@@ -39,9 +40,11 @@ suspend fun InformationConceptModel.toTranslatedDTO(
     themes = themeIds.map { getTheme(it).toTranslatedDTO(language) }
 )
 
+// TODO: FIX aggregatedValue
 suspend fun InformationConceptModel.toComputedDTO(
     value: SupportedValueModel,
     language: Language,
+    aggregatedValue: String,
     getTheme: suspend (ConceptId) -> ConceptModel,
     getUnit: suspend (DataUnitId) -> DataUnitModel,
 ) = InformationConceptComputedDTOBase(
@@ -55,4 +58,5 @@ suspend fun InformationConceptModel.toComputedDTO(
     valueId = value.id,
     value = value.value,
     valueDescription = value.description,
+    aggregatedValue =  aggregatedValue
 )

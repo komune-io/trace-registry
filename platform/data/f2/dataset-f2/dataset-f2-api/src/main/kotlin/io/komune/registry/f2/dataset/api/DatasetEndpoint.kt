@@ -237,7 +237,7 @@ class DatasetEndpoint(
     override fun datasetAddAggregators(): DatasetAddAggregatorsFunction = f2Function { command ->
         logger.info("datasetAddAggregators: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
-        datasetAggregateService.addAggregators(command)
+        datasetF2AggregateService.addAggregators(command)
         DatasetAddedAggregatorsEventDTOBase(command.id)
     }
 

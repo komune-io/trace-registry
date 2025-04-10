@@ -21,6 +21,7 @@ data class CatalogueCreateCommand(
     val themeIds: Set<ConceptId>,
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
+    val stakeholder: String?,
     val structure: Structure?,
     val isTranslationOf: CatalogueId?,
     val catalogueIds: Set<CatalogueId>,
@@ -39,6 +40,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val themeIds: Set<ConceptId>
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
+    val stakeholder: String?
     val structure: Structure?
     val accessRights: CatalogueAccessRight
     val licenseId: LicenseId?
@@ -64,6 +66,7 @@ data class CatalogueCreatedEvent(
     val creatorId: UserId?,
     val creatorOrganizationId: OrganizationId?,
     override val ownerOrganizationId: OrganizationId?,
+    override val stakeholder: String?,
     override val accessRights: CatalogueAccessRight,
     override val licenseId: LicenseId? = null,
     override val location: Location? = null,

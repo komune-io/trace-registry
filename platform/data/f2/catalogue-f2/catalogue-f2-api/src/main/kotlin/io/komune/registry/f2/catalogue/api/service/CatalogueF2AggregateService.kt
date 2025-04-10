@@ -51,18 +51,19 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
-import io.komune.registry.s2.cccev.api.CccevAggregateService
-import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
-import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.utils.nullIfEmpty
+import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetLinkDatasetsCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUnlinkDatasetsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetUpdateDistributionAggregatorValuesCommand
@@ -80,7 +81,6 @@ class CatalogueF2AggregateService(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
-    private val cccevAggregateService: CccevAggregateService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val fsService: FsService,
@@ -135,6 +135,7 @@ class CatalogueF2AggregateService(
         )
     }
 
+    @Suppress("CyclomaticComplexMethod")
     suspend fun createOrphanTranslation(
         command: CatalogueCreateCommandDTOBase,
         originalCatalogueId: CatalogueId,
@@ -163,6 +164,7 @@ class CatalogueF2AggregateService(
             license = command.license ?: originalCatalogue.licenseId,
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
+            stakeholder = command.stakeholder ?: originalCatalogue.stakeholder,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
         if (initDatasets && translationType != command.type) {
@@ -331,6 +333,7 @@ class CatalogueF2AggregateService(
             creatorId = catalogueCreatedEvent.creatorId,
             creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
             ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
+            stakeholder = catalogueCreatedEvent.stakeholder,
             accessRights = catalogueCreatedEvent.accessRights,
             licenseId = catalogueCreatedEvent.licenseId,
             location = catalogueCreatedEvent.location,
@@ -607,9 +610,8 @@ class CatalogueF2AggregateService(
         originalDatasetId: DatasetId?,
         originalCatalogueId: CatalogueId
     ): DatasetModel {
-        val draftedDatasetIdentifier = draftedDataset.identifier.substringBeforeLast("-draft")
-
         val datasetId = if (originalDatasetId == null) {
+            val draftedDatasetIdentifier = draftedDataset.identifier.replace(Regex("(-draft(-\\d+)*)"), "")
             draftedDataset.toCreateCommand(identifier = draftedDatasetIdentifier, catalogueId = originalCatalogueId)
                 .let { datasetAggregateService.create(it).id }
         } else {
@@ -619,11 +621,18 @@ class CatalogueF2AggregateService(
 
         val updatedDataset = datasetFinderService.get(datasetId)
 
-        draftedDataset.distributions.mapAsync { distribution ->
-            val existingDistribution = updatedDataset.distributions.firstOrNull { it.id == distribution.id }
+        applyDistributionsUpdates(draftedDataset, updatedDataset)
+        applyDatasetAggregatorsUpdates(draftedDataset, updatedDataset)
+
+        return updatedDataset
+    }
+
+    private suspend fun applyDistributionsUpdates(draftedDataset: DatasetModel, originalDataset: DatasetModel) {
+        draftedDataset.distributions.forEach { distribution ->
+            val existingDistribution = originalDataset.distributions.firstOrNull { it.id == distribution.id }
             if (existingDistribution == null) {
                 DatasetAddDistributionCommand(
-                    id = datasetId,
+                    id = originalDataset.id,
                     name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
@@ -631,74 +640,73 @@ class CatalogueF2AggregateService(
                 ).let { datasetAggregateService.addDistribution(it) }
             } else {
                 DatasetUpdateDistributionCommand(
-                    id = datasetId,
+                    id = originalDataset.id,
                     name = distribution.name,
                     distributionId = distribution.id,
                     downloadPath = distribution.downloadPath,
                     mediaType = distribution.mediaType
                 ).let { datasetAggregateService.updateDistribution(it) }
             }
-            applyDistributionAggregatorsUpdate(datasetId, distribution, existingDistribution)
+            applyDistributionAggregatorsUpdates(originalDataset.id, distribution, existingDistribution)
         }
-        updatedDataset.distributions.filter { distribution ->
+        originalDataset.distributions.filter { distribution ->
             draftedDataset.distributions.none { it.id == distribution.id }
         }.map { distribution ->
             DatasetRemoveDistributionCommand(
-                id = datasetId,
-                distributionId = distribution.id
+                id = originalDataset.id,
+                distributionId = distribution.id,
+                deprecateValues = true
             ).let { datasetAggregateService.removeDistribution(it) }
-            distribution.aggregators.forEach { (_, valueIds) ->
-                valueIds.forEach { valueId ->
-                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
-                }
-            }
         }
-
-        return updatedDataset
     }
 
-    private suspend fun applyDistributionAggregatorsUpdate(
+    private suspend fun applyDistributionAggregatorsUpdates(
         datasetId: DatasetId, distribution: DistributionModel, originalDistribution: DistributionModel?
     ) {
+        val valuesIdsToAdd = mutableMapOf<InformationConceptId, Set<SupportedValueId>>()
+        val valuesIdsToRemove = mutableMapOf<InformationConceptId, Set<SupportedValueId>>()
+
         distribution.aggregators.forEach { (conceptId, valueIds) ->
             val existingValueIds = originalDistribution?.aggregators?.get(conceptId).orEmpty()
-
-            (valueIds - existingValueIds).forEach { valueId ->
-                DatasetUpdateDistributionAggregatorValuesCommand(
-                    id = datasetId,
-                    distributionId = distribution.id,
-                    removeSupportedValueIds = null,
-                    addSupportedValueIds = mapOf(conceptId to setOf(valueId))
-                ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
-
-                cccevAggregateService.validateValue(SupportedValueValidateCommand(valueId))
-            }
-
-            (existingValueIds - valueIds).forEach { valueId ->
-                DatasetUpdateDistributionAggregatorValuesCommand(
-                    id = datasetId,
-                    distributionId = distribution.id,
-                    removeSupportedValueIds = mapOf(conceptId to setOf(valueId)),
-                    addSupportedValueIds = null
-                ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
-
-                cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
-            }
+            valuesIdsToAdd += conceptId to (valueIds - existingValueIds)
+            valuesIdsToRemove += conceptId to (existingValueIds - valueIds)
         }
 
         originalDistribution?.aggregators
             ?.filterKeys { it !in distribution.aggregators }
             ?.forEach { (conceptId, valueIds) ->
-                valueIds.forEach { valueId ->
-                    DatasetUpdateDistributionAggregatorValuesCommand(
-                        id = datasetId,
-                        distributionId = distribution.id,
-                        removeSupportedValueIds = mapOf(conceptId to setOf(valueId)),
-                        addSupportedValueIds = null
-                    ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
+                valuesIdsToRemove[conceptId] = valuesIdsToRemove[conceptId].orEmpty() + valueIds
+            }
 
-                    cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(valueId))
-                }
+        DatasetUpdateDistributionAggregatorValuesCommand(
+            id = datasetId,
+            distributionId = distribution.id,
+            removeSupportedValueIds = valuesIdsToRemove.ifEmpty { null },
+            addSupportedValueIds = valuesIdsToAdd.ifEmpty { null },
+            validateAndDeprecateValues = true
+        ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
+    }
+
+    private suspend fun applyDatasetAggregatorsUpdates(draftedDataset: DatasetModel, originalDataset: DatasetModel) {
+        originalDataset.aggregators.filterKeys { it !in draftedDataset.aggregators }
+            .ifEmpty { null }
+            ?.keys
+            ?.let { conceptIds ->
+                DatasetRemoveAggregatorsCommand(
+                    id = originalDataset.id,
+                    informationConceptIds = conceptIds.toList()
+                ).let { datasetAggregateService.removeAggregators(it) }
+            }
+
+        draftedDataset.aggregators.filterKeys { it !in originalDataset.aggregators }
+            .ifEmpty { null }
+            ?.keys
+            ?.let { conceptIds ->
+                DatasetAddAggregatorsCommand(
+                    id = draftedDataset.id,
+                    informationConceptIds = conceptIds.toList(),
+                    validateComputedValues = true
+                ).let { datasetAggregateService.addAggregators(it) }
             }
     }
 }

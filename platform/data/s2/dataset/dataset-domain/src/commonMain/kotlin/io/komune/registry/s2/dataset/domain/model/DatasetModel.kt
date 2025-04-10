@@ -46,5 +46,12 @@ data class DatasetModel(
     val datasetIds: List<DatasetId>,
     val distributions: List<DistributionModel>,
     val structure: Structure?,
-    val aggregators: Map<InformationConceptId, SupportedValueId?>
+    val aggregators: Map<InformationConceptId, AggregatedValueModel?>
+)
+
+@Serializable
+data class AggregatedValueModel(
+    val conceptId: InformationConceptId,
+    val computedValue: SupportedValueId,
+    val dependingValues: Map<InformationConceptId, Set<SupportedValueId>>
 )

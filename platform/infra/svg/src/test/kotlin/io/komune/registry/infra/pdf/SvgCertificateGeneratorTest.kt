@@ -18,7 +18,7 @@ class SvgCertificateGeneratorTest {
             , "certifiedBy",
             "title"
         )
-        val pdf = File("build/certificate.pdf")
+        val pdf = File("build/attestation.pdf")
         pdf.writeBytes(result)
         println(pdf.writeBytes(result))
         println(pdf.absolutePath)
@@ -30,12 +30,14 @@ class SvgCertificateGeneratorTest {
 //        val project = "Certicongo"
         val result = SvgCertificateGenerator.fillSvg(
             SvgCertificateGenerator.TEMPLATE_CERTIFICATE,
-            "Is Issued To",
-            1002020,
-            "the transaction id",
-            "17829", "tonnes de CO2 économisées"
-            , "Is Certified By",
-            "The Title"
+            issuedTo = "Is Issued To",
+            date = 1002020,
+            transactionId = "the transaction id",
+            indicatorValue =  "17829", "tonnes de CO2 économisées",
+            certifiedBy = "Is Certified By",
+            title = "The Title",
+            url = "https://www.google.com",
+            subUnit = "supprimée, évitée",
         )
         val pdf = File("build/certificate.svg")
         pdf.writeBytes(result.toByteArray())

@@ -156,6 +156,7 @@ class CatalogueEndpoint(
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
             themeIds = query.themeIds?.let(::CollectionMatch),
+            creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(
@@ -178,6 +179,7 @@ class CatalogueEndpoint(
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
             themeIds = query.themeIds?.let(::CollectionMatch),
+            creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(

@@ -53,7 +53,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         accessRights: values.accessRights,
         parentId: values.parentId,
         location: values.location,
-        ownerOrganizationId: values.ownerOrganizationId,
+        stakeholder: values.stakeholder,
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
         // keeping the same values
         structure: values.structure,
@@ -61,6 +61,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         homepage: values.homepage,
         versionNotes: values.versionNotes,
         language: values.language,
+        ownerOrganizationId: values.ownerOrganizationId,
         id: draft?.catalogue.id!,
       },
       files: values.illustration ? [{

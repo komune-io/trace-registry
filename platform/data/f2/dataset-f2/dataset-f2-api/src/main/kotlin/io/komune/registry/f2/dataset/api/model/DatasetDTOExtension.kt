@@ -93,8 +93,8 @@ suspend fun DatasetModel.toDTO(
         aggregators = aggregators.mapNotNull { (conceptId, valueId) ->
             valueId?.let {
                 val concept = getInformationConcept(conceptId)
-                val value = getSupportedValue(it)
-                concept.toComputedDTO(value, language, getTheme, getDataUnit)
+                val value = getSupportedValue(it.computedValue)
+                concept.toComputedDTO(value, language, "", getTheme, getDataUnit)
             }
         }.sortedBy { it.name },
     )
@@ -139,7 +139,7 @@ suspend fun DistributionModel.toDTO(
         val concept = getInformationConcept(conceptId)
         valueIds.map { valueId ->
             val supportedValue = getSupportedValue(valueId)
-            concept.toComputedDTO(supportedValue, language, getTheme, getDataUnit)
+            concept.toComputedDTO(supportedValue, language, "", getTheme, getDataUnit)
         }
     }.sortedBy { "${it.name} ${it.value}" },
     issued = issued,

@@ -26,6 +26,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         creatorId = creatorId,
         creatorOrganizationId = creatorOrganizationId,
         ownerOrganizationId = ownerOrganizationId,
+        stakeholder = stakeholder,
         publisherId = publisherId,
         validatorId = validatorId,
         accessRights = accessRights,
