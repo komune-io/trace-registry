@@ -16,7 +16,7 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
       license: catalogue.license?.id,
       ownerOrganizationId: catalogue.ownerOrganization?.id,
       parentId: catalogue.parent?.id,
-      illustrationUploaded: () => g2Config().platform.url + `/data/catalogues/${catalogue.id}/img`
+      illustrationUploaded: catalogue?.img ? () => g2Config().platform.url + catalogue.img : undefined
     }) : undefined, [catalogue])
     return useFormComposable({
       onSubmit,
