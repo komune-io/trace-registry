@@ -23,6 +23,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferencedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.cccev.api.concept.service.InformationConceptF2FinderService
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -83,6 +84,7 @@ class CatalogueF2AggregateService(
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
+    private val informationConceptF2FinderService: InformationConceptF2FinderService,
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
     private val sequenceRepository: SequenceRepository
@@ -184,8 +186,8 @@ class CatalogueF2AggregateService(
     suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
         val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
             ?.checkLanguage(command.language)
-
-        doUpdate(command)
+        val isDraft = draft != null
+        doUpdate(command, isDraft)
 
         // TODO if draft, don't apply change but store the info in the draft
         command.parentId?.let { replaceParent(draft?.originalCatalogueId ?: command.id, it) }
@@ -249,7 +251,7 @@ class CatalogueF2AggregateService(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
             versionNotes = draft.versionNotes,
-        ).let { doUpdate(it) }
+        ).let { doUpdate(it, true) }
 
         applyDatasetUpdatesInDraft(draft, draftedCatalogue, originalCatalogue)
 
@@ -367,10 +369,11 @@ class CatalogueF2AggregateService(
     }
 
     private suspend fun doUpdate(
-        command: CatalogueUpdateCommandDTOBase
+        command: CatalogueUpdateCommandDTOBase,
+        isDraft: Boolean
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
-
+        updateDatasetAggregator(catalogue, command, isDraft)
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
                 id = command.id,
@@ -399,7 +402,7 @@ class CatalogueF2AggregateService(
                 integrateCounter = command.integrateCounter,
                 language = command.language,
                 versionNotes = command.versionNotes
-            ).let { doUpdate(it) }
+            ).let { doUpdate(it, isDraft) }
         } else {
             val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
             createAndLinkTranslation(
@@ -415,6 +418,36 @@ class CatalogueF2AggregateService(
         }
 
         return event
+    }
+
+    private suspend fun updateDatasetAggregator(catalogue: CatalogueModel, command: CatalogueUpdateCommandDTOBase, isDraft: Boolean) {
+        if(catalogue.integrateCounter == command.integrateCounter) {
+            return
+        }
+        val counterCo2e = informationConceptF2FinderService.getByIdentifierOrNull("counter-co2e")
+        if(counterCo2e == null) {
+            return
+        }
+        val datasets = datasetFinderService.page(catalogueId = ExactMatch(catalogue.id))
+        datasets.items.filter { dataset ->
+             dataset.type == "indicator"
+        }.mapAsync { dataset ->
+            if (command.integrateCounter == true) {
+                val addCommand = DatasetAddAggregatorsCommand(
+                    id = dataset.id,
+                    informationConceptIds = listOf(counterCo2e.id),
+                    validateComputedValues = true
+                )
+                datasetAggregateService.addAggregators(addCommand)
+            } else {
+                val removeCommand = DatasetRemoveAggregatorsCommand(
+                    id = dataset.id,
+                    informationConceptIds = listOf(counterCo2e.id)
+                )
+                datasetAggregateService.removeAggregators(removeCommand)
+            }
+        }
+
     }
 
     private suspend fun replaceParent(catalogueId: CatalogueId, parentId: CatalogueId) {

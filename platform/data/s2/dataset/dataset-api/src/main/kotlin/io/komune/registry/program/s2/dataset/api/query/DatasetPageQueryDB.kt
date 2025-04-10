@@ -23,6 +23,7 @@ class DatasetPageQueryDB(
         id: Match<DatasetId>? = null,
         identifier: Match<DatasetIdentifier>? = null,
         title: Match<String>? = null,
+        catalogueId: Match<String>? = null,
         datasetIds: Match<DatasetId>? = null,
         status: Match<DatasetState>? = null,
         offset: OffsetPagination? = null,
@@ -30,6 +31,7 @@ class DatasetPageQueryDB(
         match(`DatasetEntity$`.ID, id)
         match(`DatasetEntity$`.IDENTIFIER, identifier)
         match(`DatasetEntity$`.TITLE, title)
+        match(`DatasetEntity$`.CATALOGUE_ID, catalogueId)
         match(`DatasetEntity$`.DATASET_IDS, datasetIds)
         match(`DatasetEntity$`.STATUS as TextField<DatasetEntity, DatasetState>, status)
     }
