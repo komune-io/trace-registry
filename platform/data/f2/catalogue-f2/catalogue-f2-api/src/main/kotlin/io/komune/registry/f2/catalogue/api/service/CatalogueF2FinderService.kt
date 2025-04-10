@@ -14,7 +14,6 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
-import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef

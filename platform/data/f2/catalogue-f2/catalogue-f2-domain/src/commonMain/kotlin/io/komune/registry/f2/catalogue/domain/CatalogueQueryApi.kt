@@ -9,7 +9,6 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueRefListFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 
