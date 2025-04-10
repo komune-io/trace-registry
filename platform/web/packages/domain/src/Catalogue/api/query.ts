@@ -1,4 +1,4 @@
-import { g2Config, QueryParams, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
+import { g2Config, QueryParams, useQueryRequestArray, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
 import { io } from "registry-platform-api-api-js-export";
 import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -62,6 +62,16 @@ export interface CatalogueRefGetResult extends io.komune.registry.f2.catalogue.d
 export const useCatalogueRefGetQuery = (params: QueryParams<CatalogueRefGetQuery, CatalogueRefGetResult>) => {
   const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueRefGetQuery, CatalogueRefGetResult>(
+    "data/catalogueRefList", requestProps, params
+  )
+}
+
+export interface CatalogueRefGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetQueryDTO { }
+export interface CatalogueRefGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResultDTO { }
+
+export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefGetQuery[], CatalogueRefGetResult[]>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequestArray<CatalogueRefGetQuery, CatalogueRefGetResult>(
     "data/catalogueRefList", requestProps, params
   )
 }
