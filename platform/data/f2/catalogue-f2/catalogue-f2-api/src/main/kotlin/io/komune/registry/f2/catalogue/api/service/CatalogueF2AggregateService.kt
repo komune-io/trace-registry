@@ -436,7 +436,7 @@ class CatalogueF2AggregateService(
                 val addCommand = DatasetAddAggregatorsCommand(
                     id = dataset.id,
                     informationConceptIds = listOf(counterCo2e.id),
-                    validateComputedValues = true
+                    validateComputedValues = !isDraft
                 )
                 datasetAggregateService.addAggregators(addCommand)
             } else {
