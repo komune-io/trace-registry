@@ -131,6 +131,7 @@ class CatalogueI18nService(
             aggregators = aggregators,
             version = translated.version,
             versionNotes = translated.versionNotes,
+            integrateCounter = translated.integrateCounter,
         )
     }
 

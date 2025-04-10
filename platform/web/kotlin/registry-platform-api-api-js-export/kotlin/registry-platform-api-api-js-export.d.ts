@@ -4027,6 +4027,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO[];
         readonly version: number;
         readonly versionNotes?: string;
+        readonly integrateCounter?: boolean;
 
     }
 }
