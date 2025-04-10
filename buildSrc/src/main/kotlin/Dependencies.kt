@@ -19,7 +19,7 @@ object Versions {
 	const val springBoot = PluginVersions.springBoot
 	const val springData = FixersVersions.Spring.data
 	val f2 = Framework.fixers
-	val s2 = "0.23.0-SNAPSHOT"
+	val s2 = Framework.fixers
 	val fs = Framework.connect
 	val im = Framework.connect
     val cccev = Framework.connect
@@ -189,6 +189,7 @@ object Dependencies {
 		fun svg(scope: Scope) = scope.add(
 			"org.apache.xmlgraphics:batik-transcoder:${Versions.xmlgraphicsBatik}",
 			"org.apache.xmlgraphics:fop:${Versions.xmlgraphicsFop}",
+			"org.apache.commons:commons-text:1.13.0"
 		)
 
 		fun qrcode(scope: Scope) = scope.add(

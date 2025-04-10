@@ -6,7 +6,9 @@ import com.google.zxing.common.BitMatrix
 import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
+import org.apache.commons.text.StringEscapeUtils
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+
 
 object SvgCertificateGenerator {
     const val TEMPLATE_CERTIFICATE = "classpath:certificate.svg"
@@ -91,22 +93,27 @@ object SvgCertificateGenerator {
             .inputStream
             .readAllBytes()
             .decodeToString()
-            .replace(FIELD_ISSUEDTO, issuedTo)
-            .replace(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
-            .replace(FIELD_TRANSACTION, transactionId)
-            .replace(FIELD_VALUE, indicatorValue)
-            .replace(FIELD_VALIDATION, FIELD_VALIDATION_VALUE)
-            .replace(FIELD_TYPE, subUnit ?: "")
-            .replace(FIELD_UNIT, indicatorUnit ?: "")
-            .replace(FIELD_CERTIFIED_BY, certifiedBy ?: "")
-            .replace(FIELD_TITLE, title ?: "")
+            .replaceText(FIELD_ISSUEDTO, issuedTo)
+            .replaceText(FIELD_DATE, SimpleDateFormat("MMMMMMMMMMM dd, yyyy").format(Date(date)))
+            .replaceText(FIELD_TRANSACTION, transactionId)
+            .replaceText(FIELD_VALUE, indicatorValue)
+            .replaceText(FIELD_VALIDATION, FIELD_VALIDATION_VALUE)
+            .replaceText(FIELD_TYPE, subUnit ?: "")
+            .replaceText(FIELD_UNIT, indicatorUnit ?: "")
+            .replaceText(FIELD_CERTIFIED_BY, certifiedBy ?: "")
+            .replaceText(FIELD_TITLE, title ?: "")
+            .replaceText(FIELD_TITLE, title ?: "")
 
         url?.let {
             val qrCodeSvg = generateQrCodeSvg(url)
-            templateFilled = templateFilled.replace(FIELD_QRCODE, qrCodeSvg)
+            templateFilled = templateFilled.replaceText(FIELD_QRCODE, qrCodeSvg)
         }
         return templateFilled
     }
+}
+
+fun String.replaceText(key: String, value: String): String {
+    return replace(key, StringEscapeUtils.escapeXml10(value))
 }
 
 fun generateQrCodeSvg(text: String, size: Int = 285): String {
