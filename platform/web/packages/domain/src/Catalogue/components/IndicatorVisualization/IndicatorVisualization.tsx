@@ -6,7 +6,7 @@ import { formatNumber, Link } from '@komune-io/g2'
 import { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { Link as RouterLink, LinkProps } from 'react-router-dom'
-import { extractCatalogueIdentifierNumber, useEntityRefGetQuery } from '../../api'
+import { extractCatalogueIdentifierNumber, useCatalogueRefGetQuery } from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -21,11 +21,10 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
-    const ref = useEntityRefGetQuery({
+    const ref = useCatalogueRefGetQuery({
         query: {
             id: referenceId!,
-            language: i18n.language,
-            type: "CATALOGUE"
+            language: i18n.language
         },
         options: {
             enabled: !!referenceId
@@ -35,7 +34,7 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const relatedTitle = useMemo(() => {
         if (!ref) return undefined
         const identifier = extractCatalogueIdentifierNumber(ref.identifier)
-        return `Solution ${identifier ? identifier : ""} - ${ref.name}`
+        return `${t("catalogues.types." + ref.type)} ${identifier ? identifier : ""} - ${ref.title}`
     }, [ref])
 
     return (

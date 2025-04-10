@@ -56,12 +56,12 @@ export const useCatalogueRefSearchQuery = (params: QueryParams<CatalogueRefSearc
 }
 
 
-export interface CatalogueRefListQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefListQueryDTO { }
-export interface CatalogueRefListResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefListResultDTO { }
+export interface CatalogueRefGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetQueryDTO { }
+export interface CatalogueRefGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResultDTO { }
 
-export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefListQuery, CatalogueRefListResult>) => {
+export const useCatalogueRefGetQuery = (params: QueryParams<CatalogueRefGetQuery, CatalogueRefGetResult>) => {
   const requestProps = useAuthenticatedRequest()
-  return useQueryRequest<CatalogueRefListQuery, CatalogueRefListResult>(
+  return useQueryRequest<CatalogueRefGetQuery, CatalogueRefGetResult>(
     "data/catalogueRefList", requestProps, params
   )
 }
