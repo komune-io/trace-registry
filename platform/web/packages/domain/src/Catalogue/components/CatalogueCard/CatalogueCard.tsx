@@ -1,6 +1,6 @@
 import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material'
 import {Catalogue, CatalogueRef} from '../../model'
-import { addLineClampStyles, LocalTheme, useRoutesDefinition } from 'components'
+import { addLineClampStyles, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useState } from "react"
 import { g2Config, useTheme } from '@komune-io/g2'
 import { t } from 'i18next'
@@ -51,7 +51,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                 }}
             >
                 {!noimage && !isLoading ?
-                    <img src={g2Config().platform.url + catalogue?.img} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
+                    <UnCachedImage src={g2Config().platform.url + catalogue?.img} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
                     :
                     <Box
                         sx={{

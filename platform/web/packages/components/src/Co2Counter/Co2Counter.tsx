@@ -44,7 +44,7 @@ export const Co2Counter = (props: Co2CounterProps) => {
                         mb: -0.5
                     }}
                 >
-                    {formatNumber(count, i18n.language, 3)}
+                    {formatNumber(count, i18n.language, 1)}
                 </Typography>
                 <Typography
                     variant="caption"
