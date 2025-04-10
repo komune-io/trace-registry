@@ -14,7 +14,6 @@ export function convertRelatedCataloguesToIds(relatedCatalogues: RelatedCatalogu
   for (const catalogueType in relatedCatalogues) {
     if (relatedCatalogues.hasOwnProperty(catalogueType)) {
       relatedCatalogueIds[catalogueType] = relatedCatalogues[catalogueType].map(item => {
-        console.log(item)
         return item.id
       });
     }

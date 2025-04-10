@@ -37,7 +37,7 @@ export const GraphCreationPage = () => {
 
   const onClose = useCallback(
     () => {
-      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.identifier!))
+      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.id!))
     },
     [navigate, catalogueId, draftId, graphDataset],
   )
@@ -95,7 +95,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.identifier!)} />
+      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.id!)} />
       <Stack
         sx={{
           maxWidth: 1200,

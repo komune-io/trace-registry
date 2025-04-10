@@ -326,13 +326,13 @@ const ChartOptionColorScale = ({
     }
   }, [mappingValue, prevMappingValue])
 
-  useEffect(() => {
-    if (!initialValue.current && !locked) {
-      const nextScaleType = availableScaleTypes[0]
-      handleChangeScaleType(nextScaleType)
-    }
+  // useEffect(() => {
+  //   if (!initialValue.current && !locked) {
+  //     const nextScaleType = availableScaleTypes[0]
+  //     handleChangeScaleType(nextScaleType)
+  //   }
 
-  }, [availableScaleTypes, handleChangeScaleType, locked])
+  // }, [availableScaleTypes, handleChangeScaleType, locked])
 
   // update scale on dataset update.
   // #TODO: fixme
