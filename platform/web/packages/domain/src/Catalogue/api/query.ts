@@ -62,7 +62,7 @@ export interface CatalogueRefGetResult extends io.komune.registry.f2.catalogue.d
 export const useCatalogueRefGetQuery = (params: QueryParams<CatalogueRefGetQuery, CatalogueRefGetResult>) => {
   const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueRefGetQuery, CatalogueRefGetResult>(
-    "data/catalogueRefList", requestProps, params
+    "data/catalogueRefGet", requestProps, params
   )
 }
 
@@ -72,7 +72,7 @@ export interface CatalogueRefGetResult extends io.komune.registry.f2.catalogue.d
 export const useCatalogueRefListQuery = (params: QueryParams<CatalogueRefGetQuery[], CatalogueRefGetResult[]>) => {
   const requestProps = useAuthenticatedRequest()
   return useQueryRequestArray<CatalogueRefGetQuery, CatalogueRefGetResult>(
-    "data/catalogueRefList", requestProps, params
+    "data/catalogueRefGet", requestProps, params
   )
 }
 
