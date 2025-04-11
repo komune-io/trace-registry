@@ -1,11 +1,15 @@
-import {CatalogueRefTree, config, useCatalogueRefGetTreeQuery} from "domain-components";
+import {
+  CatalogueRefTree,
+  config,
+  useCatalogueRefGetTreeQuery,
+  sortCatalogues
+} from "domain-components";
 import {CatalogueAll, Icon, useRoutesDefinition} from "components";
 import {Location} from "history";
 import {useLocation} from "react-router";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
 import {getMenu, MenuItem} from "./index";
-import {sortCatalogues} from "domain-components/src/Catalogue/model/utils";
 
 function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: Location<any>): MenuItem[] {
   const { platform } = config()
