@@ -1,5 +1,6 @@
 package io.komune.registry.s2.catalogue.domain.model
 
+import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
@@ -20,6 +21,7 @@ data class CatalogueModel(
     val homepage: String? = null,
     val title: String,
     val img: String? = null,
+    val imageFsPath: FilePath? = null,
     val type: String,
     val language: String?,
     var structure: Structure? = null,

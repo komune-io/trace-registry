@@ -170,6 +170,13 @@ class CatalogueF2AggregateService(
             integrateCounter = command.integrateCounter ?: originalCatalogue.integrateCounter,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
+        originalCatalogue.imageFsPath?.let { path ->
+            CatalogueSetImageCommand(
+                id = event.id,
+                img = path
+            ).let { catalogueAggregateService.setImageCommand(it) }
+        }
+
         if (initDatasets && translationType != command.type) {
             val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
             createAndLinkDatasets(
@@ -252,6 +259,13 @@ class CatalogueF2AggregateService(
             hidden = typeConfiguration?.hidden ?: false,
             versionNotes = draft.versionNotes,
         ).let { doUpdate(it, true) }
+
+        if (draftedCatalogue.imageFsPath != originalCatalogue.imageFsPath) {
+            CatalogueSetImageCommand(
+                id = draft.originalCatalogueId,
+                img = draftedCatalogue.imageFsPath
+            ).let { catalogueAggregateService.setImageCommand(it) }
+        }
 
         applyDatasetUpdatesInDraft(draft, draftedCatalogue, originalCatalogue)
 
