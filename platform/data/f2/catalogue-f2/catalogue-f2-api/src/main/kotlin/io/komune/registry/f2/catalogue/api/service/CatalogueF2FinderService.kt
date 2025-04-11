@@ -110,7 +110,7 @@ class CatalogueF2FinderService(
         CataloguePageResult(
             items = catalogues.items
                 .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
-                .sortedBy(CatalogueDTOBase::title),
+                .sortedBy { "${it.title}   ${it.identifier}" },
             total = catalogues.total
         )
     }
@@ -132,7 +132,7 @@ class CatalogueF2FinderService(
             .filter { it.id != id && (descendantsIds == null || it.id !in descendantsIds) }
             .mapAsync { catalogueI18nService.translateToRefDTO(it, language, false) }
             .filterNotNull()
-            .sortedBy(CatalogueRefDTOBase::title)
+            .sortedBy { "${it.title}   ${it.identifier}" }
     }
 
     suspend fun listAvailableThemesFor(type: String, language: Language): List<ConceptTranslatedDTOBase> {
