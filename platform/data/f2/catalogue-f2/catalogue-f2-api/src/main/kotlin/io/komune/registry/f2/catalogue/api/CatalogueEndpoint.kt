@@ -228,7 +228,7 @@ class CatalogueEndpoint(
         @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("catalogueImgDownload: $catalogueId")
-        fsService.getCatalogueFilePath(catalogueId)
+        catalogueFinderService.get(catalogueId).imageFsPath
     }
 
     @PermitAll
@@ -239,16 +239,6 @@ class CatalogueEndpoint(
         logger.info("catalogueCertificateDownload: $catalogueId")
         val file = certificate.generateFiles(catalogueId)
         return buildResponseForFile("certificate-$catalogueId.pdf", file)
-    }
-
-    @PermitAll
-    @GetMapping("/data/catalogues/{catalogueId}/img/{imageName}")
-    suspend fun catalogueImgDownload(
-        @PathVariable catalogueId: CatalogueId,
-        @PathVariable imageName: String
-    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
-        logger.info("catalogueImgDownload: $catalogueId, $imageName")
-        fsService.getCatalogueFilePath(catalogueId, imageName)
     }
 
     @PostMapping("/data/catalogueCreate")
