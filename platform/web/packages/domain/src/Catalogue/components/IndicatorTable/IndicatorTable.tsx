@@ -1,5 +1,5 @@
 import { EditRounded } from '@mui/icons-material'
-import { iconPack } from 'components'
+import { iconPack, maybeAddItem } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
@@ -15,10 +15,11 @@ import { formatInformationConceptValue } from '../IndicatorVisualization'
 export interface IndicatorTableProps {
     data: InformationConcept[]
     dataset: Dataset
+    readOnly?: boolean
 }
 
 export const IndicatorTable = (props: IndicatorTableProps) => {
-    const { data, dataset } = props
+    const { data, dataset, readOnly } = props
     const { t, i18n } = useTranslation()
     const { draftId } = useParams()
     const queryClient = useQueryClient()
@@ -58,7 +59,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
         accessorKey: "context",
         header: t("context"),
         cell: ({ row }) => (<TableCellText value={row.original.valueDescription} />)
-    }, {
+    }, ...maybeAddItem(!readOnly, {
         accessorKey: "options",
         header: t("options"),
         cell: ({ row }) => (
@@ -78,7 +79,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
                 </IconButton>
             </Stack>
         )
-    }], [t, deleteIndicator, i18n.language])
+    })], [t, deleteIndicator, i18n.language, readOnly])
 
     const tableState = useTable({
         data,

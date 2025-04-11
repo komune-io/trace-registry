@@ -17,10 +17,11 @@ import { successHandler } from '@komune-io/g2'
 export interface IndicatorBlockProps {
     dataset: Dataset
     draft?: CatalogueDraft
+    readOnly?: boolean
 }
 
 export const IndicatorBlock = (props: IndicatorBlockProps) => {
-    const { dataset, draft } = props
+    const { dataset, draft, readOnly } = props
     const { draftId } = useParams()
     const queryClient = useQueryClient()
     const { t } = useTranslation()
@@ -76,6 +77,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                 size='h6'
                 title={dataset.title ?? ""}
                 actions={
+                    !readOnly ?
                     <>
                         <CustomButton
                             onClick={toggle}
@@ -90,11 +92,12 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
                         </IconButton>
                         {menu}
                     </>
+                     : undefined
                 }
             />
             {indicators && indicators.length > 0 ?
                 <>
-                    <IndicatorTable dataset={dataset} data={indicators} />
+                    <IndicatorTable dataset={dataset} data={indicators} readOnly={readOnly} />
                     <IndicatorVisualization
                         title={t("previsualization")}
                         indicators={indicators}
