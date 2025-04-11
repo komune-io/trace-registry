@@ -13,10 +13,11 @@ export interface ImageCardProps {
     onClick?: () => void
     editUrl?: string
     label?: string
+    readOnly?: boolean
 }
 
 export const ImageCard = (props: ImageCardProps) => {
-    const { imageUrl, onDelete, editUrl, label, onClick } = props
+    const { imageUrl, onDelete, editUrl, label, onClick, readOnly } = props
 
     const { t } = useTranslation()
 
@@ -70,7 +71,7 @@ export const ImageCard = (props: ImageCardProps) => {
             >
                 {label}
             </Typography>}
-            {menuItems.length > 0 && <IconButton
+            {menuItems.length > 0 && !readOnly && <IconButton
                 size='small'
                 {...buttonProps}
                 sx={{

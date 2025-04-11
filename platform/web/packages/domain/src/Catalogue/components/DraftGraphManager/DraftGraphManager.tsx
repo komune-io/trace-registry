@@ -14,10 +14,11 @@ import { Dataset } from '../../../Dataset'
 export interface DraftGraphManagerProps {
     draft?: CatalogueDraft
     dataset: Dataset
+    readOnly?: boolean
 }
 
 export const DraftGraphManager = (props: DraftGraphManagerProps) => {
-    const { draft, dataset } = props
+    const { draft, dataset, readOnly } = props
     const { t } = useTranslation()
     const { cataloguesCatalogueIdDraftIdDatasetIdGraph } = useRoutesDefinition()
     const [open, _, toggle] = useToggleState()
@@ -49,9 +50,10 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 editUrl={cataloguesCatalogueIdDraftIdDatasetIdGraph(draft?.originalCatalogueId!, draft?.id!, dataset.id)}
                 onDelete={() => onDelete(dataset.id)}
                 label={dataset.title}
+                readOnly={readOnly}
             />
         )
-    }), [dataset, onDelete])
+    }), [dataset, onDelete, readOnly])
 
     const csvDistributions = useMemo(() =>
         dataset?.distributions?.filter((dist) => dist.mediaType === "text/csv")
@@ -73,12 +75,14 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                     size='h6'
                     title={t("graphs")}
                     actions={
+                        !readOnly ?
                         <CustomLinkButton
                             to={cataloguesCatalogueIdDraftIdDatasetIdGraph(draft?.originalCatalogueId!, draft?.id!)}
                             startIcon={<AddCircleOutlineRounded />}
                         >
                             {t("createAGraph")}
                         </CustomLinkButton>
+                        : undefined
                     }
                 />
                 <Stack
@@ -101,13 +105,14 @@ export const DraftGraphManager = (props: DraftGraphManagerProps) => {
                 <TitleDivider
                     size='h6'
                     title={t('datasets')}
-                    actions={
+                    actions={ !readOnly ?
                         <CustomButton
                             onClick={toggle}
                             startIcon={<AddCircleOutlineRounded />}
                         >
                             {t("catalogues.uploadCsv")}
                         </CustomButton>
+                        : undefined
                     }
                 />
                 {distributionsDisplay}
