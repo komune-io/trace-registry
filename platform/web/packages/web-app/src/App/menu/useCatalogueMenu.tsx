@@ -5,13 +5,17 @@ import {useLocation} from "react-router";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
 import {getMenu, MenuItem} from "./index";
+import {sortCatalogues} from "domain-components/src/Catalogue/model/utils";
 
 function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: Location<any>): MenuItem[] {
   const { platform } = config()
   if(isMenu(item)) {
-    return item.catalogues?.flatMap( (it) => asMenu(it, cataloguesAll, location)) ?? []
+    return item.catalogues
+      ?.sort(sortCatalogues)
+      ?.flatMap( (it) => asMenu(it, cataloguesAll, location)) ?? []
   }
-  const catalogue = isAlias(item) ? item.catalogues?.[0]! : item
+  console.log("catalogue", item)
+  const catalogue = isAlias(item) ? item.relatedCatalogues?.["menu"][0]! : item
   if(!catalogue) return []
   const catalogueLink = isBranch(catalogue)
     ? cataloguesAll(catalogue?.identifier!)

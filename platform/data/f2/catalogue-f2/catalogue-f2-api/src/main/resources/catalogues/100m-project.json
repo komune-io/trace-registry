@@ -34,7 +34,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "10",
+            "order": "10",
             "display": "read,write",
             "withCatalogueMetadata": "true"
           }
@@ -50,7 +50,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "20",
+            "order": "20",
             "display": "read,write"
           }
         }
@@ -65,7 +65,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "30",
+            "order": "30",
             "display": "read,write"
           }
         }
@@ -80,7 +80,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "40",
+            "order": "40",
             "display": "write"
 
           }
@@ -96,7 +96,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "50",
+            "order": "50",
             "display": "write"
           }
         }

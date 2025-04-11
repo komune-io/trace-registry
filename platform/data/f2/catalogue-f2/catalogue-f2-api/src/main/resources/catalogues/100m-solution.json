@@ -25,7 +25,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "10",
+            "order": "10",
             "display": "read,write",
             "withCatalogueMetadata": "true"
           }
@@ -41,7 +41,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "20",
+            "order": "20",
             "display": "read,write"
           }
         }
