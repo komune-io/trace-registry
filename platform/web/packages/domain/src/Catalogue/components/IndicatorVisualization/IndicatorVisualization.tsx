@@ -49,8 +49,8 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
                     direction="row"
                     alignItems="center"
                 >
-                   {title && <Typography
-                    variant='h6'
+                    {title && <Typography
+                        variant='h6'
                     >
                         {title}
                     </Typography>}
@@ -105,7 +105,7 @@ const infoConceptsToMarkdownListItem = (indicators: InformationConcept[], t: TFu
     if (indicators.length === 1) {
         return `- ${indicators[0].name}: ${formatInformationConceptValue(indicators[0], t, language)} ${indicators[0].valueDescription ? indicators[0].valueDescription : ""}`
     } else {
-        return `\n\n**${indicators[0].name}**\n ${indicators.map((indicator) => `- ${formatInformationConceptValue(indicator, t, language)} ${indicators[0].valueDescription ? indicators[0].valueDescription : ""}`).join("\n")}`
+        return `\n\n**${indicators[0].name}**\n ${indicators.map((indicator) => `- ${formatInformationConceptValue(indicator, t, language)} ${indicator.valueDescription ? indicator.valueDescription : ""}`).join("\n")}`
     }
 }
 
@@ -119,7 +119,15 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
         return acc
     }, {} as Record<string, InformationConcept[]>)
 
-    const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => a.length > b.length ? 1 : a.length === b.length ? 0 : -1)
+    const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => {
+        console.log(b)
+        if (a.length > b.length) return 1
+        if (a.length < b.length) -1
+        
+        if (a[0].identifier === "gain" || a[0].identifier === "ruleofthumb") return -1
+        if (b[0].identifier === "gain" || b[0].identifier === "ruleofthumb") return 1
+        return 0
+    })
 
     let markdown = "===COL===\n\n"
     markdown += `---50---\n\n`
