@@ -11,7 +11,12 @@ export const DatasetIndicator = (props: DatasetIndicatorProps) => {
     const { item, relatedDatasets } = props
 
     const indicatorVisualization = useMemo(() => {
-        return [...(item.datasets ?? []), ...(relatedDatasets ?? [])]?.map((dataset: Dataset) => {
+        const orderedDatasets = item.datasets?.sort((a, b) => {
+            if (a.referencingCatalogueIds[0] && !b.referencingCatalogueIds[0]) return 1
+            if (!a.referencingCatalogueIds[0] && b.referencingCatalogueIds[0]) return -1
+            return 0
+        })
+        return [...(orderedDatasets ?? []), ...(relatedDatasets ?? [])]?.map((dataset: Dataset) => {
             const distribution = (dataset.distributions ?? [])[0]
             const indicators = distribution?.aggregators ?? [] 
             return (<IndicatorVisualization key={dataset.id} title={dataset.title} indicators={indicators} referenceId={item.catalogueId === dataset.catalogueId ? dataset.referencingCatalogueIds[0] : dataset.catalogueId} />)
