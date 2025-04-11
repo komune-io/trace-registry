@@ -150,6 +150,10 @@
           "rg_role_user_validator",
           "rg_role_user_contributor",
           "rg_role_user_reader"
+        ],
+        "API_KEY": [
+          "rg_role_user_contributor",
+          "rg_role_user_reader"
         ]
       },
       "permissions": [
@@ -217,6 +221,10 @@
           "rg_role_user_admin",
           "rg_role_user_contributor",
           "rg_role_user_reader"
+        ],
+        "API_KEY": [
+          "rg_role_user_contributor",
+          "rg_role_user_reader"
         ]
       },
       "permissions": [
@@ -238,6 +246,9 @@
       "bindings": {
         "USER": [
           "rg_role_user_admin",
+          "rg_role_user_reader"
+        ],
+        "API_KEY": [
           "rg_role_user_reader"
         ]
       },
@@ -323,9 +334,9 @@
       "permissions": [
         "feat_im_all",
         "im_organization_read", "im_organization_write", "im_organization_write_own",
+        "im_organization_apikey_read",
         "im_user_read", "im_user_write", "im_user_role_write",
         "im_role_write",
-        "im_apikey_read", "im_apikey_write",
         "im_mfa_force_otp",
         "rg_perm_catalogue_read_all", "rg_perm_catalogue_write_all", "rg_perm_catalogue_write_any_type",
         "rg_perm_catalogue_publish_all", "rg_perm_catalogue_delete_all",
