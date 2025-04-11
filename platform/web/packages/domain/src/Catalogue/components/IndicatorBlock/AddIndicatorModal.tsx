@@ -240,6 +240,8 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         return unitFields
     }, [contextualFields, units, formState.values.type, formState.values.leftUnit, formState.values.isRange])
 
+    console.log(formState.values.type)
+
     const fields = useMemo((): FormComposableField[] => [{
         name: "type",
         type: "autoComplete",
