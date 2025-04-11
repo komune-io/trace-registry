@@ -265,7 +265,8 @@ class ImportScript(
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
-                catalogues = catalogueData.children
+                catalogues = catalogueData.children,
+                relatedCatalogueIds = catalogueData.related
             ) to imageFile
             val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
