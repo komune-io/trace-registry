@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CatalogueLinkCataloguesCommand(
     override val id: CatalogueId,
-    val catalogues: List<CatalogueId> = emptyList()
+    val catalogueIds: List<CatalogueId>
 ): CatalogueCommand
 
 @Serializable
 data class CatalogueLinkedCataloguesEvent(
     override val id: CatalogueId,
-    val catalogues: List<CatalogueId> = emptyList(),
-    override val date: Long
+    override val date: Long,
+    val catalogueIds: Set<CatalogueId>,
 ): CatalogueEvent

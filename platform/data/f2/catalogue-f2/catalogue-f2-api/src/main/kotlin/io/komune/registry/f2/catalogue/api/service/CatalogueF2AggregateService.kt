@@ -33,16 +33,20 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCo
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
@@ -50,6 +54,7 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
+import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
@@ -175,8 +180,15 @@ class CatalogueF2AggregateService(
         val isDraft = draft != null
         doUpdate(command, isDraft)
 
-        // TODO if draft, don't apply change but store the info in the draft
-        command.parentId?.let { replaceParent(draft?.originalCatalogueId ?: command.id, it) }
+        command.parentId?.let {
+            val catalogue = catalogueFinderService.get(command.id)
+            assignParent(
+                catalogueId = command.id,
+                parentId = it,
+                typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type],
+                replaceCurrentParents = true
+            )
+        }
 
         return CatalogueUpdatedEventDTOBase(command.id)
     }
@@ -198,17 +210,51 @@ class CatalogueF2AggregateService(
 
         return CatalogueLinkCataloguesCommand(
             id = command.id,
-            catalogues = command.catalogues
+            catalogueIds = command.catalogues
         ).let { catalogueAggregateService.linkCatalogues(it).toDTO() }
     }
 
     suspend fun referenceDatasets(command: CatalogueReferenceDatasetsCommandDTOBase): CatalogueReferencedDatasetsEventDTOBase {
-        catalogueAggregateService.referenceDatasets(command)
+        handleDraftedDatasetLinkUpdates(
+            datasetIds = command.datasetIds,
+            handleDraftedDatasets = { draft, datasets ->
+                CatalogueDraftUpdateLinksCommand(
+                    id = draft.id,
+                    addExternalReferencesToDatasets = mapOf(
+                        command.id to datasets.map(DatasetModel::id)
+                    ),
+                ).let { catalogueDraftAggregateService.updateLinks(it) }
+            },
+            handleOriginalDatasets = { datasets ->
+                CatalogueReferenceDatasetsCommand(
+                    id = command.id,
+                    datasetIds = datasets.map(DatasetModel::id)
+                ).let { catalogueAggregateService.referenceDatasets(it) }
+            }
+        )
+
         return CatalogueReferencedDatasetsEventDTOBase(command.id)
     }
 
     suspend fun unreferenceDatasets(command: CatalogueUnreferenceDatasetsCommandDTOBase): CatalogueUnreferencedDatasetsEventDTOBase {
-        catalogueAggregateService.unreferenceDatasets(command)
+        handleDraftedDatasetLinkUpdates(
+            datasetIds = command.datasetIds,
+            handleDraftedDatasets = { draft, datasets ->
+                CatalogueDraftUpdateLinksCommand(
+                    id = draft.id,
+                    removeExternalReferencesToDatasets = mapOf(
+                        command.id to datasets.map(DatasetModel::id)
+                    ),
+                ).let { catalogueDraftAggregateService.updateLinks(it) }
+            },
+            handleOriginalDatasets = { datasets ->
+                CatalogueUnreferenceDatasetsCommand(
+                    id = command.id,
+                    datasetIds = datasets.map(DatasetModel::id)
+                ).let { catalogueAggregateService.unreferenceDatasets(it) }
+            }
+        )
+
         return CatalogueUnreferencedDatasetsEventDTOBase(command.id)
     }
 
@@ -226,7 +272,7 @@ class CatalogueF2AggregateService(
 
     suspend fun linkDatasets(
         parentId: CatalogueId,
-        datasetIds: List<DatasetId>?,
+        datasetIds: Collection<DatasetId>?,
     ) {
         if (datasetIds.isNullOrEmpty()) {
             return
@@ -265,7 +311,7 @@ class CatalogueF2AggregateService(
 
         val catalogueCreatedEvent = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
-        command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration) }
+        command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration, false) }
 
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
@@ -427,28 +473,12 @@ class CatalogueF2AggregateService(
 
     }
 
-    private suspend fun replaceParent(catalogueId: CatalogueId, parentId: CatalogueId) {
-        val parent = catalogueFinderService.get(parentId)
-
-        if (catalogueId in parent.childrenCatalogueIds) {
-            return
-        }
-
-        val catalogue = catalogueFinderService.get(catalogueId)
-        val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
-
-        catalogueFinderService.page(
-            childrenCatalogueIds = ExactMatch(catalogueId),
-        ).items.forEach { currentParent ->
-            CatalogueUnlinkCataloguesCommand(
-                id = currentParent.id,
-                catalogues = listOf(catalogueId)
-            ).let { catalogueAggregateService.unlinkCatalogues(it) }
-        }
-        assignParent(catalogueId, parentId, typeConfiguration)
-    }
-
-    private suspend fun assignParent(catalogueId: CatalogueId, parentId: CatalogueId, typeConfiguration: CatalogueTypeConfiguration?) {
+    private suspend fun assignParent(
+        catalogueId: CatalogueId,
+        parentId: CatalogueId,
+        typeConfiguration: CatalogueTypeConfiguration?,
+        replaceCurrentParents: Boolean
+    ) {
         val parent = catalogueFinderService.get(parentId)
 
         if (catalogueId in parent.childrenCatalogueIds) {
@@ -457,10 +487,35 @@ class CatalogueF2AggregateService(
 
         checkParenting(catalogueId, parent, typeConfiguration)
 
-        CatalogueLinkCataloguesCommand(
-            id = parentId,
-            catalogues = listOf(catalogueId)
-        ).let { catalogueAggregateService.linkCatalogues(it) }
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)
+
+        val parentIdsToRemove = if (replaceCurrentParents) {
+            catalogueFinderService.page(childrenCatalogueIds = ExactMatch(catalogueId)).items
+        } else {
+            emptyList()
+        }
+
+        if (draft == null) {
+            CatalogueLinkCataloguesCommand(
+                id = parentId,
+                catalogueIds = listOf(catalogueId)
+            ).let { catalogueAggregateService.linkCatalogues(it) }
+
+            if (replaceCurrentParents) {
+                parentIdsToRemove.mapAsync { currentParent ->
+                    CatalogueUnlinkCataloguesCommand(
+                        id = currentParent.id,
+                        catalogueIds = listOf(catalogueId)
+                    ).let { catalogueAggregateService.unlinkCatalogues(it) }
+                }
+            }
+        } else {
+            CatalogueDraftUpdateLinksCommand(
+                id = draft.id,
+                addParentIds = listOf(parentId),
+                removeParentIds = parentIdsToRemove.map { it.id },
+            ).let { catalogueDraftAggregateService.updateLinks(it) }
+        }
     }
 
     private suspend fun checkParenting(catalogueId: CatalogueId, parent: CatalogueModel, typeConfiguration: CatalogueTypeConfiguration?) {
@@ -538,5 +593,28 @@ class CatalogueF2AggregateService(
             id = originalId,
             catalogues = listOf(event.id)
         ).let { catalogueAggregateService.addTranslations(it) }
+    }
+
+    private suspend fun handleDraftedDatasetLinkUpdates(
+        datasetIds: Collection<DatasetId>,
+        handleDraftedDatasets: suspend (CatalogueDraftModel, List<DatasetModel>) -> Unit,
+        handleOriginalDatasets: suspend (List<DatasetModel>) -> Unit
+    ) {
+        val datasets = datasetFinderService.page(
+            id = CollectionMatch(datasetIds)
+        ).items.groupBy(DatasetModel::catalogueId)
+
+        val drafts = catalogueDraftFinderService.page(
+            catalogueId = CollectionMatch(datasets.keys),
+        ).items.associateBy(CatalogueDraftModel::catalogueId)
+
+        drafts.values.forEach { draft ->
+            handleDraftedDatasets(draft, datasets[draft.catalogueId]!!)
+        }
+
+        datasets.filterKeys { catalogueId -> catalogueId !in drafts }
+            .values
+            .flatten()
+            .let { handleOriginalDatasets(it) }
     }
 }

@@ -15,6 +15,10 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     status = status,
     versionNotes = versionNotes,
     rejectReason = rejectReason,
+    addedParentIds = addedParentIds,
+    removedParentIds = removedParentIds,
+    addedExternalReferencesToDatasets = addedExternalReferencesToDatasets,
+    removedExternalReferencesToDatasets = removedExternalReferencesToDatasets,
     issued = issued,
     modified = modified
 )

@@ -117,11 +117,11 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
 	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
-		childrenCatalogueIds += event.catalogues
+		childrenCatalogueIds += event.catalogueIds
 	}
 
 	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
-		childrenCatalogueIds -= event.catalogues.toSet()
+		childrenCatalogueIds -= event.catalogueIds.toSet()
 	}
 
 	private suspend fun CatalogueEntity.addRelatedCatalogues(event: CatalogueAddedRelatedCataloguesEvent) = apply {

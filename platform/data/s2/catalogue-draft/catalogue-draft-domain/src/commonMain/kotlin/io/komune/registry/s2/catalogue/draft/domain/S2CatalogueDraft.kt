@@ -10,18 +10,27 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
 import s2.dsl.automate.S2State
 import s2.dsl.automate.builder.s2Sourcing
+import kotlin.js.JsExport
 
 val s2CatalogueDraft = s2Sourcing {
     name = "CatalogueDraft"
     init<CatalogueDraftCreateCommand, CatalogueDraftCreatedEvent> {
         to = CatalogueDraftState.DRAFT
+        role = CatalogueDraftRole.Issuer
+    }
+    selfTransaction<CatalogueDraftUpdateLinksCommand, CatalogueDraftUpdatedLinksEvent> {
+        states += CatalogueDraftState.DRAFT
+        states += CatalogueDraftState.SUBMITTED
+        states += CatalogueDraftState.UPDATE_REQUESTED
+        states += CatalogueDraftState.REJECTED
         role = CatalogueDraftRole.Issuer
     }
     transaction<CatalogueDraftSubmitCommand, CatalogueDraftSubmittedEvent> {

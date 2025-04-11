@@ -132,7 +132,7 @@ class CatalogueAggregateService(
 		CatalogueLinkedCataloguesEvent(
 			id =  command.id,
 			date = System.currentTimeMillis(),
-			catalogues = command.catalogues
+			catalogueIds = command.catalogueIds.toSet()
 		)
 	}
 
@@ -142,7 +142,7 @@ class CatalogueAggregateService(
 		CatalogueUnlinkedCataloguesEvent(
 			id =  command.id,
 			date = System.currentTimeMillis(),
-			catalogues = command.catalogues
+			catalogueIds = command.catalogueIds.toSet()
 		)
 	}
 

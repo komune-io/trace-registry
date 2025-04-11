@@ -104,7 +104,7 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
 
 fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
     id = id,
-    catalogues = catalogues
+    catalogueIds = catalogues
 )
 
 fun CatalogueLinkedCataloguesEvent.toDTO() = CatalogueLinkedCataloguesEventDTOBase(

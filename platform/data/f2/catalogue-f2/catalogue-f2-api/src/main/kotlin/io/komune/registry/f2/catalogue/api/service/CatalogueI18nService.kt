@@ -65,16 +65,18 @@ class CatalogueI18nService(
             }
         }
 
-        val originalCatalogue = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(translated.id)
+        val originalCatalogue = draft
             ?.originalCatalogueId
             ?.let { cache.untranslatedCatalogues.get(it) }
 
-        val parent = catalogueFinderService.page(
-            childrenCatalogueIds = ExactMatch(originalCatalogue?.id ?: translated.id),
-            offset = OffsetPagination(0, 1)
-        ).items
-            .onEach { cache.untranslatedCatalogues.register(it.id, it) }
-            .firstOrNull()
+        val parent = draft?.addedParentIds?.firstOrNull()?.let { cache.untranslatedCatalogues.get(it) }
+            ?: catalogueFinderService.page(
+                childrenCatalogueIds = ExactMatch(originalCatalogue?.id ?: translated.id),
+                offset = OffsetPagination(0, 1)
+            ).items
+                .onEach { cache.untranslatedCatalogues.register(it.id, it) }
+                .firstOrNull()
 
         val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
