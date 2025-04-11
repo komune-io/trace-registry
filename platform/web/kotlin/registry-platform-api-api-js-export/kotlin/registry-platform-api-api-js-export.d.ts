@@ -4068,6 +4068,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly img?: string;
         readonly structure?: io.komune.registry.s2.structure.domain.model.StructureDTO;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
+        readonly relatedCatalogues?: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[]>;
 
     }
 }
