@@ -9,7 +9,7 @@
     "100m-sector"
   ],
   "writerRoles": [
-    "rg_role_user_contributor",
+    "rg_role_user_expert",
     "rg_role_user_orchestrator"
   ],
   "structure": "item",
