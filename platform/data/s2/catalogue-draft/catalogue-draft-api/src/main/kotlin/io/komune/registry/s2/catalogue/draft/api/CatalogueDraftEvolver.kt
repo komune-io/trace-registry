@@ -8,6 +8,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -17,6 +18,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 
 	override suspend fun evolve(event: CatalogueDraftEvent, model: CatalogueDraftEntity?): CatalogueDraftEntity? = when (event) {
 		is CatalogueDraftCreatedEvent -> create(event)
+		is CatalogueDraftUpdatedLinksEvent -> model?.updateLinks(event)
 		is CatalogueDraftRejectedEvent -> model?.reject(event)
 		is CatalogueDraftRequestedUpdateEvent -> model?.requestUpdate(event)
 		is CatalogueDraftSubmittedEvent -> model?.submit(event)
@@ -31,9 +33,29 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		originalCatalogueId = event.originalCatalogueId
 		language = event.language
 		baseVersion = event.baseVersion
-		datasetIdMap = event.datasetIdMap
+		datasetIdMap += event.datasetIdMap
 		creatorId = event.creatorId
 		issued = event.date
+		modified = event.date
+	}
+
+	private suspend fun CatalogueDraftEntity.updateLinks(event: CatalogueDraftUpdatedLinksEvent) = apply {
+		addedParentIds += event.addedParentIds
+		removedParentIds -= event.addedParentIds
+
+		addedParentIds -= event.removedParentIds
+		removedParentIds += event.removedParentIds
+
+		event.addedExternalReferencesToDatasets.forEach { (catalogueId, datasetIds) ->
+			addedExternalReferencesToDatasets.getOrPut(catalogueId) { mutableSetOf() } += datasetIds
+			removedExternalReferencesToDatasets[catalogueId]?.removeAll(datasetIds)
+		}
+
+		event.removedExternalReferencesToDatasets.forEach { (catalogueId, datasetIds) ->
+			removedExternalReferencesToDatasets.getOrPut(catalogueId) { mutableSetOf() } += datasetIds
+			addedExternalReferencesToDatasets[catalogueId]?.removeAll(datasetIds)
+		}
+
 		modified = event.date
 	}
 

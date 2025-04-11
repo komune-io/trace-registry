@@ -40,7 +40,13 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
 
     open var rejectReason: String? = null
 
-    open var datasetIdMap: Map<DatasetId, DatasetId> = emptyMap()
+    open var datasetIdMap: MutableMap<DatasetId, DatasetId> = mutableMapOf() // original to drafted
+
+    open var addedParentIds: MutableSet<CatalogueId> = mutableSetOf()
+    open var removedParentIds: MutableSet<CatalogueId> = mutableSetOf()
+
+    open var addedExternalReferencesToDatasets: MutableMap<CatalogueId, MutableSet<DatasetId>> = mutableMapOf()
+    open var removedExternalReferencesToDatasets: MutableMap<CatalogueId, MutableSet<DatasetId>> = mutableMapOf()
 
     @TagIndexed
     lateinit var creatorId: UserId

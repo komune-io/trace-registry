@@ -317,7 +317,7 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkLinkCatalogues(command.id)
         CatalogueUnlinkCataloguesCommand(
             id = command.id,
-            catalogues = command.catalogues,
+            catalogueIds = command.catalogues,
         ).let { catalogueAggregateService.unlinkCatalogues(it) }
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
     }

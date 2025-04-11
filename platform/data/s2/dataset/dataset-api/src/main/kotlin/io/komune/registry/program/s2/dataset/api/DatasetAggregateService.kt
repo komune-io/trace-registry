@@ -113,7 +113,7 @@ class DatasetAggregateService(
 		DatasetLinkedDatasetsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			datasetIds = command.datasetIds
+			datasetIds = command.datasetIds.toSet()
 		)
 	}
 
@@ -123,7 +123,7 @@ class DatasetAggregateService(
 		DatasetUnlinkedDatasetsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			datasetIds = command.datasetIds
+			datasetIds = command.datasetIds.toSet()
 		)
 	}
 

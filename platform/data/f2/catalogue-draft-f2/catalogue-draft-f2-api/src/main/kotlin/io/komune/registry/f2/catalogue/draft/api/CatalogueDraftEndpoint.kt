@@ -4,7 +4,6 @@ import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftPoliciesEnforcer
@@ -39,7 +38,6 @@ class CatalogueDraftEndpoint(
     private val catalogueDraftF2AggregateService: CatalogueDraftF2AggregateService,
     private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
     private val catalogueDraftPoliciesEnforcer: CatalogueDraftPoliciesEnforcer,
-    private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueFinderService: CatalogueFinderService
 ) : CatalogueDraftApi {
 
@@ -114,7 +112,7 @@ class CatalogueDraftEndpoint(
     override fun catalogueDraftValidate(): CatalogueDraftValidateFunction = f2Function { command ->
         logger.info("catalogueDraftValidate: $command")
         catalogueDraftPoliciesEnforcer.checkAudit()
-        catalogueF2AggregateService.validateDraft(command.id)
+        catalogueDraftF2AggregateService.validate(command.id)
         CatalogueDraftValidatedEventDTOBase(command.id)
     }
 

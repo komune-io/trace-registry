@@ -5,7 +5,7 @@
     "startValue": 2000
   },
   "writerRoles": [
-    "rg_role_user_contributor",
+    "rg_role_user_expert",
     "rg_role_user_orchestrator"
   ],
   "parentTypes": ["100m-systems", "100m-system"],
