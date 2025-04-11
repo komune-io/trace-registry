@@ -27,6 +27,11 @@ class LicenseFinderService(
         return licenseRepository.findByIdentifier(identifier)?.toModel()
     }
 
+    suspend fun getByIdentifier(identifier: LicenseIdentifier): LicenseModel {
+        return getByIdentifierOrNull(identifier)
+            ?: throw NotFoundException("License", identifier)
+    }
+
     suspend fun list(): List<LicenseModel> {
         return licenseRepository.findAll().map { it.toModel() }
     }

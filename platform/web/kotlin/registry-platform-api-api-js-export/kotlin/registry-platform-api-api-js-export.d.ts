@@ -3868,6 +3868,16 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueImportCommandDTO {
+        readonly type: io.komune.registry.f2.catalogue.domain.dto.CatalogueImportType;
+
+    }
+    interface CatalogueImportedEventDTO extends f2.dsl.cqrs.Event {
+        readonly ids: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
     interface CatalogueLinkCataloguesCommandDTO {
         readonly id: string;
         readonly catalogues: string[];
@@ -4041,6 +4051,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
 
     }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    type CatalogueImportType = "M100_PROJECTS";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
