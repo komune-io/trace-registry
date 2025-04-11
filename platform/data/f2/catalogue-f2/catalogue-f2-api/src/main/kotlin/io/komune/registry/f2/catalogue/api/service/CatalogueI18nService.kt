@@ -81,7 +81,8 @@ class CatalogueI18nService(
         val pendingDrafts = AuthenticationProvider.getAuthedUser()?.id?.let {
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
-        val aggregators = if(catalogue.integrateCounter == true) {
+
+        val aggregators = if (catalogue.integrateCounter == true) {
             catalogueInformationConceptService.computeAggregators(translated)
         } else {
             emptyList()
@@ -90,8 +91,9 @@ class CatalogueI18nService(
         val datasets = translated.childrenDatasetIds
             .map { cache.datasets.get(it).toDTOCached() }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
-            .filterNot { it.type == "attestations" && aggregators.none { it.value != "0" } }
+            .filter { it.type != "attestations" || aggregators.any { it.value != "0" } }
             .sortedBy { it.structure?.definitions?.get("order") ?: it.title }
+
         CatalogueDTOBase(
             id = translated.id,
             identifier = originalCatalogue?.identifier ?: translated.identifier,

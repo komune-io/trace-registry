@@ -80,8 +80,7 @@
         "structure": {
           "definitions": {
             "order": "40",
-            "display": "write"
-
+            "display": "read"
           }
         }
       },
