@@ -13,4 +13,5 @@ dependencies {
     Dependencies.Jvm.jackson(::jvmMainApi)
 
     jvmMainApi("io.komune.s2:s2-spring-boot-starter-utils-logger:${Versions.s2}")
+    jvmMainApi("org.apache.commons:commons-csv:${Versions.apacheCsv}")
 }

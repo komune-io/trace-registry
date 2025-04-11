@@ -181,7 +181,7 @@ class CatalogueI18nService(
         .filter { it.status != CatalogueState.DELETED }
         .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
         .filterNotNull()
-        .sortedBy(CatalogueRefTreeDTOBase::title)
+        .sortedBy { "${it.title}   ${it.identifier}" }
 
     /**
      * 1. If the desired language is null, skip steps 2 and 4.

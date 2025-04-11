@@ -8,6 +8,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.buildResponseForFile
+import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
@@ -17,12 +18,15 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
 import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
+import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueImportCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueImportedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
@@ -81,6 +85,7 @@ class CatalogueEndpoint(
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val catalogueImportService: CatalogueImportService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val fsService: FsService,
@@ -281,6 +286,19 @@ class CatalogueEndpoint(
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
 
         return event
+    }
+
+    @PostMapping("/data/catalogueImport")
+    suspend fun catalogueImport(
+        @RequestPart("command") command: CatalogueImportCommandDTOBase,
+        @RequestPart("file", required = true) file: FilePart
+    ): CatalogueImportedEventDTOBase {
+        logger.info("catalogueImport: $command")
+        cataloguePoliciesEnforcer.checkCreate(command.type.catalogueType)
+        return file.contentByteArray().inputStream().use {
+            catalogueImportService.parseAndImport(command.type, it)
+                .let(::CatalogueImportedEventDTOBase)
+        }
     }
 
     @Bean

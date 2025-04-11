@@ -9,17 +9,18 @@ import { Dataset } from '../../../Dataset'
 export interface DraftIndicatorManagerProps {
     draft?: CatalogueDraft
     dataset: Dataset
+    readOnly?: boolean
 }
 
 export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
-    const { draft, dataset } = props
+    const { draft, dataset, readOnly } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
 
     const blocks = useMemo(() => dataset?.datasets?.filter((dataset) => dataset.type === "indicator").map((dataset) => (
-        <IndicatorBlock key={dataset.id} dataset={dataset} draft={draft}  />
-    )), [dataset, draft])
+        <IndicatorBlock key={dataset.id} dataset={dataset} draft={draft} readOnly={readOnly}  />
+    )), [dataset, draft, readOnly])
 
     return (
         <>
@@ -27,12 +28,14 @@ export const DraftIndicatorManager = (props: DraftIndicatorManagerProps) => {
                 size='h6'
                 title={t("catalogues.indicatorBlock")}
                 actions={
+                    !readOnly ?
                     <CustomButton
                         onClick={toggle}
                         startIcon={<AddCircleOutlineRounded />}
                     >
                         {t("catalogues.createIndicatorBlock")}
                     </CustomButton>
+                    : undefined
                 }
             />
             {(!blocks || blocks.length === 0) && (
