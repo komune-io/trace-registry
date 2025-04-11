@@ -56,7 +56,6 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
-import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -83,7 +82,6 @@ class CatalogueEndpoint(
     private val catalogueFinderService: CatalogueFinderService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
-    private val fsService: FsService,
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
     private val catalogueSearchFinderService: CatalogueSearchFinderService,
