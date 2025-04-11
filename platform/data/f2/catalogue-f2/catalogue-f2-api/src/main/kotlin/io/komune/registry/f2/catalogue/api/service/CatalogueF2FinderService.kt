@@ -65,9 +65,12 @@ class CatalogueF2FinderService(
     }
 
     suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefGetResult {
-        val item = catalogueFinderService.getOrNull(id)?.let {
-            catalogueI18nService.translateToRefDTO(it, language, false)
-        }
+        val item = catalogueFinderService.getOrNull(id)
+            ?.let { catalogue ->
+                catalogue.takeIf { it.isTranslationOf == null }
+                    ?: catalogueFinderService.getOrNull(catalogue.isTranslationOf!!)
+                    ?: catalogue
+            }?.let { catalogueI18nService.translateToRefDTO(it, language, false) }
         return CatalogueRefGetResult(item = item)
     }
 
