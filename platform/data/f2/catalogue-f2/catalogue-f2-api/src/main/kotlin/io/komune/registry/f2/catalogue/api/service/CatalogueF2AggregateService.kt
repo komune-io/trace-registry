@@ -444,13 +444,12 @@ class CatalogueF2AggregateService(
     }
 
     private suspend fun updateDatasetAggregator(catalogue: CatalogueModel, command: CatalogueUpdateCommandDTOBase, isDraft: Boolean) {
-        if(catalogue.integrateCounter == command.integrateCounter) {
+        if (catalogue.integrateCounter == command.integrateCounter) {
             return
         }
         val counterCo2e = informationConceptF2FinderService.getByIdentifierOrNull("counter-co2e")
-        if(counterCo2e == null) {
-            return
-        }
+            ?: return
+
         val datasets = datasetFinderService.page(catalogueId = ExactMatch(catalogue.id))
         datasets.items.filter { dataset ->
              dataset.type == "indicator"
