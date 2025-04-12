@@ -101,6 +101,13 @@ class CatalogueSearchFinderService(
             page = page
         )
 
+        if(result.items.isEmpty()) {
+            return@withCache CatalogueSearchResult(
+                items = emptyList(),
+                total = result.total,
+                distribution = result.distribution,
+            )
+        }
 
         val translatedCatalogues = catalogueF2FinderService.page(
             id = CollectionMatch(result.items.map { it.isTranslationOf!! }),
