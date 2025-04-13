@@ -44,8 +44,10 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -178,6 +180,13 @@ class CatalogueF2AggregateService(
         val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
             ?.checkLanguage(command.language)
         val isDraft = draft != null
+
+        if(draft != null) {
+            if(command.title != draft.title) {
+                val command = CatalogueDraftUpdateTitleCommand(title = command.title, id = draft.id)
+                catalogueDraftAggregateService.requestUpdateTitle(command)
+            }
+        }
         doUpdate(command, isDraft)
 
         command.parentId?.let {

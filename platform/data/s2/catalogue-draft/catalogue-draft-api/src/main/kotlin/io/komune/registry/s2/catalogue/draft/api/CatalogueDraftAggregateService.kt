@@ -13,7 +13,9 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import org.springframework.stereotype.Service
@@ -52,6 +54,14 @@ class CatalogueDraftAggregateService(
             id = command.id,
             date = System.currentTimeMillis(),
             versionNotes = command.versionNotes,
+        )
+    }
+
+    suspend fun requestUpdateTitle(command: CatalogueDraftUpdateTitleCommand) = automate.transition(command) {
+        CatalogueDraftUpdatedTitleEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+            title = command.title,
         )
     }
 

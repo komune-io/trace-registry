@@ -11,7 +11,9 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import kotlinx.serialization.Serializable
@@ -24,6 +26,13 @@ val s2CatalogueDraft = s2Sourcing {
     name = "CatalogueDraft"
     init<CatalogueDraftCreateCommand, CatalogueDraftCreatedEvent> {
         to = CatalogueDraftState.DRAFT
+        role = CatalogueDraftRole.Issuer
+    }
+    selfTransaction<CatalogueDraftUpdateTitleCommand, CatalogueDraftUpdatedTitleEvent> {
+        states += CatalogueDraftState.DRAFT
+        states += CatalogueDraftState.SUBMITTED
+        states += CatalogueDraftState.UPDATE_REQUESTED
+        states += CatalogueDraftState.REJECTED
         role = CatalogueDraftRole.Issuer
     }
     selfTransaction<CatalogueDraftUpdateLinksCommand, CatalogueDraftUpdatedLinksEvent> {

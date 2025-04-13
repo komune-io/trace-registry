@@ -9,6 +9,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftReject
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -24,6 +25,8 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		is CatalogueDraftSubmittedEvent -> model?.submit(event)
 		is CatalogueDraftValidatedEvent -> model?.validate(event)
 		is CatalogueDraftDeletedEvent -> model?.delete(event)
+		is CatalogueDraftUpdatedTitleEvent -> model?.requestUpdateTitle(event)
+		else -> null
 	}
 
 	private suspend fun create(event: CatalogueDraftCreatedEvent) = CatalogueDraftEntity().apply {
@@ -67,6 +70,10 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.requestUpdate(event: CatalogueDraftRequestedUpdateEvent) = apply {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
+	}
+	private suspend fun CatalogueDraftEntity.requestUpdateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
+		modified = event.date
+		title = event.title
 	}
 
 	private suspend fun CatalogueDraftEntity.submit(event: CatalogueDraftSubmittedEvent) = apply {

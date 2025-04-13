@@ -79,6 +79,7 @@ class CatalogueDraftSnapMeiliSearchRepository(
             } else {
                 val updatedDraft = existingDraft.copy(
                     status = entity.status,
+                    title = entity.title,
                     modified = System.currentTimeMillis()
                 )
                 index.updateDocuments(listOf(updatedDraft).toJson(), "id")
