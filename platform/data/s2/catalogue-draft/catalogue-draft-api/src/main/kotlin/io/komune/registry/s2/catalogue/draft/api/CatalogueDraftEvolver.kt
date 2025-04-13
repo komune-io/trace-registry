@@ -33,7 +33,9 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		id = event.id
 		catalogueId = event.catalogueId
 		status = CatalogueDraftState.DRAFT
-		originalCatalogueId = event.originalCatalogueId
+		originalCatalogueId = event.original.id
+		originalCatalogueIdentifier = event.original.identifier
+		originalCatalogueType = event.original.type
 		language = event.language
 		baseVersion = event.baseVersion
 		datasetIdMap += event.datasetIdMap

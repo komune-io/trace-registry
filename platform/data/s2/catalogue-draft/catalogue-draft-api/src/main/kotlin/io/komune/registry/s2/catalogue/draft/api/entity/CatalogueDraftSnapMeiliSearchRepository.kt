@@ -8,7 +8,6 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.match
-import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateConfig
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
@@ -20,18 +19,12 @@ import kotlin.reflect.KCallable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
-import s2.sourcing.dsl.view.ViewLoader
 
 @Service
-class CatalogueDraftSnapMeiliSearchRepository(
-    private val config: CatalogueAutomateConfig,
-) : MeiliSearchSnapRepository<CatalogueDraftSearchableEntity>(
+class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<CatalogueDraftSearchableEntity>(
     MeiliIndex.CATALOGUE_DRAFTS,
     CatalogueDraftSearchableEntity::class,
 ) {
-
-    private val store = config.eventStore()
-    private val loader = ViewLoader(store, config.view)
 
     override val searchableAttributes = arrayOf(
         CatalogueDraftSearchableEntity::originalCatalogueIdentifier.name,
@@ -57,17 +50,14 @@ class CatalogueDraftSnapMeiliSearchRepository(
             val existingDraft = get(entity.id)
             logger.info("CatalogueDraft[${entity.id}] - indexing...")
             if (existingDraft == null) {
-                val draftedCatalogue = loader.load(entity.catalogueId)!!
-                val originalCatalogue = loader.load(entity.originalCatalogueId)!!
-
                 val document = CatalogueDraftSearchableEntity(
                     id = entity.id,
                     catalogueId = entity.catalogueId,
-                    originalCatalogueId = originalCatalogue.id,
-                    originalCatalogueIdentifier = originalCatalogue.identifier,
-                    type = originalCatalogue.type,
+                    originalCatalogueId = entity.originalCatalogueId,
+                    originalCatalogueIdentifier = entity.originalCatalogueIdentifier,
+                    type = entity.originalCatalogueType,
                     language = entity.language,
-                    title = draftedCatalogue.title,
+                    title = entity.title,
                     creatorId = entity.creatorId,
                     status = entity.status,
                     modified = System.currentTimeMillis()

@@ -8,8 +8,6 @@ plugins {
 dependencies {
 	api(project(Modules.data.s2.catalogueDraft.domain))
 
-	implementation(project(Modules.data.s2.catalogue.api))
-
 	implementation(project(Modules.commons))
 
 	api(project(Modules.infra.meilisearch))

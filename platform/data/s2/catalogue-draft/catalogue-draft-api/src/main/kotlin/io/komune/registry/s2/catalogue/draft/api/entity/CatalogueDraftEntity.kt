@@ -28,17 +28,17 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     @TagIndexed
     open lateinit var catalogueId: CatalogueId
 
-    @TagIndexed
-    open lateinit var catalogueIdentifier: CatalogueIdentifier
-
-    @TagIndexed
-    open lateinit var catalogueType: String
-
     @Searchable(nostem=true)
     open var title: String = ""
 
     @TagIndexed
     open lateinit var originalCatalogueId: CatalogueId
+
+    @TagIndexed
+    open lateinit var originalCatalogueIdentifier: CatalogueIdentifier
+
+    @TagIndexed
+    open lateinit var originalCatalogueType: String
 
     @TagIndexed
     open lateinit var language: Language
