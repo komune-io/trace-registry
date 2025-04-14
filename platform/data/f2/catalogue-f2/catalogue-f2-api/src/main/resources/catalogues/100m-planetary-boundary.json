@@ -5,6 +5,9 @@
     "startValue": 1
   },
   "parentTypes": ["100m-planetary-boundaries"],
+  "writerRoles": [
+    "rg_role_user_orchestrator"
+  ],
   "structure": "item",
   "i18n": {
     "enable": true,

@@ -1,0 +1,17 @@
+{
+    "type": "attestations",
+    "default": {
+        "policies": {
+            "default": {
+                "read": "NONE"
+            },
+            "configurations": [{
+                "roles": ["rg_role_user_orchestrator"],
+                "read": "ALL"
+            }, {
+                "roles": ["rg_role_user_contributor"],
+                "read": "CREATOR_ORGANIZATION"
+            }]
+        }
+    }
+}

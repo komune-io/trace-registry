@@ -400,11 +400,13 @@ class DatasetF2AggregateService(
         id: DatasetId,
         isDraft: Boolean
     ) {
-        val typeConfig = datasetConfig.typeConfigurations[type]
-            ?.configurations
+        val typeConfig = datasetConfig.typeConfigurations[type]?.let { configuration ->
+            configuration.configurations
             // Quick fix because it.isTranslationOf is not provided in draft
-            ?.firstOrNull { config -> config.catalogueTypes.any { catalogueId.startsWith(it) } }
+                ?.firstOrNull { config -> config.catalogueTypes.any { catalogueId.startsWith(it) } }
             // ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
+                ?: configuration.default
+        }
 
         typeConfig?.aggregators
             ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }

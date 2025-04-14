@@ -1,4 +1,7 @@
 {
   "type": "100m-home-systems",
-  "parentTypes": ["home"]
+  "parentTypes": ["home"],
+  "writerRoles": [
+    "rg_role_user_orchestrator"
+  ]
 }
