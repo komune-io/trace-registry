@@ -13,6 +13,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.toRef
+import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -31,6 +32,7 @@ class CatalogueI18nService(
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val catalogueInformationConceptService: CatalogueInformationConceptService,
+    private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val i18nService: I18nService,
 ) : CatalogueCachedService() {
 
@@ -92,6 +94,7 @@ class CatalogueI18nService(
             .map { cache.datasets.get(it).toDTOCached(draft) }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
             .filter { it.type != "attestations" || aggregators.any { it.value != "0" } }
+            .mapNotNull { dataset -> datasetPoliciesEnforcer.enforceDataset(dataset, translated) }
             .sortedBy { it.structure?.definitions?.get("order") ?: it.title }
 
         CatalogueDTOBase(
@@ -117,6 +120,7 @@ class CatalogueI18nService(
             referencedDatasets = translated.referencedDatasetIds
                 .map { cache.datasets.get(it).toDTOCached(draft) }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED }
+                .mapNotNull { dataset -> datasetPoliciesEnforcer.enforceDataset(dataset, translated) }
                 .sortedBy { it.structure?.definitions?.get("position") ?: it.title },
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
