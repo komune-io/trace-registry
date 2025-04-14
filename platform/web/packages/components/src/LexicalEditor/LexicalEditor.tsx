@@ -312,7 +312,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
                 <Box
                     className="editor-inner"
                 >
-                    <OnUserModificationPlugin onChange={onChange} />
+                    <OnUserModificationPlugin onChange={onChange} defaultContent={markdown ?? editorState} />
                     <RichTextPlugin
                         contentEditable={
                             <Box

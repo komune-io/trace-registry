@@ -30,8 +30,7 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
                 label: t("type"),
                 style: { width: "120px"},
                 options: catalogueTypes.map((type) => ({ key: type, label: t("catalogues.types." + type) }))
-            },
-            mandatory: true
+            }
         },
         {
             name: 'language',

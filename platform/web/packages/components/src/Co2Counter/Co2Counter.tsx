@@ -29,6 +29,7 @@ export const Co2Counter = (props: Co2CounterProps) => {
                 "& .loadingIcon": {
                     animation: `${spin} 8s linear infinite`
                 },
+                flexShrink: 0,
                 ...sx
             }}
             {...other}

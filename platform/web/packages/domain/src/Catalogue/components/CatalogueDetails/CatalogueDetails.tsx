@@ -78,7 +78,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
         <Stack
             gap={3}
             sx={{
-                width: "320px",
+                width: "280px",
                 flexShrink: 0
             }}
         >

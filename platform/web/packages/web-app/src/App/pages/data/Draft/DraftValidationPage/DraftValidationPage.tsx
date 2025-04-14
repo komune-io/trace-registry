@@ -34,7 +34,7 @@ export const DraftValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
-  const { onSaveMetadata } = useDraftMutations({
+  const { onSaveMetadata, isUpdating } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,
     catalogue,
     draft
@@ -83,7 +83,7 @@ export const DraftValidationPage = () => {
       title={title}
       bgcolor='background.default'
       maxWidth={1020}
-      customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} />}
+      customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating} />}
     >
       <TitleDivider title={title} />
       <SectionTab

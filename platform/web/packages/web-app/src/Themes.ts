@@ -3,6 +3,7 @@ import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
 import { LocalTheme, PermanentHeader } from "components";
 import { config } from "domain-components";
+import { createBreakpoints } from "@mui/system";
 
 export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
   colors: {
@@ -39,6 +40,8 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
   }
 };
 
+const breakpoints = createBreakpoints({});
+
 export const muiTheme: Partial<ThemeOptions> = {
   typography: {
     fontFamily: '"Degular", roboto, sans-serif',
@@ -67,18 +70,30 @@ export const muiTheme: Partial<ThemeOptions> = {
     },
     h1: {
       fontSize: "3.25rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2.625rem",
+      },
       fontWeight: 700
     },
     h2: {
       fontSize: "3rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2.3rem",
+      },
       fontWeight: 700
     },
     h3: {
       fontSize: "2.625rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2rem",
+      },
       fontWeight: 700
     },
     h4: {
       fontSize: "2rem",
+      [breakpoints.down("md")]: {
+        fontSize: "1.7rem",
+      },
       fontWeight: 700
     },
     h5: {
@@ -97,7 +112,7 @@ export const muiTheme: Partial<ThemeOptions> = {
           fontSize: "1rem",
         }
       }
-    }
+    },
   }
 
 }

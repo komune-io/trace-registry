@@ -26,7 +26,7 @@ export const SubCatalogueList = (props: SubCatalogueListProps) => {
         seeAllLink, catalogueIdentifier, titleVariant, parentIds
     } = props
 
-    const identifier = catalogue?.identifier ?? catalogueIdentifier
+    const identifier = catalogueIdentifier ?? catalogue?.identifier
 
     const globalLoading = isLoading
 

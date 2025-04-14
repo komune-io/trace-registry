@@ -11,10 +11,11 @@ interface CatalogueValidationHeaderProps {
     draft?: CatalogueDraft
     onAccept: () => Promise<any>
     onReject: (reason: string) => Promise<any>
+    isUpdating?: boolean
 }
 
 export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps) => {
-    const { onAccept, onReject, draft } = props
+    const { onAccept, onReject, draft, isUpdating } = props
     const {catalogueId} = useParams()
     const {cataloguesAll} = useRoutesDefinition()
 
@@ -109,11 +110,13 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
             <Box flex={1} />
             <CustomButton
                 onClick={onAccept}
+                isLoading={isUpdating}
             >
                 {t("accept")}
             </CustomButton>
             <CustomButton
                 onClick={toggle}
+                isLoading={isUpdating}
                 color="error"
             >
                 {t("reject")}

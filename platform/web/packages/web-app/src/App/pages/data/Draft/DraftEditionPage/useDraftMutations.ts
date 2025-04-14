@@ -1,6 +1,6 @@
 import { Catalogue, CatalogueCreateCommand, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand } from 'domain-components'
 import { EditorState } from 'lexical'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRefetchOnDismount, useRoutesDefinition } from 'components'
@@ -21,6 +21,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { cataloguesContributions } = useRoutesDefinition()
+  const [isUpdating, setIsUpdating] = useState(false)
 
   const refetchDraftData = useCallback(
     () => {
@@ -76,7 +77,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     }
   }, [catalogue, draft, doRefetchOnDismount])
 
-  const onSectionChange = useDebouncedCallback(async (editorState: EditorState, givenDataset?: Dataset) => {
+  const saveLexicalDistribution = useDebouncedCallback(async (editorState: EditorState, givenDataset?: Dataset) => {
     const dataset = catalogue ? findLexicalDataset(catalogue, givenDataset) : undefined
     if (dataset?.dataset && dataset.distribution?.mediaType === "application/json") {
       const res = await updateJsonDistribution.mutateAsync({
@@ -84,6 +85,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         jsonContent: JSON.stringify(editorState.toJSON()),
         distributionId: dataset.distribution?.id
       })
+      setIsUpdating(false)
       if (res) {
         doRefetchOnDismount()
         return res
@@ -93,13 +95,24 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         id: dataset?.dataset.id,
         jsonContent: JSON.stringify(editorState.toJSON())
       })
+      setIsUpdating(false)
       if (res) {
         refetchDraftData()
         return res
       }
     }
+    setIsUpdating(false)
   }, 500)
+  
 
+  const onSectionChange = useCallback(
+    (editorState: EditorState, givenDataset?: Dataset) => {
+      setIsUpdating(true)
+      saveLexicalDistribution(editorState, givenDataset)
+    },
+    [saveLexicalDistribution],
+  )
+  
   const deleteCatalogue = useCatalogueDraftDeleteCommand({})
 
   const onDelete = useCallback(
@@ -119,6 +132,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
   return {
     onSaveMetadata,
     onDelete,
-    onSectionChange
+    onSectionChange,
+    isUpdating
   }
 }
