@@ -119,10 +119,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         if (editDataset) {
             return {
                 name: editDataset.title,
-                solution: editDataset.referencingCatalogueIds[0] ? {
-                    key: editDataset.referencingCatalogueIds[0],
-                    label: ref?.name
-                } : undefined
+                solution: ref
             }
         }
         return {}
