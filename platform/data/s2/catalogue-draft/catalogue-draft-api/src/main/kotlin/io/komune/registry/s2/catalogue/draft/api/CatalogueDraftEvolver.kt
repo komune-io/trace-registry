@@ -20,13 +20,12 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	override suspend fun evolve(event: CatalogueDraftEvent, model: CatalogueDraftEntity?): CatalogueDraftEntity? = when (event) {
 		is CatalogueDraftCreatedEvent -> create(event)
 		is CatalogueDraftUpdatedLinksEvent -> model?.updateLinks(event)
+		is CatalogueDraftUpdatedTitleEvent -> model?.updateTitle(event)
 		is CatalogueDraftRejectedEvent -> model?.reject(event)
 		is CatalogueDraftRequestedUpdateEvent -> model?.requestUpdate(event)
 		is CatalogueDraftSubmittedEvent -> model?.submit(event)
 		is CatalogueDraftValidatedEvent -> model?.validate(event)
 		is CatalogueDraftDeletedEvent -> model?.delete(event)
-		is CatalogueDraftUpdatedTitleEvent -> model?.requestUpdateTitle(event)
-		else -> null
 	}
 
 	private suspend fun create(event: CatalogueDraftCreatedEvent) = CatalogueDraftEntity().apply {
@@ -73,7 +72,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
 	}
-	private suspend fun CatalogueDraftEntity.requestUpdateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
+	private suspend fun CatalogueDraftEntity.updateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
 		modified = event.date
 		title = event.title
 	}

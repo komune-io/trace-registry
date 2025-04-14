@@ -57,7 +57,7 @@ class CatalogueDraftAggregateService(
         )
     }
 
-    suspend fun requestUpdateTitle(command: CatalogueDraftUpdateTitleCommand) = automate.transition(command) {
+    suspend fun updateTitle(command: CatalogueDraftUpdateTitleCommand) = automate.transition(command) {
         CatalogueDraftUpdatedTitleEvent(
             id = command.id,
             date = System.currentTimeMillis(),
