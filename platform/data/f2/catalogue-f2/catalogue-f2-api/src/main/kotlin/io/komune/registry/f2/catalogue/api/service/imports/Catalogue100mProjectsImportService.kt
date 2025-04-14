@@ -12,7 +12,9 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
@@ -34,9 +36,12 @@ import kotlinx.coroutines.runBlocking
 import org.apache.commons.csv.CSVRecord
 import org.springframework.stereotype.Service
 import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Service
 class Catalogue100mProjectsImportService(
+    private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
@@ -74,23 +79,27 @@ class Catalogue100mProjectsImportService(
 
     private suspend fun parseCatalogueCreateCommand(csvRecord: CSVRecord, context: ImportContext): CatalogueCreateCommandDTOBase {
         return CatalogueCreateCommandDTOBase(
-            parentId = context.getCatalogueIdByIdentifier(SECTOR_TYPE, csvRecord.getColumn(Cat100mProjectsCsvColumn.SECTOR.value)),
-            title = csvRecord.getColumn(Cat100mProjectsCsvColumn.TITLE.value),
-            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value).ifEmpty { null },
+            parentId = csvRecord.getColumn(Cat100mProjectsCsvColumn.SECTOR.value)
+                ?.let { context.getCatalogueIdByIdentifier(SECTOR_TYPE, it) },
+            title = csvRecord.getColumn(Cat100mProjectsCsvColumn.TITLE.value).orEmpty(),
+            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value),
             type = CATALOGUE_TYPE,
             language = LANGUAGE,
-            stakeholder = csvRecord.getColumn(Cat100mProjectsCsvColumn.STAKEHOLDER.value).ifEmpty { null },
+            stakeholder = csvRecord.getColumn(Cat100mProjectsCsvColumn.STAKEHOLDER.value),
             relatedCatalogueIds = csvRecord.getColumn(Cat100mProjectsCsvColumn.PLANETARY_BOUNDARIES.value)
-                .split(PLANETARY_BOUNDARIES_DELIMITER)
-                .filter { it.isNotBlank() }
-                .nullIfEmpty()
+                ?.split(PLANETARY_BOUNDARIES_DELIMITER)
+                ?.filter { it.isNotBlank() }
+                ?.nullIfEmpty()
                 ?.map { context.getCatalogueIdByIdentifier(PLANETARY_BOUNDARIES_TYPE, it.trim()) }
                 ?.let { mapOf(PLANETARY_BOUNDARIES_RELATION to it) },
-            accessRights = CatalogueAccessRight.valueOf(csvRecord.getColumn(Cat100mProjectsCsvColumn.ACCESS.value).uppercase()),
-            license = context.licenseIds.get(csvRecord.getColumn(Cat100mProjectsCsvColumn.LICENCE.value)),
+            accessRights = csvRecord.getColumn(Cat100mProjectsCsvColumn.ACCESS.value)
+                ?.let { CatalogueAccessRight.valueOf(it.uppercase()) }
+                ?: CatalogueAccessRight.PRIVATE,
+            license = csvRecord.getColumn(Cat100mProjectsCsvColumn.LICENCE.value)
+                ?.let { context.licenseIds.get(it) },
             location = Location(
                 country = csvRecord.getColumn(Cat100mProjectsCsvColumn.COUNTRY.value),
-                region = csvRecord.getColumn(Cat100mProjectsCsvColumn.REGION.value).ifEmpty { null }
+                region = csvRecord.getColumn(Cat100mProjectsCsvColumn.REGION.value)
             ),
             integrateCounter = true,
             withDraft = true
@@ -104,7 +113,7 @@ class Catalogue100mProjectsImportService(
             .mapNotNull { context.conceptIds.get(it) }
 
         return concepts.mapNotNull { concept ->
-            csvRecord.getColumn(concept.identifier).let { parseValue(it, concept, context) }
+            csvRecord.getColumn(concept.identifier)?.let { parseValue(it, concept, context) }
         }
     }
 
@@ -171,6 +180,12 @@ class Catalogue100mProjectsImportService(
         val draft = catalogueDraftFinderService.get(draftId)
         val catalogue = catalogueF2FinderService.get(draft.catalogueId, LANGUAGE)
 
+        val now = System.currentTimeMillis()
+        CatalogueDraftSubmitCommand(
+            id = draft.id,
+            versionNotes = "Import - ${SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date(now))}",
+        ).let { catalogueDraftAggregateService.submit(it) }
+
         if (catalogueImportData.indicators.isEmpty()) {
             return draft.originalCatalogueId
         }
@@ -211,7 +226,7 @@ class Catalogue100mProjectsImportService(
         return datasetId to distributionId
     }
 
-    private fun CSVRecord.getColumn(column: String) = get(column).orEmpty().trim().unquote()
+    private fun CSVRecord.getColumn(column: String) = get(column)?.trim()?.unquote()?.trim()?.ifEmpty { null }
     private fun String.normalizeNumber() = replace(',', '.').replace(" ", "")
     private fun String.normalizeUnit() = trim().trimAroundSlashes().lowercase()
     private fun String.trimAroundSlashes() = replace(Regex("""( */ *)"""), "/")
