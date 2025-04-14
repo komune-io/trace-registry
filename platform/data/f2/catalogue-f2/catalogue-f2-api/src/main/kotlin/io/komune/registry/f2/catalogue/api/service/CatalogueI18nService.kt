@@ -89,7 +89,7 @@ class CatalogueI18nService(
         }
 
         val datasets = translated.childrenDatasetIds
-            .map { cache.datasets.get(it).toDTOCached() }
+            .map { cache.datasets.get(it).toDTOCached(draft) }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
             .filter { it.type != "attestations" || aggregators.any { it.value != "0" } }
             .sortedBy { it.structure?.definitions?.get("order") ?: it.title }
@@ -115,7 +115,7 @@ class CatalogueI18nService(
             },
             datasets = datasets,
             referencedDatasets = translated.referencedDatasetIds
-                .map { cache.datasets.get(it).toDTOCached() }
+                .map { cache.datasets.get(it).toDTOCached(draft) }
                 .filter { it.language == translated.language && it.status != DatasetState.DELETED }
                 .sortedBy { it.structure?.definitions?.get("position") ?: it.title },
             themes = themes,

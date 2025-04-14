@@ -7,6 +7,7 @@ import io.komune.registry.f2.organization.api.service.OrganizationF2FinderServic
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.concept.api.ConceptFinderService
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
@@ -59,12 +60,28 @@ open class CatalogueCachedService {
     }
 
 
-    protected suspend fun DatasetModel.toDTOCached() = withCache { cache ->
+    protected suspend fun DatasetModel.toDTOCached(draft: CatalogueDraftModel?) = withCache { cache ->
         toDTO(
             getDataset = cache.datasets::get,
             getDataUnit = cache.dataUnits::get,
             getInformationConcept = cache.informationConcepts::get,
-            getReferencingCatalogues = cache.cataloguesReferencingDatasets::get,
+            getReferencingCatalogues = { datasetId ->
+                val referencingCatalogueIds = cache.cataloguesReferencingDatasets.get(datasetId).toMutableSet()
+
+                draft?.removedExternalReferencesToDatasets?.forEach { (catalogueId, referencedDatasetIds) ->
+                    if (datasetId in referencedDatasetIds) {
+                        referencingCatalogueIds.remove(catalogueId)
+                    }
+                }
+
+                draft?.addedExternalReferencesToDatasets?.forEach { (catalogueId, referencedDatasetIds) ->
+                    if (datasetId in referencedDatasetIds) {
+                        referencingCatalogueIds.add(catalogueId)
+                    }
+                }
+
+                referencingCatalogueIds.toList()
+            },
             getSupportedValue = cache.supportedValues::get,
             getTheme = cache.themes::get
         )
