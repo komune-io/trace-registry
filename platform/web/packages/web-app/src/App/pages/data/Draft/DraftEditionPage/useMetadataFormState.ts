@@ -25,6 +25,7 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
       formikConfig: {
         initialValues: formInitialValues,
       },
-      submitOnChange: true
+      submitOnChange: true,
+      submitDebounceTime: 500
     })
 }

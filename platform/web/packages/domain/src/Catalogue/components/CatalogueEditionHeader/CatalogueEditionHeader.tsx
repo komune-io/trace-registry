@@ -15,10 +15,11 @@ interface CatalogueEditionHeaderProps {
     onSubmit?: (reason: string) => Promise<any>
     beforeSubmit?: () => Promise<boolean>
     disabled?: boolean
+    isUpdating?: boolean
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSubmit, beforeSubmit,  onDelete, onValidate, draft, disabled } = props
+    const { catalogue, onSubmit, beforeSubmit,  onDelete, onValidate, draft, disabled, isUpdating } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -80,12 +81,14 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             {onValidate && <CustomButton
             onClick={onValidate}
             disabled={disabled}
+            isLoading={isUpdating}
             >
                 {t("validate")}
             </CustomButton>}
             {draft?.status !== "SUBMITTED" && onSubmit && <CustomButton
             onClick={onOpenSubmitModal}
             disabled={disabled}
+            isLoading={isUpdating}
             >
                 {t("sendForValidation")}
             </CustomButton>}

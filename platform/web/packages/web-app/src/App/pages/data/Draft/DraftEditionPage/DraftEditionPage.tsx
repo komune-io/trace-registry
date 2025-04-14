@@ -40,7 +40,7 @@ export const DraftEditionPage = () => {
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
-  const { onDelete, onSectionChange, onSaveMetadata } = useDraftMutations({
+  const { onDelete, onSectionChange, onSaveMetadata, isUpdating } = useDraftMutations({
     catalogue,
     refetchDraft: catalogueDraftQuery.refetch,
     draft
@@ -125,6 +125,7 @@ export const DraftEditionPage = () => {
         onValidate={policies.audit.canUpdate(draft?.catalogue) ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}
+        isUpdating={isUpdating || metadataFormState.isSubmitting}
       />
       {!metadataFormState.values.title && !isDefLoading && <Typography
         variant='body2'
