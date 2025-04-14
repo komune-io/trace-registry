@@ -33,6 +33,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmit
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
+import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftedRef
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
@@ -101,7 +102,11 @@ class CatalogueDraftF2AggregateService(
 
         val event = CatalogueDraftCreateCommand(
             catalogueId = draftedCatalogueId,
-            originalCatalogueId = command.catalogueId,
+            original = CatalogueDraftedRef(
+                id = command.catalogueId,
+                identifier = baseCatalogue.identifier,
+                type = baseCatalogue.type
+            ),
             language = command.language,
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap

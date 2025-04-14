@@ -1,13 +1,10 @@
 package io.komune.registry.program.s2.catalogue.api.entity
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.meilisearch.sdk.Index
 import com.meilisearch.sdk.SearchRequest
 import com.meilisearch.sdk.model.SearchResult
-import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.criterion
@@ -17,8 +14,6 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
-import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
-import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
@@ -37,7 +32,6 @@ class CatalogueSnapMeiliSearchRepository(
     MeiliIndex.CATALOGUES,
     CatalogueModel::class
 ) {
-    private val catalogueDraftIndex: Index by lazy { meiliClient.index(MeiliIndex.CATALOGUE_DRAFTS) }
     private val indexedCatalogueTypes: List<String> = searchProperties.indexedCatalogue()
 
     override val searchableAttributes: Array<String> = arrayOf(
@@ -63,8 +57,6 @@ class CatalogueSnapMeiliSearchRepository(
             remove(entity.id)
             return@withContext
         }
-
-        updateDraft(entity)
 
         if (entity.isTranslationOf == null) {
             return@withContext
@@ -94,37 +86,6 @@ class CatalogueSnapMeiliSearchRepository(
         }
     }
 
-    private suspend fun updateDraft(catalogue: CatalogueEntity) {
-        try {
-            val filters = arrayOf(
-                match(CatalogueDraftMeiliSearchField.CATALOGUE_ID, ExactMatch(catalogue.id)),
-            )
-
-            val searchRequest = SearchRequest.builder()
-                .filterArray(arrayOf(filters))
-                .build()
-
-            val searchResult = catalogueDraftIndex.search(searchRequest) as SearchResult
-
-            searchResult.hits.mapAsync { draft ->
-                val draftEntity = objectMapper.convertValue(draft, CatalogueDraftSearchableEntity::class.java)
-                val updatedDraft = draftEntity.copy(
-                    title = catalogue.title,
-                    modified = System.currentTimeMillis()
-                )
-
-                if (draftEntity.title == updatedDraft.title) {
-                    return@mapAsync
-                }
-
-                val jsonString = objectMapper.writeValueAsString(listOf(updatedDraft))
-                catalogueDraftIndex.updateDocuments(jsonString, "id")
-            }
-
-        } catch (e: Exception) {
-            logger.error("Failed to update draft", e)
-        }
-    }
 
     suspend fun search(
         query: String? = null,

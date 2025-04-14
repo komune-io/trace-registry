@@ -12,6 +12,7 @@ data class CatalogueDraftModel(
     val catalogueId: CatalogueId,
     val originalCatalogueId: CatalogueId,
     val language: Language,
+    val title: String,
     val baseVersion: Int,
     val creatorId: UserId,
     val datasetIdMap: Map<DatasetId, DatasetId>,

@@ -13,7 +13,9 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftReques
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import org.springframework.stereotype.Service
@@ -28,7 +30,7 @@ class CatalogueDraftAggregateService(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
             catalogueId = command.catalogueId,
-            originalCatalogueId = command.originalCatalogueId,
+            original = command.original,
             language = command.language,
             baseVersion = command.baseVersion,
             datasetIdMap = command.datasetIdMap,
@@ -52,6 +54,14 @@ class CatalogueDraftAggregateService(
             id = command.id,
             date = System.currentTimeMillis(),
             versionNotes = command.versionNotes,
+        )
+    }
+
+    suspend fun updateTitle(command: CatalogueDraftUpdateTitleCommand) = automate.transition(command) {
+        CatalogueDraftUpdatedTitleEvent(
+            id = command.id,
+            date = System.currentTimeMillis(),
+            title = command.title,
         )
     }
 
