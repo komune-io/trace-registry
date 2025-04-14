@@ -30,9 +30,9 @@ export const CatalogueHomeEntryPoint = (props: CatalogueHomeEntryPointProps) => 
       <CatalogueHomeSection
             key={subCatalogue.id}
             catalogue={subCatalogue}
-
+            parent={catalogue}
         />
-    )), [data])
+    )), [data, catalogue])
 
     return (
         <AppPage
@@ -55,10 +55,11 @@ export const CatalogueHomeEntryPoint = (props: CatalogueHomeEntryPointProps) => 
 
 interface CatalogueContentProps {
     catalogue: Catalogue,
+    parent: Catalogue
 }
 
 export const CatalogueHomeSection = (props: CatalogueContentProps) => {
-    const { catalogue } = props
+    const { catalogue, parent } = props
     const { i18n } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
     const { policies } = useExtendedAuth()
@@ -77,12 +78,13 @@ export const CatalogueHomeSection = (props: CatalogueContentProps) => {
               key={item.id}
               lexicalDistribution={lexicalDistribution}
               catalogue={catalogue}
+              catalogueIdentifier={parent?.identifier}
               subCatalogues={item.catalogues}
               seeAllLink={cataloguesAll(item?.identifier)}
               titleVariant="h4"
             />
         })
-    }, [data?.items, lexicalDistribution])
+    }, [data?.items, lexicalDistribution, parent])
     return <>
         <ContentIllustrated
           title={catalogue?.title ?? ""}
