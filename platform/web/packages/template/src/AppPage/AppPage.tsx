@@ -106,6 +106,12 @@ export const AppPage = (props: AppPageProps) => {
                         alignItems="center"
                         gap={2}
                         flexGrow={1}
+                        sx={{
+                            display: {
+                                xs: "none",
+                                sm: "flex"
+                            }
+                        }}
                     >
                         {!bgcolor && <CatalogueSearchBar />}
                         {header}
@@ -126,13 +132,16 @@ export const AppPage = (props: AppPageProps) => {
             <Stack
                 sx={{
                     px: {
-                        md: 5,
+                        xs: 1,
                         sm: 1,
+                        md: 5,
                     },
+                    pt: 2,
                     pb: 5,
                     gap: {
-                        md: 4,
+                        xs: 2,
                         sm: 2,
+                        md: 4,
                     },
                     maxWidth,
                     width: '100%',

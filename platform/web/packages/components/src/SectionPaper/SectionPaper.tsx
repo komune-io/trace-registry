@@ -5,10 +5,13 @@ export const SectionPaper = (props: PaperProps) => {
     return (
         <Paper
             sx={{
-                boxShadow: "10px 7px 20px 0px #EDE9EF, -4px 0px 2px 0px #F6F4F7 inset",
                 borderRadius: "2px 24px 24px 0px",
                 py: 3,
-                px: "95px",
+                px: {
+                    xs: 4,
+                    sm: 4,
+                    md: "95px",
+                },
                 gap: 3,
                 display: "fleX",
                 alignItems: "center",

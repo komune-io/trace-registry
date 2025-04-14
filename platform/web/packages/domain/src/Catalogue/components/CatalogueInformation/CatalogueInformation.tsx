@@ -28,7 +28,12 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 isLoading={isLoading}
             />
             <Stack
-                direction="row"
+                sx={{
+                    flexDirection: {
+                        xs: "column",
+                        sm: "row",
+                    },
+                }}
                 gap={6}
                 minWidth={0}
             >

@@ -39,12 +39,14 @@ export const CatalogueHomeEntryPoint = (props: CatalogueHomeEntryPointProps) => 
           title={catalogue?.title ?? ""}
           sx={{
             gap: {
-                md: 9,
+                xs: 4,
                 sm: 4,
+                md: 9,
             },
             py: {
-                md: 9,
+                xs: 4,
                 sm: 4,
+                md: 9,  
             },
           }}
         >

@@ -22,7 +22,7 @@ export const TitleSeeAllLink = (props: TitleSeeAllLinkProps) => {
         >
             <Stack
                 direction="row"
-                gap={20}
+                gap={2}
                 alignItems={'start'}
                 justifyContent={'space-between'}
             >

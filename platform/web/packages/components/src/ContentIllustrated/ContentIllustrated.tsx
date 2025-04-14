@@ -19,12 +19,24 @@ export const ContentIllustrated = (props: ContentIllustratedProps) => {
     const { t } = useTranslation()
     return (
         <Stack
-            direction="row"
-            gap={8}
             alignItems="center"
             sx={{
+                gap:{
+                    md: 0,
+                    lg: 8
+                },
+                flexDirection: {
+                    md: "column",
+                    lg: "row"
+                },
                 "& .illustration": {
                     width: "500px",
+                    maxWidth: {
+                        xs: "100%",
+                        sm: "100%",
+                        md: "100%",
+                        lg: "unset"
+                    },
                     flexShrink: 0,
                     height: "auto",
                     borderRadius: 3,
@@ -61,6 +73,7 @@ export const ContentIllustrated = (props: ContentIllustratedProps) => {
                             bgcolor: color ?? "#F9DC44",
                             width: "500px",
                             height: "340px",
+                            maxWidth: "100%",
                             borderRadius: 3,
                             flexShrink: 0
                         }}

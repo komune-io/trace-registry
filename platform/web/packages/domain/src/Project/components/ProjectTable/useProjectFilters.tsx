@@ -40,8 +40,7 @@ export const useProjectFilters = () => {
                 label: t("type"),
                 style: { width: "120px"},
                 options: getProjectTypesOptions(t),
-            },
-            mandatory: true
+            }
         },
         {
             name: 'origin',
@@ -49,8 +48,7 @@ export const useProjectFilters = () => {
             params: {
                 textFieldType: 'search',
                 placeholder: t("origin")
-            },
-            mandatory: true
+            }
         },
         {
             name: 'estimatedReductions',
