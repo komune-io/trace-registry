@@ -103,7 +103,7 @@ export const formatInformationConceptValue = (infoConcept: InformationConcept, t
 
 const infoConceptsToMarkdownListItem = (indicators: InformationConcept[], t: TFunction, language: string) => {
     if (indicators.length === 1) {
-        return `- ${indicators[0].name}: ${formatInformationConceptValue(indicators[0], t, language)} ${indicators[0].valueDescription ? indicators[0].valueDescription : ""}`
+        return `**${indicators[0].name}**: \n${formatInformationConceptValue(indicators[0], t, language)} ${indicators[0].valueDescription ? `${indicators[0].valueDescription}` : ""}`
     } else {
         return `\n\n**${indicators[0].name}**\n ${indicators.map((indicator) => `- ${formatInformationConceptValue(indicator, t, language)} ${indicator.valueDescription ? indicator.valueDescription : ""}`).join("\n")}`
     }
@@ -120,7 +120,6 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     }, {} as Record<string, InformationConcept[]>)
 
     const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => {
-        console.log(b)
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
         
