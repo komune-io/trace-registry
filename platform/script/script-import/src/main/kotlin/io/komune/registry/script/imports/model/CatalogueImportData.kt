@@ -22,6 +22,7 @@ data class CatalogueImportData(
     val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,
     val children: List<CatalogueId>?,
+    val related: Map<String, List<CatalogueId>>?,
     val datasets: List<CatalogueDatasetSettings>?,
 )
 

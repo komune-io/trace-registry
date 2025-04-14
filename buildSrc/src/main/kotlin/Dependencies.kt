@@ -24,6 +24,7 @@ object Versions {
 	val im = Framework.connect
     val cccev = Framework.connect
 
+	const val apacheCsv = "1.14.0"
 	const val bignum = "0.3.8"
 	const val brevo = "1.0.0"
 	const val meilisearch = "0.14.2"

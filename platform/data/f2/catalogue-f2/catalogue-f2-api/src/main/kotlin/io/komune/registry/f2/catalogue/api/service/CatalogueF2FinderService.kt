@@ -65,9 +65,12 @@ class CatalogueF2FinderService(
     }
 
     suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefGetResult {
-        val item = catalogueFinderService.getOrNull(id)?.let {
-            catalogueI18nService.translateToRefDTO(it, language, false)
-        }
+        val item = catalogueFinderService.getOrNull(id)
+            ?.let { catalogue ->
+                catalogue.takeIf { it.isTranslationOf == null }
+                    ?: catalogueFinderService.getOrNull(catalogue.isTranslationOf!!)
+                    ?: catalogue
+            }?.let { catalogueI18nService.translateToRefDTO(it, language, false) }
         return CatalogueRefGetResult(item = item)
     }
 
@@ -110,7 +113,7 @@ class CatalogueF2FinderService(
         CataloguePageResult(
             items = catalogues.items
                 .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
-                .sortedBy(CatalogueDTOBase::title),
+                .sortedBy { "${it.title}   ${it.identifier}" },
             total = catalogues.total
         )
     }
@@ -132,7 +135,7 @@ class CatalogueF2FinderService(
             .filter { it.id != id && (descendantsIds == null || it.id !in descendantsIds) }
             .mapAsync { catalogueI18nService.translateToRefDTO(it, language, false) }
             .filterNotNull()
-            .sortedBy(CatalogueRefDTOBase::title)
+            .sortedBy { "${it.title}   ${it.identifier}" }
     }
 
     suspend fun listAvailableThemesFor(type: String, language: Language): List<ConceptTranslatedDTOBase> {

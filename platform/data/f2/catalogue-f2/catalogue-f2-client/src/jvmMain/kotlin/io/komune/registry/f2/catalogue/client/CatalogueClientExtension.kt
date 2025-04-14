@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import f2.client.ktor.http.HttpF2Client
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueImportFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateFunction
 import io.ktor.client.call.body
@@ -48,6 +49,19 @@ fun CatalogueClient.catalogueSetImage(): CatalogueSetImageFunction = F2Function 
             formData = FormDataBodyBuilder().apply {
                 param("command", cmd)
                 file("file", file.content, file.name)
+            }.toFormData()
+        ).body()
+    }
+}
+
+fun CatalogueClient.catalogueImport(): CatalogueImportFunction = F2Function { msgs ->
+    msgs.map { (cmd, file) ->
+        val httpF2Client = (client as HttpF2Client)
+        httpF2Client.httpClient.submitFormWithBinaryData(
+            url = "${httpF2Client.urlBase}/data/catalogueImport",
+            formData = FormDataBodyBuilder().apply {
+                param("command", cmd)
+                file?.let { file("file", file.content, file.name) }
             }.toFormData()
         ).body()
     }

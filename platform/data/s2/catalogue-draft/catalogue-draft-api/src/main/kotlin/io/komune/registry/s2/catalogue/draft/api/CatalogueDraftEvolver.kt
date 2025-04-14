@@ -8,6 +8,8 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectedEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRequestedUpdateEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmittedEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedLinksEvent
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
 import org.springframework.stereotype.Service
 import s2.sourcing.dsl.view.View
@@ -17,6 +19,8 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 
 	override suspend fun evolve(event: CatalogueDraftEvent, model: CatalogueDraftEntity?): CatalogueDraftEntity? = when (event) {
 		is CatalogueDraftCreatedEvent -> create(event)
+		is CatalogueDraftUpdatedLinksEvent -> model?.updateLinks(event)
+		is CatalogueDraftUpdatedTitleEvent -> model?.updateTitle(event)
 		is CatalogueDraftRejectedEvent -> model?.reject(event)
 		is CatalogueDraftRequestedUpdateEvent -> model?.requestUpdate(event)
 		is CatalogueDraftSubmittedEvent -> model?.submit(event)
@@ -28,12 +32,34 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		id = event.id
 		catalogueId = event.catalogueId
 		status = CatalogueDraftState.DRAFT
-		originalCatalogueId = event.originalCatalogueId
+		originalCatalogueId = event.original.id
+		originalCatalogueIdentifier = event.original.identifier
+		originalCatalogueType = event.original.type
 		language = event.language
 		baseVersion = event.baseVersion
-		datasetIdMap = event.datasetIdMap
+		datasetIdMap += event.datasetIdMap
 		creatorId = event.creatorId
 		issued = event.date
+		modified = event.date
+	}
+
+	private suspend fun CatalogueDraftEntity.updateLinks(event: CatalogueDraftUpdatedLinksEvent) = apply {
+		addedParentIds += event.addedParentIds
+		removedParentIds -= event.addedParentIds
+
+		addedParentIds -= event.removedParentIds
+		removedParentIds += event.removedParentIds
+
+		event.addedExternalReferencesToDatasets.forEach { (catalogueId, datasetIds) ->
+			addedExternalReferencesToDatasets.getOrPut(catalogueId) { mutableSetOf() } += datasetIds
+			removedExternalReferencesToDatasets[catalogueId]?.removeAll(datasetIds)
+		}
+
+		event.removedExternalReferencesToDatasets.forEach { (catalogueId, datasetIds) ->
+			removedExternalReferencesToDatasets.getOrPut(catalogueId) { mutableSetOf() } += datasetIds
+			addedExternalReferencesToDatasets[catalogueId]?.removeAll(datasetIds)
+		}
+
 		modified = event.date
 	}
 
@@ -45,6 +71,10 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.requestUpdate(event: CatalogueDraftRequestedUpdateEvent) = apply {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
+	}
+	private suspend fun CatalogueDraftEntity.updateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
+		modified = event.date
+		title = event.title
 	}
 
 	private suspend fun CatalogueDraftEntity.submit(event: CatalogueDraftSubmittedEvent) = apply {

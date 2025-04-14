@@ -5,7 +5,7 @@
     "startValue": 2000
   },
   "writerRoles": [
-    "rg_role_user_contributor",
+    "rg_role_user_expert",
     "rg_role_user_orchestrator"
   ],
   "parentTypes": ["100m-solutions", "100m-solution", "100m-system"],
@@ -25,7 +25,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "10",
+            "order": "10",
             "display": "read,write",
             "withCatalogueMetadata": "true"
           }
@@ -41,7 +41,7 @@
         },
         "structure": {
           "definitions": {
-            "position": "20",
+            "order": "20",
             "display": "read,write"
           }
         }

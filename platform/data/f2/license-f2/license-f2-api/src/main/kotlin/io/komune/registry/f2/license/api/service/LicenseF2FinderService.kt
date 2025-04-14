@@ -20,6 +20,10 @@ class LicenseF2FinderService(
         return licenseFinderService.getByIdentifierOrNull(identifier)?.toDTO()
     }
 
+    suspend fun getByIdentifier(identifier: LicenseIdentifier): LicenseDTOBase {
+        return licenseFinderService.getByIdentifier(identifier).toDTO()
+    }
+
     suspend fun list(): List<LicenseDTOBase> {
         return licenseFinderService.list()
             .map { it.toDTO() }

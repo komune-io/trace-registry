@@ -8,6 +8,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.buildResponseForFile
+import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
@@ -17,12 +18,15 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesEnforcer
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
 import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
+import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueImportCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueImportedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsFunction
@@ -56,7 +60,6 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
-import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
@@ -81,9 +84,9 @@ class CatalogueEndpoint(
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val catalogueImportService: CatalogueImportService,
     private val cataloguePoliciesEnforcer: CataloguePoliciesEnforcer,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
-    private val fsService: FsService,
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
     private val catalogueSearchFinderService: CatalogueSearchFinderService,
@@ -228,7 +231,7 @@ class CatalogueEndpoint(
         @PathVariable catalogueId: CatalogueId,
     ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
         logger.info("catalogueImgDownload: $catalogueId")
-        fsService.getCatalogueFilePath(catalogueId)
+        catalogueFinderService.get(catalogueId).imageFsPath
     }
 
     @PermitAll
@@ -239,16 +242,6 @@ class CatalogueEndpoint(
         logger.info("catalogueCertificateDownload: $catalogueId")
         val file = certificate.generateFiles(catalogueId)
         return buildResponseForFile("certificate-$catalogueId.pdf", file)
-    }
-
-    @PermitAll
-    @GetMapping("/data/catalogues/{catalogueId}/img/{imageName}")
-    suspend fun catalogueImgDownload(
-        @PathVariable catalogueId: CatalogueId,
-        @PathVariable imageName: String
-    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
-        logger.info("catalogueImgDownload: $catalogueId, $imageName")
-        fsService.getCatalogueFilePath(catalogueId, imageName)
     }
 
     @PostMapping("/data/catalogueCreate")
@@ -283,6 +276,19 @@ class CatalogueEndpoint(
         return event
     }
 
+    @PostMapping("/data/catalogueImport")
+    suspend fun catalogueImport(
+        @RequestPart("command") command: CatalogueImportCommandDTOBase,
+        @RequestPart("file", required = true) file: FilePart
+    ): CatalogueImportedEventDTOBase {
+        logger.info("catalogueImport: $command")
+        cataloguePoliciesEnforcer.checkCreate(command.type.catalogueType)
+        return file.contentByteArray().inputStream().use {
+            catalogueImportService.parseAndImport(command.type, it)
+                .let(::CatalogueImportedEventDTOBase)
+        }
+    }
+
     @Bean
     override fun catalogueUpdateAccessRights(): CatalogueUpdateAccessRightsFunction = f2Function { command ->
         logger.info("catalogueUpdateAccessRights: $command")
@@ -311,7 +317,7 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkLinkCatalogues(command.id)
         CatalogueUnlinkCataloguesCommand(
             id = command.id,
-            catalogues = command.catalogues,
+            catalogueIds = command.catalogues,
         ).let { catalogueAggregateService.unlinkCatalogues(it) }
             .let { CatalogueUnlinkedCataloguesEventDTOBase(it.id) }
     }

@@ -9,12 +9,17 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     catalogueId = catalogueId,
     originalCatalogueId = originalCatalogueId,
     language = language,
+    title = title,
     baseVersion = baseVersion,
     creatorId = creatorId,
     datasetIdMap = datasetIdMap,
     status = status,
     versionNotes = versionNotes,
     rejectReason = rejectReason,
+    addedParentIds = addedParentIds,
+    removedParentIds = removedParentIds,
+    addedExternalReferencesToDatasets = addedExternalReferencesToDatasets,
+    removedExternalReferencesToDatasets = removedExternalReferencesToDatasets,
     issued = issued,
     modified = modified
 )

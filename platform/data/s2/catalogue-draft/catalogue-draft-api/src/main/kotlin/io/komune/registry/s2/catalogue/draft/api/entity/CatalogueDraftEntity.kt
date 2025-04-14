@@ -7,6 +7,7 @@ import com.redis.om.spring.annotations.TagIndexed
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.RedisTable
@@ -27,8 +28,17 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     @TagIndexed
     open lateinit var catalogueId: CatalogueId
 
+    @Searchable(nostem=true)
+    open var title: String = ""
+
     @TagIndexed
     open lateinit var originalCatalogueId: CatalogueId
+
+    @TagIndexed
+    open lateinit var originalCatalogueIdentifier: CatalogueIdentifier
+
+    @TagIndexed
+    open lateinit var originalCatalogueType: String
 
     @TagIndexed
     open lateinit var language: Language
@@ -40,7 +50,13 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
 
     open var rejectReason: String? = null
 
-    open var datasetIdMap: Map<DatasetId, DatasetId> = emptyMap()
+    open var datasetIdMap: MutableMap<DatasetId, DatasetId> = mutableMapOf() // original to drafted
+
+    open var addedParentIds: MutableSet<CatalogueId> = mutableSetOf()
+    open var removedParentIds: MutableSet<CatalogueId> = mutableSetOf()
+
+    open var addedExternalReferencesToDatasets: MutableMap<CatalogueId, MutableSet<DatasetId>> = mutableMapOf()
+    open var removedExternalReferencesToDatasets: MutableMap<CatalogueId, MutableSet<DatasetId>> = mutableMapOf()
 
     @TagIndexed
     lateinit var creatorId: UserId
