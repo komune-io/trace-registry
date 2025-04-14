@@ -14,6 +14,7 @@ import io.komune.registry.s2.commons.model.SupportedValueData
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import org.springframework.stereotype.Service
+import java.math.RoundingMode
 import java.util.concurrent.ConcurrentHashMap
 
 @Service
@@ -66,7 +67,9 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
                 (sum to concept.name["fr"]).takeIf { sum != "0" }
             }
         }.sortedBy { (_, unit) -> unit }
-            .map { (value, unit) -> "$value $unit" }
+            .map { (value, unit) ->
+                "${value.toBigDecimal().setScale(3, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()} $unit"
+            }
 
         aggregatorValues.mapNotNull { (conceptId, values) ->
             val concept = cache.informationConcepts.get(conceptId)

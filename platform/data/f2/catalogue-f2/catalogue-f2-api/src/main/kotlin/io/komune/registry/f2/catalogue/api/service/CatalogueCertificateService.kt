@@ -8,6 +8,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.stereotype.Service
 import java.io.ByteArrayInputStream
+import java.math.RoundingMode
 
 @Service
 class CatalogueCertificateService(
@@ -47,7 +48,7 @@ class CatalogueCertificateService(
             date = catalogue.issued,
             certifiedBy = catalogue.creatorOrganization?.name ?: "",
             issuedTo = catalogue.stakeholder ?: "",
-            indicatorValue = value,
+            indicatorValue = value.toBigDecimal().setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString(),
             indicatorUnit = concept.unit.toNameString(),
             url = uiProperties.getCatalogueUrl(catalogue.id),
             subUnit = concept.aggregatedValue
