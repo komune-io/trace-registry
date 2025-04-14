@@ -5,6 +5,9 @@
     "startValue": 1
   },
   "parentTypes": ["100m"],
+  "writerRoles": [
+    "rg_role_user_orchestrator"
+  ],
   "structure": "mosaic",
   "i18n": {
     "enable": true,

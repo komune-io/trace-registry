@@ -1,0 +1,7 @@
+{
+  "type": "100m-sectors",
+  "parentTypes": ["100m-home-sectors"],
+  "writerRoles": [
+    "rg_role_user_orchestrator"
+  ]
+}
