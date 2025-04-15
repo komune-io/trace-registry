@@ -3,11 +3,11 @@ package io.komune.registry.infra.pdf
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
+import org.apache.commons.text.StringEscapeUtils
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
-import org.apache.commons.text.StringEscapeUtils
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 
 object SvgCertificateGenerator {
@@ -102,11 +102,10 @@ object SvgCertificateGenerator {
             .replaceText(FIELD_UNIT, indicatorUnit ?: "")
             .replaceText(FIELD_CERTIFIED_BY, certifiedBy ?: "")
             .replaceText(FIELD_TITLE, title ?: "")
-            .replaceText(FIELD_TITLE, title ?: "")
 
         url?.let {
             val qrCodeSvg = generateQrCodeSvg(url)
-            templateFilled = templateFilled.replaceText(FIELD_QRCODE, qrCodeSvg)
+            templateFilled = templateFilled.replace(FIELD_QRCODE, qrCodeSvg)
         }
         return templateFilled
     }
@@ -120,7 +119,7 @@ fun generateQrCodeSvg(text: String, size: Int = 285): String {
     val bitMatrix: BitMatrix = MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, size, size)
     val svgWriter = StringWriter()
     // Optional: wrap in a <g> tag for grouping
-    svgWriter.write("""<g id="qrcode" transform="translate(1410, 700)">""")
+    svgWriter.write("""<g id="qrcode" transform="translate(1410, 650)">""")
 
     for (y in 0 until bitMatrix.height) {
         for (x in 0 until bitMatrix.width) {
