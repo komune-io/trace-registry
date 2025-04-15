@@ -4,7 +4,7 @@ import {TmsPopUp, maybeAddItems} from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { useCatalogueReferenceDatasetsCommand, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand, useEntityRefGetQuery } from '../../api'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueRefGetQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { Dataset } from '../../../Dataset'
 import { useAutoCompleteCatalogue } from "./useAutoCompleteCatalogue";
@@ -23,11 +23,10 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
 
     const indicatorsDataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "indicators"), [draft])
 
-    const ref = useEntityRefGetQuery({
+    const ref = useCatalogueRefGetQuery({
         query: {
             id: editDataset?.referencingCatalogueIds[0]!,
-            language: i18n.language,
-            type: "CATALOGUE"
+            language: i18n.language
         },
         options: {
             enabled: !!editDataset?.referencingCatalogueIds[0]

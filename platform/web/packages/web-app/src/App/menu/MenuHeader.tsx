@@ -35,6 +35,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 to: cataloguesContributions(),
                 label: t("myContributions"),
                 icon: iconPack.contribution,
+                isVisible: policies.draft.canCreate(),
                 isSelected: location.pathname.includes(cataloguesContributions())
             },
             {

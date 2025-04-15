@@ -120,7 +120,6 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     }, {} as Record<string, InformationConcept[]>)
 
     const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => {
-        console.log(b)
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
         
