@@ -2,6 +2,7 @@ package io.komune.registry.script.imports.model
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.komune.registry.api.commons.utils.jsonMapper
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
@@ -18,6 +19,7 @@ data class CatalogueImportData(
     val type: String,
     val img: String?,
     val structure: Structure?,
+    val accessRights: CatalogueAccessRight?,
     val themes: List<ConceptIdentifier>?,
     val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,
