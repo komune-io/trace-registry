@@ -111,7 +111,7 @@ export const MenuHeader = () => {
                 pt:1,
             }}
         >
-            {policies.audit.canCreate() && <CustomButton
+            {policies.catalogue.canCreate() && <CustomButton
                 sx={{
                     width: "100%"
                 }}
