@@ -1,9 +1,9 @@
 import {Stack} from '@mui/material'
-import {PdfDisplayer} from "components";
+import {CustomButton, PdfDisplayer} from "components";
 import {Catalogue, config} from "domain-components";
 import {useElementSize} from "@mantine/hooks"
 import {useCallback} from "react";
-import {Button} from "@komune-io/g2";
+import {useTranslation} from "react-i18next";
 
 export interface CataloguePdfCertificateProps {
     catalogue : Catalogue
@@ -11,7 +11,8 @@ export interface CataloguePdfCertificateProps {
 
 export const CataloguePdfCertificate = (props: CataloguePdfCertificateProps) => {
     const { catalogue } = props
-    const { ref } = useElementSize();
+    const { ref } = useElementSize()
+    const { t } = useTranslation()
 
     const url = `${config().platform.url}/data/catalogues/${catalogue.id}/certificate`
     const handleDownload = useCallback(() => {
@@ -34,7 +35,7 @@ export const CataloguePdfCertificate = (props: CataloguePdfCertificateProps) => 
                 }
             }}
         >
-            <Button sx={{alignSelf: "end"}} onClick={handleDownload} >Download</Button>
+            <CustomButton sx={{alignSelf: "end"}} onClick={handleDownload}>{t('download')}</CustomButton>
             <PdfDisplayer
                 parentWidth={800}
                 file={url}
