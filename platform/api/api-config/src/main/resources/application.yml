@@ -41,7 +41,7 @@ f2:
 
 platform:
   ui:
-    url:  http://localhost:5173
+    url: http://localhost:5173
     template:
       catalogue: ${platform.ui.url}/catalogues/{catalogueId}
   brevo:
