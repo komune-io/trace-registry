@@ -5,6 +5,7 @@ import io.komune.im.commons.auth.hasOneOfRoles
 import io.komune.im.commons.auth.hasRole
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.commons.auth.Features
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
@@ -13,6 +14,10 @@ import kotlin.js.JsExport
 
 @JsExport
 object CataloguePolicies {
+    fun canSeeMyOrganization(authedUser: AuthedUserDTO): Boolean {
+        return authedUser.hasRole(Features.CATALOGUE)
+    }
+
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
         return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE)
     }
