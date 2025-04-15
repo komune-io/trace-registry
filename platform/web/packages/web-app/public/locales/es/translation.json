@@ -165,6 +165,8 @@
   "gain": "Ganancia",
   "datasets": "Conjuntos de datos",
   "options": "Opciones",
+  "deleteCatalogue": "Eliminar la ficha",
+  "deleteDraft": "Eliminar el borrador",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -338,6 +340,8 @@
     "startWritingContent": "Empieza a escribir el contenido de tu hoja",
     "draftDeleteTitle": "Eliminación del borrador de la ficha {{name}} en {{lang}}",
     "draftDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este borrador?",
+    "catalogueDeleteTitle": "Eliminación de la ficha {{name}}",
+    "catalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar esta ficha?",
     "validateTheDraft": "Validar el borrador",
     "saveTheDraft": "Guardar el borrador",
     "activeContribution": "Tienes una contribución en curso en esta ficha",

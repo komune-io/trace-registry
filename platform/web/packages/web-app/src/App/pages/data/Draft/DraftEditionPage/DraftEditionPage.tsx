@@ -1,5 +1,5 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth } from 'components'
-import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand } from 'domain-components'
+import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
@@ -16,7 +16,7 @@ export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdEditTab, cataloguesContributions } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
   const { policies } = useExtendedAuth()
@@ -111,6 +111,25 @@ export const DraftEditionPage = () => {
     [createDraft.mutateAsync, catalogueId, catalogue, tab],
   )
 
+  const deleteCatalogue = useCatalogueDeleteCommand({})
+
+  const onDeleteCatalogue = useCallback(
+    async () => {
+      const res = await deleteCatalogue.mutateAsync({
+        id: catalogueId!
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
+        navigate(cataloguesContributions())
+      }
+    },
+    [catalogueId],
+  )
+
   return (
     <AppPage
       title={title}
@@ -119,10 +138,11 @@ export const DraftEditionPage = () => {
     >
       <CatalogueEditionHeader
         draft={draft}
-        onDelete={policies.draft.canDelete(draft) ? onDelete : undefined}
+        onDeleteDraft={policies.draft.canDelete(draft) ? onDelete : undefined}
+        onDeleteCatalogue={policies.catalogue.canDelete(catalogue) ? onDeleteCatalogue : undefined}
         onSubmit={policies.draft.canSubmit(draft) ? onSubmit : undefined}
         beforeSubmit={validateMetadata}
-        onValidate={policies.audit.canUpdate(draft?.catalogue) ? onValidate : undefined}
+        onValidate={policies.catalogue.canUpdate(draft?.catalogue) ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}
         isUpdating={isUpdating || metadataFormState.isSubmitting}

@@ -11,7 +11,8 @@ interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue
     draft?: CatalogueDraft
     onValidate?: () => Promise<any>
-    onDelete?: () => Promise<any>
+    onDeleteDraft?: () => Promise<any>
+    onDeleteCatalogue?: () => Promise<any>
     onSubmit?: (reason: string) => Promise<any>
     beforeSubmit?: () => Promise<boolean>
     disabled?: boolean
@@ -19,7 +20,7 @@ interface CatalogueEditionHeaderProps {
 }
 
 export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
-    const { catalogue, onSubmit, beforeSubmit,  onDelete, onValidate, draft, disabled, isUpdating } = props
+    const { catalogue, onSubmit, beforeSubmit,  onDeleteDraft, onDeleteCatalogue, onValidate, draft, disabled, isUpdating } = props
     const { t } = useTranslation()
 
     const [open, _, toggle] = useToggleState()
@@ -38,32 +39,39 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
       [toggle, beforeSubmit],
     )
     
-
     const {
         popup,
         handleOpen
     } = useConfirmationPopUp({
-        onSubmit: onDelete,
+        onSubmit: onDeleteDraft,
         variant: 'deletion',
         title: t("catalogues.draftDeleteTitle", { name: catalogue?.title, lang: t("lang." + draft?.language) }),
         description: t("catalogues.draftDeleteDescription"),
     })
 
+    const catalogueDeletion = useConfirmationPopUp({
+        onSubmit: onDeleteCatalogue,
+        variant: 'deletion',
+        title: t("catalogues.catalogueDeleteTitle", { name: catalogue?.title }),
+        description: t("catalogues.catalogueDeleteDescription"),
+    })
 
     const items = useMemo(() => [
-        // {
-        //     key: "history",
-        //     label: t("history"),
-        //     icon: <HistoryRounded />
-        // },
-        ...(onDelete ? [{
+        ...(onDeleteCatalogue ? [{
             key: "delete",
-            label: t("delete"),
+            label: t("deleteCatalogue"),
+            color: "#B01717",
+            icon: iconPack.trash,
+            onClick: catalogueDeletion.handleOpen
+        }] : []),
+        ...(onDeleteDraft ? [{
+            key: "delete",
+            label: t("deleteDraft"),
             color: "#B01717",
             icon: iconPack.trash,
             onClick: handleOpen
         }] : [])
-    ], [t, handleOpen, onDelete])
+    ], [t, handleOpen, onDeleteDraft, catalogueDeletion.handleOpen])
 
     const { buttonProps, menu } = useButtonMenu({
         items
@@ -101,6 +109,7 @@ export const CatalogueEditionHeader = (props: CatalogueEditionHeaderProps) => {
             {menu}
             <SubmitModal open={open} onClose={toggle} onSubmit={onSubmit} />
             {popup}
+            {catalogueDeletion.popup}
         </Stack>
     )
 }

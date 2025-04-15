@@ -165,6 +165,8 @@
   "gain": "Gain",
   "datasets": "Datasets",
   "options": "Options",
+  "deleteCatalogue": "Delete the sheet",
+  "deleteDraft": "Delete the draft",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -338,6 +340,8 @@
     "startWritingContent": "Start writing the content of your sheet",
     "draftDeleteTitle": "Draft deletion of the sheet {{name}} in {{lang}}",
     "draftDeleteDescription": "This action is irreversible. Do you really want to delete this draft?",
+    "catalogueDeleteTitle": "Deletion of the sheet {{name}}",
+    "catalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sheet?",
     "validateTheDraft": "Validate the draft",
     "saveTheDraft": "Save the draft",
     "activeContribution": "You have an active contribution on this sheet",

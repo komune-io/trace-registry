@@ -142,7 +142,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         required: true
     }),
     ...maybeAddItems<MetadataField>(type === "100m-project", projectFields),
-    ...maybeAddItem<MetadataField>(draft ? policies.audit.canUpdateAccessRights(draft.catalogue) : true, {
+    ...maybeAddItem<MetadataField>(draft ? policies.catalogue.canUpdateAccessRights(draft.catalogue) : true, {
         name: "accessRights",
         type: "select",
         label: t("access"),
