@@ -2,7 +2,7 @@
   "type": "100m-project",
   "identifierSequence": {
     "name": "seq_100m_project",
-    "startValue": 2000
+    "startValue": 3000
   },
   "parentTypes": [
     "100m-projects",
